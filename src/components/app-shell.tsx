@@ -42,6 +42,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const capSpace = useSaveStore((state) => state.capSpace);
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
+  const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const pathname = usePathname();
@@ -80,6 +81,24 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
     loadSave();
   }, [selectedTeam?.abbr, selectedTeam?.id, setSaveHeader]);
+
+  useEffect(() => {
+    if (!saveId) {
+      return;
+    }
+
+    const shouldRefresh =
+      pathname === '/manage/roster' ||
+      pathname === '/manage/free-agents' ||
+      pathname === '/manage/trades' ||
+      pathname === '/roster' ||
+      pathname === '/free-agents' ||
+      pathname.startsWith('/draft');
+
+    if (shouldRefresh) {
+      void refreshSaveHeader();
+    }
+  }, [pathname, refreshSaveHeader, saveId]);
 
   return (
     <TeamThemeProvider team={selectedTeam}>
