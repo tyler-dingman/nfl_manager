@@ -334,7 +334,7 @@ export default function DraftRoomPage() {
           </div>
           <PlayerTable
             data={session.prospects}
-            variant="draftProspects"
+            variant="draft"
             onDraftPlayer={handleDraftPlayer}
             onTheClockForUserTeam={onClock}
           />

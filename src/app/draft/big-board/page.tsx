@@ -156,7 +156,7 @@ export default function DraftBigBoardPage() {
           Sort and filter prospects by availability, position, and search.
         </p>
       </div>
-      <PlayerTable data={mockProspects} variant="draftProspects" />
+      <PlayerTable data={mockProspects} variant="draft" />
     </AppShell>
   );
 }

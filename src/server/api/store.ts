@@ -1,5 +1,11 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
+import {
+  formatMoneyMillions,
+  getCapHitSchedule,
+  getRookieContract,
+  getYearOneCapHit,
+} from '@/server/logic/cap';
 
 export type PlayerFilters = {
   position?: string;
@@ -139,12 +145,10 @@ const baseFreeAgents: StoredPlayer[] = [
 const clonePlayers = (players: StoredPlayer[]) =>
   players.map((player) => ({ ...player }));
 
-const generateRookieContract = (rank?: number) => {
-  const years = 4;
-  const baseValue = 12 - Math.max(0, (rank ?? 32) - 1) * 0.35;
-  const year1CapHit = Number(Math.max(0.8, baseValue).toFixed(1));
-  return { years, year1CapHit };
-};
+export const getSaveHeaderSnapshot = (state: SaveState): SaveHeaderDTO => ({
+  ...state.header,
+  rosterCount: state.roster.length,
+});
 
 export const createSaveState = (saveId: string, teamAbbr: string): SaveState => {
   const roster = clonePlayers(baseRoster);
@@ -202,16 +206,6 @@ export const filterPlayers = (
   filters?: PlayerFilters,
 ): StoredPlayer[] => players.filter((player) => matchesFilter(player, filters));
 
-export const formatCapHit = (value: number): string => `$${value.toFixed(1)}M`;
-
-const CAP_HIT_MULTIPLIERS: Record<number, number[]> = {
-  1: [1.0],
-  2: [0.7, 1.3],
-  3: [0.5, 0.9, 1.2],
-  4: [0.45, 0.8, 1.05, 1.2],
-  5: [0.4, 0.7, 0.95, 1.1, 1.25],
-};
-
 export const signFreeAgentInState = (
   state: SaveState,
   playerId: string,
@@ -225,7 +219,7 @@ export const signFreeAgentInState = (
   const signedPlayer: StoredPlayer = {
     ...player,
     contractYearsRemaining: 1,
-    capHit: formatCapHit(player.year1CapHit),
+    capHit: formatMoneyMillions(player.year1CapHit),
     status: 'Active',
   };
 
@@ -237,7 +231,7 @@ export const signFreeAgentInState = (
   );
 
   return {
-    header: state.header,
+    header: getSaveHeaderSnapshot(state),
     player: signedPlayer,
   };
 };
@@ -253,19 +247,13 @@ export const offerContractInState = (
     throw new Error('Free agent not found');
   }
 
-  const multipliers = CAP_HIT_MULTIPLIERS[years];
-  if (!multipliers) {
-    throw new Error('Invalid contract length');
-  }
-
   const player = state.freeAgents[playerIndex];
-  const capHitSchedule = multipliers.map((multiplier) =>
-    Number((apy * multiplier).toFixed(1)),
-  );
+  const capHitSchedule = getCapHitSchedule(apy, years);
+  const year1CapHit = getYearOneCapHit(apy, years);
   const signedPlayer: StoredPlayer = {
     ...player,
     contractYearsRemaining: years,
-    capHit: formatCapHit(capHitSchedule[0] ?? apy),
+    capHit: formatMoneyMillions(year1CapHit),
     status: 'Signed',
     signedTeamAbbr: state.header.teamAbbr,
     signedTeamLogoUrl: `https://static.nfl.com/static/content/public/static/wildcat/assets/img/logos/teams/${state.header.teamAbbr}.svg`,
@@ -277,11 +265,11 @@ export const offerContractInState = (
   state.header.rosterCount = state.roster.length;
   state.header.capSpace = Math.max(
     0,
-    Number((state.header.capSpace - (capHitSchedule[0] ?? apy)).toFixed(1)),
+    Number((state.header.capSpace - year1CapHit).toFixed(1)),
   );
 
   return {
-    header: state.header,
+    header: getSaveHeaderSnapshot(state),
     player: signedPlayer,
   };
 };
@@ -297,11 +285,11 @@ export const addDraftedPlayersInState = (
       return;
     }
 
-    const { years, year1CapHit } = generateRookieContract(player.rank);
+    const { years, year1CapHit } = getRookieContract(player.rank);
     const rookiePlayer: StoredPlayer = {
       ...player,
       contractYearsRemaining: years,
-      capHit: formatCapHit(year1CapHit),
+      capHit: formatMoneyMillions(year1CapHit),
       status: 'ROOKIE',
       year1CapHit,
     };
@@ -316,7 +304,7 @@ export const addDraftedPlayersInState = (
   });
 
   return {
-    header: state.header,
+    header: getSaveHeaderSnapshot(state),
     players: addedPlayers,
   };
 };

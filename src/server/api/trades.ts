@@ -1,7 +1,8 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 
-import { getSaveState } from './store';
+import { getSaveHeaderSnapshot, getSaveState } from './store';
+import { parseMoneyMillions } from '@/server/logic/cap';
 
 export type TradeSide = 'send' | 'receive';
 
@@ -135,11 +136,8 @@ const toPlayerDTO = (player: StoredTradePlayer): PlayerRowDTO => ({
   signedTeamLogoUrl: player.signedTeamLogoUrl ?? null,
 });
 
-const parseCapHit = (capHit: string): number =>
-  Number(capHit.replace(/[$M]/g, '')) || 0;
-
 const getPlayerValue = (capHit: string): number =>
-  Math.round(parseCapHit(capHit) * 10);
+  Math.round(parseMoneyMillions(capHit) * 10);
 
 const buildPlayerAsset = (
   player: PlayerRowDTO,
@@ -313,10 +311,10 @@ export const proposeTrade = (
         const [player] = saveState.roster.splice(playerIndex, 1);
         partnerRoster.push({
           ...player,
-          year1CapHit: parseCapHit(player.capHit),
+          year1CapHit: parseMoneyMillions(player.capHit),
         });
         saveState.header.capSpace = Number(
-          (saveState.header.capSpace + parseCapHit(player.capHit)).toFixed(1),
+          (saveState.header.capSpace + parseMoneyMillions(player.capHit)).toFixed(1),
         );
       });
 
@@ -327,6 +325,6 @@ export const proposeTrade = (
     trade: cloneTrade(trade),
     acceptance,
     accepted,
-    header: saveState.header,
+    header: getSaveHeaderSnapshot(saveState),
   };
 };

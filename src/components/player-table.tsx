@@ -7,14 +7,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import {
-  ArrowLeftRight,
-  ClipboardCheck,
-  Handshake,
-  MoreHorizontal,
-  Plus,
-  UserX,
-} from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -26,6 +19,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
+import PlayerRowActions, {
+  type PlayerRowActionsVariant,
+} from '@/components/player-row-actions';
 
 const POSITION_FILTERS = [
   'All',
@@ -46,11 +42,7 @@ const DRAFT_FILTERS = ['All', 'Available', 'Drafted'] as const;
 
 type DraftFilter = (typeof DRAFT_FILTERS)[number];
 
-export type PlayerTableVariant =
-  | 'roster'
-  | 'freeAgent'
-  | 'draftProspects'
-  | 'tradePicker';
+export type PlayerTableVariant = PlayerRowActionsVariant;
 
 type PlayerTableProps = {
   data: PlayerRowDTO[];
@@ -129,7 +121,7 @@ export function PlayerTable({
         searchQuery.trim().length === 0 ||
         formatName(player).toLowerCase().includes(searchQuery.toLowerCase());
       const matchesDraftFilter =
-        variant !== 'draftProspects' ||
+        variant !== 'draft' ||
         draftFilter === 'All' ||
         (draftFilter === 'Available' && !player.isDrafted) ||
         (draftFilter === 'Drafted' && player.isDrafted);
@@ -139,7 +131,7 @@ export function PlayerTable({
   }, [data, positionFilter, searchQuery, draftFilter, variant]);
 
   const columns = React.useMemo<ColumnDef<PlayerRowDTO>[]>(() => {
-    if (variant === 'draftProspects') {
+    if (variant === 'draft') {
       return [
         {
           accessorKey: 'rank',
@@ -297,65 +289,16 @@ export function PlayerTable({
         cell: ({ row }) => {
           const player = row.original;
           return (
-            <div className="flex items-center justify-end gap-2">
-              {variant === 'roster' && (
-                <>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => onCutPlayer?.(player)}
-                    aria-label={`Cut ${formatName(player)}`}
-                  >
-                    <UserX className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => onTradePlayer?.(player)}
-                    aria-label={`Trade ${formatName(player)}`}
-                  >
-                    <ArrowLeftRight className="h-4 w-4" />
-                  </Button>
-                </>
-              )}
-              {variant === 'freeAgent' && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                  onClick={() => onOfferPlayer?.(player)}
-                  aria-label={`Offer contract to ${formatName(player)}`}
-                  disabled={player.status.toLowerCase() === 'signed'}
-                >
-                  <Handshake className="h-4 w-4" />
-                </Button>
-              )}
-              {variant === 'draftProspects' && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                  onClick={() => onDraftPlayer?.(player)}
-                  aria-label={`Draft ${formatName(player)}`}
-                  disabled={!onTheClockForUserTeam}
-                >
-                  <ClipboardCheck className="h-4 w-4" />
-                </Button>
-              )}
-              {variant === 'tradePicker' && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                  onClick={() => onSelectTradePlayer?.(player)}
-                  aria-label={`Add ${formatName(player)} to trade`}
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
+            <PlayerRowActions
+              player={player}
+              variant={variant}
+              onTheClockForUserTeam={onTheClockForUserTeam}
+              onCutPlayer={onCutPlayer}
+              onTradePlayer={onTradePlayer}
+              onOfferPlayer={onOfferPlayer}
+              onDraftPlayer={onDraftPlayer}
+              onSelectTradePlayer={onSelectTradePlayer}
+            />
           );
         },
       },
@@ -415,7 +358,7 @@ export function PlayerTable({
             </DropdownMenu>
           </div>
         </div>
-        {variant === 'draftProspects' && (
+        {variant === 'draft' && (
           <div className="flex flex-wrap gap-2">
             {DRAFT_FILTERS.map((filter) => (
               <Button
