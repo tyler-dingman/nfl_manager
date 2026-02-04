@@ -146,7 +146,7 @@ export function PlayerTable({
           const player = row.original;
           return (
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-xs font-semibold text-slate-600">
+              <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
                 {player.headshotUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -158,14 +158,9 @@ export function PlayerTable({
                   getInitials(player)
                 )}
               </div>
-              <div>
-                <p className="text-sm font-semibold text-foreground">
-                  {formatName(player)}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {player.position}
-                </p>
-              </div>
+              <p className="text-sm font-semibold text-foreground">
+                {formatName(player)}
+              </p>
             </div>
           );
         },
@@ -384,7 +379,7 @@ export function PlayerTable({
                   <td
                     key={cell.id}
                     className={cn(
-                      'px-6 py-2 align-middle text-sm',
+                      'px-6 py-1.5 align-middle text-sm',
                       cell.column.id === 'actions' && 'text-right'
                     )}
                   >
