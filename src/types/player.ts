@@ -8,4 +8,6 @@ export type PlayerRowDTO = {
   status: string;
   headshotUrl?: string | null;
   isDrafted?: boolean;
+  signedTeamAbbr?: string | null;
+  signedTeamLogoUrl?: string | null;
 };
