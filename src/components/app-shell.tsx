@@ -1,14 +1,27 @@
 'use client';
 
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { useTeamStore } from '@/features/team/team-store';
 
-const navSections = [
+const navRoutes = {
+  Overview: '/overview',
+  Roster: '/manage/roster',
+  'Free Agents': '/manage/free-agents',
+  Trades: '/manage/trades',
+  'Big Board': '/draft/big-board',
+  'Draft Room': '/draft/room?mode=mock',
+} as const;
+
+type NavItem = keyof typeof navRoutes;
+
+const navSections: { title: string; items: NavItem[] }[] = [
   {
     title: 'Home',
-    items: ['Overview', 'Schedule', 'Analytics'],
+    items: ['Overview'],
   },
   {
     title: 'Manage Team',
@@ -25,6 +38,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const pathname = usePathname();
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId) ?? teams[0],
@@ -49,18 +63,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <p className="text-sm text-muted-foreground">{selectedTeam?.abbr}</p>
           </div>
           <nav className="flex flex-col gap-6 text-sm">
-            {navSections.map((section, sectionIndex) => (
+            {navSections.map((section) => (
               <div key={section.title} className="space-y-2">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   {section.title}
                 </p>
                 <div className="space-y-1">
-                  {section.items.map((item, itemIndex) => {
-                    const isActive = sectionIndex === 0 && itemIndex === 0;
+                  {section.items.map((item) => {
+                    const href = navRoutes[item];
+                    const isActive = pathname === href.split('?')[0];
                     return (
-                      <button
+                      <Link
                         key={item}
-                        type="button"
+                        href={href}
+                        aria-current={isActive ? 'page' : undefined}
                         className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
                       >
                         <span
@@ -74,7 +90,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                         <span className={isActive ? 'text-foreground' : undefined}>
                           {item}
                         </span>
-                      </button>
+                      </Link>
                     );
                   })}
                 </div>
