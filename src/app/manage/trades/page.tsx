@@ -7,6 +7,7 @@ import AppShell from '@/components/app-shell';
 import TradePlayerModal from '@/components/trade-player-modal';
 import { Button } from '@/components/ui/button';
 import TeamHeaderSummary from '@/components/team-header-summary';
+import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
@@ -42,16 +43,6 @@ type TradeProposeResponse = {
   header: SaveHeaderDTO;
 };
 
-const DEFAULT_HEADER: SaveHeaderDTO = {
-  id: '',
-  teamAbbr: 'PHI',
-  capSpace: 50.0,
-  capLimit: 255.4,
-  rosterCount: 51,
-  rosterLimit: 53,
-  createdAt: new Date().toISOString(),
-};
-
 const PICK_OPTIONS = [
   { id: '2025-r1', label: '2025 Round 1 Pick' },
   { id: '2025-r2', label: '2025 Round 2 Pick' },
@@ -82,8 +73,13 @@ export default function TradeBuilderPage() {
   );
   const selectedPlayerId = searchParams.get('playerId') ?? undefined;
 
-  const [saveHeader, setSaveHeader] = useState<SaveHeaderDTO>(DEFAULT_HEADER);
-  const [saveId, setSaveId] = useState('');
+  const saveId = useSaveStore((state) => state.saveId);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
+  const rosterCount = useSaveStore((state) => state.rosterCount);
+  const rosterLimit = useSaveStore((state) => state.rosterLimit);
+  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const [teams, setTeams] = useState<TeamDTO[]>([]);
   const [partnerTeamAbbr, setPartnerTeamAbbr] = useState<string>('');
   const [trade, setTrade] = useState<TradeDTO | null>(null);
@@ -136,12 +132,11 @@ export default function TradeBuilderPage() {
       }
 
       const data = (await response.json()) as SaveHeaderDTO;
-      setSaveHeader(data);
-      setSaveId(data.id);
+      setSaveHeader(data, selectedTeam.id);
     };
 
     loadSave();
-  }, [selectedTeam?.abbr]);
+  }, [selectedTeam?.abbr, selectedTeam?.id, setSaveHeader]);
 
   useEffect(() => {
     if (!teams.length || partnerTeamAbbr) {
@@ -244,12 +239,12 @@ export default function TradeBuilderPage() {
 
     const data = (await response.json()) as TradeProposeResponse;
     setTrade(data.trade);
-    setSaveHeader(data.header);
     setProposalStatus(
       data.accepted
         ? 'Trade accepted! Player rights transferred and cap space updated.'
         : 'Trade rejected. Add value to the incoming side.',
     );
+    await refreshSaveHeader();
   };
 
   const partnerTeam = teams.find((team) => team.abbr === partnerTeamAbbr);
@@ -257,10 +252,10 @@ export default function TradeBuilderPage() {
   return (
     <AppShell>
       <TeamHeaderSummary
-        capSpace={saveHeader.capSpace}
-        capLimit={saveHeader.capLimit}
-        rosterCount={saveHeader.rosterCount}
-        rosterLimit={saveHeader.rosterLimit}
+        capSpace={capSpace}
+        capLimit={capLimit}
+        rosterCount={rosterCount}
+        rosterLimit={rosterLimit}
       />
       <div className="mt-6 space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">

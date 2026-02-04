@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import AppShell from '@/components/app-shell';
 import { PlayerTable } from '@/components/player-table';
 import TeamHeaderSummary from '@/components/team-header-summary';
+import { useSaveStore } from '@/features/save/save-store';
 import type { PlayerRowDTO } from '@/types/player';
 
 const rosterPlayers: PlayerRowDTO[] = [
@@ -62,14 +63,18 @@ const rosterPlayers: PlayerRowDTO[] = [
 
 export default function RosterPage() {
   const router = useRouter();
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
+  const rosterCount = useSaveStore((state) => state.rosterCount);
+  const rosterLimit = useSaveStore((state) => state.rosterLimit);
 
   return (
     <AppShell>
       <TeamHeaderSummary
-        capSpace={50.0}
-        capLimit={255.4}
-        rosterCount={53}
-        rosterLimit={53}
+        capSpace={capSpace}
+        capLimit={capLimit}
+        rosterCount={rosterCount}
+        rosterLimit={rosterLimit}
       />
       <PlayerTable
         data={rosterPlayers}

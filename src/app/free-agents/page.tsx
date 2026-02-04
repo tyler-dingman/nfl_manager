@@ -1,41 +1,29 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import AppShell from '@/components/app-shell';
 import OfferContractModal from '@/components/offer-contract-modal';
 import { PlayerTable } from '@/components/player-table';
 import TeamHeaderSummary from '@/components/team-header-summary';
+import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
-
-const DEFAULT_HEADER: SaveHeaderDTO = {
-  id: '',
-  teamAbbr: 'PHI',
-  capSpace: 50.0,
-  capLimit: 255.4,
-  rosterCount: 51,
-  rosterLimit: 53,
-  createdAt: new Date().toISOString(),
-};
 
 export default function FreeAgentsPage() {
   const selectedTeam = useTeamStore((state) =>
     state.teams.find((team) => team.id === state.selectedTeamId),
   );
-  const [saveHeader, setSaveHeader] = useState<SaveHeaderDTO>(DEFAULT_HEADER);
-  const [saveId, setSaveId] = useState<string>('');
+  const saveId = useSaveStore((state) => state.saveId);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
+  const rosterCount = useSaveStore((state) => state.rosterCount);
+  const rosterLimit = useSaveStore((state) => state.rosterLimit);
+  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
-
-  const headerSummary = useMemo(() => {
-    if (!saveHeader.id) {
-      return DEFAULT_HEADER;
-    }
-
-    return saveHeader;
-  }, [saveHeader]);
 
   useEffect(() => {
     const loadSave = async () => {
@@ -52,12 +40,11 @@ export default function FreeAgentsPage() {
         return;
       }
       const data = (await response.json()) as SaveHeaderDTO;
-      setSaveHeader(data);
-      setSaveId(data.id);
+      setSaveHeader(data, selectedTeam.id);
     };
 
     loadSave();
-  }, [selectedTeam?.abbr]);
+  }, [selectedTeam?.abbr, selectedTeam?.id, setSaveHeader]);
 
   useEffect(() => {
     const loadFreeAgents = async () => {
@@ -112,19 +99,19 @@ export default function FreeAgentsPage() {
       player: PlayerRowDTO;
     };
 
-    setSaveHeader(data.header);
     setPlayers((prev) =>
       prev.map((player) => (player.id === data.player.id ? data.player : player)),
     );
+    await refreshSaveHeader();
   };
 
   return (
     <AppShell>
       <TeamHeaderSummary
-        capSpace={headerSummary.capSpace}
-        capLimit={headerSummary.capLimit}
-        rosterCount={headerSummary.rosterCount}
-        rosterLimit={headerSummary.rosterLimit}
+        capSpace={capSpace}
+        capLimit={capLimit}
+        rosterCount={rosterCount}
+        rosterLimit={rosterLimit}
       />
       <PlayerTable data={players} variant="freeAgent" onOfferPlayer={handleOfferPlayer} />
       {activeOfferPlayer ? (

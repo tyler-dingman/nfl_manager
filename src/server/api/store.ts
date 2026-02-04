@@ -156,6 +156,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     capLimit: 255.4,
     rosterCount: roster.length,
     rosterLimit: 53,
+    phase: 'free_agency',
     createdAt: new Date().toISOString(),
   };
 

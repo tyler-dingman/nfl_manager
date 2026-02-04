@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
+import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 
 const navRoutes = {
@@ -37,6 +38,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
+  const saveId = useSaveStore((state) => state.saveId);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const rosterCount = useSaveStore((state) => state.rosterCount);
+  const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const pathname = usePathname();
 
@@ -44,6 +49,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     () => teams.find((team) => team.id === selectedTeamId) ?? teams[0],
     [selectedTeamId, teams],
   );
+
+  const formattedCapSpace = saveId ? `$${capSpace.toFixed(1)}M` : '--';
+  const formattedRoster = saveId ? `${rosterCount}/${rosterLimit}` : '--';
 
   return (
     <TeamThemeProvider team={selectedTeam}>
@@ -138,6 +146,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </option>
                 ))}
               </select>
+
+              <div className="hidden items-center gap-4 text-xs font-semibold text-muted-foreground md:flex">
+                <div className="flex flex-col text-right">
+                  <span className="uppercase tracking-[0.2em]">Cap Space</span>
+                  <span className="text-sm text-foreground">{formattedCapSpace}</span>
+                </div>
+                <div className="h-8 w-px bg-border" />
+                <div className="flex flex-col text-right">
+                  <span className="uppercase tracking-[0.2em]">Roster</span>
+                  <span className="text-sm text-foreground">{formattedRoster}</span>
+                </div>
+              </div>
 
               <div className="relative">
                 <button

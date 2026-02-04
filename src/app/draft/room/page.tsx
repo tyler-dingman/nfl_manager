@@ -7,10 +7,12 @@ import AppShell from '@/components/app-shell';
 import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useSaveStore } from '@/features/save/save-store';
 import { cn } from '@/lib/utils';
 import { getDraftGrade, getPickValue, getTradeAcceptance } from '@/lib/draft-utils';
 import type { DraftSessionDTO, DraftMode, DraftPickDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveHeaderDTO } from '@/types/save';
 
 const PARTNER_TEAM = 'DAL';
 
@@ -31,7 +33,12 @@ export default function DraftRoomPage() {
   const mode: DraftMode = modeParam === 'real' ? 'real' : 'mock';
   const [session, setSession] = React.useState<DraftSessionDTO | null>(null);
   const [draftSessionId, setDraftSessionId] = React.useState<string>('');
-  const [saveId, setSaveId] = React.useState<string>('');
+  const saveId = useSaveStore((state) => state.saveId);
+  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
+  const setActiveDraftSessionId = useSaveStore(
+    (state) => state.setActiveDraftSessionId,
+  );
   const [error, setError] = React.useState<string>('');
   const [loading, setLoading] = React.useState(true);
   const [sendPickIds, setSendPickIds] = React.useState<string[]>([]);
@@ -63,9 +70,9 @@ export default function DraftRoomPage() {
             throw new Error('Unable to create save');
           }
 
-          const saveData = (await saveResponse.json()) as { id: string };
+          const saveData = (await saveResponse.json()) as SaveHeaderDTO;
           activeSaveId = saveData.id;
-          setSaveId(activeSaveId);
+          setSaveHeader(saveData);
         }
 
         const response = await fetch('/api/draft/session/start', {
@@ -80,6 +87,7 @@ export default function DraftRoomPage() {
 
         const data = (await response.json()) as DraftSessionStartResponse;
         setDraftSessionId(data.draftSessionId);
+        setActiveDraftSessionId(data.draftSessionId);
         await fetchSession(data.draftSessionId);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Draft session error');
@@ -108,6 +116,7 @@ export default function DraftRoomPage() {
     if (response.ok) {
       const data = (await response.json()) as DraftSessionDTO;
       setSession(data);
+      await refreshSaveHeader();
     }
   };
 
