@@ -1,6 +1,61 @@
 'use client';
 
 import AppShell from '@/components/app-shell';
+import { PlayerTable } from '@/components/player-table';
+import type { PlayerRowDTO } from '@/types/player';
+
+const samplePlayers: PlayerRowDTO[] = [
+  {
+    id: '1',
+    firstName: 'Jordan',
+    lastName: 'Love',
+    position: 'QB',
+    contractYearsRemaining: 3,
+    capHit: '$7.2M',
+    status: 'Active',
+    headshotUrl: null,
+  },
+  {
+    id: '2',
+    firstName: 'Josh',
+    lastName: 'Jacobs',
+    position: 'RB',
+    contractYearsRemaining: 2,
+    capHit: '$6.4M',
+    status: 'Active',
+    headshotUrl: null,
+  },
+  {
+    id: '3',
+    firstName: 'Christian',
+    lastName: 'Watson',
+    position: 'WR',
+    contractYearsRemaining: 1,
+    capHit: '$3.1M',
+    status: 'Injured',
+    headshotUrl: null,
+  },
+  {
+    id: '4',
+    firstName: 'Elgton',
+    lastName: 'Jenkins',
+    position: 'OL',
+    contractYearsRemaining: 4,
+    capHit: '$12.9M',
+    status: 'Active',
+    headshotUrl: null,
+  },
+  {
+    id: '5',
+    firstName: 'Carrington',
+    lastName: 'Valentine',
+    position: 'CB',
+    contractYearsRemaining: 3,
+    capHit: '$1.1M',
+    status: 'Practice Squad',
+    headshotUrl: null,
+  },
+];
 
 export default function HomePage() {
   return (
@@ -50,6 +105,9 @@ export default function HomePage() {
             </li>
           </ul>
         </aside>
+        <section className="lg:col-span-2">
+          <PlayerTable data={samplePlayers} variant="roster" />
+        </section>
       </div>
     </AppShell>
   );
