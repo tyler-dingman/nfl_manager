@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 
-import { ensureSave } from '@/server/api/save';
+import { getSavesByTeam } from '@/server/api/save';
 
-export const POST = async (request: Request) => {
-  const body = (await request.json()) as { teamAbbr?: string; teamId?: string };
-  const resolvedTeam = body.teamAbbr?.toUpperCase() ?? body.teamId?.toUpperCase();
+const getParam = (request: Request, key: string) =>
+  new URL(request.url).searchParams.get(key) ?? undefined;
+
+export const GET = async (request: Request) => {
+  const teamAbbr = getParam(request, 'teamAbbr');
+  const teamId = getParam(request, 'teamId');
+  const resolvedTeam = teamAbbr?.toUpperCase() ?? teamId?.toUpperCase();
 
   if (!resolvedTeam) {
     return NextResponse.json(
@@ -13,11 +17,8 @@ export const POST = async (request: Request) => {
     );
   }
 
-  const { saveId, header } = ensureSave(body.teamId, body.teamAbbr);
-
-  return NextResponse.json({
-    ok: true,
-    saveId,
+  const saves = getSavesByTeam(teamId, teamAbbr).map((header) => ({
+    saveId: header.id,
     teamAbbr: header.teamAbbr,
     capSpace: header.capSpace,
     capLimit: header.capLimit,
@@ -25,5 +26,10 @@ export const POST = async (request: Request) => {
     rosterLimit: header.rosterLimit,
     phase: header.phase,
     createdAt: header.createdAt,
+  }));
+
+  return NextResponse.json({
+    ok: true,
+    saves,
   });
 };

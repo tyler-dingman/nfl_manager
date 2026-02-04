@@ -39,6 +39,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const saveId = useSaveStore((state) => state.saveId);
+  const storedTeamId = useSaveStore((state) => state.teamId);
+  const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
@@ -61,6 +63,47 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         return;
       }
 
+      const isPersistedForTeam =
+        Boolean(saveId) &&
+        (selectedTeam.id === storedTeamId || selectedTeam.abbr === storedTeamAbbr);
+
+      if (isPersistedForTeam && saveId) {
+        const headerResponse = await fetch(`/api/saves/header?saveId=${saveId}`);
+        if (headerResponse.ok) {
+          const headerData = (await headerResponse.json()) as
+            | { ok: true; saveId: string; teamAbbr: string; capSpace: number; capLimit: number; rosterCount: number; rosterLimit: number; phase: string }
+            | { ok: false; error: string };
+          if (headerData.ok) {
+            setSaveHeader(headerData, selectedTeam.id);
+            return;
+          }
+        }
+      }
+
+      const query = new URLSearchParams({ teamAbbr: selectedTeam.abbr });
+      const existingResponse = await fetch(`/api/saves?${query.toString()}`);
+      if (existingResponse.ok) {
+        const existingData = (await existingResponse.json()) as
+          | {
+              ok: true;
+              saves: Array<{
+                saveId: string;
+                teamAbbr: string;
+                capSpace: number;
+                capLimit: number;
+                rosterCount: number;
+                rosterLimit: number;
+                phase: string;
+                createdAt: string;
+              }>;
+            }
+          | { ok: false; error: string };
+        if (existingData.ok && existingData.saves.length > 0) {
+          setSaveHeader(existingData.saves[0], selectedTeam.id);
+          return;
+        }
+      }
+
       const response = await fetch('/api/saves/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -70,7 +113,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         return;
       }
       const data = (await response.json()) as
-        | { ok: true; saveId: string; teamAbbr: string; capSpace: number; capLimit: number; rosterCount: number; rosterLimit: number; phase: string }
+        | {
+            ok: true;
+            saveId: string;
+            teamAbbr: string;
+            capSpace: number;
+            capLimit: number;
+            rosterCount: number;
+            rosterLimit: number;
+            phase: string;
+          }
         | { ok: false; error: string };
       if (!data.ok) {
         return;
@@ -80,7 +132,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     };
 
     loadSave();
-  }, [selectedTeam?.abbr, selectedTeam?.id, setSaveHeader]);
+  }, [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, storedTeamAbbr, storedTeamId]);
 
   useEffect(() => {
     if (!saveId) {
