@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { createSave, getSavesByTeam } from '@/server/api/save';
+import { ensureSave } from '@/server/api/save';
 
 export const POST = async (request: Request) => {
   const body = (await request.json()) as { teamId?: string; teamAbbr?: string };
@@ -13,9 +13,7 @@ export const POST = async (request: Request) => {
     );
   }
 
-  const existingSaves = getSavesByTeam(body.teamId, body.teamAbbr);
-  const header = existingSaves[0] ?? createSave(resolvedTeam);
-  const saveId = header.id;
+  const { saveId, header } = ensureSave(body.teamId, body.teamAbbr);
 
   return NextResponse.json({
     ok: true,
