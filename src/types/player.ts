@@ -3,6 +3,10 @@ export type PlayerRowDTO = {
   firstName: string;
   lastName: string;
   position: string;
+  rank?: number;
+  college?: string;
+  grade?: string;
+  projectedRound?: string;
   contractYearsRemaining: number;
   capHit: string;
   status: string;

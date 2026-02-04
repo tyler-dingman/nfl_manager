@@ -138,8 +138,84 @@ export function PlayerTable({
     });
   }, [data, positionFilter, searchQuery, draftFilter, variant]);
 
-  const columns = React.useMemo<ColumnDef<PlayerRowDTO>[]>(
-    () => [
+  const columns = React.useMemo<ColumnDef<PlayerRowDTO>[]>(() => {
+    if (variant === 'draftProspects') {
+      return [
+        {
+          accessorKey: 'rank',
+          header: 'Rank',
+          cell: ({ row }) => (
+            <span className="text-sm font-semibold text-foreground">
+              {row.original.rank ?? '-'}
+            </span>
+          ),
+        },
+        {
+          accessorKey: 'name',
+          header: 'Name',
+          cell: ({ row }) => {
+            const player = row.original;
+            return (
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                  {player.headshotUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={player.headshotUrl}
+                      alt={formatName(player)}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    getInitials(player)
+                  )}
+                </div>
+                <p className="text-sm font-semibold text-foreground">
+                  {formatName(player)}
+                </p>
+              </div>
+            );
+          },
+        },
+        {
+          accessorKey: 'position',
+          header: 'Pos',
+          cell: ({ row }) => (
+            <span className="text-sm font-medium text-foreground">
+              {row.original.position}
+            </span>
+          ),
+        },
+        {
+          accessorKey: 'college',
+          header: 'College',
+          cell: ({ row }) => (
+            <span className="text-sm text-muted-foreground">
+              {row.original.college ?? '—'}
+            </span>
+          ),
+        },
+        {
+          accessorKey: 'grade',
+          header: 'Grade',
+          cell: ({ row }) => (
+            <span className="text-sm font-semibold text-foreground">
+              {row.original.grade ?? '—'}
+            </span>
+          ),
+        },
+        {
+          accessorKey: 'projectedRound',
+          header: 'Projected Rd',
+          cell: ({ row }) => (
+            <span className="text-sm text-muted-foreground">
+              {row.original.projectedRound ?? '—'}
+            </span>
+          ),
+        },
+      ];
+    }
+
+    return [
       {
         accessorKey: 'name',
         header: 'Name',
@@ -283,17 +359,16 @@ export function PlayerTable({
           );
         },
       },
-    ],
-    [
-      onCutPlayer,
-      onDraftPlayer,
-      onOfferPlayer,
-      onSelectTradePlayer,
-      onTheClockForUserTeam,
-      onTradePlayer,
-      variant,
-    ]
-  );
+    ];
+  }, [
+    onCutPlayer,
+    onDraftPlayer,
+    onOfferPlayer,
+    onSelectTradePlayer,
+    onTheClockForUserTeam,
+    onTradePlayer,
+    variant,
+  ]);
 
   const table = useReactTable({
     data: filteredData,
