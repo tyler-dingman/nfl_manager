@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
@@ -8,65 +9,32 @@ import TeamHeaderSummary from '@/components/team-header-summary';
 import { useSaveStore } from '@/features/save/save-store';
 import type { PlayerRowDTO } from '@/types/player';
 
-const rosterPlayers: PlayerRowDTO[] = [
-  {
-    id: '1',
-    firstName: 'Jordan',
-    lastName: 'Love',
-    position: 'QB',
-    contractYearsRemaining: 3,
-    capHit: '$7.2M',
-    status: 'Active',
-    headshotUrl: null,
-  },
-  {
-    id: '2',
-    firstName: 'Josh',
-    lastName: 'Jacobs',
-    position: 'RB',
-    contractYearsRemaining: 2,
-    capHit: '$6.4M',
-    status: 'Active',
-    headshotUrl: null,
-  },
-  {
-    id: '3',
-    firstName: 'Christian',
-    lastName: 'Watson',
-    position: 'WR',
-    contractYearsRemaining: 1,
-    capHit: '$3.1M',
-    status: 'Injured',
-    headshotUrl: null,
-  },
-  {
-    id: '4',
-    firstName: 'Elgton',
-    lastName: 'Jenkins',
-    position: 'OL',
-    contractYearsRemaining: 4,
-    capHit: '$12.9M',
-    status: 'Active',
-    headshotUrl: null,
-  },
-  {
-    id: '5',
-    firstName: 'Carrington',
-    lastName: 'Valentine',
-    position: 'CB',
-    contractYearsRemaining: 3,
-    capHit: '$1.1M',
-    status: 'Practice Squad',
-    headshotUrl: null,
-  },
-];
-
 export default function RosterPage() {
   const router = useRouter();
+  const saveId = useSaveStore((state) => state.saveId);
   const capSpace = useSaveStore((state) => state.capSpace);
   const capLimit = useSaveStore((state) => state.capLimit);
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
+  const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
+
+  useEffect(() => {
+    const loadRoster = async () => {
+      if (!saveId) {
+        return;
+      }
+
+      const response = await fetch(`/api/roster?saveId=${saveId}`);
+      if (!response.ok) {
+        return;
+      }
+
+      const data = (await response.json()) as PlayerRowDTO[];
+      setPlayers(data);
+    };
+
+    loadRoster();
+  }, [saveId]);
 
   return (
     <AppShell>
@@ -77,7 +45,7 @@ export default function RosterPage() {
         rosterLimit={rosterLimit}
       />
       <PlayerTable
-        data={rosterPlayers}
+        data={players}
         variant="roster"
         onTradePlayer={(player) =>
           router.push(`/manage/trades?playerId=${player.id}`)

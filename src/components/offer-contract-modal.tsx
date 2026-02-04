@@ -43,8 +43,12 @@ export default function OfferContractModal({
     try {
       await onSubmit({ years, apy });
       onClose();
-    } catch {
-      setError('Unable to submit offer right now.');
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error
+          ? submitError.message
+          : 'Unable to submit offer right now.',
+      );
     } finally {
       setIsSubmitting(false);
     }

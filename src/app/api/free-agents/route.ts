@@ -8,7 +8,10 @@ const getParam = (request: Request, key: string) =>
 export const GET = async (request: Request) => {
   const saveId = getParam(request, 'saveId');
   if (!saveId) {
-    return NextResponse.json({ error: 'saveId is required' }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: 'Missing or invalid saveId' },
+      { status: 400 },
+    );
   }
 
   const filters = {
@@ -17,5 +20,10 @@ export const GET = async (request: Request) => {
     query: getParam(request, 'query'),
   };
 
-  return NextResponse.json(getFreeAgents(saveId, filters));
+  const result = getFreeAgents(saveId, filters);
+  if (!result.ok) {
+    return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
+  }
+
+  return NextResponse.json(result.data);
 };

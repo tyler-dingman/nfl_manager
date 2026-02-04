@@ -18,7 +18,7 @@ type StoredPlayer = PlayerRowDTO & {
   capHitSchedule?: number[];
 };
 
-type SaveState = {
+export type SaveState = {
   header: SaveHeaderDTO;
   roster: StoredPlayer[];
   freeAgents: StoredPlayer[];
@@ -176,6 +176,17 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
 
 export const getSaveState = (saveId: string): SaveState | undefined =>
   saveStore.get(saveId);
+
+export type SaveResult<T> = { ok: true; data: T } | { ok: false; error: string };
+
+export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
+  const state = getSaveState(saveId);
+  if (!state) {
+    return { ok: false, error: 'Save not found' };
+  }
+
+  return { ok: true, data: state };
+};
 
 const matchesFilter = (player: StoredPlayer, filters?: PlayerFilters): boolean => {
   if (!filters) {

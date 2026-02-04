@@ -9,14 +9,24 @@ export const POST = async (request: Request) => {
     playerId?: string;
   };
 
-  if (!body.saveId || !body.partnerTeamAbbr) {
+  if (!body.saveId) {
     return NextResponse.json(
-      { error: 'saveId and partnerTeamAbbr are required' },
+      { ok: false, error: 'Missing or invalid saveId' },
       { status: 400 },
     );
   }
 
-  return NextResponse.json(
-    createTrade(body.saveId, body.partnerTeamAbbr, body.playerId),
-  );
+  if (!body.partnerTeamAbbr) {
+    return NextResponse.json(
+      { ok: false, error: 'partnerTeamAbbr is required' },
+      { status: 400 },
+    );
+  }
+
+  const result = createTrade(body.saveId, body.partnerTeamAbbr, body.playerId);
+  if (!result.ok) {
+    return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
+  }
+
+  return NextResponse.json(result.data);
 };

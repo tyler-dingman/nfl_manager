@@ -7,44 +7,17 @@ import OfferContractModal from '@/components/offer-contract-modal';
 import { PlayerTable } from '@/components/player-table';
 import TeamHeaderSummary from '@/components/team-header-summary';
 import { useSaveStore } from '@/features/save/save-store';
-import { useTeamStore } from '@/features/team/team-store';
 import type { PlayerRowDTO } from '@/types/player';
-import type { SaveHeaderDTO } from '@/types/save';
 
 export default function FreeAgentsPage() {
-  const selectedTeam = useTeamStore((state) =>
-    state.teams.find((team) => team.id === state.selectedTeamId),
-  );
   const saveId = useSaveStore((state) => state.saveId);
   const capSpace = useSaveStore((state) => state.capSpace);
   const capLimit = useSaveStore((state) => state.capLimit);
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
-  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
-
-  useEffect(() => {
-    const loadSave = async () => {
-      if (!selectedTeam?.abbr) {
-        return;
-      }
-
-      const response = await fetch('/api/saves', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamAbbr: selectedTeam.abbr }),
-      });
-      if (!response.ok) {
-        return;
-      }
-      const data = (await response.json()) as SaveHeaderDTO;
-      setSaveHeader(data, selectedTeam.id);
-    };
-
-    loadSave();
-  }, [selectedTeam?.abbr, selectedTeam?.id, setSaveHeader]);
 
   useEffect(() => {
     const loadFreeAgents = async () => {
@@ -91,16 +64,22 @@ export default function FreeAgentsPage() {
     });
 
     if (!response.ok) {
-      throw new Error('Offer failed');
+      const data = (await response.json()) as { ok?: boolean; error?: string };
+      throw new Error(data.error || 'Unable to submit offer right now.');
     }
 
     const data = (await response.json()) as {
-      header: SaveHeaderDTO;
-      player: PlayerRowDTO;
+      ok?: boolean;
+      error?: string;
+      player?: PlayerRowDTO;
     };
 
+    if (!data.ok || !data.player) {
+      throw new Error(data.error || 'Unable to submit offer right now.');
+    }
+
     setPlayers((prev) =>
-      prev.map((player) => (player.id === data.player.id ? data.player : player)),
+      prev.map((player) => (player.id === data.player?.id ? data.player : player)),
     );
     await refreshSaveHeader();
   };

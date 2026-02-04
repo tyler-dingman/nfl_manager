@@ -78,7 +78,6 @@ export default function TradeBuilderPage() {
   const capLimit = useSaveStore((state) => state.capLimit);
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
-  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const [teams, setTeams] = useState<TeamDTO[]>([]);
   const [partnerTeamAbbr, setPartnerTeamAbbr] = useState<string>('');
@@ -115,28 +114,6 @@ export default function TradeBuilderPage() {
 
     loadTeams();
   }, []);
-
-  useEffect(() => {
-    const loadSave = async () => {
-      if (!selectedTeam?.abbr) {
-        return;
-      }
-
-      const response = await fetch('/api/saves', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamAbbr: selectedTeam.abbr }),
-      });
-      if (!response.ok) {
-        return;
-      }
-
-      const data = (await response.json()) as SaveHeaderDTO;
-      setSaveHeader(data, selectedTeam.id);
-    };
-
-    loadSave();
-  }, [selectedTeam?.abbr, selectedTeam?.id, setSaveHeader]);
 
   useEffect(() => {
     if (!teams.length || partnerTeamAbbr) {
@@ -179,7 +156,7 @@ export default function TradeBuilderPage() {
   }, [partnerTeamAbbr, saveId, selectedPlayerId]);
 
   const handleAddPlayer = async (player: PlayerRowDTO) => {
-    if (!trade || !activeModalSide) {
+    if (!trade || !activeModalSide || !saveId) {
       return;
     }
 
@@ -190,6 +167,7 @@ export default function TradeBuilderPage() {
         side: activeModalSide,
         type: 'player',
         playerId: player.id,
+        saveId,
       }),
     });
 
@@ -202,7 +180,7 @@ export default function TradeBuilderPage() {
   };
 
   const handleAddPick = async (side: 'send' | 'receive', pickId: string) => {
-    if (!trade) {
+    if (!trade || !saveId) {
       return;
     }
 
@@ -213,6 +191,7 @@ export default function TradeBuilderPage() {
         side,
         type: 'pick',
         pickId,
+        saveId,
       }),
     });
 
@@ -225,19 +204,29 @@ export default function TradeBuilderPage() {
   };
 
   const handlePropose = async () => {
-    if (!trade) {
+    if (!trade || !saveId) {
       return;
     }
 
     const response = await fetch(`/api/trades/${trade.id}/propose`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ saveId }),
     });
 
     if (!response.ok) {
       return;
     }
 
-    const data = (await response.json()) as TradeProposeResponse;
+    const data = (await response.json()) as TradeProposeResponse | { ok: false; error: string };
+    if ('ok' in data && data.ok === false) {
+      return;
+    }
+
+    if (!('trade' in data)) {
+      return;
+    }
+
     setTrade(data.trade);
     setProposalStatus(
       data.accepted

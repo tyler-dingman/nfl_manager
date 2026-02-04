@@ -1,7 +1,11 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 
-import { getSaveHeaderSnapshot, getSaveState } from './store';
+import {
+  getSaveHeaderSnapshot,
+  getSaveStateResult,
+  type SaveResult,
+} from './store';
 import { parseMoneyMillions } from '@/server/logic/cap';
 
 export type TradeSide = 'send' | 'receive';
@@ -180,10 +184,10 @@ export const createTrade = (
   saveId: string,
   partnerTeamAbbr: string,
   playerId?: string,
-): TradeRosterResponse => {
-  const state = getSaveState(saveId);
-  if (!state) {
-    throw new Error('Save not found');
+): SaveResult<TradeRosterResponse> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
   }
 
   const tradeId = `trade_${Date.now()}_${Math.random().toString(16).slice(2)}`;
@@ -196,7 +200,7 @@ export const createTrade = (
   };
 
   if (playerId) {
-    const player = findPlayer(state.roster, playerId);
+    const player = findPlayer(stateResult.data.roster, playerId);
     if (player) {
       trade.sendAssets.push(buildPlayerAsset(player, 'send'));
     }
@@ -205,11 +209,14 @@ export const createTrade = (
   tradeStore.set(tradeId, { trade });
 
   return {
-    trade: cloneTrade(trade),
-    userRoster: state.roster.map((player) => toPlayerDTO(player)),
-    partnerRoster: getPartnerRoster(partnerTeamAbbr).map((player) =>
-      toPlayerDTO(player),
-    ),
+    ok: true,
+    data: {
+      trade: cloneTrade(trade),
+      userRoster: stateResult.data.roster.map((player) => toPlayerDTO(player)),
+      partnerRoster: getPartnerRoster(partnerTeamAbbr).map((player) =>
+        toPlayerDTO(player),
+      ),
+    },
   };
 };
 
@@ -221,13 +228,17 @@ export const addTradeAsset = (
     playerId?: string;
     pickId?: string;
   },
-): TradeDTO => {
+  saveId?: string,
+): SaveResult<TradeDTO> => {
   const state = tradeStore.get(tradeId);
   if (!state) {
     throw new Error('Trade not found');
   }
 
   const trade = state.trade;
+  if (saveId && trade.saveId !== saveId) {
+    return { ok: false, error: 'Save not found' };
+  }
   const assets = payload.side === 'send' ? trade.sendAssets : trade.receiveAssets;
 
   if (payload.type === 'player') {
@@ -235,15 +246,15 @@ export const addTradeAsset = (
       throw new Error('playerId is required');
     }
     if (assets.some((asset) => asset.playerId === payload.playerId)) {
-      return cloneTrade(trade);
+      return { ok: true, data: cloneTrade(trade) };
     }
 
     if (payload.side === 'send') {
-      const saveState = getSaveState(trade.saveId);
-      if (!saveState) {
-        throw new Error('Save not found');
+      const saveStateResult = getSaveStateResult(trade.saveId);
+      if (!saveStateResult.ok) {
+        return saveStateResult;
       }
-      const player = findPlayer(saveState.roster, payload.playerId);
+      const player = findPlayer(saveStateResult.data.roster, payload.playerId);
       if (!player) {
         throw new Error('Player not found');
       }
@@ -261,12 +272,12 @@ export const addTradeAsset = (
       throw new Error('pickId is required');
     }
     if (assets.some((asset) => asset.pickId === payload.pickId)) {
-      return cloneTrade(trade);
+      return { ok: true, data: cloneTrade(trade) };
     }
     assets.push(buildPickAsset(payload.pickId, payload.side));
   }
 
-  return cloneTrade(trade);
+  return { ok: true, data: cloneTrade(trade) };
 };
 
 const sumValues = (assets: TradeAssetDTO[]) =>
@@ -274,26 +285,30 @@ const sumValues = (assets: TradeAssetDTO[]) =>
 
 export const proposeTrade = (
   tradeId: string,
-): {
+  saveId?: string,
+): SaveResult<{
   trade: TradeDTO;
   acceptance: number;
   accepted: boolean;
   header: SaveHeaderDTO;
-} => {
+}> => {
   const storedTrade = tradeStore.get(tradeId);
   if (!storedTrade) {
     throw new Error('Trade not found');
   }
 
   const trade = storedTrade.trade;
+  if (saveId && trade.saveId !== saveId) {
+    return { ok: false, error: 'Save not found' };
+  }
   const sendValue = sumValues(trade.sendAssets);
   const receiveValue = sumValues(trade.receiveAssets);
   const acceptance = sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
   const accepted = acceptance >= 70;
 
-  const saveState = getSaveState(trade.saveId);
-  if (!saveState) {
-    throw new Error('Save not found');
+  const saveStateResult = getSaveStateResult(trade.saveId);
+  if (!saveStateResult.ok) {
+    return saveStateResult;
   }
 
   if (accepted) {
@@ -301,30 +316,33 @@ export const proposeTrade = (
     trade.sendAssets
       .filter((asset) => asset.type === 'player' && asset.playerId)
       .forEach((asset) => {
-        const playerIndex = saveState.roster.findIndex(
+        const playerIndex = saveStateResult.data.roster.findIndex(
           (player) => player.id === asset.playerId,
         );
         if (playerIndex === -1) {
           return;
         }
 
-        const [player] = saveState.roster.splice(playerIndex, 1);
+        const [player] = saveStateResult.data.roster.splice(playerIndex, 1);
         partnerRoster.push({
           ...player,
           year1CapHit: parseMoneyMillions(player.capHit),
         });
-        saveState.header.capSpace = Number(
-          (saveState.header.capSpace + parseMoneyMillions(player.capHit)).toFixed(1),
+        saveStateResult.data.header.capSpace = Number(
+          (saveStateResult.data.header.capSpace + parseMoneyMillions(player.capHit)).toFixed(1),
         );
       });
 
-    saveState.header.rosterCount = saveState.roster.length;
+    saveStateResult.data.header.rosterCount = saveStateResult.data.roster.length;
   }
 
   return {
-    trade: cloneTrade(trade),
-    acceptance,
-    accepted,
-    header: getSaveHeaderSnapshot(saveState),
+    ok: true,
+    data: {
+      trade: cloneTrade(trade),
+      acceptance,
+      accepted,
+      header: getSaveHeaderSnapshot(saveStateResult.data),
+    },
   };
 };

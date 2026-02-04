@@ -3,9 +3,10 @@ import type { SaveHeaderDTO } from '@/types/save';
 
 import {
   filterPlayers,
-  getSaveState,
+  getSaveStateResult,
   offerContractInState,
   signFreeAgentInState,
+  type SaveResult,
   type PlayerFilters,
 } from './store';
 
@@ -14,37 +15,37 @@ export type { PlayerFilters } from './store';
 export const getRoster = (
   saveId: string,
   filters?: PlayerFilters,
-): PlayerRowDTO[] => {
-  const state = getSaveState(saveId);
-  if (!state) {
-    throw new Error('Save not found');
+): SaveResult<PlayerRowDTO[]> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
   }
 
-  return filterPlayers(state.roster, filters);
+  return { ok: true, data: filterPlayers(stateResult.data.roster, filters) };
 };
 
 export const getFreeAgents = (
   saveId: string,
   filters?: PlayerFilters,
-): PlayerRowDTO[] => {
-  const state = getSaveState(saveId);
-  if (!state) {
-    throw new Error('Save not found');
+): SaveResult<PlayerRowDTO[]> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
   }
 
-  return filterPlayers(state.freeAgents, filters);
+  return { ok: true, data: filterPlayers(stateResult.data.freeAgents, filters) };
 };
 
 export const signFreeAgent = (
   saveId: string,
   playerId: string,
-): { header: SaveHeaderDTO; player: PlayerRowDTO } => {
-  const state = getSaveState(saveId);
-  if (!state) {
-    throw new Error('Save not found');
+): SaveResult<{ header: SaveHeaderDTO; player: PlayerRowDTO }> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
   }
 
-  return signFreeAgentInState(state, playerId);
+  return { ok: true, data: signFreeAgentInState(stateResult.data, playerId) };
 };
 
 export const offerContract = (
@@ -52,11 +53,14 @@ export const offerContract = (
   playerId: string,
   years: number,
   apy: number,
-): { header: SaveHeaderDTO; player: PlayerRowDTO } => {
-  const state = getSaveState(saveId);
-  if (!state) {
-    throw new Error('Save not found');
+): SaveResult<{ header: SaveHeaderDTO; player: PlayerRowDTO }> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
   }
 
-  return offerContractInState(state, playerId, years, apy);
+  return {
+    ok: true,
+    data: offerContractInState(stateResult.data, playerId, years, apy),
+  };
 };
