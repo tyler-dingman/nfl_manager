@@ -139,6 +139,13 @@ const baseFreeAgents: StoredPlayer[] = [
 const clonePlayers = (players: StoredPlayer[]) =>
   players.map((player) => ({ ...player }));
 
+const generateRookieContract = (rank?: number) => {
+  const years = 4;
+  const baseValue = 12 - Math.max(0, (rank ?? 32) - 1) * 0.35;
+  const year1CapHit = Number(Math.max(0.8, baseValue).toFixed(1));
+  return { years, year1CapHit };
+};
+
 export const createSaveState = (saveId: string, teamAbbr: string): SaveState => {
   const roster = clonePlayers(baseRoster);
   const freeAgents = clonePlayers(baseFreeAgents);
@@ -275,5 +282,40 @@ export const offerContractInState = (
   return {
     header: state.header,
     player: signedPlayer,
+  };
+};
+
+export const addDraftedPlayersInState = (
+  state: SaveState,
+  draftedPlayers: PlayerRowDTO[],
+): { header: SaveHeaderDTO; players: PlayerRowDTO[] } => {
+  const addedPlayers: StoredPlayer[] = [];
+
+  draftedPlayers.forEach((player) => {
+    if (state.roster.some((rosterPlayer) => rosterPlayer.id === player.id)) {
+      return;
+    }
+
+    const { years, year1CapHit } = generateRookieContract(player.rank);
+    const rookiePlayer: StoredPlayer = {
+      ...player,
+      contractYearsRemaining: years,
+      capHit: formatCapHit(year1CapHit),
+      status: 'ROOKIE',
+      year1CapHit,
+    };
+
+    state.roster.push(rookiePlayer);
+    addedPlayers.push(rookiePlayer);
+    state.header.rosterCount = state.roster.length;
+    state.header.capSpace = Math.max(
+      0,
+      Number((state.header.capSpace - year1CapHit).toFixed(1)),
+    );
+  });
+
+  return {
+    header: state.header,
+    players: addedPlayers,
   };
 };
