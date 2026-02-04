@@ -10,8 +10,8 @@ import { useTeamStore } from '@/features/team/team-store';
 
 const navRoutes = {
   Overview: '/overview',
-  Roster: '/manage/roster',
-  'Free Agents': '/manage/free-agents',
+  Roster: '/roster',
+  'Free Agents': '/free-agents',
   Trades: '/manage/trades',
   'Big Board': '/draft/big-board',
   'Draft Room': '/draft/room?mode=mock',
@@ -44,7 +44,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const capSpace = useSaveStore((state) => state.capSpace);
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
-  const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const pathname = usePathname();
@@ -133,24 +132,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
     loadSave();
   }, [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, storedTeamAbbr, storedTeamId]);
-
-  useEffect(() => {
-    if (!saveId) {
-      return;
-    }
-
-    const shouldRefresh =
-      pathname === '/manage/roster' ||
-      pathname === '/manage/free-agents' ||
-      pathname === '/manage/trades' ||
-      pathname === '/roster' ||
-      pathname === '/free-agents' ||
-      pathname.startsWith('/draft');
-
-    if (shouldRefresh) {
-      void refreshSaveHeader();
-    }
-  }, [pathname, refreshSaveHeader, saveId]);
 
   return (
     <TeamThemeProvider team={selectedTeam}>
