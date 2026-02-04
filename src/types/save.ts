@@ -5,5 +5,6 @@ export type SaveHeaderDTO = {
   capLimit: number;
   rosterCount: number;
   rosterLimit: number;
+  phase: string;
   createdAt: string;
 };

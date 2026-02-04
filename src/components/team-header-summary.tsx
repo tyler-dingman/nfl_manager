@@ -15,8 +15,10 @@ export default function TeamHeaderSummary({
   rosterCount,
   rosterLimit,
 }: TeamHeaderSummaryProps) {
-  const capPercent = Math.min((capSpace / capLimit) * 100, 100);
-  const rosterPercent = Math.min((rosterCount / rosterLimit) * 100, 100);
+  const capPercent = capLimit ? Math.min((capSpace / capLimit) * 100, 100) : 0;
+  const rosterPercent = rosterLimit
+    ? Math.min((rosterCount / rosterLimit) * 100, 100)
+    : 0;
 
   return (
     <section
