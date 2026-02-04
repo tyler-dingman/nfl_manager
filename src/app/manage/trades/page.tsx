@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import AppShell from '@/components/app-shell';
 import TradePlayerModal from '@/components/trade-player-modal';
 import { Button } from '@/components/ui/button';
+import TeamHeaderSummary from '@/components/team-header-summary';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import type { PlayerRowDTO } from '@/types/player';
@@ -73,6 +74,10 @@ export default function TradeBuilderPage() {
   const selectedPlayerId = searchParams.get('playerId') ?? undefined;
 
   const saveId = useSaveStore((state) => state.saveId);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
+  const rosterCount = useSaveStore((state) => state.rosterCount);
+  const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const [teams, setTeams] = useState<TeamDTO[]>([]);
   const [partnerTeamAbbr, setPartnerTeamAbbr] = useState<string>('');
@@ -235,6 +240,12 @@ export default function TradeBuilderPage() {
 
   return (
     <AppShell>
+      <TeamHeaderSummary
+        capSpace={capSpace}
+        capLimit={capLimit}
+        rosterCount={rosterCount}
+        rosterLimit={rosterLimit}
+      />
       <div className="mt-6 space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>

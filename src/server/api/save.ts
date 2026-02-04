@@ -57,25 +57,6 @@ export const createSave = (teamAbbr: string): SaveHeaderDTO => {
   return getSaveHeaderSnapshot(state);
 };
 
-export const getSavesByTeam = (teamId?: string, teamAbbr?: string): SaveHeaderDTO[] => {
-  const normalizedTeam = normalizeTeamAbbr(teamId, teamAbbr);
-  if (!normalizedTeam) {
-    return [];
-  }
-
-  const saveId = teamSaveIndex.get(normalizedTeam);
-  if (!saveId) {
-    return [];
-  }
-
-  const state = getSaveState(saveId);
-  if (!state) {
-    return [];
-  }
-
-  return [getSaveHeaderSnapshot(state)];
-};
-
 export const getSaveHeader = (saveId: string): SaveResult<SaveHeaderDTO> => {
   const stateResult = getSaveStateResult(saveId);
   if (!stateResult.ok) {
