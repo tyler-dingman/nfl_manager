@@ -71,6 +71,7 @@ const statusVariantMap: Record<string, React.ComponentProps<typeof Badge>['varia
     free: 'outline',
     'free agent': 'outline',
     waived: 'destructive',
+    signed: 'success',
   };
 
 function getInitials(player: PlayerRowDTO) {
@@ -198,9 +199,19 @@ export function PlayerTable({
         cell: ({ row }) => {
           const statusKey = row.original.status.toLowerCase();
           return (
-            <Badge variant={statusVariantMap[statusKey] ?? 'outline'}>
-              {row.original.status}
-            </Badge>
+            <div className="flex items-center gap-2">
+              <Badge variant={statusVariantMap[statusKey] ?? 'outline'}>
+                {row.original.status}
+              </Badge>
+              {row.original.signedTeamLogoUrl && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={row.original.signedTeamLogoUrl}
+                  alt={`${row.original.signedTeamAbbr ?? 'Team'} logo`}
+                  className="h-5 w-5"
+                />
+              )}
+            </div>
           );
         },
       },
@@ -240,6 +251,7 @@ export function PlayerTable({
                   className="h-8 w-8"
                   onClick={() => onOfferPlayer?.(player)}
                   aria-label={`Offer contract to ${formatName(player)}`}
+                  disabled={player.status.toLowerCase() === 'signed'}
                 >
                   <Handshake className="h-4 w-4" />
                 </Button>

@@ -9,6 +9,7 @@ export type PlayerFilters = {
 
 type StoredPlayer = PlayerRowDTO & {
   year1CapHit: number;
+  capHitSchedule?: number[];
 };
 
 type SaveState = {
@@ -195,6 +196,14 @@ export const filterPlayers = (
 
 export const formatCapHit = (value: number): string => `$${value.toFixed(1)}M`;
 
+const CAP_HIT_MULTIPLIERS: Record<number, number[]> = {
+  1: [1.0],
+  2: [0.7, 1.3],
+  3: [0.5, 0.9, 1.2],
+  4: [0.45, 0.8, 1.05, 1.2],
+  5: [0.4, 0.7, 0.95, 1.1, 1.25],
+};
+
 export const signFreeAgentInState = (
   state: SaveState,
   playerId: string,
@@ -217,6 +226,50 @@ export const signFreeAgentInState = (
   state.header.capSpace = Math.max(
     0,
     Number((state.header.capSpace - player.year1CapHit).toFixed(1)),
+  );
+
+  return {
+    header: state.header,
+    player: signedPlayer,
+  };
+};
+
+export const offerContractInState = (
+  state: SaveState,
+  playerId: string,
+  years: number,
+  apy: number,
+): { header: SaveHeaderDTO; player: PlayerRowDTO } => {
+  const playerIndex = state.freeAgents.findIndex((agent) => agent.id === playerId);
+  if (playerIndex === -1) {
+    throw new Error('Free agent not found');
+  }
+
+  const multipliers = CAP_HIT_MULTIPLIERS[years];
+  if (!multipliers) {
+    throw new Error('Invalid contract length');
+  }
+
+  const player = state.freeAgents[playerIndex];
+  const capHitSchedule = multipliers.map((multiplier) =>
+    Number((apy * multiplier).toFixed(1)),
+  );
+  const signedPlayer: StoredPlayer = {
+    ...player,
+    contractYearsRemaining: years,
+    capHit: formatCapHit(capHitSchedule[0] ?? apy),
+    status: 'Signed',
+    signedTeamAbbr: state.header.teamAbbr,
+    signedTeamLogoUrl: `https://static.nfl.com/static/content/public/static/wildcat/assets/img/logos/teams/${state.header.teamAbbr}.svg`,
+    capHitSchedule,
+  };
+
+  state.freeAgents[playerIndex] = signedPlayer;
+  state.roster.push(signedPlayer);
+  state.header.rosterCount = state.roster.length;
+  state.header.capSpace = Math.max(
+    0,
+    Number((state.header.capSpace - (capHitSchedule[0] ?? apy)).toFixed(1)),
   );
 
   return {

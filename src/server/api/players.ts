@@ -4,6 +4,7 @@ import type { SaveHeaderDTO } from '@/types/save';
 import {
   filterPlayers,
   getSaveState,
+  offerContractInState,
   signFreeAgentInState,
   type PlayerFilters,
 } from './store';
@@ -44,4 +45,18 @@ export const signFreeAgent = (
   }
 
   return signFreeAgentInState(state, playerId);
+};
+
+export const offerContract = (
+  saveId: string,
+  playerId: string,
+  years: number,
+  apy: number,
+): { header: SaveHeaderDTO; player: PlayerRowDTO } => {
+  const state = getSaveState(saveId);
+  if (!state) {
+    throw new Error('Save not found');
+  }
+
+  return offerContractInState(state, playerId, years, apy);
 };
