@@ -6,8 +6,7 @@ export const CAP_HIT_MULTIPLIERS: Record<number, number[]> = {
   5: [0.4, 0.7, 0.95, 1.1, 1.25],
 };
 
-export const formatMoneyMillions = (value: number): string =>
-  `$${value.toFixed(1)}M`;
+export const formatMoneyMillions = (value: number): string => `$${value.toFixed(1)}M`;
 
 export const parseMoneyMillions = (value: string): number =>
   Number(value.replace(/[$M]/g, '')) || 0;
@@ -24,7 +23,9 @@ export const getCapHitSchedule = (apy: number, years: number): number[] => {
 export const getYearOneCapHit = (apy: number, years: number): number =>
   getCapHitSchedule(apy, years)[0] ?? apy;
 
-export const getRookieContract = (rank?: number): {
+export const getRookieContract = (
+  rank?: number,
+): {
   years: number;
   year1CapHit: number;
 } => {

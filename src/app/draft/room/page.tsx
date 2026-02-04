@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
@@ -22,13 +23,11 @@ type DraftSessionStartResponse = {
   rng_seed: number;
 };
 
-const formatName = (player: PlayerRowDTO) =>
-  `${player.firstName} ${player.lastName}`;
+const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
 
-const getPickLabel = (pick: DraftPickDTO) =>
-  `Pick ${pick.overall} · ${pick.ownerTeamAbbr}`;
+const getPickLabel = (pick: DraftPickDTO) => `Pick ${pick.overall} · ${pick.ownerTeamAbbr}`;
 
-export default function DraftRoomPage() {
+function DraftRoomContent() {
   const searchParams = useSearchParams();
   const modeParam = searchParams.get('mode');
   const mode: DraftMode = modeParam === 'real' ? 'real' : 'mock';
@@ -40,27 +39,28 @@ export default function DraftRoomPage() {
   const saveId = useSaveStore((state) => state.saveId);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
-  const setActiveDraftSessionId = useSaveStore(
-    (state) => state.setActiveDraftSessionId,
-  );
+  const setActiveDraftSessionId = useSaveStore((state) => state.setActiveDraftSessionId);
   const [error, setError] = React.useState<string>('');
   const [loading, setLoading] = React.useState(true);
   const [sendPickIds, setSendPickIds] = React.useState<string[]>([]);
   const [receivePickIds, setReceivePickIds] = React.useState<string[]>([]);
   const hasStartedRef = React.useRef(false);
 
-  const fetchSession = React.useCallback(async (id: string) => {
-    const query = new URLSearchParams({ draftSessionId: id });
-    if (saveId) {
-      query.set('saveId', saveId);
-    }
-    const response = await fetch(`/api/draft/session?${query.toString()}`);
-    if (!response.ok) {
-      throw new Error('Unable to load draft session');
-    }
-    const data = (await response.json()) as DraftSessionDTO;
-    setSession(data);
-  }, [saveId]);
+  const fetchSession = React.useCallback(
+    async (id: string) => {
+      const query = new URLSearchParams({ draftSessionId: id });
+      if (saveId) {
+        query.set('saveId', saveId);
+      }
+      const response = await fetch(`/api/draft/session?${query.toString()}`);
+      if (!response.ok) {
+        throw new Error('Unable to load draft session');
+      }
+      const data = (await response.json()) as DraftSessionDTO;
+      setSession(data);
+    },
+    [saveId],
+  );
 
   React.useEffect(() => {
     const startSession = async () => {
@@ -172,8 +172,7 @@ export default function DraftRoomPage() {
 
   const currentPick = session?.picks[session.currentPickIndex];
   const onClock =
-    session?.status === 'in_progress' &&
-    currentPick?.ownerTeamAbbr === session?.userTeamAbbr;
+    session?.status === 'in_progress' && currentPick?.ownerTeamAbbr === session?.userTeamAbbr;
 
   const availablePicks = (teamAbbr: string) =>
     session?.picks.filter(
@@ -199,17 +198,11 @@ export default function DraftRoomPage() {
   const userTeamAbbr = session?.userTeamAbbr ?? '';
   const prospects = session?.prospects ?? [];
   const userSelections = session?.picks
-    .filter(
-      (pick) => pick.selectedByTeamAbbr === userTeamAbbr && pick.selectedPlayerId,
-    )
-    .map((pick) =>
-      prospects.find((player) => player.id === pick.selectedPlayerId),
-    )
+    .filter((pick) => pick.selectedByTeamAbbr === userTeamAbbr && pick.selectedPlayerId)
+    .map((pick) => prospects.find((player) => player.id === pick.selectedPlayerId))
     .filter((player): player is PlayerRowDTO => Boolean(player));
 
-  const draftGrade = getDraftGrade(
-    (userSelections ?? []).map((player) => player.rank ?? 100),
-  );
+  const draftGrade = getDraftGrade((userSelections ?? []).map((player) => player.rank ?? 100));
 
   if (loading) {
     return (
@@ -237,13 +230,9 @@ export default function DraftRoomPage() {
         <div className="rounded-2xl border border-border bg-white p-8 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-semibold text-foreground">
-                Draft Complete
-              </h1>
+              <h1 className="text-2xl font-semibold text-foreground">Draft Complete</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                {mode === 'real'
-                  ? 'Draft results saved to your roster.'
-                  : 'Mock draft finalized.'}
+                {mode === 'real' ? 'Draft results saved to your roster.' : 'Mock draft finalized.'}
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-slate-50 px-6 py-4 text-center">
@@ -259,9 +248,7 @@ export default function DraftRoomPage() {
                 key={player.id}
                 className="rounded-xl border border-border bg-white px-4 py-3 shadow-sm"
               >
-                <p className="text-sm font-semibold text-foreground">
-                  {formatName(player)}
-                </p>
+                <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
                 <p className="text-xs text-muted-foreground">
                   {player.position} · Rank {player.rank ?? '--'}
                 </p>
@@ -279,8 +266,7 @@ export default function DraftRoomPage() {
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Draft Room</h1>
           <p className="text-sm text-muted-foreground">
-            Mode: {mode === 'real' ? 'Real Draft' : 'Mock Draft'} · RNG seed{' '}
-            {session.rngSeed}
+            Mode: {mode === 'real' ? 'Real Draft' : 'Mock Draft'} · RNG seed {session.rngSeed}
           </p>
         </div>
         <Badge variant={onClock ? 'success' : 'outline'}>
@@ -295,9 +281,7 @@ export default function DraftRoomPage() {
             {session.picks.map((pick, index) => {
               const isCurrent = index === session.currentPickIndex;
               const selectedPlayer = pick.selectedPlayerId
-                ? session.prospects.find(
-                    (player) => player.id === pick.selectedPlayerId,
-                  )
+                ? session.prospects.find((player) => player.id === pick.selectedPlayerId)
                 : null;
               return (
                 <div
@@ -330,9 +314,7 @@ export default function DraftRoomPage() {
           <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
-                <h2 className="text-lg font-semibold text-foreground">
-                  Prospect Board
-                </h2>
+                <h2 className="text-lg font-semibold text-foreground">Prospect Board</h2>
                 <p className="text-sm text-muted-foreground">
                   Top prospects remain available in the center board.
                 </p>
@@ -387,9 +369,7 @@ export default function DraftRoomPage() {
                   </button>
                 ))}
                 {availablePicks(session.userTeamAbbr).length === 0 && (
-                  <p className="text-xs text-muted-foreground">
-                    No tradable picks.
-                  </p>
+                  <p className="text-xs text-muted-foreground">No tradable picks.</p>
                 )}
               </div>
             </div>
@@ -417,9 +397,7 @@ export default function DraftRoomPage() {
                   </button>
                 ))}
                 {availablePicks(PARTNER_TEAM).length === 0 && (
-                  <p className="text-xs text-muted-foreground">
-                    No tradable picks.
-                  </p>
+                  <p className="text-xs text-muted-foreground">No tradable picks.</p>
                 )}
               </div>
             </div>
@@ -449,5 +427,13 @@ export default function DraftRoomPage() {
         </section>
       </div>
     </AppShell>
+  );
+}
+
+export default function DraftRoomPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DraftRoomContent />
+    </Suspense>
   );
 }

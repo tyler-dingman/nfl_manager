@@ -1,22 +1,12 @@
 'use client';
 
 import type { LucideIcon } from 'lucide-react';
-import {
-  ArrowLeftRight,
-  ClipboardCheck,
-  Handshake,
-  Plus,
-  UserX,
-} from 'lucide-react';
+import { ArrowLeftRight, ClipboardCheck, Handshake, Plus, UserX } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 
-export type PlayerRowActionsVariant =
-  | 'roster'
-  | 'freeAgent'
-  | 'draft'
-  | 'tradePicker';
+export type PlayerRowActionsVariant = 'roster' | 'freeAgent' | 'draft' | 'tradePicker';
 
 type ActionConfig = {
   label: string;
@@ -37,8 +27,7 @@ type PlayerRowActionsProps = {
   onSelectTradePlayer?: (player: PlayerRowDTO) => void;
 };
 
-const getPlayerName = (player: PlayerRowDTO) =>
-  `${player.firstName} ${player.lastName}`;
+const getPlayerName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
 
 const getDraftDisabledReason = (
   player: PlayerRowDTO,
@@ -66,10 +55,7 @@ export default function PlayerRowActions({
   onSelectTradePlayer,
 }: PlayerRowActionsProps) {
   const name = getPlayerName(player);
-  const draftDisabledReason = getDraftDisabledReason(
-    player,
-    onTheClockForUserTeam,
-  );
+  const draftDisabledReason = getDraftDisabledReason(player, onTheClockForUserTeam);
   const actions: ActionConfig[] =
     variant === 'roster'
       ? [
@@ -92,9 +78,7 @@ export default function PlayerRowActions({
               onClick: () => onOfferPlayer?.(player),
               disabled: player.status.toLowerCase() === 'signed',
               disabledReason:
-                player.status.toLowerCase() === 'signed'
-                  ? 'Already signed.'
-                  : undefined,
+                player.status.toLowerCase() === 'signed' ? 'Already signed.' : undefined,
             },
           ]
         : variant === 'draft'
@@ -136,11 +120,7 @@ export default function PlayerRowActions({
 
         if (action.disabledReason) {
           return (
-            <span
-              key={action.label}
-              className="inline-flex"
-              title={action.disabledReason}
-            >
+            <span key={action.label} className="inline-flex" title={action.disabledReason}>
               {button}
             </span>
           );

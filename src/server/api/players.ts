@@ -12,10 +12,7 @@ import {
 
 export type { PlayerFilters } from './store';
 
-export const getRoster = (
-  saveId: string,
-  filters?: PlayerFilters,
-): SaveResult<PlayerRowDTO[]> => {
+export const getRoster = (saveId: string, filters?: PlayerFilters): SaveResult<PlayerRowDTO[]> => {
   const stateResult = getSaveStateResult(saveId);
   if (!stateResult.ok) {
     return stateResult;

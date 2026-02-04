@@ -35,13 +35,15 @@ function DropdownMenuTrigger({
   asChild?: boolean;
 }) {
   const { open, setOpen } = useDropdownContext();
-  const triggerProps = {
+  const triggerProps: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    'aria-expanded': boolean;
+  } = {
     onClick: (event: React.MouseEvent) => {
       event.preventDefault();
       setOpen(!open);
     },
     'aria-expanded': open,
-    'aria-haspopup': 'menu',
+    'aria-haspopup': 'menu' as const,
   };
 
   if (asChild) {
@@ -55,48 +57,58 @@ function DropdownMenuTrigger({
   );
 }
 
-const DropdownMenuContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  const { open, setOpen } = useDropdownContext();
-  const contentRef = React.useRef<HTMLDivElement>(null);
+type DropdownMenuContentProps = React.HTMLAttributes<HTMLDivElement> & {
+  align?: 'start' | 'center' | 'end';
+};
 
-  React.useImperativeHandle(ref, () => contentRef.current as HTMLDivElement);
+const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenuContentProps>(
+  ({ className, align = 'start', ...props }, ref) => {
+    const { open, setOpen } = useDropdownContext();
+    const contentRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+    React.useImperativeHandle(ref, () => contentRef.current as HTMLDivElement);
+
+    React.useEffect(() => {
+      if (!open) {
+        return;
+      }
+      const handleClick = (event: MouseEvent) => {
+        if (!(event.target instanceof Node)) {
+          return;
+        }
+        if (contentRef.current?.contains(event.target)) {
+          return;
+        }
+        setOpen(false);
+      };
+      document.addEventListener('mousedown', handleClick);
+      return () => document.removeEventListener('mousedown', handleClick);
+    }, [open, setOpen]);
+
     if (!open) {
-      return;
+      return null;
     }
-    const handleClick = (event: MouseEvent) => {
-      if (!(event.target instanceof Node)) {
-        return;
-      }
-      if (contentRef.current?.contains(event.target)) {
-        return;
-      }
-      setOpen(false);
-    };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [open, setOpen]);
 
-  if (!open) {
-    return null;
-  }
+    const alignClass = {
+      start: 'left-0',
+      center: 'left-1/2 -translate-x-1/2',
+      end: 'right-0',
+    }[align];
 
-  return (
-    <div
-      ref={contentRef}
-      role="menu"
-      className={cn(
-        'absolute right-0 top-full z-50 mt-2 min-w-[10rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md',
-        className
-      )}
-      {...props}
-    />
-  );
-});
+    return (
+      <div
+        ref={contentRef}
+        role="menu"
+        className={cn(
+          'absolute top-full z-50 mt-2 min-w-[10rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md',
+          alignClass,
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
 DropdownMenuContent.displayName = 'DropdownMenuContent';
 
 const DropdownMenuItem = React.forwardRef<
@@ -111,7 +123,7 @@ const DropdownMenuItem = React.forwardRef<
       role="menuitem"
       className={cn(
         'relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-        className
+        className,
       )}
       onClick={(event) => {
         onClick?.(event);

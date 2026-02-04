@@ -45,9 +45,7 @@ export default function OfferContractModal({
       onClose();
     } catch (submitError) {
       setError(
-        submitError instanceof Error
-          ? submitError.message
-          : 'Unable to submit offer right now.',
+        submitError instanceof Error ? submitError.message : 'Unable to submit offer right now.',
       );
     } finally {
       setIsSubmitting(false);

@@ -64,8 +64,7 @@ export default function HomePage() {
         <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
           <h1 className="text-2xl font-semibold">Welcome back, GM.</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Track roster activity, manage contracts, and keep your scouting reports
-            up-to-date.
+            Track roster activity, manage contracts, and keep your scouting reports up-to-date.
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {[
@@ -81,9 +80,7 @@ export default function HomePage() {
                 <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   {stat.label}
                 </p>
-                <p className="mt-2 text-lg font-semibold text-foreground">
-                  {stat.value}
-                </p>
+                <p className="mt-2 text-lg font-semibold text-foreground">{stat.value}</p>
               </div>
             ))}
           </div>

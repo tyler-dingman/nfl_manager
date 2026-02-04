@@ -7,10 +7,7 @@ export const getPickValue = (overall: number): number => {
 export const clampNumber = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value));
 
-export const getTradeAcceptance = (
-  sendValue: number,
-  receiveValue: number,
-): number => {
+export const getTradeAcceptance = (sendValue: number, receiveValue: number): number => {
   if (sendValue === 0 && receiveValue === 0) {
     return 50;
   }
@@ -29,8 +26,7 @@ export const getDraftGrade = (rankValues: number[]): string => {
     return 'C';
   }
 
-  const average =
-    rankValues.reduce((total, value) => total + value, 0) / rankValues.length;
+  const average = rankValues.reduce((total, value) => total + value, 0) / rankValues.length;
   const score = clampNumber(100 - average, 0, 100);
 
   if (score >= 92) return 'A+';

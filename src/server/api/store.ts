@@ -142,8 +142,7 @@ const baseFreeAgents: StoredPlayer[] = [
   },
 ];
 
-const clonePlayers = (players: StoredPlayer[]) =>
-  players.map((player) => ({ ...player }));
+const clonePlayers = (players: StoredPlayer[]) => players.map((player) => ({ ...player }));
 
 export const getSaveHeaderSnapshot = (state: SaveState): SaveHeaderDTO => ({
   ...state.header,
@@ -174,8 +173,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
   return state;
 };
 
-export const getSaveState = (saveId: string): SaveState | undefined =>
-  saveStore.get(saveId);
+export const getSaveState = (saveId: string): SaveState | undefined => saveStore.get(saveId);
 
 export type SaveResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
@@ -212,10 +210,8 @@ const matchesFilter = (player: StoredPlayer, filters?: PlayerFilters): boolean =
   return true;
 };
 
-export const filterPlayers = (
-  players: StoredPlayer[],
-  filters?: PlayerFilters,
-): StoredPlayer[] => players.filter((player) => matchesFilter(player, filters));
+export const filterPlayers = (players: StoredPlayer[], filters?: PlayerFilters): StoredPlayer[] =>
+  players.filter((player) => matchesFilter(player, filters));
 
 export const signFreeAgentInState = (
   state: SaveState,
@@ -274,10 +270,7 @@ export const offerContractInState = (
   state.freeAgents[playerIndex] = signedPlayer;
   state.roster.push(signedPlayer);
   state.header.rosterCount = state.roster.length;
-  state.header.capSpace = Math.max(
-    0,
-    Number((state.header.capSpace - year1CapHit).toFixed(1)),
-  );
+  state.header.capSpace = Math.max(0, Number((state.header.capSpace - year1CapHit).toFixed(1)));
 
   return {
     header: getSaveHeaderSnapshot(state),
@@ -308,10 +301,7 @@ export const addDraftedPlayersInState = (
     state.roster.push(rookiePlayer);
     addedPlayers.push(rookiePlayer);
     state.header.rosterCount = state.roster.length;
-    state.header.capSpace = Math.max(
-      0,
-      Number((state.header.capSpace - year1CapHit).toFixed(1)),
-    );
+    state.header.capSpace = Math.max(0, Number((state.header.capSpace - year1CapHit).toFixed(1)));
   });
 
   return {

@@ -10,17 +10,11 @@ export const POST = async (request: Request) => {
   };
 
   if (!body.saveId) {
-    return NextResponse.json(
-      { ok: false, error: 'Missing or invalid saveId' },
-      { status: 400 },
-    );
+    return NextResponse.json({ ok: false, error: 'Missing or invalid saveId' }, { status: 400 });
   }
 
   if (!body.partnerTeamAbbr) {
-    return NextResponse.json(
-      { ok: false, error: 'partnerTeamAbbr is required' },
-      { status: 400 },
-    );
+    return NextResponse.json({ ok: false, error: 'partnerTeamAbbr is required' }, { status: 400 });
   }
 
   const result = createTrade(body.saveId, body.partnerTeamAbbr, body.playerId);

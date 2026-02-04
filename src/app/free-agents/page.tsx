@@ -19,13 +19,7 @@ export default function FreeAgentsPage() {
     setActiveOfferPlayer(player);
   };
 
-  const handleSubmitOffer = async ({
-    years,
-    apy,
-  }: {
-    years: number;
-    apy: number;
-  }) => {
+  const handleSubmitOffer = async ({ years, apy }: { years: number; apy: number }) => {
     if (!saveId || !activeOfferPlayer) {
       return;
     }

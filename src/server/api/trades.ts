@@ -1,11 +1,7 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 
-import {
-  getSaveHeaderSnapshot,
-  getSaveStateResult,
-  type SaveResult,
-} from './store';
+import { getSaveHeaderSnapshot, getSaveStateResult, type SaveResult } from './store';
 import { parseMoneyMillions } from '@/server/logic/cap';
 
 export type TradeSide = 'send' | 'receive';
@@ -140,13 +136,9 @@ const toPlayerDTO = (player: StoredTradePlayer): PlayerRowDTO => ({
   signedTeamLogoUrl: player.signedTeamLogoUrl ?? null,
 });
 
-const getPlayerValue = (capHit: string): number =>
-  Math.round(parseMoneyMillions(capHit) * 10);
+const getPlayerValue = (capHit: string): number => Math.round(parseMoneyMillions(capHit) * 10);
 
-const buildPlayerAsset = (
-  player: PlayerRowDTO,
-  side: TradeSide,
-): TradeAssetDTO => ({
+const buildPlayerAsset = (player: PlayerRowDTO, side: TradeSide): TradeAssetDTO => ({
   id: `asset-${side}-player-${player.id}`,
   type: 'player',
   side,
@@ -213,9 +205,7 @@ export const createTrade = (
     data: {
       trade: cloneTrade(trade),
       userRoster: stateResult.data.roster.map((player) => toPlayerDTO(player)),
-      partnerRoster: getPartnerRoster(partnerTeamAbbr).map((player) =>
-        toPlayerDTO(player),
-      ),
+      partnerRoster: getPartnerRoster(partnerTeamAbbr).map((player) => toPlayerDTO(player)),
     },
   };
 };
@@ -303,7 +293,8 @@ export const proposeTrade = (
   }
   const sendValue = sumValues(trade.sendAssets);
   const receiveValue = sumValues(trade.receiveAssets);
-  const acceptance = sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
+  const acceptance =
+    sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
   const accepted = acceptance >= 70;
 
   const saveStateResult = getSaveStateResult(trade.saveId);

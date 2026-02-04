@@ -17,9 +17,7 @@ export default function RosterPage() {
       <PlayerTable
         data={players}
         variant="roster"
-        onTradePlayer={(player) =>
-          router.push(`/manage/trades?playerId=${player.id}`)
-        }
+        onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
       />
     </AppShell>
   );
