@@ -2,12 +2,12 @@ import { randomUUID } from 'crypto';
 
 import type { SaveHeaderDTO } from '@/types/save';
 
-import { createSaveState, getSaveState } from './store';
+import { createSaveState, getSaveHeaderSnapshot, getSaveState } from './store';
 
 export const createSave = (teamAbbr: string): SaveHeaderDTO => {
   const saveId = randomUUID();
   const state = createSaveState(saveId, teamAbbr);
-  return state.header;
+  return getSaveHeaderSnapshot(state);
 };
 
 export const getSaveHeader = (saveId: string): SaveHeaderDTO => {
@@ -15,5 +15,5 @@ export const getSaveHeader = (saveId: string): SaveHeaderDTO => {
   if (!state) {
     throw new Error('Save not found');
   }
-  return state.header;
+  return getSaveHeaderSnapshot(state);
 };
