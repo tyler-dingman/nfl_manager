@@ -8,8 +8,27 @@ const getParam = (request: Request, key: string) =>
 export const GET = async (request: Request) => {
   const saveId = getParam(request, 'saveId');
   if (!saveId) {
-    return NextResponse.json({ error: 'saveId is required' }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: 'Missing or invalid saveId' },
+      { status: 400 },
+    );
   }
 
-  return NextResponse.json(getSaveHeader(saveId));
+  const result = getSaveHeader(saveId);
+  if (!result.ok) {
+    return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
+  }
+
+  const header = result.data;
+  return NextResponse.json({
+    ok: true,
+    saveId: header.id,
+    teamAbbr: header.teamAbbr,
+    capSpace: header.capSpace,
+    capLimit: header.capLimit,
+    rosterCount: header.rosterCount,
+    rosterLimit: header.rosterLimit,
+    phase: header.phase,
+    createdAt: header.createdAt,
+  });
 };

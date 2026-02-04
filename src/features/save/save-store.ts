@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import type { SaveHeaderDTO } from '@/types/save';
+import type { SaveBootstrapDTO, SaveHeaderDTO } from '@/types/save';
 
 type SaveStoreState = {
   saveId: string;
@@ -12,7 +12,7 @@ type SaveStoreState = {
   rosterLimit: number;
   phase: string;
   activeDraftSessionId: string | null;
-  setSaveHeader: (header: SaveHeaderDTO, teamId?: string) => void;
+  setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
   setActiveDraftSessionId: (sessionId: string | null) => void;
   refreshSaveHeader: () => Promise<void>;
 };
@@ -31,18 +31,27 @@ const DEFAULT_STATE = {
 
 export const useSaveStore = create<SaveStoreState>((set, get) => ({
   ...DEFAULT_STATE,
-  setSaveHeader: (header, teamId) =>
-    set((state) => ({
+  setSaveHeader: (header, teamId) => {
+    const saveId = 'saveId' in header ? header.saveId : header.id;
+    const teamAbbr = header.teamAbbr;
+    const capSpace = header.capSpace;
+    const capLimit = header.capLimit;
+    const rosterCount = header.rosterCount;
+    const rosterLimit = header.rosterLimit;
+    const phase = header.phase;
+
+    return set((state) => ({
       ...state,
-      saveId: header.id,
+      saveId,
       teamId: teamId ?? state.teamId,
-      teamAbbr: header.teamAbbr,
-      capSpace: header.capSpace,
-      capLimit: header.capLimit,
-      rosterCount: header.rosterCount,
-      rosterLimit: header.rosterLimit,
-      phase: header.phase,
-    })),
+      teamAbbr,
+      capSpace,
+      capLimit,
+      rosterCount,
+      rosterLimit,
+      phase,
+    }));
+  },
   setActiveDraftSessionId: (sessionId) => set({ activeDraftSessionId: sessionId }),
   refreshSaveHeader: async () => {
     const { saveId } = get();
@@ -55,10 +64,13 @@ export const useSaveStore = create<SaveStoreState>((set, get) => ({
       return;
     }
 
-    const data = (await response.json()) as SaveHeaderDTO;
+    const data = (await response.json()) as SaveBootstrapDTO | { ok: false; error: string };
+    if (!('ok' in data) || !data.ok) {
+      return;
+    }
     set((state) => ({
       ...state,
-      saveId: data.id,
+      saveId: data.saveId,
       teamAbbr: data.teamAbbr,
       capSpace: data.capSpace,
       capLimit: data.capLimit,

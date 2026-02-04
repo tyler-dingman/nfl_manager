@@ -11,14 +11,27 @@ export const POST = async (
     type?: 'player' | 'pick';
     playerId?: string;
     pickId?: string;
+    saveId?: string;
   };
 
-  if (!body.side || !body.type) {
+  if (!body.saveId) {
     return NextResponse.json(
-      { error: 'side and type are required' },
+      { ok: false, error: 'Missing or invalid saveId' },
       { status: 400 },
     );
   }
 
-  return NextResponse.json(addTradeAsset(params.id, body));
+  if (!body.side || !body.type) {
+    return NextResponse.json(
+      { ok: false, error: 'side and type are required' },
+      { status: 400 },
+    );
+  }
+
+  const result = addTradeAsset(params.id, body, body.saveId);
+  if (!result.ok) {
+    return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
+  }
+
+  return NextResponse.json(result.data);
 };

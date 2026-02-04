@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { useSaveStore } from '@/features/save/save-store';
@@ -42,6 +42,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const capSpace = useSaveStore((state) => state.capSpace);
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
+  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const pathname = usePathname();
 
@@ -52,6 +53,33 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const formattedCapSpace = saveId ? `$${capSpace.toFixed(1)}M` : '--';
   const formattedRoster = saveId ? `${rosterCount}/${rosterLimit}` : '--';
+
+  useEffect(() => {
+    const loadSave = async () => {
+      if (!selectedTeam?.abbr) {
+        return;
+      }
+
+      const response = await fetch('/api/saves/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId: selectedTeam.id, teamAbbr: selectedTeam.abbr }),
+      });
+      if (!response.ok) {
+        return;
+      }
+      const data = (await response.json()) as
+        | { ok: true; saveId: string; teamAbbr: string; capSpace: number; capLimit: number; rosterCount: number; rosterLimit: number; phase: string }
+        | { ok: false; error: string };
+      if (!data.ok) {
+        return;
+      }
+
+      setSaveHeader(data, selectedTeam.id);
+    };
+
+    loadSave();
+  }, [selectedTeam?.abbr, selectedTeam?.id, setSaveHeader]);
 
   return (
     <TeamThemeProvider team={selectedTeam}>
