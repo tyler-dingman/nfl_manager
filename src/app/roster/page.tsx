@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import AppShell from '@/components/app-shell';
 import { PlayerTable } from '@/components/player-table';
 import TeamHeaderSummary from '@/components/team-header-summary';
@@ -59,6 +61,8 @@ const rosterPlayers: PlayerRowDTO[] = [
 ];
 
 export default function RosterPage() {
+  const router = useRouter();
+
   return (
     <AppShell>
       <TeamHeaderSummary
@@ -67,7 +71,13 @@ export default function RosterPage() {
         rosterCount={53}
         rosterLimit={53}
       />
-      <PlayerTable data={rosterPlayers} variant="roster" />
+      <PlayerTable
+        data={rosterPlayers}
+        variant="roster"
+        onTradePlayer={(player) =>
+          router.push(`/manage/trades?playerId=${player.id}`)
+        }
+      />
     </AppShell>
   );
 }
