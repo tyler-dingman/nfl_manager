@@ -9,21 +9,21 @@ import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
-
-export const dynamic = 'force-dynamic';
-import { useTeamStore } from '@/features/team/team-store';
 import { cn } from '@/lib/utils';
 import { getDraftGrade, getPickValue, getTradeAcceptance } from '@/lib/draft-utils';
 import type { DraftSessionDTO, DraftMode, DraftPickDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
-import type { SaveBootstrapDTO } from '@/types/save';
 
+export const dynamic = 'force-dynamic';
 const PARTNER_TEAM = 'DAL';
 
-type DraftSessionStartResponse = {
-  draftSessionId: string;
-  rng_seed: number;
-};
+type DraftSessionStartResponse =
+  | { ok: true; draftSessionId: string; rng_seed: number }
+  | { ok: false; error: string };
+
+type DraftSessionResponse =
+  | { ok: true; data: DraftSessionDTO }
+  | { ok: false; error: string };
 
 const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
 
@@ -34,108 +34,116 @@ function DraftRoomContent() {
   const modeParam = searchParams.get('mode');
   const mode: DraftMode = modeParam === 'real' ? 'real' : 'mock';
   const [session, setSession] = React.useState<DraftSessionDTO | null>(null);
-  const [draftSessionId, setDraftSessionId] = React.useState<string>('');
-  const selectedTeam = useTeamStore((state) =>
-    state.teams.find((team) => team.id === state.selectedTeamId),
-  );
   const saveId = useSaveStore((state) => state.saveId);
-  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const activeDraftSessionId = useSaveStore((state) => state.activeDraftSessionId);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setActiveDraftSessionId = useSaveStore((state) => state.setActiveDraftSessionId);
   const [error, setError] = React.useState<string>('');
   const [loading, setLoading] = React.useState(true);
   const [sendPickIds, setSendPickIds] = React.useState<string[]>([]);
   const [receivePickIds, setReceivePickIds] = React.useState<string[]>([]);
-  const hasStartedRef = React.useRef(false);
 
-  const fetchSession = React.useCallback(
-    async (id: string) => {
-      const query = new URLSearchParams({ draftSessionId: id });
-      if (saveId) {
-        query.set('saveId', saveId);
+  const fetchSession = React.useCallback(async (id: string, activeSaveId: string) => {
+    const query = new URLSearchParams({ draftSessionId: id, saveId: activeSaveId });
+    const response = await fetch(`/api/draft/session?${query.toString()}`);
+    const payload = (await response.json()) as DraftSessionResponse;
+    if (!response.ok || !payload.ok) {
+      throw new Error(payload.ok ? 'Unable to load draft session' : payload.error);
+    }
+    setSession(payload.data);
+  }, []);
+
+  const startSession = React.useCallback(
+    async (activeSaveId: string) => {
+      const response = await fetch('/api/draft/session/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode, saveId: activeSaveId }),
+      });
+
+      const data = (await response.json()) as DraftSessionStartResponse;
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || 'Unable to start draft session');
       }
-      const response = await fetch(`/api/draft/session?${query.toString()}`);
-      if (!response.ok) {
-        throw new Error('Unable to load draft session');
-      }
-      const data = (await response.json()) as DraftSessionDTO;
-      setSession(data);
+
+      setActiveDraftSessionId(data.draftSessionId);
+      return data.draftSessionId;
     },
-    [saveId],
+    [mode, setActiveDraftSessionId],
   );
 
+  const initializeSession = React.useCallback(async () => {
+    try {
+      setLoading(true);
+      setError('');
+      if (!saveId) {
+        setSession(null);
+        setError('Select a team to start a save.');
+        return;
+      }
+
+      if (activeDraftSessionId) {
+        await fetchSession(activeDraftSessionId, saveId);
+        return;
+      }
+
+      const sessionId = await startSession(saveId);
+      await fetchSession(sessionId, saveId);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Draft session error';
+      if (activeDraftSessionId && message === 'Draft session not found') {
+        setActiveDraftSessionId('');
+        try {
+          const sessionId = await startSession(saveId);
+          await fetchSession(sessionId, saveId);
+          return;
+        } catch (retryError) {
+          setError(retryError instanceof Error ? retryError.message : 'Draft session error');
+          return;
+        }
+      }
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  }, [
+    activeDraftSessionId,
+    fetchSession,
+    saveId,
+    setActiveDraftSessionId,
+    startSession,
+  ]);
+
   React.useEffect(() => {
-    const startSession = async () => {
+    const run = async () => {
       try {
-        setLoading(true);
-        let activeSaveId = saveId;
-        if (mode === 'real' && !activeSaveId) {
-          const saveResponse = await fetch('/api/saves/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              teamId: selectedTeam?.id,
-              teamAbbr: selectedTeam?.abbr ?? 'GB',
-            }),
-          });
-
-          if (!saveResponse.ok) {
-            throw new Error('Unable to create save');
-          }
-
-          const saveData = (await saveResponse.json()) as
-            | SaveBootstrapDTO
-            | { ok: false; error: string };
-          if (!saveData.ok) {
-            throw new Error(saveData.error || 'Unable to create save');
-          }
-          activeSaveId = saveData.saveId;
-          setSaveHeader(saveData, selectedTeam?.id);
-        }
-
-        const response = await fetch('/api/draft/session/start', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mode, saveId: activeSaveId || undefined }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Unable to start draft session');
-        }
-
-        const data = (await response.json()) as DraftSessionStartResponse;
-        setDraftSessionId(data.draftSessionId);
-        setActiveDraftSessionId(data.draftSessionId);
-        await fetchSession(data.draftSessionId);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Draft session error');
-      } finally {
-        setLoading(false);
+        await initializeSession();
+      } catch {
+        // initializeSession handles errors
       }
     };
 
-    if (!hasStartedRef.current) {
-      hasStartedRef.current = true;
-      startSession();
-    }
-  }, [fetchSession, mode, saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader]);
+    void run();
+  }, [initializeSession]);
 
   const handleDraftPlayer = async (player: PlayerRowDTO) => {
-    if (!draftSessionId) {
+    if (!activeDraftSessionId || !saveId) {
       return;
     }
 
     const response = await fetch('/api/draft/session/pick', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ draftSessionId, playerId: player.id, saveId }),
+      body: JSON.stringify({ draftSessionId: activeDraftSessionId, playerId: player.id, saveId }),
     });
 
-    if (response.ok) {
-      const data = (await response.json()) as DraftSessionDTO;
-      setSession(data);
-      await refreshSaveHeader();
+    const payload = (await response.json()) as DraftSessionResponse;
+    if (!response.ok || !payload.ok) {
+      setError(payload.ok ? 'Unable to make pick.' : payload.error);
+      return;
     }
+    setSession(payload.data);
+    await refreshSaveHeader();
   };
 
   const togglePick = (
@@ -148,7 +156,7 @@ function DraftRoomContent() {
   };
 
   const handleTrade = async () => {
-    if (!draftSessionId) {
+    if (!activeDraftSessionId || !saveId) {
       return;
     }
 
@@ -156,7 +164,7 @@ function DraftRoomContent() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        draftSessionId,
+        draftSessionId: activeDraftSessionId,
         partnerTeamAbbr: PARTNER_TEAM,
         sendPickIds,
         receivePickIds,
@@ -164,12 +172,14 @@ function DraftRoomContent() {
       }),
     });
 
-    if (response.ok) {
-      const data = (await response.json()) as DraftSessionDTO;
-      setSession(data);
-      setSendPickIds([]);
-      setReceivePickIds([]);
+    const payload = (await response.json()) as DraftSessionResponse;
+    if (!response.ok || !payload.ok) {
+      setError(payload.ok ? 'Unable to apply trade.' : payload.error);
+      return;
     }
+    setSession(payload.data);
+    setSendPickIds([]);
+    setReceivePickIds([]);
   };
 
   const currentPick = session?.picks[session.currentPickIndex];
@@ -221,6 +231,9 @@ function DraftRoomContent() {
       <AppShell>
         <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
           <p className="text-sm text-destructive">{error || 'Draft not available'}</p>
+          <Button type="button" className="mt-4" onClick={() => void initializeSession()}>
+            Retry
+          </Button>
         </div>
       </AppShell>
     );

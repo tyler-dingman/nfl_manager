@@ -715,9 +715,10 @@ const runCpuPicks = (session: DraftSession): void => {
   }
 };
 
-export const createDraftSession = (mode: DraftMode, saveId?: string): DraftSessionStartResponse => {
+export const createDraftSession = (mode: DraftMode, saveId: string): DraftSessionStartResponse => {
   const draftSessionId = randomUUID();
   const rngSeed = Math.floor(Math.random() * 1_000_000_000) + 1;
+  const userTeamAbbr = getSaveState(saveId)?.header.teamAbbr ?? USER_TEAM_ABBR;
 
   const session: DraftSession = {
     id: draftSessionId,
@@ -725,7 +726,7 @@ export const createDraftSession = (mode: DraftMode, saveId?: string): DraftSessi
     rngState: rngSeed,
     mode,
     saveId,
-    userTeamAbbr: USER_TEAM_ABBR,
+    userTeamAbbr,
     currentPickIndex: 0,
     picks: buildDraftPicks(),
     prospects: cloneProspects(),
@@ -747,9 +748,16 @@ export const getDraftSession = (draftSessionId: string): DraftSessionDTO => {
   return session;
 };
 
-export const pickDraftPlayer = (draftSessionId: string, playerId: string): DraftSessionDTO => {
+export const pickDraftPlayer = (
+  draftSessionId: string,
+  playerId: string,
+  saveId: string,
+): DraftSessionDTO => {
   const session = draftSessionStore.get(draftSessionId);
   if (!session) {
+    throw new Error('Draft session not found');
+  }
+  if (session.saveId && session.saveId !== saveId) {
     throw new Error('Draft session not found');
   }
 
@@ -774,9 +782,13 @@ export const applyDraftTrade = (
   partnerTeamAbbr: string,
   sendPickIds: string[],
   receivePickIds: string[],
+  saveId: string,
 ): DraftSessionDTO => {
   const session = draftSessionStore.get(draftSessionId);
   if (!session) {
+    throw new Error('Draft session not found');
+  }
+  if (session.saveId && session.saveId !== saveId) {
     throw new Error('Draft session not found');
   }
 

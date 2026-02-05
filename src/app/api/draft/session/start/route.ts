@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { createDraftSession } from '@/server/api/draft';
+import { getSaveStateResult } from '@/server/api/store';
 import type { DraftMode } from '@/types/draft';
 
 export const POST = async (request: Request) => {
@@ -13,12 +14,17 @@ export const POST = async (request: Request) => {
 
   const mode = body.mode ?? 'mock';
   if (mode !== 'mock' && mode !== 'real') {
-    return NextResponse.json({ error: 'Invalid mode' }, { status: 400 });
+    return NextResponse.json({ ok: false, error: 'Invalid mode' }, { status: 400 });
   }
 
-  if (mode === 'real' && !body.saveId) {
-    return NextResponse.json({ error: 'saveId is required for real mode' }, { status: 400 });
+  if (!body.saveId) {
+    return NextResponse.json({ ok: false, error: 'saveId is required' }, { status: 400 });
   }
 
-  return NextResponse.json(createDraftSession(mode, body.saveId));
+  const stateResult = getSaveStateResult(body.saveId);
+  if (!stateResult.ok) {
+    return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });
+  }
+
+  return NextResponse.json({ ok: true, ...createDraftSession(mode, body.saveId) });
 };
