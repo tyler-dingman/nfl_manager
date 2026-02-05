@@ -61,8 +61,11 @@ function DraftRoomContent() {
   const [lobbyMessage, setLobbyMessage] = React.useState('');
 
   const saveId = useSaveStore((state) => state.saveId);
+  const teamId = useSaveStore((state) => state.teamId);
+  const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const activeDraftSessionId = useSaveStore((state) => state.activeDraftSessionId);
   const setActiveDraftSessionId = useSaveStore((state) => state.setActiveDraftSessionId);
+  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
 
 
@@ -119,7 +122,8 @@ function DraftRoomContent() {
   );
 
   const startDraft = React.useCallback(async () => {
-    if (!saveId) {
+    const resolvedSaveId = await ensureSaveExists();
+    if (!resolvedSaveId) {
       setError('Select a team to start a save.');
       return false;
     }
@@ -129,7 +133,7 @@ function DraftRoomContent() {
     const response = await fetch('/api/draft/session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ saveId, mode }),
+      body: JSON.stringify({ saveId: resolvedSaveId, mode }),
     });
     const payload = (await response.json()) as DraftSessionStartResponse;
     if (!response.ok || !payload.ok) {
@@ -137,7 +141,7 @@ function DraftRoomContent() {
       setLoading(false);
       return false;
     }
-    setActiveDraftSessionId(payload.draftSessionId, saveId);
+    setActiveDraftSessionId(payload.draftSessionId, resolvedSaveId);
     if (payload.session) {
       setSession(payload.session);
     } else {
@@ -145,7 +149,7 @@ function DraftRoomContent() {
     }
     setLoading(false);
     return true;
-  }, [fetchSession, mode, saveId, setActiveDraftSessionId]);
+  }, [ensureSaveExists, fetchSession, mode, setActiveDraftSessionId]);
 
   const setPaused = React.useCallback(
     async (isPaused: boolean) => {
@@ -359,3 +363,57 @@ export default function DraftRoomPage() {
     </Suspense>
   );
 }
+  const ensureSaveExists = React.useCallback(async () => {
+    if (saveId) {
+      const headerResponse = await fetch(`/api/saves/header?saveId=${saveId}`);
+      if (headerResponse.ok) {
+        const headerData = (await headerResponse.json()) as
+          | {
+              ok: true;
+              saveId: string;
+              teamAbbr: string;
+              capSpace: number;
+              capLimit: number;
+              rosterCount: number;
+              rosterLimit: number;
+              phase: string;
+            }
+          | { ok: false; error: string };
+        if (headerData.ok) {
+          setSaveHeader({ ...headerData, createdAt: new Date().toISOString() }, teamId);
+          return headerData.saveId;
+        }
+      }
+    }
+
+    if (!teamAbbr && !teamId) {
+      return null;
+    }
+
+    const response = await fetch('/api/saves/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ teamId, teamAbbr }),
+    });
+    if (!response.ok) {
+      return null;
+    }
+    const data = (await response.json()) as
+      | {
+          ok: true;
+          saveId: string;
+          teamAbbr: string;
+          capSpace: number;
+          capLimit: number;
+          rosterCount: number;
+          rosterLimit: number;
+          phase: string;
+        }
+      | { ok: false; error: string };
+    if (!data.ok) {
+      return null;
+    }
+
+    setSaveHeader({ ...data, createdAt: new Date().toISOString() }, teamId);
+    return data.saveId;
+  }, [saveId, setSaveHeader, teamAbbr, teamId]);
