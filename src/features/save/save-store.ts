@@ -14,6 +14,7 @@ type SaveStoreState = {
   activeDraftSessionId: string | null;
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
   setActiveDraftSessionId: (sessionId: string | null) => void;
+  setPhase: (phase: string) => void;
   refreshSaveHeader: () => Promise<void>;
 };
 
@@ -53,6 +54,7 @@ export const useSaveStore = create<SaveStoreState>((set, get) => ({
     }));
   },
   setActiveDraftSessionId: (sessionId) => set({ activeDraftSessionId: sessionId }),
+  setPhase: (phase) => set((state) => ({ ...state, phase })),
   refreshSaveHeader: async () => {
     const { saveId } = get();
     if (!saveId) {

@@ -74,7 +74,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      setSaveHeader(data, selectedTeam.id);
+      const persistedPhase = window.localStorage.getItem('onboardingPhase');
+      setSaveHeader({ ...data, phase: persistedPhase ?? data.phase }, selectedTeam.id);
     };
 
     loadSave();

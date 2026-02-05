@@ -1,7 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 import AppShell from '@/components/app-shell';
 import { PlayerTable } from '@/components/player-table';
+import { useSaveStore } from '@/features/save/save-store';
+import { useTeamStore } from '@/features/team/team-store';
 import type { PlayerRowDTO } from '@/types/player';
 
 const samplePlayers: PlayerRowDTO[] = [
@@ -58,14 +63,44 @@ const samplePlayers: PlayerRowDTO[] = [
 ];
 
 export default function HomePage() {
+  const router = useRouter();
+  const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
+  const setPhase = useSaveStore((state) => state.setPhase);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const onboardingComplete = window.localStorage.getItem('onboardingComplete') === 'true';
+
+    if (!onboardingComplete) {
+      router.replace('/onboarding');
+      return;
+    }
+
+    const selectedTeam = window.localStorage.getItem('onboardingTeamId');
+    const selectedPhase = window.localStorage.getItem('onboardingPhase');
+
+    if (selectedTeam) {
+      setSelectedTeamId(selectedTeam);
+    }
+
+    if (selectedPhase) {
+      setPhase(selectedPhase);
+    }
+
+    setIsReady(true);
+  }, [router, setPhase, setSelectedTeamId]);
+
+  if (!isReady) {
+    return null;
+  }
+
   return (
     <AppShell>
       <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
         <section className="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-6">
           <h1 className="text-2xl font-semibold">Welcome back, GM.</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Track roster activity, manage contracts, and keep your scouting reports
-            up-to-date.
+            Track roster activity, manage contracts, and keep your scouting reports up-to-date.
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {[
@@ -81,9 +116,7 @@ export default function HomePage() {
                 <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   {stat.label}
                 </p>
-                <p className="mt-2 text-lg font-semibold text-foreground">
-                  {stat.value}
-                </p>
+                <p className="mt-2 text-lg font-semibold text-foreground">{stat.value}</p>
               </div>
             ))}
           </div>
