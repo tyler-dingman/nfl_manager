@@ -4,6 +4,7 @@ import * as React from 'react';
 import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
+import PlayerRowActions, { type PlayerRowActionsVariant } from '@/components/player-row-actions';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,7 +15,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
-import PlayerRowActions, { type PlayerRowActionsVariant } from '@/components/player-row-actions';
 
 const POSITION_FILTERS = [
   'All',
@@ -36,6 +36,12 @@ const DRAFT_FILTERS = ['All', 'Available', 'Drafted'] as const;
 type DraftFilter = (typeof DRAFT_FILTERS)[number];
 
 export type PlayerTableVariant = PlayerRowActionsVariant;
+
+type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
+  meta?: {
+    mobileHidden?: boolean;
+  };
+};
 
 type PlayerTableProps = {
   data: PlayerRowDTO[];
@@ -101,9 +107,25 @@ export function PlayerTable({
   onDraftPlayer,
   onSelectTradePlayer,
 }: PlayerTableProps) {
+  const [isMobile, setIsMobile] = React.useState(false);
   const [positionFilter, setPositionFilter] = React.useState('All');
   const [searchQuery, setSearchQuery] = React.useState('');
   const [draftFilter, setDraftFilter] = React.useState<DraftFilter>('All');
+
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+
+    const updateMobileState = (event: MediaQueryList | MediaQueryListEvent) => {
+      setIsMobile(event.matches);
+    };
+
+    updateMobileState(mediaQuery);
+    mediaQuery.addEventListener('change', updateMobileState);
+
+    return () => {
+      mediaQuery.removeEventListener('change', updateMobileState);
+    };
+  }, []);
 
   const filteredData = React.useMemo(() => {
     return data.filter((player) => {
@@ -121,12 +143,13 @@ export function PlayerTable({
     });
   }, [data, positionFilter, searchQuery, draftFilter, variant]);
 
-  const columns = React.useMemo<ColumnDef<PlayerRowDTO>[]>(() => {
+  const columns = React.useMemo<PlayerColumnDef[]>(() => {
     if (variant === 'draft') {
       return [
         {
           accessorKey: 'rank',
           header: 'Rank',
+          meta: { mobileHidden: true },
           cell: ({ row }) => (
             <span className="text-sm font-semibold text-foreground">
               {row.original.rank ?? '-'}
@@ -152,7 +175,12 @@ export function PlayerTable({
                     getInitials(player)
                   )}
                 </div>
-                <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                <div className="space-y-0.5">
+                  <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                  <p className="text-xs text-muted-foreground md:hidden">
+                    {player.position} · {player.college ?? '—'}
+                  </p>
+                </div>
               </div>
             );
           },
@@ -160,6 +188,7 @@ export function PlayerTable({
         {
           accessorKey: 'position',
           header: 'Pos',
+          meta: { mobileHidden: true },
           cell: ({ row }) => (
             <span className="text-sm font-medium text-foreground">{row.original.position}</span>
           ),
@@ -167,6 +196,7 @@ export function PlayerTable({
         {
           accessorKey: 'college',
           header: 'College',
+          meta: { mobileHidden: true },
           cell: ({ row }) => (
             <span className="text-sm text-muted-foreground">{row.original.college ?? '—'}</span>
           ),
@@ -174,6 +204,7 @@ export function PlayerTable({
         {
           accessorKey: 'grade',
           header: 'Grade',
+          meta: { mobileHidden: true },
           cell: ({ row }) => (
             <span className="text-sm font-semibold text-foreground">
               {row.original.grade ?? '—'}
@@ -183,6 +214,7 @@ export function PlayerTable({
         {
           accessorKey: 'projectedRound',
           header: 'Projected Rd',
+          meta: { mobileHidden: true },
           cell: ({ row }) => (
             <span className="text-sm text-muted-foreground">
               {row.original.projectedRound ?? '—'}
@@ -212,7 +244,10 @@ export function PlayerTable({
                   getInitials(player)
                 )}
               </div>
-              <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+              <div className="space-y-0.5">
+                <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                <p className="text-xs text-muted-foreground md:hidden">{player.position}</p>
+              </div>
             </div>
           );
         },
@@ -220,6 +255,7 @@ export function PlayerTable({
       {
         accessorKey: 'position',
         header: 'Pos',
+        meta: { mobileHidden: true },
         cell: ({ row }) => (
           <span className="text-sm font-medium text-foreground">{row.original.position}</span>
         ),
@@ -227,6 +263,7 @@ export function PlayerTable({
       {
         accessorKey: 'contractYearsRemaining',
         header: 'Contract',
+        meta: { mobileHidden: true },
         cell: ({ row }) => (
           <span className="text-sm text-muted-foreground">
             {row.original.contractYearsRemaining} yrs
@@ -236,6 +273,7 @@ export function PlayerTable({
       {
         accessorKey: 'capHit',
         header: 'Cap Hit',
+        meta: { mobileHidden: true },
         cell: ({ row }) => (
           <span className="text-sm text-muted-foreground">{row.original.capHit}</span>
         ),
@@ -243,6 +281,7 @@ export function PlayerTable({
       {
         accessorKey: 'status',
         header: 'Status',
+        meta: { mobileHidden: true },
         cell: ({ row }) => {
           const statusKey = row.original.status.toLowerCase();
           return (
@@ -292,9 +331,14 @@ export function PlayerTable({
     variant,
   ]);
 
+  const visibleColumns = React.useMemo(
+    () => columns.filter((column) => !(isMobile && column.meta?.mobileHidden)),
+    [columns, isMobile],
+  );
+
   const table = useReactTable({
     data: filteredData,
-    columns,
+    columns: visibleColumns,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -348,7 +392,7 @@ export function PlayerTable({
         )}
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[720px] border-collapse">
+        <table className="w-full border-collapse md:min-w-[720px]">
           <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
@@ -357,7 +401,7 @@ export function PlayerTable({
                     key={header.id}
                     className={cn(
                       'px-4 py-2 sm:px-6',
-                      header.column.id === 'actions' && 'text-right',
+                      header.column.id === 'actions' && 'w-[88px] text-right',
                     )}
                   >
                     {header.isPlaceholder
@@ -376,7 +420,7 @@ export function PlayerTable({
                     key={cell.id}
                     className={cn(
                       'px-4 py-1.5 align-middle text-sm sm:px-6',
-                      cell.column.id === 'actions' && 'text-right',
+                      cell.column.id === 'actions' && 'w-[88px] text-right',
                     )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
