@@ -20,7 +20,11 @@ export default function FreeAgentsPage() {
   };
 
   const handleSubmitOffer = async ({ years, apy }: { years: number; apy: number }) => {
-    if (!saveId || !activeOfferPlayer) {
+    if (!saveId) {
+      throw new Error('Save not loaded yet. Please wait a moment and try again.');
+    }
+
+    if (!activeOfferPlayer) {
       return;
     }
 
