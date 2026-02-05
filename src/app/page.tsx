@@ -1,63 +1,44 @@
 'use client';
 
+import { useState } from 'react';
+
 import AppShell from '@/components/app-shell';
+import CutPlayerModal from '@/components/cut-player-modal';
 import { PlayerTable } from '@/components/player-table';
+import { useRosterQuery } from '@/features/players/queries';
+import { useSaveStore } from '@/features/save/save-store';
 import type { PlayerRowDTO } from '@/types/player';
 
-const samplePlayers: PlayerRowDTO[] = [
-  {
-    id: '1',
-    firstName: 'Jordan',
-    lastName: 'Love',
-    position: 'QB',
-    contractYearsRemaining: 3,
-    capHit: '$7.2M',
-    status: 'Active',
-    headshotUrl: null,
-  },
-  {
-    id: '2',
-    firstName: 'Josh',
-    lastName: 'Jacobs',
-    position: 'RB',
-    contractYearsRemaining: 2,
-    capHit: '$6.4M',
-    status: 'Active',
-    headshotUrl: null,
-  },
-  {
-    id: '3',
-    firstName: 'Christian',
-    lastName: 'Watson',
-    position: 'WR',
-    contractYearsRemaining: 1,
-    capHit: '$3.1M',
-    status: 'Injured',
-    headshotUrl: null,
-  },
-  {
-    id: '4',
-    firstName: 'Elgton',
-    lastName: 'Jenkins',
-    position: 'OL',
-    contractYearsRemaining: 4,
-    capHit: '$12.9M',
-    status: 'Active',
-    headshotUrl: null,
-  },
-  {
-    id: '5',
-    firstName: 'Carrington',
-    lastName: 'Valentine',
-    position: 'CB',
-    contractYearsRemaining: 3,
-    capHit: '$1.1M',
-    status: 'Practice Squad',
-    headshotUrl: null,
-  },
-];
-
 export default function HomePage() {
+  const saveId = useSaveStore((state) => state.saveId);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const rosterCount = useSaveStore((state) => state.rosterCount);
+  const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
+  const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId);
+  const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
+
+  const handleSubmitCut = async () => {
+    if (!saveId || !activeCutPlayer) {
+      return;
+    }
+
+    const response = await fetch('/api/actions/cut-player', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        saveId,
+        playerId: activeCutPlayer.id,
+      }),
+    });
+
+    const data = (await response.json()) as { ok?: boolean; error?: string };
+    if (!response.ok || !data.ok) {
+      throw new Error(data.error || 'Unable to cut player right now.');
+    }
+
+    await Promise.all([refreshSaveHeader(), refreshPlayers()]);
+  };
+
   return (
     <AppShell>
       <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
@@ -68,8 +49,8 @@ export default function HomePage() {
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {[
-              { label: 'Active Roster', value: '53 Players' },
-              { label: 'Cap Space', value: '$18.4M' },
+              { label: 'Active Roster', value: `${rosterCount} Players` },
+              { label: 'Cap Space', value: `$${capSpace.toFixed(1)}M` },
               { label: 'Draft Picks', value: '7 Remaining' },
               { label: 'Injuries', value: '2 Active' },
             ].map((stat) => (
@@ -103,9 +84,18 @@ export default function HomePage() {
           </ul>
         </aside>
         <section className="lg:col-span-2">
-          <PlayerTable data={samplePlayers} variant="roster" />
+          <PlayerTable data={players} variant="roster" onCutPlayer={setActiveCutPlayer} />
         </section>
       </div>
+      {activeCutPlayer ? (
+        <CutPlayerModal
+          player={activeCutPlayer}
+          isOpen={Boolean(activeCutPlayer)}
+          currentCapSpace={capSpace}
+          onClose={() => setActiveCutPlayer(null)}
+          onSubmit={handleSubmitCut}
+        />
+      ) : null}
     </AppShell>
   );
 }

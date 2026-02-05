@@ -278,6 +278,35 @@ export const offerContractInState = (
   };
 };
 
+export const cutPlayerInState = (
+  state: SaveState,
+  playerId: string,
+): { header: SaveHeaderDTO; player: PlayerRowDTO } => {
+  const playerIndex = state.roster.findIndex((rosterPlayer) => rosterPlayer.id === playerId);
+  if (playerIndex === -1) {
+    throw new Error('Player not found on roster');
+  }
+
+  const [player] = state.roster.splice(playerIndex, 1);
+  const cutPlayer: StoredPlayer = {
+    ...player,
+    contractYearsRemaining: 0,
+    capHit: '$0.0M',
+    status: 'Free Agent',
+    signedTeamAbbr: null,
+    signedTeamLogoUrl: null,
+  };
+
+  state.freeAgents.unshift(cutPlayer);
+  state.header.rosterCount = state.roster.length;
+  state.header.capSpace = Number((state.header.capSpace + player.year1CapHit).toFixed(1));
+
+  return {
+    header: getSaveHeaderSnapshot(state),
+    player: cutPlayer,
+  };
+};
+
 export const addDraftedPlayersInState = (
   state: SaveState,
   draftedPlayers: PlayerRowDTO[],
