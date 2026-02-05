@@ -33,10 +33,20 @@ export function ActiveDraftRoom({
   const currentPick = session.picks[session.currentPickIndex];
   const onClock = currentPick?.ownerTeamAbbr === session.userTeamAbbr;
   const speedLabel = SPEED_LABELS[speedLevel] ?? SPEED_LABELS[1];
+  const [activeTab, setActiveTab] = React.useState<'draft' | 'waiting'>(
+    onClock ? 'draft' : 'waiting',
+  );
 
   const bestAvailable = React.useMemo(() => {
-    return session.prospects.slice().sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999));
+    return session.prospects
+      .filter((player) => !player.isDrafted)
+      .slice()
+      .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999));
   }, [session.prospects]);
+
+  React.useEffect(() => {
+    setActiveTab(onClock ? 'draft' : 'waiting');
+  }, [onClock]);
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_2fr]">
@@ -129,22 +139,53 @@ export function ActiveDraftRoom({
         </div>
 
         <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-foreground">Best Available</h3>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                type="button"
+                variant={activeTab === 'draft' ? 'secondary' : 'ghost'}
+                size="sm"
+                className="rounded-full px-4"
+                onClick={() => setActiveTab('draft')}
+                disabled={!onClock}
+              >
+                Draft a Player
+              </Button>
+              <Button
+                type="button"
+                variant={activeTab === 'waiting' ? 'secondary' : 'ghost'}
+                size="sm"
+                className="rounded-full px-4"
+                onClick={() => setActiveTab('waiting')}
+                disabled={onClock}
+              >
+                Waiting
+              </Button>
+            </div>
             {currentPick ? (
               <span className="text-xs text-muted-foreground">
                 Pick {currentPick.overall} · {currentPick.ownerTeamAbbr}
               </span>
             ) : null}
           </div>
-          <div className="mt-4">
-            <PlayerTable
-              data={bestAvailable}
-              variant="draft"
-              onDraftPlayer={onClock ? onDraftPlayer : undefined}
-              onTheClockForUserTeam={onClock}
-            />
-          </div>
+
+          {activeTab === 'draft' ? (
+            <div className="mt-4">
+              <PlayerTable
+                data={bestAvailable}
+                variant="draft"
+                onDraftPlayer={onClock ? onDraftPlayer : undefined}
+                onTheClockForUserTeam={onClock}
+              />
+            </div>
+          ) : (
+            <div className="mt-6 rounded-xl border border-border bg-slate-50 px-4 py-6 text-center">
+              <p className="text-sm font-semibold text-foreground">Waiting for your pick...</p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Draft buttons are disabled until your team is on the clock.
+              </p>
+            </div>
+          )}
         </div>
       </section>
     </div>

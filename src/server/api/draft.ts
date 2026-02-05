@@ -755,9 +755,7 @@ export const pickDraftPlayer = (
   }
 
   selectPlayer(session, session.currentPickIndex, player);
-  if (session.mode === 'real') {
-    addDraftedPlayersInState(state, [player]);
-  }
+  addDraftedPlayersInState(state, [player]);
   if (session.currentPickIndex >= session.picks.length) {
     finalizeDraftSession(session, state);
   }

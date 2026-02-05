@@ -6,20 +6,28 @@ import { useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
+import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
 import { DraftStagePanel } from '@/components/draft/draft-stage-panel';
 import { buildRoundOneOrder } from '@/components/draft/draft-utils';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
 import { getDraftGrade } from '@/lib/draft-utils';
-import type { DraftMode, DraftPickDTO, DraftSessionDTO } from '@/types/draft';
+import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 
 export const dynamic = 'force-dynamic';
 
 type DraftSessionResponse = { ok: true; session: DraftSessionDTO } | { ok: false; error: string };
 
-type DraftPickResponse = { ok: true; session: DraftSessionDTO } | { ok: false; error: string };
+type DraftPickResponse =
+  | {
+      ok: true;
+      session: DraftSessionDTO;
+      grade: { letter: string; reason: string };
+      draftedPlayer: PlayerRowDTO;
+    }
+  | { ok: false; error: string };
 
 type DraftSessionStartResponse =
   | { ok: true; draftSessionId: string; session?: DraftSessionDTO }
@@ -29,84 +37,12 @@ type ActiveDraftSessionResponse =
   | { ok: true; session: DraftSessionDTO | null }
   | { ok: false; error: string };
 
-type DraftGradeResult = {
-  grade: string;
-  headline: string;
-  detail: string;
-};
-
 type TeamsResponse = {
   ok: true;
   teams: Array<{ abbr: string; name: string; logoUrl: string; colors: string[] }>;
 };
 
 const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
-
-const getDraftGradeResult = (
-  pick: DraftPickDTO,
-  player: PlayerRowDTO,
-  prospects: PlayerRowDTO[],
-): DraftGradeResult => {
-  const rank = player.rank ?? pick.overall;
-  const valueDelta = pick.overall - rank;
-  const remaining = prospects.filter((prospect) => !prospect.isDrafted);
-  const scarcity = remaining.reduce<Record<string, number>>((acc, prospect) => {
-    acc[prospect.position] = (acc[prospect.position] ?? 0) + 1;
-    return acc;
-  }, {});
-
-  const needs = Object.entries(scarcity)
-    .sort(([, a], [, b]) => a - b)
-    .slice(0, 3)
-    .map(([position]) => position);
-
-  const needsBonus = needs.includes(player.position) ? 4 : 0;
-  const score = valueDelta + needsBonus;
-
-  const grade = score >= 12 ? 'A' : score >= 5 ? 'B' : score >= -3 ? 'C' : score >= -10 ? 'D' : 'F';
-
-  const headline = `${grade} grade on ${formatName(player)}`;
-  const detail = `Selected at #${pick.overall} (rank ${rank}). ${
-    needsBonus ? 'Position scarcity bonus.' : 'Value-driven grade.'
-  }`;
-
-  return { grade, headline, detail };
-};
-
-function DraftGradeModal({
-  isOpen,
-  onClose,
-  result,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  result: DraftGradeResult | null;
-}) {
-  if (!isOpen || !result) {
-    return null;
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-      <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-foreground">Draft Grade</h3>
-          <Button type="button" variant="ghost" size="icon" onClick={onClose}>
-            ✕
-          </Button>
-        </div>
-        <div className="mt-4 rounded-xl border border-border bg-slate-50 p-4 text-center">
-          <p className="text-4xl font-bold text-foreground">{result.grade}</p>
-          <p className="mt-2 text-sm font-semibold text-foreground">{result.headline}</p>
-          <p className="mt-2 text-xs text-muted-foreground">{result.detail}</p>
-        </div>
-        <Button type="button" className="mt-4 w-full" onClick={onClose}>
-          Close
-        </Button>
-      </div>
-    </div>
-  );
-}
 
 function DraftRoomContent() {
   const searchParams = useSearchParams();
@@ -116,7 +52,8 @@ function DraftRoomContent() {
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [speedLevel, setSpeedLevel] = React.useState<DraftSpeedLevel>(1);
-  const [gradeResult, setGradeResult] = React.useState<DraftGradeResult | null>(null);
+  const [gradeLetter, setGradeLetter] = React.useState<string | null>(null);
+  const [gradeReason, setGradeReason] = React.useState<string | null>(null);
   const [isGradeOpen, setIsGradeOpen] = React.useState(false);
   const [teams, setTeams] = React.useState<TeamsResponse['teams']>([]);
   const [selectedPickNumber, setSelectedPickNumber] = React.useState(1);
@@ -128,7 +65,6 @@ function DraftRoomContent() {
   const setActiveDraftSessionId = useSaveStore((state) => state.setActiveDraftSessionId);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
 
-  const currentPick = session?.picks[session.currentPickIndex];
 
   const userSelections = React.useMemo(() => {
     if (!session) {
@@ -281,7 +217,7 @@ function DraftRoomContent() {
       return;
     }
 
-    const response = await fetch('/api/draft/session/pick', {
+    const response = await fetch('/api/draft/pick', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ saveId, draftSessionId: activeDraftSessionId, playerId: player.id }),
@@ -293,12 +229,9 @@ function DraftRoomContent() {
     }
     setSession(payload.session);
     await refreshSaveHeader();
-
-    if (currentPick && session.userTeamAbbr === currentPick.ownerTeamAbbr) {
-      const result = getDraftGradeResult(currentPick, player, session.prospects);
-      setGradeResult(result);
-      setIsGradeOpen(true);
-    }
+    setGradeLetter(payload.grade.letter);
+    setGradeReason(payload.grade.reason);
+    setIsGradeOpen(true);
   };
 
   if (!saveId) {
@@ -325,8 +258,9 @@ function DraftRoomContent() {
     <AppShell>
       <DraftGradeModal
         isOpen={isGradeOpen}
+        gradeLetter={gradeLetter}
+        reason={gradeReason}
         onClose={() => setIsGradeOpen(false)}
-        result={gradeResult}
       />
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
