@@ -402,6 +402,7 @@ function DraftRoomContent() {
           session={session}
           saveId={saveId}
           draftSessionId={session.id}
+          teams={teams}
           speedLevel={speedLevel}
           onSpeedChange={setSpeedLevel}
           onTogglePause={() => void setPaused(!session.isPaused)}

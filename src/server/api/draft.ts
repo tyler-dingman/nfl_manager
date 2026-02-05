@@ -782,14 +782,17 @@ export const advanceDraftSession = (draftSessionId: string, saveId: string): Dra
     return session;
   }
 
-  const pool = getCandidatePool(session.prospects);
+  const pool = session.prospects
+    .filter((player) => !player.isDrafted)
+    .slice()
+    .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999));
   if (pool.length === 0) {
     session.currentPickIndex = session.picks.length;
     finalizeDraftSession(session, state);
     return session;
   }
 
-  const player = pickFromPool(session, pool);
+  const player = pool[0];
   selectPlayer(session, session.currentPickIndex, player);
 
   if (session.currentPickIndex >= session.picks.length) {
