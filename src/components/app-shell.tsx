@@ -9,7 +9,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 
 const navRoutes = {
-  Overview: '/overview',
+  Overview: '/',
   Roster: '/roster',
   'Free Agents': '/free-agents',
   Trades: '/manage/trades',
