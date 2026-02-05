@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
@@ -18,23 +18,36 @@ export default function RosterPage() {
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
 
+  const loadRoster = useCallback(async () => {
+    if (!saveId) {
+      return;
+    }
+
+    const response = await fetch(`/api/roster?saveId=${saveId}`, {
+      cache: 'no-store',
+    });
+    if (!response.ok) {
+      return;
+    }
+
+    const data = (await response.json()) as PlayerRowDTO[];
+    setPlayers(data);
+  }, [saveId]);
+
   useEffect(() => {
-    const loadRoster = async () => {
-      if (!saveId) {
-        return;
-      }
+    loadRoster();
+  }, [loadRoster]);
 
-      const response = await fetch(`/api/roster?saveId=${saveId}`);
-      if (!response.ok) {
-        return;
-      }
-
-      const data = (await response.json()) as PlayerRowDTO[];
-      setPlayers(data);
+  useEffect(() => {
+    const handleFocus = () => {
+      loadRoster();
     };
 
-    loadRoster();
-  }, [saveId]);
+    window.addEventListener('focus', handleFocus);
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [loadRoster]);
 
   return (
     <AppShell>
@@ -47,9 +60,7 @@ export default function RosterPage() {
       <PlayerTable
         data={players}
         variant="roster"
-        onTradePlayer={(player) =>
-          router.push(`/manage/trades?playerId=${player.id}`)
-        }
+        onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
       />
     </AppShell>
   );

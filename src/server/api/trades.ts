@@ -1,11 +1,7 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 
-import {
-  getSaveHeaderSnapshot,
-  getSaveStateResult,
-  type SaveResult,
-} from './store';
+import { getSaveHeaderSnapshot, getSaveStateResult, type SaveResult } from './store';
 import { parseMoneyMillions } from '@/server/logic/cap';
 
 export type TradeSide = 'send' | 'receive';
@@ -24,6 +20,7 @@ export type TradeDTO = {
   id: string;
   saveId: string;
   partnerTeamAbbr: string;
+  status: 'building' | 'proposed' | 'accepted' | 'rejected';
   sendAssets: TradeAssetDTO[];
   receiveAssets: TradeAssetDTO[];
 };
@@ -140,13 +137,9 @@ const toPlayerDTO = (player: StoredTradePlayer): PlayerRowDTO => ({
   signedTeamLogoUrl: player.signedTeamLogoUrl ?? null,
 });
 
-const getPlayerValue = (capHit: string): number =>
-  Math.round(parseMoneyMillions(capHit) * 10);
+const getPlayerValue = (capHit: string): number => Math.round(parseMoneyMillions(capHit) * 10);
 
-const buildPlayerAsset = (
-  player: PlayerRowDTO,
-  side: TradeSide,
-): TradeAssetDTO => ({
+const buildPlayerAsset = (player: PlayerRowDTO, side: TradeSide): TradeAssetDTO => ({
   id: `asset-${side}-player-${player.id}`,
   type: 'player',
   side,
@@ -195,6 +188,7 @@ export const createTrade = (
     id: tradeId,
     saveId,
     partnerTeamAbbr,
+    status: 'building',
     sendAssets: [],
     receiveAssets: [],
   };
@@ -213,9 +207,7 @@ export const createTrade = (
     data: {
       trade: cloneTrade(trade),
       userRoster: stateResult.data.roster.map((player) => toPlayerDTO(player)),
-      partnerRoster: getPartnerRoster(partnerTeamAbbr).map((player) =>
-        toPlayerDTO(player),
-      ),
+      partnerRoster: getPartnerRoster(partnerTeamAbbr).map((player) => toPlayerDTO(player)),
     },
   };
 };
@@ -286,12 +278,7 @@ const sumValues = (assets: TradeAssetDTO[]) =>
 export const proposeTrade = (
   tradeId: string,
   saveId?: string,
-): SaveResult<{
-  trade: TradeDTO;
-  acceptance: number;
-  accepted: boolean;
-  header: SaveHeaderDTO;
-}> => {
+): SaveResult<{ trade: TradeDTO; header: SaveHeaderDTO }> => {
   const storedTrade = tradeStore.get(tradeId);
   if (!storedTrade) {
     throw new Error('Trade not found');
@@ -303,7 +290,8 @@ export const proposeTrade = (
   }
   const sendValue = sumValues(trade.sendAssets);
   const receiveValue = sumValues(trade.receiveAssets);
-  const acceptance = sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
+  const acceptance =
+    sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
   const accepted = acceptance >= 70;
 
   const saveStateResult = getSaveStateResult(trade.saveId);
@@ -311,37 +299,69 @@ export const proposeTrade = (
     return saveStateResult;
   }
 
-  if (accepted) {
-    const partnerRoster = getPartnerRoster(trade.partnerTeamAbbr);
-    trade.sendAssets
-      .filter((asset) => asset.type === 'player' && asset.playerId)
-      .forEach((asset) => {
-        const playerIndex = saveStateResult.data.roster.findIndex(
-          (player) => player.id === asset.playerId,
-        );
-        if (playerIndex === -1) {
-          return;
-        }
-
-        const [player] = saveStateResult.data.roster.splice(playerIndex, 1);
-        partnerRoster.push({
-          ...player,
-          year1CapHit: parseMoneyMillions(player.capHit),
-        });
-        saveStateResult.data.header.capSpace = Number(
-          (saveStateResult.data.header.capSpace + parseMoneyMillions(player.capHit)).toFixed(1),
-        );
-      });
-
-    saveStateResult.data.header.rosterCount = saveStateResult.data.roster.length;
+  if (!accepted) {
+    trade.status = 'rejected';
+    return {
+      ok: false,
+      error: 'Trade rejected. Add more value to incoming assets and try again.',
+    };
   }
+
+  const partnerRoster = getPartnerRoster(trade.partnerTeamAbbr);
+
+  const sendPlayerIds = trade.sendAssets.flatMap((asset) =>
+    asset.type === 'player' && asset.playerId ? [asset.playerId] : [],
+  );
+  const receivePlayerIds = trade.receiveAssets.flatMap((asset) =>
+    asset.type === 'player' && asset.playerId ? [asset.playerId] : [],
+  );
+
+  const missingSendPlayer = sendPlayerIds.find(
+    (playerId) => !saveStateResult.data.roster.some((player) => player.id === playerId),
+  );
+  if (missingSendPlayer) {
+    return { ok: false, error: 'Cannot propose trade: a send player is no longer on your roster.' };
+  }
+
+  const missingReceivePlayer = receivePlayerIds.find(
+    (playerId) => !partnerRoster.some((player) => player.id === playerId),
+  );
+  if (missingReceivePlayer) {
+    return {
+      ok: false,
+      error: 'Cannot propose trade: a receive player is no longer available on partner roster.',
+    };
+  }
+
+  sendPlayerIds.forEach((playerId) => {
+    const playerIndex = saveStateResult.data.roster.findIndex((player) => player.id === playerId);
+    const [player] = saveStateResult.data.roster.splice(playerIndex, 1);
+    partnerRoster.push({
+      ...player,
+      year1CapHit: parseMoneyMillions(player.capHit),
+    });
+    saveStateResult.data.header.capSpace = Number(
+      (saveStateResult.data.header.capSpace + parseMoneyMillions(player.capHit)).toFixed(1),
+    );
+  });
+
+  receivePlayerIds.forEach((playerId) => {
+    const playerIndex = partnerRoster.findIndex((player) => player.id === playerId);
+    const [player] = partnerRoster.splice(playerIndex, 1);
+    saveStateResult.data.roster.push(player);
+    saveStateResult.data.header.capSpace = Math.max(
+      0,
+      Number((saveStateResult.data.header.capSpace - parseMoneyMillions(player.capHit)).toFixed(1)),
+    );
+  });
+
+  saveStateResult.data.header.rosterCount = saveStateResult.data.roster.length;
+  trade.status = 'accepted';
 
   return {
     ok: true,
     data: {
       trade: cloneTrade(trade),
-      acceptance,
-      accepted,
       header: getSaveHeaderSnapshot(saveStateResult.data),
     },
   };

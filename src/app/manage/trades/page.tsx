@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
 import TradePlayerModal from '@/components/trade-player-modal';
@@ -10,7 +10,6 @@ import TeamHeaderSummary from '@/components/team-header-summary';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import type { PlayerRowDTO } from '@/types/player';
-import type { SaveHeaderDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
 
 type TradeAsset = {
@@ -26,6 +25,7 @@ type TradeAsset = {
 type TradeDTO = {
   id: string;
   partnerTeamAbbr: string;
+  status: 'building' | 'proposed' | 'accepted' | 'rejected';
   sendAssets: TradeAsset[];
   receiveAssets: TradeAsset[];
 };
@@ -36,12 +36,7 @@ type TradeCreateResponse = {
   partnerRoster: PlayerRowDTO[];
 };
 
-type TradeProposeResponse = {
-  trade: TradeDTO;
-  acceptance: number;
-  accepted: boolean;
-  header: SaveHeaderDTO;
-};
+type ProposeTradeResponse = { ok: true; trade: TradeDTO } | { ok: false; error: string };
 
 const PICK_OPTIONS = [
   { id: '2025-r1', label: '2025 Round 1 Pick' },
@@ -53,8 +48,7 @@ const PICK_OPTIONS = [
   { id: '2025-r7', label: '2025 Round 7 Pick' },
 ];
 
-const sumAssets = (assets: TradeAsset[]) =>
-  assets.reduce((total, asset) => total + asset.value, 0);
+const sumAssets = (assets: TradeAsset[]) => assets.reduce((total, asset) => total + asset.value, 0);
 
 const getAcceptance = (sendAssets: TradeAsset[], receiveAssets: TradeAsset[]) => {
   const sendValue = sumAssets(sendAssets);
@@ -66,7 +60,20 @@ const getAcceptance = (sendAssets: TradeAsset[], receiveAssets: TradeAsset[]) =>
   return Math.min(100, Math.round((receiveValue / sendValue) * 100));
 };
 
+type ProposalModalState = {
+  isOpen: boolean;
+  title: string;
+  message: string;
+};
+
+const INITIAL_MODAL_STATE: ProposalModalState = {
+  isOpen: false,
+  title: '',
+  message: '',
+};
+
 export default function TradeBuilderPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const selectedTeam = useTeamStore((state) =>
     state.teams.find((team) => team.id === state.selectedTeamId),
@@ -84,12 +91,10 @@ export default function TradeBuilderPage() {
   const [trade, setTrade] = useState<TradeDTO | null>(null);
   const [userRoster, setUserRoster] = useState<PlayerRowDTO[]>([]);
   const [partnerRoster, setPartnerRoster] = useState<PlayerRowDTO[]>([]);
-  const [activeModalSide, setActiveModalSide] = useState<'send' | 'receive' | null>(
-    null,
-  );
+  const [activeModalSide, setActiveModalSide] = useState<'send' | 'receive' | null>(null);
   const [sendPick, setSendPick] = useState(PICK_OPTIONS[0]?.id ?? '');
   const [receivePick, setReceivePick] = useState(PICK_OPTIONS[0]?.id ?? '');
-  const [proposalStatus, setProposalStatus] = useState<string>('');
+  const [proposalModal, setProposalModal] = useState<ProposalModalState>(INITIAL_MODAL_STATE);
 
   const acceptance = useMemo(() => {
     if (!trade) {
@@ -100,6 +105,33 @@ export default function TradeBuilderPage() {
   }, [trade]);
 
   const acceptanceLabel = acceptance >= 70 ? 'Acceptable' : 'Needs work';
+
+  const loadTrade = useCallback(
+    async (targetPartnerTeamAbbr: string) => {
+      if (!saveId || !targetPartnerTeamAbbr) {
+        return;
+      }
+
+      const response = await fetch('/api/trades/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId,
+          partnerTeamAbbr: targetPartnerTeamAbbr,
+          playerId: selectedPlayerId,
+        }),
+      });
+      if (!response.ok) {
+        return;
+      }
+
+      const data = (await response.json()) as TradeCreateResponse;
+      setTrade(data.trade);
+      setUserRoster(data.userRoster);
+      setPartnerRoster(data.partnerRoster);
+    },
+    [saveId, selectedPlayerId],
+  );
 
   useEffect(() => {
     const loadTeams = async () => {
@@ -127,33 +159,8 @@ export default function TradeBuilderPage() {
   }, [partnerTeamAbbr, selectedTeam?.abbr, teams]);
 
   useEffect(() => {
-    const loadTrade = async () => {
-      if (!saveId || !partnerTeamAbbr) {
-        return;
-      }
-
-      const response = await fetch('/api/trades/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          saveId,
-          partnerTeamAbbr,
-          playerId: selectedPlayerId,
-        }),
-      });
-      if (!response.ok) {
-        return;
-      }
-
-      const data = (await response.json()) as TradeCreateResponse;
-      setTrade(data.trade);
-      setUserRoster(data.userRoster);
-      setPartnerRoster(data.partnerRoster);
-      setProposalStatus('');
-    };
-
-    loadTrade();
-  }, [partnerTeamAbbr, saveId, selectedPlayerId]);
+    loadTrade(partnerTeamAbbr);
+  }, [loadTrade, partnerTeamAbbr]);
 
   const handleAddPlayer = async (player: PlayerRowDTO) => {
     if (!trade || !activeModalSide || !saveId) {
@@ -214,26 +221,49 @@ export default function TradeBuilderPage() {
       body: JSON.stringify({ saveId }),
     });
 
-    if (!response.ok) {
-      return;
-    }
-
-    const data = (await response.json()) as TradeProposeResponse | { ok: false; error: string };
-    if ('ok' in data && data.ok === false) {
-      return;
-    }
-
-    if (!('trade' in data)) {
+    const data = (await response.json()) as ProposeTradeResponse;
+    if (!response.ok || !data.ok) {
+      setProposalModal({
+        isOpen: true,
+        title: 'Trade Failed',
+        message: data.ok ? 'Unable to propose trade right now.' : data.error,
+      });
       return;
     }
 
     setTrade(data.trade);
-    setProposalStatus(
-      data.accepted
-        ? 'Trade accepted! Player rights transferred and cap space updated.'
-        : 'Trade rejected. Add value to the incoming side.',
+
+    const sendPlayerIds = new Set(
+      data.trade.sendAssets
+        .filter((asset) => asset.type === 'player' && asset.playerId)
+        .map((asset) => asset.playerId),
     );
+    const receivePlayerIds = new Set(
+      data.trade.receiveAssets
+        .filter((asset) => asset.type === 'player' && asset.playerId)
+        .map((asset) => asset.playerId),
+    );
+
+    const movedToPartner = userRoster.filter((player) => sendPlayerIds.has(player.id));
+    const movedToUser = partnerRoster.filter((player) => receivePlayerIds.has(player.id));
+
+    setUserRoster((currentRoster) => [
+      ...currentRoster.filter((player) => !sendPlayerIds.has(player.id)),
+      ...movedToUser,
+    ]);
+    setPartnerRoster((currentRoster) => [
+      ...currentRoster.filter((player) => !receivePlayerIds.has(player.id)),
+      ...movedToPartner,
+    ]);
+
     await refreshSaveHeader();
+    router.refresh();
+
+    setProposalModal({
+      isOpen: true,
+      title: 'Trade Proposed',
+      message: 'Assets exchanged and rosters updated.',
+    });
   };
 
   const partnerTeam = teams.find((team) => team.abbr === partnerTeamAbbr);
@@ -252,15 +282,13 @@ export default function TradeBuilderPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Trade Builder
             </p>
-            <h1 className="mt-2 text-2xl font-semibold text-foreground">
-              Build a roster trade
-            </h1>
+            <h1 className="mt-2 text-2xl font-semibold text-foreground">Build a roster trade</h1>
             <p className="text-sm text-muted-foreground">
               Add players and picks to balance the deal. Acceptance requires 70+.
             </p>
           </div>
           <Button type="button" onClick={handlePropose} disabled={!trade}>
-            Propose Trade
+            Propose trade
           </Button>
         </div>
 
@@ -281,10 +309,8 @@ export default function TradeBuilderPage() {
               </div>
             </div>
           </div>
-          {proposalStatus ? (
-            <p className="mt-4 text-sm font-medium text-foreground">
-              {proposalStatus}
-            </p>
+          {trade ? (
+            <p className="mt-4 text-sm font-medium text-foreground">Status: {trade.status}</p>
           ) : null}
         </div>
 
@@ -295,9 +321,7 @@ export default function TradeBuilderPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Your Offer
                 </p>
-                <h2 className="mt-1 text-lg font-semibold text-foreground">
-                  Send assets
-                </h2>
+                <h2 className="mt-1 text-lg font-semibold text-foreground">Send assets</h2>
               </div>
               <div className="flex items-center gap-2">
                 <Button type="button" variant="outline" onClick={() => setActiveModalSide('send')}>
@@ -334,9 +358,7 @@ export default function TradeBuilderPage() {
                   >
                     <div>
                       <p className="text-sm font-semibold text-foreground">{asset.label}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Value: {asset.value}
-                      </p>
+                      <p className="text-xs text-muted-foreground">Value: {asset.value}</p>
                     </div>
                     <p className="text-xs font-semibold text-muted-foreground">Send</p>
                   </div>
@@ -353,9 +375,7 @@ export default function TradeBuilderPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Their Offer
                 </p>
-                <h2 className="mt-1 text-lg font-semibold text-foreground">
-                  Receive assets
-                </h2>
+                <h2 className="mt-1 text-lg font-semibold text-foreground">Receive assets</h2>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <select
@@ -409,9 +429,7 @@ export default function TradeBuilderPage() {
                   >
                     <div>
                       <p className="text-sm font-semibold text-foreground">{asset.label}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Value: {asset.value}
-                      </p>
+                      <p className="text-xs text-muted-foreground">Value: {asset.value}</p>
                     </div>
                     <p className="text-xs font-semibold text-muted-foreground">Receive</p>
                   </div>
@@ -423,11 +441,7 @@ export default function TradeBuilderPage() {
             {partnerTeam ? (
               <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={partnerTeam.logoUrl}
-                  alt={partnerTeam.name}
-                  className="h-5 w-5"
-                />
+                <img src={partnerTeam.logoUrl} alt={partnerTeam.name} className="h-5 w-5" />
                 <span>{partnerTeam.name} roster assets</span>
               </div>
             ) : null}
@@ -442,6 +456,20 @@ export default function TradeBuilderPage() {
         onClose={() => setActiveModalSide(null)}
         onSelectPlayer={handleAddPlayer}
       />
+
+      {proposalModal.isOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-lg">
+            <h3 className="text-lg font-semibold text-foreground">{proposalModal.title}</h3>
+            <p className="mt-2 text-sm text-muted-foreground">{proposalModal.message}</p>
+            <div className="mt-6 flex items-center justify-end">
+              <Button type="button" onClick={() => setProposalModal(INITIAL_MODAL_STATE)}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </AppShell>
   );
 }
