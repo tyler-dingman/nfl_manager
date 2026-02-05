@@ -5,28 +5,25 @@ import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
-import { PlayerTable } from '@/components/player-table';
-import { Badge } from '@/components/ui/badge';
+import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
+import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
+import { DraftStagePanel } from '@/components/draft/draft-stage-panel';
+import { buildRoundOneOrder } from '@/components/draft/draft-utils';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
-import { cn } from '@/lib/utils';
-import { getDraftGrade, getPickValue, getTradeAcceptance } from '@/lib/draft-utils';
+import { getDraftGrade } from '@/lib/draft-utils';
 import type { DraftMode, DraftPickDTO, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 
 export const dynamic = 'force-dynamic';
 
-const SPEED_OPTIONS = ['manual', 'slow', 'normal', 'fast'] as const;
-
-type DraftSpeed = (typeof SPEED_OPTIONS)[number];
-
-type DraftTab = 'draft' | 'trade' | 'analysis';
-
 type DraftSessionResponse = { ok: true; session: DraftSessionDTO } | { ok: false; error: string };
 
 type DraftPickResponse = { ok: true; session: DraftSessionDTO } | { ok: false; error: string };
 
-type DraftSessionStartResponse = DraftSessionResponse;
+type DraftSessionStartResponse =
+  | { ok: true; draftSessionId: string; session?: DraftSessionDTO }
+  | { ok: false; error: string };
 
 type ActiveDraftSessionResponse =
   | { ok: true; session: DraftSessionDTO | null }
@@ -38,22 +35,12 @@ type DraftGradeResult = {
   detail: string;
 };
 
-const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
-
-const getPickLabel = (pick: DraftPickDTO) => `Pick ${pick.overall} · ${pick.ownerTeamAbbr}`;
-
-const getSpeedDelay = (speed: DraftSpeed) => {
-  switch (speed) {
-    case 'fast':
-      return 350;
-    case 'slow':
-      return 1400;
-    case 'manual':
-      return 0;
-    default:
-      return 800;
-  }
+type TeamsResponse = {
+  ok: true;
+  teams: Array<{ abbr: string; name: string; logoUrl: string; colors: string[] }>;
 };
+
+const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
 
 const getDraftGradeResult = (
   pick: DraftPickDTO,
@@ -128,13 +115,13 @@ function DraftRoomContent() {
   const [session, setSession] = React.useState<DraftSessionDTO | null>(null);
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
-  const [activeTab, setActiveTab] = React.useState<DraftTab>('draft');
-  const [speed, setSpeed] = React.useState<DraftSpeed>('normal');
+  const [speedLevel, setSpeedLevel] = React.useState<DraftSpeedLevel>(1);
   const [gradeResult, setGradeResult] = React.useState<DraftGradeResult | null>(null);
   const [isGradeOpen, setIsGradeOpen] = React.useState(false);
-  const [sendPickIds, setSendPickIds] = React.useState<string[]>([]);
-  const [receivePickIds, setReceivePickIds] = React.useState<string[]>([]);
-  const [partnerTeamAbbr, setPartnerTeamAbbr] = React.useState<string>('');
+  const [teams, setTeams] = React.useState<TeamsResponse['teams']>([]);
+  const [selectedPickNumber, setSelectedPickNumber] = React.useState(1);
+  const [onTheClockPickNumber] = React.useState(1);
+  const [lobbyMessage, setLobbyMessage] = React.useState('');
 
   const saveId = useSaveStore((state) => state.saveId);
   const activeDraftSessionId = useSaveStore((state) => state.activeDraftSessionId);
@@ -142,8 +129,6 @@ function DraftRoomContent() {
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
 
   const currentPick = session?.picks[session.currentPickIndex];
-  const onClock =
-    session?.status === 'in_progress' && currentPick?.ownerTeamAbbr === session?.userTeamAbbr;
 
   const userSelections = React.useMemo(() => {
     if (!session) {
@@ -155,28 +140,21 @@ function DraftRoomContent() {
       .filter((player): player is PlayerRowDTO => Boolean(player));
   }, [session]);
 
-  const availableTeams = React.useMemo(() => {
-    if (!session) {
-      return [];
-    }
-    const set = new Set(session.picks.map((pick) => pick.ownerTeamAbbr));
-    return Array.from(set).sort();
-  }, [session]);
+  const roundOneOrder = React.useMemo(() => buildRoundOneOrder(teams), [teams]);
 
-  React.useEffect(() => {
-    if (!partnerTeamAbbr && session) {
-      const defaultPartner = availableTeams.find((abbr) => abbr !== session.userTeamAbbr);
-      if (defaultPartner) {
-        setPartnerTeamAbbr(defaultPartner);
-      }
-    }
-  }, [availableTeams, partnerTeamAbbr, session]);
+  const selectedPick = React.useMemo(
+    () =>
+      roundOneOrder.find((pick) => pick.pickNumber === selectedPickNumber) ??
+      roundOneOrder[0] ??
+      null,
+    [roundOneOrder, selectedPickNumber],
+  );
 
   const fetchSession = React.useCallback(
     async (draftSessionId: string) => {
       if (!saveId) {
         setError('Select a team to start a save.');
-        return;
+        return null;
       }
       setLoading(true);
       setError('');
@@ -184,16 +162,22 @@ function DraftRoomContent() {
       const response = await fetch(`/api/draft/session?${query.toString()}`);
       const payload = (await response.json()) as DraftSessionResponse;
       if (!response.ok || !payload.ok) {
-        const message = payload.ok ? 'Unable to load draft session' : payload.error;
+        const message = payload.ok ? 'Unable to load draft data.' : payload.error;
         if (message === 'Draft session not found') {
           setActiveDraftSessionId(null, saveId);
           setSession(null);
+          setError('');
+          setLoading(false);
+          return null;
         }
         setError(message);
+        setLoading(false);
+        return null;
       } else {
         setSession(payload.session);
       }
       setLoading(false);
+      return payload.session;
     },
     [saveId, setActiveDraftSessionId],
   );
@@ -201,25 +185,31 @@ function DraftRoomContent() {
   const startDraft = React.useCallback(async () => {
     if (!saveId) {
       setError('Select a team to start a save.');
-      return;
+      return false;
     }
     setLoading(true);
     setError('');
-    const response = await fetch('/api/draft/session/start', {
+    setLobbyMessage('');
+    const response = await fetch('/api/draft/session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ saveId, mode }),
     });
     const payload = (await response.json()) as DraftSessionStartResponse;
     if (!response.ok || !payload.ok) {
-      setError(payload.ok ? 'Unable to start draft session' : payload.error);
+      setLobbyMessage(payload.ok ? 'Unable to start draft.' : payload.error);
       setLoading(false);
-      return;
+      return false;
     }
-    setActiveDraftSessionId(payload.session.id, saveId);
-    setSession(payload.session);
+    setActiveDraftSessionId(payload.draftSessionId, saveId);
+    if (payload.session) {
+      setSession(payload.session);
+    } else {
+      await fetchSession(payload.draftSessionId);
+    }
     setLoading(false);
-  }, [mode, saveId, setActiveDraftSessionId]);
+    return true;
+  }, [fetchSession, mode, saveId, setActiveDraftSessionId]);
 
   const setPaused = React.useCallback(
     async (isPaused: boolean) => {
@@ -241,28 +231,24 @@ function DraftRoomContent() {
     [activeDraftSessionId, saveId],
   );
 
-  const advanceCpuPick = React.useCallback(async () => {
-    if (!saveId || !activeDraftSessionId) {
-      return;
-    }
-    const response = await fetch('/api/draft/session/advance', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ saveId, draftSessionId: activeDraftSessionId }),
-    });
-    const payload = (await response.json()) as DraftSessionResponse;
-    if (!response.ok || !payload.ok) {
-      setError(payload.ok ? 'Unable to advance draft' : payload.error);
-      return;
-    }
-    setSession(payload.session);
-  }, [activeDraftSessionId, saveId]);
-
   React.useEffect(() => {
     if (activeDraftSessionId) {
       void fetchSession(activeDraftSessionId);
     }
   }, [activeDraftSessionId, fetchSession]);
+
+  React.useEffect(() => {
+    const loadTeams = async () => {
+      const response = await fetch('/api/teams');
+      const payload = (await response.json()) as TeamsResponse;
+      if (!response.ok || !payload.ok) {
+        return;
+      }
+      setTeams(payload.teams);
+    };
+
+    void loadTeams();
+  }, []);
 
   React.useEffect(() => {
     if (!saveId || activeDraftSessionId) {
@@ -277,7 +263,8 @@ function DraftRoomContent() {
       const payload = (await response.json()) as ActiveDraftSessionResponse;
       if (!response.ok || !payload.ok) {
         setLoading(false);
-        setError(payload.ok ? 'Unable to load draft session' : payload.error);
+        setSession(null);
+        setError('');
         return;
       }
 
@@ -288,22 +275,6 @@ function DraftRoomContent() {
 
     void restoreActiveSession();
   }, [activeDraftSessionId, saveId, setActiveDraftSessionId]);
-
-  React.useEffect(() => {
-    if (!session || session.status !== 'in_progress') {
-      return undefined;
-    }
-    if (session.isPaused || speed === 'manual' || onClock) {
-      return undefined;
-    }
-
-    const delay = getSpeedDelay(speed);
-    const timer = window.setTimeout(() => {
-      void advanceCpuPick();
-    }, delay);
-
-    return () => window.clearTimeout(timer);
-  }, [advanceCpuPick, onClock, session, speed]);
 
   const handleDraftPlayer = async (player: PlayerRowDTO) => {
     if (!saveId || !activeDraftSessionId || !session) {
@@ -330,63 +301,6 @@ function DraftRoomContent() {
     }
   };
 
-  const togglePick = (
-    pickId: string,
-    setSelected: React.Dispatch<React.SetStateAction<string[]>>,
-  ) => {
-    setSelected((prev) =>
-      prev.includes(pickId) ? prev.filter((id) => id !== pickId) : [...prev, pickId],
-    );
-  };
-
-  const handleTrade = async () => {
-    if (!saveId || !activeDraftSessionId || !partnerTeamAbbr) {
-      return;
-    }
-
-    const response = await fetch('/api/draft/session/trade', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId,
-        draftSessionId: activeDraftSessionId,
-        partnerTeamAbbr,
-        sendPickIds,
-        receivePickIds,
-      }),
-    });
-
-    const payload = (await response.json()) as DraftSessionResponse;
-    if (!response.ok || !payload.ok) {
-      setError(payload.ok ? 'Unable to apply trade.' : payload.error);
-      return;
-    }
-    setSession(payload.session);
-    setSendPickIds([]);
-    setReceivePickIds([]);
-  };
-
-  const availablePicks = (teamAbbr: string) =>
-    session?.picks.filter(
-      (pick) =>
-        pick.ownerTeamAbbr === teamAbbr &&
-        !pick.selectedPlayerId &&
-        pick.overall > (session?.currentPickIndex ?? 0) + 1,
-    ) ?? [];
-
-  const sendValue = sendPickIds
-    .map((id) => session?.picks.find((pick) => pick.id === id))
-    .filter((pick): pick is DraftPickDTO => Boolean(pick))
-    .reduce((total, pick) => total + getPickValue(pick.overall), 0);
-
-  const receiveValue = receivePickIds
-    .map((id) => session?.picks.find((pick) => pick.id === id))
-    .filter((pick): pick is DraftPickDTO => Boolean(pick))
-    .reduce((total, pick) => total + getPickValue(pick.overall), 0);
-
-  const acceptance = getTradeAcceptance(sendValue, receiveValue);
-  const tradeAllowed = mode === 'mock' && acceptance >= 50;
-
   if (!saveId) {
     return (
       <AppShell>
@@ -407,26 +321,6 @@ function DraftRoomContent() {
     );
   }
 
-  if (error) {
-    return (
-      <AppShell>
-        <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-          <p className="text-sm text-destructive">{error}</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {activeDraftSessionId ? (
-              <Button type="button" onClick={() => void fetchSession(activeDraftSessionId)}>
-                Retry
-              </Button>
-            ) : null}
-            <Button type="button" variant="outline" onClick={startDraft}>
-              Start Draft
-            </Button>
-          </div>
-        </div>
-      </AppShell>
-    );
-  }
-
   return (
     <AppShell>
       <DraftGradeModal
@@ -442,45 +336,42 @@ function DraftRoomContent() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {session ? (
-            <Badge variant={onClock ? 'success' : session.isPaused ? 'outline' : 'secondary'}>
-              {onClock ? 'On the clock' : session.isPaused ? 'Paused' : 'CPU running'}
-            </Badge>
-          ) : null}
           {!session ? (
             <Button type="button" onClick={startDraft}>
               Start Draft
             </Button>
-          ) : (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => void setPaused(!session.isPaused)}
-            >
-              {session.isPaused ? 'Start Draft' : 'Pause Draft'}
-            </Button>
-          )}
-          {session ? (
-            <select
-              className="rounded-md border border-border bg-white px-2 py-2 text-xs sm:text-sm"
-              value={speed}
-              onChange={(event) => setSpeed(event.target.value as DraftSpeed)}
-            >
-              {SPEED_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  Speed: {option}
-                </option>
-              ))}
-            </select>
           ) : null}
         </div>
       </div>
+      {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}
 
       {!session ? (
-        <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-          <p className="text-sm text-muted-foreground">
-            Start a draft to view picks, prospects, and trades.
-          </p>
+        <div className="grid gap-6 lg:grid-cols-[1fr_2fr]">
+          {selectedPick ? (
+            <div className="order-2 lg:order-1">
+              <DraftOrderPanel
+                picks={roundOneOrder}
+                selectedPickNumber={selectedPickNumber}
+                onTheClockPickNumber={onTheClockPickNumber}
+                onSelectPick={setSelectedPickNumber}
+              />
+            </div>
+          ) : null}
+          {selectedPick ? (
+            <div className="order-1 lg:order-2">
+              <DraftStagePanel
+                selectedPick={selectedPick}
+                onTheClockPickNumber={onTheClockPickNumber}
+                onStartDraft={() => void startDraft()}
+                isStartingDraft={loading}
+              />
+              {lobbyMessage ? <p className="mt-3 text-sm text-muted-foreground">{lobbyMessage}</p> : null}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-border bg-white p-6 shadow-sm lg:col-span-2">
+              <p className="text-sm text-muted-foreground">Loading draft order...</p>
+            </div>
+          )}
         </div>
       ) : session.status === 'completed' ? (
         <div className="rounded-2xl border border-border bg-white p-8 shadow-sm">
@@ -515,225 +406,13 @@ function DraftRoomContent() {
           </div>
         </div>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-[1fr_2fr]">
-          <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-foreground">Draft Board</h2>
-              <span className="text-xs text-muted-foreground">
-                Pick {session.currentPickIndex + 1} of {session.picks.length}
-              </span>
-            </div>
-            <div className="mt-4 space-y-3">
-              {session.picks.map((pick, index) => {
-                const isCurrent = index === session.currentPickIndex;
-                const selectedPlayer = pick.selectedPlayerId
-                  ? session.prospects.find((player) => player.id === pick.selectedPlayerId)
-                  : null;
-                return (
-                  <div
-                    key={pick.id}
-                    className={cn(
-                      'rounded-xl border border-border px-3 py-2 text-sm',
-                      isCurrent && 'border-primary/40 bg-primary/5',
-                    )}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-semibold text-foreground">
-                        #{pick.overall} · {pick.ownerTeamAbbr}
-                      </span>
-                      {pick.ownerTeamAbbr === session.userTeamAbbr && (
-                        <Badge variant="secondary">User</Badge>
-                      )}
-                    </div>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {selectedPlayer
-                        ? `${formatName(selectedPlayer)} (${selectedPlayer.position})`
-                        : 'On deck'}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-
-          <section className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2">
-              {(['draft', 'trade', 'analysis'] as DraftTab[]).map((tab) => (
-                <Button
-                  key={tab}
-                  type="button"
-                  variant={activeTab === tab ? 'secondary' : 'ghost'}
-                  size="sm"
-                  className="rounded-full px-4"
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab === 'draft' ? 'Draft a Player' : tab === 'trade' ? 'Trade' : 'Analysis'}
-                </Button>
-              ))}
-            </div>
-
-            {activeTab === 'draft' && (
-              <div className="space-y-4">
-                <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div>
-                      <h2 className="text-lg font-semibold text-foreground">Prospect Board</h2>
-                      <p className="text-sm text-muted-foreground">
-                        {onClock
-                          ? 'You are on the clock — select your next pick.'
-                          : 'Waiting for the next user pick.'}
-                      </p>
-                    </div>
-                    {currentPick ? (
-                      <div className="rounded-xl border border-border bg-slate-50 px-4 py-3 text-center">
-                        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                          Current pick
-                        </p>
-                        <p className="mt-1 text-sm font-semibold text-foreground">
-                          {currentPick.ownerTeamAbbr} · Pick {currentPick.overall}
-                        </p>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-                <PlayerTable
-                  data={session.prospects}
-                  variant="draft"
-                  onDraftPlayer={onClock ? handleDraftPlayer : undefined}
-                  onTheClockForUserTeam={onClock}
-                />
-              </div>
-            )}
-
-            {activeTab === 'trade' && (
-              <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div>
-                    <h2 className="text-lg font-semibold text-foreground">Trade Center</h2>
-                    <p className="text-sm text-muted-foreground">
-                      Build a picks-only deal and see acceptance in real time.
-                    </p>
-                  </div>
-                  <select
-                    className="rounded-md border border-border bg-white px-2 py-2 text-xs sm:text-sm"
-                    value={partnerTeamAbbr}
-                    onChange={(event) => {
-                      setPartnerTeamAbbr(event.target.value);
-                      setSendPickIds([]);
-                      setReceivePickIds([]);
-                    }}
-                  >
-                    {availableTeams
-                      .filter((abbr) => abbr !== session.userTeamAbbr)
-                      .map((abbr) => (
-                        <option key={abbr} value={abbr}>
-                          {abbr}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-
-                <div className="mt-4 grid gap-4 md:grid-cols-2">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      You send
-                    </p>
-                    <div className="mt-2 space-y-2">
-                      {availablePicks(session.userTeamAbbr).map((pick) => (
-                        <button
-                          key={pick.id}
-                          type="button"
-                          className={cn(
-                            'w-full rounded-lg border px-3 py-2 text-left text-sm transition',
-                            sendPickIds.includes(pick.id)
-                              ? 'border-primary bg-primary/10'
-                              : 'border-border hover:bg-slate-50',
-                          )}
-                          onClick={() => togglePick(pick.id, setSendPickIds)}
-                        >
-                          {getPickLabel(pick)}
-                          <span className="ml-2 text-xs text-muted-foreground">
-                            Value {getPickValue(pick.overall)}
-                          </span>
-                        </button>
-                      ))}
-                      {availablePicks(session.userTeamAbbr).length === 0 && (
-                        <p className="text-xs text-muted-foreground">No tradable picks.</p>
-                      )}
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      You receive
-                    </p>
-                    <div className="mt-2 space-y-2">
-                      {partnerTeamAbbr &&
-                        availablePicks(partnerTeamAbbr).map((pick) => (
-                          <button
-                            key={pick.id}
-                            type="button"
-                            className={cn(
-                              'w-full rounded-lg border px-3 py-2 text-left text-sm transition',
-                              receivePickIds.includes(pick.id)
-                                ? 'border-primary bg-primary/10'
-                                : 'border-border hover:bg-slate-50',
-                            )}
-                            onClick={() => togglePick(pick.id, setReceivePickIds)}
-                          >
-                            {getPickLabel(pick)}
-                            <span className="ml-2 text-xs text-muted-foreground">
-                              Value {getPickValue(pick.overall)}
-                            </span>
-                          </button>
-                        ))}
-                      {partnerTeamAbbr && availablePicks(partnerTeamAbbr).length === 0 && (
-                        <p className="text-xs text-muted-foreground">No tradable picks.</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 rounded-xl border border-border bg-slate-50 px-4 py-3">
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>Acceptance meter</span>
-                    <span>{acceptance}%</span>
-                  </div>
-                  <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
-                    <div
-                      className={cn(
-                        'h-2 rounded-full',
-                        acceptance >= 50 ? 'bg-emerald-500' : 'bg-amber-500',
-                      )}
-                      style={{ width: `${acceptance}%` }}
-                    />
-                  </div>
-                  <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                    <span>Send value: {sendValue}</span>
-                    <span>Receive value: {receiveValue}</span>
-                  </div>
-                </div>
-
-                <Button
-                  type="button"
-                  className="mt-4"
-                  onClick={handleTrade}
-                  disabled={!tradeAllowed}
-                >
-                  {mode === 'mock' ? 'Propose trade' : 'Trades disabled in real mode'}
-                </Button>
-              </div>
-            )}
-
-            {activeTab === 'analysis' && (
-              <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                <h2 className="text-lg font-semibold text-foreground">Draft Analysis</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Analysis insights will appear here soon.
-                </p>
-              </div>
-            )}
-          </section>
-        </div>
+        <ActiveDraftRoom
+          session={session}
+          speedLevel={speedLevel}
+          onSpeedChange={setSpeedLevel}
+          onTogglePause={() => void setPaused(!session.isPaused)}
+          onDraftPlayer={handleDraftPlayer}
+        />
       )}
     </AppShell>
   );
