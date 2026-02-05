@@ -68,6 +68,60 @@ function DraftRoomContent() {
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
 
+  const ensureSaveExists = React.useCallback(async () => {
+    if (saveId) {
+      const headerResponse = await fetch(`/api/saves/header?saveId=${saveId}`);
+      if (headerResponse.ok) {
+        const headerData = (await headerResponse.json()) as
+          | {
+              ok: true;
+              saveId: string;
+              teamAbbr: string;
+              capSpace: number;
+              capLimit: number;
+              rosterCount: number;
+              rosterLimit: number;
+              phase: string;
+            }
+          | { ok: false; error: string };
+        if (headerData.ok) {
+          setSaveHeader({ ...headerData, createdAt: new Date().toISOString() }, teamId);
+          return headerData.saveId;
+        }
+      }
+    }
+
+    if (!teamAbbr && !teamId) {
+      return null;
+    }
+
+    const response = await fetch('/api/saves/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ teamId, teamAbbr }),
+    });
+    if (!response.ok) {
+      return null;
+    }
+    const data = (await response.json()) as
+      | {
+          ok: true;
+          saveId: string;
+          teamAbbr: string;
+          capSpace: number;
+          capLimit: number;
+          rosterCount: number;
+          rosterLimit: number;
+          phase: string;
+        }
+      | { ok: false; error: string };
+    if (!data.ok) {
+      return null;
+    }
+
+    setSaveHeader({ ...data, createdAt: new Date().toISOString() }, teamId);
+    return data.saveId;
+  }, [saveId, setSaveHeader, teamAbbr, teamId]);
 
   const userSelections = React.useMemo(() => {
     if (!session) {
@@ -346,10 +400,13 @@ function DraftRoomContent() {
       ) : (
         <ActiveDraftRoom
           session={session}
+          saveId={saveId}
+          draftSessionId={session.id}
           speedLevel={speedLevel}
           onSpeedChange={setSpeedLevel}
           onTogglePause={() => void setPaused(!session.isPaused)}
           onDraftPlayer={handleDraftPlayer}
+          onSessionUpdate={setSession}
         />
       )}
     </AppShell>
@@ -363,57 +420,3 @@ export default function DraftRoomPage() {
     </Suspense>
   );
 }
-  const ensureSaveExists = React.useCallback(async () => {
-    if (saveId) {
-      const headerResponse = await fetch(`/api/saves/header?saveId=${saveId}`);
-      if (headerResponse.ok) {
-        const headerData = (await headerResponse.json()) as
-          | {
-              ok: true;
-              saveId: string;
-              teamAbbr: string;
-              capSpace: number;
-              capLimit: number;
-              rosterCount: number;
-              rosterLimit: number;
-              phase: string;
-            }
-          | { ok: false; error: string };
-        if (headerData.ok) {
-          setSaveHeader({ ...headerData, createdAt: new Date().toISOString() }, teamId);
-          return headerData.saveId;
-        }
-      }
-    }
-
-    if (!teamAbbr && !teamId) {
-      return null;
-    }
-
-    const response = await fetch('/api/saves/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ teamId, teamAbbr }),
-    });
-    if (!response.ok) {
-      return null;
-    }
-    const data = (await response.json()) as
-      | {
-          ok: true;
-          saveId: string;
-          teamAbbr: string;
-          capSpace: number;
-          capLimit: number;
-          rosterCount: number;
-          rosterLimit: number;
-          phase: string;
-        }
-      | { ok: false; error: string };
-    if (!data.ok) {
-      return null;
-    }
-
-    setSaveHeader({ ...data, createdAt: new Date().toISOString() }, teamId);
-    return data.saveId;
-  }, [saveId, setSaveHeader, teamAbbr, teamId]);
