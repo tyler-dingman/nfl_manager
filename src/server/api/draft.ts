@@ -792,7 +792,8 @@ export const advanceDraftSession = (draftSessionId: string, saveId: string): Dra
     return session;
   }
 
-  const player = pool[0];
+  const candidatePool = getCandidatePool(pool);
+  const player = pickFromPool(session, candidatePool);
   selectPlayer(session, session.currentPickIndex, player);
 
   if (session.currentPickIndex >= session.picks.length) {

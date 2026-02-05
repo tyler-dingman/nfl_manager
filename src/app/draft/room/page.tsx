@@ -357,7 +357,9 @@ function DraftRoomContent() {
                 onStartDraft={() => void startDraft()}
                 isStartingDraft={loading}
               />
-              {lobbyMessage ? <p className="mt-3 text-sm text-muted-foreground">{lobbyMessage}</p> : null}
+              {lobbyMessage ? (
+                <p className="mt-3 text-sm text-muted-foreground">{lobbyMessage}</p>
+              ) : null}
             </div>
           ) : (
             <div className="rounded-2xl border border-border bg-white p-6 shadow-sm lg:col-span-2">

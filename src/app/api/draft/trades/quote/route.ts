@@ -29,7 +29,10 @@ export const POST = async (request: Request) => {
 
   if (!body.draftSessionId || !body.sendPickId || !body.receivePickId || !body.partnerTeamAbbr) {
     return NextResponse.json(
-      { ok: false, error: 'draftSessionId, sendPickId, receivePickId, and partnerTeamAbbr required' },
+      {
+        ok: false,
+        error: 'draftSessionId, sendPickId, receivePickId, and partnerTeamAbbr required',
+      },
       { status: 400 },
     );
   }
@@ -47,7 +50,10 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: 'Pick not found' }, { status: 404 });
   }
   if (sendPick.round !== 1 || receivePick.round !== 1) {
-    return NextResponse.json({ ok: false, error: 'Only Round 1 picks are eligible' }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: 'Only Round 1 picks are eligible' },
+      { status: 400 },
+    );
   }
 
   const sendValue = getPickValue(sendPick.overall);

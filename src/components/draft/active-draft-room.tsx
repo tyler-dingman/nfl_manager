@@ -56,13 +56,10 @@ export function ActiveDraftRoom({
   } | null>(null);
   const [isQuoting, setIsQuoting] = React.useState(false);
   const [tradeError, setTradeError] = React.useState('');
-  const [tradeResult, setTradeResult] = React.useState<
-    | {
-        accepted: boolean;
-        reason?: string;
-      }
-    | null
-  >(null);
+  const [tradeResult, setTradeResult] = React.useState<{
+    accepted: boolean;
+    reason?: string;
+  } | null>(null);
   const advanceInFlight = React.useRef(false);
   const skipInFlight = React.useRef(false);
 
@@ -436,18 +433,17 @@ export function ActiveDraftRoom({
 
           {activeTab === 'available' ? (
             <div className="mt-4">
-              {onClock ? (
-                <PlayerTable
-                  data={bestAvailable}
-                  variant="draft"
-                  onDraftPlayer={onClock ? onDraftPlayer : undefined}
-                  onTheClockForUserTeam={onClock}
-                />
-              ) : (
-                <div className="rounded-xl border border-border bg-slate-50 px-4 py-6 text-center">
+              <PlayerTable
+                data={bestAvailable}
+                variant="draft"
+                onDraftPlayer={onClock ? onDraftPlayer : undefined}
+                onTheClockForUserTeam={onClock}
+              />
+              {!onClock && bestAvailable.length > 0 && (
+                <div className="mt-4 rounded-xl border border-border bg-blue-50 px-4 py-3">
                   <p className="text-sm font-semibold text-foreground">Waiting for your pick...</p>
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    Available prospects unlock when your team is on the clock.
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    CPU teams are picking. Your team will be on the clock soon.
                   </p>
                 </div>
               )}
@@ -566,11 +562,7 @@ export function ActiveDraftRoom({
                 </div>
                 <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
                   <span>Difference</span>
-                  <span>
-                    {tradeQuote
-                      ? tradeQuote.receiveValue - tradeQuote.sendValue
-                      : '--'}
-                  </span>
+                  <span>{tradeQuote ? tradeQuote.receiveValue - tradeQuote.sendValue : '--'}</span>
                 </div>
                 <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
                   <span>Acceptance %</span>
@@ -583,9 +575,7 @@ export function ActiveDraftRoom({
                 {isQuoting ? (
                   <p className="mt-2 text-xs text-muted-foreground">Calculating quote...</p>
                 ) : null}
-                {tradeError ? (
-                  <p className="mt-2 text-xs text-destructive">{tradeError}</p>
-                ) : null}
+                {tradeError ? <p className="mt-2 text-xs text-destructive">{tradeError}</p> : null}
               </div>
 
               <Button
@@ -608,13 +598,9 @@ export function ActiveDraftRoom({
             <p className="mt-2 text-sm text-muted-foreground">
               {tradeResult.accepted
                 ? 'Ownership has been updated on the board.'
-                : tradeResult.reason ?? 'The other team rejected your offer.'}
+                : (tradeResult.reason ?? 'The other team rejected your offer.')}
             </p>
-            <Button
-              type="button"
-              className="mt-4 w-full"
-              onClick={() => setTradeResult(null)}
-            >
+            <Button type="button" className="mt-4 w-full" onClick={() => setTradeResult(null)}>
               Continue
             </Button>
           </div>

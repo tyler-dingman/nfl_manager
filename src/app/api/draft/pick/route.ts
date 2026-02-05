@@ -63,10 +63,7 @@ export const POST = async (request: Request) => {
     const session = pickDraftPlayer(body.draftSessionId, body.playerId, body.saveId);
     const draftedPlayer = session.prospects.find((player) => player.id === body.playerId);
     if (!draftedPlayer) {
-      return NextResponse.json(
-        { ok: false, error: 'Drafted player not found' },
-        { status: 404 },
-      );
+      return NextResponse.json({ ok: false, error: 'Drafted player not found' }, { status: 404 });
     }
 
     const teamNeeds = getTeamNeeds(session.userTeamAbbr);

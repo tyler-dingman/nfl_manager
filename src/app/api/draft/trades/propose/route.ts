@@ -79,8 +79,7 @@ export const POST = async (request: Request) => {
       acceptanceProbability = clampNumber(acceptanceProbability + 0.05, 0.05, 0.9);
     }
 
-    const accepted =
-      receiveValue >= sendValue * 0.95 || Math.random() <= acceptanceProbability;
+    const accepted = receiveValue >= sendValue * 0.95 || Math.random() <= acceptanceProbability;
 
     if (!accepted) {
       return NextResponse.json({
