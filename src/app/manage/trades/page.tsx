@@ -165,11 +165,15 @@ function TradeBuilderContent() {
     });
 
     if (!response.ok) {
+      console.error('Failed to add player to trade');
       return;
     }
 
-    const data = (await response.json()) as TradeDTO;
-    setTrade(data);
+    const data = (await response.json()) as { ok: boolean; trade: TradeDTO };
+    if (data.ok && data.trade) {
+      setTrade(data.trade);
+      setActiveModalSide(null);
+    }
   };
 
   const handleAddPick = async (side: 'send' | 'receive', pickId: string) => {
@@ -189,11 +193,14 @@ function TradeBuilderContent() {
     });
 
     if (!response.ok) {
+      console.error('Failed to add pick to trade');
       return;
     }
 
-    const data = (await response.json()) as TradeDTO;
-    setTrade(data);
+    const data = (await response.json()) as { ok: boolean; trade: TradeDTO };
+    if (data.ok && data.trade) {
+      setTrade(data.trade);
+    }
   };
 
   const handlePropose = async () => {
