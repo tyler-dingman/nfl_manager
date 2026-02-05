@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { useSaveStore } from '@/features/save/save-store';
@@ -45,7 +46,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
+
+  // Close mobile sidebar when pathname changes
+  useEffect(() => {
+    setIsMobileSidebarOpen(false);
+  }, [pathname]);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId) ?? teams[0],
@@ -110,8 +117,21 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <TeamThemeProvider team={selectedTeam}>
-      <div className="flex min-h-screen bg-slate-50">
-        <aside className="hidden w-64 flex-col gap-6 border-r border-border bg-white/80 px-5 py-6 md:flex">
+      <div className="flex min-h-screen flex-col bg-slate-50 md:flex-row">
+        {/* Mobile Sidebar Overlay */}
+        {isMobileSidebarOpen && (
+          <div
+            className="fixed inset-0 top-16 z-40 bg-black/50 md:hidden"
+            onClick={() => setIsMobileSidebarOpen(false)}
+          />
+        )}
+
+        {/* Sidebar */}
+        <aside
+          className={`fixed top-16 left-0 z-50 h-[calc(100vh-4rem)] w-64 flex-col gap-6 border-r border-border bg-white/95 px-5 py-6 transition-transform duration-300 ease-in-out md:static md:top-0 md:z-0 md:h-auto md:w-64 md:bg-white/80 md:translate-x-0 ${
+            isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
           <div
             className="rounded-xl border border-transparent p-4"
             style={{
@@ -155,9 +175,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
         </aside>
 
+        {/* Main Content */}
         <div className="flex flex-1 flex-col">
           <header className="flex h-16 items-center justify-between border-b border-border bg-white/80 px-4 md:px-6">
             <div className="flex items-center gap-3">
+              <button
+                type="button"
+                className="md:hidden"
+                onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+                aria-label="Toggle sidebar"
+              >
+                {isMobileSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
               <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-white">
                 {selectedTeam?.logo_url ? (
                   <img
@@ -241,7 +270,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           </header>
 
-          <main className="flex-1 px-4 py-6 md:px-8">
+          <main className="flex-1 overflow-x-hidden px-4 py-6 sm:px-6 md:px-8">
             <div
               className="mb-6 rounded-2xl border border-transparent p-5"
               style={{
