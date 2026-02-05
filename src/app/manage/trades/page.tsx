@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
@@ -8,6 +9,8 @@ import TradePlayerModal from '@/components/trade-player-modal';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
+
+export const dynamic = 'force-dynamic';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
@@ -64,7 +67,7 @@ const getAcceptance = (sendAssets: TradeAsset[], receiveAssets: TradeAsset[]) =>
   return Math.min(100, Math.round((receiveValue / sendValue) * 100));
 };
 
-export default function TradeBuilderPage() {
+function TradeBuilderContent() {
   const searchParams = useSearchParams();
   const selectedTeam = useTeamStore((state) =>
     state.teams.find((team) => team.id === state.selectedTeamId),
@@ -413,5 +416,13 @@ export default function TradeBuilderPage() {
         onSelectPlayer={handleAddPlayer}
       />
     </AppShell>
+  );
+}
+
+export default function TradeBuilderPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TradeBuilderContent />
+    </Suspense>
   );
 }

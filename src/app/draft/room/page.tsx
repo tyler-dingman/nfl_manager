@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
@@ -8,6 +9,8 @@ import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
+
+export const dynamic = 'force-dynamic';
 import { useTeamStore } from '@/features/team/team-store';
 import { cn } from '@/lib/utils';
 import { getDraftGrade, getPickValue, getTradeAcceptance } from '@/lib/draft-utils';
@@ -26,7 +29,7 @@ const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastN
 
 const getPickLabel = (pick: DraftPickDTO) => `Pick ${pick.overall} · ${pick.ownerTeamAbbr}`;
 
-export default function DraftRoomPage() {
+function DraftRoomContent() {
   const searchParams = useSearchParams();
   const modeParam = searchParams.get('mode');
   const mode: DraftMode = modeParam === 'real' ? 'real' : 'mock';
@@ -426,5 +429,13 @@ export default function DraftRoomPage() {
         </section>
       </div>
     </AppShell>
+  );
+}
+
+export default function DraftRoomPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DraftRoomContent />
+    </Suspense>
   );
 }
