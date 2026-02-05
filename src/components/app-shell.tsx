@@ -50,6 +50,27 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (!isMobileSidebarOpen) {
+      document.body.style.overflow = '';
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [isMobileSidebarOpen]);
+
   // Close mobile sidebar when pathname changes
   useEffect(() => {
     setIsMobileSidebarOpen(false);
@@ -156,17 +177,32 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         {/* Mobile Sidebar Overlay */}
         {isMobileSidebarOpen && (
           <div
-            className="fixed inset-0 top-16 z-40 bg-black/50 md:hidden"
+            className="fixed inset-0 z-40 bg-black/50 md:hidden"
             onClick={() => setIsMobileSidebarOpen(false)}
+            aria-hidden="true"
           />
         )}
 
         {/* Sidebar */}
         <aside
-          className={`fixed top-16 left-0 z-50 h-[calc(100vh-4rem)] w-64 flex-col gap-6 border-r border-border bg-white/95 px-5 py-6 transition-transform duration-300 ease-in-out md:static md:top-0 md:z-0 md:h-auto md:w-64 md:bg-white/80 md:translate-x-0 ${
+          className={`fixed left-0 top-0 z-50 flex h-screen w-72 max-w-[85vw] flex-col gap-6 border-r border-border bg-white/95 px-5 py-6 transition-transform duration-300 ease-in-out md:static md:top-0 md:z-0 md:h-auto md:w-64 md:max-w-none md:bg-white/80 md:translate-x-0 ${
             isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
+          aria-label="Primary navigation"
         >
+          <div className="flex items-center justify-between md:hidden">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Navigation
+            </p>
+            <button
+              type="button"
+              className="rounded-md p-1 text-muted-foreground"
+              onClick={() => setIsMobileSidebarOpen(false)}
+              aria-label="Close navigation"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
           <div
             className="rounded-xl border border-transparent p-4"
             style={{
@@ -191,6 +227,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       <Link
                         key={item}
                         href={href}
+                        onClick={() => setIsMobileSidebarOpen(false)}
                         aria-current={isActive ? 'page' : undefined}
                         className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
                       >
@@ -211,17 +248,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         </aside>
 
         <div className="flex flex-1 flex-col">
-          <header className="flex h-16 items-center justify-between border-b border-border bg-white/80 px-4 md:px-6">
-            <div className="flex items-center gap-3">
+          <header className="flex min-h-16 items-center justify-between gap-2 border-b border-border bg-white/80 px-3 py-2 sm:px-4 md:px-6">
+            <div className="flex min-w-0 items-center gap-2 sm:gap-3">
               <button
                 type="button"
-                className="md:hidden"
+                className="rounded-md p-1 md:hidden"
                 onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-                aria-label="Toggle sidebar"
+                aria-expanded={isMobileSidebarOpen}
+                aria-label="Toggle navigation"
               >
                 {isMobileSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
-              <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-white">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-white">
                 {selectedTeam?.logo_url ? (
                   <img
                     src={selectedTeam.logo_url}
@@ -234,20 +272,28 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </span>
                 )}
               </div>
-              <div className="hidden flex-col md:flex">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-foreground md:hidden">
+                  {selectedTeam?.abbr}
+                </p>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground md:hidden">
+                  {formattedCapSpace} · {formattedRoster}
+                </p>
+              </div>
+              <div className="hidden min-w-0 flex-col md:flex">
                 <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   Active Team
                 </span>
-                <span className="text-sm font-semibold">{selectedTeam?.name}</span>
+                <span className="truncate text-sm font-semibold">{selectedTeam?.name}</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3">
               <label className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground md:block">
                 Switch
               </label>
               <select
-                className="rounded-md border border-border bg-white px-3 py-2 text-sm"
+                className="max-w-[8.5rem] rounded-md border border-border bg-white px-2 py-2 text-xs sm:max-w-[11rem] sm:px-3 sm:text-sm md:max-w-none"
                 value={selectedTeamId}
                 onChange={(event) => setSelectedTeamId(event.target.value)}
               >
@@ -304,7 +350,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           </header>
 
-          <main className="flex-1 overflow-x-hidden px-4 py-6 sm:px-6 md:px-8">
+          <main className="flex-1 overflow-x-hidden px-3 py-4 sm:px-6 sm:py-6 md:px-8">
             <div
               className="mb-6 rounded-2xl border border-transparent p-5"
               style={{

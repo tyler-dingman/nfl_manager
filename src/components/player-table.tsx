@@ -306,7 +306,7 @@ export function PlayerTable({
 
   return (
     <div className="rounded-2xl border border-border bg-white shadow-sm">
-      <div className="flex flex-col gap-4 border-b border-border px-6 py-4">
+      <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
           <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
@@ -348,14 +348,17 @@ export function PlayerTable({
         )}
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
+        <table className="w-full min-w-[720px] border-collapse">
           <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className={cn('px-6 py-2', header.column.id === 'actions' && 'text-right')}
+                    className={cn(
+                      'px-4 py-2 sm:px-6',
+                      header.column.id === 'actions' && 'text-right',
+                    )}
                   >
                     {header.isPlaceholder
                       ? null
@@ -372,7 +375,7 @@ export function PlayerTable({
                   <td
                     key={cell.id}
                     className={cn(
-                      'px-6 py-1.5 align-middle text-sm',
+                      'px-4 py-1.5 align-middle text-sm sm:px-6',
                       cell.column.id === 'actions' && 'text-right',
                     )}
                   >
@@ -385,7 +388,7 @@ export function PlayerTable({
         </table>
       </div>
       {filteredData.length === 0 && (
-        <div className="px-6 py-8 text-center text-sm text-muted-foreground">
+        <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
           No players match the current filters.
         </div>
       )}
