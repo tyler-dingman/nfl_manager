@@ -10,8 +10,8 @@ import { useTeamStore } from '@/features/team/team-store';
 
 const navRoutes = {
   Overview: '/overview',
-  Roster: '/manage/roster',
-  'Free Agents': '/manage/free-agents',
+  Roster: '/roster',
+  'Free Agents': '/free-agents',
   Trades: '/manage/trades',
   'Big Board': '/draft/big-board',
   'Draft Room': '/draft/room?mode=mock',
