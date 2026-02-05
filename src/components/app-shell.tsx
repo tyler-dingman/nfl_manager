@@ -97,12 +97,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     }
 
     const shouldRefresh =
-      pathname === '/manage/roster' ||
-      pathname === '/manage/free-agents' ||
-      pathname === '/manage/trades' ||
       pathname === '/roster' ||
       pathname === '/free-agents' ||
-      pathname.startsWith('/draft');
+      pathname === '/manage/trades' ||
+      pathname.startsWith('/draft') ||
+      pathname === '/';
 
     if (shouldRefresh) {
       void refreshSaveHeader();
