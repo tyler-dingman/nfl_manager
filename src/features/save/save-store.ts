@@ -13,8 +13,9 @@ type SaveStoreState = {
   rosterLimit: number;
   phase: string;
   activeDraftSessionId: string | null;
+  activeDraftSessionIdsBySave: Record<string, string>;
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
-  setActiveDraftSessionId: (sessionId: string | null) => void;
+  setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
   refreshSaveHeader: () => Promise<void>;
 };
 
@@ -28,6 +29,7 @@ const DEFAULT_STATE = {
   rosterLimit: 0,
   phase: 'free_agency',
   activeDraftSessionId: null,
+  activeDraftSessionIdsBySave: {},
 };
 
 export const useSaveStore = create<SaveStoreState>()(
@@ -53,9 +55,29 @@ export const useSaveStore = create<SaveStoreState>()(
           rosterCount,
           rosterLimit,
           phase,
+          activeDraftSessionId: state.activeDraftSessionIdsBySave[saveId] ?? null,
         }));
       },
-      setActiveDraftSessionId: (sessionId) => set({ activeDraftSessionId: sessionId }),
+      setActiveDraftSessionId: (sessionId, saveIdOverride) =>
+        set((state) => {
+          const targetSaveId = saveIdOverride ?? state.saveId;
+          if (!targetSaveId) {
+            return { ...state, activeDraftSessionId: sessionId };
+          }
+
+          const nextBySave = { ...state.activeDraftSessionIdsBySave };
+          if (sessionId) {
+            nextBySave[targetSaveId] = sessionId;
+          } else {
+            delete nextBySave[targetSaveId];
+          }
+
+          return {
+            ...state,
+            activeDraftSessionId: sessionId,
+            activeDraftSessionIdsBySave: nextBySave,
+          };
+        }),
       refreshSaveHeader: async () => {
         const { saveId } = get();
         if (!saveId) {
@@ -85,6 +107,7 @@ export const useSaveStore = create<SaveStoreState>()(
           rosterCount: data.rosterCount,
           rosterLimit: data.rosterLimit,
           phase: data.phase,
+          activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,
         }));
       },
     }),
@@ -96,6 +119,7 @@ export const useSaveStore = create<SaveStoreState>()(
         teamId: state.teamId,
         teamAbbr: state.teamAbbr,
         activeDraftSessionId: state.activeDraftSessionId,
+        activeDraftSessionIdsBySave: state.activeDraftSessionIdsBySave,
       }),
     },
   ),

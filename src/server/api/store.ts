@@ -29,6 +29,9 @@ export type SaveState = {
 
 const saveStore = new Map<string, SaveState>();
 
+export const listSaveStates = (): Array<{ saveId: string; state: SaveState }> =>
+  Array.from(saveStore.entries()).map(([saveId, state]) => ({ saveId, state }));
+
 const baseRoster: StoredPlayer[] = [
   {
     id: '1',

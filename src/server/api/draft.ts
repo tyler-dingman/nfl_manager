@@ -632,7 +632,7 @@ const buildDraftPicks = (): DraftPickDTO[] =>
     selectedByTeamAbbr: null,
   }));
 
-const nextRandom = (session: DraftSession): number => {
+const nextRandom = (session: DraftSessionState): number => {
   let seed = session.rngState | 0;
   seed = (seed + 0x6d2b79f5) | 0;
   let t = Math.imul(seed ^ (seed >>> 15), seed | 1);
@@ -648,7 +648,7 @@ const getCandidatePool = (prospects: PlayerRowDTO[]): PlayerRowDTO[] =>
     .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999))
     .slice(0, 12);
 
-const pickFromPool = (session: DraftSession, pool: PlayerRowDTO[]): PlayerRowDTO => {
+const pickFromPool = (session: DraftSessionState, pool: PlayerRowDTO[]): PlayerRowDTO => {
   const temperature = 0.6 + nextRandom(session) * 1.2;
   const weights = pool.map((player) => {
     const rank = player.rank ?? 999;
@@ -668,7 +668,11 @@ const pickFromPool = (session: DraftSession, pool: PlayerRowDTO[]): PlayerRowDTO
   return pool[pool.length - 1];
 };
 
-const selectPlayer = (session: DraftSession, pickIndex: number, player: PlayerRowDTO): void => {
+const selectPlayer = (
+  session: DraftSessionState,
+  pickIndex: number,
+  player: PlayerRowDTO,
+): void => {
   const pick = session.picks[pickIndex];
   if (!pick) {
     return;
@@ -699,7 +703,6 @@ const finalizeDraftSession = (
   session.status = 'completed';
   session.finalized = true;
 };
-
 
 export const createDraftSession = (mode: DraftMode, saveId: string): DraftSessionStartResponse => {
   const draftSessionId = randomUUID();
@@ -762,10 +765,7 @@ export const pickDraftPlayer = (
   return session;
 };
 
-export const advanceDraftSession = (
-  draftSessionId: string,
-  saveId: string,
-): DraftSessionDTO => {
+export const advanceDraftSession = (draftSessionId: string, saveId: string): DraftSessionDTO => {
   const { session, state } = getDraftSessionState(saveId, draftSessionId);
   if (session.isPaused) {
     throw new Error('Draft is paused');
