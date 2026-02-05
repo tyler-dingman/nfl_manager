@@ -21,7 +21,7 @@ export const POST = async (request: Request) => {
   try {
     return NextResponse.json({
       ok: true,
-      data: applyDraftTrade(
+      session: applyDraftTrade(
         body.draftSessionId,
         body.partnerTeamAbbr,
         body.sendPickIds ?? [],

@@ -1,22 +1,14 @@
 import { randomUUID } from 'crypto';
 
 import type { PlayerRowDTO } from '@/types/player';
-import type { DraftMode, DraftPickDTO, DraftSessionDTO } from '@/types/draft';
+import type { DraftMode, DraftPickDTO, DraftSessionDTO, DraftSessionState } from '@/types/draft';
 
-import { addDraftedPlayersInState, getSaveState } from './store';
+import { addDraftedPlayersInState, getSaveStateResult } from './store';
 
 export type DraftSessionStartResponse = {
   draftSessionId: string;
   rng_seed: number;
 };
-
-type DraftSession = DraftSessionDTO & {
-  rngState: number;
-  saveId?: string;
-  finalized?: boolean;
-};
-
-const draftSessionStore = new Map<string, DraftSession>();
 
 const USER_TEAM_ABBR = 'GB';
 
@@ -583,6 +575,23 @@ const BASE_PROSPECTS: PlayerRowDTO[] = [
   },
 ];
 
+const getSaveStateOrThrow = (saveId: string) => {
+  const result = getSaveStateResult(saveId);
+  if (!result.ok) {
+    throw new Error(result.error);
+  }
+  return result.data;
+};
+
+const getDraftSessionState = (saveId: string, draftSessionId: string) => {
+  const state = getSaveStateOrThrow(saveId);
+  const session = state.draftSessions[draftSessionId];
+  if (!session) {
+    throw new Error('Draft session not found');
+  }
+  return { state, session };
+};
+
 const DRAFT_ORDER = [
   'CHI',
   'WAS',
@@ -672,14 +681,11 @@ const selectPlayer = (session: DraftSession, pickIndex: number, player: PlayerRo
   session.currentPickIndex = pickIndex + 1;
 };
 
-const finalizeDraftSession = (session: DraftSession): void => {
-  if (session.finalized || session.mode !== 'real' || !session.saveId) {
-    session.status = 'completed';
-    return;
-  }
-
-  const state = getSaveState(session.saveId);
-  if (!state) {
+const finalizeDraftSession = (
+  session: DraftSessionState,
+  state: ReturnType<typeof getSaveStateOrThrow>,
+): void => {
+  if (session.finalized || session.mode !== 'real') {
     session.status = 'completed';
     return;
   }
@@ -694,57 +700,34 @@ const finalizeDraftSession = (session: DraftSession): void => {
   session.finalized = true;
 };
 
-const runCpuPicks = (session: DraftSession): void => {
-  while (
-    session.currentPickIndex < session.picks.length &&
-    session.picks[session.currentPickIndex]?.ownerTeamAbbr !== session.userTeamAbbr
-  ) {
-    const pool = getCandidatePool(session.prospects);
-    if (pool.length === 0) {
-      session.currentPickIndex = session.picks.length;
-      break;
-    }
-
-    const pickIndex = session.currentPickIndex;
-    const player = pickFromPool(session, pool);
-    selectPlayer(session, pickIndex, player);
-  }
-
-  if (session.currentPickIndex >= session.picks.length) {
-    finalizeDraftSession(session);
-  }
-};
 
 export const createDraftSession = (mode: DraftMode, saveId: string): DraftSessionStartResponse => {
   const draftSessionId = randomUUID();
   const rngSeed = Math.floor(Math.random() * 1_000_000_000) + 1;
-  const userTeamAbbr = getSaveState(saveId)?.header.teamAbbr ?? USER_TEAM_ABBR;
+  const state = getSaveStateOrThrow(saveId);
+  const userTeamAbbr = state.header.teamAbbr ?? USER_TEAM_ABBR;
 
-  const session: DraftSession = {
+  const session: DraftSessionState = {
     id: draftSessionId,
     rngSeed,
     rngState: rngSeed,
     mode,
     saveId,
     userTeamAbbr,
+    isPaused: false,
     currentPickIndex: 0,
     picks: buildDraftPicks(),
     prospects: cloneProspects(),
     status: 'in_progress',
   };
 
-  draftSessionStore.set(draftSessionId, session);
-  runCpuPicks(session);
+  state.draftSessions[draftSessionId] = session;
 
   return { draftSessionId, rng_seed: rngSeed };
 };
 
-export const getDraftSession = (draftSessionId: string): DraftSessionDTO => {
-  const session = draftSessionStore.get(draftSessionId);
-  if (!session) {
-    throw new Error('Draft session not found');
-  }
-
+export const getDraftSession = (draftSessionId: string, saveId: string): DraftSessionDTO => {
+  const { session } = getDraftSessionState(saveId, draftSessionId);
   return session;
 };
 
@@ -753,12 +736,9 @@ export const pickDraftPlayer = (
   playerId: string,
   saveId: string,
 ): DraftSessionDTO => {
-  const session = draftSessionStore.get(draftSessionId);
-  if (!session) {
-    throw new Error('Draft session not found');
-  }
-  if (session.saveId && session.saveId !== saveId) {
-    throw new Error('Draft session not found');
+  const { session, state } = getDraftSessionState(saveId, draftSessionId);
+  if (session.isPaused) {
+    throw new Error('Draft is paused');
   }
 
   const currentPick = session.picks[session.currentPickIndex];
@@ -772,8 +752,62 @@ export const pickDraftPlayer = (
   }
 
   selectPlayer(session, session.currentPickIndex, player);
-  runCpuPicks(session);
+  if (session.mode === 'real') {
+    addDraftedPlayersInState(state, [player]);
+  }
+  if (session.currentPickIndex >= session.picks.length) {
+    finalizeDraftSession(session, state);
+  }
 
+  return session;
+};
+
+export const advanceDraftSession = (
+  draftSessionId: string,
+  saveId: string,
+): DraftSessionDTO => {
+  const { session, state } = getDraftSessionState(saveId, draftSessionId);
+  if (session.isPaused) {
+    throw new Error('Draft is paused');
+  }
+  if (session.status === 'completed') {
+    return session;
+  }
+
+  const currentPick = session.picks[session.currentPickIndex];
+  if (!currentPick) {
+    finalizeDraftSession(session, state);
+    return session;
+  }
+
+  if (currentPick.ownerTeamAbbr === session.userTeamAbbr) {
+    return session;
+  }
+
+  const pool = getCandidatePool(session.prospects);
+  if (pool.length === 0) {
+    session.currentPickIndex = session.picks.length;
+    finalizeDraftSession(session, state);
+    return session;
+  }
+
+  const player = pickFromPool(session, pool);
+  selectPlayer(session, session.currentPickIndex, player);
+
+  if (session.currentPickIndex >= session.picks.length) {
+    finalizeDraftSession(session, state);
+  }
+
+  return session;
+};
+
+export const setDraftSessionPaused = (
+  draftSessionId: string,
+  saveId: string,
+  isPaused: boolean,
+): DraftSessionDTO => {
+  const { session } = getDraftSessionState(saveId, draftSessionId);
+  session.isPaused = isPaused;
   return session;
 };
 
@@ -784,12 +818,9 @@ export const applyDraftTrade = (
   receivePickIds: string[],
   saveId: string,
 ): DraftSessionDTO => {
-  const session = draftSessionStore.get(draftSessionId);
-  if (!session) {
-    throw new Error('Draft session not found');
-  }
-  if (session.saveId && session.saveId !== saveId) {
-    throw new Error('Draft session not found');
+  const { session } = getDraftSessionState(saveId, draftSessionId);
+  if (session.isPaused) {
+    throw new Error('Draft is paused');
   }
 
   if (session.mode !== 'mock') {

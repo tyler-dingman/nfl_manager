@@ -18,6 +18,7 @@ export type DraftSessionDTO = {
   mode: DraftMode;
   userTeamAbbr: string;
   currentPickIndex: number;
+  isPaused: boolean;
   picks: DraftPickDTO[];
   prospects: Array<{
     id: string;
@@ -35,4 +36,10 @@ export type DraftSessionDTO = {
     isDrafted?: boolean;
   }>;
   status: DraftSessionStatus;
+};
+
+export type DraftSessionState = DraftSessionDTO & {
+  rngState: number;
+  saveId: string;
+  finalized?: boolean;
 };

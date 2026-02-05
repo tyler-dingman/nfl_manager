@@ -14,13 +14,8 @@ export const GET = async (request: Request) => {
   }
 
   try {
-    const session = getDraftSession(draftSessionId);
-    const sessionSaveId =
-      'saveId' in session ? (session as { saveId?: string }).saveId : undefined;
-    if (sessionSaveId && sessionSaveId !== saveId) {
-      return NextResponse.json({ ok: false, error: 'Draft session not found' }, { status: 404 });
-    }
-    return NextResponse.json({ ok: true, data: session });
+    const session = getDraftSession(draftSessionId, saveId);
+    return NextResponse.json({ ok: true, session });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Draft session not found';
     return NextResponse.json({ ok: false, error: message }, { status: 404 });

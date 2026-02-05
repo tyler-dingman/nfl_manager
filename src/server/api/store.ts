@@ -1,5 +1,6 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
+import type { DraftSessionState } from '@/types/draft';
 import {
   formatMoneyMillions,
   getCapHitSchedule,
@@ -23,6 +24,7 @@ export type SaveState = {
   header: SaveHeaderDTO;
   roster: StoredPlayer[];
   freeAgents: StoredPlayer[];
+  draftSessions: Record<string, DraftSessionState>;
 };
 
 const saveStore = new Map<string, SaveState>();
@@ -168,6 +170,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     header,
     roster,
     freeAgents,
+    draftSessions: {},
   };
 
   saveStore.set(saveId, state);

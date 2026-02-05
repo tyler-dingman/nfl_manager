@@ -95,6 +95,7 @@ export const useSaveStore = create<SaveStoreState>()(
         saveId: state.saveId,
         teamId: state.teamId,
         teamAbbr: state.teamAbbr,
+        activeDraftSessionId: state.activeDraftSessionId,
       }),
     },
   ),

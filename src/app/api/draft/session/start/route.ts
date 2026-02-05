@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { createDraftSession } from '@/server/api/draft';
+import { createDraftSession, getDraftSession } from '@/server/api/draft';
 import { getSaveStateResult } from '@/server/api/store';
 import type { DraftMode } from '@/types/draft';
 
@@ -26,5 +26,11 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });
   }
 
-  return NextResponse.json({ ok: true, ...createDraftSession(mode, body.saveId) });
+  const sessionStart = createDraftSession(mode, body.saveId);
+  const session = getDraftSession(sessionStart.draftSessionId, body.saveId);
+
+  return NextResponse.json({
+    ok: true,
+    session,
+  });
 };

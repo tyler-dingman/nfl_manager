@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { pickDraftPlayer } from '@/server/api/draft';
+import { getSaveHeaderSnapshot, getSaveStateResult } from '@/server/api/store';
 
 export const POST = async (request: Request) => {
   const body = (await request.json()) as {
@@ -17,9 +18,13 @@ export const POST = async (request: Request) => {
   }
 
   try {
+    const session = pickDraftPlayer(body.draftSessionId, body.playerId, body.saveId);
+    const stateResult = getSaveStateResult(body.saveId);
+    const header = stateResult.ok ? getSaveHeaderSnapshot(stateResult.data) : undefined;
     return NextResponse.json({
       ok: true,
-      data: pickDraftPlayer(body.draftSessionId, body.playerId, body.saveId),
+      session,
+      header,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to pick player';
