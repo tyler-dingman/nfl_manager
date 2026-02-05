@@ -25,8 +25,14 @@ export default function TradePlayerModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-4xl rounded-2xl bg-white p-6 shadow-lg">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/40 px-4 py-6"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-4xl rounded-2xl bg-white p-5 shadow-lg sm:p-6 max-h-[90vh] overflow-y-auto"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">

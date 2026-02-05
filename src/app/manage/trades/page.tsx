@@ -282,7 +282,7 @@ function TradeBuilderContent() {
                 </p>
                 <h2 className="mt-1 text-lg font-semibold text-foreground">Send assets</h2>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Button type="button" variant="outline" onClick={() => setActiveModalSide('send')}>
                   Add Player
                 </Button>
