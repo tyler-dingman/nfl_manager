@@ -4,6 +4,7 @@ import type { SaveHeaderDTO } from '@/types/save';
 import {
   filterPlayers,
   getSaveStateResult,
+  cutPlayerInState,
   offerContractInState,
   signFreeAgentInState,
   type SaveResult,
@@ -43,6 +44,18 @@ export const signFreeAgent = (
   }
 
   return { ok: true, data: signFreeAgentInState(stateResult.data, playerId) };
+};
+
+export const cutPlayer = (
+  saveId: string,
+  playerId: string,
+): SaveResult<{ header: SaveHeaderDTO; player: PlayerRowDTO }> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
+  }
+
+  return { ok: true, data: cutPlayerInState(stateResult.data, playerId) };
 };
 
 export const offerContract = (
