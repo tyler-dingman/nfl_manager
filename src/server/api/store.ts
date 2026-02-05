@@ -229,7 +229,7 @@ export const signFreeAgentInState = (
     capHit: formatMoneyMillions(player.year1CapHit),
     status: 'Active',
     signedTeamAbbr: state.header.teamAbbr,
-    signedTeamLogoUrl: `https://static.nfl.com/static/content/public/static/wildcat/assets/img/logos/teams/${state.header.teamAbbr}.svg`,
+    signedTeamLogoUrl: `https://a.espncdn.com/i/teamlogos/nfl/500/${state.header.teamAbbr.toLowerCase()}.png`,
   };
 
   state.roster.push(signedPlayer);
@@ -265,7 +265,7 @@ export const offerContractInState = (
     capHit: formatMoneyMillions(year1CapHit),
     status: 'Signed',
     signedTeamAbbr: state.header.teamAbbr,
-    signedTeamLogoUrl: `https://static.nfl.com/static/content/public/static/wildcat/assets/img/logos/teams/${state.header.teamAbbr}.svg`,
+    signedTeamLogoUrl: `https://a.espncdn.com/i/teamlogos/nfl/500/${state.header.teamAbbr.toLowerCase()}.png`,
     capHitSchedule,
   };
 
