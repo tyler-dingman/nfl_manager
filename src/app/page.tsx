@@ -1,12 +1,13 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import AppShell from '@/components/app-shell';
 import { PlayerTable } from '@/components/player-table';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
+import { normalizePhase } from '@/lib/phase';
 import type { PlayerRowDTO } from '@/types/player';
 
 const samplePlayers: PlayerRowDTO[] = [
@@ -62,10 +63,32 @@ const samplePlayers: PlayerRowDTO[] = [
   },
 ];
 
+const PHASE_NEXT_ACTION = {
+  Offseason: {
+    title: 'Offseason priorities',
+    body: 'Get your team under the cap and prepare for Free Agency by cutting, trading, or re-signing players.',
+    cta: 'Review roster',
+    href: '/roster',
+  },
+  FreeAgency: {
+    title: 'Free Agency',
+    body: 'Improve your roster by signing talent while staying under the cap.',
+    cta: 'View free agents',
+    href: '/free-agents',
+  },
+  Draft: {
+    title: 'Draft prep',
+    body: 'Finalize your board and make picks to build your future roster.',
+    cta: 'Go to Draft Room',
+    href: '/draft/room?mode=mock',
+  },
+} as const;
+
 export default function HomePage() {
   const router = useRouter();
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const setPhase = useSaveStore((state) => state.setPhase);
+  const phase = useSaveStore((state) => state.phase);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -90,12 +113,36 @@ export default function HomePage() {
     setIsReady(true);
   }, [router, setPhase, setSelectedTeamId]);
 
+  const nextAction = useMemo(() => PHASE_NEXT_ACTION[normalizePhase(phase)], [phase]);
+
   if (!isReady) {
     return null;
   }
 
   return (
     <AppShell>
+      <section
+        className="mb-6 rounded-2xl border border-transparent p-5"
+        style={{
+          backgroundColor: 'color-mix(in srgb, var(--team-primary) 6%, transparent)',
+        }}
+      >
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Next Action</p>
+        <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold">{nextAction.title}</h2>
+            <p className="text-sm text-muted-foreground">{nextAction.body}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => router.push(nextAction.href)}
+            className="w-full rounded-full px-4 py-2 text-sm font-semibold text-slate-900 md:w-auto"
+            style={{ backgroundColor: 'var(--team-secondary)' }}
+          >
+            {nextAction.cta}
+          </button>
+        </div>
+      </section>
       <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
         <section className="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-6">
           <h1 className="text-2xl font-semibold">Welcome back, GM.</h1>

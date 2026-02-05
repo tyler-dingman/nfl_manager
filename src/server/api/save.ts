@@ -7,6 +7,7 @@ import {
   getSaveHeaderSnapshot,
   getSaveState,
   getSaveStateResult,
+  setSavePhaseInState,
   type SaveResult,
 } from './store';
 
@@ -57,6 +58,14 @@ export const createSave = (teamAbbr: string): SaveHeaderDTO => {
   return getSaveHeaderSnapshot(state);
 };
 
+export const setSavePhase = (saveId: string, phase: string): SaveResult<SaveHeaderDTO> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
+  }
+
+  return { ok: true, data: setSavePhaseInState(stateResult.data, phase) };
+};
 export const getSaveHeader = (saveId: string): SaveResult<SaveHeaderDTO> => {
   const stateResult = getSaveStateResult(saveId);
   if (!stateResult.ok) {

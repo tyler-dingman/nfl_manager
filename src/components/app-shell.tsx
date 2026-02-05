@@ -3,14 +3,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { Lock } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { useSaveStore } from '@/features/save/save-store';
 import type { SaveBootstrapDTO } from '@/types/save';
 import { useTeamStore } from '@/features/team/team-store';
+import { normalizePhase } from '@/lib/phase';
 
 const navRoutes = {
-  Overview: '/overview',
+  Overview: '/',
   Roster: '/roster',
   'Free Agents': '/free-agents',
   Trades: '/manage/trades',
@@ -44,6 +46,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const phase = useSaveStore((state) => state.phase);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const pathname = usePathname();
 
@@ -54,6 +57,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const formattedCapSpace = saveId ? `$${capSpace.toFixed(1)}M` : '--';
   const formattedRoster = saveId ? `${rosterCount}/${rosterLimit}` : '--';
+  const normalizedPhase = normalizePhase(phase);
+
+  const getNavAvailability = (item: NavItem): { enabled: boolean; reason?: string } => {
+    if (item === 'Free Agents' && normalizedPhase === 'Offseason') {
+      return { enabled: false, reason: 'Available in Free Agency phase' };
+    }
+
+    if ((item === 'Big Board' || item === 'Draft Room') && normalizedPhase !== 'Draft') {
+      return { enabled: false, reason: 'Available in Draft phase' };
+    }
+
+    return { enabled: true };
+  };
 
   useEffect(() => {
     const loadSave = async () => {
@@ -105,12 +121,31 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   {section.items.map((item) => {
                     const href = navRoutes[item];
                     const isActive = pathname === href.split('?')[0];
+                    const availability = getNavAvailability(item);
+                    const baseClassName =
+                      'flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium transition';
+
+                    if (!availability.enabled) {
+                      return (
+                        <div
+                          key={item}
+                          title={availability.reason}
+                          aria-disabled
+                          className={`${baseClassName} cursor-not-allowed text-muted-foreground/70`}
+                        >
+                          <span className="h-6 w-1 rounded-full bg-transparent" />
+                          <span>{item}</span>
+                          <Lock className="ml-auto h-3.5 w-3.5" />
+                        </div>
+                      );
+                    }
+
                     return (
                       <Link
                         key={item}
                         href={href}
                         aria-current={isActive ? 'page' : undefined}
-                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                        className={`${baseClassName} text-muted-foreground hover:text-foreground`}
                       >
                         <span
                           className="h-6 w-1 rounded-full"
@@ -214,34 +249,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           </header>
 
-          <main className="flex-1 px-4 py-6 md:px-8">
-            <div
-              className="mb-6 rounded-2xl border border-transparent p-5"
-              style={{
-                backgroundColor: 'color-mix(in srgb, var(--team-primary) 6%, transparent)',
-              }}
-            >
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Next Action
-              </p>
-              <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <h2 className="text-xl font-semibold">Finalize depth chart for week one.</h2>
-                  <p className="text-sm text-muted-foreground">
-                    Review roster health and confirm your starters.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  className="w-full rounded-full px-4 py-2 text-sm font-semibold text-slate-900 md:w-auto"
-                  style={{ backgroundColor: 'var(--team-secondary)' }}
-                >
-                  Review lineup
-                </button>
-              </div>
-            </div>
-            {children}
-          </main>
+          <main className="flex-1 px-4 py-6 md:px-8">{children}</main>
         </div>
       </div>
     </TeamThemeProvider>
