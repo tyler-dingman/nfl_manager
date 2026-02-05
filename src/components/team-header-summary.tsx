@@ -47,7 +47,9 @@ export default function TeamHeaderSummary({
           <div className="min-w-[150px]">
             <div className="flex items-center justify-between text-sm">
               <span className="font-semibold">{formatCap(capSpace)}</span>
-              <span style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}>
+              <span
+                style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}
+              >
                 {formatCap(capLimit)} limit
               </span>
             </div>
@@ -72,7 +74,9 @@ export default function TeamHeaderSummary({
               <span className="font-semibold">
                 {rosterCount}/{rosterLimit}
               </span>
-              <span style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}>
+              <span
+                style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}
+              >
                 {rosterLimit - rosterCount} open
               </span>
             </div>

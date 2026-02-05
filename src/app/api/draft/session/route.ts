@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { getDraftSession } from '@/server/api/draft';
+import { listSaveStates } from '@/server/api/store';
 
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
@@ -9,12 +10,17 @@ export const GET = async (request: Request) => {
   if (!draftSessionId) {
     return NextResponse.json({ ok: false, error: 'draftSessionId is required' }, { status: 400 });
   }
-  if (!saveId) {
-    return NextResponse.json({ ok: false, error: 'saveId is required' }, { status: 400 });
-  }
 
   try {
-    const session = getDraftSession(draftSessionId, saveId);
+    const resolvedSaveId =
+      saveId ??
+      listSaveStates().find((entry) => Boolean(entry.state.draftSessions[draftSessionId]))?.saveId;
+
+    if (!resolvedSaveId) {
+      return NextResponse.json({ ok: false, error: 'Draft session not found' }, { status: 404 });
+    }
+
+    const session = getDraftSession(draftSessionId, resolvedSaveId);
     return NextResponse.json({ ok: true, session });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Draft session not found';

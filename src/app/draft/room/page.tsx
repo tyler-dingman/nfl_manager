@@ -22,15 +22,15 @@ type DraftSpeed = (typeof SPEED_OPTIONS)[number];
 
 type DraftTab = 'draft' | 'trade' | 'analysis';
 
-type DraftSessionResponse =
-  | { ok: true; session: DraftSessionDTO }
-  | { ok: false; error: string };
+type DraftSessionResponse = { ok: true; session: DraftSessionDTO } | { ok: false; error: string };
 
-type DraftPickResponse =
-  | { ok: true; session: DraftSessionDTO; header?: { id: string } }
-  | { ok: false; error: string };
+type DraftPickResponse = { ok: true; session: DraftSessionDTO } | { ok: false; error: string };
 
 type DraftSessionStartResponse = DraftSessionResponse;
+
+type ActiveDraftSessionResponse =
+  | { ok: true; session: DraftSessionDTO | null }
+  | { ok: false; error: string };
 
 type DraftGradeResult = {
   grade: string;
@@ -76,16 +76,7 @@ const getDraftGradeResult = (
   const needsBonus = needs.includes(player.position) ? 4 : 0;
   const score = valueDelta + needsBonus;
 
-  const grade =
-    score >= 12
-      ? 'A'
-      : score >= 5
-        ? 'B'
-        : score >= -3
-          ? 'C'
-          : score >= -10
-            ? 'D'
-            : 'F';
+  const grade = score >= 12 ? 'A' : score >= 5 ? 'B' : score >= -3 ? 'C' : score >= -10 ? 'D' : 'F';
 
   const headline = `${grade} grade on ${formatName(player)}`;
   const detail = `Selected at #${pick.overall} (rank ${rank}). ${
@@ -195,7 +186,7 @@ function DraftRoomContent() {
       if (!response.ok || !payload.ok) {
         const message = payload.ok ? 'Unable to load draft session' : payload.error;
         if (message === 'Draft session not found') {
-          setActiveDraftSessionId(null);
+          setActiveDraftSessionId(null, saveId);
           setSession(null);
         }
         setError(message);
@@ -225,7 +216,7 @@ function DraftRoomContent() {
       setLoading(false);
       return;
     }
-    setActiveDraftSessionId(payload.session.id);
+    setActiveDraftSessionId(payload.session.id, saveId);
     setSession(payload.session);
     setLoading(false);
   }, [mode, saveId, setActiveDraftSessionId]);
@@ -272,6 +263,31 @@ function DraftRoomContent() {
       void fetchSession(activeDraftSessionId);
     }
   }, [activeDraftSessionId, fetchSession]);
+
+  React.useEffect(() => {
+    if (!saveId || activeDraftSessionId) {
+      return;
+    }
+
+    const restoreActiveSession = async () => {
+      setLoading(true);
+      setError('');
+      const query = new URLSearchParams({ saveId });
+      const response = await fetch(`/api/draft/session/active?${query.toString()}`);
+      const payload = (await response.json()) as ActiveDraftSessionResponse;
+      if (!response.ok || !payload.ok) {
+        setLoading(false);
+        setError(payload.ok ? 'Unable to load draft session' : payload.error);
+        return;
+      }
+
+      setSession(payload.session);
+      setActiveDraftSessionId(payload.session?.id ?? null, saveId);
+      setLoading(false);
+    };
+
+    void restoreActiveSession();
+  }, [activeDraftSessionId, saveId, setActiveDraftSessionId]);
 
   React.useEffect(() => {
     if (!session || session.status !== 'in_progress') {
@@ -436,8 +452,12 @@ function DraftRoomContent() {
               Start Draft
             </Button>
           ) : (
-            <Button type="button" variant="outline" onClick={() => void setPaused(!session.isPaused)}>
-              {session.isPaused ? 'Resume Draft' : 'Pause Draft'}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => void setPaused(!session.isPaused)}
+            >
+              {session.isPaused ? 'Start Draft' : 'Pause Draft'}
             </Button>
           )}
           {session ? (
@@ -547,11 +567,7 @@ function DraftRoomContent() {
                   className="rounded-full px-4"
                   onClick={() => setActiveTab(tab)}
                 >
-                  {tab === 'draft'
-                    ? 'Draft a Player'
-                    : tab === 'trade'
-                      ? 'Trade'
-                      : 'Analysis'}
+                  {tab === 'draft' ? 'Draft a Player' : tab === 'trade' ? 'Trade' : 'Analysis'}
                 </Button>
               ))}
             </div>
@@ -697,7 +713,12 @@ function DraftRoomContent() {
                   </div>
                 </div>
 
-                <Button type="button" className="mt-4" onClick={handleTrade} disabled={!tradeAllowed}>
+                <Button
+                  type="button"
+                  className="mt-4"
+                  onClick={handleTrade}
+                  disabled={!tradeAllowed}
+                >
                   {mode === 'mock' ? 'Propose trade' : 'Trades disabled in real mode'}
                 </Button>
               </div>
