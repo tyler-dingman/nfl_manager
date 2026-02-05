@@ -6,6 +6,7 @@ import {
   getRookieContract,
   getYearOneCapHit,
 } from '@/server/logic/cap';
+import { logoUrlFor } from './team';
 
 export type PlayerFilters = {
   position?: string;
@@ -263,7 +264,7 @@ export const offerContractInState = (
     capHit: formatMoneyMillions(year1CapHit),
     status: 'Signed',
     signedTeamAbbr: state.header.teamAbbr,
-    signedTeamLogoUrl: `https://static.nfl.com/static/content/public/static/wildcat/assets/img/logos/teams/${state.header.teamAbbr}.svg`,
+    signedTeamLogoUrl: logoUrlFor(state.header.teamAbbr),
     capHitSchedule,
   };
 

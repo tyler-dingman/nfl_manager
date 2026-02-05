@@ -1,7 +1,7 @@
 import type { TeamDTO } from '@/types/team';
 
-const logoUrlFor = (abbr: string) =>
-  `https://static.nfl.com/static/content/public/static/wildcat/assets/img/logos/teams/${abbr}.svg`;
+export const logoUrlFor = (abbr: string) =>
+  `https://static.www.nfl.com/t_q-best/league/api/clubs/logos/${abbr}.svg`;
 
 const TEAMS: TeamDTO[] = [
   {
