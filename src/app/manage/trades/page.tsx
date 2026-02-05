@@ -52,8 +52,7 @@ const PICK_OPTIONS = [
   { id: '2025-r7', label: '2025 Round 7 Pick' },
 ];
 
-const sumAssets = (assets: TradeAsset[]) =>
-  assets.reduce((total, asset) => total + asset.value, 0);
+const sumAssets = (assets: TradeAsset[]) => assets.reduce((total, asset) => total + asset.value, 0);
 
 const getAcceptance = (sendAssets: TradeAsset[], receiveAssets: TradeAsset[]) => {
   const sendValue = sumAssets(sendAssets);
@@ -79,9 +78,7 @@ export default function TradeBuilderPage() {
   const [trade, setTrade] = useState<TradeDTO | null>(null);
   const [userRoster, setUserRoster] = useState<PlayerRowDTO[]>([]);
   const [partnerRoster, setPartnerRoster] = useState<PlayerRowDTO[]>([]);
-  const [activeModalSide, setActiveModalSide] = useState<'send' | 'receive' | null>(
-    null,
-  );
+  const [activeModalSide, setActiveModalSide] = useState<'send' | 'receive' | null>(null);
   const [sendPick, setSendPick] = useState(PICK_OPTIONS[0]?.id ?? '');
   const [receivePick, setReceivePick] = useState(PICK_OPTIONS[0]?.id ?? '');
   const [proposalStatus, setProposalStatus] = useState<string>('');
@@ -241,9 +238,7 @@ export default function TradeBuilderPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Trade Builder
             </p>
-            <h1 className="mt-2 text-2xl font-semibold text-foreground">
-              Build a roster trade
-            </h1>
+            <h1 className="mt-2 text-2xl font-semibold text-foreground">Build a roster trade</h1>
             <p className="text-sm text-muted-foreground">
               Add players and picks to balance the deal. Acceptance requires 70+.
             </p>
@@ -271,9 +266,7 @@ export default function TradeBuilderPage() {
             </div>
           </div>
           {proposalStatus ? (
-            <p className="mt-4 text-sm font-medium text-foreground">
-              {proposalStatus}
-            </p>
+            <p className="mt-4 text-sm font-medium text-foreground">{proposalStatus}</p>
           ) : null}
         </div>
 
@@ -284,9 +277,7 @@ export default function TradeBuilderPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Your Offer
                 </p>
-                <h2 className="mt-1 text-lg font-semibold text-foreground">
-                  Send assets
-                </h2>
+                <h2 className="mt-1 text-lg font-semibold text-foreground">Send assets</h2>
               </div>
               <div className="flex items-center gap-2">
                 <Button type="button" variant="outline" onClick={() => setActiveModalSide('send')}>
@@ -323,9 +314,7 @@ export default function TradeBuilderPage() {
                   >
                     <div>
                       <p className="text-sm font-semibold text-foreground">{asset.label}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Value: {asset.value}
-                      </p>
+                      <p className="text-xs text-muted-foreground">Value: {asset.value}</p>
                     </div>
                     <p className="text-xs font-semibold text-muted-foreground">Send</p>
                   </div>
@@ -342,9 +331,7 @@ export default function TradeBuilderPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Their Offer
                 </p>
-                <h2 className="mt-1 text-lg font-semibold text-foreground">
-                  Receive assets
-                </h2>
+                <h2 className="mt-1 text-lg font-semibold text-foreground">Receive assets</h2>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <select
@@ -398,9 +385,7 @@ export default function TradeBuilderPage() {
                   >
                     <div>
                       <p className="text-sm font-semibold text-foreground">{asset.label}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Value: {asset.value}
-                      </p>
+                      <p className="text-xs text-muted-foreground">Value: {asset.value}</p>
                     </div>
                     <p className="text-xs font-semibold text-muted-foreground">Receive</p>
                   </div>
@@ -412,11 +397,7 @@ export default function TradeBuilderPage() {
             {partnerTeam ? (
               <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={partnerTeam.logoUrl}
-                  alt={partnerTeam.name}
-                  className="h-5 w-5"
-                />
+                <img src={partnerTeam.logoUrl} alt={partnerTeam.name} className="h-5 w-5" />
                 <span>{partnerTeam.name} roster assets</span>
               </div>
             ) : null}

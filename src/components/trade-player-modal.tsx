@@ -35,9 +35,7 @@ export default function TradePlayerModal({
             <h3 className="mt-2 text-lg font-semibold text-foreground">
               Select a player for {sideLabel}
             </h3>
-            <p className="text-sm text-muted-foreground">
-              Filter by position or search by name.
-            </p>
+            <p className="text-sm text-muted-foreground">Filter by position or search by name.</p>
           </div>
           <Button type="button" variant="ghost" size="icon" onClick={onClose}>
             ✕

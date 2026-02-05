@@ -471,7 +471,7 @@ const BASE_PROSPECTS: PlayerRowDTO[] = [
   },
   {
     id: 'p33',
-    firstName: 'Ja\'Lynn',
+    firstName: "Ja'Lynn",
     lastName: 'Polk',
     position: 'WR',
     rank: 33,
@@ -610,8 +610,7 @@ const DRAFT_ORDER = [
   'GB',
 ];
 
-const cloneProspects = (): PlayerRowDTO[] =>
-  BASE_PROSPECTS.map((player) => ({ ...player }));
+const cloneProspects = (): PlayerRowDTO[] => BASE_PROSPECTS.map((player) => ({ ...player }));
 
 const buildDraftPicks = (): DraftPickDTO[] =>
   DRAFT_ORDER.map((teamAbbr, index) => ({
@@ -660,11 +659,7 @@ const pickFromPool = (session: DraftSession, pool: PlayerRowDTO[]): PlayerRowDTO
   return pool[pool.length - 1];
 };
 
-const selectPlayer = (
-  session: DraftSession,
-  pickIndex: number,
-  player: PlayerRowDTO,
-): void => {
+const selectPlayer = (session: DraftSession, pickIndex: number, player: PlayerRowDTO): void => {
   const pick = session.picks[pickIndex];
   if (!pick) {
     return;
@@ -690,12 +685,8 @@ const finalizeDraftSession = (session: DraftSession): void => {
   }
 
   const userSelections = session.picks
-    .filter(
-      (pick) => pick.selectedByTeamAbbr === session.userTeamAbbr && pick.selectedPlayerId,
-    )
-    .map((pick) =>
-      session.prospects.find((player) => player.id === pick.selectedPlayerId),
-    )
+    .filter((pick) => pick.selectedByTeamAbbr === session.userTeamAbbr && pick.selectedPlayerId)
+    .map((pick) => session.prospects.find((player) => player.id === pick.selectedPlayerId))
     .filter((player): player is PlayerRowDTO => Boolean(player));
 
   addDraftedPlayersInState(state, userSelections);
@@ -756,10 +747,7 @@ export const getDraftSession = (draftSessionId: string): DraftSessionDTO => {
   return session;
 };
 
-export const pickDraftPlayer = (
-  draftSessionId: string,
-  playerId: string,
-): DraftSessionDTO => {
+export const pickDraftPlayer = (draftSessionId: string, playerId: string): DraftSessionDTO => {
   const session = draftSessionStore.get(draftSessionId);
   if (!session) {
     throw new Error('Draft session not found');

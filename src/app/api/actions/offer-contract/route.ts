@@ -12,10 +12,7 @@ export const POST = async (request: Request) => {
     };
 
     if (!body.saveId) {
-      return NextResponse.json(
-        { ok: false, error: 'Missing or invalid saveId' },
-        { status: 400 },
-      );
+      return NextResponse.json({ ok: false, error: 'Missing or invalid saveId' }, { status: 400 });
     }
 
     if (!body.playerId || typeof body.years !== 'number' || typeof body.apy !== 'number') {

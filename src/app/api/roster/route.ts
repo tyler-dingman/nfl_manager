@@ -8,10 +8,7 @@ const getParam = (request: Request, key: string) =>
 export const GET = async (request: Request) => {
   const saveId = getParam(request, 'saveId');
   if (!saveId) {
-    return NextResponse.json(
-      { ok: false, error: 'Missing or invalid saveId' },
-      { status: 400 },
-    );
+    return NextResponse.json({ ok: false, error: 'Missing or invalid saveId' }, { status: 400 });
   }
 
   const filters = {

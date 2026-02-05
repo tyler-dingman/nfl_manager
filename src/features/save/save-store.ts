@@ -67,10 +67,12 @@ export const useSaveStore = create<SaveStoreState>()(
           return;
         }
 
-        const data = (await response.json()) as SaveBootstrapDTO | {
-          ok: false;
-          error: string;
-        };
+        const data = (await response.json()) as
+          | SaveBootstrapDTO
+          | {
+              ok: false;
+              error: string;
+            };
         if (!('ok' in data) || !data.ok) {
           return;
         }

@@ -39,9 +39,7 @@ const usePlayerQuery = (
       const payload = (await response.json()) as PlayerRowDTO[];
       setData(payload);
     } catch (queryError) {
-      setError(
-        queryError instanceof Error ? queryError.message : errorMessage,
-      );
+      setError(queryError instanceof Error ? queryError.message : errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -54,12 +52,8 @@ const usePlayerQuery = (
   return { data, isLoading, error, refresh };
 };
 
-export const useRosterQuery = (
-  saveId: string | null | undefined,
-): PlayerQueryResult =>
+export const useRosterQuery = (saveId: string | null | undefined): PlayerQueryResult =>
   usePlayerQuery(saveId, '/api/roster', 'Unable to load roster.');
 
-export const useFreeAgentsQuery = (
-  saveId: string | null | undefined,
-): PlayerQueryResult =>
+export const useFreeAgentsQuery = (saveId: string | null | undefined): PlayerQueryResult =>
   usePlayerQuery(saveId, '/api/free-agents', 'Unable to load free agents.');

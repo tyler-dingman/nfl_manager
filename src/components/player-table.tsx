@@ -1,12 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {
-  type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -19,9 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
-import PlayerRowActions, {
-  type PlayerRowActionsVariant,
-} from '@/components/player-row-actions';
+import PlayerRowActions, { type PlayerRowActionsVariant } from '@/components/player-row-actions';
 
 const POSITION_FILTERS = [
   'All',
@@ -55,16 +48,15 @@ type PlayerTableProps = {
   onSelectTradePlayer?: (player: PlayerRowDTO) => void;
 };
 
-const statusVariantMap: Record<string, React.ComponentProps<typeof Badge>['variant']> =
-  {
-    active: 'success',
-    injured: 'warning',
-    'practice squad': 'secondary',
-    free: 'outline',
-    'free agent': 'outline',
-    waived: 'destructive',
-    signed: 'success',
-  };
+const statusVariantMap: Record<string, React.ComponentProps<typeof Badge>['variant']> = {
+  active: 'success',
+  injured: 'warning',
+  'practice squad': 'secondary',
+  free: 'outline',
+  'free agent': 'outline',
+  waived: 'destructive',
+  signed: 'success',
+};
 
 function getInitials(player: PlayerRowDTO) {
   return `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase();
@@ -115,8 +107,7 @@ export function PlayerTable({
 
   const filteredData = React.useMemo(() => {
     return data.filter((player) => {
-      const matchesPosition =
-        positionFilter === 'All' || player.position === positionFilter;
+      const matchesPosition = positionFilter === 'All' || player.position === positionFilter;
       const matchesSearch =
         searchQuery.trim().length === 0 ||
         formatName(player).toLowerCase().includes(searchQuery.toLowerCase());
@@ -161,9 +152,7 @@ export function PlayerTable({
                     getInitials(player)
                   )}
                 </div>
-                <p className="text-sm font-semibold text-foreground">
-                  {formatName(player)}
-                </p>
+                <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
               </div>
             );
           },
@@ -172,18 +161,14 @@ export function PlayerTable({
           accessorKey: 'position',
           header: 'Pos',
           cell: ({ row }) => (
-            <span className="text-sm font-medium text-foreground">
-              {row.original.position}
-            </span>
+            <span className="text-sm font-medium text-foreground">{row.original.position}</span>
           ),
         },
         {
           accessorKey: 'college',
           header: 'College',
           cell: ({ row }) => (
-            <span className="text-sm text-muted-foreground">
-              {row.original.college ?? '—'}
-            </span>
+            <span className="text-sm text-muted-foreground">{row.original.college ?? '—'}</span>
           ),
         },
         {
@@ -227,9 +212,7 @@ export function PlayerTable({
                   getInitials(player)
                 )}
               </div>
-              <p className="text-sm font-semibold text-foreground">
-                {formatName(player)}
-              </p>
+              <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
             </div>
           );
         },
@@ -238,9 +221,7 @@ export function PlayerTable({
         accessorKey: 'position',
         header: 'Pos',
         cell: ({ row }) => (
-          <span className="text-sm font-medium text-foreground">
-            {row.original.position}
-          </span>
+          <span className="text-sm font-medium text-foreground">{row.original.position}</span>
         ),
       },
       {
@@ -256,9 +237,7 @@ export function PlayerTable({
         accessorKey: 'capHit',
         header: 'Cap Hit',
         cell: ({ row }) => (
-          <span className="text-sm text-muted-foreground">
-            {row.original.capHit}
-          </span>
+          <span className="text-sm text-muted-foreground">{row.original.capHit}</span>
         ),
       },
       {
@@ -329,10 +308,7 @@ export function PlayerTable({
     <div className="rounded-2xl border border-border bg-white shadow-sm">
       <div className="flex flex-col gap-4 border-b border-border px-6 py-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <PositionFilterBar
-            active={positionFilter}
-            onSelect={setPositionFilter}
-          />
+          <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
           <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
             <input
               type="search"
@@ -348,12 +324,8 @@ export function PlayerTable({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={resetFilters}>
-                  Reset filters
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSearchQuery('')}>
-                  Clear search
-                </DropdownMenuItem>
+                <DropdownMenuItem onClick={resetFilters}>Reset filters</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSearchQuery('')}>Clear search</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -383,17 +355,11 @@ export function PlayerTable({
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className={cn(
-                      'px-6 py-2',
-                      header.column.id === 'actions' && 'text-right'
-                    )}
+                    className={cn('px-6 py-2', header.column.id === 'actions' && 'text-right')}
                   >
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </th>
                 ))}
               </tr>
@@ -401,22 +367,16 @@ export function PlayerTable({
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className="border-t border-border hover:bg-slate-50/60"
-              >
+              <tr key={row.id} className="border-t border-border hover:bg-slate-50/60">
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
                     className={cn(
                       'px-6 py-1.5 align-middle text-sm',
-                      cell.column.id === 'actions' && 'text-right'
+                      cell.column.id === 'actions' && 'text-right',
                     )}
                   >
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
               </tr>

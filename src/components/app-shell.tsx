@@ -70,10 +70,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         const headerResponse = await fetch(`/api/saves/header?saveId=${saveId}`);
         if (headerResponse.ok) {
           const headerData = (await headerResponse.json()) as
-            | { ok: true; saveId: string; teamAbbr: string; capSpace: number; capLimit: number; rosterCount: number; rosterLimit: number; phase: string }
+            | {
+                ok: true;
+                saveId: string;
+                teamAbbr: string;
+                capSpace: number;
+                capLimit: number;
+                rosterCount: number;
+                rosterLimit: number;
+                phase: string;
+              }
             | { ok: false; error: string };
           if (headerData.ok) {
-            setSaveHeader(headerData, selectedTeam.id);
+            setSaveHeader({ ...headerData, createdAt: new Date().toISOString() }, selectedTeam.id);
             return;
           }
         }
@@ -98,7 +107,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             }
           | { ok: false; error: string };
         if (existingData.ok && existingData.saves.length > 0) {
-          setSaveHeader(existingData.saves[0], selectedTeam.id);
+          const save = existingData.saves[0];
+          setSaveHeader({ ...save, ok: true }, selectedTeam.id);
           return;
         }
       }
@@ -127,7 +137,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      setSaveHeader(data, selectedTeam.id);
+      setSaveHeader({ ...data, createdAt: new Date().toISOString() }, selectedTeam.id);
     };
 
     loadSave();
@@ -140,13 +150,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <div
             className="rounded-xl border border-transparent p-4"
             style={{
-              backgroundColor:
-                'color-mix(in srgb, var(--team-primary) 8%, transparent)',
+              backgroundColor: 'color-mix(in srgb, var(--team-primary) 8%, transparent)',
             }}
           >
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Team
-            </p>
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Team</p>
             <p className="mt-2 text-lg font-semibold">{selectedTeam?.name}</p>
             <p className="text-sm text-muted-foreground">{selectedTeam?.abbr}</p>
           </div>
@@ -170,14 +177,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                         <span
                           className="h-6 w-1 rounded-full"
                           style={{
-                            backgroundColor: isActive
-                              ? 'var(--team-primary)'
-                              : 'transparent',
+                            backgroundColor: isActive ? 'var(--team-primary)' : 'transparent',
                           }}
                         />
-                        <span className={isActive ? 'text-foreground' : undefined}>
-                          {item}
-                        </span>
+                        <span className={isActive ? 'text-foreground' : undefined}>{item}</span>
                       </Link>
                     );
                   })}
@@ -245,9 +248,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   onClick={() => setIsProfileOpen((open) => !open)}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white"
                 >
-                  <span className="text-sm font-semibold text-muted-foreground">
-                    JD
-                  </span>
+                  <span className="text-sm font-semibold text-muted-foreground">JD</span>
                 </button>
                 {isProfileOpen ? (
                   <div className="absolute right-0 top-12 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
@@ -279,8 +280,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <div
               className="mb-6 rounded-2xl border border-transparent p-5"
               style={{
-                backgroundColor:
-                  'color-mix(in srgb, var(--team-primary) 6%, transparent)',
+                backgroundColor: 'color-mix(in srgb, var(--team-primary) 6%, transparent)',
               }}
             >
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -288,9 +288,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               </p>
               <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h2 className="text-xl font-semibold">
-                    Finalize depth chart for week one.
-                  </h2>
+                  <h2 className="text-xl font-semibold">Finalize depth chart for week one.</h2>
                   <p className="text-sm text-muted-foreground">
                     Review roster health and confirm your starters.
                   </p>

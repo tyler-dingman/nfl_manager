@@ -35,17 +35,17 @@ function DropdownMenuTrigger({
   asChild?: boolean;
 }) {
   const { open, setOpen } = useDropdownContext();
-  const triggerProps = {
+  const triggerProps: React.HTMLAttributes<HTMLButtonElement> = {
     onClick: (event: React.MouseEvent) => {
       event.preventDefault();
       setOpen(!open);
     },
     'aria-expanded': open,
-    'aria-haspopup': 'menu',
+    'aria-haspopup': 'menu' as const,
   };
 
   if (asChild) {
-    return React.cloneElement(children, triggerProps);
+    return React.cloneElement(children, triggerProps as React.HTMLAttributes<HTMLButtonElement>);
   }
 
   return (
@@ -57,8 +57,8 @@ function DropdownMenuTrigger({
 
 const DropdownMenuContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLDivElement> & { align?: 'start' | 'end' }
+>(({ className, align = 'start', ...props }, ref) => {
   const { open, setOpen } = useDropdownContext();
   const contentRef = React.useRef<HTMLDivElement>(null);
 
@@ -85,13 +85,16 @@ const DropdownMenuContent = React.forwardRef<
     return null;
   }
 
+  const alignClass = align === 'end' ? 'right-0' : 'left-0';
+
   return (
     <div
       ref={contentRef}
       role="menu"
       className={cn(
-        'absolute right-0 top-full z-50 mt-2 min-w-[10rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md',
-        className
+        'absolute top-full z-50 mt-2 min-w-[10rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md',
+        alignClass,
+        className,
       )}
       {...props}
     />
@@ -111,7 +114,7 @@ const DropdownMenuItem = React.forwardRef<
       role="menuitem"
       className={cn(
         'relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-        className
+        className,
       )}
       onClick={(event) => {
         onClick?.(event);

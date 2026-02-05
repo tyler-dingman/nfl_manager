@@ -7,9 +7,7 @@ const schedule = getCapHitSchedule(apy, years);
 const expectedYearOne = 10.0;
 
 if (schedule[0] !== expectedYearOne) {
-  throw new Error(
-    `Expected year one cap hit ${expectedYearOne}, got ${schedule[0]}`,
-  );
+  throw new Error(`Expected year one cap hit ${expectedYearOne}, got ${schedule[0]}`);
 }
 
 const state = createSaveState('cap-check', 'GB');
@@ -24,9 +22,7 @@ offerContractInState(state, playerId, years, apy);
 const expectedCapSpace = Number((initialCapSpace - expectedYearOne).toFixed(1));
 
 if (state.header.capSpace !== expectedCapSpace) {
-  throw new Error(
-    `Expected cap space ${expectedCapSpace}, got ${state.header.capSpace}`,
-  );
+  throw new Error(`Expected cap space ${expectedCapSpace}, got ${state.header.capSpace}`);
 }
 
 console.log('cap-math-check passed');
