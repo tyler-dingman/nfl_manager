@@ -100,7 +100,7 @@ export default function PlayerRowActions({
             ];
 
   return (
-    <div className="flex items-center justify-end gap-2">
+    <div className="flex flex-col items-end justify-end gap-1.5 md:flex-row md:items-center md:gap-2">
       {actions.map((action) => {
         const Icon = action.icon;
         const isDisabled = Boolean(action.disabled);
@@ -109,7 +109,7 @@ export default function PlayerRowActions({
             type="button"
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
+            className="h-9 w-9 md:h-8 md:w-8"
             onClick={action.onClick}
             aria-label={`${action.label} ${name}`}
             disabled={isDisabled}
