@@ -228,6 +228,8 @@ export const signFreeAgentInState = (
     contractYearsRemaining: 1,
     capHit: formatMoneyMillions(player.year1CapHit),
     status: 'Active',
+    signedTeamAbbr: state.header.teamAbbr,
+    signedTeamLogoUrl: `https://static.nfl.com/static/content/public/static/wildcat/assets/img/logos/teams/${state.header.teamAbbr}.svg`,
   };
 
   state.roster.push(signedPlayer);
