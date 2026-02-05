@@ -82,7 +82,7 @@ function PositionFilterBar({
   onSelect: (value: string) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:flex-wrap">
       {POSITION_FILTERS.map((position) => (
         <Button
           key={position}
@@ -327,7 +327,7 @@ export function PlayerTable({
 
   return (
     <div className="rounded-2xl border border-border bg-white shadow-sm">
-      <div className="flex flex-col gap-4 border-b border-border px-6 py-4">
+      <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <PositionFilterBar
             active={positionFilter}
@@ -384,7 +384,7 @@ export function PlayerTable({
                   <th
                     key={header.id}
                     className={cn(
-                      'px-6 py-2',
+                      'px-4 py-2 sm:px-6',
                       header.column.id === 'actions' && 'text-right'
                     )}
                   >
@@ -409,7 +409,7 @@ export function PlayerTable({
                   <td
                     key={cell.id}
                     className={cn(
-                      'px-6 py-1.5 align-middle text-sm',
+                      'px-4 py-2 align-middle text-sm sm:px-6',
                       cell.column.id === 'actions' && 'text-right'
                     )}
                   >

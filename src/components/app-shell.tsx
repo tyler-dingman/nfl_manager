@@ -136,7 +136,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         </aside>
 
         <div className="flex flex-1 flex-col">
-          <header className="flex h-16 items-center justify-between border-b border-border bg-white/80 px-4 md:px-6">
+          <header className="flex flex-col gap-4 border-b border-border bg-white/80 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-6">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-white">
                 {selectedTeam?.logo_url ? (
@@ -151,7 +151,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </span>
                 )}
               </div>
-              <div className="hidden flex-col md:flex">
+              <div className="flex flex-col">
                 <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   Active Team
                 </span>
@@ -159,12 +159,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <label className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground md:block">
+            <div className="flex flex-wrap items-center gap-3">
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Switch
               </label>
               <select
-                className="rounded-md border border-border bg-white px-3 py-2 text-sm"
+                className="min-w-[180px] flex-1 rounded-md border border-border bg-white px-3 py-2 text-sm sm:flex-none"
                 value={selectedTeamId}
                 onChange={(event) => setSelectedTeamId(event.target.value)}
               >
@@ -175,7 +175,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 ))}
               </select>
 
-              <div className="hidden items-center gap-4 text-xs font-semibold text-muted-foreground md:flex">
+              <div className="flex w-full items-center gap-4 text-xs font-semibold text-muted-foreground sm:w-auto md:ml-2">
                 <div className="flex flex-col text-right">
                   <span className="uppercase tracking-[0.2em]">Cap Space</span>
                   <span className="text-sm text-foreground">{formattedCapSpace}</span>
@@ -245,7 +245,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 </div>
                 <button
                   type="button"
-                  className="rounded-full px-4 py-2 text-sm font-semibold text-slate-900"
+                  className="w-full rounded-full px-4 py-2 text-sm font-semibold text-slate-900 md:w-auto"
                   style={{ backgroundColor: 'var(--team-secondary)' }}
                 >
                   Review lineup
