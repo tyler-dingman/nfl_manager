@@ -190,6 +190,11 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
     return { ok: false, error: 'Save not found' };
   }
 
+  // Ensure draftSessions is initialized
+  if (!state.draftSessions) {
+    state.draftSessions = {};
+  }
+
   return { ok: true, data: state };
 };
 

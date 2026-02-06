@@ -194,14 +194,19 @@ export function ActiveDraftRoom({
       });
       const text = await response.text();
       if (!text) {
+        console.warn('Draft advance: empty response');
         return;
       }
       const payload = JSON.parse(text) as
         | { ok: true; session: DraftSessionDTO }
         | { ok: false; error: string };
-      if (response.ok && payload.ok) {
-        onSessionUpdate(payload.session);
+      if (!response.ok || !payload.ok) {
+        console.warn('Draft advance failed:', payload.ok ? response.status : payload.error);
+        return;
       }
+      onSessionUpdate(payload.session);
+    } catch (error) {
+      console.error('Draft advance error:', error);
     } finally {
       advanceInFlight.current = false;
     }

@@ -15,7 +15,8 @@ export const GET = async (request: Request) => {
   try {
     const resolvedSaveId =
       saveId ??
-      listSaveStates().find((entry) => Boolean(entry.state.draftSessions[draftSessionId]))?.saveId;
+      listSaveStates().find((entry) => Boolean(entry.state.draftSessions?.[draftSessionId]))
+        ?.saveId;
 
     if (!resolvedSaveId) {
       return NextResponse.json({ ok: false, error: 'Draft session not found' }, { status: 404 });

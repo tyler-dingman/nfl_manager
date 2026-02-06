@@ -12,7 +12,7 @@ const resolveSaveId = (draftSessionId: string, saveId?: string) => {
   if (saveId) {
     return saveId;
   }
-  return listSaveStates().find((entry) => entry.state.draftSessions[draftSessionId])?.saveId;
+  return listSaveStates().find((entry) => entry.state.draftSessions?.[draftSessionId])?.saveId;
 };
 
 export const POST = async (request: Request) => {
@@ -27,22 +27,23 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: 'draftSessionId is required' }, { status: 400 });
   }
 
-  const resolvedSaveId = resolveSaveId(body.draftSessionId, body.saveId);
-  if (!resolvedSaveId) {
-    return NextResponse.json({ ok: false, error: 'Draft session not found' }, { status: 404 });
-  }
-
-  const snapshot = getDraftSession(body.draftSessionId, resolvedSaveId);
-  const currentPick = snapshot.picks[snapshot.currentPickIndex];
-  if (currentPick?.ownerTeamAbbr === snapshot.userTeamAbbr) {
-    return NextResponse.json({ ok: false, error: 'USER_ON_CLOCK' }, { status: 409 });
-  }
-
   try {
+    const resolvedSaveId = resolveSaveId(body.draftSessionId, body.saveId);
+    if (!resolvedSaveId) {
+      return NextResponse.json({ ok: false, error: 'Draft session not found' }, { status: 404 });
+    }
+
+    const snapshot = getDraftSession(body.draftSessionId, resolvedSaveId);
+    const currentPick = snapshot.picks[snapshot.currentPickIndex];
+    if (currentPick?.ownerTeamAbbr === snapshot.userTeamAbbr) {
+      return NextResponse.json({ ok: false, error: 'USER_ON_CLOCK' }, { status: 409 });
+    }
+
     const session = advanceDraftSession(body.draftSessionId, resolvedSaveId);
     return NextResponse.json({ ok: true, session });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to advance draft';
+    console.error('Draft advance error:', error);
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };

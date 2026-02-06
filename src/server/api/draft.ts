@@ -642,13 +642,17 @@ const nextRandom = (session: DraftSessionState): number => {
   return result;
 };
 
-const getCandidatePool = (prospects: PlayerRowDTO[]): PlayerRowDTO[] =>
-  prospects
-    .filter((player) => !player.isDrafted)
-    .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999))
-    .slice(0, 12);
+const getCandidatePool = (prospects: PlayerRowDTO[]): PlayerRowDTO[] => prospects.slice(0, 12);
 
 const pickFromPool = (session: DraftSessionState, pool: PlayerRowDTO[]): PlayerRowDTO => {
+  if (pool.length === 0) {
+    throw new Error('No candidates available to pick from');
+  }
+
+  if (pool.length === 1) {
+    return pool[0];
+  }
+
   const temperature = 0.6 + nextRandom(session) * 1.2;
   const weights = pool.map((player) => {
     const rank = player.rank ?? 999;
