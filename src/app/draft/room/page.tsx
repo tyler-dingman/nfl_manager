@@ -156,7 +156,8 @@ function DraftRoomContent() {
       const payload = (await response.json()) as DraftSessionResponse;
       if (!response.ok || !payload.ok) {
         const message = payload.ok ? 'Unable to load draft data.' : payload.error;
-        if (message === 'Draft session not found') {
+        // Clear draft session if save or session not found
+        if (message === 'Draft session not found' || message === 'Save not found') {
           setActiveDraftSessionId(null, saveId);
           setSession(null);
           setError('');
