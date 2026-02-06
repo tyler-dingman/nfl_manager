@@ -72,7 +72,7 @@ function TradeBuilderContent() {
   const selectedTeam = useTeamStore((state) =>
     state.teams.find((team) => team.id === state.selectedTeamId),
   );
-  const selectedPlayerId = searchParams.get('playerId') ?? undefined;
+  const selectedPlayerId = searchParams?.get('playerId') ?? undefined;
 
   const saveId = useSaveStore((state) => state.saveId);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);

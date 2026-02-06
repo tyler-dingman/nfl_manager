@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { useSaveStore } from '@/features/save/save-store';
@@ -45,7 +46,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const clearSave = useSaveStore((state) => state.clearSave);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
 
   const selectedTeam = useMemo(
@@ -55,6 +58,31 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const formattedCapSpace = saveId ? `$${capSpace.toFixed(1)}M` : '--';
   const formattedRoster = saveId ? `${rosterCount}/${rosterLimit}` : '--';
+
+  useEffect(() => {
+    if (!isMobileSidebarOpen) {
+      document.body.style.overflow = '';
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [isMobileSidebarOpen]);
+
+  useEffect(() => {
+    setIsMobileSidebarOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const loadSave = async () => {
@@ -89,6 +117,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               );
               return;
             }
+          } else if (headerResponse.status === 404) {
+            clearSave();
           }
         } catch {
           // Ignore errors when loading persisted save, will fall through to create new one
@@ -148,21 +178,54 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     };
 
     loadSave();
-  }, [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, storedTeamAbbr, storedTeamId]);
+  }, [
+    clearSave,
+    saveId,
+    selectedTeam?.abbr,
+    selectedTeam?.id,
+    setSaveHeader,
+    storedTeamAbbr,
+    storedTeamId,
+  ]);
 
   return (
     <TeamThemeProvider team={selectedTeam}>
-      <div className="flex min-h-screen bg-slate-50">
-        <aside className="hidden w-64 flex-col gap-6 border-r border-border bg-white/80 px-5 py-6 md:flex">
+      <div className="flex min-h-screen flex-col bg-slate-50 md:flex-row">
+        {isMobileSidebarOpen ? (
           <div
-            className="rounded-xl border border-transparent p-4"
+            className="fixed inset-0 z-40 bg-black/50 md:hidden"
+            onClick={() => setIsMobileSidebarOpen(false)}
+            aria-hidden="true"
+          />
+        ) : null}
+
+        <aside
+          className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white/95 px-5 py-6 transition-transform md:static md:z-auto md:flex md:translate-x-0 md:flex-col md:bg-white/80"
+          style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
+        >
+          <div
+            className="rounded-xl border border-transparent p-4 text-[var(--team-primary-foreground)]"
             style={{
-              backgroundColor: 'color-mix(in srgb, var(--team-primary) 8%, transparent)',
+              backgroundColor: 'var(--team-primary)',
             }}
           >
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Team</p>
+            <p
+              className="text-xs uppercase tracking-[0.2em]"
+              style={{
+                color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+              }}
+            >
+              Team
+            </p>
             <p className="mt-2 text-lg font-semibold">{selectedTeam?.name}</p>
-            <p className="text-sm text-muted-foreground">{selectedTeam?.abbr}</p>
+            <p
+              className="text-sm"
+              style={{
+                color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+              }}
+            >
+              {selectedTeam?.abbr}
+            </p>
           </div>
           <nav className="flex flex-col gap-6 text-sm">
             {navSections.map((section) => (
@@ -200,6 +263,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <div className="flex flex-1 flex-col">
           <header className="flex h-16 items-center justify-between border-b border-border bg-white/80 px-4 md:px-6">
             <div className="flex items-center gap-3">
+              <button
+                type="button"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
+                onClick={() => setIsMobileSidebarOpen((open) => !open)}
+                aria-label={isMobileSidebarOpen ? 'Close menu' : 'Open menu'}
+              >
+                {isMobileSidebarOpen ? (
+                  <X className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <Menu className="h-4 w-4 text-muted-foreground" />
+                )}
+              </button>
               <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-white">
                 {selectedTeam?.logo_url ? (
                   <img
@@ -236,6 +311,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </option>
                 ))}
               </select>
+
+              <button
+                type="button"
+                className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold text-muted-foreground transition hover:text-foreground"
+                onClick={clearSave}
+              >
+                Reset Save
+              </button>
 
               <div className="hidden items-center gap-4 text-xs font-semibold text-muted-foreground md:flex">
                 <div className="flex flex-col text-right">
@@ -285,25 +368,38 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
           <main className="flex-1 px-4 py-6 md:px-8">
             <div
-              className="mb-6 rounded-2xl border border-transparent p-5"
+              className="mb-6 rounded-2xl border border-transparent p-5 text-[var(--team-primary-foreground)]"
               style={{
-                backgroundColor: 'color-mix(in srgb, var(--team-primary) 6%, transparent)',
+                backgroundColor: 'var(--team-primary)',
               }}
             >
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              <p
+                className="text-xs uppercase tracking-[0.2em]"
+                style={{
+                  color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+                }}
+              >
                 Next Action
               </p>
               <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                   <h2 className="text-xl font-semibold">Finalize depth chart for week one.</h2>
-                  <p className="text-sm text-muted-foreground">
+                  <p
+                    className="text-sm"
+                    style={{
+                      color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+                    }}
+                  >
                     Review roster health and confirm your starters.
                   </p>
                 </div>
                 <button
                   type="button"
-                  className="rounded-full px-4 py-2 text-sm font-semibold text-slate-900"
-                  style={{ backgroundColor: 'var(--team-secondary)' }}
+                  className="rounded-full px-4 py-2 text-sm font-semibold"
+                  style={{
+                    backgroundColor: 'var(--team-secondary)',
+                    color: 'var(--team-on-secondary)',
+                  }}
                 >
                   Review lineup
                 </button>

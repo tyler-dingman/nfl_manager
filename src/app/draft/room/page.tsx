@@ -12,6 +12,7 @@ import { DraftStagePanel } from '@/components/draft/draft-stage-panel';
 import { buildRoundOneOrder } from '@/components/draft/draft-utils';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
+import { useTeamStore } from '@/features/team/team-store';
 import { getDraftGrade } from '@/lib/draft-utils';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
@@ -44,9 +45,12 @@ type TeamsResponse = {
 
 const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
 
+const parseDraftSessionStartResponse = (text: string): DraftSessionStartResponse =>
+  text ? (JSON.parse(text) as DraftSessionStartResponse) : { ok: false, error: 'Empty response' };
+
 function DraftRoomContent() {
   const searchParams = useSearchParams();
-  const modeParam = searchParams.get('mode');
+  const modeParam = searchParams?.get('mode');
   const mode: DraftMode = modeParam === 'real' ? 'real' : 'mock';
   const [session, setSession] = React.useState<DraftSessionDTO | null>(null);
   const [error, setError] = React.useState('');
@@ -67,6 +71,12 @@ function DraftRoomContent() {
   const setActiveDraftSessionId = useSaveStore((state) => state.setActiveDraftSessionId);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
+  const storedTeams = useTeamStore((state) => state.teams);
+  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
+  const selectedTeam = React.useMemo(
+    () => storedTeams.find((team) => team.id === selectedTeamId) ?? storedTeams[0] ?? null,
+    [selectedTeamId, storedTeams],
+  );
 
   const ensureSaveExists = React.useCallback(async () => {
     if (saveId) {
@@ -91,14 +101,17 @@ function DraftRoomContent() {
       }
     }
 
-    if (!teamAbbr && !teamId) {
+    const resolvedTeamId = teamId || selectedTeam?.id;
+    const resolvedTeamAbbr = teamAbbr || selectedTeam?.abbr;
+
+    if (!resolvedTeamAbbr && !resolvedTeamId) {
       return null;
     }
 
     const response = await fetch('/api/saves/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ teamId, teamAbbr }),
+      body: JSON.stringify({ teamId: resolvedTeamId, teamAbbr: resolvedTeamAbbr }),
     });
     if (!response.ok) {
       return null;
@@ -121,7 +134,7 @@ function DraftRoomContent() {
 
     setSaveHeader({ ...data, createdAt: new Date().toISOString() }, teamId);
     return data.saveId;
-  }, [saveId, setSaveHeader, teamAbbr, teamId]);
+  }, [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, teamAbbr, teamId]);
 
   const userSelections = React.useMemo(() => {
     if (!session) {
@@ -185,13 +198,46 @@ function DraftRoomContent() {
     setLoading(true);
     setError('');
     setLobbyMessage('');
-    const response = await fetch('/api/draft/session', {
+    let response = await fetch('/api/draft/session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ saveId: resolvedSaveId, mode }),
     });
-    const payload = (await response.json()) as DraftSessionStartResponse;
+    if (response.status === 404) {
+      response = await fetch('/api/draft/session/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ saveId: resolvedSaveId, mode }),
+      });
+    }
+    const text = await response.text();
+    const payload = parseDraftSessionStartResponse(text);
     if (!response.ok || !payload.ok) {
+      if (!payload.ok && payload.error === 'Save not found') {
+        const freshSaveId = await ensureSaveExists();
+        if (freshSaveId) {
+          const retry = await fetch('/api/draft/session/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ saveId: freshSaveId, mode }),
+          });
+          const retryText = await retry.text();
+          const retryPayload = parseDraftSessionStartResponse(retryText);
+          if (retry.ok && retryPayload.ok) {
+            setActiveDraftSessionId(retryPayload.draftSessionId, freshSaveId);
+            if (retryPayload.session) {
+              setSession(retryPayload.session);
+            } else {
+              await fetchSession(retryPayload.draftSessionId);
+            }
+            setLoading(false);
+            return true;
+          }
+          setLobbyMessage(retryPayload.ok ? 'Unable to start draft.' : retryPayload.error);
+          setLoading(false);
+          return false;
+        }
+      }
       setLobbyMessage(payload.ok ? 'Unable to start draft.' : payload.error);
       setLoading(false);
       return false;

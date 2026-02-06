@@ -3,6 +3,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 
 import type { Team } from '@/features/team/team-store';
+import { getReadableTextColor } from '@/lib/color-utils';
 
 const normalizeHex = (value: string) => {
   const trimmed = value.trim().replace('#', '');
@@ -30,15 +31,17 @@ const getLuminance = (hex: string) => {
   return 0.2126 * toLinear(red) + 0.7152 * toLinear(green) + 0.0722 * toLinear(blue);
 };
 
-const getOnColor = (hex: string) => (getLuminance(hex) > 0.5 ? '#0b0f19' : '#ffffff');
+const getOnColor = (hex: string) => (getLuminance(hex) > 0.5 ? '#0f172a' : '#ffffff');
 
 const toTeamStyle = (team?: Team): CSSProperties => {
   const primary = team?.color_primary ?? '#1f2937';
   const secondary = team?.color_secondary ?? '#4b5563';
+  const primaryForeground = getReadableTextColor(primary);
   return {
     '--team-primary': primary,
     '--team-secondary': secondary,
-    '--team-on-primary': getOnColor(primary),
+    '--team-primary-foreground': primaryForeground,
+    '--team-on-primary': primaryForeground,
     '--team-on-secondary': getOnColor(secondary),
   } as CSSProperties;
 };

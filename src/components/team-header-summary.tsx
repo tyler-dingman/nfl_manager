@@ -24,21 +24,25 @@ export default function TeamHeaderSummary({
       style={{
         backgroundColor: 'var(--team-primary)',
         borderColor: 'var(--team-secondary)',
-        color: 'var(--team-on-primary)',
+        color: 'var(--team-primary-foreground)',
       }}
     >
       <div className="flex flex-wrap items-center justify-between gap-6">
         <div>
           <p
             className="text-xs font-semibold uppercase tracking-[0.2em]"
-            style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}
+            style={{
+              color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+            }}
           >
             Team Summary
           </p>
           <h2 className="mt-2 text-xl font-semibold">Cap and roster overview</h2>
           <p
             className="mt-1 text-sm"
-            style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}
+            style={{
+              color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+            }}
           >
             Keep tabs on remaining flexibility and roster spots.
           </p>
@@ -48,7 +52,9 @@ export default function TeamHeaderSummary({
             <div className="flex items-center justify-between text-sm">
               <span className="font-semibold">{formatCap(capSpace)}</span>
               <span
-                style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}
+                style={{
+                  color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+                }}
               >
                 {formatCap(capLimit)} limit
               </span>
@@ -58,13 +64,15 @@ export default function TeamHeaderSummary({
                 className="h-2 rounded-full"
                 style={{
                   width: `${capPercent}%`,
-                  backgroundColor: 'var(--team-on-primary)',
+                  backgroundColor: 'var(--team-primary-foreground)',
                 }}
               />
             </div>
             <p
               className="mt-2 text-xs uppercase tracking-[0.2em]"
-              style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}
+              style={{
+                color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+              }}
             >
               Cap Space
             </p>
@@ -75,7 +83,9 @@ export default function TeamHeaderSummary({
                 {rosterCount}/{rosterLimit}
               </span>
               <span
-                style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}
+                style={{
+                  color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+                }}
               >
                 {rosterLimit - rosterCount} open
               </span>
@@ -85,13 +95,15 @@ export default function TeamHeaderSummary({
                 className="h-2 rounded-full"
                 style={{
                   width: `${rosterPercent}%`,
-                  backgroundColor: 'var(--team-on-primary)',
+                  backgroundColor: 'var(--team-primary-foreground)',
                 }}
               />
             </div>
             <p
               className="mt-2 text-xs uppercase tracking-[0.2em]"
-              style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}
+              style={{
+                color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+              }}
             >
               Roster Count
             </p>
@@ -99,7 +111,9 @@ export default function TeamHeaderSummary({
           <div className="min-w-[120px]">
             <p
               className="text-xs uppercase tracking-[0.2em]"
-              style={{ color: 'color-mix(in srgb, var(--team-on-primary) 70%, transparent)' }}
+              style={{
+                color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+              }}
             >
               Cap trend
             </p>
@@ -108,7 +122,7 @@ export default function TeamHeaderSummary({
                 <path
                   d="M0 28 L20 18 L40 24 L60 10 L80 16 L100 8 L120 12"
                   fill="none"
-                  stroke="var(--team-on-primary)"
+                  stroke="var(--team-primary-foreground)"
                   strokeWidth="2"
                   strokeLinecap="round"
                 />

@@ -190,7 +190,7 @@ export function ActiveDraftRoom({
       const response = await fetch('/api/draft/advance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ draftSessionId, saveId }),
+        body: JSON.stringify({ draftSessionId }),
       });
       const text = await response.text();
       if (!text) {
@@ -210,7 +210,7 @@ export function ActiveDraftRoom({
     } finally {
       advanceInFlight.current = false;
     }
-  }, [draftSessionId, onSessionUpdate, saveId]);
+  }, [draftSessionId, onSessionUpdate]);
 
   const handleSkipToUserPick = React.useCallback(async () => {
     if (onClock || skipInFlight.current) {
@@ -229,7 +229,7 @@ export function ActiveDraftRoom({
         const response = await fetch('/api/draft/advance', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ draftSessionId, saveId }),
+          body: JSON.stringify({ draftSessionId }),
         });
         const text = await response.text();
         if (!text) {
@@ -248,7 +248,7 @@ export function ActiveDraftRoom({
     } finally {
       skipInFlight.current = false;
     }
-  }, [draftSessionId, onClock, onSessionUpdate, saveId, session]);
+  }, [draftSessionId, onClock, onSessionUpdate, session]);
 
   React.useEffect(() => {
     if (session.status !== 'in_progress') {

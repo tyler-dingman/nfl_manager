@@ -10,7 +10,10 @@ type AdvancePayload = {
 
 const resolveSaveId = (draftSessionId: string, saveId?: string) => {
   if (saveId) {
-    return saveId;
+    const direct = listSaveStates().find((entry) => entry.saveId === saveId);
+    if (direct) {
+      return saveId;
+    }
   }
   return listSaveStates().find((entry) => entry.state.draftSessions?.[draftSessionId])?.saveId;
 };
