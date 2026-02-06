@@ -51,6 +51,7 @@ type PlayerTableProps = {
   onTradePlayer?: (player: PlayerRowDTO) => void;
   onOfferPlayer?: (player: PlayerRowDTO) => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
+  onResignPlayer?: (player: PlayerRowDTO) => void;
   onSelectTradePlayer?: (player: PlayerRowDTO) => void;
 };
 
@@ -105,6 +106,7 @@ export function PlayerTable({
   onTradePlayer,
   onOfferPlayer,
   onDraftPlayer,
+  onResignPlayer,
   onSelectTradePlayer,
 }: PlayerTableProps) {
   const [isMobile, setIsMobile] = React.useState(false);
@@ -315,6 +317,7 @@ export function PlayerTable({
               onTradePlayer={onTradePlayer}
               onOfferPlayer={onOfferPlayer}
               onDraftPlayer={onDraftPlayer}
+              onResignPlayer={onResignPlayer}
               onSelectTradePlayer={onSelectTradePlayer}
             />
           );
@@ -325,6 +328,7 @@ export function PlayerTable({
     onCutPlayer,
     onDraftPlayer,
     onOfferPlayer,
+    onResignPlayer,
     onSelectTradePlayer,
     onTheClockForUserTeam,
     onTradePlayer,

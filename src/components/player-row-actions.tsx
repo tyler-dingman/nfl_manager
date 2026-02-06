@@ -6,7 +6,7 @@ import { ArrowLeftRight, ClipboardCheck, Handshake, Plus, UserX } from 'lucide-r
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 
-export type PlayerRowActionsVariant = 'roster' | 'freeAgent' | 'draft' | 'tradePicker';
+export type PlayerRowActionsVariant = 'roster' | 'freeAgent' | 'draft' | 'tradePicker' | 'resign';
 
 type ActionConfig = {
   label: string;
@@ -24,6 +24,7 @@ type PlayerRowActionsProps = {
   onTradePlayer?: (player: PlayerRowDTO) => void;
   onOfferPlayer?: (player: PlayerRowDTO) => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
+  onResignPlayer?: (player: PlayerRowDTO) => void;
   onSelectTradePlayer?: (player: PlayerRowDTO) => void;
 };
 
@@ -52,6 +53,7 @@ export default function PlayerRowActions({
   onTradePlayer,
   onOfferPlayer,
   onDraftPlayer,
+  onResignPlayer,
   onSelectTradePlayer,
 }: PlayerRowActionsProps) {
   const name = getPlayerName(player);
@@ -91,13 +93,21 @@ export default function PlayerRowActions({
                 disabledReason: draftDisabledReason,
               },
             ]
-          : [
-              {
-                label: 'Add asset',
-                icon: Plus,
-                onClick: () => onSelectTradePlayer?.(player),
-              },
-            ];
+          : variant === 'resign'
+            ? [
+                {
+                  label: 'Re-sign',
+                  icon: Handshake,
+                  onClick: () => onResignPlayer?.(player),
+                },
+              ]
+            : [
+                {
+                  label: 'Add asset',
+                  icon: Plus,
+                  onClick: () => onSelectTradePlayer?.(player),
+                },
+              ];
 
   return (
     <div className="flex flex-col items-end justify-end gap-1.5 md:flex-row md:items-center md:gap-2">

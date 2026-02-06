@@ -3,6 +3,8 @@ export type PlayerRowDTO = {
   firstName: string;
   lastName: string;
   position: string;
+  age?: number;
+  rating?: number;
   rank?: number;
   college?: string;
   grade?: string;
@@ -14,4 +16,11 @@ export type PlayerRowDTO = {
   isDrafted?: boolean;
   signedTeamAbbr?: string | null;
   signedTeamLogoUrl?: string | null;
+  contract?: {
+    yearsRemaining: number;
+    apy: number;
+    guaranteed: number;
+    capHit: number;
+    expiresAfterSeason: boolean;
+  };
 };

@@ -1,6 +1,8 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 import type { DraftSessionState } from '@/types/draft';
+import type { NewsItemDTO } from '@/types/news';
+import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import {
   formatMoneyMillions,
   getCapHitSchedule,
@@ -8,6 +10,7 @@ import {
   getYearOneCapHit,
 } from '@/server/logic/cap';
 import { logoUrlFor } from './team';
+import { EXPIRING_CONTRACTS } from '@/lib/expiring-contracts';
 
 export type PlayerFilters = {
   position?: string;
@@ -25,6 +28,8 @@ export type SaveState = {
   roster: StoredPlayer[];
   freeAgents: StoredPlayer[];
   draftSessions: Record<string, DraftSessionState>;
+  expiringContracts: ExpiringContractRow[];
+  newsFeed: NewsItemDTO[];
 };
 
 const saveStore = new Map<string, SaveState>();
@@ -165,7 +170,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     capLimit: 255.4,
     rosterCount: roster.length,
     rosterLimit: 53,
-    phase: 'free_agency',
+    phase: 'resign_cut',
     createdAt: new Date().toISOString(),
   };
 
@@ -174,10 +179,22 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     roster,
     freeAgents,
     draftSessions: {},
+    expiringContracts: teamAbbr.toUpperCase() === 'PHI' ? [...EXPIRING_CONTRACTS] : [],
+    newsFeed: [],
   };
 
   saveStore.set(saveId, state);
   return state;
+};
+
+export const setSavePhase = (saveId: string, phase: string): SaveResult<SaveHeaderDTO> => {
+  const state = getSaveState(saveId);
+  if (!state) {
+    return { ok: false, error: 'Save not found' };
+  }
+
+  state.header.phase = phase;
+  return { ok: true, data: getSaveHeaderSnapshot(state) };
 };
 
 export const getSaveState = (saveId: string): SaveState | undefined => saveStore.get(saveId);
@@ -193,6 +210,15 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
   // Ensure draftSessions is initialized
   if (!state.draftSessions) {
     state.draftSessions = {};
+  }
+  if (!state.expiringContracts) {
+    state.expiringContracts = [];
+  }
+  if (state.expiringContracts.length === 0 && state.header.teamAbbr.toUpperCase() === 'PHI') {
+    state.expiringContracts = [...EXPIRING_CONTRACTS];
+  }
+  if (!state.newsFeed) {
+    state.newsFeed = [];
   }
 
   return { ok: true, data: state };
@@ -240,6 +266,13 @@ export const signFreeAgentInState = (
     contractYearsRemaining: 1,
     capHit: formatMoneyMillions(player.year1CapHit),
     status: 'Active',
+    contract: {
+      yearsRemaining: 1,
+      apy: player.year1CapHit,
+      guaranteed: 0,
+      capHit: player.year1CapHit,
+      expiresAfterSeason: false,
+    },
   };
 
   state.roster.push(signedPlayer);
@@ -248,6 +281,13 @@ export const signFreeAgentInState = (
     0,
     Number((state.header.capSpace - player.year1CapHit).toFixed(1)),
   );
+  pushNewsItem(state, {
+    type: 'freeAgentSigned',
+    teamAbbr: state.header.teamAbbr,
+    playerName: `${signedPlayer.firstName} ${signedPlayer.lastName}`,
+    details: `${state.header.teamAbbr} sign ${signedPlayer.firstName} ${signedPlayer.lastName}.`,
+    severity: 'success',
+  });
 
   return {
     header: getSaveHeaderSnapshot(state),
@@ -277,12 +317,26 @@ export const offerContractInState = (
     signedTeamAbbr: state.header.teamAbbr,
     signedTeamLogoUrl: logoUrlFor(state.header.teamAbbr),
     capHitSchedule,
+    contract: {
+      yearsRemaining: years,
+      apy,
+      guaranteed: 0,
+      capHit: year1CapHit,
+      expiresAfterSeason: false,
+    },
   };
 
   state.freeAgents[playerIndex] = signedPlayer;
   state.roster.push(signedPlayer);
   state.header.rosterCount = state.roster.length;
   state.header.capSpace = Math.max(0, Number((state.header.capSpace - year1CapHit).toFixed(1)));
+  pushNewsItem(state, {
+    type: 'freeAgentSigned',
+    teamAbbr: state.header.teamAbbr,
+    playerName: `${signedPlayer.firstName} ${signedPlayer.lastName}`,
+    details: `${state.header.teamAbbr} sign ${signedPlayer.firstName} ${signedPlayer.lastName}.`,
+    severity: 'success',
+  });
 
   return {
     header: getSaveHeaderSnapshot(state),
@@ -307,16 +361,144 @@ export const cutPlayerInState = (
     status: 'Free Agent',
     signedTeamAbbr: null,
     signedTeamLogoUrl: null,
+    contract: {
+      yearsRemaining: 0,
+      apy: 0,
+      guaranteed: 0,
+      capHit: 0,
+      expiresAfterSeason: false,
+    },
   };
 
   state.freeAgents.unshift(cutPlayer);
   state.header.rosterCount = state.roster.length;
   state.header.capSpace = Number((state.header.capSpace + player.year1CapHit).toFixed(1));
+  pushNewsItem(state, {
+    type: 'cut',
+    teamAbbr: state.header.teamAbbr,
+    playerName: `${cutPlayer.firstName} ${cutPlayer.lastName}`,
+    details: `${state.header.teamAbbr} cut ${cutPlayer.firstName} ${cutPlayer.lastName}.`,
+    severity: 'warning',
+  });
 
   return {
     header: getSaveHeaderSnapshot(state),
     player: cutPlayer,
   };
+};
+
+export const resignPlayerInState = (
+  state: SaveState,
+  playerId: string,
+  years: number,
+  apy: number,
+  guaranteed: number,
+): { header: SaveHeaderDTO; player: PlayerRowDTO } => {
+  const playerIndex = state.roster.findIndex((rosterPlayer) => rosterPlayer.id === playerId);
+  if (playerIndex === -1) {
+    throw new Error('Player not found on roster');
+  }
+
+  const player = state.roster[playerIndex];
+  const year1CapHit = getYearOneCapHit(apy, years);
+  const capHitSchedule = getCapHitSchedule(apy, years);
+
+  const updatedPlayer: StoredPlayer = {
+    ...player,
+    contractYearsRemaining: years,
+    capHit: formatMoneyMillions(year1CapHit),
+    status: 'Active',
+    capHitSchedule,
+    contract: {
+      yearsRemaining: years,
+      apy,
+      guaranteed,
+      capHit: year1CapHit,
+      expiresAfterSeason: false,
+    },
+  };
+
+  state.roster[playerIndex] = updatedPlayer;
+  state.header.capSpace = Math.max(0, Number((state.header.capSpace - year1CapHit).toFixed(1)));
+
+  return {
+    header: getSaveHeaderSnapshot(state),
+    player: updatedPlayer,
+  };
+};
+
+export const resignExpiringContractInState = (
+  state: SaveState,
+  contract: ExpiringContractRow,
+  years: number,
+  apy: number,
+  guaranteed: number,
+): { header: SaveHeaderDTO; player: PlayerRowDTO } => {
+  const nameParts = contract.name.split(' ');
+  const firstName = nameParts[0] ?? contract.name;
+  const lastName = nameParts.slice(1).join(' ') || contract.name;
+  const year1CapHit = getYearOneCapHit(apy, years);
+  const capHitSchedule = getCapHitSchedule(apy, years);
+
+  const newPlayer: StoredPlayer = {
+    id: contract.id,
+    firstName,
+    lastName,
+    position: contract.pos,
+    contractYearsRemaining: years,
+    capHit: formatMoneyMillions(year1CapHit),
+    status: 'Active',
+    headshotUrl: null,
+    year1CapHit,
+    capHitSchedule,
+    contract: {
+      yearsRemaining: years,
+      apy,
+      guaranteed,
+      capHit: year1CapHit,
+      expiresAfterSeason: false,
+    },
+  };
+
+  state.roster.push(newPlayer);
+  removeExpiringContract(state, contract.id);
+  state.header.rosterCount = state.roster.length;
+  state.header.capSpace = Math.max(0, Number((state.header.capSpace - year1CapHit).toFixed(1)));
+
+  return {
+    header: getSaveHeaderSnapshot(state),
+    player: newPlayer,
+  };
+};
+
+export const upsertExpiringContract = (state: SaveState, contract: ExpiringContractRow): void => {
+  const index = state.expiringContracts.findIndex((entry) => entry.id === contract.id);
+  if (index === -1) {
+    state.expiringContracts.push(contract);
+  } else {
+    state.expiringContracts[index] = contract;
+  }
+};
+
+export const removeExpiringContract = (state: SaveState, contractId: string): void => {
+  const index = state.expiringContracts.findIndex((entry) => entry.id === contractId);
+  if (index !== -1) {
+    state.expiringContracts.splice(index, 1);
+  }
+};
+
+export const pushNewsItem = (
+  state: SaveState,
+  item: Omit<NewsItemDTO, 'id' | 'createdAt'>,
+): NewsItemDTO => {
+  const created = {
+    id: `news_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    createdAt: new Date().toISOString(),
+    ...item,
+  };
+  state.newsFeed.unshift(created);
+  state.newsFeed = state.newsFeed.slice(0, 30);
+  return created;
 };
 
 export const addDraftedPlayersInState = (

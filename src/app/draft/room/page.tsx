@@ -10,10 +10,13 @@ import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
 import { DraftStagePanel } from '@/components/draft/draft-stage-panel';
 import { buildRoundOneOrder } from '@/components/draft/draft-utils';
+import NewsTicker from '@/components/news-ticker';
+import { PlayerTable } from '@/components/player-table';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { getDraftGrade } from '@/lib/draft-utils';
+import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 
@@ -56,6 +59,7 @@ function DraftRoomContent() {
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [speedLevel, setSpeedLevel] = React.useState<DraftSpeedLevel>(1);
+  const [lobbyTab, setLobbyTab] = React.useState<'available' | 'drafted'>('available');
   const [gradeLetter, setGradeLetter] = React.useState<string | null>(null);
   const [gradeReason, setGradeReason] = React.useState<string | null>(null);
   const [isGradeOpen, setIsGradeOpen] = React.useState(false);
@@ -147,6 +151,7 @@ function DraftRoomContent() {
   }, [session]);
 
   const roundOneOrder = React.useMemo(() => buildRoundOneOrder(teams), [teams]);
+  const lobbyProspects = React.useMemo(() => buildTop32Prospects(), []);
 
   const selectedPick = React.useMemo(
     () =>
@@ -367,6 +372,7 @@ function DraftRoomContent() {
         reason={gradeReason}
         onClose={() => setIsGradeOpen(false)}
       />
+      <NewsTicker saveId={saveId} />
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Draft Room</h1>
@@ -374,12 +380,37 @@ function DraftRoomContent() {
             Mode: {mode === 'real' ? 'Real Draft' : 'Mock Draft'}
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <Button type="button" variant="secondary">
+            Settings
+          </Button>
+          <div className="flex items-center gap-2 rounded-full border border-border bg-white px-3 py-2">
+            <span className="text-xs font-semibold text-muted-foreground">Speed</span>
+            <input
+              className="w-36"
+              type="range"
+              min={0}
+              max={2}
+              step={1}
+              value={speedLevel}
+              onChange={(event) => setSpeedLevel(Number(event.target.value) as DraftSpeedLevel)}
+            />
+            <span className="text-xs font-semibold text-muted-foreground">
+              {speedLevel === 0 ? 'Slow' : speedLevel === 2 ? 'Turbo' : 'Fast'}
+            </span>
+          </div>
+          <Button type="button" variant="secondary" disabled={!session}>
+            Offer Trade
+          </Button>
           {!session ? (
             <Button type="button" onClick={startDraft}>
               Start Draft
             </Button>
-          ) : null}
+          ) : (
+            <Button type="button" disabled>
+              Draft Active
+            </Button>
+          )}
         </div>
       </div>
       {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}
@@ -401,12 +432,45 @@ function DraftRoomContent() {
               <DraftStagePanel
                 selectedPick={selectedPick}
                 onTheClockPickNumber={onTheClockPickNumber}
-                onStartDraft={() => void startDraft()}
-                isStartingDraft={loading}
               />
               {lobbyMessage ? (
                 <p className="mt-3 text-sm text-muted-foreground">{lobbyMessage}</p>
               ) : null}
+              <div className="mt-6 rounded-2xl border border-border bg-white shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-3 sm:px-6">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant={lobbyTab === 'available' ? 'secondary' : 'ghost'}
+                      onClick={() => setLobbyTab('available')}
+                    >
+                      Available
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant={lobbyTab === 'drafted' ? 'secondary' : 'ghost'}
+                      onClick={() => setLobbyTab('drafted')}
+                    >
+                      Drafted
+                    </Button>
+                  </div>
+                </div>
+                {lobbyTab === 'available' ? (
+                  <div className="p-4 sm:p-6">
+                    <PlayerTable
+                      data={lobbyProspects}
+                      variant="draft"
+                      onTheClockForUserTeam={false}
+                    />
+                  </div>
+                ) : (
+                  <div className="p-6 text-sm text-muted-foreground">
+                    Drafted prospects will appear here once the draft begins.
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <div className="rounded-2xl border border-border bg-white p-6 shadow-sm lg:col-span-2">

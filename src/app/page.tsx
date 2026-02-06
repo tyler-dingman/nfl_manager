@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
+import NewsTicker from '@/components/news-ticker';
 import { PlayerTable } from '@/components/player-table';
 import { useRosterQuery } from '@/features/players/queries';
 import { useSaveStore } from '@/features/save/save-store';
@@ -63,6 +64,7 @@ export default function HomePage() {
 
   return (
     <AppShell>
+      <NewsTicker saveId={saveId} />
       <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
         <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
           <h1 className="text-2xl font-semibold">Welcome back, GM.</h1>

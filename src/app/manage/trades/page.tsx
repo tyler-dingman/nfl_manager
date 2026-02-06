@@ -5,7 +5,8 @@ import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
-import TradePlayerModal from '@/components/trade-player-modal';
+import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
+import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
@@ -82,9 +83,23 @@ function TradeBuilderContent() {
   const [userRoster, setUserRoster] = useState<PlayerRowDTO[]>([]);
   const [partnerRoster, setPartnerRoster] = useState<PlayerRowDTO[]>([]);
   const [activeModalSide, setActiveModalSide] = useState<'send' | 'receive' | null>(null);
-  const [sendPick, setSendPick] = useState(PICK_OPTIONS[0]?.id ?? '');
-  const [receivePick, setReceivePick] = useState(PICK_OPTIONS[0]?.id ?? '');
+  const [activeSlotIndex, setActiveSlotIndex] = useState<number | null>(null);
+  const [slotAction, setSlotAction] = useState<{
+    side: 'send' | 'receive';
+    slotIndex: number;
+  } | null>(null);
+  const [pendingReplace, setPendingReplace] = useState<{
+    side: 'send' | 'receive';
+    asset: TradeAsset;
+  } | null>(null);
+  const [duplicateMessage, setDuplicateMessage] = useState<string | null>(null);
   const [proposalStatus, setProposalStatus] = useState<string>('');
+  const [sendSlotIds, setSendSlotIds] = useState<Array<string | null>>(
+    Array.from({ length: 5 }, () => null),
+  );
+  const [receiveSlotIds, setReceiveSlotIds] = useState<Array<string | null>>(
+    Array.from({ length: 5 }, () => null),
+  );
 
   const acceptance = useMemo(() => {
     if (!trade) {
@@ -150,8 +165,18 @@ function TradeBuilderContent() {
     loadTrade();
   }, [partnerTeamAbbr, saveId, selectedPlayerId]);
 
-  const handleAddPlayer = async (player: PlayerRowDTO) => {
-    if (!trade || !activeModalSide || !saveId) {
+  useEffect(() => {
+    setSendSlotIds(Array.from({ length: 5 }, () => null));
+    setReceiveSlotIds(Array.from({ length: 5 }, () => null));
+  }, [trade?.id]);
+
+  const handleAddAsset = async (payload: {
+    side: 'send' | 'receive';
+    type: 'player' | 'pick';
+    playerId?: string;
+    pickId?: string;
+  }) => {
+    if (!trade || !saveId) {
       return;
     }
 
@@ -159,9 +184,7 @@ function TradeBuilderContent() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        side: activeModalSide,
-        type: 'player',
-        playerId: player.id,
+        ...payload,
         saveId,
       }),
     });
@@ -174,18 +197,21 @@ function TradeBuilderContent() {
     setTrade(data);
   };
 
-  const handleAddPick = async (side: 'send' | 'receive', pickId: string) => {
+  const handleRemoveAsset = async (payload: {
+    side: 'send' | 'receive';
+    assetId?: string;
+    playerId?: string;
+    pickId?: string;
+  }) => {
     if (!trade || !saveId) {
       return;
     }
 
-    const response = await fetch(`/api/trades/${trade.id}/add-asset`, {
+    const response = await fetch(`/api/trades/${trade.id}/remove-asset`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        side,
-        type: 'pick',
-        pickId,
+        ...payload,
         saveId,
       }),
     });
@@ -232,6 +258,88 @@ function TradeBuilderContent() {
   };
 
   const partnerTeam = teams.find((team) => team.abbr === partnerTeamAbbr);
+  const sendSlots = useMemo(() => {
+    const assets = trade?.sendAssets ?? [];
+    const used = new Set<string>();
+    const slots = sendSlotIds.map((id) => {
+      if (!id) return null;
+      const asset = assets.find((item) => item.id === id) ?? null;
+      if (asset) used.add(asset.id);
+      return asset;
+    });
+    let fillIndex = 0;
+    while (fillIndex < slots.length) {
+      if (!slots[fillIndex]) {
+        const next = assets.find((asset) => !used.has(asset.id)) ?? null;
+        if (!next) break;
+        slots[fillIndex] = next;
+        used.add(next.id);
+      }
+      fillIndex += 1;
+    }
+    return slots;
+  }, [sendSlotIds, trade?.sendAssets]);
+  const receiveSlots = useMemo(() => {
+    const assets = trade?.receiveAssets ?? [];
+    const used = new Set<string>();
+    const slots = receiveSlotIds.map((id) => {
+      if (!id) return null;
+      const asset = assets.find((item) => item.id === id) ?? null;
+      if (asset) used.add(asset.id);
+      return asset;
+    });
+    let fillIndex = 0;
+    while (fillIndex < slots.length) {
+      if (!slots[fillIndex]) {
+        const next = assets.find((asset) => !used.has(asset.id)) ?? null;
+        if (!next) break;
+        slots[fillIndex] = next;
+        used.add(next.id);
+      }
+      fillIndex += 1;
+    }
+    return slots;
+  }, [receiveSlotIds, trade?.receiveAssets]);
+
+  const buildSlotAsset = (
+    asset: TradeAsset | null,
+    roster: PlayerRowDTO[],
+  ): TradeSlotAsset | null => {
+    if (!asset) {
+      return null;
+    }
+    if (asset.type === 'player') {
+      const player = roster.find((item) => item.id === asset.playerId);
+      return {
+        id: asset.id,
+        type: 'player',
+        label: player ? `${player.firstName} ${player.lastName}` : asset.label,
+        sublabel: player ? `${player.position} · ${player.capHit}` : asset.label,
+        headshotUrl: player?.headshotUrl,
+      };
+    }
+    return {
+      id: asset.id,
+      type: 'pick',
+      label: asset.label,
+      sublabel: asset.pickId ? `${asset.pickId.toUpperCase()}` : 'Draft Pick',
+    };
+  };
+
+  const openPicker = (side: 'send' | 'receive', slotIndex: number, replaceAsset?: TradeAsset) => {
+    if (!replaceAsset) {
+      if (side === 'send' && (trade?.sendAssets.length ?? 0) >= 5) {
+        return;
+      }
+      if (side === 'receive' && (trade?.receiveAssets.length ?? 0) >= 5) {
+        return;
+      }
+    }
+    setDuplicateMessage(null);
+    setActiveModalSide(side);
+    setActiveSlotIndex(slotIndex);
+    setPendingReplace(replaceAsset ? { side, asset: replaceAsset } : null);
+  };
 
   return (
     <AppShell>
@@ -274,147 +382,233 @@ function TradeBuilderContent() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+          <div className="space-y-4">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Your Offer
                 </p>
-                <h2 className="mt-1 text-lg font-semibold text-foreground">Send assets</h2>
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <Button type="button" variant="outline" onClick={() => setActiveModalSide('send')}>
-                  Add Player
-                </Button>
-                <div className="flex items-center gap-2">
-                  <select
-                    className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-                    value={sendPick}
-                    onChange={(event) => setSendPick(event.target.value)}
-                  >
-                    {PICK_OPTIONS.map((pick) => (
-                      <option key={pick.id} value={pick.id}>
-                        {pick.label}
-                      </option>
-                    ))}
-                  </select>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => handleAddPick('send', sendPick)}
-                  >
-                    Add Pick
-                  </Button>
-                </div>
+                <p className="text-sm font-semibold text-foreground">
+                  {selectedTeam?.name ?? 'Your team'}
+                </p>
               </div>
             </div>
-            <div className="mt-4 space-y-3">
-              {trade?.sendAssets.length ? (
-                trade.sendAssets.map((asset) => (
-                  <div
-                    key={asset.id}
-                    className="flex items-center justify-between rounded-lg border border-border px-4 py-2"
-                  >
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{asset.label}</p>
-                      <p className="text-xs text-muted-foreground">Value: {asset.value}</p>
-                    </div>
-                    <p className="text-xs font-semibold text-muted-foreground">Send</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-muted-foreground">No outgoing assets yet.</p>
-              )}
-            </div>
+            <TradeAssetSlots
+              title="YOUR OFFER"
+              subtitle="Send assets"
+              slots={sendSlots.map((asset) => buildSlotAsset(asset, userRoster))}
+              onAdd={(index) => openPicker('send', index)}
+              onReplace={(index) => setSlotAction({ side: 'send', slotIndex: index })}
+              onRemove={(index) => {
+                const asset = trade?.sendAssets[index];
+                if (!asset) return;
+                setSendSlotIds((prev) => {
+                  const next = [...prev];
+                  next[index] = null;
+                  return next;
+                });
+                handleRemoveAsset({
+                  side: 'send',
+                  assetId: asset.id,
+                  playerId: asset.playerId,
+                  pickId: asset.pickId,
+                });
+              }}
+            />
           </div>
 
-          <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-            <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Their Offer
                 </p>
-                <h2 className="mt-1 text-lg font-semibold text-foreground">Receive assets</h2>
+                <p className="text-sm font-semibold text-foreground">
+                  {partnerTeam?.name ?? 'Trade partner'}
+                </p>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <select
-                  className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-                  value={partnerTeamAbbr}
-                  onChange={(event) => setPartnerTeamAbbr(event.target.value)}
-                >
-                  {teams
-                    .filter((team) => team.abbr !== selectedTeam?.abbr)
-                    .map((team) => (
-                      <option key={team.abbr} value={team.abbr}>
-                        {team.name}
-                      </option>
-                    ))}
-                </select>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setActiveModalSide('receive')}
-                >
-                  Add Player
-                </Button>
-                <div className="flex items-center gap-2">
-                  <select
-                    className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-                    value={receivePick}
-                    onChange={(event) => setReceivePick(event.target.value)}
-                  >
-                    {PICK_OPTIONS.map((pick) => (
-                      <option key={pick.id} value={pick.id}>
-                        {pick.label}
-                      </option>
-                    ))}
-                  </select>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => handleAddPick('receive', receivePick)}
-                  >
-                    Add Pick
-                  </Button>
-                </div>
-              </div>
+              <select
+                className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                value={partnerTeamAbbr}
+                onChange={(event) => setPartnerTeamAbbr(event.target.value)}
+              >
+                {teams
+                  .filter((team) => team.abbr !== selectedTeam?.abbr)
+                  .map((team) => (
+                    <option key={team.abbr} value={team.abbr}>
+                      {team.name}
+                    </option>
+                  ))}
+              </select>
             </div>
-            <div className="mt-4 space-y-3">
-              {trade?.receiveAssets.length ? (
-                trade.receiveAssets.map((asset) => (
-                  <div
-                    key={asset.id}
-                    className="flex items-center justify-between rounded-lg border border-border px-4 py-2"
-                  >
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{asset.label}</p>
-                      <p className="text-xs text-muted-foreground">Value: {asset.value}</p>
-                    </div>
-                    <p className="text-xs font-semibold text-muted-foreground">Receive</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-muted-foreground">No incoming assets yet.</p>
-              )}
-            </div>
-            {partnerTeam ? (
-              <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={partnerTeam.logoUrl} alt={partnerTeam.name} className="h-5 w-5" />
-                <span>{partnerTeam.name} roster assets</span>
-              </div>
-            ) : null}
+            <TradeAssetSlots
+              title="THEIR OFFER"
+              subtitle="Receive assets"
+              slots={receiveSlots.map((asset) => buildSlotAsset(asset, partnerRoster))}
+              onAdd={(index) => openPicker('receive', index)}
+              onReplace={(index) => setSlotAction({ side: 'receive', slotIndex: index })}
+              onRemove={(index) => {
+                const asset = trade?.receiveAssets[index];
+                if (!asset) return;
+                setReceiveSlotIds((prev) => {
+                  const next = [...prev];
+                  next[index] = null;
+                  return next;
+                });
+                handleRemoveAsset({
+                  side: 'receive',
+                  assetId: asset.id,
+                  playerId: asset.playerId,
+                  pickId: asset.pickId,
+                });
+              }}
+            />
           </div>
         </div>
       </div>
 
-      <TradePlayerModal
-        isOpen={activeModalSide !== null}
-        sideLabel={activeModalSide === 'send' ? 'Your Offer' : 'Their Offer'}
+      <TradeAssetPickerModal
+        isOpen={activeModalSide !== null && activeSlotIndex !== null}
+        title={activeModalSide === 'send' ? 'Add to Your Offer' : 'Add to Their Offer'}
         players={activeModalSide === 'send' ? userRoster : partnerRoster}
-        onClose={() => setActiveModalSide(null)}
-        onSelectPlayer={handleAddPlayer}
+        picks={PICK_OPTIONS}
+        duplicateMessage={duplicateMessage}
+        onClose={() => {
+          setActiveModalSide(null);
+          setActiveSlotIndex(null);
+          setDuplicateMessage(null);
+          setPendingReplace(null);
+        }}
+        onSelectPlayer={(player) => {
+          if (!trade || !activeModalSide) return;
+          const assets = activeModalSide === 'send' ? trade.sendAssets : trade.receiveAssets;
+          if (assets.some((asset) => asset.playerId === player.id)) {
+            setDuplicateMessage('That player is already in the offer.');
+            return;
+          }
+          const assetId = `asset-${activeModalSide}-player-${player.id}`;
+          if (activeSlotIndex !== null) {
+            if (activeModalSide === 'send') {
+              setSendSlotIds((prev) => {
+                const next = [...prev];
+                next[activeSlotIndex] = assetId;
+                return next;
+              });
+            } else {
+              setReceiveSlotIds((prev) => {
+                const next = [...prev];
+                next[activeSlotIndex] = assetId;
+                return next;
+              });
+            }
+          }
+          if (pendingReplace) {
+            handleRemoveAsset({
+              side: pendingReplace.side,
+              assetId: pendingReplace.asset.id,
+              playerId: pendingReplace.asset.playerId,
+              pickId: pendingReplace.asset.pickId,
+            });
+          }
+          handleAddAsset({ side: activeModalSide, type: 'player', playerId: player.id });
+        }}
+        onSelectPick={(pickId) => {
+          if (!trade || !activeModalSide) return;
+          const assets = activeModalSide === 'send' ? trade.sendAssets : trade.receiveAssets;
+          if (assets.some((asset) => asset.pickId === pickId)) {
+            setDuplicateMessage('That pick is already in the offer.');
+            return;
+          }
+          const assetId = `asset-${activeModalSide}-pick-${pickId}`;
+          if (activeSlotIndex !== null) {
+            if (activeModalSide === 'send') {
+              setSendSlotIds((prev) => {
+                const next = [...prev];
+                next[activeSlotIndex] = assetId;
+                return next;
+              });
+            } else {
+              setReceiveSlotIds((prev) => {
+                const next = [...prev];
+                next[activeSlotIndex] = assetId;
+                return next;
+              });
+            }
+          }
+          if (pendingReplace) {
+            handleRemoveAsset({
+              side: pendingReplace.side,
+              assetId: pendingReplace.asset.id,
+              playerId: pendingReplace.asset.playerId,
+              pickId: pendingReplace.asset.pickId,
+            });
+          }
+          handleAddAsset({ side: activeModalSide, type: 'pick', pickId });
+        }}
       />
+
+      {slotAction ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg">
+            <h3 className="text-lg font-semibold text-foreground">Modify slot</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Would you like to replace this asset or remove it from the offer?
+            </p>
+            <div className="mt-5 flex gap-2">
+              <Button
+                type="button"
+                onClick={() => {
+                  setSlotAction(null);
+                  const assets =
+                    slotAction.side === 'send' ? trade?.sendAssets : trade?.receiveAssets;
+                  const asset = assets?.[slotAction.slotIndex];
+                  if (asset) {
+                    openPicker(slotAction.side, slotAction.slotIndex, asset);
+                  }
+                }}
+              >
+                Replace
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  const assets =
+                    slotAction.side === 'send' ? trade?.sendAssets : trade?.receiveAssets;
+                  const asset = assets?.[slotAction.slotIndex];
+                  if (asset) {
+                    if (slotAction.side === 'send') {
+                      setSendSlotIds((prev) => {
+                        const next = [...prev];
+                        next[slotAction.slotIndex] = null;
+                        return next;
+                      });
+                    } else {
+                      setReceiveSlotIds((prev) => {
+                        const next = [...prev];
+                        next[slotAction.slotIndex] = null;
+                        return next;
+                      });
+                    }
+                    handleRemoveAsset({
+                      side: slotAction.side,
+                      assetId: asset.id,
+                      playerId: asset.playerId,
+                      pickId: asset.pickId,
+                    });
+                  }
+                  setSlotAction(null);
+                }}
+              >
+                Remove
+              </Button>
+              <Button type="button" variant="ghost" onClick={() => setSlotAction(null)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </AppShell>
   );
 }

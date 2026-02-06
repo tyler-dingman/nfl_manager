@@ -17,6 +17,8 @@ type SaveStoreState = {
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
   setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
   clearSave: () => void;
+  setPhase: (phase: string) => Promise<void>;
+  advancePhase: () => Promise<void>;
   refreshSaveHeader: () => Promise<void>;
 };
 
@@ -28,7 +30,7 @@ const DEFAULT_STATE = {
   capLimit: 0,
   rosterCount: 0,
   rosterLimit: 0,
-  phase: 'free_agency',
+  phase: 'resign_cut',
   activeDraftSessionId: null,
   activeDraftSessionIdsBySave: {},
 };
@@ -86,6 +88,40 @@ export const useSaveStore = create<SaveStoreState>()(
           activeDraftSessionId: null,
           activeDraftSessionIdsBySave: {},
         })),
+      setPhase: async (nextPhase) => {
+        const { saveId } = get();
+        if (!saveId) {
+          return;
+        }
+        const response = await fetch('/api/saves/phase', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ saveId, phase: nextPhase }),
+        });
+        if (!response.ok) {
+          return;
+        }
+        const data = (await response.json()) as SaveBootstrapDTO | { ok: false; error: string };
+        if (!('ok' in data) || !data.ok) {
+          return;
+        }
+        set((state) => ({
+          ...state,
+          phase: data.phase,
+        }));
+      },
+      advancePhase: async () => {
+        const { phase } = get();
+        const nextPhase =
+          phase === 'resign_cut'
+            ? 'free_agency'
+            : phase === 'free_agency'
+              ? 'draft'
+              : phase === 'draft'
+                ? 'season'
+                : 'season';
+        await get().setPhase(nextPhase);
+      },
       refreshSaveHeader: async () => {
         const { saveId } = get();
         if (!saveId) {
@@ -126,6 +162,7 @@ export const useSaveStore = create<SaveStoreState>()(
         saveId: state.saveId,
         teamId: state.teamId,
         teamAbbr: state.teamAbbr,
+        phase: state.phase,
         activeDraftSessionId: state.activeDraftSessionId,
         activeDraftSessionIdsBySave: state.activeDraftSessionIdsBySave,
       }),

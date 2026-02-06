@@ -1,7 +1,7 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 
-import { getSaveHeaderSnapshot, getSaveStateResult, type SaveResult } from './store';
+import { getSaveHeaderSnapshot, getSaveStateResult, pushNewsItem, type SaveResult } from './store';
 import { parseMoneyMillions } from '@/server/logic/cap';
 
 export type TradeSide = 'send' | 'receive';
@@ -270,6 +270,41 @@ export const addTradeAsset = (
   return { ok: true, data: cloneTrade(trade) };
 };
 
+export const removeTradeAsset = (
+  tradeId: string,
+  payload: {
+    side: TradeSide;
+    assetId?: string;
+    playerId?: string;
+    pickId?: string;
+  },
+  saveId?: string,
+): SaveResult<TradeDTO> => {
+  const state = tradeStore.get(tradeId);
+  if (!state) {
+    throw new Error('Trade not found');
+  }
+
+  const trade = state.trade;
+  if (saveId && trade.saveId !== saveId) {
+    return { ok: false, error: 'Save not found' };
+  }
+
+  const assets = payload.side === 'send' ? trade.sendAssets : trade.receiveAssets;
+  const index = assets.findIndex((asset) => {
+    if (payload.assetId && asset.id === payload.assetId) return true;
+    if (payload.playerId && asset.playerId === payload.playerId) return true;
+    if (payload.pickId && asset.pickId === payload.pickId) return true;
+    return false;
+  });
+
+  if (index !== -1) {
+    assets.splice(index, 1);
+  }
+
+  return { ok: true, data: cloneTrade(trade) };
+};
+
 const sumValues = (assets: TradeAssetDTO[]) =>
   assets.reduce((total, asset) => total + asset.value, 0);
 
@@ -325,6 +360,13 @@ export const proposeTrade = (
       });
 
     saveStateResult.data.header.rosterCount = saveStateResult.data.roster.length;
+    pushNewsItem(saveStateResult.data, {
+      type: 'trade',
+      teamAbbr: saveStateResult.data.header.teamAbbr,
+      playerName: '',
+      details: `${saveStateResult.data.header.teamAbbr} complete a trade with ${trade.partnerTeamAbbr}.`,
+      severity: 'info',
+    });
   }
 
   return {

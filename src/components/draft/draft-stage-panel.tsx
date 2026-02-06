@@ -1,23 +1,15 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 
 import type { DraftOrderTeam } from './draft-utils';
 
 type DraftStagePanelProps = {
   selectedPick: DraftOrderTeam;
   onTheClockPickNumber: number;
-  onStartDraft: () => void;
-  isStartingDraft: boolean;
 };
 
-export function DraftStagePanel({
-  selectedPick,
-  onTheClockPickNumber,
-  onStartDraft,
-  isStartingDraft,
-}: DraftStagePanelProps) {
+export function DraftStagePanel({ selectedPick, onTheClockPickNumber }: DraftStagePanelProps) {
   const isOnClock = selectedPick.pickNumber === onTheClockPickNumber;
 
   return (
@@ -57,27 +49,6 @@ export function DraftStagePanel({
               {need}
             </Badge>
           ))}
-        </div>
-      </div>
-
-      <div className="mt-5 space-y-3 rounded-xl border border-border bg-slate-50 p-4">
-        <div>
-          <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
-            <span>Speed</span>
-            <span>Slow / Fast / Turbo</span>
-          </div>
-          <input type="range" min={1} max={3} defaultValue={1} className="w-full" disabled />
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="outline" disabled>
-            Settings
-          </Button>
-          <Button type="button" onClick={onStartDraft} disabled={isStartingDraft}>
-            {isStartingDraft ? 'Starting…' : 'Start Draft'}
-          </Button>
-          <Button type="button" variant="outline" disabled title="Coming soon">
-            Offer Trade
-          </Button>
         </div>
       </div>
     </section>
