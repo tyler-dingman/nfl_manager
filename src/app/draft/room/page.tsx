@@ -16,6 +16,8 @@ import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { getDraftGrade } from '@/lib/draft-utils';
+import { buildFalcoBoard } from '@/lib/falco';
+import { getFalcoGradeQuote, getPickLabel } from '@/lib/draft-reactions';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
@@ -62,6 +64,8 @@ function DraftRoomContent() {
   const [lobbyTab, setLobbyTab] = React.useState<'available' | 'drafted'>('available');
   const [gradeLetter, setGradeLetter] = React.useState<string | null>(null);
   const [gradeReason, setGradeReason] = React.useState<string | null>(null);
+  const [gradeReasons, setGradeReasons] = React.useState<string[]>([]);
+  const [falcoQuote, setFalcoQuote] = React.useState<string | null>(null);
   const [isGradeOpen, setIsGradeOpen] = React.useState(false);
   const [teams, setTeams] = React.useState<TeamsResponse['teams']>([]);
   const [selectedPickNumber, setSelectedPickNumber] = React.useState(1);
@@ -80,6 +84,11 @@ function DraftRoomContent() {
   const selectedTeam = React.useMemo(
     () => storedTeams.find((team) => team.id === selectedTeamId) ?? storedTeams[0] ?? null,
     [selectedTeamId, storedTeams],
+  );
+  const falcoSeed = `${saveId ?? 'global'}-${session?.id ?? 'lobby'}`;
+  const falcoBoard = React.useMemo(
+    () => buildFalcoBoard(session?.prospects ?? buildTop32Prospects(), falcoSeed),
+    [falcoSeed, session?.prospects],
   );
 
   const ensureSaveExists = React.useCallback(async () => {
@@ -341,6 +350,32 @@ function DraftRoomContent() {
     await refreshSaveHeader();
     setGradeLetter(payload.grade.letter);
     setGradeReason(payload.grade.reason);
+    const pick = payload.session.picks.find((entry) => entry.selectedPlayerId === player.id);
+    const pickNumber = pick?.overall ?? payload.session.currentPickIndex;
+    const tags = falcoBoard.notes
+      .filter((note) => note.playerId === player.id)
+      .map((note) => note.tag);
+    const userNeeds =
+      buildRoundOneOrder(teams).find((team) => team.abbr === payload.session.userTeamAbbr)?.needs ??
+      [];
+    const label = getPickLabel({
+      pickIndex: pickNumber,
+      playerRank: player.rank ?? 999,
+      teamNeeds: userNeeds,
+      playerPosition: player.position,
+      tags,
+    });
+    const reasons = [
+      `Value: drafted at pick ${pickNumber}, Falco rank ${player.rank ?? '--'} (${label})`,
+    ];
+    if (userNeeds.includes(player.position)) {
+      reasons.push(`Need: fills a top team need (${player.position})`);
+    }
+    if (tags.includes('Injury Flag') || tags.includes('Character Flag')) {
+      reasons.push('Risk: Falco flagged concern in the profile');
+    }
+    setGradeReasons(reasons);
+    setFalcoQuote(getFalcoGradeQuote());
     setIsGradeOpen(true);
   };
 
@@ -370,6 +405,8 @@ function DraftRoomContent() {
         isOpen={isGradeOpen}
         gradeLetter={gradeLetter}
         reason={gradeReason}
+        reasons={gradeReasons}
+        falcoQuote={falcoQuote}
         onClose={() => setIsGradeOpen(false)}
       />
       <NewsTicker saveId={saveId} />
@@ -516,6 +553,7 @@ function DraftRoomContent() {
           saveId={saveId}
           draftSessionId={session.id}
           teams={teams}
+          falcoNotes={falcoBoard.notes}
           speedLevel={speedLevel}
           onSpeedChange={setSpeedLevel}
           onTogglePause={() => void setPaused(!session.isPaused)}

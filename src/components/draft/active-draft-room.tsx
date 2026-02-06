@@ -2,13 +2,17 @@
 
 import * as React from 'react';
 
+import { FalcoReactionFeed, type DraftEventDTO } from '@/components/draft/falco-reaction-feed';
 import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { getPickValue } from '@/lib/draft-utils';
+import { getFalcoReaction, getPickLabel } from '@/lib/draft-reactions';
+import { getTeamNeeds } from '@/components/draft/draft-utils';
 import { cn } from '@/lib/utils';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
+import type { FalcoNote } from '@/lib/falco';
 
 const SPEED_LABELS = ['Slow', 'Fast', 'Turbo'] as const;
 
@@ -19,6 +23,7 @@ type ActiveDraftRoomProps = {
   saveId: string;
   draftSessionId: string;
   teams: Array<{ abbr: string; name: string; logoUrl: string; colors: string[] }>;
+  falcoNotes: FalcoNote[];
   speedLevel: DraftSpeedLevel;
   onSpeedChange: (level: DraftSpeedLevel) => void;
   onTogglePause: () => void;
@@ -33,6 +38,7 @@ export function ActiveDraftRoom({
   saveId,
   draftSessionId,
   teams,
+  falcoNotes,
   speedLevel,
   onSpeedChange,
   onTogglePause,
@@ -60,8 +66,10 @@ export function ActiveDraftRoom({
     accepted: boolean;
     reason?: string;
   } | null>(null);
+  const [draftFeed, setDraftFeed] = React.useState<DraftEventDTO[]>([]);
   const advanceInFlight = React.useRef(false);
   const skipInFlight = React.useRef(false);
+  const previousPickSelections = React.useRef<Map<string, string | null>>(new Map());
 
   const bestAvailable = React.useMemo(() => {
     return session.prospects
@@ -89,6 +97,39 @@ export function ActiveDraftRoom({
     const map = new Map(teams.map((team) => [team.abbr, team]));
     return map;
   }, [teams]);
+
+  const falcoTagsByPlayer = React.useMemo(() => {
+    const map = new Map<string, string[]>();
+    falcoNotes.forEach((note) => {
+      const list = map.get(note.playerId) ?? [];
+      list.push(note.tag);
+      map.set(note.playerId, list);
+    });
+    return map;
+  }, [falcoNotes]);
+
+  const falcoFavorites = React.useMemo(() => {
+    if (!onClock || !currentPick) {
+      return [];
+    }
+    const needs = getTeamNeeds(session.userTeamAbbr);
+    const pickNumber = currentPick.overall;
+    return bestAvailable
+      .map((player) => {
+        const rank = player.rank ?? 999;
+        const tags = falcoTagsByPlayer.get(player.id) ?? [];
+        let score = 200 - rank;
+        score += Math.max(0, pickNumber - rank) * 2;
+        if (needs.includes(player.position)) score += 25;
+        if (tags.includes('Falco Favorite')) score += 20;
+        if (tags.includes('Falco Rising')) score += 10;
+        if (tags.includes('Falco Fading')) score -= 8;
+        return { player, score };
+      })
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3)
+      .map((entry) => entry.player);
+  }, [bestAvailable, currentPick, falcoTagsByPlayer, onClock, session.userTeamAbbr]);
 
   const partnerTeams = React.useMemo(() => {
     const teamSet = new Set(session.picks.map((pick) => pick.ownerTeamAbbr));
@@ -264,6 +305,48 @@ export function ActiveDraftRoom({
     return () => window.clearTimeout(timer);
   }, [advanceCpuPick, onClock, session.isPaused, session.status, speedLevel]);
 
+  React.useEffect(() => {
+    const newEvents: DraftEventDTO[] = [];
+    session.picks.forEach((pick) => {
+      const previous = previousPickSelections.current.get(pick.id) ?? null;
+      if (pick.selectedPlayerId && pick.selectedPlayerId !== previous) {
+        const player = session.prospects.find((prospect) => prospect.id === pick.selectedPlayerId);
+        if (!player) {
+          return;
+        }
+        const tags = (falcoTagsByPlayer.get(player.id) ?? []) as FalcoNote['tag'][];
+        const label = getPickLabel({
+          pickIndex: pick.overall,
+          playerRank: player.rank ?? 999,
+          teamNeeds: getTeamNeeds(pick.ownerTeamAbbr),
+          playerPosition: player.position,
+          tags,
+        });
+        newEvents.push({
+          id: `event-${pick.id}-${pick.selectedPlayerId}`,
+          pickNumber: pick.overall,
+          teamAbbr: pick.ownerTeamAbbr,
+          teamLogoUrl: teamLookup.get(pick.ownerTeamAbbr)?.logoUrl,
+          playerName: formatName(player),
+          position: player.position,
+          label,
+          reaction: getFalcoReaction({
+            label,
+            teamAbbr: pick.ownerTeamAbbr,
+            playerName: formatName(player),
+            position: player.position,
+            pickNumber: pick.overall,
+          }),
+          createdAt: new Date().toISOString(),
+        });
+      }
+      previousPickSelections.current.set(pick.id, pick.selectedPlayerId ?? null);
+    });
+    if (newEvents.length > 0) {
+      setDraftFeed((prev) => [...newEvents.reverse(), ...prev].slice(0, 50));
+    }
+  }, [falcoTagsByPlayer, session.picks, session.prospects, teamLookup]);
+
   const handleProposeTrade = async () => {
     if (!sendPickId || !receivePickId || !partnerTeamAbbr) {
       return;
@@ -362,6 +445,9 @@ export function ActiveDraftRoom({
               <p className="mt-1 text-sm text-muted-foreground">
                 Round {currentPick?.round ?? 1} · {onClock ? 'Your pick' : 'CPU pick'}
               </p>
+              {onClock ? (
+                <p className="mt-2 text-sm font-semibold text-foreground">YOU’RE ON THE CLOCK</p>
+              ) : null}
             </div>
             <Badge variant={onClock ? 'success' : session.isPaused ? 'outline' : 'secondary'}>
               {onClock ? 'On the clock' : session.isPaused ? 'Paused' : 'Running'}
@@ -438,6 +524,28 @@ export function ActiveDraftRoom({
 
           {activeTab === 'available' ? (
             <div className="mt-4">
+              {onClock && falcoFavorites.length > 0 ? (
+                <div className="mb-4 rounded-xl border border-border bg-slate-50 px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    Falco Favorites
+                  </p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                    {falcoFavorites.map((player) => (
+                      <div
+                        key={player.id}
+                        className="rounded-lg border border-border bg-white px-3 py-2"
+                      >
+                        <p className="text-sm font-semibold text-foreground">
+                          {formatName(player)}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {player.position} · Rank {player.rank ?? '--'}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
               <PlayerTable
                 data={bestAvailable}
                 variant="draft"
@@ -593,6 +701,7 @@ export function ActiveDraftRoom({
             </div>
           )}
         </div>
+        <FalcoReactionFeed events={draftFeed} />
       </section>
       {tradeResult ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
