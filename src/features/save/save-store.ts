@@ -30,8 +30,13 @@ type SaveStoreState = {
   ensureSaveId: () => Promise<string | null>;
 };
 
+const readStoredSaveId = () => {
+  if (typeof window === 'undefined') return '';
+  return localStorage.getItem('falco_active_save_id') ?? '';
+};
+
 const DEFAULT_STATE = {
-  saveId: '',
+  saveId: readStoredSaveId(),
   teamId: '',
   teamAbbr: '',
   capSpace: 0,
@@ -75,6 +80,10 @@ export const useSaveStore = create<SaveStoreState>()(
         const rosterLimit = header.rosterLimit;
         const phase = header.phase;
         const unlocked = resolveUnlocks(phase, header.unlocked);
+
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('falco_active_save_id', saveId);
+        }
 
         return set((state) => ({
           ...state,
@@ -120,21 +129,27 @@ export const useSaveStore = create<SaveStoreState>()(
           };
         }),
       clearSave: () =>
-        set((state) => ({
-          ...state,
-          saveId: '',
-          teamId: '',
-          teamAbbr: '',
-          capSpace: 0,
-          capLimit: 0,
-          rosterCount: 0,
-          rosterLimit: 0,
-          phase: 'resign_cut',
-          unlocked: { freeAgency: false, draft: false },
-          activeDraftSessionId: null,
-          activeDraftSessionIdsBySave: {},
-          saveLoadError: null,
-        })),
+        set((state) => {
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem('falco_active_save_id');
+            localStorage.removeItem('nfl-manager-save');
+          }
+          return {
+            ...state,
+            saveId: '',
+            teamId: '',
+            teamAbbr: '',
+            capSpace: 0,
+            capLimit: 0,
+            rosterCount: 0,
+            rosterLimit: 0,
+            phase: 'resign_cut',
+            unlocked: { freeAgency: false, draft: false },
+            activeDraftSessionId: null,
+            activeDraftSessionIdsBySave: {},
+            saveLoadError: null,
+          };
+        }),
       setPhase: async (nextPhase) => {
         const { saveId, teamAbbr } = get();
         if (!saveId) {

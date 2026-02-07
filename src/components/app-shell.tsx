@@ -17,7 +17,6 @@ import { useTeamStore } from '@/features/team/team-store';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { computeCapRank, formatCapMillions, ordinal } from '@/lib/cap-space';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
-import { apiFetch } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
 const navRoutes = {
@@ -49,15 +48,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const saveId = useSaveStore((state) => state.saveId);
-  const storedTeamId = useSaveStore((state) => state.teamId);
   const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
-  const saveLoadError = useSaveStore((state) => state.saveLoadError);
-  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
-  const setSaveLoadError = useSaveStore((state) => state.setSaveLoadError);
   const clearSave = useSaveStore((state) => state.clearSave);
   const advancePhase = useSaveStore((state) => state.advancePhase);
   const setPhase = useSaveStore((state) => state.setPhase);
@@ -68,20 +63,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     null,
   );
   const [capPulse, setCapPulse] = useState(false);
-  const loadKeyRef = useRef<string | null>(null);
-  const isBootstrappingRef = useRef(false);
   const wasNegativeRef = useRef(false);
   const lastSaveIdRef = useRef<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
-  const hasActiveTeam = Boolean(storedTeamAbbr);
 
   useEffect(() => {
     if (!hasHydrated) return;
-    if (!hasActiveTeam && pathname !== '/teams') {
-      router.replace('/teams');
+    if (!saveId && pathname !== '/') {
+      router.replace('/');
     }
-  }, [hasActiveTeam, hasHydrated, pathname, router]);
+  }, [hasHydrated, pathname, router, saveId]);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId) ?? teams[0],
@@ -211,171 +203,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     setIsMobileSidebarOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    const loadSave = async () => {
-      if (!hasHydrated) {
-        return;
-      }
-      if (!hasActiveTeam) {
-        return;
-      }
-      if (!selectedTeam?.abbr) {
-        return;
-      }
-      if (saveLoadError) {
-        return;
-      }
-
-      if (storedTeamAbbr && selectedTeam.abbr !== storedTeamAbbr) {
-        return;
-      }
-
-      const loadKey = `${selectedTeam.abbr}:${saveId ?? 'new'}`;
-      // Guard against repeated save bootstrapping that causes rerender flicker.
-      if (loadKeyRef.current === loadKey || isBootstrappingRef.current) {
-        return;
-      }
-      loadKeyRef.current = loadKey;
-      isBootstrappingRef.current = true;
-
-      try {
-        const isPersistedForTeam =
-          Boolean(saveId) &&
-          (selectedTeam.id === storedTeamId || selectedTeam.abbr === storedTeamAbbr);
-
-        if (isPersistedForTeam && saveId) {
-          try {
-            const headerParams = new URLSearchParams({ saveId, teamAbbr: selectedTeam.abbr });
-            const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
-            if (headerResponse.ok) {
-              const headerData = (await headerResponse.json()) as
-                | {
-                    ok: true;
-                    saveId: string;
-                    teamAbbr: string;
-                    capSpace: number;
-                    capLimit: number;
-                    rosterCount: number;
-                    rosterLimit: number;
-                    phase: string;
-                    unlocked?: { freeAgency: boolean; draft: boolean };
-                  }
-                | { ok: false; error: string };
-              if (headerData.ok) {
-                setSaveHeader(
-                  {
-                    ...headerData,
-                    unlocked: headerData.unlocked ?? { freeAgency: false, draft: false },
-                    createdAt: new Date().toISOString(),
-                  },
-                  selectedTeam.id,
-                );
-                return;
-              }
-            } else {
-              setSaveLoadError('Unable to load save data.');
-              return;
-            }
-          } catch {
-            setSaveLoadError('Unable to load save data.');
-            return;
-          }
-        }
-
-        const query = new URLSearchParams({ teamAbbr: selectedTeam.abbr });
-        const existingResponse = await apiFetch(`/api/saves?${query.toString()}`);
-        if (existingResponse.ok) {
-          const existingData = (await existingResponse.json()) as
-            | {
-                ok: true;
-                saves: Array<{
-                  saveId: string;
-                  teamAbbr: string;
-                  capSpace: number;
-                  capLimit: number;
-                  rosterCount: number;
-                  rosterLimit: number;
-                  phase: string;
-                  unlocked?: { freeAgency: boolean; draft: boolean };
-                  createdAt: string;
-                }>;
-              }
-            | { ok: false; error: string };
-          if (existingData.ok && existingData.saves.length > 0) {
-            const save = [...existingData.saves].sort(
-              (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-            )[0];
-            setSaveHeader(
-              {
-                ...save,
-                ok: true,
-                unlocked: save.unlocked ?? { freeAgency: false, draft: false },
-              },
-              selectedTeam.id,
-            );
-            return;
-          }
-        } else {
-          setSaveLoadError('Unable to load save data.');
-          return;
-        }
-
-        const response = await apiFetch('/api/saves/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ teamId: selectedTeam.id, teamAbbr: selectedTeam.abbr }),
-        });
-        if (!response.ok) {
-          setSaveLoadError('Unable to create a new save.');
-          return;
-        }
-        const data = (await response.json()) as
-          | {
-              ok: true;
-              saveId: string;
-              teamAbbr: string;
-              capSpace: number;
-              capLimit: number;
-              rosterCount: number;
-              rosterLimit: number;
-              phase: string;
-              unlocked?: { freeAgency: boolean; draft: boolean };
-            }
-          | { ok: false; error: string };
-        if (!data.ok) {
-          setSaveLoadError('Unable to create a new save.');
-          return;
-        }
-
-        setSaveHeader(
-          {
-            ...data,
-            unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-            createdAt: new Date().toISOString(),
-          },
-          selectedTeam.id,
-        );
-      } finally {
-        isBootstrappingRef.current = false;
-      }
-    };
-
-    loadSave();
-  }, [
-    clearSave,
-    hasHydrated,
-    hasActiveTeam,
-    saveId,
-    selectedTeam?.abbr,
-    selectedTeam?.id,
-    setSaveHeader,
-    storedTeamAbbr,
-    storedTeamId,
-    saveLoadError,
-    setSaveLoadError,
-  ]);
-
-  if (hasHydrated && !hasActiveTeam && pathname !== '/teams') {
+  if (hasHydrated && !saveId && pathname !== '/') {
     return null;
   }
 
@@ -384,27 +212,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <ToastProvider>
         <TeamFavicon primaryColor={selectedTeam?.color_primary ?? null} />
         <div className="flex min-h-screen flex-col bg-slate-50 md:flex-row">
-          {saveLoadError ? (
-            <div className="fixed left-1/2 top-4 z-[60] w-[min(92vw,640px)] -translate-x-1/2 rounded-2xl border border-border bg-white px-4 py-3 shadow-lg">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-sm font-semibold text-foreground">Save load issue</p>
-                  <p className="text-xs text-muted-foreground">{saveLoadError}</p>
-                </div>
-                <button
-                  type="button"
-                  className="rounded-full border border-border px-3 py-1 text-xs font-semibold text-foreground transition hover:bg-slate-50"
-                  onClick={() => {
-                    clearSave();
-                    loadKeyRef.current = null;
-                    router.replace('/teams');
-                  }}
-                >
-                  Reset Save
-                </button>
-              </div>
-            </div>
-          ) : null}
           {isMobileSidebarOpen ? (
             <div
               className="fixed inset-0 z-40 bg-black/50 md:hidden"

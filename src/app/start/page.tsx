@@ -17,5 +17,5 @@ export default function StartRedirect({
   }
 
   const query = params.toString();
-  redirect(query ? `/teams?${query}` : '/teams');
+  redirect(query ? `/?${query}` : '/');
 }
