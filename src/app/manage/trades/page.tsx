@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
@@ -76,7 +76,10 @@ function TradeBuilderContent() {
   const selectedPlayerId = searchParams?.get('playerId') ?? undefined;
 
   const saveId = useSaveStore((state) => state.saveId);
+  const teamId = useSaveStore((state) => state.teamId);
+  const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
+  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const [teams, setTeams] = useState<TeamDTO[]>([]);
   const [partnerTeamAbbr, setPartnerTeamAbbr] = useState<string>('');
   const [trade, setTrade] = useState<TradeDTO | null>(null);
@@ -100,6 +103,7 @@ function TradeBuilderContent() {
   const [receiveSlotIds, setReceiveSlotIds] = useState<Array<string | null>>(
     Array.from({ length: 5 }, () => null),
   );
+  const lastTradeKeyRef = useRef<string | null>(null);
 
   const acceptance = useMemo(() => {
     if (!trade) {
@@ -138,7 +142,58 @@ function TradeBuilderContent() {
 
   useEffect(() => {
     const loadTrade = async () => {
-      if (!saveId || !partnerTeamAbbr) {
+      if (!partnerTeamAbbr) {
+        return;
+      }
+
+      let activeSaveId = saveId;
+      if (activeSaveId) {
+        const headerResponse = await fetch(`/api/saves/header?saveId=${activeSaveId}`);
+        if (headerResponse.status === 404) {
+          activeSaveId = '';
+        }
+      }
+
+      if (!activeSaveId) {
+        const createResponse = await fetch('/api/saves/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
+        });
+        if (createResponse.ok) {
+          const data = (await createResponse.json()) as
+            | {
+                ok: true;
+                saveId: string;
+                teamAbbr: string;
+                capSpace: number;
+                capLimit: number;
+                rosterCount: number;
+                rosterLimit: number;
+                phase: string;
+                unlocked?: { freeAgency: boolean; draft: boolean };
+                createdAt: string;
+              }
+            | { ok: false; error: string };
+          if ('ok' in data && data.ok) {
+            activeSaveId = data.saveId;
+            setSaveHeader(
+              {
+                ...data,
+                unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+              },
+              teamId || undefined,
+            );
+          }
+        }
+      }
+
+      if (!activeSaveId) {
+        return;
+      }
+
+      const tradeKey = `${activeSaveId}:${partnerTeamAbbr}:${selectedPlayerId ?? ''}`;
+      if (lastTradeKeyRef.current === tradeKey) {
         return;
       }
 
@@ -146,7 +201,7 @@ function TradeBuilderContent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          saveId,
+          saveId: activeSaveId,
           partnerTeamAbbr,
           playerId: selectedPlayerId,
         }),
@@ -156,6 +211,7 @@ function TradeBuilderContent() {
       }
 
       const data = (await response.json()) as TradeCreateResponse;
+      lastTradeKeyRef.current = tradeKey;
       setTrade(data.trade);
       setUserRoster(data.userRoster);
       setPartnerRoster(data.partnerRoster);
@@ -163,7 +219,7 @@ function TradeBuilderContent() {
     };
 
     loadTrade();
-  }, [partnerTeamAbbr, saveId, selectedPlayerId]);
+  }, [partnerTeamAbbr, saveId, selectedPlayerId, setSaveHeader, teamAbbr, teamId]);
 
   useEffect(() => {
     setSendSlotIds(Array.from({ length: 5 }, () => null));
