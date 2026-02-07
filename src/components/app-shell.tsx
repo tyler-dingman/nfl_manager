@@ -62,6 +62,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const isBootstrappingRef = useRef(false);
   const pathname = usePathname();
   const router = useRouter();
+  const hasActiveTeam = Boolean(storedTeamAbbr);
+
+  useEffect(() => {
+    if (!hasHydrated) return;
+    if (!hasActiveTeam && pathname !== '/teams') {
+      router.replace('/teams');
+    }
+  }, [hasActiveTeam, hasHydrated, pathname, router]);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId) ?? teams[0],
@@ -217,6 +225,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       if (!hasHydrated) {
         return;
       }
+      if (!hasActiveTeam) {
+        return;
+      }
       if (!selectedTeam?.abbr) {
         return;
       }
@@ -351,6 +362,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }, [
     clearSave,
     hasHydrated,
+    hasActiveTeam,
     saveId,
     selectedTeam?.abbr,
     selectedTeam?.id,
@@ -358,6 +370,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     storedTeamAbbr,
     storedTeamId,
   ]);
+
+  if (hasHydrated && !hasActiveTeam && pathname !== '/teams') {
+    return null;
+  }
 
   return (
     <TeamThemeProvider team={selectedTeam}>
