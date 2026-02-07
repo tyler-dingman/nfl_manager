@@ -10,6 +10,9 @@ import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
+import { TEAM_CAP_SPACE } from '@/data/team-caps';
+import { computeCapRank, formatCapMillions, ordinal } from '@/lib/cap-space';
+import { cn } from '@/lib/utils';
 
 const navRoutes = {
   'Re-sign/Cut Players': '/roster',
@@ -64,7 +67,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     [selectedTeamId, teams],
   );
 
-  const formattedCapSpace = saveId ? `$${capSpace.toFixed(1)}M` : '--';
+  const activeCapDollars = saveId ? capSpace * 1_000_000 : 0;
+  const capsWithActive = useMemo(
+    () =>
+      TEAM_CAP_SPACE.map((entry) =>
+        entry.teamAbbr === selectedTeam?.abbr
+          ? { ...entry, capSpace: activeCapDollars }
+          : entry,
+      ),
+    [activeCapDollars, selectedTeam?.abbr],
+  );
+  const capRank = selectedTeam
+    ? computeCapRank(selectedTeam.abbr, capsWithActive)
+    : capsWithActive.length + 1;
+  const formattedCapSpace = saveId ? formatCapMillions(activeCapDollars) : '--';
   const formattedRoster = saveId ? `${rosterCount}/${rosterLimit}` : '--';
   const phaseLabel = useMemo(() => {
     switch (phase) {
@@ -463,6 +479,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </span>
                   <span className="text-sm font-semibold">
                     {selectedTeam?.name ?? 'Select a team'}
+                  </span>
+                </div>
+                <div className="ml-2 flex flex-col rounded-xl border border-border bg-white px-3 py-2">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    Cap Space
+                  </span>
+                  <span
+                    className={cn(
+                      'text-xs font-semibold md:text-sm',
+                      saveId && activeCapDollars < 0 ? 'text-destructive' : 'text-foreground',
+                    )}
+                  >
+                    {formattedCapSpace} / {ordinal(capRank)}
                   </span>
                 </div>
               </div>
