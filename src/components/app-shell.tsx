@@ -512,17 +512,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
-                    <button
-                      type="button"
-                      className="rounded-full px-4 py-2 text-sm font-semibold"
-                      style={{
-                        backgroundColor: 'var(--team-secondary)',
-                        color: 'var(--team-on-secondary)',
-                      }}
-                      onClick={() => router.push(nextAction.href)}
-                    >
-                      {nextAction.ctaLabel}
-                    </button>
                     {nextAction.advanceLabel ? (
                       <button
                         type="button"
