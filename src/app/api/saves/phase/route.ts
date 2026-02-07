@@ -32,6 +32,7 @@ export const POST = async (request: Request) => {
     rosterCount: header.rosterCount,
     rosterLimit: header.rosterLimit,
     phase: header.phase,
+    unlocked: header.unlocked,
     createdAt: header.createdAt,
   });
 };

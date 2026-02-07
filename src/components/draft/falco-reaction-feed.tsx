@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import FalcoAvatar from '@/components/falco/falco-avatar';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
@@ -41,9 +42,12 @@ export function FalcoReactionFeed({ events }: FalcoReactionFeedProps) {
   return (
     <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-          Draft Feed
-        </h3>
+        <div className="flex items-center gap-2">
+          <FalcoAvatar size={28} />
+          <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            Draft Feed
+          </h3>
+        </div>
       </div>
       <div className="mt-4 max-h-[48vh] space-y-3 overflow-y-auto pr-1">
         {events.map((event) => (
@@ -64,7 +68,10 @@ export function FalcoReactionFeed({ events }: FalcoReactionFeedProps) {
                   Pick {event.pickNumber}: {event.teamAbbr} selects {event.playerName} (
                   {event.position})
                 </p>
-                <p className="text-xs text-muted-foreground">{event.reaction}</p>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <FalcoAvatar size={20} className="h-5 w-5" />
+                  <span>{event.reaction}</span>
+                </div>
               </div>
               <Badge className={cn('text-[10px]', labelStyles[event.label] ?? labelStyles.SAFE)}>
                 {event.label}

@@ -9,14 +9,18 @@ import CutPlayerModal from '@/components/cut-player-modal';
 import { PlayerTable } from '@/components/player-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
+import RenegotiateModal from '@/components/renegotiate-modal';
+import OffseasonJourney from '@/components/onboarding/offseason-journey';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { fetchExpiringContracts } from '@/features/contracts/queries';
 import { useRosterQuery } from '@/features/players/queries';
 import { useSaveStore } from '@/features/save/save-store';
+import { useTeamStore } from '@/features/team/team-store';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerRowDTO } from '@/types/player';
 import type { ResignResultDTO } from '@/types/resign';
+import type { RenegotiateResultDTO } from '@/types/renegotiate';
 
 const formatMillions = (value: number) => `$${(value / 1_000_000).toFixed(1)}M`;
 
@@ -29,9 +33,12 @@ export default function RosterPage() {
   const phase = useSaveStore((state) => state.phase);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const teams = useTeamStore((state) => state.teams);
+  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId);
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeResignPlayer, setActiveResignPlayer] = useState<PlayerRowDTO | null>(null);
+  const [activeRenegotiatePlayer, setActiveRenegotiatePlayer] = useState<PlayerRowDTO | null>(null);
   const [activeExpiringContract, setActiveExpiringContract] = useState<ExpiringContractRow | null>(
     null,
   );
@@ -39,7 +46,14 @@ export default function RosterPage() {
   const [expiringError, setExpiringError] = useState<string | null>(null);
   const [resignResult, setResignResult] = useState<ResignResultDTO | null>(null);
   const [isResignResultOpen, setIsResignResultOpen] = useState(false);
+  const [renegotiateResult, setRenegotiateResult] = useState<RenegotiateResultDTO | null>(null);
+  const [isRenegotiateResultOpen, setIsRenegotiateResultOpen] = useState(false);
   const { push: pushToast } = useToast();
+
+  const selectedTeam = useMemo(
+    () => teams.find((team) => team.id === selectedTeamId),
+    [selectedTeamId, teams],
+  );
 
   const handleSubmitCut = async () => {
     if (!saveId || !activeCutPlayer) {
@@ -68,6 +82,7 @@ export default function RosterPage() {
         rosterCount: number;
         rosterLimit: number;
         phase: string;
+        unlocked?: { freeAgency: boolean; draft: boolean };
         createdAt: string;
       };
     };
@@ -76,7 +91,10 @@ export default function RosterPage() {
     }
 
     if (data.header) {
-      setSaveHeader(data.header);
+      setSaveHeader({
+        ...data.header,
+        unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
+      });
     }
 
     await Promise.all([refreshSaveHeader(), refreshPlayers()]);
@@ -171,8 +189,57 @@ export default function RosterPage() {
     setActiveExpiringContract(null);
   };
 
+  const handleSubmitRenegotiate = async (offer: {
+    years: number;
+    apy: number;
+    guaranteed: number;
+  }) => {
+    if (!saveId || !activeRenegotiatePlayer) {
+      return;
+    }
+
+    const response = await fetch('/api/roster/renegotiate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        saveId,
+        playerId: activeRenegotiatePlayer.id,
+        years: offer.years,
+        apy: offer.apy,
+        guaranteed: offer.guaranteed,
+      }),
+    });
+
+    const data = (await response.json()) as RenegotiateResultDTO | { ok: false; error: string };
+    if (!response.ok || !data.ok) {
+      throw new Error(!data.ok ? data.error : 'Unable to renegotiate right now.');
+    }
+
+    setRenegotiateResult(data);
+    setIsRenegotiateResultOpen(true);
+    pushToast({
+      title: data.accepted ? 'Renegotiation accepted' : 'Renegotiation declined',
+      description: data.accepted ? 'Contract updated.' : data.quote,
+      variant: data.accepted ? 'success' : 'error',
+    });
+
+    if (data.header) {
+      setSaveHeader({
+        ...data.header,
+        unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
+      });
+    }
+
+    await Promise.all([refreshSaveHeader(), refreshPlayers()]);
+
+    setActiveRenegotiatePlayer(null);
+  };
+
   return (
     <AppShell>
+      <div className="mb-6">
+        <OffseasonJourney currentStep={1} mode="full" />
+      </div>
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
@@ -235,6 +302,7 @@ export default function RosterPage() {
         variant="roster"
         onCutPlayer={setActiveCutPlayer}
         onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
+        onRenegotiatePlayer={setActiveRenegotiatePlayer}
       />
       {activeCutPlayer ? (
         <CutPlayerModal
@@ -267,11 +335,57 @@ export default function RosterPage() {
           onSubmit={handleSubmitResign}
         />
       ) : null}
+      {activeRenegotiatePlayer ? (
+        <RenegotiateModal
+          player={activeRenegotiatePlayer}
+          isOpen={Boolean(activeRenegotiatePlayer)}
+          saveId={saveId || undefined}
+          teamLogoUrl={selectedTeam?.logo_url ?? null}
+          onClose={() => setActiveRenegotiatePlayer(null)}
+          onSubmit={handleSubmitRenegotiate}
+        />
+      ) : null}
       <ResignOfferResultModal
         result={resignResult}
         isOpen={isResignResultOpen}
         onClose={() => setIsResignResultOpen(false)}
       />
+      {isRenegotiateResultOpen && renegotiateResult ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
+          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-lg">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-foreground">
+                {renegotiateResult.accepted ? 'Renegotiation Accepted' : 'Renegotiation Declined'}
+              </h3>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsRenegotiateResultOpen(false)}
+              >
+                ✕
+              </Button>
+            </div>
+            <p className="mt-3 text-sm text-muted-foreground">
+              {renegotiateResult.accepted
+                ? 'Contract updated successfully.'
+                : 'The player rejected the proposal.'}
+            </p>
+            <div className="mt-4 rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm text-foreground">
+              “{renegotiateResult.quote}”
+            </div>
+            <div className="mt-4 flex items-center justify-between text-sm text-foreground">
+              <span>Score</span>
+              <span className="font-semibold">{renegotiateResult.score}%</span>
+            </div>
+            <div className="mt-6 flex justify-end">
+              <Button type="button" onClick={() => setIsRenegotiateResultOpen(false)}>
+                Continue
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </AppShell>
   );
 }

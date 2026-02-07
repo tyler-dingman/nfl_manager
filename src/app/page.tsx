@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
@@ -11,6 +12,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import type { PlayerRowDTO } from '@/types/player';
 
 export default function HomePage() {
+  const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
@@ -20,6 +22,12 @@ export default function HomePage() {
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId);
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
+
+  useEffect(() => {
+    if (!saveId && !teamAbbr) {
+      router.replace('/teams');
+    }
+  }, [router, saveId, teamAbbr]);
 
   const handleSubmitCut = async () => {
     if (!saveId || !activeCutPlayer) {
@@ -48,6 +56,7 @@ export default function HomePage() {
         rosterCount: number;
         rosterLimit: number;
         phase: string;
+        unlocked?: { freeAgency: boolean; draft: boolean };
         createdAt: string;
       };
     };
@@ -56,7 +65,10 @@ export default function HomePage() {
     }
 
     if (data.header) {
-      setSaveHeader(data.header);
+      setSaveHeader({
+        ...data.header,
+        unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
+      });
     }
 
     await Promise.all([refreshSaveHeader(), refreshPlayers()]);

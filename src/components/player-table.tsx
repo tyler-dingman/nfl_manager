@@ -1,8 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
+import {
+  type ColumnDef,
+  type SortingState,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import PlayerRowActions, { type PlayerRowActionsVariant } from '@/components/player-row-actions';
 import { Badge } from '@/components/ui/badge';
@@ -52,6 +59,7 @@ type PlayerTableProps = {
   onOfferPlayer?: (player: PlayerRowDTO) => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
   onResignPlayer?: (player: PlayerRowDTO) => void;
+  onRenegotiatePlayer?: (player: PlayerRowDTO) => void;
   onSelectTradePlayer?: (player: PlayerRowDTO) => void;
 };
 
@@ -72,6 +80,14 @@ function getInitials(player: PlayerRowDTO) {
 function formatName(player: PlayerRowDTO) {
   return `${player.firstName} ${player.lastName}`;
 }
+
+const formatMillions = (value: number) => `$${value.toFixed(1)}M`;
+
+const parseCapHitValue = (player: PlayerRowDTO) => {
+  if (player.capHitValue !== undefined) return player.capHitValue;
+  const parsed = Number(player.capHit.replace(/[^0-9.]/g, ''));
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
 
 function PositionFilterBar({
   active,
@@ -107,12 +123,24 @@ export function PlayerTable({
   onOfferPlayer,
   onDraftPlayer,
   onResignPlayer,
+  onRenegotiatePlayer,
   onSelectTradePlayer,
 }: PlayerTableProps) {
   const [isMobile, setIsMobile] = React.useState(false);
   const [positionFilter, setPositionFilter] = React.useState('All');
   const [searchQuery, setSearchQuery] = React.useState('');
   const [draftFilter, setDraftFilter] = React.useState<DraftFilter>('All');
+  const [sorting, setSorting] = React.useState<SortingState>(
+    variant === 'roster' ? [{ id: 'capHitValue', desc: true }] : [],
+  );
+
+  React.useEffect(() => {
+    if (variant === 'roster') {
+      setSorting([{ id: 'capHitValue', desc: true }]);
+    } else {
+      setSorting([]);
+    }
+  }, [variant]);
 
   React.useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 767px)');
@@ -273,12 +301,45 @@ export function PlayerTable({
         ),
       },
       {
-        accessorKey: 'capHit',
-        header: 'Cap Hit',
-        meta: { mobileHidden: true },
-        cell: ({ row }) => (
-          <span className="text-sm text-muted-foreground">{row.original.capHit}</span>
+        accessorKey: 'capHitValue',
+        id: 'capHitValue',
+        header: ({ column }) => (
+          <button
+            type="button"
+            className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Cap Hit
+            <ArrowUpDown className="h-3 w-3" />
+          </button>
         ),
+        meta: { mobileHidden: false },
+        accessorFn: (row) => parseCapHitValue(row),
+        cell: ({ row }) => (
+          <span className="text-sm font-semibold text-foreground">
+            {formatMillions(parseCapHitValue(row.original))}
+          </span>
+        ),
+      },
+      {
+        accessorKey: 'capSavings',
+        header: 'Cap Savings',
+        meta: { mobileHidden: false },
+        cell: ({ row }) => {
+          const capHitValue = parseCapHitValue(row.original);
+          const deadCap = row.original.deadCap ?? 0;
+          const savings = Math.max(0, capHitValue - deadCap);
+          return (
+            <span
+              className={cn(
+                'text-sm font-semibold',
+                savings > 0 ? 'text-emerald-600' : 'text-muted-foreground',
+              )}
+            >
+              {savings > 0 ? `+${formatMillions(savings)}` : formatMillions(0)}
+            </span>
+          );
+        },
       },
       {
         accessorKey: 'status',
@@ -318,6 +379,7 @@ export function PlayerTable({
               onOfferPlayer={onOfferPlayer}
               onDraftPlayer={onDraftPlayer}
               onResignPlayer={onResignPlayer}
+              onRenegotiatePlayer={onRenegotiatePlayer}
               onSelectTradePlayer={onSelectTradePlayer}
             />
           );
@@ -329,6 +391,7 @@ export function PlayerTable({
     onDraftPlayer,
     onOfferPlayer,
     onResignPlayer,
+    onRenegotiatePlayer,
     onSelectTradePlayer,
     onTheClockForUserTeam,
     onTradePlayer,
@@ -344,6 +407,9 @@ export function PlayerTable({
     data: filteredData,
     columns: visibleColumns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: { sorting },
+    onSortingChange: setSorting,
   });
 
   const resetFilters = () => {

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import type { SaveBootstrapDTO, SaveHeaderDTO } from '@/types/save';
+import type { SaveBootstrapDTO, SaveHeaderDTO, SaveUnlocksDTO } from '@/types/save';
 
 type SaveStoreState = {
   saveId: string;
@@ -12,9 +12,11 @@ type SaveStoreState = {
   rosterCount: number;
   rosterLimit: number;
   phase: string;
+  unlocked: SaveUnlocksDTO;
   activeDraftSessionId: string | null;
   activeDraftSessionIdsBySave: Record<string, string>;
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
+  setActiveTeam: (teamId: string, teamAbbr: string) => void;
   setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
   clearSave: () => void;
   setPhase: (phase: string) => Promise<void>;
@@ -31,8 +33,25 @@ const DEFAULT_STATE = {
   rosterCount: 0,
   rosterLimit: 0,
   phase: 'resign_cut',
+  unlocked: { freeAgency: false, draft: false },
   activeDraftSessionId: null,
   activeDraftSessionIdsBySave: {},
+};
+
+const resolveUnlocks = (phase: string, current?: SaveUnlocksDTO): SaveUnlocksDTO => {
+  const next: SaveUnlocksDTO = {
+    freeAgency: current?.freeAgency ?? false,
+    draft: current?.draft ?? false,
+  };
+
+  if (phase === 'free_agency' || phase === 'draft' || phase === 'season') {
+    next.freeAgency = true;
+  }
+  if (phase === 'draft' || phase === 'season') {
+    next.draft = true;
+  }
+
+  return next;
 };
 
 export const useSaveStore = create<SaveStoreState>()(
@@ -47,6 +66,7 @@ export const useSaveStore = create<SaveStoreState>()(
         const rosterCount = header.rosterCount;
         const rosterLimit = header.rosterLimit;
         const phase = header.phase;
+        const unlocked = resolveUnlocks(phase, header.unlocked);
 
         return set((state) => ({
           ...state,
@@ -58,9 +78,16 @@ export const useSaveStore = create<SaveStoreState>()(
           rosterCount,
           rosterLimit,
           phase,
+          unlocked,
           activeDraftSessionId: state.activeDraftSessionIdsBySave[saveId] ?? null,
         }));
       },
+      setActiveTeam: (teamId, teamAbbr) =>
+        set((state) => ({
+          ...state,
+          teamId,
+          teamAbbr,
+        })),
       setActiveDraftSessionId: (sessionId, saveIdOverride) =>
         set((state) => {
           const targetSaveId = saveIdOverride ?? state.saveId;
@@ -108,6 +135,7 @@ export const useSaveStore = create<SaveStoreState>()(
         set((state) => ({
           ...state,
           phase: data.phase,
+          unlocked: resolveUnlocks(data.phase, data.unlocked),
         }));
       },
       advancePhase: async () => {
@@ -151,6 +179,7 @@ export const useSaveStore = create<SaveStoreState>()(
           rosterCount: data.rosterCount,
           rosterLimit: data.rosterLimit,
           phase: data.phase,
+          unlocked: resolveUnlocks(data.phase, data.unlocked),
           activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,
         }));
       },
@@ -163,6 +192,7 @@ export const useSaveStore = create<SaveStoreState>()(
         teamId: state.teamId,
         teamAbbr: state.teamAbbr,
         phase: state.phase,
+        unlocked: state.unlocked,
         activeDraftSessionId: state.activeDraftSessionId,
         activeDraftSessionIdsBySave: state.activeDraftSessionIdsBySave,
       }),

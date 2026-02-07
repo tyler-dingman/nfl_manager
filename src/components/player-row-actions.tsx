@@ -1,7 +1,14 @@
 'use client';
 
 import type { LucideIcon } from 'lucide-react';
-import { ArrowLeftRight, ClipboardCheck, Handshake, Plus, UserX } from 'lucide-react';
+import {
+  ArrowLeftRight,
+  BadgeDollarSign,
+  ClipboardCheck,
+  Handshake,
+  Plus,
+  UserX,
+} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
@@ -25,6 +32,7 @@ type PlayerRowActionsProps = {
   onOfferPlayer?: (player: PlayerRowDTO) => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
   onResignPlayer?: (player: PlayerRowDTO) => void;
+  onRenegotiatePlayer?: (player: PlayerRowDTO) => void;
   onSelectTradePlayer?: (player: PlayerRowDTO) => void;
 };
 
@@ -54,6 +62,7 @@ export default function PlayerRowActions({
   onOfferPlayer,
   onDraftPlayer,
   onResignPlayer,
+  onRenegotiatePlayer,
   onSelectTradePlayer,
 }: PlayerRowActionsProps) {
   const name = getPlayerName(player);
@@ -65,6 +74,11 @@ export default function PlayerRowActions({
             label: 'Cut',
             icon: UserX,
             onClick: () => onCutPlayer?.(player),
+          },
+          {
+            label: 'Renegotiate',
+            icon: BadgeDollarSign,
+            onClick: () => onRenegotiatePlayer?.(player),
           },
           {
             label: 'Trade',

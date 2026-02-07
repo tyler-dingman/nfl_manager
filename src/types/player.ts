@@ -11,6 +11,11 @@ export type PlayerRowDTO = {
   projectedRound?: string;
   contractYearsRemaining: number;
   capHit: string;
+  capHitValue?: number;
+  salary?: number;
+  guaranteed?: number;
+  deadCap?: number;
+  disgruntled?: boolean;
   status: string;
   headshotUrl?: string | null;
   isDrafted?: boolean;

@@ -11,34 +11,33 @@ import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 
 const navRoutes = {
-  Overview: '/',
-  Roster: '/roster',
-  'Free Agents': '/free-agents',
-  Trades: '/manage/trades',
-  'Big Board': '/draft/big-board',
-  'Draft Room': '/draft/room?mode=mock',
+  'Re-sign/Cut Players': '/roster',
+  'Trade Hub': '/manage/trades',
+  'Free Agency': '/free-agents',
+  Draft: '/draft/room?mode=mock',
 } as const;
 
 type NavItem = keyof typeof navRoutes;
 
 const navSections: { title: string; items: NavItem[] }[] = [
   {
-    title: 'Home',
-    items: ['Overview'],
+    title: 'Manage Team',
+    items: ['Re-sign/Cut Players', 'Trade Hub'],
   },
   {
-    title: 'Manage Team',
-    items: ['Roster', 'Free Agents', 'Trades'],
+    title: 'Free Agency',
+    items: ['Free Agency'],
   },
   {
     title: 'Draft',
-    items: ['Big Board', 'Draft Room'],
+    items: ['Draft'],
   },
 ];
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
+  const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const saveId = useSaveStore((state) => state.saveId);
   const storedTeamId = useSaveStore((state) => state.teamId);
   const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
@@ -46,6 +45,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const phase = useSaveStore((state) => state.phase);
+  const unlocked = useSaveStore((state) => state.unlocked);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const clearSave = useSaveStore((state) => state.clearSave);
   const advancePhase = useSaveStore((state) => state.advancePhase);
@@ -75,17 +75,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }, [phase]);
 
   const lockedRoutes = useMemo(() => {
-    if (phase === 'free_agency') {
-      return new Set<NavItem>(['Draft Room']);
+    const locked = new Set<NavItem>();
+    if (!unlocked.freeAgency) {
+      locked.add('Free Agency');
     }
-    if (phase === 'draft') {
-      return new Set<NavItem>(['Free Agents']);
+    if (!unlocked.draft) {
+      locked.add('Draft');
     }
-    if (phase === 'season') {
-      return new Set<NavItem>();
-    }
-    return new Set<NavItem>(['Free Agents', 'Draft Room']);
-  }, [phase]);
+    return locked;
+  }, [unlocked.draft, unlocked.freeAgency]);
 
   const nextAction = useMemo(() => {
     if (phase === 'free_agency') {
@@ -127,6 +125,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       advanceHref: '/free-agents',
     };
   }, [phase]);
+
+  useEffect(() => {
+    if (storedTeamAbbr) {
+      const matchingTeam = teams.find((team) => team.abbr === storedTeamAbbr);
+      if (matchingTeam && matchingTeam.id !== selectedTeamId) {
+        setSelectedTeamId(matchingTeam.id);
+      }
+    }
+  }, [selectedTeamId, setSelectedTeamId, storedTeamAbbr, teams]);
 
   useEffect(() => {
     if (!isMobileSidebarOpen) {
@@ -177,11 +184,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   rosterCount: number;
                   rosterLimit: number;
                   phase: string;
+                  unlocked?: { freeAgency: boolean; draft: boolean };
                 }
               | { ok: false; error: string };
             if (headerData.ok) {
               setSaveHeader(
-                { ...headerData, createdAt: new Date().toISOString() },
+                {
+                  ...headerData,
+                  unlocked: headerData.unlocked ?? { freeAgency: false, draft: false },
+                  createdAt: new Date().toISOString(),
+                },
                 selectedTeam.id,
               );
               return;
@@ -208,13 +220,21 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 rosterCount: number;
                 rosterLimit: number;
                 phase: string;
+                unlocked?: { freeAgency: boolean; draft: boolean };
                 createdAt: string;
               }>;
             }
           | { ok: false; error: string };
         if (existingData.ok && existingData.saves.length > 0) {
           const save = existingData.saves[0];
-          setSaveHeader({ ...save, ok: true }, selectedTeam.id);
+          setSaveHeader(
+            {
+              ...save,
+              ok: true,
+              unlocked: save.unlocked ?? { freeAgency: false, draft: false },
+            },
+            selectedTeam.id,
+          );
           return;
         }
       }
@@ -237,13 +257,21 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             rosterCount: number;
             rosterLimit: number;
             phase: string;
+            unlocked?: { freeAgency: boolean; draft: boolean };
           }
         | { ok: false; error: string };
       if (!data.ok) {
         return;
       }
 
-      setSaveHeader({ ...data, createdAt: new Date().toISOString() }, selectedTeam.id);
+      setSaveHeader(
+        {
+          ...data,
+          unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+          createdAt: new Date().toISOString(),
+        },
+        selectedTeam.id,
+      );
     };
 
     loadSave();
@@ -357,7 +385,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     <Menu className="h-4 w-4 text-muted-foreground" />
                   )}
                 </button>
-                <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-white">
+                <Link
+                  href="/teams?switch=1"
+                  aria-label="Change team"
+                  className="group flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring"
+                >
                   {selectedTeam?.logo_url ? (
                     <img
                       src={selectedTeam.logo_url}
@@ -366,15 +398,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     />
                   ) : (
                     <span className="text-xs font-semibold text-muted-foreground">
-                      {selectedTeam?.abbr}
+                      {selectedTeam?.abbr ?? '--'}
                     </span>
                   )}
-                </div>
+                </Link>
                 <div className="hidden flex-col md:flex">
                   <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                     Active Team
                   </span>
-                  <span className="text-sm font-semibold">{selectedTeam?.name}</span>
+                  <span className="text-sm font-semibold">
+                    {selectedTeam?.name ?? 'Select a team'}
+                  </span>
                 </div>
               </div>
 

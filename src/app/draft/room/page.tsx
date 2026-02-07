@@ -105,10 +105,18 @@ function DraftRoomContent() {
               rosterCount: number;
               rosterLimit: number;
               phase: string;
+              unlocked?: { freeAgency: boolean; draft: boolean };
             }
           | { ok: false; error: string };
         if (headerData.ok) {
-          setSaveHeader({ ...headerData, createdAt: new Date().toISOString() }, teamId);
+          setSaveHeader(
+            {
+              ...headerData,
+              unlocked: headerData.unlocked ?? { freeAgency: false, draft: false },
+              createdAt: new Date().toISOString(),
+            },
+            teamId,
+          );
           return headerData.saveId;
         }
       }
@@ -139,13 +147,21 @@ function DraftRoomContent() {
           rosterCount: number;
           rosterLimit: number;
           phase: string;
+          unlocked?: { freeAgency: boolean; draft: boolean };
         }
       | { ok: false; error: string };
     if (!data.ok) {
       return null;
     }
 
-    setSaveHeader({ ...data, createdAt: new Date().toISOString() }, teamId);
+    setSaveHeader(
+      {
+        ...data,
+        unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+        createdAt: new Date().toISOString(),
+      },
+      teamId,
+    );
     return data.saveId;
   }, [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, teamAbbr, teamId]);
 
@@ -169,6 +185,19 @@ function DraftRoomContent() {
       null,
     [roundOneOrder, selectedPickNumber],
   );
+  const userNextPickIndex = React.useMemo(() => {
+    if (session) {
+      const nextPick = session.picks.find(
+        (pick) =>
+          pick.ownerTeamAbbr === session.userTeamAbbr &&
+          pick.overall >= session.currentPickIndex + 1 &&
+          !pick.selectedPlayerId,
+      );
+      return nextPick?.overall ?? null;
+    }
+    const userPick = roundOneOrder.find((pick) => pick.abbr === (teamAbbr || selectedTeam?.abbr));
+    return userPick?.pickNumber ?? null;
+  }, [roundOneOrder, selectedTeam?.abbr, session, teamAbbr]);
 
   const fetchSession = React.useCallback(
     async (draftSessionId: string) => {
@@ -461,6 +490,9 @@ function DraftRoomContent() {
                 selectedPickNumber={selectedPickNumber}
                 onTheClockPickNumber={onTheClockPickNumber}
                 onSelectPick={setSelectedPickNumber}
+                currentPickIndex={onTheClockPickNumber}
+                userNextPickIndex={userNextPickIndex}
+                remainingProspects={lobbyProspects}
               />
             </div>
           ) : null}

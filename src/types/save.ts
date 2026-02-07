@@ -1,3 +1,8 @@
+export type SaveUnlocksDTO = {
+  freeAgency: boolean;
+  draft: boolean;
+};
+
 export type SaveHeaderDTO = {
   id: string;
   teamAbbr: string;
@@ -6,6 +11,7 @@ export type SaveHeaderDTO = {
   rosterCount: number;
   rosterLimit: number;
   phase: string;
+  unlocked: SaveUnlocksDTO;
   createdAt: string;
 };
 
@@ -18,5 +24,6 @@ export type SaveBootstrapDTO = {
   rosterCount: number;
   rosterLimit: number;
   phase: string;
+  unlocked: SaveUnlocksDTO;
   createdAt: string;
 };
