@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Lock, Menu, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -211,7 +211,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     <TeamThemeProvider team={selectedTeam}>
       <ToastProvider>
         <TeamFavicon primaryColor={selectedTeam?.color_primary ?? null} />
-        <div className="flex min-h-screen flex-col bg-slate-50 md:flex-row">
+        <div
+          className="flex min-h-screen flex-col bg-slate-50 md:flex-row"
+          style={{ '--app-header-height': '64px' } as CSSProperties}
+        >
           {isMobileSidebarOpen ? (
             <div
               className="fixed inset-0 z-40 bg-black/50 md:hidden"
@@ -221,7 +224,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           ) : null}
 
           <aside
-            className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white/95 px-5 py-6 transition-transform md:static md:z-auto md:flex md:translate-x-0 md:flex-col md:bg-white/80"
+            className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white/95 px-5 py-6 transition-transform md:static md:z-auto md:flex md:translate-x-0 md:flex-col md:self-start md:sticky md:top-[var(--app-header-height)] md:max-h-[calc(100vh-var(--app-header-height))] md:overflow-y-auto md:bg-white/80"
             style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
           >
             <div className="mb-[20px] text-left text-sm">
@@ -282,7 +285,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </aside>
 
           <div className="flex flex-1 flex-col">
-            <header className="flex h-16 items-center justify-between border-b border-border bg-white/80 px-4 md:px-6">
+            <header className="flex h-16 items-center justify-between border-b border-border bg-white/80 px-4 md:sticky md:top-0 md:z-40 md:bg-white/95 md:backdrop-blur md:px-6">
               <div className="flex items-center gap-3">
                 <button
                   type="button"
