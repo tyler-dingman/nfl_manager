@@ -132,9 +132,7 @@ export default function FreeAgentsPage() {
     const responsePayload: OfferResponse = {
       accepted: Boolean(data.accepted),
       tone: data.tone ?? (data.accepted ? 'positive' : 'neutral'),
-      message:
-        data.message ??
-        (data.accepted ? 'Woohoo! Fly Eagles Fly baby!' : 'Thanks for the offer.'),
+      message: data.message ?? (data.accepted ? 'Woohoo! Fly Eagles Fly baby!' : 'Thanks for the offer.'),
       notice:
         data.notice ??
         `${activeOfferPlayer.firstName} ${activeOfferPlayer.lastName} ${
