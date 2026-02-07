@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import { ChevronRight, X } from 'lucide-react';
 
 import { useSaveStore } from '@/features/save/save-store';
@@ -150,14 +151,27 @@ function TeamSelectScreenInner() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
-            Offseason Mode
-          </p>
-          <h1 className="mt-3 text-3xl font-semibold text-foreground">Choose a Team</h1>
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Choose a team to become the offseason GM. Second chances start in the offseason.
-          </p>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+          <div className="flex h-7 w-auto items-start sm:h-9">
+            <Image
+              src="/images/falco_logo.png"
+              alt="Falco"
+              width={180}
+              height={36}
+              className="h-full w-auto"
+              priority
+            />
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
+              Offseason Mode
+            </p>
+            <h1 className="mt-3 text-3xl font-semibold text-foreground">Choose a Team</h1>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              Second chances start in the offseason. Choose a team to become the offseason GM—manage
+              the cap, re-sign or cut players, then move into free agency and the draft.
+            </p>
+          </div>
         </div>
 
         {showExpiredBanner ? (
