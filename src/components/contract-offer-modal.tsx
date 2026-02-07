@@ -25,7 +25,11 @@ type ContractOfferModalProps = {
   expectedApyOverride?: number;
   submitLabel?: string;
   onClose: () => void;
-  onSubmit: (offer: { years: number; apy: number; guaranteed: number }) => Promise<OfferResponse | void>;
+  onSubmit: (offer: {
+    years: number;
+    apy: number;
+    guaranteed: number;
+  }) => Promise<OfferResponse | void>;
 };
 
 const getInterestLabel = (score: number) => {

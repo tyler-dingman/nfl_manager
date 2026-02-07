@@ -143,9 +143,7 @@ export default function FreeAgentsPage() {
     };
 
     if (data.accepted && data.player) {
-      setPlayers((prev) =>
-        prev.map((item) => (item.id === data.player?.id ? data.player : item)),
-      );
+      setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
       await Promise.all([refreshSaveHeader(), refreshPlayers()]);
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
       setTimeout(() => {
