@@ -26,6 +26,7 @@ export type DraftSessionDTO = {
     lastName: string;
     position: string;
     rank?: number;
+    projectedPick?: number;
     college?: string;
     grade?: string;
     projectedRound?: string;
@@ -36,6 +37,9 @@ export type DraftSessionDTO = {
     isDrafted?: boolean;
   }>;
   status: DraftSessionStatus;
+  fallingProspectId?: string | null;
+  fallReason?: string | null;
+  fallSeverity?: number | null;
 };
 
 export type DraftSessionState = DraftSessionDTO & {

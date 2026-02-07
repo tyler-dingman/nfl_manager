@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 
 export type DraftEventDTO = {
   id: string;
+  playerId: string;
   pickNumber: number;
   teamAbbr: string;
   teamLogoUrl?: string | null;

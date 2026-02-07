@@ -5,6 +5,7 @@ import type { DraftMode, DraftPickDTO, DraftSessionDTO, DraftSessionState } from
 
 import { addDraftedPlayersInState, getSaveStateResult, pushNewsItem } from './store';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
+import { createRng } from '@/lib/deterministic-rng';
 
 export type DraftSessionStartResponse = {
   draftSessionId: string;
@@ -59,7 +60,48 @@ const DRAFT_ORDER = [
   'GB',
 ];
 
-const cloneProspects = (): PlayerRowDTO[] => BASE_PROSPECTS.map((player) => ({ ...player }));
+const cloneProspects = (): PlayerRowDTO[] =>
+  BASE_PROSPECTS.map((player, index) => ({
+    ...player,
+    projectedPick: player.rank ?? index + 1,
+  }));
+
+const FALL_REASONS = [
+  'Injury Concerns',
+  'Character Concerns',
+  'Off-field Rumors',
+  'Scheme Fit',
+  'Combine Disappointment',
+] as const;
+
+const selectFallingProspect = (
+  sessionId: string,
+  saveId: string,
+  prospects: PlayerRowDTO[],
+): { id: string; reason: string; severity: number } | null => {
+  const seed = `${saveId}:${sessionId}:round1`;
+  const rng = createRng(seed);
+  const roll = rng();
+  if (roll > 0.85) {
+    return null;
+  }
+  const candidates = prospects.filter((player) => {
+    const projected = player.projectedPick ?? player.rank ?? 999;
+    return projected >= 1 && projected <= 25 && (player.rank ?? 999) <= 30;
+  });
+  if (candidates.length === 0) {
+    return null;
+  }
+  const pickIndex = Math.floor(rng() * candidates.length);
+  const reasonIndex = Math.floor(rng() * FALL_REASONS.length);
+  const severity = 10 + Math.floor(rng() * 6);
+  const player = candidates[pickIndex] ?? candidates[0];
+  return {
+    id: player.id,
+    reason: FALL_REASONS[reasonIndex] ?? FALL_REASONS[0],
+    severity,
+  };
+};
 
 const buildDraftPicks = (): DraftPickDTO[] =>
   DRAFT_ORDER.map((teamAbbr, index) => ({
@@ -168,6 +210,13 @@ export const createDraftSession = (mode: DraftMode, saveId: string): DraftSessio
     status: 'in_progress',
   };
 
+  const falling = selectFallingProspect(draftSessionId, saveId, session.prospects);
+  if (falling) {
+    session.fallingProspectId = falling.id;
+    session.fallReason = falling.reason;
+    session.fallSeverity = falling.severity;
+  }
+
   state.draftSessions[draftSessionId] = session;
 
   return { draftSessionId, rng_seed: rngSeed };
@@ -244,7 +293,25 @@ export const advanceDraftSession = (draftSessionId: string, saveId: string): Dra
     return session;
   }
 
-  const candidatePool = getCandidatePool(pool);
+  const fallingProspect = session.fallingProspectId
+    ? session.prospects.find((player) => player.id === session.fallingProspectId)
+    : null;
+  const pickNumber = session.currentPickIndex + 1;
+  let filteredPool = pool;
+  if (fallingProspect && !fallingProspect.isDrafted) {
+    const projected = fallingProspect.projectedPick ?? fallingProspect.rank ?? 999;
+    const severity = session.fallSeverity ?? 10;
+    const fallLimit = projected + severity;
+    const panicThreshold = projected + 12;
+    if (pickNumber < fallLimit) {
+      const allowChance = pickNumber >= panicThreshold ? nextRandom(session) < 0.08 : false;
+      if (!allowChance) {
+        filteredPool = pool.filter((player) => player.id !== fallingProspect.id);
+      }
+    }
+  }
+
+  const candidatePool = getCandidatePool(filteredPool);
   const player = pickFromPool(session, candidatePool);
   selectPlayer(session, session.currentPickIndex, player);
   pushNewsItem(state, {

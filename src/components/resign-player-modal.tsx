@@ -9,7 +9,6 @@ import { estimateResignInterest } from '@/lib/resign-scoring';
 type ResignPlayerModalProps = {
   player: PlayerRowDTO;
   isOpen: boolean;
-  contractRange?: { estValue: number; maxValue: number };
   expectedApyOverride?: number;
   onClose: () => void;
   onSubmit: (offer: { years: number; apy: number; guaranteed: number }) => Promise<void>;
@@ -24,7 +23,6 @@ const getInterestLabel = (score: number) => {
 export default function ResignPlayerModal({
   player,
   isOpen,
-  contractRange,
   expectedApyOverride,
   onClose,
   onSubmit,
@@ -56,7 +54,6 @@ export default function ResignPlayerModal({
   });
   const score = estimate.interestScore;
   const interestLabel = getInterestLabel(score);
-  const formatMillions = (value: number) => `$${(value / 1_000_000).toFixed(1)}M`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
@@ -140,22 +137,6 @@ export default function ResignPlayerModal({
             />
           </div>
         </div>
-
-        {contractRange ? (
-          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Contract range
-            </p>
-            <div className="mt-2 flex items-center justify-between text-sm text-foreground">
-              <span>Est. Value</span>
-              <span className="font-semibold">{formatMillions(contractRange.estValue)}</span>
-            </div>
-            <div className="mt-1 flex items-center justify-between text-sm text-foreground">
-              <span>Max Value</span>
-              <span className="font-semibold">{formatMillions(contractRange.maxValue)}</span>
-            </div>
-          </div>
-        ) : null}
 
         <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
           <div className="flex items-center justify-between text-xs text-muted-foreground">

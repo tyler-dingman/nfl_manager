@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ClipboardList, Handshake, Lock, Menu, PlayCircle, Users, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
+import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
@@ -49,8 +50,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const clearSave = useSaveStore((state) => state.clearSave);
   const advancePhase = useSaveStore((state) => state.advancePhase);
+  const setPhase = useSaveStore((state) => state.setPhase);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [isAdvanceModalOpen, setIsAdvanceModalOpen] = useState(false);
+  const [advanceTarget, setAdvanceTarget] = useState<'free_agency' | 'draft' | null>(null);
   const loadKeyRef = useRef<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
@@ -77,23 +81,24 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const lockedRoutes = useMemo(() => {
     const locked = new Set<NavItem>();
-    if (!unlocked.freeAgency) {
+    if (phase !== 'resign_cut') {
+      locked.add('Re-sign/Cut Players');
+    }
+    if (!unlocked.freeAgency || phase === 'draft' || phase === 'season') {
       locked.add('Free Agency');
     }
     if (!unlocked.draft) {
       locked.add('Draft');
     }
     return locked;
-  }, [unlocked.draft, unlocked.freeAgency]);
+  }, [phase, unlocked.draft, unlocked.freeAgency]);
 
   const nextAction = useMemo(() => {
     if (phase === 'free_agency') {
       return {
         title: 'Fill roster holes by signing free agents',
         subtitle: 'Upgrade starters and depth—keep an eye on cap space.',
-        ctaLabel: 'Go to free agency',
-        href: '/free-agents',
-        advanceLabel: 'Enter Draft',
+        advanceLabel: 'Advance to Draft',
         advanceHref: '/draft/room?mode=mock',
       };
     }
@@ -101,18 +106,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       return {
         title: 'Draft the future of your franchise.',
         subtitle: 'Use picks and trades to add impact rookies.',
-        ctaLabel: 'Go to draft room',
-        href: '/draft/room?mode=mock',
-        advanceLabel: 'Start Season',
-        advanceHref: '/overview',
+        advanceLabel: null,
+        advanceHref: null,
       };
     }
     if (phase === 'season') {
       return {
         title: 'Season ready.',
         subtitle: 'Your roster is set—manage, trade, and simulate the year.',
-        ctaLabel: 'View overview',
-        href: '/overview',
         advanceLabel: null,
         advanceHref: null,
       };
@@ -120,9 +121,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     return {
       title: 'Re-sign or cut players before Free Agency',
       subtitle: 'Get under the cap and shape your roster before entering the market.',
-      ctaLabel: 'Go to roster',
-      href: '/roster',
-      advanceLabel: 'Enter Free Agency',
+      advanceLabel: 'Advance to Free Agency',
       advanceHref: '/free-agents',
     };
   }, [phase]);
@@ -139,6 +138,41 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         return Handshake;
     }
   }, [phase]);
+
+  const showNextActionBanner = useMemo(() => {
+    if (!pathname) return false;
+    if (phase === 'resign_cut') {
+      return pathname.startsWith('/roster');
+    }
+    if (phase === 'free_agency') {
+      return pathname.startsWith('/free-agents');
+    }
+    if (phase === 'draft') {
+      return pathname.startsWith('/draft');
+    }
+    return false;
+  }, [pathname, phase]);
+
+  useEffect(() => {
+    if (!pathname) return;
+    if (phase === 'resign_cut') {
+      if (pathname.startsWith('/free-agents') || pathname.startsWith('/draft')) {
+        router.replace('/roster');
+      }
+      return;
+    }
+    if (phase === 'free_agency') {
+      if (pathname.startsWith('/roster') || pathname.startsWith('/draft')) {
+        router.replace('/free-agents');
+      }
+      return;
+    }
+    if (phase === 'draft') {
+      if (pathname.startsWith('/roster') || pathname.startsWith('/free-agents')) {
+        router.replace('/draft/room?mode=mock');
+      }
+    }
+  }, [pathname, phase, router]);
 
   useEffect(() => {
     if (storedTeamAbbr) {
@@ -476,66 +510,99 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </header>
 
             <main className="flex-1 px-4 py-6 md:px-8">
-              <div
-                className="mb-6 rounded-2xl border border-transparent p-5 text-[var(--team-primary-foreground)]"
-                style={{
-                  backgroundColor: 'var(--team-primary)',
-                }}
-              >
-                <p
-                  className="text-xs uppercase tracking-[0.2em]"
+              {showNextActionBanner ? (
+                <div
+                  className="mb-6 rounded-2xl border border-transparent p-5 text-[var(--team-primary-foreground)]"
                   style={{
-                    color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+                    backgroundColor: 'var(--team-primary)',
                   }}
                 >
-                  Next Action
-                </p>
-                <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                  <div className="flex items-start gap-3">
-                    <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-white/15">
-                      {(() => {
-                        const Icon = phaseIcon;
-                        return <Icon className="h-5 w-5" />;
-                      })()}
+                  <p
+                    className="text-xs uppercase tracking-[0.2em]"
+                    style={{
+                      color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+                    }}
+                  >
+                    Next Action
+                  </p>
+                  <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-white/15">
+                        {(() => {
+                          const Icon = phaseIcon;
+                          return <Icon className="h-5 w-5" />;
+                        })()}
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-semibold">{nextAction.title}</h2>
+                        <p
+                          className="text-sm"
+                          style={{
+                            color:
+                              'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+                          }}
+                        >
+                          {nextAction.subtitle}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h2 className="text-xl font-semibold">{nextAction.title}</h2>
-                      <p
-                        className="text-sm"
-                        style={{
-                          color:
-                            'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
-                        }}
-                      >
-                        {nextAction.subtitle}
-                      </p>
+                    <div className="flex flex-wrap items-center gap-3">
+                      {nextAction.advanceLabel ? (
+                        <button
+                          type="button"
+                          className="rounded-full border border-white/40 px-4 py-2 text-sm font-semibold"
+                          style={{ color: 'var(--team-primary-foreground)' }}
+                          onClick={() => {
+                            if (!saveId) return;
+                            if (phase === 'resign_cut') {
+                              setAdvanceTarget('free_agency');
+                              setIsAdvanceModalOpen(true);
+                              return;
+                            }
+                            if (phase === 'free_agency') {
+                              setAdvanceTarget('draft');
+                              setIsAdvanceModalOpen(true);
+                              return;
+                            }
+                            if (nextAction.advanceHref) {
+                              router.push(nextAction.advanceHref);
+                            }
+                          }}
+                        >
+                          {nextAction.advanceLabel}
+                        </button>
+                      ) : null}
                     </div>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-3">
-                    {nextAction.advanceLabel ? (
-                      <button
-                        type="button"
-                        className="rounded-full border border-white/40 px-4 py-2 text-sm font-semibold"
-                        style={{ color: 'var(--team-primary-foreground)' }}
-                        onClick={async () => {
-                          if (!saveId) {
-                            return;
-                          }
-                          await advancePhase();
-                          if (nextAction.advanceHref) {
-                            router.push(nextAction.advanceHref);
-                          }
-                        }}
-                      >
-                        {nextAction.advanceLabel}
-                      </button>
-                    ) : null}
                   </div>
                 </div>
-              </div>
+              ) : null}
               {children}
             </main>
           </div>
+          <ConfirmAdvanceModal
+            open={isAdvanceModalOpen}
+            onOpenChange={setIsAdvanceModalOpen}
+            title={advanceTarget === 'draft' ? 'Enter the Draft' : 'Enter Free Agency'}
+            body={
+              advanceTarget === 'draft'
+                ? `You’re about to enter the NFL Draft.\n\nOnce you move on, Free Agency will be closed and you won’t be able to sign additional free agents.\n\nMake sure your roster is ready and your cap space is where you want it before drafting.`
+                : `You’re about to enter Free Agency.\n\nOnce you move on, the re-sign / cut stage will be closed and you won’t be able to return to make additional cap moves here.\n\nMake sure you’re comfortable with your cap space and roster before entering the market.`
+            }
+            confirmText={
+              advanceTarget === 'draft' ? 'Confirm & Enter Draft' : 'Confirm & Enter Free Agency'
+            }
+            onConfirm={async () => {
+              if (!saveId || !advanceTarget) return;
+              await setPhase(advanceTarget);
+              setIsAdvanceModalOpen(false);
+              setAdvanceTarget(null);
+              if (advanceTarget === 'draft') {
+                router.push('/draft/room?mode=mock');
+              } else {
+                router.push('/free-agents');
+              }
+            }}
+          />
           <ToastViewport />
         </div>
       </ToastProvider>

@@ -6,17 +6,15 @@ import { toTwoLetterPosition } from '@/lib/position-utils';
 import { getCollegeLogoUrl } from '@/server/collegeLogos';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 
-export default async function DraftBigBoardPage() {
+export default function DraftBigBoardPage() {
   const prospects = buildTop32Prospects();
   const collegeSet = new Set(
     prospects
       .map((player) => player.college)
       .filter((college): college is string => Boolean(college)),
   );
-  const collegeEntries = await Promise.all(
-    Array.from(collegeSet).map(
-      async (college) => [college, await getCollegeLogoUrl(college)] as const,
-    ),
+  const collegeEntries = Array.from(collegeSet).map(
+    (college) => [college, getCollegeLogoUrl(college)] as const,
   );
   const collegeLogoMap = new Map(collegeEntries);
   const { tweets } = buildFalcoBoard(prospects, 'falco-big-board');

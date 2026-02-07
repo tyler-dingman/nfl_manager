@@ -22,7 +22,7 @@ const toKey = (name: string) => {
   return ALIASES[normalized] ?? normalized;
 };
 
-export const getCollegeLogoUrl = async (collegeName: string): Promise<string | null> => {
+export const getCollegeLogoUrl = (collegeName: string): string | null => {
   if (!collegeName) return null;
   const key = toKey(collegeName);
   const direct = LOGO_MAP[key];

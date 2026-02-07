@@ -6,6 +6,7 @@ export type PlayerRowDTO = {
   age?: number;
   rating?: number;
   rank?: number;
+  projectedPick?: number;
   college?: string;
   grade?: string;
   projectedRound?: string;

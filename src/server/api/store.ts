@@ -11,6 +11,7 @@ import {
 } from '@/server/logic/cap';
 import { logoUrlFor } from './team';
 import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
+import { FREE_AGENT_SEEDS } from '@/server/data/free-agents';
 
 export type PlayerFilters = {
   position?: string;
@@ -33,6 +34,40 @@ export type SaveState = {
 };
 
 const saveStore = new Map<string, SaveState>();
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const splitName = (name: string) => {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) {
+    return { firstName: name, lastName: '' };
+  }
+  return { firstName: parts[0] ?? '', lastName: parts.slice(1).join(' ') };
+};
+
+const buildFreeAgent = (seed: (typeof FREE_AGENT_SEEDS)[number]): StoredPlayer => {
+  const { firstName, lastName } = splitName(seed.name);
+  const year1CapHit = seed.marketValue / 1_000_000;
+  return {
+    id: `${slugify(seed.name)}-${slugify(seed.prevTeam)}`,
+    firstName,
+    lastName,
+    position: seed.position,
+    age: seed.age,
+    contractYearsRemaining: 0,
+    capHit: '$0.0M',
+    capHitValue: 0,
+    salary: 0,
+    guaranteed: 0,
+    status: 'Free Agent',
+    headshotUrl: null,
+    year1CapHit,
+  };
+};
 
 export const listSaveStates = (): Array<{ saveId: string; state: SaveState }> =>
   Array.from(saveStore.entries()).map(([saveId, state]) => ({ saveId, state }));
@@ -145,7 +180,7 @@ const baseRoster: StoredPlayer[] = [
   },
 ];
 
-const baseFreeAgents: StoredPlayer[] = [
+const baseFreeAgentSeed: StoredPlayer[] = [
   {
     id: '6',
     firstName: 'Tee',
@@ -216,6 +251,11 @@ const baseFreeAgents: StoredPlayer[] = [
     headshotUrl: null,
     year1CapHit: 4.8,
   },
+];
+
+const baseFreeAgents: StoredPlayer[] = [
+  ...baseFreeAgentSeed,
+  ...FREE_AGENT_SEEDS.map(buildFreeAgent),
 ];
 
 const clonePlayers = (players: StoredPlayer[]) => players.map((player) => ({ ...player }));

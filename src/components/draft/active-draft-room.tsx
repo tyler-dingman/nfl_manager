@@ -3,9 +3,17 @@
 import * as React from 'react';
 
 import { FalcoReactionFeed, type DraftEventDTO } from '@/components/draft/falco-reaction-feed';
+import FalcoAlertToast from '@/components/falco-alert';
+import FalcoTicker from '@/components/falco-ticker';
 import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
+import {
+  fillFalcoTemplate,
+  type FalcoAlertType,
+  quotesByType,
+} from '@/features/draft/falco-quotes';
 import { getPickValue } from '@/lib/draft-utils';
 import { getFalcoReaction, getPickLabel } from '@/lib/draft-reactions';
 import { getTeamNeeds } from '@/components/draft/draft-utils';
@@ -14,7 +22,8 @@ import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { FalcoNote } from '@/lib/falco';
 
-const SPEED_LABELS = ['Slow', 'Fast', 'Turbo'] as const;
+const SPEED_LABELS = ['1x (1 sec)', '2x (0.5 sec)', '4x (0.25 sec)'] as const;
+const SPEED_DELAYS = [1000, 500, 250] as const;
 
 export type DraftSpeedLevel = 0 | 1 | 2;
 
@@ -46,7 +55,8 @@ export function ActiveDraftRoom({
   onSessionUpdate,
 }: ActiveDraftRoomProps) {
   const currentPick = session.picks[session.currentPickIndex];
-  const onClock = currentPick?.ownerTeamAbbr === session.userTeamAbbr;
+  const onClock =
+    currentPick?.ownerTeamAbbr === session.userTeamAbbr && !currentPick?.selectedPlayerId;
   const speedLabel = SPEED_LABELS[speedLevel] ?? SPEED_LABELS[1];
   const [activeTab, setActiveTab] = React.useState<'available' | 'drafted' | 'trade'>(
     onClock ? 'available' : 'drafted',
@@ -67,9 +77,18 @@ export function ActiveDraftRoom({
     reason?: string;
   } | null>(null);
   const [draftFeed, setDraftFeed] = React.useState<DraftEventDTO[]>([]);
+  const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
+  const falcoHistory = useFalcoAlertStore((state) => state.history);
   const advanceInFlight = React.useRef(false);
   const skipInFlight = React.useRef(false);
   const previousPickSelections = React.useRef<Map<string, string | null>>(new Map());
+  const firedFreeFallRef = React.useRef(false);
+  const lastRunRef = React.useRef<string | null>(null);
+
+  React.useEffect(() => {
+    firedFreeFallRef.current = false;
+    lastRunRef.current = null;
+  }, [session.id]);
 
   const bestAvailable = React.useMemo(() => {
     return session.prospects
@@ -107,6 +126,15 @@ export function ActiveDraftRoom({
     });
     return map;
   }, [falcoNotes]);
+
+  const buildAlertMessage = React.useCallback(
+    (type: FalcoAlertType, data: Record<string, string | number | undefined>) => {
+      const options = quotesByType[type];
+      const choice = options[Math.floor(Math.random() * options.length)] ?? options[0];
+      return fillFalcoTemplate(choice, data);
+    },
+    [],
+  );
 
   const falcoFavorites = React.useMemo(() => {
     if (!onClock || !currentPick) {
@@ -298,7 +326,7 @@ export function ActiveDraftRoom({
     if (session.isPaused || onClock) {
       return;
     }
-    const delay = speedLevel === 0 ? 1500 : speedLevel === 2 ? 350 : 1000;
+    const delay = SPEED_DELAYS[speedLevel] ?? 1000;
     const timer = window.setTimeout(() => {
       void advanceCpuPick();
     }, delay);
@@ -324,6 +352,7 @@ export function ActiveDraftRoom({
         });
         newEvents.push({
           id: `event-${pick.id}-${pick.selectedPlayerId}`,
+          playerId: player.id,
           pickNumber: pick.overall,
           teamAbbr: pick.ownerTeamAbbr,
           teamLogoUrl: teamLookup.get(pick.ownerTeamAbbr)?.logoUrl,
@@ -344,8 +373,90 @@ export function ActiveDraftRoom({
     });
     if (newEvents.length > 0) {
       setDraftFeed((prev) => [...newEvents.reverse(), ...prev].slice(0, 50));
+      newEvents.forEach((event) => {
+        const player = session.prospects.find((prospect) => prospect.id === event.playerId);
+        if (!player) return;
+        const projected = player.projectedPick ?? player.rank ?? event.pickNumber;
+        const delta = event.pickNumber - projected;
+        if (delta <= -10) {
+          const message = buildAlertMessage('RISKY_REACH', {
+            PLAYER: event.playerName,
+            TEAM: event.teamAbbr,
+            PICK: event.pickNumber,
+            PROJECTED: projected,
+          });
+          pushAlert({
+            id: `reach-${event.playerId}`,
+            type: 'RISKY_REACH',
+            message,
+            createdAt: new Date().toISOString(),
+          });
+        }
+        if (event.teamAbbr === session.userTeamAbbr && delta >= 10) {
+          const message = buildAlertMessage('VALUE_STEAL', {
+            PLAYER: event.playerName,
+            PICK: event.pickNumber,
+            PROJECTED: projected,
+          });
+          pushAlert({
+            id: `value-${event.playerId}`,
+            type: 'VALUE_STEAL',
+            message,
+            createdAt: new Date().toISOString(),
+          });
+        }
+      });
     }
-  }, [falcoTagsByPlayer, session.picks, session.prospects, teamLookup]);
+  }, [buildAlertMessage, falcoTagsByPlayer, pushAlert, session.picks, session.prospects, teamLookup]);
+
+  React.useEffect(() => {
+    const fallingId = session.fallingProspectId;
+    if (!fallingId || firedFreeFallRef.current) return;
+    const player = session.prospects.find((prospect) => prospect.id === fallingId);
+    if (!player || player.isDrafted) return;
+    const projected = player.projectedPick ?? player.rank ?? 0;
+    if (session.currentPickIndex + 1 >= projected + 10) {
+      firedFreeFallRef.current = true;
+      const message = buildAlertMessage('FREE_FALL', {
+        PLAYER: `${player.firstName} ${player.lastName}`,
+        REASON: session.fallReason ?? 'draft chatter',
+        PROJECTED: projected,
+        PICK: session.currentPickIndex + 1,
+      });
+      pushAlert({
+        id: `freefall-${player.id}`,
+        type: 'FREE_FALL',
+        message,
+        createdAt: new Date().toISOString(),
+      });
+    }
+  }, [buildAlertMessage, pushAlert, session.currentPickIndex, session.fallReason, session.fallingProspectId, session.prospects]);
+
+  React.useEffect(() => {
+    const drafted = session.picks
+      .filter((pick) => pick.selectedPlayerId)
+      .slice(-5)
+      .map((pick) => session.prospects.find((player) => player.id === pick.selectedPlayerId))
+      .filter(Boolean);
+    if (drafted.length < 3) return;
+    const counts = drafted.reduce<Record<string, number>>((acc, player) => {
+      const pos = player?.position ?? 'UNK';
+      acc[pos] = (acc[pos] ?? 0) + 1;
+      return acc;
+    }, {});
+    const runEntry = Object.entries(counts).find(([, count]) => count >= 3);
+    if (!runEntry) return;
+    const [position] = runEntry;
+    if (lastRunRef.current === position) return;
+    lastRunRef.current = position;
+    const message = buildAlertMessage('POSITION_RUN', { POSITION: position });
+    pushAlert({
+      id: `run-${position}-${session.currentPickIndex}`,
+      type: 'POSITION_RUN',
+      message,
+      createdAt: new Date().toISOString(),
+    });
+  }, [buildAlertMessage, pushAlert, session.currentPickIndex, session.picks, session.prospects]);
 
   const handleProposeTrade = async () => {
     if (!sendPickId || !receivePickId || !partnerTeamAbbr) {
@@ -702,7 +813,9 @@ export function ActiveDraftRoom({
           )}
         </div>
         <FalcoReactionFeed events={draftFeed} />
+        <FalcoTicker alerts={falcoHistory} />
       </section>
+      <FalcoAlertToast />
       {tradeResult ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
           <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg">

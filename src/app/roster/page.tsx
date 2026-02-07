@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Plus } from 'lucide-react';
+import { Handshake } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
@@ -291,7 +291,7 @@ export default function RosterPage() {
                         size="icon"
                         onClick={() => setActiveExpiringContract(player)}
                       >
-                        <Plus className="h-4 w-4" />
+                        <Handshake className="h-4 w-4" />
                         <span className="sr-only">Re-sign {player.name}</span>
                       </Button>
                     </td>
@@ -333,10 +333,6 @@ export default function RosterPage() {
       {expiringResignPlayer && activeExpiringContract ? (
         <ResignPlayerModal
           player={expiringResignPlayer}
-          contractRange={{
-            estValue: activeExpiringContract.estValue,
-            maxValue: activeExpiringContract.maxValue,
-          }}
           expectedApyOverride={activeExpiringContract.estValue / 1_000_000}
           isOpen={Boolean(activeExpiringContract)}
           onClose={() => setActiveExpiringContract(null)}
