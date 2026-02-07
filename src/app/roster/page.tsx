@@ -6,6 +6,7 @@ import { Handshake } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
+import FalcoPhaseSummaryCard from '@/components/falco/falco-phase-summary-card';
 import { PlayerTable } from '@/components/player-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
@@ -13,9 +14,11 @@ import RenegotiateModal from '@/components/renegotiate-modal';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { fetchExpiringContracts } from '@/features/contracts/queries';
+import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useRosterQuery } from '@/features/players/queries';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
+import { buildChantAlert } from '@/lib/falco-alerts';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerRowDTO } from '@/types/player';
 import type { ResignResultDTO } from '@/types/resign';
@@ -31,6 +34,8 @@ export default function RosterPage() {
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
+  const rosterCount = useSaveStore((state) => state.rosterCount);
+  const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const phase = useSaveStore((state) => state.phase);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
@@ -51,6 +56,7 @@ export default function RosterPage() {
   const [renegotiateResult, setRenegotiateResult] = useState<RenegotiateResultDTO | null>(null);
   const [isRenegotiateResultOpen, setIsRenegotiateResultOpen] = useState(false);
   const { push: pushToast } = useToast();
+  const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId),
@@ -215,6 +221,9 @@ export default function RosterPage() {
       description: data.accepted ? data.newsItem.details : 'The player decided to test the market.',
       variant: data.accepted ? 'success' : 'error',
     });
+    if (data.accepted) {
+      pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
+    }
 
     await Promise.all([
       refreshSaveHeader(),
@@ -275,6 +284,14 @@ export default function RosterPage() {
 
   return (
     <AppShell>
+      <FalcoPhaseSummaryCard
+        phase="resign_cut"
+        capSpace={capSpace}
+        rosterCount={rosterCount}
+        rosterLimit={rosterLimit}
+        seed={saveId ?? 'guest'}
+        className="mb-6"
+      />
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="mb-4 flex items-center justify-between">

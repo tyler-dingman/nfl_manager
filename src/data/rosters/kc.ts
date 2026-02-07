@@ -6,6 +6,7 @@ export type KcRosterEntry = {
   deadCap: number;
   baseSalary: number;
   restructureProration: number;
+  yearsRemaining?: number;
 };
 
 export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
@@ -17,6 +18,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 77825776,
     baseSalary: 45350000,
     restructureProration: 17349000,
+    yearsRemaining: 6,
   },
   {
     fullName: 'Chris Jones',
@@ -26,6 +28,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 64250000,
     baseSalary: 19000000,
     restructureProration: 3750000,
+    yearsRemaining: 3,
   },
   {
     fullName: 'Jawaan Taylor',
@@ -35,6 +38,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 7391667,
     baseSalary: 19500000,
     restructureProration: 2666667,
+    yearsRemaining: 1,
   },
   {
     fullName: 'Trey Smith',
@@ -44,6 +48,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 33235836,
     baseSalary: 19750000,
     restructureProration: 245278,
+    yearsRemaining: 3,
   },
   {
     fullName: 'Nick Bolton',
@@ -53,6 +58,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 23500000,
     baseSalary: 14750000,
     restructureProration: 0,
+    yearsRemaining: 2,
   },
   {
     fullName: 'Jaylon Moore',
@@ -71,6 +77,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 25050000,
     baseSalary: 14250000,
     restructureProration: 0,
+    yearsRemaining: 3,
   },
   {
     fullName: 'George Karlaftis',
@@ -80,6 +87,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 26900000,
     baseSalary: 10900000,
     restructureProration: 0,
+    yearsRemaining: 5,
   },
   {
     fullName: 'Trent McDuffie',
@@ -89,6 +97,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 13632000,
     baseSalary: 13632000,
     restructureProration: 0,
+    yearsRemaining: 1,
   },
   {
     fullName: 'Kristian Fulton',
@@ -116,6 +125,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 1500000,
     baseSalary: 5240000,
     restructureProration: 0,
+    yearsRemaining: 1,
   },
   {
     fullName: 'Harrison Butker',
@@ -125,6 +135,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 10005000,
     baseSalary: 5805000,
     restructureProration: 0,
+    yearsRemaining: 3,
   },
   {
     fullName: 'Noah Gray',
@@ -134,6 +145,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 3000000,
     baseSalary: 4740000,
     restructureProration: 0,
+    yearsRemaining: 2,
   },
   {
     fullName: 'Chamarri Conner',
@@ -152,6 +164,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 8148792,
     baseSalary: 2048660,
     restructureProration: 0,
+    yearsRemaining: 3,
   },
   {
     fullName: 'Felix Anudike-Uzomah',
@@ -170,6 +183,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 12007110,
     baseSalary: 1507062,
     restructureProration: 0,
+    yearsRemaining: 4,
   },
   {
     fullName: 'Rashee Rice',
@@ -179,6 +193,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 430947,
     baseSalary: 1560711,
     restructureProration: 0,
+    yearsRemaining: 1,
   },
   {
     fullName: 'Kingsley Suamataia',
@@ -188,6 +203,7 @@ export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
     deadCap: 745092,
     baseSalary: 1303774,
     restructureProration: 0,
+    yearsRemaining: 2,
   },
   {
     fullName: 'Wanya Morris',

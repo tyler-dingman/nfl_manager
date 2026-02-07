@@ -13,6 +13,9 @@ const accentMap: Record<FalcoAlertItem['type'], string> = {
   POSITION_RUN: 'border-l-4 border-sky-400',
   VALUE_STEAL: 'border-l-4 border-emerald-400',
   RISKY_REACH: 'border-l-4 border-rose-400',
+  CAP_CRISIS: 'border-l-4 border-rose-500',
+  BIG_SIGNING: 'border-l-4 border-emerald-500',
+  BIG_TRADE: 'border-l-4 border-indigo-500',
 };
 
 export default function FalcoAlertToast() {
@@ -24,7 +27,7 @@ export default function FalcoAlertToast() {
     if (!activeAlert || isPaused) return;
     const timer = window.setTimeout(() => {
       dismissActive();
-    }, 4000);
+    }, 6000);
     return () => window.clearTimeout(timer);
   }, [activeAlert, dismissActive, isPaused]);
 
@@ -33,7 +36,7 @@ export default function FalcoAlertToast() {
   return (
     <div
       className={cn(
-        'fixed bottom-6 left-6 z-50 w-[320px] rounded-2xl border border-border bg-white p-4 shadow-lg transition',
+        'fixed bottom-6 right-6 z-50 w-[360px] max-w-[calc(100vw-2rem)] rounded-2xl border border-border bg-white p-4 shadow-lg transition',
         accentMap[activeAlert.type],
       )}
       onMouseEnter={() => setIsPaused(true)}
@@ -43,9 +46,17 @@ export default function FalcoAlertToast() {
         <FalcoAvatar size={28} />
         <div className="flex-1">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Falco Alert
+            {activeAlert.title ?? 'Falco Alert'}
           </p>
-          <p className="mt-1 text-sm font-semibold text-foreground">{activeAlert.message}</p>
+          {activeAlert.lines && activeAlert.lines.length > 0 ? (
+            <div className="mt-2 space-y-1 text-sm font-semibold text-foreground">
+              {activeAlert.lines.map((line, index) => (
+                <p key={`${activeAlert.id}-line-${index}`}>{line}</p>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-1 text-sm font-semibold text-foreground">{activeAlert.message}</p>
+          )}
           <span className="mt-2 inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-600">
             {activeAlert.type.replace('_', ' ')}
           </span>

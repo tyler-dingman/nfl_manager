@@ -417,16 +417,17 @@ export function ActiveDraftRoom({
     const projected = player.projectedPick ?? player.rank ?? 0;
     if (session.currentPickIndex + 1 >= projected + 10) {
       firedFreeFallRef.current = true;
-      const message = buildAlertMessage('FREE_FALL', {
-        PLAYER: `${player.firstName} ${player.lastName}`,
-        REASON: session.fallReason ?? 'draft chatter',
-        PROJECTED: projected,
-        PICK: session.currentPickIndex + 1,
-      });
+      const lines = [
+        "He's slipping.",
+        'Something’s spooked teams. Could be noise. Could be real.',
+        'Trust your read.',
+      ];
       pushAlert({
         id: `freefall-${player.id}`,
         type: 'FREE_FALL',
-        message,
+        title: `${player.firstName} ${player.lastName}`,
+        message: lines[0],
+        lines,
         createdAt: new Date().toISOString(),
       });
     }

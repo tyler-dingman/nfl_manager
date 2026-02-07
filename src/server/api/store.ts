@@ -59,13 +59,14 @@ const buildChiefsRoster = (): StoredPlayer[] =>
     const capHitValue = dollarsToMillions(entry.capHitTop51);
     const salary = dollarsToMillions(entry.baseSalary);
     const guaranteed = dollarsToMillions(entry.deadCap);
+    const yearsRemaining = Math.max(1, entry.yearsRemaining ?? 1);
     return {
       id: `kc-${slugify(entry.fullName)}`,
       firstName,
       lastName,
       position: entry.pos,
       age: entry.age,
-      contractYearsRemaining: 1,
+      contractYearsRemaining: yearsRemaining,
       capHit: formatMoneyMillions(capHitValue),
       capHitValue,
       salary,
@@ -74,11 +75,11 @@ const buildChiefsRoster = (): StoredPlayer[] =>
       headshotUrl: null,
       year1CapHit: capHitValue,
       contract: {
-        yearsRemaining: 1,
+        yearsRemaining,
         apy: salary,
         guaranteed,
         capHit: capHitValue,
-        expiresAfterSeason: false,
+        expiresAfterSeason: yearsRemaining <= 1,
       },
     };
   });

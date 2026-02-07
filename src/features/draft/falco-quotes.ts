@@ -1,46 +1,53 @@
-export type FalcoAlertType = 'FREE_FALL' | 'POSITION_RUN' | 'VALUE_STEAL' | 'RISKY_REACH';
+export type FalcoAlertType =
+  | 'FREE_FALL'
+  | 'POSITION_RUN'
+  | 'VALUE_STEAL'
+  | 'RISKY_REACH'
+  | 'CAP_CRISIS'
+  | 'BIG_SIGNING'
+  | 'BIG_TRADE';
 
 export const quotesByType: Record<FalcoAlertType, string[]> = {
   FREE_FALL: [
-    'FALCO ALERT: {PLAYER} is in free fall. {REASON} chatter is getting louder.',
-    'FALCO ALERT: {PLAYER} keeps sliding. Scouts still aren’t sold on {REASON}.',
-    'FALCO ALERT: {PLAYER} is falling hard. Teams are spooked by {REASON}.',
-    'FALCO ALERT: {PLAYER} just won’t come off the board. {REASON} is the buzz.',
-    'FALCO ALERT: {PLAYER} is slipping past projections. {REASON} concerns linger.',
-    'FALCO ALERT: {PLAYER} is a full-on slide. {REASON} is driving it.',
-    'FALCO ALERT: {PLAYER} is dropping. League whispers: {REASON}.',
-    'FALCO ALERT: {PLAYER} has passed their projection by double digits. {REASON} is the cloud.',
+    "He's slipping.",
+    "Something's spooked teams. Could be noise. Could be real.",
+    'Trust your read.',
   ],
   POSITION_RUN: [
     'FALCO ALERT: Position run underway — {POSITION} flying off the board.',
-    'FALCO ALERT: {POSITION} is heating up. That’s three in the last five picks.',
-    'FALCO ALERT: The {POSITION} market is moving. Don’t blink.',
+    "FALCO ALERT: {POSITION} is heating up. That's three in the last five picks.",
+    "FALCO ALERT: The {POSITION} market is moving. Don't blink.",
     'FALCO ALERT: {POSITION} run is real. Teams are stacking that spot.',
     'FALCO ALERT: {POSITION} wave just hit — three in five picks.',
     'FALCO ALERT: {POSITION} is the story of this stretch.',
     'FALCO ALERT: {POSITION} run in progress — the board is changing fast.',
-    'FALCO ALERT: It’s a {POSITION} rush right now.',
+    "FALCO ALERT: It's a {POSITION} rush right now.",
   ],
   VALUE_STEAL: [
-    'FALCO ALERT: {PLAYER} is a steal at {PICK}. That’s real value.',
+    "FALCO ALERT: {PLAYER} is a steal at {PICK}. That's real value.",
     'FALCO ALERT: {PLAYER} at {PICK} is highway robbery.',
     'FALCO ALERT: Value! {PLAYER} fell right into their lap.',
     'FALCO ALERT: {PLAYER} landing at {PICK} is a gift.',
-    'FALCO ALERT: That’s the kind of value teams dream about — {PLAYER}.',
+    "FALCO ALERT: That's the kind of value teams dream about - {PLAYER}.",
     'FALCO ALERT: {PLAYER} at {PICK} is pure profit.',
     'FALCO ALERT: A value swing — {PLAYER} was supposed to go earlier.',
     'FALCO ALERT: Massive value with {PLAYER}.',
   ],
   RISKY_REACH: [
-    'FALCO ALERT: That’s a reach — {PLAYER} went well ahead of projection.',
+    "FALCO ALERT: That's a reach - {PLAYER} went well ahead of projection.",
     'FALCO ALERT: {PLAYER} at {PICK} is early. Big swing by {TEAM}.',
-    'FALCO ALERT: That’s a risky reach. {PLAYER} climbed fast.',
+    "FALCO ALERT: That's a risky reach. {PLAYER} climbed fast.",
     'FALCO ALERT: {TEAM} jumped the board for {PLAYER}.',
-    'FALCO ALERT: {PLAYER} came off the board early. That’s a bet.',
-    'FALCO ALERT: That’s aggressive. {PLAYER} was projected later.',
+    "FALCO ALERT: {PLAYER} came off the board early. That's a bet.",
+    "FALCO ALERT: That's aggressive. {PLAYER} was projected later.",
     'FALCO ALERT: {TEAM} rolled the dice early on {PLAYER}.',
     'FALCO ALERT: Bold reach for {PLAYER}.',
   ],
+  CAP_CRISIS: [
+    "You're in the red. Pain heals. Glory lasts forever-but not if you can't sign anyone.",
+  ],
+  BIG_SIGNING: ["That's a statement move. The room will feel it."],
+  BIG_TRADE: ["That's a statement move. The room will feel it."],
 };
 
 export const fillFalcoTemplate = (

@@ -3,20 +3,27 @@
 import { useState } from 'react';
 
 import AppShell from '@/components/app-shell';
+import FalcoPhaseSummaryCard from '@/components/falco/falco-phase-summary-card';
 import OfferContractModal from '@/components/offer-contract-modal';
 import { PlayerTable } from '@/components/player-table';
+import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useFreeAgentsQuery } from '@/features/players/queries';
 import { useSaveStore } from '@/features/save/save-store';
+import { buildChantAlert } from '@/lib/falco-alerts';
 import type { PlayerRowDTO } from '@/types/player';
 
 export default function FreeAgentsPage() {
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const rosterCount = useSaveStore((state) => state.rosterCount);
+  const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const { data: players, refresh: refreshPlayers } = useFreeAgentsQuery(saveId);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
+  const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
 
   const handleOfferPlayer = (player: PlayerRowDTO) => {
     setActiveOfferPlayer(player);
@@ -106,10 +113,19 @@ export default function FreeAgentsPage() {
     }
 
     await Promise.all([refreshSaveHeader(), refreshPlayers()]);
+    pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
   };
 
   return (
     <AppShell>
+      <FalcoPhaseSummaryCard
+        phase="free_agency"
+        capSpace={capSpace}
+        rosterCount={rosterCount}
+        rosterLimit={rosterLimit}
+        seed={saveId ?? 'guest'}
+        className="mb-6"
+      />
       <PlayerTable data={players} variant="freeAgent" onOfferPlayer={handleOfferPlayer} />
       {activeOfferPlayer ? (
         <OfferContractModal

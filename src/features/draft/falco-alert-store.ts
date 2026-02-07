@@ -6,6 +6,8 @@ export type FalcoAlertItem = {
   id: string;
   type: FalcoAlertType;
   message: string;
+  title?: string;
+  lines?: string[];
   createdAt: string;
 };
 

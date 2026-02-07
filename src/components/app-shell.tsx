@@ -9,10 +9,12 @@ import { ClipboardList, Handshake, Lock, Menu, PlayCircle, Users, X } from 'luci
 import TeamThemeProvider from '@/components/team-theme-provider';
 import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
+import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { computeCapRank, formatCapMillions, ordinal } from '@/lib/cap-space';
+import { buildCapCrisisAlert } from '@/lib/falco-alerts';
 import { cn } from '@/lib/utils';
 
 const navRoutes = {
@@ -58,8 +60,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isAdvanceModalOpen, setIsAdvanceModalOpen] = useState(false);
   const [advanceTarget, setAdvanceTarget] = useState<'free_agency' | 'draft' | null>(null);
+  const [capPulse, setCapPulse] = useState(false);
   const loadKeyRef = useRef<string | null>(null);
   const isBootstrappingRef = useRef(false);
+  const wasNegativeRef = useRef(false);
+  const lastSaveIdRef = useRef<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
   const hasActiveTeam = Boolean(storedTeamAbbr);
@@ -137,6 +142,29 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       advanceHref: '/free-agents',
     };
   }, [phase]);
+
+  const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
+
+  useEffect(() => {
+    if (!saveId) return;
+    if (lastSaveIdRef.current !== saveId) {
+      lastSaveIdRef.current = saveId;
+      wasNegativeRef.current = false;
+    }
+    const isNegative = capSpace < 0;
+    let timer: number | undefined;
+    if (isNegative && !wasNegativeRef.current) {
+      pushAlert(buildCapCrisisAlert());
+      setCapPulse(true);
+      timer = window.setTimeout(() => setCapPulse(false), 900);
+    }
+    wasNegativeRef.current = isNegative;
+    return () => {
+      if (timer) {
+        window.clearTimeout(timer);
+      }
+    };
+  }, [capSpace, pushAlert, saveId]);
 
   const phaseIcon = useMemo(() => {
     switch (phase) {
@@ -496,6 +524,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     className={cn(
                       'text-xs font-semibold md:text-sm',
                       saveId && activeCapDollars < 0 ? 'text-destructive' : 'text-foreground',
+                      capPulse ? 'animate-pulse' : null,
                     )}
                   >
                     {formattedCapSpace} / {ordinal(capRank)}

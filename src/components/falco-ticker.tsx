@@ -34,10 +34,12 @@ export default function FalcoTicker({ alerts }: FalcoTickerProps) {
           alerts.map((alert) => (
             <div key={alert.id} className="rounded-xl border border-border bg-slate-50 px-3 py-2">
               <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                <span>{alert.type.replace('_', ' ')}</span>
+                <span>{alert.title ?? alert.type.replace('_', ' ')}</span>
                 <span>{formatTime(alert.createdAt)}</span>
               </div>
-              <p className="mt-1 text-sm font-semibold text-foreground">{alert.message}</p>
+              <p className="mt-1 text-sm font-semibold text-foreground">
+                {alert.lines && alert.lines.length > 0 ? alert.lines[0] : alert.message}
+              </p>
             </div>
           ))
         )}

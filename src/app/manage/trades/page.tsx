@@ -8,8 +8,10 @@ import AppShell from '@/components/app-shell';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { Button } from '@/components/ui/button';
+import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
+import { buildChantAlert } from '@/lib/falco-alerts';
 
 export const dynamic = 'force-dynamic';
 import type { PlayerRowDTO } from '@/types/player';
@@ -80,6 +82,7 @@ function TradeBuilderContent() {
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const [teams, setTeams] = useState<TeamDTO[]>([]);
   const [partnerTeamAbbr, setPartnerTeamAbbr] = useState<string>('');
   const [trade, setTrade] = useState<TradeDTO | null>(null);
@@ -310,6 +313,9 @@ function TradeBuilderContent() {
         ? 'Trade accepted! Player rights transferred and cap space updated.'
         : 'Trade rejected. Add value to the incoming side.',
     );
+    if (data.accepted) {
+      pushAlert(buildChantAlert(teamAbbr, 'BIG_TRADE'));
+    }
     await refreshSaveHeader();
   };
 

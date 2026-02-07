@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
+import FalcoPhaseSummaryCard from '@/components/falco/falco-phase-summary-card';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
@@ -75,6 +76,9 @@ function DraftRoomContent() {
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const rosterCount = useSaveStore((state) => state.rosterCount);
+  const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const activeDraftSessionId = useSaveStore((state) => state.activeDraftSessionId);
   const setActiveDraftSessionId = useSaveStore((state) => state.setActiveDraftSessionId);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
@@ -439,6 +443,14 @@ function DraftRoomContent() {
         onClose={() => setIsGradeOpen(false)}
       />
       <NewsTicker saveId={saveId} />
+      <FalcoPhaseSummaryCard
+        phase="draft"
+        capSpace={capSpace}
+        rosterCount={rosterCount}
+        rosterLimit={rosterLimit}
+        seed={saveId ?? 'guest'}
+        className="mb-6"
+      />
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Draft Room</h1>
