@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
-import { Lock, Menu, X } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ClipboardList, Handshake, Lock, Menu, PlayCircle, Users, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
@@ -51,6 +51,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const advancePhase = useSaveStore((state) => state.advancePhase);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const loadKeyRef = useRef<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -126,6 +127,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, [phase]);
 
+  const phaseIcon = useMemo(() => {
+    switch (phase) {
+      case 'free_agency':
+        return Users;
+      case 'draft':
+        return ClipboardList;
+      case 'season':
+        return PlayCircle;
+      default:
+        return Handshake;
+    }
+  }, [phase]);
+
   useEffect(() => {
     if (storedTeamAbbr) {
       const matchingTeam = teams.find((team) => team.abbr === storedTeamAbbr);
@@ -165,6 +179,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       if (!selectedTeam?.abbr) {
         return;
       }
+
+      const loadKey = `${selectedTeam.abbr}:${saveId ?? 'new'}`;
+      // Guard against repeated save bootstrapping that causes rerender flicker.
+      if (loadKeyRef.current === loadKey) {
+        return;
+      }
+      loadKeyRef.current = loadKey;
 
       const isPersistedForTeam =
         Boolean(saveId) &&
@@ -470,17 +491,25 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   Next Action
                 </p>
                 <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <h2 className="text-xl font-semibold">{nextAction.title}</h2>
-                    <p
-                      className="text-sm"
-                      style={{
-                        color:
-                          'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
-                      }}
-                    >
-                      {nextAction.subtitle}
-                    </p>
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-white/15">
+                      {(() => {
+                        const Icon = phaseIcon;
+                        return <Icon className="h-5 w-5" />;
+                      })()}
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-semibold">{nextAction.title}</h2>
+                      <p
+                        className="text-sm"
+                        style={{
+                          color:
+                            'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+                        }}
+                      >
+                        {nextAction.subtitle}
+                      </p>
+                    </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
                     <button

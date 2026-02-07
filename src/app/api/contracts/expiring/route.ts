@@ -43,7 +43,12 @@ export const GET = async (request: Request) => {
         id: slugify(`${player.firstName} ${player.lastName} ${player.position}`),
         name: `${player.firstName} ${player.lastName}`,
         pos: player.position,
+        teamAbbr: stateResult.data.header.teamAbbr,
+        contractType: 'UFA',
+        interestPct: 0,
+        age: player.age ?? 27,
         estValue,
+        currentSalary: Math.round((player.contract?.apy ?? apy) * 1_000_000),
         maxValue,
       };
     });

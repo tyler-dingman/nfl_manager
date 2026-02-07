@@ -23,6 +23,8 @@ import type { ResignResultDTO } from '@/types/resign';
 import type { RenegotiateResultDTO } from '@/types/renegotiate';
 
 const formatMillions = (value: number) => `$${(value / 1_000_000).toFixed(1)}M`;
+const formatCurrency = (value: number) =>
+  `$${Math.round(value).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
 
 export default function RosterPage() {
   const router = useRouter();
@@ -256,8 +258,10 @@ export default function RosterPage() {
                 <tr>
                   <th className="px-4 py-2 sm:px-6">Player</th>
                   <th className="px-4 py-2 sm:px-6">Pos</th>
-                  <th className="px-4 py-2 sm:px-6">Expected APY</th>
-                  <th className="px-4 py-2 sm:px-6">Expected Total</th>
+                  <th className="px-4 py-2 sm:px-6">Age</th>
+                  <th className="px-4 py-2 sm:px-6">Interest</th>
+                  <th className="px-4 py-2 sm:px-6">Est. Value</th>
+                  <th className="px-4 py-2 sm:px-6">Current Salary</th>
                   <th className="px-4 py-2 text-right sm:px-6">Actions</th>
                 </tr>
               </thead>
@@ -270,11 +274,19 @@ export default function RosterPage() {
                     <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
                       {player.pos}
                     </td>
-                    <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                      {formatMillions(player.estValue)}
+                    <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                      {player.age ?? '--'}
                     </td>
                     <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                      {formatMillions(player.maxValue)}
+                      {player.interestPct !== undefined
+                        ? `${player.interestPct.toFixed(1)}%`
+                        : '--'}
+                    </td>
+                    <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                      {formatCurrency(player.estValue)}
+                    </td>
+                    <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                      {formatCurrency(player.currentSalary ?? 0)}
                     </td>
                     <td className="px-4 py-1.5 text-right sm:px-6">
                       <Button

@@ -10,7 +10,7 @@ import {
   getYearOneCapHit,
 } from '@/server/logic/cap';
 import { logoUrlFor } from './team';
-import { EXPIRING_CONTRACTS } from '@/lib/expiring-contracts';
+import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
 
 export type PlayerFilters = {
   position?: string;
@@ -261,7 +261,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     roster,
     freeAgents,
     draftSessions: {},
-    expiringContracts: teamAbbr.toUpperCase() === 'PHI' ? [...EXPIRING_CONTRACTS] : [],
+    expiringContracts: getExpiringContractsByTeam(teamAbbr),
     newsFeed: [],
   };
 
@@ -300,8 +300,8 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
   if (!state.header.unlocked) {
     state.header.unlocked = resolveUnlocksForPhase(state.header.phase);
   }
-  if (state.expiringContracts.length === 0 && state.header.teamAbbr.toUpperCase() === 'PHI') {
-    state.expiringContracts = [...EXPIRING_CONTRACTS];
+  if (state.expiringContracts.length === 0) {
+    state.expiringContracts = getExpiringContractsByTeam(state.header.teamAbbr);
   }
   if (!state.newsFeed) {
     state.newsFeed = [];
