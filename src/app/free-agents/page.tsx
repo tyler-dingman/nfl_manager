@@ -122,6 +122,17 @@ export default function FreeAgentsPage() {
           tone?: OfferResponse['tone'];
           message?: string;
           notice?: string;
+          header?: {
+            id: string;
+            teamAbbr: string;
+            capSpace: number;
+            capLimit: number;
+            rosterCount: number;
+            rosterLimit: number;
+            phase: string;
+            unlocked?: { freeAgency: boolean; draft: boolean };
+            createdAt: string;
+          };
         }
       | { ok?: false; error: string };
 
@@ -143,7 +154,13 @@ export default function FreeAgentsPage() {
 
     if (data.accepted && data.player) {
       setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
-      await Promise.all([refreshSaveHeader(), refreshPlayers()]);
+      if ('header' in data && data.header) {
+        setSaveHeader({
+          ...data.header,
+          unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
+        });
+      }
+      await refreshPlayers();
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
       setTimeout(() => {
         setActiveOfferPlayer(null);
