@@ -30,7 +30,7 @@ export default function ResignPlayerModal({
 }: ResignPlayerModalProps) {
   const [years, setYears] = React.useState(2);
   const [apy, setApy] = React.useState(6);
-  const [guaranteedInput, setGuaranteedInput] = React.useState('');
+  const [guaranteed, setGuaranteed] = React.useState(0);
   const allowedYears = React.useMemo(
     () => getAllowedYearOptions(player),
     [player.id, player.age, player.position, player.rating],
@@ -40,7 +40,7 @@ export default function ResignPlayerModal({
     if (!isOpen) return;
     setYears(allowedYears[0] ?? 2);
     setApy(6);
-    setGuaranteedInput('');
+    setGuaranteed(0);
   }, [allowedYears, isOpen, player.id]);
 
   if (!isOpen) {
@@ -49,8 +49,7 @@ export default function ResignPlayerModal({
 
   const age = player.age ?? 27;
   const rating = player.rating ?? 75;
-  const guaranteedValue =
-    guaranteedInput.trim() === '' ? 0 : Math.max(0, Number(guaranteedInput));
+  const guaranteedValue = Math.max(0, guaranteed);
   const estimate = estimateResignInterest({
     playerId: player.id,
     age,
@@ -136,37 +135,14 @@ export default function ResignPlayerModal({
               Guaranteed (M)
             </label>
             <input
-              type="text"
+              type="number"
               inputMode="decimal"
+              step={0.1}
+              min={0}
+              max={60}
               className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={guaranteedInput}
-              onFocus={() => {
-                if (guaranteedInput === '0') {
-                  setGuaranteedInput('');
-                }
-              }}
-              onChange={(event) => {
-                const raw = event.target.value;
-                if (raw === '') {
-                  setGuaranteedInput('');
-                  return;
-                }
-                const cleaned = raw.replace(/[^0-9.]/g, '');
-                const parts = cleaned.split('.');
-                const normalized =
-                  parts.length <= 1 ? cleaned : `${parts[0]}.${parts.slice(1).join('')}`;
-                if (/^\\d*(\\.\\d*)?$/.test(normalized)) {
-                  setGuaranteedInput(normalized);
-                }
-              }}
-              onBlur={() => {
-                if (guaranteedInput.trim() === '') {
-                  return;
-                }
-                const max = Math.max(0, years * apy);
-                const value = Math.min(Math.max(0, Number(guaranteedInput)), max);
-                setGuaranteedInput(Number.isFinite(value) ? String(value) : '');
-              }}
+              value={guaranteed}
+              onChange={(event) => setGuaranteed(Number(event.target.value))}
             />
           </div>
         </div>
