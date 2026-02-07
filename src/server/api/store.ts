@@ -105,6 +105,7 @@ const buildFreeAgent = (seed: (typeof FREE_AGENT_SEEDS)[number]): StoredPlayer =
     lastName,
     position: seed.position,
     age: seed.age,
+    marketValue: seed.marketValue ?? null,
     contractYearsRemaining: 0,
     capHit: '$0.0M',
     capHitValue: 0,

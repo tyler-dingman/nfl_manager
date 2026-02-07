@@ -4,6 +4,7 @@ export type PlayerRowDTO = {
   lastName: string;
   position: string;
   age?: number;
+  marketValue?: number | null;
   rating?: number;
   rank?: number;
   projectedPick?: number;

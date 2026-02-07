@@ -82,6 +82,7 @@ function formatName(player: PlayerRowDTO) {
 }
 
 const formatMillions = (value: number) => `$${value.toFixed(1)}M`;
+const formatMarketValue = (value: number) => `$${(value / 1_000_000).toFixed(1)}M`;
 
 const parseCapHitValue = (player: PlayerRowDTO) => {
   if (player.capHitValue !== undefined) return player.capHitValue;
@@ -130,16 +131,32 @@ export function PlayerTable({
   const [positionFilter, setPositionFilter] = React.useState('All');
   const [searchQuery, setSearchQuery] = React.useState('');
   const [draftFilter, setDraftFilter] = React.useState<DraftFilter>('All');
-  const [sorting, setSorting] = React.useState<SortingState>(
-    variant === 'roster' ? [{ id: 'capHitValue', desc: true }] : [],
-  );
+  const [sorting, setSorting] = React.useState<SortingState>(() => {
+    if (variant === 'roster') {
+      return [{ id: 'capHitValue', desc: true }];
+    }
+    if (variant === 'freeAgent') {
+      return [
+        { id: 'marketValue', desc: true },
+        { id: 'name', desc: false },
+      ];
+    }
+    return [];
+  });
 
   React.useEffect(() => {
     if (variant === 'roster') {
       setSorting([{ id: 'capHitValue', desc: true }]);
-    } else {
-      setSorting([]);
+      return;
     }
+    if (variant === 'freeAgent') {
+      setSorting([
+        { id: 'marketValue', desc: true },
+        { id: 'name', desc: false },
+      ]);
+      return;
+    }
+    setSorting([]);
   }, [variant]);
 
   React.useEffect(() => {
@@ -254,10 +271,132 @@ export function PlayerTable({
       ];
     }
 
+    if (variant === 'freeAgent') {
+      return [
+        {
+          id: 'name',
+          header: 'Name',
+          accessorFn: (row) => formatName(row),
+          cell: ({ row }) => {
+            const player = row.original;
+            return (
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                  {player.headshotUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={player.headshotUrl}
+                      alt={formatName(player)}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    getInitials(player)
+                  )}
+                </div>
+                <div className="space-y-0.5">
+                  <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                  <p className="text-xs text-muted-foreground md:hidden">{player.position}</p>
+                </div>
+              </div>
+            );
+          },
+        },
+        {
+          accessorKey: 'position',
+          header: 'Pos',
+          meta: { mobileHidden: true },
+          cell: ({ row }) => (
+            <span className="text-sm font-medium text-foreground">{row.original.position}</span>
+          ),
+        },
+        {
+          accessorKey: 'age',
+          header: 'Age',
+          meta: { mobileHidden: true },
+          accessorFn: (row) => row.age ?? null,
+          cell: ({ row }) => (
+            <span className="text-sm text-muted-foreground">
+              {row.original.age !== undefined && row.original.age !== null
+                ? Math.floor(row.original.age)
+                : '—'}
+            </span>
+          ),
+        },
+        {
+          id: 'marketValue',
+          header: ({ column }) => (
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+              onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            >
+              Market Value
+              <ArrowUpDown className="h-3 w-3" />
+            </button>
+          ),
+          meta: { mobileHidden: false },
+          accessorFn: (row) => row.marketValue ?? undefined,
+          sortUndefined: 'last',
+          cell: ({ row }) => (
+            <span className="text-sm font-semibold text-foreground">
+              {row.original.marketValue !== null && row.original.marketValue !== undefined
+                ? formatMarketValue(row.original.marketValue)
+                : '—'}
+            </span>
+          ),
+        },
+        {
+          accessorKey: 'status',
+          header: 'Status',
+          meta: { mobileHidden: true },
+          cell: ({ row }) => {
+            const statusKey = row.original.status.toLowerCase();
+            return (
+              <div className="flex items-center gap-2">
+                <Badge variant={statusVariantMap[statusKey] ?? 'outline'}>
+                  {row.original.status}
+                </Badge>
+                {row.original.signedTeamLogoUrl && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={row.original.signedTeamLogoUrl}
+                    alt={`${row.original.signedTeamAbbr ?? 'Team'} logo`}
+                    className="h-5 w-5"
+                  />
+                )}
+              </div>
+            );
+          },
+        },
+        {
+          id: 'actions',
+          header: 'Actions',
+          cell: ({ row }) => {
+            const player = row.original;
+            return (
+              <PlayerRowActions
+                player={player}
+                variant={variant}
+                onTheClockForUserTeam={onTheClockForUserTeam}
+                onCutPlayer={onCutPlayer}
+                onTradePlayer={onTradePlayer}
+                onOfferPlayer={onOfferPlayer}
+                onDraftPlayer={onDraftPlayer}
+                onResignPlayer={onResignPlayer}
+                onRenegotiatePlayer={onRenegotiatePlayer}
+                onSelectTradePlayer={onSelectTradePlayer}
+              />
+            );
+          },
+        },
+      ];
+    }
+
     return [
       {
-        accessorKey: 'name',
+        id: 'name',
         header: 'Name',
+        accessorFn: (row) => formatName(row),
         cell: ({ row }) => {
           const player = row.original;
           const isCut = player.status.toLowerCase() === 'cut';
