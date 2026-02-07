@@ -18,7 +18,7 @@ if (!playerId) {
   throw new Error('No free agents available for cap check.');
 }
 
-offerContractInState(state, playerId, years, apy);
+offerContractInState(state, playerId, years, apy, 0);
 const expectedCapSpace = Number((initialCapSpace - expectedYearOne).toFixed(1));
 
 if (state.header.capSpace !== expectedCapSpace) {
