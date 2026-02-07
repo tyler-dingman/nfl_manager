@@ -10,7 +10,6 @@ import { PlayerTable } from '@/components/player-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
 import RenegotiateModal from '@/components/renegotiate-modal';
-import OffseasonJourney from '@/components/onboarding/offseason-journey';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { fetchExpiringContracts } from '@/features/contracts/queries';
@@ -239,9 +238,6 @@ export default function RosterPage() {
 
   return (
     <AppShell>
-      <div className="mb-6">
-        <OffseasonJourney currentStep={1} mode="full" />
-      </div>
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
