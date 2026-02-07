@@ -1,5 +1,7 @@
 import type { AgentPersona } from '@/lib/agent-personas';
 import { getAgentPersonaForPlayer } from '@/lib/agent-personas';
+import type { PlayerRowDTO } from '@/types/player';
+import { clampYears, getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
 
 export type ResignScoreEstimate = {
   interestScore: number;
@@ -11,12 +13,6 @@ export type ResignScoreEstimate = {
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
-const getAgeBucket = (age: number): [number, number] => {
-  if (age >= 30) return [1, 2];
-  if (age >= 27) return [2, 3];
-  return [3, 4];
-};
-
 const getExpectedApy = (rating: number) => Math.max(1, (rating - 60) * 0.6);
 
 const getExpectedGuaranteedPctByAge = (age: number) => {
@@ -24,8 +20,6 @@ const getExpectedGuaranteedPctByAge = (age: number) => {
   if (age >= 27) return 0.45;
   return 0.55;
 };
-
-const within = (value: number, min: number, max: number) => value >= min && value <= max;
 
 export const estimateResignInterest = ({
   playerId,
@@ -47,10 +41,21 @@ export const estimateResignInterest = ({
   const persona = getAgentPersonaForPlayer(playerId);
   const baseExpectedApy = expectedApyOverride ?? getExpectedApy(rating);
   const expectedApy = Number((baseExpectedApy * persona.expectedApyMultiplier).toFixed(2));
-  const [ageMinYears, ageMaxYears] = getAgeBucket(age);
+  const seedPlayer: PlayerRowDTO = {
+    id: playerId,
+    firstName: '',
+    lastName: '',
+    position: '',
+    age,
+    rating,
+    contractYearsRemaining: 0,
+    capHit: '$0.0M',
+    status: 'Expiring',
+  };
+  const preferredYears = getPreferredYearsForPlayer(seedPlayer);
   const expectedYearsRange: [number, number] = [
-    Math.max(ageMinYears, persona.yearsPreference.min),
-    Math.min(ageMaxYears, persona.yearsPreference.max),
+    Math.max(1, preferredYears - 1),
+    Math.min(5, preferredYears + 1),
   ];
   const expectedGuaranteedPct = Math.max(
     getExpectedGuaranteedPctByAge(age),
@@ -74,14 +79,11 @@ export const estimateResignInterest = ({
     moneyScore = Math.max(0, moneyScore - 6);
   }
 
-  const yearsScore = within(years, expectedYearsRange[0], expectedYearsRange[1])
-    ? 25
-    : Math.min(Math.abs(years - expectedYearsRange[0]), Math.abs(years - expectedYearsRange[1])) ===
-        1
-      ? 15
-      : 5;
+  const clampedYears = clampYears(years);
+  const yearsFit = getYearsFit(preferredYears, clampedYears);
+  const yearsScore = Math.round(25 * yearsFit);
 
-  const guaranteedPct = apy * years > 0 ? guaranteed / (apy * years) : 0;
+  const guaranteedPct = apy * clampedYears > 0 ? guaranteed / (apy * clampedYears) : 0;
   const guaranteedScore =
     guaranteedPct >= expectedGuaranteedPct
       ? 25

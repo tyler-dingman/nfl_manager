@@ -4,8 +4,7 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react';
 
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
-
-const YEAR_OPTIONS = [1, 2, 3, 4, 5];
+import { getAllowedYearOptions } from '@/lib/contracts';
 
 type OfferContractModalProps = {
   player: PlayerRowDTO;
@@ -20,7 +19,8 @@ export default function OfferContractModal({
   onClose,
   onSubmit,
 }: OfferContractModalProps) {
-  const [years, setYears] = useState(3);
+  const allowedYears = useMemo(() => getAllowedYearOptions(player), [player]);
+  const [years, setYears] = useState(allowedYears[0] ?? 3);
   const [apy, setApy] = useState(12);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -29,6 +29,10 @@ export default function OfferContractModal({
     () => `${player.firstName} ${player.lastName}`,
     [player.firstName, player.lastName],
   );
+
+  useEffect(() => {
+    setYears(allowedYears[0] ?? 3);
+  }, [allowedYears]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -98,7 +102,7 @@ export default function OfferContractModal({
               value={years}
               onChange={(event) => setYears(Number(event.target.value))}
             >
-              {YEAR_OPTIONS.map((value) => (
+              {allowedYears.map((value) => (
                 <option key={value} value={value}>
                   {value}
                 </option>

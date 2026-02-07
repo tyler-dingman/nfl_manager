@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 import { estimateResignInterest } from '@/lib/resign-scoring';
+import { getAllowedYearOptions } from '@/lib/contracts';
 
 type ResignPlayerModalProps = {
   player: PlayerRowDTO;
@@ -29,13 +30,14 @@ export default function ResignPlayerModal({
 }: ResignPlayerModalProps) {
   const [years, setYears] = React.useState(2);
   const [apy, setApy] = React.useState(6);
-  const [guaranteed, setGuaranteed] = React.useState(6);
+  const [guaranteedInput, setGuaranteedInput] = React.useState('');
+  const allowedYears = React.useMemo(() => getAllowedYearOptions(player), [player]);
 
   React.useEffect(() => {
-    setYears(2);
+    setYears(allowedYears[0] ?? 2);
     setApy(6);
-    setGuaranteed(6);
-  }, [player]);
+    setGuaranteedInput('');
+  }, [allowedYears, player]);
 
   if (!isOpen) {
     return null;
@@ -43,13 +45,15 @@ export default function ResignPlayerModal({
 
   const age = player.age ?? 27;
   const rating = player.rating ?? 75;
+  const guaranteedValue =
+    guaranteedInput.trim() === '' ? 0 : Math.max(0, Number(guaranteedInput));
   const estimate = estimateResignInterest({
     playerId: player.id,
     age,
     rating,
     years,
     apy,
-    guaranteed,
+    guaranteed: guaranteedValue,
     expectedApyOverride,
   });
   const score = estimate.interestScore;
@@ -103,7 +107,7 @@ export default function ResignPlayerModal({
               value={years}
               onChange={(event) => setYears(Number(event.target.value))}
             >
-              {[1, 2, 3, 4].map((value) => (
+              {allowedYears.map((value) => (
                 <option key={value} value={value}>
                   {value} years
                 </option>
@@ -128,12 +132,30 @@ export default function ResignPlayerModal({
               Guaranteed (M)
             </label>
             <input
-              type="number"
-              step="0.5"
-              min="0"
+              type="text"
+              inputMode="decimal"
+              pattern="[0-9]*"
               className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={guaranteed}
-              onChange={(event) => setGuaranteed(Number(event.target.value))}
+              value={guaranteedInput}
+              onFocus={() => {
+                if (guaranteedInput === '0') {
+                  setGuaranteedInput('');
+                }
+              }}
+              onChange={(event) => {
+                const next = event.target.value;
+                if (next === '' || /^[0-9]*\\.?[0-9]*$/.test(next)) {
+                  setGuaranteedInput(next);
+                }
+              }}
+              onBlur={() => {
+                if (guaranteedInput.trim() === '') {
+                  return;
+                }
+                const max = Math.max(0, years * apy);
+                const value = Math.min(Math.max(0, Number(guaranteedInput)), max);
+                setGuaranteedInput(Number.isFinite(value) ? String(value) : '');
+              }}
             />
           </div>
         </div>
@@ -152,7 +174,10 @@ export default function ResignPlayerModal({
           <Button type="button" variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button type="button" onClick={() => onSubmit({ years, apy, guaranteed })}>
+          <Button
+            type="button"
+            onClick={() => onSubmit({ years, apy, guaranteed: guaranteedValue })}
+          >
             Submit Offer
           </Button>
         </div>

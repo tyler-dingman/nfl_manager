@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { getReSignQuote } from '@/lib/quotes';
+import { clampYears } from '@/lib/contracts';
 import { scoreResignOffer, decideResignAcceptance } from '@/server/logic/re-sign';
 import {
   getSaveStateResult,
@@ -35,7 +36,13 @@ export const POST = async (request: Request) => {
     body = {};
   }
 
-  if (!body.saveId || !body.playerId || !body.years || !body.apy || !body.guaranteed) {
+  if (
+    !body.saveId ||
+    !body.playerId ||
+    typeof body.years !== 'number' ||
+    typeof body.apy !== 'number' ||
+    typeof body.guaranteed !== 'number'
+  ) {
     return NextResponse.json<ResignErrorDTO>(
       { ok: false, error: 'saveId, playerId, years, apy, and guaranteed are required' },
       { status: 400 },
@@ -77,11 +84,12 @@ export const POST = async (request: Request) => {
     status: 'Expiring',
   };
 
+  const years = clampYears(body.years);
   const breakdown = scoreResignOffer({
     saveId: body.saveId,
     teamAbbr,
     player: offerPlayer,
-    years: body.years,
+    years,
     apy: body.apy,
     guaranteed: body.guaranteed,
     expectedApyOverride,
@@ -97,13 +105,13 @@ export const POST = async (request: Request) => {
   let updatedHeader = state.header;
   if (accepted) {
     if (player) {
-      const result = resignPlayerInState(state, player.id, body.years, body.apy, body.guaranteed);
+      const result = resignPlayerInState(state, player.id, years, body.apy, body.guaranteed);
       updatedHeader = result.header;
     } else if (expiringContract) {
       const result = resignExpiringContractInState(
         state,
         expiringContract,
-        body.years,
+        years,
         body.apy,
         body.guaranteed,
       );
@@ -113,7 +121,7 @@ export const POST = async (request: Request) => {
 
   const playerName = `${offerPlayer.firstName} ${offerPlayer.lastName}`;
   const details = accepted
-    ? `${teamName} re-sign ${playerName} (${body.years} yrs, ${formatApy(body.apy)}/yr).`
+    ? `${teamName} re-sign ${playerName} (${years} yrs, ${formatApy(body.apy)}/yr).`
     : `${playerName} declines offer from ${teamName}. Testing free agency.`;
 
   const newsItem = pushNewsItem(state, {
@@ -130,7 +138,7 @@ export const POST = async (request: Request) => {
     accepted,
     playerId: offerPlayer.id,
     teamAbbr,
-    years: body.years,
+    years,
     apy: body.apy,
     guaranteed: body.guaranteed,
     expectedApy: breakdown.expectedApy,

@@ -40,13 +40,19 @@ export default function FreeAgentsPage() {
       throw new Error(data.error || 'Unable to submit offer right now.');
     }
 
-    const data = (await response.json()) as {
-      ok?: boolean;
-      error?: string;
-      player?: PlayerRowDTO;
-    };
+    const data = (await response.json()) as
+      | { ok?: boolean; error?: string; player?: PlayerRowDTO; accepted?: boolean; reason?: string }
+      | { ok?: false; error: string };
 
-    if (!data.ok || !data.player) {
+    if (!data.ok) {
+      throw new Error(data.error || 'Unable to submit offer right now.');
+    }
+
+    if ('accepted' in data && data.accepted === false) {
+      throw new Error(data.reason || 'Player declined the offer.');
+    }
+
+    if (!data.player) {
       throw new Error(data.error || 'Unable to submit offer right now.');
     }
 

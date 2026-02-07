@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { getSaveStateResult, resignPlayerInState } from '@/server/api/store';
 import type { PlayerRowDTO } from '@/types/player';
+import { clampYears, getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
 
 type ResignPayload = {
   saveId?: string;
@@ -12,12 +13,6 @@ type ResignPayload = {
 };
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
-
-const getExpectedYears = (age: number) => {
-  if (age >= 30) return 1;
-  if (age >= 27) return 2;
-  return 3;
-};
 
 const getExpectedGuaranteedPct = (age: number) => {
   if (age >= 30) return 0.35;
@@ -34,13 +29,25 @@ const computeInterestScore = (
   apy: number,
   guaranteed: number,
 ) => {
-  const expectedYears = getExpectedYears(age);
+  const preferredYears = getPreferredYearsForPlayer({
+    id: 'seed',
+    firstName: 'Seed',
+    lastName: 'Player',
+    position: 'QB',
+    age,
+    rating,
+    contractYearsRemaining: 0,
+    capHit: '$0.0M',
+    status: 'Expiring',
+  });
   const expectedApy = getExpectedApy(rating);
   const expectedGuaranteedPct = getExpectedGuaranteedPct(age);
+  const clampedYears = clampYears(years);
 
   const moneyScore = clamp((apy / expectedApy) * 60, 0, 80);
-  const yearsScore = years === expectedYears ? 15 : Math.abs(years - expectedYears) === 1 ? 8 : 0;
-  const guaranteedPct = apy * years > 0 ? guaranteed / (apy * years) : 0;
+  const yearsFit = getYearsFit(preferredYears, clampedYears);
+  const yearsScore = Math.round(15 * yearsFit);
+  const guaranteedPct = apy * clampedYears > 0 ? guaranteed / (apy * clampedYears) : 0;
   const guaranteedScore =
     guaranteedPct >= expectedGuaranteedPct ? 20 : 20 * (guaranteedPct / expectedGuaranteedPct);
 
@@ -55,7 +62,13 @@ export const POST = async (request: Request) => {
     body = {};
   }
 
-  if (!body.saveId || !body.playerId || !body.years || !body.apy || !body.guaranteed) {
+  if (
+    !body.saveId ||
+    !body.playerId ||
+    typeof body.years !== 'number' ||
+    typeof body.apy !== 'number' ||
+    typeof body.guaranteed !== 'number'
+  ) {
     return NextResponse.json(
       { ok: false, error: 'saveId, playerId, years, apy, and guaranteed are required' },
       { status: 400 },
@@ -76,7 +89,8 @@ export const POST = async (request: Request) => {
 
   const age = player.age ?? 27;
   const rating = player.rating ?? 75;
-  const interestScore = computeInterestScore(age, rating, body.years, body.apy, body.guaranteed);
+  const years = clampYears(body.years);
+  const interestScore = computeInterestScore(age, rating, years, body.apy, body.guaranteed);
 
   if (interestScore < 65) {
     return NextResponse.json({
@@ -92,7 +106,7 @@ export const POST = async (request: Request) => {
     const result = resignPlayerInState(
       stateResult.data,
       body.playerId,
-      body.years,
+      years,
       body.apy,
       body.guaranteed,
     );
