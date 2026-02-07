@@ -13,6 +13,7 @@ import { logoUrlFor } from './team';
 import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
 import { FREE_AGENT_SEEDS } from '@/server/data/free-agents';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
+import { KANSAS_CITY_CHIEFS_ROSTER } from '@/data/rosters/kc';
 
 export type PlayerFilters = {
   position?: string;
@@ -48,6 +49,45 @@ const splitName = (name: string) => {
     return { firstName: name, lastName: '' };
   }
   return { firstName: parts[0] ?? '', lastName: parts.slice(1).join(' ') };
+};
+
+const dollarsToMillions = (value: number) => Number((value / 1_000_000).toFixed(1));
+
+const buildChiefsRoster = (): StoredPlayer[] =>
+  KANSAS_CITY_CHIEFS_ROSTER.map((entry) => {
+    const { firstName, lastName } = splitName(entry.fullName);
+    const capHitValue = dollarsToMillions(entry.capHitTop51);
+    const salary = dollarsToMillions(entry.baseSalary);
+    const guaranteed = dollarsToMillions(entry.deadCap);
+    return {
+      id: `kc-${slugify(entry.fullName)}`,
+      firstName,
+      lastName,
+      position: entry.pos,
+      age: entry.age,
+      contractYearsRemaining: 1,
+      capHit: formatMoneyMillions(capHitValue),
+      capHitValue,
+      salary,
+      guaranteed,
+      status: 'Active',
+      headshotUrl: null,
+      year1CapHit: capHitValue,
+      contract: {
+        yearsRemaining: 1,
+        apy: salary,
+        guaranteed,
+        capHit: capHitValue,
+        expiresAfterSeason: false,
+      },
+    };
+  });
+
+const buildRosterForTeam = (teamAbbr: string): StoredPlayer[] => {
+  if (teamAbbr.toUpperCase() === 'KC') {
+    return buildChiefsRoster();
+  }
+  return clonePlayers(baseRoster);
 };
 
 const buildFreeAgent = (seed: (typeof FREE_AGENT_SEEDS)[number]): StoredPlayer => {
@@ -283,7 +323,7 @@ const resolveUnlocksForPhase = (phase: string, current?: SaveUnlocksDTO): SaveUn
 };
 
 export const createSaveState = (saveId: string, teamAbbr: string): SaveState => {
-  const roster = clonePlayers(baseRoster);
+  const roster = buildRosterForTeam(teamAbbr);
   const freeAgents = clonePlayers(baseFreeAgents);
   const capSeed = TEAM_CAP_SPACE.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
   const capSpace = Number(((capSeed?.capSpace ?? 0) / 1_000_000).toFixed(1));
