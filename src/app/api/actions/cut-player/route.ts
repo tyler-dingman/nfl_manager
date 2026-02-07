@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
 import { cutPlayer } from '@/server/api/players';
-import { ensureSave } from '@/server/api/save';
 import { getSaveHeaderSnapshot, getSaveStateResult } from '@/server/api/store';
 
 export const POST = async (request: Request) => {
@@ -21,11 +20,7 @@ export const POST = async (request: Request) => {
       return NextResponse.json({ ok: false, error: 'playerId is required' }, { status: 400 });
     }
 
-    let result = cutPlayer(body.saveId, body.playerId);
-    if (!result.ok && result.error === 'Save not found' && (body.teamId || body.teamAbbr)) {
-      const fallback = ensureSave(body.teamId, body.teamAbbr);
-      result = cutPlayer(fallback.saveId, body.playerId);
-    }
+    const result = cutPlayer(body.saveId, body.playerId);
     if (!result.ok) {
       return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
     }

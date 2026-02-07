@@ -67,6 +67,8 @@ export default function PlayerRowActions({
 }: PlayerRowActionsProps) {
   const name = getPlayerName(player);
   const draftDisabledReason = getDraftDisabledReason(player, onTheClockForUserTeam);
+  const isCut = player.status.toLowerCase() === 'cut';
+  const cutDisabledReason = isCut ? 'Player has been cut.' : undefined;
   const actions: ActionConfig[] =
     variant === 'roster'
       ? [
@@ -74,16 +76,22 @@ export default function PlayerRowActions({
             label: 'Cut',
             icon: UserX,
             onClick: () => onCutPlayer?.(player),
+            disabled: isCut,
+            disabledReason: cutDisabledReason,
           },
           {
             label: 'Renegotiate',
             icon: BadgeDollarSign,
             onClick: () => onRenegotiatePlayer?.(player),
+            disabled: isCut,
+            disabledReason: cutDisabledReason,
           },
           {
             label: 'Trade',
             icon: ArrowLeftRight,
             onClick: () => onTradePlayer?.(player),
+            disabled: isCut,
+            disabledReason: cutDisabledReason,
           },
         ]
       : variant === 'freeAgent'

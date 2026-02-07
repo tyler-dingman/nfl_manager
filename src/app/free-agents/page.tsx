@@ -3,7 +3,6 @@
 import { useState } from 'react';
 
 import AppShell from '@/components/app-shell';
-import FalcoPhaseSummaryCard from '@/components/falco/falco-phase-summary-card';
 import OfferContractModal from '@/components/offer-contract-modal';
 import { PlayerTable } from '@/components/player-table';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
@@ -16,9 +15,6 @@ export default function FreeAgentsPage() {
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
-  const capSpace = useSaveStore((state) => state.capSpace);
-  const rosterCount = useSaveStore((state) => state.rosterCount);
-  const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const { data: players, refresh: refreshPlayers } = useFreeAgentsQuery(saveId);
@@ -118,14 +114,6 @@ export default function FreeAgentsPage() {
 
   return (
     <AppShell>
-      <FalcoPhaseSummaryCard
-        phase="free_agency"
-        capSpace={capSpace}
-        rosterCount={rosterCount}
-        rosterLimit={rosterLimit}
-        seed={saveId ?? 'guest'}
-        className="mb-6"
-      />
       <PlayerTable data={players} variant="freeAgent" onOfferPlayer={handleOfferPlayer} />
       {activeOfferPlayer ? (
         <OfferContractModal

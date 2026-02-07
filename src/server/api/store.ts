@@ -33,6 +33,11 @@ export type SaveState = {
   draftSessions: Record<string, DraftSessionState>;
   expiringContracts: ExpiringContractRow[];
   newsFeed: NewsItemDTO[];
+  rosterMoves: {
+    cuts: Array<{ playerId: string; name: string; capSavings: number; timestamp: string }>;
+    resigns: Array<{ playerId: string; name: string; timestamp: string }>;
+    trades: Array<{ playerId: string; name: string; timestamp: string }>;
+  };
 };
 
 const saveStore = new Map<string, SaveState>();
@@ -347,6 +352,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     draftSessions: {},
     expiringContracts: getExpiringContractsByTeam(teamAbbr),
     newsFeed: [],
+    rosterMoves: { cuts: [], resigns: [], trades: [] },
   };
 
   saveStore.set(saveId, state);
@@ -389,6 +395,9 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
   }
   if (!state.newsFeed) {
     state.newsFeed = [];
+  }
+  if (!state.rosterMoves) {
+    state.rosterMoves = { cuts: [], resigns: [], trades: [] };
   }
 
   return { ok: true, data: state };
@@ -526,7 +535,13 @@ export const cutPlayerInState = (
     throw new Error('Player not found on roster');
   }
 
-  const [player] = state.roster.splice(playerIndex, 1);
+  const player = state.roster[playerIndex];
+  const existingCut = state.rosterMoves.cuts.find((cut) => cut.playerId === playerId);
+  if (existingCut || player.status.toLowerCase() === 'cut') {
+    throw new Error('Player already cut');
+  }
+
+  const capSavings = player.year1CapHit ?? 0;
   const cutPlayer: StoredPlayer = {
     ...player,
     contractYearsRemaining: 0,
@@ -534,9 +549,7 @@ export const cutPlayerInState = (
     capHitValue: 0,
     salary: 0,
     guaranteed: 0,
-    status: 'Free Agent',
-    signedTeamAbbr: null,
-    signedTeamLogoUrl: null,
+    status: 'Cut',
     contract: {
       yearsRemaining: 0,
       apy: 0,
@@ -546,9 +559,16 @@ export const cutPlayerInState = (
     },
   };
 
-  state.freeAgents.unshift(cutPlayer);
-  state.header.rosterCount = state.roster.length;
-  state.header.capSpace = Number((state.header.capSpace + player.year1CapHit).toFixed(1));
+  state.roster[playerIndex] = cutPlayer;
+  state.rosterMoves.cuts.push({
+    playerId,
+    name: `${cutPlayer.firstName} ${cutPlayer.lastName}`,
+    capSavings,
+    timestamp: new Date().toISOString(),
+  });
+  state.header.rosterCount = state.roster.filter((rosterPlayer) => rosterPlayer.status !== 'Cut')
+    .length;
+  state.header.capSpace = Number((state.header.capSpace + capSavings).toFixed(1));
   pushNewsItem(state, {
     type: 'cut',
     teamAbbr: state.header.teamAbbr,

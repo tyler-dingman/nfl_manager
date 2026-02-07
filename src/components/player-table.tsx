@@ -260,6 +260,7 @@ export function PlayerTable({
         header: 'Name',
         cell: ({ row }) => {
           const player = row.original;
+          const isCut = player.status.toLowerCase() === 'cut';
           return (
             <div className="flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
@@ -275,7 +276,14 @@ export function PlayerTable({
                 )}
               </div>
               <div className="space-y-0.5">
-                <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                  {isCut ? (
+                    <Badge variant="destructive" className="text-[10px] uppercase">
+                      Cut
+                    </Badge>
+                  ) : null}
+                </div>
                 <p className="text-xs text-muted-foreground md:hidden">{player.position}</p>
               </div>
             </div>
@@ -483,8 +491,16 @@ export function PlayerTable({
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="border-t border-border hover:bg-slate-50/60">
+            {table.getRowModel().rows.map((row) => {
+              const isCut = row.original.status.toLowerCase() === 'cut';
+              return (
+                <tr
+                  key={row.id}
+                  className={cn(
+                    'border-t border-border hover:bg-slate-50/60',
+                    isCut ? 'opacity-60' : null,
+                  )}
+                >
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
@@ -496,8 +512,9 @@ export function PlayerTable({
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
-              </tr>
-            ))}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

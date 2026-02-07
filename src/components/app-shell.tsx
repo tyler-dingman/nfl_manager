@@ -538,6 +538,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   phase={phase}
                   capSpaceMillions={capSpace}
                   capRankLabel={capRankLabel}
+                  teamPrimaryColor={selectedTeam?.colors?.[0] ?? 'var(--team-primary)'}
                   onAdvance={() => {
                     if (!saveId) return;
                     if (phase === 'resign_cut') {

@@ -1,12 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 type NextActionBannerProps = {
   phase: 'resign_cut' | 'free_agency' | 'draft' | 'season';
   capSpaceMillions: number;
   capRankLabel: string;
+  teamPrimaryColor: string;
   onAdvance?: () => void;
 };
 
@@ -69,6 +69,7 @@ export default function NextActionBanner({
   phase,
   capSpaceMillions,
   capRankLabel,
+  teamPrimaryColor,
   onAdvance,
 }: NextActionBannerProps) {
   const copy = getPhaseCopy(phase, capSpaceMillions);
@@ -79,41 +80,33 @@ export default function NextActionBanner({
 
   return (
     <div
-      className={cn(
-        'mb-6 rounded-2xl border border-transparent p-5',
-        isCapCrisis ? 'bg-red-900 text-white' : 'text-[var(--team-primary-foreground)]',
-      )}
-      style={isCapCrisis ? undefined : { backgroundColor: 'var(--team-primary)' }}
+      className={cn('mb-6 rounded-2xl border border-transparent p-5 text-[var(--team-primary-foreground)]')}
+      style={{ backgroundColor: teamPrimaryColor }}
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-start gap-4">
-          <div className="rounded-full bg-white/10 p-2">
-            <Image src="/images/falco_icon.png" alt="Falco" width={40} height={40} />
-          </div>
-          <div>
-            <p
-              className="text-xs uppercase tracking-[0.2em]"
-              style={{
-                color: isCapCrisis
-                  ? 'rgba(255,255,255,0.7)'
-                  : 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
-              }}
-            >
-              Next Action
-            </p>
-            <h2 className="mt-1 text-xl font-semibold">{copy.headline}</h2>
-            <p
-              className="mt-1 text-sm"
-              style={{
-                color: isCapCrisis
-                  ? 'rgba(255,255,255,0.8)'
-                  : 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
-              }}
-            >
-              {copy.subtext}
-            </p>
-            <div className={cn('mt-3 text-xs font-semibold', capTextClass)}>{capLabel}</div>
-          </div>
+        <div>
+          <p
+            className="text-xs uppercase tracking-[0.2em]"
+            style={{
+              color: isCapCrisis
+                ? 'rgba(255,255,255,0.7)'
+                : 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+            }}
+          >
+            Next Action
+          </p>
+          <h2 className="mt-1 text-xl font-semibold">{copy.headline}</h2>
+          <p
+            className="mt-1 text-sm"
+            style={{
+              color: isCapCrisis
+                ? 'rgba(255,255,255,0.8)'
+                : 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
+            }}
+          >
+            {copy.subtext}
+          </p>
+          <div className={cn('mt-3 text-xs font-semibold', capTextClass)}>{capLabel}</div>
         </div>
         {copy.cta ? (
           <button

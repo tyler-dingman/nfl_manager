@@ -6,7 +6,6 @@ import { Handshake } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
-import FalcoPhaseSummaryCard from '@/components/falco/falco-phase-summary-card';
 import { PlayerTable } from '@/components/player-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
@@ -34,8 +33,6 @@ export default function RosterPage() {
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
-  const rosterCount = useSaveStore((state) => state.rosterCount);
-  const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const phase = useSaveStore((state) => state.phase);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
@@ -64,7 +61,17 @@ export default function RosterPage() {
   );
 
   const handleSubmitCut = async () => {
-    if (!saveId || !activeCutPlayer) {
+    if (!activeCutPlayer) {
+      return;
+    }
+
+    const activeSaveId = await ensureSaveId();
+    if (!activeSaveId) {
+      pushToast({
+        title: 'Session not initialized',
+        description: 'Please return to Team Select to start a new offseason.',
+        variant: 'error',
+      });
       return;
     }
 
@@ -72,7 +79,7 @@ export default function RosterPage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        saveId,
+        saveId: activeSaveId,
         playerId: activeCutPlayer.id,
         teamId: teamId || undefined,
         teamAbbr: teamAbbr || undefined,
@@ -284,14 +291,6 @@ export default function RosterPage() {
 
   return (
     <AppShell>
-      <FalcoPhaseSummaryCard
-        phase="resign_cut"
-        capSpace={capSpace}
-        rosterCount={rosterCount}
-        rosterLimit={rosterLimit}
-        seed={saveId ?? 'guest'}
-        className="mb-6"
-      />
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
