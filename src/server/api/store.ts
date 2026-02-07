@@ -372,6 +372,14 @@ export const setSavePhase = (saveId: string, phase: string): SaveResult<SaveHead
 
 export const getSaveState = (saveId: string): SaveState | undefined => saveStore.get(saveId);
 
+export const ensureSaveState = (saveId: string, teamAbbr: string): SaveState => {
+  const existing = getSaveState(saveId);
+  if (existing) {
+    return existing;
+  }
+  return createSaveState(saveId, teamAbbr);
+};
+
 export type SaveResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
 export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {

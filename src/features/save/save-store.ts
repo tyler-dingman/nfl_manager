@@ -136,7 +136,7 @@ export const useSaveStore = create<SaveStoreState>()(
           saveLoadError: null,
         })),
       setPhase: async (nextPhase) => {
-        const { saveId } = get();
+        const { saveId, teamAbbr } = get();
         if (!saveId) {
           return;
         }
@@ -174,12 +174,16 @@ export const useSaveStore = create<SaveStoreState>()(
         await get().setPhase(nextPhase);
       },
       refreshSaveHeader: async () => {
-        const { saveId } = get();
+        const { saveId, teamAbbr } = get();
         if (!saveId) {
           return;
         }
 
-        const response = await apiFetch(`/api/saves/header?saveId=${saveId}`);
+        const params = new URLSearchParams({ saveId });
+        if (get().teamAbbr) {
+          params.set('teamAbbr', get().teamAbbr);
+        }
+        const response = await apiFetch(`/api/saves/header?${params.toString()}`);
         if (!response.ok) {
           get().setSaveLoadError('Unable to load save data.');
           return;
@@ -210,12 +214,16 @@ export const useSaveStore = create<SaveStoreState>()(
         }));
       },
       ensureSaveId: async () => {
-        const { saveId } = get();
+        const { saveId, teamAbbr } = get();
         if (!saveId) {
           return null;
         }
 
-        const headerResponse = await apiFetch(`/api/saves/header?saveId=${saveId}`);
+        const params = new URLSearchParams({ saveId });
+        if (teamAbbr) {
+          params.set('teamAbbr', teamAbbr);
+        }
+        const headerResponse = await apiFetch(`/api/saves/header?${params.toString()}`);
         if (!headerResponse.ok) {
           get().setSaveLoadError('Unable to load save data.');
           return null;

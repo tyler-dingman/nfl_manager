@@ -94,7 +94,12 @@ function DraftRoomContent() {
 
   const ensureSaveExists = React.useCallback(async () => {
     if (saveId) {
-      const headerResponse = await apiFetch(`/api/saves/header?saveId=${saveId}`);
+      const headerParams = new URLSearchParams({ saveId });
+      const resolvedTeamAbbr = teamAbbr || selectedTeam?.abbr;
+      if (resolvedTeamAbbr) {
+        headerParams.set('teamAbbr', resolvedTeamAbbr);
+      }
+      const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
       if (headerResponse.ok) {
         const headerData = (await headerResponse.json()) as
           | {

@@ -245,7 +245,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
         if (isPersistedForTeam && saveId) {
           try {
-            const headerResponse = await apiFetch(`/api/saves/header?saveId=${saveId}`);
+            const headerParams = new URLSearchParams({ saveId, teamAbbr: selectedTeam.abbr });
+            const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
             if (headerResponse.ok) {
               const headerData = (await headerResponse.json()) as
                 | {

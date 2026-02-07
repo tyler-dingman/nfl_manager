@@ -152,7 +152,11 @@ function TradeBuilderContent() {
 
       let activeSaveId = saveId;
       if (activeSaveId) {
-        const headerResponse = await apiFetch(`/api/saves/header?saveId=${activeSaveId}`);
+        const headerParams = new URLSearchParams({ saveId: activeSaveId });
+        if (teamAbbr) {
+          headerParams.set('teamAbbr', teamAbbr);
+        }
+        const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
         if (headerResponse.status === 404) {
           activeSaveId = '';
         }

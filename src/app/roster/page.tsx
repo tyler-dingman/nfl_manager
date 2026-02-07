@@ -40,7 +40,7 @@ export default function RosterPage() {
   const ensureSaveId = useSaveStore((state) => state.ensureSaveId);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
-  const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId);
+  const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId, teamAbbr);
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeResignPlayer, setActiveResignPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeRenegotiatePlayer, setActiveRenegotiatePlayer] = useState<PlayerRowDTO | null>(null);
@@ -124,7 +124,7 @@ export default function RosterPage() {
     let isActive = true;
     setExpiringError(null);
 
-    fetchExpiringContracts(saveId)
+    fetchExpiringContracts(saveId, teamAbbr)
       .then((rows) => {
         if (!isActive) return;
         setExpiringContracts(rows);
@@ -137,7 +137,7 @@ export default function RosterPage() {
     return () => {
       isActive = false;
     };
-  }, [phase, saveId]);
+  }, [phase, saveId, teamAbbr]);
 
   const expiringResignPlayer = useMemo<PlayerRowDTO | null>(() => {
     if (!activeExpiringContract) {
@@ -236,7 +236,7 @@ export default function RosterPage() {
     await Promise.all([
       refreshSaveHeader(),
       refreshPlayers(),
-      fetchExpiringContracts(activeSaveId).then(setExpiringContracts),
+      fetchExpiringContracts(activeSaveId, teamAbbr).then(setExpiringContracts),
     ]);
 
     setActiveResignPlayer(null);

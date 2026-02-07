@@ -23,7 +23,7 @@ export default function HomePage() {
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
-  const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId);
+  const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId, teamAbbr);
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
 
   useEffect(() => {

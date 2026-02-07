@@ -18,7 +18,7 @@ export default function FreeAgentsPage() {
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
-  const { data: players, refresh: refreshPlayers } = useFreeAgentsQuery(saveId);
+  const { data: players, refresh: refreshPlayers } = useFreeAgentsQuery(saveId, teamAbbr);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
 
@@ -34,7 +34,11 @@ export default function FreeAgentsPage() {
     let activeSaveId = saveId;
 
     if (activeSaveId) {
-      const headerResponse = await apiFetch(`/api/saves/header?saveId=${activeSaveId}`);
+      const headerParams = new URLSearchParams({ saveId: activeSaveId });
+      if (teamAbbr) {
+        headerParams.set('teamAbbr', teamAbbr);
+      }
+      const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
       if (headerResponse.status === 404) {
         activeSaveId = '';
       }

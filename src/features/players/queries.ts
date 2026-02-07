@@ -12,6 +12,7 @@ type PlayerQueryResult = {
 
 const usePlayerQuery = (
   saveId: string | null | undefined,
+  teamAbbr: string | null | undefined,
   endpoint: string,
   errorMessage: string,
 ): PlayerQueryResult => {
@@ -31,7 +32,11 @@ const usePlayerQuery = (
     setError(null);
 
     try {
-      const response = await apiFetch(`${endpoint}?saveId=${saveId}`);
+      const params = new URLSearchParams({ saveId });
+      if (teamAbbr) {
+        params.set('teamAbbr', teamAbbr);
+      }
+      const response = await apiFetch(`${endpoint}?${params.toString()}`);
       if (!response.ok) {
         setError(errorMessage);
         return;
@@ -44,7 +49,7 @@ const usePlayerQuery = (
     } finally {
       setIsLoading(false);
     }
-  }, [endpoint, errorMessage, saveId]);
+  }, [endpoint, errorMessage, saveId, teamAbbr]);
 
   useEffect(() => {
     void refresh();
@@ -53,8 +58,13 @@ const usePlayerQuery = (
   return { data, isLoading, error, refresh };
 };
 
-export const useRosterQuery = (saveId: string | null | undefined): PlayerQueryResult =>
-  usePlayerQuery(saveId, '/api/roster', 'Unable to load roster.');
+export const useRosterQuery = (
+  saveId: string | null | undefined,
+  teamAbbr?: string | null,
+): PlayerQueryResult => usePlayerQuery(saveId, teamAbbr, '/api/roster', 'Unable to load roster.');
 
-export const useFreeAgentsQuery = (saveId: string | null | undefined): PlayerQueryResult =>
-  usePlayerQuery(saveId, '/api/free-agents', 'Unable to load free agents.');
+export const useFreeAgentsQuery = (
+  saveId: string | null | undefined,
+  teamAbbr?: string | null,
+): PlayerQueryResult =>
+  usePlayerQuery(saveId, teamAbbr, '/api/free-agents', 'Unable to load free agents.');

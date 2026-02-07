@@ -7,9 +7,17 @@ type ExpiringContractsResponse =
 
 export const fetchExpiringContracts = async (
   saveId?: string | null,
+  teamAbbr?: string | null,
 ): Promise<ExpiringContractRow[]> => {
-  const query = saveId ? `?saveId=${saveId}` : '';
-  const response = await apiFetch(`/api/contracts/expiring${query}`);
+  const params = new URLSearchParams();
+  if (saveId) {
+    params.set('saveId', saveId);
+  }
+  if (teamAbbr) {
+    params.set('teamAbbr', teamAbbr);
+  }
+  const query = params.toString();
+  const response = await apiFetch(`/api/contracts/expiring${query ? `?${query}` : ''}`);
   if (!response.ok) {
     throw new Error('Unable to load expiring contracts.');
   }

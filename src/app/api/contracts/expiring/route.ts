@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { EXPIRING_CONTRACTS, type ExpiringContractRow } from '@/lib/expiring-contracts';
-import { getSaveStateResult } from '@/server/api/store';
+import { ensureSaveState, getSaveState, getSaveStateResult } from '@/server/api/store';
 
 const slugify = (value: string) =>
   value
@@ -18,8 +18,13 @@ const parseMoneyMillions = (value: string): number => {
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const saveId = searchParams.get('saveId');
+  const teamAbbr = searchParams.get('teamAbbr');
   if (!saveId) {
     return NextResponse.json({ ok: true, players: EXPIRING_CONTRACTS });
+  }
+
+  if (!getSaveState(saveId) && teamAbbr) {
+    ensureSaveState(saveId, teamAbbr);
   }
 
   const stateResult = getSaveStateResult(saveId);
