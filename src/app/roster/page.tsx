@@ -40,7 +40,8 @@ export default function RosterPage() {
   const ensureSaveId = useSaveStore((state) => state.ensureSaveId);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
-  const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId, teamAbbr);
+  const { data: rosterData, refresh: refreshPlayers } = useRosterQuery(saveId, teamAbbr);
+  const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeResignPlayer, setActiveResignPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeRenegotiatePlayer, setActiveRenegotiatePlayer] = useState<PlayerRowDTO | null>(null);
@@ -60,6 +61,10 @@ export default function RosterPage() {
     () => teams.find((team) => team.id === selectedTeamId),
     [selectedTeamId, teams],
   );
+
+  useEffect(() => {
+    setPlayers(rosterData);
+  }, [rosterData]);
 
   const handleSubmitCut = async () => {
     if (!activeCutPlayer) {
@@ -101,6 +106,7 @@ export default function RosterPage() {
         unlocked?: { freeAgency: boolean; draft: boolean };
         createdAt: string;
       };
+      player?: PlayerRowDTO;
     };
     if (!response.ok || !data.ok) {
       throw new Error(data.error || 'Unable to cut player right now.');
@@ -113,7 +119,10 @@ export default function RosterPage() {
       });
     }
 
-    await Promise.all([refreshSaveHeader(), refreshPlayers()]);
+    if (data.player) {
+      setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
+    }
+    setActiveCutPlayer(null);
   };
 
   useEffect(() => {

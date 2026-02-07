@@ -224,7 +224,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           ) : null}
 
           <aside
-            className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white/95 px-5 pb-6 pt-0 transition-transform md:static md:z-auto md:flex md:translate-x-0 md:flex-col md:self-start md:sticky md:top-[var(--app-header-height)] md:max-h-[calc(100vh-var(--app-header-height))] md:overflow-y-auto md:bg-white/80"
+            className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white/95 px-5 pb-6 pt-0 transition-transform md:static md:z-auto md:flex md:translate-x-0 md:flex-col md:self-start md:sticky md:top-0 md:max-h-[100vh] md:overflow-y-auto md:bg-white/80"
             style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
           >
             <div className="mb-[20px] text-left text-sm">

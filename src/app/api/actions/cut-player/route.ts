@@ -34,6 +34,7 @@ export const POST = async (request: Request) => {
     return NextResponse.json({
       ok: true,
       header: getSaveHeaderSnapshot(stateResult.data),
+      player: result.data.player,
     });
   } catch (error) {
     console.error(error);
