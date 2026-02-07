@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import AppShell from '@/components/app-shell';
-import OfferContractModal from '@/components/offer-contract-modal';
+import ContractOfferModal, { type OfferResponse } from '@/components/contract-offer-modal';
 import { PlayerTable } from '@/components/player-table';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useFreeAgentsQuery } from '@/features/players/queries';
@@ -18,15 +18,28 @@ export default function FreeAgentsPage() {
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
-  const { data: players, refresh: refreshPlayers } = useFreeAgentsQuery(saveId, teamAbbr);
+  const { data, refresh: refreshPlayers } = useFreeAgentsQuery(saveId, teamAbbr);
+  const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
+
+  useEffect(() => {
+    setPlayers(data);
+  }, [data]);
 
   const handleOfferPlayer = (player: PlayerRowDTO) => {
     setActiveOfferPlayer(player);
   };
 
-  const handleSubmitOffer = async ({ years, apy }: { years: number; apy: number }) => {
+  const handleSubmitOffer = async ({
+    years,
+    apy,
+    guaranteed,
+  }: {
+    years: number;
+    apy: number;
+    guaranteed: number;
+  }): Promise<OfferResponse | void> => {
     if (!activeOfferPlayer) {
       return;
     }
@@ -89,6 +102,7 @@ export default function FreeAgentsPage() {
         playerId: activeOfferPlayer.id,
         years,
         apy,
+        guaranteed,
       }),
     });
 
@@ -98,34 +112,68 @@ export default function FreeAgentsPage() {
     }
 
     const data = (await response.json()) as
-      | { ok?: boolean; error?: string; player?: PlayerRowDTO; accepted?: boolean; reason?: string }
+      | {
+          ok?: boolean;
+          error?: string;
+          player?: PlayerRowDTO;
+          accepted?: boolean;
+          reason?: string;
+          interestScore?: number;
+          tone?: OfferResponse['tone'];
+          message?: string;
+          notice?: string;
+        }
       | { ok?: false; error: string };
 
     if (!data.ok) {
       throw new Error(data.error || 'Unable to submit offer right now.');
     }
 
-    if ('accepted' in data && data.accepted === false) {
-      throw new Error(data.reason || 'Player declined the offer.');
+    const responsePayload: OfferResponse = {
+      accepted: Boolean(data.accepted),
+      tone: data.tone ?? (data.accepted ? 'positive' : 'neutral'),
+      message:
+        data.message ??
+        (data.accepted ? 'Woohoo! Fly Eagles Fly baby!' : 'Thanks for the offer.'),
+      notice:
+        data.notice ??
+        `${activeOfferPlayer.firstName} ${activeOfferPlayer.lastName} ${
+          data.accepted ? 'has accepted offer' : 'has declined offer'
+        }`,
+    };
+
+    if (data.accepted && data.player) {
+      setPlayers((prev) =>
+        prev.map((item) => (item.id === data.player?.id ? data.player : item)),
+      );
+      await Promise.all([refreshSaveHeader(), refreshPlayers()]);
+      pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
+      setTimeout(() => {
+        setActiveOfferPlayer(null);
+      }, 1400);
+      return responsePayload;
     }
 
-    if (!data.player) {
-      throw new Error(data.error || 'Unable to submit offer right now.');
-    }
-
-    await Promise.all([refreshSaveHeader(), refreshPlayers()]);
-    pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
+    return responsePayload;
   };
 
   return (
     <AppShell>
       <PlayerTable data={players} variant="freeAgent" onOfferPlayer={handleOfferPlayer} />
       {activeOfferPlayer ? (
-        <OfferContractModal
+        <ContractOfferModal
           player={activeOfferPlayer}
           isOpen={Boolean(activeOfferPlayer)}
           onClose={() => setActiveOfferPlayer(null)}
           onSubmit={handleSubmitOffer}
+          title={`Sign ${activeOfferPlayer.firstName} ${activeOfferPlayer.lastName}`}
+          subtitle="Set contract terms and gauge interest."
+          submitLabel="Submit Offer"
+          expectedApyOverride={
+            activeOfferPlayer.marketValue !== null && activeOfferPlayer.marketValue !== undefined
+              ? activeOfferPlayer.marketValue / 1_000_000
+              : undefined
+          }
         />
       ) : null}
     </AppShell>

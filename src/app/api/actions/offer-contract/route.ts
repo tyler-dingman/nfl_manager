@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { offerContract } from '@/server/api/players';
 import { getSaveStateResult } from '@/server/api/store';
 import { clampYears } from '@/lib/contracts';
-import { decideFreeAgencyAcceptance, scoreFreeAgencyOffer } from '@/server/logic/free-agency';
+import { estimateResignInterest } from '@/lib/resign-scoring';
 
 export const POST = async (request: Request) => {
   try {
@@ -12,6 +12,7 @@ export const POST = async (request: Request) => {
       playerId?: string;
       years?: number;
       apy?: number;
+      guaranteed?: number;
     };
 
     if (!body.saveId) {
@@ -26,6 +27,7 @@ export const POST = async (request: Request) => {
     }
 
     const years = clampYears(body.years);
+    const guaranteed = typeof body.guaranteed === 'number' ? body.guaranteed : 0;
     const stateResult = getSaveStateResult(body.saveId);
     if (!stateResult.ok) {
       return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });
@@ -35,18 +37,41 @@ export const POST = async (request: Request) => {
       return NextResponse.json({ ok: false, error: 'Free agent not found' }, { status: 404 });
     }
 
-    const breakdown = scoreFreeAgencyOffer(player, years, body.apy);
-    const accepted = decideFreeAgencyAcceptance(breakdown, body.saveId, player.id);
+    const age = player.age ?? 27;
+    const rating = player.rating ?? 75;
+    const expectedApyOverride =
+      player.marketValue !== null && player.marketValue !== undefined
+        ? player.marketValue / 1_000_000
+        : undefined;
+    const breakdown = estimateResignInterest({
+      playerId: player.id,
+      age,
+      rating,
+      years,
+      apy: body.apy,
+      guaranteed,
+      expectedApyOverride,
+    });
+
+    const interestScore = breakdown.interestScore;
+    const tone = interestScore >= 67 ? 'positive' : interestScore >= 34 ? 'neutral' : 'negative';
+    const accepted = tone === 'positive';
     if (!accepted) {
       return NextResponse.json({
         ok: true,
         accepted: false,
         reason: 'Player declined the offer. Try improving years or APY.',
-        interestScore: breakdown.interestScore,
+        interestScore,
+        tone,
+        message:
+          tone === 'negative'
+            ? 'This is insulting, try again.'
+            : 'Thanks for the offer but I am still considering all options.',
+        notice: `${player.firstName} ${player.lastName} has declined offer`,
       });
     }
 
-    const result = offerContract(body.saveId, body.playerId, years, body.apy);
+    const result = offerContract(body.saveId, body.playerId, years, body.apy, guaranteed);
     if (!result.ok) {
       return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
     }
@@ -54,7 +79,10 @@ export const POST = async (request: Request) => {
     return NextResponse.json({
       ok: true,
       accepted: true,
-      interestScore: breakdown.interestScore,
+      interestScore,
+      tone,
+      message: 'Woohoo! Fly Eagles Fly baby!',
+      notice: `${player.firstName} ${player.lastName} has accepted offer`,
       ...result.data,
     });
   } catch (error) {

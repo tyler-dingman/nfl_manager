@@ -457,6 +457,7 @@ export const signFreeAgentInState = (
     salary: player.year1CapHit,
     guaranteed: 0,
     status: 'Active',
+    signedAt: new Date().toISOString(),
     contract: {
       yearsRemaining: 1,
       apy: player.year1CapHit,
@@ -488,6 +489,7 @@ export const offerContractInState = (
   playerId: string,
   years: number,
   apy: number,
+  guaranteed: number,
 ): { header: SaveHeaderDTO; player: PlayerRowDTO } => {
   const playerIndex = state.freeAgents.findIndex((agent) => agent.id === playerId);
   if (playerIndex === -1) {
@@ -503,15 +505,16 @@ export const offerContractInState = (
     capHit: formatMoneyMillions(year1CapHit),
     capHitValue: year1CapHit,
     salary: apy,
-    guaranteed: 0,
+    guaranteed,
     status: 'Signed',
     signedTeamAbbr: state.header.teamAbbr,
     signedTeamLogoUrl: logoUrlFor(state.header.teamAbbr),
+    signedAt: new Date().toISOString(),
     capHitSchedule,
     contract: {
       yearsRemaining: years,
       apy,
-      guaranteed: 0,
+      guaranteed,
       capHit: year1CapHit,
       expiresAfterSeason: false,
     },

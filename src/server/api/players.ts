@@ -63,6 +63,7 @@ export const offerContract = (
   playerId: string,
   years: number,
   apy: number,
+  guaranteed: number,
 ): SaveResult<{ header: SaveHeaderDTO; player: PlayerRowDTO }> => {
   const stateResult = getSaveStateResult(saveId);
   if (!stateResult.ok) {
@@ -71,6 +72,6 @@ export const offerContract = (
 
   return {
     ok: true,
-    data: offerContractInState(stateResult.data, playerId, years, apy),
+    data: offerContractInState(stateResult.data, playerId, years, apy, guaranteed),
   };
 };

@@ -29,6 +29,7 @@ const POSITION_FILTERS = [
   'RB',
   'WR',
   'TE',
+  'ED',
   'OL',
   'DL',
   'LB',
@@ -83,6 +84,9 @@ function formatName(player: PlayerRowDTO) {
 
 const formatMillions = (value: number) => `$${value.toFixed(1)}M`;
 const formatMarketValue = (value: number) => `$${(value / 1_000_000).toFixed(1)}M`;
+
+const isSignedPlayer = (player: PlayerRowDTO) =>
+  player.status.toLowerCase() === 'signed' || Boolean(player.signedTeamAbbr);
 
 const parseCapHitValue = (player: PlayerRowDTO) => {
   if (player.capHitValue !== undefined) return player.capHitValue;
@@ -189,6 +193,26 @@ export function PlayerTable({
       return matchesPosition && matchesSearch && matchesDraftFilter;
     });
   }, [data, positionFilter, searchQuery, draftFilter, variant]);
+
+  const signedData = React.useMemo(() => {
+    if (variant !== 'freeAgent') return [];
+    return filteredData
+      .filter((player) => isSignedPlayer(player))
+      .sort((a, b) => {
+        const aSignedAt = a.signedAt ? Date.parse(a.signedAt) : 0;
+        const bSignedAt = b.signedAt ? Date.parse(b.signedAt) : 0;
+        if (aSignedAt !== bSignedAt) return bSignedAt - aSignedAt;
+        const aValue = a.marketValue ?? -1;
+        const bValue = b.marketValue ?? -1;
+        if (aValue !== bValue) return bValue - aValue;
+        return formatName(a).localeCompare(formatName(b));
+      });
+  }, [filteredData, variant]);
+
+  const availableData = React.useMemo(() => {
+    if (variant !== 'freeAgent') return [];
+    return filteredData.filter((player) => !isSignedPlayer(player));
+  }, [filteredData, variant]);
 
   const columns = React.useMemo<PlayerColumnDef[]>(() => {
     if (variant === 'draft') {
@@ -559,6 +583,23 @@ export function PlayerTable({
     onSortingChange: setSorting,
   });
 
+  const signedTable = useReactTable({
+    data: signedData,
+    columns: visibleColumns,
+    getCoreRowModel: getCoreRowModel(),
+    state: { sorting: [] },
+    manualSorting: true,
+  });
+
+  const availableTable = useReactTable({
+    data: availableData,
+    columns: visibleColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: { sorting },
+    onSortingChange: setSorting,
+  });
+
   const resetFilters = () => {
     setPositionFilter('All');
     setSearchQuery('');
@@ -608,54 +649,118 @@ export function PlayerTable({
           </div>
         )}
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse md:min-w-[720px]">
-          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className={cn(
-                      'px-4 py-2 sm:px-6',
-                      header.column.id === 'actions' && 'w-[88px] text-right',
-                    )}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
+      <div className="space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
+        {variant === 'freeAgent' && signedData.length > 0 ? (
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Signed
+            </p>
+            <table className="w-full border-collapse md:min-w-[720px]">
+              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                {signedTable.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        className={cn(
+                          'px-4 py-2 sm:px-6',
+                          header.column.id === 'actions' && 'w-[88px] text-right',
+                        )}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
+                      </th>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => {
-              const isCut = row.original.status.toLowerCase() === 'cut';
-              return (
-                <tr
-                  key={row.id}
-                  className={cn(
-                    'border-t border-border hover:bg-slate-50/60',
-                    isCut ? 'opacity-60' : null,
-                  )}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
+              </thead>
+              <tbody>
+                {signedTable.getRowModel().rows.map((row) => {
+                  const isCut = row.original.status.toLowerCase() === 'cut';
+                  return (
+                    <tr
+                      key={row.id}
                       className={cn(
-                        'px-4 py-1.5 align-middle text-sm sm:px-6',
-                        cell.column.id === 'actions' && 'w-[88px] text-right',
+                        'border-t border-border hover:bg-slate-50/60',
+                        isCut ? 'opacity-60' : null,
                       )}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                      {row.getVisibleCells().map((cell) => (
+                        <td
+                          key={cell.id}
+                          className={cn(
+                            'px-4 py-1.5 align-middle text-sm sm:px-6',
+                            cell.column.id === 'actions' && 'w-[88px] text-right',
+                          )}
+                        >
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : null}
+
+        <div className="space-y-3">
+          {variant === 'freeAgent' ? (
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Available
+            </p>
+          ) : null}
+          <table className="w-full border-collapse md:min-w-[720px]">
+            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+              {(variant === 'freeAgent' ? availableTable : table)
+                .getHeaderGroups()
+                .map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        className={cn(
+                          'px-4 py-2 sm:px-6',
+                          header.column.id === 'actions' && 'w-[88px] text-right',
+                        )}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+            </thead>
+            <tbody>
+              {(variant === 'freeAgent' ? availableTable : table).getRowModel().rows.map((row) => {
+                const isCut = row.original.status.toLowerCase() === 'cut';
+                return (
+                  <tr
+                    key={row.id}
+                    className={cn(
+                      'border-t border-border hover:bg-slate-50/60',
+                      isCut ? 'opacity-60' : null,
+                    )}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className={cn(
+                          'px-4 py-1.5 align-middle text-sm sm:px-6',
+                          cell.column.id === 'actions' && 'w-[88px] text-right',
+                        )}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
       {filteredData.length === 0 && (
         <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">

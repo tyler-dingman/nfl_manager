@@ -23,6 +23,7 @@ export type PlayerRowDTO = {
   isDrafted?: boolean;
   signedTeamAbbr?: string | null;
   signedTeamLogoUrl?: string | null;
+  signedAt?: string | null;
   contract?: {
     yearsRemaining: number;
     apy: number;
