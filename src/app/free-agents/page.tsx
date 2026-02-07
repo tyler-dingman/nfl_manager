@@ -11,7 +11,10 @@ import type { PlayerRowDTO } from '@/types/player';
 
 export default function FreeAgentsPage() {
   const saveId = useSaveStore((state) => state.saveId);
+  const teamId = useSaveStore((state) => state.teamId);
+  const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
+  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const { data: players, refresh: refreshPlayers } = useFreeAgentsQuery(saveId);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
 
@@ -20,7 +23,53 @@ export default function FreeAgentsPage() {
   };
 
   const handleSubmitOffer = async ({ years, apy }: { years: number; apy: number }) => {
-    if (!saveId || !activeOfferPlayer) {
+    if (!activeOfferPlayer) {
+      return;
+    }
+
+    let activeSaveId = saveId;
+
+    if (activeSaveId) {
+      const headerResponse = await fetch(`/api/saves/header?saveId=${activeSaveId}`);
+      if (headerResponse.status === 404) {
+        activeSaveId = '';
+      }
+    }
+
+    if (!activeSaveId) {
+      const createResponse = await fetch('/api/saves/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
+      });
+      if (createResponse.ok) {
+        const data = (await createResponse.json()) as
+          | {
+              ok: true;
+              saveId: string;
+              teamAbbr: string;
+              capSpace: number;
+              capLimit: number;
+              rosterCount: number;
+              rosterLimit: number;
+              phase: string;
+              unlocked?: { freeAgency: boolean; draft: boolean };
+              createdAt: string;
+            }
+          | { ok: false; error: string };
+        if ('ok' in data && data.ok) {
+          activeSaveId = data.saveId;
+          setSaveHeader(
+            {
+              ...data,
+              unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+            },
+            teamId || undefined,
+          );
+        }
+      }
+    }
+    if (!activeSaveId) {
       return;
     }
 
@@ -28,7 +77,7 @@ export default function FreeAgentsPage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        saveId,
+        saveId: activeSaveId,
         playerId: activeOfferPlayer.id,
         years,
         apy,

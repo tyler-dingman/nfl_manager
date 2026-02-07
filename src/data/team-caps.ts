@@ -30,5 +30,5 @@ export const TEAM_CAP_SPACE: Array<{ teamAbbr: string; capSpace: number }> = [
   { teamAbbr: 'MIA', capSpace: -16_223_613 },
   { teamAbbr: 'DAL', capSpace: -29_168_257 },
   { teamAbbr: 'MIN', capSpace: -40_156_353 },
-  { teamAbbr: 'KC', capSpace: -54_720_166 },
+  { teamAbbr: 'KC', capSpace: -54_910_166 },
 ];

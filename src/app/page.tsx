@@ -9,6 +9,7 @@ import NewsTicker from '@/components/news-ticker';
 import { PlayerTable } from '@/components/player-table';
 import { useRosterQuery } from '@/features/players/queries';
 import { useSaveStore } from '@/features/save/save-store';
+import { formatCapMillions } from '@/lib/cap-space';
 import type { PlayerRowDTO } from '@/types/player';
 
 export default function HomePage() {
@@ -20,14 +21,15 @@ export default function HomePage() {
   const rosterCount = useSaveStore((state) => state.rosterCount);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId);
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
 
   useEffect(() => {
-    if (!saveId && !teamAbbr) {
+    if (hasHydrated && !saveId && !teamAbbr) {
       router.replace('/teams');
     }
-  }, [router, saveId, teamAbbr]);
+  }, [hasHydrated, router, saveId, teamAbbr]);
 
   const handleSubmitCut = async () => {
     if (!saveId || !activeCutPlayer) {
@@ -86,7 +88,11 @@ export default function HomePage() {
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {[
               { label: 'Active Roster', value: `${rosterCount} Players` },
-              { label: 'Cap Space', value: `$${capSpace.toFixed(1)}M` },
+              {
+                label: 'Cap Space',
+                value: formatCapMillions(capSpace * 1_000_000),
+                valueClassName: capSpace < 0 ? 'text-destructive' : 'text-foreground',
+              },
               { label: 'Draft Picks', value: '7 Remaining' },
               { label: 'Injuries', value: '2 Active' },
             ].map((stat) => (
@@ -97,7 +103,13 @@ export default function HomePage() {
                 <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   {stat.label}
                 </p>
-                <p className="mt-2 text-lg font-semibold text-foreground">{stat.value}</p>
+                <p
+                  className={`mt-2 text-lg font-semibold ${
+                    stat.valueClassName ?? 'text-foreground'
+                  }`}
+                >
+                  {stat.value}
+                </p>
               </div>
             ))}
           </div>

@@ -15,6 +15,8 @@ type SaveStoreState = {
   unlocked: SaveUnlocksDTO;
   activeDraftSessionId: string | null;
   activeDraftSessionIdsBySave: Record<string, string>;
+  hasHydrated: boolean;
+  setHasHydrated: (value: boolean) => void;
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
   setActiveTeam: (teamId: string, teamAbbr: string) => void;
   setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
@@ -36,6 +38,7 @@ const DEFAULT_STATE = {
   unlocked: { freeAgency: false, draft: false },
   activeDraftSessionId: null,
   activeDraftSessionIdsBySave: {},
+  hasHydrated: false,
 };
 
 const resolveUnlocks = (phase: string, current?: SaveUnlocksDTO): SaveUnlocksDTO => {
@@ -82,6 +85,7 @@ export const useSaveStore = create<SaveStoreState>()(
           activeDraftSessionId: state.activeDraftSessionIdsBySave[saveId] ?? null,
         }));
       },
+      setHasHydrated: (value) => set((state) => ({ ...state, hasHydrated: value })),
       setActiveTeam: (teamId, teamAbbr) =>
         set((state) => ({
           ...state,
@@ -112,6 +116,14 @@ export const useSaveStore = create<SaveStoreState>()(
         set((state) => ({
           ...state,
           saveId: '',
+          teamId: '',
+          teamAbbr: '',
+          capSpace: 0,
+          capLimit: 0,
+          rosterCount: 0,
+          rosterLimit: 0,
+          phase: 'resign_cut',
+          unlocked: { freeAgency: false, draft: false },
           activeDraftSessionId: null,
           activeDraftSessionIdsBySave: {},
         })),
@@ -196,6 +208,9 @@ export const useSaveStore = create<SaveStoreState>()(
         activeDraftSessionId: state.activeDraftSessionId,
         activeDraftSessionIdsBySave: state.activeDraftSessionIdsBySave,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );

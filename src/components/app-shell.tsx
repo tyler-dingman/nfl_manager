@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ClipboardList, Handshake, Lock, Menu, PlayCircle, Users, X } from 'lucide-react';
@@ -46,10 +47,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const storedTeamId = useSaveStore((state) => state.teamId);
   const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
-  const rosterCount = useSaveStore((state) => state.rosterCount);
-  const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
+  const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const clearSave = useSaveStore((state) => state.clearSave);
   const advancePhase = useSaveStore((state) => state.advancePhase);
@@ -59,6 +59,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [isAdvanceModalOpen, setIsAdvanceModalOpen] = useState(false);
   const [advanceTarget, setAdvanceTarget] = useState<'free_agency' | 'draft' | null>(null);
   const loadKeyRef = useRef<string | null>(null);
+  const isBootstrappingRef = useRef(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -81,19 +82,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     ? computeCapRank(selectedTeam.abbr, capsWithActive)
     : capsWithActive.length + 1;
   const formattedCapSpace = saveId ? formatCapMillions(activeCapDollars) : '--';
-  const formattedRoster = saveId ? `${rosterCount}/${rosterLimit}` : '--';
-  const phaseLabel = useMemo(() => {
-    switch (phase) {
-      case 'draft':
-        return 'Draft';
-      case 'free_agency':
-        return 'Free Agency';
-      case 'season':
-        return 'Season';
-      default:
-        return 'Re-sign/Cut Players';
-    }
-  }, [phase]);
 
   const lockedRoutes = useMemo(() => {
     const locked = new Set<NavItem>();
@@ -226,28 +214,73 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const loadSave = async () => {
+      if (!hasHydrated) {
+        return;
+      }
       if (!selectedTeam?.abbr) {
+        return;
+      }
+
+      if (storedTeamAbbr && selectedTeam.abbr !== storedTeamAbbr) {
         return;
       }
 
       const loadKey = `${selectedTeam.abbr}:${saveId ?? 'new'}`;
       // Guard against repeated save bootstrapping that causes rerender flicker.
-      if (loadKeyRef.current === loadKey) {
+      if (loadKeyRef.current === loadKey || isBootstrappingRef.current) {
         return;
       }
       loadKeyRef.current = loadKey;
+      isBootstrappingRef.current = true;
 
-      const isPersistedForTeam =
-        Boolean(saveId) &&
-        (selectedTeam.id === storedTeamId || selectedTeam.abbr === storedTeamAbbr);
+      try {
+        const isPersistedForTeam =
+          Boolean(saveId) &&
+          (selectedTeam.id === storedTeamId || selectedTeam.abbr === storedTeamAbbr);
 
-      if (isPersistedForTeam && saveId) {
-        try {
-          const headerResponse = await fetch(`/api/saves/header?saveId=${saveId}`);
-          if (headerResponse.ok) {
-            const headerData = (await headerResponse.json()) as
-              | {
-                  ok: true;
+        if (isPersistedForTeam && saveId) {
+          try {
+            const headerResponse = await fetch(`/api/saves/header?saveId=${saveId}`);
+            if (headerResponse.ok) {
+              const headerData = (await headerResponse.json()) as
+                | {
+                    ok: true;
+                    saveId: string;
+                    teamAbbr: string;
+                    capSpace: number;
+                    capLimit: number;
+                    rosterCount: number;
+                    rosterLimit: number;
+                    phase: string;
+                    unlocked?: { freeAgency: boolean; draft: boolean };
+                  }
+                | { ok: false; error: string };
+              if (headerData.ok) {
+                setSaveHeader(
+                  {
+                    ...headerData,
+                    unlocked: headerData.unlocked ?? { freeAgency: false, draft: false },
+                    createdAt: new Date().toISOString(),
+                  },
+                  selectedTeam.id,
+                );
+                return;
+              }
+            } else if (headerResponse.status === 404) {
+              clearSave();
+            }
+          } catch {
+            // Ignore errors when loading persisted save, will fall through to create new one
+          }
+        }
+
+        const query = new URLSearchParams({ teamAbbr: selectedTeam.abbr });
+        const existingResponse = await fetch(`/api/saves?${query.toString()}`);
+        if (existingResponse.ok) {
+          const existingData = (await existingResponse.json()) as
+            | {
+                ok: true;
+                saves: Array<{
                   saveId: string;
                   teamAbbr: string;
                   capSpace: number;
@@ -256,98 +289,68 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   rosterLimit: number;
                   phase: string;
                   unlocked?: { freeAgency: boolean; draft: boolean };
-                }
-              | { ok: false; error: string };
-            if (headerData.ok) {
-              setSaveHeader(
-                {
-                  ...headerData,
-                  unlocked: headerData.unlocked ?? { freeAgency: false, draft: false },
-                  createdAt: new Date().toISOString(),
-                },
-                selectedTeam.id,
-              );
-              return;
-            }
-          } else if (headerResponse.status === 404) {
-            clearSave();
+                  createdAt: string;
+                }>;
+              }
+            | { ok: false; error: string };
+          if (existingData.ok && existingData.saves.length > 0) {
+            const save = [...existingData.saves].sort(
+              (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+            )[0];
+            setSaveHeader(
+              {
+                ...save,
+                ok: true,
+                unlocked: save.unlocked ?? { freeAgency: false, draft: false },
+              },
+              selectedTeam.id,
+            );
+            return;
           }
-        } catch {
-          // Ignore errors when loading persisted save, will fall through to create new one
         }
-      }
 
-      const query = new URLSearchParams({ teamAbbr: selectedTeam.abbr });
-      const existingResponse = await fetch(`/api/saves?${query.toString()}`);
-      if (existingResponse.ok) {
-        const existingData = (await existingResponse.json()) as
-          | {
-              ok: true;
-              saves: Array<{
-                saveId: string;
-                teamAbbr: string;
-                capSpace: number;
-                capLimit: number;
-                rosterCount: number;
-                rosterLimit: number;
-                phase: string;
-                unlocked?: { freeAgency: boolean; draft: boolean };
-                createdAt: string;
-              }>;
-            }
-          | { ok: false; error: string };
-        if (existingData.ok && existingData.saves.length > 0) {
-          const save = existingData.saves[0];
-          setSaveHeader(
-            {
-              ...save,
-              ok: true,
-              unlocked: save.unlocked ?? { freeAgency: false, draft: false },
-            },
-            selectedTeam.id,
-          );
+        const response = await fetch('/api/saves/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ teamId: selectedTeam.id, teamAbbr: selectedTeam.abbr }),
+        });
+        if (!response.ok) {
           return;
         }
-      }
+        const data = (await response.json()) as
+          | {
+              ok: true;
+              saveId: string;
+              teamAbbr: string;
+              capSpace: number;
+              capLimit: number;
+              rosterCount: number;
+              rosterLimit: number;
+              phase: string;
+              unlocked?: { freeAgency: boolean; draft: boolean };
+            }
+          | { ok: false; error: string };
+        if (!data.ok) {
+          return;
+        }
 
-      const response = await fetch('/api/saves/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamId: selectedTeam.id, teamAbbr: selectedTeam.abbr }),
-      });
-      if (!response.ok) {
-        return;
+        setSaveHeader(
+          {
+            ...data,
+            unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+            createdAt: new Date().toISOString(),
+          },
+          selectedTeam.id,
+        );
+      } finally {
+        isBootstrappingRef.current = false;
       }
-      const data = (await response.json()) as
-        | {
-            ok: true;
-            saveId: string;
-            teamAbbr: string;
-            capSpace: number;
-            capLimit: number;
-            rosterCount: number;
-            rosterLimit: number;
-            phase: string;
-            unlocked?: { freeAgency: boolean; draft: boolean };
-          }
-        | { ok: false; error: string };
-      if (!data.ok) {
-        return;
-      }
-
-      setSaveHeader(
-        {
-          ...data,
-          unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-          createdAt: new Date().toISOString(),
-        },
-        selectedTeam.id,
-      );
     };
 
     loadSave();
   }, [
     clearSave,
+    hasHydrated,
     saveId,
     selectedTeam?.abbr,
     selectedTeam?.id,
@@ -372,27 +375,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white/95 px-5 py-6 transition-transform md:static md:z-auto md:flex md:translate-x-0 md:flex-col md:bg-white/80"
             style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
           >
-            <div
-              className="rounded-xl border border-transparent p-4 text-[var(--team-primary-foreground)] mb-6 text-left text-sm"
-              style={{
-                backgroundColor: 'var(--team-primary)',
-              }}
-            >
-              <div className="space-y-2">
-                <div>
-                  <span className="text-[10px] uppercase tracking-[0.2em] opacity-80">
-                    Cap Space
-                  </span>
-                  <p className="mt-0.5 text-sm font-bold">Cap Space: {formattedCapSpace}</p>
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase tracking-[0.2em] opacity-80">Roster</span>
-                  <p className="mt-0 text-sm font-semibold">Roster: {formattedRoster}</p>
-                </div>
-                <span className="inline-flex w-fit rounded-full border border-white/40 bg-white/15 px-3 py-1 text-[10px] font-semibold">
-                  {phaseLabel}
-                </span>
-              </div>
+            <div className="mb-[20px] text-left text-sm">
+              <Image
+                src="/images/falco_logo.png"
+                alt="Falco"
+                width={200}
+                height={60}
+                className="block h-auto w-auto max-h-[120px] max-w-[120px] object-contain"
+                priority
+              />
             </div>
             <nav className="flex flex-col gap-6 text-sm">
               {navSections.map((section) => (

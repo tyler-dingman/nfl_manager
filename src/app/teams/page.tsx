@@ -70,6 +70,7 @@ function TeamSelectPageInner() {
   const saveId = useSaveStore((state) => state.saveId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const phase = useSaveStore((state) => state.phase);
+  const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const setActiveTeam = useSaveStore((state) => state.setActiveTeam);
   const clearSave = useSaveStore((state) => state.clearSave);
@@ -84,7 +85,7 @@ function TeamSelectPageInner() {
       clearSave();
       return;
     }
-    if (saveId || teamAbbr) {
+    if (hasHydrated && (saveId || teamAbbr)) {
       router.replace(
         phase === 'free_agency'
           ? '/free-agents'
@@ -93,7 +94,7 @@ function TeamSelectPageInner() {
             : '/roster',
       );
     }
-  }, [clearSave, phase, router, saveId, searchParams, teamAbbr]);
+  }, [clearSave, hasHydrated, phase, router, saveId, searchParams, teamAbbr]);
 
   useEffect(() => {
     const teamParam = searchParams?.get('team')?.toUpperCase();

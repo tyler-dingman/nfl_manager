@@ -31,13 +31,17 @@ export default function ResignPlayerModal({
   const [years, setYears] = React.useState(2);
   const [apy, setApy] = React.useState(6);
   const [guaranteedInput, setGuaranteedInput] = React.useState('');
-  const allowedYears = React.useMemo(() => getAllowedYearOptions(player), [player]);
+  const allowedYears = React.useMemo(
+    () => getAllowedYearOptions(player),
+    [player.id, player.age, player.position, player.rating],
+  );
 
   React.useEffect(() => {
+    if (!isOpen) return;
     setYears(allowedYears[0] ?? 2);
     setApy(6);
     setGuaranteedInput('');
-  }, [allowedYears, player]);
+  }, [allowedYears, isOpen, player.id]);
 
   if (!isOpen) {
     return null;
@@ -134,7 +138,6 @@ export default function ResignPlayerModal({
             <input
               type="text"
               inputMode="decimal"
-              pattern="[0-9]*"
               className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
               value={guaranteedInput}
               onFocus={() => {
@@ -143,9 +146,17 @@ export default function ResignPlayerModal({
                 }
               }}
               onChange={(event) => {
-                const next = event.target.value;
-                if (next === '' || /^[0-9]*\\.?[0-9]*$/.test(next)) {
-                  setGuaranteedInput(next);
+                const raw = event.target.value;
+                if (raw === '') {
+                  setGuaranteedInput('');
+                  return;
+                }
+                const cleaned = raw.replace(/[^0-9.]/g, '');
+                const parts = cleaned.split('.');
+                const normalized =
+                  parts.length <= 1 ? cleaned : `${parts[0]}.${parts.slice(1).join('')}`;
+                if (/^\\d*(\\.\\d*)?$/.test(normalized)) {
+                  setGuaranteedInput(normalized);
                 }
               }}
               onBlur={() => {

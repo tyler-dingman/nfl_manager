@@ -285,7 +285,7 @@ const DATA: CapSpaceRow[] = [
   {
     teamName: 'Chiefs',
     teamAbbr: 'KC',
-    capSpace: -54_720_166,
+    capSpace: -54_910_166,
     effectiveCapSpace: -62_115_065,
     activeCount: 53,
     activeCapSpending: 358_386_941,
@@ -301,9 +301,16 @@ const teamsByAbbr = TEAM_LIST.reduce<Record<string, (typeof TEAM_LIST)[number]>>
 const sortByEffective = (rows: CapSpaceRow[]) =>
   [...rows].sort((a, b) => b.effectiveCapSpace - a.effectiveCapSpace);
 
+const normalizeCapSpace = (rows: CapSpaceRow[]): CapSpaceRow[] =>
+  rows.map((row) => ({
+    ...row,
+    effectiveCapSpace: row.capSpace,
+  }));
+
 export default function CapSpacePage() {
-  const available = sortByEffective(DATA.filter((row) => row.effectiveCapSpace >= 0));
-  const overCap = sortByEffective(DATA.filter((row) => row.effectiveCapSpace < 0));
+  const normalized = normalizeCapSpace(DATA);
+  const available = sortByEffective(normalized.filter((row) => row.effectiveCapSpace >= 0));
+  const overCap = sortByEffective(normalized.filter((row) => row.effectiveCapSpace < 0));
 
   return (
     <AppShell>

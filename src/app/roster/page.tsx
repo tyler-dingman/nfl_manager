@@ -145,7 +145,7 @@ export default function RosterPage() {
   }, [activeExpiringContract]);
 
   const handleSubmitResign = async (offer: { years: number; apy: number; guaranteed: number }) => {
-    if (!saveId || (!activeResignPlayer && !activeExpiringContract)) {
+    if (!activeResignPlayer && !activeExpiringContract) {
       return;
     }
 
@@ -154,11 +154,56 @@ export default function RosterPage() {
       return;
     }
 
+    let activeSaveId = saveId;
+    if (activeSaveId) {
+      const headerResponse = await fetch(`/api/saves/header?saveId=${activeSaveId}`);
+      if (headerResponse.status === 404) {
+        activeSaveId = '';
+      }
+    }
+
+    if (!activeSaveId) {
+      const createResponse = await fetch('/api/saves/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
+      });
+      if (createResponse.ok) {
+        const data = (await createResponse.json()) as
+          | {
+              ok: true;
+              saveId: string;
+              teamAbbr: string;
+              capSpace: number;
+              capLimit: number;
+              rosterCount: number;
+              rosterLimit: number;
+              phase: string;
+              unlocked?: { freeAgency: boolean; draft: boolean };
+              createdAt: string;
+            }
+          | { ok: false; error: string };
+        if ('ok' in data && data.ok) {
+          activeSaveId = data.saveId;
+          setSaveHeader(
+            {
+              ...data,
+              unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+            },
+            teamId || undefined,
+          );
+        }
+      }
+    }
+    if (!activeSaveId) {
+      return;
+    }
+
     const response = await fetch('/api/actions/re-sign', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        saveId,
+        saveId: activeSaveId,
         teamAbbr,
         playerId,
         years: offer.years,
@@ -183,7 +228,7 @@ export default function RosterPage() {
     await Promise.all([
       refreshSaveHeader(),
       refreshPlayers(),
-      fetchExpiringContracts(saveId).then(setExpiringContracts),
+      fetchExpiringContracts(activeSaveId).then(setExpiringContracts),
     ]);
 
     setActiveResignPlayer(null);

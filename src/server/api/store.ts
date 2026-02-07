@@ -12,6 +12,7 @@ import {
 import { logoUrlFor } from './team';
 import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
 import { FREE_AGENT_SEEDS } from '@/server/data/free-agents';
+import { TEAM_CAP_SPACE } from '@/data/team-caps';
 
 export type PlayerFilters = {
   position?: string;
@@ -284,10 +285,12 @@ const resolveUnlocksForPhase = (phase: string, current?: SaveUnlocksDTO): SaveUn
 export const createSaveState = (saveId: string, teamAbbr: string): SaveState => {
   const roster = clonePlayers(baseRoster);
   const freeAgents = clonePlayers(baseFreeAgents);
+  const capSeed = TEAM_CAP_SPACE.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
+  const capSpace = Number(((capSeed?.capSpace ?? 0) / 1_000_000).toFixed(1));
   const header: SaveHeaderDTO = {
     id: saveId,
     teamAbbr,
-    capSpace: 50.0,
+    capSpace,
     capLimit: 255.4,
     rosterCount: roster.length,
     rosterLimit: 53,
@@ -406,10 +409,7 @@ export const signFreeAgentInState = (
 
   state.roster.push(signedPlayer);
   state.header.rosterCount = state.roster.length;
-  state.header.capSpace = Math.max(
-    0,
-    Number((state.header.capSpace - player.year1CapHit).toFixed(1)),
-  );
+  state.header.capSpace = Number((state.header.capSpace - player.year1CapHit).toFixed(1));
   pushNewsItem(state, {
     type: 'freeAgentSigned',
     teamAbbr: state.header.teamAbbr,
@@ -461,7 +461,7 @@ export const offerContractInState = (
   state.freeAgents[playerIndex] = signedPlayer;
   state.roster.push(signedPlayer);
   state.header.rosterCount = state.roster.length;
-  state.header.capSpace = Math.max(0, Number((state.header.capSpace - year1CapHit).toFixed(1)));
+  state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
   pushNewsItem(state, {
     type: 'freeAgentSigned',
     teamAbbr: state.header.teamAbbr,
@@ -557,7 +557,7 @@ export const resignPlayerInState = (
   };
 
   state.roster[playerIndex] = updatedPlayer;
-  state.header.capSpace = Math.max(0, Number((state.header.capSpace - year1CapHit).toFixed(1)));
+  state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
 
   return {
     header: getSaveHeaderSnapshot(state),
@@ -604,7 +604,7 @@ export const resignExpiringContractInState = (
   state.roster.push(newPlayer);
   removeExpiringContract(state, contract.id);
   state.header.rosterCount = state.roster.length;
-  state.header.capSpace = Math.max(0, Number((state.header.capSpace - year1CapHit).toFixed(1)));
+  state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
 
   return {
     header: getSaveHeaderSnapshot(state),
@@ -649,7 +649,7 @@ export const renegotiatePlayerInState = (
 
   state.roster[playerIndex] = updatedPlayer;
   const delta = year1CapHit - currentCapHit;
-  state.header.capSpace = Math.max(0, Number((state.header.capSpace - delta).toFixed(1)));
+  state.header.capSpace = Number((state.header.capSpace - delta).toFixed(1));
 
   return {
     header: getSaveHeaderSnapshot(state),
@@ -727,7 +727,7 @@ export const addDraftedPlayersInState = (
     state.roster.push(rookiePlayer);
     addedPlayers.push(rookiePlayer);
     state.header.rosterCount = state.roster.length;
-    state.header.capSpace = Math.max(0, Number((state.header.capSpace - year1CapHit).toFixed(1)));
+    state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
   });
 
   return {
