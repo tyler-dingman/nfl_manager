@@ -4,10 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ClipboardList, Handshake, Lock, Menu, PlayCircle, Users, X } from 'lucide-react';
+import { Lock, Menu, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
+import NextActionBanner from '@/components/next-action-banner';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useSaveStore } from '@/features/save/save-store';
@@ -59,7 +60,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isAdvanceModalOpen, setIsAdvanceModalOpen] = useState(false);
-  const [advanceTarget, setAdvanceTarget] = useState<'free_agency' | 'draft' | null>(null);
+  const [advanceTarget, setAdvanceTarget] = useState<'free_agency' | 'draft' | 'season' | null>(
+    null,
+  );
   const [capPulse, setCapPulse] = useState(false);
   const loadKeyRef = useRef<string | null>(null);
   const isBootstrappingRef = useRef(false);
@@ -95,6 +98,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     ? computeCapRank(selectedTeam.abbr, capsWithActive)
     : capsWithActive.length + 1;
   const formattedCapSpace = saveId ? formatCapMillions(activeCapDollars) : '--';
+  const capRankLabel = ordinal(capRank);
 
   const lockedRoutes = useMemo(() => {
     const locked = new Set<NavItem>();
@@ -109,39 +113,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     }
     return locked;
   }, [phase, unlocked.draft, unlocked.freeAgency]);
-
-  const nextAction = useMemo(() => {
-    if (phase === 'free_agency') {
-      return {
-        title: 'Fill roster holes by signing free agents',
-        subtitle: 'Upgrade starters and depth—keep an eye on cap space.',
-        advanceLabel: 'Advance to Draft',
-        advanceHref: '/draft/room?mode=mock',
-      };
-    }
-    if (phase === 'draft') {
-      return {
-        title: 'Draft the future of your franchise.',
-        subtitle: 'Use picks and trades to add impact rookies.',
-        advanceLabel: null,
-        advanceHref: null,
-      };
-    }
-    if (phase === 'season') {
-      return {
-        title: 'Season ready.',
-        subtitle: 'Your roster is set—manage, trade, and simulate the year.',
-        advanceLabel: null,
-        advanceHref: null,
-      };
-    }
-    return {
-      title: 'Re-sign or cut players before Free Agency',
-      subtitle: 'Get under the cap and shape your roster before entering the market.',
-      advanceLabel: 'Advance to Free Agency',
-      advanceHref: '/free-agents',
-    };
-  }, [phase]);
 
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
 
@@ -165,19 +136,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       }
     };
   }, [capSpace, pushAlert, saveId]);
-
-  const phaseIcon = useMemo(() => {
-    switch (phase) {
-      case 'free_agency':
-        return Users;
-      case 'draft':
-        return ClipboardList;
-      case 'season':
-        return PlayCircle;
-      default:
-        return Handshake;
-    }
-  }, [phase]);
 
   const showNextActionBanner = useMemo(() => {
     if (!pathname) return false;
@@ -576,70 +534,28 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
             <main className="flex-1 px-4 py-6 md:px-8">
               {showNextActionBanner ? (
-                <div
-                  className="mb-6 rounded-2xl border border-transparent p-5 text-[var(--team-primary-foreground)]"
-                  style={{
-                    backgroundColor: 'var(--team-primary)',
+                <NextActionBanner
+                  phase={phase}
+                  capSpaceMillions={capSpace}
+                  capRankLabel={capRankLabel}
+                  onAdvance={() => {
+                    if (!saveId) return;
+                    if (phase === 'resign_cut') {
+                      setAdvanceTarget('free_agency');
+                      setIsAdvanceModalOpen(true);
+                      return;
+                    }
+                    if (phase === 'free_agency') {
+                      setAdvanceTarget('draft');
+                      setIsAdvanceModalOpen(true);
+                      return;
+                    }
+                    if (phase === 'draft') {
+                      setAdvanceTarget('season');
+                      setIsAdvanceModalOpen(true);
+                    }
                   }}
-                >
-                  <p
-                    className="text-xs uppercase tracking-[0.2em]"
-                    style={{
-                      color: 'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
-                    }}
-                  >
-                    Next Action
-                  </p>
-                  <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                    <div className="flex items-start gap-3">
-                      <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-white/15">
-                        {(() => {
-                          const Icon = phaseIcon;
-                          return <Icon className="h-5 w-5" />;
-                        })()}
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-semibold">{nextAction.title}</h2>
-                        <p
-                          className="text-sm"
-                          style={{
-                            color:
-                              'color-mix(in srgb, var(--team-primary-foreground) 70%, transparent)',
-                          }}
-                        >
-                          {nextAction.subtitle}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-3">
-                      {nextAction.advanceLabel ? (
-                        <button
-                          type="button"
-                          className="rounded-full border border-white/40 px-4 py-2 text-sm font-semibold"
-                          style={{ color: 'var(--team-primary-foreground)' }}
-                          onClick={() => {
-                            if (!saveId) return;
-                            if (phase === 'resign_cut') {
-                              setAdvanceTarget('free_agency');
-                              setIsAdvanceModalOpen(true);
-                              return;
-                            }
-                            if (phase === 'free_agency') {
-                              setAdvanceTarget('draft');
-                              setIsAdvanceModalOpen(true);
-                              return;
-                            }
-                            if (nextAction.advanceHref) {
-                              router.push(nextAction.advanceHref);
-                            }
-                          }}
-                        >
-                          {nextAction.advanceLabel}
-                        </button>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
+                />
               ) : null}
               {children}
             </main>
@@ -647,14 +563,26 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <ConfirmAdvanceModal
             open={isAdvanceModalOpen}
             onOpenChange={setIsAdvanceModalOpen}
-            title={advanceTarget === 'draft' ? 'Enter the Draft' : 'Enter Free Agency'}
+            title={
+              advanceTarget === 'draft'
+                ? 'Enter the Draft'
+                : advanceTarget === 'season'
+                  ? 'Enter the Season'
+                  : 'Enter Free Agency'
+            }
             body={
               advanceTarget === 'draft'
                 ? `You’re about to enter the NFL Draft.\n\nOnce you move on, Free Agency will be closed and you won’t be able to sign additional free agents.\n\nMake sure your roster is ready and your cap space is where you want it before drafting.`
-                : `You’re about to enter Free Agency.\n\nOnce you move on, the re-sign / cut stage will be closed and you won’t be able to return to make additional cap moves here.\n\nMake sure you’re comfortable with your cap space and roster before entering the market.`
+                : advanceTarget === 'season'
+                  ? `You’re about to begin the season.\n\nOnce you move on, the draft stage will be locked and you won’t be able to make further draft picks.\n\nMake sure your roster is ready before you move on.`
+                  : `You’re about to enter Free Agency.\n\nOnce you move on, the re-sign / cut stage will be closed and you won’t be able to return to make additional cap moves here.\n\nMake sure you’re comfortable with your cap space and roster before entering the market.`
             }
             confirmText={
-              advanceTarget === 'draft' ? 'Confirm & Enter Draft' : 'Confirm & Enter Free Agency'
+              advanceTarget === 'draft'
+                ? 'Confirm & Enter Draft'
+                : advanceTarget === 'season'
+                  ? 'Confirm & Enter Season'
+                  : 'Confirm & Enter Free Agency'
             }
             onConfirm={async () => {
               if (!saveId || !advanceTarget) return;
@@ -663,7 +591,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               setAdvanceTarget(null);
               if (advanceTarget === 'draft') {
                 router.push('/draft/room?mode=mock');
-              } else {
+              } else if (advanceTarget === 'free_agency') {
                 router.push('/free-agents');
               }
             }}
