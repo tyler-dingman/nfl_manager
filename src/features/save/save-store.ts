@@ -24,6 +24,7 @@ type SaveStoreState = {
   setPhase: (phase: string) => Promise<void>;
   advancePhase: () => Promise<void>;
   refreshSaveHeader: () => Promise<void>;
+  ensureSaveId: () => Promise<string | null>;
 };
 
 const DEFAULT_STATE = {
@@ -194,6 +195,67 @@ export const useSaveStore = create<SaveStoreState>()(
           unlocked: resolveUnlocks(data.phase, data.unlocked),
           activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,
         }));
+      },
+      ensureSaveId: async () => {
+        const { saveId, teamId, teamAbbr } = get();
+        let activeSaveId = saveId;
+
+        if (activeSaveId) {
+          const headerResponse = await fetch(`/api/saves/header?saveId=${activeSaveId}`);
+          if (headerResponse.status === 404) {
+            activeSaveId = '';
+          } else if (headerResponse.ok) {
+            const data = (await headerResponse.json()) as SaveBootstrapDTO | { ok: false; error: string };
+            if ('ok' in data && data.ok) {
+              set((state) => ({
+                ...state,
+                saveId: data.saveId,
+                teamAbbr: data.teamAbbr,
+                capSpace: data.capSpace,
+                capLimit: data.capLimit,
+                rosterCount: data.rosterCount,
+                rosterLimit: data.rosterLimit,
+                phase: data.phase,
+                unlocked: resolveUnlocks(data.phase, data.unlocked),
+                activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,
+              }));
+              return data.saveId;
+            }
+          }
+        }
+
+        if (!teamId && !teamAbbr) {
+          return null;
+        }
+
+        const createResponse = await fetch('/api/saves/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
+        });
+        if (!createResponse.ok) {
+          return null;
+        }
+
+        const data = (await createResponse.json()) as SaveBootstrapDTO | { ok: false; error: string };
+        if (!('ok' in data) || !data.ok) {
+          return null;
+        }
+
+        set((state) => ({
+          ...state,
+          saveId: data.saveId,
+          teamAbbr: data.teamAbbr,
+          capSpace: data.capSpace,
+          capLimit: data.capLimit,
+          rosterCount: data.rosterCount,
+          rosterLimit: data.rosterLimit,
+          phase: data.phase,
+          unlocked: resolveUnlocks(data.phase, data.unlocked),
+          activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,
+        }));
+
+        return data.saveId;
       },
     }),
     {

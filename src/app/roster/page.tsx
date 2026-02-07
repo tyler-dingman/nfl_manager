@@ -34,6 +34,7 @@ export default function RosterPage() {
   const phase = useSaveStore((state) => state.phase);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const ensureSaveId = useSaveStore((state) => state.ensureSaveId);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const { data: players, refresh: refreshPlayers } = useRosterQuery(saveId);
@@ -154,67 +155,57 @@ export default function RosterPage() {
       return;
     }
 
-    let activeSaveId = saveId;
-    if (activeSaveId) {
-      const headerResponse = await fetch(`/api/saves/header?saveId=${activeSaveId}`);
-      if (headerResponse.status === 404) {
-        activeSaveId = '';
-      }
-    }
-
+    let activeSaveId = await ensureSaveId();
     if (!activeSaveId) {
-      const createResponse = await fetch('/api/saves/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
+      pushToast({
+        title: 'Session not initialized',
+        description: 'Please return to Team Select to start a new offseason.',
+        variant: 'error',
       });
-      if (createResponse.ok) {
-        const data = (await createResponse.json()) as
-          | {
-              ok: true;
-              saveId: string;
-              teamAbbr: string;
-              capSpace: number;
-              capLimit: number;
-              rosterCount: number;
-              rosterLimit: number;
-              phase: string;
-              unlocked?: { freeAgency: boolean; draft: boolean };
-              createdAt: string;
-            }
-          | { ok: false; error: string };
-        if ('ok' in data && data.ok) {
-          activeSaveId = data.saveId;
-          setSaveHeader(
-            {
-              ...data,
-              unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-            },
-            teamId || undefined,
-          );
-        }
-      }
-    }
-    if (!activeSaveId) {
       return;
     }
 
-    const response = await fetch('/api/actions/re-sign', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId: activeSaveId,
-        teamAbbr,
-        playerId,
-        years: offer.years,
-        apy: offer.apy,
-        guaranteed: offer.guaranteed,
-      }),
-    });
+    const sendOffer = async (targetSaveId: string) =>
+      fetch('/api/actions/re-sign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId: targetSaveId,
+          teamAbbr,
+          playerId,
+          years: offer.years,
+          apy: offer.apy,
+          guaranteed: offer.guaranteed,
+        }),
+      });
+
+    let response = await sendOffer(activeSaveId);
+    if (response.status === 404) {
+      const refreshedSaveId = await ensureSaveId();
+      if (refreshedSaveId && refreshedSaveId !== activeSaveId) {
+        activeSaveId = refreshedSaveId;
+        response = await sendOffer(activeSaveId);
+      }
+    }
+
+    if (!response.ok) {
+      const errorPayload = (await response.json()) as { ok?: boolean; error?: string };
+      pushToast({
+        title: 'Unable to submit offer',
+        description: errorPayload.error || 'Please try again in a moment.',
+        variant: 'error',
+      });
+      return;
+    }
 
     const data = (await response.json()) as ResignResultDTO | { ok: false; error: string };
-    if (!response.ok || !data.ok) {
-      throw new Error(!data.ok ? data.error : 'Unable to re-sign player.');
+    if (!data.ok) {
+      pushToast({
+        title: 'Unable to submit offer',
+        description: data.error || 'Please try again in a moment.',
+        variant: 'error',
+      });
+      return;
     }
 
     setResignResult(data);
@@ -233,6 +224,7 @@ export default function RosterPage() {
 
     setActiveResignPlayer(null);
     setActiveExpiringContract(null);
+    return;
   };
 
   const handleSubmitRenegotiate = async (offer: {
@@ -334,6 +326,7 @@ export default function RosterPage() {
                         type="button"
                         variant="ghost"
                         size="icon"
+                        disabled={!saveId}
                         onClick={() => setActiveExpiringContract(player)}
                       >
                         <Handshake className="h-4 w-4" />
