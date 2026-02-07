@@ -17,6 +17,7 @@ import { useTeamStore } from '@/features/team/team-store';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { computeCapRank, formatCapMillions, ordinal } from '@/lib/cap-space';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
+import { apiFetch } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
 const navRoutes = {
@@ -54,7 +55,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
+  const saveLoadError = useSaveStore((state) => state.saveLoadError);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const setSaveLoadError = useSaveStore((state) => state.setSaveLoadError);
   const clearSave = useSaveStore((state) => state.clearSave);
   const advancePhase = useSaveStore((state) => state.advancePhase);
   const setPhase = useSaveStore((state) => state.setPhase);
@@ -219,6 +222,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       if (!selectedTeam?.abbr) {
         return;
       }
+      if (saveLoadError) {
+        return;
+      }
 
       if (storedTeamAbbr && selectedTeam.abbr !== storedTeamAbbr) {
         return;
@@ -239,7 +245,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
         if (isPersistedForTeam && saveId) {
           try {
-            const headerResponse = await fetch(`/api/saves/header?saveId=${saveId}`);
+            const headerResponse = await apiFetch(`/api/saves/header?saveId=${saveId}`);
             if (headerResponse.ok) {
               const headerData = (await headerResponse.json()) as
                 | {
@@ -265,16 +271,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 );
                 return;
               }
-            } else if (headerResponse.status === 404) {
-              clearSave();
+            } else {
+              setSaveLoadError('Unable to load save data.');
+              return;
             }
           } catch {
-            // Ignore errors when loading persisted save, will fall through to create new one
+            setSaveLoadError('Unable to load save data.');
+            return;
           }
         }
 
         const query = new URLSearchParams({ teamAbbr: selectedTeam.abbr });
-        const existingResponse = await fetch(`/api/saves?${query.toString()}`);
+        const existingResponse = await apiFetch(`/api/saves?${query.toString()}`);
         if (existingResponse.ok) {
           const existingData = (await existingResponse.json()) as
             | {
@@ -306,14 +314,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             );
             return;
           }
+        } else {
+          setSaveLoadError('Unable to load save data.');
+          return;
         }
 
-        const response = await fetch('/api/saves/create', {
+        const response = await apiFetch('/api/saves/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ teamId: selectedTeam.id, teamAbbr: selectedTeam.abbr }),
         });
         if (!response.ok) {
+          setSaveLoadError('Unable to create a new save.');
           return;
         }
         const data = (await response.json()) as
@@ -330,6 +342,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             }
           | { ok: false; error: string };
         if (!data.ok) {
+          setSaveLoadError('Unable to create a new save.');
           return;
         }
 
@@ -357,6 +370,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     setSaveHeader,
     storedTeamAbbr,
     storedTeamId,
+    saveLoadError,
+    setSaveLoadError,
   ]);
 
   if (hasHydrated && !hasActiveTeam && pathname !== '/teams') {
@@ -368,6 +383,27 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <ToastProvider>
         <TeamFavicon primaryColor={selectedTeam?.color_primary ?? null} />
         <div className="flex min-h-screen flex-col bg-slate-50 md:flex-row">
+          {saveLoadError ? (
+            <div className="fixed left-1/2 top-4 z-[60] w-[min(92vw,640px)] -translate-x-1/2 rounded-2xl border border-border bg-white px-4 py-3 shadow-lg">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Save load issue</p>
+                  <p className="text-xs text-muted-foreground">{saveLoadError}</p>
+                </div>
+                <button
+                  type="button"
+                  className="rounded-full border border-border px-3 py-1 text-xs font-semibold text-foreground transition hover:bg-slate-50"
+                  onClick={() => {
+                    clearSave();
+                    loadKeyRef.current = null;
+                    router.replace('/teams');
+                  }}
+                >
+                  Reset Save
+                </button>
+              </div>
+            </div>
+          ) : null}
           {isMobileSidebarOpen ? (
             <div
               className="fixed inset-0 z-40 bg-black/50 md:hidden"

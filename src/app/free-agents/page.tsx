@@ -9,6 +9,7 @@ import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useFreeAgentsQuery } from '@/features/players/queries';
 import { useSaveStore } from '@/features/save/save-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
+import { apiFetch } from '@/lib/api';
 import type { PlayerRowDTO } from '@/types/player';
 
 export default function FreeAgentsPage() {
@@ -33,14 +34,14 @@ export default function FreeAgentsPage() {
     let activeSaveId = saveId;
 
     if (activeSaveId) {
-      const headerResponse = await fetch(`/api/saves/header?saveId=${activeSaveId}`);
+      const headerResponse = await apiFetch(`/api/saves/header?saveId=${activeSaveId}`);
       if (headerResponse.status === 404) {
         activeSaveId = '';
       }
     }
 
     if (!activeSaveId) {
-      const createResponse = await fetch('/api/saves/create', {
+      const createResponse = await apiFetch('/api/saves/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
@@ -76,7 +77,7 @@ export default function FreeAgentsPage() {
       return;
     }
 
-    const response = await fetch('/api/actions/offer-contract', {
+    const response = await apiFetch('/api/actions/offer-contract', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -18,6 +18,7 @@ import { useRosterQuery } from '@/features/players/queries';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
+import { apiFetch } from '@/lib/api';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerRowDTO } from '@/types/player';
 import type { ResignResultDTO } from '@/types/resign';
@@ -75,7 +76,7 @@ export default function RosterPage() {
       return;
     }
 
-    const response = await fetch('/api/actions/cut-player', {
+    const response = await apiFetch('/api/actions/cut-player', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -179,7 +180,7 @@ export default function RosterPage() {
     }
 
     const sendOffer = async (targetSaveId: string) =>
-      fetch('/api/actions/re-sign', {
+      apiFetch('/api/actions/re-sign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -252,7 +253,7 @@ export default function RosterPage() {
       return;
     }
 
-    const response = await fetch('/api/roster/renegotiate', {
+    const response = await apiFetch('/api/roster/renegotiate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

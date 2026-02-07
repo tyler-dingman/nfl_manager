@@ -17,6 +17,7 @@ import {
 import { getPickValue } from '@/lib/draft-utils';
 import { getFalcoReaction, getPickLabel } from '@/lib/draft-reactions';
 import { getTeamNeeds } from '@/components/draft/draft-utils';
+import { apiFetch } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
@@ -210,7 +211,7 @@ export function ActiveDraftRoom({
       setIsQuoting(true);
       setTradeError('');
       try {
-        const response = await fetch('/api/draft/trades/quote', {
+        const response = await apiFetch('/api/draft/trades/quote', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -256,7 +257,7 @@ export function ActiveDraftRoom({
     }
     advanceInFlight.current = true;
     try {
-      const response = await fetch('/api/draft/advance', {
+      const response = await apiFetch('/api/draft/advance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ draftSessionId }),
@@ -295,7 +296,7 @@ export function ActiveDraftRoom({
           onSessionUpdate(snapshot);
           break;
         }
-        const response = await fetch('/api/draft/advance', {
+        const response = await apiFetch('/api/draft/advance', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ draftSessionId }),
@@ -480,7 +481,7 @@ export function ActiveDraftRoom({
     }
     setTradeError('');
     try {
-      const response = await fetch('/api/draft/trades/propose', {
+      const response = await apiFetch('/api/draft/trades/propose', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

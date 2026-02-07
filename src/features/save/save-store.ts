@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { SaveBootstrapDTO, SaveHeaderDTO, SaveUnlocksDTO } from '@/types/save';
+import { apiFetch } from '@/lib/api';
 
 type SaveStoreState = {
   saveId: string;
@@ -16,7 +17,9 @@ type SaveStoreState = {
   activeDraftSessionId: string | null;
   activeDraftSessionIdsBySave: Record<string, string>;
   hasHydrated: boolean;
+  saveLoadError: string | null;
   setHasHydrated: (value: boolean) => void;
+  setSaveLoadError: (error: string | null) => void;
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
   setActiveTeam: (teamId: string, teamAbbr: string) => void;
   setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
@@ -40,6 +43,7 @@ const DEFAULT_STATE = {
   activeDraftSessionId: null,
   activeDraftSessionIdsBySave: {},
   hasHydrated: false,
+  saveLoadError: null,
 };
 
 const resolveUnlocks = (phase: string, current?: SaveUnlocksDTO): SaveUnlocksDTO => {
@@ -83,10 +87,12 @@ export const useSaveStore = create<SaveStoreState>()(
           rosterLimit,
           phase,
           unlocked,
+          saveLoadError: null,
           activeDraftSessionId: state.activeDraftSessionIdsBySave[saveId] ?? null,
         }));
       },
       setHasHydrated: (value) => set((state) => ({ ...state, hasHydrated: value })),
+      setSaveLoadError: (error) => set((state) => ({ ...state, saveLoadError: error })),
       setActiveTeam: (teamId, teamAbbr) =>
         set((state) => ({
           ...state,
@@ -127,28 +133,32 @@ export const useSaveStore = create<SaveStoreState>()(
           unlocked: { freeAgency: false, draft: false },
           activeDraftSessionId: null,
           activeDraftSessionIdsBySave: {},
+          saveLoadError: null,
         })),
       setPhase: async (nextPhase) => {
         const { saveId } = get();
         if (!saveId) {
           return;
         }
-        const response = await fetch('/api/saves/phase', {
+        const response = await apiFetch('/api/saves/phase', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ saveId, phase: nextPhase }),
         });
         if (!response.ok) {
+          get().setSaveLoadError('Unable to update save phase.');
           return;
         }
         const data = (await response.json()) as SaveBootstrapDTO | { ok: false; error: string };
         if (!('ok' in data) || !data.ok) {
+          get().setSaveLoadError(data.error ?? 'Unable to update save phase.');
           return;
         }
         set((state) => ({
           ...state,
           phase: data.phase,
           unlocked: resolveUnlocks(data.phase, data.unlocked),
+          saveLoadError: null,
         }));
       },
       advancePhase: async () => {
@@ -169,8 +179,9 @@ export const useSaveStore = create<SaveStoreState>()(
           return;
         }
 
-        const response = await fetch(`/api/saves/header?saveId=${saveId}`);
+        const response = await apiFetch(`/api/saves/header?saveId=${saveId}`);
         if (!response.ok) {
+          get().setSaveLoadError('Unable to load save data.');
           return;
         }
 
@@ -181,6 +192,7 @@ export const useSaveStore = create<SaveStoreState>()(
               error: string;
             };
         if (!('ok' in data) || !data.ok) {
+          get().setSaveLoadError(data.error ?? 'Unable to load save data.');
           return;
         }
         set((state) => ({
@@ -193,56 +205,27 @@ export const useSaveStore = create<SaveStoreState>()(
           rosterLimit: data.rosterLimit,
           phase: data.phase,
           unlocked: resolveUnlocks(data.phase, data.unlocked),
+          saveLoadError: null,
           activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,
         }));
       },
       ensureSaveId: async () => {
-        const { saveId, teamId, teamAbbr } = get();
-        let activeSaveId = saveId;
-
-        if (activeSaveId) {
-          const headerResponse = await fetch(`/api/saves/header?saveId=${activeSaveId}`);
-          if (headerResponse.status === 404) {
-            activeSaveId = '';
-          } else if (headerResponse.ok) {
-            const data = (await headerResponse.json()) as
-              | SaveBootstrapDTO
-              | { ok: false; error: string };
-            if ('ok' in data && data.ok) {
-              set((state) => ({
-                ...state,
-                saveId: data.saveId,
-                teamAbbr: data.teamAbbr,
-                capSpace: data.capSpace,
-                capLimit: data.capLimit,
-                rosterCount: data.rosterCount,
-                rosterLimit: data.rosterLimit,
-                phase: data.phase,
-                unlocked: resolveUnlocks(data.phase, data.unlocked),
-                activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,
-              }));
-              return data.saveId;
-            }
-          }
-        }
-
-        if (!teamId && !teamAbbr) {
+        const { saveId } = get();
+        if (!saveId) {
           return null;
         }
 
-        const createResponse = await fetch('/api/saves/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
-        });
-        if (!createResponse.ok) {
+        const headerResponse = await apiFetch(`/api/saves/header?saveId=${saveId}`);
+        if (!headerResponse.ok) {
+          get().setSaveLoadError('Unable to load save data.');
           return null;
         }
 
-        const data = (await createResponse.json()) as
+        const data = (await headerResponse.json()) as
           | SaveBootstrapDTO
           | { ok: false; error: string };
         if (!('ok' in data) || !data.ok) {
+          get().setSaveLoadError(data.error ?? 'Unable to load save data.');
           return null;
         }
 
@@ -256,6 +239,7 @@ export const useSaveStore = create<SaveStoreState>()(
           rosterLimit: data.rosterLimit,
           phase: data.phase,
           unlocked: resolveUnlocks(data.phase, data.unlocked),
+          saveLoadError: null,
           activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,
         }));
 

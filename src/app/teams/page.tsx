@@ -8,6 +8,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore, type Team } from '@/features/team/team-store';
 import { Badge } from '@/components/ui/badge';
 import { getReadableTextColor } from '@/lib/color-utils';
+import { apiFetch } from '@/lib/api';
 
 type HypeCopy = {
   headline: string;
@@ -112,7 +113,7 @@ function TeamSelectPageInner() {
     setSelectedTeamId(team.id);
     setActiveTeam(team.id, team.abbr);
 
-    const response = await fetch('/api/saves/create', {
+    const response = await apiFetch('/api/saves/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ teamAbbr: team.abbr }),

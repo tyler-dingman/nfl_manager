@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import type { PlayerRowDTO } from '@/types/player';
+import { apiFetch } from '@/lib/api';
 
 type PlayerQueryResult = {
   data: PlayerRowDTO[];
@@ -30,7 +31,7 @@ const usePlayerQuery = (
     setError(null);
 
     try {
-      const response = await fetch(`${endpoint}?saveId=${saveId}`);
+      const response = await apiFetch(`${endpoint}?saveId=${saveId}`);
       if (!response.ok) {
         setError(errorMessage);
         return;

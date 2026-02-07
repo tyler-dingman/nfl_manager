@@ -10,6 +10,7 @@ import { PlayerTable } from '@/components/player-table';
 import { useRosterQuery } from '@/features/players/queries';
 import { useSaveStore } from '@/features/save/save-store';
 import { formatCapMillions } from '@/lib/cap-space';
+import { apiFetch } from '@/lib/api';
 import type { PlayerRowDTO } from '@/types/player';
 
 export default function HomePage() {
@@ -36,7 +37,7 @@ export default function HomePage() {
       return;
     }
 
-    const response = await fetch('/api/actions/cut-player', {
+    const response = await apiFetch('/api/actions/cut-player', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

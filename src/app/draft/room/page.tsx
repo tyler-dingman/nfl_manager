@@ -18,6 +18,7 @@ import { useTeamStore } from '@/features/team/team-store';
 import { getDraftGrade } from '@/lib/draft-utils';
 import { buildFalcoBoard } from '@/lib/falco';
 import { getFalcoGradeQuote, getPickLabel } from '@/lib/draft-reactions';
+import { apiFetch } from '@/lib/api';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
@@ -93,7 +94,7 @@ function DraftRoomContent() {
 
   const ensureSaveExists = React.useCallback(async () => {
     if (saveId) {
-      const headerResponse = await fetch(`/api/saves/header?saveId=${saveId}`);
+      const headerResponse = await apiFetch(`/api/saves/header?saveId=${saveId}`);
       if (headerResponse.ok) {
         const headerData = (await headerResponse.json()) as
           | {
@@ -129,7 +130,7 @@ function DraftRoomContent() {
       return null;
     }
 
-    const response = await fetch('/api/saves/create', {
+    const response = await apiFetch('/api/saves/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ teamId: resolvedTeamId, teamAbbr: resolvedTeamAbbr }),
@@ -208,7 +209,7 @@ function DraftRoomContent() {
       setLoading(true);
       setError('');
       const query = new URLSearchParams({ draftSessionId, saveId });
-      const response = await fetch(`/api/draft/session?${query.toString()}`);
+      const response = await apiFetch(`/api/draft/session?${query.toString()}`);
       const payload = (await response.json()) as DraftSessionResponse;
       if (!response.ok || !payload.ok) {
         const message = payload.ok ? 'Unable to load draft data.' : payload.error;
@@ -241,13 +242,13 @@ function DraftRoomContent() {
     setLoading(true);
     setError('');
     setLobbyMessage('');
-    let response = await fetch('/api/draft/session', {
+    let response = await apiFetch('/api/draft/session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ saveId: resolvedSaveId, mode }),
     });
     if (response.status === 404) {
-      response = await fetch('/api/draft/session/start', {
+      response = await apiFetch('/api/draft/session/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ saveId: resolvedSaveId, mode }),
@@ -259,7 +260,7 @@ function DraftRoomContent() {
       if (!payload.ok && payload.error === 'Save not found') {
         const freshSaveId = await ensureSaveExists();
         if (freshSaveId) {
-          const retry = await fetch('/api/draft/session/start', {
+          const retry = await apiFetch('/api/draft/session/start', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ saveId: freshSaveId, mode }),
@@ -300,7 +301,7 @@ function DraftRoomContent() {
       if (!saveId || !activeDraftSessionId) {
         return;
       }
-      const response = await fetch('/api/draft/session/pause', {
+      const response = await apiFetch('/api/draft/session/pause', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ saveId, draftSessionId: activeDraftSessionId, isPaused }),
@@ -323,7 +324,7 @@ function DraftRoomContent() {
 
   React.useEffect(() => {
     const loadTeams = async () => {
-      const response = await fetch('/api/teams');
+      const response = await apiFetch('/api/teams');
       const payload = (await response.json()) as TeamsResponse;
       if (!response.ok || !payload.ok) {
         return;
@@ -343,7 +344,7 @@ function DraftRoomContent() {
       setLoading(true);
       setError('');
       const query = new URLSearchParams({ saveId });
-      const response = await fetch(`/api/draft/session/active?${query.toString()}`);
+      const response = await apiFetch(`/api/draft/session/active?${query.toString()}`);
       const payload = (await response.json()) as ActiveDraftSessionResponse;
       if (!response.ok || !payload.ok) {
         setLoading(false);
@@ -365,7 +366,7 @@ function DraftRoomContent() {
       return;
     }
 
-    const response = await fetch('/api/draft/pick', {
+    const response = await apiFetch('/api/draft/pick', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ saveId, draftSessionId: activeDraftSessionId, playerId: player.id }),

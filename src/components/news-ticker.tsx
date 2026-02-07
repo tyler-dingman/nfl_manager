@@ -4,13 +4,14 @@ import * as React from 'react';
 
 import type { NewsItemDTO } from '@/types/news';
 import { Button } from '@/components/ui/button';
+import { apiFetch } from '@/lib/api';
 
 type NewsTickerProps = {
   saveId?: string | null;
 };
 
 const fetchNews = async (saveId: string): Promise<NewsItemDTO[]> => {
-  const response = await fetch(`/api/news?saveId=${saveId}`);
+  const response = await apiFetch(`/api/news?saveId=${saveId}`);
   if (!response.ok) {
     return [];
   }

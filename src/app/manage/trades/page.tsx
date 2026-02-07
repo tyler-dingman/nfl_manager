@@ -12,6 +12,7 @@ import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
+import { apiFetch } from '@/lib/api';
 
 export const dynamic = 'force-dynamic';
 import type { PlayerRowDTO } from '@/types/player';
@@ -120,7 +121,7 @@ function TradeBuilderContent() {
 
   useEffect(() => {
     const loadTeams = async () => {
-      const response = await fetch('/api/teams');
+      const response = await apiFetch('/api/teams');
       if (!response.ok) {
         return;
       }
@@ -151,14 +152,14 @@ function TradeBuilderContent() {
 
       let activeSaveId = saveId;
       if (activeSaveId) {
-        const headerResponse = await fetch(`/api/saves/header?saveId=${activeSaveId}`);
+        const headerResponse = await apiFetch(`/api/saves/header?saveId=${activeSaveId}`);
         if (headerResponse.status === 404) {
           activeSaveId = '';
         }
       }
 
       if (!activeSaveId) {
-        const createResponse = await fetch('/api/saves/create', {
+        const createResponse = await apiFetch('/api/saves/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
@@ -200,7 +201,7 @@ function TradeBuilderContent() {
         return;
       }
 
-      const response = await fetch('/api/trades/create', {
+      const response = await apiFetch('/api/trades/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -239,7 +240,7 @@ function TradeBuilderContent() {
       return;
     }
 
-    const response = await fetch(`/api/trades/${trade.id}/add-asset`, {
+    const response = await apiFetch(`/api/trades/${trade.id}/add-asset`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -266,7 +267,7 @@ function TradeBuilderContent() {
       return;
     }
 
-    const response = await fetch(`/api/trades/${trade.id}/remove-asset`, {
+    const response = await apiFetch(`/api/trades/${trade.id}/remove-asset`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -288,7 +289,7 @@ function TradeBuilderContent() {
       return;
     }
 
-    const response = await fetch(`/api/trades/${trade.id}/propose`, {
+    const response = await apiFetch(`/api/trades/${trade.id}/propose`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ saveId }),
