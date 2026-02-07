@@ -205,7 +205,9 @@ export const useSaveStore = create<SaveStoreState>()(
           if (headerResponse.status === 404) {
             activeSaveId = '';
           } else if (headerResponse.ok) {
-            const data = (await headerResponse.json()) as SaveBootstrapDTO | { ok: false; error: string };
+            const data = (await headerResponse.json()) as
+              | SaveBootstrapDTO
+              | { ok: false; error: string };
             if ('ok' in data && data.ok) {
               set((state) => ({
                 ...state,
@@ -237,7 +239,9 @@ export const useSaveStore = create<SaveStoreState>()(
           return null;
         }
 
-        const data = (await createResponse.json()) as SaveBootstrapDTO | { ok: false; error: string };
+        const data = (await createResponse.json()) as
+          | SaveBootstrapDTO
+          | { ok: false; error: string };
         if (!('ok' in data) || !data.ok) {
           return null;
         }

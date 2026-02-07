@@ -64,8 +64,7 @@ export const decideFreeAgencyAcceptance = (
   playerId: string,
 ): boolean => {
   if (breakdown.interestScore >= 75) return true;
-  const chance =
-    breakdown.interestScore >= 60 ? 0.6 : breakdown.interestScore >= 45 ? 0.2 : 0.05;
+  const chance = breakdown.interestScore >= 60 ? 0.6 : breakdown.interestScore >= 45 ? 0.2 : 0.05;
   const roll = randomChance(`${saveId}:${playerId}:${breakdown.interestScore}`);
   return roll <= chance;
 };

@@ -566,8 +566,9 @@ export const cutPlayerInState = (
     capSavings,
     timestamp: new Date().toISOString(),
   });
-  state.header.rosterCount = state.roster.filter((rosterPlayer) => rosterPlayer.status !== 'Cut')
-    .length;
+  state.header.rosterCount = state.roster.filter(
+    (rosterPlayer) => rosterPlayer.status !== 'Cut',
+  ).length;
   state.header.capSpace = Number((state.header.capSpace + capSavings).toFixed(1));
   pushNewsItem(state, {
     type: 'cut',

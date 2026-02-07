@@ -2,7 +2,10 @@ export const teamChants: Record<string, { chant: string; hype: string[] }> = {
   NE: { chant: 'Do Your Job', hype: ['No excuses. Just work.', 'Handle business.'] },
   BUF: { chant: 'Circle the Wagons', hype: ['Big move for Buffalo.', 'Keep the wheels turning.'] },
   MIA: { chant: 'Fins Up', hype: ["Miami's making noise.", 'Speed kills.'] },
-  NYJ: { chant: 'J-E-T-S! JETS! JETS! JETS!', hype: ['New York swings big.', "Let's see it translate."] },
+  NYJ: {
+    chant: 'J-E-T-S! JETS! JETS! JETS!',
+    hype: ['New York swings big.', "Let's see it translate."],
+  },
 
   PIT: { chant: 'Here We Go', hype: ['Steel City approves.', 'Hard-nosed football.'] },
   CIN: { chant: 'WHO DEY', hype: ["Cincy's cooking.", "That'll wake up the division."] },

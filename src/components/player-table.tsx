@@ -501,17 +501,17 @@ export function PlayerTable({
                     isCut ? 'opacity-60' : null,
                   )}
                 >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={cn(
-                      'px-4 py-1.5 align-middle text-sm sm:px-6',
-                      cell.column.id === 'actions' && 'w-[88px] text-right',
-                    )}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className={cn(
+                        'px-4 py-1.5 align-middle text-sm sm:px-6',
+                        cell.column.id === 'actions' && 'w-[88px] text-right',
+                      )}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
                 </tr>
               );
             })}

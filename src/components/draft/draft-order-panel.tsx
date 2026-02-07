@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 import { Badge } from '@/components/ui/badge';
 import { getPickHeat } from '@/lib/draft-heat';
 import { cn } from '@/lib/utils';
@@ -76,7 +78,13 @@ export function DraftOrderPanel({
                       #{pick.pickNumber}
                     </span>
                   </div>
-                  <img src={pick.logoUrl} alt={`${pick.name} logo`} className="h-7 w-7 shrink-0" />
+                  <Image
+                    src={pick.logoUrl}
+                    alt={`${pick.name} logo`}
+                    width={28}
+                    height={28}
+                    className="h-7 w-7 shrink-0"
+                  />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold text-foreground">{pick.name}</p>
                     <p className="text-xs text-muted-foreground">Needs: {pick.needs.join(' · ')}</p>

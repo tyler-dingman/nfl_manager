@@ -33,10 +33,7 @@ export default function FalcoPhaseSummaryCard({
 
   return (
     <div
-      className={cn(
-        'rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-5',
-        className,
-      )}
+      className={cn('rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-5', className)}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">

@@ -407,7 +407,15 @@ export function ActiveDraftRoom({
         }
       });
     }
-  }, [buildAlertMessage, falcoTagsByPlayer, pushAlert, session.picks, session.prospects, teamLookup]);
+  }, [
+    buildAlertMessage,
+    falcoTagsByPlayer,
+    pushAlert,
+    session.picks,
+    session.prospects,
+    session.userTeamAbbr,
+    teamLookup,
+  ]);
 
   React.useEffect(() => {
     const fallingId = session.fallingProspectId;
@@ -419,7 +427,7 @@ export function ActiveDraftRoom({
       firedFreeFallRef.current = true;
       const lines = [
         "He's slipping.",
-        'Something’s spooked teams. Could be noise. Could be real.',
+        "Something's spooked teams. Could be noise. Could be real.",
         'Trust your read.',
       ];
       pushAlert({
@@ -431,7 +439,14 @@ export function ActiveDraftRoom({
         createdAt: new Date().toISOString(),
       });
     }
-  }, [buildAlertMessage, pushAlert, session.currentPickIndex, session.fallReason, session.fallingProspectId, session.prospects]);
+  }, [
+    buildAlertMessage,
+    pushAlert,
+    session.currentPickIndex,
+    session.fallReason,
+    session.fallingProspectId,
+    session.prospects,
+  ]);
 
   React.useEffect(() => {
     const drafted = session.picks

@@ -89,9 +89,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const capsWithActive = useMemo(
     () =>
       TEAM_CAP_SPACE.map((entry) =>
-        entry.teamAbbr === selectedTeam?.abbr
-          ? { ...entry, capSpace: activeCapDollars }
-          : entry,
+        entry.teamAbbr === selectedTeam?.abbr ? { ...entry, capSpace: activeCapDollars } : entry,
       ),
     [activeCapDollars, selectedTeam?.abbr],
   );
@@ -151,6 +149,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     }
     return false;
   }, [pathname, phase]);
+
+  const bannerPhase: 'resign_cut' | 'free_agency' | 'draft' | 'season' =
+    phase === 'free_agency' || phase === 'draft' || phase === 'season' ? phase : 'resign_cut';
 
   useEffect(() => {
     if (!pathname) return;
@@ -365,7 +366,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <TeamThemeProvider team={selectedTeam}>
       <ToastProvider>
-        <TeamFavicon primaryColor={selectedTeam?.colors?.[0] ?? null} />
+        <TeamFavicon primaryColor={selectedTeam?.color_primary ?? null} />
         <div className="flex min-h-screen flex-col bg-slate-50 md:flex-row">
           {isMobileSidebarOpen ? (
             <div
@@ -457,9 +458,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   className="group flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring"
                 >
                   {selectedTeam?.logo_url ? (
-                    <img
+                    <Image
                       src={selectedTeam.logo_url}
                       alt={`${selectedTeam.name} logo`}
+                      width={36}
+                      height={36}
                       className="h-full w-full object-cover"
                     />
                   ) : (
@@ -537,10 +540,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <main className="flex-1 px-4 py-6 md:px-8">
               {showNextActionBanner ? (
                 <NextActionBanner
-                  phase={phase}
+                  phase={bannerPhase}
                   capSpaceMillions={capSpace}
                   capRankLabel={capRankLabel}
-                  teamPrimaryColor={selectedTeam?.colors?.[0] ?? 'var(--team-primary)'}
+                  teamPrimaryColor={selectedTeam?.color_primary ?? 'var(--team-primary)'}
                   onAdvance={() => {
                     if (!saveId) return;
                     if (phase === 'resign_cut') {

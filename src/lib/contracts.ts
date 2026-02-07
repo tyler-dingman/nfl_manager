@@ -23,13 +23,31 @@ export const getPreferredYearsForPlayer = (player: PlayerRowDTO): number => {
   let weights = [0.25, 0.4, 0.25, 0.08, 0.02];
 
   if (age >= 32) {
-    weights = [weights[0] + 0.1, weights[1] + 0.05, weights[2] - 0.08, weights[3] - 0.05, weights[4] - 0.02];
+    weights = [
+      weights[0] + 0.1,
+      weights[1] + 0.05,
+      weights[2] - 0.08,
+      weights[3] - 0.05,
+      weights[4] - 0.02,
+    ];
   } else if (age >= 30) {
-    weights = [weights[0] + 0.05, weights[1] + 0.05, weights[2] - 0.05, weights[3] - 0.03, weights[4] - 0.02];
+    weights = [
+      weights[0] + 0.05,
+      weights[1] + 0.05,
+      weights[2] - 0.05,
+      weights[3] - 0.03,
+      weights[4] - 0.02,
+    ];
   }
 
   if (age <= 29 && rating >= 85) {
-    weights = [weights[0] - 0.05, weights[1] - 0.05, weights[2] + 0.05, weights[3] + 0.03, weights[4] + 0.02];
+    weights = [
+      weights[0] - 0.05,
+      weights[1] - 0.05,
+      weights[2] + 0.05,
+      weights[3] + 0.03,
+      weights[4] + 0.02,
+    ];
   }
 
   const normalized = normalizeWeights(weights);

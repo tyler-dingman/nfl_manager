@@ -462,7 +462,11 @@ function DraftRoomContent() {
               onChange={(event) => setSpeedLevel(Number(event.target.value) as DraftSpeedLevel)}
             />
             <span className="text-xs font-semibold text-muted-foreground">
-              {speedLevel === 0 ? '1x (1 sec)' : speedLevel === 2 ? '4x (0.25 sec)' : '2x (0.5 sec)'}
+              {speedLevel === 0
+                ? '1x (1 sec)'
+                : speedLevel === 2
+                  ? '4x (0.25 sec)'
+                  : '2x (0.5 sec)'}
             </span>
           </div>
           <Button type="button" variant="secondary" disabled={!session}>

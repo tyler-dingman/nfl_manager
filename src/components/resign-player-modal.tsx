@@ -31,10 +31,7 @@ export default function ResignPlayerModal({
   const [years, setYears] = React.useState(2);
   const [apy, setApy] = React.useState(6);
   const [guaranteed, setGuaranteed] = React.useState(0);
-  const allowedYears = React.useMemo(
-    () => getAllowedYearOptions(player),
-    [player.id, player.age, player.position, player.rating],
-  );
+  const allowedYears = React.useMemo(() => getAllowedYearOptions(player), [player]);
 
   React.useEffect(() => {
     if (!isOpen) return;

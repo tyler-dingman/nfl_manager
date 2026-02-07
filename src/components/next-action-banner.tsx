@@ -76,11 +76,15 @@ export default function NextActionBanner({
   const isCapCrisis = capSpaceMillions < 0;
   const capLabel = `Cap Space: ${formatCapMillions(capSpaceMillions)} / ${capRankLabel}`;
   const capTextClass =
-    capSpaceMillions < 0 ? 'text-red-200' : 'text-[color-mix(in_srgb,var(--team-primary-foreground)_80%,transparent)]';
+    capSpaceMillions < 0
+      ? 'text-red-200'
+      : 'text-[color-mix(in_srgb,var(--team-primary-foreground)_80%,transparent)]';
 
   return (
     <div
-      className={cn('mb-6 rounded-2xl border border-transparent p-5 text-[var(--team-primary-foreground)]')}
+      className={cn(
+        'mb-6 rounded-2xl border border-transparent p-5 text-[var(--team-primary-foreground)]',
+      )}
       style={{ backgroundColor: teamPrimaryColor }}
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">

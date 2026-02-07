@@ -45,7 +45,8 @@ const scorePhase = (capSpace: number, rosterCount: number, rosterLimit: number):
   const capScore =
     capSpace >= 20 ? 40 : capSpace >= 10 ? 32 : capSpace >= 0 ? 24 : capSpace >= -10 ? 12 : 4;
   const rosterRatio = rosterLimit > 0 ? rosterCount / rosterLimit : 0;
-  const rosterScore = rosterRatio >= 0.9 ? 30 : rosterRatio >= 0.8 ? 22 : rosterRatio >= 0.7 ? 16 : 10;
+  const rosterScore =
+    rosterRatio >= 0.9 ? 30 : rosterRatio >= 0.8 ? 22 : rosterRatio >= 0.7 ? 16 : 10;
   const riskScore = capSpace < 0 ? 8 : 20;
   return Math.min(100, Math.max(0, capScore + rosterScore + riskScore));
 };

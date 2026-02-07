@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 import { Badge } from '@/components/ui/badge';
 
 import type { DraftOrderTeam } from './draft-utils';
@@ -40,7 +42,13 @@ export function DraftStagePanel({ selectedPick, onTheClockPickNumber }: DraftSta
               </Badge>
             ) : null}
           </div>
-          <img src={selectedPick.logoUrl} alt={`${selectedPick.name} logo`} className="h-24 w-24" />
+          <Image
+            src={selectedPick.logoUrl}
+            alt={`${selectedPick.name} logo`}
+            width={96}
+            height={96}
+            className="h-24 w-24"
+          />
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">

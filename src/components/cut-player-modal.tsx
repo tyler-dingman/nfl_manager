@@ -188,7 +188,11 @@ export default function CutPlayerModal({
                   ) : null}
                   {formatMoneyMillions(futureCapSpace)}
                   <span className="sr-only">
-                    {isImproved ? 'Improves cap space' : isWorsened ? 'Worsens cap space' : 'No change'}
+                    {isImproved
+                      ? 'Improves cap space'
+                      : isWorsened
+                        ? 'Worsens cap space'
+                        : 'No change'}
                   </span>
                 </span>
               </div>
