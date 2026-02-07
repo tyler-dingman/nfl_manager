@@ -16,7 +16,6 @@ export default function FreeAgentsPage() {
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
-  const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const { data, refresh: refreshPlayers } = useFreeAgentsQuery(saveId, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>([]);

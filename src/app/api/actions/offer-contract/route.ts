@@ -39,8 +39,8 @@ export const POST = async (request: Request) => {
 
     const breakdown = scoreFreeAgencyOffer({ player, years, apy: body.apy, guaranteed });
     const interestScore = breakdown.interestScore;
-    const tone = interestScore >= 70 ? 'positive' : interestScore >= 40 ? 'neutral' : 'negative';
-    const accepted = interestScore >= 70;
+    const tone = interestScore >= 67 ? 'positive' : interestScore >= 34 ? 'neutral' : 'negative';
+    const accepted = Math.random() < breakdown.acceptanceProbability;
     if (!accepted) {
       return NextResponse.json({
         ok: true,

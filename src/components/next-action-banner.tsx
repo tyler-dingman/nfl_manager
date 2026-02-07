@@ -5,15 +5,8 @@ import { cn } from '@/lib/utils';
 type NextActionBannerProps = {
   phase: 'resign_cut' | 'free_agency' | 'draft' | 'season';
   capSpaceMillions: number;
-  capRankLabel: string;
   teamPrimaryColor: string;
   onAdvance?: () => void;
-};
-
-const formatCapMillions = (value: number) => {
-  const absValue = Math.abs(value);
-  const formatted = `$${absValue.toFixed(1)}M`;
-  return value < 0 ? `-${formatted}` : formatted;
 };
 
 const getResignSubtext = (capSpace: number) => {
@@ -68,17 +61,11 @@ const getPhaseCopy = (phase: NextActionBannerProps['phase'], capSpace: number) =
 export default function NextActionBanner({
   phase,
   capSpaceMillions,
-  capRankLabel,
   teamPrimaryColor,
   onAdvance,
 }: NextActionBannerProps) {
   const copy = getPhaseCopy(phase, capSpaceMillions);
   const isCapCrisis = capSpaceMillions < 0;
-  const capLabel = `Cap Space: ${formatCapMillions(capSpaceMillions)} / ${capRankLabel}`;
-  const capTextClass =
-    capSpaceMillions < 0
-      ? 'text-red-200'
-      : 'text-[color-mix(in_srgb,var(--team-primary-foreground)_80%,transparent)]';
 
   return (
     <div
@@ -110,7 +97,6 @@ export default function NextActionBanner({
           >
             {copy.subtext}
           </p>
-          <div className={cn('mt-3 text-xs font-semibold', capTextClass)}>{capLabel}</div>
         </div>
         {copy.cta ? (
           <button

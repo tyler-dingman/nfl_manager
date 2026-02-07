@@ -147,11 +147,11 @@ export default function CutPlayerModal({
         </div>
 
         <div className="mt-4 space-y-4">
-          <div className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+          <div className="flex items-start gap-3">
             <div className="rounded-full bg-slate-100 p-2">
               <Image src="/images/falco_icon.png" alt="Falco" width={28} height={28} />
             </div>
-            <p className="text-sm text-slate-600">{falcoQuote}</p>
+            <p className="text-sm italic text-slate-600">&ldquo;{falcoQuote}&rdquo;</p>
           </div>
 
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">

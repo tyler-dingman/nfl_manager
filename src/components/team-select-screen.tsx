@@ -3,24 +3,11 @@
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { ChevronRight, X } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore, type Team } from '@/features/team/team-store';
-import { getReadableTextColor } from '@/lib/color-utils';
 import { apiFetch } from '@/lib/api';
-
-type HypeCopy = {
-  headline: string;
-  message: string;
-};
-
-const HYPE_COPY: Record<string, HypeCopy> = {
-  PHI: {
-    headline: 'Fly Eagles Fly.',
-    message: 'Time to improve the team for the City of Brotherly Love.',
-  },
-};
 
 const TeamSelectCard = ({
   team,
@@ -72,8 +59,6 @@ function TeamSelectScreenInner() {
   const setActiveTeam = useSaveStore((state) => state.setActiveTeam);
   const clearSave = useSaveStore((state) => state.clearSave);
 
-  const [activeTeam, setActiveTeamState] = useState<(typeof teams)[number] | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [preselectedTeamId, setPreselectedTeamId] = useState<string | null>(null);
   const [showExpiredBanner, setShowExpiredBanner] = useState(false);
 
@@ -134,19 +119,8 @@ function TeamSelectScreenInner() {
       }
     }
 
-    setActiveTeamState(team);
-    setIsModalOpen(true);
+    router.push('/roster');
   };
-
-  const hype = useMemo(() => {
-    if (!activeTeam) return null;
-    return (
-      HYPE_COPY[activeTeam.abbr] ?? {
-        headline: `Welcome to ${activeTeam.name}.`,
-        message: `Time to build a contender in ${activeTeam.name}.`,
-      }
-    );
-  }, [activeTeam]);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -191,45 +165,6 @@ function TeamSelectScreenInner() {
           ))}
         </div>
       </div>
-
-      {isModalOpen && activeTeam && hype ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="w-full max-w-lg rounded-2xl border border-border bg-white p-6 shadow-xl">
-            <div className="flex items-start justify-between">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-                Team Ready
-              </p>
-              <button
-                type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="rounded-full border border-border p-2 text-muted-foreground transition hover:text-foreground"
-                aria-label="Close"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-            <h2 className="mt-3 text-2xl font-semibold text-foreground">{hype.headline}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{hype.message}</p>
-
-            <div className="mt-6 flex items-center justify-end">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsModalOpen(false);
-                  router.push('/roster');
-                }}
-                className="rounded-full px-4 py-2 text-sm font-semibold transition"
-                style={{
-                  backgroundColor: activeTeam.color_primary ?? '#111827',
-                  color: getReadableTextColor(activeTeam.color_primary ?? '#111827'),
-                }}
-              >
-                Continue
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }

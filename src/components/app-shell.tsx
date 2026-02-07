@@ -92,7 +92,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     ? computeCapRank(selectedTeam.abbr, capsWithActive)
     : capsWithActive.length + 1;
   const formattedCapSpace = saveId ? formatCapMillions(activeCapDollars) : '--';
-  const capRankLabel = ordinal(capRank);
 
   const lockedRoutes = useMemo(() => {
     const locked = new Set<NavItem>();
@@ -227,7 +226,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white/95 px-5 pb-6 pt-0 transition-transform md:static md:z-auto md:flex md:translate-x-0 md:flex-col md:self-start md:sticky md:top-0 md:max-h-[100vh] md:overflow-y-auto md:bg-white/80"
             style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
           >
-            <div className="mb-[20px] text-left text-sm">
+            <div className="mb-[20px] mt-[20px] text-left text-sm">
               <Image
                 src="/images/falco_logo.png"
                 alt="Falco"
@@ -389,7 +388,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <NextActionBanner
                   phase={bannerPhase}
                   capSpaceMillions={capSpace}
-                  capRankLabel={capRankLabel}
                   teamPrimaryColor={selectedTeam?.color_primary ?? 'var(--team-primary)'}
                   onAdvance={() => {
                     if (!saveId) return;
