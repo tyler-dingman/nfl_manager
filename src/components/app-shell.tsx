@@ -9,6 +9,7 @@ import { Lock, Menu, X } from 'lucide-react';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
 import NextActionBanner from '@/components/next-action-banner';
+import { TeamFavicon } from '@/components/team-favicon';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useSaveStore } from '@/features/save/save-store';
@@ -364,6 +365,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <TeamThemeProvider team={selectedTeam}>
       <ToastProvider>
+        <TeamFavicon primaryColor={selectedTeam?.colors?.[0] ?? null} />
         <div className="flex min-h-screen flex-col bg-slate-50 md:flex-row">
           {isMobileSidebarOpen ? (
             <div
