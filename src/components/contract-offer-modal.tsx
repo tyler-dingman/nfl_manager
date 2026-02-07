@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 import { estimateResignInterest } from '@/lib/resign-scoring';
+import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
 import { getAllowedYearOptions } from '@/lib/contracts';
 import { cn } from '@/lib/utils';
 
@@ -24,6 +25,7 @@ type ContractOfferModalProps = {
   subtitle?: string;
   expectedApyOverride?: number;
   submitLabel?: string;
+  scoreVariant?: 'resign' | 'freeAgency';
   onClose: () => void;
   onSubmit: (offer: {
     years: number;
@@ -56,6 +58,7 @@ export default function ContractOfferModal({
   subtitle,
   expectedApyOverride,
   submitLabel = 'Submit Offer',
+  scoreVariant = 'resign',
   onClose,
   onSubmit,
 }: ContractOfferModalProps) {
@@ -84,15 +87,23 @@ export default function ContractOfferModal({
   const rating = player.rating ?? 75;
   const apyValue = clampNumber(parseNumericInput(apyInput), 0, 99);
   const guaranteedValue = clampNumber(parseNumericInput(guaranteedInput), 0, 60);
-  const estimate = estimateResignInterest({
-    playerId: player.id,
-    age,
-    rating,
-    years,
-    apy: apyValue,
-    guaranteed: guaranteedValue,
-    expectedApyOverride,
-  });
+  const estimate =
+    scoreVariant === 'freeAgency'
+      ? scoreFreeAgencyOffer({
+          player,
+          years,
+          apy: apyValue,
+          guaranteed: guaranteedValue,
+        })
+      : estimateResignInterest({
+          playerId: player.id,
+          age,
+          rating,
+          years,
+          apy: apyValue,
+          guaranteed: guaranteedValue,
+          expectedApyOverride,
+        });
   const score = estimate.interestScore;
   const interestLabel = getInterestLabel(score);
 

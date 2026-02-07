@@ -307,7 +307,9 @@ export default function RosterPage() {
         const bCut = b.cutAt ? Date.parse(b.cutAt) : 0;
         return bCut - aCut;
       });
-    const active = players.filter((player) => player.status.toLowerCase() !== 'cut');
+    const active = players
+      .filter((player) => player.status.toLowerCase() !== 'cut')
+      .sort((a, b) => (b.capHitValue ?? 0) - (a.capHitValue ?? 0));
     return [...cut, ...active];
   }, [players]);
 

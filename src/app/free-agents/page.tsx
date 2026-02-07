@@ -171,6 +171,7 @@ export default function FreeAgentsPage() {
               ? activeOfferPlayer.marketValue / 1_000_000
               : undefined
           }
+          scoreVariant="freeAgency"
         />
       ) : null}
     </AppShell>

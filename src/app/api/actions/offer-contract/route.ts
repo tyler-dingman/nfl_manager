@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { offerContract } from '@/server/api/players';
 import { getSaveStateResult } from '@/server/api/store';
 import { clampYears } from '@/lib/contracts';
-import { estimateResignInterest } from '@/lib/resign-scoring';
+import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
 
 export const POST = async (request: Request) => {
   try {
@@ -37,25 +37,10 @@ export const POST = async (request: Request) => {
       return NextResponse.json({ ok: false, error: 'Free agent not found' }, { status: 404 });
     }
 
-    const age = player.age ?? 27;
-    const rating = player.rating ?? 75;
-    const expectedApyOverride =
-      player.marketValue !== null && player.marketValue !== undefined
-        ? player.marketValue / 1_000_000
-        : undefined;
-    const breakdown = estimateResignInterest({
-      playerId: player.id,
-      age,
-      rating,
-      years,
-      apy: body.apy,
-      guaranteed,
-      expectedApyOverride,
-    });
-
+    const breakdown = scoreFreeAgencyOffer({ player, years, apy: body.apy, guaranteed });
     const interestScore = breakdown.interestScore;
-    const tone = interestScore >= 67 ? 'positive' : interestScore >= 34 ? 'neutral' : 'negative';
-    const accepted = tone === 'positive';
+    const tone = interestScore >= 70 ? 'positive' : interestScore >= 40 ? 'neutral' : 'negative';
+    const accepted = interestScore >= 70;
     if (!accepted) {
       return NextResponse.json({
         ok: true,
@@ -80,7 +65,7 @@ export const POST = async (request: Request) => {
       ok: true,
       accepted: true,
       interestScore,
-      tone,
+      tone: 'positive',
       message: 'Woohoo! Fly Eagles Fly baby!',
       notice: `${player.firstName} ${player.lastName} has accepted offer`,
       ...result.data,
