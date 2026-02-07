@@ -2,10 +2,12 @@
 
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ClipboardList, PlayCircle, Scissors, UserPlus, X } from 'lucide-react';
 
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore, type Team } from '@/features/team/team-store';
+import { Badge } from '@/components/ui/badge';
+import { getReadableTextColor } from '@/lib/color-utils';
 
 type HypeCopy = {
   headline: string;
@@ -75,7 +77,6 @@ function TeamSelectPageInner() {
   const [activeTeam, setActiveTeamState] = useState<(typeof teams)[number] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [preselectedTeamId, setPreselectedTeamId] = useState<string | null>(null);
-  const [query, setQuery] = useState('');
 
   useEffect(() => {
     const switchMode = searchParams?.get('switch') === '1';
@@ -104,16 +105,7 @@ function TeamSelectPageInner() {
     setPreselectedTeamId(match?.id ?? null);
   }, [searchParams, teams]);
 
-  const filteredTeams = useMemo(() => {
-    const trimmed = query.trim().toLowerCase();
-    if (!trimmed) {
-      return teams;
-    }
-    return teams.filter(
-      (team) =>
-        team.name.toLowerCase().includes(trimmed) || team.abbr.toLowerCase().includes(trimmed),
-    );
-  }, [query, teams]);
+  const filteredTeams = useMemo(() => teams, [teams]);
 
   const handleSelectTeam = async (team: (typeof teams)[number]) => {
     setSelectedTeamId(team.id);
@@ -164,6 +156,38 @@ function TeamSelectPageInner() {
     );
   }, [activeTeam]);
 
+  const steps = useMemo(
+    () => [
+      {
+        title: 'Re-sign / cut / trade players',
+        description: 'Get under the cap and reshape the roster.',
+        icon: Scissors,
+        stepLabel: 'Step 1',
+        active: true,
+      },
+      {
+        title: 'Free Agency',
+        description: 'Fill roster holes with smart signings.',
+        icon: UserPlus,
+        stepLabel: 'Step 2',
+      },
+      {
+        title: 'Draft',
+        description: 'Add young talent and build for the future.',
+        icon: ClipboardList,
+        stepLabel: 'Step 3',
+      },
+      {
+        title: '2026 season simulation',
+        description: 'See how your offseason moves perform.',
+        icon: PlayCircle,
+        stepLabel: 'Step 4',
+        comingSoon: true,
+      },
+    ],
+    [],
+  );
+
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10">
@@ -176,19 +200,6 @@ function TeamSelectPageInner() {
             Choose a team to become the offseason GM and guide them through re-signings, free
             agency, and the draft.
           </p>
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Search
-          </label>
-          <input
-            type="search"
-            placeholder="Search teams..."
-            className="h-10 rounded-md border border-border bg-white px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -206,31 +217,68 @@ function TeamSelectPageInner() {
       {isModalOpen && activeTeam && hype ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
           <div className="w-full max-w-lg rounded-2xl border border-border bg-white p-6 shadow-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Team ready</p>
-            <h2 className="mt-3 text-2xl font-semibold text-foreground">{hype.headline}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{hype.message}</p>
-            <div className="mt-4 space-y-2 text-sm text-muted-foreground">
-              <p>
-                <strong className="text-foreground">Re-sign</strong> /{' '}
-                <strong className="text-foreground">cut</strong> /{' '}
-                <strong className="text-foreground">trade</strong> players
+            <div className="flex items-start justify-between">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+                Team Ready
               </p>
-              <p>Then move into Free Agency</p>
-              <p>Then the Draft</p>
-              <p>Then 2026 season simulation (coming soon)</p>
-            </div>
-            <div className="mt-6 flex items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-full border border-border px-4 py-2 text-sm font-semibold text-muted-foreground"
+                className="rounded-full border border-border p-2 text-muted-foreground transition hover:text-foreground"
+                aria-label="Close"
               >
-                Close
+                <X className="h-4 w-4" />
               </button>
+            </div>
+            <h2 className="mt-3 text-2xl font-semibold text-foreground">{hype.headline}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{hype.message}</p>
+
+            <div className="mt-5 space-y-3">
+              {steps.map((step) => {
+                const Icon = step.icon;
+                return (
+                  <div
+                    key={step.title}
+                    className={`flex items-start gap-3 rounded-xl border px-4 py-3 ${
+                      step.active ? 'border-slate-900/30 bg-slate-50' : 'border-border bg-white'
+                    }`}
+                  >
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-full border ${
+                        step.active ? 'border-slate-900/30 bg-white' : 'border-border bg-slate-50'
+                      }`}
+                    >
+                      <Icon className="h-5 w-5 text-muted-foreground" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-foreground">{step.title}</p>
+                      <p className="text-xs text-muted-foreground">{step.description}</p>
+                      {step.comingSoon ? (
+                        <Badge variant="secondary" className="mt-2">
+                          Coming soon
+                        </Badge>
+                      ) : null}
+                    </div>
+                    <span className="text-xs font-semibold text-muted-foreground">
+                      {step.stepLabel}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-6 flex items-center justify-end">
               <button
                 type="button"
-                onClick={() => router.push('/roster')}
-                className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+                onClick={() => {
+                  setIsModalOpen(false);
+                  router.push('/roster');
+                }}
+                className="rounded-full px-4 py-2 text-sm font-semibold transition"
+                style={{
+                  backgroundColor: activeTeam.color_primary ?? '#111827',
+                  color: getReadableTextColor(activeTeam.color_primary ?? '#111827'),
+                }}
               >
                 Start Offseason
               </button>
