@@ -581,6 +581,7 @@ export function PlayerTable({
     getSortedRowModel: getSortedRowModel(),
     state: { sorting },
     onSortingChange: setSorting,
+    getRowId: (row) => row.id,
   });
 
   const signedTable = useReactTable({
@@ -589,6 +590,7 @@ export function PlayerTable({
     getCoreRowModel: getCoreRowModel(),
     state: { sorting: [] },
     manualSorting: true,
+    getRowId: (row) => row.id,
   });
 
   const availableTable = useReactTable({
@@ -598,6 +600,7 @@ export function PlayerTable({
     getSortedRowModel: getSortedRowModel(),
     state: { sorting },
     onSortingChange: setSorting,
+    getRowId: (row) => row.id,
   });
 
   const resetFilters = () => {

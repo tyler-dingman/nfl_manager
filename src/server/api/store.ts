@@ -553,7 +553,9 @@ export const cutPlayerInState = (
     throw new Error('Player already cut');
   }
 
-  const capSavings = player.year1CapHit ?? 0;
+  const capHitValue = player.capHitValue ?? player.year1CapHit ?? 0;
+  const deadCap = player.deadCap ?? 0;
+  const capSavings = Math.max(0, capHitValue - deadCap);
   const cutPlayer: StoredPlayer = {
     ...player,
     contractYearsRemaining: 0,
@@ -562,6 +564,7 @@ export const cutPlayerInState = (
     salary: 0,
     guaranteed: 0,
     status: 'Cut',
+    cutAt: new Date().toISOString(),
     contract: {
       yearsRemaining: 0,
       apy: 0,

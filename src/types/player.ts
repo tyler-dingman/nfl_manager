@@ -24,6 +24,7 @@ export type PlayerRowDTO = {
   signedTeamAbbr?: string | null;
   signedTeamLogoUrl?: string | null;
   signedAt?: string | null;
+  cutAt?: string | null;
   contract?: {
     yearsRemaining: number;
     apy: number;

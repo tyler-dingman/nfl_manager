@@ -290,6 +290,18 @@ export default function RosterPage() {
     setActiveRenegotiatePlayer(null);
   };
 
+  const sortedPlayers = useMemo(() => {
+    const cut = players
+      .filter((player) => player.status.toLowerCase() === 'cut')
+      .sort((a, b) => {
+        const aCut = a.cutAt ? Date.parse(a.cutAt) : 0;
+        const bCut = b.cutAt ? Date.parse(b.cutAt) : 0;
+        return bCut - aCut;
+      });
+    const active = players.filter((player) => player.status.toLowerCase() !== 'cut');
+    return [...cut, ...active];
+  }, [players]);
+
   return (
     <AppShell>
       {phase === 'resign_cut' ? (
@@ -361,7 +373,7 @@ export default function RosterPage() {
         </div>
       ) : null}
       <PlayerTable
-        data={players}
+        data={sortedPlayers}
         variant="roster"
         onCutPlayer={setActiveCutPlayer}
         onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
