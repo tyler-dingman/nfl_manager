@@ -87,7 +87,9 @@ export function DraftOrderPanel({
                   />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold text-foreground">{pick.name}</p>
-                    <p className="text-xs text-muted-foreground">Needs: {pick.needs.join(' · ')}</p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      Needs: {pick.needs.join(' · ')}
+                    </p>
                     <p className="mt-1 text-[11px] text-muted-foreground sm:hidden">
                       {heat.reason}
                     </p>

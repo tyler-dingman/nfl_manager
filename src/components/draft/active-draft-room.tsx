@@ -82,9 +82,16 @@ export function ActiveDraftRoom({
   const falcoHistory = useFalcoAlertStore((state) => state.history);
   const advanceInFlight = React.useRef(false);
   const skipInFlight = React.useRef(false);
+  const timerRef = React.useRef<number | null>(null);
+  const pickInProgressRef = React.useRef(false);
+  const sessionRef = React.useRef(session);
   const previousPickSelections = React.useRef<Map<string, string | null>>(new Map());
   const firedFreeFallRef = React.useRef(false);
   const lastRunRef = React.useRef<string | null>(null);
+
+  React.useEffect(() => {
+    sessionRef.current = session;
+  }, [session]);
 
   React.useEffect(() => {
     firedFreeFallRef.current = false;
@@ -320,19 +327,55 @@ export function ActiveDraftRoom({
     }
   }, [draftSessionId, onClock, onSessionUpdate, session]);
 
-  React.useEffect(() => {
-    if (session.status !== 'in_progress') {
-      return;
+  const clearDraftTimer = React.useCallback(() => {
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
     }
-    if (session.isPaused || onClock) {
-      return;
-    }
+  }, []);
+
+  const scheduleNextCpuPick = React.useCallback(() => {
+    clearDraftTimer();
     const delay = SPEED_DELAYS[speedLevel] ?? 1000;
-    const timer = window.setTimeout(() => {
-      void advanceCpuPick();
+    timerRef.current = window.setTimeout(async () => {
+      const currentSession = sessionRef.current;
+      const current = currentSession.picks[currentSession.currentPickIndex];
+      const userOnClock =
+        current?.ownerTeamAbbr === currentSession.userTeamAbbr && !current?.selectedPlayerId;
+      if (currentSession.status !== 'in_progress' || currentSession.isPaused || userOnClock) {
+        return;
+      }
+      if (pickInProgressRef.current) {
+        scheduleNextCpuPick();
+        return;
+      }
+      pickInProgressRef.current = true;
+      await advanceCpuPick();
+      pickInProgressRef.current = false;
+      scheduleNextCpuPick();
     }, delay);
-    return () => window.clearTimeout(timer);
-  }, [advanceCpuPick, onClock, session.isPaused, session.status, speedLevel]);
+  }, [advanceCpuPick, clearDraftTimer, speedLevel]);
+
+  React.useEffect(() => {
+    const current = session.picks[session.currentPickIndex];
+    const userOnClock =
+      current?.ownerTeamAbbr === session.userTeamAbbr && !current?.selectedPlayerId;
+    if (session.status !== 'in_progress' || session.isPaused || userOnClock) {
+      clearDraftTimer();
+      return;
+    }
+    scheduleNextCpuPick();
+    return () => clearDraftTimer();
+  }, [
+    clearDraftTimer,
+    scheduleNextCpuPick,
+    session.currentPickIndex,
+    session.isPaused,
+    session.picks,
+    session.status,
+    session.userTeamAbbr,
+    speedLevel,
+  ]);
 
   React.useEffect(() => {
     const newEvents: DraftEventDTO[] = [];
@@ -512,8 +555,8 @@ export function ActiveDraftRoom({
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_2fr]">
-      <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
+    <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
+      <section className="rounded-2xl border border-border bg-white p-4 shadow-sm lg:w-[340px] lg:max-w-[340px] lg:min-w-[340px]">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-foreground">Draft Board</h2>
           <span className="text-xs text-muted-foreground">

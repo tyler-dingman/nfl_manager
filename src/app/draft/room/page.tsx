@@ -491,9 +491,9 @@ function DraftRoomContent() {
       {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}
 
       {!session ? (
-        <div className="grid gap-6 lg:grid-cols-[1fr_2fr]">
+        <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
           {selectedPick ? (
-            <div className="order-2 lg:order-1">
+            <div className="order-2 lg:order-1 lg:w-[340px] lg:max-w-[340px] lg:min-w-[340px]">
               <DraftOrderPanel
                 picks={roundOneOrder}
                 selectedPickNumber={selectedPickNumber}
