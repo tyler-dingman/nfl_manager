@@ -4,6 +4,7 @@ import { offerContract } from '@/server/api/players';
 import { getSaveStateResult } from '@/server/api/store';
 import { clampYears } from '@/lib/contracts';
 import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
+import { getTeamCatchphrase, getTeamHypeLine } from '@/lib/team-chants';
 
 export const POST = async (request: Request) => {
   try {
@@ -60,13 +61,16 @@ export const POST = async (request: Request) => {
     if (!result.ok) {
       return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
     }
+    const teamAbbr = stateResult.data.header.teamAbbr;
+    const catchphrase = getTeamCatchphrase(teamAbbr);
+    const hypeLine = getTeamHypeLine(teamAbbr);
 
     return NextResponse.json({
       ok: true,
       accepted: true,
       interestScore,
       tone: 'positive',
-      message: 'Woohoo! Fly Eagles Fly baby!',
+      message: `${catchphrase}! ${hypeLine}`,
       notice: `${player.firstName} ${player.lastName} has accepted offer`,
       ...result.data,
     });

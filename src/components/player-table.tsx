@@ -84,6 +84,14 @@ function formatName(player: PlayerRowDTO) {
 
 const formatMillions = (value: number) => `$${value.toFixed(1)}M`;
 const formatMarketValue = (value: number) => `$${(value / 1_000_000).toFixed(1)}M`;
+const formatSignedMarketValue = (player: PlayerRowDTO) => {
+  const years = player.contract?.yearsRemaining ?? player.contractYearsRemaining;
+  const apy = player.contract?.apy;
+  if (!years || !apy) return null;
+  const apyFormatted =
+    Math.abs(apy - Math.round(apy)) < 0.05 ? Math.round(apy).toString() : apy.toFixed(1);
+  return `${years}year / $${apyFormatted}M APY`;
+};
 
 const isSignedPlayer = (player: PlayerRowDTO) =>
   player.status.toLowerCase() === 'signed' || Boolean(player.signedTeamAbbr);
@@ -363,9 +371,11 @@ export function PlayerTable({
           sortUndefined: 'last',
           cell: ({ row }) => (
             <span className="text-sm font-semibold text-foreground">
-              {row.original.marketValue !== null && row.original.marketValue !== undefined
-                ? formatMarketValue(row.original.marketValue)
-                : '—'}
+              {isSignedPlayer(row.original)
+                ? (formatSignedMarketValue(row.original) ?? '—')
+                : row.original.marketValue !== null && row.original.marketValue !== undefined
+                  ? formatMarketValue(row.original.marketValue)
+                  : '—'}
             </span>
           ),
         },

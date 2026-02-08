@@ -42,3 +42,14 @@ export const teamChants: Record<string, { chant: string; hype: string[] }> = {
   SF: { chant: 'Faithful', hype: ['The Faithful will love it.', "That's championship DNA."] },
   SEA: { chant: 'Go Hawks', hype: ['Seattle stays feisty.', "That's a nice add."] },
 };
+
+export const getTeamCatchphrase = (teamAbbr?: string | null): string => {
+  if (!teamAbbr) return "Let's get to work!";
+  return teamChants[teamAbbr]?.chant ?? "Let's get to work!";
+};
+
+export const getTeamHypeLine = (teamAbbr?: string | null): string => {
+  if (!teamAbbr) return 'Good addition.';
+  const lines = teamChants[teamAbbr]?.hype ?? [];
+  return lines[0] ?? 'Good addition.';
+};
