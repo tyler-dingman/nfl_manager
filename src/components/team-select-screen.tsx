@@ -119,7 +119,7 @@ function TeamSelectScreenInner() {
       }
     }
 
-    router.push('/roster');
+    router.push('/experience');
   };
 
   return (

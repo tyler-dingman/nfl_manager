@@ -8,7 +8,6 @@ import AppShell from '@/components/app-shell';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
-import { DraftStagePanel } from '@/components/draft/draft-stage-panel';
 import { buildRoundOneOrder } from '@/components/draft/draft-utils';
 import NewsTicker from '@/components/news-ticker';
 import { PlayerTable } from '@/components/player-table';
@@ -508,14 +507,10 @@ function DraftRoomContent() {
           ) : null}
           {selectedPick ? (
             <div className="order-1 lg:order-2">
-              <DraftStagePanel
-                selectedPick={selectedPick}
-                onTheClockPickNumber={onTheClockPickNumber}
-              />
               {lobbyMessage ? (
-                <p className="mt-3 text-sm text-muted-foreground">{lobbyMessage}</p>
+                <p className="mb-4 text-sm text-muted-foreground">{lobbyMessage}</p>
               ) : null}
-              <div className="mt-6 rounded-2xl border border-border bg-white shadow-sm">
+              <div className="rounded-2xl border border-border bg-white shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-3 sm:px-6">
                   <div className="flex flex-wrap items-center gap-2">
                     <Button
