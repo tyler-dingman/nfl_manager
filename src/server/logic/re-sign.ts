@@ -1,7 +1,8 @@
 import type { PlayerRowDTO } from '@/types/player';
 
 import { getAgentPersonaForPlayer } from '@/server/logic/agent-personas';
-import { clampYears, getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
+import { getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
+import { clampOfferYears, evaluateContractOffer } from '@/lib/contract-negotiation';
 
 export type ReSignOfferInput = {
   saveId: string;
@@ -27,17 +28,6 @@ export type ReSignScoreBreakdown = {
   reasoningTags: string[];
 };
 
-const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
-
-const hashString = (value: string) => {
-  let hash = 0;
-  for (let i = 0; i < value.length; i += 1) {
-    hash = (hash << 5) - hash + value.charCodeAt(i);
-    hash |= 0;
-  }
-  return Math.abs(hash);
-};
-
 const getExpectedApy = (rating: number) => Math.max(1, (rating - 60) * 0.6);
 
 const getExpectedGuaranteedPctByAge = (age: number) => {
@@ -46,15 +36,7 @@ const getExpectedGuaranteedPctByAge = (age: number) => {
   return 0.55;
 };
 
-const jitterFromSeed = (seed: string) => {
-  const value = hashString(seed) % 13;
-  return value - 6;
-};
-
-const randomChance = (seed: string) => {
-  const value = hashString(seed) % 1000;
-  return value / 1000;
-};
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 export const scoreResignOffer = ({
   saveId,
@@ -80,49 +62,30 @@ export const scoreResignOffer = ({
     persona.expectedGuaranteedPctTarget,
   );
 
-  const ratio = expectedApy === 0 ? 0 : apy / expectedApy;
-  let moneyScore =
-    ratio >= 1.05
-      ? 40
-      : ratio >= 1.0
-        ? 36
-        : ratio >= 0.95
-          ? 28
-          : ratio >= 0.9
-            ? 18
-            : ratio >= 0.85
-              ? 8
-              : 0;
-  if (ratio < persona.discountTolerance) {
-    moneyScore = Math.max(0, moneyScore - 6);
-  }
-
-  const clampedYears = clampYears(years);
+  const clampedYears = clampOfferYears(years, 5);
   const yearsFit = getYearsFit(preferredYears, clampedYears);
+  const evaluation = evaluateContractOffer({
+    marketApy: expectedApy,
+    offeredApy: apy,
+    years: clampedYears,
+    guaranteed,
+    position: player.position,
+    maxYears: 5,
+    seed: `${saveId}:${player.id}:${years}:${apy}:${guaranteed}`,
+  });
+  const interestScore = clamp(evaluation.score, 0, 100);
+  const moneyScore = Math.round(evaluation.ratio * 40);
   const yearsScore = Math.round(25 * yearsFit);
-
-  const guaranteedPct = apy * clampedYears > 0 ? guaranteed / (apy * clampedYears) : 0;
-  const guaranteedScore =
-    guaranteedPct >= expectedGuaranteedPct
-      ? 25
-      : guaranteedPct >= expectedGuaranteedPct - 0.1
-        ? 18
-        : guaranteedPct >= expectedGuaranteedPct - 0.2
-          ? 10
-          : 0;
-
-  const teamFitScore = persona.key === 'TEAM_FIRST' ? 8 : persona.key === 'MARKET_HAWK' ? 3 : 5;
-
-  const totalScore = moneyScore + yearsScore + guaranteedScore + teamFitScore;
-  const jitter = jitterFromSeed(
-    `${saveId}:${player.id}:${years}:${apy}:${guaranteed}:${Math.floor(Date.now() / 30000)}`,
+  const guaranteedScore = Math.round(
+    25 * Math.min(1, evaluation.guaranteedPct / expectedGuaranteedPct),
   );
-  const interestScore = clamp(Math.round(totalScore + jitter), 0, 100);
+  const teamFitScore = persona.key === 'TEAM_FIRST' ? 8 : persona.key === 'MARKET_HAWK' ? 3 : 5;
+  const totalScore = moneyScore + yearsScore + guaranteedScore + teamFitScore;
 
   const reasoningTags: string[] = [];
-  if (moneyScore >= 36 || moneyScore <= 18) reasoningTags.push('money');
-  if (yearsScore >= 25 || yearsScore <= 10) reasoningTags.push('years');
-  if (guaranteedScore >= 25 || guaranteedScore <= 10) reasoningTags.push('guaranteed');
+  if (evaluation.ratio >= 1.0 || evaluation.ratio <= 0.9) reasoningTags.push('money');
+  if (yearsScore >= 22 || yearsScore <= 10) reasoningTags.push('years');
+  if (guaranteedScore >= 20 || guaranteedScore <= 10) reasoningTags.push('guaranteed');
   reasoningTags.push(persona.key.toLowerCase());
 
   return {
@@ -140,14 +103,6 @@ export const scoreResignOffer = ({
   };
 };
 
-export const decideResignAcceptance = (
-  breakdown: ReSignScoreBreakdown,
-  saveId: string,
-  playerId: string,
-): boolean => {
-  if (breakdown.interestScore >= 75) return true;
-  const chance = breakdown.interestScore >= 60 ? 0.65 : breakdown.interestScore >= 45 ? 0.25 : 0.0;
-  if (chance <= 0) return false;
-  const roll = randomChance(`${saveId}:${playerId}:${breakdown.interestScore}`);
-  return roll <= chance;
+export const decideResignAcceptance = (breakdown: ReSignScoreBreakdown): boolean => {
+  return breakdown.interestScore >= 70;
 };

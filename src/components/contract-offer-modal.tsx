@@ -99,6 +99,7 @@ export default function ContractOfferModal({
           playerId: player.id,
           age,
           rating,
+          position: player.position,
           years,
           apy: apyValue,
           guaranteed: guaranteedValue,

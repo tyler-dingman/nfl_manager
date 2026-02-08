@@ -1,7 +1,12 @@
 import type { AgentPersona } from '@/lib/agent-personas';
 import { getAgentPersonaForPlayer } from '@/lib/agent-personas';
 import type { PlayerRowDTO } from '@/types/player';
-import { clampYears, getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
+import { getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
+import {
+  clampOfferYears,
+  evaluateContractOffer,
+  getApyCapForPosition,
+} from '@/lib/contract-negotiation';
 
 export type ResignScoreEstimate = {
   interestScore: number;
@@ -13,7 +18,10 @@ export type ResignScoreEstimate = {
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
-const getExpectedApy = (rating: number) => Math.max(1, (rating - 60) * 0.6);
+const getExpectedApy = (rating: number, position: string) => {
+  const base = Math.max(1, (rating - 60) * 0.6);
+  return Math.min(base, getApyCapForPosition(position));
+};
 
 const getExpectedGuaranteedPctByAge = (age: number) => {
   if (age >= 30) return 0.35;
@@ -25,6 +33,7 @@ export const estimateResignInterest = ({
   playerId,
   age,
   rating,
+  position,
   years,
   apy,
   guaranteed,
@@ -33,19 +42,20 @@ export const estimateResignInterest = ({
   playerId: string;
   age: number;
   rating: number;
+  position: string;
   years: number;
   apy: number;
   guaranteed: number;
   expectedApyOverride?: number;
 }): ResignScoreEstimate => {
   const persona = getAgentPersonaForPlayer(playerId);
-  const baseExpectedApy = expectedApyOverride ?? getExpectedApy(rating);
+  const baseExpectedApy = expectedApyOverride ?? getExpectedApy(rating, position);
   const expectedApy = Number((baseExpectedApy * persona.expectedApyMultiplier).toFixed(2));
   const seedPlayer: PlayerRowDTO = {
     id: playerId,
     firstName: '',
     lastName: '',
-    position: '',
+    position,
     age,
     rating,
     contractYearsRemaining: 0,
@@ -62,41 +72,24 @@ export const estimateResignInterest = ({
     persona.expectedGuaranteedPctTarget,
   );
 
-  const ratio = expectedApy === 0 ? 0 : apy / expectedApy;
-  let moneyScore =
-    ratio >= 1.05
-      ? 40
-      : ratio >= 1.0
-        ? 36
-        : ratio >= 0.95
-          ? 28
-          : ratio >= 0.9
-            ? 18
-            : ratio >= 0.85
-              ? 8
-              : 0;
-  if (ratio < persona.discountTolerance) {
-    moneyScore = Math.max(0, moneyScore - 6);
-  }
-
-  const clampedYears = clampYears(years);
+  const clampedYears = clampOfferYears(years, 5);
   const yearsFit = getYearsFit(preferredYears, clampedYears);
+  const evaluation = evaluateContractOffer({
+    marketApy: expectedApy,
+    offeredApy: apy,
+    years: clampedYears,
+    guaranteed,
+    position,
+    maxYears: 5,
+    seed: `resign:${playerId}:${years}:${apy}:${guaranteed}`,
+  });
+  const interestScore = clamp(evaluation.score, 0, 100);
+  const moneyScore = Math.round(evaluation.ratio * 40);
   const yearsScore = Math.round(25 * yearsFit);
-
-  const guaranteedPct = apy * clampedYears > 0 ? guaranteed / (apy * clampedYears) : 0;
-  const guaranteedScore =
-    guaranteedPct >= expectedGuaranteedPct
-      ? 25
-      : guaranteedPct >= expectedGuaranteedPct - 0.1
-        ? 18
-        : guaranteedPct >= expectedGuaranteedPct - 0.2
-          ? 10
-          : 0;
-
+  const guaranteedScore = Math.round(
+    25 * Math.min(1, evaluation.guaranteedPct / expectedGuaranteedPct),
+  );
   const teamFitScore = persona.key === 'TEAM_FIRST' ? 8 : persona.key === 'MARKET_HAWK' ? 3 : 5;
-
-  const totalScore = moneyScore + yearsScore + guaranteedScore + teamFitScore;
-  const interestScore = clamp(Math.round(totalScore), 0, 100);
 
   return {
     interestScore,

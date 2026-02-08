@@ -4,6 +4,7 @@ export const CAP_HIT_MULTIPLIERS: Record<number, number[]> = {
   3: [0.5, 0.9, 1.2],
   4: [0.45, 0.8, 1.05, 1.2],
   5: [0.4, 0.7, 0.95, 1.1, 1.25],
+  6: [0.3, 0.55, 0.75, 0.95, 1.1, 1.35],
 };
 
 export const YEAR_ONE_CAP_MULTIPLIERS: Record<number, number> = {
@@ -12,6 +13,7 @@ export const YEAR_ONE_CAP_MULTIPLIERS: Record<number, number> = {
   3: 0.4,
   4: 0.3,
   5: 0.2,
+  6: 0.15,
 };
 
 export const formatMoneyMillions = (value: number): string => `$${value.toFixed(1)}M`;

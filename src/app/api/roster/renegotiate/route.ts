@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getSaveStateResult } from '@/server/api/store';
 import { renegotiatePlayerInState, markPlayerDisgruntled } from '@/server/api/store';
 import { evaluateRenegotiateOffer } from '@/server/logic/renegotiate';
+import { clampOfferYears } from '@/lib/contract-negotiation';
 
 export const POST = async (request: Request) => {
   let body: {
@@ -38,10 +39,11 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: 'Player not found' }, { status: 404 });
   }
 
+  const clampedYears = clampOfferYears(years, 6);
   const evaluation = evaluateRenegotiateOffer({
     saveId,
     player,
-    years,
+    years: clampedYears,
     apy,
     guaranteed,
   });
@@ -57,7 +59,7 @@ export const POST = async (request: Request) => {
     });
   }
 
-  const result = renegotiatePlayerInState(state, playerId, years, apy, guaranteed);
+  const result = renegotiatePlayerInState(state, playerId, clampedYears, apy, guaranteed);
 
   return NextResponse.json({
     ok: true,

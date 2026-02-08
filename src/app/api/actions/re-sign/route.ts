@@ -95,7 +95,7 @@ export const POST = async (request: Request) => {
     expectedApyOverride,
   });
 
-  const accepted = decideResignAcceptance(breakdown, body.saveId, offerPlayer.id);
+  const accepted = decideResignAcceptance(breakdown);
   const quote = getReSignQuote({
     accepted,
     position: offerPlayer.position,

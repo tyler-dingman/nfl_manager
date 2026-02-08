@@ -40,10 +40,11 @@ export const evaluateRenegotiateOffer = ({
     years,
     apy,
     guaranteed,
+    position: player.position,
     seed,
   });
 
-  const accepted = estimate.score >= 90;
+  const accepted = estimate.score >= 70;
   const quote = getRenegotiateQuote(accepted, seed);
 
   return {

@@ -56,6 +56,7 @@ export default function RenegotiateModal({
     years,
     apy,
     guaranteed,
+    position: player.position,
     seed: saveId ? `${saveId}-${player.id}-${years}-${apy}-${guaranteed}` : undefined,
   });
 
@@ -126,7 +127,7 @@ export default function RenegotiateModal({
               value={years}
               onChange={(event) => setYears(Number(event.target.value))}
             >
-              {[1, 2, 3, 4].map((value) => (
+              {[1, 2, 3, 4, 5, 6].map((value) => (
                 <option key={value} value={value}>
                   {value} years
                 </option>
@@ -171,10 +172,10 @@ export default function RenegotiateModal({
               className="h-2 rounded-full bg-emerald-500"
               style={{ width: `${estimate.score}%` }}
             />
-            <div className="absolute top-0 h-2 w-[2px] bg-slate-700" style={{ left: '90%' }} />
+            <div className="absolute top-0 h-2 w-[2px] bg-slate-700" style={{ left: '70%' }} />
           </div>
           <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-            Renegotiate threshold: 90
+            Renegotiate threshold: 70
           </div>
         </div>
 
