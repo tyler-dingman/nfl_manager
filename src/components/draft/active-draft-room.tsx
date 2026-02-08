@@ -563,7 +563,7 @@ export function ActiveDraftRoom({
             Pick {session.currentPickIndex + 1} of {session.picks.length}
           </span>
         </div>
-        <div className="mt-4 max-h-[70vh] space-y-3 overflow-y-auto pr-2">
+        <div className="mt-4 space-y-3 overflow-y-auto pr-2">
           {session.picks.map((pick, index) => {
             const isCurrent = index === session.currentPickIndex;
             const isNext = index === session.currentPickIndex + 1;
@@ -602,59 +602,6 @@ export function ActiveDraftRoom({
       </section>
 
       <section className="space-y-4">
-        <div className="rounded-2xl border border-border bg-white p-5 shadow-sm">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                On the Clock
-              </p>
-              <h2 className="mt-2 text-xl font-semibold text-foreground">
-                {currentPick
-                  ? `Pick ${currentPick.overall} — ${currentPick.ownerTeamAbbr}`
-                  : 'Awaiting pick'}
-              </h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Round {currentPick?.round ?? 1} · {onClock ? 'Your pick' : 'CPU pick'}
-              </p>
-              {onClock ? (
-                <p className="mt-2 text-sm font-semibold text-foreground">YOU’RE ON THE CLOCK</p>
-              ) : null}
-            </div>
-            <Badge variant={onClock ? 'success' : session.isPaused ? 'outline' : 'secondary'}>
-              {onClock ? 'On the clock' : session.isPaused ? 'Paused' : 'Running'}
-            </Badge>
-          </div>
-
-          <div className="mt-4 flex flex-wrap items-center gap-4">
-            <Button type="button" variant="outline" onClick={onTogglePause}>
-              {session.isPaused ? 'Resume Draft' : 'Pause Draft'}
-            </Button>
-            <Button type="button" variant="outline" onClick={handleSkipToUserPick}>
-              Skip to User Pick
-            </Button>
-            <div className="min-w-[220px]">
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>Speed</span>
-                <span>{speedLabel}</span>
-              </div>
-              <input
-                className="mt-2 w-full"
-                type="range"
-                min={0}
-                max={2}
-                step={1}
-                value={speedLevel}
-                onChange={(event) => onSpeedChange(Number(event.target.value) as DraftSpeedLevel)}
-              />
-              <div className="mt-1 flex justify-between text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
-                {SPEED_LABELS.map((label) => (
-                  <span key={label}>{label}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-2">

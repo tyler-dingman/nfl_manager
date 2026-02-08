@@ -68,7 +68,11 @@ export default function NewsTicker({ saveId }: NewsTickerProps) {
       className="mb-6 rounded-2xl border border-border bg-white px-4 py-3 shadow-sm"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      onClick={() => setIsFeedOpen(true)}
+      onClick={() => {
+        if (!isFeedOpen) {
+          setIsFeedOpen(true);
+        }
+      }}
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-3">
@@ -97,8 +101,14 @@ export default function NewsTicker({ saveId }: NewsTickerProps) {
       </div>
 
       {isFeedOpen ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-          <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-lg">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6"
+          onClick={() => setIsFeedOpen(false)}
+        >
+          <div
+            className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-lg"
+            onClick={(event) => event.stopPropagation()}
+          >
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-foreground">News Feed</h3>
               <Button

@@ -104,6 +104,29 @@ const parseCapHitValue = (player: PlayerRowDTO) => {
   return Number.isNaN(parsed) ? 0 : parsed;
 };
 
+const normalizePositionToken = (token: string) => {
+  const normalized = token.trim().toUpperCase();
+  if (normalized === 'EDGE') return 'ED';
+  if (normalized === 'FS' || normalized === 'SS') return 'S';
+  if (normalized === 'IDL' || normalized === 'DT') return 'DL';
+  return normalized;
+};
+
+const matchesPositionFilter = (playerPosition: string, filter: string) => {
+  if (filter === 'All') return true;
+  const raw = playerPosition?.toUpperCase() ?? '';
+  const parts = raw.split('/').map((part) => normalizePositionToken(part));
+
+  if (filter === 'OL') {
+    return parts.some((part) =>
+      ['OL', 'OT', 'IOL', 'C', 'G', 'LG', 'RG', 'RT', 'LT'].includes(part),
+    );
+  }
+
+  const normalizedFilter = normalizePositionToken(filter);
+  return parts.some((part) => part === normalizedFilter);
+};
+
 export function PositionFilterBar({
   active,
   onSelect,
@@ -196,7 +219,7 @@ export function PlayerTable({
 
   const filteredData = React.useMemo(() => {
     return data.filter((player) => {
-      const matchesPosition = positionFilter === 'All' || player.position === positionFilter;
+      const matchesPosition = matchesPositionFilter(player.position, positionFilter);
       const matchesSearch =
         searchQuery.trim().length === 0 ||
         formatName(player).toLowerCase().includes(searchQuery.toLowerCase());
