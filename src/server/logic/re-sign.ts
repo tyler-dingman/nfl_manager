@@ -3,6 +3,7 @@ import type { PlayerRowDTO } from '@/types/player';
 import { getAgentPersonaForPlayer } from '@/server/logic/agent-personas';
 import { getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
 import { clampOfferYears, evaluateContractOffer } from '@/lib/contract-negotiation';
+import { getDemandAavMillions } from '@/lib/contract-demand';
 
 export type ReSignOfferInput = {
   saveId: string;
@@ -28,7 +29,8 @@ export type ReSignScoreBreakdown = {
   reasoningTags: string[];
 };
 
-const getExpectedApy = (rating: number) => Math.max(1, (rating - 60) * 0.6);
+const getExpectedApy = (rating: number, position: string) =>
+  getDemandAavMillions({ position, ovr: rating });
 
 const getExpectedGuaranteedPctByAge = (age: number) => {
   if (age >= 30) return 0.35;
@@ -50,7 +52,7 @@ export const scoreResignOffer = ({
   const persona = getAgentPersonaForPlayer(player.id);
   const age = player.age ?? 27;
   const rating = player.rating ?? 75;
-  const baseExpectedApy = expectedApyOverride ?? getExpectedApy(rating);
+  const baseExpectedApy = expectedApyOverride ?? getExpectedApy(rating, player.position);
   const expectedApy = Number((baseExpectedApy * persona.expectedApyMultiplier).toFixed(2));
   const preferredYears = getPreferredYearsForPlayer(player);
   const expectedYearsRange: [number, number] = [

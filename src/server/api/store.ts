@@ -13,7 +13,7 @@ import { logoUrlFor } from './team';
 import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
 import { FREE_AGENT_SEEDS } from '@/server/data/free-agents';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
-import { KANSAS_CITY_CHIEFS_ROSTER } from '@/data/rosters/kc';
+import { KANSAS_CITY_CHIEFS_ROSTER, getKcRating } from '@/data/rosters/kc';
 
 export type PlayerFilters = {
   position?: string;
@@ -65,12 +65,14 @@ const buildChiefsRoster = (): StoredPlayer[] =>
     const salary = dollarsToMillions(entry.baseSalary);
     const guaranteed = dollarsToMillions(entry.deadCap);
     const yearsRemaining = Math.max(1, entry.yearsRemaining ?? 1);
+    const rating = entry.rating ?? getKcRating(entry.fullName);
     return {
       id: `kc-${slugify(entry.fullName)}`,
       firstName,
       lastName,
       position: entry.pos,
       age: entry.age,
+      rating,
       contractYearsRemaining: yearsRemaining,
       capHit: formatMoneyMillions(capHitValue),
       capHitValue,

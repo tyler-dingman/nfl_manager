@@ -5,6 +5,7 @@ import {
   evaluateContractOffer,
   getApyCapForPosition,
 } from '@/lib/contract-negotiation';
+import { getDemandAavMillions } from '@/lib/contract-demand';
 
 export type FreeAgencyScoreEstimate = {
   interestScore: number;
@@ -16,11 +17,8 @@ export type FreeAgencyScoreEstimate = {
   yearsFit: number;
 };
 
-const getExpectedApy = (rating: number, position: string) => {
-  const base = Math.max(1, (rating - 60) * 0.6);
-  const cap = getApyCapForPosition(position);
-  return Math.min(base, cap);
-};
+const getExpectedApy = (rating: number, position: string) =>
+  getDemandAavMillions({ position, ovr: rating });
 
 export const scoreFreeAgencyOffer = ({
   player,
@@ -35,9 +33,11 @@ export const scoreFreeAgencyOffer = ({
 }): FreeAgencyScoreEstimate => {
   const rating = player.rating ?? 75;
   const marketApy =
-    player.marketValue !== null && player.marketValue !== undefined
-      ? player.marketValue / 1_000_000
-      : getApyCapForPosition(player.position);
+    player.rating !== undefined
+      ? getDemandAavMillions({ position: player.position, ovr: player.rating })
+      : player.marketValue !== null && player.marketValue !== undefined
+        ? player.marketValue / 1_000_000
+        : getApyCapForPosition(player.position);
 
   const clampedYears = clampOfferYears(years, 5);
   const preferredYears = getPreferredYearsForPlayer(player);

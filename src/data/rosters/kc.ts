@@ -7,7 +7,87 @@ export type KcRosterEntry = {
   baseSalary: number;
   restructureProration: number;
   yearsRemaining?: number;
+  rating?: number;
 };
+
+const normalizeName = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/\b(jr|sr|ii|iii|iv)\b/g, '')
+    .replace(/[^a-z0-9]+/g, '');
+
+export const KC_RATINGS_BY_NAME: Record<string, number> = {
+  [normalizeName('Creed Humphrey')]: 95,
+  [normalizeName('Chris Jones')]: 95,
+  [normalizeName('Trent McDuffie')]: 95,
+  [normalizeName('Patrick Mahomes')]: 97,
+  [normalizeName('Trey Smith')]: 92,
+  [normalizeName('Travis Kelce')]: 89,
+  [normalizeName('Drue Tranquill')]: 87,
+  [normalizeName('Rashee Rice')]: 86,
+  [normalizeName('Leo Chenal')]: 84,
+  [normalizeName('George Karlaftis')]: 85,
+  [normalizeName('Harrison Butker')]: 85,
+  [normalizeName('Josh Simmons')]: 78,
+  [normalizeName('Nick Bolton')]: 84,
+  [normalizeName('Bryan Cook')]: 80,
+  [normalizeName('Jaylen Watson')]: 80,
+  [normalizeName('Kareem Hunt')]: 76,
+  [normalizeName('Xavier Worthy')]: 82,
+  [normalizeName('Marquise Brown')]: 80,
+  [normalizeName('JuJu Smith-Schuster')]: 74,
+  [normalizeName('Kristian Fulton')]: 77,
+  [normalizeName('Mike Danna')]: 77,
+  [normalizeName('Michael Danna')]: 77,
+  [normalizeName('Chamarri Conner')]: 76,
+  [normalizeName('Isiah Pacheco')]: 83,
+  [normalizeName('Charles Omenihu')]: 76,
+  [normalizeName('James Winchester')]: 75,
+  [normalizeName('Jawaan Taylor')]: 74,
+  [normalizeName('Kingsley Suamataia')]: 74,
+  [normalizeName('Matt Araiza')]: 75,
+  [normalizeName('Noah Gray')]: 76,
+  [normalizeName('Tyquan Thornton')]: 73,
+  [normalizeName('Dameon Pierce')]: 73,
+  [normalizeName('Joshua Williams')]: 73,
+  [normalizeName('Ashton Gillotte')]: 72,
+  [normalizeName('Brashard Smith')]: 72,
+  [normalizeName('Derrick Nnadi')]: 73,
+  [normalizeName('Jaden Hicks')]: 73,
+  [normalizeName('Nazeeh Johnson')]: 72,
+  [normalizeName('Nohl Williams')]: 72,
+  [normalizeName('Felix Anudike-Uzomah')]: 72,
+  [normalizeName('Jalen Royals')]: 70,
+  [normalizeName('Jaylon Moore')]: 70,
+  [normalizeName('Jerry Tillery')]: 70,
+  [normalizeName('Mike Pennel')]: 69,
+  [normalizeName('Omarr Norman-Lott')]: 70,
+  [normalizeName('Gardner Minshew')]: 70,
+  [normalizeName('Mike Edwards')]: 70,
+  [normalizeName('Jared Wiley')]: 68,
+  [normalizeName('Wanya Morris')]: 68,
+  [normalizeName('Zacch Pickens')]: 67,
+  [normalizeName('Chris Roland-Wallace')]: 67,
+  [normalizeName('Christian Roland-Wallace')]: 67,
+  [normalizeName('Jeffrey Bassa')]: 67,
+  [normalizeName('Nikko Remigio')]: 67,
+  [normalizeName('Robert Tonyan')]: 66,
+  [normalizeName('Hunter Nourzad')]: 66,
+  [normalizeName('Janarius Robinson')]: 65,
+  [normalizeName('Deon Bush')]: 64,
+  [normalizeName('Mike Caliendo')]: 65,
+  [normalizeName('C.J. Hanson')]: 64,
+  [normalizeName('Cooper McDonald')]: 64,
+  [normalizeName('Kevin Knowles')]: 64,
+  [normalizeName('Jake Briningstool')]: 63,
+  [normalizeName('Ethan Driskell')]: 62,
+  [normalizeName('Jack Cochrane')]: 62,
+  [normalizeName('Esa Pole')]: 61,
+  [normalizeName('Chris Oladokun')]: 55,
+};
+
+export const getKcRating = (fullName: string): number | undefined =>
+  KC_RATINGS_BY_NAME[normalizeName(fullName)];
 
 export const KANSAS_CITY_CHIEFS_ROSTER: KcRosterEntry[] = [
   {

@@ -2,11 +2,8 @@ import type { AgentPersona } from '@/lib/agent-personas';
 import { getAgentPersonaForPlayer } from '@/lib/agent-personas';
 import type { PlayerRowDTO } from '@/types/player';
 import { getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
-import {
-  clampOfferYears,
-  evaluateContractOffer,
-  getApyCapForPosition,
-} from '@/lib/contract-negotiation';
+import { clampOfferYears, evaluateContractOffer } from '@/lib/contract-negotiation';
+import { getDemandAavMillions } from '@/lib/contract-demand';
 
 export type ResignScoreEstimate = {
   interestScore: number;
@@ -18,10 +15,8 @@ export type ResignScoreEstimate = {
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
-const getExpectedApy = (rating: number, position: string) => {
-  const base = Math.max(1, (rating - 60) * 0.6);
-  return Math.min(base, getApyCapForPosition(position));
-};
+const getExpectedApy = (rating: number, position: string) =>
+  getDemandAavMillions({ position, ovr: rating });
 
 const getExpectedGuaranteedPctByAge = (age: number) => {
   if (age >= 30) return 0.35;

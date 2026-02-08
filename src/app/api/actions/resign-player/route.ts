@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getSaveStateResult, resignPlayerInState } from '@/server/api/store';
 import type { PlayerRowDTO } from '@/types/player';
 import { clampYears, getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
+import { getDemandAavMillions } from '@/lib/contract-demand';
 
 type ResignPayload = {
   saveId?: string;
@@ -20,11 +21,13 @@ const getExpectedGuaranteedPct = (age: number) => {
   return 0.55;
 };
 
-const getExpectedApy = (rating: number) => Math.max(1, (rating - 60) * 0.6);
+const getExpectedApy = (rating: number, position: string) =>
+  getDemandAavMillions({ position, ovr: rating });
 
 const computeInterestScore = (
   age: number,
   rating: number,
+  position: string,
   years: number,
   apy: number,
   guaranteed: number,
@@ -33,14 +36,14 @@ const computeInterestScore = (
     id: 'seed',
     firstName: 'Seed',
     lastName: 'Player',
-    position: 'QB',
+    position,
     age,
     rating,
     contractYearsRemaining: 0,
     capHit: '$0.0M',
     status: 'Expiring',
   });
-  const expectedApy = getExpectedApy(rating);
+  const expectedApy = getExpectedApy(rating, position);
   const expectedGuaranteedPct = getExpectedGuaranteedPct(age);
   const clampedYears = clampYears(years);
 
@@ -90,7 +93,14 @@ export const POST = async (request: Request) => {
   const age = player.age ?? 27;
   const rating = player.rating ?? 75;
   const years = clampYears(body.years);
-  const interestScore = computeInterestScore(age, rating, years, body.apy, body.guaranteed);
+  const interestScore = computeInterestScore(
+    age,
+    rating,
+    player.position,
+    years,
+    body.apy,
+    body.guaranteed,
+  );
 
   if (interestScore < 65) {
     return NextResponse.json({
