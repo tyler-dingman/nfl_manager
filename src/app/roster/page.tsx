@@ -370,90 +370,92 @@ export default function RosterPage() {
 
           {activeTab === 'expiring' ? (
             <div className="max-h-[70vh] overflow-y-auto">
-              <div className="flex flex-col gap-4 border-b border-border px-0 py-4 sm:px-0">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <PositionFilterBar
-                    active={expiringPositionFilter}
-                    onSelect={setExpiringPositionFilter}
-                  />
-                  <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
-                    <input
-                      type="search"
-                      placeholder="Search players..."
-                      className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                      value={expiringSearchQuery}
-                      onChange={(event) => setExpiringSearchQuery(event.target.value)}
+              <div className="rounded-2xl border border-border bg-white shadow-sm">
+                <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <PositionFilterBar
+                      active={expiringPositionFilter}
+                      onSelect={setExpiringPositionFilter}
                     />
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="icon" className="h-9 w-9">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={resetExpiringFilters}>
-                          Reset filters
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setExpiringSearchQuery('')}>
-                          Clear search
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
+                      <input
+                        type="search"
+                        placeholder="Search players..."
+                        className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        value={expiringSearchQuery}
+                        onChange={(event) => setExpiringSearchQuery(event.target.value)}
+                      />
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="icon" className="h-9 w-9">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={resetExpiringFilters}>
+                            Reset filters
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setExpiringSearchQuery('')}>
+                            Clear search
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse md:min-w-[720px]">
-                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                    <tr>
-                      <th className="px-4 py-2 sm:px-6">Player</th>
-                      <th className="px-4 py-2 sm:px-6">Pos</th>
-                      <th className="px-4 py-2 sm:px-6">Age</th>
-                      <th className="px-4 py-2 sm:px-6">Interest</th>
-                      <th className="px-4 py-2 sm:px-6">Est. Value</th>
-                      <th className="px-4 py-2 sm:px-6">Current Salary</th>
-                      <th className="px-4 py-2 text-right sm:px-6">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredExpiringContracts.map((player) => (
-                      <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
-                        <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
-                          {player.name}
-                        </td>
-                        <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                          {player.pos}
-                        </td>
-                        <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                          {player.age ?? '--'}
-                        </td>
-                        <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                          {player.interestPct !== undefined
-                            ? `${player.interestPct.toFixed(1)}%`
-                            : '--'}
-                        </td>
-                        <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                          {formatCurrency(player.estValue)}
-                        </td>
-                        <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                          {formatCurrency(player.currentSalary ?? 0)}
-                        </td>
-                        <td className="px-4 py-1.5 text-right sm:px-6">
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            disabled={!saveId}
-                            onClick={() => setActiveExpiringContract(player)}
-                          >
-                            <Handshake className="h-4 w-4" />
-                            <span className="sr-only">Re-sign {player.name}</span>
-                          </Button>
-                        </td>
+                <div className="space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
+                  <table className="w-full border-collapse md:min-w-[720px]">
+                    <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                      <tr>
+                        <th className="px-4 py-2 sm:px-6">Player</th>
+                        <th className="px-4 py-2 sm:px-6">Pos</th>
+                        <th className="px-4 py-2 sm:px-6">Age</th>
+                        <th className="px-4 py-2 sm:px-6">Interest</th>
+                        <th className="px-4 py-2 sm:px-6">Est. Value</th>
+                        <th className="px-4 py-2 sm:px-6">Current Salary</th>
+                        <th className="px-4 py-2 text-right sm:px-6">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {filteredExpiringContracts.map((player) => (
+                        <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
+                          <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
+                            {player.name}
+                          </td>
+                          <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                            {player.pos}
+                          </td>
+                          <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                            {player.age ?? '--'}
+                          </td>
+                          <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                            {player.interestPct !== undefined
+                              ? `${player.interestPct.toFixed(1)}%`
+                              : '--'}
+                          </td>
+                          <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                            {formatCurrency(player.estValue)}
+                          </td>
+                          <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                            {formatCurrency(player.currentSalary ?? 0)}
+                          </td>
+                          <td className="px-4 py-1.5 text-right sm:px-6">
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              disabled={!saveId}
+                              onClick={() => setActiveExpiringContract(player)}
+                            >
+                              <Handshake className="h-4 w-4" />
+                              <span className="sr-only">Re-sign {player.name}</span>
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               {expiringError ? (
                 <div className="px-4 py-4 text-sm text-destructive sm:px-6">{expiringError}</div>
