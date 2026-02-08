@@ -62,10 +62,10 @@ export function DraftOrderPanel({
               key={pick.pickNumber}
               type="button"
               className={cn(
-                'relative w-full rounded-xl border border-border px-3 py-2 text-left transition hover:border-primary/40',
+                'relative w-full rounded-xl border border-border bg-white px-3 py-2 text-left transition hover:border-primary/40',
                 isSelected && 'ring-2 ring-primary/40',
+                isOnClock && 'border-primary/50 bg-primary/5',
               )}
-              style={{ backgroundColor: `${pick.primaryColor}0f` }}
               onClick={() => onSelectPick(pick.pickNumber)}
               title={heat.reason}
             >

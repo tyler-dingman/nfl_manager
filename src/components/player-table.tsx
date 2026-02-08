@@ -250,7 +250,6 @@ export function PlayerTable({
         {
           accessorKey: 'rank',
           header: 'Rank',
-          meta: { mobileHidden: true },
           cell: ({ row }) => (
             <span className="text-sm font-semibold text-foreground">
               {row.original.rank ?? '-'}
@@ -285,42 +284,6 @@ export function PlayerTable({
               </div>
             );
           },
-        },
-        {
-          accessorKey: 'position',
-          header: 'Pos',
-          meta: { mobileHidden: true },
-          cell: ({ row }) => (
-            <span className="text-sm font-medium text-foreground">{row.original.position}</span>
-          ),
-        },
-        {
-          accessorKey: 'college',
-          header: 'College',
-          meta: { mobileHidden: true },
-          cell: ({ row }) => (
-            <span className="text-sm text-muted-foreground">{row.original.college ?? '—'}</span>
-          ),
-        },
-        {
-          accessorKey: 'grade',
-          header: 'Grade',
-          meta: { mobileHidden: true },
-          cell: ({ row }) => (
-            <span className="text-sm font-semibold text-foreground">
-              {row.original.grade ?? '—'}
-            </span>
-          ),
-        },
-        {
-          accessorKey: 'projectedRound',
-          header: 'Projected Rd',
-          meta: { mobileHidden: true },
-          cell: ({ row }) => (
-            <span className="text-sm text-muted-foreground">
-              {row.original.projectedRound ?? '—'}
-            </span>
-          ),
         },
         {
           id: 'actions',

@@ -3,8 +3,6 @@
 import * as React from 'react';
 
 import { FalcoReactionFeed, type DraftEventDTO } from '@/components/draft/falco-reaction-feed';
-import FalcoAlertToast from '@/components/falco-alert';
-import FalcoTicker from '@/components/falco-ticker';
 import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
@@ -57,7 +55,8 @@ export function ActiveDraftRoom({
     currentPick?.ownerTeamAbbr === session.userTeamAbbr && !currentPick?.selectedPlayerId;
   const [draftFeed, setDraftFeed] = React.useState<DraftEventDTO[]>([]);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
-  const falcoHistory = useFalcoAlertStore((state) => state.history);
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [mobileView, setMobileView] = React.useState<'board' | 'available'>('board');
   const advanceInFlight = React.useRef(false);
   const skipInFlight = React.useRef(false);
   const timerRef = React.useRef<number | null>(null);
@@ -70,6 +69,21 @@ export function ActiveDraftRoom({
   React.useEffect(() => {
     sessionRef.current = session;
   }, [session]);
+
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const updateMobileState = (event: MediaQueryList | MediaQueryListEvent) => {
+      setIsMobile(event.matches);
+    };
+    updateMobileState(mediaQuery);
+    mediaQuery.addEventListener('change', updateMobileState);
+    return () => mediaQuery.removeEventListener('change', updateMobileState);
+  }, []);
+
+  React.useEffect(() => {
+    if (!isMobile) return;
+    setMobileView(onClock ? 'available' : 'board');
+  }, [isMobile, onClock]);
 
   React.useEffect(() => {
     firedFreeFallRef.current = false;
@@ -403,114 +417,150 @@ export function ActiveDraftRoom({
 
   // Trade UI removed per draft screen simplification.
 
-  return (
-    <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
-      <section className="rounded-2xl border border-border bg-white p-4 shadow-sm lg:w-[340px] lg:max-w-[340px] lg:min-w-[340px]">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-foreground">Draft Board</h2>
-          <span className="text-xs text-muted-foreground">
-            Pick {session.currentPickIndex + 1} of {session.picks.length}
-          </span>
-        </div>
-        <div className="mt-4 space-y-3 overflow-y-auto pr-2">
-          {session.picks.map((pick, index) => {
-            const isCurrent = index === session.currentPickIndex;
-            const isNext = index === session.currentPickIndex + 1;
-            const selectedPlayer = pick.selectedPlayerId
-              ? session.prospects.find((player) => player.id === pick.selectedPlayerId)
-              : null;
-            return (
-              <div
-                key={pick.id}
-                className={cn(
-                  'rounded-xl border border-border px-3 py-2 text-sm',
-                  isCurrent && 'border-primary/40 bg-primary/5',
+  const boardSection = (
+    <section className="rounded-2xl border border-border bg-white p-4 shadow-sm lg:w-[340px] lg:max-w-[340px] lg:min-w-[340px]">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-foreground">Draft Board</h2>
+        <span className="text-xs text-muted-foreground">
+          Pick {session.currentPickIndex + 1} of {session.picks.length}
+        </span>
+      </div>
+      <div className="mt-4 space-y-3 overflow-y-auto pr-2">
+        {session.picks.map((pick, index) => {
+          const isCurrent = index === session.currentPickIndex;
+          const isNext = index === session.currentPickIndex + 1;
+          const selectedPlayer = pick.selectedPlayerId
+            ? session.prospects.find((player) => player.id === pick.selectedPlayerId)
+            : null;
+          return (
+            <div
+              key={pick.id}
+              className={cn(
+                'rounded-xl border border-border bg-white px-3 py-2 text-sm',
+                isCurrent && 'border-primary/50 bg-primary/5',
+              )}
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-foreground">
+                  #{pick.overall} · {pick.ownerTeamAbbr}
+                </span>
+                {pick.ownerTeamAbbr === session.userTeamAbbr && (
+                  <Badge variant="secondary">User</Badge>
                 )}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold text-foreground">
-                    #{pick.overall} · {pick.ownerTeamAbbr}
-                  </span>
-                  {pick.ownerTeamAbbr === session.userTeamAbbr && (
-                    <Badge variant="secondary">User</Badge>
-                  )}
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {selectedPlayer
+                  ? `${pick.ownerTeamAbbr} drafted ${formatName(selectedPlayer)} (${selectedPlayer.position})`
+                  : isCurrent
+                    ? 'On the clock'
+                    : isNext
+                      ? 'On deck'
+                      : 'Waiting'}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+
+  const availableSection = (
+    <section className="min-w-0 space-y-4">
+      <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
+        {draftView === 'trade' ? (
+          <div className="rounded-xl border border-border bg-slate-50 px-6 py-8 text-center">
+            <h3 className="text-lg font-semibold text-foreground">Propose Trade</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Trade logic coming next. This screen will let you offer picks and players.
+            </p>
+            <button
+              type="button"
+              className="mt-4 inline-flex items-center justify-center rounded-md border border-border bg-white px-4 py-2 text-sm font-semibold text-foreground shadow-sm"
+              onClick={onBackToBoard}
+            >
+              Back to Draft Board
+            </button>
+          </div>
+        ) : (
+          <>
+            {onClock && falcoFavorites.length > 0 ? (
+              <div className="mb-4 rounded-xl border border-border bg-slate-50 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  Falco Favorites
+                </p>
+                <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                  {falcoFavorites.map((player) => (
+                    <div
+                      key={player.id}
+                      className="rounded-lg border border-border bg-white px-3 py-2"
+                    >
+                      <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {player.position} · Rank {player.rank ?? '--'}
+                      </p>
+                    </div>
+                  ))}
                 </div>
+              </div>
+            ) : null}
+            <PlayerTable
+              data={bestAvailable}
+              variant="draft"
+              onDraftPlayer={onClock ? onDraftPlayer : undefined}
+              onTheClockForUserTeam={onClock}
+            />
+            {!onClock && bestAvailable.length > 0 && (
+              <div className="mt-4 rounded-xl border border-border bg-blue-50 px-4 py-3">
+                <p className="text-sm font-semibold text-foreground">Waiting for your pick...</p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  {selectedPlayer
-                    ? `${pick.ownerTeamAbbr} drafted ${formatName(selectedPlayer)} (${selectedPlayer.position})`
-                    : isCurrent
-                      ? 'On the clock'
-                      : isNext
-                        ? 'On deck'
-                        : 'Waiting'}
+                  CPU teams are picking. Your team will be on the clock soon.
                 </p>
               </div>
-            );
-          })}
-        </div>
-      </section>
+            )}
+          </>
+        )}
+      </div>
+      <FalcoReactionFeed events={draftFeed} />
+    </section>
+  );
 
-      <section className="space-y-4">
-        <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-          {draftView === 'trade' ? (
-            <div className="rounded-xl border border-border bg-slate-50 px-6 py-8 text-center">
-              <h3 className="text-lg font-semibold text-foreground">Propose Trade</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Trade logic coming next. This screen will let you offer picks and players.
-              </p>
-              <button
-                type="button"
-                className="mt-4 inline-flex items-center justify-center rounded-md border border-border bg-white px-4 py-2 text-sm font-semibold text-foreground shadow-sm"
-                onClick={onBackToBoard}
-              >
-                Back to Draft Board
-              </button>
-            </div>
-          ) : (
-            <>
-              {onClock && falcoFavorites.length > 0 ? (
-                <div className="mb-4 rounded-xl border border-border bg-slate-50 px-4 py-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    Falco Favorites
-                  </p>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                    {falcoFavorites.map((player) => (
-                      <div
-                        key={player.id}
-                        className="rounded-lg border border-border bg-white px-3 py-2"
-                      >
-                        <p className="text-sm font-semibold text-foreground">
-                          {formatName(player)}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {player.position} · Rank {player.rank ?? '--'}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-              <PlayerTable
-                data={bestAvailable}
-                variant="draft"
-                onDraftPlayer={onClock ? onDraftPlayer : undefined}
-                onTheClockForUserTeam={onClock}
-              />
-              {!onClock && bestAvailable.length > 0 && (
-                <div className="mt-4 rounded-xl border border-border bg-blue-50 px-4 py-3">
-                  <p className="text-sm font-semibold text-foreground">Waiting for your pick...</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    CPU teams are picking. Your team will be on the clock soon.
-                  </p>
-                </div>
-              )}
-            </>
-          )}
+  return (
+    <div className="space-y-4 md:grid md:grid-cols-[340px_minmax(0,1fr)] md:gap-6 md:space-y-0">
+      <div className="md:hidden">
+        <div className="flex items-center justify-between gap-2 rounded-xl border border-border bg-white p-2">
+          <button
+            type="button"
+            className={cn(
+              'flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em]',
+              mobileView === 'board'
+                ? 'bg-slate-900 text-white'
+                : 'text-muted-foreground hover:bg-slate-50',
+            )}
+            onClick={() => setMobileView('board')}
+          >
+            Draft Board
+          </button>
+          <button
+            type="button"
+            className={cn(
+              'flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em]',
+              mobileView === 'available'
+                ? 'bg-slate-900 text-white'
+                : 'text-muted-foreground hover:bg-slate-50',
+            )}
+            onClick={() => setMobileView('available')}
+          >
+            Available
+          </button>
         </div>
-        <FalcoReactionFeed events={draftFeed} />
-        <FalcoTicker alerts={falcoHistory} />
-      </section>
-      <FalcoAlertToast />
+      </div>
+
+      <div className={cn(isMobile && mobileView !== 'board' ? 'hidden' : 'block')}>
+        {boardSection}
+      </div>
+      <div className={cn(isMobile && mobileView !== 'available' ? 'hidden' : 'block')}>
+        {availableSection}
+      </div>
     </div>
   );
 }

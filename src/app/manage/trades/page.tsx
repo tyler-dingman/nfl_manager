@@ -13,6 +13,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
+import { cn } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 import type { PlayerRowDTO } from '@/types/player';
@@ -116,8 +117,6 @@ function TradeBuilderContent() {
 
     return getAcceptance(trade.sendAssets, trade.receiveAssets);
   }, [trade]);
-
-  const acceptanceLabel = acceptance >= 70 ? 'Acceptable' : 'Needs work';
 
   useEffect(() => {
     const loadTeams = async () => {
@@ -418,7 +417,7 @@ function TradeBuilderContent() {
             </p>
             <h1 className="mt-2 text-2xl font-semibold text-foreground">Build a roster trade</h1>
             <p className="text-sm text-muted-foreground">
-              Add players and picks to balance the deal. Acceptance requires 70+.
+              Add players and picks to balance the deal.
             </p>
           </div>
           <Button type="button" onClick={handlePropose} disabled={!trade}>
@@ -430,14 +429,18 @@ function TradeBuilderContent() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-foreground">Acceptance Meter</p>
-              <p className="text-sm text-muted-foreground">
-                {acceptance}% · {acceptanceLabel}
-              </p>
             </div>
             <div className="w-full max-w-md">
               <div className="h-2 w-full rounded-full bg-slate-100">
                 <div
-                  className="h-2 rounded-full bg-emerald-500"
+                  className={cn(
+                    'h-2 rounded-full transition-colors',
+                    acceptance < 40
+                      ? 'bg-red-500'
+                      : acceptance < 70
+                        ? 'bg-amber-400'
+                        : 'bg-emerald-500',
+                  )}
                   style={{ width: `${acceptance}%` }}
                 />
               </div>

@@ -54,7 +54,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
-  const clearSave = useSaveStore((state) => state.clearSave);
   const advancePhase = useSaveStore((state) => state.advancePhase);
   const setPhase = useSaveStore((state) => state.setPhase);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -213,7 +212,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <ToastProvider>
         <TeamFavicon primaryColor={selectedTeam?.color_primary ?? null} />
         <div
-          className="flex min-h-screen flex-col bg-slate-50 md:flex-row"
+          className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:flex-row"
           style={{ '--app-header-height': '64px' } as CSSProperties}
         >
           {isMobileSidebarOpen ? (
@@ -285,7 +284,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </nav>
           </aside>
 
-          <div className="flex flex-1 flex-col">
+          <div className="flex min-w-0 flex-1 flex-col">
             <header className="flex h-16 items-center justify-between border-b border-border bg-white/80 px-4 md:sticky md:top-0 md:z-40 md:bg-white/95 md:backdrop-blur md:px-6">
               <div className="flex items-center gap-3">
                 <button
@@ -303,16 +302,25 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <Link
                   href="/teams?switch=1"
                   aria-label="Change team"
-                  className="group flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring"
+                  className="group flex h-9 w-9 items-center justify-center bg-white transition hover:ring-2 hover:ring-ring md:overflow-hidden md:rounded-full md:border md:border-border"
                 >
                   {selectedTeam?.logo_url ? (
-                    <Image
-                      src={selectedTeam.logo_url}
-                      alt={`${selectedTeam.name} logo`}
-                      width={36}
-                      height={36}
-                      className="h-full w-full object-cover"
-                    />
+                    <>
+                      <Image
+                        src={selectedTeam.logo_url}
+                        alt={`${selectedTeam.name} logo`}
+                        width={36}
+                        height={36}
+                        className="block h-8 w-8 object-contain md:hidden"
+                      />
+                      <Image
+                        src={selectedTeam.logo_url}
+                        alt={`${selectedTeam.name} logo`}
+                        width={36}
+                        height={36}
+                        className="hidden h-full w-full object-cover md:block"
+                      />
+                    </>
                   ) : (
                     <span className="text-xs font-semibold text-muted-foreground">
                       {selectedTeam?.abbr ?? '--'}
@@ -327,13 +335,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     {selectedTeam?.name ?? 'Select a team'}
                   </span>
                 </div>
-                <div className="ml-2 flex flex-col rounded-xl border border-border bg-white px-3 py-2">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="ml-2 flex items-center gap-2 rounded-xl border border-border bg-white px-3 py-2">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground md:hidden">
+                    Cap
+                  </span>
+                  <span className="hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground md:block">
                     Cap Space
                   </span>
                   <span
                     className={cn(
-                      'text-xs font-semibold md:text-sm',
+                      'whitespace-nowrap text-xs font-semibold md:text-sm',
                       saveId && activeCapDollars < 0 ? 'text-destructive' : 'text-foreground',
                       capPulse ? 'animate-pulse' : null,
                     )}
@@ -343,7 +354,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 </div>
                 {showOnTheClock ? (
                   <span
-                    className="ml-3 text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] md:text-sm"
+                    className="ml-3 hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] md:inline md:text-sm"
                     style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
                   >
                     ON THE CLOCK
@@ -352,13 +363,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               </div>
 
               <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold text-muted-foreground transition hover:text-foreground"
-                  onClick={clearSave}
-                >
-                  Reset Save
-                </button>
                 <div className="relative">
                   <button
                     type="button"
@@ -393,7 +397,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               </div>
             </header>
 
-            <main className="flex-1 px-4 py-6 md:px-8">
+            {showOnTheClock ? (
+              <div className="mt-3 w-full px-4 md:hidden">
+                <div className="rounded-xl bg-gradient-to-r from-[#0A2A66] via-[#1453B8] to-[#0A2A66] px-4 py-2 text-center">
+                  <span
+                    className="text-sm font-extrabold uppercase tracking-[0.25em] text-[#ff2d55]"
+                    style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
+                  >
+                    ON THE CLOCK
+                  </span>
+                </div>
+              </div>
+            ) : null}
+
+            <main className="flex-1 min-w-0 px-4 py-6 md:px-8">
               {showNextActionBanner ? (
                 <NextActionBanner
                   phase={bannerPhase}
