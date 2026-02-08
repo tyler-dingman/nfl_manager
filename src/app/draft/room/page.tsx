@@ -9,7 +9,7 @@ import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
 import { buildRoundOneOrder } from '@/components/draft/draft-utils';
-import NewsTicker from '@/components/news-ticker';
+import { OnTheClockBanner } from '@/components/draft/on-the-clock-banner';
 import { PlayerTable } from '@/components/player-table';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
@@ -91,88 +91,99 @@ function DraftRoomContent() {
     [falcoSeed, session?.prospects],
   );
 
+  const userOnClock = React.useMemo(() => {
+    if (!session) return false;
+    const currentPick = session.picks[session.currentPickIndex];
+    return currentPick?.ownerTeamAbbr === session.userTeamAbbr && !currentPick?.selectedPlayerId;
+  }, [session]);
+
+  const userTeam = React.useMemo(() => {
+    if (!session) return null;
+    return teams.find((team) => team.abbr === session.userTeamAbbr) ?? null;
+  }, [session, teams]);
+
   const ensureSaveExists = React.useCallback(
     async (forcePhase?: 'draft') => {
-    if (saveId) {
-      const headerParams = new URLSearchParams({ saveId });
+      if (saveId) {
+        const headerParams = new URLSearchParams({ saveId });
+        const resolvedTeamAbbr = teamAbbr || selectedTeam?.abbr;
+        if (resolvedTeamAbbr) {
+          headerParams.set('teamAbbr', resolvedTeamAbbr);
+        }
+        const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
+        if (headerResponse.ok) {
+          const headerData = (await headerResponse.json()) as
+            | {
+                ok: true;
+                saveId: string;
+                teamAbbr: string;
+                capSpace: number;
+                capLimit: number;
+                rosterCount: number;
+                rosterLimit: number;
+                phase: string;
+                unlocked?: { freeAgency: boolean; draft: boolean };
+              }
+            | { ok: false; error: string };
+          if (headerData.ok) {
+            const resolvedPhase = forcePhase ?? headerData.phase;
+            setSaveHeader(
+              {
+                ...headerData,
+                unlocked: headerData.unlocked ?? { freeAgency: false, draft: false },
+                phase: resolvedPhase,
+                createdAt: new Date().toISOString(),
+              },
+              teamId,
+            );
+            return headerData.saveId;
+          }
+        }
+      }
+
+      const resolvedTeamId = teamId || selectedTeam?.id;
       const resolvedTeamAbbr = teamAbbr || selectedTeam?.abbr;
-      if (resolvedTeamAbbr) {
-        headerParams.set('teamAbbr', resolvedTeamAbbr);
+
+      if (!resolvedTeamAbbr && !resolvedTeamId) {
+        return null;
       }
-      const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
-      if (headerResponse.ok) {
-        const headerData = (await headerResponse.json()) as
-          | {
-              ok: true;
-              saveId: string;
-              teamAbbr: string;
-              capSpace: number;
-              capLimit: number;
-              rosterCount: number;
-              rosterLimit: number;
-              phase: string;
-              unlocked?: { freeAgency: boolean; draft: boolean };
-            }
-          | { ok: false; error: string };
-        if (headerData.ok) {
-          const resolvedPhase = forcePhase ?? headerData.phase;
-          setSaveHeader(
-            {
-              ...headerData,
-              unlocked: headerData.unlocked ?? { freeAgency: false, draft: false },
-              phase: resolvedPhase,
-              createdAt: new Date().toISOString(),
-            },
-            teamId,
-          );
-          return headerData.saveId;
-        }
+
+      const response = await apiFetch('/api/saves/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId: resolvedTeamId, teamAbbr: resolvedTeamAbbr }),
+      });
+      if (!response.ok) {
+        return null;
       }
-    }
+      const data = (await response.json()) as
+        | {
+            ok: true;
+            saveId: string;
+            teamAbbr: string;
+            capSpace: number;
+            capLimit: number;
+            rosterCount: number;
+            rosterLimit: number;
+            phase: string;
+            unlocked?: { freeAgency: boolean; draft: boolean };
+          }
+        | { ok: false; error: string };
+      if (!data.ok) {
+        return null;
+      }
 
-    const resolvedTeamId = teamId || selectedTeam?.id;
-    const resolvedTeamAbbr = teamAbbr || selectedTeam?.abbr;
-
-    if (!resolvedTeamAbbr && !resolvedTeamId) {
-      return null;
-    }
-
-    const response = await apiFetch('/api/saves/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ teamId: resolvedTeamId, teamAbbr: resolvedTeamAbbr }),
-    });
-    if (!response.ok) {
-      return null;
-    }
-    const data = (await response.json()) as
-      | {
-          ok: true;
-          saveId: string;
-          teamAbbr: string;
-          capSpace: number;
-          capLimit: number;
-          rosterCount: number;
-          rosterLimit: number;
-          phase: string;
-          unlocked?: { freeAgency: boolean; draft: boolean };
-        }
-      | { ok: false; error: string };
-    if (!data.ok) {
-      return null;
-    }
-
-    const resolvedPhase = forcePhase ?? data.phase;
-    setSaveHeader(
-      {
-        ...data,
-        unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-        phase: resolvedPhase,
-        createdAt: new Date().toISOString(),
-      },
-      teamId,
-    );
-    return data.saveId;
+      const resolvedPhase = forcePhase ?? data.phase;
+      setSaveHeader(
+        {
+          ...data,
+          unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+          phase: resolvedPhase,
+          createdAt: new Date().toISOString(),
+        },
+        teamId,
+      );
+      return data.saveId;
     },
     [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, teamAbbr, teamId],
   );
@@ -431,7 +442,11 @@ function DraftRoomContent() {
         falcoQuote={falcoQuote}
         onClose={() => setIsGradeOpen(false)}
       />
-      <NewsTicker saveId={saveId} />
+      <OnTheClockBanner
+        isVisible={userOnClock}
+        teamName={userTeam?.name ?? session?.userTeamAbbr ?? 'Your team'}
+        teamLogoUrl={userTeam?.logoUrl}
+      />
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Draft Room</h1>
