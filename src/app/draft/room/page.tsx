@@ -21,6 +21,7 @@ import { apiFetch } from '@/lib/api';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
+import { Pause, Play } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -61,6 +62,7 @@ function DraftRoomContent() {
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [speedLevel, setSpeedLevel] = React.useState<DraftSpeedLevel>(1);
+  const [draftView, setDraftView] = React.useState<'board' | 'trade'>('board');
   const [gradeLetter, setGradeLetter] = React.useState<string | null>(null);
   const [gradeReason, setGradeReason] = React.useState<string | null>(null);
   const [gradeReasons, setGradeReasons] = React.useState<string[]>([]);
@@ -262,6 +264,7 @@ function DraftRoomContent() {
       return false;
     }
     await setPhase('draft');
+    setDraftView('board');
     setLoading(true);
     setError('');
     setLobbyMessage('');
@@ -318,6 +321,24 @@ function DraftRoomContent() {
     setLoading(false);
     return true;
   }, [ensureSaveExists, fetchSession, mode, setActiveDraftSessionId, setPhase]);
+
+  const togglePause = React.useCallback(async () => {
+    if (!saveId || !activeDraftSessionId || !session) {
+      return;
+    }
+    const nextPaused = !session.isPaused;
+    const response = await apiFetch('/api/draft/session/pause', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ saveId, draftSessionId: activeDraftSessionId, isPaused: nextPaused }),
+    });
+    const payload = (await response.json()) as DraftSessionResponse;
+    if (!response.ok || !payload.ok) {
+      setError(payload.ok ? 'Unable to update pause state' : payload.error);
+      return;
+    }
+    setSession(payload.session);
+  }, [activeDraftSessionId, saveId, session]);
 
   React.useEffect(() => {
     if (activeDraftSessionId) {
@@ -477,17 +498,29 @@ function DraftRoomContent() {
                   : '2x (0.5 sec)'}
             </span>
           </div>
-          <Button type="button" variant="secondary" disabled={!session}>
-            Offer Trade
-          </Button>
           {!session ? (
             <Button type="button" onClick={startDraft}>
               Start Draft
             </Button>
           ) : (
-            <Button type="button" disabled>
-              Draft Active
-            </Button>
+            <>
+              <Button type="button" onClick={togglePause}>
+                {session.isPaused ? (
+                  <>
+                    <Play className="mr-2 h-4 w-4" />
+                    Resume
+                  </>
+                ) : (
+                  <>
+                    <Pause className="mr-2 h-4 w-4" />
+                    Pause
+                  </>
+                )}
+              </Button>
+              <Button type="button" variant="secondary" onClick={() => setDraftView('trade')}>
+                Propose Trade
+              </Button>
+            </>
           )}
         </div>
       </div>
@@ -562,6 +595,8 @@ function DraftRoomContent() {
           teams={teams}
           falcoNotes={falcoBoard.notes}
           speedLevel={speedLevel}
+          draftView={draftView}
+          onBackToBoard={() => setDraftView('board')}
           onDraftPlayer={handleDraftPlayer}
           onSessionUpdate={setSession}
         />
