@@ -72,6 +72,7 @@ export const scoreResignOffer = ({
     years: clampedYears,
     guaranteed,
     position: player.position,
+    rating,
     maxYears: 5,
     seed: `${saveId}:${player.id}:${years}:${apy}:${guaranteed}`,
   });

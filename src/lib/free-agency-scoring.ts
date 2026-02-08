@@ -49,6 +49,7 @@ export const scoreFreeAgencyOffer = ({
     years: clampedYears,
     guaranteed,
     position: player.position,
+    rating,
     maxYears: 5,
     seed: `fa:${player.id}:${years}:${apy}:${guaranteed}`,
   });

@@ -33,6 +33,7 @@ export const estimateRenegotiateScore = (input: RenegotiateScoreInput) => {
     years: clampedYears,
     guaranteed,
     position,
+    rating: input.rating,
     maxYears: 6,
     seed: seed ? `re:${seed}` : undefined,
   });

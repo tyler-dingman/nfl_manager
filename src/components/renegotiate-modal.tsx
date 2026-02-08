@@ -174,9 +174,6 @@ export default function RenegotiateModal({
             />
             <div className="absolute top-0 h-2 w-[2px] bg-slate-700" style={{ left: '70%' }} />
           </div>
-          <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-            Renegotiate threshold: 70
-          </div>
         </div>
 
         <div className="mt-6 flex justify-end gap-2">

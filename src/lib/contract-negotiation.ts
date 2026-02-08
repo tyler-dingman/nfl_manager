@@ -1,3 +1,5 @@
+import { computeGuaranteeScore, getGuaranteeBandForRating, clamp } from '@/lib/contract-acceptance';
+
 export type NegotiationTone = 'negative' | 'neutral' | 'positive';
 
 export const MAX_LOGIC_APY = 60;
@@ -32,8 +34,6 @@ export const POSITION_APY_CAPS: Record<string, number> = {
   OLB: 40,
   ILB: 22,
 };
-
-const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 export const normalizePosition = (position: string) => {
   const normalized = position.toUpperCase();
@@ -100,6 +100,7 @@ export const evaluateContractOffer = ({
   years,
   guaranteed,
   position,
+  rating,
   maxYears = 5,
   seed,
 }: {
@@ -108,6 +109,7 @@ export const evaluateContractOffer = ({
   years: number;
   guaranteed: number;
   position: string;
+  rating?: number;
   maxYears?: number;
   seed?: string;
 }) => {
@@ -121,15 +123,18 @@ export const evaluateContractOffer = ({
 
   const baseProbability = baseFromRatio(ratio);
   const yearsBonus = getYearsBonus(clampedYears);
-  const guaranteeBonus = clamp(0.2 * (guaranteedPct - 0.25), 0, 0.15);
+  const { threshold: guaranteeThreshold } = getGuaranteeBandForRating(rating);
+  const guaranteeScore = computeGuaranteeScore(guaranteedPct, rating);
+  const guaranteeAdjustment = (guaranteeScore - 0.7) * 0.4;
+  const yearsAdjustment = yearsBonus * 0.3;
   const synergy =
-    clampedYears > 2 && guaranteedPct >= 0.55
-      ? (clampedYears - 2) * (guaranteedPct - 0.55) * 0.1
+    clampedYears > 2
+      ? Math.max(0, guaranteedPct - guaranteeThreshold) * (clampedYears - 2) * 0.05
       : 0;
   const jitter = jitterFromSeed(seed);
 
   const probability = clamp(
-    baseProbability + yearsBonus + guaranteeBonus + synergy + jitter,
+    baseProbability + yearsAdjustment + guaranteeAdjustment + synergy + jitter,
     0.05,
     0.9,
   );
@@ -145,6 +150,6 @@ export const evaluateContractOffer = ({
     guaranteedPct,
     ratio,
     yearsBonus,
-    guaranteeBonus,
+    guaranteeScore,
   };
 };
