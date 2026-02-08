@@ -2,15 +2,21 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Handshake } from 'lucide-react';
+import { Handshake, MoreHorizontal } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
-import { PlayerTable } from '@/components/player-table';
+import { PlayerTable, PositionFilterBar } from '@/components/player-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
 import RenegotiateModal from '@/components/renegotiate-modal';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/toast';
 import { fetchExpiringContracts } from '@/features/contracts/queries';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
@@ -50,6 +56,8 @@ export default function RosterPage() {
   );
   const [expiringContracts, setExpiringContracts] = useState<ExpiringContractRow[]>([]);
   const [expiringError, setExpiringError] = useState<string | null>(null);
+  const [expiringPositionFilter, setExpiringPositionFilter] = useState('All');
+  const [expiringSearchQuery, setExpiringSearchQuery] = useState('');
   const [resignResult, setResignResult] = useState<ResignResultDTO | null>(null);
   const [isResignResultOpen, setIsResignResultOpen] = useState(false);
   const [renegotiateResult, setRenegotiateResult] = useState<RenegotiateResultDTO | null>(null);
@@ -148,6 +156,21 @@ export default function RosterPage() {
       isActive = false;
     };
   }, [phase, saveId, teamAbbr]);
+
+  const filteredExpiringContracts = useMemo(() => {
+    const search = expiringSearchQuery.trim().toLowerCase();
+    return expiringContracts.filter((player) => {
+      const matchesPosition =
+        expiringPositionFilter === 'All' || player.pos === expiringPositionFilter;
+      const matchesSearch = search.length === 0 || player.name.toLowerCase().includes(search);
+      return matchesPosition && matchesSearch;
+    });
+  }, [expiringContracts, expiringPositionFilter, expiringSearchQuery]);
+
+  const resetExpiringFilters = () => {
+    setExpiringPositionFilter('All');
+    setExpiringSearchQuery('');
+  };
 
   const expiringResignPlayer = useMemo<PlayerRowDTO | null>(() => {
     if (!activeExpiringContract) {
@@ -347,11 +370,37 @@ export default function RosterPage() {
 
           {activeTab === 'expiring' ? (
             <div className="max-h-[70vh] overflow-y-auto">
-              <div className="mb-3">
-                <h3 className="text-base font-semibold text-foreground">Expiring Contracts</h3>
-                <p className="text-sm text-muted-foreground">
-                  Players with 0 years remaining are eligible to re-sign.
-                </p>
+              <div className="flex flex-col gap-4 border-b border-border px-0 py-4 sm:px-0">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <PositionFilterBar
+                    active={expiringPositionFilter}
+                    onSelect={setExpiringPositionFilter}
+                  />
+                  <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
+                    <input
+                      type="search"
+                      placeholder="Search players..."
+                      className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      value={expiringSearchQuery}
+                      onChange={(event) => setExpiringSearchQuery(event.target.value)}
+                    />
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="icon" className="h-9 w-9">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={resetExpiringFilters}>
+                          Reset filters
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setExpiringSearchQuery('')}>
+                          Clear search
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse md:min-w-[720px]">
@@ -367,7 +416,7 @@ export default function RosterPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {expiringContracts.map((player) => (
+                    {filteredExpiringContracts.map((player) => (
                       <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
                         <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
                           {player.name}

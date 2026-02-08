@@ -23,7 +23,7 @@ import {
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
 
-const POSITION_FILTERS = [
+export const POSITION_FILTERS = [
   'All',
   'QB',
   'RB',
@@ -102,7 +102,7 @@ const parseCapHitValue = (player: PlayerRowDTO) => {
   return Number.isNaN(parsed) ? 0 : parsed;
 };
 
-function PositionFilterBar({
+export function PositionFilterBar({
   active,
   onSelect,
 }: {
