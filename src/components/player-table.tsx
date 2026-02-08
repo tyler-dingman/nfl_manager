@@ -48,6 +48,7 @@ export type PlayerTableVariant = PlayerRowActionsVariant;
 type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
   meta?: {
     mobileHidden?: boolean;
+    hidden?: boolean;
   };
 };
 
@@ -95,6 +96,7 @@ const formatSignedMarketValue = (player: PlayerRowDTO) => {
 
 const isSignedPlayer = (player: PlayerRowDTO) =>
   player.status.toLowerCase() === 'signed' || Boolean(player.signedTeamAbbr);
+const isCutPlayer = (player: PlayerRowDTO) => player.status.toLowerCase() === 'cut';
 
 const parseCapHitValue = (player: PlayerRowDTO) => {
   if (player.capHitValue !== undefined) return player.capHitValue;
@@ -145,7 +147,10 @@ export function PlayerTable({
   const [draftFilter, setDraftFilter] = React.useState<DraftFilter>('All');
   const [sorting, setSorting] = React.useState<SortingState>(() => {
     if (variant === 'roster') {
-      return [{ id: 'capHitValue', desc: true }];
+      return [
+        { id: 'cutSort', desc: true },
+        { id: 'capHitValue', desc: true },
+      ];
     }
     if (variant === 'freeAgent') {
       return [
@@ -158,7 +163,10 @@ export function PlayerTable({
 
   React.useEffect(() => {
     if (variant === 'roster') {
-      setSorting([{ id: 'capHitValue', desc: true }]);
+      setSorting([
+        { id: 'cutSort', desc: true },
+        { id: 'capHitValue', desc: true },
+      ]);
       return;
     }
     if (variant === 'freeAgent') {
@@ -428,12 +436,18 @@ export function PlayerTable({
 
     return [
       {
+        id: 'cutSort',
+        accessorFn: (row) => (isCutPlayer(row) ? 1 : 0),
+        enableSorting: true,
+        meta: { hidden: true },
+      },
+      {
         id: 'name',
         header: 'Name',
         accessorFn: (row) => formatName(row),
         cell: ({ row }) => {
           const player = row.original;
-          const isCut = player.status.toLowerCase() === 'cut';
+          const isCut = isCutPlayer(player);
           return (
             <div className="flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
@@ -580,8 +594,23 @@ export function PlayerTable({
   ]);
 
   const visibleColumns = React.useMemo(
-    () => columns.filter((column) => !(isMobile && column.meta?.mobileHidden)),
+    () =>
+      columns.filter((column) => !column.meta?.hidden && !(isMobile && column.meta?.mobileHidden)),
     [columns, isMobile],
+  );
+
+  const handleSortingChange = React.useCallback(
+    (updater: SortingState | ((prev: SortingState) => SortingState)) => {
+      setSorting((prev) => {
+        const next = typeof updater === 'function' ? updater(prev) : updater;
+        if (variant === 'roster') {
+          const withoutCut = next.filter((item) => item.id !== 'cutSort');
+          return [{ id: 'cutSort', desc: true }, ...withoutCut];
+        }
+        return next;
+      });
+    },
+    [variant],
   );
 
   const table = useReactTable({
@@ -590,7 +619,7 @@ export function PlayerTable({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     state: { sorting },
-    onSortingChange: setSorting,
+    onSortingChange: handleSortingChange,
     getRowId: (row) => row.id,
   });
 
@@ -609,7 +638,7 @@ export function PlayerTable({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     state: { sorting },
-    onSortingChange: setSorting,
+    onSortingChange: handleSortingChange,
     getRowId: (row) => row.id,
   });
 
@@ -690,7 +719,7 @@ export function PlayerTable({
               </thead>
               <tbody>
                 {signedTable.getRowModel().rows.map((row) => {
-                  const isCut = row.original.status.toLowerCase() === 'cut';
+                  const isCut = isCutPlayer(row.original);
                   return (
                     <tr
                       key={row.id}
@@ -748,7 +777,7 @@ export function PlayerTable({
             </thead>
             <tbody>
               {(variant === 'freeAgent' ? availableTable : table).getRowModel().rows.map((row) => {
-                const isCut = row.original.status.toLowerCase() === 'cut';
+                const isCut = isCutPlayer(row.original);
                 return (
                   <tr
                     key={row.id}
