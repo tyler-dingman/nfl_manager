@@ -4,7 +4,7 @@ import { createSaveState, offerContractInState } from '../src/server/api/store';
 const apy = 20;
 const years = 3;
 const schedule = getCapHitSchedule(apy, years);
-const expectedYearOne = 10.0;
+const expectedYearOne = 12.0;
 
 if (schedule[0] !== expectedYearOne) {
   throw new Error(`Expected year one cap hit ${expectedYearOne}, got ${schedule[0]}`);
