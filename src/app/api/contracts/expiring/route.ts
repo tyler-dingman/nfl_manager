@@ -15,6 +15,22 @@ const parseMoneyMillions = (value: string): number => {
   return Number.isNaN(parsed) ? 0 : parsed;
 };
 
+const CHIEFS_EXPIRING_EXCLUSIONS = new Set([
+  'jalen-royals',
+  'jaden-hicks',
+  'rashee-rice',
+  'trent-mcduffie',
+]);
+
+const isChiefsExpiringExcluded = (
+  teamAbbr: string | null,
+  player: { firstName: string; lastName: string },
+) => {
+  if (!teamAbbr || teamAbbr.toUpperCase() !== 'KC') return false;
+  const normalized = slugify(`${player.firstName} ${player.lastName}`);
+  return CHIEFS_EXPIRING_EXCLUSIONS.has(normalized);
+};
+
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const saveId = searchParams.get('saveId');
@@ -33,10 +49,13 @@ export const GET = async (request: Request) => {
   }
 
   const rosterExpiring: ExpiringContractRow[] = stateResult.data.roster
-    .filter(
-      (player) =>
-        player.contract?.expiresAfterSeason === true || player.contractYearsRemaining === 0,
-    )
+    .filter((player) => {
+      const isExpiring =
+        player.contract?.expiresAfterSeason === true || player.contractYearsRemaining === 0;
+      if (!isExpiring) return false;
+      if (isChiefsExpiringExcluded(teamAbbr, player)) return false;
+      return true;
+    })
     .map((player) => {
       const apy =
         player.contract?.apy ??
