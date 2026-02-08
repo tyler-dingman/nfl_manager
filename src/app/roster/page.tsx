@@ -318,13 +318,7 @@ export default function RosterPage() {
     <AppShell>
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h2 className="text-lg font-semibold text-foreground">Re-sign Phase</h2>
-              <p className="text-sm text-muted-foreground">
-                Switch between expiring contracts and the full roster.
-              </p>
-            </div>
+          <div className="mb-4 flex flex-wrap items-center justify-start gap-3">
             <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
               <button
                 type="button"
