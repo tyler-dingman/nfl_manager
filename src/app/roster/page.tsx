@@ -54,6 +54,7 @@ export default function RosterPage() {
   const [isResignResultOpen, setIsResignResultOpen] = useState(false);
   const [renegotiateResult, setRenegotiateResult] = useState<RenegotiateResultDTO | null>(null);
   const [isRenegotiateResultOpen, setIsRenegotiateResultOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'expiring' | 'roster'>('expiring');
   const { push: pushToast } = useToast();
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
 
@@ -317,79 +318,125 @@ export default function RosterPage() {
     <AppShell>
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Expiring Contracts</h2>
+              <h2 className="text-lg font-semibold text-foreground">Re-sign Phase</h2>
               <p className="text-sm text-muted-foreground">
-                Players with 0 years remaining are eligible to re-sign.
+                Switch between expiring contracts and the full roster.
               </p>
             </div>
+            <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
+              <button
+                type="button"
+                className={`rounded-full px-3 py-1 transition ${
+                  activeTab === 'expiring'
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-muted-foreground'
+                }`}
+                onClick={() => setActiveTab('expiring')}
+              >
+                Expiring Contracts
+              </button>
+              <button
+                type="button"
+                className={`rounded-full px-3 py-1 transition ${
+                  activeTab === 'roster'
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-muted-foreground'
+                }`}
+                onClick={() => setActiveTab('roster')}
+              >
+                Roster
+              </button>
+            </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse md:min-w-[720px]">
-              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                <tr>
-                  <th className="px-4 py-2 sm:px-6">Player</th>
-                  <th className="px-4 py-2 sm:px-6">Pos</th>
-                  <th className="px-4 py-2 sm:px-6">Age</th>
-                  <th className="px-4 py-2 sm:px-6">Interest</th>
-                  <th className="px-4 py-2 sm:px-6">Est. Value</th>
-                  <th className="px-4 py-2 sm:px-6">Current Salary</th>
-                  <th className="px-4 py-2 text-right sm:px-6">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {expiringContracts.map((player) => (
-                  <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
-                    <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
-                      {player.name}
-                    </td>
-                    <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                      {player.pos}
-                    </td>
-                    <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                      {player.age ?? '--'}
-                    </td>
-                    <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                      {player.interestPct !== undefined
-                        ? `${player.interestPct.toFixed(1)}%`
-                        : '--'}
-                    </td>
-                    <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                      {formatCurrency(player.estValue)}
-                    </td>
-                    <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                      {formatCurrency(player.currentSalary ?? 0)}
-                    </td>
-                    <td className="px-4 py-1.5 text-right sm:px-6">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        disabled={!saveId}
-                        onClick={() => setActiveExpiringContract(player)}
-                      >
-                        <Handshake className="h-4 w-4" />
-                        <span className="sr-only">Re-sign {player.name}</span>
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {expiringError ? (
-            <div className="px-4 py-4 text-sm text-destructive sm:px-6">{expiringError}</div>
-          ) : null}
+
+          {activeTab === 'expiring' ? (
+            <div className="max-h-[70vh] overflow-y-auto">
+              <div className="mb-3">
+                <h3 className="text-base font-semibold text-foreground">Expiring Contracts</h3>
+                <p className="text-sm text-muted-foreground">
+                  Players with 0 years remaining are eligible to re-sign.
+                </p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse md:min-w-[720px]">
+                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                    <tr>
+                      <th className="px-4 py-2 sm:px-6">Player</th>
+                      <th className="px-4 py-2 sm:px-6">Pos</th>
+                      <th className="px-4 py-2 sm:px-6">Age</th>
+                      <th className="px-4 py-2 sm:px-6">Interest</th>
+                      <th className="px-4 py-2 sm:px-6">Est. Value</th>
+                      <th className="px-4 py-2 sm:px-6">Current Salary</th>
+                      <th className="px-4 py-2 text-right sm:px-6">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {expiringContracts.map((player) => (
+                      <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
+                        <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
+                          {player.name}
+                        </td>
+                        <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                          {player.pos}
+                        </td>
+                        <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                          {player.age ?? '--'}
+                        </td>
+                        <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                          {player.interestPct !== undefined
+                            ? `${player.interestPct.toFixed(1)}%`
+                            : '--'}
+                        </td>
+                        <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                          {formatCurrency(player.estValue)}
+                        </td>
+                        <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                          {formatCurrency(player.currentSalary ?? 0)}
+                        </td>
+                        <td className="px-4 py-1.5 text-right sm:px-6">
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            disabled={!saveId}
+                            onClick={() => setActiveExpiringContract(player)}
+                          >
+                            <Handshake className="h-4 w-4" />
+                            <span className="sr-only">Re-sign {player.name}</span>
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {expiringError ? (
+                <div className="px-4 py-4 text-sm text-destructive sm:px-6">{expiringError}</div>
+              ) : null}
+            </div>
+          ) : (
+            <div className="max-h-[70vh] overflow-y-auto">
+              <PlayerTable
+                data={sortedPlayers}
+                variant="roster"
+                onCutPlayer={setActiveCutPlayer}
+                onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
+                onRenegotiatePlayer={setActiveRenegotiatePlayer}
+              />
+            </div>
+          )}
         </div>
-      ) : null}
-      <PlayerTable
-        data={sortedPlayers}
-        variant="roster"
-        onCutPlayer={setActiveCutPlayer}
-        onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
-        onRenegotiatePlayer={setActiveRenegotiatePlayer}
-      />
+      ) : (
+        <PlayerTable
+          data={sortedPlayers}
+          variant="roster"
+          onCutPlayer={setActiveCutPlayer}
+          onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
+          onRenegotiatePlayer={setActiveRenegotiatePlayer}
+        />
+      )}
       {activeCutPlayer ? (
         <CutPlayerModal
           player={activeCutPlayer}
