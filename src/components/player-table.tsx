@@ -322,6 +322,41 @@ export function PlayerTable({
             </span>
           ),
         },
+        {
+          id: 'actions',
+          header: 'Actions',
+          cell: ({ row }) => {
+            const player = row.original;
+            const isDisabled = player.isDrafted || !onTheClockForUserTeam;
+            const disabledReason = player.isDrafted
+              ? 'Prospect already drafted.'
+              : !onTheClockForUserTeam
+                ? 'Not on the clock.'
+                : undefined;
+
+            const button = (
+              <Button
+                type="button"
+                size="sm"
+                className="h-8"
+                onClick={() => onDraftPlayer?.(player)}
+                disabled={isDisabled}
+              >
+                Draft
+              </Button>
+            );
+
+            if (disabledReason) {
+              return (
+                <span className="inline-flex" title={disabledReason}>
+                  {button}
+                </span>
+              );
+            }
+
+            return <span className="inline-flex">{button}</span>;
+          },
+        },
       ];
     }
 

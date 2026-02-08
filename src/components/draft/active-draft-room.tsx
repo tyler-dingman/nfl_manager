@@ -32,6 +32,7 @@ type ActiveDraftRoomProps = {
   falcoNotes: FalcoNote[];
   speedLevel: DraftSpeedLevel;
   draftView: 'board' | 'trade';
+  isUserDraftModalOpen?: boolean;
   onBackToBoard: () => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
   onSessionUpdate: (session: DraftSessionDTO) => void;
@@ -46,6 +47,7 @@ export function ActiveDraftRoom({
   falcoNotes,
   speedLevel,
   draftView,
+  isUserDraftModalOpen = false,
   onBackToBoard,
   onDraftPlayer,
   onSessionUpdate,
@@ -212,7 +214,12 @@ export function ActiveDraftRoom({
       const current = currentSession.picks[currentSession.currentPickIndex];
       const userOnClock =
         current?.ownerTeamAbbr === currentSession.userTeamAbbr && !current?.selectedPlayerId;
-      if (currentSession.status !== 'in_progress' || currentSession.isPaused || userOnClock) {
+      if (
+        currentSession.status !== 'in_progress' ||
+        currentSession.isPaused ||
+        userOnClock ||
+        isUserDraftModalOpen
+      ) {
         return;
       }
       if (pickInProgressRef.current) {
@@ -224,13 +231,18 @@ export function ActiveDraftRoom({
       pickInProgressRef.current = false;
       scheduleNextCpuPick();
     }, delay);
-  }, [advanceCpuPick, clearDraftTimer, speedLevel]);
+  }, [advanceCpuPick, clearDraftTimer, isUserDraftModalOpen, speedLevel]);
 
   React.useEffect(() => {
     const current = session.picks[session.currentPickIndex];
     const userOnClock =
       current?.ownerTeamAbbr === session.userTeamAbbr && !current?.selectedPlayerId;
-    if (session.status !== 'in_progress' || session.isPaused || userOnClock) {
+    if (
+      session.status !== 'in_progress' ||
+      session.isPaused ||
+      userOnClock ||
+      isUserDraftModalOpen
+    ) {
       clearDraftTimer();
       return;
     }
@@ -238,6 +250,7 @@ export function ActiveDraftRoom({
     return () => clearDraftTimer();
   }, [
     clearDraftTimer,
+    isUserDraftModalOpen,
     scheduleNextCpuPick,
     session.currentPickIndex,
     session.isPaused,

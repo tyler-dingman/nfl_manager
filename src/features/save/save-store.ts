@@ -16,6 +16,7 @@ type SaveStoreState = {
   unlocked: SaveUnlocksDTO;
   activeDraftSessionId: string | null;
   activeDraftSessionIdsBySave: Record<string, string>;
+  isUserOnClock: boolean;
   hasHydrated: boolean;
   saveLoadError: string | null;
   setHasHydrated: (value: boolean) => void;
@@ -23,6 +24,7 @@ type SaveStoreState = {
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
   setActiveTeam: (teamId: string, teamAbbr: string) => void;
   setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
+  setIsUserOnClock: (value: boolean) => void;
   clearSave: () => void;
   setPhase: (phase: string) => Promise<void>;
   advancePhase: () => Promise<void>;
@@ -47,6 +49,7 @@ const DEFAULT_STATE = {
   unlocked: { freeAgency: false, draft: false },
   activeDraftSessionId: null,
   activeDraftSessionIdsBySave: {},
+  isUserOnClock: false,
   hasHydrated: false,
   saveLoadError: null,
 };
@@ -128,6 +131,7 @@ export const useSaveStore = create<SaveStoreState>()(
             activeDraftSessionIdsBySave: nextBySave,
           };
         }),
+      setIsUserOnClock: (value) => set((state) => ({ ...state, isUserOnClock: value })),
       clearSave: () =>
         set((state) => {
           if (typeof window !== 'undefined') {
@@ -147,6 +151,7 @@ export const useSaveStore = create<SaveStoreState>()(
             unlocked: { freeAgency: false, draft: false },
             activeDraftSessionId: null,
             activeDraftSessionIdsBySave: {},
+            isUserOnClock: false,
             saveLoadError: null,
           };
         }),

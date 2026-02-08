@@ -9,14 +9,13 @@ import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
 import { buildRoundOneOrder } from '@/components/draft/draft-utils';
-import { OnTheClockBanner } from '@/components/draft/on-the-clock-banner';
 import { PlayerTable } from '@/components/player-table';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { getDraftGrade } from '@/lib/draft-utils';
 import { buildFalcoBoard } from '@/lib/falco';
-import { getFalcoGradeQuote, getPickLabel } from '@/lib/draft-reactions';
+import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
@@ -64,9 +63,9 @@ function DraftRoomContent() {
   const [speedLevel, setSpeedLevel] = React.useState<DraftSpeedLevel>(1);
   const [draftView, setDraftView] = React.useState<'board' | 'trade'>('board');
   const [gradeLetter, setGradeLetter] = React.useState<string | null>(null);
-  const [gradeReason, setGradeReason] = React.useState<string | null>(null);
-  const [gradeReasons, setGradeReasons] = React.useState<string[]>([]);
-  const [falcoQuote, setFalcoQuote] = React.useState<string | null>(null);
+  const [draftedPlayerName, setDraftedPlayerName] = React.useState<string | null>(null);
+  const [draftedPlayerMeta, setDraftedPlayerMeta] = React.useState<string | null>(null);
+  const [teamMessage, setTeamMessage] = React.useState<string | null>(null);
   const [isGradeOpen, setIsGradeOpen] = React.useState(false);
   const [teams, setTeams] = React.useState<TeamsResponse['teams']>([]);
   const [selectedPickNumber, setSelectedPickNumber] = React.useState(1);
@@ -81,6 +80,7 @@ function DraftRoomContent() {
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setPhase = useSaveStore((state) => state.setPhase);
+  const setIsUserOnClock = useSaveStore((state) => state.setIsUserOnClock);
   const storedTeams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const selectedTeam = React.useMemo(
@@ -98,6 +98,14 @@ function DraftRoomContent() {
     const currentPick = session.picks[session.currentPickIndex];
     return currentPick?.ownerTeamAbbr === session.userTeamAbbr && !currentPick?.selectedPlayerId;
   }, [session]);
+
+  React.useEffect(() => {
+    setIsUserOnClock(userOnClock);
+  }, [setIsUserOnClock, userOnClock]);
+
+  React.useEffect(() => {
+    return () => setIsUserOnClock(false);
+  }, [setIsUserOnClock]);
 
   const userTeam = React.useMemo(() => {
     if (!session) return null;
@@ -402,34 +410,31 @@ function DraftRoomContent() {
     }
     setSession(payload.session);
     await refreshSaveHeader();
-    setGradeLetter(payload.grade.letter);
-    setGradeReason(payload.grade.reason);
     const pick = payload.session.picks.find((entry) => entry.selectedPlayerId === player.id);
     const pickNumber = pick?.overall ?? payload.session.currentPickIndex;
-    const tags = falcoBoard.notes
-      .filter((note) => note.playerId === player.id)
-      .map((note) => note.tag);
-    const userNeeds =
-      buildRoundOneOrder(teams).find((team) => team.abbr === payload.session.userTeamAbbr)?.needs ??
-      [];
-    const label = getPickLabel({
-      pickIndex: pickNumber,
-      playerRank: player.rank ?? 999,
-      teamNeeds: userNeeds,
-      playerPosition: player.position,
-      tags,
-    });
-    const reasons = [
-      `Value: drafted at pick ${pickNumber}, Falco rank ${player.rank ?? '--'} (${label})`,
-    ];
-    if (userNeeds.includes(player.position)) {
-      reasons.push(`Need: fills a top team need (${player.position})`);
-    }
-    if (tags.includes('Injury Flag') || tags.includes('Character Flag')) {
-      reasons.push('Risk: Falco flagged concern in the profile');
-    }
-    setGradeReasons(reasons);
-    setFalcoQuote(getFalcoGradeQuote());
+    const expectedPick = player.rank ?? pickNumber;
+    const delta = pickNumber - expectedPick;
+    const grade =
+      delta <= -10
+        ? 'A+'
+        : delta <= -5
+          ? 'A'
+          : delta <= -1
+            ? 'A-'
+            : delta <= 3
+              ? 'B+'
+              : delta <= 7
+                ? 'B'
+                : delta <= 12
+                  ? 'C'
+                  : delta <= 18
+                    ? 'D'
+                    : 'F';
+
+    setGradeLetter(grade);
+    setDraftedPlayerName(`${player.firstName} ${player.lastName}`);
+    setDraftedPlayerMeta(`${player.position} · ${player.college ?? '—'}`);
+    setTeamMessage(getTeamCatchphrase(payload.session.userTeamAbbr));
     setIsGradeOpen(true);
   };
 
@@ -458,15 +463,12 @@ function DraftRoomContent() {
       <DraftGradeModal
         isOpen={isGradeOpen}
         gradeLetter={gradeLetter}
-        reason={gradeReason}
-        reasons={gradeReasons}
-        falcoQuote={falcoQuote}
-        onClose={() => setIsGradeOpen(false)}
-      />
-      <OnTheClockBanner
-        isVisible={userOnClock}
+        playerName={draftedPlayerName}
+        playerMeta={draftedPlayerMeta}
         teamName={userTeam?.name ?? session?.userTeamAbbr ?? 'Your team'}
         teamLogoUrl={userTeam?.logoUrl}
+        teamMessage={teamMessage}
+        onClose={() => setIsGradeOpen(false)}
       />
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
@@ -596,6 +598,7 @@ function DraftRoomContent() {
           falcoNotes={falcoBoard.notes}
           speedLevel={speedLevel}
           draftView={draftView}
+          isUserDraftModalOpen={isGradeOpen}
           onBackToBoard={() => setDraftView('board')}
           onDraftPlayer={handleDraftPlayer}
           onSessionUpdate={setSession}

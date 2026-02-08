@@ -50,6 +50,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const saveId = useSaveStore((state) => state.saveId);
   const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
+  const isUserOnClock = useSaveStore((state) => state.isUserOnClock);
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
@@ -92,6 +93,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     ? computeCapRank(selectedTeam.abbr, capsWithActive)
     : capsWithActive.length + 1;
   const formattedCapSpace = saveId ? formatCapMillions(activeCapDollars) : '--';
+  const showOnTheClock = Boolean(isUserOnClock && pathname?.startsWith('/draft'));
 
   const lockedRoutes = useMemo(() => {
     const locked = new Set<NavItem>();
@@ -339,6 +341,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     {formattedCapSpace} / {ordinal(capRank)}
                   </span>
                 </div>
+                {showOnTheClock ? (
+                  <span
+                    className="ml-3 text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] md:text-sm"
+                    style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
+                  >
+                    ON THE CLOCK
+                  </span>
+                ) : null}
               </div>
 
               <div className="flex items-center gap-3">
