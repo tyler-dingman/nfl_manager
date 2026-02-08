@@ -39,10 +39,6 @@ export const POSITION_FILTERS = [
   'P',
 ] as const;
 
-const DRAFT_FILTERS = ['All', 'Available', 'Drafted'] as const;
-
-type DraftFilter = (typeof DRAFT_FILTERS)[number];
-
 export type PlayerTableVariant = PlayerRowActionsVariant;
 
 type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
@@ -167,7 +163,6 @@ export function PlayerTable({
   const [isMobile, setIsMobile] = React.useState(false);
   const [positionFilter, setPositionFilter] = React.useState('All');
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [draftFilter, setDraftFilter] = React.useState<DraftFilter>('All');
   const [sorting, setSorting] = React.useState<SortingState>(() => {
     if (variant === 'roster') {
       return [
@@ -223,15 +218,11 @@ export function PlayerTable({
       const matchesSearch =
         searchQuery.trim().length === 0 ||
         formatName(player).toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesDraftFilter =
-        variant !== 'draft' ||
-        draftFilter === 'All' ||
-        (draftFilter === 'Available' && !player.isDrafted) ||
-        (draftFilter === 'Drafted' && player.isDrafted);
+      const matchesDraftFilter = variant !== 'draft' || !player.isDrafted;
 
       return matchesPosition && matchesSearch && matchesDraftFilter;
     });
-  }, [data, positionFilter, searchQuery, draftFilter, variant]);
+  }, [data, positionFilter, searchQuery, variant]);
 
   const signedData = React.useMemo(() => {
     if (variant !== 'freeAgent') return [];
@@ -668,7 +659,6 @@ export function PlayerTable({
   const resetFilters = () => {
     setPositionFilter('All');
     setSearchQuery('');
-    setDraftFilter('All');
   };
 
   return (
@@ -676,43 +666,31 @@ export function PlayerTable({
       <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
-          <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
-            <input
-              type="search"
-              placeholder="Search players..."
-              className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
-            />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="h-9 w-9">
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={resetFilters}>Reset filters</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSearchQuery('')}>Clear search</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          {variant !== 'draft' ? (
+            <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
+              <input
+                type="search"
+                placeholder="Search players..."
+                className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+              />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon" className="h-9 w-9">
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={resetFilters}>Reset filters</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSearchQuery('')}>
+                    Clear search
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : null}
         </div>
-        {variant === 'draft' && (
-          <div className="flex flex-wrap gap-2">
-            {DRAFT_FILTERS.map((filter) => (
-              <Button
-                key={filter}
-                type="button"
-                variant={draftFilter === filter ? 'secondary' : 'ghost'}
-                size="sm"
-                className="h-8 rounded-full px-4 text-xs"
-                onClick={() => setDraftFilter(filter)}
-              >
-                {filter}
-              </Button>
-            ))}
-          </div>
-        )}
       </div>
       <div className="space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
         {variant === 'freeAgent' && signedData.length > 0 ? (

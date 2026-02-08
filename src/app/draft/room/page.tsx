@@ -61,7 +61,6 @@ function DraftRoomContent() {
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [speedLevel, setSpeedLevel] = React.useState<DraftSpeedLevel>(1);
-  const [lobbyTab, setLobbyTab] = React.useState<'available' | 'drafted'>('available');
   const [gradeLetter, setGradeLetter] = React.useState<string | null>(null);
   const [gradeReason, setGradeReason] = React.useState<string | null>(null);
   const [gradeReasons, setGradeReasons] = React.useState<string[]>([]);
@@ -300,26 +299,6 @@ function DraftRoomContent() {
     return true;
   }, [ensureSaveExists, fetchSession, mode, setActiveDraftSessionId]);
 
-  const setPaused = React.useCallback(
-    async (isPaused: boolean) => {
-      if (!saveId || !activeDraftSessionId) {
-        return;
-      }
-      const response = await apiFetch('/api/draft/session/pause', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ saveId, draftSessionId: activeDraftSessionId, isPaused }),
-      });
-      const payload = (await response.json()) as DraftSessionResponse;
-      if (!response.ok || !payload.ok) {
-        setError(payload.ok ? 'Unable to update pause state' : payload.error);
-        return;
-      }
-      setSession(payload.session);
-    },
-    [activeDraftSessionId, saveId],
-  );
-
   React.useEffect(() => {
     if (activeDraftSessionId) {
       void fetchSession(activeDraftSessionId);
@@ -510,40 +489,8 @@ function DraftRoomContent() {
               {lobbyMessage ? (
                 <p className="mb-4 text-sm text-muted-foreground">{lobbyMessage}</p>
               ) : null}
-              <div className="rounded-2xl border border-border bg-white shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-3 sm:px-6">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant={lobbyTab === 'available' ? 'secondary' : 'ghost'}
-                      onClick={() => setLobbyTab('available')}
-                    >
-                      Available
-                    </Button>
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant={lobbyTab === 'drafted' ? 'secondary' : 'ghost'}
-                      onClick={() => setLobbyTab('drafted')}
-                    >
-                      Drafted
-                    </Button>
-                  </div>
-                </div>
-                {lobbyTab === 'available' ? (
-                  <div className="p-4 sm:p-6">
-                    <PlayerTable
-                      data={lobbyProspects}
-                      variant="draft"
-                      onTheClockForUserTeam={false}
-                    />
-                  </div>
-                ) : (
-                  <div className="p-6 text-sm text-muted-foreground">
-                    Drafted prospects will appear here once the draft begins.
-                  </div>
-                )}
+              <div className="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-6">
+                <PlayerTable data={lobbyProspects} variant="draft" onTheClockForUserTeam={false} />
               </div>
             </div>
           ) : (
@@ -587,13 +534,10 @@ function DraftRoomContent() {
       ) : (
         <ActiveDraftRoom
           session={session}
-          saveId={saveId}
           draftSessionId={session.id}
           teams={teams}
           falcoNotes={falcoBoard.notes}
           speedLevel={speedLevel}
-          onSpeedChange={setSpeedLevel}
-          onTogglePause={() => void setPaused(!session.isPaused)}
           onDraftPlayer={handleDraftPlayer}
           onSessionUpdate={setSession}
         />

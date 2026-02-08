@@ -7,14 +7,12 @@ import FalcoAlertToast from '@/components/falco-alert';
 import FalcoTicker from '@/components/falco-ticker';
 import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import {
   fillFalcoTemplate,
   type FalcoAlertType,
   quotesByType,
 } from '@/features/draft/falco-quotes';
-import { getPickValue } from '@/lib/draft-utils';
 import { getFalcoReaction, getPickLabel } from '@/lib/draft-reactions';
 import { getTeamNeeds } from '@/components/draft/draft-utils';
 import { apiFetch } from '@/lib/api';
@@ -23,20 +21,16 @@ import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { FalcoNote } from '@/lib/falco';
 
-const SPEED_LABELS = ['1x (1 sec)', '2x (0.5 sec)', '4x (0.25 sec)'] as const;
 const SPEED_DELAYS = [1000, 500, 250] as const;
 
 export type DraftSpeedLevel = 0 | 1 | 2;
 
 type ActiveDraftRoomProps = {
   session: DraftSessionDTO;
-  saveId: string;
   draftSessionId: string;
   teams: Array<{ abbr: string; name: string; logoUrl: string; colors: string[] }>;
   falcoNotes: FalcoNote[];
   speedLevel: DraftSpeedLevel;
-  onSpeedChange: (level: DraftSpeedLevel) => void;
-  onTogglePause: () => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
   onSessionUpdate: (session: DraftSessionDTO) => void;
 };
@@ -45,38 +39,16 @@ const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastN
 
 export function ActiveDraftRoom({
   session,
-  saveId,
   draftSessionId,
   teams,
   falcoNotes,
   speedLevel,
-  onSpeedChange,
-  onTogglePause,
   onDraftPlayer,
   onSessionUpdate,
 }: ActiveDraftRoomProps) {
   const currentPick = session.picks[session.currentPickIndex];
   const onClock =
     currentPick?.ownerTeamAbbr === session.userTeamAbbr && !currentPick?.selectedPlayerId;
-  const speedLabel = SPEED_LABELS[speedLevel] ?? SPEED_LABELS[1];
-  const [activeTab, setActiveTab] = React.useState<'available' | 'drafted' | 'trade'>(
-    onClock ? 'available' : 'drafted',
-  );
-  const [partnerTeamAbbr, setPartnerTeamAbbr] = React.useState('');
-  const [sendPickId, setSendPickId] = React.useState('');
-  const [receivePickId, setReceivePickId] = React.useState('');
-  const [tradeQuote, setTradeQuote] = React.useState<{
-    sendValue: number;
-    receiveValue: number;
-    acceptanceProbability: number;
-    verdict: 'likely' | 'fair' | 'unlikely';
-  } | null>(null);
-  const [isQuoting, setIsQuoting] = React.useState(false);
-  const [tradeError, setTradeError] = React.useState('');
-  const [tradeResult, setTradeResult] = React.useState<{
-    accepted: boolean;
-    reason?: string;
-  } | null>(null);
   const [draftFeed, setDraftFeed] = React.useState<DraftEventDTO[]>([]);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const falcoHistory = useFalcoAlertStore((state) => state.history);
@@ -104,21 +76,6 @@ export function ActiveDraftRoom({
       .slice()
       .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999));
   }, [session.prospects]);
-
-  React.useEffect(() => {
-    if (activeTab === 'trade') {
-      return;
-    }
-    setActiveTab(onClock ? 'available' : 'drafted');
-  }, [activeTab, onClock]);
-
-  const draftedPicks = React.useMemo(() => {
-    const drafted = session.picks
-      .filter((pick) => pick.selectedPlayerId)
-      .slice()
-      .sort((a, b) => a.overall - b.overall);
-    return drafted;
-  }, [session.picks]);
 
   const teamLookup = React.useMemo(() => {
     const map = new Map(teams.map((team) => [team.abbr, team]));
@@ -166,97 +123,6 @@ export function ActiveDraftRoom({
       .slice(0, 3)
       .map((entry) => entry.player);
   }, [bestAvailable, currentPick, falcoTagsByPlayer, onClock, session.userTeamAbbr]);
-
-  const partnerTeams = React.useMemo(() => {
-    const teamSet = new Set(session.picks.map((pick) => pick.ownerTeamAbbr));
-    teamSet.delete(session.userTeamAbbr);
-    return Array.from(teamSet).sort();
-  }, [session.picks, session.userTeamAbbr]);
-
-  const eligibleUserPicks = React.useMemo(() => {
-    return session.picks.filter(
-      (pick) =>
-        pick.round === 1 &&
-        pick.ownerTeamAbbr === session.userTeamAbbr &&
-        !pick.selectedPlayerId &&
-        pick.overall > session.currentPickIndex + 1,
-    );
-  }, [session.currentPickIndex, session.picks, session.userTeamAbbr]);
-
-  const eligiblePartnerPicks = React.useMemo(() => {
-    if (!partnerTeamAbbr) {
-      return [];
-    }
-    return session.picks.filter(
-      (pick) =>
-        pick.round === 1 &&
-        pick.ownerTeamAbbr === partnerTeamAbbr &&
-        !pick.selectedPlayerId &&
-        pick.overall > session.currentPickIndex + 1,
-    );
-  }, [partnerTeamAbbr, session.currentPickIndex, session.picks]);
-
-  React.useEffect(() => {
-    if (!partnerTeamAbbr && partnerTeams.length > 0) {
-      setPartnerTeamAbbr(partnerTeams[0]);
-    }
-  }, [partnerTeamAbbr, partnerTeams]);
-
-  React.useEffect(() => {
-    setSendPickId('');
-    setReceivePickId('');
-    setTradeQuote(null);
-    setTradeError('');
-  }, [partnerTeamAbbr]);
-
-  React.useEffect(() => {
-    const fetchQuote = async () => {
-      if (!sendPickId || !receivePickId || !partnerTeamAbbr) {
-        setTradeQuote(null);
-        return;
-      }
-      setIsQuoting(true);
-      setTradeError('');
-      try {
-        const response = await apiFetch('/api/draft/trades/quote', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            draftSessionId,
-            sendPickId,
-            receivePickId,
-            partnerTeamAbbr,
-          }),
-        });
-        const payload = (await response.json()) as
-          | {
-              ok: true;
-              sendValue: number;
-              receiveValue: number;
-              acceptanceProbability: number;
-              verdict: 'likely' | 'fair' | 'unlikely';
-            }
-          | { ok: false; error: string };
-        if (!response.ok || !payload.ok) {
-          setTradeQuote(null);
-          setTradeError(payload.ok ? 'Unable to fetch trade quote.' : payload.error);
-        } else {
-          setTradeQuote({
-            sendValue: payload.sendValue,
-            receiveValue: payload.receiveValue,
-            acceptanceProbability: payload.acceptanceProbability,
-            verdict: payload.verdict,
-          });
-        }
-      } catch {
-        setTradeError('Unable to fetch trade quote.');
-      } finally {
-        setIsQuoting(false);
-      }
-    };
-
-    void fetchQuote();
-  }, [draftSessionId, partnerTeamAbbr, receivePickId, sendPickId]);
 
   const advanceCpuPick = React.useCallback(async () => {
     if (advanceInFlight.current || skipInFlight.current) {
@@ -518,41 +384,7 @@ export function ActiveDraftRoom({
     });
   }, [buildAlertMessage, pushAlert, session.currentPickIndex, session.picks, session.prospects]);
 
-  const handleProposeTrade = async () => {
-    if (!sendPickId || !receivePickId || !partnerTeamAbbr) {
-      return;
-    }
-    setTradeError('');
-    try {
-      const response = await apiFetch('/api/draft/trades/propose', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          draftSessionId,
-          saveId,
-          sendPickId,
-          receivePickId,
-          partnerTeamAbbr,
-        }),
-      });
-      const payload = (await response.json()) as
-        | { ok: true; accepted: true; session: DraftSessionDTO }
-        | { ok: true; accepted: false; reason: string }
-        | { ok: false; error: string };
-      if (!response.ok || !payload.ok) {
-        setTradeError(payload.ok ? 'Unable to propose trade.' : payload.error);
-        return;
-      }
-      if (payload.accepted) {
-        onSessionUpdate(payload.session);
-        setTradeResult({ accepted: true });
-      } else {
-        setTradeResult({ accepted: false, reason: payload.reason });
-      }
-    } catch {
-      setTradeError('Unable to propose trade.');
-    }
-  };
+  // Trade UI removed per draft screen simplification.
 
   return (
     <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
@@ -603,219 +435,38 @@ export function ActiveDraftRoom({
 
       <section className="space-y-4">
         <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex flex-wrap items-center gap-2">
-              <Button
-                type="button"
-                variant={activeTab === 'available' ? 'secondary' : 'ghost'}
-                size="sm"
-                className="rounded-full px-4"
-                onClick={() => setActiveTab('available')}
-              >
-                Available
-              </Button>
-              <Button
-                type="button"
-                variant={activeTab === 'drafted' ? 'secondary' : 'ghost'}
-                size="sm"
-                className="rounded-full px-4"
-                onClick={() => setActiveTab('drafted')}
-              >
-                Drafted
-              </Button>
-              <Button
-                type="button"
-                variant={activeTab === 'trade' ? 'secondary' : 'ghost'}
-                size="sm"
-                className="rounded-full px-4"
-                onClick={() => setActiveTab('trade')}
-              >
-                Trade
-              </Button>
-            </div>
-            {currentPick ? (
-              <span className="text-xs text-muted-foreground">
-                Pick {currentPick.overall} · {currentPick.ownerTeamAbbr}
-              </span>
-            ) : null}
-          </div>
-
-          {activeTab === 'available' ? (
-            <div className="mt-4">
-              {onClock && falcoFavorites.length > 0 ? (
-                <div className="mb-4 rounded-xl border border-border bg-slate-50 px-4 py-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    Falco Favorites
-                  </p>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                    {falcoFavorites.map((player) => (
-                      <div
-                        key={player.id}
-                        className="rounded-lg border border-border bg-white px-3 py-2"
-                      >
-                        <p className="text-sm font-semibold text-foreground">
-                          {formatName(player)}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {player.position} · Rank {player.rank ?? '--'}
-                        </p>
-                      </div>
-                    ))}
+          {onClock && falcoFavorites.length > 0 ? (
+            <div className="mb-4 rounded-xl border border-border bg-slate-50 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Falco Favorites
+              </p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                {falcoFavorites.map((player) => (
+                  <div
+                    key={player.id}
+                    className="rounded-lg border border-border bg-white px-3 py-2"
+                  >
+                    <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {player.position} · Rank {player.rank ?? '--'}
+                    </p>
                   </div>
-                </div>
-              ) : null}
-              <PlayerTable
-                data={bestAvailable}
-                variant="draft"
-                onDraftPlayer={onClock ? onDraftPlayer : undefined}
-                onTheClockForUserTeam={onClock}
-              />
-              {!onClock && bestAvailable.length > 0 && (
-                <div className="mt-4 rounded-xl border border-border bg-blue-50 px-4 py-3">
-                  <p className="text-sm font-semibold text-foreground">Waiting for your pick...</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    CPU teams are picking. Your team will be on the clock soon.
-                  </p>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
-          ) : activeTab === 'drafted' ? (
-            <div className="mt-4 space-y-3">
-              {draftedPicks.length === 0 ? (
-                <div className="rounded-xl border border-border bg-slate-50 px-4 py-6 text-center">
-                  <p className="text-sm font-semibold text-foreground">No picks yet</p>
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    Drafted players will appear here in order.
-                  </p>
-                </div>
-              ) : (
-                draftedPicks.map((pick) => {
-                  const player = session.prospects.find(
-                    (prospect) => prospect.id === pick.selectedPlayerId,
-                  );
-                  const team = teamLookup.get(pick.ownerTeamAbbr);
-                  return (
-                    <div
-                      key={pick.id}
-                      className="flex items-center gap-3 rounded-xl border border-border bg-white px-3 py-2 text-sm"
-                    >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
-                        {team?.logoUrl ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={team.logoUrl} alt={team.name} className="h-6 w-6" />
-                        ) : (
-                          <span className="text-xs font-semibold text-muted-foreground">
-                            {pick.ownerTeamAbbr}
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-semibold text-foreground">
-                          Pick {pick.overall} · {pick.ownerTeamAbbr}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {player
-                            ? `${formatName(player)} · ${player.position}`
-                            : 'Selection pending'}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          ) : (
-            <div className="mt-4 space-y-4">
-              <div className="rounded-xl border border-border bg-slate-50 px-4 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Trade Partner
-                </p>
-                <select
-                  className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-                  value={partnerTeamAbbr}
-                  onChange={(event) => setPartnerTeamAbbr(event.target.value)}
-                >
-                  {partnerTeams.map((abbr) => (
-                    <option key={abbr} value={abbr}>
-                      {abbr}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="rounded-xl border border-border bg-white px-4 py-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    Your Pick
-                  </p>
-                  <select
-                    className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-                    value={sendPickId}
-                    onChange={(event) => setSendPickId(event.target.value)}
-                  >
-                    <option value="">Select pick</option>
-                    {eligibleUserPicks.map((pick) => (
-                      <option key={pick.id} value={pick.id}>
-                        Pick {pick.overall} ({pick.ownerTeamAbbr}) · Value{' '}
-                        {getPickValue(pick.overall)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="rounded-xl border border-border bg-white px-4 py-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    Their Pick
-                  </p>
-                  <select
-                    className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-                    value={receivePickId}
-                    onChange={(event) => setReceivePickId(event.target.value)}
-                  >
-                    <option value="">Select pick</option>
-                    {eligiblePartnerPicks.map((pick) => (
-                      <option key={pick.id} value={pick.id}>
-                        Pick {pick.overall} ({pick.ownerTeamAbbr}) · Value{' '}
-                        {getPickValue(pick.overall)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-border bg-slate-50 px-4 py-4">
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>Send value</span>
-                  <span>{tradeQuote?.sendValue ?? '--'}</span>
-                </div>
-                <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                  <span>Receive value</span>
-                  <span>{tradeQuote?.receiveValue ?? '--'}</span>
-                </div>
-                <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                  <span>Difference</span>
-                  <span>{tradeQuote ? tradeQuote.receiveValue - tradeQuote.sendValue : '--'}</span>
-                </div>
-                <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                  <span>Acceptance %</span>
-                  <span>
-                    {tradeQuote
-                      ? `${Math.round(tradeQuote.acceptanceProbability * 100)}% (${tradeQuote.verdict})`
-                      : '--'}
-                  </span>
-                </div>
-                {isQuoting ? (
-                  <p className="mt-2 text-xs text-muted-foreground">Calculating quote...</p>
-                ) : null}
-                {tradeError ? <p className="mt-2 text-xs text-destructive">{tradeError}</p> : null}
-              </div>
-
-              <Button
-                type="button"
-                onClick={handleProposeTrade}
-                disabled={!sendPickId || !receivePickId || !partnerTeamAbbr || isQuoting}
-              >
-                Offer Trade
-              </Button>
+          ) : null}
+          <PlayerTable
+            data={bestAvailable}
+            variant="draft"
+            onDraftPlayer={onClock ? onDraftPlayer : undefined}
+            onTheClockForUserTeam={onClock}
+          />
+          {!onClock && bestAvailable.length > 0 && (
+            <div className="mt-4 rounded-xl border border-border bg-blue-50 px-4 py-3">
+              <p className="text-sm font-semibold text-foreground">Waiting for your pick...</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                CPU teams are picking. Your team will be on the clock soon.
+              </p>
             </div>
           )}
         </div>
@@ -823,23 +474,6 @@ export function ActiveDraftRoom({
         <FalcoTicker alerts={falcoHistory} />
       </section>
       <FalcoAlertToast />
-      {tradeResult ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-foreground">
-              {tradeResult.accepted ? 'Trade Accepted' : 'Trade Rejected'}
-            </h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {tradeResult.accepted
-                ? 'Ownership has been updated on the board.'
-                : (tradeResult.reason ?? 'The other team rejected your offer.')}
-            </p>
-            <Button type="button" className="mt-4 w-full" onClick={() => setTradeResult(null)}>
-              Continue
-            </Button>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }
