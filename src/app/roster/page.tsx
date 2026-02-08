@@ -24,6 +24,7 @@ import { useRosterQuery } from '@/features/players/queries';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
+import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerRowDTO } from '@/types/player';
@@ -62,6 +63,7 @@ export default function RosterPage() {
   const [isResignResultOpen, setIsResignResultOpen] = useState(false);
   const [renegotiateResult, setRenegotiateResult] = useState<RenegotiateResultDTO | null>(null);
   const [isRenegotiateResultOpen, setIsRenegotiateResultOpen] = useState(false);
+  const [renegotiateResultPlayer, setRenegotiateResultPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeTab, setActiveTab] = useState<'expiring' | 'roster'>('expiring');
   const { push: pushToast } = useToast();
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
@@ -131,6 +133,7 @@ export default function RosterPage() {
     if (data.player) {
       setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
     }
+    await refreshSaveHeader();
     setActiveCutPlayer(null);
   };
 
@@ -304,6 +307,7 @@ export default function RosterPage() {
     }
 
     setRenegotiateResult(data);
+    setRenegotiateResultPlayer(activeRenegotiatePlayer);
     setIsRenegotiateResultOpen(true);
     pushToast({
       title: data.accepted ? 'Renegotiation accepted' : 'Renegotiation declined',
@@ -528,9 +532,18 @@ export default function RosterPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
           <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-lg">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-foreground">
-                {renegotiateResult.accepted ? 'Renegotiation Accepted' : 'Renegotiation Declined'}
-              </h3>
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                  Renegotiation
+                </p>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {renegotiateResult.accepted
+                    ? `${renegotiateResultPlayer?.firstName ?? ''} ${
+                        renegotiateResultPlayer?.lastName ?? ''
+                      } accepted`
+                    : 'Renegotiation declined'}
+                </h3>
+              </div>
               <Button
                 type="button"
                 variant="ghost"
@@ -540,17 +553,19 @@ export default function RosterPage() {
                 ✕
               </Button>
             </div>
-            <p className="mt-3 text-sm text-muted-foreground">
-              {renegotiateResult.accepted
-                ? 'Contract updated successfully.'
-                : 'The player rejected the proposal.'}
+            <p className="mt-2 text-sm text-muted-foreground">
+              {selectedTeam?.name ?? teamAbbr ?? 'Team'} renegotiated with{' '}
+              {renegotiateResultPlayer
+                ? `${renegotiateResultPlayer.firstName} ${renegotiateResultPlayer.lastName}`
+                : 'the player'}
+              .
             </p>
             <div className="mt-4 rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm text-foreground">
-              “{renegotiateResult.quote}”
-            </div>
-            <div className="mt-4 flex items-center justify-between text-sm text-foreground">
-              <span>Score</span>
-              <span className="font-semibold">{renegotiateResult.score}%</span>
+              “
+              {renegotiateResult.accepted
+                ? `${renegotiateResult.quote} ${getTeamCatchphrase(teamAbbr)}`
+                : renegotiateResult.quote}
+              ”
             </div>
             <div className="mt-6 flex justify-end">
               <Button type="button" onClick={() => setIsRenegotiateResultOpen(false)}>
