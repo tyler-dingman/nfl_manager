@@ -78,6 +78,7 @@ function DraftRoomContent() {
   const setActiveDraftSessionId = useSaveStore((state) => state.setActiveDraftSessionId);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
+  const setPhase = useSaveStore((state) => state.setPhase);
   const storedTeams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const selectedTeam = React.useMemo(
@@ -90,7 +91,8 @@ function DraftRoomContent() {
     [falcoSeed, session?.prospects],
   );
 
-  const ensureSaveExists = React.useCallback(async () => {
+  const ensureSaveExists = React.useCallback(
+    async (forcePhase?: 'draft') => {
     if (saveId) {
       const headerParams = new URLSearchParams({ saveId });
       const resolvedTeamAbbr = teamAbbr || selectedTeam?.abbr;
@@ -113,10 +115,12 @@ function DraftRoomContent() {
             }
           | { ok: false; error: string };
         if (headerData.ok) {
+          const resolvedPhase = forcePhase ?? headerData.phase;
           setSaveHeader(
             {
               ...headerData,
               unlocked: headerData.unlocked ?? { freeAgency: false, draft: false },
+              phase: resolvedPhase,
               createdAt: new Date().toISOString(),
             },
             teamId,
@@ -158,16 +162,20 @@ function DraftRoomContent() {
       return null;
     }
 
+    const resolvedPhase = forcePhase ?? data.phase;
     setSaveHeader(
       {
         ...data,
         unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+        phase: resolvedPhase,
         createdAt: new Date().toISOString(),
       },
       teamId,
     );
     return data.saveId;
-  }, [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, teamAbbr, teamId]);
+    },
+    [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, teamAbbr, teamId],
+  );
 
   const userSelections = React.useMemo(() => {
     if (!session) {
@@ -237,11 +245,12 @@ function DraftRoomContent() {
   );
 
   const startDraft = React.useCallback(async () => {
-    const resolvedSaveId = await ensureSaveExists();
+    const resolvedSaveId = await ensureSaveExists('draft');
     if (!resolvedSaveId) {
       setError('Select a team to start a save.');
       return false;
     }
+    await setPhase('draft');
     setLoading(true);
     setError('');
     setLobbyMessage('');
@@ -297,7 +306,7 @@ function DraftRoomContent() {
     }
     setLoading(false);
     return true;
-  }, [ensureSaveExists, fetchSession, mode, setActiveDraftSessionId]);
+  }, [ensureSaveExists, fetchSession, mode, setActiveDraftSessionId, setPhase]);
 
   React.useEffect(() => {
     if (activeDraftSessionId) {
