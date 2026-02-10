@@ -62,7 +62,7 @@ export default function RenegotiateModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-      <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-lg">
+      <div className="w-full max-w-lg max-h-[90dvh] overflow-y-auto overscroll-contain rounded-2xl bg-white p-6 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-foreground">Renegotiate Contract</h3>

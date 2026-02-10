@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "cap:check": "tsx scripts/cap-math-check.ts",
-    "contract:check": "tsx scripts/contract-acceptance-check.ts"
+    "contract:check": "tsx scripts/contract-acceptance-check.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.20.5",
@@ -33,6 +34,7 @@
     "eslint-config-next": "14.2.5",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "@playwright/test": "^1.48.0",
     "postcss": "^8.4.38",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.10",

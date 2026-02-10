@@ -30,7 +30,7 @@ export default function TradePlayerModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-4xl rounded-2xl bg-white p-5 shadow-lg sm:p-6 max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-4xl max-h-[90dvh] overflow-y-auto overscroll-contain rounded-2xl bg-white p-5 shadow-lg sm:p-6"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">

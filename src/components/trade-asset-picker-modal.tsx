@@ -74,7 +74,7 @@ export default function TradeAssetPickerModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-      <div className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-lg">
+      <div className="w-full max-w-3xl max-h-[90dvh] overflow-y-auto overscroll-contain rounded-2xl bg-white p-6 shadow-lg">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>
           <Button type="button" variant="ghost" size="icon" onClick={onClose} ref={closeRef}>

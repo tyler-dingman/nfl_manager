@@ -39,7 +39,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
         <meta name="theme-color" content="#111827" />
       </head>
-      <body className="min-h-screen bg-background text-foreground antialiased">{children}</body>
+      <body className="min-h-screen overflow-x-hidden bg-background text-foreground antialiased">
+        {children}
+      </body>
     </html>
   );
 }
