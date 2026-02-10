@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800">
+  <rect width="600" height="800" rx="32" fill="#0f172a"/>
+  <rect x="40" y="40" width="520" height="720" rx="24" fill="#1e293b"/>
+  <text x="80" y="180" font-family="Arial, sans-serif" font-size="32" fill="#f8fafc">
+    Offseason Lab
+  </text>
+  <text x="80" y="240" font-family="Arial, sans-serif" font-size="20" fill="#cbd5f5">
+    Plan your next move.
+  </text>
+  <rect x="80" y="300" width="240" height="48" rx="24" fill="#38bdf8"/>
+  <text x="110" y="332" font-family="Arial, sans-serif" font-size="18" fill="#0f172a">
+    Explore
+  </text>
+</svg>

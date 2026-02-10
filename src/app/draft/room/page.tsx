@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
+import { AdSlot } from '@/components/ads/AdSlot';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
@@ -476,142 +477,158 @@ function DraftRoomContent() {
         teamMessage={teamMessage}
         onClose={() => setIsGradeOpen(false)}
       />
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">Draft Room</h1>
-          <p className="text-sm text-muted-foreground">
-            Mode: {mode === 'real' ? 'Real Draft' : 'Mock Draft'}
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center justify-end gap-2">
-          <Button type="button" variant="secondary">
-            Settings
-          </Button>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-white px-3 py-2">
-            <span className="text-xs font-semibold text-muted-foreground">Speed</span>
-            <input
-              className="w-36"
-              type="range"
-              min={0}
-              max={2}
-              step={1}
-              value={speedLevel}
-              onChange={(event) => setSpeedLevel(Number(event.target.value) as DraftSpeedLevel)}
-            />
-            <span className="text-xs font-semibold text-muted-foreground">
-              {speedLevel === 0
-                ? '1x (1 sec)'
-                : speedLevel === 2
-                  ? '4x (0.25 sec)'
-                  : '2x (0.5 sec)'}
-            </span>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="min-w-0">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h1 className="text-2xl font-semibold text-foreground">Draft Room</h1>
+              <p className="text-sm text-muted-foreground">
+                Mode: {mode === 'real' ? 'Real Draft' : 'Mock Draft'}
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <Button type="button" variant="secondary">
+                Settings
+              </Button>
+              <div className="flex items-center gap-2 rounded-full border border-border bg-white px-3 py-2">
+                <span className="text-xs font-semibold text-muted-foreground">Speed</span>
+                <input
+                  className="w-36"
+                  type="range"
+                  min={0}
+                  max={2}
+                  step={1}
+                  value={speedLevel}
+                  onChange={(event) => setSpeedLevel(Number(event.target.value) as DraftSpeedLevel)}
+                />
+                <span className="text-xs font-semibold text-muted-foreground">
+                  {speedLevel === 0
+                    ? '1x (1 sec)'
+                    : speedLevel === 2
+                      ? '4x (0.25 sec)'
+                      : '2x (0.5 sec)'}
+                </span>
+              </div>
+              {!session ? (
+                <Button type="button" onClick={startDraft}>
+                  Start Draft
+                </Button>
+              ) : (
+                <>
+                  <Button type="button" onClick={togglePause}>
+                    {session.isPaused ? (
+                      <>
+                        <Play className="mr-2 h-4 w-4" />
+                        Resume
+                      </>
+                    ) : (
+                      <>
+                        <Pause className="mr-2 h-4 w-4" />
+                        Pause
+                      </>
+                    )}
+                  </Button>
+                  <Button type="button" variant="secondary" onClick={() => setDraftView('trade')}>
+                    Propose Trade
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
+          {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}
+
           {!session ? (
-            <Button type="button" onClick={startDraft}>
-              Start Draft
-            </Button>
+            <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
+              {selectedPick ? (
+                <div className="order-2 lg:order-1 lg:w-[340px] lg:max-w-[340px] lg:min-w-[340px]">
+                  <DraftOrderPanel
+                    picks={roundOneOrder}
+                    selectedPickNumber={selectedPickNumber}
+                    onTheClockPickNumber={onTheClockPickNumber}
+                    onSelectPick={setSelectedPickNumber}
+                    currentPickIndex={onTheClockPickNumber}
+                    userNextPickIndex={userNextPickIndex}
+                    remainingProspects={lobbyProspects}
+                    variant={draftPhase === 'PRE_DRAFT' ? 'pre' : 'in'}
+                  />
+                </div>
+              ) : null}
+              {selectedPick ? (
+                <div className="order-1 lg:order-2">
+                  {lobbyMessage ? (
+                    <p className="mb-4 text-sm text-muted-foreground">{lobbyMessage}</p>
+                  ) : null}
+                  <div className="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-6">
+                    <PlayerTable
+                      data={lobbyProspects}
+                      variant="draft"
+                      onTheClockForUserTeam={false}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-border bg-white p-6 shadow-sm lg:col-span-2">
+                  <p className="text-sm text-muted-foreground">Loading draft order...</p>
+                </div>
+              )}
+            </div>
+          ) : session.status === 'completed' ? (
+            <div className="rounded-2xl border border-border bg-white p-8 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-2xl font-semibold text-foreground">Draft Complete</h2>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {mode === 'real'
+                      ? 'Draft results saved to your roster.'
+                      : 'Mock draft finalized.'}
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-border bg-slate-50 px-6 py-4 text-center">
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    Draft Grade
+                  </p>
+                  <p className="mt-2 text-3xl font-bold text-foreground">
+                    {getDraftGrade(userSelections.map((player) => player.rank ?? 100))}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 grid gap-4 md:grid-cols-2">
+                {userSelections.map((player) => (
+                  <div
+                    key={player.id}
+                    className="rounded-xl border border-border bg-white px-4 py-3 shadow-sm"
+                  >
+                    <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {player.position} · Rank {player.rank ?? '--'}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : (
-            <>
-              <Button type="button" onClick={togglePause}>
-                {session.isPaused ? (
-                  <>
-                    <Play className="mr-2 h-4 w-4" />
-                    Resume
-                  </>
-                ) : (
-                  <>
-                    <Pause className="mr-2 h-4 w-4" />
-                    Pause
-                  </>
-                )}
-              </Button>
-              <Button type="button" variant="secondary" onClick={() => setDraftView('trade')}>
-                Propose Trade
-              </Button>
-            </>
+            <ActiveDraftRoom
+              session={session}
+              draftSessionId={session.id}
+              teams={teams}
+              falcoNotes={falcoBoard.notes}
+              speedLevel={speedLevel}
+              draftView={draftView}
+              isUserDraftModalOpen={isGradeOpen}
+              draftPhase={draftPhase}
+              onBackToBoard={() => setDraftView('board')}
+              onDraftPlayer={handleDraftPlayer}
+              onSessionUpdate={setSession}
+            />
           )}
+        </div>
+
+        <div className="hidden w-full lg:block">
+          <AdSlot placement="RIGHT_RAIL" />
         </div>
       </div>
-      {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}
 
-      {!session ? (
-        <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
-          {selectedPick ? (
-            <div className="order-2 lg:order-1 lg:w-[340px] lg:max-w-[340px] lg:min-w-[340px]">
-              <DraftOrderPanel
-                picks={roundOneOrder}
-                selectedPickNumber={selectedPickNumber}
-                onTheClockPickNumber={onTheClockPickNumber}
-                onSelectPick={setSelectedPickNumber}
-                currentPickIndex={onTheClockPickNumber}
-                userNextPickIndex={userNextPickIndex}
-                remainingProspects={lobbyProspects}
-                variant={draftPhase === 'PRE_DRAFT' ? 'pre' : 'in'}
-              />
-            </div>
-          ) : null}
-          {selectedPick ? (
-            <div className="order-1 lg:order-2">
-              {lobbyMessage ? (
-                <p className="mb-4 text-sm text-muted-foreground">{lobbyMessage}</p>
-              ) : null}
-              <div className="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-6">
-                <PlayerTable data={lobbyProspects} variant="draft" onTheClockForUserTeam={false} />
-              </div>
-            </div>
-          ) : (
-            <div className="rounded-2xl border border-border bg-white p-6 shadow-sm lg:col-span-2">
-              <p className="text-sm text-muted-foreground">Loading draft order...</p>
-            </div>
-          )}
-        </div>
-      ) : session.status === 'completed' ? (
-        <div className="rounded-2xl border border-border bg-white p-8 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-semibold text-foreground">Draft Complete</h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {mode === 'real' ? 'Draft results saved to your roster.' : 'Mock draft finalized.'}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-border bg-slate-50 px-6 py-4 text-center">
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Draft Grade
-              </p>
-              <p className="mt-2 text-3xl font-bold text-foreground">
-                {getDraftGrade(userSelections.map((player) => player.rank ?? 100))}
-              </p>
-            </div>
-          </div>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {userSelections.map((player) => (
-              <div
-                key={player.id}
-                className="rounded-xl border border-border bg-white px-4 py-3 shadow-sm"
-              >
-                <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
-                <p className="text-xs text-muted-foreground">
-                  {player.position} · Rank {player.rank ?? '--'}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <ActiveDraftRoom
-          session={session}
-          draftSessionId={session.id}
-          teams={teams}
-          falcoNotes={falcoBoard.notes}
-          speedLevel={speedLevel}
-          draftView={draftView}
-          isUserDraftModalOpen={isGradeOpen}
-          draftPhase={draftPhase}
-          onBackToBoard={() => setDraftView('board')}
-          onDraftPlayer={handleDraftPlayer}
-          onSessionUpdate={setSession}
-        />
-      )}
+      <AdSlot placement="ANCHOR" responsive={{ hideOnDesktop: true }} />
     </AppShell>
   );
 }

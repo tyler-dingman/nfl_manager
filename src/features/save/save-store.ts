@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { SaveBootstrapDTO, SaveHeaderDTO, SaveUnlocksDTO } from '@/types/save';
+import type { PlayerRowDTO } from '@/types/player';
 import { apiFetch } from '@/lib/api';
 
 type SaveStoreState = {
@@ -12,6 +13,7 @@ type SaveStoreState = {
   capLimit: number;
   rosterCount: number;
   rosterLimit: number;
+  roster: PlayerRowDTO[];
   phase: string;
   unlocked: SaveUnlocksDTO;
   activeDraftSessionId: string | null;
@@ -22,6 +24,7 @@ type SaveStoreState = {
   setHasHydrated: (value: boolean) => void;
   setSaveLoadError: (error: string | null) => void;
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
+  setRoster: (players: PlayerRowDTO[]) => void;
   setActiveTeam: (teamId: string, teamAbbr: string) => void;
   setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
   setIsUserOnClock: (value: boolean) => void;
@@ -45,6 +48,7 @@ const DEFAULT_STATE = {
   capLimit: 0,
   rosterCount: 0,
   rosterLimit: 0,
+  roster: [],
   phase: 'resign_cut',
   unlocked: { freeAgency: false, draft: false },
   activeDraftSessionId: null,
@@ -70,6 +74,22 @@ const resolveUnlocks = (phase: string, current?: SaveUnlocksDTO): SaveUnlocksDTO
   return next;
 };
 
+const computeCapSpaceFromRoster = (roster: PlayerRowDTO[], capLimit: number, fallback: number) => {
+  if (!roster.length || !capLimit) {
+    return fallback;
+  }
+  const activeCap = roster.reduce((sum, player) => {
+    if (player.status?.toLowerCase() === 'cut') return sum;
+    return sum + (player.capHitValue ?? 0);
+  }, 0);
+  const cutDeadCap = roster.reduce((sum, player) => {
+    if (player.status?.toLowerCase() !== 'cut') return sum;
+    return sum + (player.deadCap ?? 0);
+  }, 0);
+  const remaining = capLimit - activeCap - cutDeadCap;
+  return Number(remaining.toFixed(1));
+};
+
 export const useSaveStore = create<SaveStoreState>()(
   persist(
     (set, get) => ({
@@ -77,12 +97,13 @@ export const useSaveStore = create<SaveStoreState>()(
       setSaveHeader: (header, teamId) => {
         const saveId = 'saveId' in header ? header.saveId : header.id;
         const teamAbbr = header.teamAbbr;
-        const capSpace = header.capSpace;
         const capLimit = header.capLimit;
         const rosterCount = header.rosterCount;
         const rosterLimit = header.rosterLimit;
         const phase = header.phase;
         const unlocked = resolveUnlocks(phase, header.unlocked);
+        const currentRoster = get().roster;
+        const capSpace = computeCapSpaceFromRoster(currentRoster, capLimit, header.capSpace);
 
         if (typeof window !== 'undefined') {
           localStorage.setItem('falco_active_save_id', saveId);
@@ -97,12 +118,20 @@ export const useSaveStore = create<SaveStoreState>()(
           capLimit,
           rosterCount,
           rosterLimit,
+          roster: currentRoster,
           phase,
           unlocked,
           saveLoadError: null,
           activeDraftSessionId: state.activeDraftSessionIdsBySave[saveId] ?? null,
         }));
       },
+      setRoster: (players) =>
+        set((state) => ({
+          ...state,
+          roster: players,
+          capSpace: computeCapSpaceFromRoster(players, state.capLimit, state.capSpace),
+          rosterCount: players.filter((player) => player.status?.toLowerCase() !== 'cut').length,
+        })),
       setHasHydrated: (value) => set((state) => ({ ...state, hasHydrated: value })),
       setSaveLoadError: (error) => set((state) => ({ ...state, saveLoadError: error })),
       setActiveTeam: (teamId, teamAbbr) =>
@@ -147,6 +176,7 @@ export const useSaveStore = create<SaveStoreState>()(
             capLimit: 0,
             rosterCount: 0,
             rosterLimit: 0,
+            roster: [],
             phase: 'resign_cut',
             unlocked: { freeAgency: false, draft: false },
             activeDraftSessionId: null,
@@ -223,9 +253,11 @@ export const useSaveStore = create<SaveStoreState>()(
           ...state,
           saveId: data.saveId,
           teamAbbr: data.teamAbbr,
-          capSpace: data.capSpace,
+          capSpace: computeCapSpaceFromRoster(state.roster, data.capLimit, data.capSpace),
           capLimit: data.capLimit,
-          rosterCount: data.rosterCount,
+          rosterCount: state.roster.length
+            ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length
+            : data.rosterCount,
           rosterLimit: data.rosterLimit,
           phase: data.phase,
           unlocked: resolveUnlocks(data.phase, data.unlocked),
@@ -261,9 +293,11 @@ export const useSaveStore = create<SaveStoreState>()(
           ...state,
           saveId: data.saveId,
           teamAbbr: data.teamAbbr,
-          capSpace: data.capSpace,
+          capSpace: computeCapSpaceFromRoster(state.roster, data.capLimit, data.capSpace),
           capLimit: data.capLimit,
-          rosterCount: data.rosterCount,
+          rosterCount: state.roster.length
+            ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length
+            : data.rosterCount,
           rosterLimit: data.rosterLimit,
           phase: data.phase,
           unlocked: resolveUnlocks(data.phase, data.unlocked),
@@ -285,6 +319,9 @@ export const useSaveStore = create<SaveStoreState>()(
         unlocked: state.unlocked,
         activeDraftSessionId: state.activeDraftSessionId,
         activeDraftSessionIdsBySave: state.activeDraftSessionIdsBySave,
+        roster: state.roster,
+        capSpace: state.capSpace,
+        capLimit: state.capLimit,
       }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);

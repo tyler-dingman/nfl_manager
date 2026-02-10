@@ -16,6 +16,8 @@ export default function FreeAgentsPage() {
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const roster = useSaveStore((state) => state.roster);
+  const setRoster = useSaveStore((state) => state.setRoster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const { data } = useFreeAgentsQuery(saveId, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
@@ -153,6 +155,14 @@ export default function FreeAgentsPage() {
 
     if (data.accepted && data.player) {
       setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
+      if (roster.length > 0) {
+        const updatedPlayer = data.player;
+        const exists = roster.some((item) => item.id === updatedPlayer.id);
+        const nextRoster = exists
+          ? roster.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
+          : [...roster, updatedPlayer];
+        setRoster(nextRoster);
+      }
       if ('header' in data && data.header) {
         setSaveHeader({
           ...data.header,

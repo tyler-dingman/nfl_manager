@@ -43,6 +43,7 @@ export default function RosterPage() {
   const capSpace = useSaveStore((state) => state.capSpace);
   const phase = useSaveStore((state) => state.phase);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const setRoster = useSaveStore((state) => state.setRoster);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const { data: rosterData } = useRosterQuery(saveId, teamAbbr);
@@ -73,7 +74,10 @@ export default function RosterPage() {
 
   useEffect(() => {
     setPlayers(rosterData);
-  }, [rosterData]);
+    if (rosterData.length > 0) {
+      setRoster(rosterData);
+    }
+  }, [rosterData, setRoster]);
 
   const handleSubmitCut = async () => {
     if (!activeCutPlayer) {
@@ -120,15 +124,18 @@ export default function RosterPage() {
       throw new Error(data.error || 'Unable to cut player right now.');
     }
 
+    if (data.player) {
+      setPlayers((prev) => {
+        const next = prev.map((item) => (item.id === data.player?.id ? data.player : item));
+        setRoster(next);
+        return next;
+      });
+    }
     if (data.header) {
       setSaveHeader({
         ...data.header,
         unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
       });
-    }
-
-    if (data.player) {
-      setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
     }
     setActiveCutPlayer(null);
   };
@@ -265,9 +272,11 @@ export default function RosterPage() {
         const updatedPlayer = data.player;
         setPlayers((prev) => {
           const exists = prev.some((item) => item.id === updatedPlayer.id);
-          return exists
+          const next = exists
             ? prev.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
             : [updatedPlayer, ...prev];
+          setRoster(next);
+          return next;
         });
       }
       if (activeExpiringContract) {
@@ -325,7 +334,11 @@ export default function RosterPage() {
     }
 
     if (data.player) {
-      setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
+      setPlayers((prev) => {
+        const next = prev.map((item) => (item.id === data.player?.id ? data.player : item));
+        setRoster(next);
+        return next;
+      });
     }
 
     setActiveRenegotiatePlayer(null);

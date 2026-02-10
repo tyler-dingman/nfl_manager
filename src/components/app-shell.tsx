@@ -10,6 +10,7 @@ import TeamThemeProvider from '@/components/team-theme-provider';
 import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
 import NextActionBanner from '@/components/next-action-banner';
 import { TeamFavicon } from '@/components/team-favicon';
+import { AdSlot } from '@/components/ads/AdSlot';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useSaveStore } from '@/features/save/save-store';
@@ -80,7 +81,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     [selectedTeamId, teams],
   );
 
-  const activeCapDollars = saveId ? capSpace * 1_000_000 : 0;
+  const hasCapSpace = hasHydrated && Boolean(saveId);
+  const activeCapDollars = hasCapSpace ? capSpace * 1_000_000 : 0;
   const capsWithActive = useMemo(
     () =>
       TEAM_CAP_SPACE.map((entry) =>
@@ -91,7 +93,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const capRank = selectedTeam
     ? computeCapRank(selectedTeam.abbr, capsWithActive)
     : capsWithActive.length + 1;
-  const formattedCapSpace = saveId ? formatCapMillions(activeCapDollars) : '--';
+  const formattedCapSpace = hasCapSpace ? formatCapMillions(activeCapDollars) : '—';
   const showOnTheClock = Boolean(isUserOnClock && pathname?.startsWith('/draft'));
 
   const lockedRoutes = useMemo(() => {
@@ -351,11 +353,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   <span
                     className={cn(
                       'whitespace-nowrap text-xs font-semibold md:text-sm',
-                      saveId && activeCapDollars < 0 ? 'text-destructive' : 'text-foreground',
+                      hasCapSpace && activeCapDollars < 0 ? 'text-destructive' : 'text-foreground',
                       capPulse ? 'animate-pulse' : null,
                     )}
                   >
-                    {formattedCapSpace} / {ordinal(capRank)}
+                    {hasCapSpace ? `${formattedCapSpace} / ${ordinal(capRank)}` : '—'}
                   </span>
                 </div>
                 {showOnTheClock ? (
@@ -369,6 +371,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               </div>
 
               <div className="flex items-center gap-3">
+                <div className="hidden lg:block">
+                  <AdSlot placement="HEADER" />
+                </div>
                 <div className="relative">
                   <button
                     type="button"

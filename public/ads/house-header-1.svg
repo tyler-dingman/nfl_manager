@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300">
+  <rect width="1200" height="300" rx="32" fill="#0f172a"/>
+  <rect x="40" y="40" width="1120" height="220" rx="24" fill="#1e293b"/>
+  <text x="80" y="140" font-family="Arial, sans-serif" font-size="42" fill="#e2e8f0">
+    Falco House Ad
+  </text>
+  <text x="80" y="190" font-family="Arial, sans-serif" font-size="24" fill="#94a3b8">
+    Subtle placement. Clean message. No distractions.
+  </text>
+</svg>
