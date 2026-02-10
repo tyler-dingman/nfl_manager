@@ -18,11 +18,12 @@ type AdSlotProps = {
   variant?: 'image' | 'html' | 'house';
   responsive?: { hideOnMobile?: boolean; hideOnDesktop?: boolean };
   onClose?: () => void;
+  sticky?: boolean;
 };
 
 const ANCHOR_DISMISS_KEY = 'falco_anchor_ad_dismissed';
 
-export function AdSlot({ placement, responsive, onClose }: AdSlotProps) {
+export function AdSlot({ placement, responsive, onClose, sticky = true }: AdSlotProps) {
   const pathname = usePathname();
   const [isDismissed, setIsDismissed] = useState(false);
 
@@ -77,12 +78,14 @@ export function AdSlot({ placement, responsive, onClose }: AdSlotProps) {
         )
       : cn('w-full max-w-full', placement === 'HEADER' ? 'max-w-[240px]' : null, responsiveClasses);
 
+  const shouldStick = placement === 'RIGHT_RAIL' && sticky;
+
   return (
     <div className={containerClass}>
       <div
         className={cn(
           'relative w-full max-w-full overflow-hidden rounded-xl border border-border bg-white shadow-sm',
-          placement === 'RIGHT_RAIL' ? 'sticky top-24' : null,
+          shouldStick ? 'sticky top-24' : null,
         )}
       >
         <div className="flex items-center justify-between border-b border-border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">

@@ -122,7 +122,7 @@ export default function ExperiencePage() {
         </div>
 
         <div className="hidden w-full lg:block">
-          <AdSlot placement="RIGHT_RAIL" />
+          <AdSlot placement="RIGHT_RAIL" sticky={false} />
         </div>
       </div>
 
