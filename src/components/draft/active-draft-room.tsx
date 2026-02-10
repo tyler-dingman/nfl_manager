@@ -5,6 +5,7 @@ import * as React from 'react';
 import { FalcoReactionFeed, type DraftEventDTO } from '@/components/draft/falco-reaction-feed';
 import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
+import { DraftTeamCard } from '@/components/draft/draft-team-card';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import {
   fillFalcoTemplate,
@@ -31,6 +32,7 @@ type ActiveDraftRoomProps = {
   speedLevel: DraftSpeedLevel;
   draftView: 'board' | 'trade';
   isUserDraftModalOpen?: boolean;
+  draftPhase?: 'PRE_DRAFT' | 'IN_DRAFT' | 'COMPLETED';
   onBackToBoard: () => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
   onSessionUpdate: (session: DraftSessionDTO) => void;
@@ -46,6 +48,7 @@ export function ActiveDraftRoom({
   speedLevel,
   draftView,
   isUserDraftModalOpen = false,
+  draftPhase = 'IN_DRAFT',
   onBackToBoard,
   onDraftPlayer,
   onSessionUpdate,
@@ -432,31 +435,31 @@ export function ActiveDraftRoom({
           const selectedPlayer = pick.selectedPlayerId
             ? session.prospects.find((player) => player.id === pick.selectedPlayerId)
             : null;
+          const team = teamLookup.get(pick.ownerTeamAbbr);
+          const statusLine = selectedPlayer
+            ? `${pick.ownerTeamAbbr} drafted ${formatName(selectedPlayer)} (${selectedPlayer.position})`
+            : isCurrent
+              ? 'On the clock'
+              : isNext
+                ? 'On deck'
+                : 'Waiting';
           return (
-            <div
-              key={pick.id}
-              className={cn(
-                'rounded-xl border border-border bg-white px-3 py-2 text-sm',
-                isCurrent && 'border-primary/50 bg-primary/5',
-              )}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-foreground">
-                  #{pick.overall} · {pick.ownerTeamAbbr}
-                </span>
-                {pick.ownerTeamAbbr === session.userTeamAbbr && (
-                  <Badge variant="secondary">User</Badge>
-                )}
-              </div>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {selectedPlayer
-                  ? `${pick.ownerTeamAbbr} drafted ${formatName(selectedPlayer)} (${selectedPlayer.position})`
-                  : isCurrent
-                    ? 'On the clock'
-                    : isNext
-                      ? 'On deck'
-                      : 'Waiting'}
-              </p>
+            <div key={pick.id} className="relative">
+              <DraftTeamCard
+                variant={draftPhase === 'PRE_DRAFT' ? 'pre' : 'in'}
+                model={{
+                  pickNumber: pick.overall,
+                  teamName: team?.name ?? pick.ownerTeamAbbr,
+                  logoUrl: team?.logoUrl,
+                  statusLine,
+                  isOnClock: isCurrent,
+                }}
+              />
+              {pick.ownerTeamAbbr === session.userTeamAbbr ? (
+                <Badge variant="secondary" className="pointer-events-none absolute right-2 top-2">
+                  User
+                </Badge>
+              ) : null}
             </div>
           );
         })}

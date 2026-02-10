@@ -163,6 +163,7 @@ export function PlayerTable({
   const [isMobile, setIsMobile] = React.useState(false);
   const [positionFilter, setPositionFilter] = React.useState('All');
   const [searchQuery, setSearchQuery] = React.useState('');
+  const isDraftVariant = variant === 'draft';
   const [sorting, setSorting] = React.useState<SortingState>(() => {
     if (variant === 'roster') {
       return [
@@ -262,7 +263,7 @@ export function PlayerTable({
           cell: ({ row }) => {
             const player = row.original;
             return (
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
                   {player.headshotUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -275,8 +276,10 @@ export function PlayerTable({
                     getInitials(player)
                   )}
                 </div>
-                <div className="space-y-0.5">
-                  <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                <div className="min-w-0 space-y-0.5">
+                  <p className="truncate text-sm font-semibold text-foreground">
+                    {formatName(player)}
+                  </p>
                   <p className="text-xs text-muted-foreground md:hidden">
                     {player.position} · {player.college ?? '—'}
                   </p>
@@ -659,6 +662,17 @@ export function PlayerTable({
     setSearchQuery('');
   };
 
+  const actionHeaderClass = isDraftVariant
+    ? 'sticky right-0 z-30 w-[120px] min-w-[120px] bg-slate-50 text-right border-l border-slate-200'
+    : 'w-[88px] text-right';
+  const actionCellClass = isDraftVariant
+    ? 'sticky right-0 z-20 w-[120px] min-w-[120px] bg-white text-right border-l border-slate-200'
+    : 'w-[88px] text-right';
+  const rankHeaderClass = isDraftVariant ? 'w-[64px] min-w-[64px]' : '';
+  const tableClassName = isDraftVariant
+    ? 'w-full border-collapse table-fixed'
+    : 'w-full border-collapse md:min-w-[720px]';
+
   return (
     <div className="rounded-2xl border border-border bg-white shadow-sm">
       <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
@@ -690,13 +704,13 @@ export function PlayerTable({
           ) : null}
         </div>
       </div>
-      <div className="space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
+      <div className="max-w-full space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
         {variant === 'freeAgent' && signedData.length > 0 ? (
           <div className="space-y-3">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Signed
             </p>
-            <table className="w-full border-collapse md:min-w-[720px]">
+            <table className={tableClassName}>
               <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
                 {signedTable.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id}>
@@ -705,7 +719,8 @@ export function PlayerTable({
                         key={header.id}
                         className={cn(
                           'px-4 py-2 sm:px-6',
-                          header.column.id === 'actions' && 'w-[88px] text-right',
+                          header.column.id === 'actions' && actionHeaderClass,
+                          header.column.id === 'rank' && rankHeaderClass,
                         )}
                       >
                         {header.isPlaceholder
@@ -732,7 +747,8 @@ export function PlayerTable({
                           key={cell.id}
                           className={cn(
                             'px-4 py-1.5 align-middle text-sm sm:px-6',
-                            cell.column.id === 'actions' && 'w-[88px] text-right',
+                            cell.column.id === 'actions' && actionCellClass,
+                            cell.column.id === 'rank' && rankHeaderClass,
                           )}
                         >
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -752,7 +768,7 @@ export function PlayerTable({
               Available
             </p>
           ) : null}
-          <table className="w-full border-collapse md:min-w-[720px]">
+          <table className={tableClassName}>
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
               {(variant === 'freeAgent' ? availableTable : table)
                 .getHeaderGroups()
@@ -763,7 +779,8 @@ export function PlayerTable({
                         key={header.id}
                         className={cn(
                           'px-4 py-2 sm:px-6',
-                          header.column.id === 'actions' && 'w-[88px] text-right',
+                          header.column.id === 'actions' && actionHeaderClass,
+                          header.column.id === 'rank' && rankHeaderClass,
                         )}
                       >
                         {header.isPlaceholder
@@ -790,7 +807,8 @@ export function PlayerTable({
                         key={cell.id}
                         className={cn(
                           'px-4 py-1.5 align-middle text-sm sm:px-6',
-                          cell.column.id === 'actions' && 'w-[88px] text-right',
+                          cell.column.id === 'actions' && actionCellClass,
+                          cell.column.id === 'rank' && rankHeaderClass,
                         )}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

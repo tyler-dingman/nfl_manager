@@ -42,12 +42,10 @@ export default function RosterPage() {
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
   const phase = useSaveStore((state) => state.phase);
-  const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
-  const ensureSaveId = useSaveStore((state) => state.ensureSaveId);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
-  const { data: rosterData, refresh: refreshPlayers } = useRosterQuery(saveId, teamAbbr);
+  const { data: rosterData } = useRosterQuery(saveId, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeResignPlayer, setActiveResignPlayer] = useState<PlayerRowDTO | null>(null);
@@ -82,8 +80,7 @@ export default function RosterPage() {
       return;
     }
 
-    const activeSaveId = await ensureSaveId();
-    if (!activeSaveId) {
+    if (!saveId) {
       pushToast({
         title: 'Session not initialized',
         description: 'Please return to Team Select to start a new offseason.',
@@ -96,7 +93,7 @@ export default function RosterPage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        saveId: activeSaveId,
+        saveId,
         playerId: activeCutPlayer.id,
         teamId: teamId || undefined,
         teamAbbr: teamAbbr || undefined,
@@ -133,7 +130,6 @@ export default function RosterPage() {
     if (data.player) {
       setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
     }
-    await refreshSaveHeader();
     setActiveCutPlayer(null);
   };
 
@@ -205,8 +201,7 @@ export default function RosterPage() {
       return;
     }
 
-    let activeSaveId = await ensureSaveId();
-    if (!activeSaveId) {
+    if (!saveId) {
       pushToast({
         title: 'Session not initialized',
         description: 'Please return to Team Select to start a new offseason.',
@@ -215,28 +210,18 @@ export default function RosterPage() {
       return;
     }
 
-    const sendOffer = async (targetSaveId: string) =>
-      apiFetch('/api/actions/re-sign', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          saveId: targetSaveId,
-          teamAbbr,
-          playerId,
-          years: offer.years,
-          apy: offer.apy,
-          guaranteed: offer.guaranteed,
-        }),
-      });
-
-    let response = await sendOffer(activeSaveId);
-    if (response.status === 404) {
-      const refreshedSaveId = await ensureSaveId();
-      if (refreshedSaveId && refreshedSaveId !== activeSaveId) {
-        activeSaveId = refreshedSaveId;
-        response = await sendOffer(activeSaveId);
-      }
-    }
+    const response = await apiFetch('/api/actions/re-sign', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        saveId,
+        teamAbbr,
+        playerId,
+        years: offer.years,
+        apy: offer.apy,
+        guaranteed: offer.guaranteed,
+      }),
+    });
 
     if (!response.ok) {
       const errorPayload = (await response.json()) as { ok?: boolean; error?: string };
@@ -269,11 +254,28 @@ export default function RosterPage() {
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
     }
 
-    await Promise.all([
-      refreshSaveHeader(),
-      refreshPlayers(),
-      fetchExpiringContracts(activeSaveId, teamAbbr).then(setExpiringContracts),
-    ]);
+    if (data.accepted) {
+      if (data.header) {
+        setSaveHeader({
+          ...data.header,
+          unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
+        });
+      }
+      if (data.player) {
+        const updatedPlayer = data.player;
+        setPlayers((prev) => {
+          const exists = prev.some((item) => item.id === updatedPlayer.id);
+          return exists
+            ? prev.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
+            : [updatedPlayer, ...prev];
+        });
+      }
+      if (activeExpiringContract) {
+        setExpiringContracts((prev) =>
+          prev.filter((contract) => contract.id !== activeExpiringContract.id),
+        );
+      }
+    }
 
     setActiveResignPlayer(null);
     setActiveExpiringContract(null);
@@ -322,7 +324,9 @@ export default function RosterPage() {
       });
     }
 
-    await Promise.all([refreshSaveHeader(), refreshPlayers()]);
+    if (data.player) {
+      setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
+    }
 
     setActiveRenegotiatePlayer(null);
   };

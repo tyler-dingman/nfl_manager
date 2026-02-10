@@ -228,14 +228,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
           >
             <div className="mb-[20px] mt-[20px] text-left text-sm">
-              <Image
-                src="/images/falco_logo.png"
-                alt="Falco"
-                width={200}
-                height={60}
-                className="block h-auto w-auto max-h-[120px] max-w-[120px] object-contain"
-                priority
-              />
+              <Link
+                href="/experience"
+                aria-label="Go to experience selection"
+                className="inline-flex cursor-pointer"
+              >
+                <Image
+                  src="/images/falco_logo.png"
+                  alt="Falco"
+                  width={200}
+                  height={60}
+                  className="block h-auto w-auto max-h-[120px] max-w-[120px] object-contain"
+                  priority
+                />
+              </Link>
             </div>
             <nav className="flex flex-col gap-6 text-sm">
               {navSections.map((section) => (

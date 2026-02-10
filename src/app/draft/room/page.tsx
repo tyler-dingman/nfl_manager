@@ -458,6 +458,12 @@ function DraftRoomContent() {
     );
   }
 
+  const draftPhase = session
+    ? session.status === 'completed'
+      ? 'COMPLETED'
+      : 'IN_DRAFT'
+    : 'PRE_DRAFT';
+
   return (
     <AppShell>
       <DraftGradeModal
@@ -540,6 +546,7 @@ function DraftRoomContent() {
                 currentPickIndex={onTheClockPickNumber}
                 userNextPickIndex={userNextPickIndex}
                 remainingProspects={lobbyProspects}
+                variant={draftPhase === 'PRE_DRAFT' ? 'pre' : 'in'}
               />
             </div>
           ) : null}
@@ -599,6 +606,7 @@ function DraftRoomContent() {
           speedLevel={speedLevel}
           draftView={draftView}
           isUserDraftModalOpen={isGradeOpen}
+          draftPhase={draftPhase}
           onBackToBoard={() => setDraftView('board')}
           onDraftPlayer={handleDraftPlayer}
           onSessionUpdate={setSession}

@@ -10,6 +10,7 @@ import {
   resignPlayerInState,
 } from '@/server/api/store';
 import type { ResignErrorDTO, ResignResultDTO } from '@/types/resign';
+import type { PlayerRowDTO } from '@/types/player';
 
 type ResignPayload = {
   saveId?: string;
@@ -103,10 +104,12 @@ export const POST = async (request: Request) => {
   });
 
   let updatedHeader = state.header;
+  let updatedPlayer: PlayerRowDTO | null = player ?? null;
   if (accepted) {
     if (player) {
       const result = resignPlayerInState(state, player.id, years, body.apy, body.guaranteed);
       updatedHeader = result.header;
+      updatedPlayer = result.player;
     } else if (expiringContract) {
       const result = resignExpiringContractInState(
         state,
@@ -116,6 +119,7 @@ export const POST = async (request: Request) => {
         body.guaranteed,
       );
       updatedHeader = result.header;
+      updatedPlayer = result.player;
     }
   }
 
@@ -148,6 +152,8 @@ export const POST = async (request: Request) => {
     reasoningTags: breakdown.reasoningTags,
     quote,
     newsItem,
+    header: accepted ? updatedHeader : undefined,
+    player: accepted && updatedPlayer ? updatedPlayer : undefined,
   };
 
   return NextResponse.json(payload);

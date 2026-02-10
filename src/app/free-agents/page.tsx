@@ -17,8 +17,7 @@ export default function FreeAgentsPage() {
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
-  const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
-  const { data, refresh: refreshPlayers } = useFreeAgentsQuery(saveId, teamAbbr);
+  const { data } = useFreeAgentsQuery(saveId, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
@@ -160,8 +159,6 @@ export default function FreeAgentsPage() {
           unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
         });
       }
-      await refreshPlayers();
-      await refreshSaveHeader();
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
       setTimeout(() => {
         setActiveOfferPlayer(null);
