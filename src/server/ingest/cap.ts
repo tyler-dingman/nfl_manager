@@ -48,8 +48,17 @@ export const syncCap = async (existingCap: UnifiedCap[] = []): Promise<CapSyncRe
   let matchedRows = 0;
 
   for (const row of scrapeRows) {
+<<<<<<< HEAD
     const teamAbbr = resolveTeamAbbr(row.teamName, row.teamSlug);
     const rowLabel = row.teamSlug ? `${row.teamName} (${row.teamSlug})` : row.teamName;
+=======
+    const normalized = normalizeTeamName(row.teamName);
+    const mapped = TEAM_ALIAS_TO_ABBR[normalized];
+    const seedMatch = NFL_TEAM_SEED.find(
+      (team) => team.abbreviation === mapped || normalizeTeamName(team.name) === normalized,
+    );
+    const teamAbbr = mapped ?? seedMatch?.abbreviation;
+>>>>>>> c1bd92b (Fix OTC cap ingestion and update league snapshot)
 
     if (!teamAbbr) {
       unmatched.push(row.teamName);
@@ -63,12 +72,20 @@ export const syncCap = async (existingCap: UnifiedCap[] = []): Promise<CapSyncRe
       continue;
     }
 
+    if (next.has(teamAbbr)) {
+      continue;
+    }
+
     next.set(teamAbbr, {
       teamAbbr,
-      totalCap: row.totalCapSpending,
-      usedCap: row.totalCapSpending,
+      totalCap: null,
+      usedCap: null,
       availableCap: row.capSpace,
     });
+
+    if (next.size === 32) {
+      break;
+    }
   }
 
   let updatedCount = 0;

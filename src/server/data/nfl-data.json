@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-17T17:52:28.943Z",
+  "updatedAt": "2026-03-17T18:49:34.709Z",
   "teams": [
     {
       "id": "ARI",
@@ -14088,15 +14088,6 @@
       "weight": 314
     },
     {
-      "id": "4242431",
-      "teamAbbr": "MIN",
-      "name": "Ty Chandler",
-      "position": "RB",
-      "age": 27,
-      "height": "5' 11\"",
-      "weight": 204
-    },
-    {
       "id": "4361985",
       "teamAbbr": "MIN",
       "name": "Christian Darrisaw",
@@ -15373,6 +15364,15 @@
       "age": 26,
       "height": "6' 0\"",
       "weight": 192
+    },
+    {
+      "id": "4242431",
+      "teamAbbr": "NO",
+      "name": "Ty Chandler",
+      "position": "RB",
+      "age": 27,
+      "height": "5' 11\"",
+      "weight": 204
     },
     {
       "id": "3115387",
@@ -20163,6 +20163,15 @@
       "weight": 202
     },
     {
+      "id": "4242516",
+      "teamAbbr": "SEA",
+      "name": "Noah Igbinoghene",
+      "position": "CB",
+      "age": 26,
+      "height": "5' 11\"",
+      "weight": 197
+    },
+    {
       "id": "4605478",
       "teamAbbr": "SEA",
       "name": "Jared Ivey",
@@ -22359,15 +22368,6 @@
       "weight": 283
     },
     {
-      "id": "4242516",
-      "teamAbbr": "WAS",
-      "name": "Noah Igbinoghene",
-      "position": "CB",
-      "age": 26,
-      "height": "5' 11\"",
-      "weight": 197
-    },
-    {
       "id": "4569511",
       "teamAbbr": "WAS",
       "name": "Drake Jackson",
@@ -22889,6 +22889,13 @@
       "years": null
     },
     {
+      "playerId": "4363408",
+      "teamAbbr": "ARI",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4428996",
       "teamAbbr": "ARI",
       "capHit": null,
@@ -22917,7 +22924,21 @@
       "years": null
     },
     {
+      "playerId": "17304",
+      "teamAbbr": "ARI",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4032481",
+      "teamAbbr": "ARI",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4360739",
       "teamAbbr": "ARI",
       "capHit": null,
       "guaranteed": 0,
@@ -22959,6 +22980,13 @@
       "years": null
     },
     {
+      "playerId": "3886809",
+      "teamAbbr": "ARI",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4692835",
       "teamAbbr": "ARI",
       "capHit": null,
@@ -22967,13 +22995,6 @@
     },
     {
       "playerId": "4361272",
-      "teamAbbr": "ARI",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "3886809",
       "teamAbbr": "ARI",
       "capHit": null,
       "guaranteed": 0,
@@ -22994,14 +23015,14 @@
       "years": null
     },
     {
-      "playerId": "4566192",
+      "playerId": "4240573",
       "teamAbbr": "ARI",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4240573",
+      "playerId": "4566192",
       "teamAbbr": "ARI",
       "capHit": null,
       "guaranteed": 0,
@@ -23036,14 +23057,14 @@
       "years": null
     },
     {
-      "playerId": "4431431",
+      "playerId": "4431433",
       "teamAbbr": "ARI",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4429185",
+      "playerId": "4431431",
       "teamAbbr": "ARI",
       "capHit": null,
       "guaranteed": 0,
@@ -23057,7 +23078,7 @@
       "years": null
     },
     {
-      "playerId": "4431433",
+      "playerId": "4429185",
       "teamAbbr": "ARI",
       "capHit": null,
       "guaranteed": 0,
@@ -23078,13 +23099,6 @@
       "years": null
     },
     {
-      "playerId": "4875912",
-      "teamAbbr": "ARI",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4605858",
       "teamAbbr": "ARI",
       "capHit": null,
@@ -23092,7 +23106,7 @@
       "years": null
     },
     {
-      "playerId": "4240826",
+      "playerId": "4875912",
       "teamAbbr": "ARI",
       "capHit": null,
       "guaranteed": 0,
@@ -23106,21 +23120,7 @@
       "years": null
     },
     {
-      "playerId": "17304",
-      "teamAbbr": "ARI",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4363408",
-      "teamAbbr": "ARI",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4360739",
+      "playerId": "4240826",
       "teamAbbr": "ARI",
       "capHit": null,
       "guaranteed": 0,
@@ -24149,6 +24149,13 @@
       "years": null
     },
     {
+      "playerId": "4035685",
+      "teamAbbr": "BUF",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4241468",
       "teamAbbr": "BUF",
       "capHit": null,
@@ -24212,14 +24219,14 @@
       "years": null
     },
     {
-      "playerId": "4241476",
+      "playerId": "4427826",
       "teamAbbr": "BUF",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4427826",
+      "playerId": "4241476",
       "teamAbbr": "BUF",
       "capHit": null,
       "guaranteed": 0,
@@ -24240,14 +24247,14 @@
       "years": null
     },
     {
-      "playerId": "4036448",
+      "playerId": "4249214",
       "teamAbbr": "BUF",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4249214",
+      "playerId": "4036448",
       "teamAbbr": "BUF",
       "capHit": null,
       "guaranteed": 0,
@@ -24332,13 +24339,6 @@
     },
     {
       "playerId": "4879326",
-      "teamAbbr": "BUF",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4035685",
       "teamAbbr": "BUF",
       "capHit": null,
       "guaranteed": 0,
@@ -24492,14 +24492,14 @@
       "years": null
     },
     {
-      "playerId": "4034962",
+      "playerId": "4714157",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4714157",
+      "playerId": "4034962",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
@@ -24541,14 +24541,14 @@
       "years": null
     },
     {
-      "playerId": "4431588",
+      "playerId": "4256224",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4212909",
+      "playerId": "4431588",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
@@ -24563,6 +24563,13 @@
     },
     {
       "playerId": "4035462",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4212909",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
@@ -24604,48 +24611,6 @@
       "years": null
     },
     {
-      "playerId": "4428421",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4428125",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4426926",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4369950",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "3929637",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4695883",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4242230",
       "teamAbbr": "CAR",
       "capHit": null,
@@ -24660,14 +24625,49 @@
       "years": null
     },
     {
-      "playerId": "4708486",
+      "playerId": "4369950",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4880613",
+      "playerId": "4426926",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4695883",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4428421",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4428125",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "3929637",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4708486",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
@@ -24681,35 +24681,14 @@
       "years": null
     },
     {
+      "playerId": "4880613",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4431426",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4428532",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4367330",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4428909",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4360763",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
@@ -24723,28 +24702,28 @@
       "years": null
     },
     {
-      "playerId": "5279357",
+      "playerId": "4428532",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4570485",
+      "playerId": "4360763",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4684625",
+      "playerId": "4428909",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4430211",
+      "playerId": "4367330",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
@@ -24758,13 +24737,6 @@
       "years": null
     },
     {
-      "playerId": "5082648",
-      "teamAbbr": "CAR",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4709392",
       "teamAbbr": "CAR",
       "capHit": null,
@@ -24772,7 +24744,35 @@
       "years": null
     },
     {
-      "playerId": "4256224",
+      "playerId": "5082648",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "5279357",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4430211",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4684625",
+      "teamAbbr": "CAR",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4570485",
       "teamAbbr": "CAR",
       "capHit": null,
       "guaranteed": 0,
@@ -25052,6 +25052,13 @@
       "years": null
     },
     {
+      "playerId": "3116726",
+      "teamAbbr": "CHI",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4430822",
       "teamAbbr": "CHI",
       "capHit": null,
@@ -25080,13 +25087,6 @@
       "years": null
     },
     {
-      "playerId": "4240655",
-      "teamAbbr": "CHI",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "3948283",
       "teamAbbr": "CHI",
       "capHit": null,
@@ -25094,7 +25094,7 @@
       "years": null
     },
     {
-      "playerId": "4917592",
+      "playerId": "4240655",
       "teamAbbr": "CHI",
       "capHit": null,
       "guaranteed": 0,
@@ -25102,6 +25102,13 @@
     },
     {
       "playerId": "4241482",
+      "teamAbbr": "CHI",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4917592",
       "teamAbbr": "CHI",
       "capHit": null,
       "guaranteed": 0,
@@ -25150,7 +25157,7 @@
       "years": null
     },
     {
-      "playerId": "5125873",
+      "playerId": "4361094",
       "teamAbbr": "CHI",
       "capHit": null,
       "guaranteed": 0,
@@ -25164,21 +25171,7 @@
       "years": null
     },
     {
-      "playerId": "4916349",
-      "teamAbbr": "CHI",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4361094",
-      "teamAbbr": "CHI",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4567482",
+      "playerId": "5125873",
       "teamAbbr": "CHI",
       "capHit": null,
       "guaranteed": 0,
@@ -25192,21 +25185,21 @@
       "years": null
     },
     {
+      "playerId": "4567482",
+      "teamAbbr": "CHI",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4916349",
+      "teamAbbr": "CHI",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4572685",
-      "teamAbbr": "CHI",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4430805",
-      "teamAbbr": "CHI",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4873482",
       "teamAbbr": "CHI",
       "capHit": null,
       "guaranteed": 0,
@@ -25234,7 +25227,14 @@
       "years": null
     },
     {
-      "playerId": "3116726",
+      "playerId": "4430805",
+      "teamAbbr": "CHI",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4873482",
       "teamAbbr": "CHI",
       "capHit": null,
       "guaranteed": 0,
@@ -25906,6 +25906,13 @@
       "years": null
     },
     {
+      "playerId": "4362603",
+      "teamAbbr": "CLE",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4428678",
       "teamAbbr": "CLE",
       "capHit": null,
@@ -25913,7 +25920,7 @@
       "years": null
     },
     {
-      "playerId": "4362603",
+      "playerId": "4613104",
       "teamAbbr": "CLE",
       "capHit": null,
       "guaranteed": 0,
@@ -25927,14 +25934,14 @@
       "years": null
     },
     {
-      "playerId": "4242247",
+      "playerId": "3139389",
       "teamAbbr": "CLE",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4613104",
+      "playerId": "4242247",
       "teamAbbr": "CLE",
       "capHit": null,
       "guaranteed": 0,
@@ -25976,14 +25983,21 @@
       "years": null
     },
     {
-      "playerId": "4572519",
+      "playerId": "4575664",
       "teamAbbr": "CLE",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4575664",
+      "playerId": "4567410",
+      "teamAbbr": "CLE",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4572519",
       "teamAbbr": "CLE",
       "capHit": null,
       "guaranteed": 0,
@@ -26004,7 +26018,7 @@
       "years": null
     },
     {
-      "playerId": "4567410",
+      "playerId": "4258620",
       "teamAbbr": "CLE",
       "capHit": null,
       "guaranteed": 0,
@@ -26018,7 +26032,21 @@
       "years": null
     },
     {
-      "playerId": "4258620",
+      "playerId": "4426955",
+      "teamAbbr": "CLE",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4566157",
+      "teamAbbr": "CLE",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4242536",
       "teamAbbr": "CLE",
       "capHit": null,
       "guaranteed": 0,
@@ -26046,27 +26074,6 @@
       "years": null
     },
     {
-      "playerId": "4566157",
-      "teamAbbr": "CLE",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4426955",
-      "teamAbbr": "CLE",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4242536",
-      "teamAbbr": "CLE",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4576845",
       "teamAbbr": "CLE",
       "capHit": null,
@@ -26075,13 +26082,6 @@
     },
     {
       "playerId": "3110565",
-      "teamAbbr": "CLE",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "3139389",
       "teamAbbr": "CLE",
       "capHit": null,
       "guaranteed": 0,
@@ -26235,14 +26235,14 @@
       "years": null
     },
     {
-      "playerId": "4426875",
+      "playerId": "4567242",
       "teamAbbr": "DAL",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4567242",
+      "playerId": "4426875",
       "teamAbbr": "DAL",
       "capHit": null,
       "guaranteed": 0,
@@ -26312,6 +26312,13 @@
       "years": null
     },
     {
+      "playerId": "4044138",
+      "teamAbbr": "DAL",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4240603",
       "teamAbbr": "DAL",
       "capHit": null,
@@ -26368,20 +26375,6 @@
       "years": null
     },
     {
-      "playerId": "5083754",
-      "teamAbbr": "DAL",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4427140",
-      "teamAbbr": "DAL",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "3929814",
       "teamAbbr": "DAL",
       "capHit": null,
@@ -26389,7 +26382,14 @@
       "years": null
     },
     {
-      "playerId": "4574551",
+      "playerId": "3920591",
+      "teamAbbr": "DAL",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "5083754",
       "teamAbbr": "DAL",
       "capHit": null,
       "guaranteed": 0,
@@ -26403,7 +26403,14 @@
       "years": null
     },
     {
-      "playerId": "3920591",
+      "playerId": "4574551",
+      "teamAbbr": "DAL",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4427140",
       "teamAbbr": "DAL",
       "capHit": null,
       "guaranteed": 0,
@@ -26438,6 +26445,27 @@
       "years": null
     },
     {
+      "playerId": "4685841",
+      "teamAbbr": "DAL",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4242442",
+      "teamAbbr": "DAL",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4872841",
+      "teamAbbr": "DAL",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4595352",
       "teamAbbr": "DAL",
       "capHit": null,
@@ -26459,20 +26487,6 @@
       "years": null
     },
     {
-      "playerId": "4872841",
-      "teamAbbr": "DAL",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4685841",
-      "teamAbbr": "DAL",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4431562",
       "teamAbbr": "DAL",
       "capHit": null,
@@ -26487,13 +26501,6 @@
       "years": null
     },
     {
-      "playerId": "5066095",
-      "teamAbbr": "DAL",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4363547",
       "teamAbbr": "DAL",
       "capHit": null,
@@ -26501,14 +26508,7 @@
       "years": null
     },
     {
-      "playerId": "4242442",
-      "teamAbbr": "DAL",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4384549",
+      "playerId": "5066095",
       "teamAbbr": "DAL",
       "capHit": null,
       "guaranteed": 0,
@@ -26522,7 +26522,7 @@
       "years": null
     },
     {
-      "playerId": "4044138",
+      "playerId": "4384549",
       "teamAbbr": "DAL",
       "capHit": null,
       "guaranteed": 0,
@@ -26774,6 +26774,13 @@
       "years": null
     },
     {
+      "playerId": "4360231",
+      "teamAbbr": "DEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4431280",
       "teamAbbr": "DEN",
       "capHit": null,
@@ -26844,6 +26851,20 @@
       "years": null
     },
     {
+      "playerId": "4037559",
+      "teamAbbr": "DEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4428241",
+      "teamAbbr": "DEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4431453",
       "teamAbbr": "DEN",
       "capHit": null,
@@ -26858,7 +26879,7 @@
       "years": null
     },
     {
-      "playerId": "4428241",
+      "playerId": "4362748",
       "teamAbbr": "DEN",
       "capHit": null,
       "guaranteed": 0,
@@ -26872,21 +26893,7 @@
       "years": null
     },
     {
-      "playerId": "4037559",
-      "teamAbbr": "DEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "5216101",
-      "teamAbbr": "DEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4362748",
+      "playerId": "3915147",
       "teamAbbr": "DEN",
       "capHit": null,
       "guaranteed": 0,
@@ -26900,7 +26907,7 @@
       "years": null
     },
     {
-      "playerId": "3915147",
+      "playerId": "5216101",
       "teamAbbr": "DEN",
       "capHit": null,
       "guaranteed": 0,
@@ -26928,14 +26935,14 @@
       "years": null
     },
     {
-      "playerId": "4693373",
+      "playerId": "4371946",
       "teamAbbr": "DEN",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4371946",
+      "playerId": "4693373",
       "teamAbbr": "DEN",
       "capHit": null,
       "guaranteed": 0,
@@ -26949,13 +26956,6 @@
       "years": null
     },
     {
-      "playerId": "4374089",
-      "teamAbbr": "DEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4688371",
       "teamAbbr": "DEN",
       "capHit": null,
@@ -26963,14 +26963,14 @@
       "years": null
     },
     {
-      "playerId": "4362524",
+      "playerId": "4374089",
       "teamAbbr": "DEN",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4428886",
+      "playerId": "4430250",
       "teamAbbr": "DEN",
       "capHit": null,
       "guaranteed": 0,
@@ -26991,14 +26991,14 @@
       "years": null
     },
     {
-      "playerId": "4430250",
+      "playerId": "4428886",
       "teamAbbr": "DEN",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4360231",
+      "playerId": "4362524",
       "teamAbbr": "DEN",
       "capHit": null,
       "guaranteed": 0,
@@ -27257,7 +27257,7 @@
       "years": null
     },
     {
-      "playerId": "4569323",
+      "playerId": "4051353",
       "teamAbbr": "DET",
       "capHit": null,
       "guaranteed": 0,
@@ -27271,14 +27271,7 @@
       "years": null
     },
     {
-      "playerId": "4367835",
-      "teamAbbr": "DET",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4051353",
+      "playerId": "3915486",
       "teamAbbr": "DET",
       "capHit": null,
       "guaranteed": 0,
@@ -27286,6 +27279,20 @@
     },
     {
       "playerId": "4917439",
+      "teamAbbr": "DET",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4367835",
+      "teamAbbr": "DET",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4569323",
       "teamAbbr": "DET",
       "capHit": null,
       "guaranteed": 0,
@@ -27306,14 +27313,14 @@
       "years": null
     },
     {
-      "playerId": "4035270",
+      "playerId": "4240069",
       "teamAbbr": "DET",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4240069",
+      "playerId": "4035270",
       "teamAbbr": "DET",
       "capHit": null,
       "guaranteed": 0,
@@ -27342,13 +27349,6 @@
     },
     {
       "playerId": "4880638",
-      "teamAbbr": "DET",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4877824",
       "teamAbbr": "DET",
       "capHit": null,
       "guaranteed": 0,
@@ -27390,14 +27390,14 @@
       "years": null
     },
     {
-      "playerId": "5144894",
+      "playerId": "4877824",
       "teamAbbr": "DET",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "3915486",
+      "playerId": "4361788",
       "teamAbbr": "DET",
       "capHit": null,
       "guaranteed": 0,
@@ -27418,7 +27418,7 @@
       "years": null
     },
     {
-      "playerId": "4361788",
+      "playerId": "5144894",
       "teamAbbr": "DET",
       "capHit": null,
       "guaranteed": 0,
@@ -28251,14 +28251,14 @@
       "years": null
     },
     {
-      "playerId": "4360502",
+      "playerId": "4240059",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4240059",
+      "playerId": "4360502",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
@@ -28272,14 +28272,14 @@
       "years": null
     },
     {
-      "playerId": "4576069",
+      "playerId": "4373474",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4373474",
+      "playerId": "4576069",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
@@ -28356,14 +28356,14 @@
       "years": null
     },
     {
-      "playerId": "4361689",
+      "playerId": "4430681",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4430681",
+      "playerId": "4361689",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
@@ -28377,7 +28377,7 @@
       "years": null
     },
     {
-      "playerId": "4878842",
+      "playerId": "4575558",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
@@ -28391,7 +28391,7 @@
       "years": null
     },
     {
-      "playerId": "4575558",
+      "playerId": "4695607",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
@@ -28405,7 +28405,14 @@
       "years": null
     },
     {
-      "playerId": "4695607",
+      "playerId": "4878842",
+      "teamAbbr": "HOU",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "3128412",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
@@ -28419,7 +28426,7 @@
       "years": null
     },
     {
-      "playerId": "3128412",
+      "playerId": "3045474",
       "teamAbbr": "HOU",
       "capHit": null,
       "guaranteed": 0,
@@ -31100,7 +31107,21 @@
       "years": null
     },
     {
-      "playerId": "4046528",
+      "playerId": "3043234",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4240780",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4243371",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -31121,21 +31142,14 @@
       "years": null
     },
     {
-      "playerId": "3043234",
+      "playerId": "3932335",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4243371",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4240780",
+      "playerId": "4046528",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -31156,7 +31170,14 @@
       "years": null
     },
     {
-      "playerId": "4058521",
+      "playerId": "4259558",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4240595",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -31164,6 +31185,20 @@
     },
     {
       "playerId": "4242457",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4034729",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4058521",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -31219,14 +31254,7 @@
       "years": null
     },
     {
-      "playerId": "4362630",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4038437",
+      "playerId": "4361438",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -31240,7 +31268,14 @@
       "years": null
     },
     {
-      "playerId": "4361438",
+      "playerId": "4038437",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4362630",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -31275,55 +31310,6 @@
       "years": null
     },
     {
-      "playerId": "4693331",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4426794",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4372413",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4426535",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4876614",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4431536",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4685637",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4367699",
       "teamAbbr": "MIA",
       "capHit": null,
@@ -31345,35 +31331,56 @@
       "years": null
     },
     {
+      "playerId": "4876614",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4426794",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4431536",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4693331",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4426535",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4372413",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4685637",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4431044",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4430877",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4687188",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4712462",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4361003",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -31394,7 +31401,14 @@
       "years": null
     },
     {
-      "playerId": "4430153",
+      "playerId": "4430877",
+      "teamAbbr": "MIA",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4687188",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -31408,28 +31422,21 @@
       "years": null
     },
     {
-      "playerId": "4259558",
+      "playerId": "4712462",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4426507",
+      "playerId": "4361003",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "3895840",
-      "teamAbbr": "MIA",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4379412",
+      "playerId": "4430153",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -31450,21 +31457,21 @@
       "years": null
     },
     {
-      "playerId": "3932335",
+      "playerId": "4379412",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4034729",
+      "playerId": "3895840",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4240595",
+      "playerId": "4426507",
       "teamAbbr": "MIA",
       "capHit": null,
       "guaranteed": 0,
@@ -33410,14 +33417,14 @@
       "years": null
     },
     {
-      "playerId": "4362840",
+      "playerId": "14958",
       "teamAbbr": "NYJ",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "14958",
+      "playerId": "4362840",
       "teamAbbr": "NYJ",
       "capHit": null,
       "guaranteed": 0,
@@ -33550,6 +33557,13 @@
       "years": null
     },
     {
+      "playerId": "4045299",
+      "teamAbbr": "NYJ",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4240405",
       "teamAbbr": "NYJ",
       "capHit": null,
@@ -33557,7 +33571,7 @@
       "years": null
     },
     {
-      "playerId": "4045299",
+      "playerId": "4428963",
       "teamAbbr": "NYJ",
       "capHit": null,
       "guaranteed": 0,
@@ -33627,7 +33641,7 @@
       "years": null
     },
     {
-      "playerId": "4280416",
+      "playerId": "4250360",
       "teamAbbr": "NYJ",
       "capHit": null,
       "guaranteed": 0,
@@ -33662,14 +33676,7 @@
       "years": null
     },
     {
-      "playerId": "4250360",
-      "teamAbbr": "NYJ",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4429435",
+      "playerId": "4280416",
       "teamAbbr": "NYJ",
       "capHit": null,
       "guaranteed": 0,
@@ -33711,6 +33718,20 @@
       "years": null
     },
     {
+      "playerId": "4429435",
+      "teamAbbr": "NYJ",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4426921",
+      "teamAbbr": "NYJ",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4429411",
       "teamAbbr": "NYJ",
       "capHit": null,
@@ -33732,14 +33753,14 @@
       "years": null
     },
     {
-      "playerId": "4426921",
+      "playerId": "4432237",
       "teamAbbr": "NYJ",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4432237",
+      "playerId": "5279356",
       "teamAbbr": "NYJ",
       "capHit": null,
       "guaranteed": 0,
@@ -33768,20 +33789,6 @@
     },
     {
       "playerId": "4431053",
-      "teamAbbr": "NYJ",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "5279356",
-      "teamAbbr": "NYJ",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4428963",
       "teamAbbr": "NYJ",
       "capHit": null,
       "guaranteed": 0,
@@ -35825,6 +35832,13 @@
       "years": null
     },
     {
+      "playerId": "3886812",
+      "teamAbbr": "TB",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4596448",
       "teamAbbr": "TB",
       "capHit": null,
@@ -35895,13 +35909,6 @@
       "years": null
     },
     {
-      "playerId": "4567480",
-      "teamAbbr": "TB",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4361727",
       "teamAbbr": "TB",
       "capHit": null,
@@ -35909,7 +35916,42 @@
       "years": null
     },
     {
+      "playerId": "4567480",
+      "teamAbbr": "TB",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4608810",
+      "teamAbbr": "TB",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4567109",
+      "teamAbbr": "TB",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4568492",
+      "teamAbbr": "TB",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4249616",
+      "teamAbbr": "TB",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4568024",
       "teamAbbr": "TB",
       "capHit": null,
       "guaranteed": 0,
@@ -35944,42 +35986,7 @@
       "years": null
     },
     {
-      "playerId": "4567109",
-      "teamAbbr": "TB",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4249616",
-      "teamAbbr": "TB",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4568024",
-      "teamAbbr": "TB",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4568492",
-      "teamAbbr": "TB",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4429847",
-      "teamAbbr": "TB",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4608357",
       "teamAbbr": "TB",
       "capHit": null,
       "guaranteed": 0,
@@ -35993,21 +36000,7 @@
       "years": null
     },
     {
-      "playerId": "4572786",
-      "teamAbbr": "TB",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4569202",
-      "teamAbbr": "TB",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4431153",
       "teamAbbr": "TB",
       "capHit": null,
       "guaranteed": 0,
@@ -36021,6 +36014,13 @@
       "years": null
     },
     {
+      "playerId": "4608357",
+      "teamAbbr": "TB",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4431184",
       "teamAbbr": "TB",
       "capHit": null,
@@ -36028,14 +36028,14 @@
       "years": null
     },
     {
-      "playerId": "2979482",
+      "playerId": "4431153",
       "teamAbbr": "TB",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "3886812",
+      "playerId": "4572786",
       "teamAbbr": "TB",
       "capHit": null,
       "guaranteed": 0,
@@ -36049,6 +36049,13 @@
       "years": null
     },
     {
+      "playerId": "3051942",
+      "teamAbbr": "TB",
+      "capHit": null,
+      "guaranteed": 1250000,
+      "years": null
+    },
+    {
       "playerId": "2575164",
       "teamAbbr": "TB",
       "capHit": null,
@@ -36056,10 +36063,10 @@
       "years": null
     },
     {
-      "playerId": "3051942",
+      "playerId": "2979482",
       "teamAbbr": "TB",
       "capHit": null,
-      "guaranteed": 1250000,
+      "guaranteed": 0,
       "years": null
     },
     {
@@ -36273,7 +36280,14 @@
       "years": null
     },
     {
-      "playerId": "4242292",
+      "playerId": "4057082",
+      "teamAbbr": "TEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4570084",
       "teamAbbr": "TEN",
       "capHit": null,
       "guaranteed": 0,
@@ -36287,7 +36301,7 @@
       "years": null
     },
     {
-      "playerId": "4057082",
+      "playerId": "4242292",
       "teamAbbr": "TEN",
       "capHit": null,
       "guaranteed": 0,
@@ -36322,13 +36336,6 @@
       "years": null
     },
     {
-      "playerId": "4585317",
-      "teamAbbr": "TEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
       "playerId": "4045701",
       "teamAbbr": "TEN",
       "capHit": null,
@@ -36336,7 +36343,14 @@
       "years": null
     },
     {
-      "playerId": "4362617",
+      "playerId": "4259547",
+      "teamAbbr": "TEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4585317",
       "teamAbbr": "TEN",
       "capHit": null,
       "guaranteed": 0,
@@ -36344,6 +36358,13 @@
     },
     {
       "playerId": "4430118",
+      "teamAbbr": "TEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4362617",
       "teamAbbr": "TEN",
       "capHit": null,
       "guaranteed": 0,
@@ -36364,42 +36385,7 @@
       "years": null
     },
     {
-      "playerId": "4431147",
-      "teamAbbr": "TEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4361604",
-      "teamAbbr": "TEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4243321",
-      "teamAbbr": "TEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4431252",
-      "teamAbbr": "TEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4879480",
-      "teamAbbr": "TEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4573318",
+      "playerId": "4373320",
       "teamAbbr": "TEN",
       "capHit": null,
       "guaranteed": 0,
@@ -36420,14 +36406,7 @@
       "years": null
     },
     {
-      "playerId": "4373320",
-      "teamAbbr": "TEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4372091",
+      "playerId": "4431147",
       "teamAbbr": "TEN",
       "capHit": null,
       "guaranteed": 0,
@@ -36441,6 +36420,41 @@
       "years": null
     },
     {
+      "playerId": "4573318",
+      "teamAbbr": "TEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4879480",
+      "teamAbbr": "TEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4361604",
+      "teamAbbr": "TEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4372091",
+      "teamAbbr": "TEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
+      "playerId": "4243321",
+      "teamAbbr": "TEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4700676",
       "teamAbbr": "TEN",
       "capHit": null,
@@ -36448,14 +36462,14 @@
       "years": null
     },
     {
-      "playerId": "4426336",
+      "playerId": "4431252",
       "teamAbbr": "TEN",
       "capHit": null,
       "guaranteed": 0,
       "years": null
     },
     {
-      "playerId": "4431353",
+      "playerId": "4426336",
       "teamAbbr": "TEN",
       "capHit": null,
       "guaranteed": 0,
@@ -36490,6 +36504,13 @@
       "years": null
     },
     {
+      "playerId": "4431353",
+      "teamAbbr": "TEN",
+      "capHit": null,
+      "guaranteed": 0,
+      "years": null
+    },
+    {
       "playerId": "4431360",
       "teamAbbr": "TEN",
       "capHit": null,
@@ -36505,20 +36526,6 @@
     },
     {
       "playerId": "3124084",
-      "teamAbbr": "TEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4259547",
-      "teamAbbr": "TEN",
-      "capHit": null,
-      "guaranteed": 0,
-      "years": null
-    },
-    {
-      "playerId": "4570084",
       "teamAbbr": "TEN",
       "capHit": null,
       "guaranteed": 0,
@@ -36959,5 +36966,198 @@
       "years": null
     }
   ],
-  "cap": []
+  "cap": [
+    {
+      "teamAbbr": "WAS",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 69886669
+    },
+    {
+      "teamAbbr": "LAC",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 62094614
+    },
+    {
+      "teamAbbr": "TEN",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 57324675
+    },
+    {
+      "teamAbbr": "ARI",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 53391553
+    },
+    {
+      "teamAbbr": "NYJ",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 44684740
+    },
+    {
+      "teamAbbr": "SEA",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 44081984
+    },
+    {
+      "teamAbbr": "NE",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 42176235
+    },
+    {
+      "teamAbbr": "SF",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 42107205
+    },
+    {
+      "teamAbbr": "PHI",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 40067170
+    },
+    {
+      "teamAbbr": "IND",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 37642289
+    },
+    {
+      "teamAbbr": "DET",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 30299808
+    },
+    {
+      "teamAbbr": "BAL",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 28476069
+    },
+    {
+      "teamAbbr": "LV",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 27414109
+    },
+    {
+      "teamAbbr": "CLE",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 24291935
+    },
+    {
+      "teamAbbr": "TB",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 23034677
+    },
+    {
+      "teamAbbr": "LAR",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 22453243
+    },
+    {
+      "teamAbbr": "CIN",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 22169376
+    },
+    {
+      "teamAbbr": "ATL",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 22148291
+    },
+    {
+      "teamAbbr": "PIT",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 22043248
+    },
+    {
+      "teamAbbr": "GB",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 21944093
+    },
+    {
+      "teamAbbr": "NYG",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 21336939
+    },
+    {
+      "teamAbbr": "HOU",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 21286234
+    },
+    {
+      "teamAbbr": "DAL",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 18562885
+    },
+    {
+      "teamAbbr": "DEN",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 17891401
+    },
+    {
+      "teamAbbr": "NO",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 13290210
+    },
+    {
+      "teamAbbr": "BUF",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 11377426
+    },
+    {
+      "teamAbbr": "KC",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 10935301
+    },
+    {
+      "teamAbbr": "CAR",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 8052804
+    },
+    {
+      "teamAbbr": "JAX",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 7184040
+    },
+    {
+      "teamAbbr": "MIN",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 5914912
+    },
+    {
+      "teamAbbr": "CHI",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 493528
+    },
+    {
+      "teamAbbr": "MIA",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": -7769471
+    }
+  ]
 }
