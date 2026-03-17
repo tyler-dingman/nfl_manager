@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 
-import { EXPIRING_CONTRACTS, type ExpiringContractRow } from '@/lib/expiring-contracts';
+import type { ExpiringContractRow } from '@/lib/expiring-contracts';
+import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
+import { getExpiringContractsForTeam } from '@/server/logic/expiring-contracts';
 import { ensureSaveState, getSaveState, getSaveStateResult } from '@/server/api/store';
 
 const slugify = (value: string) =>
@@ -15,28 +17,16 @@ const parseMoneyMillions = (value: string): number => {
   return Number.isNaN(parsed) ? 0 : parsed;
 };
 
-const CHIEFS_EXPIRING_EXCLUSIONS = new Set([
-  'jalen-royals',
-  'jaden-hicks',
-  'rashee-rice',
-  'trent-mcduffie',
-]);
-
-const isChiefsExpiringExcluded = (
-  teamAbbr: string | null,
-  player: { firstName: string; lastName: string },
-) => {
-  if (!teamAbbr || teamAbbr.toUpperCase() !== 'KC') return false;
-  const normalized = slugify(`${player.firstName} ${player.lastName}`);
-  return CHIEFS_EXPIRING_EXCLUSIONS.has(normalized);
-};
-
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const saveId = searchParams.get('saveId');
   const teamAbbr = searchParams.get('teamAbbr');
   if (!saveId) {
-    return NextResponse.json({ ok: true, players: EXPIRING_CONTRACTS });
+    const defaultTeamAbbr = teamAbbr?.toUpperCase() ?? 'KC';
+    return NextResponse.json({
+      ok: true,
+      players: getExpiringContractsForTeam(defaultTeamAbbr, NFL_LEAGUE_DATA),
+    });
   }
 
   if (!getSaveState(saveId) && teamAbbr) {
@@ -53,7 +43,6 @@ export const GET = async (request: Request) => {
       const isExpiring =
         player.contract?.expiresAfterSeason === true || player.contractYearsRemaining === 0;
       if (!isExpiring) return false;
-      if (isChiefsExpiringExcluded(teamAbbr, player)) return false;
       return true;
     })
     .map((player) => {

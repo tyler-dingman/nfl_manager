@@ -10,10 +10,10 @@ import {
   getYearOneCapHit,
 } from '@/server/logic/cap';
 import { logoUrlFor } from './team';
-import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
 import { buildFreeAgencyPool, buildFreeAgentProfile } from '@/server/logic/free-agency-pool';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { KANSAS_CITY_CHIEFS_ROSTER } from '@/data/rosters/kc';
+import { getExpiringContractsForTeam } from '@/server/logic/expiring-contracts';
 
 export type PlayerFilters = {
   position?: string;
@@ -303,7 +303,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     teamCaps: { [normalizedTeamAbbr]: capSpace },
     transactions: [],
     draftSessions: {},
-    expiringContracts: getExpiringContractsByTeam(teamAbbr),
+    expiringContracts: getExpiringContractsForTeam(teamAbbr, NFL_LEAGUE_DATA),
     newsFeed: [],
     rosterMoves: { cuts: [], resigns: [], trades: [] },
   };
@@ -352,7 +352,7 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
     state.header.unlocked = resolveUnlocksForPhase(state.header.phase);
   }
   if (state.expiringContracts.length === 0) {
-    state.expiringContracts = getExpiringContractsByTeam(state.header.teamAbbr);
+    state.expiringContracts = getExpiringContractsForTeam(state.header.teamAbbr, NFL_LEAGUE_DATA);
   }
   if (!state.newsFeed) {
     state.newsFeed = [];
