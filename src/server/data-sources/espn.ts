@@ -38,9 +38,9 @@ const fetchJson = async <T>(url: string): Promise<T> => {
 };
 
 export const fetchTeams = async (): Promise<TeamSourceRecord[]> => {
-  const payload = await fetchJson<{ sports?: Array<{ leagues?: Array<{ teams?: Array<{ team?: EspnTeam }> }> }> }>(
-    ESPN_TEAMS_URL,
-  );
+  const payload = await fetchJson<{
+    sports?: Array<{ leagues?: Array<{ teams?: Array<{ team?: EspnTeam }> }> }>;
+  }>(ESPN_TEAMS_URL);
   const teams = payload.sports?.[0]?.leagues?.[0]?.teams ?? [];
 
   return teams

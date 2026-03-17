@@ -78,7 +78,10 @@ const findColumn = (headers: string[], tests: string[]) => {
   return candidates.find((candidate) => tests.some((test) => candidate.header.includes(test)))?.idx;
 };
 
-const parseCapHitFutureYears = (headers: string[], cells: string[]): Record<string, number> | null => {
+const parseCapHitFutureYears = (
+  headers: string[],
+  cells: string[],
+): Record<string, number> | null => {
   const future: Record<string, number> = {};
   headers.forEach((header, idx) => {
     const yearMatch = header.match(/\b(20\d{2})\b/);
@@ -93,9 +96,15 @@ const parseCapHitFutureYears = (headers: string[], cells: string[]): Record<stri
 
 const getTeamMeta = (teamAbbrOrSlug: string) => {
   const query = teamAbbrOrSlug.trim();
-  const fromAbbr = NFL_TEAM_SEED.find((team) => team.abbreviation.toLowerCase() === query.toLowerCase());
+  const fromAbbr = NFL_TEAM_SEED.find(
+    (team) => team.abbreviation.toLowerCase() === query.toLowerCase(),
+  );
   if (fromAbbr) {
-    return { teamAbbr: fromAbbr.abbreviation, teamName: fromAbbr.name, teamSlug: normalizeTeamSlug(fromAbbr.name) };
+    return {
+      teamAbbr: fromAbbr.abbreviation,
+      teamName: fromAbbr.name,
+      teamSlug: normalizeTeamSlug(fromAbbr.name),
+    };
   }
 
   const normalizedSlug = normalizeTeamSlug(query);
@@ -107,12 +116,19 @@ const getTeamMeta = (teamAbbrOrSlug: string) => {
   return null;
 };
 
-const parseContractRows = (html: string, teamSlug: string, teamAbbr: string, teamName: string): TeamContractSourceRow[] => {
+const parseContractRows = (
+  html: string,
+  teamSlug: string,
+  teamAbbr: string,
+  teamName: string,
+): TeamContractSourceRow[] => {
   const tableMatches = Array.from(html.matchAll(/<table[^>]*>([\s\S]*?)<\/table>/gi));
 
   for (const tableMatch of tableMatches) {
     const tableHtml = tableMatch[1] ?? '';
-    const headers = Array.from(tableHtml.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/gi)).map((match) => stripTags(match[1] ?? ''));
+    const headers = Array.from(tableHtml.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/gi)).map((match) =>
+      stripTags(match[1] ?? ''),
+    );
     if (headers.length === 0) continue;
 
     const playerIdx = findColumn(headers, ['player']);
@@ -160,18 +176,25 @@ const parseContractRows = (html: string, teamSlug: string, teamAbbr: string, tea
         normalizedPlayerName: normalizePlayerName(rawPlayer),
         externalSourceKey: playerLink,
         contractStatus: contractStatusIdx === undefined ? null : cells[contractStatusIdx] || null,
-        yearsRemaining: yearsRemainingIdx === undefined ? null : parseInteger(cells[yearsRemainingIdx]),
+        yearsRemaining:
+          yearsRemainingIdx === undefined ? null : parseInteger(cells[yearsRemainingIdx]),
         contractValue: contractValueIdx === undefined ? null : parseMoney(cells[contractValueIdx]),
-        averagePerYear: averagePerYearIdx === undefined ? null : parseMoney(cells[averagePerYearIdx]),
-        guaranteedMoney: guaranteedMoneyIdx === undefined ? null : parseMoney(cells[guaranteedMoneyIdx]),
-        fullyGuaranteedMoney: fullyGuaranteedMoneyIdx === undefined ? null : parseMoney(cells[fullyGuaranteedMoneyIdx]),
+        averagePerYear:
+          averagePerYearIdx === undefined ? null : parseMoney(cells[averagePerYearIdx]),
+        guaranteedMoney:
+          guaranteedMoneyIdx === undefined ? null : parseMoney(cells[guaranteedMoneyIdx]),
+        fullyGuaranteedMoney:
+          fullyGuaranteedMoneyIdx === undefined ? null : parseMoney(cells[fullyGuaranteedMoneyIdx]),
         signingBonus: signingBonusIdx === undefined ? null : parseMoney(cells[signingBonusIdx]),
         rosterBonus: rosterBonusIdx === undefined ? null : parseMoney(cells[rosterBonusIdx]),
         workoutBonus: workoutBonusIdx === undefined ? null : parseMoney(cells[workoutBonusIdx]),
         deadCap: deadCapIdx === undefined ? null : parseMoney(cells[deadCapIdx]),
-        releaseSavings: releaseSavingsIdx === undefined ? null : parseMoney(cells[releaseSavingsIdx]),
-        postJune1Savings: postJune1SavingsIdx === undefined ? null : parseMoney(cells[postJune1SavingsIdx]),
-        capHitCurrentYear: capHitCurrentYearIdx === undefined ? null : parseMoney(cells[capHitCurrentYearIdx]),
+        releaseSavings:
+          releaseSavingsIdx === undefined ? null : parseMoney(cells[releaseSavingsIdx]),
+        postJune1Savings:
+          postJune1SavingsIdx === undefined ? null : parseMoney(cells[postJune1SavingsIdx]),
+        capHitCurrentYear:
+          capHitCurrentYearIdx === undefined ? null : parseMoney(cells[capHitCurrentYearIdx]),
         capHitFutureYears: parseCapHitFutureYears(headers, cells),
         baseSalary: baseSalaryIdx === undefined ? null : parseMoney(cells[baseSalaryIdx]),
         rawContractPayload,
@@ -186,7 +209,9 @@ const parseContractRows = (html: string, teamSlug: string, teamAbbr: string, tea
   return [];
 };
 
-export const fetchTeamContracts = async (teamAbbrOrSlug: string): Promise<TeamContractSourceResult> => {
+export const fetchTeamContracts = async (
+  teamAbbrOrSlug: string,
+): Promise<TeamContractSourceResult> => {
   const meta = getTeamMeta(teamAbbrOrSlug);
   if (!meta) {
     throw new Error(`Could not resolve team metadata for ${teamAbbrOrSlug}`);

@@ -184,7 +184,10 @@ const clonePartnerRoster = (teamAbbr: string) =>
     id: `${teamAbbr}-${index + 1}`,
   }));
 
-const getPartnerRoster = (state: { teamRosters: Record<string, StoredTradePlayer[]> }, teamAbbr: string): StoredTradePlayer[] => {
+const getPartnerRoster = (
+  state: { teamRosters: Record<string, StoredTradePlayer[]> },
+  teamAbbr: string,
+): StoredTradePlayer[] => {
   const normalized = teamAbbr.toUpperCase();
   if (!state.teamRosters[normalized]) {
     state.teamRosters[normalized] = clonePartnerRoster(normalized);
@@ -250,7 +253,9 @@ const cloneTrade = (trade: TradeDTO): TradeDTO => ({
 
 const getCapHit = (player: PlayerRowDTO) => parseMoneyMillions(player.capHit);
 
-export const evaluatePlayerValue = (player: PlayerRowDTO): { valueScore: number; contractBurdenModifier: number } => {
+export const evaluatePlayerValue = (
+  player: PlayerRowDTO,
+): { valueScore: number; contractBurdenModifier: number } => {
   const age = player.age ?? 27;
   const capHit = getCapHit(player);
   const yearsRemaining = Math.max(1, player.contractYearsRemaining);
@@ -277,7 +282,9 @@ export const evaluatePlayerValue = (player: PlayerRowDTO): { valueScore: number;
   const termPenalty = Math.max(0.7, 1 - (yearsRemaining - 1) * 0.06);
   const positionFactor = positionWeight[player.position] ?? 1;
 
-  const contractBurdenModifier = Number((contractCostPenalty * guaranteePenalty * termPenalty).toFixed(3));
+  const contractBurdenModifier = Number(
+    (contractCostPenalty * guaranteePenalty * termPenalty).toFixed(3),
+  );
   const baseTalentScore = 70 * ageFactor * positionFactor;
   const valueScore = Number((baseTalentScore * contractBurdenModifier).toFixed(1));
 
@@ -293,7 +300,7 @@ const computeTeamCapImpact = (
   const outgoingCap = outgoingPlayers.reduce((sum, player) => sum + getCapHit(player), 0);
   const incomingCap = incomingPlayers.reduce((sum, player) => sum + getCapHit(player), 0);
   const outgoingDeadCap = outgoingPlayers.reduce((sum, player) => sum + (player.deadCap ?? 0), 0);
-  const savings = Number((Math.max(0, outgoingCap - outgoingDeadCap)).toFixed(1));
+  const savings = Number(Math.max(0, outgoingCap - outgoingDeadCap).toFixed(1));
   const capDelta = Number((outgoingCap - incomingCap).toFixed(1));
   const resultingCapSpace = Number((baseCapSpace + capDelta).toFixed(1));
 
@@ -306,10 +313,12 @@ const computeTeamCapImpact = (
   };
 };
 
-export const simulateTrade = (tradeProposal: Omit<TradeProposal, 'capImpact' | 'isValid' | 'validationErrors'> & {
-  sendingBaseCapSpace: number;
-  receivingBaseCapSpace: number;
-}): TradeSimulationResult => {
+export const simulateTrade = (
+  tradeProposal: Omit<TradeProposal, 'capImpact' | 'isValid' | 'validationErrors'> & {
+    sendingBaseCapSpace: number;
+    receivingBaseCapSpace: number;
+  },
+): TradeSimulationResult => {
   const sending = computeTeamCapImpact(
     tradeProposal.sendingTeamId,
     tradeProposal.sendingBaseCapSpace,
@@ -334,9 +343,20 @@ export const simulateTrade = (tradeProposal: Omit<TradeProposal, 'capImpact' | '
   return { teams: { sending, receiving }, warnings };
 };
 
-const evaluateTradeBalance = (outgoingPlayers: PlayerRowDTO[], incomingPlayers: PlayerRowDTO[]): TradeBalanceResult => {
-  const outgoingValue = Number(outgoingPlayers.reduce((sum, player) => sum + evaluatePlayerValue(player).valueScore, 0).toFixed(1));
-  const incomingValue = Number(incomingPlayers.reduce((sum, player) => sum + evaluatePlayerValue(player).valueScore, 0).toFixed(1));
+const evaluateTradeBalance = (
+  outgoingPlayers: PlayerRowDTO[],
+  incomingPlayers: PlayerRowDTO[],
+): TradeBalanceResult => {
+  const outgoingValue = Number(
+    outgoingPlayers
+      .reduce((sum, player) => sum + evaluatePlayerValue(player).valueScore, 0)
+      .toFixed(1),
+  );
+  const incomingValue = Number(
+    incomingPlayers
+      .reduce((sum, player) => sum + evaluatePlayerValue(player).valueScore, 0)
+      .toFixed(1),
+  );
   const difference = Number((incomingValue - outgoingValue).toFixed(1));
   const balanced = Math.abs(difference) <= 15;
 
@@ -370,7 +390,11 @@ export const validateTrade = (
   });
 
   duplicateIds.forEach((playerId) => {
-    errors.push({ code: 'DUPLICATE_PLAYERS', message: 'Player cannot be included more than once in a trade.', playerId });
+    errors.push({
+      code: 'DUPLICATE_PLAYERS',
+      message: 'Player cannot be included more than once in a trade.',
+      playerId,
+    });
   });
 
   outgoingIds.forEach((playerId) => {
@@ -512,8 +536,12 @@ export const createTrade = (
     ok: true,
     data: {
       trade: cloneTrade(trade),
-      userRoster: getProjectedRosterForTeam(stateResult.data, stateResult.data.header.teamAbbr).map((player) => toPlayerDTO(player)),
-      partnerRoster: getPartnerRoster(stateResult.data, partnerTeamAbbr).map((player) => toPlayerDTO(player)),
+      userRoster: getProjectedRosterForTeam(stateResult.data, stateResult.data.header.teamAbbr).map(
+        (player) => toPlayerDTO(player),
+      ),
+      partnerRoster: getPartnerRoster(stateResult.data, partnerTeamAbbr).map((player) =>
+        toPlayerDTO(player),
+      ),
     },
   };
 };
@@ -628,7 +656,12 @@ export const proposeTrade = (
   acceptance: number;
   accepted: boolean;
   header: SaveHeaderDTO;
-  caps: { userTeamAbbr: string; userCapSpace: number; partnerTeamAbbr: string; partnerCapSpace: number };
+  caps: {
+    userTeamAbbr: string;
+    userCapSpace: number;
+    partnerTeamAbbr: string;
+    partnerCapSpace: number;
+  };
   simulation: TradeSimulationResult;
   tradeBalance: TradeBalanceResult;
   proposal: TradeProposal;
@@ -655,10 +688,18 @@ export const proposeTrade = (
   const userCap = getProjectedCapSpaceForTeam(saveStateResult.data, userTeamAbbr);
   const partnerCap = getProjectedCapSpaceForTeam(saveStateResult.data, partnerTeamAbbr);
 
-  const { proposal, value } = buildTradeProposal(trade, userTeamAbbr, userRoster, partnerRoster, userCap, partnerCap);
+  const { proposal, value } = buildTradeProposal(
+    trade,
+    userTeamAbbr,
+    userRoster,
+    partnerRoster,
+    userCap,
+    partnerCap,
+  );
   const sendValue = sumValues(trade.sendAssets);
   const receiveValue = sumValues(trade.receiveAssets);
-  const acceptance = sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
+  const acceptance =
+    sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
   const accepted = acceptance >= 70 && proposal.isValid;
 
   if (accepted) {
@@ -684,8 +725,10 @@ export const proposeTrade = (
     saveStateResult.data.roster = saveStateResult.data.teamRosters[userTeamAbbr];
     saveStateResult.data.header.rosterCount = saveStateResult.data.roster.length;
     saveStateResult.data.header.capSpace = proposal.capImpact.teams.sending.resultingCapSpace;
-    saveStateResult.data.teamCaps[userTeamAbbr] = proposal.capImpact.teams.sending.resultingCapSpace;
-    saveStateResult.data.teamCaps[partnerTeamAbbr] = proposal.capImpact.teams.receiving.resultingCapSpace;
+    saveStateResult.data.teamCaps[userTeamAbbr] =
+      proposal.capImpact.teams.sending.resultingCapSpace;
+    saveStateResult.data.teamCaps[partnerTeamAbbr] =
+      proposal.capImpact.teams.receiving.resultingCapSpace;
 
     const now = new Date().toISOString();
     for (const player of sentPlayers) {

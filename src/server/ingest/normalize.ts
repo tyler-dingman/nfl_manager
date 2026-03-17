@@ -16,6 +16,4 @@ export const normalizePlayerName = (value: string): string =>
     .trim();
 
 export const normalizeTeamSlug = (value: string): string =>
-  normalizeTeamName(value)
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+  normalizeTeamName(value).replace(/\s+/g, '-').replace(/-+/g, '-');

@@ -89,7 +89,6 @@ export default function RosterPage() {
     }
   }, [mode, currentStep, router]);
 
-
   useEffect(() => {
     setPlayers(rosterData);
     if (rosterData.length > 0) {

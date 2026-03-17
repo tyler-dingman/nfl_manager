@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
 
-import { createSaveState, getProjectedCapSpaceForTeam, getProjectedRosterForTeam, getSaveStateResult } from '@/server/api/store';
+import {
+  createSaveState,
+  getProjectedCapSpaceForTeam,
+  getProjectedRosterForTeam,
+  getSaveStateResult,
+} from '@/server/api/store';
 import { signFreeAgent } from '@/server/api/players';
 import { addTradeAsset, createTrade, proposeTrade } from '@/server/api/trades';
 
@@ -33,8 +38,16 @@ const testTradeUpdatesBothTeamsRostersAndCap = () => {
   const partnerPlayer = created.data.partnerRoster[0];
   assert.ok(partnerPlayer);
 
-  addTradeAsset(created.data.trade.id, { side: 'send', type: 'player', playerId: userPlayer.id }, saveId);
-  addTradeAsset(created.data.trade.id, { side: 'receive', type: 'player', playerId: partnerPlayer.id }, saveId);
+  addTradeAsset(
+    created.data.trade.id,
+    { side: 'send', type: 'player', playerId: userPlayer.id },
+    saveId,
+  );
+  addTradeAsset(
+    created.data.trade.id,
+    { side: 'receive', type: 'player', playerId: partnerPlayer.id },
+    saveId,
+  );
 
   const proposed = proposeTrade(created.data.trade.id, saveId);
   assert.equal(proposed.ok, true);
@@ -61,14 +74,20 @@ const testTradeCapViolationValidation = () => {
   if (!created.ok) return;
 
   const partnerPlayer = created.data.partnerRoster[0];
-  addTradeAsset(created.data.trade.id, { side: 'receive', type: 'player', playerId: partnerPlayer.id }, saveId);
+  addTradeAsset(
+    created.data.trade.id,
+    { side: 'receive', type: 'player', playerId: partnerPlayer.id },
+    saveId,
+  );
 
   const proposed = proposeTrade(created.data.trade.id, saveId);
   assert.equal(proposed.ok, true);
   if (!proposed.ok) return;
 
   assert.equal(proposed.data.accepted, false);
-  assert.ok(proposed.data.proposal.validationErrors.some((error) => error.code === 'CAP_VIOLATION'));
+  assert.ok(
+    proposed.data.proposal.validationErrors.some((error) => error.code === 'CAP_VIOLATION'),
+  );
 };
 
 const testValueImbalanceDetected = () => {
@@ -80,8 +99,16 @@ const testValueImbalanceDetected = () => {
 
   const userPlayer = state.roster[0];
   const partnerPlayer = createdAfterSave.data.partnerRoster[2];
-  addTradeAsset(createdAfterSave.data.trade.id, { side: 'send', type: 'player', playerId: userPlayer.id }, saveId);
-  addTradeAsset(createdAfterSave.data.trade.id, { side: 'receive', type: 'player', playerId: partnerPlayer.id }, saveId);
+  addTradeAsset(
+    createdAfterSave.data.trade.id,
+    { side: 'send', type: 'player', playerId: userPlayer.id },
+    saveId,
+  );
+  addTradeAsset(
+    createdAfterSave.data.trade.id,
+    { side: 'receive', type: 'player', playerId: partnerPlayer.id },
+    saveId,
+  );
 
   const proposed = proposeTrade(createdAfterSave.data.trade.id, saveId);
   assert.equal(proposed.ok, true);
@@ -100,8 +127,14 @@ const testReloadPersistsSaveSpecificState = () => {
   assert.equal(stateResult.ok, true);
   if (!stateResult.ok) return;
 
-  assert.ok(stateResult.data.transactions.some((tx) => tx.playerId === freeAgent.id && tx.type === 'signing'));
-  assert.ok(getProjectedRosterForTeam(stateResult.data, 'GB').some((player) => player.id === freeAgent.id));
+  assert.ok(
+    stateResult.data.transactions.some(
+      (tx) => tx.playerId === freeAgent.id && tx.type === 'signing',
+    ),
+  );
+  assert.ok(
+    getProjectedRosterForTeam(stateResult.data, 'GB').some((player) => player.id === freeAgent.id),
+  );
 };
 
 const testNoDuplicatePlayersAcrossTeams = () => {
@@ -113,11 +146,22 @@ const testNoDuplicatePlayersAcrossTeams = () => {
   if (!created.ok) throw new Error('unable to create trade');
 
   const partnerPlayer = created.data.partnerRoster[0];
-  addTradeAsset(created.data.trade.id, { side: 'send', type: 'player', playerId: userPlayer.id }, saveId);
-  addTradeAsset(created.data.trade.id, { side: 'receive', type: 'player', playerId: partnerPlayer.id }, saveId);
+  addTradeAsset(
+    created.data.trade.id,
+    { side: 'send', type: 'player', playerId: userPlayer.id },
+    saveId,
+  );
+  addTradeAsset(
+    created.data.trade.id,
+    { side: 'receive', type: 'player', playerId: partnerPlayer.id },
+    saveId,
+  );
   proposeTrade(created.data.trade.id, saveId);
 
-  const all = [...getProjectedRosterForTeam(state, 'GB'), ...getProjectedRosterForTeam(state, 'DAL')];
+  const all = [
+    ...getProjectedRosterForTeam(state, 'GB'),
+    ...getProjectedRosterForTeam(state, 'DAL'),
+  ];
   const ids = all.map((player) => player.id);
   assert.equal(new Set(ids).size, ids.length);
 };
