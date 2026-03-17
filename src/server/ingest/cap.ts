@@ -9,13 +9,6 @@ export type CapSyncResult = {
   unmatched: string[];
 };
 
-type IngestedTeamCap = {
-  teamAbbr: string;
-  totalCap: number;
-  usedCap: number;
-  availableCap: number;
-};
-
 const resolveTeamAbbr = (teamName: string, teamSlug: string | null): string | null => {
   const normalizedName = normalizeTeamName(teamName);
   const fromAlias = TEAM_ALIAS_TO_ABBR[normalizedName];
@@ -43,34 +36,23 @@ export const syncCap = async (existingCap: UnifiedCap[] = []): Promise<CapSyncRe
   const scrapeRows = await fetchTeamCap();
 
   const existingByTeam = new Map(existingCap.map((entry) => [entry.teamAbbr, entry]));
-  const next = new Map<string, IngestedTeamCap>();
+  const next = new Map<string, UnifiedCap>();
   const unmatched: string[] = [];
   let matchedRows = 0;
 
   for (const row of scrapeRows) {
-<<<<<<< HEAD
     const teamAbbr = resolveTeamAbbr(row.teamName, row.teamSlug);
     const rowLabel = row.teamSlug ? `${row.teamName} (${row.teamSlug})` : row.teamName;
-=======
-    const normalized = normalizeTeamName(row.teamName);
-    const mapped = TEAM_ALIAS_TO_ABBR[normalized];
-    const seedMatch = NFL_TEAM_SEED.find(
-      (team) => team.abbreviation === mapped || normalizeTeamName(team.name) === normalized,
-    );
-    const teamAbbr = mapped ?? seedMatch?.abbreviation;
->>>>>>> c1bd92b (Fix OTC cap ingestion and update league snapshot)
 
     if (!teamAbbr) {
       unmatched.push(row.teamName);
-      console.warn(`[cap] team mapping failed: source="${rowLabel}" normalized="${row.normalizedTeamName}"`);
+      console.warn(
+        `[cap] team mapping failed: source="${rowLabel}" normalized="${row.normalizedTeamName}"`,
+      );
       continue;
     }
 
     matchedRows += 1;
-
-    if (next.has(teamAbbr)) {
-      continue;
-    }
 
     if (next.has(teamAbbr)) {
       continue;
@@ -104,6 +86,7 @@ export const syncCap = async (existingCap: UnifiedCap[] = []): Promise<CapSyncRe
   console.info(
     `[cap] scrape summary: total=${scrapeRows.length} matched=${matchedRows} unique=${next.size} unmatched=${unmatched.length}`,
   );
+
   if (unmatched.length > 0) {
     const unmatchedUnique = Array.from(new Set(unmatched));
     console.warn(`[cap] unmatched team names: ${unmatchedUnique.join(', ')}`);
