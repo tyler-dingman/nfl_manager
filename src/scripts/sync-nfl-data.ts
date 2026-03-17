@@ -30,7 +30,10 @@ const normalizePositionBucket = (position: string): string => {
   return normalized;
 };
 
-const buildRatedPlayers = (players: UnifiedPlayer[], contracts: UnifiedContract[]): UnifiedPlayer[] => {
+const buildRatedPlayers = (
+  players: UnifiedPlayer[],
+  contracts: UnifiedContract[],
+): UnifiedPlayer[] => {
   const contractsByPlayerId = new Map(contracts.map((contract) => [contract.playerId, contract]));
 
   const playersByBucket = new Map<string, UnifiedPlayer[]>();
@@ -56,8 +59,7 @@ const buildRatedPlayers = (players: UnifiedPlayer[], contracts: UnifiedContract[
     const marketValue = Math.max(contract?.capHit ?? 0, contract?.guaranteed ?? 0);
     const peerIndex = peerValues.findIndex((value) => marketValue >= value);
     const rank = peerIndex === -1 ? peerValues.length - 1 : peerIndex;
-    const percentile =
-      peerValues.length <= 1 ? 0.5 : 1 - rank / Math.max(1, peerValues.length - 1);
+    const percentile = peerValues.length <= 1 ? 0.5 : 1 - rank / Math.max(1, peerValues.length - 1);
 
     let baseline = 60 + percentile * 35;
 
@@ -75,11 +77,7 @@ const buildRatedPlayers = (players: UnifiedPlayer[], contracts: UnifiedContract[
     const baselineRating = clamp(Math.round(baseline), 60, 99);
     const rating =
       player.maddenRating !== null && player.maddenRating !== undefined
-        ? clamp(
-            Math.ceil(baselineRating + (player.maddenRating - baselineRating) / 2),
-            60,
-            99,
-          )
+        ? clamp(Math.ceil(baselineRating + (player.maddenRating - baselineRating) / 2), 60, 99)
         : baselineRating;
 
     return {
@@ -106,6 +104,7 @@ const run = async () => {
       console.log(
         `  ${player.name} (${player.teamAbbr} ${player.position}) baseline=${player.baselineRating} madden=${player.maddenRating} final=${player.rating}`,
       );
+      console.log(`    stats=${JSON.stringify(player.stats)}`);
     });
 
   const payload: IngestedLeagueData = {
