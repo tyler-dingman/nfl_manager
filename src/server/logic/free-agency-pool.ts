@@ -27,6 +27,7 @@ export type FreeAgentSeedRecord = {
   lastContractApy?: number | null;
   lastGuaranteed?: number | null;
   source: 'real' | 'released';
+  headshotUrl?: string | null;
 };
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
@@ -178,6 +179,7 @@ export const identifyLeagueFreeAgents = (league: IngestedLeagueData): FreeAgentS
       lastContractApy: latestContract?.capHit,
       lastGuaranteed: latestContract?.guaranteed,
       source: 'real',
+      headshotUrl: player.headshotUrl,
     });
   });
 
@@ -310,7 +312,7 @@ export const buildFreeAgencyPool = ({
       salary: 0,
       guaranteed: 0,
       status: 'Free Agent',
-      headshotUrl: null,
+      headshotUrl: record.headshotUrl ?? null,
       freeAgentProfile: profile,
       contract: {
         yearsRemaining: profile.expectedYears,

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import PlayerHeadshot from '@/components/player-headshot';
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 
@@ -147,7 +148,10 @@ export default function TradeAssetPickerModal({
                       }}
                     >
                       <td className="px-4 py-2 font-semibold text-foreground">
-                        {player.firstName} {player.lastName}
+                        <div className="flex items-center gap-2">
+                          <PlayerHeadshot player={player} size={24} />
+                          <span>{player.firstName} {player.lastName}</span>
+                        </div>
                       </td>
                       <td className="px-4 py-2 text-muted-foreground">{player.position}</td>
                       <td className="px-4 py-2 text-muted-foreground">{player.capHit}</td>

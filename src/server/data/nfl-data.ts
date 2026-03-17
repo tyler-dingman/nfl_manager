@@ -16,6 +16,7 @@ export type UnifiedPlayer = {
   age: number | null;
   height: string | null;
   weight: number | null;
+  headshotUrl: string | null;
 };
 
 export type UnifiedContract = {

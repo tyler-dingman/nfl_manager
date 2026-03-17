@@ -8,6 +8,8 @@ type ExperienceState = {
   currentStep: OffseasonStepId;
   completedSteps: string[];
   manageSubstepsCompleted: string[];
+  hasHydrated: boolean;
+  setHasHydrated: (value: boolean) => void;
   setFullExperience: () => void;
   setSandboxExperience: () => void;
   markManageSubstepComplete: (substep: string) => void;
@@ -43,6 +45,8 @@ export const useExperienceStore = create<ExperienceState>()(
       currentStep: firstStep,
       completedSteps: [],
       manageSubstepsCompleted: [],
+      hasHydrated: false,
+      setHasHydrated: (value) => set((state) => ({ ...state, hasHydrated: value })),
       setFullExperience: () =>
         set((state) => ({
           ...state,
@@ -95,6 +99,9 @@ export const useExperienceStore = create<ExperienceState>()(
         completedSteps: state.completedSteps,
         manageSubstepsCompleted: state.manageSubstepsCompleted,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );

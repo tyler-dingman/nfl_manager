@@ -318,8 +318,14 @@ export const useSaveStore = create<SaveStoreState>()(
         capSpace: state.capSpace,
         capLimit: state.capLimit,
       }),
-      onRehydrateStorage: () => (state) => {
+      onRehydrateStorage: () => (state, error) => {
+        if (!error) {
+          state?.setHasHydrated(true);
+          return;
+        }
+
         state?.setHasHydrated(true);
+        state?.setSaveLoadError('Unable to restore local save state.');
       },
     },
   ),

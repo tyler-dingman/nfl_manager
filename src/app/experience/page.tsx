@@ -44,20 +44,23 @@ export default function ExperiencePage() {
   const phase = useSaveStore((state) => state.phase);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const setPhase = useSaveStore((state) => state.setPhase);
+  const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const setFullExperience = useExperienceStore((state) => state.setFullExperience);
   const setSandboxExperience = useExperienceStore((state) => state.setSandboxExperience);
 
   const defaultMode = useMemo(() => 'full' as const, []);
   const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
 
+  const isHydrated = hasHydrated && experienceHasHydrated;
+
   useEffect(() => {
-    if (!hasHydrated) return;
+    if (!isHydrated) return;
     if (!saveId) {
       router.replace('/');
     }
-  }, [hasHydrated, router, saveId]);
+  }, [isHydrated, router, saveId]);
 
-  if (!hasHydrated || !saveId) {
+  if (!isHydrated || !saveId) {
     return <AppShell><div className="min-h-[1px]" /></AppShell>;
   }
 

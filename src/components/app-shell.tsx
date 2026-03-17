@@ -60,6 +60,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const advancePhase = useSaveStore((state) => state.advancePhase);
   const setPhase = useSaveStore((state) => state.setPhase);
+  const mode = useExperienceStore((state) => state.mode);
+  const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
+  const isHydrated = hasHydrated && experienceHasHydrated;
+  const currentStep = useExperienceStore((state) => state.currentStep);
+  const completedSteps = useExperienceStore((state) => state.completedSteps);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isAdvanceModalOpen, setIsAdvanceModalOpen] = useState(false);
@@ -73,18 +78,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!hasHydrated) return;
+    if (!isHydrated) return;
     if (!saveId && pathname !== '/') {
       router.replace('/');
     }
-  }, [hasHydrated, pathname, router, saveId]);
+  }, [isHydrated, pathname, router, saveId]);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId) ?? teams[0],
     [selectedTeamId, teams],
   );
 
-  const hasCapSpace = hasHydrated && Boolean(saveId);
+  const hasCapSpace = isHydrated && Boolean(saveId);
   const activeCapDollars = hasCapSpace ? capSpace * 1_000_000 : 0;
   const capsWithActive = useMemo(
     () =>
@@ -114,9 +119,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }, [phase, unlocked.draft, unlocked.freeAgency]);
 
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
-  const mode = useExperienceStore((state) => state.mode);
-  const currentStep = useExperienceStore((state) => state.currentStep);
-  const completedSteps = useExperienceStore((state) => state.completedSteps);
 
   useEffect(() => {
     if (!saveId) return;
@@ -220,7 +222,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     setIsMobileSidebarOpen(false);
   }, [pathname]);
 
-  if (!hasHydrated) {
+  if (!isHydrated) {
     return (
       <TeamThemeProvider team={teams[0]}>
         <div

@@ -56,6 +56,7 @@ export const syncPlayers = async (existingPlayers: UnifiedPlayer[] = []): Promis
           age: player.age,
           height: player.height,
           weight: player.weight,
+          headshotUrl: player.headshotUrl,
         });
       }
     } catch (error) {
@@ -77,7 +78,8 @@ export const syncPlayers = async (existingPlayers: UnifiedPlayer[] = []): Promis
       existing.position !== player.position ||
       existing.age !== player.age ||
       existing.height !== player.height ||
-      existing.weight !== player.weight
+      existing.weight !== player.weight ||
+      existing.headshotUrl !== player.headshotUrl
     ) {
       updatedPlayers += 1;
     }
