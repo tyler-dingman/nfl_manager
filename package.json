@@ -13,7 +13,8 @@
     "contract:check": "tsx scripts/contract-acceptance-check.ts",
     "test:e2e": "playwright test",
     "sync:nfl-data": "tsx src/scripts/sync-nfl-data.ts",
-    "sync:contracts": "tsx src/scripts/sync-contracts.ts"
+    "sync:contracts": "tsx src/scripts/sync-contracts.ts",
+    "sync:league": "ts-node src/scripts/sync-nfl-data.ts"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.20.5",
