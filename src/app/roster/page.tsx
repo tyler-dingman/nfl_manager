@@ -8,6 +8,8 @@ import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
 import { PlayerTable, PositionFilterBar } from '@/components/player-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
+import { StepHeader } from '@/components/offseason/step-header';
+import { SubStepTracker } from '@/components/offseason/sub-step-tracker';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
 import RenegotiateModal from '@/components/renegotiate-modal';
 import { Button } from '@/components/ui/button';
@@ -21,6 +23,9 @@ import { useToast } from '@/components/ui/toast';
 import { fetchExpiringContracts } from '@/features/contracts/queries';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useRosterQuery } from '@/features/players/queries';
+import { useExperienceStore } from '@/features/experience/experience-store';
+import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
+import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
@@ -66,11 +71,24 @@ export default function RosterPage() {
   const [activeTab, setActiveTab] = useState<'expiring' | 'roster'>('expiring');
   const { push: pushToast } = useToast();
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
+  const mode = useExperienceStore((state) => state.mode);
+  const currentStep = useExperienceStore((state) => state.currentStep);
+  const manageSubstepsCompleted = useExperienceStore((state) => state.manageSubstepsCompleted);
+  const markManageSubstepComplete = useExperienceStore((state) => state.markManageSubstepComplete);
+  const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
+  const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId),
     [selectedTeamId, teams],
   );
+
+  useEffect(() => {
+    if (mode === 'full' && currentStep !== 'manage') {
+      router.replace(getRouteForStep(currentStep));
+    }
+  }, [mode, currentStep, router]);
+
 
   useEffect(() => {
     setPlayers(rosterData);
@@ -138,6 +156,9 @@ export default function RosterPage() {
       });
     }
     setActiveCutPlayer(null);
+    if (mode === 'full') {
+      markManageSubstepComplete('Re-sign / Cut Players');
+    }
   };
 
   useEffect(() => {
@@ -342,6 +363,29 @@ export default function RosterPage() {
     }
 
     setActiveRenegotiatePlayer(null);
+    if (mode === 'full') {
+      markManageSubstepComplete('Re-sign / Cut Players');
+    }
+  };
+
+  const manageSubsteps = OFFSEASON_STEPS[0]?.substeps ?? [];
+  const canContinueInFull =
+    mode !== 'full' || manageSubsteps.every((substep) => manageSubstepsCompleted.includes(substep));
+
+  const handleContinue = () => {
+    if (mode !== 'full' || currentStep !== 'manage') return;
+    const nextStep = completeCurrentStep();
+    if (nextStep) {
+      router.push(getRouteForStep(nextStep));
+    }
+  };
+
+  const handleSkip = () => {
+    if (mode !== 'full' || currentStep !== 'manage') return;
+    const nextStep = skipCurrentStep();
+    if (nextStep) {
+      router.push(getRouteForStep(nextStep));
+    }
   };
 
   const sortedPlayers = useMemo(() => {
@@ -360,6 +404,24 @@ export default function RosterPage() {
 
   return (
     <AppShell>
+      {mode === 'full' ? (
+        <StepHeader
+          title="Manage Team"
+          stepNumber={1}
+          totalSteps={OFFSEASON_STEPS.length}
+          instruction="Re-sign, cut, and explore trades before entering free agency."
+          canContinue={canContinueInFull}
+          onContinue={handleContinue}
+          onSkip={handleSkip}
+        />
+      ) : null}
+      {mode === 'full' ? (
+        <SubStepTracker
+          substeps={manageSubsteps}
+          completed={manageSubstepsCompleted}
+          onComplete={markManageSubstepComplete}
+        />
+      ) : null}
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-start gap-3">

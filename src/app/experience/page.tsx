@@ -9,6 +9,7 @@ import AppShell from '@/components/app-shell';
 import { AdSlot } from '@/components/ads/AdSlot';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 
 type ExperienceMode = 'full' | 'freeAgency' | 'draft';
@@ -42,6 +43,8 @@ export default function ExperiencePage() {
   const saveId = useSaveStore((state) => state.saveId);
   const phase = useSaveStore((state) => state.phase);
   const setPhase = useSaveStore((state) => state.setPhase);
+  const setFullExperience = useExperienceStore((state) => state.setFullExperience);
+  const setSandboxExperience = useExperienceStore((state) => state.setSandboxExperience);
 
   const defaultMode = useMemo(() => 'full' as const, []);
   const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
@@ -58,12 +61,15 @@ export default function ExperiencePage() {
 
   const handleContinue = async () => {
     if (selectedMode === 'full') {
+      setFullExperience();
       if (phase !== 'resign_cut') {
         await setPhase('resign_cut');
       }
-      router.push('/roster');
+      router.push('/manage-team');
       return;
     }
+
+    setSandboxExperience();
 
     if (selectedMode === 'freeAgency') {
       if (phase !== 'free_agency') {

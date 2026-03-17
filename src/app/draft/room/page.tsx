@@ -2,16 +2,20 @@
 
 import * as React from 'react';
 import { Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
 import { AdSlot } from '@/components/ads/AdSlot';
+import { StepHeader } from '@/components/offseason/step-header';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
 import { buildRoundOneOrder } from '@/components/draft/draft-utils';
 import { PlayerTable } from '@/components/player-table';
 import { Button } from '@/components/ui/button';
+import { useExperienceStore } from '@/features/experience/experience-store';
+import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
+import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { getDraftGrade } from '@/lib/draft-utils';
@@ -56,6 +60,7 @@ const parseDraftSessionStartResponse = (text: string): DraftSessionStartResponse
 
 function DraftRoomContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const modeParam = searchParams?.get('mode');
   const mode: DraftMode = modeParam === 'real' ? 'real' : 'mock';
   const [session, setSession] = React.useState<DraftSessionDTO | null>(null);
@@ -82,6 +87,11 @@ function DraftRoomContent() {
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setPhase = useSaveStore((state) => state.setPhase);
   const setIsUserOnClock = useSaveStore((state) => state.setIsUserOnClock);
+  const modeExperience = useExperienceStore((state) => state.mode);
+  const currentStep = useExperienceStore((state) => state.currentStep);
+  const completedSteps = useExperienceStore((state) => state.completedSteps);
+  const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
+  const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
   const storedTeams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const selectedTeam = React.useMemo(
@@ -107,6 +117,19 @@ function DraftRoomContent() {
   React.useEffect(() => {
     return () => setIsUserOnClock(false);
   }, [setIsUserOnClock]);
+
+  React.useEffect(() => {
+    if (modeExperience === 'full' && currentStep !== 'draft') {
+      router.replace(getRouteForStep(currentStep));
+    }
+  }, [modeExperience, currentStep, router]);
+
+  React.useEffect(() => {
+    if (modeExperience !== 'full') return;
+    if (session?.status === 'completed' && !completedSteps.includes('draft')) {
+      completeCurrentStep();
+    }
+  }, [modeExperience, session?.status, completedSteps, completeCurrentStep]);
 
   const userTeam = React.useMemo(() => {
     if (!session) return null;
@@ -465,8 +488,32 @@ function DraftRoomContent() {
       : 'IN_DRAFT'
     : 'PRE_DRAFT';
 
+  const canContinueInFull = modeExperience !== 'full' || session?.status === 'completed';
+
+  const handleContinue = () => {
+    if (modeExperience !== 'full' || currentStep !== 'draft') return;
+    completeCurrentStep();
+  };
+
+  const handleSkip = () => {
+    if (modeExperience !== 'full' || currentStep !== 'draft') return;
+    skipCurrentStep();
+  };
+
   return (
     <AppShell>
+      {modeExperience === 'full' ? (
+        <StepHeader
+          title="Draft"
+          stepNumber={3}
+          totalSteps={OFFSEASON_STEPS.length}
+          instruction="Complete your draft to finish the offseason journey."
+          canContinue={canContinueInFull}
+          continueLabel="Finish Offseason"
+          onContinue={handleContinue}
+          onSkip={handleSkip}
+        />
+      ) : null}
       <DraftGradeModal
         isOpen={isGradeOpen}
         gradeLetter={gradeLetter}

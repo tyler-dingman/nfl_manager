@@ -9,10 +9,13 @@ import { Lock, Menu, X } from 'lucide-react';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
 import NextActionBanner from '@/components/next-action-banner';
+import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
 import { TeamFavicon } from '@/components/team-favicon';
 import { AdSlot } from '@/components/ads/AdSlot';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
+import { useExperienceStore } from '@/features/experience/experience-store';
+import { getRouteForStep, getStepForPath } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
@@ -111,6 +114,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }, [phase, unlocked.draft, unlocked.freeAgency]);
 
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
+  const mode = useExperienceStore((state) => state.mode);
+  const currentStep = useExperienceStore((state) => state.currentStep);
+  const completedSteps = useExperienceStore((state) => state.completedSteps);
 
   useEffect(() => {
     if (!saveId) return;
@@ -152,6 +158,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!pathname) return;
+    if (mode === 'full') {
+      const requestedStep = getStepForPath(pathname);
+      if (!requestedStep) return;
+      if (requestedStep !== currentStep) {
+        router.replace(getRouteForStep(currentStep));
+      }
+      return;
+    }
+
     if (phase === 'resign_cut') {
       if (pathname.startsWith('/free-agents') || pathname.startsWith('/draft')) {
         router.replace('/roster');
@@ -169,7 +184,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         router.replace('/draft/room?mode=mock');
       }
     }
-  }, [pathname, phase, router]);
+  }, [pathname, phase, router, mode, currentStep]);
 
   useEffect(() => {
     if (storedTeamAbbr) {
@@ -245,51 +260,60 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 />
               </Link>
             </div>
-            <nav className="flex flex-col gap-6 text-sm">
-              {navSections.map((section) => (
-                <div key={section.title} className="space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    {section.title}
-                  </p>
-                  <div className="space-y-1">
-                    {section.items.map((item) => {
-                      const href = navRoutes[item];
-                      const isActive = pathname === href.split('?')[0];
-                      if (lockedRoutes.has(item)) {
-                        return (
-                          <span
-                            key={item}
-                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground/70 opacity-70"
-                            title="Locked until the next phase"
-                          >
-                            <span className="flex h-6 w-1 rounded-full bg-transparent" />
-                            <Lock className="h-4 w-4 text-muted-foreground/70" />
-                            <span>{item}</span>
-                          </span>
-                        );
-                      }
+            {mode === 'full' ? (
+              <OffseasonStepperNav
+                seasonLabel="2026 Offseason"
+                teamName={selectedTeam?.name ?? 'Your Team'}
+                currentStep={currentStep}
+                completedSteps={completedSteps}
+              />
+            ) : (
+              <nav className="flex flex-col gap-6 text-sm">
+                {navSections.map((section) => (
+                  <div key={section.title} className="space-y-2">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      {section.title}
+                    </p>
+                    <div className="space-y-1">
+                      {section.items.map((item) => {
+                        const href = navRoutes[item];
+                        const isActive = pathname === href.split('?')[0];
+                        if (lockedRoutes.has(item)) {
+                          return (
+                            <span
+                              key={item}
+                              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground/70 opacity-70"
+                              title="Locked until the next phase"
+                            >
+                              <span className="flex h-6 w-1 rounded-full bg-transparent" />
+                              <Lock className="h-4 w-4 text-muted-foreground/70" />
+                              <span>{item}</span>
+                            </span>
+                          );
+                        }
 
-                      return (
-                        <Link
-                          key={item}
-                          href={href}
-                          aria-current={isActive ? 'page' : undefined}
-                          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                        >
-                          <span
-                            className="h-6 w-1 rounded-full"
-                            style={{
-                              backgroundColor: isActive ? 'var(--team-primary)' : 'transparent',
-                            }}
-                          />
-                          <span className={isActive ? 'text-foreground' : undefined}>{item}</span>
-                        </Link>
-                      );
-                    })}
+                        return (
+                          <Link
+                            key={item}
+                            href={href}
+                            aria-current={isActive ? 'page' : undefined}
+                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                          >
+                            <span
+                              className="h-6 w-1 rounded-full"
+                              style={{
+                                backgroundColor: isActive ? 'var(--team-primary)' : 'transparent',
+                              }}
+                            />
+                            <span className={isActive ? 'text-foreground' : undefined}>{item}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </nav>
+                ))}
+              </nav>
+            )}
           </aside>
 
           <div className="flex min-w-0 flex-1 flex-col">
