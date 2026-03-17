@@ -13,6 +13,9 @@ export type UnifiedPlayer = {
   name: string;
   position: string;
   teamAbbr: string;
+  baselineRating: number;
+  maddenRating: number | null;
+  rating: number;
   age: number | null;
   height: string | null;
   weight: number | null;
@@ -63,7 +66,7 @@ export type IngestedLeagueData = {
   updatedAt: string;
 };
 
-const parsedSeed = seedData as Partial<IngestedLeagueData>;
+const parsedSeed = seedData as unknown as Partial<IngestedLeagueData>;
 
 export const NFL_LEAGUE_DATA: IngestedLeagueData = {
   updatedAt: parsedSeed.updatedAt ?? new Date(0).toISOString(),
