@@ -22,12 +22,29 @@ export type UnifiedPlayer = {
 export type UnifiedContract = {
   playerId: string;
   teamAbbr: string;
+  contractStatus: string | null;
   capHit: number | null;
+  averagePerYear: number | null;
   guaranteed: number | null;
   years: number | null;
   deadCap: number | null;
   releaseSavings: number | null;
   postJune1Savings: number | null;
+};
+
+export type UnifiedFreeAgent = {
+  id: string;
+  name: string;
+  normalizedName: string;
+  position: string;
+  age: number | null;
+  headshotUrl: string | null;
+  lastTeamAbbr: string;
+  contractStatus: string | null;
+  currentTeamAbbr: string | null;
+  isUnsigned: boolean;
+  capHit: number | null;
+  averagePerYear: number | null;
 };
 
 export type UnifiedCap = {
@@ -41,6 +58,7 @@ export type IngestedLeagueData = {
   teams: UnifiedTeam[];
   players: UnifiedPlayer[];
   contracts: UnifiedContract[];
+  freeAgents: UnifiedFreeAgent[];
   cap: UnifiedCap[];
   updatedAt: string;
 };
@@ -52,5 +70,6 @@ export const NFL_LEAGUE_DATA: IngestedLeagueData = {
   teams: parsedSeed.teams ?? [],
   players: parsedSeed.players ?? [],
   contracts: parsedSeed.contracts ?? [],
+  freeAgents: parsedSeed.freeAgents ?? [],
   cap: parsedSeed.cap ?? [],
 };

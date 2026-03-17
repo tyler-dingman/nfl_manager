@@ -20,6 +20,7 @@ const run = async () => {
     teams: playerSync.teams,
     players: playerSync.players,
     contracts: contractSync.contracts,
+    freeAgents: contractSync.freeAgents,
     cap: capSync.cap,
   };
 
@@ -36,6 +37,7 @@ const run = async () => {
   console.log(`players count: ${payload.players.length}`);
   console.log(`contracts count: ${payload.contracts.length}`);
   console.log(`cap entries count: ${payload.cap.length}`);
+  console.log(`free agents count: ${payload.freeAgents.length}`);
   console.log(`teams without players: ${teamsWithoutPlayers.length}`);
   console.log(`contracts without matching players: ${unmatchedContracts.length}`);
   console.log(
