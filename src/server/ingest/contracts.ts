@@ -38,9 +38,28 @@ const isFreeAgentStatus = (status: string | null): boolean => {
   return normalized.includes('UFA') || normalized.includes('RFA') || normalized.includes('ERFA');
 };
 
-const safeUniquePlayerMatch = (candidates: UnifiedPlayer[], normalizedName: string): UnifiedPlayer | null => {
+const safeUniquePlayerMatch = (
+  candidates: UnifiedPlayer[],
+  normalizedName: string,
+): UnifiedPlayer | null => {
   const byName = candidates.filter((player) => normalizePlayerName(player.name) === normalizedName);
   return byName.length === 1 ? byName[0] : null;
+};
+
+const getContractEndYear = (futureCapHits: Record<string, number> | null): number | null => {
+  if (!futureCapHits) {
+    return null;
+  }
+
+  const years = Object.keys(futureCapHits)
+    .map((year) => Number.parseInt(year, 10))
+    .filter((year) => Number.isFinite(year));
+
+  if (years.length === 0) {
+    return null;
+  }
+
+  return Math.max(...years);
 };
 
 const syncContractsInternal = async (
@@ -107,7 +126,9 @@ const syncContractsInternal = async (
 
     for (const row of result.rows) {
       const normalizedName = normalizePlayerName(row.playerName);
-      const exact = teamPlayers.find((player) => normalizePlayerName(player.name) === normalizedName);
+      const exact = teamPlayers.find(
+        (player) => normalizePlayerName(player.name) === normalizedName,
+      );
       const fallback = exact ?? safeUniquePlayerMatch(players, normalizedName);
 
       if (!fallback) {
@@ -129,6 +150,7 @@ const syncContractsInternal = async (
         averagePerYear: row.averagePerYear,
         guaranteed: row.guaranteedMoney ?? row.fullyGuaranteedMoney ?? row.signingBonus ?? null,
         years: row.yearsRemaining,
+        contractEndYear: getContractEndYear(row.capHitFutureYears),
         deadCap: row.deadCap,
         releaseSavings: row.releaseSavings,
         postJune1Savings: row.postJune1Savings,

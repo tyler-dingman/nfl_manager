@@ -529,7 +529,9 @@ export function PlayerTable({
         meta: { mobileHidden: true },
         cell: ({ row }) => (
           <span className="text-sm text-muted-foreground">
-            {row.original.contractYearsRemaining} yrs
+            {row.original.contractYearsRemaining > 0
+              ? `${row.original.contractYearsRemaining} yrs`
+              : '—'}
           </span>
         ),
       },

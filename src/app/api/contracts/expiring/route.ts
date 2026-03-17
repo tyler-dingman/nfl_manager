@@ -42,7 +42,7 @@ export const GET = async (request: Request) => {
   const rosterExpiring: ExpiringContractRow[] = stateResult.data.roster
     .filter((player) => {
       const isExpiring =
-        player.contract?.expiresAfterSeason === true || player.contractYearsRemaining === 0;
+        player.contract?.expiresAfterSeason === true || player.contractYearsRemaining === 1;
       if (!isExpiring) return false;
       return true;
     })
@@ -74,27 +74,35 @@ export const GET = async (request: Request) => {
   const unique = new Map<string, ExpiringContractRow>();
   combined.forEach((row) => unique.set(row.id, row));
 
-  const players = Array.from(unique.values()).map((row) => {
-    const sourceRosterPlayer = stateResult.data.roster.find(
-      (player) => slugify(`${player.firstName} ${player.lastName} ${player.position}`) === row.id,
-    );
-    const interestBreakdown = calculatePlayerInterestForTeam(
-      {
-        position: row.pos,
-        age: row.age,
-        rating: row.rating ?? sourceRosterPlayer?.rating,
-      },
-      { teamAbbr: stateResult.data.header.teamAbbr, roster: stateResult.data.roster },
-      { previousTeamAbbr: row.lastTeamAbbr ?? row.previousTeamAbbr },
-    );
+  const players = Array.from(unique.values())
+    .map((row) => {
+      const sourceRosterPlayer = stateResult.data.roster.find(
+        (player) => slugify(`${player.firstName} ${player.lastName} ${player.position}`) === row.id,
+      );
+      const interestBreakdown = calculatePlayerInterestForTeam(
+        {
+          position: row.pos,
+          age: row.age,
+          rating: row.rating ?? sourceRosterPlayer?.rating,
+        },
+        { teamAbbr: stateResult.data.header.teamAbbr, roster: stateResult.data.roster },
+        { previousTeamAbbr: row.lastTeamAbbr ?? row.previousTeamAbbr },
+      );
 
-    return {
-      ...row,
-      rating: row.rating ?? sourceRosterPlayer?.rating,
-      headshotUrl: row.headshotUrl ?? sourceRosterPlayer?.headshotUrl ?? null,
-      interestPct: interestBreakdown.finalInterest,
-    };
-  });
+      return {
+        ...row,
+        rating: row.rating ?? sourceRosterPlayer?.rating,
+        headshotUrl: row.headshotUrl ?? sourceRosterPlayer?.headshotUrl ?? null,
+        interestPct: interestBreakdown.finalInterest,
+      };
+    })
+    .sort((a, b) => {
+      const ratingDelta = (b.rating ?? 0) - (a.rating ?? 0);
+      if (ratingDelta !== 0) {
+        return ratingDelta;
+      }
+      return b.estValue - a.estValue;
+    });
 
   return NextResponse.json({ ok: true, players });
 };
