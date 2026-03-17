@@ -1,5 +1,5 @@
 import { fetchRoster, fetchTeams } from '@/server/data-sources/espn';
-import { fetchLeagueCategoryStats, fetchTeamStats } from '@/server/data-sources/espn-stats';
+import { fetchTeamStats } from '@/server/data-sources/espn-stats';
 import {
   buildMaddenPlayerKey,
   fetchMaddenRatings,
@@ -159,8 +159,6 @@ export const syncPlayers = async (
   );
   const nextPlayers = new Map<string, UnifiedPlayer>();
 
-  const leagueStats = await fetchLeagueCategoryStats();
-
   for (const team of teamRecords) {
     const teamAbbr = resolveTeamAbbr(team.name, team.abbreviation);
     if (!teamAbbr || !teamsByAbbr.has(teamAbbr)) {
@@ -170,17 +168,25 @@ export const syncPlayers = async (
 
     try {
       const roster = await fetchRoster(team.id);
+
       const teamStats = await fetchTeamStats(
         team.id,
-        teamAbbr,
-        roster.map((player) => ({ id: player.id, name: player.name })),
-        leagueStats,
+        roster.map((player) => ({
+          id: player.id,
+          name: player.name,
+          teamAbbr,
+          position: player.position,
+        })),
       );
-      const statsByPlayerId = new Map(teamStats.map((entry) => [entry.playerId, entry.stats]));
-      const statsByName = new Map(
+
+      const statsByPlayerId = new Map(
         teamStats
-          .filter((entry) => entry.playerName)
-          .map((entry) => [normalizeComparableName(entry.playerName ?? ''), entry.stats]),
+          .filter((entry) => entry.playerId)
+          .map((entry) => [entry.playerId as string, entry.stats]),
+      );
+
+      const statsByName = new Map(
+        teamStats.map((entry) => [normalizeComparableName(entry.playerName), entry.stats]),
       );
 
       let playersWithStats = 0;

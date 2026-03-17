@@ -1,7 +1,9 @@
 import type { UnifiedPlayerStats } from '@/server/data/nfl-data';
 import { normalizePlayerName, normalizeTeamName } from '@/server/ingest/normalize';
+import { TEAM_ALIAS_TO_ABBR } from '@/server/ingest/teams';
 
 export type TeamPlayerStatsRecord = {
+<<<<<<< HEAD
   playerId: string;
   playerName?: string;
   stats: UnifiedPlayerStats;
@@ -40,21 +42,23 @@ type RawStatsRow = {
 };
 
 export type NormalizedPlayerStatRecord = {
+=======
+>>>>>>> 6d9e9e6 (updated json)
   playerId?: string;
   playerName: string;
-  normalizedName: string;
   teamAbbr?: string;
-  teamName?: string;
-  normalizedTeam: string;
   position?: string;
   stats: UnifiedPlayerStats;
 };
 
-export type LeagueCategoryStatsResult = {
-  records: NormalizedPlayerStatRecord[];
-  parsedRowsByCategory: Record<StatCategory, number>;
+type TeamRosterPlayer = {
+  id: string;
+  name: string;
+  teamAbbr?: string;
+  position?: string;
 };
 
+<<<<<<< HEAD
 const CATEGORY_PAGE_URLS: Record<StatCategory, string[]> = {
   passing: [
     'https://www.espn.com/nfl/stats/player/_/table/passing/sort/passingYards/dir/desc',
@@ -79,11 +83,40 @@ const normalizeComparableName = (value: string) => normalizePlayerName(value);
 const normalizeComparableTeam = (value: string) => normalizeTeamName(value);
 
 const normalizeAbbr = (value: string | undefined) => (value ?? '').trim().toUpperCase();
+=======
+const ESPN_STATS_URLS = [
+  'https://www.espn.com/nfl/stats/player/_/table/passing/sort/passingYards/dir/desc',
+  'https://www.espn.com/nfl/stats/player/_/table/rushing/sort/rushingYards/dir/desc',
+  'https://www.espn.com/nfl/stats/player/_/table/receiving/sort/receivingYards/dir/desc',
+  'https://www.espn.com/nfl/stats/player/_/table/defensive/sort/totalTackles/dir/desc',
+];
+
+const stripTags = (value: string): string =>
+  value
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const decodeEntities = (value: string): string =>
+  value
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+>>>>>>> 6d9e9e6 (updated json)
 
 const normalizeKey = (value: string) =>
   value
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '')
+    .trim();
+
+const normalizeComparableName = (value: string) =>
+  normalizePlayerName(value)
+    .replace(/\b(jr|sr|ii|iii|iv|v)\b/g, '')
+    .replace(/\s+/g, ' ')
     .trim();
 
 const toNumber = (value: unknown): number | undefined => {
@@ -97,8 +130,6 @@ const toNumber = (value: unknown): number | undefined => {
   return undefined;
 };
 
-const hasNonEmptyStats = (stats: UnifiedPlayerStats) => Object.keys(stats).length > 0;
-
 const setStatValue = (target: UnifiedPlayerStats, rawKey: string, rawValue: unknown) => {
   const key = normalizeKey(rawKey);
   const value = toNumber(rawValue);
@@ -110,9 +141,13 @@ const setStatValue = (target: UnifiedPlayerStats, rawKey: string, rawValue: unkn
     target.passingTD = value;
   } else if (['interceptions', 'passinterceptions', 'ints'].includes(key)) {
     target.interceptions = value;
+<<<<<<< HEAD
   } else if (
     ['completionpct', 'completionpercentage', 'cppct', 'cmppercent', 'qbrcmp', 'cmp'].includes(key)
   ) {
+=======
+  } else if (['completionpct', 'completionpercentage', 'cmp', 'comp'].includes(key)) {
+>>>>>>> 6d9e9e6 (updated json)
     target.completionPct = value;
   } else if (['rushingyards', 'rushyards', 'rushyds', 'ydsrush'].includes(key)) {
     target.rushYards = value;
@@ -132,11 +167,19 @@ const setStatValue = (target: UnifiedPlayerStats, rawKey: string, rawValue: unkn
     target.tackles = value;
   } else if (['sacks', 'sck'].includes(key)) {
     target.sacks = value;
+<<<<<<< HEAD
   } else if (['tfl', 'tacklesforloss'].includes(key)) {
     target.tfl = value;
   } else if (['qbhits', 'qbh'].includes(key)) {
     target.qbHits = value;
   } else if (['defensiveinterceptions', 'interceptionsdef', 'intdef', 'int'].includes(key)) {
+=======
+  } else if (['tacklesforloss', 'tfl'].includes(key)) {
+    target.tfl = value;
+  } else if (['qbhits', 'quarterbackhits'].includes(key)) {
+    target.qbHits = value;
+  } else if (['defensiveinterceptions', 'interceptionsdef', 'intdef'].includes(key)) {
+>>>>>>> 6d9e9e6 (updated json)
     target.interceptionsDef = value;
   } else if (['passesdefended', 'passdeflections', 'pd'].includes(key)) {
     target.passDeflections = value;
@@ -145,11 +188,20 @@ const setStatValue = (target: UnifiedPlayerStats, rawKey: string, rawValue: unkn
   }
 };
 
+<<<<<<< HEAD
 const fetchHtml = async (url: string): Promise<string> => {
   const response = await fetch(url, {
     headers: {
       Accept: 'text/html,application/xhtml+xml',
       'User-Agent': 'Mozilla/5.0',
+=======
+const hasNonEmptyStats = (stats: UnifiedPlayerStats) => Object.keys(stats).length > 0;
+
+const fetchHtml = async (url: string) => {
+  const response = await fetch(url, {
+    headers: {
+      'user-agent': 'Mozilla/5.0 (compatible; nfl-manager-sync/1.0)',
+>>>>>>> 6d9e9e6 (updated json)
     },
   });
 
@@ -158,6 +210,7 @@ const fetchHtml = async (url: string): Promise<string> => {
   }
 
   return response.text();
+<<<<<<< HEAD
 };
 
 const findBalancedJsonObject = (source: string, objectStart: number): string | null => {
@@ -226,30 +279,16 @@ const extractEmbeddedStatisticsObject = (html: string): Record<string, unknown> 
   }
 
   return null;
+=======
+>>>>>>> 6d9e9e6 (updated json)
 };
 
-const collectRows = (node: unknown, rows: RawStatsRow[] = []): RawStatsRow[] => {
-  if (!node) return rows;
-
-  if (Array.isArray(node)) {
-    node.forEach((entry) => collectRows(entry, rows));
-    return rows;
-  }
-
-  if (typeof node !== 'object') return rows;
-
-  const record = node as Record<string, unknown>;
-  const hasAthlete = Boolean(record.athlete || record.player || record.competitor);
-  const hasStats = Boolean(record.stats || record.statistics || record.statLine || record.columns);
-
-  if (hasAthlete && hasStats) {
-    rows.push(record as RawStatsRow);
-  }
-
-  Object.values(record).forEach((value) => collectRows(value, rows));
-  return rows;
+const extractTableRows = (html: string) => {
+  const rows = [...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)];
+  return rows.map((match) => match[1] ?? '');
 };
 
+<<<<<<< HEAD
 const collectColumnNames = (node: unknown, out: string[] = []): string[] => {
   if (!node) return out;
 
@@ -271,17 +310,23 @@ const collectColumnNames = (node: unknown, out: string[] = []): string[] => {
 const asRawStat = (value: unknown, label?: string): RawStat | null => {
   if (value && typeof value === 'object' && !Array.isArray(value)) {
     return value as RawStat;
+=======
+const extractCells = (rowHtml: string) =>
+  [...rowHtml.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((match) =>
+    decodeEntities(stripTags(match[1] ?? '')),
+  );
+
+const inferTeamAbbr = (rowText: string): string | undefined => {
+  for (const [alias, abbr] of Object.entries(TEAM_ALIAS_TO_ABBR)) {
+    if (rowText.toLowerCase().includes(alias)) {
+      return abbr;
+    }
+>>>>>>> 6d9e9e6 (updated json)
   }
-
-  if (!label) return null;
-
-  return {
-    name: label,
-    abbreviation: label,
-    value: value as number | string | null,
-  };
+  return undefined;
 };
 
+<<<<<<< HEAD
 const getStatsEntries = (row: RawStatsRow, defaultColumns: string[]): RawStat[] => {
   const values = (row.stats ?? row.statistics) as unknown;
   const labels =
@@ -289,25 +334,46 @@ const getStatsEntries = (row: RawStatsRow, defaultColumns: string[]): RawStat[] 
     row.names ??
     row.columns?.map((entry) => entry.name ?? entry.abbreviation ?? entry.displayName) ??
     defaultColumns;
+=======
+const parsePassingRows = (html: string): TeamPlayerStatsRecord[] => {
+  const records: TeamPlayerStatsRecord[] = [];
+>>>>>>> 6d9e9e6 (updated json)
 
-  if (Array.isArray(values)) {
-    return values
-      .map((entry, index) => asRawStat(entry, labels?.[index]))
-      .filter((entry): entry is RawStat => Boolean(entry));
+  for (const rowHtml of extractTableRows(html)) {
+    const rowText = decodeEntities(stripTags(rowHtml));
+    const cells = extractCells(rowHtml);
+
+    const playerName =
+      [...rowHtml.matchAll(/<a[^>]*>([\s\S]*?)<\/a>/gi)]
+        .map((match) => decodeEntities(stripTags(match[1] ?? '')).trim())
+        .find((text) => text.includes(' ')) ?? '';
+
+    if (!playerName || cells.length < 6) continue;
+
+    const stats: UnifiedPlayerStats = {};
+    setStatValue(stats, 'passingYards', cells.find((c) => /^\d{3,5}$/.test(c)) ?? '');
+    const tdCandidate = cells.find((c) => /^\d{1,2}$/.test(c));
+    if (tdCandidate) setStatValue(stats, 'passingTD', tdCandidate);
+
+    const pctCandidate = cells.find((c) => /^\d{1,2}\.\d$/.test(c));
+    if (pctCandidate) setStatValue(stats, 'completionPct', pctCandidate);
+
+    const teamAbbr = inferTeamAbbr(rowText);
+
+    if (!hasNonEmptyStats(stats)) continue;
+
+    records.push({
+      playerName,
+      teamAbbr,
+      position: 'QB',
+      stats,
+    });
   }
 
-  if (values && typeof values === 'object') {
-    return Object.entries(values).map(([key, value]) => ({ name: key, value }));
-  }
-
-  const line = row.statLine;
-  if (line && typeof line === 'object') {
-    return Object.entries(line).map(([key, value]) => ({ name: key, value }));
-  }
-
-  return [];
+  return records;
 };
 
+<<<<<<< HEAD
 const splitTrailingTeamAbbr = (raw: string): { playerName: string; teamAbbr?: string } => {
   const match = raw.trim().match(/^(.*)\s+([A-Z]{2,4})$/);
   if (!match) return { playerName: raw.trim() };
@@ -341,13 +407,28 @@ const resolvePlayerMeta = (row: RawStatsRow) => {
     (team.name as string | undefined) ??
     teamAbbr ??
     undefined;
+=======
+const parseRushingRows = (html: string): TeamPlayerStatsRecord[] => {
+  const records: TeamPlayerStatsRecord[] = [];
 
-  const playerId =
-    (athlete.id as string | undefined) ??
-    (row.id as string | undefined) ??
-    (athlete.uid as string | undefined)?.split(':').pop() ??
-    undefined;
+  for (const rowHtml of extractTableRows(html)) {
+    const rowText = decodeEntities(stripTags(rowHtml));
+    const cells = extractCells(rowHtml);
 
+    const playerName =
+      [...rowHtml.matchAll(/<a[^>]*>([\s\S]*?)<\/a>/gi)]
+        .map((match) => decodeEntities(stripTags(match[1] ?? '')).trim())
+        .find((text) => text.includes(' ')) ?? '';
+
+    if (!playerName || cells.length < 6) continue;
+>>>>>>> 6d9e9e6 (updated json)
+
+    const stats: UnifiedPlayerStats = {};
+    const yds = cells.find((c) => /^\d{2,4}$/.test(c));
+    const ypc = cells.find((c) => /^\d\.\d$/.test(c));
+    const td = cells.filter((c) => /^\d{1,2}$/.test(c)).at(-1);
+
+<<<<<<< HEAD
   return {
     playerId,
     playerName,
@@ -463,49 +544,164 @@ export const fetchLeagueCategoryStats = async (): Promise<LeagueCategoryStatsRes
     records,
     parsedRowsByCategory,
   };
+=======
+    if (yds) setStatValue(stats, 'rushYards', yds);
+    if (ypc) setStatValue(stats, 'yardsPerCarry', ypc);
+    if (td) setStatValue(stats, 'rushTD', td);
+
+    const teamAbbr = inferTeamAbbr(rowText);
+
+    if (!hasNonEmptyStats(stats)) continue;
+
+    records.push({
+      playerName,
+      teamAbbr,
+      position: 'RB',
+      stats,
+    });
+  }
+
+  return records;
+};
+
+const parseReceivingRows = (html: string): TeamPlayerStatsRecord[] => {
+  const records: TeamPlayerStatsRecord[] = [];
+
+  for (const rowHtml of extractTableRows(html)) {
+    const rowText = decodeEntities(stripTags(rowHtml));
+    const cells = extractCells(rowHtml);
+
+    const playerName =
+      [...rowHtml.matchAll(/<a[^>]*>([\s\S]*?)<\/a>/gi)]
+        .map((match) => decodeEntities(stripTags(match[1] ?? '')).trim())
+        .find((text) => text.includes(' ')) ?? '';
+
+    if (!playerName || cells.length < 6) continue;
+
+    const stats: UnifiedPlayerStats = {};
+    const receptions = cells.find((c) => /^\d{1,3}$/.test(c));
+    const recYards = cells.find((c) => /^\d{2,4}$/.test(c));
+    const ypr = cells.find((c) => /^\d{1,2}\.\d$/.test(c));
+    const td = cells.filter((c) => /^\d{1,2}$/.test(c)).at(-1);
+
+    if (receptions) setStatValue(stats, 'receptions', receptions);
+    if (recYards) setStatValue(stats, 'recYards', recYards);
+    if (ypr) setStatValue(stats, 'yardsPerCatch', ypr);
+    if (td) setStatValue(stats, 'recTD', td);
+
+    const teamAbbr = inferTeamAbbr(rowText);
+
+    if (!hasNonEmptyStats(stats)) continue;
+
+    records.push({
+      playerName,
+      teamAbbr,
+      stats,
+    });
+  }
+
+  return records;
+};
+
+const parseDefenseRows = (html: string): TeamPlayerStatsRecord[] => {
+  const records: TeamPlayerStatsRecord[] = [];
+
+  for (const rowHtml of extractTableRows(html)) {
+    const rowText = decodeEntities(stripTags(rowHtml));
+    const cells = extractCells(rowHtml);
+
+    const playerName =
+      [...rowHtml.matchAll(/<a[^>]*>([\s\S]*?)<\/a>/gi)]
+        .map((match) => decodeEntities(stripTags(match[1] ?? '')).trim())
+        .find((text) => text.includes(' ')) ?? '';
+
+    if (!playerName || cells.length < 5) continue;
+
+    const stats: UnifiedPlayerStats = {};
+    const tackles = cells.find((c) => /^\d{1,3}$/.test(c));
+    const sacks = cells.find((c) => /^\d{1,2}(\.\d)?$/.test(c));
+    const ints = cells.filter((c) => /^\d{1,2}$/.test(c)).at(-1);
+
+    if (tackles) setStatValue(stats, 'tackles', tackles);
+    if (sacks) setStatValue(stats, 'sacks', sacks);
+    if (ints) setStatValue(stats, 'interceptionsDef', ints);
+
+    const teamAbbr = inferTeamAbbr(rowText);
+
+    if (!hasNonEmptyStats(stats)) continue;
+
+    records.push({
+      playerName,
+      teamAbbr,
+      stats,
+    });
+  }
+
+  return records;
+};
+
+const mergeRecords = (records: TeamPlayerStatsRecord[]) => {
+  const merged = new Map<string, TeamPlayerStatsRecord>();
+
+  for (const record of records) {
+    const key = `${normalizeComparableName(record.playerName)}:${record.teamAbbr ?? ''}`;
+    const existing = merged.get(key);
+    if (!existing) {
+      merged.set(key, {
+        ...record,
+        stats: { ...record.stats },
+      });
+      continue;
+    }
+
+    merged.set(key, {
+      ...existing,
+      stats: {
+        ...existing.stats,
+        ...record.stats,
+      },
+    });
+  }
+
+  return Array.from(merged.values());
+>>>>>>> 6d9e9e6 (updated json)
 };
 
 export const fetchTeamStats = async (
   teamId: string,
-  teamAbbr: string,
   rosterPlayers: TeamRosterPlayer[],
-  leagueStats?: LeagueCategoryStatsResult,
 ): Promise<TeamPlayerStatsRecord[]> => {
-  const statsResult = leagueStats ?? (await fetchLeagueCategoryStats());
-  const rosterByName = new Map(
-    rosterPlayers.map((player) => [normalizeComparableName(player.name), player]),
+  const rosterNames = new Set(rosterPlayers.map((player) => normalizeComparableName(player.name)));
+  const rosterAbbr = rosterPlayers[0]?.teamAbbr;
+
+  const pages = await Promise.all(
+    ESPN_STATS_URLS.map(async (url) => {
+      try {
+        const html = await fetchHtml(url);
+        return { url, html };
+      } catch {
+        return { url, html: '' };
+      }
+    }),
   );
 
-  const candidates = statsResult.records.filter(
-    (entry) =>
-      normalizeAbbr(entry.teamAbbr) === normalizeAbbr(teamAbbr) ||
-      normalizeComparableTeam(entry.teamName ?? '') === normalizeComparableTeam(teamAbbr),
-  );
-
-  const out = new Map<string, TeamPlayerStatsRecord>();
-
-  candidates.forEach((entry) => {
-    const byId = entry.playerId
-      ? rosterPlayers.find((player) => player.id === entry.playerId)
-      : undefined;
-    const byName = rosterByName.get(entry.normalizedName);
-    const rosterPlayer = byId ?? byName;
-    if (!rosterPlayer) return;
-
-    const existing = out.get(rosterPlayer.id);
-    out.set(rosterPlayer.id, {
-      playerId: rosterPlayer.id,
-      playerName: rosterPlayer.name,
-      stats: {
-        ...(existing?.stats ?? {}),
-        ...entry.stats,
-      },
-    });
+  const parsed = pages.flatMap(({ url, html }) => {
+    if (!html) return [];
+    if (url.includes('/table/passing/')) return parsePassingRows(html);
+    if (url.includes('/table/rushing/')) return parseRushingRows(html);
+    if (url.includes('/table/receiving/')) return parseReceivingRows(html);
+    if (url.includes('/table/defensive/')) return parseDefenseRows(html);
+    return [];
   });
 
-  if (out.size === 0) {
-    console.log(`[sync:players] team=${teamId} (${teamAbbr}) had no matching category stats rows`);
-  }
+  const filtered = parsed.filter((record) => {
+    const normalizedName = normalizeComparableName(record.playerName);
+    if (!rosterNames.has(normalizedName)) return false;
+    if (rosterAbbr && record.teamAbbr && rosterAbbr !== record.teamAbbr) return false;
+    return hasNonEmptyStats(record.stats);
+  });
 
-  return Array.from(out.values());
+  return mergeRecords(filtered);
 };
+
+export const fetchLeagueCategoryStats = fetchTeamStats;

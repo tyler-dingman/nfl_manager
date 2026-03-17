@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-17T23:32:00.632Z",
+  "updatedAt": "2026-03-17T23:44:26.741Z",
   "teams": [
     {
       "id": "ARI",
@@ -5146,7 +5146,7 @@
       "teamAbbr": "CAR",
       "name": "Akayleb Evans",
       "position": "CB",
-      "baselineRating": 90,
+      "baselineRating": 91,
       "maddenRating": 71,
       "rating": 81,
       "age": 26,
@@ -15135,6 +15135,20 @@
       "height": "6' 4\"",
       "weight": 314,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4058825.png",
+      "stats": {}
+    },
+    {
+      "id": "4361196",
+      "teamAbbr": "IND",
+      "name": "Cam Taylor-Britt",
+      "position": "CB",
+      "baselineRating": 85,
+      "maddenRating": 81,
+      "rating": 83,
+      "age": 26,
+      "height": "5' 11\"",
+      "weight": 200,
+      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4361196.png",
       "stats": {}
     },
     {
