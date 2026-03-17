@@ -44,73 +44,46 @@ const parseRows = (html: string, fallbackTeamName: string): MaddenRatingRecord[]
   const records: MaddenRatingRecord[] = [];
   const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
 
+  const isLikelyPlayerName = (value: string) => {
+    const cleaned = decodeEntities(stripTags(value)).trim();
+    if (!cleaned) return false;
+    if (/^image:/i.test(cleaned)) return false;
+    if (/^(united states|greece|canada|australia)$/i.test(cleaned)) return false;
+    if (/^(qb|rb|hb|fb|wr|te|lt|lg|c|rg|rt|ol|dt|nt|de|le|re|edge|ledg|redg|lb|mlb|ilb|olb|lolb|rolb|mike|sam|will|cb|fs|ss|s|k|p)$/i.test(cleaned)) {
+      return false;
+    }
+    if (/^\d+\.?$/.test(cleaned)) return false;
+    return /[A-Za-z]/.test(cleaned) && cleaned.includes(' ');
+  };
+
   for (const rowMatch of html.matchAll(rowRegex)) {
-    const row = rowMatch[1] ?? '';
-    const cells = [...row.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((cellMatch) =>
-      decodeEntities(stripTags(cellMatch[1] ?? '')),
-    );
+    const rowHtml = rowMatch[1] ?? '';
+    const rowText = decodeEntities(stripTags(rowHtml)).replace(/\s+/g, ' ').trim();
 
-    if (cells.length < 3) {
-      continue;
-    }
+    if (!rowText) continue;
 
-    const numericCells = cells
-      .map((cell) => Number.parseInt(cell, 10))
-      .filter((value) => Number.isFinite(value) && value >= 1 && value <= 99);
+    // Pull candidate anchor texts from the row
+    const anchorTexts = [...rowHtml.matchAll(/<a[^>]*>([\s\S]*?)<\/a>/gi)]
+      .map((match) => decodeEntities(stripTags(match[1] ?? '')).trim())
+      .filter(Boolean);
 
-    if (numericCells.length === 0) {
-      continue;
-    }
+    const playerName = anchorTexts.find(isLikelyPlayerName) ?? '';
 
-    const overallRating = numericCells[0] ?? Number.NaN;
-    if (!Number.isFinite(overallRating)) {
-      continue;
-    }
+    // Position usually appears like "#15 QB | Improviser"
+    const positionMatch = rowText.match(/#\d+\s+([A-Z]{1,5})\s+\|/i);
+    const position = (positionMatch?.[1] ?? '').toUpperCase();
 
-    // Try common table layouts:
-    // [name, position, overall]
-    // [name, team, position, overall]
-    // [rank, name, position, overall]
-    let playerName = '';
-    let team = fallbackTeamName;
-    let position = '';
+    // OVR is the first 2-digit number after the position/archetype block
+    const ratingBlockMatch = rowText.match(/#\d+\s+[A-Z]{1,5}\s+\|[^0-9]*?(\d{2})\s+\d{2}\s+[\d,]+/i);
+    const overallRating = Number.parseInt(ratingBlockMatch?.[1] ?? '', 10);
 
-    if (cells.length >= 4) {
-      // Most likely [player, team, position, overall] or [rank, player, position, overall]
-      if (/^[A-Z]{1,4}$/.test(cells[2] ?? '')) {
-        playerName = cells[1] ?? '';
-        position = cells[2] ?? '';
-        team = fallbackTeamName;
-      } else {
-        playerName = cells[0] ?? '';
-        team = cells[1] ?? fallbackTeamName;
-        position = cells[2] ?? '';
-      }
-    } else if (cells.length === 3) {
-      playerName = cells[0] ?? '';
-      position = cells[1] ?? '';
-      team = fallbackTeamName;
-    }
-
-    playerName = playerName.trim();
-    position = position.trim().toUpperCase();
-    team = team.trim() || fallbackTeamName;
-
-    if (!playerName || !position) {
-      continue;
-    }
-
-    // Skip obvious header rows
-    if (
-      /player|name|team|position|ovr|overall/i.test(playerName) ||
-      /player|name|team|position|ovr|overall/i.test(position)
-    ) {
+    if (!playerName || !position || !Number.isFinite(overallRating)) {
       continue;
     }
 
     records.push({
       playerName,
-      team,
+      team: fallbackTeamName,
       position,
       overallRating,
     });

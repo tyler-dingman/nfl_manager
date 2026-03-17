@@ -56,10 +56,13 @@ const normalizePositionBucket = (position: string): string => {
   if (['TE'].includes(normalized)) return 'TE';
   if (['QB'].includes(normalized)) return 'QB';
 
-  if (['LE', 'RE', 'DE', 'EDGE'].includes(normalized)) return 'DE';
+  if (['LE', 'RE', 'DE', 'EDGE', 'LEDG', 'REDG'].includes(normalized)) return 'DE';
   if (['DT', 'NT', 'DL'].includes(normalized)) return 'DT';
 
-  if (['LOLB', 'ROLB', 'ILB', 'MLB', 'LB', 'OLB'].includes(normalized)) return 'LB';
+  if (['LOLB', 'ROLB', 'ILB', 'MLB', 'LB', 'OLB', 'MIKE', 'SAM', 'WILL'].includes(normalized)) {
+    return 'LB';
+  }
+
   if (['SS', 'FS', 'S'].includes(normalized)) return 'S';
   if (['CB'].includes(normalized)) return 'CB';
 
@@ -81,11 +84,11 @@ const getPositionCandidates = (position: string): string[] => {
     case 'RB':
       return ['RB', 'HB', 'FB'];
     case 'DE':
-      return ['DE', 'LE', 'RE', 'EDGE'];
+      return ['DE', 'LE', 'RE', 'EDGE', 'LEDG', 'REDG'];
     case 'DT':
       return ['DT', 'NT', 'DL'];
     case 'LB':
-      return ['LB', 'OLB', 'ILB', 'MLB', 'LOLB', 'ROLB'];
+      return ['LB', 'OLB', 'ILB', 'MLB', 'LOLB', 'ROLB', 'MIKE', 'SAM', 'WILL'];
     case 'S':
       return ['S', 'SS', 'FS'];
     default:
