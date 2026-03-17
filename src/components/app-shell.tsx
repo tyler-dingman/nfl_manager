@@ -220,7 +220,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     setIsMobileSidebarOpen(false);
   }, [pathname]);
 
-  if (hasHydrated && !saveId && pathname !== '/') {
+  if (!hasHydrated) {
+    return (
+      <TeamThemeProvider team={teams[0]}>
+        <div
+          className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:flex-row"
+          style={{ '--app-header-height': '64px' } as CSSProperties}
+        />
+      </TeamThemeProvider>
+    );
+  }
+
+  if (!saveId && pathname !== '/') {
     return null;
   }
 

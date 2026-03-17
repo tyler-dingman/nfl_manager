@@ -35,13 +35,8 @@ type SaveStoreState = {
   ensureSaveId: () => Promise<string | null>;
 };
 
-const readStoredSaveId = () => {
-  if (typeof window === 'undefined') return '';
-  return localStorage.getItem('falco_active_save_id') ?? '';
-};
-
 const DEFAULT_STATE = {
-  saveId: readStoredSaveId(),
+  saveId: '',
   teamId: '',
   teamAbbr: '',
   capSpace: 0,
