@@ -12,7 +12,6 @@ import {
 import { logoUrlFor } from './team';
 import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
 import { buildFreeAgencyPool, buildFreeAgentProfile } from '@/server/logic/free-agency-pool';
-import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 
 export type PlayerFilters = {
@@ -78,20 +77,20 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
     (player) => player.teamAbbr === teamAbbr.toUpperCase(),
   );
   return players.map((player) => {
-    const { firstName, lastName } = splitName(player.fullName);
+    const { firstName, lastName } = splitName(player.name);
     const contract = leagueContractsByPlayerId.get(player.id);
     const year1CapHit = Number(
-      ((contract?.capHitCurrentYear ?? contract?.averagePerYear ?? 0) / 1_000_000).toFixed(1),
+      ((contract?.capHit ?? 0) / 1_000_000).toFixed(1),
     );
     const guaranteed = Number(
-      ((contract?.guaranteedMoney ?? contract?.guaranteedRemaining ?? 0) / 1_000_000).toFixed(1),
+      ((contract?.guaranteed ?? 0) / 1_000_000).toFixed(1),
     );
-    const yearsRemaining = Math.max(1, contract?.yearsRemaining ?? 1);
+    const yearsRemaining = Math.max(1, contract?.years ?? 1);
     const apy = Number(
-      ((contract?.averagePerYear ?? contract?.capHitCurrentYear ?? 0) / 1_000_000).toFixed(1),
+      ((contract?.capHit ?? 0) / 1_000_000).toFixed(1),
     );
     const deadCap = Number(
-      ((contract?.deadCapEstimate ?? contract?.deadCap ?? 0) / 1_000_000).toFixed(1),
+      0,
     );
     return {
       id: `${teamAbbr.toLowerCase()}-${player.id}`,
@@ -118,50 +117,13 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
   });
 };
 
-const buildRosterForTeam = (teamAbbr: string): StoredPlayer[] => {
-  const leagueRoster = buildLeagueRoster(teamAbbr);
-  if (leagueRoster.length > 0) {
-    return leagueRoster;
-  }
-  return clonePlayers(baseRoster);
-};
-
-const baseRoster: StoredPlayer[] = [
-  {
-    id: '1',
-    firstName: 'Jordan',
-    lastName: 'Love',
-    position: 'QB',
-    contractYearsRemaining: 3,
-    capHit: '$7.2M',
-    capHitValue: 7.2,
-    salary: 7.2,
-    guaranteed: 2.1,
-    status: 'Active',
-    headshotUrl: null,
-    year1CapHit: 7.2,
-  },
-  {
-    id: '2',
-    firstName: 'Josh',
-    lastName: 'Jacobs',
-    position: 'RB',
-    contractYearsRemaining: 2,
-    capHit: '$6.4M',
-    capHitValue: 6.4,
-    salary: 6.4,
-    guaranteed: 1.8,
-    status: 'Active',
-    headshotUrl: null,
-    year1CapHit: 6.4,
-  },
-];
+const buildRosterForTeam = (teamAbbr: string): StoredPlayer[] => buildLeagueRoster(teamAbbr);
 
 const clonePlayers = (players: StoredPlayer[]) => players.map((player) => ({ ...player }));
 
 const capSpaceMillionsForTeam = (teamAbbr: string): number => {
-  const capSeed = TEAM_CAP_SPACE.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
-  return Number(((capSeed?.capSpace ?? 0) / 1_000_000).toFixed(1));
+  const capSeed = NFL_LEAGUE_DATA.cap.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
+  return Number(((capSeed?.availableCap ?? 0) / 1_000_000).toFixed(1));
 };
 
 export const getProjectedRosterForTeam = (state: SaveState, teamAbbr: string): StoredPlayer[] =>

@@ -19,9 +19,14 @@ const run = async () => {
     updatedAt: now,
     teams: playerSync.teams,
     players: playerSync.players,
-    cap: capSync.cap,
     contracts: contractSync.contracts,
+    cap: capSync.cap,
   };
+
+  const teamsWithPlayers = new Set(payload.players.map((player) => player.teamAbbr));
+  const teamsWithoutPlayers = payload.teams.filter((team) => !teamsWithPlayers.has(team.abbr));
+  const contractPlayerIds = new Set(payload.players.map((player) => player.id));
+  const unmatchedContracts = payload.contracts.filter((contract) => !contractPlayerIds.has(contract.playerId));
 
   await mkdir(path.dirname(DATA_FILE), { recursive: true });
   await writeFile(DATA_FILE, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
@@ -29,8 +34,10 @@ const run = async () => {
   console.log('sync summary');
   console.log(`teams count: ${payload.teams.length}`);
   console.log(`players count: ${payload.players.length}`);
-  console.log(`cap entries count: ${payload.cap.length}`);
   console.log(`contracts count: ${payload.contracts.length}`);
+  console.log(`cap entries count: ${payload.cap.length}`);
+  console.log(`teams without players: ${teamsWithoutPlayers.length}`);
+  console.log(`contracts without matching players: ${unmatchedContracts.length}`);
   console.log(
     `[contracts] rows=${contractSync.report.totalContractRows} matched=${contractSync.report.matchedPlayers} unmatched=${contractSync.report.unmatchedPlayers} conflicts=${contractSync.report.duplicateMatchConflicts} missingTeams=${contractSync.report.teamsWithMissingContractPages.length}`,
   );

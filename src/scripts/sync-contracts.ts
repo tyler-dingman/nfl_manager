@@ -21,13 +21,12 @@ const run = async () => {
   console.log('sample matched contracts');
   result.contracts.slice(0, 25).forEach((contract) => {
     const player = existing.players.find(
-      (entry) => entry.id === contract.playerId && entry.teamAbbr === contract.teamId,
+      (entry) => entry.id === contract.playerId && entry.teamAbbr === contract.teamAbbr,
     );
-    const capHit = contract.capHitCurrentYear ?? 0;
-    const deadCap = contract.deadCap ?? 0;
-    const guaranteed = contract.guaranteedMoney ?? contract.fullyGuaranteedMoney ?? 0;
+    const capHit = contract.capHit ?? 0;
+    const guaranteed = contract.guaranteed ?? 0;
     console.log(
-      `${player?.fullName ?? contract.playerId} | ${contract.teamId} | capHit=${capHit} | deadCap=${deadCap} | guaranteed=${guaranteed} | synced=${contract.contractLastSyncedAt}`,
+      `${player?.name ?? contract.playerId} | ${contract.teamAbbr} | capHit=${capHit} | guaranteed=${guaranteed} | years=${contract.years ?? 0}`,
     );
   });
 };
