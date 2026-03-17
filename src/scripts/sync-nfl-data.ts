@@ -27,7 +27,9 @@ const run = async () => {
   const teamsWithPlayers = new Set(payload.players.map((player) => player.teamAbbr));
   const teamsWithoutPlayers = payload.teams.filter((team) => !teamsWithPlayers.has(team.abbr));
   const contractPlayerIds = new Set(payload.players.map((player) => player.id));
-  const unmatchedContracts = payload.contracts.filter((contract) => !contractPlayerIds.has(contract.playerId));
+  const unmatchedContracts = payload.contracts.filter(
+    (contract) => !contractPlayerIds.has(contract.playerId),
+  );
 
   await mkdir(path.dirname(DATA_FILE), { recursive: true });
   await writeFile(DATA_FILE, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
@@ -44,6 +46,17 @@ const run = async () => {
     `[contracts] rows=${contractSync.report.totalContractRows} matched=${contractSync.report.matchedPlayers} unmatched=${contractSync.report.unmatchedPlayers} conflicts=${contractSync.report.duplicateMatchConflicts} missingTeams=${contractSync.report.teamsWithMissingContractPages.length}`,
   );
   console.log(`[players] rosterErrors=${playerSync.rosterErrors.length}`);
+  console.log(
+    `[madden] rows=${playerSync.maddenReport.fetchedRows} matched=${playerSync.maddenReport.matchedPlayers} unmatched=${playerSync.maddenReport.unmatchedRows}`,
+  );
+  if (playerSync.maddenReport.sampleBlends.length > 0) {
+    console.log('[madden] blend samples');
+    playerSync.maddenReport.sampleBlends.forEach((sample) => {
+      console.log(
+        `  ${sample.teamAbbr} ${sample.name}: baseline=${sample.baselineRating} madden=${sample.maddenRating} final=${sample.rating}`,
+      );
+    });
+  }
   console.log(`[cap] unmatched=${capSync.unmatched.length}`);
 };
 

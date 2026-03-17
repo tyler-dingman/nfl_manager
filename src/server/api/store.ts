@@ -166,6 +166,7 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
       firstName,
       lastName,
       position: player.position,
+      rating: player.rating,
       contractYearsRemaining: yearsRemaining,
       capHit: formatMoneyMillions(year1CapHit),
       capHitValue: year1CapHit,
@@ -188,9 +189,13 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
   });
 
   if (process.env.NODE_ENV !== 'production' && roster.length > 0) {
-    const capRecord = NFL_LEAGUE_DATA.cap.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
+    const capRecord = NFL_LEAGUE_DATA.cap.find(
+      (entry) => entry.teamAbbr === teamAbbr.toUpperCase(),
+    );
     const samplePlayer = players[0];
-    const sampleContract = samplePlayer ? leagueContractsByPlayerId.get(samplePlayer.id) : undefined;
+    const sampleContract = samplePlayer
+      ? leagueContractsByPlayerId.get(samplePlayer.id)
+      : undefined;
     const sampleResolved = roster[0];
     console.info('[roster-cap-debug]', {
       teamAbbr,
