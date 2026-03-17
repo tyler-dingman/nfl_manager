@@ -12,6 +12,7 @@ import {
 import { logoUrlFor } from './team';
 import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
 import { FREE_AGENT_SEEDS } from '@/server/data/free-agents';
+import { buildFreeAgencyPool, buildFreeAgentProfile } from '@/server/logic/free-agency-pool';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 
@@ -41,12 +42,6 @@ export type SaveState = {
 };
 
 const saveStore = new Map<string, SaveState>();
-
-const slugify = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
 
 const splitName = (name: string) => {
   const parts = name.trim().split(/\s+/);
@@ -92,29 +87,6 @@ const buildRosterForTeam = (teamAbbr: string): StoredPlayer[] => {
   return clonePlayers(baseRoster);
 };
 
-const buildFreeAgent = (seed: (typeof FREE_AGENT_SEEDS)[number]): StoredPlayer => {
-  const { firstName, lastName } = splitName(seed.name);
-  const year1CapHit = seed.marketValue / 1_000_000;
-  return {
-    id: `${slugify(seed.name)}-${slugify(seed.prevTeam)}`,
-    firstName,
-    lastName,
-    position: seed.position,
-    age: seed.age,
-    marketValue: seed.marketValue ?? null,
-    contractYearsRemaining: 0,
-    capHit: '$0.0M',
-    capHitValue: 0,
-    salary: 0,
-    guaranteed: 0,
-    status: 'Free Agent',
-    headshotUrl: null,
-    year1CapHit,
-  };
-};
-
-export const listSaveStates = (): Array<{ saveId: string; state: SaveState }> =>
-  Array.from(saveStore.entries()).map(([saveId, state]) => ({ saveId, state }));
 
 const baseRoster: StoredPlayer[] = [
   {
@@ -130,13 +102,6 @@ const baseRoster: StoredPlayer[] = [
     status: 'Active',
     headshotUrl: null,
     year1CapHit: 7.2,
-    contract: {
-      yearsRemaining: 3,
-      apy: 7.2,
-      guaranteed: 2.1,
-      capHit: 7.2,
-      expiresAfterSeason: false,
-    },
   },
   {
     id: '2',
@@ -151,158 +116,13 @@ const baseRoster: StoredPlayer[] = [
     status: 'Active',
     headshotUrl: null,
     year1CapHit: 6.4,
-    contract: {
-      yearsRemaining: 2,
-      apy: 6.4,
-      guaranteed: 1.8,
-      capHit: 6.4,
-      expiresAfterSeason: false,
-    },
   },
-  {
-    id: '3',
-    firstName: 'Christian',
-    lastName: 'Watson',
-    position: 'WR',
-    contractYearsRemaining: 1,
-    capHit: '$3.1M',
-    capHitValue: 3.1,
-    salary: 3.1,
-    guaranteed: 0.9,
-    status: 'Injured',
-    headshotUrl: null,
-    year1CapHit: 3.1,
-    contract: {
-      yearsRemaining: 1,
-      apy: 3.1,
-      guaranteed: 0.9,
-      capHit: 3.1,
-      expiresAfterSeason: true,
-    },
-  },
-  {
-    id: '4',
-    firstName: 'Elgton',
-    lastName: 'Jenkins',
-    position: 'OL',
-    contractYearsRemaining: 4,
-    capHit: '$12.9M',
-    capHitValue: 12.9,
-    salary: 12.9,
-    guaranteed: 4.2,
-    status: 'Active',
-    headshotUrl: null,
-    year1CapHit: 12.9,
-    contract: {
-      yearsRemaining: 4,
-      apy: 12.9,
-      guaranteed: 4.2,
-      capHit: 12.9,
-      expiresAfterSeason: false,
-    },
-  },
-  {
-    id: '5',
-    firstName: 'Carrington',
-    lastName: 'Valentine',
-    position: 'CB',
-    contractYearsRemaining: 3,
-    capHit: '$1.1M',
-    capHitValue: 1.1,
-    salary: 1.1,
-    guaranteed: 0.3,
-    status: 'Practice Squad',
-    headshotUrl: null,
-    year1CapHit: 1.1,
-    contract: {
-      yearsRemaining: 3,
-      apy: 1.1,
-      guaranteed: 0.3,
-      capHit: 1.1,
-      expiresAfterSeason: false,
-    },
-  },
-];
-
-const baseFreeAgentSeed: StoredPlayer[] = [
-  {
-    id: '6',
-    firstName: 'Tee',
-    lastName: 'Higgins',
-    position: 'WR',
-    contractYearsRemaining: 0,
-    capHit: '$0.0M',
-    capHitValue: 0,
-    salary: 0,
-    guaranteed: 0,
-    status: 'Free Agent',
-    headshotUrl: null,
-    year1CapHit: 13.5,
-  },
-  {
-    id: '7',
-    firstName: 'Danielle',
-    lastName: 'Hunter',
-    position: 'DL',
-    contractYearsRemaining: 0,
-    capHit: '$0.0M',
-    capHitValue: 0,
-    salary: 0,
-    guaranteed: 0,
-    status: 'Free Agent',
-    headshotUrl: null,
-    year1CapHit: 15.2,
-  },
-  {
-    id: '8',
-    firstName: 'Xavien',
-    lastName: 'Howard',
-    position: 'CB',
-    contractYearsRemaining: 0,
-    capHit: '$0.0M',
-    capHitValue: 0,
-    salary: 0,
-    guaranteed: 0,
-    status: 'Free Agent',
-    headshotUrl: null,
-    year1CapHit: 9.4,
-  },
-  {
-    id: '9',
-    firstName: 'Kevin',
-    lastName: 'Zeitler',
-    position: 'OL',
-    contractYearsRemaining: 0,
-    capHit: '$0.0M',
-    capHitValue: 0,
-    salary: 0,
-    guaranteed: 0,
-    status: 'Free Agent',
-    headshotUrl: null,
-    year1CapHit: 6.7,
-  },
-  {
-    id: '10',
-    firstName: 'Geno',
-    lastName: 'Stone',
-    position: 'S',
-    contractYearsRemaining: 0,
-    capHit: '$0.0M',
-    capHitValue: 0,
-    salary: 0,
-    guaranteed: 0,
-    status: 'Free Agent',
-    headshotUrl: null,
-    year1CapHit: 4.8,
-  },
-];
-
-const baseFreeAgents: StoredPlayer[] = [
-  ...baseFreeAgentSeed,
-  ...FREE_AGENT_SEEDS.map(buildFreeAgent),
 ];
 
 const clonePlayers = (players: StoredPlayer[]) => players.map((player) => ({ ...player }));
+
+export const listSaveStates = (): Array<{ saveId: string; state: SaveState }> =>
+  Array.from(saveStore.entries()).map(([saveId, state]) => ({ saveId, state }));
 
 export const getSaveHeaderSnapshot = (state: SaveState): SaveHeaderDTO => ({
   ...state.header,
@@ -327,7 +147,14 @@ const resolveUnlocksForPhase = (phase: string, current?: SaveUnlocksDTO): SaveUn
 
 export const createSaveState = (saveId: string, teamAbbr: string): SaveState => {
   const roster = buildRosterForTeam(teamAbbr);
-  const freeAgents = clonePlayers(baseFreeAgents);
+  const freeAgents = buildFreeAgencyPool({
+    league: NFL_LEAGUE_DATA,
+    teamAbbr: teamAbbr.toUpperCase(),
+    seedPlayers: FREE_AGENT_SEEDS,
+  }).map((player) => ({
+    ...player,
+    year1CapHit: player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000,
+  })) as StoredPlayer[];
   const capSeed = TEAM_CAP_SPACE.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
   const capSpace = Number(((capSeed?.capSpace ?? 0) / 1_000_000).toFixed(1));
   const header: SaveHeaderDTO = {
@@ -454,6 +281,9 @@ export const signFreeAgentInState = (
     guaranteed: 0,
     status: 'Active',
     signedAt: new Date().toISOString(),
+    freeAgentProfile: player.freeAgentProfile
+      ? { ...player.freeAgentProfile, marketStatus: 'signed', available: false, refreshedAt: new Date().toISOString() }
+      : player.freeAgentProfile,
     contract: {
       yearsRemaining: 1,
       apy: player.year1CapHit,
@@ -507,6 +337,9 @@ export const offerContractInState = (
     signedTeamLogoUrl: logoUrlFor(state.header.teamAbbr),
     signedAt: new Date().toISOString(),
     capHitSchedule,
+    freeAgentProfile: player.freeAgentProfile
+      ? { ...player.freeAgentProfile, marketStatus: 'signed', available: false, refreshedAt: new Date().toISOString() }
+      : player.freeAgentProfile,
     contract: {
       yearsRemaining: years,
       apy,
@@ -571,6 +404,36 @@ export const cutPlayerInState = (
   };
 
   state.roster[playerIndex] = cutPlayer;
+  const generatedAt = new Date().toISOString();
+  const cutFreeAgent: StoredPlayer = {
+    ...cutPlayer,
+    status: 'Free Agent',
+    year1CapHit: capHitValue > 0 ? capHitValue : 1,
+    marketValue: Math.round((capHitValue > 0 ? capHitValue : 1) * 1_000_000),
+    freeAgentProfile: buildFreeAgentProfile({
+      player: {
+        id: cutPlayer.id,
+        firstName: cutPlayer.firstName,
+        lastName: cutPlayer.lastName,
+        position: cutPlayer.position,
+        age: cutPlayer.age,
+        previousApy: (player.contract?.apy ?? player.salary ?? capHitValue) * 1_000_000,
+        marketValue: (player.contract?.apy ?? player.salary ?? capHitValue) * 1_000_000,
+        source: 'real',
+      },
+      teamAbbr: state.header.teamAbbr,
+      league: NFL_LEAGUE_DATA,
+      generatedAt,
+    }),
+  };
+  if (!state.freeAgents.some((agent) => agent.id === cutFreeAgent.id)) {
+    state.freeAgents.push({
+      ...cutFreeAgent,
+      freeAgentProfile: cutFreeAgent.freeAgentProfile
+        ? { ...cutFreeAgent.freeAgentProfile, source: 'released' }
+        : cutFreeAgent.freeAgentProfile,
+    });
+  }
   state.rosterMoves.cuts.push({
     playerId,
     name: `${cutPlayer.firstName} ${cutPlayer.lastName}`,

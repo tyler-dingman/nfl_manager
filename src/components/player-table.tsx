@@ -90,6 +90,12 @@ const formatSignedMarketValue = (player: PlayerRowDTO) => {
   return `${years}year / $${apyFormatted}M APY`;
 };
 
+
+const formatContractAsk = (player: PlayerRowDTO) => {
+  if (!player.freeAgentProfile) return '—';
+  return `${player.freeAgentProfile.expectedContractYears}yr · $${player.freeAgentProfile.expectedAnnualValue.toFixed(1)}M`;
+};
+
 const isSignedPlayer = (player: PlayerRowDTO) =>
   player.status.toLowerCase() === 'signed' || Boolean(player.signedTeamAbbr);
 const isCutPlayer = (player: PlayerRowDTO) => player.status.toLowerCase() === 'cut';
@@ -399,6 +405,24 @@ export function PlayerTable({
                 : row.original.marketValue !== null && row.original.marketValue !== undefined
                   ? formatMarketValue(row.original.marketValue)
                   : '—'}
+            </span>
+          ),
+        },
+        {
+          id: 'contractAsk',
+          header: 'Ask',
+          accessorFn: (row) => row.freeAgentProfile?.expectedAnnualValue ?? row.marketValue ?? 0,
+          cell: ({ row }) => (
+            <span className="text-sm text-muted-foreground">{formatContractAsk(row.original)}</span>
+          ),
+        },
+        {
+          id: 'demandTier',
+          header: 'Tier',
+          accessorFn: (row) => row.freeAgentProfile?.marketTier ?? '',
+          cell: ({ row }) => (
+            <span className="text-xs font-semibold uppercase tracking-wide text-foreground">
+              {row.original.freeAgentProfile?.marketTier ?? '—'}
             </span>
           ),
         },
