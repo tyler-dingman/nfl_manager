@@ -13,6 +13,7 @@ import { logoUrlFor } from './team';
 import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
 import { buildFreeAgencyPool, buildFreeAgentProfile } from '@/server/logic/free-agency-pool';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
+import { KANSAS_CITY_CHIEFS_ROSTER } from '@/data/rosters/kc';
 
 export type PlayerFilters = {
   position?: string;
@@ -72,26 +73,78 @@ const getLatestContractByPlayerId = () => {
 
 const leagueContractsByPlayerId = getLatestContractByPlayerId();
 
+const normalizePlayerName = (value: string): string =>
+  value
+    .toLowerCase()
+    .replace(/\b(jr|sr|ii|iii|iv)\b/g, '')
+    .replace(/[^a-z0-9]+/g, '');
+
+const rosterFallbackByTeam = new Map<
+  string,
+  Map<string, { capHit: number; deadCap: number; yearsRemaining?: number }>
+>();
+
+rosterFallbackByTeam.set(
+  'KC',
+  new Map(
+    KANSAS_CITY_CHIEFS_ROSTER.map((entry) => [
+      normalizePlayerName(entry.fullName),
+      {
+        capHit: entry.capHitTop51,
+        deadCap: entry.deadCap,
+        yearsRemaining: entry.yearsRemaining,
+      },
+    ]),
+  ),
+);
+
+const toMillions = (value: number | null | undefined): number | null => {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  return Number((value / 1_000_000).toFixed(1));
+};
+
+const resolvePlayerContractValues = (
+  player: (typeof NFL_LEAGUE_DATA.players)[number],
+  teamAbbr: string,
+) => {
+  const unifiedContract = leagueContractsByPlayerId.get(player.id);
+  const fallback = rosterFallbackByTeam
+    .get(teamAbbr.toUpperCase())
+    ?.get(normalizePlayerName(player.name));
+
+  const capHitFromUnified = toMillions(unifiedContract?.capHit ?? null);
+  const capHitFromFallback = toMillions(fallback?.capHit ?? null);
+  const capHitValue = capHitFromUnified ?? capHitFromFallback ?? 0;
+
+  const guaranteedFromUnified = toMillions(unifiedContract?.guaranteed ?? null);
+  const guaranteed = guaranteedFromUnified ?? Math.max(0, Number((capHitValue * 0.4).toFixed(1)));
+
+  const yearsRemaining = Math.max(1, unifiedContract?.years ?? fallback?.yearsRemaining ?? 1);
+  const deadCapEstimate =
+    toMillions(fallback?.deadCap ?? null) ?? Math.max(0, Number((capHitValue * 0.35).toFixed(1)));
+
+  return {
+    capHitValue,
+    guaranteed,
+    yearsRemaining,
+    deadCapEstimate,
+  };
+};
+
 const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
   const players = NFL_LEAGUE_DATA.players.filter(
     (player) => player.teamAbbr === teamAbbr.toUpperCase(),
   );
-  return players.map((player) => {
+  const roster = players.map((player) => {
     const { firstName, lastName } = splitName(player.name);
-    const contract = leagueContractsByPlayerId.get(player.id);
-    const year1CapHit = Number(
-      ((contract?.capHit ?? 0) / 1_000_000).toFixed(1),
-    );
-    const guaranteed = Number(
-      ((contract?.guaranteed ?? 0) / 1_000_000).toFixed(1),
-    );
-    const yearsRemaining = Math.max(1, contract?.years ?? 1);
-    const apy = Number(
-      ((contract?.capHit ?? 0) / 1_000_000).toFixed(1),
-    );
-    const deadCap = Number(
-      0,
-    );
+    const resolved = resolvePlayerContractValues(player, teamAbbr);
+    const year1CapHit = resolved.capHitValue;
+    const guaranteed = resolved.guaranteed;
+    const yearsRemaining = resolved.yearsRemaining;
+    const apy = year1CapHit;
+    const deadCap = resolved.deadCapEstimate;
     return {
       id: `${teamAbbr.toLowerCase()}-${player.id}`,
       firstName,
@@ -115,6 +168,28 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
       },
     };
   });
+
+  if (process.env.NODE_ENV !== 'production' && roster.length > 0) {
+    const capRecord = NFL_LEAGUE_DATA.cap.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
+    const samplePlayer = players[0];
+    const sampleContract = samplePlayer ? leagueContractsByPlayerId.get(samplePlayer.id) : undefined;
+    const sampleResolved = roster[0];
+    console.info('[roster-cap-debug]', {
+      teamAbbr,
+      selectedTeamCap: capRecord,
+      sampleContract,
+      sampleResolved: sampleResolved
+        ? {
+            id: sampleResolved.id,
+            name: `${sampleResolved.firstName} ${sampleResolved.lastName}`,
+            capHitValue: sampleResolved.capHitValue,
+            deadCap: sampleResolved.deadCap,
+          }
+        : null,
+    });
+  }
+
+  return roster;
 };
 
 const buildRosterForTeam = (teamAbbr: string): StoredPlayer[] => buildLeagueRoster(teamAbbr);
