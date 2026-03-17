@@ -74,7 +74,7 @@ export const fetchRoster = async (teamId: string): Promise<PlayerSourceRecord[]>
         position: athlete.position?.abbreviation ?? athlete.position?.displayName ?? 'UNK',
         age: athlete.age ?? null,
         height: athlete.displayHeight ?? null,
-        weight: athlete.weight ?? Number.parseInt(athlete.displayWeight ?? '', 10) || null,
+        weight: athlete.weight ?? (Number.parseInt(athlete.displayWeight ?? '', 10) || null),
       })),
   );
 };

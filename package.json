@@ -14,7 +14,7 @@
     "test:e2e": "playwright test",
     "sync:nfl-data": "tsx src/scripts/sync-nfl-data.ts",
     "sync:contracts": "tsx src/scripts/sync-contracts.ts",
-    "sync:league": "ts-node src/scripts/sync-nfl-data.ts"
+    "sync:league": "tsx src/scripts/sync-nfl-data.ts"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.20.5",
@@ -29,7 +29,8 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^20.19.37",
     "@types/react": "^18.2.65",
     "@types/react-dom": "^18.2.22",
     "autoprefixer": "^10.4.19",
@@ -37,11 +38,11 @@
     "eslint-config-next": "14.2.5",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "@playwright/test": "^1.48.0",
     "postcss": "^8.4.38",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.10",
-    "tsx": "^4.19.2",
-    "typescript": "^5.5.4"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }
