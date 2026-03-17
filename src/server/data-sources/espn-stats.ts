@@ -19,6 +19,15 @@ type EspnStat = {
   displayValue?: string;
 };
 
+type EspnStatsCategory = {
+  name?: string;
+  displayName?: string;
+  labels?: string[];
+  names?: string[];
+  stats?: Array<EspnStat | number | string | null>;
+  statistics?: Array<EspnStat | number | string | null>;
+};
+
 type EspnAthleteStats = {
   athlete?: { id?: string };
   id?: string;
@@ -27,8 +36,18 @@ type EspnAthleteStats = {
   athleteDisplayName?: string;
   stats?: EspnStat[];
   statistics?: EspnStat[];
-  categories?: Array<{ stats?: EspnStat[]; statistics?: EspnStat[] }>;
-  splits?: { categories?: Array<{ stats?: EspnStat[]; statistics?: EspnStat[] }> };
+  categories?: EspnStatsCategory[];
+  splits?: { categories?: EspnStatsCategory[] };
+};
+
+const DEBUG_TEAM_LIMIT = 3;
+const debugTeams = new Set<string>();
+
+const shouldLogTeamDebug = (teamId: string) => {
+  if (debugTeams.has(teamId)) return true;
+  if (debugTeams.size >= DEBUG_TEAM_LIMIT) return false;
+  debugTeams.add(teamId);
+  return true;
 };
 
 const toNumber = (value: unknown): number | undefined => {
@@ -47,6 +66,10 @@ const normalizeKey = (value: string) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '')
     .trim();
+
+const currentDate = new Date();
+const CURRENT_SEASON =
+  currentDate.getUTCMonth() >= 6 ? currentDate.getUTCFullYear() : currentDate.getUTCFullYear() - 1;
 
 const setStatValue = (target: UnifiedPlayerStats, rawKey: string, rawValue: unknown) => {
   const key = normalizeKey(rawKey);
@@ -92,14 +115,34 @@ const setStatValue = (target: UnifiedPlayerStats, rawKey: string, rawValue: unkn
   }
 };
 
+const normalizeCategoryStats = (category: EspnStatsCategory): EspnStat[] => {
+  const values = category.stats ?? category.statistics ?? [];
+  const labels = category.labels ?? category.names ?? [];
+
+  return values
+    .map((value, index) => {
+      if (value && typeof value === 'object' && !Array.isArray(value)) {
+        return value as EspnStat;
+      }
+
+      const key = labels[index];
+      if (!key) return null;
+      return {
+        name: key,
+        abbreviation: key,
+        value,
+      } as EspnStat;
+    })
+    .filter((entry): entry is EspnStat => Boolean(entry));
+};
+
 const collectStats = (athlete: EspnAthleteStats): EspnStat[] => {
-  const directStats = athlete.stats ?? athlete.statistics ?? [];
-  const categoryStats = (athlete.categories ?? []).flatMap(
-    (category) => category.stats ?? category.statistics ?? [],
+  const directStats = (athlete.stats ?? athlete.statistics ?? []).filter(
+    (entry): entry is EspnStat =>
+      Boolean(entry && typeof entry === 'object' && !Array.isArray(entry)),
   );
-  const splitCategoryStats = (athlete.splits?.categories ?? []).flatMap(
-    (category) => category.stats ?? category.statistics ?? [],
-  );
+  const categoryStats = (athlete.categories ?? []).flatMap(normalizeCategoryStats);
+  const splitCategoryStats = (athlete.splits?.categories ?? []).flatMap(normalizeCategoryStats);
   return [...directStats, ...categoryStats, ...splitCategoryStats];
 };
 
@@ -125,19 +168,28 @@ const mapAthleteStats = (athlete: EspnAthleteStats): TeamPlayerStatsRecord | nul
   };
 };
 
-const CURRENT_SEASON = new Date().getUTCFullYear();
-
 const fetchAthleteStats = async (
   player: TeamRosterPlayer,
+  teamId: string,
+  debugLog = false,
 ): Promise<TeamPlayerStatsRecord | null> => {
+  const url = `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/${player.id}/stats?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}`;
+  if (debugLog) {
+    console.log(`[sync:players:debug] team=${teamId} athlete=${player.name} stats url=${url}`);
+  }
+
   const payload = await fetchJson<{
     athlete?: EspnAthleteStats;
     splits?: EspnAthleteStats['splits'];
-  }>(
-    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/${player.id}/stats?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}`,
-  ).catch(() => null);
+  }>(url, debugLog ? `athlete:${player.id}` : undefined).catch(() => null);
 
   if (!payload) return null;
+
+  if (debugLog) {
+    console.log(
+      `[sync:players:debug] team=${teamId} athlete=${player.name} payload keys=${Object.keys(payload).join(',')}`,
+    );
+  }
 
   return mapAthleteStats({
     athlete: { id: player.id },
@@ -167,25 +219,38 @@ const runWithConcurrency = async <T, R>(
   return results;
 };
 
-const fetchJson = async <T>(url: string): Promise<T> => {
+const fetchJson = async <T>(url: string, debugLabel?: string): Promise<T> => {
   const response = await fetch(url, { headers: { Accept: 'application/json' } });
+  if (debugLabel) {
+    console.log(`[sync:players:debug] fetch ${debugLabel} status=${response.status} url=${url}`);
+  }
   if (!response.ok) {
     throw new Error(`Request failed (${response.status}) for ${url}`);
   }
-  return (await response.json()) as T;
+  const json = (await response.json()) as T;
+  if (debugLabel && json && typeof json === 'object') {
+    console.log(
+      `[sync:players:debug] fetch ${debugLabel} top-level keys=${Object.keys(json).join(',')}`,
+    );
+  }
+  return json;
 };
 
 export const fetchTeamStats = async (
   teamId: string,
   rosterPlayers: TeamRosterPlayer[],
 ): Promise<TeamPlayerStatsRecord[]> => {
+  const debugLog = shouldLogTeamDebug(teamId);
+  const teamUrl = `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamId}/statistics`;
+  if (debugLog) {
+    console.log(`[sync:players:debug] team=${teamId} team stats url=${teamUrl}`);
+  }
+
   const payload = await fetchJson<{
     athletes?: EspnAthleteStats[];
     results?: { athletes?: EspnAthleteStats[] };
     categories?: Array<{ athletes?: EspnAthleteStats[] }>;
-  }>(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamId}/statistics`).catch(
-    () => null,
-  );
+  }>(teamUrl, debugLog ? `team:${teamId}` : undefined).catch(() => null);
 
   const athleteStats = [
     ...(payload?.athletes ?? []),
@@ -193,14 +258,38 @@ export const fetchTeamStats = async (
     ...(payload?.categories ?? []).flatMap((category) => category.athletes ?? []),
   ];
 
+  if (debugLog) {
+    console.log(`[sync:players:debug] team=${teamId} raw team athlete rows=${athleteStats.length}`);
+  }
+
   const mappedTeamStats = athleteStats
     .map((entry) => mapAthleteStats(entry))
     .filter((entry): entry is TeamPlayerStatsRecord => Boolean(entry));
+
+  if (debugLog) {
+    console.log(
+      `[sync:players:debug] team=${teamId} mapped team athlete rows=${mappedTeamStats.length}`,
+    );
+    console.log(
+      `[sync:players:debug] team=${teamId} mapped sample=${JSON.stringify(mappedTeamStats.slice(0, 2))}`,
+    );
+  }
 
   if (mappedTeamStats.length > 0) {
     return mappedTeamStats;
   }
 
-  const fallbackStats = await runWithConcurrency(rosterPlayers, 10, fetchAthleteStats);
+  const fallbackStats = await runWithConcurrency(rosterPlayers, 10, (player) =>
+    fetchAthleteStats(
+      player,
+      teamId,
+      debugLog && ['Patrick Mahomes', 'Travis Kelce', 'Chris Jones'].includes(player.name),
+    ),
+  );
+  if (debugLog) {
+    console.log(
+      `[sync:players:debug] team=${teamId} fallback athlete rows=${fallbackStats.filter(Boolean).length}`,
+    );
+  }
   return fallbackStats.filter((entry): entry is TeamPlayerStatsRecord => Boolean(entry));
 };
