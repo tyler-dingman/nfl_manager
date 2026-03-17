@@ -2,13 +2,17 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
+import { StepHeader } from '@/components/offseason/step-header';
 import { Button } from '@/components/ui/button';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
+import { useExperienceStore } from '@/features/experience/experience-store';
+import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
+import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
@@ -85,6 +89,13 @@ function TradeBuilderContent() {
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
+  const mode = useExperienceStore((state) => state.mode);
+  const currentStep = useExperienceStore((state) => state.currentStep);
+  const manageSubstepsCompleted = useExperienceStore((state) => state.manageSubstepsCompleted);
+  const markManageSubstepComplete = useExperienceStore((state) => state.markManageSubstepComplete);
+  const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
+  const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
+  const router = useRouter();
   const [teams, setTeams] = useState<TeamDTO[]>([]);
   const [partnerTeamAbbr, setPartnerTeamAbbr] = useState<string>('');
   const [trade, setTrade] = useState<TradeDTO | null>(null);
@@ -407,8 +418,41 @@ function TradeBuilderContent() {
     setPendingReplace(replaceAsset ? { side, asset: replaceAsset } : null);
   };
 
+  const manageSubsteps = OFFSEASON_STEPS[0]?.substeps ?? [];
+  const canContinueInFull =
+    mode !== 'full' || manageSubsteps.every((substep) => manageSubstepsCompleted.includes(substep));
+
+  const handleContinue = () => {
+    if (mode !== 'full' || currentStep !== 'manage') return;
+    const nextStep = completeCurrentStep();
+    if (nextStep) router.push(getRouteForStep(nextStep));
+  };
+
+  const handleSkip = () => {
+    if (mode !== 'full' || currentStep !== 'manage') return;
+    const nextStep = skipCurrentStep();
+    if (nextStep) router.push(getRouteForStep(nextStep));
+  };
+
+  useEffect(() => {
+    if (mode === 'full' && currentStep !== 'manage') {
+      router.replace(getRouteForStep(currentStep));
+    }
+  }, [mode, currentStep, router]);
+
   return (
     <AppShell>
+      {mode === 'full' ? (
+        <StepHeader
+          title="Manage Team"
+          stepNumber={1}
+          totalSteps={OFFSEASON_STEPS.length}
+          instruction="Use Trade Hub to complete your team management step."
+          canContinue={canContinueInFull}
+          onContinue={handleContinue}
+          onSkip={handleSkip}
+        />
+      ) : null}
       <div className="mt-6 space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
