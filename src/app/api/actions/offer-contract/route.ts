@@ -45,6 +45,7 @@ export const POST = async (request: Request) => {
       guaranteed,
       teamAbbr: stateResult.data.header.teamAbbr,
       teamRoster: stateResult.data.roster,
+      previousTeamAbbr: player.signedTeamAbbr ?? null,
     });
     const interestScore = breakdown.interestScore;
     const tone = interestScore >= 67 ? 'positive' : interestScore >= 34 ? 'neutral' : 'negative';

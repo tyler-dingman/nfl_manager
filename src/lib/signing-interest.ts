@@ -1,10 +1,13 @@
 import type { PlayerRowDTO } from '@/types/player';
 
 export type PlayerInterestContext = {
-  teamAbbr: string;
-  teamRoster: PlayerRowDTO[];
   previousTeamAbbr?: string | null;
   lastContractTeamAbbr?: string | null;
+};
+
+export type InterestTargetTeam = {
+  teamAbbr: string;
+  roster: PlayerRowDTO[];
 };
 
 export type PlayerInterestBreakdown = {
@@ -20,11 +23,12 @@ const clamp = (value: number, min: number, max: number) => Math.max(min, Math.mi
 
 export const calculatePlayerInterestForTeam = (
   player: Pick<PlayerRowDTO, 'position' | 'age' | 'rating'>,
-  context: PlayerInterestContext,
+  team: InterestTargetTeam,
+  context: PlayerInterestContext = {},
 ): PlayerInterestBreakdown => {
   const baseInterest = 45;
   const modifiers: string[] = [];
-  const normalizedTeamAbbr = context.teamAbbr.toUpperCase();
+  const normalizedTeamAbbr = team.teamAbbr.toUpperCase();
 
   const previousTeam = (
     context.lastContractTeamAbbr ??
@@ -37,7 +41,7 @@ export const calculatePlayerInterestForTeam = (
   }
 
   const playerRating = player.rating ?? 0;
-  const highestAtPosition = context.teamRoster
+  const highestAtPosition = team.roster
     .filter((teammate) => teammate.position === player.position)
     .reduce((highest, teammate) => Math.max(highest, teammate.rating ?? 0), 0);
   const ratingGap = playerRating - highestAtPosition;

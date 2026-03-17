@@ -38,9 +38,12 @@ import type { PlayerRowDTO } from '@/types/player';
 import type { ResignResultDTO } from '@/types/resign';
 import type { RenegotiateResultDTO } from '@/types/renegotiate';
 
-const formatMillions = (value: number) => `$${(value / 1_000_000).toFixed(1)}M`;
-const formatCurrency = (value: number) =>
-  `$${Math.round(value).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+const getInterestTier = (interest: number) => {
+  if (interest >= 85) return { label: 'Very High', barClass: 'bg-emerald-500' };
+  if (interest >= 65) return { label: 'High', barClass: 'bg-emerald-400' };
+  if (interest >= 40) return { label: 'Medium', barClass: 'bg-amber-400' };
+  return { label: 'Low', barClass: 'bg-rose-400' };
+};
 
 export default function RosterPage() {
   const router = useRouter();
@@ -251,38 +254,32 @@ export default function RosterPage() {
       guaranteed: offer.guaranteed,
     };
 
-    let response = await apiFetch('/api/actions/re-sign', {
+    const response = await apiFetch('/api/actions/resign-player', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody),
     });
 
-    if (response.status === 404) {
-      response = await apiFetch('/api/actions/resign-player', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody),
-      });
-    }
-
     if (!response.ok) {
       const errorPayload = (await response.json()) as { ok?: boolean; error?: string };
+      const message = errorPayload.error || 'Please try again in a moment.';
       pushToast({
         title: 'Unable to submit offer',
-        description: errorPayload.error || 'Please try again in a moment.',
+        description: message,
         variant: 'error',
       });
-      return;
+      throw new Error(message);
     }
 
     const data = (await response.json()) as ResignResultDTO | { ok: false; error: string };
     if (!data.ok) {
+      const message = data.error || 'Please try again in a moment.';
       pushToast({
         title: 'Unable to submit offer',
-        description: data.error || 'Please try again in a moment.',
+        description: message,
         variant: 'error',
       });
-      return;
+      throw new Error(message);
     }
 
     setResignResult(data);
@@ -506,12 +503,8 @@ export default function RosterPage() {
                       <tr>
                         <th className="px-4 py-2 sm:px-6">Player</th>
                         <th className="px-4 py-2 sm:px-6">Pos</th>
-                        <th className="px-4 py-2 sm:px-6">Rating</th>
-                        <th className="px-4 py-2 sm:px-6">Age</th>
                         <th className="px-4 py-2 sm:px-6">Status</th>
                         <th className="px-4 py-2 sm:px-6">Interest</th>
-                        <th className="px-4 py-2 sm:px-6">Est. Value</th>
-                        <th className="px-4 py-2 sm:px-6">Current Salary</th>
                         <th className="px-4 py-2 text-right sm:px-6">Actions</th>
                       </tr>
                     </thead>
@@ -535,25 +528,27 @@ export default function RosterPage() {
                           <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
                             {player.pos}
                           </td>
-                          <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                            {player.rating ?? '--'}
-                          </td>
                           <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                            {player.age ?? '--'}
-                          </td>
-                          <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                            <Badge variant="success">Pending Free Agent</Badge>
+                            <Badge variant="success">Pending</Badge>
                           </td>
                           <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                            {player.interestPct !== undefined
-                              ? `${player.interestPct.toFixed(1)}%`
-                              : '--'}
-                          </td>
-                          <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                            {formatCurrency(player.estValue)}
-                          </td>
-                          <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                            {formatCurrency(player.currentSalary ?? 0)}
+                            {(() => {
+                              const score = Math.max(0, Math.min(100, player.interestPct ?? 0));
+                              const tier = getInterestTier(score);
+                              return (
+                                <div className="w-32">
+                                  <div className="mb-1 text-xs font-medium text-muted-foreground">
+                                    {tier.label}
+                                  </div>
+                                  <div className="h-2 w-full rounded-full bg-slate-200">
+                                    <div
+                                      className={`h-2 rounded-full ${tier.barClass}`}
+                                      style={{ width: `${score}%` }}
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })()}
                           </td>
                           <td className="px-4 py-1.5 text-right sm:px-6">
                             <Button

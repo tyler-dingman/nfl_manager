@@ -82,11 +82,11 @@ export const scoreResignOffer = ({
     maxYears: 5,
     seed: `${saveId}:${player.id}:${years}:${apy}:${guaranteed}`,
   });
-  const fitInterest = calculatePlayerInterestForTeam(player, {
-    teamAbbr,
-    teamRoster,
-    previousTeamAbbr,
-  });
+  const fitInterest = calculatePlayerInterestForTeam(
+    player,
+    { teamAbbr, roster: teamRoster },
+    { previousTeamAbbr },
+  );
   const interestScore = clamp(
     Math.round(evaluation.score * 0.75 + fitInterest.finalInterest * 0.25),
     0,

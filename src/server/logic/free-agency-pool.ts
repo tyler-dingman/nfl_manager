@@ -1,4 +1,8 @@
-import type { UnifiedContract as IngestedContract, IngestedLeagueData, UnifiedPlayer as IngestedPlayer } from '@/server/data/nfl-data';
+import type {
+  UnifiedContract as IngestedContract,
+  IngestedLeagueData,
+  UnifiedPlayer as IngestedPlayer,
+} from '@/server/data/nfl-data';
 import type { FreeAgentProfileDTO, PlayerRowDTO } from '@/types/player';
 
 export type MarketTier = 'elite' | 'starter' | 'depth' | 'fringe';
@@ -28,6 +32,7 @@ export type FreeAgentSeedRecord = {
   lastGuaranteed?: number | null;
   source: 'real' | 'released';
   headshotUrl?: string | null;
+  previousTeamAbbr?: string | null;
 };
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
@@ -47,7 +52,6 @@ const splitName = (name: string) => {
   if (parts.length < 2) return { firstName: name.trim(), lastName: '' };
   return { firstName: parts[0] ?? '', lastName: parts.slice(1).join(' ') };
 };
-
 
 const getPositionValue = (position: string): number => {
   const bucket = bucketPosition(position);
@@ -168,6 +172,10 @@ export const identifyLeagueFreeAgents = (league: IngestedLeagueData): FreeAgentS
   );
 
   const merged = new Map<string, FreeAgentSeedRecord>();
+  const freeAgentPreviousTeam = new Map(
+    league.freeAgents.map((entry) => [entry.id, entry.lastTeamAbbr]),
+  );
+
   [...fromTeamless, ...fromExpiredContracts].forEach((player: IngestedPlayer) => {
     const { firstName, lastName } = splitName(player.name);
     const latestContract = (contracts.get(player.id) ?? [])[0];
@@ -180,6 +188,7 @@ export const identifyLeagueFreeAgents = (league: IngestedLeagueData): FreeAgentS
       lastGuaranteed: latestContract?.guaranteed,
       source: 'real',
       headshotUrl: player.headshotUrl,
+      previousTeamAbbr: freeAgentPreviousTeam.get(player.id) ?? latestContract?.teamAbbr ?? null,
     });
   });
 
@@ -313,6 +322,7 @@ export const buildFreeAgencyPool = ({
       guaranteed: 0,
       status: 'Free Agent',
       headshotUrl: record.headshotUrl ?? null,
+      signedTeamAbbr: record.previousTeamAbbr ?? null,
       freeAgentProfile: profile,
       contract: {
         yearsRemaining: profile.expectedYears,
