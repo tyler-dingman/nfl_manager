@@ -1,4 +1,5 @@
 import { normalizeTeamName, normalizeTeamSlug } from '@/server/ingest/normalize';
+import { NFL_TEAM_SEED, TEAM_ALIAS_TO_ABBR } from '@/server/ingest/teams';
 
 const OVER_THE_CAP_URL = 'https://overthecap.com/salary-cap-space';
 
@@ -115,6 +116,59 @@ const parseRows = (html: string): TeamCapSourceRecord[] => {
   return result;
 };
 
+const resolveTeamAbbr = (row: TeamCapSourceRecord): string | null => {
+  const fromAlias = TEAM_ALIAS_TO_ABBR[row.normalizedTeamName];
+  if (fromAlias) return fromAlias;
+
+  const trimmed = row.teamName.trim().toUpperCase();
+  if (/^[A-Z]{2,3}$/.test(trimmed)) {
+    const fromAbbr = NFL_TEAM_SEED.find((team) => team.abbreviation === trimmed);
+    if (fromAbbr) return fromAbbr.abbreviation;
+  }
+
+  if (row.teamSlug) {
+    const normalizedSlug = normalizeTeamSlug(row.teamSlug);
+    const fromSlug = NFL_TEAM_SEED.find((team) => normalizeTeamSlug(team.name) === normalizedSlug);
+    if (fromSlug) return fromSlug.abbreviation;
+  }
+
+  return null;
+};
+
+const retainCurrentYearRows = (rows: TeamCapSourceRecord[]): TeamCapSourceRecord[] => {
+  const byTeam = new Set<string>();
+  const retained: TeamCapSourceRecord[] = [];
+  const unmatched = new Set<string>();
+  let mappedRowCount = 0;
+
+  for (const row of rows) {
+    const teamAbbr = resolveTeamAbbr(row);
+    if (!teamAbbr) {
+      unmatched.add(row.teamName);
+      continue;
+    }
+
+    mappedRowCount += 1;
+    if (byTeam.has(teamAbbr)) {
+      continue;
+    }
+
+    byTeam.add(teamAbbr);
+    retained.push(row);
+
+    if (retained.length >= NFL_TEAM_SEED.length) {
+      break;
+    }
+  }
+
+  console.info(`[cap] raw rows parsed=${rows.length}`);
+  console.info(`[cap] mapped rows=${mappedRowCount}`);
+  console.info(`[cap] unique team cap rows retained=${retained.length}`);
+  console.info(`[cap] unmatched team names=${Array.from(unmatched).join(', ') || 'none'}`);
+
+  return retained;
+};
+
 const buildHtmlSnippet = (html: string) => {
   const marker = html.toLowerCase().indexOf('salary cap');
   if (marker >= 0) {
@@ -134,7 +188,8 @@ export const fetchTeamCap = async (): Promise<TeamCapSourceRecord[]> => {
   }
 
   const html = await response.text();
-  const rows = parseRows(html);
+  const rawRows = parseRows(html);
+  const rows = retainCurrentYearRows(rawRows);
   if (rows.length === 0) {
     console.error('[cap] parser failed. html snippet:');
     console.error(buildHtmlSnippet(html));

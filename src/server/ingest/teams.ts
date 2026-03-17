@@ -241,6 +241,10 @@ export const TEAM_ALIAS_TO_ABBR: Record<string, string> = NFL_TEAM_SEED.reduce<
 >(
   (acc, team) => {
     acc[normalizeTeamName(team.name)] = team.abbreviation;
+    const nickname = team.name.split(' ').at(-1);
+    if (nickname) {
+      acc[normalizeTeamName(nickname)] = team.abbreviation;
+    }
     return acc;
   },
   {
