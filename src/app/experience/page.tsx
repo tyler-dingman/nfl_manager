@@ -42,6 +42,7 @@ export default function ExperiencePage() {
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
   const phase = useSaveStore((state) => state.phase);
+  const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const setPhase = useSaveStore((state) => state.setPhase);
   const setFullExperience = useExperienceStore((state) => state.setFullExperience);
   const setSandboxExperience = useExperienceStore((state) => state.setSandboxExperience);
@@ -50,13 +51,14 @@ export default function ExperiencePage() {
   const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
 
   useEffect(() => {
+    if (!hasHydrated) return;
     if (!saveId) {
       router.replace('/');
     }
-  }, [router, saveId]);
+  }, [hasHydrated, router, saveId]);
 
-  if (!saveId) {
-    return null;
+  if (!hasHydrated || !saveId) {
+    return <AppShell><div className="min-h-[1px]" /></AppShell>;
   }
 
   const handleContinue = async () => {
