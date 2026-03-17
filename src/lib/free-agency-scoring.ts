@@ -64,11 +64,11 @@ export const scoreFreeAgencyOffer = ({
 
   const interestBreakdown =
     teamAbbr && teamRoster
-      ? calculatePlayerInterestForTeam(player, {
-          teamAbbr,
-          teamRoster,
-          previousTeamAbbr,
-        })
+      ? calculatePlayerInterestForTeam(
+          player,
+          { teamAbbr, roster: teamRoster },
+          { previousTeamAbbr },
+        )
       : null;
   const adjustedInterest = interestBreakdown
     ? Math.round(evaluation.score * 0.75 + interestBreakdown.finalInterest * 0.25)

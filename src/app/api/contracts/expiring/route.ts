@@ -84,11 +84,8 @@ export const GET = async (request: Request) => {
         age: row.age,
         rating: row.rating ?? sourceRosterPlayer?.rating,
       },
-      {
-        teamAbbr: stateResult.data.header.teamAbbr,
-        teamRoster: stateResult.data.roster,
-        previousTeamAbbr: row.lastTeamAbbr ?? row.previousTeamAbbr,
-      },
+      { teamAbbr: stateResult.data.header.teamAbbr, roster: stateResult.data.roster },
+      { previousTeamAbbr: row.lastTeamAbbr ?? row.previousTeamAbbr },
     );
 
     return {

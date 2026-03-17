@@ -87,11 +87,11 @@ export const estimateResignInterest = ({
   });
   const fitInterest =
     teamAbbr && teamRoster
-      ? calculatePlayerInterestForTeam(seedPlayer, {
-          teamAbbr,
-          teamRoster,
-          previousTeamAbbr,
-        })
+      ? calculatePlayerInterestForTeam(
+          seedPlayer,
+          { teamAbbr, roster: teamRoster },
+          { previousTeamAbbr },
+        )
       : null;
   const interestScore = clamp(
     Math.round(evaluation.score * 0.75 + (fitInterest?.finalInterest ?? evaluation.score) * 0.25),
