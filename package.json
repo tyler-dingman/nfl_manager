@@ -11,7 +11,8 @@
     "format:check": "prettier --check .",
     "cap:check": "tsx scripts/cap-math-check.ts",
     "contract:check": "tsx scripts/contract-acceptance-check.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "sync:nfl-data": "tsx src/scripts/sync-nfl-data.ts"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.20.5",

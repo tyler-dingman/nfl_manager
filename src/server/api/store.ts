@@ -13,7 +13,7 @@ import { logoUrlFor } from './team';
 import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
 import { FREE_AGENT_SEEDS } from '@/server/data/free-agents';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
-import { KANSAS_CITY_CHIEFS_ROSTER, getKcRating } from '@/data/rosters/kc';
+import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 
 export type PlayerFilters = {
   position?: string;
@@ -56,44 +56,38 @@ const splitName = (name: string) => {
   return { firstName: parts[0] ?? '', lastName: parts.slice(1).join(' ') };
 };
 
-const dollarsToMillions = (value: number) => Number((value / 1_000_000).toFixed(1));
-
-const buildChiefsRoster = (): StoredPlayer[] =>
-  KANSAS_CITY_CHIEFS_ROSTER.map((entry) => {
-    const { firstName, lastName } = splitName(entry.fullName);
-    const capHitValue = dollarsToMillions(entry.capHitTop51);
-    const salary = dollarsToMillions(entry.baseSalary);
-    const guaranteed = dollarsToMillions(entry.deadCap);
-    const yearsRemaining = Math.max(1, entry.yearsRemaining ?? 1);
-    const rating = entry.rating ?? getKcRating(entry.fullName);
+const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
+  const players = NFL_LEAGUE_DATA.players.filter((player) => player.teamAbbr === teamAbbr.toUpperCase());
+  return players.map((player) => {
+    const { firstName, lastName } = splitName(player.fullName);
     return {
-      id: `kc-${slugify(entry.fullName)}`,
+      id: `${teamAbbr.toLowerCase()}-${player.id}`,
       firstName,
       lastName,
-      position: entry.pos,
-      age: entry.age,
-      rating,
-      contractYearsRemaining: yearsRemaining,
-      capHit: formatMoneyMillions(capHitValue),
-      capHitValue,
-      salary,
-      guaranteed,
+      position: player.position,
+      contractYearsRemaining: 1,
+      capHit: '$0.0M',
+      capHitValue: 0,
+      salary: 0,
+      guaranteed: 0,
       status: 'Active',
       headshotUrl: null,
-      year1CapHit: capHitValue,
+      year1CapHit: 0,
       contract: {
-        yearsRemaining,
-        apy: salary,
-        guaranteed,
-        capHit: capHitValue,
-        expiresAfterSeason: yearsRemaining <= 1,
+        yearsRemaining: 1,
+        apy: 0,
+        guaranteed: 0,
+        capHit: 0,
+        expiresAfterSeason: true,
       },
     };
   });
+};
 
 const buildRosterForTeam = (teamAbbr: string): StoredPlayer[] => {
-  if (teamAbbr.toUpperCase() === 'KC') {
-    return buildChiefsRoster();
+  const leagueRoster = buildLeagueRoster(teamAbbr);
+  if (leagueRoster.length > 0) {
+    return leagueRoster;
   }
   return clonePlayers(baseRoster);
 };
