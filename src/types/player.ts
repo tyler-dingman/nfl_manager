@@ -1,3 +1,26 @@
+export type FreeAgentProfileDTO = {
+  source: 'real' | 'seed' | 'released';
+  marketStatus: 'unsigned' | 'available' | 'signed' | 'removed';
+  marketTier: 'elite' | 'starter' | 'bridge' | 'depth' | 'camp';
+  roleTier: 'starter' | 'depth' | 'developmental';
+  expectedAnnualValue: number;
+  expectedContractYears: number;
+  guaranteeExpectationPct: number;
+  guaranteedMoneyDemand: number;
+  ageCurveFactor: number;
+  declineRisk: number;
+  demandScore: number;
+  signingDifficulty: number;
+  competitionScore: number;
+  signingInterestScore: number;
+  teamFitScore: number;
+  bestFitTeamAbbr?: string;
+  schemeFitTags: string[];
+  available: boolean;
+  generatedAt: string;
+  refreshedAt: string;
+};
+
 export type PlayerRowDTO = {
   id: string;
   firstName: string;
@@ -25,6 +48,7 @@ export type PlayerRowDTO = {
   signedTeamLogoUrl?: string | null;
   signedAt?: string | null;
   cutAt?: string | null;
+  freeAgentProfile?: FreeAgentProfileDTO;
   contract?: {
     yearsRemaining: number;
     apy: number;

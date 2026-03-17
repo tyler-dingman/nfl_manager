@@ -33,11 +33,12 @@ export const scoreFreeAgencyOffer = ({
 }): FreeAgencyScoreEstimate => {
   const rating = player.rating ?? 75;
   const marketApy =
-    player.rating !== undefined
+    player.freeAgentProfile?.expectedAnnualValue ??
+    (player.rating !== undefined
       ? getDemandAavMillions({ position: player.position, ovr: player.rating })
       : player.marketValue !== null && player.marketValue !== undefined
         ? player.marketValue / 1_000_000
-        : getApyCapForPosition(player.position);
+        : getApyCapForPosition(player.position));
 
   const clampedYears = clampOfferYears(years, 5);
   const preferredYears = getPreferredYearsForPlayer(player);
