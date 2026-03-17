@@ -20,7 +20,9 @@ const resolveTeamAbbr = (teamName: string, fallbackAbbr?: string) => {
   return fromSeed?.abbreviation;
 };
 
-export const syncPlayers = async (existingPlayers: IngestedPlayer[] = []): Promise<PlayerSyncResult> => {
+export const syncPlayers = async (
+  existingPlayers: IngestedPlayer[] = [],
+): Promise<PlayerSyncResult> => {
   const rosterErrors: Array<{ teamId: string; reason: string }> = [];
 
   const teamRecords = await fetchTeams();
@@ -36,7 +38,9 @@ export const syncPlayers = async (existingPlayers: IngestedPlayer[] = []): Promi
     normalizedName: normalizeTeamName(seed.name),
   }));
 
-  const existingByKey = new Map(existingPlayers.map((player) => [`${player.teamAbbr}:${player.id}`, player]));
+  const existingByKey = new Map(
+    existingPlayers.map((player) => [`${player.teamAbbr}:${player.id}`, player]),
+  );
   const nextPlayers = new Map<string, IngestedPlayer>();
 
   for (const team of teamRecords) {

@@ -1,5 +1,8 @@
 import type { IngestedContract, IngestedPlayer, IngestedTeam } from '@/server/data/nfl-data';
-import { fetchAllTeamContracts, fetchTeamContracts } from '@/server/data-sources/overthecap-contracts';
+import {
+  fetchAllTeamContracts,
+  fetchTeamContracts,
+} from '@/server/data-sources/overthecap-contracts';
 import { normalizePlayerName } from './normalize';
 
 export type ContractSyncReport = {
@@ -15,12 +18,18 @@ export type ContractSyncResult = {
   report: ContractSyncReport;
 };
 
-const safeUniquePlayerMatch = (candidates: IngestedPlayer[], normalizedName: string): IngestedPlayer | null => {
+const safeUniquePlayerMatch = (
+  candidates: IngestedPlayer[],
+  normalizedName: string,
+): IngestedPlayer | null => {
   const byName = candidates.filter((player) => player.normalizedName === normalizedName);
   return byName.length === 1 ? byName[0] : null;
 };
 
-const upsertContract = (existing: IngestedContract | undefined, next: IngestedContract): IngestedContract => {
+const upsertContract = (
+  existing: IngestedContract | undefined,
+  next: IngestedContract,
+): IngestedContract => {
   if (!existing) return next;
   return {
     ...existing,
@@ -72,7 +81,9 @@ const syncContractsInternal = async (
   teamId?: string,
 ): Promise<ContractSyncResult> => {
   const now = new Date().toISOString();
-  const existingByPlayer = new Map(existingContracts.map((contract) => [`${contract.teamId}:${contract.playerId}`, contract]));
+  const existingByPlayer = new Map(
+    existingContracts.map((contract) => [`${contract.teamId}:${contract.playerId}`, contract]),
+  );
 
   const playersByTeam = new Map<string, IngestedPlayer[]>();
   for (const player of players) {
@@ -87,7 +98,9 @@ const syncContractsInternal = async (
       ? await fetchAllTeamContracts()
       : [
           await fetchTeamContracts(teamId).catch((error: unknown) => {
-            const team = teams.find((entry) => entry.id === teamId || entry.abbreviation === teamId);
+            const team = teams.find(
+              (entry) => entry.id === teamId || entry.abbreviation === teamId,
+            );
             unresolvedTeams.push(team?.abbreviation ?? teamId);
             return {
               teamSlug: team?.normalizedName ?? teamId.toLowerCase(),

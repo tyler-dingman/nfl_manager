@@ -21,7 +21,9 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
       <div className="rounded-xl border border-border bg-slate-50 p-3">
         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{seasonLabel}</p>
         <p className="mt-1 text-sm font-semibold text-foreground">{teamName}</p>
-        <p className="mt-2 text-xs text-muted-foreground">Step {currentIndex + 1} of {OFFSEASON_STEPS.length}</p>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Step {currentIndex + 1} of {OFFSEASON_STEPS.length}
+        </p>
       </div>
 
       <div className="relative space-y-2 before:absolute before:left-3.5 before:top-2 before:h-[calc(100%-16px)] before:w-px before:bg-slate-200">
@@ -39,18 +41,30 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
                   ) : isLocked ? (
                     <Lock className="h-4 w-4 text-muted-foreground" />
                   ) : (
-                    <Circle className={cn('h-4 w-4', isCurrent ? 'text-slate-900' : 'text-slate-400')} />
+                    <Circle
+                      className={cn('h-4 w-4', isCurrent ? 'text-slate-900' : 'text-slate-400')}
+                    />
                   )}
                 </span>
                 <div>
                   {isLocked ? (
                     <p className="text-sm font-medium text-muted-foreground">{step.label}</p>
                   ) : (
-                    <Link className={cn('text-sm font-semibold', isCurrent ? 'text-foreground' : 'text-muted-foreground')} href={step.route}>
+                    <Link
+                      className={cn(
+                        'text-sm font-semibold',
+                        isCurrent ? 'text-foreground' : 'text-muted-foreground',
+                      )}
+                      href={step.route}
+                    >
                       {step.label}
                     </Link>
                   )}
-                  {isLocked ? <p className="text-xs text-muted-foreground">Complete {OFFSEASON_STEPS[currentIndex]?.label} first</p> : null}
+                  {isLocked ? (
+                    <p className="text-xs text-muted-foreground">
+                      Complete {OFFSEASON_STEPS[currentIndex]?.label} first
+                    </p>
+                  ) : null}
                 </div>
               </div>
             </div>

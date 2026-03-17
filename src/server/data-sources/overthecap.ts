@@ -20,7 +20,13 @@ const decodeHtml = (value: string) =>
     .replace(/&#39;/g, "'")
     .replace(/&quot;/g, '"');
 
-const stripTags = (value: string) => decodeHtml(value.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim());
+const stripTags = (value: string) =>
+  decodeHtml(
+    value
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim(),
+  );
 
 const parseCurrency = (value: string): number | null => {
   const raw = value.trim();

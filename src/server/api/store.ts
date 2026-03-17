@@ -74,15 +74,25 @@ const getLatestContractByPlayerId = () => {
 const leagueContractsByPlayerId = getLatestContractByPlayerId();
 
 const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
-  const players = NFL_LEAGUE_DATA.players.filter((player) => player.teamAbbr === teamAbbr.toUpperCase());
+  const players = NFL_LEAGUE_DATA.players.filter(
+    (player) => player.teamAbbr === teamAbbr.toUpperCase(),
+  );
   return players.map((player) => {
     const { firstName, lastName } = splitName(player.fullName);
     const contract = leagueContractsByPlayerId.get(player.id);
-    const year1CapHit = Number(((contract?.capHitCurrentYear ?? contract?.averagePerYear ?? 0) / 1_000_000).toFixed(1));
-    const guaranteed = Number(((contract?.guaranteedMoney ?? contract?.guaranteedRemaining ?? 0) / 1_000_000).toFixed(1));
+    const year1CapHit = Number(
+      ((contract?.capHitCurrentYear ?? contract?.averagePerYear ?? 0) / 1_000_000).toFixed(1),
+    );
+    const guaranteed = Number(
+      ((contract?.guaranteedMoney ?? contract?.guaranteedRemaining ?? 0) / 1_000_000).toFixed(1),
+    );
     const yearsRemaining = Math.max(1, contract?.yearsRemaining ?? 1);
-    const apy = Number(((contract?.averagePerYear ?? contract?.capHitCurrentYear ?? 0) / 1_000_000).toFixed(1));
-    const deadCap = Number(((contract?.deadCapEstimate ?? contract?.deadCap ?? 0) / 1_000_000).toFixed(1));
+    const apy = Number(
+      ((contract?.averagePerYear ?? contract?.capHitCurrentYear ?? 0) / 1_000_000).toFixed(1),
+    );
+    const deadCap = Number(
+      ((contract?.deadCapEstimate ?? contract?.deadCap ?? 0) / 1_000_000).toFixed(1),
+    );
     return {
       id: `${teamAbbr.toLowerCase()}-${player.id}`,
       firstName,
@@ -115,7 +125,6 @@ const buildRosterForTeam = (teamAbbr: string): StoredPlayer[] => {
   }
   return clonePlayers(baseRoster);
 };
-
 
 const baseRoster: StoredPlayer[] = [
   {
@@ -200,7 +209,8 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     teamAbbr: teamAbbr.toUpperCase(),
   }).map((player) => ({
     ...player,
-    year1CapHit: player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000,
+    year1CapHit:
+      player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000,
   })) as StoredPlayer[];
   const capSpace = capSpaceMillionsForTeam(normalizedTeamAbbr);
   const header: SaveHeaderDTO = {
@@ -343,7 +353,14 @@ export const signFreeAgentInState = (
     status: 'Active',
     signedAt: new Date().toISOString(),
     freeAgentProfile: player.freeAgentProfile
-      ? { ...player.freeAgentProfile, marketStatus: 'signed', availabilityStatus: 'signed', available: false, refreshedAt: new Date().toISOString(), lastUpdated: new Date().toISOString() }
+      ? {
+          ...player.freeAgentProfile,
+          marketStatus: 'signed',
+          availabilityStatus: 'signed',
+          available: false,
+          refreshedAt: new Date().toISOString(),
+          lastUpdated: new Date().toISOString(),
+        }
       : player.freeAgentProfile,
     contract: {
       yearsRemaining: 1,
@@ -412,7 +429,14 @@ export const offerContractInState = (
     signedAt: new Date().toISOString(),
     capHitSchedule,
     freeAgentProfile: player.freeAgentProfile
-      ? { ...player.freeAgentProfile, marketStatus: 'signed', availabilityStatus: 'signed', available: false, refreshedAt: new Date().toISOString(), lastUpdated: new Date().toISOString() }
+      ? {
+          ...player.freeAgentProfile,
+          marketStatus: 'signed',
+          availabilityStatus: 'signed',
+          available: false,
+          refreshedAt: new Date().toISOString(),
+          lastUpdated: new Date().toISOString(),
+        }
       : player.freeAgentProfile,
     contract: {
       yearsRemaining: years,
@@ -433,7 +457,7 @@ export const offerContractInState = (
   state.teamCaps[userTeam] = state.header.capSpace;
   state.transactions.push({
     id: `tx_sign_${Date.now()}_${Math.random().toString(16).slice(2)}`,
-    type: "signing",
+    type: 'signing',
     playerId: signedPlayer.id,
     toTeamAbbr: userTeam,
     capHit: year1CapHit,
@@ -512,7 +536,12 @@ export const cutPlayerInState = (
     state.freeAgents.push({
       ...cutFreeAgent,
       freeAgentProfile: cutFreeAgent.freeAgentProfile
-        ? { ...cutFreeAgent.freeAgentProfile, source: 'released', availabilityStatus: 'available', marketStatus: 'available' }
+        ? {
+            ...cutFreeAgent.freeAgentProfile,
+            source: 'released',
+            availabilityStatus: 'available',
+            marketStatus: 'available',
+          }
         : cutFreeAgent.freeAgentProfile,
     });
   }

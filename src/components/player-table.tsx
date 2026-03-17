@@ -90,7 +90,6 @@ const formatSignedMarketValue = (player: PlayerRowDTO) => {
   return `${years}year / $${apyFormatted}M APY`;
 };
 
-
 const formatContractAsk = (player: PlayerRowDTO) => {
   if (!player.freeAgentProfile) return '—';
   return `${player.freeAgentProfile.expectedContractYears}yr · $${player.freeAgentProfile.expectedAnnualValue.toFixed(1)}M`;

@@ -88,6 +88,8 @@ type TradeProposeResponse = {
   };
 };
 
+type TradeInsights = Pick<TradeProposeResponse, 'simulation' | 'tradeBalance' | 'proposal'>;
+
 const PICK_OPTIONS = [
   { id: '2025-r1', label: '2025 Round 1 Pick' },
   { id: '2025-r2', label: '2025 Round 2 Pick' },
@@ -147,7 +149,7 @@ function TradeBuilderContent() {
   } | null>(null);
   const [duplicateMessage, setDuplicateMessage] = useState<string | null>(null);
   const [proposalStatus, setProposalStatus] = useState<string>('');
-  const [tradeInsights, setTradeInsights] = useState<TradeProposeResponse | null>(null);
+  const [tradeInsights, setTradeInsights] = useState<TradeInsights | null>(null);
   const [sendSlotIds, setSendSlotIds] = useState<Array<string | null>>(
     Array.from({ length: 5 }, () => null),
   );
@@ -266,7 +268,6 @@ function TradeBuilderContent() {
       const data = (await response.json()) as TradeCreateResponse;
       lastTradeKeyRef.current = tradeKey;
       setTrade(data.trade);
-    setTradeInsights(data);
       setUserRoster(data.userRoster);
       setPartnerRoster(data.partnerRoster);
       setProposalStatus('');
@@ -360,7 +361,11 @@ function TradeBuilderContent() {
     }
 
     setTrade(data.trade);
-    setTradeInsights(data);
+    setTradeInsights({
+      simulation: data.simulation,
+      tradeBalance: data.tradeBalance,
+      proposal: data.proposal,
+    });
     setProposalStatus(
       data.accepted
         ? 'Trade accepted! Player rights transferred and cap space updated.'
@@ -556,11 +561,13 @@ function TradeBuilderContent() {
                   : `This adds $${Math.abs(tradeInsights.simulation.teams.sending.capDelta).toFixed(1)}M cap hit`}
               </p>
               <p>
-                Partner cap after trade: ${tradeInsights.simulation.teams.receiving.resultingCapSpace.toFixed(1)}M
+                Partner cap after trade: $
+                {tradeInsights.simulation.teams.receiving.resultingCapSpace.toFixed(1)}M
               </p>
               <p>
-                Value comparison: outgoing {tradeInsights.tradeBalance.outgoingValue.toFixed(1)} vs incoming{' '}
-                {tradeInsights.tradeBalance.incomingValue.toFixed(1)} ({tradeInsights.tradeBalance.explanation})
+                Value comparison: outgoing {tradeInsights.tradeBalance.outgoingValue.toFixed(1)} vs
+                incoming {tradeInsights.tradeBalance.incomingValue.toFixed(1)} (
+                {tradeInsights.tradeBalance.explanation})
               </p>
               {!tradeInsights.proposal.isValid
                 ? tradeInsights.proposal.validationErrors.map((error) => (

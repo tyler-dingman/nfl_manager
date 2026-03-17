@@ -49,7 +49,11 @@ const splitName = (name: string) => {
 
 const isFreeAgentStatus = (status: string | null | undefined) => {
   const normalized = (status ?? '').toLowerCase();
-  return normalized.includes('free') || normalized.includes('unsigned') || normalized.includes('released');
+  return (
+    normalized.includes('free') ||
+    normalized.includes('unsigned') ||
+    normalized.includes('released')
+  );
 };
 
 const getPositionValue = (position: string): number => {
@@ -97,7 +101,13 @@ export const scorePlayer = ({
   const demandScore = clamp(ageScore + positionScore + experienceScore + contractScore, 10, 99);
 
   const marketTier: MarketTier =
-    demandScore >= 82 ? 'elite' : demandScore >= 62 ? 'starter' : demandScore >= 42 ? 'depth' : 'fringe';
+    demandScore >= 82
+      ? 'elite'
+      : demandScore >= 62
+        ? 'starter'
+        : demandScore >= 42
+          ? 'depth'
+          : 'fringe';
 
   return { demandScore, marketTier };
 };
@@ -119,10 +129,15 @@ export const generateContractDemand = ({
   const scoreMultiplier = 0.6 + demandScore / 100;
   const ageFactor = getAgeFactor(age);
   const fallbackApy = 1_800_000 * positionMultiplier * scoreMultiplier * ageFactor;
-  const apy = Math.max(lastContractApy ? lastContractApy * (0.82 + demandScore / 220) : fallbackApy, 1_000_000);
+  const apy = Math.max(
+    lastContractApy ? lastContractApy * (0.82 + demandScore / 220) : fallbackApy,
+    1_000_000,
+  );
   const years = clamp(Math.round(1 + demandScore / 24 - Math.max(0, (age ?? 28) - 30) / 5), 1, 5);
   const guaranteePct = clamp(
-    (lastGuaranteed && lastContractApy ? lastGuaranteed / Math.max(lastContractApy * Math.max(1, years), 1) : 0.32) +
+    (lastGuaranteed && lastContractApy
+      ? lastGuaranteed / Math.max(lastContractApy * Math.max(1, years), 1)
+      : 0.32) +
       demandScore / 250,
     0.25,
     0.85,
@@ -177,7 +192,11 @@ export const identifyLeagueFreeAgents = (league: IngestedLeagueData): FreeAgentS
   return Array.from(merged.values());
 };
 
-const getTeamNeedScore = (league: IngestedLeagueData, teamAbbr: string, position: string): number => {
+const getTeamNeedScore = (
+  league: IngestedLeagueData,
+  teamAbbr: string,
+  position: string,
+): number => {
   const bucket = bucketPosition(position);
   const countAtPos = league.players.filter(
     (player) => player.teamAbbr === teamAbbr && bucketPosition(player.position) === bucket,
@@ -228,7 +247,8 @@ export const buildFreeAgentProfile = (input: FreeAgentProfileInput) => {
     expectedAPY: contractDemand.expectedAPY,
     expectedGuarantee: contractDemand.expectedGuarantee,
     marketTier: scoring.marketTier,
-    roleTier: scoring.marketTier === 'elite' || scoring.marketTier === 'starter' ? 'starter' : 'depth',
+    roleTier:
+      scoring.marketTier === 'elite' || scoring.marketTier === 'starter' ? 'starter' : 'depth',
     demandScore: scoring.demandScore,
     ageFactor,
     position: bucketPosition(input.position),
@@ -269,7 +289,9 @@ export const buildFreeAgencyPool = ({
   const merged = new Map<string, FreeAgentSeedRecord>();
 
   identifyLeagueFreeAgents(league).forEach((record) => merged.set(record.playerId, record));
-  releasedPlayers.forEach((record) => merged.set(record.playerId, { ...record, source: 'released' }));
+  releasedPlayers.forEach((record) =>
+    merged.set(record.playerId, { ...record, source: 'released' }),
+  );
 
   return Array.from(merged.values()).map((record) => {
     const profile = buildFreeAgentProfile({
@@ -323,6 +345,7 @@ export const summarizeFreeAgencyPool = (pool: PlayerRowDTO[]) => {
     totalFreeAgents: pool.length,
     byPosition,
     duplicatePlayers,
-    signedPlayersInPool: pool.filter((player) => player.status.toLowerCase() !== 'free agent').length,
+    signedPlayersInPool: pool.filter((player) => player.status.toLowerCase() !== 'free agent')
+      .length,
   };
 };

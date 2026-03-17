@@ -20,7 +20,9 @@ const run = async () => {
 
   console.log('sample matched contracts');
   result.contracts.slice(0, 25).forEach((contract) => {
-    const player = existing.players.find((entry) => entry.id === contract.playerId && entry.teamAbbr === contract.teamId);
+    const player = existing.players.find(
+      (entry) => entry.id === contract.playerId && entry.teamAbbr === contract.teamId,
+    );
     const capHit = contract.capHitCurrentYear ?? 0;
     const deadCap = contract.deadCap ?? 0;
     const guaranteed = contract.guaranteedMoney ?? contract.fullyGuaranteedMoney ?? 0;
@@ -31,6 +33,8 @@ const run = async () => {
 };
 
 run().catch((error) => {
-  console.error(`sync contracts failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  console.error(
+    `sync contracts failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+  );
   process.exitCode = 1;
 });
