@@ -32,6 +32,7 @@ export const getExpiringContractsForTeam = (
     .filter((freeAgent) => freeAgent.isUnsigned)
     .filter((freeAgent) => !activeRosterNames.has(freeAgent.name.toLowerCase()))
     .map((freeAgent) => {
+      const matchingPlayer = leagueData.players.find((player) => player.id === freeAgent.id);
       const estValue = estimateValue(freeAgent.averagePerYear, freeAgent.capHit);
       return {
         id: freeAgent.id,
@@ -42,10 +43,12 @@ export const getExpiringContractsForTeam = (
         contractType: freeAgent.contractStatus ?? 'UFA',
         interestPct: 0,
         age: freeAgent.age ?? 0,
+        rating: matchingPlayer?.rating,
         estValue,
         currentSalary: toCurrency(freeAgent.capHit),
         maxValue: Math.round(estValue * 1.2),
         headshotUrl: freeAgent.headshotUrl,
+        previousTeamAbbr: freeAgent.lastTeamAbbr,
       } satisfies ExpiringContractRow;
     })
     .sort((a, b) => b.estValue - a.estValue);

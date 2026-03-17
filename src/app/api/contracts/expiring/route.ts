@@ -4,6 +4,7 @@ import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { getExpiringContractsForTeam } from '@/server/logic/expiring-contracts';
 import { ensureSaveState, getSaveState, getSaveStateResult } from '@/server/api/store';
+import { calculatePlayerInterestForTeam } from '@/lib/signing-interest';
 
 const slugify = (value: string) =>
   value
@@ -60,9 +61,12 @@ export const GET = async (request: Request) => {
         contractType: 'UFA',
         interestPct: 0,
         age: player.age ?? 27,
+        rating: player.rating,
         estValue,
         currentSalary: Math.round((player.contract?.apy ?? apy) * 1_000_000),
         maxValue,
+        headshotUrl: player.headshotUrl ?? null,
+        lastTeamAbbr: stateResult.data.header.teamAbbr,
       };
     });
 
@@ -70,5 +74,30 @@ export const GET = async (request: Request) => {
   const unique = new Map<string, ExpiringContractRow>();
   combined.forEach((row) => unique.set(row.id, row));
 
-  return NextResponse.json({ ok: true, players: Array.from(unique.values()) });
+  const players = Array.from(unique.values()).map((row) => {
+    const sourceRosterPlayer = stateResult.data.roster.find(
+      (player) => slugify(`${player.firstName} ${player.lastName} ${player.position}`) === row.id,
+    );
+    const interestBreakdown = calculatePlayerInterestForTeam(
+      {
+        position: row.pos,
+        age: row.age,
+        rating: row.rating ?? sourceRosterPlayer?.rating,
+      },
+      {
+        teamAbbr: stateResult.data.header.teamAbbr,
+        teamRoster: stateResult.data.roster,
+        previousTeamAbbr: row.lastTeamAbbr ?? row.previousTeamAbbr,
+      },
+    );
+
+    return {
+      ...row,
+      rating: row.rating ?? sourceRosterPlayer?.rating,
+      headshotUrl: row.headshotUrl ?? sourceRosterPlayer?.headshotUrl ?? null,
+      interestPct: interestBreakdown.finalInterest,
+    };
+  });
+
+  return NextResponse.json({ ok: true, players });
 };

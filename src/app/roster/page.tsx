@@ -12,6 +12,8 @@ import { StepHeader } from '@/components/offseason/step-header';
 import { SubStepTracker } from '@/components/offseason/sub-step-tracker';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
 import RenegotiateModal from '@/components/renegotiate-modal';
+import PlayerHeadshot from '@/components/player-headshot';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -212,6 +214,9 @@ export default function RosterPage() {
       firstName,
       lastName,
       position: activeExpiringContract.pos,
+      age: activeExpiringContract.age,
+      rating: activeExpiringContract.rating,
+      headshotUrl: activeExpiringContract.headshotUrl ?? null,
       contractYearsRemaining: 0,
       capHit: '',
       status: 'expiring',
@@ -237,18 +242,28 @@ export default function RosterPage() {
       return;
     }
 
-    const response = await apiFetch('/api/actions/re-sign', {
+    const requestBody = {
+      saveId,
+      teamAbbr,
+      playerId,
+      years: offer.years,
+      apy: offer.apy,
+      guaranteed: offer.guaranteed,
+    };
+
+    let response = await apiFetch('/api/actions/re-sign', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId,
-        teamAbbr,
-        playerId,
-        years: offer.years,
-        apy: offer.apy,
-        guaranteed: offer.guaranteed,
-      }),
+      body: JSON.stringify(requestBody),
     });
+
+    if (response.status === 404) {
+      response = await apiFetch('/api/actions/resign-player', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+      });
+    }
 
     if (!response.ok) {
       const errorPayload = (await response.json()) as { ok?: boolean; error?: string };
@@ -491,7 +506,9 @@ export default function RosterPage() {
                       <tr>
                         <th className="px-4 py-2 sm:px-6">Player</th>
                         <th className="px-4 py-2 sm:px-6">Pos</th>
+                        <th className="px-4 py-2 sm:px-6">Rating</th>
                         <th className="px-4 py-2 sm:px-6">Age</th>
+                        <th className="px-4 py-2 sm:px-6">Status</th>
                         <th className="px-4 py-2 sm:px-6">Interest</th>
                         <th className="px-4 py-2 sm:px-6">Est. Value</th>
                         <th className="px-4 py-2 sm:px-6">Current Salary</th>
@@ -502,13 +519,30 @@ export default function RosterPage() {
                       {filteredExpiringContracts.map((player) => (
                         <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
                           <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
-                            {player.name}
+                            <div className="flex items-center gap-2">
+                              <PlayerHeadshot
+                                player={{
+                                  firstName: player.name.split(' ')[0] ?? player.name,
+                                  lastName:
+                                    player.name.split(' ').slice(1).join(' ') || player.name,
+                                  headshotUrl: player.headshotUrl ?? null,
+                                }}
+                                size={28}
+                              />
+                              <span>{player.name}</span>
+                            </div>
                           </td>
                           <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
                             {player.pos}
                           </td>
+                          <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                            {player.rating ?? '--'}
+                          </td>
                           <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
                             {player.age ?? '--'}
+                          </td>
+                          <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                            <Badge variant="success">Pending Free Agent</Badge>
                           </td>
                           <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
                             {player.interestPct !== undefined
@@ -577,6 +611,9 @@ export default function RosterPage() {
         <ResignPlayerModal
           player={activeResignPlayer}
           expectedApyOverride={activeResignPlayer.contract?.apy}
+          teamAbbr={teamAbbr ?? undefined}
+          teamRoster={players}
+          previousTeamAbbr={teamAbbr ?? undefined}
           isOpen={Boolean(activeResignPlayer)}
           onClose={() => setActiveResignPlayer(null)}
           onSubmit={handleSubmitResign}
@@ -586,6 +623,9 @@ export default function RosterPage() {
         <ResignPlayerModal
           player={expiringResignPlayer}
           expectedApyOverride={activeExpiringContract.estValue / 1_000_000}
+          teamAbbr={teamAbbr ?? undefined}
+          teamRoster={players}
+          previousTeamAbbr={activeExpiringContract.lastTeamAbbr ?? null}
           isOpen={Boolean(activeExpiringContract)}
           onClose={() => setActiveExpiringContract(null)}
           onSubmit={handleSubmitResign}

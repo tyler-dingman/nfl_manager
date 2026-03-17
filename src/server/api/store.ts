@@ -711,7 +711,9 @@ export const resignExpiringContractInState = (
     salary: apy,
     guaranteed,
     status: 'Active',
-    headshotUrl: null,
+    headshotUrl: contract.headshotUrl ?? null,
+    age: contract.age,
+    rating: contract.rating,
     year1CapHit,
     capHitSchedule,
     contract: {

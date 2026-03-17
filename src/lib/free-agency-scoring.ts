@@ -6,6 +6,7 @@ import {
   getApyCapForPosition,
 } from '@/lib/contract-negotiation';
 import { getDemandAavMillions } from '@/lib/contract-demand';
+import { calculatePlayerInterestForTeam } from '@/lib/signing-interest';
 
 export type FreeAgencyScoreEstimate = {
   interestScore: number;
@@ -25,11 +26,17 @@ export const scoreFreeAgencyOffer = ({
   years,
   apy,
   guaranteed,
+  teamAbbr,
+  teamRoster,
+  previousTeamAbbr,
 }: {
   player: PlayerRowDTO;
   years: number;
   apy: number;
   guaranteed: number;
+  teamAbbr?: string;
+  teamRoster?: PlayerRowDTO[];
+  previousTeamAbbr?: string | null;
 }): FreeAgencyScoreEstimate => {
   const rating = player.rating ?? 75;
   const marketApy =
@@ -55,6 +62,18 @@ export const scoreFreeAgencyOffer = ({
     seed: `fa:${player.id}:${years}:${apy}:${guaranteed}`,
   });
 
+  const interestBreakdown =
+    teamAbbr && teamRoster
+      ? calculatePlayerInterestForTeam(player, {
+          teamAbbr,
+          teamRoster,
+          previousTeamAbbr,
+        })
+      : null;
+  const adjustedInterest = interestBreakdown
+    ? Math.round(evaluation.score * 0.75 + interestBreakdown.finalInterest * 0.25)
+    : evaluation.score;
+
   const expectedApy = getExpectedApy(rating, player.position);
   const expectedYearsRange: [number, number] = [
     Math.max(1, preferredYears - 1),
@@ -62,7 +81,7 @@ export const scoreFreeAgencyOffer = ({
   ];
 
   return {
-    interestScore: evaluation.score,
+    interestScore: adjustedInterest,
     acceptanceProbability: evaluation.probability,
     expectedApy,
     expectedYearsRange,

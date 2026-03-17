@@ -83,6 +83,9 @@ export const POST = async (request: Request) => {
     contractYearsRemaining: 0,
     capHit: '$0.0M',
     status: 'Expiring',
+    age: expiringContract?.age,
+    rating: expiringContract?.rating,
+    headshotUrl: expiringContract?.headshotUrl ?? null,
   };
 
   const years = clampYears(body.years);
@@ -90,6 +93,8 @@ export const POST = async (request: Request) => {
     saveId: body.saveId,
     teamAbbr,
     player: offerPlayer,
+    teamRoster: state.roster,
+    previousTeamAbbr: expiringContract?.lastTeamAbbr,
     years,
     apy: body.apy,
     guaranteed: body.guaranteed,
