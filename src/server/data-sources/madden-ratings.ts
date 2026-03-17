@@ -10,6 +10,21 @@ export type MaddenRatingRecord = {
   overallRating: number;
 };
 
+export const normalizeFootballPosition = (value: string): string => {
+  const normalized = value.trim().toUpperCase();
+
+  if (['LT', 'RT', 'T', 'OT'].includes(normalized)) return 'OT';
+  if (['LG', 'RG', 'G', 'OL', 'IOL'].includes(normalized)) return 'IOL';
+  if (normalized === 'C') return 'C';
+  if (['LE', 'RE', 'DE'].includes(normalized)) return 'DE';
+  if (['LOLB', 'ROLB', 'MLB', 'ILB', 'OLB', 'LB'].includes(normalized)) return 'LB';
+  if (['FS', 'SS', 'S'].includes(normalized)) return 'S';
+  if (['HB', 'FB', 'RB'].includes(normalized)) return 'RB';
+  if (['DT', 'NT'].includes(normalized)) return 'DT';
+
+  return normalized;
+};
+
 const stripTags = (value: string): string =>
   value
     .replace(/<[^>]*>/g, ' ')
@@ -169,5 +184,5 @@ export const buildMaddenPlayerKey = ({
 }): { normalizedName: string; teamAbbr?: string; position: string } => ({
   normalizedName: normalizePlayerName(playerName),
   teamAbbr: normalizeMaddenTeamToAbbr(team),
-  position: position.trim().toUpperCase(),
+  position: normalizeFootballPosition(position),
 });
