@@ -242,6 +242,9 @@ export default function FreeAgentsPage() {
               : undefined
           }
           scoreVariant="freeAgency"
+          teamAbbr={teamAbbr ?? undefined}
+          teamRoster={roster}
+          previousTeamAbbr={activeOfferPlayer.signedTeamAbbr ?? null}
         />
       ) : null}
     </AppShell>

@@ -4,6 +4,7 @@ import type { PlayerRowDTO } from '@/types/player';
 import { getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
 import { clampOfferYears, evaluateContractOffer } from '@/lib/contract-negotiation';
 import { getDemandAavMillions } from '@/lib/contract-demand';
+import { calculatePlayerInterestForTeam } from '@/lib/signing-interest';
 
 export type ResignScoreEstimate = {
   interestScore: number;
@@ -33,6 +34,9 @@ export const estimateResignInterest = ({
   apy,
   guaranteed,
   expectedApyOverride,
+  teamAbbr,
+  teamRoster,
+  previousTeamAbbr,
 }: {
   playerId: string;
   age: number;
@@ -42,6 +46,9 @@ export const estimateResignInterest = ({
   apy: number;
   guaranteed: number;
   expectedApyOverride?: number;
+  teamAbbr?: string;
+  teamRoster?: PlayerRowDTO[];
+  previousTeamAbbr?: string | null;
 }): ResignScoreEstimate => {
   const persona = getAgentPersonaForPlayer(playerId);
   const baseExpectedApy = expectedApyOverride ?? getExpectedApy(rating, position);
@@ -78,7 +85,19 @@ export const estimateResignInterest = ({
     maxYears: 5,
     seed: `resign:${playerId}:${years}:${apy}:${guaranteed}`,
   });
-  const interestScore = clamp(evaluation.score, 0, 100);
+  const fitInterest =
+    teamAbbr && teamRoster
+      ? calculatePlayerInterestForTeam(seedPlayer, {
+          teamAbbr,
+          teamRoster,
+          previousTeamAbbr,
+        })
+      : null;
+  const interestScore = clamp(
+    Math.round(evaluation.score * 0.75 + (fitInterest?.finalInterest ?? evaluation.score) * 0.25),
+    0,
+    100,
+  );
   const moneyScore = Math.round(evaluation.ratio * 40);
   const yearsScore = Math.round(25 * yearsFit);
   const guaranteedScore = Math.round(

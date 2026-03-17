@@ -24,6 +24,9 @@ type ContractOfferModalProps = {
   title: string;
   subtitle?: string;
   expectedApyOverride?: number;
+  teamAbbr?: string;
+  teamRoster?: PlayerRowDTO[];
+  previousTeamAbbr?: string | null;
   submitLabel?: string;
   scoreVariant?: 'resign' | 'freeAgency';
   onClose: () => void;
@@ -57,6 +60,9 @@ export default function ContractOfferModal({
   title,
   subtitle,
   expectedApyOverride,
+  teamAbbr,
+  teamRoster,
+  previousTeamAbbr,
   submitLabel = 'Submit Offer',
   scoreVariant = 'resign',
   onClose,
@@ -94,6 +100,9 @@ export default function ContractOfferModal({
           years,
           apy: apyValue,
           guaranteed: guaranteedValue,
+          teamAbbr,
+          teamRoster,
+          previousTeamAbbr,
         })
       : estimateResignInterest({
           playerId: player.id,
@@ -104,6 +113,9 @@ export default function ContractOfferModal({
           apy: apyValue,
           guaranteed: guaranteedValue,
           expectedApyOverride,
+          teamAbbr,
+          teamRoster,
+          previousTeamAbbr,
         });
   const score = estimate.interestScore;
   const interestLabel = getInterestLabel(score);

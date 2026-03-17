@@ -4,11 +4,14 @@ import { getAgentPersonaForPlayer } from '@/server/logic/agent-personas';
 import { getPreferredYearsForPlayer, getYearsFit } from '@/lib/contracts';
 import { clampOfferYears, evaluateContractOffer } from '@/lib/contract-negotiation';
 import { getDemandAavMillions } from '@/lib/contract-demand';
+import { calculatePlayerInterestForTeam } from '@/lib/signing-interest';
 
 export type ReSignOfferInput = {
   saveId: string;
   teamAbbr: string;
   player: PlayerRowDTO;
+  teamRoster: PlayerRowDTO[];
+  previousTeamAbbr?: string | null;
   years: number;
   apy: number;
   guaranteed: number;
@@ -27,6 +30,7 @@ export type ReSignScoreBreakdown = {
   expectedGuaranteedPct: number;
   agentPersona: string;
   reasoningTags: string[];
+  interestModifiers: string[];
 };
 
 const getExpectedApy = (rating: number, position: string) =>
@@ -44,6 +48,8 @@ export const scoreResignOffer = ({
   saveId,
   teamAbbr,
   player,
+  teamRoster,
+  previousTeamAbbr,
   years,
   apy,
   guaranteed,
@@ -76,7 +82,16 @@ export const scoreResignOffer = ({
     maxYears: 5,
     seed: `${saveId}:${player.id}:${years}:${apy}:${guaranteed}`,
   });
-  const interestScore = clamp(evaluation.score, 0, 100);
+  const fitInterest = calculatePlayerInterestForTeam(player, {
+    teamAbbr,
+    teamRoster,
+    previousTeamAbbr,
+  });
+  const interestScore = clamp(
+    Math.round(evaluation.score * 0.75 + fitInterest.finalInterest * 0.25),
+    0,
+    100,
+  );
   const moneyScore = Math.round(evaluation.ratio * 40);
   const yearsScore = Math.round(25 * yearsFit);
   const guaranteedScore = Math.round(
@@ -90,6 +105,9 @@ export const scoreResignOffer = ({
   if (yearsScore >= 22 || yearsScore <= 10) reasoningTags.push('years');
   if (guaranteedScore >= 20 || guaranteedScore <= 10) reasoningTags.push('guaranteed');
   reasoningTags.push(persona.key.toLowerCase());
+  fitInterest.modifiers.forEach((modifier) =>
+    reasoningTags.push(modifier.toLowerCase().replace(/\s+/g, '_')),
+  );
 
   return {
     moneyScore,
@@ -103,6 +121,7 @@ export const scoreResignOffer = ({
     expectedGuaranteedPct,
     agentPersona: persona.key,
     reasoningTags,
+    interestModifiers: fitInterest.modifiers,
   };
 };
 

@@ -38,7 +38,14 @@ export const POST = async (request: Request) => {
       return NextResponse.json({ ok: false, error: 'Free agent not found' }, { status: 404 });
     }
 
-    const breakdown = scoreFreeAgencyOffer({ player, years, apy: body.apy, guaranteed });
+    const breakdown = scoreFreeAgencyOffer({
+      player,
+      years,
+      apy: body.apy,
+      guaranteed,
+      teamAbbr: stateResult.data.header.teamAbbr,
+      teamRoster: stateResult.data.roster,
+    });
     const interestScore = breakdown.interestScore;
     const tone = interestScore >= 67 ? 'positive' : interestScore >= 34 ? 'neutral' : 'negative';
     const accepted = breakdown.acceptanceProbability >= 0.7;
