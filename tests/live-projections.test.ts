@@ -50,6 +50,46 @@ const testTradeUpdatesBothTeamsRostersAndCap = () => {
   assert.ok(getProjectedCapSpaceForTeam(state, 'GB') !== getProjectedCapSpaceForTeam(state, 'DAL'));
 };
 
+const testTradeCapViolationValidation = () => {
+  const saveId = `test-trade-cap-${Date.now()}`;
+  const state = createSaveState(saveId, 'GB');
+  state.teamCaps.GB = 0;
+  state.header.capSpace = 0;
+
+  const created = createTrade(saveId, 'DAL');
+  assert.equal(created.ok, true);
+  if (!created.ok) return;
+
+  const partnerPlayer = created.data.partnerRoster[0];
+  addTradeAsset(created.data.trade.id, { side: 'receive', type: 'player', playerId: partnerPlayer.id }, saveId);
+
+  const proposed = proposeTrade(created.data.trade.id, saveId);
+  assert.equal(proposed.ok, true);
+  if (!proposed.ok) return;
+
+  assert.equal(proposed.data.accepted, false);
+  assert.ok(proposed.data.proposal.validationErrors.some((error) => error.code === 'CAP_VIOLATION'));
+};
+
+const testValueImbalanceDetected = () => {
+  const saveId = `test-trade-value-${Date.now()}`;
+  const state = createSaveState(saveId, 'GB');
+  const createdAfterSave = createTrade(saveId, 'DAL');
+  assert.equal(createdAfterSave.ok, true);
+  if (!createdAfterSave.ok) return;
+
+  const userPlayer = state.roster[0];
+  const partnerPlayer = createdAfterSave.data.partnerRoster[2];
+  addTradeAsset(createdAfterSave.data.trade.id, { side: 'send', type: 'player', playerId: userPlayer.id }, saveId);
+  addTradeAsset(createdAfterSave.data.trade.id, { side: 'receive', type: 'player', playerId: partnerPlayer.id }, saveId);
+
+  const proposed = proposeTrade(createdAfterSave.data.trade.id, saveId);
+  assert.equal(proposed.ok, true);
+  if (!proposed.ok) return;
+
+  assert.equal(proposed.data.tradeBalance.balanced, false);
+};
+
 const testReloadPersistsSaveSpecificState = () => {
   const saveId = `test-reload-${Date.now()}`;
   const state = createSaveState(saveId, 'GB');
@@ -85,6 +125,8 @@ const testNoDuplicatePlayersAcrossTeams = () => {
 const run = () => {
   testFreeAgentSigningUpdatesCapAndTeam();
   testTradeUpdatesBothTeamsRostersAndCap();
+  testTradeCapViolationValidation();
+  testValueImbalanceDetected();
   testReloadPersistsSaveSpecificState();
   testNoDuplicatePlayersAcrossTeams();
   console.log('live projection tests passed');

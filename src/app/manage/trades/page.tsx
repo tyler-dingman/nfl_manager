@@ -58,6 +58,34 @@ type TradeProposeResponse = {
     partnerTeamAbbr: string;
     partnerCapSpace: number;
   };
+  simulation: {
+    teams: {
+      sending: {
+        capDelta: number;
+        resultingCapSpace: number;
+        deadCap: number;
+        savings: number;
+      };
+      receiving: {
+        capDelta: number;
+        resultingCapSpace: number;
+        deadCap: number;
+        savings: number;
+      };
+    };
+    warnings: string[];
+  };
+  tradeBalance: {
+    outgoingValue: number;
+    incomingValue: number;
+    difference: number;
+    balanced: boolean;
+    explanation: string;
+  };
+  proposal: {
+    isValid: boolean;
+    validationErrors: Array<{ message: string }>;
+  };
 };
 
 const PICK_OPTIONS = [
@@ -119,6 +147,7 @@ function TradeBuilderContent() {
   } | null>(null);
   const [duplicateMessage, setDuplicateMessage] = useState<string | null>(null);
   const [proposalStatus, setProposalStatus] = useState<string>('');
+  const [tradeInsights, setTradeInsights] = useState<TradeProposeResponse | null>(null);
   const [sendSlotIds, setSendSlotIds] = useState<Array<string | null>>(
     Array.from({ length: 5 }, () => null),
   );
@@ -237,9 +266,11 @@ function TradeBuilderContent() {
       const data = (await response.json()) as TradeCreateResponse;
       lastTradeKeyRef.current = tradeKey;
       setTrade(data.trade);
+    setTradeInsights(data);
       setUserRoster(data.userRoster);
       setPartnerRoster(data.partnerRoster);
       setProposalStatus('');
+      setTradeInsights(null);
     };
 
     loadTrade();
@@ -329,6 +360,7 @@ function TradeBuilderContent() {
     }
 
     setTrade(data.trade);
+    setTradeInsights(data);
     setProposalStatus(
       data.accepted
         ? 'Trade accepted! Player rights transferred and cap space updated.'
@@ -515,6 +547,34 @@ function TradeBuilderContent() {
           </div>
           {proposalStatus ? (
             <p className="mt-4 text-sm font-medium text-foreground">{proposalStatus}</p>
+          ) : null}
+          {tradeInsights ? (
+            <div className="mt-4 space-y-2 text-sm text-foreground">
+              <p>
+                {tradeInsights.simulation.teams.sending.capDelta >= 0
+                  ? `You save $${tradeInsights.simulation.teams.sending.capDelta.toFixed(1)}M`
+                  : `This adds $${Math.abs(tradeInsights.simulation.teams.sending.capDelta).toFixed(1)}M cap hit`}
+              </p>
+              <p>
+                Partner cap after trade: ${tradeInsights.simulation.teams.receiving.resultingCapSpace.toFixed(1)}M
+              </p>
+              <p>
+                Value comparison: outgoing {tradeInsights.tradeBalance.outgoingValue.toFixed(1)} vs incoming{' '}
+                {tradeInsights.tradeBalance.incomingValue.toFixed(1)} ({tradeInsights.tradeBalance.explanation})
+              </p>
+              {!tradeInsights.proposal.isValid
+                ? tradeInsights.proposal.validationErrors.map((error) => (
+                    <p key={error.message} className="text-red-600">
+                      Trade invalid: {error.message}
+                    </p>
+                  ))
+                : null}
+              {tradeInsights.simulation.warnings.map((warning) => (
+                <p key={warning} className="text-amber-600">
+                  {warning}
+                </p>
+              ))}
+            </div>
           ) : null}
         </div>
 

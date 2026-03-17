@@ -61,29 +61,48 @@ const splitName = (name: string) => {
   return { firstName: parts[0] ?? '', lastName: parts.slice(1).join(' ') };
 };
 
+const getLatestContractByPlayerId = () => {
+  const contracts = new Map<string, (typeof NFL_LEAGUE_DATA.contracts)[number]>();
+  NFL_LEAGUE_DATA.contracts.forEach((contract) => {
+    if (!contracts.has(contract.playerId)) {
+      contracts.set(contract.playerId, contract);
+    }
+  });
+  return contracts;
+};
+
+const leagueContractsByPlayerId = getLatestContractByPlayerId();
+
 const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
   const players = NFL_LEAGUE_DATA.players.filter((player) => player.teamAbbr === teamAbbr.toUpperCase());
   return players.map((player) => {
     const { firstName, lastName } = splitName(player.fullName);
+    const contract = leagueContractsByPlayerId.get(player.id);
+    const year1CapHit = Number(((contract?.capHitCurrentYear ?? contract?.averagePerYear ?? 0) / 1_000_000).toFixed(1));
+    const guaranteed = Number(((contract?.guaranteedMoney ?? contract?.guaranteedRemaining ?? 0) / 1_000_000).toFixed(1));
+    const yearsRemaining = Math.max(1, contract?.yearsRemaining ?? 1);
+    const apy = Number(((contract?.averagePerYear ?? contract?.capHitCurrentYear ?? 0) / 1_000_000).toFixed(1));
+    const deadCap = Number(((contract?.deadCapEstimate ?? contract?.deadCap ?? 0) / 1_000_000).toFixed(1));
     return {
       id: `${teamAbbr.toLowerCase()}-${player.id}`,
       firstName,
       lastName,
       position: player.position,
-      contractYearsRemaining: 1,
-      capHit: '$0.0M',
-      capHitValue: 0,
-      salary: 0,
-      guaranteed: 0,
+      contractYearsRemaining: yearsRemaining,
+      capHit: formatMoneyMillions(year1CapHit),
+      capHitValue: year1CapHit,
+      salary: apy,
+      guaranteed,
+      deadCap,
       status: 'Active',
       headshotUrl: null,
-      year1CapHit: 0,
+      year1CapHit,
       contract: {
-        yearsRemaining: 1,
-        apy: 0,
-        guaranteed: 0,
-        capHit: 0,
-        expiresAfterSeason: true,
+        yearsRemaining,
+        apy,
+        guaranteed,
+        capHit: year1CapHit,
+        expiresAfterSeason: yearsRemaining <= 1,
       },
     };
   });
