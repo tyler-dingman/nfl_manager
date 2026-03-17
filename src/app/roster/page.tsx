@@ -9,10 +9,8 @@ import CutPlayerModal from '@/components/cut-player-modal';
 import { PlayerTable, PositionFilterBar } from '@/components/player-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
 import { StepHeader } from '@/components/offseason/step-header';
-import { SubStepTracker } from '@/components/offseason/sub-step-tracker';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
 import RenegotiateModal from '@/components/renegotiate-modal';
-import PlayerHeadshot from '@/components/player-headshot';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -190,12 +188,20 @@ export default function RosterPage() {
 
   const filteredExpiringContracts = useMemo(() => {
     const search = expiringSearchQuery.trim().toLowerCase();
-    return expiringContracts.filter((player) => {
-      const matchesPosition =
-        expiringPositionFilter === 'All' || player.pos === expiringPositionFilter;
-      const matchesSearch = search.length === 0 || player.name.toLowerCase().includes(search);
-      return matchesPosition && matchesSearch;
-    });
+    return expiringContracts
+      .filter((player) => {
+        const matchesPosition =
+          expiringPositionFilter === 'All' || player.pos === expiringPositionFilter;
+        const matchesSearch = search.length === 0 || player.name.toLowerCase().includes(search);
+        return matchesPosition && matchesSearch;
+      })
+      .sort((a, b) => {
+        const ratingDelta = (b.rating ?? 0) - (a.rating ?? 0);
+        if (ratingDelta !== 0) {
+          return ratingDelta;
+        }
+        return b.estValue - a.estValue;
+      });
   }, [expiringContracts, expiringPositionFilter, expiringSearchQuery]);
 
   const resetExpiringFilters = () => {
@@ -422,15 +428,9 @@ export default function RosterPage() {
           totalSteps={OFFSEASON_STEPS.length}
           instruction="Re-sign, cut, and explore trades before entering free agency."
           canContinue={canContinueInFull}
+          backgroundColor={selectedTeam?.color_primary}
           onContinue={handleContinue}
           onSkip={handleSkip}
-        />
-      ) : null}
-      {mode === 'full' ? (
-        <SubStepTracker
-          substeps={manageSubsteps}
-          completed={manageSubstepsCompleted}
-          onComplete={markManageSubstepComplete}
         />
       ) : null}
       {phase === 'resign_cut' ? (
@@ -512,16 +512,21 @@ export default function RosterPage() {
                       {filteredExpiringContracts.map((player) => (
                         <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
                           <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
-                            <div className="flex items-center gap-2">
-                              <PlayerHeadshot
-                                player={{
-                                  firstName: player.name.split(' ')[0] ?? player.name,
-                                  lastName:
-                                    player.name.split(' ').slice(1).join(' ') || player.name,
-                                  headshotUrl: player.headshotUrl ?? null,
-                                }}
-                                size={28}
-                              />
+                            <div className="flex items-center gap-3">
+                              <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                                {player.headshotUrl ? (
+                                  // eslint-disable-next-line @next/next/no-img-element
+                                  <img
+                                    src={player.headshotUrl}
+                                    alt={player.name}
+                                    className="h-full w-full object-cover"
+                                  />
+                                ) : (
+                                  `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(
+                                    player.name.split(' ').slice(1).join(' ') || player.name
+                                  ).charAt(0)}`.toUpperCase()
+                                )}
+                              </div>
                               <span>{player.name}</span>
                             </div>
                           </td>

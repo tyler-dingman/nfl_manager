@@ -105,6 +105,28 @@ const toMillions = (value: number | null | undefined): number | null => {
   return Number((value / 1_000_000).toFixed(1));
 };
 
+const getContractYearsRemaining = (
+  contract: (typeof NFL_LEAGUE_DATA.contracts)[number] | undefined,
+): number | null => {
+  if (!contract) {
+    return null;
+  }
+
+  if (typeof contract.years === 'number' && contract.years > 0) {
+    return contract.years;
+  }
+
+  if (typeof contract.contractEndYear === 'number' && Number.isFinite(contract.contractEndYear)) {
+    const currentYear = new Date().getUTCFullYear();
+    const derivedYears = contract.contractEndYear - currentYear + 1;
+    if (derivedYears > 0) {
+      return derivedYears;
+    }
+  }
+
+  return null;
+};
+
 const resolvePlayerContractValues = (
   player: (typeof NFL_LEAGUE_DATA.players)[number],
   teamAbbr: string,
@@ -121,7 +143,8 @@ const resolvePlayerContractValues = (
   const guaranteedFromUnified = toMillions(unifiedContract?.guaranteed ?? null);
   const guaranteed = guaranteedFromUnified ?? Math.max(0, Number((capHitValue * 0.4).toFixed(1)));
 
-  const yearsRemaining = Math.max(1, unifiedContract?.years ?? fallback?.yearsRemaining ?? 1);
+  const yearsRemaining =
+    getContractYearsRemaining(unifiedContract) ?? fallback?.yearsRemaining ?? 0;
   const deadCapFromUnified = toMillions(unifiedContract?.deadCap ?? null);
   const releaseSavingsFromUnified = toMillions(unifiedContract?.releaseSavings ?? null);
   const deadCapFromSavings =
@@ -183,7 +206,7 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
         apy,
         guaranteed,
         capHit: year1CapHit,
-        expiresAfterSeason: yearsRemaining <= 1,
+        expiresAfterSeason: yearsRemaining === 1,
       },
     };
   });

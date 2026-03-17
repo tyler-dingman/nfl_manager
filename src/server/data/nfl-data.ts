@@ -30,6 +30,7 @@ export type UnifiedContract = {
   averagePerYear: number | null;
   guaranteed: number | null;
   years: number | null;
+  contractEndYear: number | null;
   deadCap: number | null;
   releaseSavings: number | null;
   postJune1Savings: number | null;
