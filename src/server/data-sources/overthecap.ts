@@ -136,8 +136,7 @@ const resolveTeamAbbr = (row: TeamCapSourceRecord): string | null => {
 };
 
 const retainCurrentYearRows = (rows: TeamCapSourceRecord[]): TeamCapSourceRecord[] => {
-  const byTeam = new Set<string>();
-  const retained: TeamCapSourceRecord[] = [];
+  const capMap = new Map<string, TeamCapSourceRecord>();
   const unmatched = new Set<string>();
   let mappedRowCount = 0;
 
@@ -149,24 +148,25 @@ const retainCurrentYearRows = (rows: TeamCapSourceRecord[]): TeamCapSourceRecord
     }
 
     mappedRowCount += 1;
-    if (byTeam.has(teamAbbr)) {
-      continue;
+
+    if (!capMap.has(teamAbbr)) {
+      capMap.set(teamAbbr, row);
     }
 
-    byTeam.add(teamAbbr);
-    retained.push(row);
-
-    if (retained.length >= NFL_TEAM_SEED.length) {
+    if (capMap.size >= NFL_TEAM_SEED.length) {
       break;
     }
   }
 
-  console.info(`[cap] raw rows parsed=${rows.length}`);
-  console.info(`[cap] mapped rows=${mappedRowCount}`);
-  console.info(`[cap] unique team cap rows retained=${retained.length}`);
-  console.info(`[cap] unmatched team names=${Array.from(unmatched).join(', ') || 'none'}`);
+  console.info(`[cap] total rows parsed: ${rows.length}`);
+  console.info(`[cap] mapped rows: ${mappedRowCount}`);
+  console.info(`[cap] unique teams captured: ${capMap.size}`);
+  console.info(`[cap] unmatched: ${unmatched.size}`);
+  if (unmatched.size > 0) {
+    console.info(`[cap] unmatched team names: ${Array.from(unmatched).join(', ')}`);
+  }
 
-  return retained;
+  return Array.from(capMap.values());
 };
 
 const buildHtmlSnippet = (html: string) => {
