@@ -1,5 +1,5 @@
 import type { IngestedContract, IngestedLeagueData, IngestedPlayer } from '@/server/data/nfl-data';
-import type { PlayerRowDTO } from '@/types/player';
+import type { FreeAgentProfileDTO, PlayerRowDTO } from '@/types/player';
 
 export type MarketTier = 'elite' | 'starter' | 'depth' | 'fringe';
 
@@ -218,7 +218,7 @@ const getTeamNeedScore = (
   return clamp((ideal - countAtPos) / ideal, 0, 1);
 };
 
-export const buildFreeAgentProfile = (input: FreeAgentProfileInput) => {
+export const buildFreeAgentProfile = (input: FreeAgentProfileInput): FreeAgentProfileDTO => {
   const experience = clamp(input.yearsPro ?? 4, 0, 20);
   const scoring = scorePlayer({
     age: input.age,
@@ -240,6 +240,9 @@ export const buildFreeAgentProfile = (input: FreeAgentProfileInput) => {
     99,
   );
 
+  const roleTier: FreeAgentProfileDTO['roleTier'] =
+    scoring.marketTier === 'elite' || scoring.marketTier === 'starter' ? 'starter' : 'depth';
+
   return {
     playerId: input.playerId,
     saveId: input.saveId,
@@ -247,8 +250,7 @@ export const buildFreeAgentProfile = (input: FreeAgentProfileInput) => {
     expectedAPY: contractDemand.expectedAPY,
     expectedGuarantee: contractDemand.expectedGuarantee,
     marketTier: scoring.marketTier,
-    roleTier:
-      scoring.marketTier === 'elite' || scoring.marketTier === 'starter' ? 'starter' : 'depth',
+    roleTier,
     demandScore: scoring.demandScore,
     ageFactor,
     position: bucketPosition(input.position),
