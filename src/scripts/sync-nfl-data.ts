@@ -10,15 +10,27 @@ const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 
 const run = async () => {
   const now = new Date().toISOString();
+  const debugPlayers = new Set(['patrick mahomes', 'chris jones', 'travis kelce']);
 
   const playerSync = await syncPlayers();
+  const enrichedPlayers = playerSync.players;
+
+  console.log('[ratings] debug players after enrichment');
+  enrichedPlayers
+    .filter((player) => debugPlayers.has(player.name.toLowerCase()))
+    .forEach((player) => {
+      console.log(
+        `  ${player.name} (${player.teamAbbr} ${player.position}) baseline=${player.baselineRating} madden=${player.maddenRating} final=${player.rating}`,
+      );
+    });
+
   const capSync = await syncCap();
-  const contractSync = await syncContracts(playerSync.teams, playerSync.players);
+  const contractSync = await syncContracts(playerSync.teams, enrichedPlayers);
 
   const payload: IngestedLeagueData = {
     updatedAt: now,
     teams: playerSync.teams,
-    players: playerSync.players,
+    players: enrichedPlayers,
     contracts: contractSync.contracts,
     freeAgents: contractSync.freeAgents,
     cap: capSync.cap,
