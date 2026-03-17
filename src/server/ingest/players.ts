@@ -1,5 +1,5 @@
 import { fetchRoster, fetchTeams } from '@/server/data-sources/espn';
-import { fetchTeamStats } from '@/server/data-sources/espn-stats';
+import { fetchLeagueCategoryStats, fetchTeamStats } from '@/server/data-sources/espn-stats';
 import {
   buildMaddenPlayerKey,
   fetchMaddenRatings,
@@ -159,6 +159,8 @@ export const syncPlayers = async (
   );
   const nextPlayers = new Map<string, UnifiedPlayer>();
 
+  const leagueStats = await fetchLeagueCategoryStats();
+
   for (const team of teamRecords) {
     const teamAbbr = resolveTeamAbbr(team.name, team.abbreviation);
     if (!teamAbbr || !teamsByAbbr.has(teamAbbr)) {
@@ -170,7 +172,9 @@ export const syncPlayers = async (
       const roster = await fetchRoster(team.id);
       const teamStats = await fetchTeamStats(
         team.id,
+        teamAbbr,
         roster.map((player) => ({ id: player.id, name: player.name })),
+        leagueStats,
       );
       const statsByPlayerId = new Map(teamStats.map((entry) => [entry.playerId, entry.stats]));
       const statsByName = new Map(
@@ -217,6 +221,11 @@ export const syncPlayers = async (
       });
     }
   }
+
+  const mergedPlayerStatsCount = Array.from(nextPlayers.values()).filter((player) =>
+    isNonEmptyStats(player.stats),
+  ).length;
+  console.log(`[sync:players] total merged roster player stats records=${mergedPlayerStatsCount}`);
 
   const samplePlayers = ['Patrick Mahomes', 'Travis Kelce', 'Chris Jones'];
   samplePlayers.forEach((playerName) => {
