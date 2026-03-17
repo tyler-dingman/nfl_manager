@@ -1,4 +1,5 @@
 import { fetchRoster, fetchTeams } from '@/server/data-sources/espn';
+import { fetchTeamStats } from '@/server/data-sources/espn-stats';
 import {
   buildMaddenPlayerKey,
   fetchMaddenRatings,
@@ -160,7 +161,12 @@ export const syncPlayers = async (
     }
 
     try {
-      const roster = await fetchRoster(team.id);
+      const [roster, teamStats] = await Promise.all([
+        fetchRoster(team.id),
+        fetchTeamStats(team.id),
+      ]);
+      const statsByPlayerId = new Map(teamStats.map((entry) => [entry.playerId, entry.stats]));
+
       for (const player of roster) {
         const key = `${teamAbbr}:${player.id}`;
         nextPlayers.set(key, {
@@ -175,12 +181,13 @@ export const syncPlayers = async (
           height: player.height,
           weight: player.weight,
           headshotUrl: player.headshotUrl,
+          stats: statsByPlayerId.get(player.id) ?? {},
         });
       }
     } catch (error) {
       rosterErrors.push({
         teamId: team.id,
-        reason: error instanceof Error ? error.message : 'Unknown roster error',
+        reason: error instanceof Error ? error.message : 'Unknown roster/stats error',
       });
     }
   }
@@ -247,7 +254,8 @@ export const syncPlayers = async (
       existing.headshotUrl !== player.headshotUrl ||
       existing.baselineRating !== player.baselineRating ||
       existing.maddenRating !== player.maddenRating ||
-      existing.rating !== player.rating
+      existing.rating !== player.rating ||
+      JSON.stringify(existing.stats ?? {}) !== JSON.stringify(player.stats ?? {})
     ) {
       updatedPlayers += 1;
     }

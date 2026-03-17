@@ -1,5 +1,30 @@
 import seedData from './nfl-data.json';
 
+export type UnifiedPlayerStats = {
+  passingYards?: number;
+  passingTD?: number;
+  interceptions?: number;
+  completionPct?: number;
+
+  rushYards?: number;
+  rushTD?: number;
+  yardsPerCarry?: number;
+
+  recYards?: number;
+  receptions?: number;
+  recTD?: number;
+  yardsPerCatch?: number;
+
+  tackles?: number;
+  sacks?: number;
+  tfl?: number;
+  qbHits?: number;
+
+  interceptionsDef?: number;
+  passDeflections?: number;
+  forcedFumbles?: number;
+};
+
 export type UnifiedTeam = {
   id: string;
   name: string;
@@ -20,6 +45,7 @@ export type UnifiedPlayer = {
   height: string | null;
   weight: number | null;
   headshotUrl: string | null;
+  stats: UnifiedPlayerStats;
 };
 
 export type UnifiedContract = {
