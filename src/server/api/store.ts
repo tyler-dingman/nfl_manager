@@ -11,7 +11,6 @@ import {
 } from '@/server/logic/cap';
 import { logoUrlFor } from './team';
 import { getExpiringContractsByTeam } from '@/lib/expiring-contracts';
-import { FREE_AGENT_SEEDS } from '@/server/data/free-agents';
 import { buildFreeAgencyPool, buildFreeAgentProfile } from '@/server/logic/free-agency-pool';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
@@ -177,9 +176,9 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
   const normalizedTeamAbbr = teamAbbr.toUpperCase();
   const roster = buildRosterForTeam(normalizedTeamAbbr);
   const freeAgents = buildFreeAgencyPool({
+    saveId,
     league: NFL_LEAGUE_DATA,
     teamAbbr: teamAbbr.toUpperCase(),
-    seedPlayers: FREE_AGENT_SEEDS,
   }).map((player) => ({
     ...player,
     year1CapHit: player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000,
@@ -325,7 +324,7 @@ export const signFreeAgentInState = (
     status: 'Active',
     signedAt: new Date().toISOString(),
     freeAgentProfile: player.freeAgentProfile
-      ? { ...player.freeAgentProfile, marketStatus: 'signed', available: false, refreshedAt: new Date().toISOString() }
+      ? { ...player.freeAgentProfile, marketStatus: 'signed', availabilityStatus: 'signed', available: false, refreshedAt: new Date().toISOString(), lastUpdated: new Date().toISOString() }
       : player.freeAgentProfile,
     contract: {
       yearsRemaining: 1,
@@ -378,7 +377,7 @@ export const offerContractInState = (
     throw new Error('Free agent not found');
   }
 
-  const player = state.freeAgents[playerIndex];
+  const [player] = state.freeAgents.splice(playerIndex, 1);
   const capHitSchedule = getCapHitSchedule(apy, years);
   const year1CapHit = getYearOneCapHit(apy, years);
   const signedPlayer: StoredPlayer = {
@@ -394,7 +393,7 @@ export const offerContractInState = (
     signedAt: new Date().toISOString(),
     capHitSchedule,
     freeAgentProfile: player.freeAgentProfile
-      ? { ...player.freeAgentProfile, marketStatus: 'signed', available: false, refreshedAt: new Date().toISOString() }
+      ? { ...player.freeAgentProfile, marketStatus: 'signed', availabilityStatus: 'signed', available: false, refreshedAt: new Date().toISOString(), lastUpdated: new Date().toISOString() }
       : player.freeAgentProfile,
     contract: {
       yearsRemaining: years,
@@ -405,10 +404,22 @@ export const offerContractInState = (
     },
   };
 
-  state.freeAgents[playerIndex] = signedPlayer;
-  state.roster.push(signedPlayer);
+  removePlayerFromAllRosters(state, signedPlayer.id);
+  const userTeam = state.header.teamAbbr.toUpperCase();
+  const currentRoster = state.teamRosters[userTeam] ?? [];
+  state.teamRosters[userTeam] = [...currentRoster, signedPlayer];
+  state.roster = state.teamRosters[userTeam];
   state.header.rosterCount = state.roster.length;
   state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
+  state.teamCaps[userTeam] = state.header.capSpace;
+  state.transactions.push({
+    id: `tx_sign_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    type: "signing",
+    playerId: signedPlayer.id,
+    toTeamAbbr: userTeam,
+    capHit: year1CapHit,
+    createdAt: new Date().toISOString(),
+  });
   pushNewsItem(state, {
     type: 'freeAgentSigned',
     teamAbbr: state.header.teamAbbr,
@@ -467,26 +478,22 @@ export const cutPlayerInState = (
     year1CapHit: capHitValue > 0 ? capHitValue : 1,
     marketValue: Math.round((capHitValue > 0 ? capHitValue : 1) * 1_000_000),
     freeAgentProfile: buildFreeAgentProfile({
-      player: {
-        id: cutPlayer.id,
-        firstName: cutPlayer.firstName,
-        lastName: cutPlayer.lastName,
-        position: cutPlayer.position,
-        age: cutPlayer.age,
-        previousApy: (player.contract?.apy ?? player.salary ?? capHitValue) * 1_000_000,
-        marketValue: (player.contract?.apy ?? player.salary ?? capHitValue) * 1_000_000,
-        source: 'real',
-      },
+      playerId: cutPlayer.id,
+      saveId: state.header.id,
+      position: cutPlayer.position,
+      age: cutPlayer.age,
+      lastContractApy: (player.contract?.apy ?? player.salary ?? capHitValue) * 1_000_000,
+      lastGuaranteed: (player.contract?.guaranteed ?? player.guaranteed ?? 0) * 1_000_000,
       teamAbbr: state.header.teamAbbr,
-      league: NFL_LEAGUE_DATA,
       generatedAt,
+      source: 'released',
     }),
   };
   if (!state.freeAgents.some((agent) => agent.id === cutFreeAgent.id)) {
     state.freeAgents.push({
       ...cutFreeAgent,
       freeAgentProfile: cutFreeAgent.freeAgentProfile
-        ? { ...cutFreeAgent.freeAgentProfile, source: 'released' }
+        ? { ...cutFreeAgent.freeAgentProfile, source: 'released', availabilityStatus: 'available', marketStatus: 'available' }
         : cutFreeAgent.freeAgentProfile,
     });
   }

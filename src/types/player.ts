@@ -1,8 +1,17 @@
 export type FreeAgentProfileDTO = {
   source: 'real' | 'seed' | 'released';
   marketStatus: 'unsigned' | 'available' | 'signed' | 'removed';
-  marketTier: 'elite' | 'starter' | 'bridge' | 'depth' | 'camp';
+  marketTier: 'elite' | 'starter' | 'depth' | 'fringe';
   roleTier: 'starter' | 'depth' | 'developmental';
+  playerId: string;
+  saveId: string;
+  expectedYears: number;
+  expectedAPY: number;
+  expectedGuarantee: number;
+  ageFactor: number;
+  position: string;
+  availabilityStatus: 'available' | 'signed' | 'removed';
+  lastUpdated: string;
   expectedAnnualValue: number;
   expectedContractYears: number;
   guaranteeExpectationPct: number;
