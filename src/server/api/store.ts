@@ -104,7 +104,7 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
       guaranteed,
       deadCap,
       status: 'Active',
-      headshotUrl: null,
+      headshotUrl: player.headshotUrl,
       year1CapHit,
       contract: {
         yearsRemaining,

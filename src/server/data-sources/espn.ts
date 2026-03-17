@@ -7,6 +7,11 @@ type EspnTeam = {
   abbreviation?: string;
 };
 
+type EspnAthleteImage = {
+  href?: string;
+  alt?: string;
+};
+
 type EspnRosterAthlete = {
   id: string;
   fullName: string;
@@ -17,6 +22,8 @@ type EspnRosterAthlete = {
   displayWeight?: string;
   weight?: number;
   position?: { abbreviation?: string; displayName?: string };
+  headshot?: EspnAthleteImage;
+  images?: EspnAthleteImage[];
 };
 
 export type TeamSourceRecord = {
@@ -33,6 +40,22 @@ export type PlayerSourceRecord = {
   age: number | null;
   height: string | null;
   weight: number | null;
+  headshotUrl: string | null;
+};
+
+
+const buildEspnHeadshotUrl = (playerId: string) =>
+  `https://a.espncdn.com/i/headshots/nfl/players/full/${playerId}.png`;
+
+const resolveHeadshotUrl = (athlete: EspnRosterAthlete): string | null => {
+  const fromHeadshot = athlete.headshot?.href?.trim();
+  if (fromHeadshot) return fromHeadshot;
+
+  const imageCandidate = athlete.images?.find((image) => image.href?.trim());
+  if (imageCandidate?.href) return imageCandidate.href.trim();
+
+  if (athlete.id) return buildEspnHeadshotUrl(athlete.id);
+  return null;
 };
 
 const fetchJson = async <T>(url: string): Promise<T> => {
@@ -75,6 +98,7 @@ export const fetchRoster = async (teamId: string): Promise<PlayerSourceRecord[]>
         age: athlete.age ?? null,
         height: athlete.displayHeight ?? null,
         weight: athlete.weight ?? (Number.parseInt(athlete.displayWeight ?? '', 10) || null),
+        headshotUrl: resolveHeadshotUrl(athlete),
       })),
   );
 };
