@@ -23,7 +23,7 @@ export const GET = async (request: Request) => {
     query: getParam(request, 'query'),
   };
 
-  const result = getRoster(saveId, filters);
+  const result = getRoster(saveId, filters, teamAbbr);
   if (!result.ok) {
     return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
   }

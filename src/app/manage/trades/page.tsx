@@ -52,6 +52,12 @@ type TradeProposeResponse = {
   acceptance: number;
   accepted: boolean;
   header: SaveHeaderDTO;
+  caps: {
+    userTeamAbbr: string;
+    userCapSpace: number;
+    partnerTeamAbbr: string;
+    partnerCapSpace: number;
+  };
 };
 
 const PICK_OPTIONS = [
@@ -330,6 +336,23 @@ function TradeBuilderContent() {
     );
     if (data.accepted) {
       pushAlert(buildChantAlert(teamAbbr, 'BIG_TRADE'));
+
+      const userRosterParams = new URLSearchParams({ saveId });
+      if (teamAbbr) {
+        userRosterParams.set('teamAbbr', teamAbbr);
+      }
+      const userRosterResponse = await apiFetch(`/api/roster?${userRosterParams.toString()}`);
+      if (userRosterResponse.ok) {
+        const nextRoster = (await userRosterResponse.json()) as PlayerRowDTO[];
+        setUserRoster(nextRoster);
+      }
+
+      const partnerRosterParams = new URLSearchParams({ saveId, teamAbbr: partnerTeamAbbr });
+      const partnerRosterResponse = await apiFetch(`/api/roster?${partnerRosterParams.toString()}`);
+      if (partnerRosterResponse.ok) {
+        const nextPartnerRoster = (await partnerRosterResponse.json()) as PlayerRowDTO[];
+        setPartnerRoster(nextPartnerRoster);
+      }
     }
     await refreshSaveHeader();
   };
