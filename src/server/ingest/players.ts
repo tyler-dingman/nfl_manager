@@ -223,7 +223,9 @@ export const syncPlayers = async (
     const sample = Array.from(nextPlayers.values()).find(
       (player) => normalizeComparableName(player.name) === normalizeComparableName(playerName),
     );
-    console.log(`[sync:players] sample stats ${playerName}:`, sample?.stats ?? null);
+    const stats = sample?.stats ?? null;
+    const hasStats = isNonEmptyStats(stats ?? undefined);
+    console.log(`[sync:players] sample stats ${playerName} nonEmpty=${hasStats}:`, stats);
   });
 
   const maddenRows = await fetchMaddenRatings().catch((error) => {
