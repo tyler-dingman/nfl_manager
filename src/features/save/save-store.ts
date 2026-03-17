@@ -69,22 +69,6 @@ const resolveUnlocks = (phase: string, current?: SaveUnlocksDTO): SaveUnlocksDTO
   return next;
 };
 
-const computeCapSpaceFromRoster = (roster: PlayerRowDTO[], capLimit: number, fallback: number) => {
-  if (!roster.length || !capLimit) {
-    return fallback;
-  }
-  const activeCap = roster.reduce((sum, player) => {
-    if (player.status?.toLowerCase() === 'cut') return sum;
-    return sum + (player.capHitValue ?? 0);
-  }, 0);
-  const cutDeadCap = roster.reduce((sum, player) => {
-    if (player.status?.toLowerCase() !== 'cut') return sum;
-    return sum + (player.deadCap ?? 0);
-  }, 0);
-  const remaining = capLimit - activeCap - cutDeadCap;
-  return Number(remaining.toFixed(1));
-};
-
 export const useSaveStore = create<SaveStoreState>()(
   persist(
     (set, get) => ({
@@ -124,7 +108,7 @@ export const useSaveStore = create<SaveStoreState>()(
         set((state) => ({
           ...state,
           roster: players,
-          capSpace: computeCapSpaceFromRoster(players, state.capLimit, state.capSpace),
+          capSpace: state.capSpace,
           rosterCount: players.filter((player) => player.status?.toLowerCase() !== 'cut').length,
         })),
       setHasHydrated: (value) => set((state) => ({ ...state, hasHydrated: value })),
