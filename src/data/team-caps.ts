@@ -6,7 +6,7 @@ export const TEAM_CAP_SPACE: Array<{ teamAbbr: string; capSpace: number }> = NFL
     const capRecord = NFL_LEAGUE_DATA.cap.find((entry) => entry.teamAbbr === team.abbreviation);
     return {
       teamAbbr: team.abbreviation,
-      capSpace: capRecord?.capSpace ?? 0,
+      capSpace: capRecord?.availableCap ?? 0,
     };
   },
 );

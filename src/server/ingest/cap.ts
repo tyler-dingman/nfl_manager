@@ -1,20 +1,19 @@
 import { fetchTeamCap } from '@/server/data-sources/overthecap';
 import { normalizeTeamName } from './normalize';
 import { NFL_TEAM_SEED, TEAM_ALIAS_TO_ABBR } from './teams';
-import type { IngestedTeamCap } from '@/server/data/nfl-data';
+import type { UnifiedCap } from '@/server/data/nfl-data';
 
 export type CapSyncResult = {
-  cap: IngestedTeamCap[];
+  cap: UnifiedCap[];
   updatedCount: number;
   unmatched: string[];
 };
 
-export const syncCap = async (existingCap: IngestedTeamCap[] = []): Promise<CapSyncResult> => {
+export const syncCap = async (existingCap: UnifiedCap[] = []): Promise<CapSyncResult> => {
   const scrapeRows = await fetchTeamCap();
-  const now = new Date().toISOString();
 
   const existingByTeam = new Map(existingCap.map((entry) => [entry.teamAbbr, entry]));
-  const next = new Map<string, IngestedTeamCap>();
+  const next = new Map<string, UnifiedCap>();
   const unmatched: string[] = [];
 
   for (const row of scrapeRows) {
@@ -30,12 +29,9 @@ export const syncCap = async (existingCap: IngestedTeamCap[] = []): Promise<CapS
 
     next.set(teamAbbr, {
       teamAbbr,
-      teamName: seedMatch?.name ?? row.teamName,
-      capSpace: row.capSpace,
-      effectiveCapSpace: row.effectiveCapSpace,
-      totalCapSpending: row.totalCapSpending,
-      deadCap: row.deadCap,
-      updatedAt: now,
+      totalCap: row.totalCapSpending,
+      usedCap: row.totalCapSpending,
+      availableCap: row.capSpace,
     });
   }
 
@@ -44,10 +40,9 @@ export const syncCap = async (existingCap: IngestedTeamCap[] = []): Promise<CapS
     const existing = existingByTeam.get(abbr);
     if (
       !existing ||
-      existing.capSpace !== row.capSpace ||
-      existing.deadCap !== row.deadCap ||
-      existing.effectiveCapSpace !== row.effectiveCapSpace ||
-      existing.totalCapSpending !== row.totalCapSpending
+      existing.totalCap !== row.totalCap ||
+      existing.usedCap !== row.usedCap ||
+      existing.availableCap !== row.availableCap
     ) {
       updatedCount += 1;
     }

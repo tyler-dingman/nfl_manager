@@ -1,4 +1,4 @@
-import type { IngestedContract, IngestedLeagueData, IngestedPlayer } from '@/server/data/nfl-data';
+import type { UnifiedContract as IngestedContract, IngestedLeagueData, UnifiedPlayer as IngestedPlayer } from '@/server/data/nfl-data';
 import type { FreeAgentProfileDTO, PlayerRowDTO } from '@/types/player';
 
 export type MarketTier = 'elite' | 'starter' | 'depth' | 'fringe';
@@ -47,14 +47,6 @@ const splitName = (name: string) => {
   return { firstName: parts[0] ?? '', lastName: parts.slice(1).join(' ') };
 };
 
-const isFreeAgentStatus = (status: string | null | undefined) => {
-  const normalized = (status ?? '').toLowerCase();
-  return (
-    normalized.includes('free') ||
-    normalized.includes('unsigned') ||
-    normalized.includes('released')
-  );
-};
 
 const getPositionValue = (position: string): number => {
   const bucket = bucketPosition(position);
@@ -167,24 +159,24 @@ const contractByPlayerId = (contracts: IngestedContract[]) => {
 
 export const identifyLeagueFreeAgents = (league: IngestedLeagueData): FreeAgentSeedRecord[] => {
   const contracts = contractByPlayerId(league.contracts);
-  const validTeams = new Set(league.teams.map((team) => team.abbreviation));
+  const validTeams = new Set(league.teams.map((team) => team.abbr));
 
   const fromTeamless = league.players.filter((player) => !validTeams.has(player.teamAbbr));
-  const fromContractStatus = league.players.filter((player) =>
-    (contracts.get(player.id) ?? []).some((contract) => isFreeAgentStatus(contract.contractStatus)),
+  const fromExpiredContracts = league.players.filter((player) =>
+    (contracts.get(player.id) ?? []).some((contract) => (contract.years ?? 1) <= 0),
   );
 
   const merged = new Map<string, FreeAgentSeedRecord>();
-  [...fromTeamless, ...fromContractStatus].forEach((player: IngestedPlayer) => {
-    const { firstName, lastName } = splitName(player.fullName);
+  [...fromTeamless, ...fromExpiredContracts].forEach((player: IngestedPlayer) => {
+    const { firstName, lastName } = splitName(player.name);
     const latestContract = (contracts.get(player.id) ?? [])[0];
     merged.set(player.id, {
       playerId: player.id,
       firstName,
       lastName,
       position: bucketPosition(player.position),
-      lastContractApy: latestContract?.averagePerYear,
-      lastGuaranteed: latestContract?.guaranteedMoney,
+      lastContractApy: latestContract?.capHit,
+      lastGuaranteed: latestContract?.guaranteed,
       source: 'real',
     });
   });

@@ -12,6 +12,10 @@ type EspnRosterAthlete = {
   fullName: string;
   displayName?: string;
   jersey?: string;
+  age?: number;
+  displayHeight?: string;
+  displayWeight?: string;
+  weight?: number;
   position?: { abbreviation?: string; displayName?: string };
 };
 
@@ -24,9 +28,11 @@ export type TeamSourceRecord = {
 export type PlayerSourceRecord = {
   id: string;
   teamId: string;
-  fullName: string;
+  name: string;
   position: string;
-  jerseyNumber: string | null;
+  age: number | null;
+  height: string | null;
+  weight: number | null;
 };
 
 const fetchJson = async <T>(url: string): Promise<T> => {
@@ -64,9 +70,11 @@ export const fetchRoster = async (teamId: string): Promise<PlayerSourceRecord[]>
       .map((athlete) => ({
         id: athlete.id,
         teamId,
-        fullName: athlete.fullName,
+        name: athlete.fullName,
         position: athlete.position?.abbreviation ?? athlete.position?.displayName ?? 'UNK',
-        jerseyNumber: athlete.jersey ?? null,
+        age: athlete.age ?? null,
+        height: athlete.displayHeight ?? null,
+        weight: athlete.weight ?? Number.parseInt(athlete.displayWeight ?? '', 10) || null,
       })),
   );
 };

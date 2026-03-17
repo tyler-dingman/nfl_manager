@@ -1,11 +1,11 @@
 import { fetchRoster, fetchTeams } from '@/server/data-sources/espn';
 import { normalizeName, normalizeTeamName } from './normalize';
 import { NFL_TEAM_SEED, TEAM_ALIAS_TO_ABBR } from './teams';
-import type { IngestedPlayer, IngestedTeam } from '@/server/data/nfl-data';
+import type { UnifiedPlayer, UnifiedTeam } from '@/server/data/nfl-data';
 
 export type PlayerSyncResult = {
-  teams: IngestedTeam[];
-  players: IngestedPlayer[];
+  teams: UnifiedTeam[];
+  players: UnifiedPlayer[];
   insertedPlayers: number;
   updatedPlayers: number;
   rosterErrors: Array<{ teamId: string; reason: string }>;
@@ -20,28 +20,22 @@ const resolveTeamAbbr = (teamName: string, fallbackAbbr?: string) => {
   return fromSeed?.abbreviation;
 };
 
-export const syncPlayers = async (
-  existingPlayers: IngestedPlayer[] = [],
-): Promise<PlayerSyncResult> => {
+export const syncPlayers = async (existingPlayers: UnifiedPlayer[] = []): Promise<PlayerSyncResult> => {
   const rosterErrors: Array<{ teamId: string; reason: string }> = [];
 
   const teamRecords = await fetchTeams();
   const teamsByAbbr = new Map(NFL_TEAM_SEED.map((team) => [team.abbreviation, team]));
 
-  const teams: IngestedTeam[] = NFL_TEAM_SEED.map((seed) => ({
+  const teams: UnifiedTeam[] = NFL_TEAM_SEED.map((seed) => ({
     id: seed.abbreviation,
-    abbreviation: seed.abbreviation,
+    abbr: seed.abbreviation,
     name: seed.name,
-    city: seed.city,
     conference: seed.conference,
     division: seed.division,
-    normalizedName: normalizeTeamName(seed.name),
   }));
 
-  const existingByKey = new Map(
-    existingPlayers.map((player) => [`${player.teamAbbr}:${player.id}`, player]),
-  );
-  const nextPlayers = new Map<string, IngestedPlayer>();
+  const existingByKey = new Map(existingPlayers.map((player) => [`${player.teamAbbr}:${player.id}`, player]));
+  const nextPlayers = new Map<string, UnifiedPlayer>();
 
   for (const team of teamRecords) {
     const teamAbbr = resolveTeamAbbr(team.name, team.abbreviation);
@@ -57,10 +51,11 @@ export const syncPlayers = async (
         nextPlayers.set(key, {
           id: player.id,
           teamAbbr,
-          fullName: player.fullName,
-          normalizedName: normalizeName(player.fullName),
+          name: player.name,
           position: player.position,
-          jerseyNumber: player.jerseyNumber,
+          age: player.age,
+          height: player.height,
+          weight: player.weight,
         });
       }
     } catch (error) {
@@ -78,9 +73,11 @@ export const syncPlayers = async (
     if (!existing) {
       insertedPlayers += 1;
     } else if (
-      existing.fullName !== player.fullName ||
+      normalizeName(existing.name) !== normalizeName(player.name) ||
       existing.position !== player.position ||
-      existing.jerseyNumber !== player.jerseyNumber
+      existing.age !== player.age ||
+      existing.height !== player.height ||
+      existing.weight !== player.weight
     ) {
       updatedPlayers += 1;
     }
