@@ -25,6 +25,7 @@ type RawStat = {
 type RawStatsRow = {
   id?: string;
   uid?: string;
+  displayName?: string;
   athlete?: Record<string, unknown>;
   player?: Record<string, unknown>;
   competitor?: Record<string, unknown>;
@@ -54,37 +55,22 @@ export type LeagueCategoryStatsResult = {
   parsedRowsByCategory: Record<StatCategory, number>;
 };
 
-const currentDate = new Date();
-const CURRENT_SEASON =
-  currentDate.getUTCMonth() >= 6 ? currentDate.getUTCFullYear() : currentDate.getUTCFullYear() - 1;
-
-const CATEGORY_SORT: Record<StatCategory, string> = {
-  passing: 'passingYards',
-  rushing: 'rushingYards',
-  receiving: 'receivingYards',
-  defensive: 'totalTackles',
-};
-
-const CATEGORY_URLS: Record<StatCategory, (page: number) => string[]> = {
-  passing: (page) => [
-    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/byathlete?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=passing&sort=${CATEGORY_SORT.passing}%3Adesc`,
-    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/leaders?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=passing`,
-    `https://site.api.espn.com/apis/site/v2/sports/football/nfl/statistics/player?season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=passing`,
+const CATEGORY_PAGE_URLS: Record<StatCategory, string[]> = {
+  passing: [
+    'https://www.espn.com/nfl/stats/player/_/table/passing/sort/passingYards/dir/desc',
+    'https://www.espn.com/nfl/stats/player/_/view/offense/stat/passing',
   ],
-  rushing: (page) => [
-    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/byathlete?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=rushing&sort=${CATEGORY_SORT.rushing}%3Adesc`,
-    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/leaders?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=rushing`,
-    `https://site.api.espn.com/apis/site/v2/sports/football/nfl/statistics/player?season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=rushing`,
+  rushing: [
+    'https://www.espn.com/nfl/stats/player/_/table/rushing/sort/rushingYards/dir/desc',
+    'https://www.espn.com/nfl/stats/player/_/view/offense/stat/rushing',
   ],
-  receiving: (page) => [
-    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/byathlete?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=receiving&sort=${CATEGORY_SORT.receiving}%3Adesc`,
-    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/leaders?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=receiving`,
-    `https://site.api.espn.com/apis/site/v2/sports/football/nfl/statistics/player?season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=receiving`,
+  receiving: [
+    'https://www.espn.com/nfl/stats/player/_/table/receiving/sort/receivingYards/dir/desc',
+    'https://www.espn.com/nfl/stats/player/_/view/offense/stat/receiving',
   ],
-  defensive: (page) => [
-    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/byathlete?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=defensive&sort=${CATEGORY_SORT.defensive}%3Adesc`,
-    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/leaders?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=defensive`,
-    `https://site.api.espn.com/apis/site/v2/sports/football/nfl/statistics/player?season=${CURRENT_SEASON}&seasontype=2&page=${page}&limit=200&category=defensive`,
+  defensive: [
+    'https://www.espn.com/nfl/stats/player/_/table/defensive/sort/totalTackles/dir/desc',
+    'https://www.espn.com/nfl/stats/player/_/view/defense/stat/defensive',
   ],
 };
 
@@ -125,7 +111,7 @@ const setStatValue = (target: UnifiedPlayerStats, rawKey: string, rawValue: unkn
   } else if (['interceptions', 'passinterceptions', 'ints'].includes(key)) {
     target.interceptions = value;
   } else if (
-    ['completionpct', 'completionpercentage', 'cppct', 'cmppercent', 'qbrcmp'].includes(key)
+    ['completionpct', 'completionpercentage', 'cppct', 'cmppercent', 'qbrcmp', 'cmp'].includes(key)
   ) {
     target.completionPct = value;
   } else if (['rushingyards', 'rushyards', 'rushyds', 'ydsrush'].includes(key)) {
@@ -142,11 +128,15 @@ const setStatValue = (target: UnifiedPlayerStats, rawKey: string, rawValue: unkn
     target.recTD = value;
   } else if (['yardspercatch', 'ypr'].includes(key)) {
     target.yardsPerCatch = value;
-  } else if (['totaltackles', 'tackles', 'tk'].includes(key)) {
+  } else if (['totaltackles', 'tackles', 'tk', 'tot'].includes(key)) {
     target.tackles = value;
   } else if (['sacks', 'sck'].includes(key)) {
     target.sacks = value;
-  } else if (['defensiveinterceptions', 'interceptionsdef', 'intdef'].includes(key)) {
+  } else if (['tfl', 'tacklesforloss'].includes(key)) {
+    target.tfl = value;
+  } else if (['qbhits', 'qbh'].includes(key)) {
+    target.qbHits = value;
+  } else if (['defensiveinterceptions', 'interceptionsdef', 'intdef', 'int'].includes(key)) {
     target.interceptionsDef = value;
   } else if (['passesdefended', 'passdeflections', 'pd'].includes(key)) {
     target.passDeflections = value;
@@ -155,17 +145,87 @@ const setStatValue = (target: UnifiedPlayerStats, rawKey: string, rawValue: unkn
   }
 };
 
-const fetchJson = async <T>(url: string): Promise<T> => {
+const fetchHtml = async (url: string): Promise<string> => {
   const response = await fetch(url, {
     headers: {
-      Accept: 'application/json',
+      Accept: 'text/html,application/xhtml+xml',
       'User-Agent': 'Mozilla/5.0',
     },
   });
+
   if (!response.ok) {
     throw new Error(`Request failed (${response.status}) for ${url}`);
   }
-  return (await response.json()) as T;
+
+  return response.text();
+};
+
+const findBalancedJsonObject = (source: string, objectStart: number): string | null => {
+  if (source[objectStart] !== '{') return null;
+
+  let depth = 0;
+  let inString = false;
+
+  for (let i = objectStart; i < source.length; i += 1) {
+    const ch = source[i];
+
+    if (ch === '"') {
+      let backslashes = 0;
+      for (let j = i - 1; j >= 0 && source[j] === '\\'; j -= 1) backslashes += 1;
+      if (backslashes % 2 === 0) inString = !inString;
+    }
+
+    if (inString) continue;
+
+    if (ch === '{') depth += 1;
+    if (ch === '}') {
+      depth -= 1;
+      if (depth === 0) {
+        return source.slice(objectStart, i + 1);
+      }
+    }
+  }
+
+  return null;
+};
+
+const parseJsonCandidate = (candidate: string): Record<string, unknown> | null => {
+  try {
+    return JSON.parse(candidate) as Record<string, unknown>;
+  } catch {
+    if (!candidate.includes('\\"')) return null;
+    try {
+      const unescaped = candidate.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+      return JSON.parse(unescaped) as Record<string, unknown>;
+    } catch {
+      return null;
+    }
+  }
+};
+
+const extractEmbeddedStatisticsObject = (html: string): Record<string, unknown> | null => {
+  const tokens = ['"statistics":{', '\\"statistics\\":{'];
+
+  for (const token of tokens) {
+    let searchIndex = 0;
+    while (searchIndex < html.length) {
+      const idx = html.indexOf(token, searchIndex);
+      if (idx === -1) break;
+
+      const objectStart = html.indexOf('{', idx + token.indexOf('{'));
+      if (objectStart === -1) break;
+
+      const jsonObject = findBalancedJsonObject(html, objectStart);
+      if (jsonObject) {
+        const parsed = parseJsonCandidate(jsonObject);
+        if (parsed) return parsed;
+      }
+
+      searchIndex = idx + token.length;
+    }
+  }
+
+  return null;
 };
 
 const collectRows = (node: unknown, rows: RawStatsRow[] = []): RawStatsRow[] => {
@@ -190,6 +250,24 @@ const collectRows = (node: unknown, rows: RawStatsRow[] = []): RawStatsRow[] => 
   return rows;
 };
 
+const collectColumnNames = (node: unknown, out: string[] = []): string[] => {
+  if (!node) return out;
+
+  if (Array.isArray(node)) {
+    node.forEach((entry) => collectColumnNames(entry, out));
+    return out;
+  }
+
+  if (typeof node !== 'object') return out;
+
+  const record = node as Record<string, unknown>;
+  const name = record.name ?? record.displayName ?? record.abbreviation ?? record.shortDisplayName;
+  if (typeof name === 'string') out.push(name);
+
+  Object.values(record).forEach((value) => collectColumnNames(value, out));
+  return out;
+};
+
 const asRawStat = (value: unknown, label?: string): RawStat | null => {
   if (value && typeof value === 'object' && !Array.isArray(value)) {
     return value as RawStat;
@@ -204,10 +282,13 @@ const asRawStat = (value: unknown, label?: string): RawStat | null => {
   };
 };
 
-const getStatsEntries = (row: RawStatsRow): RawStat[] => {
+const getStatsEntries = (row: RawStatsRow, defaultColumns: string[]): RawStat[] => {
   const values = (row.stats ?? row.statistics) as unknown;
   const labels =
-    row.labels ?? row.names ?? row.columns?.map((entry) => entry.name ?? entry.abbreviation);
+    row.labels ??
+    row.names ??
+    row.columns?.map((entry) => entry.name ?? entry.abbreviation ?? entry.displayName) ??
+    defaultColumns;
 
   if (Array.isArray(values)) {
     return values
@@ -227,23 +308,39 @@ const getStatsEntries = (row: RawStatsRow): RawStat[] => {
   return [];
 };
 
+const splitTrailingTeamAbbr = (raw: string): { playerName: string; teamAbbr?: string } => {
+  const match = raw.trim().match(/^(.*)\s+([A-Z]{2,4})$/);
+  if (!match) return { playerName: raw.trim() };
+  return {
+    playerName: match[1].trim(),
+    teamAbbr: match[2],
+  };
+};
+
 const resolvePlayerMeta = (row: RawStatsRow) => {
   const athlete = (row.athlete ?? row.player ?? row.competitor ?? {}) as Record<string, unknown>;
   const team = (row.team ?? athlete.team ?? {}) as Record<string, unknown>;
 
-  const playerName =
+  const displayName =
     (athlete.fullName as string | undefined) ??
     (athlete.displayName as string | undefined) ??
     (row.displayName as string | undefined) ??
     '';
 
+  const extracted = splitTrailingTeamAbbr(displayName);
+  const playerName = extracted.playerName;
+
   const teamAbbr =
     (team.abbreviation as string | undefined) ??
     (team.shortDisplayName as string | undefined) ??
+    extracted.teamAbbr ??
     undefined;
 
   const teamName =
-    (team.displayName as string | undefined) ?? (team.name as string | undefined) ?? teamAbbr;
+    (team.displayName as string | undefined) ??
+    (team.name as string | undefined) ??
+    teamAbbr ??
+    undefined;
 
   const playerId =
     (athlete.id as string | undefined) ??
@@ -257,22 +354,26 @@ const resolvePlayerMeta = (row: RawStatsRow) => {
     normalizedName: normalizeComparableName(playerName),
     teamAbbr,
     teamName,
-    normalizedTeam: normalizeComparableTeam(teamName ?? ''),
+    normalizedTeam: normalizeComparableTeam(teamName ?? teamAbbr ?? ''),
     position: (athlete.position as Record<string, unknown> | undefined)?.abbreviation as
       | string
       | undefined,
   };
 };
 
-const parseCategoryRows = (payload: unknown): NormalizedPlayerStatRecord[] => {
-  const rows = collectRows(payload, []);
-  const parsed = rows
+const parseStatisticsRows = (
+  statisticsObject: Record<string, unknown>,
+): NormalizedPlayerStatRecord[] => {
+  const rows = collectRows(statisticsObject, []);
+  const columnNames = Array.from(new Set(collectColumnNames(statisticsObject, [])));
+
+  return rows
     .map((row): NormalizedPlayerStatRecord | null => {
       const meta = resolvePlayerMeta(row);
       if (!meta.playerName || !meta.normalizedName) return null;
 
       const stats: UnifiedPlayerStats = {};
-      getStatsEntries(row).forEach((entry) => {
+      getStatsEntries(row, columnNames).forEach((entry) => {
         const statKey = entry.name ?? entry.abbreviation ?? entry.displayName;
         if (!statKey) return;
         setStatValue(stats, statKey, entry.value ?? entry.displayValue);
@@ -282,8 +383,6 @@ const parseCategoryRows = (payload: unknown): NormalizedPlayerStatRecord[] => {
       return { ...meta, stats };
     })
     .filter((entry): entry is NormalizedPlayerStatRecord => Boolean(entry));
-
-  return parsed;
 };
 
 const mergeRecord = (
@@ -292,7 +391,7 @@ const mergeRecord = (
 ) => {
   const key = source.playerId
     ? `id:${source.playerId}`
-    : `name:${source.normalizedName}:team:${source.normalizedTeam}`;
+    : `name:${source.normalizedName}:team:${normalizeAbbr(source.teamAbbr)}`;
 
   const existing = target.get(key);
   if (!existing) {
@@ -311,30 +410,32 @@ const mergeRecord = (
 };
 
 const fetchCategoryRows = async (category: StatCategory): Promise<NormalizedPlayerStatRecord[]> => {
-  const rows: NormalizedPlayerStatRecord[] = [];
+  for (const url of CATEGORY_PAGE_URLS[category]) {
+    try {
+      const html = await fetchHtml(url);
+      const statisticsObject = extractEmbeddedStatisticsObject(html);
+      if (!statisticsObject) continue;
 
-  for (let page = 1; page <= 8; page += 1) {
-    const urls = CATEGORY_URLS[category](page);
-    let parsedPageRows: NormalizedPlayerStatRecord[] = [];
-
-    for (const url of urls) {
-      try {
-        const payload = await fetchJson<unknown>(url);
-        parsedPageRows = parseCategoryRows(payload);
-        if (parsedPageRows.length > 0) break;
-      } catch {
-        // Try next public endpoint variant for this category/page.
-      }
+      const rows = parseStatisticsRows(statisticsObject);
+      if (rows.length > 0) return rows;
+    } catch {
+      // Try the next category page variant.
     }
-
-    if (parsedPageRows.length === 0) {
-      break;
-    }
-
-    rows.push(...parsedPageRows);
   }
 
-  return rows;
+  return [];
+};
+
+const logSampleStats = (records: NormalizedPlayerStatRecord[]) => {
+  const samplePlayers = ['Patrick Mahomes', 'Travis Kelce', 'Chris Jones'];
+
+  samplePlayers.forEach((name) => {
+    const normalized = normalizeComparableName(name);
+    const sample = records.find((record) => record.normalizedName === normalized);
+    console.log(
+      `[sync:players] ESPN sample ${name}: ${sample ? JSON.stringify(sample.stats) : 'not found'}`,
+    );
+  });
 };
 
 export const fetchLeagueCategoryStats = async (): Promise<LeagueCategoryStatsResult> => {
@@ -351,13 +452,15 @@ export const fetchLeagueCategoryStats = async (): Promise<LeagueCategoryStatsRes
     const rows = await fetchCategoryRows(category);
     parsedRowsByCategory[category] = rows.length;
     rows.forEach((row) => mergeRecord(mergedRecords, row));
-    console.log(`[sync:players] ESPN ${category} rows parsed=${rows.length}`);
+    console.log(`[sync:players] ESPN ${category} rows extracted=${rows.length}`);
   }
 
-  console.log(`[sync:players] ESPN merged player stat records=${mergedRecords.size}`);
+  const records = Array.from(mergedRecords.values());
+  console.log(`[sync:players] ESPN merged player stat records=${records.length}`);
+  logSampleStats(records);
 
   return {
-    records: Array.from(mergedRecords.values()),
+    records,
     parsedRowsByCategory,
   };
 };
