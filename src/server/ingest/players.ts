@@ -2,11 +2,9 @@ import { fetchRoster, fetchTeams } from '@/server/data-sources/espn';
 import {
   buildMaddenPlayerKey,
   fetchMaddenRatings,
-  normalizeFootballPosition,
   type MaddenRatingRecord,
 } from '@/server/data-sources/madden-ratings';
 import type { UnifiedPlayer, UnifiedTeam } from '@/server/data/nfl-data';
-import { blendPlayerRating, generateBaselinePlayerRating } from './ratings';
 import { normalizeName, normalizePlayerName, normalizeTeamName } from './normalize';
 import { NFL_TEAM_SEED, TEAM_ALIAS_TO_ABBR } from './teams';
 
@@ -39,54 +37,66 @@ const resolveTeamAbbr = (teamName: string, fallbackAbbr?: string) => {
   return fromSeed?.abbreviation;
 };
 
-const DEBUG_MADDEN_PLAYERS = new Set(['patrick mahomes', 'travis kelce', 'chris jones']);
+const normalizeComparableName = (value: string) =>
+  normalizePlayerName(value)
+    .replace(/\b(jr|sr|ii|iii|iv|v)\b/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 
-const logMaddenDebugForTargetPlayers = (rows: MaddenRatingRecord[]) => {
-  rows.forEach((row) => {
-    const normalizedName = normalizePlayerName(row.playerName);
-    if (!DEBUG_MADDEN_PLAYERS.has(normalizedName)) {
-      return;
-    }
+const normalizePositionBucket = (position: string): string => {
+  const normalized = position.trim().toUpperCase();
 
-    const key = buildMaddenPlayerKey({
-      playerName: row.playerName,
-      team: row.team,
-      position: row.position,
-    });
+  if (['LT', 'RT', 'T', 'OT'].includes(normalized)) return 'OT';
+  if (['LG', 'RG', 'G'].includes(normalized)) return 'G';
+  if (['C'].includes(normalized)) return 'C';
 
-    console.log(
-      `[madden][debug][row] rawName="${row.playerName}" normalizedName="${key.normalizedName}" rawTeam="${row.team}" teamAbbr="${key.teamAbbr ?? 'unknown'}" rawPosition="${row.position}" normalizedPosition="${key.position}" finalKey="${key.normalizedName}:${key.teamAbbr ?? 'unknown'}:${key.position}"`,
-    );
-  });
-};
+  if (['HB', 'FB', 'RB'].includes(normalized)) return 'RB';
+  if (['WR'].includes(normalized)) return 'WR';
+  if (['TE'].includes(normalized)) return 'TE';
+  if (['QB'].includes(normalized)) return 'QB';
 
-const logSyncedDebugForTargetPlayers = (players: Map<string, UnifiedPlayer>) => {
-  players.forEach((player) => {
-    const normalizedName = normalizePlayerName(player.name);
-    if (!DEBUG_MADDEN_PLAYERS.has(normalizedName)) {
-      return;
-    }
+  if (['LE', 'RE', 'DE', 'EDGE'].includes(normalized)) return 'DE';
+  if (['DT', 'NT', 'DL'].includes(normalized)) return 'DT';
 
-    const normalizedPosition = normalizeFootballPosition(player.position);
-    const finalKey = `${normalizedName}:${player.teamAbbr}:${normalizedPosition}`;
+  if (['LOLB', 'ROLB', 'ILB', 'MLB', 'LB', 'OLB'].includes(normalized)) return 'LB';
+  if (['SS', 'FS', 'S'].includes(normalized)) return 'S';
+  if (['CB'].includes(normalized)) return 'CB';
 
-    console.log(
-      `[madden][debug][sync] rawName="${player.name}" normalizedName="${normalizedName}" rawTeam="${player.teamAbbr}" teamAbbr="${player.teamAbbr}" rawPosition="${player.position}" normalizedPosition="${normalizedPosition}" finalKey="${finalKey}"`,
-    );
-  });
+  if (['K', 'P'].includes(normalized)) return normalized;
+
+  return normalized;
 };
 
 const getPositionCandidates = (position: string): string[] => {
-  const normalized = position.trim().toUpperCase();
-  const bucket = normalizeFootballPosition(normalized);
+  const bucket = normalizePositionBucket(position);
 
-  if (bucket === 'C') return ['C', 'IOL'];
-  return [bucket, normalized];
+  switch (bucket) {
+    case 'OT':
+      return ['OT', 'LT', 'RT', 'T', 'OL'];
+    case 'G':
+      return ['G', 'LG', 'RG', 'OL'];
+    case 'C':
+      return ['C', 'OL'];
+    case 'RB':
+      return ['RB', 'HB', 'FB'];
+    case 'DE':
+      return ['DE', 'LE', 'RE', 'EDGE'];
+    case 'DT':
+      return ['DT', 'NT', 'DL'];
+    case 'LB':
+      return ['LB', 'OLB', 'ILB', 'MLB', 'LOLB', 'ROLB'];
+    case 'S':
+      return ['S', 'SS', 'FS'];
+    default:
+      return [bucket];
+  }
 };
 
 const buildMaddenLookup = (rows: MaddenRatingRecord[]) => {
   const byNameTeamAndPosition = new Map<string, number>();
   const byNameAndTeam = new Map<string, number>();
+  const byNameOnly = new Map<string, number>();
+  const byNameOnlyCounts = new Map<string, number>();
 
   rows.forEach((row) => {
     const keyParts = buildMaddenPlayerKey({
@@ -99,18 +109,26 @@ const buildMaddenLookup = (rows: MaddenRatingRecord[]) => {
       return;
     }
 
-    const teamNameKey = `${keyParts.normalizedName}:${keyParts.teamAbbr}`;
+    const normalizedName = normalizeComparableName(keyParts.normalizedName);
+    const positionBucket = normalizePositionBucket(keyParts.position);
+
+    const teamNameKey = `${normalizedName}:${keyParts.teamAbbr}`;
     if (!byNameAndTeam.has(teamNameKey)) {
       byNameAndTeam.set(teamNameKey, row.overallRating);
     }
 
-    const positionalKey = `${teamNameKey}:${keyParts.position}`;
+    const positionalKey = `${teamNameKey}:${positionBucket}`;
     if (!byNameTeamAndPosition.has(positionalKey)) {
       byNameTeamAndPosition.set(positionalKey, row.overallRating);
     }
+
+    byNameOnlyCounts.set(normalizedName, (byNameOnlyCounts.get(normalizedName) ?? 0) + 1);
+    if (!byNameOnly.has(normalizedName)) {
+      byNameOnly.set(normalizedName, row.overallRating);
+    }
   });
 
-  return { byNameTeamAndPosition, byNameAndTeam };
+  return { byNameTeamAndPosition, byNameAndTeam, byNameOnly, byNameOnlyCounts };
 };
 
 export const syncPlayers = async (
@@ -145,15 +163,14 @@ export const syncPlayers = async (
       const roster = await fetchRoster(team.id);
       for (const player of roster) {
         const key = `${teamAbbr}:${player.id}`;
-        const baselineRating = generateBaselinePlayerRating();
         nextPlayers.set(key, {
           id: player.id,
           teamAbbr,
           name: player.name,
           position: player.position,
-          baselineRating,
+          baselineRating: 75,
           maddenRating: null,
-          rating: baselineRating,
+          rating: 75,
           age: player.age,
           height: player.height,
           weight: player.weight,
@@ -177,17 +194,16 @@ export const syncPlayers = async (
   });
 
   const lookup = buildMaddenLookup(maddenRows);
-  logMaddenDebugForTargetPlayers(maddenRows);
-  logSyncedDebugForTargetPlayers(nextPlayers);
   let matchedPlayers = 0;
 
   for (const [key, player] of nextPlayers.entries()) {
-    const normalizedName = normalizePlayerName(player.name);
+    const normalizedName = normalizeComparableName(player.name);
     const teamKey = `${normalizedName}:${player.teamAbbr}`;
 
     let maddenRating: number | undefined;
+
     for (const positionCandidate of getPositionCandidates(player.position)) {
-      const positionalKey = `${teamKey}:${positionCandidate}`;
+      const positionalKey = `${teamKey}:${normalizePositionBucket(positionCandidate)}`;
       const found = lookup.byNameTeamAndPosition.get(positionalKey);
       if (found !== undefined) {
         maddenRating = found;
@@ -199,12 +215,16 @@ export const syncPlayers = async (
       maddenRating = lookup.byNameAndTeam.get(teamKey);
     }
 
-    const rating = blendPlayerRating(player.baselineRating, maddenRating ?? null);
+    if (maddenRating === undefined) {
+      const count = lookup.byNameOnlyCounts.get(normalizedName) ?? 0;
+      if (count === 1) {
+        maddenRating = lookup.byNameOnly.get(normalizedName);
+      }
+    }
 
     nextPlayers.set(key, {
       ...player,
       maddenRating: maddenRating ?? null,
-      rating,
     });
 
     if (maddenRating !== undefined) {

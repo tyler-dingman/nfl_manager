@@ -1,19 +1,103 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import type { IngestedLeagueData } from '@/server/data/nfl-data';
+import type { IngestedLeagueData, UnifiedContract, UnifiedPlayer } from '@/server/data/nfl-data';
 import { syncCap } from '@/server/ingest/cap';
 import { syncContracts } from '@/server/ingest/contracts';
 import { syncPlayers } from '@/server/ingest/players';
 
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
+const normalizePositionBucket = (position: string): string => {
+  const normalized = position.trim().toUpperCase();
+
+  if (['LT', 'RT', 'T', 'OT'].includes(normalized)) return 'OT';
+  if (['LG', 'RG', 'G'].includes(normalized)) return 'G';
+  if (['C'].includes(normalized)) return 'C';
+  if (['HB', 'FB', 'RB'].includes(normalized)) return 'RB';
+  if (['WR'].includes(normalized)) return 'WR';
+  if (['TE'].includes(normalized)) return 'TE';
+  if (['QB'].includes(normalized)) return 'QB';
+  if (['LE', 'RE', 'DE', 'EDGE'].includes(normalized)) return 'DE';
+  if (['DT', 'NT', 'DL'].includes(normalized)) return 'DT';
+  if (['LOLB', 'ROLB', 'ILB', 'MLB', 'LB', 'OLB'].includes(normalized)) return 'LB';
+  if (['SS', 'FS', 'S'].includes(normalized)) return 'S';
+  if (['CB'].includes(normalized)) return 'CB';
+  if (['K', 'P'].includes(normalized)) return normalized;
+
+  return normalized;
+};
+
+const buildRatedPlayers = (players: UnifiedPlayer[], contracts: UnifiedContract[]): UnifiedPlayer[] => {
+  const contractsByPlayerId = new Map(contracts.map((contract) => [contract.playerId, contract]));
+
+  const playersByBucket = new Map<string, UnifiedPlayer[]>();
+  for (const player of players) {
+    const bucket = normalizePositionBucket(player.position);
+    const list = playersByBucket.get(bucket) ?? [];
+    list.push(player);
+    playersByBucket.set(bucket, list);
+  }
+
+  return players.map((player) => {
+    const contract = contractsByPlayerId.get(player.id);
+    const bucket = normalizePositionBucket(player.position);
+    const peers = playersByBucket.get(bucket) ?? [];
+
+    const peerValues = peers
+      .map((peer) => {
+        const peerContract = contractsByPlayerId.get(peer.id);
+        return Math.max(peerContract?.capHit ?? 0, peerContract?.guaranteed ?? 0);
+      })
+      .sort((a, b) => b - a);
+
+    const marketValue = Math.max(contract?.capHit ?? 0, contract?.guaranteed ?? 0);
+    const peerIndex = peerValues.findIndex((value) => marketValue >= value);
+    const rank = peerIndex === -1 ? peerValues.length - 1 : peerIndex;
+    const percentile =
+      peerValues.length <= 1 ? 0.5 : 1 - rank / Math.max(1, peerValues.length - 1);
+
+    let baseline = 60 + percentile * 35;
+
+    if (player.age !== null && player.age !== undefined) {
+      if (player.age >= 25 && player.age <= 29) baseline += 3;
+      else if (player.age <= 23) baseline -= 2;
+      else if (player.age >= 30 && player.age <= 32) baseline -= 1;
+      else if (player.age >= 33) baseline -= 4;
+    }
+
+    if (marketValue === 0) {
+      baseline = Math.max(baseline - 5, 62);
+    }
+
+    const baselineRating = clamp(Math.round(baseline), 60, 99);
+    const rating =
+      player.maddenRating !== null && player.maddenRating !== undefined
+        ? clamp(
+            Math.ceil(baselineRating + (player.maddenRating - baselineRating) / 2),
+            60,
+            99,
+          )
+        : baselineRating;
+
+    return {
+      ...player,
+      baselineRating,
+      rating,
+    };
+  });
+};
+
 const run = async () => {
   const now = new Date().toISOString();
   const debugPlayers = new Set(['patrick mahomes', 'chris jones', 'travis kelce']);
 
   const playerSync = await syncPlayers();
-  const enrichedPlayers = playerSync.players;
+  const capSync = await syncCap();
+  const contractSync = await syncContracts(playerSync.teams, playerSync.players);
+  const enrichedPlayers = buildRatedPlayers(playerSync.players, contractSync.contracts);
 
   console.log('[ratings] debug players after enrichment');
   enrichedPlayers
@@ -23,9 +107,6 @@ const run = async () => {
         `  ${player.name} (${player.teamAbbr} ${player.position}) baseline=${player.baselineRating} madden=${player.maddenRating} final=${player.rating}`,
       );
     });
-
-  const capSync = await syncCap();
-  const contractSync = await syncContracts(playerSync.teams, enrichedPlayers);
 
   const payload: IngestedLeagueData = {
     updatedAt: now,
