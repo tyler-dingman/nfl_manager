@@ -2,6 +2,7 @@ import { fetchRoster, fetchTeams } from '@/server/data-sources/espn';
 import {
   buildMaddenPlayerKey,
   fetchMaddenRatings,
+  normalizeFootballPosition,
   type MaddenRatingRecord,
 } from '@/server/data-sources/madden-ratings';
 import type { UnifiedPlayer, UnifiedTeam } from '@/server/data/nfl-data';
@@ -38,22 +39,49 @@ const resolveTeamAbbr = (teamName: string, fallbackAbbr?: string) => {
   return fromSeed?.abbreviation;
 };
 
+const DEBUG_MADDEN_PLAYERS = new Set(['patrick mahomes', 'travis kelce', 'chris jones']);
+
+const logMaddenDebugForTargetPlayers = (rows: MaddenRatingRecord[]) => {
+  rows.forEach((row) => {
+    const normalizedName = normalizePlayerName(row.playerName);
+    if (!DEBUG_MADDEN_PLAYERS.has(normalizedName)) {
+      return;
+    }
+
+    const key = buildMaddenPlayerKey({
+      playerName: row.playerName,
+      team: row.team,
+      position: row.position,
+    });
+
+    console.log(
+      `[madden][debug][row] rawName="${row.playerName}" normalizedName="${key.normalizedName}" rawTeam="${row.team}" teamAbbr="${key.teamAbbr ?? 'unknown'}" rawPosition="${row.position}" normalizedPosition="${key.position}" finalKey="${key.normalizedName}:${key.teamAbbr ?? 'unknown'}:${key.position}"`,
+    );
+  });
+};
+
+const logSyncedDebugForTargetPlayers = (players: Map<string, UnifiedPlayer>) => {
+  players.forEach((player) => {
+    const normalizedName = normalizePlayerName(player.name);
+    if (!DEBUG_MADDEN_PLAYERS.has(normalizedName)) {
+      return;
+    }
+
+    const normalizedPosition = normalizeFootballPosition(player.position);
+    const finalKey = `${normalizedName}:${player.teamAbbr}:${normalizedPosition}`;
+
+    console.log(
+      `[madden][debug][sync] rawName="${player.name}" normalizedName="${normalizedName}" rawTeam="${player.teamAbbr}" teamAbbr="${player.teamAbbr}" rawPosition="${player.position}" normalizedPosition="${normalizedPosition}" finalKey="${finalKey}"`,
+    );
+  });
+};
+
 const getPositionCandidates = (position: string): string[] => {
-  const normalized = position.toUpperCase();
-  if (normalized === 'G') return ['G', 'LG', 'RG', 'OL'];
-  if (normalized === 'T') return ['T', 'LT', 'RT', 'OL'];
-  if (normalized === 'C') return ['C', 'OL'];
-  if (normalized === 'OLB') return ['OLB', 'LB'];
-  if (normalized === 'ILB' || normalized === 'MLB') return [normalized, 'LB'];
-  if (normalized === 'DE') return ['DE', 'DL', 'EDGE'];
-  if (normalized === 'DT' || normalized === 'NT') return [normalized, 'DT', 'DL'];
-  if (normalized === 'SS' || normalized === 'FS') return [normalized, 'S'];
-  if (normalized === 'HB' || normalized === 'FB') return [normalized, 'RB'];
-  if (normalized === 'ROLB' || normalized === 'LOLB') return [normalized, 'LB'];
-  if (normalized === 'RE' || normalized === 'LE') return [normalized, 'DE', 'EDGE'];
-  if (normalized === 'RT' || normalized === 'LT') return [normalized, 'T', 'OL'];
-  if (normalized === 'RG' || normalized === 'LG') return [normalized, 'G', 'OL'];
-  return [normalized];
+  const normalized = position.trim().toUpperCase();
+  const bucket = normalizeFootballPosition(normalized);
+
+  if (bucket === 'C') return ['C', 'IOL'];
+  return [bucket, normalized];
 };
 
 const buildMaddenLookup = (rows: MaddenRatingRecord[]) => {
@@ -149,6 +177,8 @@ export const syncPlayers = async (
   });
 
   const lookup = buildMaddenLookup(maddenRows);
+  logMaddenDebugForTargetPlayers(maddenRows);
+  logSyncedDebugForTargetPlayers(nextPlayers);
   let matchedPlayers = 0;
 
   for (const [key, player] of nextPlayers.entries()) {
