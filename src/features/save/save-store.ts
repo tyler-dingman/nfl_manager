@@ -103,7 +103,7 @@ export const useSaveStore = create<SaveStoreState>()(
         const phase = header.phase;
         const unlocked = resolveUnlocks(phase, header.unlocked);
         const currentRoster = get().roster;
-        const capSpace = computeCapSpaceFromRoster(currentRoster, capLimit, header.capSpace);
+        const capSpace = header.capSpace;
 
         if (typeof window !== 'undefined') {
           localStorage.setItem('falco_active_save_id', saveId);
@@ -253,7 +253,7 @@ export const useSaveStore = create<SaveStoreState>()(
           ...state,
           saveId: data.saveId,
           teamAbbr: data.teamAbbr,
-          capSpace: computeCapSpaceFromRoster(state.roster, data.capLimit, data.capSpace),
+          capSpace: data.capSpace,
           capLimit: data.capLimit,
           rosterCount: state.roster.length
             ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length
@@ -293,7 +293,7 @@ export const useSaveStore = create<SaveStoreState>()(
           ...state,
           saveId: data.saveId,
           teamAbbr: data.teamAbbr,
-          capSpace: computeCapSpaceFromRoster(state.roster, data.capLimit, data.capSpace),
+          capSpace: data.capSpace,
           capLimit: data.capLimit,
           rosterCount: state.roster.length
             ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length

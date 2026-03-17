@@ -31,6 +31,17 @@ export type SaveState = {
   header: SaveHeaderDTO;
   roster: StoredPlayer[];
   freeAgents: StoredPlayer[];
+  teamRosters: Record<string, StoredPlayer[]>;
+  teamCaps: Record<string, number>;
+  transactions: Array<{
+    id: string;
+    type: 'signing' | 'trade';
+    playerId: string;
+    fromTeamAbbr?: string;
+    toTeamAbbr?: string;
+    capHit: number;
+    createdAt: string;
+  }>;
   draftSessions: Record<string, DraftSessionState>;
   expiringContracts: ExpiringContractRow[];
   newsFeed: NewsItemDTO[];
@@ -121,6 +132,23 @@ const baseRoster: StoredPlayer[] = [
 
 const clonePlayers = (players: StoredPlayer[]) => players.map((player) => ({ ...player }));
 
+const capSpaceMillionsForTeam = (teamAbbr: string): number => {
+  const capSeed = TEAM_CAP_SPACE.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
+  return Number(((capSeed?.capSpace ?? 0) / 1_000_000).toFixed(1));
+};
+
+export const getProjectedRosterForTeam = (state: SaveState, teamAbbr: string): StoredPlayer[] =>
+  clonePlayers(state.teamRosters[teamAbbr.toUpperCase()] ?? []);
+
+export const getProjectedCapSpaceForTeam = (state: SaveState, teamAbbr: string): number =>
+  Number((state.teamCaps[teamAbbr.toUpperCase()] ?? capSpaceMillionsForTeam(teamAbbr)).toFixed(1));
+
+const removePlayerFromAllRosters = (state: SaveState, playerId: string): void => {
+  Object.keys(state.teamRosters).forEach((abbr) => {
+    state.teamRosters[abbr] = state.teamRosters[abbr].filter((player) => player.id !== playerId);
+  });
+};
+
 export const listSaveStates = (): Array<{ saveId: string; state: SaveState }> =>
   Array.from(saveStore.entries()).map(([saveId, state]) => ({ saveId, state }));
 
@@ -146,7 +174,8 @@ const resolveUnlocksForPhase = (phase: string, current?: SaveUnlocksDTO): SaveUn
 };
 
 export const createSaveState = (saveId: string, teamAbbr: string): SaveState => {
-  const roster = buildRosterForTeam(teamAbbr);
+  const normalizedTeamAbbr = teamAbbr.toUpperCase();
+  const roster = buildRosterForTeam(normalizedTeamAbbr);
   const freeAgents = buildFreeAgencyPool({
     league: NFL_LEAGUE_DATA,
     teamAbbr: teamAbbr.toUpperCase(),
@@ -155,11 +184,10 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     ...player,
     year1CapHit: player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000,
   })) as StoredPlayer[];
-  const capSeed = TEAM_CAP_SPACE.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
-  const capSpace = Number(((capSeed?.capSpace ?? 0) / 1_000_000).toFixed(1));
+  const capSpace = capSpaceMillionsForTeam(normalizedTeamAbbr);
   const header: SaveHeaderDTO = {
     id: saveId,
-    teamAbbr,
+    teamAbbr: normalizedTeamAbbr,
     capSpace,
     capLimit: 255.4,
     rosterCount: roster.length,
@@ -173,6 +201,9 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     header,
     roster,
     freeAgents,
+    teamRosters: { [normalizedTeamAbbr]: roster },
+    teamCaps: { [normalizedTeamAbbr]: capSpace },
+    transactions: [],
     draftSessions: {},
     expiringContracts: getExpiringContractsByTeam(teamAbbr),
     newsFeed: [],
@@ -231,6 +262,15 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
   if (!state.rosterMoves) {
     state.rosterMoves = { cuts: [], resigns: [], trades: [] };
   }
+  if (!state.teamRosters) {
+    state.teamRosters = { [state.header.teamAbbr]: state.roster };
+  }
+  if (!state.teamCaps) {
+    state.teamCaps = { [state.header.teamAbbr]: state.header.capSpace };
+  }
+  if (!state.transactions) {
+    state.transactions = [];
+  }
 
   return { ok: true, data: state };
 };
@@ -272,6 +312,9 @@ export const signFreeAgentInState = (
   }
 
   const [player] = state.freeAgents.splice(playerIndex, 1);
+  if (state.header.capSpace < player.year1CapHit) {
+    throw new Error('Signing would exceed available cap space');
+  }
   const signedPlayer: StoredPlayer = {
     ...player,
     contractYearsRemaining: 1,
@@ -293,9 +336,22 @@ export const signFreeAgentInState = (
     },
   };
 
-  state.roster.push(signedPlayer);
+  removePlayerFromAllRosters(state, signedPlayer.id);
+  const userTeam = state.header.teamAbbr.toUpperCase();
+  const currentRoster = state.teamRosters[userTeam] ?? [];
+  state.teamRosters[userTeam] = [...currentRoster, signedPlayer];
+  state.roster = state.teamRosters[userTeam];
   state.header.rosterCount = state.roster.length;
   state.header.capSpace = Number((state.header.capSpace - player.year1CapHit).toFixed(1));
+  state.teamCaps[userTeam] = state.header.capSpace;
+  state.transactions.push({
+    id: `tx_sign_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    type: 'signing',
+    playerId: signedPlayer.id,
+    toTeamAbbr: userTeam,
+    capHit: signedPlayer.year1CapHit,
+    createdAt: new Date().toISOString(),
+  });
   pushNewsItem(state, {
     type: 'freeAgentSigned',
     teamAbbr: state.header.teamAbbr,

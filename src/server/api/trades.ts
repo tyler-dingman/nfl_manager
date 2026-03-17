@@ -1,7 +1,14 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 
-import { getSaveHeaderSnapshot, getSaveStateResult, pushNewsItem, type SaveResult } from './store';
+import {
+  getProjectedCapSpaceForTeam,
+  getProjectedRosterForTeam,
+  getSaveHeaderSnapshot,
+  getSaveStateResult,
+  pushNewsItem,
+  type SaveResult,
+} from './store';
 import { parseMoneyMillions } from '@/server/logic/cap';
 
 export type TradeSide = 'send' | 'receive';
@@ -39,7 +46,6 @@ type TradeRosterResponse = {
 };
 
 const tradeStore = new Map<string, TradeState>();
-const partnerRosterStore = new Map<string, StoredTradePlayer[]>();
 
 const BASE_PARTNER_PLAYERS: StoredTradePlayer[] = [
   {
@@ -115,12 +121,13 @@ const clonePartnerRoster = (teamAbbr: string) =>
     id: `${teamAbbr}-${index + 1}`,
   }));
 
-const getPartnerRoster = (teamAbbr: string): StoredTradePlayer[] => {
-  if (!partnerRosterStore.has(teamAbbr)) {
-    partnerRosterStore.set(teamAbbr, clonePartnerRoster(teamAbbr));
+const getPartnerRoster = (state: { teamRosters: Record<string, StoredTradePlayer[]> }, teamAbbr: string): StoredTradePlayer[] => {
+  const normalized = teamAbbr.toUpperCase();
+  if (!state.teamRosters[normalized]) {
+    state.teamRosters[normalized] = clonePartnerRoster(normalized);
   }
 
-  return partnerRosterStore.get(teamAbbr) ?? [];
+  return state.teamRosters[normalized] ?? [];
 };
 
 const toPlayerDTO = (player: StoredTradePlayer): PlayerRowDTO => ({
@@ -204,8 +211,8 @@ export const createTrade = (
     ok: true,
     data: {
       trade: cloneTrade(trade),
-      userRoster: stateResult.data.roster.map((player) => toPlayerDTO(player)),
-      partnerRoster: getPartnerRoster(partnerTeamAbbr).map((player) => toPlayerDTO(player)),
+      userRoster: getProjectedRosterForTeam(stateResult.data, stateResult.data.header.teamAbbr).map((player) => toPlayerDTO(player)),
+      partnerRoster: getPartnerRoster(stateResult.data, partnerTeamAbbr).map((player) => toPlayerDTO(player)),
     },
   };
 };
@@ -250,7 +257,11 @@ export const addTradeAsset = (
       }
       assets.push(buildPlayerAsset(player, payload.side));
     } else {
-      const partnerRoster = getPartnerRoster(trade.partnerTeamAbbr);
+      const saveStateResult = getSaveStateResult(trade.saveId);
+      if (!saveStateResult.ok) {
+        return saveStateResult;
+      }
+      const partnerRoster = getPartnerRoster(saveStateResult.data, trade.partnerTeamAbbr);
       const player = findPlayer(partnerRoster, payload.playerId);
       if (!player) {
         throw new Error('Player not found');
@@ -316,6 +327,7 @@ export const proposeTrade = (
   acceptance: number;
   accepted: boolean;
   header: SaveHeaderDTO;
+  caps: { userTeamAbbr: string; userCapSpace: number; partnerTeamAbbr: string; partnerCapSpace: number };
 }> => {
   const storedTrade = tradeStore.get(tradeId);
   if (!storedTrade) {
@@ -338,28 +350,86 @@ export const proposeTrade = (
   }
 
   if (accepted) {
-    const partnerRoster = getPartnerRoster(trade.partnerTeamAbbr);
-    trade.sendAssets
-      .filter((asset) => asset.type === 'player' && asset.playerId)
-      .forEach((asset) => {
-        const playerIndex = saveStateResult.data.roster.findIndex(
-          (player) => player.id === asset.playerId,
-        );
-        if (playerIndex === -1) {
-          return;
-        }
+    const userTeamAbbr = saveStateResult.data.header.teamAbbr.toUpperCase();
+    const partnerTeamAbbr = trade.partnerTeamAbbr.toUpperCase();
+    const userRoster = getProjectedRosterForTeam(saveStateResult.data, userTeamAbbr);
+    const partnerRoster = getPartnerRoster(saveStateResult.data, partnerTeamAbbr);
 
-        const [player] = saveStateResult.data.roster.splice(playerIndex, 1);
-        partnerRoster.push({
-          ...player,
-          year1CapHit: parseMoneyMillions(player.capHit),
-        });
-        saveStateResult.data.header.capSpace = Number(
-          (saveStateResult.data.header.capSpace + parseMoneyMillions(player.capHit)).toFixed(1),
-        );
-      });
+    let userCap = getProjectedCapSpaceForTeam(saveStateResult.data, userTeamAbbr);
+    let partnerCap = getProjectedCapSpaceForTeam(saveStateResult.data, partnerTeamAbbr);
 
+    const sendPlayerIds = new Set(
+      trade.sendAssets.filter((asset) => asset.type === 'player' && asset.playerId).map((asset) => asset.playerId as string),
+    );
+    const receivePlayerIds = new Set(
+      trade.receiveAssets.filter((asset) => asset.type === 'player' && asset.playerId).map((asset) => asset.playerId as string),
+    );
+
+    for (const id of sendPlayerIds) {
+      if (!userRoster.some((player) => player.id === id)) {
+        throw new Error('Trade includes invalid user player');
+      }
+    }
+    for (const id of receivePlayerIds) {
+      if (!partnerRoster.some((player) => player.id === id)) {
+        throw new Error('Trade includes invalid partner player');
+      }
+    }
+
+    const sendCap = userRoster
+      .filter((player) => sendPlayerIds.has(player.id))
+      .reduce((sum, player) => sum + parseMoneyMillions(player.capHit), 0);
+    const receiveCap = partnerRoster
+      .filter((player) => receivePlayerIds.has(player.id))
+      .reduce((sum, player) => sum + parseMoneyMillions(player.capHit), 0);
+
+    userCap = Number((userCap + sendCap - receiveCap).toFixed(1));
+    partnerCap = Number((partnerCap + receiveCap - sendCap).toFixed(1));
+
+    if (userCap < 0 || partnerCap < 0) {
+      throw new Error('Trade would exceed cap space for one or more teams');
+    }
+
+    const sentPlayers = userRoster.filter((player) => sendPlayerIds.has(player.id));
+    const receivedPlayers = partnerRoster.filter((player) => receivePlayerIds.has(player.id));
+
+    saveStateResult.data.teamRosters[userTeamAbbr] = userRoster
+      .filter((player) => !sendPlayerIds.has(player.id))
+      .concat(receivedPlayers);
+    saveStateResult.data.teamRosters[partnerTeamAbbr] = partnerRoster
+      .filter((player) => !receivePlayerIds.has(player.id))
+      .concat(sentPlayers.map((player) => ({ ...player, year1CapHit: parseMoneyMillions(player.capHit) })));
+
+    saveStateResult.data.roster = saveStateResult.data.teamRosters[userTeamAbbr];
     saveStateResult.data.header.rosterCount = saveStateResult.data.roster.length;
+    saveStateResult.data.header.capSpace = userCap;
+    saveStateResult.data.teamCaps[userTeamAbbr] = userCap;
+    saveStateResult.data.teamCaps[partnerTeamAbbr] = partnerCap;
+
+    const now = new Date().toISOString();
+    for (const player of sentPlayers) {
+      saveStateResult.data.transactions.push({
+        id: `tx_trade_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+        type: 'trade',
+        playerId: player.id,
+        fromTeamAbbr: userTeamAbbr,
+        toTeamAbbr: partnerTeamAbbr,
+        capHit: parseMoneyMillions(player.capHit),
+        createdAt: now,
+      });
+    }
+    for (const player of receivedPlayers) {
+      saveStateResult.data.transactions.push({
+        id: `tx_trade_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+        type: 'trade',
+        playerId: player.id,
+        fromTeamAbbr: partnerTeamAbbr,
+        toTeamAbbr: userTeamAbbr,
+        capHit: parseMoneyMillions(player.capHit),
+        createdAt: now,
+      });
+    }
+
     pushNewsItem(saveStateResult.data, {
       type: 'trade',
       teamAbbr: saveStateResult.data.header.teamAbbr,
@@ -376,6 +446,12 @@ export const proposeTrade = (
       acceptance,
       accepted,
       header: getSaveHeaderSnapshot(saveStateResult.data),
+      caps: {
+        userTeamAbbr: saveStateResult.data.header.teamAbbr.toUpperCase(),
+        userCapSpace: getProjectedCapSpaceForTeam(saveStateResult.data, saveStateResult.data.header.teamAbbr),
+        partnerTeamAbbr: trade.partnerTeamAbbr.toUpperCase(),
+        partnerCapSpace: getProjectedCapSpaceForTeam(saveStateResult.data, trade.partnerTeamAbbr),
+      },
     },
   };
 };

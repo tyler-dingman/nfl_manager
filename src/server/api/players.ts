@@ -3,6 +3,7 @@ import type { SaveHeaderDTO } from '@/types/save';
 
 import {
   filterPlayers,
+  getProjectedRosterForTeam,
   getSaveStateResult,
   cutPlayerInState,
   offerContractInState,
@@ -13,13 +14,21 @@ import {
 
 export type { PlayerFilters } from './store';
 
-export const getRoster = (saveId: string, filters?: PlayerFilters): SaveResult<PlayerRowDTO[]> => {
+export const getRoster = (
+  saveId: string,
+  filters?: PlayerFilters,
+  teamAbbr?: string,
+): SaveResult<PlayerRowDTO[]> => {
   const stateResult = getSaveStateResult(saveId);
   if (!stateResult.ok) {
     return stateResult;
   }
 
-  return { ok: true, data: filterPlayers(stateResult.data.roster, filters) };
+  const roster = getProjectedRosterForTeam(
+    stateResult.data,
+    (teamAbbr ?? stateResult.data.header.teamAbbr).toUpperCase(),
+  );
+  return { ok: true, data: filterPlayers(roster, filters) };
 };
 
 export const getFreeAgents = (
