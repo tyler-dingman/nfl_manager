@@ -1,90 +1,41 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import type { IngestedLeagueData } from '@/server/data/nfl-data';
 import { syncCap } from '@/server/ingest/cap';
 import { syncContracts } from '@/server/ingest/contracts';
 import { syncPlayers } from '@/server/ingest/players';
-import { mapCanonicalTeamsToIngestedTeams, syncTeams } from '@/server/ingest/teams';
 
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 
-const readExisting = async (): Promise<IngestedLeagueData> => {
-  try {
-    const raw = await readFile(DATA_FILE, 'utf8');
-    return JSON.parse(raw) as IngestedLeagueData;
-  } catch {
-    return { updatedAt: new Date(0).toISOString(), teams: [], players: [], cap: [], contracts: [] };
-  }
-};
-
 const run = async () => {
-  const existing = await readExisting();
   const now = new Date().toISOString();
 
-  const canonicalTeams = syncTeams();
-  const ingestedTeams = mapCanonicalTeamsToIngestedTeams(canonicalTeams);
-  let players = existing.players;
-  let cap = existing.cap;
-  let contracts = existing.contracts ?? [];
-
-  try {
-    const playerSync = await syncPlayers(existing.players);
-    players = playerSync.players;
-    console.log(
-      `[players] inserted=${playerSync.insertedPlayers} updated=${playerSync.updatedPlayers} errors=${playerSync.rosterErrors.length}`,
-    );
-  } catch (error) {
-    console.warn(
-      `[players] sync failed, continuing with existing data: ${error instanceof Error ? error.message : 'Unknown error'}`,
-    );
-  }
-
-  try {
-    const capSync = await syncCap(existing.cap);
-    cap = capSync.cap;
-    console.log(`[cap] updated=${capSync.updatedCount} unmatched=${capSync.unmatched.length}`);
-  } catch (error) {
-    console.warn(
-      `[cap] sync failed, continuing with existing data: ${error instanceof Error ? error.message : 'Unknown error'}`,
-    );
-  }
-
-  try {
-    const contractSync = await syncContracts(ingestedTeams, players, contracts);
-    contracts = contractSync.contracts;
-    console.log(
-      `[contracts] rows=${contractSync.report.totalContractRows} matched=${contractSync.report.matchedPlayers} unmatched=${contractSync.report.unmatchedPlayers} conflicts=${contractSync.report.duplicateMatchConflicts} missingTeams=${contractSync.report.teamsWithMissingContractPages.length}`,
-    );
-  } catch (error) {
-    console.warn(
-      `[contracts] sync failed, continuing with existing data: ${error instanceof Error ? error.message : 'Unknown error'}`,
-    );
-  }
+  const playerSync = await syncPlayers();
+  const capSync = await syncCap();
+  const contractSync = await syncContracts(playerSync.teams, playerSync.players);
 
   const payload: IngestedLeagueData = {
     updatedAt: now,
-    teams: ingestedTeams,
-    players,
-    cap,
-    contracts,
+    teams: playerSync.teams,
+    players: playerSync.players,
+    cap: capSync.cap,
+    contracts: contractSync.contracts,
   };
 
   await mkdir(path.dirname(DATA_FILE), { recursive: true });
   await writeFile(DATA_FILE, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
 
-  const teamCount = payload.teams.length;
-  const capCount = payload.cap.length;
-  const playerCount = payload.players.length;
-  const contractCount = payload.contracts.length;
-  const mismatchCount = Math.max(0, teamCount - capCount);
-
   console.log('sync summary');
-  console.log(`teams: ${teamCount}`);
-  console.log(`players: ${playerCount}`);
-  console.log(`cap records: ${capCount}`);
-  console.log(`contracts: ${contractCount}`);
-  console.log(`mismatches: ${mismatchCount}`);
+  console.log(`teams count: ${payload.teams.length}`);
+  console.log(`players count: ${payload.players.length}`);
+  console.log(`cap entries count: ${payload.cap.length}`);
+  console.log(`contracts count: ${payload.contracts.length}`);
+  console.log(
+    `[contracts] rows=${contractSync.report.totalContractRows} matched=${contractSync.report.matchedPlayers} unmatched=${contractSync.report.unmatchedPlayers} conflicts=${contractSync.report.duplicateMatchConflicts} missingTeams=${contractSync.report.teamsWithMissingContractPages.length}`,
+  );
+  console.log(`[players] rosterErrors=${playerSync.rosterErrors.length}`);
+  console.log(`[cap] unmatched=${capSync.unmatched.length}`);
 };
 
 run().catch((error) => {
