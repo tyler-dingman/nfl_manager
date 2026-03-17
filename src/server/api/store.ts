@@ -122,14 +122,28 @@ const resolvePlayerContractValues = (
   const guaranteed = guaranteedFromUnified ?? Math.max(0, Number((capHitValue * 0.4).toFixed(1)));
 
   const yearsRemaining = Math.max(1, unifiedContract?.years ?? fallback?.yearsRemaining ?? 1);
+  const deadCapFromUnified = toMillions(unifiedContract?.deadCap ?? null);
+  const releaseSavingsFromUnified = toMillions(unifiedContract?.releaseSavings ?? null);
+  const deadCapFromSavings =
+    capHitValue > 0 && releaseSavingsFromUnified !== null
+      ? Math.max(0, Number((capHitValue - releaseSavingsFromUnified).toFixed(1)))
+      : null;
   const deadCapEstimate =
-    toMillions(fallback?.deadCap ?? null) ?? Math.max(0, Number((capHitValue * 0.35).toFixed(1)));
+    deadCapFromUnified ??
+    deadCapFromSavings ??
+    toMillions(fallback?.deadCap ?? null) ??
+    Math.max(0, Number((capHitValue * 0.35).toFixed(1)));
+  const releaseSavings =
+    releaseSavingsFromUnified ?? Math.max(0, Number((capHitValue - deadCapEstimate).toFixed(1)));
+  const postJune1Savings = toMillions(unifiedContract?.postJune1Savings ?? null);
 
   return {
     capHitValue,
     guaranteed,
     yearsRemaining,
     deadCapEstimate,
+    releaseSavings,
+    postJune1Savings,
   };
 };
 
@@ -145,6 +159,8 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
     const yearsRemaining = resolved.yearsRemaining;
     const apy = year1CapHit;
     const deadCap = resolved.deadCapEstimate;
+    const releaseSavings = resolved.releaseSavings;
+    const postJune1Savings = resolved.postJune1Savings;
     return {
       id: `${teamAbbr.toLowerCase()}-${player.id}`,
       firstName,
@@ -156,6 +172,8 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
       salary: apy,
       guaranteed,
       deadCap,
+      releaseSavings,
+      postJune1Savings: postJune1Savings ?? undefined,
       status: 'Active',
       headshotUrl: player.headshotUrl,
       year1CapHit,
@@ -199,6 +217,20 @@ const clonePlayers = (players: StoredPlayer[]) => players.map((player) => ({ ...
 const capSpaceMillionsForTeam = (teamAbbr: string): number => {
   const capSeed = NFL_LEAGUE_DATA.cap.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
   return Number(((capSeed?.availableCap ?? 0) / 1_000_000).toFixed(1));
+};
+
+const capLimitMillionsForTeam = (teamAbbr: string, roster: StoredPlayer[]): number => {
+  const capSeed = NFL_LEAGUE_DATA.cap.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
+  if (capSeed?.totalCap !== null && capSeed?.totalCap !== undefined) {
+    return Number((capSeed.totalCap / 1_000_000).toFixed(1));
+  }
+
+  const availableCap = capSpaceMillionsForTeam(teamAbbr);
+  const commitments = roster
+    .filter((player) => player.status.toLowerCase() !== 'cut')
+    .reduce((sum, player) => sum + (player.capHitValue ?? player.year1CapHit ?? 0), 0);
+
+  return Number((availableCap + commitments).toFixed(1));
 };
 
 export const getProjectedRosterForTeam = (state: SaveState, teamAbbr: string): StoredPlayer[] =>
@@ -250,11 +282,12 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
       player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000,
   })) as StoredPlayer[];
   const capSpace = capSpaceMillionsForTeam(normalizedTeamAbbr);
+  const capLimit = capLimitMillionsForTeam(normalizedTeamAbbr, roster);
   const header: SaveHeaderDTO = {
     id: saveId,
     teamAbbr: normalizedTeamAbbr,
     capSpace,
-    capLimit: 255.4,
+    capLimit,
     rosterCount: roster.length,
     rosterLimit: 53,
     phase: 'resign_cut',
@@ -531,7 +564,7 @@ export const cutPlayerInState = (
 
   const capHitValue = player.capHitValue ?? player.year1CapHit ?? 0;
   const deadCap = player.deadCap ?? 0;
-  const capSavings = Math.max(0, capHitValue - deadCap);
+  const capSavings = player.releaseSavings ?? Math.max(0, capHitValue - deadCap);
   const cutPlayer: StoredPlayer = {
     ...player,
     contractYearsRemaining: 0,

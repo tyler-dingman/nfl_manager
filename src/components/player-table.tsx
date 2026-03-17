@@ -561,7 +561,7 @@ export function PlayerTable({
         cell: ({ row }) => {
           const capHitValue = parseCapHitValue(row.original);
           const deadCap = row.original.deadCap ?? 0;
-          const savings = Math.max(0, capHitValue - deadCap);
+          const savings = row.original.releaseSavings ?? Math.max(0, capHitValue - deadCap);
           return (
             <span
               className={cn(

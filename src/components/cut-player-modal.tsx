@@ -68,7 +68,13 @@ export default function CutPlayerModal({
     () => `${player.firstName} ${player.lastName}`,
     [player.firstName, player.lastName],
   );
-  const savings = useMemo(() => parseCapHitMillions(player.capHit), [player.capHit]);
+  const savings = useMemo(() => {
+    if (typeof player.releaseSavings === 'number') {
+      return player.releaseSavings;
+    }
+    const capHit = parseCapHitMillions(player.capHit);
+    return Math.max(0, capHit - (player.deadCap ?? 0));
+  }, [player.capHit, player.deadCap, player.releaseSavings]);
   const futureCapSpace = useMemo(() => currentCapSpace + savings, [currentCapSpace, savings]);
   const delta = futureCapSpace - currentCapSpace;
   const isImproved = delta > 0;

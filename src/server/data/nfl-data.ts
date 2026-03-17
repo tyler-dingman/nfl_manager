@@ -25,6 +25,9 @@ export type UnifiedContract = {
   capHit: number | null;
   guaranteed: number | null;
   years: number | null;
+  deadCap: number | null;
+  releaseSavings: number | null;
+  postJune1Savings: number | null;
 };
 
 export type UnifiedCap = {
