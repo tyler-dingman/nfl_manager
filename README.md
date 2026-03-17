@@ -7,17 +7,20 @@ Next.js 14 App Router starter with Tailwind CSS, shadcn/ui, TanStack Table, and 
 This project now includes a production-oriented NFL ingestion pipeline that combines:
 
 - **ESPN API** for teams, rosters, and player metadata.
-- **OverTheCap scraping** for team salary cap data.
+- **OverTheCap scraping** for team salary cap data and player-level contract details.
 
 Pipeline code lives in:
 
 - `src/server/data-sources/espn.ts`
 - `src/server/data-sources/overthecap.ts`
+- `src/server/data-sources/overthecap-contracts.ts`
 - `src/server/ingest/teams.ts`
 - `src/server/ingest/players.ts`
 - `src/server/ingest/cap.ts`
+- `src/server/ingest/contracts.ts`
 - `src/server/ingest/normalize.ts`
 - `src/scripts/sync-nfl-data.ts`
+- `src/scripts/sync-contracts.ts`
 
 The canonical 32-team seed is in `src/server/ingest/teams.ts` and is used as a stable fallback for IDs/conference/division mapping.
 
@@ -57,11 +60,18 @@ Script behavior:
 1. Seeds canonical 32 teams.
 2. Pulls ESPN teams + rosters.
 3. Scrapes OverTheCap cap table.
-4. Reconciles team mapping via normalization.
-5. Writes `src/server/data/nfl-data.json`.
-6. Prints a summary (`teams`, `players`, `cap records`, `mismatches`).
+4. Scrapes OverTheCap team contract pages.
+5. Reconciles team and player mapping via normalization and safe matching.
+6. Writes `src/server/data/nfl-data.json`.
+7. Prints a summary (`teams`, `players`, `cap records`, `contracts`, `mismatches`).
 
 The script is idempotent and safe to run multiple times.
+
+Run contract-only reconciliation + debug output:
+
+```bash
+npm run sync:contracts
+```
 
 ## Daily scheduling
 
@@ -85,7 +95,9 @@ A ready workflow file is included at `.github/workflows/nfl-data-sync.yml`.
 
 - If ESPN endpoints fail temporarily, player sync logs a warning and preserves existing local data.
 - If OverTheCap page structure changes, cap sync logs parser errors and preserves existing local data.
+- If an OverTheCap team contract page fails, contract sync logs the missing team and continues.
 - Team mapping issues are reported as unmatched rows in sync output.
+- Player matching is `normalized name + team` first, then a safe unique name fallback across the league.
 
 ## Scripts
 
@@ -94,4 +106,5 @@ A ready workflow file is included at `.github/workflows/nfl-data-sync.yml`.
 - `pnpm start` - Start production server.
 - `pnpm lint` - Run ESLint.
 - `pnpm format` - Run Prettier.
-- `npm run sync:nfl-data` - Sync NFL teams, rosters, and cap data.
+- `npm run sync:nfl-data` - Sync NFL teams, rosters, cap data, and OverTheCap player contracts.
+- `npm run sync:contracts` - Sync/reconcile player contracts from OverTheCap and print a validation sample.

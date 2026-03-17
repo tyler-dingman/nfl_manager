@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import type { IngestedLeagueData } from '@/server/data/nfl-data';
 import { syncCap } from '@/server/ingest/cap';
+import { syncContracts } from '@/server/ingest/contracts';
 import { syncPlayers } from '@/server/ingest/players';
 import { syncTeams } from '@/server/ingest/teams';
 
@@ -13,7 +14,7 @@ const readExisting = async (): Promise<IngestedLeagueData> => {
     const raw = await readFile(DATA_FILE, 'utf8');
     return JSON.parse(raw) as IngestedLeagueData;
   } catch {
-    return { updatedAt: new Date(0).toISOString(), teams: [], players: [], cap: [] };
+    return { updatedAt: new Date(0).toISOString(), teams: [], players: [], cap: [], contracts: [] };
   }
 };
 
@@ -24,6 +25,7 @@ const run = async () => {
   const canonicalTeams = syncTeams();
   let players = existing.players;
   let cap = existing.cap;
+  let contracts = existing.contracts ?? [];
 
   try {
     const playerSync = await syncPlayers(existing.players);
@@ -47,6 +49,18 @@ const run = async () => {
     );
   }
 
+  try {
+    const contractSync = await syncContracts(canonicalTeams, players, contracts);
+    contracts = contractSync.contracts;
+    console.log(
+      `[contracts] rows=${contractSync.report.totalContractRows} matched=${contractSync.report.matchedPlayers} unmatched=${contractSync.report.unmatchedPlayers} conflicts=${contractSync.report.duplicateMatchConflicts} missingTeams=${contractSync.report.teamsWithMissingContractPages.length}`,
+    );
+  } catch (error) {
+    console.warn(
+      `[contracts] sync failed, continuing with existing data: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
+  }
+
   const payload: IngestedLeagueData = {
     updatedAt: now,
     teams: canonicalTeams.map((team) => ({
@@ -60,6 +74,7 @@ const run = async () => {
     })),
     players,
     cap,
+    contracts,
   };
 
   await mkdir(path.dirname(DATA_FILE), { recursive: true });
@@ -68,12 +83,14 @@ const run = async () => {
   const teamCount = payload.teams.length;
   const capCount = payload.cap.length;
   const playerCount = payload.players.length;
+  const contractCount = payload.contracts.length;
   const mismatchCount = Math.max(0, teamCount - capCount);
 
   console.log('sync summary');
   console.log(`teams: ${teamCount}`);
   console.log(`players: ${playerCount}`);
   console.log(`cap records: ${capCount}`);
+  console.log(`contracts: ${contractCount}`);
   console.log(`mismatches: ${mismatchCount}`);
 };
 
