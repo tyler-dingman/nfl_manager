@@ -1,9 +1,10 @@
-import { normalizeTeamName } from '@/server/ingest/normalize';
+import { normalizeTeamName, normalizeTeamSlug } from '@/server/ingest/normalize';
 
 const OVER_THE_CAP_URL = 'https://overthecap.com/salary-cap-space';
 
 export type TeamCapSourceRecord = {
   teamName: string;
+  teamSlug: string | null;
   normalizedTeamName: string;
   capSpace: number | null;
   effectiveCapSpace: number | null;
@@ -41,22 +42,68 @@ const parseCurrency = (value: string): number | null => {
   return negative ? -Math.round(parsed) : Math.round(parsed);
 };
 
+const getTeamSlug = (teamCellHtml: string): string | null => {
+  const href = teamCellHtml.match(/href=["']([^"']+)["']/i)?.[1] ?? null;
+  if (!href) return null;
+
+  const match = href.match(/salary-cap(?:-space)?\/([a-z0-9-]+)/i);
+  if (match?.[1]) return normalizeTeamSlug(match[1]);
+
+  const pathPart = href.split('/').filter(Boolean).at(-1);
+  return pathPart ? normalizeTeamSlug(pathPart) : null;
+};
+
+const getCapTableHtml = (html: string): string | null => {
+  const tableMatches = Array.from(html.matchAll(/<table[^>]*>([\s\S]*?)<\/table>/gi));
+
+  for (const match of tableMatches) {
+    const tableHtml = match[1] ?? '';
+    const headers = Array.from(tableHtml.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/gi)).map((entry) =>
+      stripTags(entry[1] ?? '').toLowerCase(),
+    );
+
+    if (headers.length === 0) continue;
+
+    const hasTeamHeader = headers.some((header) => header.includes('team'));
+    const hasCapHeader = headers.some(
+      (header) =>
+        header.includes('cap space') ||
+        header.includes('effective cap') ||
+        header.includes('total cap liabilities') ||
+        header.includes('total cap spending'),
+    );
+
+    if (hasTeamHeader && hasCapHeader) {
+      return tableHtml;
+    }
+  }
+
+  return null;
+};
+
 const parseRows = (html: string): TeamCapSourceRecord[] => {
-  const rows = Array.from(html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi));
+  const tableHtml = getCapTableHtml(html);
+  if (!tableHtml) return [];
+
+  const rows = Array.from(tableHtml.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi));
   const result: TeamCapSourceRecord[] = [];
 
   for (const match of rows) {
     const rowHtml = match[1] ?? '';
-    const cells = Array.from(rowHtml.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)).map((entry) =>
-      stripTags(entry[1] ?? ''),
-    );
+    const cellMatches = Array.from(rowHtml.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi));
+    const cells = cellMatches.map((entry) => stripTags(entry[1] ?? ''));
 
-    if (cells.length < 2) continue;
+    if (cells.length < 4) continue;
+
     const teamCell = cells[0] ?? '';
     if (!teamCell || teamCell.toLowerCase() === 'team') continue;
 
+    const teamCellHtml = cellMatches[0]?.[1] ?? '';
+    const teamSlug = getTeamSlug(teamCellHtml);
+
     result.push({
       teamName: teamCell,
+      teamSlug,
       normalizedTeamName: normalizeTeamName(teamCell),
       capSpace: parseCurrency(cells[1] ?? ''),
       effectiveCapSpace: parseCurrency(cells[2] ?? ''),
@@ -66,6 +113,14 @@ const parseRows = (html: string): TeamCapSourceRecord[] => {
   }
 
   return result;
+};
+
+const buildHtmlSnippet = (html: string) => {
+  const marker = html.toLowerCase().indexOf('salary cap');
+  if (marker >= 0) {
+    return html.slice(Math.max(0, marker - 400), marker + 1200);
+  }
+  return html.slice(0, 1600);
 };
 
 export const fetchTeamCap = async (): Promise<TeamCapSourceRecord[]> => {
@@ -81,6 +136,8 @@ export const fetchTeamCap = async (): Promise<TeamCapSourceRecord[]> => {
   const html = await response.text();
   const rows = parseRows(html);
   if (rows.length === 0) {
+    console.error('[cap] parser failed. html snippet:');
+    console.error(buildHtmlSnippet(html));
     throw new Error('OverTheCap parser could not find any salary cap rows');
   }
 
