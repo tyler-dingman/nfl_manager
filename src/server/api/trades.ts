@@ -45,6 +45,54 @@ type TradeRosterResponse = {
   partnerRoster: PlayerRowDTO[];
 };
 
+type TradeValidationErrorCode =
+  | 'INVALID_PLAYER_OWNERSHIP'
+  | 'DUPLICATE_PLAYERS'
+  | 'CAP_VIOLATION'
+  | 'INVALID_ROSTER_STATE';
+
+type TradeValidationError = {
+  code: TradeValidationErrorCode;
+  message: string;
+  teamAbbr?: string;
+  playerId?: string;
+};
+
+export type TradeProposal = {
+  sendingTeamId: string;
+  receivingTeamId: string;
+  outgoingPlayers: PlayerRowDTO[];
+  incomingPlayers: PlayerRowDTO[];
+  capImpact: TradeSimulationResult;
+  valueScore: number;
+  isValid: boolean;
+  validationErrors: TradeValidationError[];
+};
+
+type TeamCapImpact = {
+  teamAbbr: string;
+  capDelta: number;
+  resultingCapSpace: number;
+  deadCap: number;
+  savings: number;
+};
+
+type TradeSimulationResult = {
+  teams: {
+    sending: TeamCapImpact;
+    receiving: TeamCapImpact;
+  };
+  warnings: string[];
+};
+
+type TradeBalanceResult = {
+  outgoingValue: number;
+  incomingValue: number;
+  difference: number;
+  balanced: boolean;
+  explanation: string;
+};
+
 const tradeStore = new Map<string, TradeState>();
 
 const BASE_PARTNER_PLAYERS: StoredTradePlayer[] = [
@@ -55,6 +103,9 @@ const BASE_PARTNER_PLAYERS: StoredTradePlayer[] = [
     position: 'WR',
     contractYearsRemaining: 3,
     capHit: '$9.6M',
+    guaranteed: 30.4,
+    deadCap: 7.5,
+    age: 25,
     status: 'Active',
     headshotUrl: null,
     year1CapHit: 9.6,
@@ -66,6 +117,9 @@ const BASE_PARTNER_PLAYERS: StoredTradePlayer[] = [
     position: 'LB',
     contractYearsRemaining: 2,
     capHit: '$8.3M',
+    guaranteed: 22.1,
+    deadCap: 6.2,
+    age: 26,
     status: 'Active',
     headshotUrl: null,
     year1CapHit: 8.3,
@@ -77,6 +131,9 @@ const BASE_PARTNER_PLAYERS: StoredTradePlayer[] = [
     position: 'RB',
     contractYearsRemaining: 4,
     capHit: '$5.4M',
+    guaranteed: 11.2,
+    deadCap: 3.1,
+    age: 23,
     status: 'Active',
     headshotUrl: null,
     year1CapHit: 5.4,
@@ -88,6 +145,9 @@ const BASE_PARTNER_PLAYERS: StoredTradePlayer[] = [
     position: 'CB',
     contractYearsRemaining: 2,
     capHit: '$7.1M',
+    guaranteed: 16.8,
+    deadCap: 4.2,
+    age: 24,
     status: 'Active',
     headshotUrl: null,
     year1CapHit: 7.1,
@@ -99,6 +159,9 @@ const BASE_PARTNER_PLAYERS: StoredTradePlayer[] = [
     position: 'OL',
     contractYearsRemaining: 3,
     capHit: '$6.2M',
+    guaranteed: 18.4,
+    deadCap: 4.6,
+    age: 24,
     status: 'Active',
     headshotUrl: null,
     year1CapHit: 6.2,
@@ -135,12 +198,18 @@ const toPlayerDTO = (player: StoredTradePlayer): PlayerRowDTO => ({
   firstName: player.firstName,
   lastName: player.lastName,
   position: player.position,
+  age: player.age,
   contractYearsRemaining: player.contractYearsRemaining,
   capHit: player.capHit,
+  capHitValue: player.capHitValue,
+  salary: player.salary,
+  guaranteed: player.guaranteed,
+  deadCap: player.deadCap,
   status: player.status,
   headshotUrl: player.headshotUrl ?? null,
   signedTeamAbbr: player.signedTeamAbbr ?? null,
   signedTeamLogoUrl: player.signedTeamLogoUrl ?? null,
+  contract: player.contract,
 });
 
 const getPlayerValue = (capHit: string): number => Math.round(parseMoneyMillions(capHit) * 10);
@@ -178,6 +247,238 @@ const cloneTrade = (trade: TradeDTO): TradeDTO => ({
   sendAssets: [...trade.sendAssets],
   receiveAssets: [...trade.receiveAssets],
 });
+
+const getCapHit = (player: PlayerRowDTO) => parseMoneyMillions(player.capHit);
+
+export const evaluatePlayerValue = (player: PlayerRowDTO): { valueScore: number; contractBurdenModifier: number } => {
+  const age = player.age ?? 27;
+  const capHit = getCapHit(player);
+  const yearsRemaining = Math.max(1, player.contractYearsRemaining);
+  const guaranteed = player.guaranteed ?? player.contract?.guaranteed ?? 0;
+  const positionWeight: Record<string, number> = {
+    QB: 1.3,
+    WR: 1.15,
+    EDGE: 1.15,
+    OT: 1.12,
+    CB: 1.1,
+    LB: 1.0,
+    S: 0.98,
+    TE: 0.97,
+    OL: 1.0,
+    DL: 1.02,
+    RB: 0.85,
+    K: 0.5,
+    P: 0.45,
+  };
+
+  const ageFactor = Math.max(0.7, Math.min(1.2, 1.1 - Math.max(0, age - 26) * 0.015));
+  const contractCostPenalty = Math.max(0.6, 1 - capHit * 0.02);
+  const guaranteePenalty = Math.max(0.65, 1 - guaranteed * 0.01);
+  const termPenalty = Math.max(0.7, 1 - (yearsRemaining - 1) * 0.06);
+  const positionFactor = positionWeight[player.position] ?? 1;
+
+  const contractBurdenModifier = Number((contractCostPenalty * guaranteePenalty * termPenalty).toFixed(3));
+  const baseTalentScore = 70 * ageFactor * positionFactor;
+  const valueScore = Number((baseTalentScore * contractBurdenModifier).toFixed(1));
+
+  return { valueScore, contractBurdenModifier };
+};
+
+const computeTeamCapImpact = (
+  teamAbbr: string,
+  baseCapSpace: number,
+  outgoingPlayers: PlayerRowDTO[],
+  incomingPlayers: PlayerRowDTO[],
+): TeamCapImpact => {
+  const outgoingCap = outgoingPlayers.reduce((sum, player) => sum + getCapHit(player), 0);
+  const incomingCap = incomingPlayers.reduce((sum, player) => sum + getCapHit(player), 0);
+  const outgoingDeadCap = outgoingPlayers.reduce((sum, player) => sum + (player.deadCap ?? 0), 0);
+  const savings = Number((Math.max(0, outgoingCap - outgoingDeadCap)).toFixed(1));
+  const capDelta = Number((outgoingCap - incomingCap).toFixed(1));
+  const resultingCapSpace = Number((baseCapSpace + capDelta).toFixed(1));
+
+  return {
+    teamAbbr,
+    capDelta,
+    resultingCapSpace,
+    deadCap: Number(outgoingDeadCap.toFixed(1)),
+    savings,
+  };
+};
+
+export const simulateTrade = (tradeProposal: Omit<TradeProposal, 'capImpact' | 'isValid' | 'validationErrors'> & {
+  sendingBaseCapSpace: number;
+  receivingBaseCapSpace: number;
+}): TradeSimulationResult => {
+  const sending = computeTeamCapImpact(
+    tradeProposal.sendingTeamId,
+    tradeProposal.sendingBaseCapSpace,
+    tradeProposal.outgoingPlayers,
+    tradeProposal.incomingPlayers,
+  );
+  const receiving = computeTeamCapImpact(
+    tradeProposal.receivingTeamId,
+    tradeProposal.receivingBaseCapSpace,
+    tradeProposal.incomingPlayers,
+    tradeProposal.outgoingPlayers,
+  );
+
+  const warnings: string[] = [];
+  if (sending.resultingCapSpace < 5) {
+    warnings.push(`${sending.teamAbbr} would have less than $5.0M cap space remaining.`);
+  }
+  if (receiving.resultingCapSpace < 5) {
+    warnings.push(`${receiving.teamAbbr} would have less than $5.0M cap space remaining.`);
+  }
+
+  return { teams: { sending, receiving }, warnings };
+};
+
+const evaluateTradeBalance = (outgoingPlayers: PlayerRowDTO[], incomingPlayers: PlayerRowDTO[]): TradeBalanceResult => {
+  const outgoingValue = Number(outgoingPlayers.reduce((sum, player) => sum + evaluatePlayerValue(player).valueScore, 0).toFixed(1));
+  const incomingValue = Number(incomingPlayers.reduce((sum, player) => sum + evaluatePlayerValue(player).valueScore, 0).toFixed(1));
+  const difference = Number((incomingValue - outgoingValue).toFixed(1));
+  const balanced = Math.abs(difference) <= 15;
+
+  return {
+    outgoingValue,
+    incomingValue,
+    difference,
+    balanced,
+    explanation: balanced
+      ? 'Trade value is balanced for both teams.'
+      : difference > 0
+        ? 'Receiving team gains significantly more value.'
+        : 'Sending team gains significantly more value.',
+  };
+};
+
+export const validateTrade = (
+  tradeProposal: Omit<TradeProposal, 'isValid' | 'validationErrors'>,
+  userRoster: PlayerRowDTO[],
+  partnerRoster: PlayerRowDTO[],
+): { isValid: boolean; validationErrors: TradeValidationError[] } => {
+  const errors: TradeValidationError[] = [];
+  const outgoingIds = tradeProposal.outgoingPlayers.map((player) => player.id);
+  const incomingIds = tradeProposal.incomingPlayers.map((player) => player.id);
+
+  const duplicateIds = new Set<string>();
+  [...outgoingIds, ...incomingIds].forEach((id, _, all) => {
+    if (all.indexOf(id) !== all.lastIndexOf(id)) {
+      duplicateIds.add(id);
+    }
+  });
+
+  duplicateIds.forEach((playerId) => {
+    errors.push({ code: 'DUPLICATE_PLAYERS', message: 'Player cannot be included more than once in a trade.', playerId });
+  });
+
+  outgoingIds.forEach((playerId) => {
+    if (!userRoster.some((player) => player.id === playerId)) {
+      errors.push({
+        code: 'INVALID_PLAYER_OWNERSHIP',
+        message: 'Outgoing player does not belong to sending team.',
+        teamAbbr: tradeProposal.sendingTeamId,
+        playerId,
+      });
+    }
+  });
+
+  incomingIds.forEach((playerId) => {
+    if (!partnerRoster.some((player) => player.id === playerId)) {
+      errors.push({
+        code: 'INVALID_PLAYER_OWNERSHIP',
+        message: 'Incoming player does not belong to receiving team.',
+        teamAbbr: tradeProposal.receivingTeamId,
+        playerId,
+      });
+    }
+  });
+
+  if (tradeProposal.capImpact.teams.sending.resultingCapSpace < 0) {
+    errors.push({
+      code: 'CAP_VIOLATION',
+      message: `${tradeProposal.sendingTeamId} exceeds cap after this trade.`,
+      teamAbbr: tradeProposal.sendingTeamId,
+    });
+  }
+  if (tradeProposal.capImpact.teams.receiving.resultingCapSpace < 0) {
+    errors.push({
+      code: 'CAP_VIOLATION',
+      message: `${tradeProposal.receivingTeamId} exceeds cap after this trade.`,
+      teamAbbr: tradeProposal.receivingTeamId,
+    });
+  }
+
+  const resultingUserIds = new Set(userRoster.map((player) => player.id));
+  outgoingIds.forEach((id) => resultingUserIds.delete(id));
+  incomingIds.forEach((id) => resultingUserIds.add(id));
+
+  const resultingPartnerIds = new Set(partnerRoster.map((player) => player.id));
+  incomingIds.forEach((id) => resultingPartnerIds.delete(id));
+  outgoingIds.forEach((id) => resultingPartnerIds.add(id));
+
+  for (const id of resultingUserIds) {
+    if (resultingPartnerIds.has(id)) {
+      errors.push({
+        code: 'INVALID_ROSTER_STATE',
+        message: 'Player cannot exist on both teams after the trade.',
+        playerId: id,
+      });
+    }
+  }
+
+  return { isValid: errors.length === 0, validationErrors: errors };
+};
+
+const buildTradeProposal = (
+  trade: TradeDTO,
+  userTeamAbbr: string,
+  userRoster: PlayerRowDTO[],
+  partnerRoster: PlayerRowDTO[],
+  userCap: number,
+  partnerCap: number,
+) => {
+  const outgoingPlayers = trade.sendAssets
+    .filter((asset) => asset.type === 'player' && asset.playerId)
+    .map((asset) => findPlayer(userRoster, asset.playerId as string))
+    .filter((player): player is PlayerRowDTO => Boolean(player));
+
+  const incomingPlayers = trade.receiveAssets
+    .filter((asset) => asset.type === 'player' && asset.playerId)
+    .map((asset) => findPlayer(partnerRoster, asset.playerId as string))
+    .filter((player): player is PlayerRowDTO => Boolean(player));
+
+  const value = evaluateTradeBalance(outgoingPlayers, incomingPlayers);
+  const capImpact = simulateTrade({
+    sendingTeamId: userTeamAbbr,
+    receivingTeamId: trade.partnerTeamAbbr.toUpperCase(),
+    outgoingPlayers,
+    incomingPlayers,
+    valueScore: value.difference,
+    sendingBaseCapSpace: userCap,
+    receivingBaseCapSpace: partnerCap,
+  });
+
+  const proposalBase = {
+    sendingTeamId: userTeamAbbr,
+    receivingTeamId: trade.partnerTeamAbbr.toUpperCase(),
+    outgoingPlayers,
+    incomingPlayers,
+    capImpact,
+    valueScore: value.difference,
+  };
+
+  const validation = validateTrade(proposalBase, userRoster, partnerRoster);
+
+  const proposal: TradeProposal = {
+    ...proposalBase,
+    isValid: validation.isValid,
+    validationErrors: validation.validationErrors,
+  };
+
+  return { proposal, value };
+};
 
 export const createTrade = (
   saveId: string,
@@ -328,6 +629,9 @@ export const proposeTrade = (
   accepted: boolean;
   header: SaveHeaderDTO;
   caps: { userTeamAbbr: string; userCapSpace: number; partnerTeamAbbr: string; partnerCapSpace: number };
+  simulation: TradeSimulationResult;
+  tradeBalance: TradeBalanceResult;
+  proposal: TradeProposal;
 }> => {
   const storedTrade = tradeStore.get(tradeId);
   if (!storedTrade) {
@@ -338,73 +642,50 @@ export const proposeTrade = (
   if (saveId && trade.saveId !== saveId) {
     return { ok: false, error: 'Save not found' };
   }
-  const sendValue = sumValues(trade.sendAssets);
-  const receiveValue = sumValues(trade.receiveAssets);
-  const acceptance =
-    sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
-  const accepted = acceptance >= 70;
 
   const saveStateResult = getSaveStateResult(trade.saveId);
   if (!saveStateResult.ok) {
     return saveStateResult;
   }
 
+  const userTeamAbbr = saveStateResult.data.header.teamAbbr.toUpperCase();
+  const partnerTeamAbbr = trade.partnerTeamAbbr.toUpperCase();
+  const userRoster = getProjectedRosterForTeam(saveStateResult.data, userTeamAbbr);
+  const partnerRoster = getPartnerRoster(saveStateResult.data, partnerTeamAbbr);
+  const userCap = getProjectedCapSpaceForTeam(saveStateResult.data, userTeamAbbr);
+  const partnerCap = getProjectedCapSpaceForTeam(saveStateResult.data, partnerTeamAbbr);
+
+  const { proposal, value } = buildTradeProposal(trade, userTeamAbbr, userRoster, partnerRoster, userCap, partnerCap);
+  const sendValue = sumValues(trade.sendAssets);
+  const receiveValue = sumValues(trade.receiveAssets);
+  const acceptance = sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
+  const accepted = acceptance >= 70 && proposal.isValid;
+
   if (accepted) {
-    const userTeamAbbr = saveStateResult.data.header.teamAbbr.toUpperCase();
-    const partnerTeamAbbr = trade.partnerTeamAbbr.toUpperCase();
-    const userRoster = getProjectedRosterForTeam(saveStateResult.data, userTeamAbbr);
-    const partnerRoster = getPartnerRoster(saveStateResult.data, partnerTeamAbbr);
-
-    let userCap = getProjectedCapSpaceForTeam(saveStateResult.data, userTeamAbbr);
-    let partnerCap = getProjectedCapSpaceForTeam(saveStateResult.data, partnerTeamAbbr);
-
-    const sendPlayerIds = new Set(
-      trade.sendAssets.filter((asset) => asset.type === 'player' && asset.playerId).map((asset) => asset.playerId as string),
-    );
-    const receivePlayerIds = new Set(
-      trade.receiveAssets.filter((asset) => asset.type === 'player' && asset.playerId).map((asset) => asset.playerId as string),
-    );
-
-    for (const id of sendPlayerIds) {
-      if (!userRoster.some((player) => player.id === id)) {
-        throw new Error('Trade includes invalid user player');
-      }
-    }
-    for (const id of receivePlayerIds) {
-      if (!partnerRoster.some((player) => player.id === id)) {
-        throw new Error('Trade includes invalid partner player');
-      }
-    }
-
-    const sendCap = userRoster
-      .filter((player) => sendPlayerIds.has(player.id))
-      .reduce((sum, player) => sum + parseMoneyMillions(player.capHit), 0);
-    const receiveCap = partnerRoster
-      .filter((player) => receivePlayerIds.has(player.id))
-      .reduce((sum, player) => sum + parseMoneyMillions(player.capHit), 0);
-
-    userCap = Number((userCap + sendCap - receiveCap).toFixed(1));
-    partnerCap = Number((partnerCap + receiveCap - sendCap).toFixed(1));
-
-    if (userCap < 0 || partnerCap < 0) {
-      throw new Error('Trade would exceed cap space for one or more teams');
-    }
+    const sendPlayerIds = new Set(proposal.outgoingPlayers.map((player) => player.id));
+    const receivePlayerIds = new Set(proposal.incomingPlayers.map((player) => player.id));
 
     const sentPlayers = userRoster.filter((player) => sendPlayerIds.has(player.id));
     const receivedPlayers = partnerRoster.filter((player) => receivePlayerIds.has(player.id));
 
     saveStateResult.data.teamRosters[userTeamAbbr] = userRoster
       .filter((player) => !sendPlayerIds.has(player.id))
-      .concat(receivedPlayers);
+      .concat(receivedPlayers.map((player) => ({ ...player, signedTeamAbbr: userTeamAbbr })));
     saveStateResult.data.teamRosters[partnerTeamAbbr] = partnerRoster
       .filter((player) => !receivePlayerIds.has(player.id))
-      .concat(sentPlayers.map((player) => ({ ...player, year1CapHit: parseMoneyMillions(player.capHit) })));
+      .concat(
+        sentPlayers.map((player) => ({
+          ...player,
+          signedTeamAbbr: partnerTeamAbbr,
+          year1CapHit: parseMoneyMillions(player.capHit),
+        })),
+      );
 
     saveStateResult.data.roster = saveStateResult.data.teamRosters[userTeamAbbr];
     saveStateResult.data.header.rosterCount = saveStateResult.data.roster.length;
-    saveStateResult.data.header.capSpace = userCap;
-    saveStateResult.data.teamCaps[userTeamAbbr] = userCap;
-    saveStateResult.data.teamCaps[partnerTeamAbbr] = partnerCap;
+    saveStateResult.data.header.capSpace = proposal.capImpact.teams.sending.resultingCapSpace;
+    saveStateResult.data.teamCaps[userTeamAbbr] = proposal.capImpact.teams.sending.resultingCapSpace;
+    saveStateResult.data.teamCaps[partnerTeamAbbr] = proposal.capImpact.teams.receiving.resultingCapSpace;
 
     const now = new Date().toISOString();
     for (const player of sentPlayers) {
@@ -417,6 +698,11 @@ export const proposeTrade = (
         capHit: parseMoneyMillions(player.capHit),
         createdAt: now,
       });
+      saveStateResult.data.rosterMoves.trades.push({
+        playerId: player.id,
+        name: `${player.firstName} ${player.lastName}`,
+        timestamp: now,
+      });
     }
     for (const player of receivedPlayers) {
       saveStateResult.data.transactions.push({
@@ -427,6 +713,11 @@ export const proposeTrade = (
         toTeamAbbr: userTeamAbbr,
         capHit: parseMoneyMillions(player.capHit),
         createdAt: now,
+      });
+      saveStateResult.data.rosterMoves.trades.push({
+        playerId: player.id,
+        name: `${player.firstName} ${player.lastName}`,
+        timestamp: now,
       });
     }
 
@@ -447,11 +738,14 @@ export const proposeTrade = (
       accepted,
       header: getSaveHeaderSnapshot(saveStateResult.data),
       caps: {
-        userTeamAbbr: saveStateResult.data.header.teamAbbr.toUpperCase(),
-        userCapSpace: getProjectedCapSpaceForTeam(saveStateResult.data, saveStateResult.data.header.teamAbbr),
-        partnerTeamAbbr: trade.partnerTeamAbbr.toUpperCase(),
-        partnerCapSpace: getProjectedCapSpaceForTeam(saveStateResult.data, trade.partnerTeamAbbr),
+        userTeamAbbr,
+        userCapSpace: getProjectedCapSpaceForTeam(saveStateResult.data, userTeamAbbr),
+        partnerTeamAbbr,
+        partnerCapSpace: getProjectedCapSpaceForTeam(saveStateResult.data, partnerTeamAbbr),
       },
+      simulation: proposal.capImpact,
+      tradeBalance: value,
+      proposal,
     },
   };
 };
