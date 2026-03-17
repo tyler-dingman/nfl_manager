@@ -2,7 +2,13 @@ import type { UnifiedPlayerStats } from '@/server/data/nfl-data';
 
 export type TeamPlayerStatsRecord = {
   playerId: string;
+  playerName?: string;
   stats: UnifiedPlayerStats;
+};
+
+type TeamRosterPlayer = {
+  id: string;
+  name: string;
 };
 
 type EspnStat = {
@@ -15,9 +21,14 @@ type EspnStat = {
 
 type EspnAthleteStats = {
   athlete?: { id?: string };
+  id?: string;
+  fullName?: string;
+  displayName?: string;
+  athleteDisplayName?: string;
   stats?: EspnStat[];
   statistics?: EspnStat[];
   categories?: Array<{ stats?: EspnStat[]; statistics?: EspnStat[] }>;
+  splits?: { categories?: Array<{ stats?: EspnStat[]; statistics?: EspnStat[] }> };
 };
 
 const toNumber = (value: unknown): number | undefined => {
@@ -86,7 +97,74 @@ const collectStats = (athlete: EspnAthleteStats): EspnStat[] => {
   const categoryStats = (athlete.categories ?? []).flatMap(
     (category) => category.stats ?? category.statistics ?? [],
   );
-  return [...directStats, ...categoryStats];
+  const splitCategoryStats = (athlete.splits?.categories ?? []).flatMap(
+    (category) => category.stats ?? category.statistics ?? [],
+  );
+  return [...directStats, ...categoryStats, ...splitCategoryStats];
+};
+
+const hasNonEmptyStats = (stats: UnifiedPlayerStats) => Object.keys(stats).length > 0;
+
+const mapAthleteStats = (athlete: EspnAthleteStats): TeamPlayerStatsRecord | null => {
+  const playerId = athlete.athlete?.id ?? athlete.id;
+  if (!playerId) return null;
+
+  const stats: UnifiedPlayerStats = {};
+  collectStats(athlete).forEach((stat) => {
+    const statKey = stat.name ?? stat.abbreviation ?? stat.displayName;
+    if (!statKey) return;
+    setStatValue(stats, statKey, stat.value ?? stat.displayValue);
+  });
+
+  if (!hasNonEmptyStats(stats)) return null;
+
+  return {
+    playerId,
+    playerName: athlete.fullName ?? athlete.displayName ?? athlete.athleteDisplayName,
+    stats,
+  };
+};
+
+const CURRENT_SEASON = new Date().getUTCFullYear();
+
+const fetchAthleteStats = async (
+  player: TeamRosterPlayer,
+): Promise<TeamPlayerStatsRecord | null> => {
+  const payload = await fetchJson<{
+    athlete?: EspnAthleteStats;
+    splits?: EspnAthleteStats['splits'];
+  }>(
+    `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/${player.id}/stats?region=us&lang=en&contentorigin=espn&season=${CURRENT_SEASON}`,
+  ).catch(() => null);
+
+  if (!payload) return null;
+
+  return mapAthleteStats({
+    athlete: { id: player.id },
+    fullName: player.name,
+    splits: payload.splits,
+    ...(payload.athlete ?? {}),
+  });
+};
+
+const runWithConcurrency = async <T, R>(
+  items: T[],
+  concurrency: number,
+  worker: (item: T) => Promise<R>,
+) => {
+  const results: R[] = [];
+  let index = 0;
+
+  const runners = Array.from({ length: Math.max(1, concurrency) }, async () => {
+    while (index < items.length) {
+      const currentIndex = index;
+      index += 1;
+      results[currentIndex] = await worker(items[currentIndex]);
+    }
+  });
+
+  await Promise.all(runners);
+  return results;
 };
 
 const fetchJson = async <T>(url: string): Promise<T> => {
@@ -97,37 +175,32 @@ const fetchJson = async <T>(url: string): Promise<T> => {
   return (await response.json()) as T;
 };
 
-export const fetchTeamStats = async (teamId: string): Promise<TeamPlayerStatsRecord[]> => {
+export const fetchTeamStats = async (
+  teamId: string,
+  rosterPlayers: TeamRosterPlayer[],
+): Promise<TeamPlayerStatsRecord[]> => {
   const payload = await fetchJson<{
     athletes?: EspnAthleteStats[];
     results?: { athletes?: EspnAthleteStats[] };
     categories?: Array<{ athletes?: EspnAthleteStats[] }>;
-  }>(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamId}/statistics`);
+  }>(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamId}/statistics`).catch(
+    () => null,
+  );
 
   const athleteStats = [
-    ...(payload.athletes ?? []),
-    ...(payload.results?.athletes ?? []),
-    ...(payload.categories ?? []).flatMap((category) => category.athletes ?? []),
+    ...(payload?.athletes ?? []),
+    ...(payload?.results?.athletes ?? []),
+    ...(payload?.categories ?? []).flatMap((category) => category.athletes ?? []),
   ];
 
-  const byPlayerId = new Map<string, UnifiedPlayerStats>();
+  const mappedTeamStats = athleteStats
+    .map((entry) => mapAthleteStats(entry))
+    .filter((entry): entry is TeamPlayerStatsRecord => Boolean(entry));
 
-  athleteStats.forEach((entry) => {
-    const playerId = entry.athlete?.id;
-    if (!playerId) return;
+  if (mappedTeamStats.length > 0) {
+    return mappedTeamStats;
+  }
 
-    const stats = byPlayerId.get(playerId) ?? {};
-    collectStats(entry).forEach((stat) => {
-      const statKey = stat.name ?? stat.abbreviation ?? stat.displayName;
-      if (!statKey) return;
-      setStatValue(stats, statKey, stat.value ?? stat.displayValue);
-    });
-
-    byPlayerId.set(playerId, stats);
-  });
-
-  return Array.from(byPlayerId.entries()).map(([playerId, stats]) => ({
-    playerId,
-    stats,
-  }));
+  const fallbackStats = await runWithConcurrency(rosterPlayers, 10, fetchAthleteStats);
+  return fallbackStats.filter((entry): entry is TeamPlayerStatsRecord => Boolean(entry));
 };

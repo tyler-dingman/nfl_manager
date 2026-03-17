@@ -44,6 +44,9 @@ const normalizeComparableName = (value: string) =>
     .replace(/\s+/g, ' ')
     .trim();
 
+const isNonEmptyStats = (stats: UnifiedPlayer['stats'] | undefined | null) =>
+  Boolean(stats && Object.keys(stats).length > 0);
+
 const normalizePositionBucket = (position: string): string => {
   const normalized = position.trim().toUpperCase();
 
@@ -164,14 +167,30 @@ export const syncPlayers = async (
     }
 
     try {
-      const [roster, teamStats] = await Promise.all([
-        fetchRoster(team.id),
-        fetchTeamStats(team.id),
-      ]);
+      const roster = await fetchRoster(team.id);
+      const teamStats = await fetchTeamStats(
+        team.id,
+        roster.map((player) => ({ id: player.id, name: player.name })),
+      );
       const statsByPlayerId = new Map(teamStats.map((entry) => [entry.playerId, entry.stats]));
+      const statsByName = new Map(
+        teamStats
+          .filter((entry) => entry.playerName)
+          .map((entry) => [normalizeComparableName(entry.playerName ?? ''), entry.stats]),
+      );
+
+      let playersWithStats = 0;
 
       for (const player of roster) {
         const key = `${teamAbbr}:${player.id}`;
+        const statsFromId = statsByPlayerId.get(player.id);
+        const statsFromName = statsByName.get(normalizeComparableName(player.name));
+        const playerStats = statsFromId ?? statsFromName ?? {};
+
+        if (isNonEmptyStats(playerStats)) {
+          playersWithStats += 1;
+        }
+
         nextPlayers.set(key, {
           id: player.id,
           teamAbbr,
@@ -184,9 +203,13 @@ export const syncPlayers = async (
           height: player.height,
           weight: player.weight,
           headshotUrl: player.headshotUrl,
-          stats: statsByPlayerId.get(player.id) ?? {},
+          stats: playerStats,
         });
       }
+
+      console.log(
+        `[sync:players] ${teamAbbr} fetched ${teamStats.length} player stat rows; ${playersWithStats}/${roster.length} roster players received non-empty stats`,
+      );
     } catch (error) {
       rosterErrors.push({
         teamId: team.id,
@@ -194,6 +217,14 @@ export const syncPlayers = async (
       });
     }
   }
+
+  const samplePlayers = ['Patrick Mahomes', 'Travis Kelce', 'Chris Jones'];
+  samplePlayers.forEach((playerName) => {
+    const sample = Array.from(nextPlayers.values()).find(
+      (player) => normalizeComparableName(player.name) === normalizeComparableName(playerName),
+    );
+    console.log(`[sync:players] sample stats ${playerName}:`, sample?.stats ?? null);
+  });
 
   const maddenRows = await fetchMaddenRatings().catch((error) => {
     rosterErrors.push({
