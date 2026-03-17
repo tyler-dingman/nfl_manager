@@ -49,6 +49,8 @@ export type PlayerRowDTO = {
   salary?: number;
   guaranteed?: number;
   deadCap?: number;
+  releaseSavings?: number;
+  postJune1Savings?: number;
   disgruntled?: boolean;
   status: string;
   headshotUrl?: string | null;

@@ -78,6 +78,43 @@ const findColumn = (headers: string[], tests: string[]) => {
   return candidates.find((candidate) => tests.some((test) => candidate.header.includes(test)))?.idx;
 };
 
+const findCapHitColumn = (headers: string[]): number | undefined => {
+  const currentYear = new Date().getUTCFullYear();
+  const candidates = headers
+    .map((header, idx) => ({ idx, normalized: normalizeHeader(header), header }))
+    .filter(({ normalized }) => {
+      const isCapMetric =
+        normalized.includes('cap hit') ||
+        normalized.includes('current cap') ||
+        normalized.includes('cap number') ||
+        normalized.includes('cap charge');
+      const isReleaseMetric =
+        normalized.includes('dead cap') ||
+        normalized.includes('release savings') ||
+        normalized.includes('post june 1') ||
+        normalized.includes('cap savings');
+      return isCapMetric && !isReleaseMetric;
+    })
+    .map((entry) => {
+      const year = entry.header.match(/\b(20\d{2})\b/)?.[1];
+      return {
+        ...entry,
+        year: year ? Number.parseInt(year, 10) : null,
+      };
+    });
+
+  if (candidates.length === 0) return undefined;
+
+  const withYear = candidates
+    .filter((candidate) => candidate.year !== null)
+    .sort((a, b) => Math.abs((a.year ?? currentYear) - currentYear) - Math.abs((b.year ?? currentYear) - currentYear));
+  if (withYear.length > 0) {
+    return withYear[0]?.idx;
+  }
+
+  return candidates[0]?.idx;
+};
+
 const parseCapHitFutureYears = (
   headers: string[],
   cells: string[],
@@ -92,6 +129,26 @@ const parseCapHitFutureYears = (
     }
   });
   return Object.keys(future).length > 0 ? future : null;
+};
+
+const resolveCurrentYearCapHit = (
+  capHitCurrentYear: number | null,
+  capHitFutureYears: Record<string, number> | null,
+): number | null => {
+  if (capHitCurrentYear !== null) {
+    return capHitCurrentYear;
+  }
+  if (!capHitFutureYears) {
+    return null;
+  }
+
+  const currentYear = new Date().getUTCFullYear();
+  const entries = Object.entries(capHitFutureYears)
+    .map(([year, value]) => ({ year: Number.parseInt(year, 10), value }))
+    .filter((entry) => Number.isFinite(entry.year))
+    .sort((a, b) => Math.abs(a.year - currentYear) - Math.abs(b.year - currentYear));
+
+  return entries[0]?.value ?? null;
 };
 
 const getTeamMeta = (teamAbbrOrSlug: string) => {
@@ -149,7 +206,7 @@ const parseContractRows = (
     const deadCapIdx = findColumn(headers, ['dead cap']);
     const releaseSavingsIdx = findColumn(headers, ['release savings', 'cap savings']);
     const postJune1SavingsIdx = findColumn(headers, ['post june 1']);
-    const capHitCurrentYearIdx = findColumn(headers, ['cap hit', 'current cap']);
+    const capHitCurrentYearIdx = findCapHitColumn(headers);
     const baseSalaryIdx = findColumn(headers, ['base salary']);
 
     for (const rowMatch of rows) {
@@ -167,6 +224,10 @@ const parseContractRows = (
       headers.forEach((header, idx) => {
         rawContractPayload[header] = cells[idx] ?? null;
       });
+
+      const capHitFutureYears = parseCapHitFutureYears(headers, cells);
+      const parsedCapHitCurrentYear =
+        capHitCurrentYearIdx === undefined ? null : parseMoney(cells[capHitCurrentYearIdx]);
 
       parsedRows.push({
         teamSlug,
@@ -193,9 +254,8 @@ const parseContractRows = (
           releaseSavingsIdx === undefined ? null : parseMoney(cells[releaseSavingsIdx]),
         postJune1Savings:
           postJune1SavingsIdx === undefined ? null : parseMoney(cells[postJune1SavingsIdx]),
-        capHitCurrentYear:
-          capHitCurrentYearIdx === undefined ? null : parseMoney(cells[capHitCurrentYearIdx]),
-        capHitFutureYears: parseCapHitFutureYears(headers, cells),
+        capHitCurrentYear: resolveCurrentYearCapHit(parsedCapHitCurrentYear, capHitFutureYears),
+        capHitFutureYears,
         baseSalary: baseSalaryIdx === undefined ? null : parseMoney(cells[baseSalaryIdx]),
         rawContractPayload,
       });

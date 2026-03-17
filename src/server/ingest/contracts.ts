@@ -99,6 +99,9 @@ const syncContractsInternal = async (
         capHit: row.capHitCurrentYear,
         guaranteed: row.guaranteedMoney ?? row.fullyGuaranteedMoney ?? row.signingBonus ?? null,
         years: row.yearsRemaining,
+        deadCap: row.deadCap,
+        releaseSavings: row.releaseSavings,
+        postJune1Savings: row.postJune1Savings,
       });
     }
   }
