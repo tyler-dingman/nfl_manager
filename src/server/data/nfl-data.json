@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-17T21:05:44.334Z",
+  "updatedAt": "2026-03-17T21:52:17.179Z",
   "teams": [
     {
       "id": "ARI",
@@ -40318,6 +40318,18 @@
       "postJune1Savings": 3200000
     },
     {
+      "playerId": "4372459",
+      "teamAbbr": "DET",
+      "contractStatus": null,
+      "capHit": 505000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1955000,
+      "postJune1Savings": 1955000
+    },
+    {
       "playerId": "4361529",
       "teamAbbr": "DET",
       "contractStatus": null,
@@ -40510,7 +40522,7 @@
       "postJune1Savings": 1075334
     },
     {
-      "playerId": "4051353",
+      "playerId": "3915486",
       "teamAbbr": "DET",
       "contractStatus": null,
       "capHit": 0,
@@ -40534,7 +40546,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "3915486",
+      "playerId": "4367835",
       "teamAbbr": "DET",
       "contractStatus": null,
       "capHit": 0,
@@ -40558,7 +40570,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4367835",
+      "playerId": "4051353",
       "teamAbbr": "DET",
       "contractStatus": null,
       "capHit": 0,
@@ -40606,7 +40618,19 @@
       "postJune1Savings": 1031693
     },
     {
-      "playerId": "4240069",
+      "playerId": "4383429",
+      "teamAbbr": "DET",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "5143915",
       "teamAbbr": "DET",
       "contractStatus": null,
       "capHit": 0,
@@ -40630,19 +40654,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4383429",
-      "teamAbbr": "DET",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "5143915",
+      "playerId": "4240069",
       "teamAbbr": "DET",
       "contractStatus": null,
       "capHit": 0,
@@ -40763,18 +40775,6 @@
     },
     {
       "playerId": "4241411",
-      "teamAbbr": "DET",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
-    },
-    {
-      "playerId": "4372459",
       "teamAbbr": "DET",
       "contractStatus": null,
       "capHit": 0,
@@ -42670,6 +42670,18 @@
       "postJune1Savings": 9200000
     },
     {
+      "playerId": "3843843",
+      "teamAbbr": "IND",
+      "contractStatus": null,
+      "capHit": 2500000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 6750000,
+      "postJune1Savings": 6750000
+    },
+    {
       "playerId": "4431459",
       "teamAbbr": "IND",
       "contractStatus": null,
@@ -42922,7 +42934,7 @@
       "postJune1Savings": 1159060
     },
     {
-      "playerId": "4039243",
+      "playerId": "4567224",
       "teamAbbr": "IND",
       "contractStatus": null,
       "capHit": 0,
@@ -42934,7 +42946,7 @@
       "postJune1Savings": 1145000
     },
     {
-      "playerId": "4567224",
+      "playerId": "4039243",
       "teamAbbr": "IND",
       "contractStatus": null,
       "capHit": 0,
@@ -43114,7 +43126,7 @@
       "postJune1Savings": 917767
     },
     {
-      "playerId": "4608604",
+      "playerId": "4885625",
       "teamAbbr": "IND",
       "contractStatus": null,
       "capHit": 0,
@@ -43234,7 +43246,7 @@
       "postJune1Savings": 885000
     },
     {
-      "playerId": "4885625",
+      "playerId": "4608604",
       "teamAbbr": "IND",
       "contractStatus": null,
       "capHit": 0,
@@ -43256,18 +43268,6 @@
       "deadCap": null,
       "releaseSavings": 885000,
       "postJune1Savings": 885000
-    },
-    {
-      "playerId": "3843843",
-      "teamAbbr": "IND",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
     },
     {
       "playerId": "3122930",
@@ -43592,6 +43592,18 @@
       "deadCap": null,
       "releaseSavings": 2500000,
       "postJune1Savings": 2500000
+    },
+    {
+      "playerId": "4362619",
+      "teamAbbr": "JAX",
+      "contractStatus": null,
+      "capHit": 1200000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 2245000,
+      "postJune1Savings": 2245000
     },
     {
       "playerId": "4431567",
@@ -43930,7 +43942,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4369308",
+      "playerId": "4877475",
       "teamAbbr": "JAX",
       "contractStatus": null,
       "capHit": 0,
@@ -43942,7 +43954,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4877475",
+      "playerId": "4369308",
       "teamAbbr": "JAX",
       "contractStatus": null,
       "capHit": 0,
@@ -43964,18 +43976,6 @@
       "deadCap": null,
       "releaseSavings": 918667,
       "postJune1Savings": 918667
-    },
-    {
-      "playerId": "4570633",
-      "teamAbbr": "JAX",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 885000,
-      "postJune1Savings": 885000
     },
     {
       "playerId": "4428935",
@@ -44074,7 +44074,7 @@
       "postJune1Savings": 885000
     },
     {
-      "playerId": "4362619",
+      "playerId": "4570633",
       "teamAbbr": "JAX",
       "contractStatus": null,
       "capHit": 0,
@@ -44082,8 +44082,8 @@
       "guaranteed": 0,
       "years": null,
       "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
+      "releaseSavings": 885000,
+      "postJune1Savings": 885000
     },
     {
       "playerId": "3044859",
@@ -45094,6 +45094,18 @@
       "postJune1Savings": 2391208
     },
     {
+      "playerId": "4401805",
+      "teamAbbr": "LV",
+      "contractStatus": null,
+      "capHit": 315000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1754000,
+      "postJune1Savings": 1754000
+    },
+    {
       "playerId": "4603186",
       "teamAbbr": "LV",
       "contractStatus": null,
@@ -45202,7 +45214,7 @@
       "postJune1Savings": 1159428
     },
     {
-      "playerId": "4250393",
+      "playerId": "4367202",
       "teamAbbr": "LV",
       "contractStatus": null,
       "capHit": 0,
@@ -45226,7 +45238,7 @@
       "postJune1Savings": 1145000
     },
     {
-      "playerId": "4367202",
+      "playerId": "4250393",
       "teamAbbr": "LV",
       "contractStatus": null,
       "capHit": 0,
@@ -45250,43 +45262,7 @@
       "postJune1Savings": 1113798
     },
     {
-      "playerId": "2579604",
-      "teamAbbr": "LV",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1075000,
-      "postJune1Savings": 1075000
-    },
-    {
       "playerId": "4361426",
-      "teamAbbr": "LV",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1075000,
-      "postJune1Savings": 1075000
-    },
-    {
-      "playerId": "4360475",
-      "teamAbbr": "LV",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1075000,
-      "postJune1Savings": 1075000
-    },
-    {
-      "playerId": "4361332",
       "teamAbbr": "LV",
       "contractStatus": null,
       "capHit": 0,
@@ -45310,18 +45286,6 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4247276",
-      "teamAbbr": "LV",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1075000,
-      "postJune1Savings": 1075000
-    },
-    {
       "playerId": "4240849",
       "teamAbbr": "LV",
       "contractStatus": null,
@@ -45334,7 +45298,43 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4035115",
+      "playerId": "4247276",
+      "teamAbbr": "LV",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1075000,
+      "postJune1Savings": 1075000
+    },
+    {
+      "playerId": "4361332",
+      "teamAbbr": "LV",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1075000,
+      "postJune1Savings": 1075000
+    },
+    {
+      "playerId": "4360475",
+      "teamAbbr": "LV",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1075000,
+      "postJune1Savings": 1075000
+    },
+    {
+      "playerId": "2579604",
       "teamAbbr": "LV",
       "contractStatus": null,
       "capHit": 0,
@@ -45358,6 +45358,18 @@
       "postJune1Savings": 1075000
     },
     {
+      "playerId": "3120434",
+      "teamAbbr": "LV",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1075000,
+      "postJune1Savings": 1075000
+    },
+    {
       "playerId": "4240778",
       "teamAbbr": "LV",
       "contractStatus": null,
@@ -45370,7 +45382,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "3120434",
+      "playerId": "4035115",
       "teamAbbr": "LV",
       "contractStatus": null,
       "capHit": 0,
@@ -45442,7 +45454,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4698191",
+      "playerId": "4426393",
       "teamAbbr": "LV",
       "contractStatus": null,
       "capHit": 0,
@@ -45466,7 +45478,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4686781",
+      "playerId": "4698191",
       "teamAbbr": "LV",
       "contractStatus": null,
       "capHit": 0,
@@ -45478,7 +45490,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4426393",
+      "playerId": "4686781",
       "teamAbbr": "LV",
       "contractStatus": null,
       "capHit": 0,
@@ -45524,18 +45536,6 @@
       "deadCap": null,
       "releaseSavings": 885000,
       "postJune1Savings": 885000
-    },
-    {
-      "playerId": "4401805",
-      "teamAbbr": "LV",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
     },
     {
       "playerId": "4241961",
@@ -47110,58 +47110,10 @@
       "postJune1Savings": 1265005
     },
     {
-      "playerId": "3043234",
-      "teamAbbr": "MIA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1262500,
-      "postJune1Savings": 1262500
-    },
-    {
-      "playerId": "4240780",
-      "teamAbbr": "MIA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1262500,
-      "postJune1Savings": 1262500
-    },
-    {
       "playerId": "4243371",
       "teamAbbr": "MIA",
       "contractStatus": null,
       "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1262500,
-      "postJune1Savings": 1262500
-    },
-    {
-      "playerId": "4036660",
-      "teamAbbr": "MIA",
-      "contractStatus": null,
-      "capHit": 1075000,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1262500,
-      "postJune1Savings": 1262500
-    },
-    {
-      "playerId": "4259804",
-      "teamAbbr": "MIA",
-      "contractStatus": null,
-      "capHit": 500000,
       "averagePerYear": null,
       "guaranteed": 0,
       "years": null,
@@ -47182,10 +47134,82 @@
       "postJune1Savings": 1262500
     },
     {
+      "playerId": "4259804",
+      "teamAbbr": "MIA",
+      "contractStatus": null,
+      "capHit": 500000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1262500,
+      "postJune1Savings": 1262500
+    },
+    {
+      "playerId": "4036660",
+      "teamAbbr": "MIA",
+      "contractStatus": null,
+      "capHit": 1075000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1262500,
+      "postJune1Savings": 1262500
+    },
+    {
+      "playerId": "3043234",
+      "teamAbbr": "MIA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1262500,
+      "postJune1Savings": 1262500
+    },
+    {
       "playerId": "4046528",
       "teamAbbr": "MIA",
       "contractStatus": null,
       "capHit": 1075000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1262500,
+      "postJune1Savings": 1262500
+    },
+    {
+      "playerId": "4360797",
+      "teamAbbr": "MIA",
+      "contractStatus": null,
+      "capHit": 1075000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1262500,
+      "postJune1Savings": 1262500
+    },
+    {
+      "playerId": "4240780",
+      "teamAbbr": "MIA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1262500,
+      "postJune1Savings": 1262500
+    },
+    {
+      "playerId": "4379412",
+      "teamAbbr": "MIA",
+      "contractStatus": null,
+      "capHit": 0,
       "averagePerYear": null,
       "guaranteed": 0,
       "years": null,
@@ -47206,7 +47230,7 @@
       "postJune1Savings": 1220000
     },
     {
-      "playerId": "4035857",
+      "playerId": "4259558",
       "teamAbbr": "MIA",
       "contractStatus": null,
       "capHit": 0,
@@ -47218,7 +47242,7 @@
       "postJune1Savings": 1195000
     },
     {
-      "playerId": "4259558",
+      "playerId": "4035857",
       "teamAbbr": "MIA",
       "contractStatus": null,
       "capHit": 0,
@@ -47362,6 +47386,18 @@
       "postJune1Savings": 1081668
     },
     {
+      "playerId": "4362630",
+      "teamAbbr": "MIA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1075000,
+      "postJune1Savings": 1075000
+    },
+    {
       "playerId": "4361438",
       "teamAbbr": "MIA",
       "contractStatus": null,
@@ -47387,18 +47423,6 @@
     },
     {
       "playerId": "4038437",
-      "teamAbbr": "MIA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1075000,
-      "postJune1Savings": 1075000
-    },
-    {
-      "playerId": "4362630",
       "teamAbbr": "MIA",
       "contractStatus": null,
       "capHit": 0,
@@ -47458,7 +47482,7 @@
       "postJune1Savings": 1010000
     },
     {
-      "playerId": "4367699",
+      "playerId": "4426535",
       "teamAbbr": "MIA",
       "contractStatus": null,
       "capHit": 0,
@@ -47506,7 +47530,31 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4426794",
+      "playerId": "4372413",
+      "teamAbbr": "MIA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4367699",
+      "teamAbbr": "MIA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4685637",
       "teamAbbr": "MIA",
       "contractStatus": null,
       "capHit": 0,
@@ -47542,31 +47590,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4426535",
-      "teamAbbr": "MIA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "4372413",
-      "teamAbbr": "MIA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "4685637",
+      "playerId": "4426794",
       "teamAbbr": "MIA",
       "contractStatus": null,
       "capHit": 0,
@@ -47696,30 +47720,6 @@
       "deadCap": null,
       "releaseSavings": 885000,
       "postJune1Savings": 885000
-    },
-    {
-      "playerId": "4360797",
-      "teamAbbr": "MIA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
-    },
-    {
-      "playerId": "4379412",
-      "teamAbbr": "MIA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
     },
     {
       "playerId": "3895840",
@@ -50398,6 +50398,18 @@
       "postJune1Savings": 1273260
     },
     {
+      "playerId": "3049339",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1262500,
+      "postJune1Savings": 1262500
+    },
+    {
       "playerId": "2531358",
       "teamAbbr": "NYG",
       "contractStatus": null,
@@ -50470,7 +50482,7 @@
       "postJune1Savings": 1145000
     },
     {
-      "playerId": "4361834",
+      "playerId": "4258237",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50482,7 +50494,7 @@
       "postJune1Savings": 1145000
     },
     {
-      "playerId": "4258237",
+      "playerId": "4361834",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50542,7 +50554,7 @@
       "postJune1Savings": 1100000
     },
     {
-      "playerId": "4689674",
+      "playerId": "4427636",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50554,7 +50566,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4427636",
+      "playerId": "4570546",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50590,18 +50602,6 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4367510",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1075000,
-      "postJune1Savings": 1075000
-    },
-    {
       "playerId": "4429392",
       "teamAbbr": "NYG",
       "contractStatus": null,
@@ -50614,7 +50614,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4047422",
+      "playerId": "4367510",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50626,7 +50626,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4570546",
+      "playerId": "4426359",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50650,18 +50650,6 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4567134",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1075000,
-      "postJune1Savings": 1075000
-    },
-    {
       "playerId": "4243218",
       "teamAbbr": "NYG",
       "contractStatus": null,
@@ -50674,7 +50662,31 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4426359",
+      "playerId": "4047422",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1075000,
+      "postJune1Savings": 1075000
+    },
+    {
+      "playerId": "4567134",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1075000,
+      "postJune1Savings": 1075000
+    },
+    {
+      "playerId": "4689674",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50710,7 +50722,43 @@
       "postJune1Savings": 1017000
     },
     {
+      "playerId": "4426489",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
       "playerId": "4429281",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4430158",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4383405",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50746,42 +50794,6 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4426489",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "4383405",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "4430158",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
       "playerId": "4575348",
       "teamAbbr": "NYG",
       "contractStatus": null,
@@ -50804,6 +50816,30 @@
       "deadCap": null,
       "releaseSavings": 885333,
       "postJune1Savings": 885333
+    },
+    {
+      "playerId": "4565172",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 885000,
+      "postJune1Savings": 885000
+    },
+    {
+      "playerId": "4701177",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 885000,
+      "postJune1Savings": 885000
     },
     {
       "playerId": "4429951",
@@ -50830,67 +50866,7 @@
       "postJune1Savings": 885000
     },
     {
-      "playerId": "4701177",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 885000,
-      "postJune1Savings": 885000
-    },
-    {
-      "playerId": "4565172",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 885000,
-      "postJune1Savings": 885000
-    },
-    {
-      "playerId": "4361266",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
-    },
-    {
-      "playerId": "4260224",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
-    },
-    {
-      "playerId": "4361050",
-      "teamAbbr": "NYG",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
-    },
-    {
-      "playerId": "3049339",
+      "playerId": "4362234",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50914,7 +50890,7 @@
       "postJune1Savings": 0
     },
     {
-      "playerId": "4362234",
+      "playerId": "4243389",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -50926,7 +50902,31 @@
       "postJune1Savings": 0
     },
     {
-      "playerId": "4243389",
+      "playerId": "4361050",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 0,
+      "postJune1Savings": 0
+    },
+    {
+      "playerId": "4361266",
+      "teamAbbr": "NYG",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 0,
+      "postJune1Savings": 0
+    },
+    {
+      "playerId": "4260224",
       "teamAbbr": "NYG",
       "contractStatus": null,
       "capHit": 0,
@@ -51070,10 +51070,10 @@
       "postJune1Savings": 5193257
     },
     {
-      "playerId": "14958",
+      "playerId": "4362840",
       "teamAbbr": "NYJ",
       "contractStatus": null,
-      "capHit": 3500000,
+      "capHit": 3490000,
       "averagePerYear": null,
       "guaranteed": 0,
       "years": null,
@@ -51082,10 +51082,10 @@
       "postJune1Savings": 5000000
     },
     {
-      "playerId": "4362840",
+      "playerId": "14958",
       "teamAbbr": "NYJ",
       "contractStatus": null,
-      "capHit": 3490000,
+      "capHit": 3500000,
       "averagePerYear": null,
       "guaranteed": 0,
       "years": null,
@@ -51106,10 +51106,10 @@
       "postJune1Savings": 4693928
     },
     {
-      "playerId": "4426686",
+      "playerId": "4002046",
       "teamAbbr": "NYJ",
       "contractStatus": null,
-      "capHit": 1490000,
+      "capHit": 2150000,
       "averagePerYear": null,
       "guaranteed": 0,
       "years": null,
@@ -51118,10 +51118,10 @@
       "postJune1Savings": 4500000
     },
     {
-      "playerId": "4002046",
+      "playerId": "4426686",
       "teamAbbr": "NYJ",
       "contractStatus": null,
-      "capHit": 2150000,
+      "capHit": 1490000,
       "averagePerYear": null,
       "guaranteed": 0,
       "years": null,
@@ -51274,6 +51274,18 @@
       "postJune1Savings": 1262500
     },
     {
+      "playerId": "4243009",
+      "teamAbbr": "NYJ",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1262500,
+      "postJune1Savings": 1262500
+    },
+    {
       "playerId": "4692024",
       "teamAbbr": "NYJ",
       "contractStatus": null,
@@ -51310,18 +51322,6 @@
       "postJune1Savings": 1207177
     },
     {
-      "playerId": "4045299",
-      "teamAbbr": "NYJ",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1145000,
-      "postJune1Savings": 1145000
-    },
-    {
       "playerId": "4240405",
       "teamAbbr": "NYJ",
       "contractStatus": null,
@@ -51335,6 +51335,18 @@
     },
     {
       "playerId": "4428963",
+      "teamAbbr": "NYJ",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1145000,
+      "postJune1Savings": 1145000
+    },
+    {
+      "playerId": "4045299",
       "teamAbbr": "NYJ",
       "contractStatus": null,
       "capHit": 0,
@@ -51406,7 +51418,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4372418",
+      "playerId": "4569016",
       "teamAbbr": "NYJ",
       "contractStatus": null,
       "capHit": 0,
@@ -51418,7 +51430,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4569016",
+      "playerId": "4372418",
       "teamAbbr": "NYJ",
       "contractStatus": null,
       "capHit": 0,
@@ -51466,7 +51478,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4362486",
+      "playerId": "4426676",
       "teamAbbr": "NYJ",
       "contractStatus": null,
       "capHit": 0,
@@ -51478,7 +51490,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4426676",
+      "playerId": "4362486",
       "teamAbbr": "NYJ",
       "contractStatus": null,
       "capHit": 0,
@@ -51524,18 +51536,6 @@
       "deadCap": null,
       "releaseSavings": 1075000,
       "postJune1Savings": 1075000
-    },
-    {
-      "playerId": "4427982",
-      "teamAbbr": "NYJ",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
     },
     {
       "playerId": "4431582",
@@ -51587,6 +51587,18 @@
     },
     {
       "playerId": "4429435",
+      "teamAbbr": "NYJ",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4427982",
       "teamAbbr": "NYJ",
       "contractStatus": null,
       "capHit": 0,
@@ -51682,7 +51694,7 @@
       "postJune1Savings": 885000
     },
     {
-      "playerId": "4892576",
+      "playerId": "4431053",
       "teamAbbr": "NYJ",
       "contractStatus": null,
       "capHit": 0,
@@ -51706,7 +51718,7 @@
       "postJune1Savings": 885000
     },
     {
-      "playerId": "4431053",
+      "playerId": "4892576",
       "teamAbbr": "NYJ",
       "contractStatus": null,
       "capHit": 0,
@@ -51719,18 +51731,6 @@
     },
     {
       "playerId": "4243375",
-      "teamAbbr": "NYJ",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
-    },
-    {
-      "playerId": "4243009",
       "teamAbbr": "NYJ",
       "contractStatus": null,
       "capHit": 0,
@@ -52066,6 +52066,18 @@
       "postJune1Savings": 1420000
     },
     {
+      "playerId": "4241374",
+      "teamAbbr": "PHI",
+      "contractStatus": null,
+      "capHit": 512500,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1402500,
+      "postJune1Savings": 1402500
+    },
+    {
       "playerId": "4428992",
       "teamAbbr": "PHI",
       "contractStatus": null,
@@ -52306,19 +52318,7 @@
       "postJune1Savings": 1010000
     },
     {
-      "playerId": "4250510",
-      "teamAbbr": "PHI",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "4582836",
+      "playerId": "4594338",
       "teamAbbr": "PHI",
       "contractStatus": null,
       "capHit": 0,
@@ -52342,7 +52342,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4594338",
+      "playerId": "4582836",
       "teamAbbr": "PHI",
       "contractStatus": null,
       "capHit": 0,
@@ -52354,7 +52354,19 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4429262",
+      "playerId": "4569068",
+      "teamAbbr": "PHI",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4250510",
       "teamAbbr": "PHI",
       "contractStatus": null,
       "capHit": 0,
@@ -52378,7 +52390,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4569068",
+      "playerId": "4429262",
       "teamAbbr": "PHI",
       "contractStatus": null,
       "capHit": 0,
@@ -52460,18 +52472,6 @@
       "deadCap": null,
       "releaseSavings": 885000,
       "postJune1Savings": 885000
-    },
-    {
-      "playerId": "4241374",
-      "teamAbbr": "PHI",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
     },
     {
       "playerId": "4257591",
@@ -54430,6 +54430,18 @@
       "postJune1Savings": 2003039
     },
     {
+      "playerId": "4887558",
+      "teamAbbr": "SEA",
+      "contractStatus": null,
+      "capHit": 300000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1595000,
+      "postJune1Savings": 1595000
+    },
+    {
       "playerId": "4362135",
       "teamAbbr": "SEA",
       "contractStatus": null,
@@ -54514,7 +54526,7 @@
       "postJune1Savings": 1167713
     },
     {
-      "playerId": "4364623",
+      "playerId": "4247808",
       "teamAbbr": "SEA",
       "contractStatus": null,
       "capHit": 0,
@@ -54526,7 +54538,7 @@
       "postJune1Savings": 1145000
     },
     {
-      "playerId": "4247808",
+      "playerId": "4364623",
       "teamAbbr": "SEA",
       "contractStatus": null,
       "capHit": 0,
@@ -54682,18 +54694,6 @@
       "postJune1Savings": 1010000
     },
     {
-      "playerId": "4567416",
-      "teamAbbr": "SEA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
       "playerId": "4567135",
       "teamAbbr": "SEA",
       "contractStatus": null,
@@ -54706,7 +54706,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4428943",
+      "playerId": "4567416",
       "teamAbbr": "SEA",
       "contractStatus": null,
       "capHit": 0,
@@ -54714,23 +54714,23 @@
       "guaranteed": 0,
       "years": null,
       "deadCap": null,
-      "releaseSavings": 885000,
-      "postJune1Savings": 885000
-    },
-    {
-      "playerId": "4602943",
-      "teamAbbr": "SEA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 885000,
-      "postJune1Savings": 885000
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
     },
     {
       "playerId": "4685984",
+      "teamAbbr": "SEA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 885000,
+      "postJune1Savings": 885000
+    },
+    {
+      "playerId": "5087235",
       "teamAbbr": "SEA",
       "contractStatus": null,
       "capHit": 0,
@@ -54778,43 +54778,7 @@
       "postJune1Savings": 885000
     },
     {
-      "playerId": "4429313",
-      "teamAbbr": "SEA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 885000,
-      "postJune1Savings": 885000
-    },
-    {
-      "playerId": "5087235",
-      "teamAbbr": "SEA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 885000,
-      "postJune1Savings": 885000
-    },
-    {
-      "playerId": "4600597",
-      "teamAbbr": "SEA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 885000,
-      "postJune1Savings": 885000
-    },
-    {
-      "playerId": "4570075",
+      "playerId": "4428943",
       "teamAbbr": "SEA",
       "contractStatus": null,
       "capHit": 0,
@@ -54850,6 +54814,54 @@
       "postJune1Savings": 885000
     },
     {
+      "playerId": "4600597",
+      "teamAbbr": "SEA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 885000,
+      "postJune1Savings": 885000
+    },
+    {
+      "playerId": "4570075",
+      "teamAbbr": "SEA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 885000,
+      "postJune1Savings": 885000
+    },
+    {
+      "playerId": "4429313",
+      "teamAbbr": "SEA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 885000,
+      "postJune1Savings": 885000
+    },
+    {
+      "playerId": "4602943",
+      "teamAbbr": "SEA",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 885000,
+      "postJune1Savings": 885000
+    },
+    {
       "playerId": "4243176",
       "teamAbbr": "SEA",
       "contractStatus": null,
@@ -54863,18 +54875,6 @@
     },
     {
       "playerId": "3914630",
-      "teamAbbr": "SEA",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
-    },
-    {
-      "playerId": "4887558",
       "teamAbbr": "SEA",
       "contractStatus": null,
       "capHit": 0,
@@ -55894,6 +55894,18 @@
       "postJune1Savings": 2100000
     },
     {
+      "playerId": "3124084",
+      "teamAbbr": "TEN",
+      "contractStatus": null,
+      "capHit": 500000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1985294,
+      "postJune1Savings": 1985294
+    },
+    {
       "playerId": "4876057",
       "teamAbbr": "TEN",
       "contractStatus": null,
@@ -56074,7 +56086,7 @@
       "postJune1Savings": 1077500
     },
     {
-      "playerId": "4045701",
+      "playerId": "4585317",
       "teamAbbr": "TEN",
       "contractStatus": null,
       "capHit": 0,
@@ -56098,7 +56110,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4585317",
+      "playerId": "4362617",
       "teamAbbr": "TEN",
       "contractStatus": null,
       "capHit": 0,
@@ -56122,7 +56134,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "4362617",
+      "playerId": "4045701",
       "teamAbbr": "TEN",
       "contractStatus": null,
       "capHit": 0,
@@ -56158,31 +56170,7 @@
       "postJune1Savings": 1064627
     },
     {
-      "playerId": "4373320",
-      "teamAbbr": "TEN",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "4695280",
-      "teamAbbr": "TEN",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "4367828",
+      "playerId": "4426987",
       "teamAbbr": "TEN",
       "contractStatus": null,
       "capHit": 0,
@@ -56206,7 +56194,43 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4426987",
+      "playerId": "4367828",
+      "teamAbbr": "TEN",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4695280",
+      "teamAbbr": "TEN",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4373320",
+      "teamAbbr": "TEN",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4431252",
       "teamAbbr": "TEN",
       "contractStatus": null,
       "capHit": 0,
@@ -56242,7 +56266,7 @@
       "postJune1Savings": 1005000
     },
     {
-      "playerId": "4361604",
+      "playerId": "4700676",
       "teamAbbr": "TEN",
       "contractStatus": null,
       "capHit": 0,
@@ -56266,31 +56290,19 @@
       "postJune1Savings": 1005000
     },
     {
+      "playerId": "4361604",
+      "teamAbbr": "TEN",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1005000,
+      "postJune1Savings": 1005000
+    },
+    {
       "playerId": "4243321",
-      "teamAbbr": "TEN",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "4700676",
-      "teamAbbr": "TEN",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1005000,
-      "postJune1Savings": 1005000
-    },
-    {
-      "playerId": "4431252",
       "teamAbbr": "TEN",
       "contractStatus": null,
       "capHit": 0,
@@ -56396,18 +56408,6 @@
       "deadCap": null,
       "releaseSavings": 885000,
       "postJune1Savings": 885000
-    },
-    {
-      "playerId": "3124084",
-      "teamAbbr": "TEN",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
     },
     {
       "playerId": "3138764",
@@ -56710,6 +56710,18 @@
       "postJune1Savings": 2100637
     },
     {
+      "playerId": "4697815",
+      "teamAbbr": "WAS",
+      "contractStatus": null,
+      "capHit": 1315000,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 2000000,
+      "postJune1Savings": 2000000
+    },
+    {
       "playerId": "4567156",
       "teamAbbr": "WAS",
       "contractStatus": null,
@@ -56854,7 +56866,7 @@
       "postJune1Savings": 1167807
     },
     {
-      "playerId": "3917849",
+      "playerId": "4577333",
       "teamAbbr": "WAS",
       "contractStatus": null,
       "capHit": 0,
@@ -56866,7 +56878,7 @@
       "postJune1Savings": 1145000
     },
     {
-      "playerId": "4577333",
+      "playerId": "3917849",
       "teamAbbr": "WAS",
       "contractStatus": null,
       "capHit": 0,
@@ -56914,18 +56926,6 @@
       "postJune1Savings": 1078334
     },
     {
-      "playerId": "4362858",
-      "teamAbbr": "WAS",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 1075000,
-      "postJune1Savings": 1075000
-    },
-    {
       "playerId": "4361994",
       "teamAbbr": "WAS",
       "contractStatus": null,
@@ -56938,7 +56938,7 @@
       "postJune1Savings": 1075000
     },
     {
-      "playerId": "3917949",
+      "playerId": "4362858",
       "teamAbbr": "WAS",
       "contractStatus": null,
       "capHit": 0,
@@ -56951,6 +56951,18 @@
     },
     {
       "playerId": "4686553",
+      "teamAbbr": "WAS",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 1075000,
+      "postJune1Savings": 1075000
+    },
+    {
+      "playerId": "3917949",
       "teamAbbr": "WAS",
       "contractStatus": null,
       "capHit": 0,
@@ -57008,6 +57020,18 @@
       "deadCap": null,
       "releaseSavings": 1005000,
       "postJune1Savings": 1005000
+    },
+    {
+      "playerId": "4428343",
+      "teamAbbr": "WAS",
+      "contractStatus": null,
+      "capHit": 0,
+      "averagePerYear": null,
+      "guaranteed": 0,
+      "years": null,
+      "deadCap": null,
+      "releaseSavings": 885000,
+      "postJune1Savings": 885000
     },
     {
       "playerId": "5083297",
@@ -57082,19 +57106,7 @@
       "postJune1Savings": 885000
     },
     {
-      "playerId": "4428343",
-      "teamAbbr": "WAS",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 885000,
-      "postJune1Savings": 885000
-    },
-    {
-      "playerId": "3929865",
+      "playerId": "4372066",
       "teamAbbr": "WAS",
       "contractStatus": null,
       "capHit": 0,
@@ -57118,18 +57130,6 @@
       "postJune1Savings": 0
     },
     {
-      "playerId": "4372066",
-      "teamAbbr": "WAS",
-      "contractStatus": null,
-      "capHit": 0,
-      "averagePerYear": null,
-      "guaranteed": 0,
-      "years": null,
-      "deadCap": null,
-      "releaseSavings": 0,
-      "postJune1Savings": 0
-    },
-    {
       "playerId": "4361422",
       "teamAbbr": "WAS",
       "contractStatus": null,
@@ -57142,7 +57142,7 @@
       "postJune1Savings": 0
     },
     {
-      "playerId": "4697815",
+      "playerId": "3929865",
       "teamAbbr": "WAS",
       "contractStatus": null,
       "capHit": 0,
@@ -57160,7 +57160,7 @@
       "teamAbbr": "WAS",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": 69886669
+      "availableCap": 68710182
     },
     {
       "teamAbbr": "LAC",
@@ -57172,7 +57172,7 @@
       "teamAbbr": "TEN",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": 57324675
+      "availableCap": 56344381
     },
     {
       "teamAbbr": "ARI",
@@ -57184,13 +57184,13 @@
       "teamAbbr": "NYJ",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": 44684740
+      "availableCap": 44497240
     },
     {
       "teamAbbr": "SEA",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": 44081984
+      "availableCap": 43500317
     },
     {
       "teamAbbr": "NE",
@@ -57208,19 +57208,19 @@
       "teamAbbr": "PHI",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": 40067170
+      "availableCap": 39669670
     },
     {
       "teamAbbr": "IND",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": 37642289
+      "availableCap": 31780622
     },
     {
       "teamAbbr": "DET",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": 30299808
+      "availableCap": 29229808
     },
     {
       "teamAbbr": "BAL",
@@ -57232,7 +57232,7 @@
       "teamAbbr": "LV",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": 27414109
+      "availableCap": 26700401
     },
     {
       "teamAbbr": "CLE",
@@ -57277,16 +57277,16 @@
       "availableCap": 21944093
     },
     {
-      "teamAbbr": "NYG",
-      "totalCap": null,
-      "usedCap": null,
-      "availableCap": 21336939
-    },
-    {
       "teamAbbr": "HOU",
       "totalCap": null,
       "usedCap": null,
       "availableCap": 21286234
+    },
+    {
+      "teamAbbr": "NYG",
+      "totalCap": null,
+      "usedCap": null,
+      "availableCap": 21149439
     },
     {
       "teamAbbr": "DAL",
@@ -57328,7 +57328,7 @@
       "teamAbbr": "JAX",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": 7184040
+      "availableCap": 5944040
     },
     {
       "teamAbbr": "MIN",
@@ -57346,7 +57346,7 @@
       "teamAbbr": "MIA",
       "totalCap": null,
       "usedCap": null,
-      "availableCap": -7769471
+      "availableCap": -8284471
     }
   ]
 }
