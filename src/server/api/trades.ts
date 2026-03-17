@@ -2,9 +2,7 @@ import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 
 import { getSaveHeaderSnapshot, getSaveStateResult, pushNewsItem, type SaveResult } from './store';
-import { formatMoneyMillions, parseMoneyMillions } from '@/server/logic/cap';
-import { KANSAS_CITY_CHIEFS_ROSTER } from '@/data/rosters/kc';
-import { logoUrlFor } from './team';
+import { parseMoneyMillions } from '@/server/logic/cap';
 
 export type TradeSide = 'send' | 'receive';
 
@@ -119,30 +117,7 @@ const clonePartnerRoster = (teamAbbr: string) =>
 
 const getPartnerRoster = (teamAbbr: string): StoredTradePlayer[] => {
   if (!partnerRosterStore.has(teamAbbr)) {
-    if (teamAbbr.toUpperCase() === 'KC') {
-      const roster = KANSAS_CITY_CHIEFS_ROSTER.map((entry) => {
-        const nameParts = entry.fullName.trim().split(/\s+/);
-        const firstName = nameParts[0] ?? entry.fullName;
-        const lastName = nameParts.slice(1).join(' ') || entry.fullName;
-        const capHitValue = entry.capHitTop51 / 1_000_000;
-        return {
-          id: `kc-${entry.fullName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-          firstName,
-          lastName,
-          position: entry.pos,
-          contractYearsRemaining: 1,
-          capHit: formatMoneyMillions(capHitValue),
-          status: 'Active',
-          headshotUrl: null,
-          year1CapHit: capHitValue,
-          signedTeamAbbr: 'KC',
-          signedTeamLogoUrl: logoUrlFor('KC'),
-        };
-      });
-      partnerRosterStore.set(teamAbbr, roster);
-    } else {
-      partnerRosterStore.set(teamAbbr, clonePartnerRoster(teamAbbr));
-    }
+    partnerRosterStore.set(teamAbbr, clonePartnerRoster(teamAbbr));
   }
 
   return partnerRosterStore.get(teamAbbr) ?? [];

@@ -1,0 +1,35 @@
+name: NFL Data Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync NFL data
+        run: npm run sync:nfl-data
+
+      - name: Commit updated data (if changed)
+        run: |
+          if [[ -n "$(git status --porcelain src/server/data/nfl-data.json)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/server/data/nfl-data.json
+            git commit -m "chore: daily nfl data refresh"
+            git push
+          fi
