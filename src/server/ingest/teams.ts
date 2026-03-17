@@ -1,4 +1,5 @@
 import { normalizeTeamName } from './normalize';
+import type { IngestedTeam } from '@/server/data/nfl-data';
 
 export type CanonicalTeamSeed = {
   name: string;
@@ -58,3 +59,16 @@ export const TEAM_ALIAS_TO_ABBR: Record<string, string> = NFL_TEAM_SEED.reduce<R
 );
 
 export const syncTeams = () => NFL_TEAM_SEED;
+
+export const mapCanonicalTeamToIngestedTeam = (team: CanonicalTeamSeed): IngestedTeam => ({
+  id: team.abbreviation,
+  name: team.name,
+  city: team.city,
+  abbreviation: team.abbreviation,
+  conference: team.conference,
+  division: team.division,
+  normalizedName: normalizeTeamName(team.name),
+});
+
+export const mapCanonicalTeamsToIngestedTeams = (teams: CanonicalTeamSeed[]): IngestedTeam[] =>
+  teams.map(mapCanonicalTeamToIngestedTeam);

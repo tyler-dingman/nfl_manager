@@ -5,7 +5,7 @@ import type { IngestedLeagueData } from '@/server/data/nfl-data';
 import { syncCap } from '@/server/ingest/cap';
 import { syncContracts } from '@/server/ingest/contracts';
 import { syncPlayers } from '@/server/ingest/players';
-import { syncTeams } from '@/server/ingest/teams';
+import { mapCanonicalTeamsToIngestedTeams, syncTeams } from '@/server/ingest/teams';
 
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 
@@ -23,6 +23,7 @@ const run = async () => {
   const now = new Date().toISOString();
 
   const canonicalTeams = syncTeams();
+  const ingestedTeams = mapCanonicalTeamsToIngestedTeams(canonicalTeams);
   let players = existing.players;
   let cap = existing.cap;
   let contracts = existing.contracts ?? [];
@@ -50,7 +51,7 @@ const run = async () => {
   }
 
   try {
-    const contractSync = await syncContracts(canonicalTeams, players, contracts);
+    const contractSync = await syncContracts(ingestedTeams, players, contracts);
     contracts = contractSync.contracts;
     console.log(
       `[contracts] rows=${contractSync.report.totalContractRows} matched=${contractSync.report.matchedPlayers} unmatched=${contractSync.report.unmatchedPlayers} conflicts=${contractSync.report.duplicateMatchConflicts} missingTeams=${contractSync.report.teamsWithMissingContractPages.length}`,
@@ -63,15 +64,7 @@ const run = async () => {
 
   const payload: IngestedLeagueData = {
     updatedAt: now,
-    teams: canonicalTeams.map((team) => ({
-      id: team.abbreviation,
-      name: team.name,
-      city: team.city,
-      abbreviation: team.abbreviation,
-      conference: team.conference,
-      division: team.division,
-      normalizedName: team.name.toLowerCase(),
-    })),
+    teams: ingestedTeams,
     players,
     cap,
     contracts,
