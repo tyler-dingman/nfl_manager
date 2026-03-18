@@ -11,7 +11,7 @@ import {
 } from '@/server/data-sources/overthecap-contracts';
 import { fetchOtcFreeAgency } from '@/server/data-sources/overthecap-free-agency';
 import { normalizePlayerName } from './normalize';
-import { OFFSEASON_EXPIRING_SEASON_YEAR } from '@/server/logic/contract-expiration';
+import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
 
 export type ContractSyncReport = {
   totalContractRows: number;
@@ -69,8 +69,10 @@ const getContractEndYear = ({
 }): number | null => {
   const yearCandidates: number[] = [];
 
+  // `yearsRemaining` is interpreted as inclusive of the current modeled league year.
+  // Example: with modeled year 2026 and yearsRemaining=1, contractEndYear is 2026.
   if (typeof yearsRemaining === 'number' && Number.isFinite(yearsRemaining) && yearsRemaining > 0) {
-    yearCandidates.push(OFFSEASON_EXPIRING_SEASON_YEAR + yearsRemaining - 1);
+    yearCandidates.push(CURRENT_MODELED_LEAGUE_YEAR + yearsRemaining - 1);
   }
 
   if (futureCapHits) {

@@ -22,6 +22,7 @@ import {
   buildInitialFreeAgencyPool,
   buildTeamExpiringContracts,
 } from '@/server/logic/offseason-free-agency';
+import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
 
 export type PlayerFilters = {
   position?: string;
@@ -155,7 +156,7 @@ const getContractYearsRemaining = (
   }
 
   if (typeof contract.contractEndYear === 'number' && Number.isFinite(contract.contractEndYear)) {
-    const currentYear = new Date().getUTCFullYear();
+    const currentYear = CURRENT_MODELED_LEAGUE_YEAR;
     const derivedYears = contract.contractEndYear - currentYear + 1;
     if (derivedYears > 0) {
       return derivedYears;
