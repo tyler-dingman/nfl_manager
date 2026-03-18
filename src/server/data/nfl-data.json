@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-18T00:28:33.188Z",
+  "updatedAt": "2026-03-18T00:35:36.650Z",
   "teams": [
     {
       "id": "ARI",
@@ -295,7 +295,11 @@
       "height": "6' 0\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429275.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 160,
+        "rushTD": 0,
+        "yardsPerCarry": 5.5
+      }
     },
     {
       "id": "3045523",
@@ -524,7 +528,12 @@
       "height": "6' 3\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4432708.png",
-      "stats": {}
+      "stats": {
+        "receptions": 41,
+        "recYards": 608,
+        "recTD": 4,
+        "yardsPerCatch": 14.8
+      }
     },
     {
       "id": "3042516",
@@ -650,7 +659,12 @@
       "height": "6' 4\"",
       "weight": 246,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4361307.png",
-      "stats": {}
+      "stats": {
+        "receptions": 126,
+        "recYards": 1239,
+        "recTD": 11,
+        "yardsPerCatch": 9.8
+      }
     },
     {
       "id": "4038524",
@@ -818,7 +832,12 @@
       "height": "6' 2\"",
       "weight": 213,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4360761.png",
-      "stats": {}
+      "stats": {
+        "receptions": 78,
+        "recYards": 1006,
+        "recTD": 7,
+        "yardsPerCatch": 12.9
+      }
     },
     {
       "id": "3127287",
@@ -1630,7 +1649,12 @@
       "height": "6' 4\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4426502.png",
-      "stats": {}
+      "stats": {
+        "receptions": 68,
+        "recYards": 919,
+        "recTD": 7,
+        "yardsPerCatch": 13.5
+      }
     },
     {
       "id": "16713",
@@ -1733,7 +1757,12 @@
       "height": "6' 6\"",
       "weight": 250,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4360248.png",
-      "stats": {}
+      "stats": {
+        "receptions": 88,
+        "recYards": 928,
+        "recTD": 5,
+        "yardsPerCatch": 10.5
+      }
     },
     {
       "id": "4374045",
@@ -1761,7 +1790,15 @@
       "height": "5' 11\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4430807.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1478,
+        "rushTD": 7,
+        "yardsPerCarry": 5.2,
+        "receptions": 79,
+        "recYards": 820,
+        "recTD": 4,
+        "yardsPerCatch": 10.4
+      }
     },
     {
       "id": "3871102",
@@ -2629,7 +2666,12 @@
       "height": "5' 9\"",
       "weight": 183,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429615.png",
-      "stats": {}
+      "stats": {
+        "receptions": 86,
+        "recYards": 1211,
+        "recTD": 5,
+        "yardsPerCatch": 14.1
+      }
     },
     {
       "id": "4362845",
@@ -2657,7 +2699,11 @@
       "height": "6' 2\"",
       "weight": 252,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3043078.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1595,
+        "rushTD": 16,
+        "yardsPerCarry": 5.2
+      }
     },
     {
       "id": "4038441",
@@ -3455,7 +3501,10 @@
         "completionPct": 69.3,
         "passingYards": 3668,
         "passingTD": 25,
-        "interceptions": 10
+        "interceptions": 10,
+        "rushYards": 579,
+        "rushTD": 14,
+        "yardsPerCarry": 5.2
       }
     },
     {
@@ -3568,7 +3617,11 @@
       "height": "5' 11\"",
       "weight": 190,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4379399.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1621,
+        "rushTD": 12,
+        "yardsPerCarry": 5.2
+      }
     },
     {
       "id": "16731",
@@ -4786,7 +4839,11 @@
       "height": "6' 1\"",
       "weight": 210,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4241416.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 511,
+        "rushTD": 1,
+        "yardsPerCarry": 3.8
+      }
     },
     {
       "id": "3917592",
@@ -4856,7 +4913,12 @@
       "height": "6' 5\"",
       "weight": 212,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4685472.png",
-      "stats": {}
+      "stats": {
+        "receptions": 70,
+        "recYards": 1014,
+        "recTD": 7,
+        "yardsPerCatch": 14.5
+      }
     },
     {
       "id": "4567096",
@@ -5981,7 +6043,11 @@
       "height": "5' 8\"",
       "weight": 207,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4608686.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 783,
+        "rushTD": 5,
+        "yardsPerCarry": 4.6
+      }
     },
     {
       "id": "4695895",
@@ -6009,7 +6075,12 @@
       "height": "6' 3\"",
       "weight": 214,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4431299.png",
-      "stats": {}
+      "stats": {
+        "receptions": 44,
+        "recYards": 661,
+        "recTD": 6,
+        "yardsPerCatch": 15
+      }
     },
     {
       "id": "2973405",
@@ -6756,7 +6827,11 @@
       "height": "5' 10\"",
       "weight": 210,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4362238.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1019,
+        "rushTD": 6,
+        "yardsPerCarry": 4.4
+      }
     },
     {
       "id": "3116370",
@@ -6934,7 +7009,12 @@
       "height": "6' 4\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4239993.png",
-      "stats": {}
+      "stats": {
+        "receptions": 59,
+        "recYards": 846,
+        "recTD": 11,
+        "yardsPerCatch": 14.3
+      }
     },
     {
       "id": "3050481",
@@ -8003,7 +8083,11 @@
       "height": "5' 11\"",
       "weight": 221,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4685702.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 827,
+        "rushTD": 7,
+        "yardsPerCarry": 3.6
+      }
     },
     {
       "id": "4877203",
@@ -9072,7 +9156,12 @@
       "height": "6' 2\"",
       "weight": 200,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4241389.png",
-      "stats": {}
+      "stats": {
+        "receptions": 75,
+        "recYards": 1077,
+        "recTD": 3,
+        "yardsPerCatch": 14.4
+      }
     },
     {
       "id": "3920591",
@@ -9156,7 +9245,12 @@
       "height": "6' 3\"",
       "weight": 200,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4426354.png",
-      "stats": {}
+      "stats": {
+        "receptions": 93,
+        "recYards": 1429,
+        "recTD": 9,
+        "yardsPerCatch": 15.4
+      }
     },
     {
       "id": "2577417",
@@ -9287,7 +9381,11 @@
       "height": "5' 10\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4361579.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1201,
+        "rushTD": 11,
+        "yardsPerCarry": 4.8
+      }
     },
     {
       "id": "4411769",
@@ -9987,7 +10085,11 @@
       "height": "5' 10\"",
       "weight": 212,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4241985.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 772,
+        "rushTD": 4,
+        "yardsPerCarry": 5
+      }
     },
     {
       "id": "4241820",
@@ -10071,7 +10173,11 @@
       "height": "5' 8\"",
       "weight": 205,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4568490.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 540,
+        "rushTD": 7,
+        "yardsPerCarry": 3.7
+      }
     },
     {
       "id": "4039057",
@@ -10314,7 +10420,12 @@
       "height": "6' 4\"",
       "weight": 216,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3128429.png",
-      "stats": {}
+      "stats": {
+        "receptions": 74,
+        "recYards": 1017,
+        "recTD": 7,
+        "yardsPerCatch": 13.7
+      }
     },
     {
       "id": "3915147",
@@ -11028,7 +11139,11 @@
       "height": "5' 9\"",
       "weight": 202,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429795.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1223,
+        "rushTD": 13,
+        "yardsPerCarry": 5
+      }
     },
     {
       "id": "3046779",
@@ -11131,7 +11246,12 @@
       "height": "6' 3\"",
       "weight": 245,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4430027.png",
-      "stats": {}
+      "stats": {
+        "receptions": 40,
+        "recYards": 489,
+        "recTD": 3,
+        "yardsPerCatch": 12.2
+      }
     },
     {
       "id": "4596439",
@@ -11369,7 +11489,12 @@
       "height": "6' 0\"",
       "weight": 202,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4374302.png",
-      "stats": {}
+      "stats": {
+        "receptions": 117,
+        "recYards": 1401,
+        "recTD": 11,
+        "yardsPerCatch": 12
+      }
     },
     {
       "id": "5123663",
@@ -11411,7 +11536,12 @@
       "height": "6' 1\"",
       "weight": 182,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4426388.png",
-      "stats": {}
+      "stats": {
+        "receptions": 65,
+        "recYards": 1117,
+        "recTD": 7,
+        "yardsPerCatch": 17.2
+      }
     },
     {
       "id": "4242392",
@@ -12139,7 +12269,11 @@
       "height": "5' 10\"",
       "weight": 223,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4047365.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 929,
+        "rushTD": 13,
+        "yardsPerCarry": 4
+      }
     },
     {
       "id": "4360887",
@@ -12195,7 +12329,12 @@
       "height": "6' 5\"",
       "weight": 259,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4572680.png",
-      "stats": {}
+      "stats": {
+        "receptions": 32,
+        "recYards": 489,
+        "recTD": 6,
+        "yardsPerCatch": 15.3
+      }
     },
     {
       "id": "4429023",
@@ -12452,7 +12591,12 @@
       "height": "6' 4\"",
       "weight": 208,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4248528.png",
-      "stats": {}
+      "stats": {
+        "receptions": 35,
+        "recYards": 611,
+        "recTD": 6,
+        "yardsPerCatch": 17.5
+      }
     },
     {
       "id": "4360086",
@@ -13194,7 +13338,11 @@
       "height": "5' 11\"",
       "weight": 227,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3128720.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 506,
+        "rushTD": 3,
+        "yardsPerCarry": 4.1
+      }
     },
     {
       "id": "4258173",
@@ -13208,7 +13356,12 @@
       "height": "6' 4\"",
       "weight": 222,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4258173.png",
-      "stats": {}
+      "stats": {
+        "receptions": 71,
+        "recYards": 1117,
+        "recTD": 6,
+        "yardsPerCatch": 15.7
+      }
     },
     {
       "id": "4426981",
@@ -13334,7 +13487,11 @@
       "height": "5' 10\"",
       "weight": 186,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429939.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 193,
+        "rushTD": 0,
+        "yardsPerCarry": 4.5
+      }
     },
     {
       "id": "4575558",
@@ -13404,7 +13561,11 @@
       "height": "5' 10\"",
       "weight": 208,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429059.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 703,
+        "rushTD": 2,
+        "yardsPerCarry": 3.6
+      }
     },
     {
       "id": "4426335",
@@ -14581,7 +14742,12 @@
       "height": "6' 3\"",
       "weight": 211,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4360078.png",
-      "stats": {}
+      "stats": {
+        "receptions": 47,
+        "recYards": 1003,
+        "recTD": 6,
+        "yardsPerCatch": 21.3
+      }
     },
     {
       "id": "3915470",
@@ -14670,7 +14836,11 @@
       "height": "5' 10\"",
       "weight": 226,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4242335.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1585,
+        "rushTD": 18,
+        "yardsPerCarry": 4.9
+      }
     },
     {
       "id": "4361979",
@@ -14740,7 +14910,12 @@
       "height": "6' 6\"",
       "weight": 256,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4431459.png",
-      "stats": {}
+      "stats": {
+        "receptions": 76,
+        "recYards": 817,
+        "recTD": 4,
+        "yardsPerCatch": 10.8
+      }
     },
     {
       "id": "2517081",
@@ -15725,7 +15900,12 @@
       "height": "6' 2\"",
       "weight": 200,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3916433.png",
-      "stats": {}
+      "stats": {
+        "receptions": 75,
+        "recYards": 835,
+        "recTD": 3,
+        "yardsPerCatch": 11.1
+      }
     },
     {
       "id": "4431463",
@@ -15837,7 +16017,12 @@
       "height": "6' 2\"",
       "weight": 209,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4432773.png",
-      "stats": {}
+      "stats": {
+        "receptions": 48,
+        "recYards": 707,
+        "recTD": 2,
+        "yardsPerCatch": 14.7
+      }
     },
     {
       "id": "4244856",
@@ -15893,7 +16078,12 @@
       "height": "5' 10\"",
       "weight": 204,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4432620.png",
-      "stats": {}
+      "stats": {
+        "receptions": 58,
+        "recYards": 847,
+        "recTD": 5,
+        "yardsPerCatch": 14.6
+      }
     },
     {
       "id": "4428935",
@@ -16607,7 +16797,11 @@
       "height": "5' 11\"",
       "weight": 216,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3059915.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 611,
+        "rushTD": 8,
+        "yardsPerCarry": 3.7
+      }
     },
     {
       "id": "4362087",
@@ -16635,7 +16829,12 @@
       "height": "6' 5\"",
       "weight": 250,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/15847.png",
-      "stats": {}
+      "stats": {
+        "receptions": 76,
+        "recYards": 851,
+        "recTD": 5,
+        "yardsPerCatch": 11.2
+      }
     },
     {
       "id": "3139477",
@@ -16780,7 +16979,12 @@
       "height": "6' 1\"",
       "weight": 204,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4428331.png",
-      "stats": {}
+      "stats": {
+        "receptions": 53,
+        "recYards": 571,
+        "recTD": 5,
+        "yardsPerCatch": 10.8
+      }
     },
     {
       "id": "5082630",
@@ -17536,7 +17740,12 @@
       "height": "6' 4\"",
       "weight": 235,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4432665.png",
-      "stats": {}
+      "stats": {
+        "receptions": 64,
+        "recYards": 680,
+        "recTD": 7,
+        "yardsPerCatch": 10.6
+      }
     },
     {
       "id": "4362999",
@@ -17662,7 +17871,11 @@
       "height": "5' 8\"",
       "weight": 208,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4890973.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 975,
+        "rushTD": 5,
+        "yardsPerCarry": 3.7
+      }
     },
     {
       "id": "4366963",
@@ -18740,7 +18953,11 @@
       "height": "6' 0\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4685382.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 545,
+        "rushTD": 4,
+        "yardsPerCarry": 4.4
+      }
     },
     {
       "id": "4241457",
@@ -18885,7 +19102,12 @@
       "height": "6' 2\"",
       "weight": 208,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429025.png",
-      "stats": {}
+      "stats": {
+        "receptions": 51,
+        "recYards": 735,
+        "recTD": 8,
+        "yardsPerCatch": 14.4
+      }
     },
     {
       "id": "4430114",
@@ -18969,7 +19191,12 @@
       "height": "6' 0\"",
       "weight": 185,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4612826.png",
-      "stats": {}
+      "stats": {
+        "receptions": 66,
+        "recYards": 789,
+        "recTD": 6,
+        "yardsPerCatch": 12
+      }
     },
     {
       "id": "4384171",
@@ -19109,7 +19336,11 @@
       "height": "5' 8\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4430968.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 643,
+        "rushTD": 3,
+        "yardsPerCarry": 4.1
+      }
     },
     {
       "id": "4361027",
@@ -19627,7 +19858,12 @@
       "height": "6' 1\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/16800.png",
-      "stats": {}
+      "stats": {
+        "receptions": 60,
+        "recYards": 789,
+        "recTD": 14,
+        "yardsPerCatch": 13.1
+      }
     },
     {
       "id": "4426553",
@@ -19711,7 +19947,11 @@
       "height": "5' 8\"",
       "weight": 210,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429096.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 746,
+        "rushTD": 6,
+        "yardsPerCarry": 5.1
+      }
     },
     {
       "id": "4360859",
@@ -19907,7 +20147,12 @@
       "height": "6' 2\"",
       "weight": 212,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4426515.png",
-      "stats": {}
+      "stats": {
+        "receptions": 129,
+        "recYards": 1715,
+        "recTD": 10,
+        "yardsPerCatch": 13.3
+      }
     },
     {
       "id": "4242557",
@@ -20094,7 +20339,11 @@
       "height": "5' 9\"",
       "weight": 202,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4430737.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1252,
+        "rushTD": 10,
+        "yardsPerCarry": 4.8
+      }
     },
     {
       "id": "4431618",
@@ -22073,7 +22322,12 @@
       "height": "6' 1\"",
       "weight": 195,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4262921.png",
-      "stats": {}
+      "stats": {
+        "receptions": 84,
+        "recYards": 1048,
+        "recTD": 2,
+        "yardsPerCatch": 12.5
+      }
     },
     {
       "id": "4360637",
@@ -22101,7 +22355,11 @@
       "height": "5' 10\"",
       "weight": 208,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3042519.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 548,
+        "rushTD": 2,
+        "yardsPerCarry": 4.2
+      }
     },
     {
       "id": "4362010",
@@ -22143,7 +22401,11 @@
       "height": "5' 11\"",
       "weight": 223,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4360569.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 758,
+        "rushTD": 6,
+        "yardsPerCarry": 4.8
+      }
     },
     {
       "id": "4433970",
@@ -22993,7 +23255,11 @@
       "height": "5' 10\"",
       "weight": 202,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4432710.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 911,
+        "rushTD": 9,
+        "yardsPerCarry": 5.1
+      }
     },
     {
       "id": "3046439",
@@ -23250,7 +23516,11 @@
       "height": "6' 0\"",
       "weight": 227,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4569173.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 603,
+        "rushTD": 7,
+        "yardsPerCarry": 4.6
+      }
     },
     {
       "id": "4259646",
@@ -24076,7 +24346,12 @@
       "height": "6' 4\"",
       "weight": 231,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3929645.png",
-      "stats": {}
+      "stats": {
+        "receptions": 77,
+        "recYards": 889,
+        "recTD": 3,
+        "yardsPerCatch": 11.5
+      }
     },
     {
       "id": "3054850",
@@ -24090,7 +24365,11 @@
       "height": "5' 10\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3054850.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 471,
+        "rushTD": 1,
+        "yardsPerCarry": 3.6
+      }
     },
     {
       "id": "4696488",
@@ -24202,7 +24481,12 @@
       "height": "6' 0\"",
       "weight": 187,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4361370.png",
-      "stats": {}
+      "stats": {
+        "receptions": 100,
+        "recYards": 1163,
+        "recTD": 9,
+        "yardsPerCatch": 11.6
+      }
     },
     {
       "id": "4426407",
@@ -25365,7 +25649,12 @@
       "height": "6' 0\"",
       "weight": 200,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4595348.png",
-      "stats": {}
+      "stats": {
+        "receptions": 18,
+        "recYards": 271,
+        "recTD": 2,
+        "yardsPerCatch": 15.1
+      }
     },
     {
       "id": "4567134",
@@ -25463,7 +25752,11 @@
       "height": "5' 11\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4696981.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 410,
+        "rushTD": 5,
+        "yardsPerCarry": 4.1
+      }
     },
     {
       "id": "3916945",
@@ -25519,7 +25812,11 @@
       "height": "5' 11\"",
       "weight": 210,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4360516.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 740,
+        "rushTD": 2,
+        "yardsPerCarry": 4.2
+      }
     },
     {
       "id": "15718",
@@ -26332,7 +26629,11 @@
       "height": "5' 11\"",
       "weight": 217,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4427366.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1065,
+        "rushTD": 4,
+        "yardsPerCarry": 4.4
+      }
     },
     {
       "id": "4432237",
@@ -26701,7 +27002,12 @@
       "height": "6' 0\"",
       "weight": 183,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4569618.png",
-      "stats": {}
+      "stats": {
+        "receptions": 36,
+        "recYards": 395,
+        "recTD": 4,
+        "yardsPerCatch": 11
+      }
     },
     {
       "id": "4241410",
@@ -27415,7 +27721,11 @@
       "height": "6' 0\"",
       "weight": 233,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3929630.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1140,
+        "rushTD": 7,
+        "yardsPerCarry": 4.1
+      }
     },
     {
       "id": "4429262",
@@ -27457,7 +27767,12 @@
       "height": "6' 1\"",
       "weight": 226,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4047646.png",
-      "stats": {}
+      "stats": {
+        "receptions": 78,
+        "recYards": 1003,
+        "recTD": 7,
+        "yardsPerCatch": 12.9
+      }
     },
     {
       "id": "4241372",
@@ -27812,7 +28127,12 @@
       "height": "6' 0\"",
       "weight": 170,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4241478.png",
-      "stats": {}
+      "stats": {
+        "receptions": 77,
+        "recYards": 1008,
+        "recTD": 4,
+        "yardsPerCatch": 13.1
+      }
     },
     {
       "id": "4714365",
@@ -28652,7 +28972,12 @@
       "height": "6' 4\"",
       "weight": 229,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4047650.png",
-      "stats": {}
+      "stats": {
+        "receptions": 59,
+        "recYards": 850,
+        "recTD": 6,
+        "yardsPerCatch": 14.4
+      }
     },
     {
       "id": "3914397",
@@ -28909,7 +29234,11 @@
       "height": "5' 8\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4569987.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 958,
+        "rushTD": 6,
+        "yardsPerCarry": 4.5
+      }
     },
     {
       "id": "4430802",
@@ -29852,7 +30181,12 @@
       "height": "6' 4\"",
       "weight": 250,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3040151.png",
-      "stats": {}
+      "stats": {
+        "receptions": 57,
+        "recYards": 628,
+        "recTD": 7,
+        "yardsPerCatch": 11
+      }
     },
     {
       "id": "4240554",
@@ -29894,7 +30228,15 @@
       "height": "5' 11\"",
       "weight": 210,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3117251.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1202,
+        "rushTD": 10,
+        "yardsPerCarry": 3.9,
+        "receptions": 102,
+        "recYards": 924,
+        "recTD": 7,
+        "yardsPerCatch": 9.1
+      }
     },
     {
       "id": "3916075",
@@ -29950,7 +30292,12 @@
       "height": "6' 1\"",
       "weight": 189,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4428209.png",
-      "stats": {}
+      "stats": {
+        "receptions": 36,
+        "recYards": 528,
+        "recTD": 0,
+        "yardsPerCatch": 14.7
+      }
     },
     {
       "id": "3920814",
@@ -30949,7 +31296,11 @@
       "height": "6' 1\"",
       "weight": 214,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4426385.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 730,
+        "rushTD": 12,
+        "yardsPerCarry": 4
+      }
     },
     {
       "id": "4426376",
@@ -31276,7 +31627,12 @@
       "height": "6' 0\"",
       "weight": 197,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4430878.png",
-      "stats": {}
+      "stats": {
+        "receptions": 119,
+        "recYards": 1793,
+        "recTD": 10,
+        "yardsPerCatch": 15.1
+      }
     },
     {
       "id": "4383409",
@@ -31962,7 +32318,12 @@
       "height": "6' 1\"",
       "weight": 205,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4567750.png",
-      "stats": {}
+      "stats": {
+        "receptions": 63,
+        "recYards": 938,
+        "recTD": 6,
+        "yardsPerCatch": 14.9
+      }
     },
     {
       "id": "2979482",
@@ -32088,7 +32449,11 @@
       "height": "5' 10\"",
       "weight": 195,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4596448.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 588,
+        "rushTD": 1,
+        "yardsPerCarry": 3.4
+      }
     },
     {
       "id": "5097554",
@@ -33185,7 +33550,11 @@
       "height": "6' 0\"",
       "weight": 209,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3916148.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1082,
+        "rushTD": 5,
+        "yardsPerCarry": 4.5
+      }
     },
     {
       "id": "4879189",

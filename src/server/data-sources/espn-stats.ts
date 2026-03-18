@@ -18,11 +18,12 @@ type TeamRosterPlayer = {
 
 const ESPN_STATS_URLS = {
   passing: 'https://www.espn.com/nfl/stats/player/_/table/passing/sort/passingYards/dir/desc',
-  rushing: 'https://www.espn.com/nfl/stats/player/_/table/rushing/sort/rushingYards/dir/desc',
+  rushing:
+    'https://www.espn.com/nfl/stats/player/_/stat/rushing/table/rushing/sort/rushingYardsPerGame/dir/desc',
   receiving:
-    'https://www.espn.com/nfl/stats/player/_/table/receiving/sort/receivingYards/dir/desc',
+    'https://www.espn.com/nfl/stats/player/_/stat/receiving/table/receiving/sort/receivingYardsPerGame/dir/desc',
   defensive:
-    'https://www.espn.com/nfl/stats/player/_/table/defensive/sort/totalTackles/dir/desc',
+    'https://www.espn.com/nfl/stats/player/_/stat/defensive/table/defensive/sort/totalTackles/dir/desc',
 } as const;
 
 type Category = keyof typeof ESPN_STATS_URLS;
