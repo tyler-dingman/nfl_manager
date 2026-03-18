@@ -3,6 +3,7 @@ import type { IngestedLeagueData, UnifiedPlayer } from '@/server/data/nfl-data';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerRowDTO } from '@/types/player';
 import { buildFreeAgentProfile, bucketPosition } from '@/server/logic/free-agency-pool';
+import { getFreeAgentExpectedApyDollars } from '@/lib/free-agent-valuation';
 import type { OtcFreeAgencyRow } from '@/server/data-sources/overthecap-free-agency';
 import {
   buildRosterMatchedExpiringContracts,
@@ -146,7 +147,12 @@ export const buildInitialFreeAgencyPool = ({
       const normalized = normalizePlayerName(resolvedName);
       const key = `${normalized}:${bucketPosition(row.position ?? matched?.position ?? 'UNK')}`;
       const split = splitName(resolvedName);
-      const marketValue = moneyFromRating(matched?.rating);
+      const marketValue =
+        getFreeAgentExpectedApyDollars({
+          position: row.position ?? matched?.position ?? 'UNK',
+          rating: matched?.rating,
+          marketValue: moneyFromRating(matched?.rating),
+        }) ?? moneyFromRating(matched?.rating);
       map.set(key, {
         id:
           matched?.id ??
