@@ -233,7 +233,7 @@ export const syncPlayers = async (
   ).length;
   console.log(`[sync:players] total merged roster player stats records=${mergedPlayerStatsCount}`);
 
-  const samplePlayers = ['Patrick Mahomes', 'Travis Kelce', 'Chris Jones'];
+  const samplePlayers = ['Nick Bolton', 'Drue Tranquill', 'Chris Jones'];
   samplePlayers.forEach((playerName) => {
     const sample = Array.from(nextPlayers.values()).find(
       (player) => normalizeComparableName(player.name) === normalizeComparableName(playerName),
