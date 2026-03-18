@@ -113,6 +113,10 @@ const getMaxYearFromArray = (rows: unknown[]): number | null => {
 };
 
 export const getContractFinalYear = (contract: UnifiedContract): number | null => {
+  if (typeof contract.contractEndYear === 'number' && Number.isFinite(contract.contractEndYear)) {
+    return contract.contractEndYear;
+  }
+
   const unknownContract = contract as UnknownRecord;
 
   const yearlyRowCandidates = YEARLY_ROW_KEYS.flatMap((key) => {
