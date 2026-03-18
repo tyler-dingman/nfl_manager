@@ -143,9 +143,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const showNextActionBanner = useMemo(() => {
     if (!pathname) return false;
-    if (phase === 'resign_cut') {
-      return pathname.startsWith('/roster');
-    }
     if (phase === 'free_agency') {
       return pathname.startsWith('/free-agents');
     }

@@ -83,7 +83,11 @@ export default function RenegotiateModal({
           <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-lg font-semibold text-slate-600">
             {player.headshotUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={player.headshotUrl} alt={player.firstName} className="h-full w-full" />
+              <img
+                src={player.headshotUrl}
+                alt={player.firstName}
+                className="h-full w-full object-cover"
+              />
             ) : (
               `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
             )}
