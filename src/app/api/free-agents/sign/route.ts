@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { signFreeAgent } from '@/server/api/players';
+import { getSaveStateResult, hydrateOffseasonFreeAgencyState } from '@/server/api/store';
 
 export const POST = async (request: Request) => {
   const body = (await request.json()) as { saveId?: string; playerId?: string };
@@ -8,5 +9,11 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ error: 'saveId and playerId are required' }, { status: 400 });
   }
 
+  const stateResult = getSaveStateResult(body.saveId);
+  if (!stateResult.ok) {
+    return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });
+  }
+
+  await hydrateOffseasonFreeAgencyState(stateResult.data);
   return NextResponse.json(signFreeAgent(body.saveId, body.playerId));
 };

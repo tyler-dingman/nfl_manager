@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { offerContract } from '@/server/api/players';
-import { getSaveStateResult } from '@/server/api/store';
+import { getSaveStateResult, hydrateOffseasonFreeAgencyState } from '@/server/api/store';
 import { clampYears } from '@/lib/contracts';
 import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
 import { getTeamCatchphrase, getTeamHypeLine } from '@/lib/team-chants';
@@ -33,6 +33,7 @@ export const POST = async (request: Request) => {
     if (!stateResult.ok) {
       return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });
     }
+    await hydrateOffseasonFreeAgencyState(stateResult.data);
     const player = stateResult.data.freeAgents.find((agent) => agent.id === body.playerId);
     if (!player) {
       return NextResponse.json({ ok: false, error: 'Free agent not found' }, { status: 404 });

@@ -4,6 +4,7 @@ import { getReSignQuote } from '@/lib/quotes';
 import { clampYears } from '@/lib/contracts';
 import { scoreResignOffer, decideResignAcceptance } from '@/server/logic/re-sign';
 import {
+  addWalkawayToFreeAgencyInState,
   getSaveStateResult,
   pushNewsItem,
   resignExpiringContractInState,
@@ -126,6 +127,18 @@ export const POST = async (request: Request) => {
       updatedHeader = result.header;
       updatedPlayer = result.player;
     }
+  } else {
+    const walkawayId = player?.id ?? expiringContract!.id;
+    addWalkawayToFreeAgencyInState(state, {
+      id: walkawayId,
+      firstName: offerPlayer.firstName,
+      lastName: offerPlayer.lastName,
+      position: offerPlayer.position,
+      age: offerPlayer.age,
+      rating: offerPlayer.rating,
+      headshotUrl: offerPlayer.headshotUrl ?? null,
+      priorTeamAbbr: teamAbbr,
+    });
   }
 
   const playerName = `${offerPlayer.firstName} ${offerPlayer.lastName}`;

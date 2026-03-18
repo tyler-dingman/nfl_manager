@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 
 import { getFreeAgents } from '@/server/api/players';
-import { ensureSaveState, getSaveState } from '@/server/api/store';
+import {
+  ensureSaveState,
+  getSaveState,
+  getSaveStateResult,
+  hydrateOffseasonFreeAgencyState,
+} from '@/server/api/store';
 
 const getParam = (request: Request, key: string) =>
   new URL(request.url).searchParams.get(key) ?? undefined;
@@ -16,6 +21,13 @@ export const GET = async (request: Request) => {
   if (!getSaveState(saveId) && teamAbbr) {
     ensureSaveState(saveId, teamAbbr);
   }
+
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });
+  }
+
+  await hydrateOffseasonFreeAgencyState(stateResult.data);
 
   const filters = {
     position: getParam(request, 'position'),
