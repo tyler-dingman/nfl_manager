@@ -7,6 +7,7 @@ import type {
 import {
   fetchAllTeamContracts,
   fetchTeamContracts,
+  type TeamContractSourceRow,
 } from '@/server/data-sources/overthecap-contracts';
 import { fetchOtcFreeAgency } from '@/server/data-sources/overthecap-free-agency';
 import { normalizePlayerName } from './normalize';
@@ -48,31 +49,67 @@ const safeUniquePlayerMatch = (
   return byName.length === 1 ? byName[0] : null;
 };
 
+const YEAR_SIGNAL_KEY_PATTERN =
+  /(year|season|through|thru|term|expire|expiration|ufa|void|until|end)/i;
+const FOUR_DIGIT_YEAR_PATTERN = /\b(20\d{2})\b/g;
+
+const extractYearsFromText = (value: string): number[] =>
+  Array.from(value.matchAll(FOUR_DIGIT_YEAR_PATTERN))
+    .map((match) => Number.parseInt(match[1], 10))
+    .filter((year) => Number.isFinite(year));
+
 const getContractEndYear = ({
   yearsRemaining,
   futureCapHits,
+  rawPayload,
 }: {
   yearsRemaining: number | null;
   futureCapHits: Record<string, number> | null;
+  rawPayload: Record<string, string | number | null>;
 }): number | null => {
+  const yearCandidates: number[] = [];
+
   if (typeof yearsRemaining === 'number' && Number.isFinite(yearsRemaining) && yearsRemaining > 0) {
-    return OFFSEASON_EXPIRING_SEASON_YEAR + yearsRemaining - 1;
+    yearCandidates.push(OFFSEASON_EXPIRING_SEASON_YEAR + yearsRemaining - 1);
   }
 
-  if (!futureCapHits) {
+  if (futureCapHits) {
+    const futureYears = Object.keys(futureCapHits)
+      .map((year) => Number.parseInt(year, 10))
+      .filter((year) => Number.isFinite(year));
+    yearCandidates.push(...futureYears);
+  }
+
+  for (const [key, value] of Object.entries(rawPayload)) {
+    const keyLooksRelevant = YEAR_SIGNAL_KEY_PATTERN.test(key);
+    const rawValue = value === null || value === undefined ? '' : String(value);
+    const valueHasYear = FOUR_DIGIT_YEAR_PATTERN.test(rawValue);
+    FOUR_DIGIT_YEAR_PATTERN.lastIndex = 0;
+
+    if (!keyLooksRelevant && !valueHasYear) {
+      continue;
+    }
+
+    yearCandidates.push(...extractYearsFromText(key));
+    yearCandidates.push(...extractYearsFromText(rawValue));
+  }
+
+  if (yearCandidates.length === 0) {
     return null;
   }
 
-  const years = Object.keys(futureCapHits)
-    .map((year) => Number.parseInt(year, 10))
-    .filter((year) => Number.isFinite(year));
-
-  if (years.length === 0) {
-    return null;
-  }
-
-  return Math.max(...years);
+  return Math.max(...yearCandidates);
 };
+
+const extractRawYearSignals = (
+  row: TeamContractSourceRow,
+): Record<string, string | number | null> =>
+  Object.fromEntries(
+    Object.entries(row.rawContractPayload).filter(([key, value]) => {
+      const rawValue = value === null || value === undefined ? '' : String(value);
+      return YEAR_SIGNAL_KEY_PATTERN.test(key) || extractYearsFromText(rawValue).length > 0;
+    }),
+  );
 
 const syncContractsInternal = async (
   teams: UnifiedTeam[],
@@ -127,6 +164,12 @@ const syncContractsInternal = async (
   }
   const freeAgentsById = new Map<string, UnifiedFreeAgent>();
   const playerById = new Map(players.map((player) => [player.id, player]));
+  const contractDebugSamples: Array<{
+    playerName: string;
+    rawSourceFields: Record<string, string | number | null>;
+    yearSignalFields: Record<string, string | number | null>;
+    normalizedContract: UnifiedContract;
+  }> = [];
 
   for (const result of scrapeResults) {
     if (result.error) {
@@ -155,7 +198,7 @@ const syncContractsInternal = async (
       }
 
       report.matchedPlayers += 1;
-      nextByPlayer.set(`${result.teamAbbr}:${fallback.id}`, {
+      const normalizedContract = {
         playerId: fallback.id,
         teamAbbr: result.teamAbbr,
         contractStatus: row.contractStatus,
@@ -166,11 +209,23 @@ const syncContractsInternal = async (
         contractEndYear: getContractEndYear({
           yearsRemaining: row.yearsRemaining,
           futureCapHits: row.capHitFutureYears,
+          rawPayload: row.rawContractPayload,
         }),
         deadCap: row.deadCap,
         releaseSavings: row.releaseSavings,
         postJune1Savings: row.postJune1Savings,
-      });
+      } satisfies UnifiedContract;
+
+      nextByPlayer.set(`${result.teamAbbr}:${fallback.id}`, normalizedContract);
+
+      if (contractDebugSamples.length < 5) {
+        contractDebugSamples.push({
+          playerName: row.playerName,
+          rawSourceFields: row.rawContractPayload,
+          yearSignalFields: extractRawYearSignals(row),
+          normalizedContract,
+        });
+      }
 
       if (!isFreeAgentStatus(row.contractStatus)) {
         continue;
@@ -283,6 +338,26 @@ const syncContractsInternal = async (
         isUnsigned: false,
       });
     }
+  }
+
+  if (contractDebugSamples.length > 0) {
+    console.info(
+      `[contracts:debug] raw sample=${JSON.stringify(
+        contractDebugSamples.map((sample) => ({
+          playerName: sample.playerName,
+          rawSourceFields: sample.rawSourceFields,
+          yearSignalFields: sample.yearSignalFields,
+        })),
+      )}`,
+    );
+    console.info(
+      `[contracts:debug] normalized sample=${JSON.stringify(
+        contractDebugSamples.map((sample) => ({
+          playerName: sample.playerName,
+          normalizedContract: sample.normalizedContract,
+        })),
+      )}`,
+    );
   }
 
   return {

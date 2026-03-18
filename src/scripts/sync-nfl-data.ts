@@ -152,19 +152,6 @@ const run = async () => {
     `[expiring] final year distribution=${JSON.stringify(expiring.finalYearDistribution)}`,
   );
   console.log(
-    `[expiring:debug] sample contract shape=${JSON.stringify(expiring.debugSamples.slice(0, 5))}`,
-  );
-  console.log(
-    `[expiring:debug] sample derived years=${JSON.stringify(
-      expiring.debugSamples.slice(0, 8).map((sample) => ({
-        playerName: sample.playerName,
-        teamAbbr: sample.teamAbbr,
-        computedFinalYear: sample.computedFinalYear,
-        candidateYearFields: sample.candidateYearFields,
-      })),
-    )}`,
-  );
-  console.log(
     `[expiring] ending after ${OFFSEASON_EXPIRING_SEASON_YEAR} season=${expiring.endingThisSeason.length}`,
   );
   console.log(`[expiring] expiring contracts count=${expiringContractsCount}`);
