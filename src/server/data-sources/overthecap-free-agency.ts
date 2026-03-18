@@ -133,7 +133,7 @@ export const fetchOtcFreeAgency = async (): Promise<OtcFreeAgencyRow[]> => {
   const html = await response.text();
   const rows = parseRows(html);
   const unsigned = rows.filter((row) => row.nextTeamAbbr === null).length;
-  console.info(`[otc:fa] parsed rows=${rows.length}`);
-  console.info(`[otc:fa] unsigned=${unsigned}`);
+  console.info(`[otc:fa] rows parsed=${rows.length}`);
+  console.info(`[otc:fa] unsigned players parsed=${unsigned}`);
   return rows;
 };
