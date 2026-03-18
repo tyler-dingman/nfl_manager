@@ -22,8 +22,6 @@ const ESPN_STATS_URLS = {
     'https://www.espn.com/nfl/stats/player/_/stat/rushing/table/rushing/sort/rushingYardsPerGame/dir/desc',
   receiving:
     'https://www.espn.com/nfl/stats/player/_/stat/receiving/table/receiving/sort/receivingYardsPerGame/dir/desc',
-  defensive:
-    'https://www.espn.com/nfl/stats/player/_/stat/defensive/table/defensive/sort/totalTackles/dir/desc',
 } as const;
 
 type Category = keyof typeof ESPN_STATS_URLS;
@@ -32,10 +30,51 @@ const decodeEntities = (value: string): string =>
   value
     .replace(/&amp;/g, '&')
     .replace(/&quot;/g, '"')
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex: string) =>
+      String.fromCodePoint(Number.parseInt(hex, 16)),
+    )
+    .replace(/&#(\d+);/g, (_, decimal: string) =>
+      String.fromCodePoint(Number.parseInt(decimal, 10)),
+    )
     .replace(/&#39;/g, "'")
     .replace(/&nbsp;/g, ' ')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>');
+
+const PFR_TO_NFL_TEAM_ABBR: Record<string, string> = {
+  ARI: 'ARI',
+  ATL: 'ATL',
+  BAL: 'BAL',
+  BUF: 'BUF',
+  CAR: 'CAR',
+  CHI: 'CHI',
+  CIN: 'CIN',
+  CLE: 'CLE',
+  DAL: 'DAL',
+  DEN: 'DEN',
+  DET: 'DET',
+  GNB: 'GB',
+  HOU: 'HOU',
+  IND: 'IND',
+  JAX: 'JAX',
+  KAN: 'KC',
+  LAC: 'LAC',
+  LAR: 'LAR',
+  LVR: 'LV',
+  MIA: 'MIA',
+  MIN: 'MIN',
+  NOR: 'NO',
+  NWE: 'NE',
+  NYG: 'NYG',
+  NYJ: 'NYJ',
+  PHI: 'PHI',
+  PIT: 'PIT',
+  SEA: 'SEA',
+  SFO: 'SF',
+  TAM: 'TB',
+  TEN: 'TEN',
+  WAS: 'WSH',
+};
 
 const stripTags = (value: string): string =>
   decodeEntities(value)
@@ -105,13 +144,20 @@ const isCategoryHeaderRow = (cells: string[], category: Category) => {
       return upper.includes('CMP%') && upper.includes('ATT') && upper.includes('INT');
 
     case 'rushing':
-      return upper.includes('ATT') && upper.includes('YDS') && upper.includes('AVG') && !upper.includes('CMP%');
+      return (
+        upper.includes('ATT') &&
+        upper.includes('YDS') &&
+        upper.includes('AVG') &&
+        !upper.includes('CMP%')
+      );
 
     case 'receiving':
-      return upper.includes('REC') && upper.includes('TGTS') && upper.includes('YDS') && upper.includes('AVG');
-
-    case 'defensive':
-      return upper.includes('TOT') || upper.includes('SOLO') || upper.includes('SACK') || upper.includes('PD');
+      return (
+        upper.includes('REC') &&
+        upper.includes('TGTS') &&
+        upper.includes('YDS') &&
+        upper.includes('AVG')
+      );
 
     default:
       return false;
@@ -178,25 +224,101 @@ const mapStatsFromHeaders = (
     if (yardsPerCatch !== undefined) stats.yardsPerCatch = yardsPerCatch;
   }
 
-  if (category === 'defensive') {
-    const tackles = get('TOT');
-    const sacks = get('SACK');
-    const interceptionsDef = get('INT');
-    const passDeflections = get('PD');
-    const forcedFumbles = get('FF');
-    const tfl = get('TFL');
-    const qbHits = get('QBH');
+  return stats;
+};
 
-    if (tackles !== undefined) stats.tackles = tackles;
-    if (sacks !== undefined) stats.sacks = sacks;
-    if (interceptionsDef !== undefined) stats.interceptionsDef = interceptionsDef;
-    if (passDeflections !== undefined) stats.passDeflections = passDeflections;
-    if (forcedFumbles !== undefined) stats.forcedFumbles = forcedFumbles;
-    if (tfl !== undefined) stats.tfl = tfl;
-    if (qbHits !== undefined) stats.qbHits = qbHits;
+const extractDataStatCells = (rowHtml: string) => {
+  const cells = new Map<string, string>();
+  const cellMatches = rowHtml.matchAll(
+    /<(?:td|th)[^>]*data-stat="([^"]+)"[^>]*>([\s\S]*?)<\/(?:td|th)>/gi,
+  );
+
+  for (const match of cellMatches) {
+    const key = match[1]?.trim();
+    if (!key) continue;
+    cells.set(key, stripTags(match[2] ?? ''));
   }
 
-  return stats;
+  return cells;
+};
+
+export const fetchPfrDefenseStats = async (): Promise<TeamPlayerStatsRecord[]> => {
+  const pfrUrl = 'https://www.pro-football-reference.com/years/2025/defense_advanced.htm';
+
+  try {
+    const response = await fetch(pfrUrl, {
+      headers: {
+        'user-agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+        accept:
+          'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'accept-language': 'en-US,en;q=0.9',
+        referer: 'https://www.pro-football-reference.com/',
+        'cache-control': 'no-cache',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed (${response.status})`);
+    }
+
+    const html = await response.text();
+    const rowMatches = html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi);
+    const records: TeamPlayerStatsRecord[] = [];
+
+    for (const rowMatch of rowMatches) {
+      const rowHtml = rowMatch[1] ?? '';
+      const row = extractDataStatCells(rowHtml);
+      const playerName = row.get('name_display');
+      const teamNameAbbr = row.get('team_name_abbr')?.toUpperCase();
+      const position = row.get('pos');
+
+      if (!playerName || !teamNameAbbr || !position) continue;
+
+      const stats: UnifiedPlayerStats = {};
+
+      const tackles = toNumber(row.get('tackles_combined') ?? '');
+      const sacks = toNumber(row.get('sacks') ?? '');
+      const interceptionsDef = toNumber(row.get('def_int') ?? '');
+      const passDeflections = toNumber(row.get('def_batted_passes') ?? '');
+      const pressures = toNumber(row.get('pressures') ?? '');
+      const qbHurries = toNumber(row.get('qb_hurry') ?? '');
+      const qbHits = toNumber(row.get('qb_knockdown') ?? '');
+      const missedTackles = toNumber(row.get('tackles_missed') ?? '');
+      const missedTacklesPct = toNumber(row.get('tackles_missed_pct') ?? '');
+
+      if (tackles !== undefined) stats.tackles = tackles;
+      if (sacks !== undefined) stats.sacks = sacks;
+      if (interceptionsDef !== undefined) stats.interceptionsDef = interceptionsDef;
+      if (passDeflections !== undefined) stats.passDeflections = passDeflections;
+      if (pressures !== undefined) stats.pressures = pressures;
+      if (qbHurries !== undefined) stats.qbHurries = qbHurries;
+      if (qbHits !== undefined) stats.qbHits = qbHits;
+      if (missedTackles !== undefined) stats.missedTackles = missedTackles;
+      if (missedTacklesPct !== undefined) stats.missedTacklesPct = missedTacklesPct;
+
+      if (!hasNonEmptyStats(stats)) continue;
+
+      records.push({
+        playerName,
+        teamAbbr: PFR_TO_NFL_TEAM_ABBR[teamNameAbbr] ?? teamNameAbbr,
+        position,
+        stats,
+      });
+    }
+
+    console.log(`[pfr:defense] parsed players: ${records.length}`);
+    console.log(`[pfr:defense] sample: ${JSON.stringify(records.slice(0, 3))}`);
+
+    return records;
+  } catch (error) {
+    console.warn(
+      `[pfr:defense] failed to fetch/parse advanced defense stats: ${
+        error instanceof Error ? error.message : 'Unknown error'
+      }`,
+    );
+    return [];
+  }
 };
 
 const parseCategoryPage = (html: string, category: Category) => {
@@ -299,10 +421,13 @@ export const fetchTeamStats = async (
     }),
   );
 
-  const parsed = pages.flatMap(({ category, html }) => {
+  const offenseStats = pages.flatMap(({ category, html }) => {
     if (!html) return [];
     return parseCategoryPage(html, category);
   });
+
+  const defenseStats = await fetchPfrDefenseStats();
+  const parsed = [...offenseStats, ...defenseStats];
 
   const filtered = parsed.filter((record) => {
     const normalizedName = normalizeComparableName(record.playerName);

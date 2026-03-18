@@ -19,6 +19,10 @@ export type UnifiedPlayerStats = {
   sacks?: number;
   tfl?: number;
   qbHits?: number;
+  pressures?: number;
+  qbHurries?: number;
+  missedTackles?: number;
+  missedTacklesPct?: number;
 
   interceptionsDef?: number;
   passDeflections?: number;
