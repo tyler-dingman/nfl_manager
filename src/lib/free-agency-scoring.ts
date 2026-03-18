@@ -5,8 +5,8 @@ import {
   evaluateContractOffer,
   getApyCapForPosition,
 } from '@/lib/contract-negotiation';
-import { getDemandAavMillions } from '@/lib/contract-demand';
 import { calculatePlayerInterestForTeam } from '@/lib/signing-interest';
+import { getFreeAgentExpectedApy } from '@/lib/free-agent-valuation';
 
 export type FreeAgencyScoreEstimate = {
   interestScore: number;
@@ -17,9 +17,6 @@ export type FreeAgencyScoreEstimate = {
   apyScore: number;
   yearsFit: number;
 };
-
-const getExpectedApy = (rating: number, position: string) =>
-  getDemandAavMillions({ position, ovr: rating });
 
 export const scoreFreeAgencyOffer = ({
   player,
@@ -41,11 +38,12 @@ export const scoreFreeAgencyOffer = ({
   const rating = player.rating ?? 75;
   const marketApy =
     player.freeAgentProfile?.expectedAnnualValue ??
-    (player.rating !== undefined
-      ? getDemandAavMillions({ position: player.position, ovr: player.rating })
-      : player.marketValue !== null && player.marketValue !== undefined
-        ? player.marketValue / 1_000_000
-        : getApyCapForPosition(player.position));
+    getFreeAgentExpectedApy({
+      position: player.position,
+      rating: player.rating,
+      marketValue: player.marketValue,
+    }) ??
+    getApyCapForPosition(player.position);
 
   const clampedYears = clampOfferYears(years, 5);
   const preferredYears = getPreferredYearsForPlayer(player);
@@ -74,7 +72,12 @@ export const scoreFreeAgencyOffer = ({
     ? Math.round(evaluation.score * 0.75 + interestBreakdown.finalInterest * 0.25)
     : evaluation.score;
 
-  const expectedApy = getExpectedApy(rating, player.position);
+  const expectedApy =
+    getFreeAgentExpectedApy({
+      position: player.position,
+      rating: player.rating,
+      marketValue: player.marketValue,
+    }) ?? getApyCapForPosition(player.position);
   const expectedYearsRange: [number, number] = [
     Math.max(1, preferredYears - 1),
     Math.min(5, preferredYears + 1),

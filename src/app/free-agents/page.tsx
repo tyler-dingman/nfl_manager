@@ -14,6 +14,7 @@ import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
+import { getFreeAgentExpectedApyDollars } from '@/lib/free-agent-valuation';
 import { apiFetch } from '@/lib/api';
 import type { PlayerRowDTO } from '@/types/player';
 
@@ -36,7 +37,17 @@ export default function FreeAgentsPage() {
   const [signedCount, setSignedCount] = useState(0);
 
   useEffect(() => {
-    setPlayers(data);
+    setPlayers(
+      data.map((player) => ({
+        ...player,
+        marketValue:
+          getFreeAgentExpectedApyDollars({
+            position: player.position,
+            rating: player.rating,
+            marketValue: player.marketValue,
+          }) ?? null,
+      })),
+    );
   }, [data]);
 
   useEffect(() => {
