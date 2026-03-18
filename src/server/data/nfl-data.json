@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-18T00:12:05.881Z",
+  "updatedAt": "2026-03-18T00:21:09.568Z",
   "teams": [
     {
       "id": "ARI",
@@ -323,7 +323,13 @@
       "height": "6' 4\"",
       "weight": 235,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/2578570.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 64.9,
+        "passingYards": 3366,
+        "yardsPerCarry": 6.9,
+        "passingTD": 23,
+        "interceptions": 8
+      }
     },
     {
       "id": "4692835",
@@ -1709,7 +1715,13 @@
       "height": "6' 3\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4360423.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 60.1,
+        "passingYards": 1982,
+        "yardsPerCarry": 7.2,
+        "passingTD": 9,
+        "interceptions": 3
+      }
     },
     {
       "id": "4360248",
@@ -2689,7 +2701,13 @@
       "height": "6' 1\"",
       "weight": 204,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4035671.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 77.6,
+        "passingYards": 426,
+        "yardsPerCarry": 6.4,
+        "passingTD": 2,
+        "interceptions": 0
+      }
     },
     {
       "id": "3916387",
@@ -2703,7 +2721,13 @@
       "height": "6' 2\"",
       "weight": 205,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3916387.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 63.6,
+        "passingYards": 2549,
+        "yardsPerCarry": 8.4,
+        "passingTD": 21,
+        "interceptions": 7
+      }
     },
     {
       "id": "4426479",
@@ -3431,7 +3455,13 @@
       "height": "6' 5\"",
       "weight": 237,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 69.3,
+        "passingYards": 3668,
+        "yardsPerCarry": 8,
+        "passingTD": 25,
+        "interceptions": 10
+      }
     },
     {
       "id": "3115293",
@@ -5055,7 +5085,13 @@
       "height": "5' 10\"",
       "weight": 204,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4685720.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 63.6,
+        "passingYards": 3011,
+        "yardsPerCarry": 6.3,
+        "passingTD": 23,
+        "interceptions": 11
+      }
     },
     {
       "id": "4710661",
@@ -5590,20 +5626,6 @@
       "stats": {}
     },
     {
-      "id": "4038849",
-      "teamAbbr": "CAR",
-      "name": "D.J. Wonnum",
-      "position": "LB",
-      "baselineRating": 84,
-      "maddenRating": 76,
-      "rating": 80,
-      "age": 28,
-      "height": "6' 5\"",
-      "weight": 258,
-      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4038849.png",
-      "stats": {}
-    },
-    {
       "id": "4568263",
       "teamAbbr": "CAR",
       "name": "Ryan Fitzgerald",
@@ -6091,7 +6113,13 @@
       "height": "6' 1\"",
       "weight": 226,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4431611.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 58.1,
+        "passingYards": 3942,
+        "yardsPerCarry": 6.9,
+        "passingTD": 27,
+        "interceptions": 7
+      }
     },
     {
       "id": "4241482",
@@ -6763,7 +6791,13 @@
       "height": "6' 4\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3915511.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 66.8,
+        "passingYards": 1809,
+        "yardsPerCarry": 7,
+        "passingTD": 17,
+        "interceptions": 5
+      }
     },
     {
       "id": "4362628",
@@ -6833,7 +6867,13 @@
       "height": "6' 6\"",
       "weight": 245,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/11252.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 60.3,
+        "passingYards": 2479,
+        "yardsPerCarry": 6,
+        "passingTD": 15,
+        "interceptions": 10
+      }
     },
     {
       "id": "3707061",
@@ -7855,7 +7895,13 @@
       "height": "5' 11\"",
       "weight": 205,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4427238.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 59.5,
+        "passingYards": 937,
+        "yardsPerCarry": 5.1,
+        "passingTD": 7,
+        "interceptions": 2
+      }
     },
     {
       "id": "4240548",
@@ -8107,7 +8153,13 @@
       "height": "6' 2\"",
       "weight": 212,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4432762.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 56.6,
+        "passingYards": 1400,
+        "yardsPerCarry": 6.6,
+        "passingTD": 7,
+        "interceptions": 10
+      }
     },
     {
       "id": "4034862",
@@ -9129,7 +9181,13 @@
       "height": "6' 2\"",
       "weight": 238,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/2577417.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 67.3,
+        "passingYards": 4552,
+        "yardsPerCarry": 7.6,
+        "passingTD": 30,
+        "interceptions": 10
+      }
     },
     {
       "id": "4045163",
@@ -10165,7 +10223,13 @@
       "height": "6' 2\"",
       "weight": 217,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4426338.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 63.4,
+        "passingYards": 3931,
+        "yardsPerCarry": 6.4,
+        "passingTD": 25,
+        "interceptions": 11
+      }
     },
     {
       "id": "4240551",
@@ -10991,7 +11055,13 @@
       "height": "6' 4\"",
       "weight": 217,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3046779.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 68,
+        "passingYards": 4564,
+        "yardsPerCarry": 7.9,
+        "passingTD": 34,
+        "interceptions": 8
+      }
     },
     {
       "id": "4569615",
@@ -11848,6 +11918,20 @@
       "stats": {}
     },
     {
+      "id": "4038849",
+      "teamAbbr": "DET",
+      "name": "D.J. Wonnum",
+      "position": "LB",
+      "baselineRating": 84,
+      "maddenRating": 76,
+      "rating": 80,
+      "age": 28,
+      "height": "6' 5\"",
+      "weight": 258,
+      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4038849.png",
+      "stats": {}
+    },
+    {
       "id": "3910229",
       "teamAbbr": "DET",
       "name": "Rock Ya-Sin",
@@ -12153,7 +12237,13 @@
       "height": "6' 4\"",
       "weight": 219,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4036378.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 66.3,
+        "passingYards": 3381,
+        "yardsPerCarry": 7.7,
+        "passingTD": 23,
+        "interceptions": 6
+      }
     },
     {
       "id": "4808830",
@@ -13357,7 +13447,13 @@
       "height": "6' 4\"",
       "weight": 225,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4242546.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 57.2,
+        "passingYards": 915,
+        "yardsPerCarry": 5.8,
+        "passingTD": 5,
+        "interceptions": 1
+      }
     },
     {
       "id": "4035538",
@@ -13511,7 +13607,13 @@
       "height": "6' 3\"",
       "weight": 218,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4432577.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 64.5,
+        "passingYards": 3041,
+        "yardsPerCarry": 7.2,
+        "passingTD": 19,
+        "interceptions": 8
+      }
     },
     {
       "id": "3045474",
@@ -14323,7 +14425,13 @@
       "height": "6' 5\"",
       "weight": 230,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3917792.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 68,
+        "passingYards": 3101,
+        "yardsPerCarry": 8.1,
+        "passingTD": 19,
+        "interceptions": 8
+      }
     },
     {
       "id": "4683423",
@@ -14547,7 +14655,13 @@
       "height": "6' 5\"",
       "weight": 228,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/5529.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 63,
+        "passingYards": 544,
+        "yardsPerCarry": 5.9,
+        "passingTD": 4,
+        "interceptions": 3
+      }
     },
     {
       "id": "4039243",
@@ -15555,7 +15669,13 @@
       "height": "6' 6\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4360310.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 60.9,
+        "passingYards": 4007,
+        "yardsPerCarry": 7.2,
+        "passingTD": 29,
+        "interceptions": 12
+      }
     },
     {
       "id": "4369308",
@@ -16549,7 +16669,13 @@
       "height": "6' 2\"",
       "weight": 225,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3139477.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 62.7,
+        "passingYards": 3587,
+        "yardsPerCarry": 7.1,
+        "passingTD": 22,
+        "interceptions": 11
+      }
     },
     {
       "id": "4043041",
@@ -17431,6 +17557,20 @@
       "height": "6' 4\"",
       "weight": 235,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4432665.png",
+      "stats": {}
+    },
+    {
+      "id": "4362999",
+      "teamAbbr": "LV",
+      "name": "Spencer Burford",
+      "position": "G",
+      "baselineRating": 85,
+      "maddenRating": 67,
+      "rating": 76,
+      "age": 25,
+      "height": "6' 4\"",
+      "weight": 300,
+      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4362999.png",
       "stats": {}
     },
     {
@@ -18691,7 +18831,13 @@
       "height": "6' 6\"",
       "weight": 236,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4038941.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 66.4,
+        "passingYards": 3727,
+        "yardsPerCarry": 7.3,
+        "passingTD": 26,
+        "interceptions": 13
+      }
     },
     {
       "id": "3917668",
@@ -19909,7 +20055,13 @@
       "height": "6' 3\"",
       "weight": 214,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/12483.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 65,
+        "passingYards": 4707,
+        "yardsPerCarry": 7.9,
+        "passingTD": 46,
+        "interceptions": 8
+      }
     },
     {
       "id": "2576399",
@@ -20623,7 +20775,13 @@
       "height": "6' 2\"",
       "weight": 209,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4889929.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 66.3,
+        "passingYards": 622,
+        "yardsPerCarry": 7.5,
+        "passingTD": 3,
+        "interceptions": 3
+      }
     },
     {
       "id": "4243386",
@@ -22023,7 +22181,13 @@
       "height": "6' 3\"",
       "weight": 219,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4433970.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 57.6,
+        "passingYards": 1632,
+        "yardsPerCarry": 6.7,
+        "passingTD": 11,
+        "interceptions": 12
+      }
     },
     {
       "id": "3917315",
@@ -22177,7 +22341,13 @@
       "height": "6' 5\"",
       "weight": 237,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/2573079.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 65.1,
+        "passingYards": 1216,
+        "yardsPerCarry": 7.2,
+        "passingTD": 6,
+        "interceptions": 5
+      }
     },
     {
       "id": "3124092",
@@ -22989,7 +23159,13 @@
       "height": "6' 4\"",
       "weight": 225,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4431452.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 72,
+        "passingYards": 4394,
+        "yardsPerCarry": 8.9,
+        "passingTD": 31,
+        "interceptions": 8
+      }
     },
     {
       "id": "4360063",
@@ -24137,7 +24313,13 @@
       "height": "6' 0\"",
       "weight": 211,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4426339.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 67.7,
+        "passingYards": 1586,
+        "yardsPerCarry": 6.2,
+        "passingTD": 8,
+        "interceptions": 5
+      }
     },
     {
       "id": "4430379",
@@ -24207,7 +24389,13 @@
       "height": "6' 5\"",
       "weight": 219,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4360689.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 67.6,
+        "passingYards": 2384,
+        "yardsPerCarry": 7.3,
+        "passingTD": 10,
+        "interceptions": 6
+      }
     },
     {
       "id": "4696902",
@@ -24907,7 +25095,13 @@
       "height": "6' 2\"",
       "weight": 223,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4689114.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 63.7,
+        "passingYards": 2272,
+        "yardsPerCarry": 6.7,
+        "passingTD": 15,
+        "interceptions": 5
+      }
     },
     {
       "id": "3115303",
@@ -25383,7 +25577,13 @@
       "height": "5' 11\"",
       "weight": 206,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/14881.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 58,
+        "passingYards": 831,
+        "yardsPerCarry": 7,
+        "passingTD": 3,
+        "interceptions": 3
+      }
     },
     {
       "id": "2969939",
@@ -25397,7 +25597,13 @@
       "height": "6' 4\"",
       "weight": 231,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/2969939.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 56.1,
+        "passingYards": 567,
+        "yardsPerCarry": 8.6,
+        "passingTD": 2,
+        "interceptions": 2
+      }
     },
     {
       "id": "4242547",
@@ -26083,7 +26289,13 @@
       "height": "6' 2\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429435.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 57.5,
+        "passingYards": 739,
+        "yardsPerCarry": 4.8,
+        "passingTD": 2,
+        "interceptions": 7
+      }
     },
     {
       "id": "4431053",
@@ -26475,7 +26687,13 @@
       "height": "6' 1\"",
       "weight": 217,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/14163.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 59.7,
+        "passingYards": 779,
+        "yardsPerCarry": 5.8,
+        "passingTD": 5,
+        "interceptions": 5
+      }
     },
     {
       "id": "4428681",
@@ -27413,7 +27631,13 @@
       "height": "6' 1\"",
       "weight": 223,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4040715.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 64.8,
+        "passingYards": 3224,
+        "yardsPerCarry": 7.1,
+        "passingTD": 25,
+        "interceptions": 6
+      }
     },
     {
       "id": "4248557",
@@ -28589,7 +28813,13 @@
       "height": "6' 2\"",
       "weight": 223,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/8439.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 65.7,
+        "passingYards": 3322,
+        "yardsPerCarry": 6.7,
+        "passingTD": 24,
+        "interceptions": 7
+      }
     },
     {
       "id": "3116407",
@@ -29502,20 +29732,6 @@
       "stats": {}
     },
     {
-      "id": "4362999",
-      "teamAbbr": "SF",
-      "name": "Spencer Burford",
-      "position": "G",
-      "baselineRating": 85,
-      "maddenRating": 67,
-      "rating": 76,
-      "age": 25,
-      "height": "6' 4\"",
-      "weight": 300,
-      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4362999.png",
-      "stats": {}
-    },
-    {
       "id": "4431523",
       "teamAbbr": "SF",
       "name": "Connor Colby",
@@ -29639,7 +29855,13 @@
       "height": "6' 3\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4241464.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 69.6,
+        "passingYards": 2151,
+        "yardsPerCarry": 7.4,
+        "passingTD": 13,
+        "interceptions": 6
+      }
     },
     {
       "id": "16002",
@@ -29807,7 +30029,13 @@
       "height": "6' 1\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4361741.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 69.4,
+        "passingYards": 2167,
+        "yardsPerCarry": 7.6,
+        "passingTD": 20,
+        "interceptions": 10
+      }
     },
     {
       "id": "3043116",
@@ -30787,7 +31015,13 @@
       "height": "6' 3\"",
       "weight": 225,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3912547.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 67.7,
+        "passingYards": 4048,
+        "yardsPerCarry": 8.5,
+        "passingTD": 25,
+        "interceptions": 14
+      }
     },
     {
       "id": "4600597",
@@ -31991,7 +32225,13 @@
       "height": "6' 1\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3052587.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 63.2,
+        "passingYards": 3693,
+        "yardsPerCarry": 6.8,
+        "passingTD": 26,
+        "interceptions": 11
+      }
     },
     {
       "id": "4430834",
@@ -33167,7 +33407,13 @@
       "height": "6' 2\"",
       "weight": 219,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4688380.png",
-      "stats": {}
+      "stats": {
+        "completionPct": 59.8,
+        "passingYards": 3169,
+        "yardsPerCarry": 5.9,
+        "passingTD": 15,
+        "interceptions": 7
+      }
     },
     {
       "id": "4361604",
