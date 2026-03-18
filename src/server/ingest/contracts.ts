@@ -10,6 +10,7 @@ import {
 } from '@/server/data-sources/overthecap-contracts';
 import { fetchOtcFreeAgency } from '@/server/data-sources/overthecap-free-agency';
 import { normalizePlayerName } from './normalize';
+import { OFFSEASON_EXPIRING_SEASON_YEAR } from '@/server/logic/contract-expiration';
 
 export type ContractSyncReport = {
   totalContractRows: number;
@@ -47,7 +48,17 @@ const safeUniquePlayerMatch = (
   return byName.length === 1 ? byName[0] : null;
 };
 
-const getContractEndYear = (futureCapHits: Record<string, number> | null): number | null => {
+const getContractEndYear = ({
+  yearsRemaining,
+  futureCapHits,
+}: {
+  yearsRemaining: number | null;
+  futureCapHits: Record<string, number> | null;
+}): number | null => {
+  if (typeof yearsRemaining === 'number' && Number.isFinite(yearsRemaining) && yearsRemaining > 0) {
+    return OFFSEASON_EXPIRING_SEASON_YEAR + yearsRemaining - 1;
+  }
+
   if (!futureCapHits) {
     return null;
   }
@@ -152,7 +163,10 @@ const syncContractsInternal = async (
         averagePerYear: row.averagePerYear,
         guaranteed: row.guaranteedMoney ?? row.fullyGuaranteedMoney ?? row.signingBonus ?? null,
         years: row.yearsRemaining,
-        contractEndYear: getContractEndYear(row.capHitFutureYears),
+        contractEndYear: getContractEndYear({
+          yearsRemaining: row.yearsRemaining,
+          futureCapHits: row.capHitFutureYears,
+        }),
         deadCap: row.deadCap,
         releaseSavings: row.releaseSavings,
         postJune1Savings: row.postJune1Savings,
