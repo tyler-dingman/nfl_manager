@@ -14,6 +14,14 @@ import { buildFreeAgencyPool, buildFreeAgentProfile } from '@/server/logic/free-
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { KANSAS_CITY_CHIEFS_ROSTER } from '@/data/rosters/kc';
 import { getExpiringContractsForTeam } from '@/server/logic/expiring-contracts';
+import {
+  fetchOtcFreeAgency,
+  type OtcFreeAgencyRow,
+} from '@/server/data-sources/overthecap-free-agency';
+import {
+  buildInitialFreeAgencyPool,
+  buildTeamExpiringContracts,
+} from '@/server/logic/offseason-free-agency';
 
 export type PlayerFilters = {
   position?: string;
@@ -49,9 +57,39 @@ export type SaveState = {
     resigns: Array<{ playerId: string; name: string; timestamp: string }>;
     trades: Array<{ playerId: string; name: string; timestamp: string }>;
   };
+  offseason: {
+    hydrated: boolean;
+    otcRows: OtcFreeAgencyRow[];
+    resolvedPlayerIds: string[];
+    walkawayPlayerIds: string[];
+  };
 };
 
 const saveStore = new Map<string, SaveState>();
+let otcRowsCache: OtcFreeAgencyRow[] | null = null;
+let otcRowsPromise: Promise<OtcFreeAgencyRow[]> | null = null;
+
+const getCachedOtcRows = async (): Promise<OtcFreeAgencyRow[]> => {
+  if (otcRowsCache) {
+    return otcRowsCache;
+  }
+  if (!otcRowsPromise) {
+    otcRowsPromise = fetchOtcFreeAgency()
+      .then((rows) => {
+        otcRowsCache = rows;
+        return rows;
+      })
+      .catch((error: unknown) => {
+        console.warn('[otc:fa] fallback-empty due to fetch error', error);
+        otcRowsCache = [];
+        return otcRowsCache;
+      })
+      .finally(() => {
+        otcRowsPromise = null;
+      });
+  }
+  return otcRowsPromise;
+};
 
 const splitName = (name: string) => {
   const parts = name.trim().split(/\s+/);
@@ -334,6 +372,12 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     expiringContracts: getExpiringContractsForTeam(teamAbbr, NFL_LEAGUE_DATA),
     newsFeed: [],
     rosterMoves: { cuts: [], resigns: [], trades: [] },
+    offseason: {
+      hydrated: false,
+      otcRows: [],
+      resolvedPlayerIds: [],
+      walkawayPlayerIds: [],
+    },
   };
 
   saveStore.set(saveId, state);
@@ -397,8 +441,53 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
   if (!state.transactions) {
     state.transactions = [];
   }
+  if (!state.offseason) {
+    state.offseason = {
+      hydrated: false,
+      otcRows: [],
+      resolvedPlayerIds: [],
+      walkawayPlayerIds: [],
+    };
+  }
 
   return { ok: true, data: state };
+};
+
+const toStoredPlayers = (players: PlayerRowDTO[]): StoredPlayer[] =>
+  players.map((player) => ({
+    ...player,
+    year1CapHit:
+      player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000,
+  }));
+
+const resolveWalkawaysFromState = (state: SaveState): PlayerRowDTO[] => {
+  const ids = new Set(state.offseason.walkawayPlayerIds);
+  return state.freeAgents.filter((player) => ids.has(player.id));
+};
+
+export const hydrateOffseasonFreeAgencyState = async (state: SaveState): Promise<void> => {
+  if (state.offseason.hydrated) {
+    return;
+  }
+
+  const otcRows = await getCachedOtcRows();
+  state.offseason.otcRows = otcRows;
+  state.expiringContracts = buildTeamExpiringContracts({
+    teamAbbr: state.header.teamAbbr,
+    otcRows,
+    league: NFL_LEAGUE_DATA,
+    resolvedIds: new Set(state.offseason.resolvedPlayerIds),
+  });
+
+  const pool = buildInitialFreeAgencyPool({
+    saveId: state.header.id,
+    teamAbbr: state.header.teamAbbr,
+    otcRows,
+    league: NFL_LEAGUE_DATA,
+    walkaways: resolveWalkawaysFromState(state),
+  });
+  state.freeAgents = toStoredPlayers(pool);
+  state.offseason.hydrated = true;
 };
 
 const matchesFilter = (player: StoredPlayer, filters?: PlayerFilters): boolean => {
@@ -667,6 +756,65 @@ export const cutPlayerInState = (
   };
 };
 
+export const addWalkawayToFreeAgencyInState = (
+  state: SaveState,
+  input: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    position: string;
+    age?: number;
+    rating?: number;
+    headshotUrl?: string | null;
+    priorTeamAbbr?: string | null;
+  },
+): PlayerRowDTO => {
+  const generatedAt = new Date().toISOString();
+  const cap = Math.max(1, Math.round((input.rating ? 0.8 + input.rating / 20 : 1.8) * 1_000_000));
+  const walkaway: PlayerRowDTO = {
+    id: input.id,
+    firstName: input.firstName,
+    lastName: input.lastName,
+    position: input.position,
+    age: input.age,
+    rating: input.rating,
+    marketValue: cap,
+    contractYearsRemaining: 0,
+    capHit: '$0.0M',
+    capHitValue: 0,
+    salary: 0,
+    guaranteed: 0,
+    status: 'Free Agent',
+    headshotUrl: input.headshotUrl ?? null,
+    signedTeamAbbr: input.priorTeamAbbr ?? state.header.teamAbbr,
+    freeAgentProfile: buildFreeAgentProfile({
+      playerId: input.id,
+      saveId: state.header.id,
+      position: input.position,
+      age: input.age,
+      lastContractApy: cap,
+      lastGuaranteed: Math.round(cap * 0.45),
+      teamAbbr: state.header.teamAbbr,
+      generatedAt,
+      source: 'real',
+    }),
+  };
+
+  if (!state.freeAgents.some((player) => player.id === walkaway.id)) {
+    state.freeAgents.push({ ...walkaway, year1CapHit: cap / 1_000_000 });
+  }
+
+  state.offseason.walkawayPlayerIds = Array.from(
+    new Set([...state.offseason.walkawayPlayerIds, walkaway.id]),
+  );
+  state.offseason.resolvedPlayerIds = Array.from(
+    new Set([...state.offseason.resolvedPlayerIds, walkaway.id]),
+  );
+  removeExpiringContract(state, walkaway.id);
+
+  return walkaway;
+};
+
 export const resignPlayerInState = (
   state: SaveState,
   playerId: string,
@@ -703,6 +851,11 @@ export const resignPlayerInState = (
 
   state.roster[playerIndex] = updatedPlayer;
   state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
+  state.offseason.resolvedPlayerIds = Array.from(
+    new Set([...state.offseason.resolvedPlayerIds, updatedPlayer.id]),
+  );
+  removeExpiringContract(state, updatedPlayer.id);
+  state.freeAgents = state.freeAgents.filter((playerRow) => playerRow.id !== updatedPlayer.id);
 
   return {
     header: getSaveHeaderSnapshot(state),
@@ -750,6 +903,10 @@ export const resignExpiringContractInState = (
 
   state.roster.push(newPlayer);
   removeExpiringContract(state, contract.id);
+  state.offseason.resolvedPlayerIds = Array.from(
+    new Set([...state.offseason.resolvedPlayerIds, contract.id]),
+  );
+  state.freeAgents = state.freeAgents.filter((player) => player.id !== contract.id);
   state.header.rosterCount = state.roster.length;
   state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
 
