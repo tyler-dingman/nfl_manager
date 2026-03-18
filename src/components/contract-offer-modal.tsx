@@ -157,7 +157,11 @@ export default function ContractOfferModal({
           <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-xl font-semibold text-slate-600">
             {player.headshotUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={player.headshotUrl} alt={player.firstName} className="h-full w-full" />
+              <img
+                src={player.headshotUrl}
+                alt={player.firstName}
+                className="h-full w-full object-cover object-center"
+              />
             ) : (
               `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
             )}
@@ -169,9 +173,7 @@ export default function ContractOfferModal({
             <p className="font-semibold text-foreground">
               {player.position} · {player.college ?? '—'}
             </p>
-            <p className="text-xs text-muted-foreground">
-              Age {age} · Rating {rating}
-            </p>
+            <p className="text-xs text-muted-foreground">Age {age}</p>
             <p className="text-xs text-muted-foreground">
               Preferred years {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]} ·
               Expected APY ${estimate.expectedApy.toFixed(1)}M

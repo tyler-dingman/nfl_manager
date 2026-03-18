@@ -86,7 +86,7 @@ export default function RenegotiateModal({
               <img
                 src={player.headshotUrl}
                 alt={player.firstName}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover object-center"
               />
             ) : (
               `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
@@ -98,7 +98,7 @@ export default function RenegotiateModal({
               {player.firstName} {player.lastName}
             </p>
             <p className="text-xs text-muted-foreground">
-              {player.position} · Age {age} · Rating {rating}
+              {player.position} · Age {age}
             </p>
           </div>
         </div>
