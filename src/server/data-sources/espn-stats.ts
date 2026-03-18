@@ -111,7 +111,7 @@ const isCategoryHeaderRow = (cells: string[], category: Category) => {
       return upper.includes('REC') && upper.includes('TGTS') && upper.includes('YDS') && upper.includes('AVG');
 
     case 'defensive':
-      return upper.includes('TOT') || upper.includes('SOLO') || upper.includes('SACKS') || upper.includes('PD');
+      return upper.includes('TOT') || upper.includes('SOLO') || upper.includes('SACK') || upper.includes('PD');
 
     default:
       return false;
@@ -180,7 +180,7 @@ const mapStatsFromHeaders = (
 
   if (category === 'defensive') {
     const tackles = get('TOT');
-    const sacks = get('SACKS');
+    const sacks = get('SACK');
     const interceptionsDef = get('INT');
     const passDeflections = get('PD');
     const forcedFumbles = get('FF');
