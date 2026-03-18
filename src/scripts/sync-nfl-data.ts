@@ -9,6 +9,31 @@ import { syncPlayers } from '@/server/ingest/players';
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+const isFreeAgentStatus = (status: string | null | undefined): boolean => {
+  if (!status) return false;
+  const normalized = status.toUpperCase();
+  return normalized.includes('UFA') || normalized.includes('RFA') || normalized.includes('ERFA');
+};
+
+const isExpiringContract = ({
+  years,
+  contractEndYear,
+  seasonYear,
+  contractStatus,
+}: {
+  years: number | null | undefined;
+  contractEndYear: number | null | undefined;
+  seasonYear: number;
+  contractStatus: string | null | undefined;
+}) => {
+  if (typeof years === 'number' && Number.isFinite(years)) {
+    return years <= 1;
+  }
+  if (typeof contractEndYear === 'number' && Number.isFinite(contractEndYear)) {
+    return contractEndYear <= seasonYear;
+  }
+  return isFreeAgentStatus(contractStatus);
+};
 
 const normalizePositionBucket = (position: string): string => {
   const normalized = position.trim().toUpperCase();
@@ -119,6 +144,20 @@ const run = async () => {
   const teamsWithPlayers = new Set(payload.players.map((player) => player.teamAbbr));
   const teamsWithoutPlayers = payload.teams.filter((team) => !teamsWithPlayers.has(team.abbr));
   const contractPlayerIds = new Set(payload.players.map((player) => player.id));
+  const teamAbbrByPlayerId = new Map(payload.players.map((player) => [player.id, player.teamAbbr]));
+  const seasonYear = new Date().getUTCFullYear();
+  const expiringContractsCount = payload.contracts.filter((contract) => {
+    const playerTeamAbbr = teamAbbrByPlayerId.get(contract.playerId);
+    if (!playerTeamAbbr || playerTeamAbbr !== contract.teamAbbr) {
+      return false;
+    }
+    return isExpiringContract({
+      years: contract.years,
+      contractEndYear: contract.contractEndYear,
+      seasonYear,
+      contractStatus: contract.contractStatus,
+    });
+  }).length;
   const unmatchedContracts = payload.contracts.filter(
     (contract) => !contractPlayerIds.has(contract.playerId),
   );
@@ -132,6 +171,7 @@ const run = async () => {
   console.log(`contracts count: ${payload.contracts.length}`);
   console.log(`cap entries count: ${payload.cap.length}`);
   console.log(`free agents count: ${payload.freeAgents.length}`);
+  console.log(`expiring contracts count: ${expiringContractsCount}`);
   console.log(`teams without players: ${teamsWithoutPlayers.length}`);
   console.log(`contracts without matching players: ${unmatchedContracts.length}`);
   console.log(

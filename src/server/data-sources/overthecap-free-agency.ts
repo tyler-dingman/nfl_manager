@@ -4,8 +4,13 @@ import path from 'node:path';
 import { normalizePlayerName, normalizeTeamName } from '@/server/ingest/normalize';
 import { NFL_TEAM_SEED } from '@/server/ingest/teams';
 
-const OTC_FREE_AGENCY_URL = 'https://overthecap.com/free-agency';
 const OTC_DEFAULT_AJAX_ENDPOINT = 'https://overthecap.com/wp-admin/admin-ajax.php';
+const OTC_FREE_AGENCY_SEASON = '2026';
+const OTC_FREE_AGENCY_REQUEST_PAYLOAD = {
+  action: 'get_free_agents',
+  season: OTC_FREE_AGENCY_SEASON,
+  team_id: '',
+} as const;
 const OTC_FREE_AGENCY_FALLBACK_FILES = [
   path.join(process.cwd(), 'data-cache/otc-free-agency-rendered.html'),
   path.join(process.cwd(), 'data-cache/otc-free-agency-2026-rendered.html'),
@@ -18,18 +23,13 @@ export type OtcFreeAgencyRow = {
   age: number | null;
   priorTeamAbbr: string | null;
   nextTeamAbbr: string | null;
+  priorTeamLabel: string | null;
+  nextTeamLabel: string | null;
   freeAgentType: string | null;
+  snaps: string | null;
+  currentApy: string | null;
+  guarantees: string | null;
   otcStatus: string | null;
-};
-
-type JsonRecord = Record<string, unknown>;
-
-type ClientSourceProbeResult = {
-  endpoint: string;
-  action: string;
-  season: string;
-  payloadKind: 'json' | 'html';
-  payload: unknown;
 };
 
 const stripTags = (value: string) =>
@@ -54,67 +54,6 @@ const findColumn = (headers: string[], tests: string[]) =>
 const parseInteger = (value: string | undefined): number | null => {
   const parsed = Number.parseInt((value ?? '').replace(/[^0-9]/g, ''), 10);
   return Number.isFinite(parsed) ? parsed : null;
-};
-
-const stringifyValue = (value: unknown): string | null => {
-  if (typeof value === 'string') {
-    const normalized = stripTags(value).trim();
-    return normalized.length > 0 ? normalized : null;
-  }
-  if (typeof value === 'number' || typeof value === 'boolean') {
-    return String(value);
-  }
-  return null;
-};
-
-const findRecordValue = (record: JsonRecord, tests: string[]): string | null => {
-  const entries = Object.entries(record);
-  for (const [key, raw] of entries) {
-    const normalizedKey = normalizeHeader(key);
-    if (tests.some((test) => normalizedKey.includes(test))) {
-      const normalized = stringifyValue(raw);
-      if (normalized) {
-        return normalized;
-      }
-    }
-  }
-  return null;
-};
-
-const mapRecordToFreeAgentRow = (record: JsonRecord): OtcFreeAgencyRow | null => {
-  const playerName =
-    findRecordValue(record, ['player']) ?? findRecordValue(record, ['name']) ?? null;
-  if (!playerName) {
-    return null;
-  }
-
-  const position = findRecordValue(record, ['position']) ?? findRecordValue(record, ['pos']);
-  const priorTeam =
-    findRecordValue(record, ['2025 team']) ??
-    findRecordValue(record, ['former team']) ??
-    findRecordValue(record, ['prior team']) ??
-    findRecordValue(record, ['previous team']) ??
-    findRecordValue(record, ['old team']);
-  const nextTeam =
-    findRecordValue(record, ['2026 team']) ??
-    findRecordValue(record, ['new team']) ??
-    findRecordValue(record, ['signed with']) ??
-    findRecordValue(record, ['to team']);
-  const age = parseInteger(findRecordValue(record, ['age']) ?? undefined);
-  const freeAgentType =
-    findRecordValue(record, ['fa type']) ?? findRecordValue(record, ['type']) ?? null;
-  const otcStatus = findRecordValue(record, ['status']) ?? null;
-
-  return {
-    playerName,
-    normalizedName: normalizePlayerName(playerName),
-    position,
-    age,
-    priorTeamAbbr: normalizeTeamAbbr(priorTeam ?? undefined),
-    nextTeamAbbr: normalizeTeamAbbr(nextTeam ?? undefined),
-    freeAgentType,
-    otcStatus,
-  };
 };
 
 const TEAM_ALIAS_TO_ABBR = (() => {
@@ -192,7 +131,12 @@ const parseRows = (html: string): OtcFreeAgencyRow[] => {
         age: ageIdx >= 0 ? parseInteger(cells[ageIdx]) : null,
         priorTeamAbbr: normalizeTeamAbbr(cells[priorTeamIdx]),
         nextTeamAbbr: normalizeTeamAbbr(cells[nextTeamIdx]),
+        priorTeamLabel: priorTeamIdx >= 0 ? cells[priorTeamIdx] || null : null,
+        nextTeamLabel: nextTeamIdx >= 0 ? cells[nextTeamIdx] || null : null,
         freeAgentType: typeIdx >= 0 ? cells[typeIdx] || null : null,
+        snaps: null,
+        currentApy: null,
+        guarantees: null,
         otcStatus: statusIdx >= 0 ? cells[statusIdx] || null : null,
       };
       rows.push(row);
@@ -203,161 +147,85 @@ const parseRows = (html: string): OtcFreeAgencyRow[] => {
   return [];
 };
 
-const parseRowsFromJson = (payload: unknown): OtcFreeAgencyRow[] => {
-  if (typeof payload === 'string') {
-    const maybeHtmlRows = parseRows(payload);
-    if (maybeHtmlRows.length > 0) {
-      return maybeHtmlRows;
-    }
-
-    try {
-      return parseRowsFromJson(JSON.parse(payload));
-    } catch {
-      return [];
-    }
+const normalizeUnsignedTeam = (value: string | null | undefined): string | null => {
+  if (!value) {
+    return null;
   }
-
-  if (Array.isArray(payload)) {
-    if (payload.length === 0) {
-      return [];
-    }
-
-    if (typeof payload[0] === 'object' && payload[0] !== null && !Array.isArray(payload[0])) {
-      return payload
-        .map((item) => mapRecordToFreeAgentRow(item as JsonRecord))
-        .filter((item): item is OtcFreeAgencyRow => item !== null);
-    }
-
-    return [];
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
   }
-
-  if (!payload || typeof payload !== 'object') {
-    return [];
-  }
-
-  const obj = payload as JsonRecord;
-
-  const nestedArrayKeys = ['data', 'rows', 'items', 'players', 'results'];
-  for (const key of nestedArrayKeys) {
-    if (key in obj) {
-      const parsed = parseRowsFromJson(obj[key]);
-      if (parsed.length > 0) {
-        return parsed;
-      }
-    }
-  }
-
-  const nestedHtmlKeys = ['html', 'table', 'tbody'];
-  for (const key of nestedHtmlKeys) {
-    const raw = obj[key];
-    if (typeof raw === 'string') {
-      const parsed = parseRows(raw);
-      if (parsed.length > 0) {
-        return parsed;
-      }
-    }
-  }
-
-  return [];
+  const normalized = normalizeTeamAbbr(trimmed);
+  return normalized ?? null;
 };
 
-const getLikelySeason = (html: string): string => {
-  const tableYear = html.match(/id=["']table(\d{4})["']/i)?.[1];
-  if (tableYear) {
-    return tableYear;
-  }
-  return String(new Date().getUTCFullYear());
-};
-
-const discoverAjaxEndpoint = (html: string): string => {
-  const ajaxUrlMatch = html.match(/https?:\/\/[^"'\s]*wp-admin\/admin-ajax\.php/i);
-  if (ajaxUrlMatch?.[0]) {
-    return ajaxUrlMatch[0].replace(/\\\//g, '/');
-  }
-
-  const relativeAjaxMatch = html.match(/["'](\/wp-admin\/admin-ajax\.php)["']/i);
-  if (relativeAjaxMatch?.[1]) {
-    return `https://overthecap.com${relativeAjaxMatch[1]}`;
-  }
-
-  return OTC_DEFAULT_AJAX_ENDPOINT;
-};
-
-const extractPotentialActions = (html: string): string[] => {
-  const actions = new Set<string>([
-    'get_free_agents',
-    'get_free_agency',
-    'free_agency',
-    'free_agents',
-    'otc_get_free_agents',
-  ]);
-
-  for (const match of html.matchAll(/action\s*[:=]\s*["']([a-z0-9_\-]*free[a-z0-9_\-]*)["']/gi)) {
-    const action = match[1]?.trim();
-    if (action) {
-      actions.add(action);
+export const parseAjaxFreeAgencyRows = (html: string): OtcFreeAgencyRow[] => {
+  const trMatches = Array.from(
+    html.matchAll(/<tr[^>]*class=["'][^"']*\bsortable\b[^"']*["'][^>]*>([\s\S]*?)<\/tr>/gi),
+  );
+  const parsed: OtcFreeAgencyRow[] = [];
+  trMatches.forEach((match) => {
+    const rowHtml = match[0] ?? '';
+    const inner = match[1] ?? '';
+    const readAttr = (attributeName: string): string | null => {
+      const regex = new RegExp(`${attributeName}=(["'])(.*?)\\1`, 'i');
+      const value = rowHtml.match(regex)?.[2] ?? null;
+      return value ? stripTags(value) : null;
+    };
+    const cells = Array.from(inner.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)).map((cell) =>
+      stripTags(cell[1] ?? ''),
+    );
+    if (cells.length < 9) {
+      return;
     }
-  }
-
-  return Array.from(actions);
+    const playerName = cells[0] ?? '';
+    if (!playerName) {
+      return;
+    }
+    const dataOldTeam = readAttr('data-old-team');
+    const dataNewTeam = readAttr('data-new-team');
+    const dataPosition = readAttr('data-position');
+    const dataFaType = readAttr('data-fatype');
+    const nextTeamAbbr = normalizeUnsignedTeam(dataNewTeam);
+    parsed.push({
+      playerName,
+      normalizedName: normalizePlayerName(playerName),
+      position: dataPosition ?? cells[1] ?? null,
+      age: parseInteger(cells[6]),
+      priorTeamAbbr: normalizeTeamAbbr(dataOldTeam ?? cells[2] ?? undefined),
+      nextTeamAbbr,
+      priorTeamLabel: cells[2] ?? null,
+      nextTeamLabel: cells[3] ?? null,
+      freeAgentType: dataFaType ?? cells[4] ?? null,
+      snaps: cells[5] ?? null,
+      currentApy: cells[7] ?? null,
+      guarantees: cells[8] ?? null,
+      otcStatus: nextTeamAbbr === null ? 'unsigned' : 'signed',
+    });
+  });
+  return parsed;
 };
 
-const fetchClientPopulatedRows = async (html: string): Promise<ClientSourceProbeResult | null> => {
-  const season = getLikelySeason(html);
-  const endpoint = discoverAjaxEndpoint(html);
-  const actions = extractPotentialActions(html);
-
-  for (const action of actions) {
-    const formCandidates = [
-      new URLSearchParams({ action, season }),
-      new URLSearchParams({ action, year: season }),
-      new URLSearchParams({ action, season, table: `table${season}` }),
-      new URLSearchParams({ action, table_id: `table${season}` }),
-      new URLSearchParams({ action, league_year: season }),
-    ];
-
-    for (const formBody of formCandidates) {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        },
-        body: formBody.toString(),
-        cache: 'no-store',
-      });
-
-      if (!response.ok) {
-        continue;
-      }
-
-      const text = await response.text();
-      if (!text || text.trim() === '0') {
-        continue;
-      }
-
-      let payload: unknown = text;
-      let payloadKind: 'json' | 'html' = 'html';
-      try {
-        payload = JSON.parse(text);
-        payloadKind = 'json';
-      } catch {
-        payloadKind = 'html';
-      }
-
-      const rows = payloadKind === 'json' ? parseRowsFromJson(payload) : parseRows(text);
-      if (rows.length > 0) {
-        return {
-          endpoint,
-          action,
-          season,
-          payloadKind,
-          payload,
-        };
-      }
-    }
+const fetchFreeAgencyAjaxRows = async (): Promise<OtcFreeAgencyRow[]> => {
+  const formBody = new URLSearchParams(OTC_FREE_AGENCY_REQUEST_PAYLOAD);
+  console.info('[otc:fa] endpoint discovered=admin-ajax');
+  console.info(`[otc:fa] request payload=${JSON.stringify(OTC_FREE_AGENCY_REQUEST_PAYLOAD)}`);
+  const response = await fetch(OTC_DEFAULT_AJAX_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'User-Agent': 'Mozilla/5.0',
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    },
+    body: formBody.toString(),
+    cache: 'no-store',
+  });
+  if (!response.ok) {
+    throw new Error(`OTC free agency ajax fetch failed: ${response.status}`);
   }
-
-  return null;
+  const html = await response.text();
+  const rows = parseAjaxFreeAgencyRows(html);
+  return rows;
 };
 
 const fetchRowsFromLocalFallback = async (): Promise<OtcFreeAgencyRow[]> => {
@@ -380,62 +248,37 @@ const fetchRowsFromLocalFallback = async (): Promise<OtcFreeAgencyRow[]> => {
 };
 
 export const fetchOtcFreeAgency = async (): Promise<OtcFreeAgencyRow[]> => {
-  const response = await fetch(OTC_FREE_AGENCY_URL, { cache: 'no-store' });
-  if (!response.ok) {
-    throw new Error(`OTC free agency fetch failed: ${response.status}`);
-  }
-
-  const html = await response.text();
-  const serverRows = parseRows(html);
-  if (serverRows.length > 0) {
-    const unsigned = serverRows.filter((row) => row.nextTeamAbbr === null).length;
-    const sample = serverRows.slice(0, 3).map((row) => ({
+  try {
+    const ajaxRows = await fetchFreeAgencyAjaxRows();
+    const unsigned = ajaxRows.filter((row) => row.nextTeamAbbr === null).length;
+    const sample = ajaxRows.slice(0, 3).map((row) => ({
       playerName: row.playerName,
       position: row.position,
       priorTeamAbbr: row.priorTeamAbbr,
       nextTeamAbbr: row.nextTeamAbbr,
       freeAgentType: row.freeAgentType,
+      snaps: row.snaps,
       age: row.age,
+      currentApy: row.currentApy,
+      guarantees: row.guarantees,
     }));
-    console.info('[otc:fa] endpoint discovered=server-rendered-table');
-    console.info(`[otc:fa] raw row count=${serverRows.length}`);
-    console.info(`[otc:fa] rows parsed=${serverRows.length}`);
+    const foundHopkins = ajaxRows.some(
+      (row) => row.normalizedName === normalizePlayerName('DeAndre Hopkins'),
+    );
+    console.info(`[otc:fa] raw row count=${ajaxRows.length}`);
+    console.info(`[otc:fa] rows parsed=${ajaxRows.length}`);
     console.info(`[otc:fa] unsigned players parsed=${unsigned}`);
     console.info(`[otc:fa] sample parsed rows=${JSON.stringify(sample)}`);
-    console.info(
-      `[otc:fa] deandre hopkins found=${serverRows.some((row) => row.normalizedName === normalizePlayerName('DeAndre Hopkins'))}`,
-    );
-    return serverRows;
-  }
-
-  const clientProbe = await fetchClientPopulatedRows(html);
-  if (clientProbe) {
-    const rows =
-      clientProbe.payloadKind === 'json'
-        ? parseRowsFromJson(clientProbe.payload)
-        : parseRows(String(clientProbe.payload));
-    const unsigned = rows.filter((row) => row.nextTeamAbbr === null).length;
-    const sample = rows.slice(0, 3).map((row) => ({
-      playerName: row.playerName,
-      position: row.position,
-      priorTeamAbbr: row.priorTeamAbbr,
-      nextTeamAbbr: row.nextTeamAbbr,
-      freeAgentType: row.freeAgentType,
-      age: row.age,
-    }));
-
-    console.info(
-      `[otc:fa] endpoint discovered=${clientProbe.endpoint} action=${clientProbe.action} season=${clientProbe.season}`,
-    );
-    console.info(`[otc:fa] raw row count=${rows.length}`);
-    console.info(`[otc:fa] rows parsed=${rows.length}`);
-    console.info(`[otc:fa] unsigned players parsed=${unsigned}`);
-    console.info(`[otc:fa] sample parsed rows=${JSON.stringify(sample)}`);
-    console.info(
-      `[otc:fa] deandre hopkins found=${rows.some((row) => row.normalizedName === normalizePlayerName('DeAndre Hopkins'))}`,
-    );
-
-    return rows;
+    console.info(`[otc:fa] deandre hopkins found=${foundHopkins}`);
+    if (!foundHopkins) {
+      console.warn('[otc:fa] validation warning: deandre hopkins missing from parsed rows');
+    }
+    if (unsigned <= 0) {
+      console.warn('[otc:fa] validation warning: unsigned players parsed=0');
+    }
+    return ajaxRows;
+  } catch (error: unknown) {
+    console.warn('[otc:fa] ajax fetch failed; trying local fallback', error);
   }
 
   const fallbackRows = await fetchRowsFromLocalFallback();
@@ -446,9 +289,12 @@ export const fetchOtcFreeAgency = async (): Promise<OtcFreeAgencyRow[]> => {
     priorTeamAbbr: row.priorTeamAbbr,
     nextTeamAbbr: row.nextTeamAbbr,
     freeAgentType: row.freeAgentType,
+    snaps: row.snaps,
     age: row.age,
+    currentApy: row.currentApy,
+    guarantees: row.guarantees,
   }));
-  console.info('[otc:fa] endpoint discovered=none (local fallback parse)');
+  console.info('[otc:fa] endpoint discovered=local-fallback');
   console.info(`[otc:fa] raw row count=${fallbackRows.length}`);
   console.info(`[otc:fa] rows parsed=${fallbackRows.length}`);
   console.info(`[otc:fa] unsigned players parsed=${unsigned}`);
