@@ -20,6 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { getPreferredYearsForPlayer } from '@/lib/contracts';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
 
@@ -87,16 +88,28 @@ const formatSignedMarketValue = (player: PlayerRowDTO) => {
   if (!years || !apy) return null;
   const apyFormatted =
     Math.abs(apy - Math.round(apy)) < 0.05 ? Math.round(apy).toString() : apy.toFixed(1);
-  return `${years}year / $${apyFormatted}M APY`;
+  return `${years} yr / $${apyFormatted}M`;
 };
 
 const formatContractAsk = (player: PlayerRowDTO) => {
-  if (!player.freeAgentProfile) return '—';
-  return `${player.freeAgentProfile.expectedContractYears}yr · $${player.freeAgentProfile.expectedAnnualValue.toFixed(1)}M`;
+  const expectedApy =
+    player.freeAgentProfile?.expectedAnnualValue ??
+    (typeof player.marketValue === 'number' ? player.marketValue / 1_000_000 : null);
+  if (expectedApy === null) return '—';
+
+  const preferredYearsUpperBound = Math.min(5, getPreferredYearsForPlayer(player) + 1);
+  const apyFormatted =
+    Math.abs(expectedApy - Math.round(expectedApy)) < 0.05
+      ? Math.round(expectedApy).toString()
+      : expectedApy.toFixed(1);
+
+  return `${preferredYearsUpperBound} yr / $${apyFormatted}M`;
 };
 
 const isSignedPlayer = (player: PlayerRowDTO) =>
-  player.status.toLowerCase() === 'signed' || Boolean(player.signedTeamAbbr);
+  player.status.toLowerCase() === 'signed' ||
+  player.freeAgentProfile?.availabilityStatus === 'signed' ||
+  player.freeAgentProfile?.marketStatus === 'signed';
 const isCutPlayer = (player: PlayerRowDTO) => player.status.toLowerCase() === 'cut';
 
 const parseCapHitValue = (player: PlayerRowDTO) => {
