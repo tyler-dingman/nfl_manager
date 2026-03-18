@@ -19,6 +19,133 @@ export type ExpiringContractDebugSample = {
   contractId: string;
 };
 
+type UnknownRecord = Record<string, unknown>;
+
+const YEAR_FIELD_KEYS = [
+  'year',
+  'years',
+  'contractYear',
+  'contractYears',
+  'contractSeasons',
+  'contractThrough',
+  'endYear',
+  'contractEndYear',
+  'seasons',
+] as const;
+
+const YEARLY_ROW_KEYS = [
+  'capHits',
+  'capRows',
+  'yearlyBreakdown',
+  'contractRows',
+  'contractYears',
+  'contractSeasons',
+  'seasons',
+] as const;
+
+const normalizeYear = (value: unknown): number | null => {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    if (value >= 2000 && value <= 2200) {
+      return value;
+    }
+    if (value >= 0 && value <= 99) {
+      return 2000 + value;
+    }
+    return null;
+  }
+
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const fourDigit = trimmed.match(/\b(20\d{2})\b/)?.[1];
+  if (fourDigit) {
+    return Number.parseInt(fourDigit, 10);
+  }
+
+  const twoDigit = trimmed.match(/(?:^|[^0-9])['’](\d{2})(?:[^0-9]|$)/)?.[1];
+  if (twoDigit) {
+    return 2000 + Number.parseInt(twoDigit, 10);
+  }
+
+  const numeric = Number.parseInt(trimmed.replace(/[^0-9-]/g, ''), 10);
+  if (Number.isFinite(numeric) && numeric >= 2000 && numeric <= 2200) {
+    return numeric;
+  }
+
+  return null;
+};
+
+const getMaxYearFromArray = (rows: unknown[]): number | null => {
+  const years = rows
+    .flatMap((row) => {
+      if (!row || typeof row !== 'object') {
+        return [];
+      }
+      const record = row as UnknownRecord;
+      const direct = ['year', 'season', 'contractYear', 'contractSeason', 'yr']
+        .map((key) => normalizeYear(record[key]))
+        .filter((year): year is number => year !== null);
+
+      if (direct.length > 0) {
+        return direct;
+      }
+
+      return Object.entries(record)
+        .flatMap(([key, value]) => {
+          const keyYear = normalizeYear(key);
+          const valueYear = normalizeYear(value);
+          return [keyYear, valueYear].filter((year): year is number => year !== null);
+        })
+        .filter((year) => year >= 2000);
+    })
+    .filter((year) => Number.isFinite(year));
+
+  if (years.length === 0) {
+    return null;
+  }
+  return Math.max(...years);
+};
+
+export const getContractFinalYear = (contract: UnifiedContract): number | null => {
+  const unknownContract = contract as UnknownRecord;
+
+  const yearlyRowCandidates = YEARLY_ROW_KEYS.flatMap((key) => {
+    const value = unknownContract[key];
+    if (Array.isArray(value)) {
+      return value.length > 0 ? [value] : [];
+    }
+    if (value && typeof value === 'object') {
+      const values = Object.values(value as UnknownRecord);
+      return values.length > 0 ? [values] : [];
+    }
+    return [];
+  });
+
+  const rowBasedYears = yearlyRowCandidates
+    .map((rows) => getMaxYearFromArray(rows))
+    .filter((year): year is number => year !== null);
+
+  if (rowBasedYears.length > 0) {
+    return Math.max(...rowBasedYears);
+  }
+
+  const topLevelYears = YEAR_FIELD_KEYS.map((field) =>
+    normalizeYear(unknownContract[field]),
+  ).filter((year): year is number => year !== null);
+
+  if (topLevelYears.length > 0) {
+    return Math.max(...topLevelYears);
+  }
+
+  return null;
+};
+
 export const buildRosterMatchedExpiringContracts = ({
   players,
   contracts,
@@ -45,9 +172,14 @@ export const buildRosterMatchedExpiringContracts = ({
     return Boolean(player && player.teamAbbr === contract.teamAbbr);
   });
 
-  const endingThisSeason = matchedContracts.filter((contract) =>
-    isExpiringAfterSeason(contract.contractEndYear, seasonYear),
-  );
+  const contractsWithFinalYear = matchedContracts.map((contract) => ({
+    contract,
+    finalYear: getContractFinalYear(contract),
+  }));
+
+  const endingThisSeason = contractsWithFinalYear
+    .filter(({ finalYear }) => isExpiringAfterSeason(finalYear, seasonYear))
+    .map(({ contract }) => contract);
 
   const sample: ExpiringContractDebugSample[] = endingThisSeason.slice(0, 8).map((contract) => {
     const player = rosteredById.get(contract.playerId);
@@ -59,11 +191,58 @@ export const buildRosterMatchedExpiringContracts = ({
     };
   });
 
+  const contractsWithDerivedFinalYear = contractsWithFinalYear.filter(
+    ({ finalYear }) => finalYear !== null,
+  ).length;
+  const finalYearDistribution = contractsWithFinalYear.reduce<Record<string, number>>(
+    (acc, { finalYear }) => {
+      if (finalYear === null) {
+        acc.unknown = (acc.unknown ?? 0) + 1;
+        return acc;
+      }
+      const key = String(finalYear);
+      acc[key] = (acc[key] ?? 0) + 1;
+      return acc;
+    },
+    {},
+  );
+
+  const debugSamples = matchedContracts.slice(0, 8).map((contract) => {
+    const player = rosteredById.get(contract.playerId);
+    const unknownContract = contract as UnknownRecord;
+    const candidateYearFields = Object.fromEntries(
+      YEAR_FIELD_KEYS.map((field) => [field, unknownContract[field] ?? null]),
+    );
+    const yearlyRows = Object.fromEntries(
+      YEARLY_ROW_KEYS.map((field) => {
+        const value = unknownContract[field];
+        if (Array.isArray(value)) {
+          return [field, value.slice(0, 3)];
+        }
+        if (value && typeof value === 'object') {
+          return [field, Object.entries(value as UnknownRecord).slice(0, 3)];
+        }
+        return [field, null];
+      }),
+    );
+    return {
+      playerName: player?.name ?? contract.playerId,
+      teamAbbr: contract.teamAbbr,
+      candidateYearFields,
+      yearlyRows,
+      computedFinalYear: getContractFinalYear(contract),
+    };
+  });
+
   return {
     rosteredPlayers,
     matchedContracts,
     endingThisSeason,
     sample,
+    contractsWithDerivedFinalYear,
+    finalYearDistribution,
+    finalYear2025Count: finalYearDistribution[String(seasonYear)] ?? 0,
+    debugSamples,
     seasonYear,
   };
 };
