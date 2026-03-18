@@ -8,6 +8,7 @@ import {
   fetchAllTeamContracts,
   fetchTeamContracts,
 } from '@/server/data-sources/overthecap-contracts';
+import { fetchOtcFreeAgency } from '@/server/data-sources/overthecap-free-agency';
 import { normalizePlayerName } from './normalize';
 
 export type ContractSyncReport = {
@@ -114,6 +115,7 @@ const syncContractsInternal = async (
     playersByNormalizedName.set(normalized, bucket);
   }
   const freeAgentsById = new Map<string, UnifiedFreeAgent>();
+  const playerById = new Map(players.map((player) => [player.id, player]));
 
   for (const result of scrapeResults) {
     if (result.error) {
@@ -214,6 +216,58 @@ const syncContractsInternal = async (
   for (const teamAbbr of unresolvedTeams) {
     if (!report.teamsWithMissingContractPages.includes(teamAbbr)) {
       report.teamsWithMissingContractPages.push(teamAbbr);
+    }
+  }
+
+  try {
+    const otcRows = await fetchOtcFreeAgency();
+    otcRows
+      .filter((row) => row.nextTeamAbbr === null)
+      .forEach((row) => {
+        const matches = playersByNormalizedName.get(row.normalizedName) ?? [];
+        const matched =
+          matches.find((player) => row.priorTeamAbbr && player.teamAbbr === row.priorTeamAbbr) ??
+          (matches.length === 1 ? matches[0] : null);
+        const id = matched?.id ?? `fa-otc-${slugify(`${row.playerName}-${row.position ?? 'UNK'}`)}`;
+        const existing = freeAgentsById.get(id);
+        const lastTeamAbbr =
+          row.priorTeamAbbr ?? existing?.lastTeamAbbr ?? matched?.teamAbbr ?? 'UNK';
+        const mergedPosition = matched?.position ?? row.position ?? existing?.position ?? 'UNK';
+        const merged = {
+          id,
+          name: matched?.name ?? row.playerName,
+          normalizedName: row.normalizedName,
+          position: mergedPosition,
+          age: row.age ?? matched?.age ?? existing?.age ?? null,
+          headshotUrl: matched?.headshotUrl ?? existing?.headshotUrl ?? null,
+          lastTeamAbbr,
+          contractStatus: row.freeAgentType ?? existing?.contractStatus ?? 'UFA',
+          currentTeamAbbr: null,
+          isUnsigned: true,
+          capHit: existing?.capHit ?? null,
+          averagePerYear: existing?.averagePerYear ?? null,
+        } satisfies UnifiedFreeAgent;
+        freeAgentsById.set(id, merged);
+      });
+  } catch (error: unknown) {
+    console.warn('[otc:fa] unable to enrich free agents from OTC scraper', error);
+  }
+
+  for (const [id, freeAgent] of freeAgentsById.entries()) {
+    if (!freeAgent.isUnsigned && freeAgent.currentTeamAbbr) {
+      continue;
+    }
+    const matchedPlayer = playerById.get(id);
+    if (
+      matchedPlayer &&
+      matchedPlayer.teamAbbr &&
+      matchedPlayer.teamAbbr !== freeAgent.lastTeamAbbr
+    ) {
+      freeAgentsById.set(id, {
+        ...freeAgent,
+        currentTeamAbbr: matchedPlayer.teamAbbr,
+        isUnsigned: false,
+      });
     }
   }
 
