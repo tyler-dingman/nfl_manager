@@ -146,7 +146,7 @@ const run = async () => {
     `[expiring] contracts with derived final year=${expiring.contractsWithDerivedFinalYear}`,
   );
   console.log(
-    `[expiring] final year ${OFFSEASON_EXPIRING_SEASON_YEAR} count=${expiring.finalYear2025Count}`,
+    `[expiring] final year ${OFFSEASON_EXPIRING_SEASON_YEAR} count=${expiring.finalYearForSeasonCount}`,
   );
   console.log(
     `[expiring] final year distribution=${JSON.stringify(expiring.finalYearDistribution)}`,

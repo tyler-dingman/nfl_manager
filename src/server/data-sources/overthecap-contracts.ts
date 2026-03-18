@@ -1,10 +1,10 @@
 import { normalizePlayerName, normalizeTeamSlug } from '@/server/ingest/normalize';
 import { NFL_TEAM_SEED } from '@/server/ingest/teams';
-import { OFFSEASON_EXPIRING_SEASON_YEAR } from '@/server/logic/contract-expiration';
+import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
 
 const OVER_THE_CAP_TEAM_CAP_URL = 'https://overthecap.com/salary-cap';
 const REQUEST_DELAY_MS = 350;
-const CURRENT_LEAGUE_YEAR = OFFSEASON_EXPIRING_SEASON_YEAR + 1;
+const CURRENT_LEAGUE_YEAR = CURRENT_MODELED_LEAGUE_YEAR;
 
 export type TeamContractSourceRow = {
   teamSlug: string;
