@@ -73,6 +73,83 @@ const normalizeHeader = (header: string) =>
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 
+type ParsedCell = {
+  text: string;
+  colspan: number;
+  rowspan: number;
+};
+
+const parseCellAttributes = (attrs: string): { colspan: number; rowspan: number } => {
+  const colspanMatch = attrs.match(/colspan=["']?(\d+)["']?/i);
+  const rowspanMatch = attrs.match(/rowspan=["']?(\d+)["']?/i);
+  return {
+    colspan: Math.max(1, Number.parseInt(colspanMatch?.[1] ?? '1', 10) || 1),
+    rowspan: Math.max(1, Number.parseInt(rowspanMatch?.[1] ?? '1', 10) || 1),
+  };
+};
+
+const parseCellsFromRow = (rowHtml: string, tag: 'th' | 'td'): ParsedCell[] =>
+  Array.from(rowHtml.matchAll(new RegExp(`<${tag}([^>]*)>([\\s\\S]*?)<\\/${tag}>`, 'gi'))).map(
+    (match) => {
+      const attrs = parseCellAttributes(match[1] ?? '');
+      return {
+        text: stripTags(match[2] ?? ''),
+        colspan: attrs.colspan,
+        rowspan: attrs.rowspan,
+      };
+    },
+  );
+
+const resolveHeaders = (headerRows: ParsedCell[][]): string[] => {
+  const grid: string[][] = [];
+  let maxColumn = 0;
+
+  headerRows.forEach((rowCells, rowIdx) => {
+    let colIdx = 0;
+    grid[rowIdx] ??= [];
+
+    for (const cell of rowCells) {
+      while (grid[rowIdx]?.[colIdx]) {
+        colIdx += 1;
+      }
+
+      for (let rowOffset = 0; rowOffset < cell.rowspan; rowOffset += 1) {
+        const targetRow = rowIdx + rowOffset;
+        grid[targetRow] ??= [];
+        for (let colOffset = 0; colOffset < cell.colspan; colOffset += 1) {
+          grid[targetRow][colIdx + colOffset] = cell.text;
+          maxColumn = Math.max(maxColumn, colIdx + colOffset + 1);
+        }
+      }
+
+      colIdx += cell.colspan;
+    }
+  });
+
+  return Array.from({ length: maxColumn }, (_, idx) => {
+    const parts: string[] = [];
+    for (let rowIdx = 0; rowIdx < grid.length; rowIdx += 1) {
+      const value = (grid[rowIdx]?.[idx] ?? '').trim();
+      if (!value) continue;
+      if (parts.at(-1) !== value) {
+        parts.push(value);
+      }
+    }
+    return parts.join(' ').trim() || `Column ${idx + 1}`;
+  });
+};
+
+const expandDataCells = (rowCells: ParsedCell[]): string[] => {
+  const expanded: string[] = [];
+  for (const cell of rowCells) {
+    expanded.push(cell.text);
+    for (let i = 1; i < cell.colspan; i += 1) {
+      expanded.push('');
+    }
+  }
+  return expanded;
+};
+
 const findColumn = (headers: string[], tests: string[]) => {
   const candidates = headers.map((header, idx) => ({ idx, header: normalizeHeader(header) }));
   return candidates.find((candidate) => tests.some((test) => candidate.header.includes(test)))?.idx;
@@ -121,14 +198,47 @@ const parseCapHitFutureYears = (
 ): Record<string, number> | null => {
   const future: Record<string, number> = {};
   headers.forEach((header, idx) => {
+    const normalized = normalizeHeader(header);
     const yearMatch = header.match(/\b(20\d{2})\b/);
     if (!yearMatch) return;
+    const isCapMetric =
+      normalized.includes('cap hit') ||
+      normalized.includes('cap number') ||
+      normalized.includes('cap charge');
+    const isReleaseMetric =
+      normalized.includes('dead cap') ||
+      normalized.includes('release savings') ||
+      normalized.includes('post june 1') ||
+      normalized.includes('cap savings');
+    if (!isCapMetric || isReleaseMetric) return;
     const amount = parseMoney(cells[idx]);
     if (amount !== null) {
       future[yearMatch[1]] = amount;
     }
   });
   return Object.keys(future).length > 0 ? future : null;
+};
+
+const deriveYearsRemaining = (
+  parsedYearsRemaining: number | null,
+  capHitFutureYears: Record<string, number> | null,
+): number | null => {
+  if (parsedYearsRemaining !== null) {
+    return parsedYearsRemaining;
+  }
+  if (!capHitFutureYears) {
+    return null;
+  }
+  const currentYear = new Date().getUTCFullYear();
+  const maxYear = Math.max(
+    ...Object.keys(capHitFutureYears)
+      .map((year) => Number.parseInt(year, 10))
+      .filter((year) => Number.isFinite(year)),
+  );
+  if (!Number.isFinite(maxYear) || maxYear < currentYear) {
+    return null;
+  }
+  return maxYear - currentYear + 1;
 };
 
 const resolveCurrentYearCapHit = (
@@ -183,16 +293,34 @@ const parseContractRows = (
 
   for (const tableMatch of tableMatches) {
     const tableHtml = tableMatch[1] ?? '';
-    const headers = Array.from(tableHtml.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/gi)).map((match) =>
-      stripTags(match[1] ?? ''),
-    );
+    const rows = Array.from(tableHtml.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi));
+    const headerRows: ParsedCell[][] = [];
+    const dataRowsHtml: string[] = [];
+
+    for (const rowMatch of rows) {
+      const rowHtml = rowMatch[1] ?? '';
+      const thCells = parseCellsFromRow(rowHtml, 'th');
+      const tdCells = parseCellsFromRow(rowHtml, 'td');
+      if (thCells.length > 0 && tdCells.length === 0 && dataRowsHtml.length === 0) {
+        headerRows.push(thCells);
+        continue;
+      }
+      if (tdCells.length > 0) {
+        dataRowsHtml.push(rowHtml);
+      }
+    }
+
+    const headers = resolveHeaders(headerRows);
     if (headers.length === 0) continue;
 
     const playerIdx = findColumn(headers, ['player']);
     if (playerIdx === undefined) continue;
-
-    const rows = Array.from(tableHtml.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi));
     const parsedRows: TeamContractSourceRow[] = [];
+    let loggedRowSample = false;
+    let loggedFutureCapSample = false;
+    console.info(
+      `[contracts:debug] resolved headers sample=${JSON.stringify(headers.slice(0, 12))}`,
+    );
 
     const contractStatusIdx = findColumn(headers, ['status']);
     const yearsRemainingIdx = findColumn(headers, ['years left', 'years remaining', 'yrs']);
@@ -209,10 +337,8 @@ const parseContractRows = (
     const capHitCurrentYearIdx = findCapHitColumn(headers);
     const baseSalaryIdx = findColumn(headers, ['base salary']);
 
-    for (const rowMatch of rows) {
-      const rowHtml = rowMatch[1] ?? '';
-      const cellMatches = Array.from(rowHtml.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi));
-      const cells = cellMatches.map((match) => stripTags(match[1] ?? ''));
+    for (const rowHtml of dataRowsHtml) {
+      const cells = expandDataCells(parseCellsFromRow(rowHtml, 'td'));
       if (cells.length <= playerIdx) continue;
 
       const rawPlayer = cells[playerIdx] ?? '';
@@ -228,8 +354,20 @@ const parseContractRows = (
       const capHitFutureYears = parseCapHitFutureYears(headers, cells);
       const parsedCapHitCurrentYear =
         capHitCurrentYearIdx === undefined ? null : parseMoney(cells[capHitCurrentYearIdx]);
+      const parsedYearsRemaining =
+        yearsRemainingIdx === undefined ? null : parseInteger(cells[yearsRemainingIdx]);
 
-      parsedRows.push({
+      if (!loggedFutureCapSample && capHitFutureYears) {
+        console.info(
+          `[contracts:debug] future cap years sample=${JSON.stringify({
+            player: rawPlayer,
+            capHitFutureYears,
+          })}`,
+        );
+        loggedFutureCapSample = true;
+      }
+
+      const parsedRow = {
         teamSlug,
         teamAbbr,
         teamName,
@@ -237,8 +375,7 @@ const parseContractRows = (
         normalizedPlayerName: normalizePlayerName(rawPlayer),
         externalSourceKey: playerLink,
         contractStatus: contractStatusIdx === undefined ? null : cells[contractStatusIdx] || null,
-        yearsRemaining:
-          yearsRemainingIdx === undefined ? null : parseInteger(cells[yearsRemainingIdx]),
+        yearsRemaining: deriveYearsRemaining(parsedYearsRemaining, capHitFutureYears),
         contractValue: contractValueIdx === undefined ? null : parseMoney(cells[contractValueIdx]),
         averagePerYear:
           averagePerYearIdx === undefined ? null : parseMoney(cells[averagePerYearIdx]),
@@ -258,7 +395,20 @@ const parseContractRows = (
         capHitFutureYears,
         baseSalary: baseSalaryIdx === undefined ? null : parseMoney(cells[baseSalaryIdx]),
         rawContractPayload,
-      });
+      } satisfies TeamContractSourceRow;
+
+      if (!loggedRowSample) {
+        console.info(
+          `[contracts:debug] parsed row sample=${JSON.stringify({
+            player: parsedRow.playerName,
+            yearsRemaining: parsedRow.yearsRemaining,
+            rawSourceFields: parsedRow.rawContractPayload,
+          })}`,
+        );
+        loggedRowSample = true;
+      }
+
+      parsedRows.push(parsedRow);
     }
 
     if (parsedRows.length > 0) {
