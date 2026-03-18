@@ -54,7 +54,7 @@ export default function RosterPage() {
   const setRoster = useSaveStore((state) => state.setRoster);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
-  const { data: rosterData } = useRosterQuery(saveId, teamAbbr);
+  const { data: rosterData, isLoading: isRosterLoading } = useRosterQuery(saveId, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeResignPlayer, setActiveResignPlayer] = useState<PlayerRowDTO | null>(null);
@@ -582,6 +582,7 @@ export default function RosterPage() {
               <PlayerTable
                 data={sortedPlayers}
                 variant="roster"
+                loading={isRosterLoading && players.length === 0}
                 onCutPlayer={setActiveCutPlayer}
                 onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
                 onRenegotiatePlayer={setActiveRenegotiatePlayer}
@@ -593,6 +594,7 @@ export default function RosterPage() {
         <PlayerTable
           data={sortedPlayers}
           variant="roster"
+          loading={isRosterLoading && players.length === 0}
           onCutPlayer={setActiveCutPlayer}
           onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
           onRenegotiatePlayer={setActiveRenegotiatePlayer}

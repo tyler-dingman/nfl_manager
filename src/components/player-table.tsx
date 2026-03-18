@@ -9,7 +9,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown, Loader2, MoreHorizontal } from 'lucide-react';
 
 import PlayerRowActions, { type PlayerRowActionsVariant } from '@/components/player-row-actions';
 import { Badge } from '@/components/ui/badge';
@@ -52,6 +52,7 @@ type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
 type PlayerTableProps = {
   data: PlayerRowDTO[];
   variant: PlayerTableVariant;
+  loading?: boolean;
   freeAgentView?: 'available' | 'signed';
   onTheClockForUserTeam?: boolean;
   onCutPlayer?: (player: PlayerRowDTO) => void;
@@ -169,6 +170,7 @@ export function PositionFilterBar({
 export function PlayerTable({
   data,
   variant,
+  loading = false,
   freeAgentView = 'available',
   onTheClockForUserTeam = false,
   onCutPlayer,
@@ -233,6 +235,7 @@ export function PlayerTable({
   }, []);
 
   const filteredData = React.useMemo(() => {
+    if (loading) return [];
     return data.filter((player) => {
       const matchesPosition = matchesPositionFilter(player.position, positionFilter);
       const matchesSearch =
@@ -242,10 +245,10 @@ export function PlayerTable({
 
       return matchesPosition && matchesSearch && matchesDraftFilter;
     });
-  }, [data, positionFilter, searchQuery, variant]);
+  }, [data, loading, positionFilter, searchQuery, variant]);
 
   const signedData = React.useMemo(() => {
-    if (variant !== 'freeAgent') return [];
+    if (loading || variant !== 'freeAgent') return [];
     return filteredData
       .filter((player) => isSignedPlayer(player))
       .sort((a, b) => {
@@ -257,12 +260,12 @@ export function PlayerTable({
         if (aValue !== bValue) return bValue - aValue;
         return formatName(a).localeCompare(formatName(b));
       });
-  }, [filteredData, variant]);
+  }, [filteredData, loading, variant]);
 
   const availableData = React.useMemo(() => {
-    if (variant !== 'freeAgent') return [];
+    if (loading || variant !== 'freeAgent') return [];
     return filteredData.filter((player) => !isSignedPlayer(player));
-  }, [filteredData, variant]);
+  }, [filteredData, loading, variant]);
 
   const columns = React.useMemo<PlayerColumnDef[]>(() => {
     if (variant === 'draft') {
@@ -730,65 +733,77 @@ export function PlayerTable({
         </div>
       </div>
       <div className="max-w-full space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
-        <div className="space-y-3">
-          <table className={tableClassName}>
-            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-              {(variant === 'freeAgent' ? freeAgentTable : table)
-                .getHeaderGroups()
-                .map((headerGroup) => (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => (
-                      <th
-                        key={header.id}
+        {loading ? (
+          <div className="flex min-h-56 items-center justify-center">
+            <div className="flex items-center gap-3 text-sm text-muted-foreground">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <span>Loading players...</span>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <table className={tableClassName}>
+              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                {(variant === 'freeAgent' ? freeAgentTable : table)
+                  .getHeaderGroups()
+                  .map((headerGroup) => (
+                    <tr key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => (
+                        <th
+                          key={header.id}
+                          className={cn(
+                            'px-4 py-2 sm:px-6',
+                            header.column.id === 'actions' && actionHeaderClass,
+                            header.column.id === 'rank' && rankHeaderClass,
+                          )}
+                        >
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(header.column.columnDef.header, header.getContext())}
+                        </th>
+                      ))}
+                    </tr>
+                  ))}
+              </thead>
+              <tbody>
+                {(variant === 'freeAgent' ? freeAgentTable : table)
+                  .getRowModel()
+                  .rows.map((row) => {
+                    const isCut = isCutPlayer(row.original);
+                    return (
+                      <tr
+                        key={row.id}
                         className={cn(
-                          'px-4 py-2 sm:px-6',
-                          header.column.id === 'actions' && actionHeaderClass,
-                          header.column.id === 'rank' && rankHeaderClass,
+                          'border-t border-border hover:bg-slate-50/60',
+                          isCut ? 'opacity-60' : null,
                         )}
                       >
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(header.column.columnDef.header, header.getContext())}
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-            </thead>
-            <tbody>
-              {(variant === 'freeAgent' ? freeAgentTable : table).getRowModel().rows.map((row) => {
-                const isCut = isCutPlayer(row.original);
-                return (
-                  <tr
-                    key={row.id}
-                    className={cn(
-                      'border-t border-border hover:bg-slate-50/60',
-                      isCut ? 'opacity-60' : null,
-                    )}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <td
-                        key={cell.id}
-                        className={cn(
-                          'px-4 py-1.5 align-middle text-sm sm:px-6',
-                          cell.column.id === 'actions' && actionCellClass,
-                          cell.column.id === 'rank' && rankHeaderClass,
-                        )}
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                        {row.getVisibleCells().map((cell) => (
+                          <td
+                            key={cell.id}
+                            className={cn(
+                              'px-4 py-1.5 align-middle text-sm sm:px-6',
+                              cell.column.id === 'actions' && actionCellClass,
+                              cell.column.id === 'rank' && rankHeaderClass,
+                            )}
+                          >
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </td>
+                        ))}
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
-      {(variant === 'freeAgent' ? freeAgentTableData.length === 0 : filteredData.length === 0) && (
-        <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
-          No players match the current filters.
-        </div>
-      )}
+      {!loading &&
+        (variant === 'freeAgent' ? freeAgentTableData.length === 0 : filteredData.length === 0) && (
+          <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
+            No players match the current filters.
+          </div>
+        )}
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function FreeAgentsPage() {
   const roster = useSaveStore((state) => state.roster);
   const setRoster = useSaveStore((state) => state.setRoster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
-  const { data } = useFreeAgentsQuery(saveId, teamAbbr);
+  const { data, isLoading } = useFreeAgentsQuery(saveId, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
@@ -267,6 +267,7 @@ export default function FreeAgentsPage() {
       <PlayerTable
         data={players}
         variant="freeAgent"
+        loading={isLoading && players.length === 0}
         freeAgentView={activeTab}
         onOfferPlayer={handleOfferPlayer}
       />
