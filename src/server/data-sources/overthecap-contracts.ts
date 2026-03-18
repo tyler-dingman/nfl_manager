@@ -628,16 +628,6 @@ const parseContractRows = (
     } satisfies TeamContractSourceRow;
   });
 
-  const firstWithFutureYears = parsedRows.find((row) => row.capHitFutureYears);
-  if (firstWithFutureYears) {
-    console.info(
-      `[contracts:debug] future cap years sample=${JSON.stringify({
-        player: firstWithFutureYears.playerName,
-        capHitFutureYears: firstWithFutureYears.capHitFutureYears,
-      })}`,
-    );
-  }
-
   return parsedRows;
 };
 
