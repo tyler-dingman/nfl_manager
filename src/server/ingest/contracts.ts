@@ -103,16 +103,6 @@ const getContractEndYear = ({
   return Math.max(...yearCandidates);
 };
 
-const extractRawYearSignals = (
-  row: TeamContractSourceRow,
-): Record<string, string | number | null> =>
-  Object.fromEntries(
-    Object.entries(row.rawContractPayload).filter(([key, value]) => {
-      const rawValue = value === null || value === undefined ? '' : String(value);
-      return YEAR_SIGNAL_KEY_PATTERN.test(key) || extractYearsFromText(rawValue).length > 0;
-    }),
-  );
-
 const syncContractsInternal = async (
   teams: UnifiedTeam[],
   players: UnifiedPlayer[],
@@ -166,13 +156,6 @@ const syncContractsInternal = async (
   }
   const freeAgentsById = new Map<string, UnifiedFreeAgent>();
   const playerById = new Map(players.map((player) => [player.id, player]));
-  const contractDebugSamples: Array<{
-    playerName: string;
-    rawSourceFields: Record<string, string | number | null>;
-    yearSignalFields: Record<string, string | number | null>;
-    normalizedContract: UnifiedContract;
-  }> = [];
-
   for (const result of scrapeResults) {
     if (result.error) {
       report.teamsWithMissingContractPages.push(result.teamAbbr);
@@ -219,15 +202,6 @@ const syncContractsInternal = async (
       } satisfies UnifiedContract;
 
       nextByPlayer.set(`${result.teamAbbr}:${fallback.id}`, normalizedContract);
-
-      if (contractDebugSamples.length < 5) {
-        contractDebugSamples.push({
-          playerName: row.playerName,
-          rawSourceFields: row.rawContractPayload,
-          yearSignalFields: extractRawYearSignals(row),
-          normalizedContract,
-        });
-      }
 
       if (!isFreeAgentStatus(row.contractStatus)) {
         continue;
@@ -340,26 +314,6 @@ const syncContractsInternal = async (
         isUnsigned: false,
       });
     }
-  }
-
-  if (contractDebugSamples.length > 0) {
-    console.info(
-      `[contracts:debug] raw sample=${JSON.stringify(
-        contractDebugSamples.map((sample) => ({
-          playerName: sample.playerName,
-          rawSourceFields: sample.rawSourceFields,
-          yearSignalFields: sample.yearSignalFields,
-        })),
-      )}`,
-    );
-    console.info(
-      `[contracts:debug] normalized sample=${JSON.stringify(
-        contractDebugSamples.map((sample) => ({
-          playerName: sample.playerName,
-          normalizedContract: sample.normalizedContract,
-        })),
-      )}`,
-    );
   }
 
   return {
