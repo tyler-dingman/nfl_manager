@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-18T00:50:58.617Z",
+  "updatedAt": "2026-03-18T01:14:55.144Z",
   "teams": [
     {
       "id": "ARI",
@@ -851,14 +851,7 @@
       "height": "5' 10\"",
       "weight": 195,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3127287.png",
-      "stats": {
-        "tackles": 120,
-        "sacks": 0.5,
-        "interceptionsDef": 1,
-        "passDeflections": 5,
-        "forcedFumbles": 0,
-        "tfl": 4
-      }
+      "stats": {}
     },
     {
       "id": "3051775",
@@ -3070,14 +3063,7 @@
       "height": "6' 4\"",
       "weight": 218,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4575517.png",
-      "stats": {
-        "tackles": 105,
-        "sacks": 1,
-        "interceptionsDef": 0,
-        "passDeflections": 9,
-        "forcedFumbles": 2,
-        "tfl": 7
-      }
+      "stats": {}
     },
     {
       "id": "3858276",
@@ -3385,14 +3371,7 @@
       "height": "6' 1\"",
       "weight": 235,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3915189.png",
-      "stats": {
-        "tackles": 130,
-        "sacks": 0,
-        "interceptionsDef": 0,
-        "passDeflections": 3,
-        "forcedFumbles": 0,
-        "tfl": 5
-      }
+      "stats": {}
     },
     {
       "id": "4685530",
@@ -5574,14 +5553,7 @@
       "height": "6' 2\"",
       "weight": 230,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3909013.png",
-      "stats": {
-        "tackles": 122,
-        "sacks": 2,
-        "interceptionsDef": 1,
-        "passDeflections": 3,
-        "forcedFumbles": 1,
-        "tfl": 7
-      }
+      "stats": {}
     },
     {
       "id": "3116179",
@@ -5595,14 +5567,7 @@
       "height": "5' 11\"",
       "weight": 200,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3116179.png",
-      "stats": {
-        "tackles": 111,
-        "sacks": 0,
-        "interceptionsDef": 1,
-        "passDeflections": 3,
-        "forcedFumbles": 0,
-        "tfl": 0
-      }
+      "stats": {}
     },
     {
       "id": "4833355",
@@ -6157,7 +6122,11 @@
       "height": "5' 8\"",
       "weight": 204,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4259545.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1087,
+        "rushTD": 9,
+        "yardsPerCarry": 4.9
+      }
     },
     {
       "id": "2577773",
@@ -6913,7 +6882,12 @@
       "height": "6' 0\"",
       "weight": 205,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4362628.png",
-      "stats": {}
+      "stats": {
+        "receptions": 125,
+        "recYards": 1412,
+        "recTD": 8,
+        "yardsPerCatch": 11.3
+      }
     },
     {
       "id": "4259592",
@@ -7399,14 +7373,7 @@
       "height": "6' 1\"",
       "weight": 215,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4567098.png",
-      "stats": {
-        "tackles": 125,
-        "sacks": 0,
-        "interceptionsDef": 4,
-        "passDeflections": 6,
-        "forcedFumbles": 2,
-        "tfl": 2
-      }
+      "stats": {}
     },
     {
       "id": "3051746",
@@ -7434,14 +7401,7 @@
       "height": "6' 0\"",
       "weight": 231,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4431519.png",
-      "stats": {
-        "tackles": 106,
-        "sacks": 0,
-        "interceptionsDef": 1,
-        "passDeflections": 4,
-        "forcedFumbles": 0,
-        "tfl": 1
-      }
+      "stats": {}
     },
     {
       "id": "4247726",
@@ -7665,14 +7625,7 @@
       "height": "6' 2\"",
       "weight": 240,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4427729.png",
-      "stats": {
-        "tackles": 106,
-        "sacks": 3,
-        "interceptionsDef": 2,
-        "passDeflections": 7,
-        "forcedFumbles": 1,
-        "tfl": 4
-      }
+      "stats": {}
     },
     {
       "id": "4575559",
@@ -8610,14 +8563,7 @@
       "height": "6' 1\"",
       "weight": 209,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4569620.png",
-      "stats": {
-        "tackles": 103,
-        "sacks": 0,
-        "interceptionsDef": 2,
-        "passDeflections": 7,
-        "forcedFumbles": 0,
-        "tfl": 1
-      }
+      "stats": {}
     },
     {
       "id": "4605792",
@@ -8785,14 +8731,7 @@
       "height": "6' 3\"",
       "weight": 242,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4876017.png",
-      "stats": {
-        "tackles": 156,
-        "sacks": 2.5,
-        "interceptionsDef": 2,
-        "passDeflections": 3,
-        "forcedFumbles": 0,
-        "tfl": 11
-      }
+      "stats": {}
     },
     {
       "id": "4374280",
@@ -10691,14 +10630,7 @@
       "height": "6' 0\"",
       "weight": 200,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4360853.png",
-      "stats": {
-        "tackles": 106,
-        "sacks": 2,
-        "interceptionsDef": 0,
-        "passDeflections": 11,
-        "forcedFumbles": 1,
-        "tfl": 6
-      }
+      "stats": {}
     },
     {
       "id": "4261090",
@@ -10908,14 +10840,7 @@
       "height": "6' 2\"",
       "weight": 240,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/2612151.png",
-      "stats": {
-        "tackles": 135,
-        "sacks": 1,
-        "interceptionsDef": 0,
-        "passDeflections": 4,
-        "forcedFumbles": 1,
-        "tfl": 3
-      }
+      "stats": {}
     },
     {
       "id": "4428503",
@@ -11709,14 +11634,7 @@
       "height": "6' 5\"",
       "weight": 246,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4569465.png",
-      "stats": {
-        "tackles": 176,
-        "sacks": 5,
-        "interceptionsDef": 0,
-        "passDeflections": 4,
-        "forcedFumbles": 3,
-        "tfl": 9
-      }
+      "stats": {}
     },
     {
       "id": "3051750",
@@ -12855,14 +12773,7 @@
       "height": "6' 2\"",
       "weight": 229,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4430438.png",
-      "stats": {
-        "tackles": 118,
-        "sacks": 0.5,
-        "interceptionsDef": 0,
-        "passDeflections": 4,
-        "forcedFumbles": 2,
-        "tfl": 4
-      }
+      "stats": {}
     },
     {
       "id": "4361776",
@@ -13030,14 +12941,7 @@
       "height": "6' 0\"",
       "weight": 201,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4241470.png",
-      "stats": {
-        "tackles": 107,
-        "sacks": 1,
-        "interceptionsDef": 2,
-        "passDeflections": 10,
-        "forcedFumbles": 1,
-        "tfl": 0
-      }
+      "stats": {}
     },
     {
       "id": "4259305",
@@ -13918,14 +13822,7 @@
       "height": "6' 2\"",
       "weight": 228,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3919117.png",
-      "stats": {
-        "tackles": 103,
-        "sacks": 0,
-        "interceptionsDef": 2,
-        "passDeflections": 9,
-        "forcedFumbles": 1,
-        "tfl": 1
-      }
+      "stats": {}
     },
     {
       "id": "4685724",
@@ -15461,14 +15358,7 @@
       "height": "6' 3\"",
       "weight": 250,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3116724.png",
-      "stats": {
-        "tackles": 126,
-        "sacks": 0,
-        "interceptionsDef": 1,
-        "passDeflections": 10,
-        "forcedFumbles": 1,
-        "tfl": 6
-      }
+      "stats": {}
     },
     {
       "id": "4242415",
@@ -16552,14 +16442,7 @@
       "height": "6' 2\"",
       "weight": 230,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3050073.png",
-      "stats": {
-        "tackles": 143,
-        "sacks": 1,
-        "interceptionsDef": 1,
-        "passDeflections": 11,
-        "forcedFumbles": 2,
-        "tfl": 5
-      }
+      "stats": {}
     },
     {
       "id": "4683347",
@@ -17348,14 +17231,7 @@
       "height": "5' 11\"",
       "weight": 237,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4362759.png",
-      "stats": {
-        "tackles": 154,
-        "sacks": 1,
-        "interceptionsDef": 1,
-        "passDeflections": 6,
-        "forcedFumbles": 1,
-        "tfl": 10
-      }
+      "stats": {}
     },
     {
       "id": "2969944",
@@ -17411,14 +17287,7 @@
       "height": "6' 0\"",
       "weight": 202,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4361964.png",
-      "stats": {
-        "tackles": 117,
-        "sacks": 2,
-        "interceptionsDef": 1,
-        "passDeflections": 2,
-        "forcedFumbles": 2,
-        "tfl": 4
-      }
+      "stats": {}
     },
     {
       "id": "4431534",
@@ -17782,14 +17651,7 @@
       "height": "6' 2\"",
       "weight": 234,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3129310.png",
-      "stats": {
-        "tackles": 103,
-        "sacks": 2,
-        "interceptionsDef": 0,
-        "passDeflections": 1,
-        "forcedFumbles": 1,
-        "tfl": 10
-      }
+      "stats": {}
     },
     {
       "id": "4610705",
@@ -18456,14 +18318,7 @@
       "height": "6' 3\"",
       "weight": 220,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4043169.png",
-      "stats": {
-        "tackles": 114,
-        "sacks": 1,
-        "interceptionsDef": 0,
-        "passDeflections": 2,
-        "forcedFumbles": 2,
-        "tfl": 3
-      }
+      "stats": {}
     },
     {
       "id": "3916655",
@@ -18883,14 +18738,7 @@
       "height": "6' 0\"",
       "weight": 252,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4035434.png",
-      "stats": {
-        "tackles": 174,
-        "sacks": 2.5,
-        "interceptionsDef": 1,
-        "passDeflections": 3,
-        "forcedFumbles": 1,
-        "tfl": 11
-      }
+      "stats": {}
     },
     {
       "id": "4372533",
@@ -19641,14 +19489,7 @@
       "height": "6' 0\"",
       "weight": 225,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4241597.png",
-      "stats": {
-        "tackles": 103,
-        "sacks": 3.5,
-        "interceptionsDef": 2,
-        "passDeflections": 5,
-        "forcedFumbles": 0,
-        "tfl": 5
-      }
+      "stats": {}
     },
     {
       "id": "3843769",
@@ -20539,14 +20380,7 @@
       "height": "6' 2\"",
       "weight": 205,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4242154.png",
-      "stats": {
-        "tackles": 122,
-        "sacks": 2,
-        "interceptionsDef": 2,
-        "passDeflections": 5,
-        "forcedFumbles": 1,
-        "tfl": 2
-      }
+      "stats": {}
     },
     {
       "id": "4568217",
@@ -20756,14 +20590,7 @@
       "height": "6' 3\"",
       "weight": 235,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4243181.png",
-      "stats": {
-        "tackles": 132,
-        "sacks": 2.5,
-        "interceptionsDef": 1,
-        "passDeflections": 6,
-        "forcedFumbles": 4,
-        "tfl": 8
-      }
+      "stats": {}
     },
     {
       "id": "4427120",
@@ -21043,7 +20870,11 @@
       "height": "5' 9\"",
       "weight": 191,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429160.png",
-      "stats": {}
+      "stats": {
+        "rushYards": 1350,
+        "rushTD": 8,
+        "yardsPerCarry": 5.7
+      }
     },
     {
       "id": "4360797",
@@ -21734,14 +21565,7 @@
       "height": "6' 0\"",
       "weight": 240,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4043130.png",
-      "stats": {
-        "tackles": 183,
-        "sacks": 3.5,
-        "interceptionsDef": 0,
-        "passDeflections": 3,
-        "forcedFumbles": 1,
-        "tfl": 13
-      }
+      "stats": {}
     },
     {
       "id": "4426794",
@@ -21867,14 +21691,7 @@
       "height": "6' 0\"",
       "weight": 237,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4035232.png",
-      "stats": {
-        "tackles": 129,
-        "sacks": 5,
-        "interceptionsDef": 1,
-        "passDeflections": 3,
-        "forcedFumbles": 1,
-        "tfl": 10
-      }
+      "stats": {}
     },
     {
       "id": "3943270",
@@ -22835,14 +22652,7 @@
       "height": "6' 1\"",
       "weight": 235,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3728281.png",
-      "stats": {
-        "tackles": 144,
-        "sacks": 2,
-        "interceptionsDef": 0,
-        "passDeflections": 2,
-        "forcedFumbles": 1,
-        "tfl": 4
-      }
+      "stats": {}
     },
     {
       "id": "4431520",
@@ -23220,14 +23030,7 @@
       "height": "6' 1\"",
       "weight": 230,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3056916.png",
-      "stats": {
-        "tackles": 115,
-        "sacks": 6.5,
-        "interceptionsDef": 0,
-        "passDeflections": 0,
-        "forcedFumbles": 4,
-        "tfl": 17
-      }
+      "stats": {}
     },
     {
       "id": "15726",
@@ -27679,14 +27482,7 @@
       "height": "6' 2\"",
       "weight": 216,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4361331.png",
-      "stats": {
-        "tackles": 154,
-        "sacks": 2,
-        "interceptionsDef": 0,
-        "passDeflections": 8,
-        "forcedFumbles": 0,
-        "tfl": 8
-      }
+      "stats": {}
     },
     {
       "id": "4372418",
@@ -28447,14 +28243,7 @@
       "height": "6' 3\"",
       "weight": 225,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/3917657.png",
-      "stats": {
-        "tackles": 123,
-        "sacks": 3.5,
-        "interceptionsDef": 2,
-        "passDeflections": 7,
-        "forcedFumbles": 1,
-        "tfl": 7
-      }
+      "stats": {}
     },
     {
       "id": "4686911",
@@ -29966,14 +29755,7 @@
       "height": "6' 0\"",
       "weight": 232,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4242207.png",
-      "stats": {
-        "tackles": 120,
-        "sacks": 1,
-        "interceptionsDef": 0,
-        "passDeflections": 4,
-        "forcedFumbles": 1,
-        "tfl": 8
-      }
+      "stats": {}
     },
     {
       "id": "3045373",
@@ -30127,14 +29909,7 @@
       "height": "6' 4\"",
       "weight": 242,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4361652.png",
-      "stats": {
-        "tackles": 126,
-        "sacks": 2,
-        "interceptionsDef": 1,
-        "passDeflections": 2,
-        "forcedFumbles": 0,
-        "tfl": 6
-      }
+      "stats": {}
     },
     {
       "id": "4240719",
@@ -32080,14 +31855,7 @@
       "height": "6' 2\"",
       "weight": 230,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4362851.png",
-      "stats": {
-        "tackles": 126,
-        "sacks": 0.5,
-        "interceptionsDef": 5,
-        "passDeflections": 7,
-        "forcedFumbles": 0,
-        "tfl": 4
-      }
+      "stats": {}
     },
     {
       "id": "4686540",
@@ -32997,14 +32765,7 @@
       "height": "6' 1\"",
       "weight": 233,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/14985.png",
-      "stats": {
-        "tackles": 114,
-        "sacks": 3.5,
-        "interceptionsDef": 1,
-        "passDeflections": 3,
-        "forcedFumbles": 2,
-        "tfl": 8
-      }
+      "stats": {}
     },
     {
       "id": "4429511",
@@ -34245,14 +34006,7 @@
       "height": "6' 2\"",
       "weight": 234,
       "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4429834.png",
-      "stats": {
-        "tackles": 164,
-        "sacks": 1,
-        "interceptionsDef": 0,
-        "passDeflections": 4,
-        "forcedFumbles": 0,
-        "tfl": 7
-      }
+      "stats": {}
     },
     {
       "id": "4243831",
