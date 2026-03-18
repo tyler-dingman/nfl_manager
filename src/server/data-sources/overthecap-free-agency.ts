@@ -208,8 +208,6 @@ export const parseAjaxFreeAgencyRows = (html: string): OtcFreeAgencyRow[] => {
 
 const fetchFreeAgencyAjaxRows = async (): Promise<OtcFreeAgencyRow[]> => {
   const formBody = new URLSearchParams(OTC_FREE_AGENCY_REQUEST_PAYLOAD);
-  console.info('[otc:fa] endpoint discovered=admin-ajax');
-  console.info(`[otc:fa] request payload=${JSON.stringify(OTC_FREE_AGENCY_REQUEST_PAYLOAD)}`);
   const response = await fetch(OTC_DEFAULT_AJAX_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -239,7 +237,6 @@ const fetchRowsFromLocalFallback = async (): Promise<OtcFreeAgencyRow[]> => {
     const fallbackText = await readFile(fallbackPath, 'utf8');
     const rows = parseRows(fallbackText);
     if (rows.length > 0) {
-      console.info(`[otc:fa] using local fallback file=${fallbackPath}`);
       return rows;
     }
   }
@@ -251,28 +248,6 @@ export const fetchOtcFreeAgency = async (): Promise<OtcFreeAgencyRow[]> => {
   try {
     const ajaxRows = await fetchFreeAgencyAjaxRows();
     const unsigned = ajaxRows.filter((row) => row.nextTeamAbbr === null).length;
-    const sample = ajaxRows.slice(0, 3).map((row) => ({
-      playerName: row.playerName,
-      position: row.position,
-      priorTeamAbbr: row.priorTeamAbbr,
-      nextTeamAbbr: row.nextTeamAbbr,
-      freeAgentType: row.freeAgentType,
-      snaps: row.snaps,
-      age: row.age,
-      currentApy: row.currentApy,
-      guarantees: row.guarantees,
-    }));
-    const foundHopkins = ajaxRows.some(
-      (row) => row.normalizedName === normalizePlayerName('DeAndre Hopkins'),
-    );
-    console.info(`[otc:fa] raw row count=${ajaxRows.length}`);
-    console.info(`[otc:fa] rows parsed=${ajaxRows.length}`);
-    console.info(`[otc:fa] unsigned players parsed=${unsigned}`);
-    console.info(`[otc:fa] sample parsed rows=${JSON.stringify(sample)}`);
-    console.info(`[otc:fa] deandre hopkins found=${foundHopkins}`);
-    if (!foundHopkins) {
-      console.warn('[otc:fa] validation warning: deandre hopkins missing from parsed rows');
-    }
     if (unsigned <= 0) {
       console.warn('[otc:fa] validation warning: unsigned players parsed=0');
     }
@@ -283,25 +258,9 @@ export const fetchOtcFreeAgency = async (): Promise<OtcFreeAgencyRow[]> => {
 
   const fallbackRows = await fetchRowsFromLocalFallback();
   const unsigned = fallbackRows.filter((row) => row.nextTeamAbbr === null).length;
-  const sample = fallbackRows.slice(0, 3).map((row) => ({
-    playerName: row.playerName,
-    position: row.position,
-    priorTeamAbbr: row.priorTeamAbbr,
-    nextTeamAbbr: row.nextTeamAbbr,
-    freeAgentType: row.freeAgentType,
-    snaps: row.snaps,
-    age: row.age,
-    currentApy: row.currentApy,
-    guarantees: row.guarantees,
-  }));
-  console.info('[otc:fa] endpoint discovered=local-fallback');
-  console.info(`[otc:fa] raw row count=${fallbackRows.length}`);
-  console.info(`[otc:fa] rows parsed=${fallbackRows.length}`);
-  console.info(`[otc:fa] unsigned players parsed=${unsigned}`);
-  console.info(`[otc:fa] sample parsed rows=${JSON.stringify(sample)}`);
-  console.info(
-    `[otc:fa] deandre hopkins found=${fallbackRows.some((row) => row.normalizedName === normalizePlayerName('DeAndre Hopkins'))}`,
-  );
+  if (unsigned <= 0 && fallbackRows.length > 0) {
+    console.warn('[otc:fa] validation warning: unsigned players parsed=0');
+  }
 
   return fallbackRows;
 };

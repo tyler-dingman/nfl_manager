@@ -20,6 +20,19 @@ const estimateValue = (averagePerYear: number | null, capHit: number | null): nu
   return 1_200_000;
 };
 
+const compareByRatingThenName = (a: ExpiringContractRow, b: ExpiringContractRow) => {
+  const aRating = a.rating ?? null;
+  const bRating = b.rating ?? null;
+
+  if (aRating === null && bRating !== null) return 1;
+  if (aRating !== null && bRating === null) return -1;
+  if (aRating !== null && bRating !== null && bRating !== aRating) {
+    return bRating - aRating;
+  }
+
+  return a.name.localeCompare(b.name);
+};
+
 export const getExpiringContractsForTeam = (
   teamAbbr: string,
   leagueData: IngestedLeagueData,
@@ -60,13 +73,7 @@ export const getExpiringContractsForTeam = (
       } satisfies ExpiringContractRow;
     })
     .filter((row): row is ExpiringContractRow => row !== null)
-    .sort((a, b) => b.estValue - a.estValue);
+    .sort(compareByRatingThenName);
 
-  console.info(`[expiring] rostered players=${expiring.rosteredPlayers.length}`);
-  console.info(`[expiring] matched contracts=${expiring.matchedContracts.length}`);
-  console.info(`[expiring] ending after ${seasonYear} season=${expiring.endingThisSeason.length}`);
-  console.info(`[expiring] expiring contracts count=${rows.length}`);
-  console.info(`[expiring] sample=${JSON.stringify(expiring.sample)}`);
-  console.info(`[expiring] team=${normalizedTeamAbbr} count=${rows.length}`);
   return rows;
 };

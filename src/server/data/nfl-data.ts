@@ -72,6 +72,7 @@ export type UnifiedFreeAgent = {
   normalizedName: string;
   position: string;
   age: number | null;
+  rating: number | null;
   headshotUrl: string | null;
   lastTeamAbbr: string;
   contractStatus: string | null;

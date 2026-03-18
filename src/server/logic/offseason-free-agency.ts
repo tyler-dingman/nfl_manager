@@ -36,6 +36,19 @@ const estimateContractValue = ({
   return moneyFromRating(rating);
 };
 
+const compareByRatingThenName = (a: ExpiringContractRow, b: ExpiringContractRow) => {
+  const aRating = a.rating ?? null;
+  const bRating = b.rating ?? null;
+
+  if (aRating === null && bRating !== null) return 1;
+  if (aRating !== null && bRating === null) return -1;
+  if (aRating !== null && bRating !== null && bRating !== aRating) {
+    return bRating - aRating;
+  }
+
+  return a.name.localeCompare(b.name);
+};
+
 export const resolveOffseasonPlayerIdentity = (
   row: OtcFreeAgencyRow,
   league: IngestedLeagueData,
@@ -113,14 +126,7 @@ export const buildTeamExpiringContracts = ({
     .filter((row): row is ExpiringContractRow => row !== null)
     .filter((row) => !(resolvedIds?.has(row.id) ?? false));
 
-  const rows = contracts.sort((a, b) => b.estValue - a.estValue);
-  console.info(`[expiring] rostered players=${expiring.rosteredPlayers.length}`);
-  console.info(`[expiring] matched contracts=${expiring.matchedContracts.length}`);
-  console.info(`[expiring] ending after ${seasonYear} season=${expiring.endingThisSeason.length}`);
-  console.info(`[expiring] expiring contracts count=${rows.length}`);
-  console.info(`[expiring] sample=${JSON.stringify(expiring.sample)}`);
-  console.info(`[expiring] team=${normalizedTeam} count=${rows.length}`);
-  return rows;
+  return contracts.sort(compareByRatingThenName);
 };
 
 export const buildInitialFreeAgencyPool = ({
@@ -138,6 +144,13 @@ export const buildInitialFreeAgencyPool = ({
 }): PlayerRowDTO[] => {
   const generatedAt = new Date().toISOString();
   const map = new Map<string, PlayerRowDTO>();
+  const persistedFreeAgentsById = new Map(league.freeAgents.map((entry) => [entry.id, entry]));
+  const persistedFreeAgentsByNameAndPosition = new Map(
+    league.freeAgents.map((entry) => [
+      `${entry.normalizedName}:${bucketPosition(entry.position ?? 'UNK')}`,
+      entry,
+    ]),
+  );
 
   otcRows
     .filter((row) => row.nextTeamAbbr === null)
@@ -146,13 +159,20 @@ export const buildInitialFreeAgencyPool = ({
       const resolvedName = matched?.name ?? row.playerName;
       const normalized = normalizePlayerName(resolvedName);
       const key = `${normalized}:${bucketPosition(row.position ?? matched?.position ?? 'UNK')}`;
+      const persistedFreeAgent =
+        (matched?.id ? persistedFreeAgentsById.get(matched.id) : null) ??
+        persistedFreeAgentsById.get(
+          `fa-otc-${normalized}-${row.position ?? matched?.position ?? 'UNK'}`.toLowerCase(),
+        ) ??
+        persistedFreeAgentsByNameAndPosition.get(key) ??
+        null;
       const split = splitName(resolvedName);
       const marketValue =
         getFreeAgentExpectedApyDollars({
           position: row.position ?? matched?.position ?? 'UNK',
-          rating: matched?.rating,
-          marketValue: moneyFromRating(matched?.rating),
-        }) ?? moneyFromRating(matched?.rating);
+          rating: matched?.rating ?? persistedFreeAgent?.rating ?? undefined,
+          marketValue: moneyFromRating(matched?.rating ?? persistedFreeAgent?.rating ?? undefined),
+        }) ?? moneyFromRating(matched?.rating ?? persistedFreeAgent?.rating ?? undefined);
       map.set(key, {
         id:
           matched?.id ??
@@ -161,7 +181,7 @@ export const buildInitialFreeAgencyPool = ({
         lastName: split.lastName,
         position: row.position ?? matched?.position ?? 'UNK',
         age: row.age ?? matched?.age ?? undefined,
-        rating: matched?.rating,
+        rating: matched?.rating ?? persistedFreeAgent?.rating ?? undefined,
         marketValue,
         contractYearsRemaining: 0,
         capHit: '$0.0M',
@@ -189,8 +209,5 @@ export const buildInitialFreeAgencyPool = ({
     const key = `${normalizePlayerName(`${player.firstName} ${player.lastName}`)}:${bucketPosition(player.position)}`;
     map.set(key, player);
   });
-
-  const pool = Array.from(map.values());
-  console.info(`[offseason] freeAgencyPool=${pool.length}`);
-  return pool;
+  return Array.from(map.values());
 };

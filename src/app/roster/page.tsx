@@ -196,11 +196,15 @@ export default function RosterPage() {
         return matchesPosition && matchesSearch;
       })
       .sort((a, b) => {
-        const ratingDelta = (b.rating ?? 0) - (a.rating ?? 0);
-        if (ratingDelta !== 0) {
-          return ratingDelta;
+        const aRating = a.rating ?? null;
+        const bRating = b.rating ?? null;
+
+        if (aRating === null && bRating !== null) return 1;
+        if (aRating !== null && bRating === null) return -1;
+        if (aRating !== null && bRating !== null && bRating !== aRating) {
+          return bRating - aRating;
         }
-        return b.estValue - a.estValue;
+        return a.name.localeCompare(b.name);
       });
   }, [expiringContracts, expiringPositionFilter, expiringSearchQuery]);
 

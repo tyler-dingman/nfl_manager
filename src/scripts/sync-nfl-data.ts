@@ -1,7 +1,12 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import type { IngestedLeagueData, UnifiedContract, UnifiedPlayer } from '@/server/data/nfl-data';
+import type {
+  IngestedLeagueData,
+  UnifiedContract,
+  UnifiedFreeAgent,
+  UnifiedPlayer,
+} from '@/server/data/nfl-data';
 import { syncCap } from '@/server/ingest/cap';
 import { syncContracts } from '@/server/ingest/contracts';
 import { syncPlayers } from '@/server/ingest/players';
@@ -32,6 +37,12 @@ const normalizePositionBucket = (position: string): string => {
 
   return normalized;
 };
+
+const normalizeFreeAgentName = (value: string): string =>
+  value
+    .toLowerCase()
+    .replace(/\b(jr|sr|ii|iii|iv|v)\b/g, '')
+    .replace(/[^a-z0-9]+/g, '');
 
 const buildRatedPlayers = (
   players: UnifiedPlayer[],
@@ -91,31 +102,62 @@ const buildRatedPlayers = (
   });
 };
 
+const enrichFreeAgentsWithRatings = (
+  freeAgents: UnifiedFreeAgent[],
+  players: UnifiedPlayer[],
+): UnifiedFreeAgent[] => {
+  const playersById = new Map(players.map((player) => [player.id, player]));
+  const playersByNormalizedName = new Map<string, UnifiedPlayer[]>();
+  const playersByNormalizedNameAndPosition = new Map<string, UnifiedPlayer[]>();
+
+  for (const player of players) {
+    const normalizedName = normalizeFreeAgentName(player.name);
+    const bucket = normalizePositionBucket(player.position);
+
+    const nameBucket = playersByNormalizedName.get(normalizedName) ?? [];
+    nameBucket.push(player);
+    playersByNormalizedName.set(normalizedName, nameBucket);
+
+    const namePositionKey = `${normalizedName}:${bucket}`;
+    const positionBucketPlayers = playersByNormalizedNameAndPosition.get(namePositionKey) ?? [];
+    positionBucketPlayers.push(player);
+    playersByNormalizedNameAndPosition.set(namePositionKey, positionBucketPlayers);
+  }
+
+  return freeAgents.map((freeAgent) => {
+    const directMatch = playersById.get(freeAgent.id) ?? null;
+    const normalizedName = freeAgent.normalizedName || normalizeFreeAgentName(freeAgent.name);
+    const positionBucket = normalizePositionBucket(freeAgent.position);
+    const nameAndPositionMatches =
+      playersByNormalizedNameAndPosition.get(`${normalizedName}:${positionBucket}`) ?? [];
+    const uniqueNameAndPositionMatch =
+      nameAndPositionMatches.length === 1 ? nameAndPositionMatches[0] : null;
+    const nameMatches = playersByNormalizedName.get(normalizedName) ?? [];
+    const uniqueNameMatch = nameMatches.length === 1 ? nameMatches[0] : null;
+    const matchedPlayer = directMatch ?? uniqueNameAndPositionMatch ?? uniqueNameMatch;
+
+    return {
+      ...freeAgent,
+      rating: matchedPlayer?.rating ?? freeAgent.rating ?? null,
+    };
+  });
+};
+
 const run = async () => {
   const now = new Date().toISOString();
-  const debugPlayers = new Set(['patrick mahomes', 'chris jones', 'travis kelce']);
 
   const playerSync = await syncPlayers();
   const capSync = await syncCap();
   const contractSync = await syncContracts(playerSync.teams, playerSync.players);
   const enrichedPlayers = buildRatedPlayers(playerSync.players, contractSync.contracts);
-
-  console.log('[ratings] debug players after enrichment');
-  enrichedPlayers
-    .filter((player) => debugPlayers.has(player.name.toLowerCase()))
-    .forEach((player) => {
-      console.log(
-        `  ${player.name} (${player.teamAbbr} ${player.position}) baseline=${player.baselineRating} madden=${player.maddenRating} final=${player.rating}`,
-      );
-      console.log(`    stats=${JSON.stringify(player.stats)}`);
-    });
+  const enrichedFreeAgents = enrichFreeAgentsWithRatings(contractSync.freeAgents, enrichedPlayers);
 
   const payload: IngestedLeagueData = {
     updatedAt: now,
     teams: playerSync.teams,
     players: enrichedPlayers,
     contracts: contractSync.contracts,
-    freeAgents: contractSync.freeAgents,
+    freeAgents: enrichedFreeAgents,
     cap: capSync.cap,
   };
 

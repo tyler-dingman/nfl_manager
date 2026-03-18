@@ -194,7 +194,7 @@ export function PlayerTable({
     }
     if (variant === 'freeAgent') {
       return [
-        { id: 'contractAsk', desc: true },
+        { id: 'ratingSort', desc: true },
         { id: 'name', desc: false },
       ];
     }
@@ -211,7 +211,7 @@ export function PlayerTable({
     }
     if (variant === 'freeAgent') {
       setSorting([
-        { id: 'contractAsk', desc: true },
+        { id: 'ratingSort', desc: true },
         { id: 'name', desc: false },
       ]);
       return;
@@ -350,6 +350,12 @@ export function PlayerTable({
 
     if (variant === 'freeAgent') {
       return [
+        {
+          id: 'ratingSort',
+          accessorFn: (row) => row.rating ?? -1,
+          enableSorting: true,
+          meta: { hidden: true },
+        },
         {
           id: 'name',
           header: 'Name',
