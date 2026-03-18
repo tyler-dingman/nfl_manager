@@ -25,6 +25,8 @@ const ESPN_STATS_URLS = {
     'https://www.espn.com/nfl/stats/player/_/table/defensive/sort/totalTackles/dir/desc',
 } as const;
 
+type Category = keyof typeof ESPN_STATS_URLS;
+
 const decodeEntities = (value: string): string =>
   value
     .replace(/&amp;/g, '&')
@@ -92,14 +94,32 @@ const parseNameRows = (rows: string[][]) => {
     .filter((entry): entry is { playerName: string; teamAbbr: string } => Boolean(entry));
 };
 
-const isStatHeaderRow = (cells: string[]) =>
-  cells.length >= 5 &&
-  cells[0] === 'POS' &&
-  cells.some((cell) => ['YDS', 'TD', 'REC', 'SACKS', 'TOT', 'CMP%'].includes(cell));
+const isCategoryHeaderRow = (cells: string[], category: Category) => {
+  if (cells.length < 5 || cells[0] !== 'POS') return false;
+
+  const upper = cells.map((cell) => cell.trim().toUpperCase());
+
+  switch (category) {
+    case 'passing':
+      return upper.includes('CMP%') && upper.includes('ATT') && upper.includes('INT');
+
+    case 'rushing':
+      return upper.includes('ATT') && upper.includes('YDS') && upper.includes('AVG') && !upper.includes('CMP%');
+
+    case 'receiving':
+      return upper.includes('REC') && upper.includes('TGTS') && upper.includes('YDS') && upper.includes('AVG');
+
+    case 'defensive':
+      return upper.includes('TOT') || upper.includes('SOLO') || upper.includes('SACKS') || upper.includes('PD');
+
+    default:
+      return false;
+  }
+};
 
 const isStatDataRow = (cells: string[], expectedLength: number) =>
   cells.length === expectedLength &&
-  /^[A-Z]{1,5}$/.test(cells[0] ?? '') &&
+  /^[A-Z]{1,6}$/.test(cells[0] ?? '') &&
   /^\d+$/.test(cells[1] ?? '');
 
 const toNumber = (value: string) => {
@@ -109,73 +129,82 @@ const toNumber = (value: string) => {
   return Number.isFinite(parsed) ? parsed : undefined;
 };
 
-const mapStatsFromHeaders = (headers: string[], values: string[]): UnifiedPlayerStats => {
+const mapStatsFromHeaders = (
+  category: Category,
+  headers: string[],
+  values: string[],
+): UnifiedPlayerStats => {
   const stats: UnifiedPlayerStats = {};
+  const headerIndex = new Map(headers.map((header, index) => [header.trim().toUpperCase(), index]));
 
-  headers.forEach((header, index) => {
-    const key = header.trim().toUpperCase();
-    const rawValue = values[index];
-    const value = toNumber(rawValue);
-    if (value === undefined) return;
+  const get = (name: string) => {
+    const index = headerIndex.get(name);
+    if (index === undefined) return undefined;
+    return toNumber(values[index] ?? '');
+  };
 
-    if (key === 'CMP%') stats.completionPct = value;
-    else if (key === 'YDS') {
-      // Use context-sensitive assignment later if needed; here we fill by surrounding headers
-    } else if (key === 'TD') {
-      // handled below contextually
-    } else if (key === 'INT') {
-      // passing INT or defensive INT handled below contextually
-    } else if (key === 'AVG') {
-      // rushing/receiving avg handled below contextually
-    } else if (key === 'REC') stats.receptions = value;
-    else if (key === 'TOT') stats.tackles = value;
-    else if (key === 'SACKS') stats.sacks = value;
-    else if (key === 'TFL') stats.tfl = value;
-    else if (key === 'QBH') stats.qbHits = value;
-    else if (key === 'PD') stats.passDeflections = value;
-    else if (key === 'FF') stats.forcedFumbles = value;
-  });
+  if (category === 'passing') {
+    const completionPct = get('CMP%');
+    const passingYards = get('YDS');
+    const passingTD = get('TD');
+    const interceptions = get('INT');
 
-  const joinedHeaders = headers.join('|');
+    if (completionPct !== undefined) stats.completionPct = completionPct;
+    if (passingYards !== undefined) stats.passingYards = passingYards;
+    if (passingTD !== undefined) stats.passingTD = passingTD;
+    if (interceptions !== undefined) stats.interceptions = interceptions;
+  }
 
-  headers.forEach((header, index) => {
-    const key = header.trim().toUpperCase();
-    const value = toNumber(values[index]);
-    if (value === undefined) return;
+  if (category === 'rushing') {
+    const rushYards = get('YDS');
+    const rushTD = get('TD');
+    const yardsPerCarry = get('AVG');
 
-    if (key === 'YDS') {
-      if (joinedHeaders.includes('CMP%')) stats.passingYards = value;
-      else if (joinedHeaders.includes('REC')) stats.recYards = value;
-      else stats.rushYards = value;
-    }
+    if (rushYards !== undefined) stats.rushYards = rushYards;
+    if (rushTD !== undefined) stats.rushTD = rushTD;
+    if (yardsPerCarry !== undefined) stats.yardsPerCarry = yardsPerCarry;
+  }
 
-    if (key === 'TD') {
-      if (joinedHeaders.includes('CMP%')) stats.passingTD = value;
-      else if (joinedHeaders.includes('REC')) stats.recTD = value;
-      else stats.rushTD = value;
-    }
+  if (category === 'receiving') {
+    const receptions = get('REC');
+    const recYards = get('YDS');
+    const recTD = get('TD');
+    const yardsPerCatch = get('AVG');
 
-    if (key === 'INT') {
-      if (joinedHeaders.includes('CMP%')) stats.interceptions = value;
-      else stats.interceptionsDef = value;
-    }
+    if (receptions !== undefined) stats.receptions = receptions;
+    if (recYards !== undefined) stats.recYards = recYards;
+    if (recTD !== undefined) stats.recTD = recTD;
+    if (yardsPerCatch !== undefined) stats.yardsPerCatch = yardsPerCatch;
+  }
 
-    if (key === 'AVG') {
-      if (joinedHeaders.includes('REC')) stats.yardsPerCatch = value;
-      else if (joinedHeaders.includes('ATT')) stats.yardsPerCarry = value;
-    }
-  });
+  if (category === 'defensive') {
+    const tackles = get('TOT');
+    const sacks = get('SACKS');
+    const interceptionsDef = get('INT');
+    const passDeflections = get('PD');
+    const forcedFumbles = get('FF');
+    const tfl = get('TFL');
+    const qbHits = get('QBH');
+
+    if (tackles !== undefined) stats.tackles = tackles;
+    if (sacks !== undefined) stats.sacks = sacks;
+    if (interceptionsDef !== undefined) stats.interceptionsDef = interceptionsDef;
+    if (passDeflections !== undefined) stats.passDeflections = passDeflections;
+    if (forcedFumbles !== undefined) stats.forcedFumbles = forcedFumbles;
+    if (tfl !== undefined) stats.tfl = tfl;
+    if (qbHits !== undefined) stats.qbHits = qbHits;
+  }
 
   return stats;
 };
 
-const parseCategoryPage = (html: string, category: keyof typeof ESPN_STATS_URLS) => {
+const parseCategoryPage = (html: string, category: Category) => {
   const rows = extractRows(html);
-
   const nameRows = parseNameRows(rows);
 
-  const headerIndex = rows.findIndex(isStatHeaderRow);
+  const headerIndex = rows.findIndex((row) => isCategoryHeaderRow(row, category));
   if (headerIndex === -1) {
+    console.log(`[sync:players:debug] ${category} header not found`);
     return [];
   }
 
@@ -184,6 +213,7 @@ const parseCategoryPage = (html: string, category: keyof typeof ESPN_STATS_URLS)
 
   for (let i = headerIndex + 1; i < rows.length; i += 1) {
     const cells = rows[i];
+
     if (isStatDataRow(cells, statHeader.length)) {
       statRows.push(cells);
       continue;
@@ -204,7 +234,7 @@ const parseCategoryPage = (html: string, category: keyof typeof ESPN_STATS_URLS)
   for (let i = 0; i < zippedCount; i += 1) {
     const identity = nameRows[i];
     const statRow = statRows[i];
-    const stats = mapStatsFromHeaders(statHeader, statRow);
+    const stats = mapStatsFromHeaders(category, statHeader, statRow);
 
     if (!hasNonEmptyStats(stats)) continue;
 
@@ -261,9 +291,9 @@ export const fetchTeamStats = async (
     Object.entries(ESPN_STATS_URLS).map(async ([category, url]) => {
       try {
         const html = await fetchHtml(url);
-        return { category: category as keyof typeof ESPN_STATS_URLS, html };
+        return { category: category as Category, html };
       } catch {
-        return { category: category as keyof typeof ESPN_STATS_URLS, html: '' };
+        return { category: category as Category, html: '' };
       }
     }),
   );

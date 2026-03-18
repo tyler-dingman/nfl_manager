@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-18T00:21:09.568Z",
+  "updatedAt": "2026-03-18T00:28:33.188Z",
   "teams": [
     {
       "id": "ARI",
@@ -326,7 +326,6 @@
       "stats": {
         "completionPct": 64.9,
         "passingYards": 3366,
-        "yardsPerCarry": 6.9,
         "passingTD": 23,
         "interceptions": 8
       }
@@ -1718,7 +1717,6 @@
       "stats": {
         "completionPct": 60.1,
         "passingYards": 1982,
-        "yardsPerCarry": 7.2,
         "passingTD": 9,
         "interceptions": 3
       }
@@ -2704,7 +2702,6 @@
       "stats": {
         "completionPct": 77.6,
         "passingYards": 426,
-        "yardsPerCarry": 6.4,
         "passingTD": 2,
         "interceptions": 0
       }
@@ -2724,7 +2721,6 @@
       "stats": {
         "completionPct": 63.6,
         "passingYards": 2549,
-        "yardsPerCarry": 8.4,
         "passingTD": 21,
         "interceptions": 7
       }
@@ -3458,7 +3454,6 @@
       "stats": {
         "completionPct": 69.3,
         "passingYards": 3668,
-        "yardsPerCarry": 8,
         "passingTD": 25,
         "interceptions": 10
       }
@@ -5088,7 +5083,6 @@
       "stats": {
         "completionPct": 63.6,
         "passingYards": 3011,
-        "yardsPerCarry": 6.3,
         "passingTD": 23,
         "interceptions": 11
       }
@@ -6116,7 +6110,6 @@
       "stats": {
         "completionPct": 58.1,
         "passingYards": 3942,
-        "yardsPerCarry": 6.9,
         "passingTD": 27,
         "interceptions": 7
       }
@@ -6794,7 +6787,6 @@
       "stats": {
         "completionPct": 66.8,
         "passingYards": 1809,
-        "yardsPerCarry": 7,
         "passingTD": 17,
         "interceptions": 5
       }
@@ -6870,7 +6862,6 @@
       "stats": {
         "completionPct": 60.3,
         "passingYards": 2479,
-        "yardsPerCarry": 6,
         "passingTD": 15,
         "interceptions": 10
       }
@@ -7898,7 +7889,6 @@
       "stats": {
         "completionPct": 59.5,
         "passingYards": 937,
-        "yardsPerCarry": 5.1,
         "passingTD": 7,
         "interceptions": 2
       }
@@ -8156,7 +8146,6 @@
       "stats": {
         "completionPct": 56.6,
         "passingYards": 1400,
-        "yardsPerCarry": 6.6,
         "passingTD": 7,
         "interceptions": 10
       }
@@ -9184,7 +9173,6 @@
       "stats": {
         "completionPct": 67.3,
         "passingYards": 4552,
-        "yardsPerCarry": 7.6,
         "passingTD": 30,
         "interceptions": 10
       }
@@ -10226,7 +10214,6 @@
       "stats": {
         "completionPct": 63.4,
         "passingYards": 3931,
-        "yardsPerCarry": 6.4,
         "passingTD": 25,
         "interceptions": 11
       }
@@ -11058,7 +11045,6 @@
       "stats": {
         "completionPct": 68,
         "passingYards": 4564,
-        "yardsPerCarry": 7.9,
         "passingTD": 34,
         "interceptions": 8
       }
@@ -12240,7 +12226,6 @@
       "stats": {
         "completionPct": 66.3,
         "passingYards": 3381,
-        "yardsPerCarry": 7.7,
         "passingTD": 23,
         "interceptions": 6
       }
@@ -13450,7 +13435,6 @@
       "stats": {
         "completionPct": 57.2,
         "passingYards": 915,
-        "yardsPerCarry": 5.8,
         "passingTD": 5,
         "interceptions": 1
       }
@@ -13610,7 +13594,6 @@
       "stats": {
         "completionPct": 64.5,
         "passingYards": 3041,
-        "yardsPerCarry": 7.2,
         "passingTD": 19,
         "interceptions": 8
       }
@@ -14428,7 +14411,6 @@
       "stats": {
         "completionPct": 68,
         "passingYards": 3101,
-        "yardsPerCarry": 8.1,
         "passingTD": 19,
         "interceptions": 8
       }
@@ -14658,7 +14640,6 @@
       "stats": {
         "completionPct": 63,
         "passingYards": 544,
-        "yardsPerCarry": 5.9,
         "passingTD": 4,
         "interceptions": 3
       }
@@ -15672,7 +15653,6 @@
       "stats": {
         "completionPct": 60.9,
         "passingYards": 4007,
-        "yardsPerCarry": 7.2,
         "passingTD": 29,
         "interceptions": 12
       }
@@ -16672,7 +16652,6 @@
       "stats": {
         "completionPct": 62.7,
         "passingYards": 3587,
-        "yardsPerCarry": 7.1,
         "passingTD": 22,
         "interceptions": 11
       }
@@ -18834,7 +18813,6 @@
       "stats": {
         "completionPct": 66.4,
         "passingYards": 3727,
-        "yardsPerCarry": 7.3,
         "passingTD": 26,
         "interceptions": 13
       }
@@ -20058,7 +20036,6 @@
       "stats": {
         "completionPct": 65,
         "passingYards": 4707,
-        "yardsPerCarry": 7.9,
         "passingTD": 46,
         "interceptions": 8
       }
@@ -20778,7 +20755,6 @@
       "stats": {
         "completionPct": 66.3,
         "passingYards": 622,
-        "yardsPerCarry": 7.5,
         "passingTD": 3,
         "interceptions": 3
       }
@@ -22184,7 +22160,6 @@
       "stats": {
         "completionPct": 57.6,
         "passingYards": 1632,
-        "yardsPerCarry": 6.7,
         "passingTD": 11,
         "interceptions": 12
       }
@@ -22344,7 +22319,6 @@
       "stats": {
         "completionPct": 65.1,
         "passingYards": 1216,
-        "yardsPerCarry": 7.2,
         "passingTD": 6,
         "interceptions": 5
       }
@@ -23162,7 +23136,6 @@
       "stats": {
         "completionPct": 72,
         "passingYards": 4394,
-        "yardsPerCarry": 8.9,
         "passingTD": 31,
         "interceptions": 8
       }
@@ -24316,7 +24289,6 @@
       "stats": {
         "completionPct": 67.7,
         "passingYards": 1586,
-        "yardsPerCarry": 6.2,
         "passingTD": 8,
         "interceptions": 5
       }
@@ -24392,7 +24364,6 @@
       "stats": {
         "completionPct": 67.6,
         "passingYards": 2384,
-        "yardsPerCarry": 7.3,
         "passingTD": 10,
         "interceptions": 6
       }
@@ -25098,7 +25069,6 @@
       "stats": {
         "completionPct": 63.7,
         "passingYards": 2272,
-        "yardsPerCarry": 6.7,
         "passingTD": 15,
         "interceptions": 5
       }
@@ -25580,7 +25550,6 @@
       "stats": {
         "completionPct": 58,
         "passingYards": 831,
-        "yardsPerCarry": 7,
         "passingTD": 3,
         "interceptions": 3
       }
@@ -25600,7 +25569,6 @@
       "stats": {
         "completionPct": 56.1,
         "passingYards": 567,
-        "yardsPerCarry": 8.6,
         "passingTD": 2,
         "interceptions": 2
       }
@@ -26292,7 +26260,6 @@
       "stats": {
         "completionPct": 57.5,
         "passingYards": 739,
-        "yardsPerCarry": 4.8,
         "passingTD": 2,
         "interceptions": 7
       }
@@ -26690,7 +26657,6 @@
       "stats": {
         "completionPct": 59.7,
         "passingYards": 779,
-        "yardsPerCarry": 5.8,
         "passingTD": 5,
         "interceptions": 5
       }
@@ -27634,7 +27600,6 @@
       "stats": {
         "completionPct": 64.8,
         "passingYards": 3224,
-        "yardsPerCarry": 7.1,
         "passingTD": 25,
         "interceptions": 6
       }
@@ -28816,7 +28781,6 @@
       "stats": {
         "completionPct": 65.7,
         "passingYards": 3322,
-        "yardsPerCarry": 6.7,
         "passingTD": 24,
         "interceptions": 7
       }
@@ -29858,7 +29822,6 @@
       "stats": {
         "completionPct": 69.6,
         "passingYards": 2151,
-        "yardsPerCarry": 7.4,
         "passingTD": 13,
         "interceptions": 6
       }
@@ -30032,7 +29995,6 @@
       "stats": {
         "completionPct": 69.4,
         "passingYards": 2167,
-        "yardsPerCarry": 7.6,
         "passingTD": 20,
         "interceptions": 10
       }
@@ -31018,7 +30980,6 @@
       "stats": {
         "completionPct": 67.7,
         "passingYards": 4048,
-        "yardsPerCarry": 8.5,
         "passingTD": 25,
         "interceptions": 14
       }
@@ -32228,7 +32189,6 @@
       "stats": {
         "completionPct": 63.2,
         "passingYards": 3693,
-        "yardsPerCarry": 6.8,
         "passingTD": 26,
         "interceptions": 11
       }
@@ -33410,7 +33370,6 @@
       "stats": {
         "completionPct": 59.8,
         "passingYards": 3169,
-        "yardsPerCarry": 5.9,
         "passingTD": 15,
         "interceptions": 7
       }
