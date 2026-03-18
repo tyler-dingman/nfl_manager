@@ -1,5 +1,7 @@
 import type { UnifiedPlayerStats } from '@/server/data/nfl-data';
 import { normalizePlayerName } from '@/server/ingest/normalize';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 
 export type TeamPlayerStatsRecord = {
   playerId?: string;
@@ -75,6 +77,11 @@ const PFR_TO_NFL_TEAM_ABBR: Record<string, string> = {
   TEN: 'TEN',
   WAS: 'WSH',
 };
+
+const PFR_DEFENSE_URL = 'https://www.pro-football-reference.com/years/2025/defense_advanced.htm';
+const PFR_DEFENSE_CACHE_FILE = resolve(process.cwd(), 'data-cache', 'pfr-defense-2025.html');
+// Manual cache refresh if desired:
+// curl -L "https://www.pro-football-reference.com/years/2025/defense_advanced.htm" -o data-cache/pfr-defense-2025.html
 
 const stripTags = (value: string): string =>
   decodeEntities(value)
@@ -243,26 +250,7 @@ const extractDataStatCells = (rowHtml: string) => {
 };
 
 export const fetchPfrDefenseStats = async (): Promise<TeamPlayerStatsRecord[]> => {
-  const pfrUrl = 'https://www.pro-football-reference.com/years/2025/defense_advanced.htm';
-
-  try {
-    const response = await fetch(pfrUrl, {
-      headers: {
-        'user-agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-        accept:
-          'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-        'accept-language': 'en-US,en;q=0.9',
-        referer: 'https://www.pro-football-reference.com/',
-        'cache-control': 'no-cache',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Request failed (${response.status})`);
-    }
-
-    const html = await response.text();
+  const parsePfrDefenseHtml = (html: string) => {
     const rowMatches = html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi);
     const records: TeamPlayerStatsRecord[] = [];
 
@@ -311,13 +299,44 @@ export const fetchPfrDefenseStats = async (): Promise<TeamPlayerStatsRecord[]> =
     console.log(`[pfr:defense] sample: ${JSON.stringify(records.slice(0, 3))}`);
 
     return records;
+  };
+
+  try {
+    const response = await fetch(PFR_DEFENSE_URL, {
+      headers: {
+        'user-agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+        accept:
+          'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'accept-language': 'en-US,en;q=0.9',
+        referer: 'https://www.pro-football-reference.com/',
+        'cache-control': 'no-cache',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed (${response.status})`);
+    }
+
+    const html = await response.text();
+    console.log('[pfr:defense] fetched live html');
+
+    await mkdir(dirname(PFR_DEFENSE_CACHE_FILE), { recursive: true });
+    await writeFile(PFR_DEFENSE_CACHE_FILE, html, 'utf8');
+    console.log('[pfr:defense] wrote cache file');
+
+    return parsePfrDefenseHtml(html);
   } catch (error) {
-    console.warn(
-      `[pfr:defense] failed to fetch/parse advanced defense stats: ${
-        error instanceof Error ? error.message : 'Unknown error'
-      }`,
-    );
-    return [];
+    console.warn('[pfr:defense] live fetch failed, trying cache');
+
+    try {
+      const cachedHtml = await readFile(PFR_DEFENSE_CACHE_FILE, 'utf8');
+      console.log('[pfr:defense] loaded cached html');
+      return parsePfrDefenseHtml(cachedHtml);
+    } catch {
+      console.warn('[pfr:defense] no cache available');
+      return [];
+    }
   }
 };
 
