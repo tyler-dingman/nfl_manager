@@ -4,6 +4,10 @@ import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerRowDTO } from '@/types/player';
 import { buildFreeAgentProfile, bucketPosition } from '@/server/logic/free-agency-pool';
 import type { OtcFreeAgencyRow } from '@/server/data-sources/overthecap-free-agency';
+import {
+  buildRosterMatchedExpiringContracts,
+  OFFSEASON_EXPIRING_SEASON_YEAR,
+} from '@/server/logic/contract-expiration';
 
 const splitName = (name: string) => {
   const parts = name.trim().split(/\s+/);
@@ -29,34 +33,6 @@ const estimateContractValue = ({
     return Math.round(value);
   }
   return moneyFromRating(rating);
-};
-
-const isFreeAgentStatus = (status: string | null | undefined): boolean => {
-  if (!status) {
-    return false;
-  }
-  const normalized = status.toUpperCase();
-  return normalized.includes('UFA') || normalized.includes('RFA') || normalized.includes('ERFA');
-};
-
-const isContractExpiring = ({
-  years,
-  contractEndYear,
-  seasonYear,
-  contractStatus,
-}: {
-  years: number | null;
-  contractEndYear: number | null;
-  seasonYear: number;
-  contractStatus: string | null;
-}): boolean => {
-  if (typeof years === 'number' && Number.isFinite(years)) {
-    return years <= 1;
-  }
-  if (typeof contractEndYear === 'number' && Number.isFinite(contractEndYear)) {
-    return contractEndYear <= seasonYear;
-  }
-  return isFreeAgentStatus(contractStatus);
 };
 
 export const resolveOffseasonPlayerIdentity = (
@@ -91,19 +67,17 @@ export const buildTeamExpiringContracts = ({
   resolvedIds?: Set<string>;
 }): ExpiringContractRow[] => {
   const normalizedTeam = teamAbbr.toUpperCase();
-  const seasonYear = new Date().getUTCFullYear();
+  const seasonYear = OFFSEASON_EXPIRING_SEASON_YEAR;
   const playersById = new Map(league.players.map((player) => [player.id, player]));
 
-  const contracts = league.contracts
-    .filter((contract) => contract.teamAbbr === normalizedTeam)
-    .filter((contract) =>
-      isContractExpiring({
-        years: contract.years,
-        contractEndYear: contract.contractEndYear,
-        seasonYear,
-        contractStatus: contract.contractStatus,
-      }),
-    )
+  const expiring = buildRosterMatchedExpiringContracts({
+    players: league.players,
+    contracts: league.contracts,
+    teamAbbr: normalizedTeam,
+    seasonYear,
+  });
+
+  const contracts = expiring.endingThisSeason
     .map((contract) => {
       const matched = playersById.get(contract.playerId);
       if (!matched) {
@@ -138,41 +112,12 @@ export const buildTeamExpiringContracts = ({
     .filter((row): row is ExpiringContractRow => row !== null)
     .filter((row) => !(resolvedIds?.has(row.id) ?? false));
 
-  const otcUnsignedFallback = otcRows
-    .filter((row) => row.priorTeamAbbr === normalizedTeam)
-    .filter((row) => row.nextTeamAbbr === null)
-    .map((row) => {
-      const matched = resolveOffseasonPlayerIdentity(row, league);
-      const id = matched?.id ?? `otc-fa-${row.normalizedName}-${row.position ?? 'UNK'}`;
-      const estValue = moneyFromRating(matched?.rating);
-      return {
-        id,
-        name: row.playerName,
-        pos: row.position ?? matched?.position ?? 'UNK',
-        teamAbbr: normalizedTeam,
-        contractType: row.freeAgentType ?? 'UFA',
-        interestPct: 0,
-        age: row.age ?? matched?.age ?? 27,
-        rating: matched?.rating,
-        estValue,
-        currentSalary: estValue,
-        maxValue: Math.round(estValue * 1.2),
-        headshotUrl: matched?.headshotUrl ?? null,
-        lastTeamAbbr: normalizedTeam,
-        previousTeamAbbr: normalizedTeam,
-      } satisfies ExpiringContractRow;
-    })
-    .filter((row) => !(resolvedIds?.has(row.id) ?? false));
-
-  const deduped = new Map<string, ExpiringContractRow>();
-  contracts.forEach((row) => deduped.set(row.id, row));
-  otcUnsignedFallback.forEach((row) => {
-    if (!deduped.has(row.id)) {
-      deduped.set(row.id, row);
-    }
-  });
-
-  const rows = Array.from(deduped.values()).sort((a, b) => b.estValue - a.estValue);
+  const rows = contracts.sort((a, b) => b.estValue - a.estValue);
+  console.info(`[expiring] rostered players=${expiring.rosteredPlayers.length}`);
+  console.info(`[expiring] matched contracts=${expiring.matchedContracts.length}`);
+  console.info(`[expiring] ending after ${seasonYear} season=${expiring.endingThisSeason.length}`);
+  console.info(`[expiring] expiring contracts count=${rows.length}`);
+  console.info(`[expiring] sample=${JSON.stringify(expiring.sample)}`);
   console.info(`[expiring] team=${normalizedTeam} count=${rows.length}`);
   return rows;
 };
