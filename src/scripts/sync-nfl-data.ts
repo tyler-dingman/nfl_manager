@@ -143,6 +143,28 @@ const run = async () => {
   console.log(`[expiring] rostered players=${expiring.rosteredPlayers.length}`);
   console.log(`[expiring] matched contracts=${expiring.matchedContracts.length}`);
   console.log(
+    `[expiring] contracts with derived final year=${expiring.contractsWithDerivedFinalYear}`,
+  );
+  console.log(
+    `[expiring] final year ${OFFSEASON_EXPIRING_SEASON_YEAR} count=${expiring.finalYear2025Count}`,
+  );
+  console.log(
+    `[expiring] final year distribution=${JSON.stringify(expiring.finalYearDistribution)}`,
+  );
+  console.log(
+    `[expiring:debug] sample contract shape=${JSON.stringify(expiring.debugSamples.slice(0, 5))}`,
+  );
+  console.log(
+    `[expiring:debug] sample derived years=${JSON.stringify(
+      expiring.debugSamples.slice(0, 8).map((sample) => ({
+        playerName: sample.playerName,
+        teamAbbr: sample.teamAbbr,
+        computedFinalYear: sample.computedFinalYear,
+        candidateYearFields: sample.candidateYearFields,
+      })),
+    )}`,
+  );
+  console.log(
     `[expiring] ending after ${OFFSEASON_EXPIRING_SEASON_YEAR} season=${expiring.endingThisSeason.length}`,
   );
   console.log(`[expiring] expiring contracts count=${expiringContractsCount}`);
