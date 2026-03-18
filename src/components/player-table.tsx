@@ -51,6 +51,7 @@ type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
 type PlayerTableProps = {
   data: PlayerRowDTO[];
   variant: PlayerTableVariant;
+  freeAgentView?: 'available' | 'signed';
   onTheClockForUserTeam?: boolean;
   onCutPlayer?: (player: PlayerRowDTO) => void;
   onTradePlayer?: (player: PlayerRowDTO) => void;
@@ -80,7 +81,6 @@ function formatName(player: PlayerRowDTO) {
 }
 
 const formatMillions = (value: number) => `$${value.toFixed(1)}M`;
-const formatMarketValue = (value: number) => `$${(value / 1_000_000).toFixed(1)}M`;
 const formatSignedMarketValue = (player: PlayerRowDTO) => {
   const years = player.contract?.yearsRemaining ?? player.contractYearsRemaining;
   const apy = player.contract?.apy;
@@ -156,6 +156,7 @@ export function PositionFilterBar({
 export function PlayerTable({
   data,
   variant,
+  freeAgentView = 'available',
   onTheClockForUserTeam = false,
   onCutPlayer,
   onTradePlayer,
@@ -178,7 +179,7 @@ export function PlayerTable({
     }
     if (variant === 'freeAgent') {
       return [
-        { id: 'marketValue', desc: true },
+        { id: 'contractAsk', desc: true },
         { id: 'name', desc: false },
       ];
     }
@@ -195,7 +196,7 @@ export function PlayerTable({
     }
     if (variant === 'freeAgent') {
       setSorting([
-        { id: 'marketValue', desc: true },
+        { id: 'contractAsk', desc: true },
         { id: 'name', desc: false },
       ]);
       return;
@@ -383,36 +384,24 @@ export function PlayerTable({
           ),
         },
         {
-          id: 'marketValue',
+          id: 'contractAsk',
           header: ({ column }) => (
             <button
               type="button"
               className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
               onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
             >
-              Market Value
+              Ask
               <ArrowUpDown className="h-3 w-3" />
             </button>
           ),
-          meta: { mobileHidden: false },
-          accessorFn: (row) => row.marketValue ?? undefined,
-          sortUndefined: 'last',
-          cell: ({ row }) => (
-            <span className="text-sm font-semibold text-foreground">
-              {isSignedPlayer(row.original)
-                ? (formatSignedMarketValue(row.original) ?? '—')
-                : row.original.marketValue !== null && row.original.marketValue !== undefined
-                  ? formatMarketValue(row.original.marketValue)
-                  : '—'}
-            </span>
-          ),
-        },
-        {
-          id: 'contractAsk',
-          header: 'Ask',
           accessorFn: (row) => row.freeAgentProfile?.expectedAnnualValue ?? row.marketValue ?? 0,
           cell: ({ row }) => (
-            <span className="text-sm text-muted-foreground">{formatContractAsk(row.original)}</span>
+            <span className="text-sm text-muted-foreground">
+              {isSignedPlayer(row.original)
+                ? (formatSignedMarketValue(row.original) ?? '—')
+                : formatContractAsk(row.original)}
+            </span>
           ),
         },
         {
@@ -663,17 +652,15 @@ export function PlayerTable({
     getRowId: (row) => row.id,
   });
 
-  const signedTable = useReactTable({
-    data: signedData,
-    columns: visibleColumns,
-    getCoreRowModel: getCoreRowModel(),
-    state: { sorting: [] },
-    manualSorting: true,
-    getRowId: (row) => row.id,
-  });
+  const freeAgentTableData = React.useMemo(() => {
+    if (variant !== 'freeAgent') {
+      return filteredData;
+    }
+    return freeAgentView === 'signed' ? signedData : availableData;
+  }, [availableData, filteredData, freeAgentView, signedData, variant]);
 
-  const availableTable = useReactTable({
-    data: availableData,
+  const freeAgentTable = useReactTable({
+    data: freeAgentTableData,
     columns: visibleColumns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -730,72 +717,10 @@ export function PlayerTable({
         </div>
       </div>
       <div className="max-w-full space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
-        {variant === 'freeAgent' && signedData.length > 0 ? (
-          <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Signed
-            </p>
-            <table className={tableClassName}>
-              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                {signedTable.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => (
-                      <th
-                        key={header.id}
-                        className={cn(
-                          'px-4 py-2 sm:px-6',
-                          header.column.id === 'actions' && actionHeaderClass,
-                          header.column.id === 'rank' && rankHeaderClass,
-                        )}
-                      >
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(header.column.columnDef.header, header.getContext())}
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-              <tbody>
-                {signedTable.getRowModel().rows.map((row) => {
-                  const isCut = isCutPlayer(row.original);
-                  return (
-                    <tr
-                      key={row.id}
-                      className={cn(
-                        'border-t border-border hover:bg-slate-50/60',
-                        isCut ? 'opacity-60' : null,
-                      )}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <td
-                          key={cell.id}
-                          className={cn(
-                            'px-4 py-1.5 align-middle text-sm sm:px-6',
-                            cell.column.id === 'actions' && actionCellClass,
-                            cell.column.id === 'rank' && rankHeaderClass,
-                          )}
-                        >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
-                      ))}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        ) : null}
-
         <div className="space-y-3">
-          {variant === 'freeAgent' ? (
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Available
-            </p>
-          ) : null}
           <table className={tableClassName}>
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-              {(variant === 'freeAgent' ? availableTable : table)
+              {(variant === 'freeAgent' ? freeAgentTable : table)
                 .getHeaderGroups()
                 .map((headerGroup) => (
                   <tr key={headerGroup.id}>
@@ -817,7 +742,7 @@ export function PlayerTable({
                 ))}
             </thead>
             <tbody>
-              {(variant === 'freeAgent' ? availableTable : table).getRowModel().rows.map((row) => {
+              {(variant === 'freeAgent' ? freeAgentTable : table).getRowModel().rows.map((row) => {
                 const isCut = isCutPlayer(row.original);
                 return (
                   <tr
@@ -846,7 +771,7 @@ export function PlayerTable({
           </table>
         </div>
       </div>
-      {filteredData.length === 0 && (
+      {(variant === 'freeAgent' ? freeAgentTableData.length === 0 : filteredData.length === 0) && (
         <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
           No players match the current filters.
         </div>

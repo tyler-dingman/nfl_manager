@@ -35,6 +35,7 @@ export default function FreeAgentsPage() {
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
   const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
   const [signedCount, setSignedCount] = useState(0);
+  const [activeTab, setActiveTab] = useState<'available' | 'signed'>('available');
 
   useEffect(() => {
     setPlayers(
@@ -237,7 +238,38 @@ export default function FreeAgentsPage() {
           onSkip={handleSkip}
         />
       ) : null}
-      <PlayerTable data={players} variant="freeAgent" onOfferPlayer={handleOfferPlayer} />
+      <div className="mb-4 flex flex-wrap items-center justify-start gap-3">
+        <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
+          <button
+            type="button"
+            className={`rounded-full px-3 py-1 transition ${
+              activeTab === 'available'
+                ? 'bg-white text-foreground shadow-sm'
+                : 'text-muted-foreground'
+            }`}
+            onClick={() => setActiveTab('available')}
+          >
+            Available
+          </button>
+          <button
+            type="button"
+            className={`rounded-full px-3 py-1 transition ${
+              activeTab === 'signed'
+                ? 'bg-white text-foreground shadow-sm'
+                : 'text-muted-foreground'
+            }`}
+            onClick={() => setActiveTab('signed')}
+          >
+            Signed
+          </button>
+        </div>
+      </div>
+      <PlayerTable
+        data={players}
+        variant="freeAgent"
+        freeAgentView={activeTab}
+        onOfferPlayer={handleOfferPlayer}
+      />
       {activeOfferPlayer ? (
         <ContractOfferModal
           player={activeOfferPlayer}
