@@ -71,7 +71,7 @@ const isTradableUserTarget = (player: PlayerRowDTO) => {
   return rating >= 72;
 };
 
-const buildTeamContexts = (state: SaveState): Map<string, TeamRuntimeContext> => {
+export const buildTeamContexts = (state: SaveState): Map<string, TeamRuntimeContext> => {
   const generatedTeams = new Map<string, TeamDTO>(
     TEAM_LIST.map((team) => [
       team.abbr,
@@ -107,7 +107,7 @@ const buildTeamContexts = (state: SaveState): Map<string, TeamRuntimeContext> =>
   return contexts;
 };
 
-const buildEvaluationContext = (
+export const buildEvaluationContext = (
   phase: TradeOfferPhase,
   teamAbbr: string,
   teamContext: TeamRuntimeContext,

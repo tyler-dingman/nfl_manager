@@ -23,7 +23,8 @@ export function TradeOfferToast({ scopeKey }: TradeOfferToastProps) {
   return (
     <>
       <div className="fixed bottom-6 right-6 z-50 w-[420px] max-w-[calc(100vw-1.5rem)] rounded-2xl border border-border bg-white p-4 shadow-xl">
-        <div className="flex items-start gap-3">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={activeOffer.proposingTeamLogoUrl}
@@ -38,18 +39,20 @@ export function TradeOfferToast({ scopeKey }: TradeOfferToastProps) {
             <p className="mt-1 text-sm text-muted-foreground">{activeOffer.summary}</p>
             <p className="mt-2 text-xs text-muted-foreground">{activeOffer.reason}</p>
           </div>
+          </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="shrink-0"
+            onClick={() => dismissOffer(scopeKey, activeOffer.phase)}
+          >
+            ✕
+          </Button>
         </div>
         <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <Button type="button" className="sm:flex-1" onClick={openReview}>
             Review
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="sm:flex-1"
-            onClick={() => dismissOffer(scopeKey, activeOffer.phase)}
-          >
-            Dismiss
           </Button>
           <Button
             type="button"
