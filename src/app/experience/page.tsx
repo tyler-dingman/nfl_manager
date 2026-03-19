@@ -11,6 +11,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
+import { useTeamStore } from '@/features/team/team-store';
+import { computeTeamNeeds, computeTeamOverview } from '@/lib/team-overview';
 
 type ExperienceMode = 'full' | 'freeAgency' | 'draft';
 
@@ -43,7 +45,10 @@ export default function ExperiencePage() {
   const saveId = useSaveStore((state) => state.saveId);
   const phase = useSaveStore((state) => state.phase);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
+  const roster = useSaveStore((state) => state.roster);
   const setPhase = useSaveStore((state) => state.setPhase);
+  const teams = useTeamStore((state) => state.teams);
+  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const setFullExperience = useExperienceStore((state) => state.setFullExperience);
   const setSandboxExperience = useExperienceStore((state) => state.setSandboxExperience);
@@ -52,6 +57,34 @@ export default function ExperiencePage() {
   const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
 
   const isHydrated = hasHydrated && experienceHasHydrated;
+  const selectedTeam = useMemo(
+    () => teams.find((team) => team.id === selectedTeamId) ?? teams[0] ?? null,
+    [selectedTeamId, teams],
+  );
+  const liveRosterPlayers = useMemo(
+    () =>
+      roster.filter(
+        (player) =>
+          player.status?.toLowerCase() !== 'cut' &&
+          (!selectedTeam?.abbr || !player.teamAbbr || player.teamAbbr === selectedTeam.abbr),
+      ),
+    [roster, selectedTeam?.abbr],
+  );
+  const liveTeamPulse = useMemo(() => {
+    if (liveRosterPlayers.length === 0) {
+      return {
+        overall: selectedTeam?.teamOverview ?? null,
+        needs: selectedTeam?.teamNeeds ?? [],
+      };
+    }
+
+    const overview = computeTeamOverview(liveRosterPlayers);
+    const needs = computeTeamNeeds(liveRosterPlayers);
+    return {
+      overall: overview.overall,
+      needs,
+    };
+  }, [liveRosterPlayers, selectedTeam?.teamNeeds, selectedTeam?.teamOverview]);
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -94,11 +127,36 @@ export default function ExperiencePage() {
     <AppShell>
       <div className="mx-auto grid w-full max-w-5xl gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
         <div className="flex w-full flex-col gap-6">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
-              Experience
-            </p>
-            <h1 className="mt-3 text-3xl font-semibold text-foreground">Choose your experience</h1>
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
+                Experience
+              </p>
+              <h1 className="mt-2 text-3xl font-semibold text-foreground">
+                Choose your experience
+              </h1>
+            </div>
+            <div className="flex flex-col gap-1.5 text-left md:items-end md:text-right">
+              <div className="flex items-baseline gap-2 md:justify-end">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+                  OVR
+                </span>
+                <span
+                  className="text-lg font-bold"
+                  style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
+                >
+                  {liveTeamPulse.overall ?? '—'}
+                </span>
+              </div>
+              <div className="flex flex-col gap-0.5 md:items-end">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+                  Team Needs
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-700">
+                  {liveTeamPulse.needs.length > 0 ? liveTeamPulse.needs.join(' • ') : '—'}
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">

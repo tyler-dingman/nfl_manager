@@ -50,6 +50,23 @@ type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
   };
 };
 
+const SortableHeader = ({
+  column,
+  label,
+}: {
+  column: { toggleSorting: (desc?: boolean) => void; getIsSorted: () => false | 'asc' | 'desc' };
+  label: string;
+}) => (
+  <button
+    type="button"
+    className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+    onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+  >
+    {label}
+    <ArrowUpDown className="h-3 w-3" />
+  </button>
+);
+
 const getColumnId = (column: PlayerColumnDef): string | null => {
   if (typeof column.id === 'string' && column.id.length > 0) return column.id;
   if (
@@ -289,7 +306,7 @@ export function PlayerTable({
       return [
         {
           accessorKey: 'rank',
-          header: 'Rank',
+          header: ({ column }) => <SortableHeader column={column} label="Rank" />,
           cell: ({ row }) => (
             <span className="text-sm font-semibold text-foreground">
               {row.original.rank ?? '-'}
@@ -298,7 +315,7 @@ export function PlayerTable({
         },
         {
           accessorKey: 'name',
-          header: 'Name',
+          header: ({ column }) => <SortableHeader column={column} label="Name" />,
           cell: ({ row }) => {
             const player = row.original;
             return (
@@ -407,7 +424,7 @@ export function PlayerTable({
         },
         {
           accessorKey: 'position',
-          header: 'Pos',
+          header: ({ column }) => <SortableHeader column={column} label="Pos" />,
           meta: { mobileHidden: true },
           cell: ({ row }) => (
             <span className="text-sm font-medium text-foreground">{row.original.position}</span>
@@ -415,7 +432,7 @@ export function PlayerTable({
         },
         {
           accessorKey: 'age',
-          header: 'Age',
+          header: ({ column }) => <SortableHeader column={column} label="Age" />,
           meta: { mobileHidden: true },
           accessorFn: (row) => row.age ?? null,
           cell: ({ row }) => (
@@ -428,16 +445,7 @@ export function PlayerTable({
         },
         {
           id: 'contractAsk',
-          header: ({ column }) => (
-            <button
-              type="button"
-              className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
-              onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-            >
-              Ask
-              <ArrowUpDown className="h-3 w-3" />
-            </button>
-          ),
+          header: ({ column }) => <SortableHeader column={column} label="Ask" />,
           accessorFn: (row) => row.expectedAnnualValue ?? row.marketValue ?? 0,
           cell: ({ row }) => (
             <span className="text-sm text-muted-foreground">
@@ -449,7 +457,7 @@ export function PlayerTable({
         },
         {
           id: 'demandTier',
-          header: 'Tier',
+          header: ({ column }) => <SortableHeader column={column} label="Tier" />,
           accessorFn: (row) => row.marketTier ?? row.freeAgentProfile?.marketTier ?? '',
           cell: ({ row }) => (
             <span className="text-xs font-semibold uppercase tracking-wide text-foreground">
@@ -459,7 +467,7 @@ export function PlayerTable({
         },
         {
           accessorKey: 'status',
-          header: 'Status',
+          header: ({ column }) => <SortableHeader column={column} label="Status" />,
           meta: { mobileHidden: true },
           cell: ({ row }) => {
             const statusKey = row.original.status.toLowerCase();
@@ -515,7 +523,7 @@ export function PlayerTable({
       },
       {
         id: 'name',
-        header: 'Name',
+        header: ({ column }) => <SortableHeader column={column} label="Name" />,
         accessorFn: (row) => formatName(row),
         cell: ({ row }) => {
           const player = row.original;
@@ -553,7 +561,7 @@ export function PlayerTable({
       },
       {
         accessorKey: 'position',
-        header: 'Pos',
+        header: ({ column }) => <SortableHeader column={column} label="Pos" />,
         meta: { mobileHidden: true },
         cell: ({ row }) => (
           <span className="text-sm font-medium text-foreground">{row.original.position}</span>
@@ -561,7 +569,7 @@ export function PlayerTable({
       },
       {
         accessorKey: 'contractYearsRemaining',
-        header: 'Contract',
+        header: ({ column }) => <SortableHeader column={column} label="Contract" />,
         meta: { mobileHidden: true },
         cell: ({ row }) => (
           <span className="text-sm text-muted-foreground">
@@ -574,16 +582,7 @@ export function PlayerTable({
       {
         accessorKey: 'capHitValue',
         id: 'capHitValue',
-        header: ({ column }) => (
-          <button
-            type="button"
-            className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Cap Hit
-            <ArrowUpDown className="h-3 w-3" />
-          </button>
-        ),
+        header: ({ column }) => <SortableHeader column={column} label="Cap Hit" />,
         meta: { mobileHidden: false },
         accessorFn: (row) => parseCapHitValue(row),
         cell: ({ row }) => (
@@ -593,9 +592,14 @@ export function PlayerTable({
         ),
       },
       {
-        accessorKey: 'capSavings',
-        header: 'Cap Savings',
+        id: 'capSavings',
+        header: ({ column }) => <SortableHeader column={column} label="Cap Savings" />,
         meta: { mobileHidden: false },
+        accessorFn: (row) => {
+          const capHitValue = parseCapHitValue(row);
+          const deadCap = row.deadCap ?? 0;
+          return row.releaseSavings ?? Math.max(0, capHitValue - deadCap);
+        },
         cell: ({ row }) => {
           const capHitValue = parseCapHitValue(row.original);
           const deadCap = row.original.deadCap ?? 0;
@@ -614,7 +618,7 @@ export function PlayerTable({
       },
       {
         accessorKey: 'status',
-        header: 'Status',
+        header: ({ column }) => <SortableHeader column={column} label="Status" />,
         meta: { mobileHidden: true },
         cell: ({ row }) => {
           const statusKey = row.original.status.toLowerCase();

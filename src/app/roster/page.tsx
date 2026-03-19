@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Handshake, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown, Handshake, MoreHorizontal } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
@@ -78,6 +78,13 @@ export default function RosterPage() {
   );
   const [expiringPositionFilter, setExpiringPositionFilter] = useState('All');
   const [expiringSearchQuery, setExpiringSearchQuery] = useState('');
+  const [expiringSort, setExpiringSort] = useState<{
+    key: 'rating' | 'name' | 'pos' | 'status' | 'interest';
+    desc: boolean;
+  }>({
+    key: 'rating',
+    desc: true,
+  });
   const [resignResult, setResignResult] = useState<ResignResultDTO | null>(null);
   const [isResignResultOpen, setIsResignResultOpen] = useState(false);
   const [renegotiateResult, setRenegotiateResult] = useState<RenegotiateResultDTO | null>(null);
@@ -104,6 +111,19 @@ export default function RosterPage() {
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId),
     [selectedTeamId, teams],
+  );
+  const renderExpiringHeader = (
+    label: string,
+    key: 'rating' | 'name' | 'pos' | 'status' | 'interest',
+  ) => (
+    <button
+      type="button"
+      className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+      onClick={() => toggleExpiringSort(key)}
+    >
+      {label}
+      <ArrowUpDown className="h-3 w-3" />
+    </button>
   );
 
   useEffect(() => {
@@ -217,21 +237,57 @@ export default function RosterPage() {
         return matchesPosition && matchesSearch;
       })
       .sort((a, b) => {
-        const aRating = a.rating ?? null;
-        const bRating = b.rating ?? null;
+        const compareStrings = (left: string, right: string) => left.localeCompare(right);
+        const compareNumbers = (left: number | null | undefined, right: number | null | undefined) => {
+          const normalizedLeft = left ?? null;
+          const normalizedRight = right ?? null;
+          if (normalizedLeft === null && normalizedRight !== null) return 1;
+          if (normalizedLeft !== null && normalizedRight === null) return -1;
+          if (normalizedLeft === null && normalizedRight === null) return 0;
+          return (normalizedLeft ?? 0) - (normalizedRight ?? 0);
+        };
 
-        if (aRating === null && bRating !== null) return 1;
-        if (aRating !== null && bRating === null) return -1;
-        if (aRating !== null && bRating !== null && bRating !== aRating) {
-          return bRating - aRating;
+        const multiplier = expiringSort.desc ? -1 : 1;
+        let result = 0;
+
+        switch (expiringSort.key) {
+          case 'name':
+            result = compareStrings(a.name, b.name);
+            break;
+          case 'pos':
+            result = compareStrings(a.pos, b.pos) || compareStrings(a.name, b.name);
+            break;
+          case 'status':
+            result = compareStrings('Pending', 'Pending') || compareStrings(a.name, b.name);
+            break;
+          case 'interest':
+            result =
+              compareNumbers(a.interestPct ?? null, b.interestPct ?? null) ||
+              compareStrings(a.name, b.name);
+            break;
+          case 'rating':
+          default:
+            result =
+              compareNumbers(a.rating ?? null, b.rating ?? null) || compareStrings(a.name, b.name);
+            break;
         }
-        return a.name.localeCompare(b.name);
+
+        return result * multiplier;
       });
-  }, [expiringContracts, expiringPositionFilter, expiringSearchQuery]);
+  }, [expiringContracts, expiringPositionFilter, expiringSearchQuery, expiringSort]);
+
+  const toggleExpiringSort = (key: 'rating' | 'name' | 'pos' | 'status' | 'interest') => {
+    setExpiringSort((current) =>
+      current.key === key
+        ? { key, desc: !current.desc }
+        : { key, desc: key === 'name' || key === 'pos' || key === 'status' ? false : true },
+    );
+  };
 
   const resetExpiringFilters = () => {
     setExpiringPositionFilter('All');
     setExpiringSearchQuery('');
+    setExpiringSort({ key: 'rating', desc: true });
   };
 
   const expiringResignPlayer = useMemo<PlayerRowDTO | null>(() => {
@@ -568,10 +624,18 @@ export default function RosterPage() {
                       <table className="w-full border-collapse md:min-w-[720px]">
                         <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
                           <tr>
-                            <th className="px-4 py-2 sm:px-6">Player</th>
-                            <th className="px-4 py-2 sm:px-6">Pos</th>
-                            <th className="px-4 py-2 sm:px-6">Status</th>
-                            <th className="px-4 py-2 sm:px-6">Interest</th>
+                            <th className="px-4 py-2 sm:px-6">
+                              {renderExpiringHeader('Player', 'name')}
+                            </th>
+                            <th className="px-4 py-2 sm:px-6">
+                              {renderExpiringHeader('Pos', 'pos')}
+                            </th>
+                            <th className="px-4 py-2 sm:px-6">
+                              {renderExpiringHeader('Status', 'status')}
+                            </th>
+                            <th className="px-4 py-2 sm:px-6">
+                              {renderExpiringHeader('Interest', 'interest')}
+                            </th>
                             <th className="px-4 py-2 text-right sm:px-6">Actions</th>
                           </tr>
                         </thead>

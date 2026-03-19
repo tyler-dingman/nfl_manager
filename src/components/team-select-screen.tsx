@@ -3,14 +3,12 @@
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowDown, ArrowUp, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore, type Team } from '@/features/team/team-store';
 import { apiFetch } from '@/lib/api';
 import type { TeamDTO } from '@/types/team';
-
-type TeamSortMode = 'default' | 'overview-desc' | 'overview-asc';
 
 const TeamSelectCard = ({
   team,
@@ -46,36 +44,21 @@ const TeamSelectCard = ({
       )}
     </div>
     <div className="flex-1">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-sm font-semibold text-foreground">{team.name}</p>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{team.abbr}</p>
-        </div>
-        <div className="rounded-xl bg-slate-900 px-3 py-2 text-right text-white">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/70">
-            OVR
-          </p>
-          <p className="text-lg font-semibold leading-none">{team.teamOverview}</p>
-        </div>
-      </div>
-      <div className="mt-3 flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-        <span className="rounded-full border border-slate-200 bg-slate-100 px-2 py-1 text-foreground">
-          {team.teamOverviewGrade}
+      <p className="text-sm font-semibold text-foreground">{team.name}</p>
+      <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+        OVR
+      </p>
+      <p className="mt-0.5 text-sm font-semibold text-slate-900">
+        <span style={{ color: team.color_primary }} className="font-bold">
+          {team.teamOverview}
         </span>
-        <span>OFF {team.offenseOverview}</span>
-        <span>DEF {team.defenseOverview}</span>
-        <span>ST {team.specialTeamsOverview}</span>
-      </div>
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        {team.teamNeeds.map((need) => (
-          <span
-            key={`${team.id}-${need}`}
-            className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-900"
-          >
-            {need}
-          </span>
-        ))}
-      </div>
+      </p>
+      <p className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+        Team Needs
+      </p>
+      <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-700">
+        {team.teamNeeds.join(' • ')}
+      </p>
     </div>
     <ChevronRight className="h-4 w-4 text-muted-foreground transition group-hover:text-foreground" />
   </button>
@@ -93,7 +76,6 @@ function TeamSelectScreenInner() {
 
   const [preselectedTeamId, setPreselectedTeamId] = useState<string | null>(null);
   const [showExpiredBanner, setShowExpiredBanner] = useState(false);
-  const [sortMode, setSortMode] = useState<TeamSortMode>('default');
 
   useEffect(() => {
     const loadTeams = async () => {
@@ -143,25 +125,7 @@ function TeamSelectScreenInner() {
     }
   }, []);
 
-  const filteredTeams = useMemo(() => {
-    const sortedTeams = [...teams];
-
-    if (sortMode === 'overview-desc') {
-      sortedTeams.sort(
-        (a, b) => b.teamOverview - a.teamOverview || a.name.localeCompare(b.name),
-      );
-      return sortedTeams;
-    }
-
-    if (sortMode === 'overview-asc') {
-      sortedTeams.sort(
-        (a, b) => a.teamOverview - b.teamOverview || a.name.localeCompare(b.name),
-      );
-      return sortedTeams;
-    }
-
-    return sortedTeams;
-  }, [sortMode, teams]);
+  const filteredTeams = useMemo(() => teams, [teams]);
 
   const handleSelectTeam = async (team: (typeof teams)[number]) => {
     clearSave();
@@ -235,45 +199,6 @@ function TeamSelectScreenInner() {
         ) : null}
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="sm:col-span-2 lg:col-span-4">
-            <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-white p-2">
-              <button
-                type="button"
-                onClick={() => setSortMode('default')}
-                className={`rounded-xl px-3 py-2 text-sm font-medium transition ${
-                  sortMode === 'default'
-                    ? 'bg-slate-900 text-white'
-                    : 'text-muted-foreground hover:bg-slate-100 hover:text-foreground'
-                }`}
-              >
-                Default
-              </button>
-              <button
-                type="button"
-                onClick={() => setSortMode('overview-desc')}
-                className={`inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition ${
-                  sortMode === 'overview-desc'
-                    ? 'bg-slate-900 text-white'
-                    : 'text-muted-foreground hover:bg-slate-100 hover:text-foreground'
-                }`}
-              >
-                <ArrowDown className="h-4 w-4" />
-                Highest Overview
-              </button>
-              <button
-                type="button"
-                onClick={() => setSortMode('overview-asc')}
-                className={`inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition ${
-                  sortMode === 'overview-asc'
-                    ? 'bg-slate-900 text-white'
-                    : 'text-muted-foreground hover:bg-slate-100 hover:text-foreground'
-                }`}
-              >
-                <ArrowUp className="h-4 w-4" />
-                Lowest Overview
-              </button>
-            </div>
-          </div>
           {filteredTeams.map((team) => (
             <TeamSelectCard
               key={team.id}
