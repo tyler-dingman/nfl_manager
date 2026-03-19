@@ -1,229 +1,389 @@
 {
-  "updatedAt": "2026-03-19T00:59:20.467Z",
+  "updatedAt": "2026-03-19T01:20:29.750Z",
   "teams": [
     {
       "id": "ARI",
       "abbr": "ARI",
       "name": "Arizona Cardinals",
       "conference": "NFC",
-      "division": "West"
+      "division": "West",
+      "teamOverview": 82,
+      "offenseOverview": 85,
+      "defenseOverview": 79,
+      "specialTeamsOverview": 76,
+      "teamOverviewGrade": "B+"
     },
     {
       "id": "ATL",
       "abbr": "ATL",
       "name": "Atlanta Falcons",
       "conference": "NFC",
-      "division": "South"
+      "division": "South",
+      "teamOverview": 82,
+      "offenseOverview": 81,
+      "defenseOverview": 77,
+      "specialTeamsOverview": 80,
+      "teamOverviewGrade": "B+"
     },
     {
       "id": "BAL",
       "abbr": "BAL",
       "name": "Baltimore Ravens",
       "conference": "AFC",
-      "division": "North"
+      "division": "North",
+      "teamOverview": 88,
+      "offenseOverview": 81,
+      "defenseOverview": 89,
+      "specialTeamsOverview": 90,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "BUF",
       "abbr": "BUF",
       "name": "Buffalo Bills",
       "conference": "AFC",
-      "division": "East"
+      "division": "East",
+      "teamOverview": 86,
+      "offenseOverview": 88,
+      "defenseOverview": 75,
+      "specialTeamsOverview": 78,
+      "teamOverviewGrade": "A-"
     },
     {
       "id": "CAR",
       "abbr": "CAR",
       "name": "Carolina Panthers",
       "conference": "NFC",
-      "division": "South"
+      "division": "South",
+      "teamOverview": 80,
+      "offenseOverview": 76,
+      "defenseOverview": 78,
+      "specialTeamsOverview": 71,
+      "teamOverviewGrade": "B"
     },
     {
       "id": "CHI",
       "abbr": "CHI",
       "name": "Chicago Bears",
       "conference": "NFC",
-      "division": "North"
+      "division": "North",
+      "teamOverview": 87,
+      "offenseOverview": 86,
+      "defenseOverview": 85,
+      "specialTeamsOverview": 82,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "CIN",
       "abbr": "CIN",
       "name": "Cincinnati Bengals",
       "conference": "AFC",
-      "division": "North"
+      "division": "North",
+      "teamOverview": 84,
+      "offenseOverview": 87,
+      "defenseOverview": 71,
+      "specialTeamsOverview": 79,
+      "teamOverviewGrade": "A-"
     },
     {
       "id": "CLE",
       "abbr": "CLE",
       "name": "Cleveland Browns",
       "conference": "AFC",
-      "division": "North"
+      "division": "North",
+      "teamOverview": 79,
+      "offenseOverview": 69,
+      "defenseOverview": 84,
+      "specialTeamsOverview": 78,
+      "teamOverviewGrade": "B"
     },
     {
       "id": "DAL",
       "abbr": "DAL",
       "name": "Dallas Cowboys",
       "conference": "NFC",
-      "division": "East"
+      "division": "East",
+      "teamOverview": 88,
+      "offenseOverview": 86,
+      "defenseOverview": 82,
+      "specialTeamsOverview": 86,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "DEN",
       "abbr": "DEN",
       "name": "Denver Broncos",
       "conference": "AFC",
-      "division": "West"
+      "division": "West",
+      "teamOverview": 88,
+      "offenseOverview": 85,
+      "defenseOverview": 87,
+      "specialTeamsOverview": 78,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "DET",
       "abbr": "DET",
       "name": "Detroit Lions",
       "conference": "NFC",
-      "division": "North"
+      "division": "North",
+      "teamOverview": 89,
+      "offenseOverview": 84,
+      "defenseOverview": 85,
+      "specialTeamsOverview": 89,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "GB",
       "abbr": "GB",
       "name": "Green Bay Packers",
       "conference": "NFC",
-      "division": "North"
+      "division": "North",
+      "teamOverview": 87,
+      "offenseOverview": 84,
+      "defenseOverview": 82,
+      "specialTeamsOverview": 84,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "HOU",
       "abbr": "HOU",
       "name": "Houston Texans",
       "conference": "AFC",
-      "division": "South"
+      "division": "South",
+      "teamOverview": 87,
+      "offenseOverview": 82,
+      "defenseOverview": 86,
+      "specialTeamsOverview": 72,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "IND",
       "abbr": "IND",
       "name": "Indianapolis Colts",
       "conference": "AFC",
-      "division": "South"
+      "division": "South",
+      "teamOverview": 84,
+      "offenseOverview": 80,
+      "defenseOverview": 82,
+      "specialTeamsOverview": 86,
+      "teamOverviewGrade": "A-"
     },
     {
       "id": "JAX",
       "abbr": "JAX",
       "name": "Jacksonville Jaguars",
       "conference": "AFC",
-      "division": "South"
+      "division": "South",
+      "teamOverview": 83,
+      "offenseOverview": 80,
+      "defenseOverview": 78,
+      "specialTeamsOverview": 84,
+      "teamOverviewGrade": "B+"
     },
     {
       "id": "KC",
       "abbr": "KC",
       "name": "Kansas City Chiefs",
       "conference": "AFC",
-      "division": "West"
+      "division": "West",
+      "teamOverview": 88,
+      "offenseOverview": 89,
+      "defenseOverview": 79,
+      "specialTeamsOverview": 79,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "LV",
       "abbr": "LV",
       "name": "Las Vegas Raiders",
       "conference": "AFC",
-      "division": "West"
+      "division": "West",
+      "teamOverview": 83,
+      "offenseOverview": 83,
+      "defenseOverview": 82,
+      "specialTeamsOverview": 65,
+      "teamOverviewGrade": "B+"
     },
     {
       "id": "LAC",
       "abbr": "LAC",
       "name": "Los Angeles Chargers",
       "conference": "AFC",
-      "division": "West"
+      "division": "West",
+      "teamOverview": 83,
+      "offenseOverview": 79,
+      "defenseOverview": 79,
+      "specialTeamsOverview": 65,
+      "teamOverviewGrade": "B+"
     },
     {
       "id": "LAR",
       "abbr": "LAR",
       "name": "Los Angeles Rams",
       "conference": "NFC",
-      "division": "West"
+      "division": "West",
+      "teamOverview": 84,
+      "offenseOverview": 81,
+      "defenseOverview": 84,
+      "specialTeamsOverview": 81,
+      "teamOverviewGrade": "A-"
     },
     {
       "id": "MIA",
       "abbr": "MIA",
       "name": "Miami Dolphins",
       "conference": "AFC",
-      "division": "East"
+      "division": "East",
+      "teamOverview": 69,
+      "offenseOverview": 68,
+      "defenseOverview": 68,
+      "specialTeamsOverview": 75,
+      "teamOverviewGrade": "C"
     },
     {
       "id": "MIN",
       "abbr": "MIN",
       "name": "Minnesota Vikings",
       "conference": "NFC",
-      "division": "North"
+      "division": "North",
+      "teamOverview": 77,
+      "offenseOverview": 81,
+      "defenseOverview": 79,
+      "specialTeamsOverview": 72,
+      "teamOverviewGrade": "B-"
     },
     {
       "id": "NE",
       "abbr": "NE",
       "name": "New England Patriots",
       "conference": "AFC",
-      "division": "East"
+      "division": "East",
+      "teamOverview": 90,
+      "offenseOverview": 83,
+      "defenseOverview": 90,
+      "specialTeamsOverview": 82,
+      "teamOverviewGrade": "A+"
     },
     {
       "id": "NO",
       "abbr": "NO",
       "name": "New Orleans Saints",
       "conference": "NFC",
-      "division": "South"
+      "division": "South",
+      "teamOverview": 81,
+      "offenseOverview": 84,
+      "defenseOverview": 76,
+      "specialTeamsOverview": 83,
+      "teamOverviewGrade": "B+"
     },
     {
       "id": "NYG",
       "abbr": "NYG",
       "name": "New York Giants",
       "conference": "NFC",
-      "division": "East"
+      "division": "East",
+      "teamOverview": 83,
+      "offenseOverview": 80,
+      "defenseOverview": 87,
+      "specialTeamsOverview": 85,
+      "teamOverviewGrade": "B+"
     },
     {
       "id": "NYJ",
       "abbr": "NYJ",
       "name": "New York Jets",
       "conference": "AFC",
-      "division": "East"
+      "division": "East",
+      "teamOverview": 77,
+      "offenseOverview": 70,
+      "defenseOverview": 79,
+      "specialTeamsOverview": 76,
+      "teamOverviewGrade": "B-"
     },
     {
       "id": "PHI",
       "abbr": "PHI",
       "name": "Philadelphia Eagles",
       "conference": "NFC",
-      "division": "East"
+      "division": "East",
+      "teamOverview": 87,
+      "offenseOverview": 86,
+      "defenseOverview": 80,
+      "specialTeamsOverview": 75,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "PIT",
       "abbr": "PIT",
       "name": "Pittsburgh Steelers",
       "conference": "AFC",
-      "division": "North"
+      "division": "North",
+      "teamOverview": 83,
+      "offenseOverview": 77,
+      "defenseOverview": 91,
+      "specialTeamsOverview": 74,
+      "teamOverviewGrade": "B+"
     },
     {
       "id": "SF",
       "abbr": "SF",
       "name": "San Francisco 49ers",
       "conference": "NFC",
-      "division": "West"
+      "division": "West",
+      "teamOverview": 91,
+      "offenseOverview": 91,
+      "defenseOverview": 84,
+      "specialTeamsOverview": 71,
+      "teamOverviewGrade": "A+"
     },
     {
       "id": "SEA",
       "abbr": "SEA",
       "name": "Seattle Seahawks",
       "conference": "NFC",
-      "division": "West"
+      "division": "West",
+      "teamOverview": 88,
+      "offenseOverview": 80,
+      "defenseOverview": 91,
+      "specialTeamsOverview": 90,
+      "teamOverviewGrade": "A"
     },
     {
       "id": "TB",
       "abbr": "TB",
       "name": "Tampa Bay Buccaneers",
       "conference": "NFC",
-      "division": "South"
+      "division": "South",
+      "teamOverview": 84,
+      "offenseOverview": 77,
+      "defenseOverview": 82,
+      "specialTeamsOverview": 85,
+      "teamOverviewGrade": "A-"
     },
     {
       "id": "TEN",
       "abbr": "TEN",
       "name": "Tennessee Titans",
       "conference": "AFC",
-      "division": "South"
+      "division": "South",
+      "teamOverview": 82,
+      "offenseOverview": 79,
+      "defenseOverview": 77,
+      "specialTeamsOverview": 84,
+      "teamOverviewGrade": "B+"
     },
     {
       "id": "WAS",
       "abbr": "WAS",
       "name": "Washington Commanders",
       "conference": "NFC",
-      "division": "East"
+      "division": "East",
+      "teamOverview": 84,
+      "offenseOverview": 72,
+      "defenseOverview": 88,
+      "specialTeamsOverview": 84,
+      "teamOverviewGrade": "A-"
     }
   ],
   "players": [

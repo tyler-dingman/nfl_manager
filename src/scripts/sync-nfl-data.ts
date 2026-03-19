@@ -20,6 +20,11 @@ import {
   buildRosterMatchedExpiringContracts,
   OFFSEASON_EXPIRING_SEASON_YEAR,
 } from '@/server/logic/contract-expiration';
+import {
+  computeOverviewGrade,
+  computeTeamOverviewRaw,
+  scaleOverviewScore,
+} from '@/server/logic/team-overview';
 
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 const DEBUG_FREE_AGENT_NAMES = new Set([
@@ -432,10 +437,64 @@ const run = async () => {
     enrichedPlayers,
     playerSync.maddenRows,
   );
+  const teamOverviewProfiles = playerSync.teams.map((team) => {
+    const rosteredPlayers = enrichedPlayers.filter((player) => player.teamAbbr === team.abbr);
+    const overview = computeTeamOverviewRaw(rosteredPlayers);
+
+    return {
+      team,
+      overview,
+    };
+  });
+  const overallRawValues = teamOverviewProfiles.map((entry) => entry.overview.overall);
+  const offenseRawValues = teamOverviewProfiles.map((entry) => entry.overview.offense);
+  const defenseRawValues = teamOverviewProfiles.map((entry) => entry.overview.defense);
+  const specialTeamsRawValues = teamOverviewProfiles.map((entry) => entry.overview.specialTeams);
+  const minOverallRaw = Math.min(...overallRawValues);
+  const maxOverallRaw = Math.max(...overallRawValues);
+  const minOffenseRaw = Math.min(...offenseRawValues);
+  const maxOffenseRaw = Math.max(...offenseRawValues);
+  const minDefenseRaw = Math.min(...defenseRawValues);
+  const maxDefenseRaw = Math.max(...defenseRawValues);
+  const minSpecialTeamsRaw = Math.min(...specialTeamsRawValues);
+  const maxSpecialTeamsRaw = Math.max(...specialTeamsRawValues);
+  const enrichedTeams = teamOverviewProfiles.map(({ team, overview }) => {
+    const teamOverview = scaleOverviewScore(overview.overall, minOverallRaw, maxOverallRaw, 69, 91);
+    const offenseOverview = scaleOverviewScore(
+      overview.offense,
+      minOffenseRaw,
+      maxOffenseRaw,
+      68,
+      91,
+    );
+    const defenseOverview = scaleOverviewScore(
+      overview.defense,
+      minDefenseRaw,
+      maxDefenseRaw,
+      68,
+      91,
+    );
+    const specialTeamsOverview = scaleOverviewScore(
+      overview.specialTeams,
+      minSpecialTeamsRaw,
+      maxSpecialTeamsRaw,
+      65,
+      90,
+    );
+
+    return {
+      ...team,
+      teamOverview,
+      offenseOverview,
+      defenseOverview,
+      specialTeamsOverview,
+      teamOverviewGrade: computeOverviewGrade(teamOverview),
+    };
+  });
 
   const payload: IngestedLeagueData = {
     updatedAt: now,
-    teams: playerSync.teams,
+    teams: enrichedTeams,
     players: enrichedPlayers,
     contracts: contractSync.contracts,
     freeAgents: enrichedFreeAgents,
@@ -460,6 +519,10 @@ const run = async () => {
   const unmatchedContracts = payload.contracts.filter(
     (contract) => !contractPlayerIds.has(contract.playerId),
   );
+  const sortedTeamOverviews = [...payload.teams].sort(
+    (a, b) =>
+      (b.teamOverview ?? 0) - (a.teamOverview ?? 0) || a.name.localeCompare(b.name),
+  );
 
   await mkdir(path.dirname(DATA_FILE), { recursive: true });
   await writeFile(DATA_FILE, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
@@ -469,6 +532,12 @@ const run = async () => {
   console.log(`players count: ${payload.players.length}`);
   console.log(`contracts count: ${payload.contracts.length}`);
   console.log(`cap entries count: ${payload.cap.length}`);
+  console.log('[team-overview] summary');
+  sortedTeamOverviews.forEach((team) => {
+    console.log(
+      `[team-overview] ${team.name}: overall=${team.teamOverview} offense=${team.offenseOverview} defense=${team.defenseOverview} specialTeams=${team.specialTeamsOverview} grade=${team.teamOverviewGrade}`,
+    );
+  });
   console.log(`[expiring] rostered players=${expiring.rosteredPlayers.length}`);
   console.log(`[expiring] matched contracts=${expiring.matchedContracts.length}`);
   console.log(

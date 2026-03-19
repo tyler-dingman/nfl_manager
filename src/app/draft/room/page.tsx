@@ -25,6 +25,7 @@ import { apiFetch } from '@/lib/api';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
+import type { TeamDTO } from '@/types/team';
 import { Pause, Play } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -49,8 +50,7 @@ type ActiveDraftSessionResponse =
   | { ok: false; error: string };
 
 type TeamsResponse = {
-  ok: true;
-  teams: Array<{ abbr: string; name: string; logoUrl: string; colors: string[] }>;
+  teams: TeamDTO[];
 };
 
 const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
@@ -381,11 +381,11 @@ function DraftRoomContent() {
   React.useEffect(() => {
     const loadTeams = async () => {
       const response = await apiFetch('/api/teams');
-      const payload = (await response.json()) as TeamsResponse;
-      if (!response.ok || !payload.ok) {
+      const payload = (await response.json()) as TeamDTO[];
+      if (!response.ok) {
         return;
       }
-      setTeams(payload.teams);
+      setTeams(payload);
     };
 
     void loadTeams();

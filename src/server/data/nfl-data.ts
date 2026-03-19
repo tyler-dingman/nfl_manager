@@ -35,6 +35,11 @@ export type UnifiedTeam = {
   abbr: string;
   conference: 'AFC' | 'NFC';
   division: 'North' | 'South' | 'East' | 'West';
+  teamOverview?: number;
+  offenseOverview?: number;
+  defenseOverview?: number;
+  specialTeamsOverview?: number;
+  teamOverviewGrade?: string;
 };
 
 export type UnifiedPlayer = {
