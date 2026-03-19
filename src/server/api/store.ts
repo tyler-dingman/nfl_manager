@@ -23,7 +23,6 @@ import {
   buildTeamExpiringContracts,
 } from '@/server/logic/offseason-free-agency';
 import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
-import { normalizePlayerName } from '@/server/ingest/normalize';
 
 export type PlayerFilters = {
   position?: string;
@@ -113,7 +112,7 @@ const getLatestContractByPlayerId = () => {
 
 const leagueContractsByPlayerId = getLatestContractByPlayerId();
 
-const normalizePlayerName = (value: string): string =>
+const normalizePlayerKey = (value: string): string =>
   value
     .toLowerCase()
     .replace(/\b(jr|sr|ii|iii|iv)\b/g, '')
@@ -128,7 +127,7 @@ rosterFallbackByTeam.set(
   'KC',
   new Map(
     KANSAS_CITY_CHIEFS_ROSTER.map((entry) => [
-      normalizePlayerName(entry.fullName),
+      normalizePlayerKey(entry.fullName),
       {
         capHit: entry.capHitTop51,
         deadCap: entry.deadCap,
@@ -174,7 +173,7 @@ const resolvePlayerContractValues = (
   const unifiedContract = leagueContractsByPlayerId.get(player.id);
   const fallback = rosterFallbackByTeam
     .get(teamAbbr.toUpperCase())
-    ?.get(normalizePlayerName(player.name));
+    ?.get(normalizePlayerKey(player.name));
 
   const capHitFromUnified = toMillions(unifiedContract?.capHit ?? null);
   const capHitFromFallback = toMillions(fallback?.capHit ?? null);
@@ -229,7 +228,7 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
       firstName,
       lastName,
       teamAbbr: player.teamAbbr,
-      normalizedName: normalizePlayerName(player.name),
+      normalizedName: normalizePlayerKey(player.name),
       position: player.position,
       rating: player.rating,
       baselineRating: player.baselineRating,
@@ -766,7 +765,7 @@ export const addWalkawayToFreeAgencyInState = (
     id: input.id,
     firstName: input.firstName,
     lastName: input.lastName,
-    normalizedName: normalizePlayerName(`${input.firstName} ${input.lastName}`),
+    normalizedName: normalizePlayerKey(`${input.firstName} ${input.lastName}`),
     position: input.position,
     age: input.age,
     rating: input.rating,
