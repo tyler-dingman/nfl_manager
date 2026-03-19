@@ -8,7 +8,7 @@ import { estimateResignInterest } from '@/lib/resign-scoring';
 import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
 import { getAllowedYearOptions } from '@/lib/contracts';
 import { cn } from '@/lib/utils';
-import { formatMoneyMillions, getCapHitSchedule } from '@/server/logic/cap';
+import { formatMoneyMillions, getYearOneCapHit } from '@/server/logic/cap';
 import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
 
 export type OfferResponseTone = 'negative' | 'neutral' | 'positive';
@@ -55,15 +55,6 @@ const clampNumber = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value));
 
 const allowNumericInput = (value: string) => value === '' || /^\d*\.?\d*$/.test(value);
-
-const getNextLeagueYearCapHit = (apy: number, years: number): number => {
-  if (years <= 1) {
-    return 0;
-  }
-
-  const capHitSchedule = getCapHitSchedule(apy, years);
-  return capHitSchedule[1] ?? 0;
-};
 
 export default function ContractOfferModal({
   player,
@@ -130,7 +121,7 @@ export default function ContractOfferModal({
         });
   const score = estimate.interestScore;
   const interestLabel = getInterestLabel(score);
-  const nextLeagueYearCapHit = getNextLeagueYearCapHit(apyValue, years);
+  const currentLeagueYearCapHit = getYearOneCapHit(apyValue, years);
 
   const handleSubmit = async () => {
     setError('');
@@ -269,31 +260,10 @@ export default function ContractOfferModal({
             </div>
           </div>
 
-          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Offer Summary
-            </p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-3">
-              <div className="rounded-lg bg-white/70 px-3 py-2">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                  Total Value
-                </p>
-                <p className="mt-1 font-semibold">{formatMoneyMillions(apyValue * years)}</p>
-              </div>
-              <div className="rounded-lg bg-white/70 px-3 py-2">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                  {CURRENT_MODELED_LEAGUE_YEAR} Cap Hit
-                </p>
-                <p className="mt-1 font-semibold">{formatMoneyMillions(nextLeagueYearCapHit)}</p>
-              </div>
-              <div className="rounded-lg bg-white/70 px-3 py-2">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                  Guaranteed
-                </p>
-                <p className="mt-1 font-semibold">{formatMoneyMillions(guaranteedValue)}</p>
-              </div>
-            </div>
-          </div>
+          <p className="mt-5 text-sm text-muted-foreground">
+            <span className="font-semibold text-foreground">{CURRENT_MODELED_LEAGUE_YEAR} Cap Number:</span>{' '}
+            {formatMoneyMillions(currentLeagueYearCapHit)}
+          </p>
 
           <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
             <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">

@@ -66,6 +66,16 @@ export type SaveState = {
   };
 };
 
+type SaveRestorePayload = {
+  teamAbbr: string;
+  capSpace: number;
+  capLimit: number;
+  roster: PlayerRowDTO[];
+  phase?: string;
+  unlocked?: SaveUnlocksDTO;
+  createdAt?: string;
+};
+
 const saveStore = new Map<string, SaveState>();
 let otcRowsCache: OtcFreeAgencyRow[] | null = null;
 let otcRowsPromise: Promise<OtcFreeAgencyRow[]> | null = null;
@@ -290,6 +300,22 @@ const buildRosterForTeam = (teamAbbr: string): StoredPlayer[] => buildLeagueRost
 
 const clonePlayers = (players: StoredPlayer[]) => players.map((player) => ({ ...player }));
 
+const toStoredPlayer = (player: PlayerRowDTO): StoredPlayer => {
+  const existingYear1CapHit = (player as PlayerRowDTO & { year1CapHit?: number }).year1CapHit;
+  const capHitValue =
+    player.capHitValue ??
+    player.contract?.capHit ??
+    (Number(player.capHit.replace(/[^0-9.]/g, '')) || 0);
+
+  return {
+    ...player,
+    teamAbbr: player.teamAbbr ?? null,
+    year1CapHit: existingYear1CapHit ?? capHitValue,
+    capHitValue,
+    capHit: player.capHit ?? formatMoneyMillions(capHitValue),
+  } as StoredPlayer;
+};
+
 const capSpaceMillionsForTeam = (teamAbbr: string): number => {
   const capSeed = NFL_LEAGUE_DATA.cap.find((entry) => entry.teamAbbr === teamAbbr.toUpperCase());
   return Number(((capSeed?.availableCap ?? 0) / 1_000_000).toFixed(1));
@@ -426,6 +452,35 @@ export const ensureSaveState = (saveId: string, teamAbbr: string): SaveState => 
   return createSaveState(saveId, teamAbbr);
 };
 
+export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): SaveState => {
+  const normalizedTeamAbbr = payload.teamAbbr.toUpperCase();
+  const state = ensureSaveState(saveId, normalizedTeamAbbr);
+  const restoredRoster = payload.roster.map(toStoredPlayer);
+
+  state.roster = restoredRoster;
+  state.teamRosters[normalizedTeamAbbr] = restoredRoster;
+  state.header = {
+    ...state.header,
+    id: saveId,
+    teamAbbr: normalizedTeamAbbr,
+    capSpace: Number(payload.capSpace.toFixed(1)),
+    capLimit: Number(payload.capLimit.toFixed(1)),
+    rosterCount: restoredRoster.length,
+    rosterLimit: state.header.rosterLimit,
+    phase: payload.phase ?? state.header.phase,
+    unlocked: payload.unlocked ?? resolveUnlocksForPhase(payload.phase ?? state.header.phase),
+    createdAt: payload.createdAt ?? state.header.createdAt,
+  };
+  state.teamCaps[normalizedTeamAbbr] = state.header.capSpace;
+  state.offseason.hydrated = false;
+  state.offseason.otcRows = [];
+  state.freeAgents = [];
+  state.expiringContracts = [];
+
+  saveStore.set(saveId, state);
+  return state;
+};
+
 export type SaveResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
 export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
@@ -506,7 +561,13 @@ export const hydrateOffseasonFreeAgencyState = async (state: SaveState): Promise
     league: NFL_LEAGUE_DATA,
     walkaways: resolveWalkawaysFromState(state),
   });
-  state.freeAgents = toStoredPlayers(pool);
+  const rosteredPlayerIds = new Set(
+    Object.values(state.teamRosters)
+      .flat()
+      .filter((player) => player.status?.toLowerCase() !== 'cut')
+      .map((player) => player.id),
+  );
+  state.freeAgents = toStoredPlayers(pool).filter((player) => !rosteredPlayerIds.has(player.id));
   state.offseason.hydrated = true;
 };
 

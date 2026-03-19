@@ -129,6 +129,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       needs: computeTeamNeeds(liveRosterPlayers),
     };
   }, [liveRosterPlayers, selectedTeam?.teamNeeds, selectedTeam?.teamOverview, teams]);
+  const liveOverallDelta = useMemo(() => {
+    if (
+      liveTeamSummary.overall === null ||
+      liveTeamSummary.overall === undefined ||
+      selectedTeam?.teamOverview === null ||
+      selectedTeam?.teamOverview === undefined
+    ) {
+      return null;
+    }
+
+    const delta = liveTeamSummary.overall - selectedTeam.teamOverview;
+    return delta === 0 ? null : delta;
+  }, [liveTeamSummary.overall, selectedTeam?.teamOverview]);
 
   const hasCapSpace = isHydrated && Boolean(saveId);
   const activeCapDollars = hasCapSpace ? capSpace * 1_000_000 : 0;
@@ -482,12 +495,24 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                       OVR
                     </span>
-                    <span
-                      className="block truncate text-sm font-bold"
-                      style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
-                    >
-                      {liveTeamSummary.overall ?? '—'}
-                    </span>
+                    <div className="flex items-baseline gap-1">
+                      <span
+                        className="block truncate text-sm font-bold"
+                        style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
+                      >
+                        {liveTeamSummary.overall ?? '—'}
+                      </span>
+                      {liveOverallDelta !== null ? (
+                        <span
+                          className={cn(
+                            'shrink-0 text-xs font-semibold',
+                            liveOverallDelta > 0 ? 'text-emerald-600' : 'text-red-600',
+                          )}
+                        >
+                          {liveOverallDelta > 0 ? `+${liveOverallDelta}` : liveOverallDelta}
+                        </span>
+                      ) : null}
+                    </div>
                   </div>
                   <div className="-ml-[2px] h-8 w-px shrink-0 bg-border" />
                   <div className="min-w-0 flex-1">
@@ -551,12 +576,24 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                         OVR
                       </span>
-                      <span
-                        className="text-sm font-bold"
-                        style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
-                      >
-                        {liveTeamSummary.overall ?? '—'}
-                      </span>
+                      <div className="flex items-baseline gap-1">
+                        <span
+                          className="text-sm font-bold"
+                          style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
+                        >
+                          {liveTeamSummary.overall ?? '—'}
+                        </span>
+                        {liveOverallDelta !== null ? (
+                          <span
+                            className={cn(
+                              'text-xs font-semibold',
+                              liveOverallDelta > 0 ? 'text-emerald-600' : 'text-red-600',
+                            )}
+                          >
+                            {liveOverallDelta > 0 ? `+${liveOverallDelta}` : liveOverallDelta}
+                          </span>
+                        ) : null}
+                      </div>
                     </div>
                     <div className="hidden h-10 w-px bg-border md:block" />
                     <div className="min-w-[160px] flex-1 pl-5 md:flex-none md:max-w-[240px]">

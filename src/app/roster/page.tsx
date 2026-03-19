@@ -33,6 +33,7 @@ import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
+import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerRowDTO } from '@/types/player';
 import type { ResignResultDTO } from '@/types/resign';
@@ -52,7 +53,9 @@ export default function RosterPage() {
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
   const phase = useSaveStore((state) => state.phase);
+  const unlocked = useSaveStore((state) => state.unlocked);
   const cachedRoster = useSaveStore((state) => state.roster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const setRoster = useSaveStore((state) => state.setRoster);
@@ -135,56 +138,19 @@ export default function RosterPage() {
     </button>
   );
   const ensureActionableSaveId = async (preferredSaveId?: string | null) => {
-    let nextSaveId = preferredSaveId ?? saveId;
-
-    if (nextSaveId) {
-      const headerParams = new URLSearchParams({ saveId: nextSaveId });
-      if (teamAbbr) {
-        headerParams.set('teamAbbr', teamAbbr);
-      }
-      const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
-      if (headerResponse.status === 404) {
-        nextSaveId = '';
-      }
-    }
-
-    if (!nextSaveId) {
-      const createResponse = await apiFetch('/api/saves/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
-      });
-      if (!createResponse.ok) {
-        return null;
-      }
-
-      const data = (await createResponse.json()) as
-        | {
-            ok: true;
-            saveId: string;
-            teamAbbr: string;
-            capSpace: number;
-            capLimit: number;
-            rosterCount: number;
-            rosterLimit: number;
-            phase: string;
-            unlocked?: { freeAgency: boolean; draft: boolean };
-            createdAt: string;
-          }
-        | { ok: false; error: string };
-
-      if (!('ok' in data) || !data.ok) {
-        return null;
-      }
-
-      nextSaveId = data.saveId;
-      setSaveHeader({
-        ...data,
-        unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-      });
-    }
-
-    return nextSaveId;
+    return ensureRecoverableSaveId(
+      {
+        preferredSaveId: preferredSaveId ?? saveId,
+        teamId,
+        teamAbbr,
+        capSpace,
+        capLimit,
+        roster: cachedRoster,
+        phase,
+        unlocked,
+      },
+      setSaveHeader,
+    );
   };
 
   useEffect(() => {

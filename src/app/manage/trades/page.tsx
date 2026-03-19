@@ -17,6 +17,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
+import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { cn } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -123,6 +124,11 @@ function TradeBuilderContent() {
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
+  const roster = useSaveStore((state) => state.roster);
+  const phase = useSaveStore((state) => state.phase);
+  const unlocked = useSaveStore((state) => state.unlocked);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
@@ -176,61 +182,19 @@ function TradeBuilderContent() {
 
   const ensureActionableSaveId = useCallback(
     async (preferredSaveId?: string | null) => {
-      let nextSaveId = preferredSaveId ?? resolvedSaveId ?? saveId;
-
-      if (nextSaveId) {
-        const headerParams = new URLSearchParams({ saveId: nextSaveId });
-        if (teamAbbr) {
-          headerParams.set('teamAbbr', teamAbbr);
-        }
-        const headerResponse = await apiFetch(
-          `/api/saves/header?${headerParams.toString()}`,
-          undefined,
-          { skipSaveGuard: true },
-        );
-        if (headerResponse.status === 404) {
-          nextSaveId = '';
-        }
-      }
-
-      if (!nextSaveId) {
-        const createResponse = await apiFetch('/api/saves/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
-        });
-        if (!createResponse.ok) {
-          return null;
-        }
-
-        const data = (await createResponse.json()) as
-          | {
-              ok: true;
-              saveId: string;
-              teamAbbr: string;
-              capSpace: number;
-              capLimit: number;
-              rosterCount: number;
-              rosterLimit: number;
-              phase: string;
-              unlocked?: { freeAgency: boolean; draft: boolean };
-              createdAt: string;
-            }
-          | { ok: false; error: string };
-
-        if (!('ok' in data) || !data.ok) {
-          return null;
-        }
-
-        nextSaveId = data.saveId;
-        setSaveHeader(
-          {
-            ...data,
-            unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-          },
-          teamId || undefined,
-        );
-      }
+      const nextSaveId = await ensureRecoverableSaveId(
+        {
+          preferredSaveId: preferredSaveId ?? resolvedSaveId ?? saveId,
+          teamId,
+          teamAbbr,
+          capSpace,
+          capLimit,
+          roster,
+          phase,
+          unlocked,
+        },
+        setSaveHeader,
+      );
 
       if (nextSaveId) {
         setResolvedSaveId(nextSaveId);
@@ -238,7 +202,7 @@ function TradeBuilderContent() {
 
       return nextSaveId || null;
     },
-    [resolvedSaveId, saveId, teamAbbr, teamId, setSaveHeader],
+    [capLimit, capSpace, phase, resolvedSaveId, roster, saveId, setSaveHeader, teamAbbr, teamId, unlocked],
   );
 
   useEffect(() => {
