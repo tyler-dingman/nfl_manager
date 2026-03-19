@@ -6,6 +6,7 @@ import { ArrowLeftRight, ArrowUpDown, Handshake, MoreHorizontal, Users } from 'l
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
+import OnboardingModal from '@/components/onboarding/OnboardingModal';
 import { PlayerTable, PositionFilterBar } from '@/components/player-table';
 import { TradeBlockTable } from '@/components/trade-block-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
@@ -35,6 +36,7 @@ import { buildChantAlert } from '@/lib/falco-alerts';
 import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { useOnboarding } from '@/hooks/useOnboarding';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerRowDTO } from '@/types/player';
 import type { ResignResultDTO } from '@/types/resign';
@@ -46,6 +48,23 @@ const getInterestTier = (interest: number) => {
   if (interest >= 65) return { label: 'High', barClass: 'bg-emerald-400' };
   if (interest >= 40) return { label: 'Medium', barClass: 'bg-amber-400' };
   return { label: 'Low', barClass: 'bg-rose-400' };
+};
+
+const getReadableTextColor = (backgroundColor?: string | null) => {
+  if (!backgroundColor) return '#ffffff';
+  const normalized = backgroundColor.replace('#', '');
+  if (normalized.length !== 6) return '#ffffff';
+
+  const red = Number.parseInt(normalized.slice(0, 2), 16);
+  const green = Number.parseInt(normalized.slice(2, 4), 16);
+  const blue = Number.parseInt(normalized.slice(4, 6), 16);
+
+  if ([red, green, blue].some((value) => Number.isNaN(value))) {
+    return '#ffffff';
+  }
+
+  const luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+  return luminance > 0.62 ? '#0f172a' : '#ffffff';
 };
 
 export default function RosterPage() {
@@ -127,6 +146,19 @@ export default function RosterPage() {
     () => teams.find((team) => team.id === selectedTeamId),
     [selectedTeamId, teams],
   );
+  const {
+    isOpen: isOnboardingOpen,
+    currentStep: onboardingStep,
+    totalSteps: onboardingTotalSteps,
+    next: advanceOnboarding,
+    previous: retreatOnboarding,
+    skip: skipOnboarding,
+  } = useOnboarding({
+    enabled: true,
+    stepCount: 3,
+  });
+  const onboardingPrimaryColor = selectedTeam?.color_primary ?? '#0f172a';
+  const onboardingPrimaryTextColor = getReadableTextColor(onboardingPrimaryColor);
   const renderExpiringHeader = (
     label: string,
     key: 'rating' | 'name' | 'pos' | 'status' | 'interest',
@@ -1094,6 +1126,17 @@ export default function RosterPage() {
           </div>
         </div>
       ) : null}
+      <OnboardingModal
+        open={isOnboardingOpen}
+        teamName={selectedTeam?.name ?? 'your team'}
+        primaryColor={onboardingPrimaryColor}
+        primaryTextColor={onboardingPrimaryTextColor}
+        currentStep={onboardingStep}
+        totalSteps={onboardingTotalSteps}
+        onContinue={advanceOnboarding}
+        onSkip={skipOnboarding}
+        onPrevious={retreatOnboarding}
+      />
     </AppShell>
   );
 }
