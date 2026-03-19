@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import { ArrowLeft } from 'lucide-react';
+
 import AppShell from '@/components/app-shell';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
@@ -581,6 +583,25 @@ function TradeBuilderContent() {
     if (nextStep) router.push(getRouteForStep(nextStep));
   };
 
+  const handleBack = () => {
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back();
+      return;
+    }
+
+    if (phase === 'free_agency') {
+      router.push('/free-agents');
+      return;
+    }
+
+    if (phase === 'draft') {
+      router.push('/draft/room?mode=mock');
+      return;
+    }
+
+    router.push('/roster');
+  };
+
   useEffect(() => {
     if (mode === 'full' && currentStep !== 'manage') {
       router.replace(getRouteForStep(currentStep));
@@ -603,6 +624,14 @@ function TradeBuilderContent() {
       <div className="mt-6 space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
+            <button
+              type="button"
+              onClick={handleBack}
+              className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </button>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Trade Builder
             </p>
