@@ -12,6 +12,7 @@ import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useFreeAgentsQuery } from '@/features/players/queries';
 import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
 import { useExperienceStore } from '@/features/experience/experience-store';
+import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
@@ -20,6 +21,7 @@ import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import type { PlayerRowDTO } from '@/types/player';
 
@@ -46,6 +48,7 @@ export default function FreeAgentsPage() {
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
   const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
+  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const [signedCount, setSignedCount] = useState(0);
   const [activeTab, setActiveTab] = useState<'available' | 'signed'>('available');
   const firstVisibleRowLoggedRef = useRef(false);
@@ -54,6 +57,30 @@ export default function FreeAgentsPage() {
   );
   const initialTradeOfferRequestedRef = useRef<string | null>(null);
   const selectedTeam = teams.find((team) => team.id === selectedTeamId) ?? null;
+  const trackProgress = (
+    eventKey: string,
+    points: number,
+    message: string,
+    detail = 'Free Agency',
+  ) => {
+    if (!saveId) return;
+    const result = recordProgressEvent({
+      saveId,
+      step: 'free-agency',
+      eventKey,
+      points,
+    });
+    if (!result.changed) return;
+    pushToast({
+      id: `progress:${saveId}:${eventKey}`,
+      kind: 'progress',
+      durationMs: 3400,
+      progress: {
+        message,
+        detail,
+      },
+    });
+  };
 
   const ensureActionableSaveId = async (preferredSaveId?: string | null) => {
     return ensureRecoverableSaveId(
@@ -207,9 +234,9 @@ export default function FreeAgentsPage() {
 
     if (data.accepted && data.player) {
       const previousRoster = roster;
+      const updatedPlayer = data.player;
       setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
       if (roster.length > 0) {
-        const updatedPlayer = data.player;
         const exists = roster.some((item) => item.id === updatedPlayer.id);
         const nextRoster = exists
           ? roster.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
@@ -258,6 +285,18 @@ export default function FreeAgentsPage() {
         });
       }
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
+      trackProgress(
+        `free-agency-sign:${updatedPlayer.id}`,
+        OFFSEASON_PROGRESS_POINTS['free-agency'].sign,
+        `Signed ${updatedPlayer.firstName} ${updatedPlayer.lastName} in free agency.`,
+      );
+      if (selectedTeam?.teamNeeds?.includes(updatedPlayer.position)) {
+        trackProgress(
+          `free-agency-need:${updatedPlayer.id}`,
+          OFFSEASON_PROGRESS_POINTS['free-agency'].fill_need,
+          `Filled a team need at ${updatedPlayer.position}.`,
+        );
+      }
       if (mode === 'full') {
         setSignedCount((value) => value + 1);
       }
@@ -276,12 +315,38 @@ export default function FreeAgentsPage() {
 
   const handleContinue = () => {
     if (mode !== 'full' || currentStep !== 'free-agency') return;
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: 'free-agency',
+        eventKey: 'continue:free-agency',
+        complete: true,
+      });
+    }
     const nextStep = completeCurrentStep();
     if (nextStep) router.push(getRouteForStep(nextStep));
   };
 
   const handleSkip = () => {
     if (mode !== 'full' || currentStep !== 'free-agency') return;
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: 'free-agency',
+        eventKey: 'skip:free-agency',
+        complete: true,
+        skipped: true,
+      });
+      pushToast({
+        id: `progress:${saveId}:skip:free-agency`,
+        kind: 'progress',
+        durationMs: 3200,
+        progress: {
+          message: 'Completed the Free Agency step.',
+          detail: 'Free Agency',
+        },
+      });
+    }
     const nextStep = skipCurrentStep();
     if (nextStep) router.push(getRouteForStep(nextStep));
   };

@@ -14,7 +14,9 @@ import { DraftRecap } from '@/components/draft/draft-recap';
 import { buildRoundOneOrder, getTeamNeeds } from '@/components/draft/draft-utils';
 import { PlayerTable } from '@/components/player-table';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/toast';
 import { useExperienceStore } from '@/features/experience/experience-store';
+import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
@@ -25,6 +27,7 @@ import {
   evaluateDraftPick,
   summarizeDraftClass,
 } from '@/lib/draft-intelligence';
+import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildFalcoBoard } from '@/lib/falco';
 import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
@@ -101,6 +104,8 @@ function DraftRoomContent() {
   const completedSteps = useExperienceStore((state) => state.completedSteps);
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
   const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
+  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
+  const { push: pushToast } = useToast();
   const storedTeams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const selectedTeam = React.useMemo(
@@ -111,6 +116,25 @@ function DraftRoomContent() {
   const falcoBoard = React.useMemo(
     () => buildFalcoBoard(session?.prospects ?? buildTop32Prospects(), falcoSeed),
     [falcoSeed, session?.prospects],
+  );
+  const trackProgress = React.useCallback(
+    (eventKey: string, points: number, message: string, detail = 'Draft') => {
+      if (!saveId) return;
+      const result = recordProgressEvent({
+        saveId,
+        step: 'draft',
+        eventKey,
+        points,
+      });
+      if (!result.changed) return;
+      pushToast({
+        id: `progress:${saveId}:${eventKey}`,
+        kind: 'progress',
+        durationMs: 3400,
+        progress: { message, detail },
+      });
+    },
+    [pushToast, recordProgressEvent, saveId],
   );
 
   const userOnClock = React.useMemo(() => {
@@ -136,9 +160,17 @@ function DraftRoomContent() {
   React.useEffect(() => {
     if (modeExperience !== 'full') return;
     if (session?.status === 'completed' && !completedSteps.includes('draft')) {
+      if (saveId) {
+        recordProgressEvent({
+          saveId,
+          step: 'draft',
+          eventKey: 'finish:draft',
+          complete: true,
+        });
+      }
       completeCurrentStep();
     }
-  }, [modeExperience, session?.status, completedSteps, completeCurrentStep]);
+  }, [modeExperience, session?.status, completedSteps, completeCurrentStep, recordProgressEvent, saveId]);
 
   const userTeam = React.useMemo(() => {
     if (!session) return null;
@@ -516,6 +548,11 @@ function DraftRoomContent() {
     setTeamMessage(getTeamCatchphrase(payload.session.userTeamAbbr));
     setGradeReasons(evaluation.reasons);
     setIsGradeOpen(true);
+    trackProgress(
+      `draft-pick:${payload.draftedPlayer.id}:${pickNumber}`,
+      OFFSEASON_PROGRESS_POINTS.draft.pick,
+      `Submitted pick ${pickNumber} and added ${player.firstName} ${player.lastName}.`,
+    );
   };
 
   const handleDraftTradeAccepted = React.useCallback(
@@ -581,11 +618,37 @@ function DraftRoomContent() {
 
   const handleContinue = () => {
     if (modeExperience !== 'full' || currentStep !== 'draft') return;
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: 'draft',
+        eventKey: 'continue:draft',
+        complete: true,
+      });
+    }
     completeCurrentStep();
   };
 
   const handleSkip = () => {
     if (modeExperience !== 'full' || currentStep !== 'draft') return;
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: 'draft',
+        eventKey: 'skip:draft',
+        complete: true,
+        skipped: true,
+      });
+      pushToast({
+        id: `progress:${saveId}:skip:draft`,
+        kind: 'progress',
+        durationMs: 3200,
+        progress: {
+          message: 'Completed the Draft step.',
+          detail: 'Draft',
+        },
+      });
+    }
     skipCurrentStep();
   };
 

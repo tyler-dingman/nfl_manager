@@ -29,12 +29,14 @@ import { useRosterQuery } from '@/features/players/queries';
 import { useTradeBlockQuery } from '@/features/trades/queries';
 import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
 import { useExperienceStore } from '@/features/experience/experience-store';
+import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { generateLeagueBuzzToast } from '@/lib/league-buzz';
+import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
@@ -135,6 +137,7 @@ export default function RosterPage() {
   const markManageSubstepComplete = useExperienceStore((state) => state.markManageSubstepComplete);
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
   const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
+  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const rosterFirstVisibleRowLoggedRef = useRef(false);
   const expiringFirstVisibleRowLoggedRef = useRef(false);
   const rosterStartedAtRef = useRef<number>(
@@ -151,6 +154,30 @@ export default function RosterPage() {
     () => teams.find((team) => team.id === selectedTeamId),
     [selectedTeamId, teams],
   );
+  const trackProgress = (
+    eventKey: string,
+    points: number,
+    message: string,
+    detail = 'Manage Team',
+  ) => {
+    if (!saveId) return;
+    const result = recordProgressEvent({
+      saveId,
+      step: 'manage',
+      eventKey,
+      points,
+    });
+    if (!result.changed) return;
+    pushToast({
+      id: `progress:${saveId}:${eventKey}`,
+      kind: 'progress',
+      durationMs: 3400,
+      progress: {
+        message,
+        detail,
+      },
+    });
+  };
   const {
     isOpen: isOnboardingOpen,
     currentStep: onboardingStep,
@@ -356,6 +383,18 @@ export default function RosterPage() {
         ...data.header,
         unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
       });
+    }
+    trackProgress(
+      `cut:${activeCutPlayer.id}`,
+      OFFSEASON_PROGRESS_POINTS.manage.cut,
+      `Cleared cap space with ${activeCutPlayer.firstName} ${activeCutPlayer.lastName}.`,
+    );
+    if (capSpace < 0 && (data.header?.capSpace ?? capSpace) >= 0) {
+      trackProgress(
+        'cap-resolved:manage',
+        OFFSEASON_PROGRESS_POINTS.manage.cap_resolved,
+        'Resolved your cap issue and restored flexibility.',
+      );
     }
     const capSavings = data.player?.releaseSavings ?? activeCutPlayer.releaseSavings ?? 0;
     if (capSavings > 10) {
@@ -600,6 +639,11 @@ export default function RosterPage() {
           prev.filter((contract) => contract.id !== activeExpiringContract.id),
         );
       }
+      trackProgress(
+        `resign:${playerId}`,
+        OFFSEASON_PROGRESS_POINTS.manage.resign,
+        `Re-signed a key player to keep the roster together.`,
+      );
     }
 
     setActiveResignPlayer(null);
@@ -711,6 +755,13 @@ export default function RosterPage() {
         }
       }
     }
+    if (data.accepted && capSpace < 0 && (data.header?.capSpace ?? capSpace) >= 0) {
+      trackProgress(
+        'cap-resolved:renegotiate',
+        OFFSEASON_PROGRESS_POINTS.manage.cap_resolved,
+        'Created breathing room with a smart contract restructure.',
+      );
+    }
 
     setActiveRenegotiatePlayer(null);
     if (data.accepted) {
@@ -727,6 +778,14 @@ export default function RosterPage() {
 
   const handleContinue = () => {
     if (mode !== 'full' || currentStep !== 'manage') return;
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: 'manage',
+        eventKey: 'continue:manage',
+        complete: true,
+      });
+    }
     const nextStep = completeCurrentStep();
     if (nextStep) {
       router.push(getRouteForStep(nextStep));
@@ -735,6 +794,24 @@ export default function RosterPage() {
 
   const handleSkip = () => {
     if (mode !== 'full' || currentStep !== 'manage') return;
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: 'manage',
+        eventKey: 'skip:manage',
+        complete: true,
+        skipped: true,
+      });
+      pushToast({
+        id: `progress:${saveId}:skip:manage`,
+        kind: 'progress',
+        durationMs: 3200,
+        progress: {
+          message: 'Completed the Manage Team step.',
+          detail: 'Manage Team',
+        },
+      });
+    }
     const nextStep = skipCurrentStep();
     if (nextStep) {
       router.push(getRouteForStep(nextStep));
@@ -972,11 +1049,7 @@ export default function RosterPage() {
                               >
                                 <td className="px-4 py-1.5 text-left text-sm font-semibold text-foreground sm:px-6">
                                   <div className="flex w-full items-start justify-start gap-3 text-left">
-                                    <div className="relative shrink-0">
-                                      <PlayerTypeIcon
-                                        player={{ age: player.age, rating: player.rating }}
-                                        className="absolute -left-4 top-1/2 -translate-y-1/2"
-                                      />
+                                    <div className="shrink-0">
                                       <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
                                       {player.headshotUrl ? (
                                         // eslint-disable-next-line @next/next/no-img-element
@@ -997,6 +1070,9 @@ export default function RosterPage() {
                                     <div className="min-w-0 flex-1 text-left">
                                       <div className="flex min-w-0 items-center gap-1.5">
                                         <div className="truncate leading-tight">{player.name}</div>
+                                        <PlayerTypeIcon
+                                          player={{ age: player.age, rating: player.rating }}
+                                        />
                                       </div>
                                       {player.interestQuote ? (
                                         <div

@@ -6,6 +6,7 @@ import PlayerTypeIcon from '@/components/player-type-icon';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { Button } from '@/components/ui/button';
+import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { useTradeOfferStore } from '@/features/trades/trade-offer-store';
@@ -13,6 +14,7 @@ import { apiFetch } from '@/lib/api';
 import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
 import { getPlayerTypeIndicator } from '@/lib/player-type-indicator';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import { useToast } from '@/components/ui/toast';
 import { resolvePlayerRating } from '@/lib/team-overview';
@@ -175,14 +177,7 @@ const renderAssetCard = (asset: TradeOfferAssetDTO) => (
   <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
     {asset.type === 'player' ? (
       <div className="flex items-center gap-3">
-        <div className="relative shrink-0">
-          <PlayerTypeIcon
-            indicator={getPlayerTypeIndicator({
-              age: asset.age ?? undefined,
-              rating: asset.rating ?? undefined,
-            })}
-            className="absolute -left-4 top-1/2 -translate-y-1/2"
-          />
+        <div className="shrink-0">
           {asset.headshotUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -199,6 +194,12 @@ const renderAssetCard = (asset: TradeOfferAssetDTO) => (
         <div className="min-w-0">
           <div className="flex min-w-0 items-center gap-1.5">
             <p className="truncate text-sm font-semibold text-foreground">{asset.name}</p>
+            <PlayerTypeIcon
+              indicator={getPlayerTypeIndicator({
+                age: asset.age ?? undefined,
+                rating: asset.rating ?? undefined,
+              })}
+            />
           </div>
           <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
         </div>
@@ -277,6 +278,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
   const selectedTeam = useTeamStore((state) =>
     state.teams.find((team) => team.id === state.selectedTeamId),
   );
+  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const clearActive = useTradeOfferStore((state) => state.clearActive);
   const { push: pushToast } = useToast();
   const [partnerRoster, setPartnerRoster] = React.useState<PlayerRowDTO[]>([]);
@@ -324,14 +326,32 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
 
     let cancelled = false;
     const loadPartnerAssets = async () => {
+      const actionableSaveId = await ensureRecoverableSaveId(
+        {
+          preferredSaveId: saveId,
+          teamId,
+          teamAbbr,
+          capSpace,
+          capLimit,
+          roster,
+          phase,
+          unlocked,
+        },
+        setSaveHeader,
+      );
+
+      if (!actionableSaveId || cancelled) {
+        return;
+      }
+
       const response = await apiFetch('/api/trade-offers/assets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          saveId,
+          saveId: actionableSaveId,
           partnerTeamAbbr: offer.proposingTeamAbbr,
         }),
-      });
+      }, { skipSaveGuard: true });
       if (!response.ok) return;
       const data = (await response.json()) as TradeOfferAssetsResponse;
       if (!data.ok || cancelled) return;
@@ -342,7 +362,19 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     return () => {
       cancelled = true;
     };
-  }, [offer, open, saveId]);
+  }, [
+    capLimit,
+    capSpace,
+    offer,
+    open,
+    phase,
+    roster,
+    saveId,
+    setSaveHeader,
+    teamAbbr,
+    teamId,
+    unlocked,
+  ]);
 
   React.useEffect(() => {
     if (!open || !offer || !saveId) return;
@@ -624,6 +656,43 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
             title: 'Ripple Effects',
             subtitle: 'What this trade changes',
             effects: chainReaction.effects.map((effect) => effect.message),
+          },
+        });
+      }
+    }
+
+    const tradeProgress = recordProgressEvent({
+      saveId: actionableSaveId,
+      step: 'manage',
+      eventKey: `trade-offer-accepted:${offer.id}`,
+      points: OFFSEASON_PROGRESS_POINTS.manage.trade,
+    });
+    if (tradeProgress.changed) {
+      pushToast({
+        id: `progress:${actionableSaveId}:trade-offer-accepted:${offer.id}`,
+        kind: 'progress',
+        durationMs: 3400,
+        progress: {
+          message: 'Completed a trade proposal and improved your roster flexibility.',
+          detail: 'Manage Team',
+        },
+      });
+    }
+    if (capSpace < 0 && data.header.capSpace >= 0) {
+      const capProgress = recordProgressEvent({
+        saveId: actionableSaveId,
+        step: 'manage',
+        eventKey: `cap-resolved:trade-offer:${offer.id}`,
+        points: OFFSEASON_PROGRESS_POINTS.manage.cap_resolved,
+      });
+      if (capProgress.changed) {
+        pushToast({
+          id: `progress:${actionableSaveId}:cap-resolved:trade-offer:${offer.id}`,
+          kind: 'progress',
+          durationMs: 3400,
+          progress: {
+            message: 'Solved your cap issue through the trade market.',
+            detail: 'Manage Team',
           },
         });
       }

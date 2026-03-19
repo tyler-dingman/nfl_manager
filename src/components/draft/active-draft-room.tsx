@@ -13,6 +13,7 @@ import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
+import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import {
   fillFalcoTemplate,
   type FalcoAlertType,
@@ -25,11 +26,13 @@ import {
   evaluateDraftPick,
   summarizeDraftClass,
 } from '@/lib/draft-intelligence';
+import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { getFalcoReaction, getPickLabel } from '@/lib/draft-reactions';
 import { useDraftClock } from '@/hooks/use-draft-clock';
 import { getTeamNeeds } from '@/components/draft/draft-utils';
 import { apiFetch } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/components/ui/toast';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TeamDTO } from '@/types/team';
@@ -105,6 +108,8 @@ export function ActiveDraftRoom({
   onSessionUpdate,
 }: ActiveDraftRoomProps) {
   const saveId = useSaveStore((state) => state.saveId);
+  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
+  const { push: pushToast } = useToast();
   const currentPick = session.picks[session.currentPickIndex];
   const onClock =
     currentPick?.ownerTeamAbbr === session.userTeamAbbr && !currentPick?.selectedPlayerId;
@@ -649,7 +654,28 @@ export function ActiveDraftRoom({
             offers={draftOffers}
             now={now}
             onReview={(offer) => setReviewOffer(offer)}
-            onDecline={(offerId) => setDraftOffers((current) => current.filter((offer) => offer.id !== offerId))}
+            onDecline={(offerId) => {
+              setDraftOffers((current) => current.filter((offer) => offer.id !== offerId));
+              if (saveId) {
+                const result = recordProgressEvent({
+                  saveId,
+                  step: 'draft',
+                  eventKey: `draft-trade-declined:${offerId}`,
+                  points: OFFSEASON_PROGRESS_POINTS.draft.trade_response,
+                });
+                if (result.changed) {
+                  pushToast({
+                    id: `progress:${saveId}:draft-trade-declined:${offerId}`,
+                    kind: 'progress',
+                    durationMs: 3200,
+                    progress: {
+                      message: 'Reviewed a draft trade offer and stayed disciplined.',
+                      detail: 'Draft',
+                    },
+                  });
+                }
+              }
+            }}
             onDismiss={(offerId) => setDraftOffers((current) => current.filter((offer) => offer.id !== offerId))}
           />
         </div>

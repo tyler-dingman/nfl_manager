@@ -17,6 +17,7 @@ import { AdSlot } from '@/components/ads/AdSlot';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
+import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { getRouteForStep, getStepForPath } from '@/features/experience/experience-utils';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { useSaveStore } from '@/features/save/save-store';
@@ -25,6 +26,12 @@ import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { computeCapRank, formatCapMillions, ordinal } from '@/lib/cap-space';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
 import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
+import {
+  createEmptyOffseasonProgressSnapshot,
+  getHighestUnlockedStepIndexFromProgress,
+  getOverallOffseasonProgressPercent,
+  getStepProgressPercent,
+} from '@/lib/offseason-progress';
 import { computeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 
@@ -72,6 +79,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const isHydrated = hasHydrated && experienceHasHydrated;
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completedSteps = useExperienceStore((state) => state.completedSteps);
+  const progressSnapshot = useOffseasonProgressStore((state) =>
+    saveId ? (state.bySave[saveId] ?? createEmptyOffseasonProgressSnapshot()) : createEmptyOffseasonProgressSnapshot(),
+  );
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isAdvanceModalOpen, setIsAdvanceModalOpen] = useState(false);
@@ -276,6 +286,33 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     }
     return 0;
   }, [currentStep, mode, phase]);
+  const actualUnlockedStepIndex = useMemo(() => {
+    if (phase === 'draft' || phase === 'season' || unlocked.draft) {
+      return 2;
+    }
+    if (phase === 'free_agency' || unlocked.freeAgency) {
+      return 1;
+    }
+    return 0;
+  }, [phase, unlocked.draft, unlocked.freeAgency]);
+  const progressUnlockedStepIndex = useMemo(
+    () => getHighestUnlockedStepIndexFromProgress(progressSnapshot),
+    [progressSnapshot],
+  );
+  const stepIndicatorUnlockedIndex = Math.max(actualUnlockedStepIndex, progressUnlockedStepIndex);
+  const offseasonProgressPercent = useMemo(
+    () => getOverallOffseasonProgressPercent(progressSnapshot),
+    [progressSnapshot],
+  );
+  const completedStepIndices = useMemo(
+    () =>
+      OFFSEASON_STEPS.flatMap((step, index) =>
+        completedSteps.includes(step.id) || getStepProgressPercent(progressSnapshot, step.id) >= 100
+          ? [index]
+          : [],
+      ),
+    [completedSteps, progressSnapshot],
+  );
 
   useEffect(() => {
     if (!pathname) return;
@@ -614,6 +651,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     currentStep={headerStepIndex}
                     steps={['Manage', 'Free Agency', 'Draft']}
                     teamColor={selectedTeam?.color_primary}
+                    overallProgressPercent={offseasonProgressPercent}
+                    progressLabel="Offseason Progress"
+                    unlockedStepIndex={stepIndicatorUnlockedIndex}
+                    completedStepIndices={completedStepIndices}
                   />
                 </div>
 
@@ -762,6 +803,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   currentStep={headerStepIndex}
                   steps={['Manage', 'Free Agency', 'Draft']}
                   teamColor={selectedTeam?.color_primary}
+                  overallProgressPercent={offseasonProgressPercent}
+                  progressLabel="Offseason Progress"
+                  unlockedStepIndex={stepIndicatorUnlockedIndex}
+                  completedStepIndices={completedStepIndices}
                 />
               </div>
             </header>

@@ -3,11 +3,13 @@
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
+import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { useToast } from '@/components/ui/toast';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
+import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { apiFetch } from '@/lib/api';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TradeOfferAssetDTO, TradeOfferDTO } from '@/types/trade-offers';
@@ -119,6 +121,7 @@ export function DraftTradeOfferReviewModal({
   const selectedTeamName = useTeamStore(
     (state) => state.teams.find((team) => team.id === state.selectedTeamId)?.name ?? teamAbbr,
   );
+  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const { push: pushToast } = useToast();
   const [submitting, setSubmitting] = React.useState(false);
   const [message, setMessage] = React.useState<string | null>(null);
@@ -207,6 +210,24 @@ export function DraftTradeOfferReviewModal({
           },
         });
       }
+    }
+
+    const progressResult = recordProgressEvent({
+      saveId,
+      step: 'draft',
+      eventKey: `draft-trade-accepted:${offer.id}`,
+      points: OFFSEASON_PROGRESS_POINTS.draft.trade_response,
+    });
+    if (progressResult.changed) {
+      pushToast({
+        id: `progress:${saveId}:draft-trade-accepted:${offer.id}`,
+        kind: 'progress',
+        durationMs: 3400,
+        progress: {
+          message: 'Handled a live draft trade and stayed flexible on the clock.',
+          detail: 'Draft',
+        },
+      });
     }
 
     onAccepted({

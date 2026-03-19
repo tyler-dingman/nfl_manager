@@ -283,11 +283,7 @@ export function TradeBlockTable({
                       <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
                         <td className="px-4 py-2 text-sm sm:px-6">
                           <div className="flex items-center gap-3">
-                            <div className="relative shrink-0">
-                              <PlayerTypeIcon
-                                player={player}
-                                className="absolute -left-4 top-1/2 -translate-y-1/2"
-                              />
+                            <div className="shrink-0">
                               <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
                                 {player.headshotUrl ? (
                                   // eslint-disable-next-line @next/next/no-img-element
@@ -308,6 +304,7 @@ export function TradeBlockTable({
                                 <div className="truncate font-semibold text-foreground">
                                   {player.firstName} {player.lastName}
                                 </div>
+                                <PlayerTypeIcon player={player} />
                               </div>
                               <div
                                 className="text-xs text-muted-foreground"

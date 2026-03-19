@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
+import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
@@ -23,6 +24,7 @@ import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import { resolvePlayerRating } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
@@ -147,6 +149,7 @@ function TradeBuilderContent() {
   const markManageSubstepComplete = useExperienceStore((state) => state.markManageSubstepComplete);
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
   const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
+  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const router = useRouter();
   const [teams, setTeams] = useState<TeamDTO[]>([]);
   const [partnerTeamAbbr, setPartnerTeamAbbr] = useState<string>('');
@@ -175,6 +178,30 @@ function TradeBuilderContent() {
   );
   const lastTradeKeyRef = useRef<string | null>(null);
   const initialTradeOfferRequestedRef = useRef<string | null>(null);
+  const trackProgress = (
+    eventKey: string,
+    points: number,
+    message: string,
+    detail = 'Manage Team',
+  ) => {
+    if (!saveId) return;
+    const result = recordProgressEvent({
+      saveId,
+      step: 'manage',
+      eventKey,
+      points,
+    });
+    if (!result.changed) return;
+    pushToast({
+      id: `progress:${saveId}:${eventKey}`,
+      kind: 'progress',
+      durationMs: 3400,
+      progress: {
+        message,
+        detail,
+      },
+    });
+  };
 
   const acceptance = useMemo(() => {
     if (!trade) {
@@ -477,13 +504,25 @@ function TradeBuilderContent() {
         userRosterParams.set('teamAbbr', teamAbbr);
       }
       const userRosterResponse = await apiFetch(`/api/roster?${userRosterParams.toString()}`);
-      if (userRosterResponse.ok) {
-        const nextRoster = (await userRosterResponse.json()) as PlayerRowDTO[];
-        setUserRoster(nextRoster);
-        setRoster(nextRoster);
-        const acquiredPlayer = nextRoster
-          .filter((player) => acquiredPlayerIds.has(player.id))
-          .sort((left, right) => (resolvePlayerRating(right) ?? -1) - (resolvePlayerRating(left) ?? -1))[0];
+        if (userRosterResponse.ok) {
+          const nextRoster = (await userRosterResponse.json()) as PlayerRowDTO[];
+          setUserRoster(nextRoster);
+          setRoster(nextRoster);
+          trackProgress(
+            `trade:${data.trade.id}`,
+            OFFSEASON_PROGRESS_POINTS.manage.trade,
+            'Completed a trade to reshape the roster.',
+          );
+          if (capSpace < 0 && data.header.capSpace >= 0) {
+            trackProgress(
+              'cap-resolved:trade',
+              OFFSEASON_PROGRESS_POINTS.manage.cap_resolved,
+              'Solved your cap crunch through the trade market.',
+            );
+          }
+          const acquiredPlayer = nextRoster
+            .filter((player) => acquiredPlayerIds.has(player.id))
+            .sort((left, right) => (resolvePlayerRating(right) ?? -1) - (resolvePlayerRating(left) ?? -1))[0];
         if (acquiredPlayer) {
           const reactionToast = buildStarReactionToastPayload({
             incomingPlayer: acquiredPlayer,
@@ -626,12 +665,38 @@ function TradeBuilderContent() {
 
   const handleContinue = () => {
     if (mode !== 'full' || currentStep !== 'manage') return;
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: 'manage',
+        eventKey: 'continue:manage',
+        complete: true,
+      });
+    }
     const nextStep = completeCurrentStep();
     if (nextStep) router.push(getRouteForStep(nextStep));
   };
 
   const handleSkip = () => {
     if (mode !== 'full' || currentStep !== 'manage') return;
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: 'manage',
+        eventKey: 'skip:manage:trade-hub',
+        complete: true,
+        skipped: true,
+      });
+      pushToast({
+        id: `progress:${saveId}:skip:manage:trade-hub`,
+        kind: 'progress',
+        durationMs: 3200,
+        progress: {
+          message: 'Completed the Manage Team step.',
+          detail: 'Manage Team',
+        },
+      });
+    }
     const nextStep = skipCurrentStep();
     if (nextStep) router.push(getRouteForStep(nextStep));
   };
