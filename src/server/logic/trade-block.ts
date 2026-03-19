@@ -182,6 +182,20 @@ const isUntouchable = ({ player, depthRank, starterCount }: CandidateContext) =>
 
   if (player.position === 'QB' && depthRank === 1 && player.resolvedRating >= 80) return true;
   if (depthRank <= starterCount && player.resolvedRating >= 90) return true;
+  if (depthRank <= starterCount + 1 && yearsRemaining >= 3 && player.resolvedRating >= 82) {
+    return true;
+  }
+  if ((player.age ?? 30) <= 25 && yearsRemaining >= 2 && player.resolvedRating >= 80) {
+    return true;
+  }
+  if (
+    depthRank <= starterCount + 1 &&
+    (player.age ?? 30) <= 24 &&
+    yearsRemaining >= 2 &&
+    player.resolvedRating >= 76
+  ) {
+    return true;
+  }
   if ((player.age ?? 30) <= 24 && yearsRemaining >= 3 && player.resolvedRating >= 80) {
     return true;
   }
@@ -210,7 +224,7 @@ const scoreCandidate = (input: CandidateContext): ScoreContribution[] => {
     contributions.push({
       category: 'buried_depth',
       score: buriedScore,
-      reason: `blocked on the depth chart as ${player.position} depth`,
+      reason: 'Buried on Depth Chart',
     });
   }
 
@@ -225,7 +239,7 @@ const scoreCandidate = (input: CandidateContext): ScoreContribution[] => {
     contributions.push({
       category: 'buried_depth',
       score: 12,
-      reason: 'veteran backup behind a younger established starter',
+      reason: 'Buried on Depth Chart',
     });
   }
 
@@ -233,7 +247,7 @@ const scoreCandidate = (input: CandidateContext): ScoreContribution[] => {
     contributions.push({
       category: 'veteran_expiring',
       score: 8 + Math.max(0, player.resolvedRating - 70) * 0.35,
-      reason: 'veteran on an expiring contract',
+      reason: 'Cap Casualty',
     });
   }
 
@@ -241,7 +255,7 @@ const scoreCandidate = (input: CandidateContext): ScoreContribution[] => {
     contributions.push({
       category: 'young_expiring',
       score: 8 + Math.max(0, player.resolvedRating - 70) * 0.4,
-      reason: 'young player nearing an extension decision',
+      reason: 'Expiring Young Talent',
     });
   }
 
@@ -249,7 +263,7 @@ const scoreCandidate = (input: CandidateContext): ScoreContribution[] => {
     contributions.push({
       category: 'surplus',
       score: 7 + (surplusCount - starterCount) * 2,
-      reason: 'team has surplus talent at this position',
+      reason: 'Buried on Depth Chart',
     });
   }
 
@@ -257,7 +271,7 @@ const scoreCandidate = (input: CandidateContext): ScoreContribution[] => {
     contributions.push({
       category: 'role_redundancy',
       score: 6,
-      reason: 'good enough to help another team more than the current role allows',
+      reason: 'Buried on Depth Chart',
     });
   }
 
@@ -265,7 +279,7 @@ const scoreCandidate = (input: CandidateContext): ScoreContribution[] => {
     contributions.push({
       category: 'cap_pressure',
       score: Math.max(5, (5 - teamCapSpace) * 0.8 + Math.max(0, capHit - 3)),
-      reason: 'cap pressure makes the contract easier to shop',
+      reason: 'Cap Casualty',
     });
   }
 
@@ -273,7 +287,7 @@ const scoreCandidate = (input: CandidateContext): ScoreContribution[] => {
     contributions.push({
       category: 'cap_pressure',
       score: 4,
-      reason: 'older veteran with salary/decline uncertainty',
+      reason: 'Cap Casualty',
     });
   }
 
@@ -285,6 +299,7 @@ const buildPotentialFits = (
   player: RatedPlayer,
   playerPosition: TradePosition,
   teamContext: Map<string, TeamContext>,
+  userTeamAbbr: string,
 ): string[] => {
   const starterCount = getStarterCount(playerPosition);
 
@@ -318,12 +333,24 @@ const buildPotentialFits = (
       score -= 18;
     }
 
+    const fitRng = createRng(
+      `${state.header.id}:${state.header.phase}:${player.id}:${team.abbr}:${playerPosition}`,
+    );
+    score += fitRng() * 3;
+
     if (score < 14) return null;
 
     return { abbr: team.abbr, score };
   })
     .filter((entry): entry is { abbr: string; score: number } => entry !== null)
-    .sort((left, right) => right.score - left.score || left.abbr.localeCompare(right.abbr))
+    .sort((left, right) => {
+      const leftIsUserTeam = left.abbr === userTeamAbbr ? 1 : 0;
+      const rightIsUserTeam = right.abbr === userTeamAbbr ? 1 : 0;
+      if (leftIsUserTeam !== rightIsUserTeam) {
+        return rightIsUserTeam - leftIsUserTeam;
+      }
+      return right.score - left.score || left.abbr.localeCompare(right.abbr);
+    })
     .slice(0, 3)
     .map((entry) => entry.abbr);
 };
@@ -392,7 +419,13 @@ export const buildTradeBlock = (
           tradeBlockReason: bestReason.reason,
           tradeBlockScore: Number(interestingness.toFixed(1)),
           tradeBlockCategory: bestReason.category,
-          potentialFits: buildPotentialFits(state, player, position, teamContext),
+          potentialFits: buildPotentialFits(
+            state,
+            player,
+            position,
+            teamContext,
+            normalizedUserTeamAbbr,
+          ),
           contractSummary: formatContractSummary(player),
           currentDepthRank: depthRank,
           normalizedPosition: position,

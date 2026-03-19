@@ -62,25 +62,28 @@ export default function RenegotiateModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-      <div className="w-full max-w-lg max-h-[90dvh] overflow-y-auto overscroll-contain rounded-2xl bg-white p-6 shadow-lg">
-        <div className="flex items-center justify-between">
-          <div>
+      <div className="flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl bg-white shadow-lg">
+        <div className="flex items-start justify-between gap-3 border-b border-border px-4 py-4 sm:px-6">
+          <div className="min-w-0">
             <h3 className="text-lg font-semibold text-foreground">Renegotiate Contract</h3>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Player already under contract — must be compelling to accept.
             </p>
           </div>
-          {teamLogoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={teamLogoUrl} alt="Team logo" className="h-8 w-8" />
-          ) : null}
-          <Button type="button" variant="ghost" size="icon" onClick={onClose}>
-            ✕
-          </Button>
+          <div className="flex items-center gap-2">
+            {teamLogoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={teamLogoUrl} alt="Team logo" className="h-8 w-8 object-contain" />
+            ) : null}
+            <Button type="button" variant="ghost" size="icon" onClick={onClose}>
+              ✕
+            </Button>
+          </div>
         </div>
 
-        <div className="mt-4 grid gap-4 md:grid-cols-[100px_1fr]">
-          <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-lg font-semibold text-slate-600">
+        <div className="overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
+          <div className="grid gap-4 sm:grid-cols-[88px_1fr] sm:items-center">
+            <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-lg font-semibold text-slate-600 sm:h-24 sm:w-24">
             {player.headshotUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -92,37 +95,45 @@ export default function RenegotiateModal({
               `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
             )}
           </div>
-          <div className="space-y-1 text-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Player</p>
-            <p className="font-semibold text-foreground">
-              {player.firstName} {player.lastName}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {player.position} · Age {age}
-            </p>
+            <div className="space-y-1 text-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Player</p>
+              <p className="font-semibold text-foreground">
+                {player.firstName} {player.lastName}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {player.position} · Age {age}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Current contract
-          </p>
-          <div className="mt-2 flex items-center justify-between">
-            <span>Cap hit</span>
-            <span className="font-semibold">{formatMillions(parseCapHitValue(player))}</span>
+          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Current Contract
+            </p>
+            <div className="mt-2 grid gap-2 sm:grid-cols-3">
+              <div className="rounded-lg bg-white/70 px-3 py-2">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                  Cap hit
+                </p>
+                <p className="mt-1 font-semibold">{formatMillions(parseCapHitValue(player))}</p>
+              </div>
+              <div className="rounded-lg bg-white/70 px-3 py-2">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                  Years left
+                </p>
+                <p className="mt-1 font-semibold">{yearsRemaining} yrs</p>
+              </div>
+              <div className="rounded-lg bg-white/70 px-3 py-2">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                  Guaranteed
+                </p>
+                <p className="mt-1 font-semibold">{formatMillions(currentGuaranteed)}</p>
+              </div>
+            </div>
           </div>
-          <div className="mt-1 flex items-center justify-between">
-            <span>Years remaining</span>
-            <span className="font-semibold">{yearsRemaining} yrs</span>
-          </div>
-          <div className="mt-1 flex items-center justify-between">
-            <span>Guaranteed</span>
-            <span className="font-semibold">{formatMillions(currentGuaranteed)}</span>
-          </div>
-        </div>
 
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
-          <div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Years
             </label>
@@ -137,8 +148,8 @@ export default function RenegotiateModal({
                 </option>
               ))}
             </select>
-          </div>
-          <div>
+            </div>
+            <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Value / yr (M)
             </label>
@@ -150,8 +161,8 @@ export default function RenegotiateModal({
               value={apy}
               onChange={(event) => setApy(Number(event.target.value))}
             />
-          </div>
-          <div>
+            </div>
+            <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Guaranteed (M)
             </label>
@@ -163,30 +174,37 @@ export default function RenegotiateModal({
               value={guaranteed}
               onChange={(event) => setGuaranteed(Number(event.target.value))}
             />
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
+            <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+              <span>Acceptance: {estimate.label}</span>
+              <span>{estimate.score.toFixed(0)}%</span>
+            </div>
+            <div className="relative mt-2 h-2 w-full rounded-full bg-slate-200">
+              <div
+                className="h-2 rounded-full bg-emerald-500"
+                style={{ width: `${estimate.score}%` }}
+              />
+              <div className="absolute top-0 h-2 w-[2px] bg-slate-700" style={{ left: '70%' }} />
+            </div>
           </div>
         </div>
 
-        <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Acceptance: {estimate.label}</span>
-            <span>{estimate.score.toFixed(0)}%</span>
+        <div className="border-t border-border px-4 py-4 sm:px-6">
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <Button type="button" variant="outline" className="h-10" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              className="h-10"
+              onClick={() => onSubmit({ years, apy, guaranteed })}
+            >
+              Propose Renegotiation
+            </Button>
           </div>
-          <div className="relative mt-2 h-2 w-full rounded-full bg-slate-200">
-            <div
-              className="h-2 rounded-full bg-emerald-500"
-              style={{ width: `${estimate.score}%` }}
-            />
-            <div className="absolute top-0 h-2 w-[2px] bg-slate-700" style={{ left: '70%' }} />
-          </div>
-        </div>
-
-        <div className="mt-6 flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="button" onClick={() => onSubmit({ years, apy, guaranteed })}>
-            Propose Renegotiation
-          </Button>
         </div>
       </div>
     </div>

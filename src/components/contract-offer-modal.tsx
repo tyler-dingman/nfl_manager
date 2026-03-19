@@ -144,17 +144,20 @@ export default function ContractOfferModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-      <div className="w-full max-w-lg max-h-[90dvh] overflow-y-auto overscroll-contain rounded-2xl bg-white p-6 shadow-lg">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+      <div className="flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl bg-white shadow-lg">
+        <div className="flex items-start justify-between gap-3 border-b border-border px-4 py-4 sm:px-6">
+          <div className="min-w-0">
+            <h3 className="text-base font-semibold text-foreground sm:text-lg">{title}</h3>
+            {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
+          </div>
           <Button type="button" variant="ghost" size="icon" onClick={onClose}>
             ✕
           </Button>
         </div>
-        {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
 
-        <div className="mt-4 grid gap-4 md:grid-cols-[120px_1fr]">
-          <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-xl font-semibold text-slate-600">
+        <div className="overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
+          <div className="grid gap-4 sm:grid-cols-[88px_1fr] sm:items-center">
+            <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-xl font-semibold text-slate-600 sm:h-24 sm:w-24">
             {player.headshotUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -166,23 +169,27 @@ export default function ContractOfferModal({
               `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
             )}
           </div>
-          <div className="space-y-1 text-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Player details
-            </p>
-            <p className="font-semibold text-foreground">
-              {player.position} · {player.college ?? '—'}
-            </p>
-            <p className="text-xs text-muted-foreground">Age {age}</p>
-            <p className="text-xs text-muted-foreground">
-              Preferred years {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]} ·
-              Expected APY ${estimate.expectedApy.toFixed(1)}M
-            </p>
+            <div className="space-y-1 text-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Player Details
+              </p>
+              <p className="font-semibold text-foreground">
+                {player.firstName} {player.lastName}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {player.position}
+                {player.college ? ` · ${player.college}` : ''}
+                {' · '}Age {age}
+              </p>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Preferred years {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]} ·
+                Expected APY ${estimate.expectedApy.toFixed(1)}M
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
-          <div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Years
             </label>
@@ -200,8 +207,8 @@ export default function ContractOfferModal({
                 </option>
               ))}
             </select>
-          </div>
-          <div>
+            </div>
+            <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               APY (M)
             </label>
@@ -223,8 +230,8 @@ export default function ContractOfferModal({
                 setApyInput(clamped.toFixed(1));
               }}
             />
-          </div>
-          <div>
+            </div>
+            <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Guaranteed (M)
             </label>
@@ -247,41 +254,46 @@ export default function ContractOfferModal({
                 setGuaranteedInput(clamped.toFixed(1));
               }}
             />
+            </div>
           </div>
+
+          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
+            <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+              <span>Interest: {interestLabel}</span>
+              <span>{score.toFixed(0)}%</span>
+            </div>
+            <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
+              <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
+            </div>
+          </div>
+
+          {response ? (
+            <div
+              className={cn(
+                'mt-4 rounded-lg border px-4 py-3 text-sm',
+                response.tone === 'positive' &&
+                  'border-emerald-200 bg-emerald-50 text-emerald-700',
+                response.tone === 'neutral' && 'border-amber-200 bg-amber-50 text-amber-700',
+                response.tone === 'negative' && 'border-red-200 bg-red-50 text-red-700',
+              )}
+            >
+              <p className="font-semibold">{response.message}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{response.notice}</p>
+            </div>
+          ) : null}
+
+          {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
         </div>
 
-        <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Interest: {interestLabel}</span>
+        <div className="border-t border-border px-4 py-4 sm:px-6">
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <Button type="button" variant="outline" className="h-10" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="button" className="h-10" disabled={isSubmitting} onClick={handleSubmit}>
+              {isSubmitting ? 'Sending...' : submitLabel}
+            </Button>
           </div>
-          <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
-            <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
-          </div>
-        </div>
-
-        {response ? (
-          <div
-            className={cn(
-              'mt-4 rounded-lg border px-4 py-3 text-sm',
-              response.tone === 'positive' && 'border-emerald-200 bg-emerald-50 text-emerald-700',
-              response.tone === 'neutral' && 'border-amber-200 bg-amber-50 text-amber-700',
-              response.tone === 'negative' && 'border-red-200 bg-red-50 text-red-700',
-            )}
-          >
-            <p className="font-semibold">{response.message}</p>
-            <p className="mt-1 text-xs text-muted-foreground">{response.notice}</p>
-          </div>
-        ) : null}
-
-        {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
-
-        <div className="mt-6 flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="button" disabled={isSubmitting} onClick={handleSubmit}>
-            {isSubmitting ? 'Sending...' : submitLabel}
-          </Button>
         </div>
       </div>
     </div>

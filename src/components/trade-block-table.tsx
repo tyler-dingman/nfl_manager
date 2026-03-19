@@ -4,7 +4,6 @@ import { useMemo, useState } from 'react';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import { PositionFilterBar } from '@/components/player-table';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,10 +11,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import type { TradeBlockRow } from '@/types/trade-block';
 
-type TradeBlockSortKey = 'score' | 'name' | 'pos' | 'age' | 'rating' | 'team' | 'contract' | 'fits';
+type TradeBlockSortKey = 'score' | 'name' | 'pos' | 'age' | 'rating' | 'fits';
 
 const renderSortableHeader = (
   label: string,
@@ -55,15 +55,6 @@ const matchesPositionFilter = (playerPosition: string, filter: string) => {
   return parts.some((part) => part === normalizedFilter);
 };
 
-const categoryLabel: Record<TradeBlockRow['tradeBlockCategory'], string> = {
-  buried_depth: 'Depth',
-  veteran_expiring: 'Veteran',
-  young_expiring: 'Young',
-  surplus: 'Surplus',
-  cap_pressure: 'Cap',
-  role_redundancy: 'Fit',
-};
-
 export function TradeBlockTable({
   data,
   loading = false,
@@ -74,10 +65,11 @@ export function TradeBlockTable({
   onExplorePlayer: (player: TradeBlockRow) => void;
 }) {
   const teams = useTeamStore((state) => state.teams);
+  const userTeamAbbr = useSaveStore((state) => state.teamAbbr);
   const [positionFilter, setPositionFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sort, setSort] = useState<{ key: TradeBlockSortKey; desc: boolean }>({
-    key: 'score',
+    key: 'rating',
     desc: true,
   });
 
@@ -129,14 +121,6 @@ export function TradeBlockTable({
           case 'rating':
             result = compareNumbers(left.rating, right.rating);
             break;
-          case 'team':
-            result = compareStrings(left.teamAbbr ?? '', right.teamAbbr ?? '');
-            break;
-          case 'contract':
-            result =
-              compareNumbers(left.contractYearsRemaining, right.contractYearsRemaining) ||
-              compareNumbers(left.capHitValue, right.capHitValue);
-            break;
           case 'fits':
             result = compareNumbers(left.potentialFits.length, right.potentialFits.length);
             break;
@@ -161,14 +145,14 @@ export function TradeBlockTable({
     setSort((current) =>
       current.key === key
         ? { key, desc: !current.desc }
-        : { key, desc: key !== 'name' && key !== 'pos' && key !== 'team' },
+        : { key, desc: key !== 'name' && key !== 'pos' },
     );
   };
 
   const resetFilters = () => {
     setPositionFilter('All');
     setSearchQuery('');
-    setSort({ key: 'score', desc: true });
+    setSort({ key: 'rating', desc: true });
   };
 
   return (
@@ -219,7 +203,7 @@ export function TradeBlockTable({
                 <tbody>
                   {Array.from({ length: 8 }, (_, index) => (
                     <tr key={`trade-block-skeleton-${index}`} className="border-t border-border">
-                      {['w-40', 'w-12', 'w-10', 'w-10', 'w-14', 'w-20', 'w-20', 'w-12'].map(
+                      {['w-40', 'w-12', 'w-10', 'w-10', 'w-20', 'w-12'].map(
                         (width, cellIndex) => (
                           <td key={`${index}-${cellIndex}`} className="px-4 py-3 align-middle sm:px-6">
                             <div className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`} />
@@ -250,12 +234,6 @@ export function TradeBlockTable({
                     </th>
                     <th className="px-4 py-2 sm:px-6">
                       {renderSortableHeader('OVR', 'rating', toggleSort)}
-                    </th>
-                    <th className="px-4 py-2 sm:px-6">
-                      {renderSortableHeader('Team', 'team', toggleSort)}
-                    </th>
-                    <th className="px-4 py-2 sm:px-6">
-                      {renderSortableHeader('Contract', 'contract', toggleSort)}
                     </th>
                     <th className="px-4 py-2 sm:px-6">
                       {renderSortableHeader('Potential Fits', 'fits', toggleSort)}
@@ -299,25 +277,23 @@ export function TradeBlockTable({
                       <td className="px-4 py-2 text-sm font-semibold text-foreground sm:px-6">
                         {player.rating ?? '—'}
                       </td>
-                      <td className="px-4 py-2 text-sm sm:px-6">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-foreground">{player.teamAbbr}</span>
-                          <Badge variant="outline" className="hidden md:inline-flex">
-                            {categoryLabel[player.tradeBlockCategory]}
-                          </Badge>
-                        </div>
-                      </td>
-                      <td className="px-4 py-2 text-sm text-foreground sm:px-6">
-                        {player.contractSummary}
-                      </td>
                       <td className="px-4 py-2 sm:px-6">
                         <div className="flex items-center gap-2">
                           {player.potentialFits.map((abbr) => {
                             const team = teamLookup.get(abbr);
+                            const isUserTeam = abbr === userTeamAbbr;
                             return (
                               <div
                                 key={`${player.id}-${abbr}`}
-                                className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white shadow-sm"
+                                className="flex h-8 w-8 items-center justify-center rounded-full border bg-white shadow-sm"
+                                style={{
+                                  borderColor: isUserTeam
+                                    ? team?.color_primary ?? 'var(--team-primary)'
+                                    : undefined,
+                                  boxShadow: isUserTeam
+                                    ? `0 0 0 1px ${team?.color_primary ?? 'var(--team-primary)'}20`
+                                    : undefined,
+                                }}
                                 title={team?.name ?? abbr}
                               >
                                 {team?.logo_url ? (

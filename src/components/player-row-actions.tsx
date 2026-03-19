@@ -132,22 +132,36 @@ export default function PlayerRowActions({
               ];
 
   return (
-    <div className="flex flex-col items-end justify-end gap-1.5 md:flex-row md:items-center md:gap-2">
+    <div className="flex flex-wrap items-center justify-end gap-1.5 md:flex-row md:gap-2">
       {actions.map((action) => {
         const Icon = action.icon;
         const isDisabled = Boolean(action.disabled);
         const button = (
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 md:h-8 md:w-8"
-            onClick={action.onClick}
-            aria-label={`${action.label} ${name}`}
-            disabled={isDisabled}
-          >
-            <Icon className="h-4 w-4" />
-          </Button>
+          <>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-9 gap-1.5 px-3 md:hidden"
+              onClick={action.onClick}
+              aria-label={`${action.label} ${name}`}
+              disabled={isDisabled}
+            >
+              <Icon className="h-4 w-4" />
+              <span>{action.label}</span>
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="hidden h-8 w-8 md:inline-flex"
+              onClick={action.onClick}
+              aria-label={`${action.label} ${name}`}
+              disabled={isDisabled}
+            >
+              <Icon className="h-4 w-4" />
+            </Button>
+          </>
         );
 
         if (action.disabledReason) {

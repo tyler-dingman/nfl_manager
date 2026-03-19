@@ -183,19 +183,21 @@ export function PositionFilterBar({
   onSelect: (value: string) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {POSITION_FILTERS.map((position) => (
-        <Button
-          key={position}
-          type="button"
-          variant={active === position ? 'secondary' : 'ghost'}
-          size="sm"
-          className="h-8 rounded-full px-3 text-xs"
-          onClick={() => onSelect(position)}
-        >
-          {position}
-        </Button>
-      ))}
+    <div className="-mx-1 overflow-x-auto pb-1">
+      <div className="flex min-w-max gap-2 px-1">
+        {POSITION_FILTERS.map((position) => (
+          <Button
+            key={position}
+            type="button"
+            variant={active === position ? 'secondary' : 'ghost'}
+            size="sm"
+            className="h-9 rounded-full px-3 text-xs"
+            onClick={() => onSelect(position)}
+          >
+            {position}
+          </Button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -339,7 +341,11 @@ export function PlayerTable({
                     {formatName(player)}
                   </p>
                   <p className="text-xs text-muted-foreground md:hidden">
-                    {player.position} · {player.college ?? '—'}
+                    {player.position}
+                    {player.age !== undefined && player.age !== null
+                      ? ` · Age ${Math.floor(player.age)}`
+                      : ''}
+                    {player.college ? ` · ${player.college}` : ''}
                   </p>
                 </div>
               </div>
@@ -416,7 +422,16 @@ export function PlayerTable({
                 </div>
                 <div className="space-y-0.5">
                   <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
-                  <p className="text-xs text-muted-foreground md:hidden">{player.position}</p>
+                  <p className="text-xs text-muted-foreground md:hidden">
+                    {player.position}
+                    {player.rating !== undefined && player.rating !== null
+                      ? ` · OVR ${player.rating}`
+                      : ''}
+                    {' · '}
+                    {isSignedPlayer(player)
+                      ? (formatSignedMarketValue(player) ?? 'Signed')
+                      : formatContractAsk(player)}
+                  </p>
                 </div>
               </div>
             );
@@ -553,7 +568,14 @@ export function PlayerTable({
                     </Badge>
                   ) : null}
                 </div>
-                <p className="text-xs text-muted-foreground md:hidden">{player.position}</p>
+                <p className="text-xs text-muted-foreground md:hidden">
+                  {player.position}
+                  {player.contractYearsRemaining > 0
+                    ? ` · ${player.contractYearsRemaining} yr`
+                    : ''}
+                  {' · '}
+                  {formatMillions(parseCapHitValue(player))}
+                </p>
               </div>
             </div>
           );
@@ -756,17 +778,21 @@ export function PlayerTable({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
           {variant !== 'draft' ? (
-            <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
+            <div className="flex w-full items-center gap-2 sm:w-auto sm:max-w-sm">
               <input
                 type="search"
                 placeholder="Search players..."
-                className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-9"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
               />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="icon" className="h-9 w-9">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10 shrink-0 sm:h-9 sm:w-9"
+                  >
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -781,7 +807,7 @@ export function PlayerTable({
           ) : null}
         </div>
       </div>
-      <div className="max-w-full space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
+      <div className="max-w-full space-y-4 overflow-x-auto px-3 py-3 sm:px-6 sm:py-4">
         <div className="space-y-3">
           <table className={tableClassName}>
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
@@ -816,7 +842,7 @@ export function PlayerTable({
                           <td
                             key={`${column.id}-${rowIndex}`}
                             className={cn(
-                              'px-4 py-3 align-middle sm:px-6',
+                              'px-3 py-3 align-middle sm:px-6',
                               column.id === 'actions' && actionCellClass,
                               column.id === 'rank' && rankHeaderClass,
                             )}
@@ -851,7 +877,7 @@ export function PlayerTable({
                             <td
                               key={cell.id}
                               className={cn(
-                                'px-4 py-1.5 align-middle text-sm sm:px-6',
+                                'px-3 py-2.5 align-middle text-sm sm:px-6 sm:py-1.5',
                                 cell.column.id === 'actions' && actionCellClass,
                                 cell.column.id === 'rank' && rankHeaderClass,
                               )}

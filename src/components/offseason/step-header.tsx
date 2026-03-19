@@ -38,7 +38,7 @@ export function StepHeader({
 
   return (
     <div
-      className="mb-6 rounded-2xl border border-border p-4 shadow-sm"
+      className="mb-5 rounded-2xl border border-border p-4 shadow-sm sm:mb-6 sm:p-5"
       style={
         useCustomTheme
           ? {
@@ -55,18 +55,21 @@ export function StepHeader({
       >
         {title} — Step {stepNumber} of {totalSteps}
       </p>
-      <p className="mt-2 text-sm" style={useCustomTheme ? { color: subtleTextColor } : undefined}>
+      <p
+        className="mt-2 max-w-3xl text-sm leading-relaxed"
+        style={useCustomTheme ? { color: subtleTextColor } : undefined}
+      >
         {instruction}
       </p>
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
         <Button
           type="button"
           onClick={onContinue}
           disabled={!canContinue}
           className={
             useCustomTheme
-              ? 'border border-white/20 bg-white/95 text-slate-900 hover:bg-white'
-              : undefined
+              ? 'h-10 border border-white/20 bg-white/95 text-slate-900 hover:bg-white'
+              : 'h-10'
           }
         >
           {continueLabel}
@@ -76,7 +79,9 @@ export function StepHeader({
           variant="ghost"
           onClick={onSkip}
           className={
-            useCustomTheme ? 'border border-white/20 bg-transparent hover:bg-white/15' : undefined
+            useCustomTheme
+              ? 'h-10 border border-white/20 bg-transparent hover:bg-white/15'
+              : 'h-10'
           }
           style={useCustomTheme ? { color: foregroundColor } : undefined}
         >

@@ -621,17 +621,6 @@ export default function RosterPage() {
               <button
                 type="button"
                 className={`rounded-full px-3 py-1 transition ${
-                  activeTab === 'tradeBlock'
-                    ? 'bg-white text-foreground shadow-sm'
-                    : 'text-muted-foreground'
-                }`}
-                onClick={() => setActiveTab('tradeBlock')}
-              >
-                Trade Block
-              </button>
-              <button
-                type="button"
-                className={`rounded-full px-3 py-1 transition ${
                   activeTab === 'roster'
                     ? 'bg-white text-foreground shadow-sm'
                     : 'text-muted-foreground'
@@ -639,6 +628,23 @@ export default function RosterPage() {
                 onClick={() => setActiveTab('roster')}
               >
                 Roster
+              </button>
+              <button
+                type="button"
+                className={`rounded-full px-3 py-1 transition ${
+                  activeTab === 'tradeBlock'
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:bg-white/70'
+                }`}
+                onClick={() => setActiveTab('tradeBlock')}
+              >
+                <span className="inline-flex items-center gap-1.5">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full bg-[color:var(--team-primary)]"
+                    aria-hidden="true"
+                  />
+                  Trade Block
+                </span>
               </button>
             </div>
           </div>
