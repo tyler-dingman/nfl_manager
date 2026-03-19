@@ -4,6 +4,7 @@ import * as React from 'react';
 import {
   type ColumnDef,
   type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
@@ -47,6 +48,14 @@ type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
     mobileHidden?: boolean;
     hidden?: boolean;
   };
+};
+
+const getColumnId = (column: PlayerColumnDef): string | null => {
+  if (typeof column.id === 'string' && column.id.length > 0) return column.id;
+  if (typeof column.accessorKey === 'string' && column.accessorKey.length > 0) {
+    return column.accessorKey;
+  }
+  return null;
 };
 
 type PlayerTableProps = {
@@ -644,11 +653,23 @@ export function PlayerTable({
     variant,
   ]);
 
-  const visibleColumns = React.useMemo(
-    () =>
-      columns.filter((column) => !column.meta?.hidden && !(isMobile && column.meta?.mobileHidden)),
-    [columns, isMobile],
-  );
+  const columnVisibility = React.useMemo<VisibilityState>(() => {
+    const visibility: VisibilityState = {};
+
+    columns.forEach((column) => {
+      const columnId = getColumnId(column);
+      if (!columnId) return;
+      if (column.meta?.hidden) {
+        visibility[columnId] = false;
+        return;
+      }
+      if (isMobile && column.meta?.mobileHidden) {
+        visibility[columnId] = false;
+      }
+    });
+
+    return visibility;
+  }, [columns, isMobile]);
 
   const handleSortingChange = React.useCallback(
     (updater: SortingState | ((prev: SortingState) => SortingState)) => {
@@ -666,10 +687,10 @@ export function PlayerTable({
 
   const table = useReactTable({
     data: filteredData,
-    columns: visibleColumns,
+    columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    state: { sorting },
+    state: { sorting, columnVisibility },
     onSortingChange: handleSortingChange,
     getRowId: (row) => row.id,
   });
@@ -683,10 +704,10 @@ export function PlayerTable({
 
   const freeAgentTable = useReactTable({
     data: freeAgentTableData,
-    columns: visibleColumns,
+    columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    state: { sorting },
+    state: { sorting, columnVisibility },
     onSortingChange: handleSortingChange,
     getRowId: (row) => row.id,
   });
