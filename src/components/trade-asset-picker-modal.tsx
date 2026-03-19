@@ -22,7 +22,34 @@ type TradeAssetPickerModalProps = {
   duplicateMessage?: string | null;
 };
 
-const POSITIONS = ['All', 'QB', 'RB', 'WR', 'TE', 'OL', 'DL', 'LB', 'CB', 'S', 'K', 'P'];
+const POSITIONS = [
+  'All',
+  'QB',
+  'RB',
+  'WR',
+  'TE',
+  'OT',
+  'IOL',
+  'EDGE',
+  'DL',
+  'LB',
+  'CB',
+  'S',
+  'K',
+  'P',
+];
+
+const normalizeTradePosition = (position: string) => {
+  const normalized = position.trim().toUpperCase();
+  if (['LT', 'RT', 'OT'].includes(normalized)) return 'OT';
+  if (['LG', 'RG', 'C', 'G', 'OL', 'IOL'].includes(normalized)) return 'IOL';
+  if (['DE', 'EDGE', 'ED', 'LE', 'RE'].includes(normalized)) return 'EDGE';
+  if (['DT', 'NT', 'DL'].includes(normalized)) return 'DL';
+  if (['MLB', 'ILB', 'OLB', 'LOLB', 'ROLB', 'LB'].includes(normalized)) return 'LB';
+  if (['FS', 'SS', 'S'].includes(normalized)) return 'S';
+  if (['HB', 'FB', 'RB'].includes(normalized)) return 'RB';
+  return normalized;
+};
 
 export default function TradeAssetPickerModal({
   isOpen,
@@ -65,13 +92,24 @@ export default function TradeAssetPickerModal({
     return null;
   }
 
-  const filteredPlayers = players.filter((player) => {
-    const matchesPosition = position === 'All' || player.position === position;
-    const matchesSearch =
-      search.trim().length === 0 ||
-      `${player.firstName} ${player.lastName}`.toLowerCase().includes(search.toLowerCase());
-    return matchesPosition && matchesSearch;
-  });
+  const filteredPlayers = [...players]
+    .filter((player) => {
+      const matchesPosition =
+        position === 'All' || normalizeTradePosition(player.position) === position;
+      const matchesSearch =
+        search.trim().length === 0 ||
+        `${player.firstName} ${player.lastName}`.toLowerCase().includes(search.toLowerCase());
+      return matchesPosition && matchesSearch;
+    })
+    .sort((left, right) => {
+      const ratingDelta = (right.rating ?? -1) - (left.rating ?? -1);
+      if (ratingDelta !== 0) {
+        return ratingDelta;
+      }
+      const leftName = `${left.firstName} ${left.lastName}`;
+      const rightName = `${right.firstName} ${right.lastName}`;
+      return leftName.localeCompare(rightName);
+    });
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
@@ -134,6 +172,7 @@ export default function TradeAssetPickerModal({
                   <tr>
                     <th className="px-4 py-2">Name</th>
                     <th className="px-4 py-2">Pos</th>
+                    <th className="px-4 py-2">OVR</th>
                     <th className="px-4 py-2">Cap Hit</th>
                   </tr>
                 </thead>
@@ -154,12 +193,13 @@ export default function TradeAssetPickerModal({
                         </div>
                       </td>
                       <td className="px-4 py-2 text-muted-foreground">{player.position}</td>
+                      <td className="px-4 py-2 text-muted-foreground">{player.rating ?? '--'}</td>
                       <td className="px-4 py-2 text-muted-foreground">{player.capHit}</td>
                     </tr>
                   ))}
                   {filteredPlayers.length === 0 ? (
                     <tr>
-                      <td className="px-4 py-4 text-sm text-muted-foreground" colSpan={3}>
+                      <td className="px-4 py-4 text-sm text-muted-foreground" colSpan={4}>
                         No players found.
                       </td>
                     </tr>

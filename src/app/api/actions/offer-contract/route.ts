@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server';
 
 import { offerContract } from '@/server/api/players';
 import {
-  ensureSaveState,
-  getSaveState,
   getSaveStateResult,
   hydrateOffseasonFreeAgencyState,
 } from '@/server/api/store';
@@ -35,10 +33,6 @@ export const POST = async (request: Request) => {
 
     const years = clampYears(body.years);
     const guaranteed = typeof body.guaranteed === 'number' ? body.guaranteed : 0;
-
-    if (!getSaveState(body.saveId) && body.teamAbbr) {
-      ensureSaveState(body.saveId, body.teamAbbr);
-    }
 
     const stateResult = getSaveStateResult(body.saveId);
     if (!stateResult.ok) {

@@ -32,6 +32,7 @@ export const ensureRecoverableSaveId = async (
   setSaveHeader: SetSaveHeader,
 ): Promise<string | null> => {
   let nextSaveId = options.preferredSaveId ?? null;
+  const hasClientRoster = options.roster.length > 0;
 
   if (nextSaveId) {
     const headerParams = new URLSearchParams({ saveId: nextSaveId });
@@ -52,30 +53,32 @@ export const ensureRecoverableSaveId = async (
       return null;
     }
 
-    const restoreResponse = await apiFetch(
-      '/api/saves/restore',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          saveId: nextSaveId,
-          teamAbbr: options.teamAbbr,
-          capSpace: options.capSpace,
-          capLimit: options.capLimit,
-          roster: options.roster,
-          phase: options.phase,
-          unlocked: options.unlocked,
-          createdAt: options.createdAt ?? undefined,
-        }),
-      },
-      { skipSaveGuard: true },
-    );
+    if (hasClientRoster) {
+      const restoreResponse = await apiFetch(
+        '/api/saves/restore',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            saveId: nextSaveId,
+            teamAbbr: options.teamAbbr,
+            capSpace: options.capSpace,
+            capLimit: options.capLimit,
+            roster: options.roster,
+            phase: options.phase,
+            unlocked: options.unlocked,
+            createdAt: options.createdAt ?? undefined,
+          }),
+        },
+        { skipSaveGuard: true },
+      );
 
-    if (restoreResponse.ok) {
-      const restoreData = (await restoreResponse.json()) as SaveBootstrapDTO | { ok: false };
-      if (isBootstrapResponse(restoreData)) {
-        setSaveHeader(restoreData, options.teamId ?? undefined);
-        return restoreData.saveId;
+      if (restoreResponse.ok) {
+        const restoreData = (await restoreResponse.json()) as SaveBootstrapDTO | { ok: false };
+        if (isBootstrapResponse(restoreData)) {
+          setSaveHeader(restoreData, options.teamId ?? undefined);
+          return restoreData.saveId;
+        }
       }
     }
 
@@ -94,6 +97,11 @@ export const ensureRecoverableSaveId = async (
   const createData = (await createResponse.json()) as SaveBootstrapDTO | { ok: false };
   if (!isBootstrapResponse(createData)) {
     return null;
+  }
+
+  if (!hasClientRoster) {
+    setSaveHeader(createData, options.teamId ?? undefined);
+    return createData.saveId;
   }
 
   const restoredSaveId = createData.saveId;

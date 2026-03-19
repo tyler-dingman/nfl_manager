@@ -616,7 +616,7 @@ export default function RosterPage() {
       ) : null}
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
-          <div className="mb-4 flex flex-wrap items-center justify-start gap-3">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
               <button
                 type="button"
@@ -665,6 +665,16 @@ export default function RosterPage() {
                 </span>
               </button>
             </div>
+            {activeTab === 'tradeBlock' ? (
+              <Button
+                type="button"
+                className="h-9 rounded-full px-4 text-sm font-semibold"
+                style={{ backgroundColor: selectedTeam?.color_primary }}
+                onClick={() => router.push('/manage/trades')}
+              >
+                Propose Trade
+              </Button>
+            ) : null}
           </div>
 
           {activeTab === 'expiring' ? (

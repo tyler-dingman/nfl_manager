@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { useSaveStore } from '@/features/save/save-store';
 import type { PlayerRowDTO } from '@/types/player';
 import { apiFetch } from '@/lib/api';
+import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 
 type PlayerQueryResult = {
   data: PlayerRowDTO[];
@@ -50,14 +52,47 @@ const usePlayerQuery = (
     setError(null);
 
     try {
-      const params = new URLSearchParams({ saveId });
-      if (teamAbbr) {
-        params.set('teamAbbr', teamAbbr);
-      }
-      const url = `${endpoint}?${params.toString()}`;
-      const fetchStartedAt = performance.now();
-      const response = await apiFetch(url);
-      const fetchEndedAt = performance.now();
+      const fetchRows = async (activeSaveId: string) => {
+        const saveState = useSaveStore.getState();
+        const params = new URLSearchParams({ saveId: activeSaveId });
+        const activeTeamAbbr = teamAbbr ?? saveState.teamAbbr;
+        if (activeTeamAbbr) {
+          params.set('teamAbbr', activeTeamAbbr);
+        }
+        const url = `${endpoint}?${params.toString()}`;
+        const fetchStartedAt = performance.now();
+        let response = await apiFetch(url, undefined, { skipSaveGuard: true });
+        let fetchEndedAt = performance.now();
+        if (response.status === 404) {
+          const recoveredSaveId = await ensureRecoverableSaveId(
+            {
+              preferredSaveId: activeSaveId,
+              teamId: saveState.teamId,
+              teamAbbr: activeTeamAbbr,
+              capSpace: saveState.capSpace,
+              capLimit: saveState.capLimit,
+              roster: saveState.roster,
+              phase: saveState.phase,
+              unlocked: saveState.unlocked,
+            },
+            saveState.setSaveHeader,
+          );
+          if (recoveredSaveId) {
+            const retryParams = new URLSearchParams({ saveId: recoveredSaveId });
+            if (activeTeamAbbr) {
+              retryParams.set('teamAbbr', activeTeamAbbr);
+            }
+            response = await apiFetch(`${endpoint}?${retryParams.toString()}`, undefined, {
+              skipSaveGuard: true,
+            });
+            fetchEndedAt = performance.now();
+          }
+        }
+
+        return { response, fetchStartedAt, fetchEndedAt };
+      };
+
+      const { response, fetchStartedAt, fetchEndedAt } = await fetchRows(saveId);
       if (!response.ok) {
         setError(errorMessage);
         return;
@@ -81,7 +116,13 @@ const usePlayerQuery = (
     } finally {
       setIsLoading(false);
     }
-  }, [cacheKey, endpoint, errorMessage, saveId, teamAbbr]);
+  }, [
+    cacheKey,
+    endpoint,
+    errorMessage,
+    saveId,
+    teamAbbr,
+  ]);
 
   useEffect(() => {
     void refresh();

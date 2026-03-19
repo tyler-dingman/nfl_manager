@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
 import { getRoster } from '@/server/api/players';
-import { ensureSaveState, getSaveState } from '@/server/api/store';
 
 const getParam = (request: Request, key: string) =>
   new URL(request.url).searchParams.get(key) ?? undefined;
@@ -11,10 +10,6 @@ export const GET = async (request: Request) => {
   const teamAbbr = getParam(request, 'teamAbbr');
   if (!saveId) {
     return NextResponse.json({ ok: false, error: 'Missing or invalid saveId' }, { status: 400 });
-  }
-
-  if (!getSaveState(saveId) && teamAbbr) {
-    ensureSaveState(saveId, teamAbbr);
   }
 
   const filters = {

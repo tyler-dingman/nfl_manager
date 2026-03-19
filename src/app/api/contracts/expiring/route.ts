@@ -3,12 +3,7 @@ import { NextResponse } from 'next/server';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { getExpiringContractsForTeam } from '@/server/logic/expiring-contracts';
-import {
-  ensureSaveState,
-  getSaveState,
-  getSaveStateResult,
-  hydrateOffseasonFreeAgencyState,
-} from '@/server/api/store';
+import { getSaveStateResult, hydrateOffseasonFreeAgencyState } from '@/server/api/store';
 import { calculatePlayerInterestForTeam } from '@/lib/signing-interest';
 import { buildInterestQuote } from '@/lib/expiring-interest-quotes';
 
@@ -22,10 +17,6 @@ export const GET = async (request: Request) => {
       ok: true,
       players: getExpiringContractsForTeam(defaultTeamAbbr, NFL_LEAGUE_DATA),
     });
-  }
-
-  if (!getSaveState(saveId) && teamAbbr) {
-    ensureSaveState(saveId, teamAbbr);
   }
 
   const stateResult = getSaveStateResult(saveId);

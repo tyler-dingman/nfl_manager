@@ -834,6 +834,7 @@ export const cutPlayerInState = (
     (rosterPlayer) => rosterPlayer.status !== 'Cut',
   ).length;
   state.header.capSpace = Number((state.header.capSpace + capSavings).toFixed(1));
+  state.teamCaps[state.header.teamAbbr.toUpperCase()] = state.header.capSpace;
   pushNewsItem(state, {
     type: 'cut',
     teamAbbr: state.header.teamAbbr,
@@ -945,6 +946,7 @@ export const resignPlayerInState = (
 
   state.roster[playerIndex] = updatedPlayer;
   state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
+  state.teamCaps[state.header.teamAbbr.toUpperCase()] = state.header.capSpace;
   state.offseason.resolvedPlayerIds = Array.from(
     new Set([...state.offseason.resolvedPlayerIds, updatedPlayer.id]),
   );
@@ -1003,6 +1005,7 @@ export const resignExpiringContractInState = (
   state.freeAgents = state.freeAgents.filter((player) => player.id !== contract.id);
   state.header.rosterCount = state.roster.length;
   state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
+  state.teamCaps[state.header.teamAbbr.toUpperCase()] = state.header.capSpace;
 
   return {
     header: getSaveHeaderSnapshot(state),
@@ -1048,6 +1051,7 @@ export const renegotiatePlayerInState = (
   state.roster[playerIndex] = updatedPlayer;
   const delta = year1CapHit - currentCapHit;
   state.header.capSpace = Number((state.header.capSpace - delta).toFixed(1));
+  state.teamCaps[state.header.teamAbbr.toUpperCase()] = state.header.capSpace;
 
   return {
     header: getSaveHeaderSnapshot(state),
