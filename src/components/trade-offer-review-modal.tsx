@@ -7,6 +7,10 @@ import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-s
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
+import {
+  TRADE_ACCEPT_MARK_SCORE,
+  TRADE_ACCEPT_WIGGLE,
+} from '@/lib/trade-offer-evaluator';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TradeOfferAssetDTO, TradeOfferDTO } from '@/types/trade-offers';
@@ -17,23 +21,33 @@ type TradeOfferReviewModalProps = {
   onClose: () => void;
 };
 
-type ExtraSelection =
-  | { type: 'player'; id: string }
-  | { type: 'pick'; id: string }
-  | null;
+type ExtraSelection = { type: 'player'; id: string } | { type: 'pick'; id: string } | null;
+
+type ExtraSide = 'incoming' | 'outgoing';
+
+type ActivePickerContext = {
+  side: ExtraSide;
+  slotIndex: number;
+};
 
 type TradeOfferEvaluateResponse =
   | {
       ok: true;
-      extraAssets: TradeOfferAssetDTO[];
+      extraIncomingAssets: TradeOfferAssetDTO[];
+      extraOutgoingAssets: TradeOfferAssetDTO[];
       userInterest: TradeOfferDTO['userInterest'];
       aiInterest: TradeOfferDTO['aiInterest'];
+      incomingTotalValue: number;
       outgoingTotalValue: number;
     }
   | { ok: false; error: string };
 
-const ACCEPT_MARK_SCORE = 0.95;
+type TradeOfferAssetsResponse =
+  | { ok: true; partnerRoster: PlayerRowDTO[] }
+  | { ok: false; error: string };
+
 const MAX_METER_SCORE = 1.2;
+const ADJUSTMENT_SLOT_COUNT = 3;
 
 const pickOptions = (teamAbbr: string) => [
   { id: '2026:r2:48', label: `2026 Round 2 Pick · ${teamAbbr}` },
@@ -52,12 +66,12 @@ const toSlotAsset = (asset: TradeOfferAssetDTO): TradeSlotAsset => ({
     asset.type === 'pick'
       ? `${asset.year} R${asset.round}${asset.overallSlot ? ` · Pick ${asset.overallSlot}` : ''}`
       : `${asset.position} · ${asset.age ?? '—'} yrs`,
-  meta:
-    asset.type === 'pick'
-      ? undefined
-      : asset.contractSummary,
-  headshotUrl: asset.type === 'player' ? asset.headshotUrl ?? null : null,
+  meta: asset.type === 'pick' ? undefined : asset.contractSummary,
+  headshotUrl: asset.type === 'player' ? (asset.headshotUrl ?? null) : null,
 });
+
+const assetToPickSelectionId = (asset: Extract<TradeOfferAssetDTO, { type: 'pick' }>) =>
+  `${asset.year}:r${asset.round}${asset.overallSlot ? `:${asset.overallSlot}` : ''}`;
 
 const pickSelectionIdToAssetId = (pickId: string, teamAbbr: string) => {
   const [yearToken, roundToken, overallToken] = pickId.split(':');
@@ -113,95 +127,22 @@ const renderAssetMeta = (asset: TradeOfferAssetDTO) => {
   return `${asset.position} · ${asset.age ?? '—'} yrs · ${asset.contractSummary}`;
 };
 
-export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReviewModalProps) {
-  const saveId = useSaveStore((state) => state.saveId);
-  const teamAbbr = useSaveStore((state) => state.teamAbbr);
-  const roster = useSaveStore((state) => state.roster);
-  const [extraSelections, setExtraSelections] = React.useState<[ExtraSelection, ExtraSelection]>([
-    null,
-    null,
-  ]);
-  const [evaluatedExtraAssets, setEvaluatedExtraAssets] = React.useState<TradeOfferAssetDTO[]>([]);
-  const [evaluatedAiInterest, setEvaluatedAiInterest] = React.useState<TradeOfferDTO['aiInterest'] | null>(null);
-  const [isPickerOpen, setIsPickerOpen] = React.useState(false);
-  const [activeSlotIndex, setActiveSlotIndex] = React.useState<number | null>(null);
-  const [duplicateMessage, setDuplicateMessage] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    if (!open || !offer) {
-      setExtraSelections([null, null]);
-      setEvaluatedExtraAssets([]);
-      setEvaluatedAiInterest(null);
-      setDuplicateMessage(null);
-    }
-  }, [offer, open]);
-
-  React.useEffect(() => {
-    if (!open || !offer || !saveId) return;
-
-    const extraPlayerIds = extraSelections
-      .filter((selection): selection is Extract<ExtraSelection, { type: 'player' }> => Boolean(selection && selection.type === 'player'))
-      .map((selection) => selection.id);
-    const extraPickIds = extraSelections
-      .filter((selection): selection is Extract<ExtraSelection, { type: 'pick' }> => Boolean(selection && selection.type === 'pick'))
-      .map((selection) => selection.id);
-
-    if (extraPlayerIds.length === 0 && extraPickIds.length === 0) {
-      setEvaluatedExtraAssets([]);
-      setEvaluatedAiInterest(null);
-      return;
-    }
-
-    let cancelled = false;
-    const evaluate = async () => {
-      const response = await apiFetch('/api/trade-offers/evaluate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          saveId,
-          offer,
-          extraPlayerIds,
-          extraPickIds,
-        }),
-      });
-      if (!response.ok) return;
-      const data = (await response.json()) as TradeOfferEvaluateResponse;
-      if (!data.ok || cancelled) return;
-      setEvaluatedExtraAssets(data.extraAssets);
-      setEvaluatedAiInterest(data.aiInterest);
-    };
-
-    void evaluate();
-    return () => {
-      cancelled = true;
-    };
-  }, [extraSelections, offer, open, saveId]);
-
-  if (!open || !offer) return null;
-
-  const currentAiInterest = evaluatedAiInterest ?? offer.aiInterest;
-  const meterWidth = Math.max(
-    0,
-    Math.min(100, (currentAiInterest.score / MAX_METER_SCORE) * 100),
-  );
-  const acceptMarkLeft = (ACCEPT_MARK_SCORE / MAX_METER_SCORE) * 100;
-  const selectedAssetIds = new Set(
-    extraSelections.filter(Boolean).map((selection) => selection!.id),
-  );
-  const existingOutgoingPlayerIds = new Set(
-    offer.outgoing.assets
-      .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> => asset.type === 'player')
-      .map((asset) => asset.playerId),
-  );
-  const availablePlayers = roster.filter(
-    (player) => !existingOutgoingPlayerIds.has(player.id) && !selectedAssetIds.has(player.id),
-  );
-  const slotAssets: Array<TradeSlotAsset | null> = [0, 1].map((index) => {
-    const selection = extraSelections[index];
+const buildSlotAssets = ({
+  selections,
+  evaluatedAssets,
+  roster,
+  teamAbbr,
+}: {
+  selections: ExtraSelection[];
+  evaluatedAssets: TradeOfferAssetDTO[];
+  roster: PlayerRowDTO[];
+  teamAbbr: string;
+}) =>
+  selections.map((selection) => {
     if (!selection) return null;
 
     if (selection.type === 'player') {
-      const evaluatedAsset = evaluatedExtraAssets.find(
+      const evaluatedAsset = evaluatedAssets.find(
         (asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> =>
           asset.type === 'player' && asset.playerId === selection.id,
       );
@@ -216,7 +157,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     const evaluatedPickAssetId = pickSelectionIdToAssetId(selection.id, teamAbbr);
     const evaluatedAsset =
       evaluatedPickAssetId
-        ? evaluatedExtraAssets.find(
+        ? evaluatedAssets.find(
             (asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> =>
               asset.type === 'pick' && asset.id === evaluatedPickAssetId,
           )
@@ -228,6 +169,207 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
 
     return buildFallbackPickSlotAsset(selection.id, teamAbbr);
   });
+
+export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReviewModalProps) {
+  const saveId = useSaveStore((state) => state.saveId);
+  const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const roster = useSaveStore((state) => state.roster);
+  const [partnerRoster, setPartnerRoster] = React.useState<PlayerRowDTO[]>([]);
+  const [extraIncomingSelections, setExtraIncomingSelections] = React.useState<ExtraSelection[]>(
+    () => Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null),
+  );
+  const [extraOutgoingSelections, setExtraOutgoingSelections] = React.useState<ExtraSelection[]>(
+    () => Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null),
+  );
+  const [evaluatedIncomingAssets, setEvaluatedIncomingAssets] = React.useState<TradeOfferAssetDTO[]>(
+    [],
+  );
+  const [evaluatedOutgoingAssets, setEvaluatedOutgoingAssets] = React.useState<TradeOfferAssetDTO[]>(
+    [],
+  );
+  const [evaluatedAiInterest, setEvaluatedAiInterest] = React.useState<TradeOfferDTO['aiInterest'] | null>(
+    null,
+  );
+  const [isPickerOpen, setIsPickerOpen] = React.useState(false);
+  const [activePickerContext, setActivePickerContext] = React.useState<ActivePickerContext | null>(
+    null,
+  );
+  const [duplicateMessage, setDuplicateMessage] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (!open || !offer) {
+      setPartnerRoster([]);
+      setExtraIncomingSelections(Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null));
+      setExtraOutgoingSelections(Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null));
+      setEvaluatedIncomingAssets([]);
+      setEvaluatedOutgoingAssets([]);
+      setEvaluatedAiInterest(null);
+      setDuplicateMessage(null);
+      setActivePickerContext(null);
+    }
+  }, [offer, open]);
+
+  React.useEffect(() => {
+    if (!open || !offer || !saveId) return;
+
+    let cancelled = false;
+    const loadPartnerAssets = async () => {
+      const response = await apiFetch('/api/trade-offers/assets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId,
+          partnerTeamAbbr: offer.proposingTeamAbbr,
+        }),
+      });
+      if (!response.ok) return;
+      const data = (await response.json()) as TradeOfferAssetsResponse;
+      if (!data.ok || cancelled) return;
+      setPartnerRoster(data.partnerRoster);
+    };
+
+    void loadPartnerAssets();
+    return () => {
+      cancelled = true;
+    };
+  }, [offer, open, saveId]);
+
+  React.useEffect(() => {
+    if (!open || !offer || !saveId) return;
+
+    const extraIncomingPlayerIds = extraIncomingSelections
+      .filter((selection): selection is Extract<ExtraSelection, { type: 'player' }> =>
+        Boolean(selection && selection.type === 'player'),
+      )
+      .map((selection) => selection.id);
+    const extraIncomingPickIds = extraIncomingSelections
+      .filter((selection): selection is Extract<ExtraSelection, { type: 'pick' }> =>
+        Boolean(selection && selection.type === 'pick'),
+      )
+      .map((selection) => selection.id);
+    const extraOutgoingPlayerIds = extraOutgoingSelections
+      .filter((selection): selection is Extract<ExtraSelection, { type: 'player' }> =>
+        Boolean(selection && selection.type === 'player'),
+      )
+      .map((selection) => selection.id);
+    const extraOutgoingPickIds = extraOutgoingSelections
+      .filter((selection): selection is Extract<ExtraSelection, { type: 'pick' }> =>
+        Boolean(selection && selection.type === 'pick'),
+      )
+      .map((selection) => selection.id);
+
+    if (
+      extraIncomingPlayerIds.length === 0 &&
+      extraIncomingPickIds.length === 0 &&
+      extraOutgoingPlayerIds.length === 0 &&
+      extraOutgoingPickIds.length === 0
+    ) {
+      setEvaluatedIncomingAssets([]);
+      setEvaluatedOutgoingAssets([]);
+      setEvaluatedAiInterest(null);
+      return;
+    }
+
+    let cancelled = false;
+    const evaluate = async () => {
+      const response = await apiFetch('/api/trade-offers/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId,
+          offer,
+          extraIncomingPlayerIds,
+          extraIncomingPickIds,
+          extraOutgoingPlayerIds,
+          extraOutgoingPickIds,
+        }),
+      });
+      if (!response.ok) return;
+      const data = (await response.json()) as TradeOfferEvaluateResponse;
+      if (!data.ok || cancelled) return;
+      setEvaluatedIncomingAssets(data.extraIncomingAssets);
+      setEvaluatedOutgoingAssets(data.extraOutgoingAssets);
+      setEvaluatedAiInterest(data.aiInterest);
+    };
+
+    void evaluate();
+    return () => {
+      cancelled = true;
+    };
+  }, [extraIncomingSelections, extraOutgoingSelections, offer, open, saveId]);
+
+  if (!open || !offer) return null;
+
+  const currentAiInterest = evaluatedAiInterest ?? offer.aiInterest;
+  const meterWidth = Math.max(0, Math.min(100, (currentAiInterest.score / MAX_METER_SCORE) * 100));
+  const acceptMarkLeft = (TRADE_ACCEPT_MARK_SCORE / MAX_METER_SCORE) * 100;
+  const acceptZoneStart = ((TRADE_ACCEPT_MARK_SCORE - TRADE_ACCEPT_WIGGLE) / MAX_METER_SCORE) * 100;
+  const acceptZoneWidth = ((TRADE_ACCEPT_WIGGLE * 2) / MAX_METER_SCORE) * 100;
+
+  const selectedIncomingIds = new Set(extraIncomingSelections.filter(Boolean).map((selection) => selection!.id));
+  const selectedOutgoingIds = new Set(extraOutgoingSelections.filter(Boolean).map((selection) => selection!.id));
+  const existingIncomingPlayerIds = new Set(
+    offer.incoming.assets
+      .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> => asset.type === 'player')
+      .map((asset) => asset.playerId),
+  );
+  const existingOutgoingPlayerIds = new Set(
+    offer.outgoing.assets
+      .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> => asset.type === 'player')
+      .map((asset) => asset.playerId),
+  );
+  const existingIncomingPickIds = new Set(
+    offer.incoming.assets
+      .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> => asset.type === 'pick')
+      .map(assetToPickSelectionId),
+  );
+  const existingOutgoingPickIds = new Set(
+    offer.outgoing.assets
+      .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> => asset.type === 'pick')
+      .map(assetToPickSelectionId),
+  );
+
+  const availablePlayers =
+    activePickerContext?.side === 'incoming'
+      ? partnerRoster.filter(
+          (player) => !existingIncomingPlayerIds.has(player.id) && !selectedIncomingIds.has(player.id),
+        )
+      : roster.filter(
+          (player) => !existingOutgoingPlayerIds.has(player.id) && !selectedOutgoingIds.has(player.id),
+        );
+
+  const availablePicks = activePickerContext
+    ? pickOptions(activePickerContext.side === 'incoming' ? offer.proposingTeamAbbr : teamAbbr).filter(
+        (pick) =>
+          activePickerContext.side === 'incoming'
+            ? !existingIncomingPickIds.has(pick.id) && !selectedIncomingIds.has(pick.id)
+            : !existingOutgoingPickIds.has(pick.id) && !selectedOutgoingIds.has(pick.id),
+      )
+    : [];
+
+  const incomingSlotAssets = buildSlotAssets({
+    selections: extraIncomingSelections,
+    evaluatedAssets: evaluatedIncomingAssets,
+    roster: partnerRoster,
+    teamAbbr: offer.proposingTeamAbbr,
+  });
+  const outgoingSlotAssets = buildSlotAssets({
+    selections: extraOutgoingSelections,
+    evaluatedAssets: evaluatedOutgoingAssets,
+    roster,
+    teamAbbr,
+  });
+
+  const updateSelectionsForSide = (
+    side: ExtraSide,
+    updater: (current: ExtraSelection[]) => ExtraSelection[],
+  ) => {
+    if (side === 'incoming') {
+      setExtraIncomingSelections((current) => updater(current));
+      return;
+    }
+    setExtraOutgoingSelections((current) => updater(current));
+  };
 
   return (
     <>
@@ -271,9 +413,20 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                     {currentAiInterest.label}
                   </span>
                 </div>
-                <div className="relative mt-2 h-2 w-full rounded-full bg-slate-200">
+                <div className="relative mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200">
                   <div
-                    className="h-2 rounded-full bg-emerald-500 transition-all"
+                    className="absolute inset-y-0 rounded-full bg-emerald-100"
+                    style={{ left: `${acceptZoneStart}%`, width: `${acceptZoneWidth}%` }}
+                  />
+                  <div
+                    className={cn(
+                      'h-2 rounded-full transition-all',
+                      currentAiInterest.score > TRADE_ACCEPT_MARK_SCORE + TRADE_ACCEPT_WIGGLE
+                        ? 'bg-amber-500'
+                        : currentAiInterest.score >= TRADE_ACCEPT_MARK_SCORE - TRADE_ACCEPT_WIGGLE
+                          ? 'bg-emerald-500'
+                          : 'bg-sky-500',
+                    )}
                     style={{ width: `${meterWidth}%` }}
                   />
                   <div
@@ -283,69 +436,88 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                 </div>
                 <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
                   <span>Current</span>
-                  <span>Accept</span>
+                  <span>Accept zone</span>
                 </div>
               </div>
             </div>
 
             <div className="mt-5 grid gap-4 lg:grid-cols-2">
-              {[offer.incoming, offer.outgoing].map((side, index) => (
-                <div
-                  key={`${side.teamAbbr}-${index}`}
-                  className="rounded-2xl border border-border bg-white"
-                >
-                  <div className="border-b border-border px-4 py-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      {index === 0 ? 'They Offer' : 'They Want'}
-                    </p>
-                    <p className="mt-1 text-base font-semibold text-foreground">{side.teamName}</p>
-                  </div>
-                  <div className="space-y-3 px-4 py-4">
-                    {side.assets.map((asset) => (
-                      <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
-                        <p className="text-sm font-semibold text-foreground">
-                          {asset.type === 'pick' ? asset.label : asset.name}
-                        </p>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          {renderAssetMeta(asset)}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+              <div className="rounded-2xl border border-border bg-white">
+                <div className="border-b border-border px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    They Offer
+                  </p>
+                  <p className="mt-1 text-base font-semibold text-foreground">{offer.incoming.teamName}</p>
                 </div>
-              ))}
-            </div>
+                <div className="space-y-3 px-4 py-4">
+                  {offer.incoming.assets.map((asset) => (
+                    <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
+                      <p className="text-sm font-semibold text-foreground">
+                        {asset.type === 'pick' ? asset.label : asset.name}
+                      </p>
+                      <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
+                    </div>
+                  ))}
+                  <TradeAssetSlots
+                    title="Adjust Their Side"
+                    subtitle="Add up to 3 more incoming assets"
+                    slots={incomingSlotAssets}
+                    onAdd={(slotIndex) => {
+                      setActivePickerContext({ side: 'incoming', slotIndex });
+                      setDuplicateMessage(null);
+                      setIsPickerOpen(true);
+                    }}
+                    onReplace={(slotIndex) => {
+                      setActivePickerContext({ side: 'incoming', slotIndex });
+                      setDuplicateMessage(null);
+                      setIsPickerOpen(true);
+                    }}
+                    onRemove={(slotIndex) => {
+                      setExtraIncomingSelections((current) =>
+                        current.map((selection, index) => (index === slotIndex ? null : selection)),
+                      );
+                    }}
+                  />
+                </div>
+              </div>
 
-            <div className="mt-5 rounded-2xl border border-border bg-slate-50 px-4 py-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Sweeten The Deal
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Add up to two more assets from your side to move the offer closer to the accept line.
-              </p>
-              <div className="mt-4">
-                <TradeAssetSlots
-                  title="Counter Package"
-                  subtitle="Additional outgoing assets"
-                  slots={slotAssets}
-                  onAdd={(slotIndex) => {
-                    setActiveSlotIndex(slotIndex);
-                    setDuplicateMessage(null);
-                    setIsPickerOpen(true);
-                  }}
-                  onReplace={(slotIndex) => {
-                    setActiveSlotIndex(slotIndex);
-                    setDuplicateMessage(null);
-                    setIsPickerOpen(true);
-                  }}
-                  onRemove={(slotIndex) => {
-                    setExtraSelections((prev) => {
-                      const next: [ExtraSelection, ExtraSelection] = [...prev] as [ExtraSelection, ExtraSelection];
-                      next[slotIndex] = null;
-                      return next;
-                    });
-                  }}
-                />
+              <div className="rounded-2xl border border-border bg-white">
+                <div className="border-b border-border px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    They Want
+                  </p>
+                  <p className="mt-1 text-base font-semibold text-foreground">{offer.outgoing.teamName}</p>
+                </div>
+                <div className="space-y-3 px-4 py-4">
+                  {offer.outgoing.assets.map((asset) => (
+                    <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
+                      <p className="text-sm font-semibold text-foreground">
+                        {asset.type === 'pick' ? asset.label : asset.name}
+                      </p>
+                      <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
+                    </div>
+                  ))}
+                  <TradeAssetSlots
+                    title="Adjust Your Side"
+                    subtitle="Add up to 3 more outgoing assets"
+                    slots={outgoingSlotAssets}
+                    onAdd={(slotIndex) => {
+                      setActivePickerContext({ side: 'outgoing', slotIndex });
+                      setDuplicateMessage(null);
+                      setIsPickerOpen(true);
+                    }}
+                    onReplace={(slotIndex) => {
+                      setActivePickerContext({ side: 'outgoing', slotIndex });
+                      setDuplicateMessage(null);
+                      setIsPickerOpen(true);
+                    }}
+                    onRemove={(slotIndex) => {
+                      setExtraOutgoingSelections((current) =>
+                        current.map((selection, index) => (index === slotIndex ? null : selection)),
+                      );
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -362,37 +534,45 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
 
       <TradeAssetPickerModal
         isOpen={isPickerOpen}
-        title="Add outgoing asset"
+        title={
+          activePickerContext?.side === 'incoming'
+            ? `Add ${offer.proposingTeamName} asset`
+            : 'Add your asset'
+        }
         players={availablePlayers}
-        picks={pickOptions(teamAbbr)}
+        picks={availablePicks}
         duplicateMessage={duplicateMessage}
         onClose={() => {
           setIsPickerOpen(false);
-          setActiveSlotIndex(null);
+          setActivePickerContext(null);
         }}
         onSelectPlayer={(player) => {
-          if (selectedAssetIds.has(player.id)) {
-            setDuplicateMessage('That asset is already in the counter package.');
+          if (!activePickerContext) return;
+          const duplicateIds =
+            activePickerContext.side === 'incoming' ? selectedIncomingIds : selectedOutgoingIds;
+          if (duplicateIds.has(player.id)) {
+            setDuplicateMessage('That asset is already in this package.');
             return;
           }
-          if (activeSlotIndex === null) return;
-          setExtraSelections((prev) => {
-            const next: [ExtraSelection, ExtraSelection] = [...prev] as [ExtraSelection, ExtraSelection];
-            next[activeSlotIndex] = { type: 'player', id: player.id };
-            return next;
-          });
+          updateSelectionsForSide(activePickerContext.side, (current) =>
+            current.map((selection, index) =>
+              index === activePickerContext.slotIndex ? { type: 'player', id: player.id } : selection,
+            ),
+          );
         }}
         onSelectPick={(pickId) => {
-          if (selectedAssetIds.has(pickId)) {
-            setDuplicateMessage('That asset is already in the counter package.');
+          if (!activePickerContext) return;
+          const duplicateIds =
+            activePickerContext.side === 'incoming' ? selectedIncomingIds : selectedOutgoingIds;
+          if (duplicateIds.has(pickId)) {
+            setDuplicateMessage('That asset is already in this package.');
             return;
           }
-          if (activeSlotIndex === null) return;
-          setExtraSelections((prev) => {
-            const next: [ExtraSelection, ExtraSelection] = [...prev] as [ExtraSelection, ExtraSelection];
-            next[activeSlotIndex] = { type: 'pick', id: pickId };
-            return next;
-          });
+          updateSelectionsForSide(activePickerContext.side, (current) =>
+            current.map((selection, index) =>
+              index === activePickerContext.slotIndex ? { type: 'pick', id: pickId } : selection,
+            ),
+          );
         }}
       />
     </>

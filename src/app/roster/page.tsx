@@ -121,6 +121,7 @@ export default function RosterPage() {
     typeof performance !== 'undefined' ? performance.now() : 0,
   );
   const initialTradeOfferRequestedRef = useRef<string | null>(null);
+  const [rosterInteractionCount, setRosterInteractionCount] = useState(0);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId),
@@ -205,11 +206,34 @@ export default function RosterPage() {
 
   useEffect(() => {
     if (phase !== 'resign_cut' || !saveId || !teamAbbr) return;
+    setRosterInteractionCount(0);
+  }, [phase, saveId, teamAbbr]);
+
+  useEffect(() => {
+    if (phase !== 'resign_cut' || !saveId || !teamAbbr) return;
+
+    const registerInteraction = () => {
+      setRosterInteractionCount((current) => (current >= 3 ? current : current + 1));
+    };
+
+    window.addEventListener('pointerdown', registerInteraction, { passive: true });
+    window.addEventListener('wheel', registerInteraction, { passive: true });
+    window.addEventListener('keydown', registerInteraction);
+
+    return () => {
+      window.removeEventListener('pointerdown', registerInteraction);
+      window.removeEventListener('wheel', registerInteraction);
+      window.removeEventListener('keydown', registerInteraction);
+    };
+  }, [phase, saveId, teamAbbr]);
+
+  useEffect(() => {
+    if (phase !== 'resign_cut' || !saveId || !teamAbbr || rosterInteractionCount < 3) return;
     const requestKey = `${saveId}:${teamAbbr}`;
     if (initialTradeOfferRequestedRef.current === requestKey) return;
     initialTradeOfferRequestedRef.current = requestKey;
     void requestTradeOffer({ trigger: 'visit-manage-team' });
-  }, [phase, requestTradeOffer, saveId, teamAbbr]);
+  }, [phase, requestTradeOffer, rosterInteractionCount, saveId, teamAbbr]);
 
   const handleSubmitCut = async () => {
     if (!activeCutPlayer) {

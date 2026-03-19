@@ -14,8 +14,10 @@ import type { TradeOfferDTO } from '@/types/trade-offers';
 type EvaluateTradeOfferBody = {
   saveId?: string;
   offer?: TradeOfferDTO;
-  extraPlayerIds?: string[];
-  extraPickIds?: string[];
+  extraIncomingPlayerIds?: string[];
+  extraIncomingPickIds?: string[];
+  extraOutgoingPlayerIds?: string[];
+  extraOutgoingPickIds?: string[];
 };
 
 const buildPickFromId = (pickId: string, teamAbbr: string) => {
@@ -55,18 +57,38 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: 'Unable to resolve trade offer teams.' }, { status: 400 });
   }
 
-  const extraPlayers = (body.extraPlayerIds ?? [])
+  const extraIncomingPlayers = (body.extraIncomingPlayerIds ?? [])
+    .map((playerId) => aiTeam.roster.find((player) => player.id === playerId))
+    .filter((player): player is PlayerRowDTO => Boolean(player))
+    .slice(0, 3)
+    .map((player) =>
+      buildTradePlayerAsset(
+        player,
+        buildEvaluationContext(body.offer!.phase, userTeam.team.abbr, userTeam),
+      ),
+    );
+
+  const extraOutgoingPlayers = (body.extraOutgoingPlayerIds ?? [])
     .map((playerId) => userTeam.roster.find((player) => player.id === playerId))
     .filter((player): player is PlayerRowDTO => Boolean(player))
-    .slice(0, 2)
-    .map((player) => buildTradePlayerAsset(player, buildEvaluationContext(body.offer!.phase, aiTeam.team.abbr, aiTeam)));
+    .slice(0, 3)
+    .map((player) =>
+      buildTradePlayerAsset(
+        player,
+        buildEvaluationContext(body.offer!.phase, aiTeam.team.abbr, aiTeam),
+      ),
+    );
 
-  const extraPicks = (body.extraPickIds ?? [])
-    .slice(0, 2)
+  const extraIncomingPicks = (body.extraIncomingPickIds ?? [])
+    .slice(0, 3)
+    .map((pickId) => buildPickFromId(pickId, aiTeam.team.abbr));
+
+  const extraOutgoingPicks = (body.extraOutgoingPickIds ?? [])
+    .slice(0, 3)
     .map((pickId) => buildPickFromId(pickId, userTeam.team.abbr));
 
-  const outgoingAssets = [...body.offer.outgoing.assets, ...extraPlayers, ...extraPicks];
-  const incomingAssets = body.offer.incoming.assets;
+  const incomingAssets = [...body.offer.incoming.assets, ...extraIncomingPlayers, ...extraIncomingPicks];
+  const outgoingAssets = [...body.offer.outgoing.assets, ...extraOutgoingPlayers, ...extraOutgoingPicks];
 
   const graded = gradeTradeOffer(
     {
@@ -93,7 +115,8 @@ export const POST = async (request: Request) => {
 
   return NextResponse.json({
     ok: true,
-    extraAssets: [...extraPlayers, ...extraPicks],
+    extraIncomingAssets: [...extraIncomingPlayers, ...extraIncomingPicks],
+    extraOutgoingAssets: [...extraOutgoingPlayers, ...extraOutgoingPicks],
     userInterest: {
       label: graded.user.label,
       band: graded.user.band,
@@ -104,6 +127,9 @@ export const POST = async (request: Request) => {
       band: graded.ai.band,
       score: graded.ai.score,
     },
+    incomingTotalValue: Number(
+      incomingAssets.reduce((sum, asset) => sum + asset.projectedValuePoints, 0).toFixed(1),
+    ),
     outgoingTotalValue: Number(
       outgoingAssets.reduce((sum, asset) => sum + asset.projectedValuePoints, 0).toFixed(1),
     ),

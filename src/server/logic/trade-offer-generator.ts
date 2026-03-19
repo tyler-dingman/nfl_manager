@@ -39,6 +39,9 @@ const MAX_OFFERS_BY_PHASE: Record<TradeOfferPhase, number> = {
   draft: 4,
 };
 
+const TRADE_OFFER_USER_BUY_IN_MULTIPLIER = 1.12;
+const TRADE_OFFER_USER_SELL_DISCOUNT = 0.9;
+
 const normalizedPosition = (player: Pick<PlayerRowDTO, 'position'>) => {
   const position = player.position.toUpperCase();
   if (['LT', 'RT'].includes(position)) return 'OT';
@@ -285,7 +288,10 @@ const generateRosterOffers = (
 
     if (offeredPlayer) {
       const offeredValue = getPlayerTradeValue(offeredPlayer, buildEvaluationContext(phase, userTeam.team.abbr, userTeam)).value;
-      const outgoingPickAssets = draftPickForValue(userTeam.team.abbr, offeredValue * 0.94).map((pick) =>
+      const outgoingPickAssets = draftPickForValue(
+        userTeam.team.abbr,
+        offeredValue * TRADE_OFFER_USER_BUY_IN_MULTIPLIER,
+      ).map((pick) =>
         buildPickAsset(pick),
       );
       const candidate = buildOfferCandidate(
@@ -327,7 +333,10 @@ const generateRosterOffers = (
 
     if (userTarget) {
       const targetValue = getPlayerTradeValue(userTarget, buildEvaluationContext(phase, aiTeam.team.abbr, aiTeam)).value;
-      const aiPickAssets = draftPickForValue(aiTeam.team.abbr, targetValue * 1.02).map((pick) =>
+      const aiPickAssets = draftPickForValue(
+        aiTeam.team.abbr,
+        targetValue * TRADE_OFFER_USER_SELL_DISCOUNT,
+      ).map((pick) =>
         buildPickAsset(pick),
       );
       const candidate = buildOfferCandidate(

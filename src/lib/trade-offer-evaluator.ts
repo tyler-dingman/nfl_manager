@@ -13,6 +13,13 @@ export const TRADE_INTEREST_THRESHOLDS = {
   high: 1.21,
 } as const;
 
+export const TRADE_ACCEPT_MARK_SCORE = TRADE_INTEREST_THRESHOLDS.low;
+export const TRADE_ACCEPT_WIGGLE = Number((TRADE_ACCEPT_MARK_SCORE * 0.1).toFixed(3));
+
+export const isWithinTradeAcceptWindow = (score: number) =>
+  score >= TRADE_ACCEPT_MARK_SCORE - TRADE_ACCEPT_WIGGLE &&
+  score <= TRADE_ACCEPT_MARK_SCORE + TRADE_ACCEPT_WIGGLE;
+
 const assetNeedFit = (assets: TradeOfferAssetDTO[], context: TradeEvaluationContext) => {
   if (assets.length === 0) return 1;
   const bonus = assets.reduce((sum, asset) => {
