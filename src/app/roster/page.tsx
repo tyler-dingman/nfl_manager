@@ -25,6 +25,7 @@ import { useExpiringContractsQuery } from '@/features/contracts/queries';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useRosterQuery } from '@/features/players/queries';
 import { useTradeBlockQuery } from '@/features/trades/queries';
+import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
@@ -119,6 +120,7 @@ export default function RosterPage() {
   const expiringStartedAtRef = useRef<number>(
     typeof performance !== 'undefined' ? performance.now() : 0,
   );
+  const initialTradeOfferRequestedRef = useRef<string | null>(null);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId),
@@ -152,6 +154,13 @@ export default function RosterPage() {
       setSaveHeader,
     );
   };
+  const requestTradeOffer = useTradeOfferOrchestrator({
+    enabled: phase === 'resign_cut',
+    phase: 'manage',
+    saveId,
+    teamAbbr,
+    ensureActionableSaveId,
+  });
 
   useEffect(() => {
     if (mode === 'full' && currentStep !== 'manage') {
@@ -193,6 +202,14 @@ export default function RosterPage() {
       ms: Number((performance.now() - expiringStartedAtRef.current).toFixed(1)),
     });
   }, [expiringContracts]);
+
+  useEffect(() => {
+    if (phase !== 'resign_cut' || !saveId || !teamAbbr) return;
+    const requestKey = `${saveId}:${teamAbbr}`;
+    if (initialTradeOfferRequestedRef.current === requestKey) return;
+    initialTradeOfferRequestedRef.current = requestKey;
+    void requestTradeOffer({ trigger: 'visit-manage-team' });
+  }, [phase, requestTradeOffer, saveId, teamAbbr]);
 
   const handleSubmitCut = async () => {
     if (!activeCutPlayer) {
@@ -255,6 +272,7 @@ export default function RosterPage() {
       });
     }
     setActiveCutPlayer(null);
+    void requestTradeOffer({ trigger: 'after-cut', force: true });
     if (mode === 'full') {
       markManageSubstepComplete('Re-sign / Cut Players');
     }
@@ -465,6 +483,7 @@ export default function RosterPage() {
 
     setActiveResignPlayer(null);
     setActiveExpiringContract(null);
+    void requestTradeOffer({ trigger: data.accepted ? 'after-resign-accepted' : 'after-resign-declined' });
     return;
   };
 
@@ -557,6 +576,9 @@ export default function RosterPage() {
     }
 
     setActiveRenegotiatePlayer(null);
+    if (data.accepted) {
+      void requestTradeOffer({ trigger: 'after-renegotiate', force: true });
+    }
     if (mode === 'full') {
       markManageSubstepComplete('Re-sign / Cut Players');
     }
@@ -740,8 +762,8 @@ export default function RosterPage() {
                               <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 Interest
                               </th>
-                              <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
-                                Actions
+                              <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none">
+                                ACTIONS
                               </th>
                             </tr>
                           </thead>
@@ -800,8 +822,8 @@ export default function RosterPage() {
                               <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 {renderExpiringHeader('Interest', 'interest')}
                               </th>
-                              <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
-                                Actions
+                              <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none">
+                                ACTIONS
                               </th>
                             </tr>
                           </thead>

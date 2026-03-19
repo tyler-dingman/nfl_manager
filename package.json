@@ -12,6 +12,7 @@
     "cap:check": "tsx scripts/cap-math-check.ts",
     "contract:check": "tsx scripts/contract-acceptance-check.ts",
     "test:e2e": "playwright test",
+    "test:trade-offers": "node --import tsx --test src/lib/trade-*.test.ts src/features/trades/trade-*.test.ts src/server/logic/trade-offer-generator.test.ts",
     "sync:nfl-data": "tsx src/scripts/sync-nfl-data.ts",
     "sync:contracts": "tsx src/scripts/sync-contracts.ts",
     "sync:league": "tsx src/scripts/sync-nfl-data.ts"

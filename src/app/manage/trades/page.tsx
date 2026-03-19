@@ -15,6 +15,7 @@ import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
+import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
@@ -165,6 +166,7 @@ function TradeBuilderContent() {
     Array.from({ length: 5 }, () => null),
   );
   const lastTradeKeyRef = useRef<string | null>(null);
+  const initialTradeOfferRequestedRef = useRef<string | null>(null);
 
   const acceptance = useMemo(() => {
     if (!trade) {
@@ -204,6 +206,13 @@ function TradeBuilderContent() {
     },
     [capLimit, capSpace, phase, resolvedSaveId, roster, saveId, setSaveHeader, teamAbbr, teamId, unlocked],
   );
+  const requestTradeOffer = useTradeOfferOrchestrator({
+    enabled: phase === 'resign_cut',
+    phase: 'manage',
+    saveId,
+    teamAbbr,
+    ensureActionableSaveId,
+  });
 
   useEffect(() => {
     const loadTeams = async () => {
@@ -218,6 +227,14 @@ function TradeBuilderContent() {
 
     loadTeams();
   }, []);
+
+  useEffect(() => {
+    if (phase !== 'resign_cut' || !saveId || !teamAbbr) return;
+    const requestKey = `${saveId}:${teamAbbr}:trade-hub`;
+    if (initialTradeOfferRequestedRef.current === requestKey) return;
+    initialTradeOfferRequestedRef.current = requestKey;
+    void requestTradeOffer({ trigger: 'visit-trade-hub' });
+  }, [phase, requestTradeOffer, saveId, teamAbbr]);
 
   useEffect(() => {
     if (!teams.length || partnerTeamAbbr) {

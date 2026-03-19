@@ -15,7 +15,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import type { TradeBlockRow } from '@/types/trade-block';
 
-type TradeBlockSortKey = 'score' | 'name' | 'pos' | 'age' | 'rating' | 'fits';
+type TradeBlockSortKey = 'score' | 'name' | 'pos' | 'age' | 'rating' | 'capHit' | 'fits';
 
 const renderSortableHeader = (
   label: string,
@@ -115,6 +115,9 @@ export function TradeBlockTable({
           case 'rating':
             result = compareNumbers(left.rating, right.rating);
             break;
+          case 'capHit':
+            result = compareNumbers(left.capHitValue, right.capHitValue);
+            break;
           case 'fits':
             result = compareNumbers(left.potentialFits.length, right.potentialFits.length);
             break;
@@ -150,7 +153,7 @@ export function TradeBlockTable({
   };
 
   const actionHeaderClass =
-    'sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
+    'sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none';
   const actionCellClass =
     'sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
 
@@ -208,10 +211,13 @@ export function TradeBlockTable({
                         Age
                       </th>
                       <th className="w-[72px] min-w-[72px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">OVR</th>
+                      <th className="w-[96px] min-w-[96px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                        Cap Hit
+                      </th>
                       <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         Potential Fits
                       </th>
-                      <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>Action</th>
+                      <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>ACTIONS</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -221,8 +227,9 @@ export function TradeBlockTable({
                           'w-40',
                           'w-12',
                           'w-10',
-                          'hidden md:block w-10',
-                          'hidden md:block w-20',
+                          'w-10',
+                          'w-20',
+                          'w-20',
                         ].map((width, cellIndex) => (
                           <td
                             key={`${index}-${cellIndex}`}
@@ -261,10 +268,13 @@ export function TradeBlockTable({
                       <th className="w-[72px] min-w-[72px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         {renderSortableHeader('OVR', 'rating', toggleSort)}
                       </th>
+                      <th className="w-[96px] min-w-[96px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                        {renderSortableHeader('Cap Hit', 'capHit', toggleSort)}
+                      </th>
                       <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         {renderSortableHeader('Potential Fits', 'fits', toggleSort)}
                       </th>
-                      <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>Action</th>
+                      <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>ACTIONS</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -307,6 +317,9 @@ export function TradeBlockTable({
                         </td>
                         <td className="px-4 py-2 text-sm font-semibold text-foreground sm:px-6">
                           {player.rating ?? '—'}
+                        </td>
+                        <td className="px-4 py-2 text-sm text-muted-foreground sm:px-6">
+                          {player.capHit}
                         </td>
                         <td className="px-4 py-2 sm:px-6">
                           <div className="flex items-center gap-2">

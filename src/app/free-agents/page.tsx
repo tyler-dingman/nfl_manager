@@ -9,6 +9,7 @@ import { StepHeader } from '@/components/offseason/step-header';
 import { PlayerTable } from '@/components/player-table';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useFreeAgentsQuery } from '@/features/players/queries';
+import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
@@ -44,6 +45,7 @@ export default function FreeAgentsPage() {
   const tableStartedAtRef = useRef<number>(
     typeof performance !== 'undefined' ? performance.now() : 0,
   );
+  const initialTradeOfferRequestedRef = useRef<string | null>(null);
 
   const ensureActionableSaveId = async (preferredSaveId?: string | null) => {
     return ensureRecoverableSaveId(
@@ -60,6 +62,13 @@ export default function FreeAgentsPage() {
       setSaveHeader,
     );
   };
+  const requestTradeOffer = useTradeOfferOrchestrator({
+    enabled: phase === 'free_agency',
+    phase: 'freeAgency',
+    saveId,
+    teamAbbr,
+    ensureActionableSaveId,
+  });
 
   useEffect(() => {
     setPlayers(data);
@@ -80,6 +89,14 @@ export default function FreeAgentsPage() {
       router.replace(getRouteForStep(currentStep));
     }
   }, [mode, currentStep, router]);
+
+  useEffect(() => {
+    if (phase !== 'free_agency' || !saveId || !teamAbbr) return;
+    const requestKey = `${saveId}:${teamAbbr}`;
+    if (initialTradeOfferRequestedRef.current === requestKey) return;
+    initialTradeOfferRequestedRef.current = requestKey;
+    void requestTradeOffer({ trigger: 'visit-free-agency' });
+  }, [phase, requestTradeOffer, saveId, teamAbbr]);
 
   const handleOfferPlayer = (player: PlayerRowDTO) => {
     setActiveOfferPlayer(player);
@@ -200,12 +217,14 @@ export default function FreeAgentsPage() {
       if (mode === 'full') {
         setSignedCount((value) => value + 1);
       }
+      void requestTradeOffer({ trigger: 'after-free-agency-signing', force: true });
       setTimeout(() => {
         setActiveOfferPlayer(null);
       }, 1400);
       return responsePayload;
     }
 
+    void requestTradeOffer({ trigger: 'after-free-agency-offer' });
     return responsePayload;
   };
 

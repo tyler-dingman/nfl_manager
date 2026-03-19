@@ -11,6 +11,7 @@ import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
 import NextActionBanner from '@/components/next-action-banner';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
 import { TeamFavicon } from '@/components/team-favicon';
+import { TradeOfferToast } from '@/components/trade-offer-toast';
 import { AdSlot } from '@/components/ads/AdSlot';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
@@ -208,6 +209,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const bannerPhase: 'resign_cut' | 'free_agency' | 'draft' | 'season' =
     phase === 'free_agency' || phase === 'draft' || phase === 'season' ? phase : 'resign_cut';
+
+  const tradeOfferScopeKey = useMemo(() => {
+    if (!saveId || !pathname) return null;
+    if (pathname.startsWith('/roster') || pathname.startsWith('/manage/trades')) {
+      return `${saveId}:manage`;
+    }
+    if (pathname.startsWith('/free-agents')) {
+      return `${saveId}:freeAgency`;
+    }
+    if (pathname.startsWith('/draft')) {
+      return `${saveId}:draft`;
+    }
+    return null;
+  }, [pathname, saveId]);
 
   useEffect(() => {
     if (!pathname) return;
@@ -728,6 +743,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               }
             }}
           />
+          <TradeOfferToast scopeKey={tradeOfferScopeKey} />
           <ToastViewport />
         </div>
       </ToastProvider>
