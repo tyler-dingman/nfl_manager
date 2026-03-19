@@ -1,3 +1,5 @@
+import type { PlayerRowDTO } from '@/types/player';
+
 export type DraftMode = 'mock' | 'real';
 
 export type DraftPickDTO = {
@@ -20,22 +22,7 @@ export type DraftSessionDTO = {
   currentPickIndex: number;
   isPaused: boolean;
   picks: DraftPickDTO[];
-  prospects: Array<{
-    id: string;
-    firstName: string;
-    lastName: string;
-    position: string;
-    rank?: number;
-    projectedPick?: number;
-    college?: string;
-    grade?: string;
-    projectedRound?: string;
-    contractYearsRemaining: number;
-    capHit: string;
-    status: string;
-    headshotUrl?: string | null;
-    isDrafted?: boolean;
-  }>;
+  prospects: PlayerRowDTO[];
   status: DraftSessionStatus;
   fallingProspectId?: string | null;
   fallReason?: string | null;

@@ -3,16 +3,24 @@
 import * as React from 'react';
 
 import { FalcoReactionFeed, type DraftEventDTO } from '@/components/draft/falco-reaction-feed';
+import { DraftTeamCard } from '@/components/draft/draft-team-card';
+import { DraftTradeChaosPanel } from '@/components/draft/draft-trade-chaos-panel';
+import { DraftTradeOfferReviewModal } from '@/components/draft/draft-trade-offer-review-modal';
+import { LiveDraftBoard } from '@/components/draft/live-draft-board';
+import { OnTheClockBanner } from '@/components/draft/on-the-clock-banner';
 import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
-import { DraftTeamCard } from '@/components/draft/draft-team-card';
+import { Button } from '@/components/ui/button';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import {
   fillFalcoTemplate,
   type FalcoAlertType,
   quotesByType,
 } from '@/features/draft/falco-quotes';
+import { useSaveStore } from '@/features/save/save-store';
+import { getDraftAutopick, rankDraftBoard } from '@/lib/draft-board';
 import { getFalcoReaction, getPickLabel } from '@/lib/draft-reactions';
+import { useDraftClock } from '@/hooks/use-draft-clock';
 import { getTeamNeeds } from '@/components/draft/draft-utils';
 import { apiFetch } from '@/lib/api';
 import { cn } from '@/lib/utils';
@@ -20,8 +28,10 @@ import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TeamDTO } from '@/types/team';
 import type { FalcoNote } from '@/lib/falco';
+import type { TradeOfferDTO } from '@/types/trade-offers';
 
-const SPEED_DELAYS = [1000, 500, 250] as const;
+const SPEED_DELAYS = [4000, 2500, 1500] as const;
+const USER_PICK_DURATION_SECONDS = 90;
 
 export type DraftSpeedLevel = 0 | 1 | 2;
 
@@ -36,10 +46,43 @@ type ActiveDraftRoomProps = {
   draftPhase?: 'PRE_DRAFT' | 'IN_DRAFT' | 'COMPLETED';
   onBackToBoard: () => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
+  onDraftTradeAccepted: (payload: {
+    nextSession: DraftSessionDTO;
+    nextRoster: PlayerRowDTO[];
+    header: {
+      saveId: string;
+      teamAbbr: string;
+      capSpace: number;
+      capLimit: number;
+      rosterCount: number;
+      rosterLimit: number;
+      phase: string;
+      unlocked: { freeAgency: boolean; draft: boolean };
+      createdAt: string;
+    };
+  }) => void;
   onSessionUpdate: (session: DraftSessionDTO) => void;
 };
 
+type TradeOfferApiResponse =
+  | {
+      ok: true;
+      offers: TradeOfferDTO[];
+    }
+  | { ok: false; error: string };
+
 const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
+
+const desiredOfferCount = (pickOverall: number) => {
+  if (pickOverall <= 10) return 3;
+  if (pickOverall <= 24) return 2;
+  return 1;
+};
+
+const buildExpiryMs = (pickOverall: number, index: number) => {
+  const base = pickOverall <= 10 ? 28000 : pickOverall <= 24 ? 22000 : 18000;
+  return base - index * 2500;
+};
 
 export function ActiveDraftRoom({
   session,
@@ -52,15 +95,21 @@ export function ActiveDraftRoom({
   draftPhase = 'IN_DRAFT',
   onBackToBoard,
   onDraftPlayer,
+  onDraftTradeAccepted,
   onSessionUpdate,
 }: ActiveDraftRoomProps) {
+  const saveId = useSaveStore((state) => state.saveId);
   const currentPick = session.picks[session.currentPickIndex];
   const onClock =
     currentPick?.ownerTeamAbbr === session.userTeamAbbr && !currentPick?.selectedPlayerId;
   const [draftFeed, setDraftFeed] = React.useState<DraftEventDTO[]>([]);
+  const [draftOffers, setDraftOffers] = React.useState<Array<TradeOfferDTO & { expiresAt: number }>>(
+    [],
+  );
+  const [reviewOffer, setReviewOffer] = React.useState<TradeOfferDTO | null>(null);
+  const [selectedBoardPlayerId, setSelectedBoardPlayerId] = React.useState<string | null>(null);
+  const [now, setNow] = React.useState(() => Date.now());
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
-  const [isMobile, setIsMobile] = React.useState(false);
-  const [mobileView, setMobileView] = React.useState<'board' | 'available'>('board');
   const advanceInFlight = React.useRef(false);
   const skipInFlight = React.useRef(false);
   const timerRef = React.useRef<number | null>(null);
@@ -69,30 +118,35 @@ export function ActiveDraftRoom({
   const previousPickSelections = React.useRef<Map<string, string | null>>(new Map());
   const firedFreeFallRef = React.useRef(false);
   const lastRunRef = React.useRef<string | null>(null);
+  const offersRequestRef = React.useRef<string | null>(null);
+  const offersSectionRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     sessionRef.current = session;
   }, [session]);
 
   React.useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 767px)');
-    const updateMobileState = (event: MediaQueryList | MediaQueryListEvent) => {
-      setIsMobile(event.matches);
-    };
-    updateMobileState(mediaQuery);
-    mediaQuery.addEventListener('change', updateMobileState);
-    return () => mediaQuery.removeEventListener('change', updateMobileState);
+    const intervalId = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(intervalId);
   }, []);
 
   React.useEffect(() => {
-    if (!isMobile) return;
-    setMobileView(onClock ? 'available' : 'board');
-  }, [isMobile, onClock]);
+    if (draftView !== 'trade') return;
+    offersSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    onBackToBoard();
+  }, [draftView, onBackToBoard]);
 
   React.useEffect(() => {
     firedFreeFallRef.current = false;
     lastRunRef.current = null;
+    offersRequestRef.current = null;
   }, [session.id]);
+
+  React.useEffect(() => {
+    setDraftOffers((current) =>
+      current.filter((offer) => offer.expiresAt > Date.now() && offer.trigger === `pick-${currentPick?.overall ?? 0}`),
+    );
+  }, [currentPick?.id, currentPick?.overall]);
 
   const bestAvailable = React.useMemo(() => {
     return session.prospects
@@ -106,15 +160,43 @@ export function ActiveDraftRoom({
     return map;
   }, [teams]);
 
-  const falcoTagsByPlayer = React.useMemo(() => {
-    const map = new Map<string, string[]>();
-    falcoNotes.forEach((note) => {
-      const list = map.get(note.playerId) ?? [];
-      list.push(note.tag);
-      map.set(note.playerId, list);
-    });
-    return map;
-  }, [falcoNotes]);
+  const teamNeeds = React.useMemo(
+    () => getTeamNeeds(session.userTeamAbbr, teams),
+    [session.userTeamAbbr, teams],
+  );
+
+  const boardEntries = React.useMemo(
+    () =>
+      rankDraftBoard({
+        prospects: session.prospects,
+        teamNeeds,
+        currentPickOverall: currentPick?.overall ?? session.currentPickIndex + 1,
+        limit: 12,
+      }),
+    [currentPick?.overall, session.currentPickIndex, session.prospects, teamNeeds],
+  );
+
+  const spotlightPlayer = React.useMemo(() => {
+    if (!selectedBoardPlayerId) {
+      return boardEntries[0]?.player ?? null;
+    }
+    return (
+      boardEntries.find((entry) => entry.player.id === selectedBoardPlayerId)?.player ??
+      bestAvailable.find((player) => player.id === selectedBoardPlayerId) ??
+      boardEntries[0]?.player ??
+      null
+    );
+  }, [bestAvailable, boardEntries, selectedBoardPlayerId]);
+
+  React.useEffect(() => {
+    if (!selectedBoardPlayerId && boardEntries[0]) {
+      setSelectedBoardPlayerId(boardEntries[0].player.id);
+      return;
+    }
+    if (selectedBoardPlayerId && !bestAvailable.some((player) => player.id === selectedBoardPlayerId)) {
+      setSelectedBoardPlayerId(boardEntries[0]?.player.id ?? null);
+    }
+  }, [bestAvailable, boardEntries, selectedBoardPlayerId]);
 
   const buildAlertMessage = React.useCallback(
     (type: FalcoAlertType, data: Record<string, string | number | undefined>) => {
@@ -125,19 +207,27 @@ export function ActiveDraftRoom({
     [],
   );
 
+  const falcoTagsByPlayer = React.useMemo(() => {
+    const map = new Map<string, string[]>();
+    falcoNotes.forEach((note) => {
+      const list = map.get(note.playerId) ?? [];
+      list.push(note.tag);
+      map.set(note.playerId, list);
+    });
+    return map;
+  }, [falcoNotes]);
+
   const falcoFavorites = React.useMemo(() => {
     if (!onClock || !currentPick) {
       return [];
     }
-    const needs = getTeamNeeds(session.userTeamAbbr, teams);
-    const pickNumber = currentPick.overall;
     return bestAvailable
       .map((player) => {
         const rank = player.rank ?? 999;
         const tags = falcoTagsByPlayer.get(player.id) ?? [];
         let score = 200 - rank;
-        score += Math.max(0, pickNumber - rank) * 2;
-        if (needs.includes(player.position)) score += 25;
+        score += Math.max(0, currentPick.overall - rank) * 2;
+        if (teamNeeds.includes(player.position)) score += 25;
         if (tags.includes('Falco Favorite')) score += 20;
         if (tags.includes('Falco Rising')) score += 10;
         if (tags.includes('Falco Fading')) score -= 8;
@@ -146,7 +236,7 @@ export function ActiveDraftRoom({
       .sort((a, b) => b.score - a.score)
       .slice(0, 3)
       .map((entry) => entry.player);
-  }, [bestAvailable, currentPick, falcoTagsByPlayer, onClock, session.userTeamAbbr, teams]);
+  }, [bestAvailable, currentPick, falcoTagsByPlayer, onClock, teamNeeds]);
 
   const advanceCpuPick = React.useCallback(async () => {
     if (advanceInFlight.current || skipInFlight.current) {
@@ -161,19 +251,15 @@ export function ActiveDraftRoom({
       });
       const text = await response.text();
       if (!text) {
-        console.warn('Draft advance: empty response');
         return;
       }
       const payload = JSON.parse(text) as
         | { ok: true; session: DraftSessionDTO }
         | { ok: false; error: string };
       if (!response.ok || !payload.ok) {
-        console.warn('Draft advance failed:', payload.ok ? response.status : payload.error);
         return;
       }
       onSessionUpdate(payload.session);
-    } catch (error) {
-      console.error('Draft advance error:', error);
     } finally {
       advanceInFlight.current = false;
     }
@@ -199,15 +285,11 @@ export function ActiveDraftRoom({
           body: JSON.stringify({ draftSessionId }),
         });
         const text = await response.text();
-        if (!text) {
-          break;
-        }
+        if (!text) break;
         const payload = JSON.parse(text) as
           | { ok: true; session: DraftSessionDTO }
           | { ok: false; error: string };
-        if (!response.ok || !payload.ok) {
-          break;
-        }
+        if (!response.ok || !payload.ok) break;
         snapshot = payload.session;
         onSessionUpdate(snapshot);
         safety += 1;
@@ -226,7 +308,7 @@ export function ActiveDraftRoom({
 
   const scheduleNextCpuPick = React.useCallback(() => {
     clearDraftTimer();
-    const delay = SPEED_DELAYS[speedLevel] ?? 1000;
+    const delay = SPEED_DELAYS[speedLevel] ?? 2500;
     timerRef.current = window.setTimeout(async () => {
       const currentSession = sessionRef.current;
       const current = currentSession.picks[currentSession.currentPickIndex];
@@ -275,8 +357,32 @@ export function ActiveDraftRoom({
     session.picks,
     session.status,
     session.userTeamAbbr,
-    speedLevel,
   ]);
+
+  const autoPickInFlightRef = React.useRef(false);
+  const draftBestAvailable = boardEntries[0]?.player ?? null;
+  const { secondsRemaining, isCritical, progressPct } = useDraftClock({
+    clockKey: onClock && currentPick ? `${session.id}:${currentPick.id}` : null,
+    enabled: onClock && session.status === 'in_progress' && !session.isPaused && !isUserDraftModalOpen,
+    durationSeconds: USER_PICK_DURATION_SECONDS,
+    onExpire: async () => {
+      if (autoPickInFlightRef.current || !onClock || !onDraftPlayer || !currentPick) {
+        return;
+      }
+      const autopick =
+        getDraftAutopick({
+          prospects: sessionRef.current.prospects,
+          teamNeeds: getTeamNeeds(sessionRef.current.userTeamAbbr, teams),
+          currentPickOverall: currentPick.overall,
+        }) ?? draftBestAvailable;
+      if (!autopick) {
+        return;
+      }
+      autoPickInFlightRef.current = true;
+      await onDraftPlayer(autopick);
+      autoPickInFlightRef.current = false;
+    },
+  });
 
   React.useEffect(() => {
     const newEvents: DraftEventDTO[] = [];
@@ -360,6 +466,7 @@ export function ActiveDraftRoom({
     session.prospects,
     session.userTeamAbbr,
     teamLookup,
+    teams,
   ]);
 
   React.useEffect(() => {
@@ -370,28 +477,16 @@ export function ActiveDraftRoom({
     const projected = player.projectedPick ?? player.rank ?? 0;
     if (session.currentPickIndex + 1 >= projected + 10) {
       firedFreeFallRef.current = true;
-      const lines = [
-        "He's slipping.",
-        "Something's spooked teams. Could be noise. Could be real.",
-        'Trust your read.',
-      ];
       pushAlert({
         id: `freefall-${player.id}`,
         type: 'FREE_FALL',
         title: `${player.firstName} ${player.lastName}`,
-        message: lines[0],
-        lines,
+        message: "He's slipping.",
+        lines: ["He's slipping.", "Something's spooked teams. Could be noise. Could be real.", 'Trust your read.'],
         createdAt: new Date().toISOString(),
       });
     }
-  }, [
-    buildAlertMessage,
-    pushAlert,
-    session.currentPickIndex,
-    session.fallReason,
-    session.fallingProspectId,
-    session.prospects,
-  ]);
+  }, [pushAlert, session.currentPickIndex, session.fallingProspectId, session.prospects]);
 
   React.useEffect(() => {
     const drafted = session.picks
@@ -419,152 +514,258 @@ export function ActiveDraftRoom({
     });
   }, [buildAlertMessage, pushAlert, session.currentPickIndex, session.picks, session.prospects]);
 
-  // Trade UI removed per draft screen simplification.
+  React.useEffect(() => {
+    if (!saveId || !onClock || !currentPick || isUserDraftModalOpen) {
+      return;
+    }
 
-  const boardSection = (
-    <section className="rounded-2xl border border-border bg-white p-4 shadow-sm lg:w-[340px] lg:max-w-[340px] lg:min-w-[340px]">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-foreground">Draft Board</h2>
-        <span className="text-xs text-muted-foreground">
-          Pick {session.currentPickIndex + 1} of {session.picks.length}
-        </span>
-      </div>
-      <div className="mt-4 space-y-3 overflow-y-auto pr-2">
-        {session.picks.map((pick, index) => {
-          const isCurrent = index === session.currentPickIndex;
-          const isNext = index === session.currentPickIndex + 1;
-          const selectedPlayer = pick.selectedPlayerId
-            ? session.prospects.find((player) => player.id === pick.selectedPlayerId)
-            : null;
-          const team = teamLookup.get(pick.ownerTeamAbbr);
-          const statusLine = selectedPlayer
-            ? `${pick.ownerTeamAbbr} drafted ${formatName(selectedPlayer)} (${selectedPlayer.position})`
-            : isCurrent
-              ? 'On the clock'
-              : isNext
-                ? 'On deck'
-                : 'Waiting';
-          return (
-            <div key={pick.id} className="relative">
-              <DraftTeamCard
-                variant={draftPhase === 'PRE_DRAFT' ? 'pre' : 'in'}
-                model={{
-                  pickNumber: pick.overall,
-                  teamName: team?.name ?? pick.ownerTeamAbbr,
-                  logoUrl: team?.logoUrl,
-                  statusLine,
-                  isOnClock: isCurrent,
-                }}
-              />
-              {pick.ownerTeamAbbr === session.userTeamAbbr ? (
-                <Badge variant="secondary" className="pointer-events-none absolute right-2 top-2">
-                  User
-                </Badge>
-              ) : null}
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
+    const requestKey = `${session.id}:${currentPick.id}`;
+    if (offersRequestRef.current === requestKey) {
+      return;
+    }
+    offersRequestRef.current = requestKey;
 
-  const availableSection = (
-    <section className="min-w-0 space-y-4">
-      <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-        {draftView === 'trade' ? (
-          <div className="rounded-xl border border-border bg-slate-50 px-6 py-8 text-center">
-            <h3 className="text-lg font-semibold text-foreground">Propose Trade</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Trade logic coming next. This screen will let you offer picks and players.
-            </p>
-            <button
-              type="button"
-              className="mt-4 inline-flex items-center justify-center rounded-md border border-border bg-white px-4 py-2 text-sm font-semibold text-foreground shadow-sm"
-              onClick={onBackToBoard}
-            >
-              Back to Draft Board
-            </button>
-          </div>
-        ) : (
-          <>
-            {onClock && falcoFavorites.length > 0 ? (
-              <div className="mb-4 rounded-xl border border-border bg-slate-50 px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Falco Favorites
-                </p>
-                <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                  {falcoFavorites.map((player) => (
-                    <div
-                      key={player.id}
-                      className="rounded-lg border border-border bg-white px-3 py-2"
-                    >
-                      <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {player.position} · Rank {player.rank ?? '--'}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-            <PlayerTable
-              data={bestAvailable}
-              variant="draft"
-              onDraftPlayer={onClock ? onDraftPlayer : undefined}
-              onTheClockForUserTeam={onClock}
-            />
-            {!onClock && bestAvailable.length > 0 && (
-              <div className="mt-4 rounded-xl border border-border bg-blue-50 px-4 py-3">
-                <p className="text-sm font-semibold text-foreground">Waiting for your pick...</p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  CPU teams are picking. Your team will be on the clock soon.
-                </p>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-      <FalcoReactionFeed events={draftFeed} />
-    </section>
-  );
+    const loadOffers = async () => {
+      const response = await apiFetch('/api/trade-offers/next', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId,
+          userTeamAbbr: session.userTeamAbbr,
+          phase: 'draft',
+          trigger: `pick-${currentPick.overall}`,
+          draftSessionId,
+          draftCurrentPickIndex: session.currentPickIndex,
+        }),
+      });
+
+      if (!response.ok) {
+        setDraftOffers([]);
+        return;
+      }
+
+      const data = (await response.json()) as TradeOfferApiResponse;
+      if (!data.ok) {
+        setDraftOffers([]);
+        return;
+      }
+
+      const limited = data.offers.slice(0, desiredOfferCount(currentPick.overall));
+      const createdAt = Date.now();
+      setDraftOffers(
+        limited.map((offer, index) => ({
+          ...offer,
+          expiresAt: createdAt + buildExpiryMs(currentPick.overall, index),
+        })),
+      );
+    };
+
+    void loadOffers();
+  }, [
+    currentPick,
+    draftSessionId,
+    isUserDraftModalOpen,
+    onClock,
+    saveId,
+    session.currentPickIndex,
+    session.id,
+    session.userTeamAbbr,
+  ]);
+
+  React.useEffect(() => {
+    setDraftOffers((current) => current.filter((offer) => offer.expiresAt > now));
+  }, [now]);
+
+  const selectedTeam = currentPick ? teamLookup.get(currentPick.ownerTeamAbbr) : null;
 
   return (
-    <div className="space-y-4 md:grid md:grid-cols-[340px_minmax(0,1fr)] md:gap-6 md:space-y-0">
-      <div className="md:hidden">
-        <div className="flex items-center justify-between gap-2 rounded-xl border border-border bg-white p-2">
-          <button
-            type="button"
-            className={cn(
-              'flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em]',
-              mobileView === 'board'
-                ? 'bg-slate-900 text-white'
-                : 'text-muted-foreground hover:bg-slate-50',
-            )}
-            onClick={() => setMobileView('board')}
-          >
-            Draft Board
-          </button>
-          <button
-            type="button"
-            className={cn(
-              'flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em]',
-              mobileView === 'available'
-                ? 'bg-slate-900 text-white'
-                : 'text-muted-foreground hover:bg-slate-50',
-            )}
-            onClick={() => setMobileView('available')}
-          >
-            Available
-          </button>
+    <>
+      <div className="space-y-5">
+        {currentPick ? (
+          <OnTheClockBanner
+            teamName={selectedTeam?.name ?? currentPick.ownerTeamAbbr}
+            teamLogoUrl={selectedTeam?.logoUrl}
+            teamAbbr={currentPick.ownerTeamAbbr}
+            round={currentPick.round}
+            overall={currentPick.overall}
+            isUserOnClock={onClock}
+            secondsRemaining={onClock ? secondsRemaining : null}
+            progressPct={onClock ? progressPct : 100}
+            isCritical={isCritical}
+            activeTradeOfferCount={onClock ? draftOffers.length : 0}
+          />
+        ) : null}
+
+        {onClock && falcoFavorites.length > 0 ? (
+          <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Falco Favorites
+            </p>
+            <div className="mt-3 grid gap-2 md:grid-cols-3">
+              {falcoFavorites.map((player) => (
+                <div key={player.id} className="rounded-xl border border-border bg-slate-50 px-3 py-3">
+                  <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {player.position} · Rank {player.rank ?? '--'}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+        <div ref={offersSectionRef}>
+          <DraftTradeChaosPanel
+            offers={draftOffers}
+            now={now}
+            onReview={(offer) => setReviewOffer(offer)}
+            onDecline={(offerId) => setDraftOffers((current) => current.filter((offer) => offer.id !== offerId))}
+            onDismiss={(offerId) => setDraftOffers((current) => current.filter((offer) => offer.id !== offerId))}
+          />
+        </div>
+
+        <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
+          <section className="space-y-5">
+            <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    Draft Order
+                  </p>
+                  <h2 className="mt-1 text-lg font-semibold text-foreground">Round 1 Tracker</h2>
+                </div>
+                {!onClock ? (
+                  <Button type="button" variant="secondary" size="sm" onClick={handleSkipToUserPick}>
+                    Skip To My Pick
+                  </Button>
+                ) : null}
+              </div>
+              <div className="mt-4 max-h-[42rem] space-y-3 overflow-y-auto pr-1">
+                {session.picks.map((pick, index) => {
+                  const isCurrent = index === session.currentPickIndex;
+                  const isNext = index === session.currentPickIndex + 1;
+                  const selectedPlayer = pick.selectedPlayerId
+                    ? session.prospects.find((player) => player.id === pick.selectedPlayerId)
+                    : null;
+                  const team = teamLookup.get(pick.ownerTeamAbbr);
+                  const statusLine = selectedPlayer
+                    ? `${pick.ownerTeamAbbr} drafted ${formatName(selectedPlayer)} (${selectedPlayer.position})`
+                    : isCurrent
+                      ? 'On the clock'
+                      : isNext
+                        ? 'On deck'
+                        : 'Waiting';
+                  return (
+                    <div key={pick.id} className="relative">
+                      <DraftTeamCard
+                        variant={draftPhase === 'PRE_DRAFT' ? 'pre' : 'in'}
+                        model={{
+                          pickNumber: pick.overall,
+                          teamName: team?.name ?? pick.ownerTeamAbbr,
+                          logoUrl: team?.logoUrl,
+                          statusLine,
+                          isOnClock: isCurrent,
+                        }}
+                      />
+                      {pick.ownerTeamAbbr === session.userTeamAbbr ? (
+                        <Badge variant="secondary" className="pointer-events-none absolute right-2 top-2">
+                          User
+                        </Badge>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <FalcoReactionFeed events={draftFeed} />
+          </section>
+
+          <section className="min-w-0 space-y-5">
+            <LiveDraftBoard
+              entries={boardEntries}
+              selectedPlayerId={selectedBoardPlayerId}
+              onSelectPlayer={setSelectedBoardPlayerId}
+              onDraftPlayer={
+                onClock && onDraftPlayer
+                  ? (playerId) => {
+                      const player = session.prospects.find((entry) => entry.id === playerId);
+                      if (player) {
+                        void onDraftPlayer(player);
+                      }
+                    }
+                  : undefined
+              }
+              canDraft={Boolean(onClock && onDraftPlayer)}
+            />
+
+            {spotlightPlayer ? (
+              <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Player Spotlight
+                    </p>
+                    <h3 className="mt-1 text-lg font-semibold text-foreground">
+                      {spotlightPlayer.firstName} {spotlightPlayer.lastName}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {spotlightPlayer.position} · {spotlightPlayer.college ?? 'College TBD'} · OVR{' '}
+                      {spotlightPlayer.rating ?? spotlightPlayer.maddenRating ?? '--'}
+                    </p>
+                  </div>
+                  {onClock && onDraftPlayer ? (
+                    <Button type="button" onClick={() => void onDraftPlayer(spotlightPlayer)}>
+                      Draft {spotlightPlayer.firstName}
+                    </Button>
+                  ) : null}
+                </div>
+              </section>
+            ) : null}
+
+            <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    Full Prospect Pool
+                  </p>
+                  <h2 className="mt-1 text-lg font-semibold text-foreground">Available Players</h2>
+                </div>
+                {!onClock && bestAvailable.length > 0 ? (
+                  <div className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700">
+                    CPU teams are picking. Your board stays live.
+                  </div>
+                ) : null}
+              </div>
+              <div className="mt-4">
+                <PlayerTable
+                  data={bestAvailable}
+                  variant="draft"
+                  onDraftPlayer={onClock ? onDraftPlayer : undefined}
+                  onTheClockForUserTeam={onClock}
+                />
+              </div>
+            </section>
+          </section>
         </div>
       </div>
 
-      <div className={cn(isMobile && mobileView !== 'board' ? 'hidden' : 'block')}>
-        {boardSection}
-      </div>
-      <div className={cn(isMobile && mobileView !== 'available' ? 'hidden' : 'block')}>
-        {availableSection}
-      </div>
-    </div>
+      <DraftTradeOfferReviewModal
+        open={Boolean(reviewOffer)}
+        offer={reviewOffer}
+        draftSessionId={draftSessionId}
+        onClose={() => setReviewOffer(null)}
+        onAccepted={({ session: nextSession, roster: nextRoster, header }) => {
+          onDraftTradeAccepted({
+            nextSession,
+            nextRoster,
+            header,
+          });
+          setDraftOffers([]);
+          setReviewOffer(null);
+          offersRequestRef.current = null;
+        }}
+      />
+    </>
   );
 }

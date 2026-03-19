@@ -18,7 +18,6 @@ import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
-import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
 import { getDraftGrade } from '@/lib/draft-utils';
 import { buildFalcoBoard } from '@/lib/falco';
 import { getTeamCatchphrase } from '@/lib/team-chants';
@@ -224,15 +223,6 @@ function DraftRoomContent() {
     },
     [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, teamAbbr, teamId],
   );
-  const requestTradeOffer = useTradeOfferOrchestrator({
-    enabled: Boolean((teamAbbr || selectedTeam?.abbr) && (saveId || teamId || selectedTeam?.id)),
-    phase: 'draft',
-    saveId,
-    teamAbbr: teamAbbr || selectedTeam?.abbr || '',
-    ensureActionableSaveId: async (preferredSaveId?: string | null) =>
-      (await ensureSaveExists('draft')) ?? preferredSaveId ?? null,
-  });
-
   const userSelections = React.useMemo(() => {
     if (!session) {
       return [];
@@ -242,15 +232,6 @@ function DraftRoomContent() {
       .map((pick) => session.prospects.find((player) => player.id === pick.selectedPlayerId))
       .filter((player): player is PlayerRowDTO => Boolean(player));
   }, [session]);
-
-  React.useEffect(() => {
-    if (!session?.id || !saveId || !teamAbbr) return;
-    void requestTradeOffer({
-      trigger: `pick-${session.currentPickIndex + 1}`,
-      draftSessionId: session.id,
-      draftCurrentPickIndex: session.currentPickIndex,
-    });
-  }, [requestTradeOffer, saveId, session?.currentPickIndex, session?.id, teamAbbr]);
 
   const roundOneOrder = React.useMemo(() => buildRoundOneOrder(teams), [teams]);
   const lobbyProspects = React.useMemo(() => buildTop32Prospects(), []);
@@ -487,6 +468,39 @@ function DraftRoomContent() {
     setIsGradeOpen(true);
   };
 
+  const handleDraftTradeAccepted = React.useCallback(
+    ({
+      nextSession,
+      nextRoster,
+      header,
+    }: {
+      nextSession: DraftSessionDTO;
+      nextRoster: PlayerRowDTO[];
+      header: {
+        saveId: string;
+        teamAbbr: string;
+        capSpace: number;
+        capLimit: number;
+        rosterCount: number;
+        rosterLimit: number;
+        phase: string;
+        unlocked: { freeAgency: boolean; draft: boolean };
+        createdAt: string;
+      };
+    }) => {
+      setSession(nextSession);
+      setRoster(nextRoster);
+      setSaveHeader(
+        {
+          ok: true,
+          ...header,
+        },
+        teamId,
+      );
+    },
+    [setRoster, setSaveHeader, teamId],
+  );
+
   if (!saveId) {
     return (
       <AppShell>
@@ -690,6 +704,7 @@ function DraftRoomContent() {
               draftPhase={draftPhase}
               onBackToBoard={() => setDraftView('board')}
               onDraftPlayer={handleDraftPlayer}
+              onDraftTradeAccepted={handleDraftTradeAccepted}
               onSessionUpdate={setSession}
             />
           )}

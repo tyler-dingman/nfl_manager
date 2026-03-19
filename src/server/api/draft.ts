@@ -6,6 +6,8 @@ import type { DraftMode, DraftPickDTO, DraftSessionDTO, DraftSessionState } from
 import { addDraftedPlayersInState, getSaveStateResult, pushNewsItem } from './store';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import { createRng } from '@/lib/deterministic-rng';
+import { getSaveHeaderSnapshot, getProjectedCapSpaceForTeam } from './store';
+import type { TradeOfferDTO } from '@/types/trade-offers';
 
 export type DraftSessionStartResponse = {
   draftSessionId: string;
@@ -378,4 +380,172 @@ export const applyDraftTrade = (
   });
 
   return session;
+};
+
+const capHitMillions = (player: PlayerRowDTO) =>
+  Number(player.capHit.replace(/[^0-9.]/g, '')) || 0;
+
+const computeTradeCapSpace = (
+  baseCapSpace: number,
+  outgoingPlayers: PlayerRowDTO[],
+  incomingPlayers: PlayerRowDTO[],
+) => {
+  const outgoingCap = outgoingPlayers.reduce((sum, player) => sum + capHitMillions(player), 0);
+  const incomingCap = incomingPlayers.reduce((sum, player) => sum + capHitMillions(player), 0);
+  return Number((baseCapSpace + outgoingCap - incomingCap).toFixed(1));
+};
+
+export const acceptDraftTradeOffer = (
+  draftSessionId: string,
+  saveId: string,
+  offer: TradeOfferDTO,
+) => {
+  const { session, state } = getDraftSessionState(saveId, draftSessionId);
+  if (session.isPaused) {
+    throw new Error('Draft is paused');
+  }
+  if (session.status === 'completed') {
+    throw new Error('Draft is already complete');
+  }
+
+  const currentPick = session.picks[session.currentPickIndex];
+  if (!currentPick || currentPick.ownerTeamAbbr !== session.userTeamAbbr) {
+    throw new Error('You are not on the clock');
+  }
+  if (offer.phase !== 'draft') {
+    throw new Error('This route only accepts draft offers');
+  }
+
+  const outgoingPickAssets = offer.outgoing.assets.filter(
+    (asset): asset is Extract<(typeof offer.outgoing.assets)[number], { type: 'pick' }> =>
+      asset.type === 'pick',
+  );
+  const incomingPickAssets = offer.incoming.assets.filter(
+    (asset): asset is Extract<(typeof offer.incoming.assets)[number], { type: 'pick' }> =>
+      asset.type === 'pick',
+  );
+
+  const outgoingPlayerIds = new Set(
+    offer.outgoing.assets
+      .filter((asset): asset is Extract<(typeof offer.outgoing.assets)[number], { type: 'player' }> => asset.type === 'player')
+      .map((asset) => asset.playerId),
+  );
+  const incomingPlayerIds = new Set(
+    offer.incoming.assets
+      .filter((asset): asset is Extract<(typeof offer.incoming.assets)[number], { type: 'player' }> => asset.type === 'player')
+      .map((asset) => asset.playerId),
+  );
+
+  const userRoster = (state.teamRosters[session.userTeamAbbr] ?? state.roster).filter(
+    (player) => player.status?.toLowerCase() !== 'cut',
+  );
+  const partnerRoster = (state.teamRosters[offer.proposingTeamAbbr] ?? []).filter(
+    (player) => player.status?.toLowerCase() !== 'cut',
+  );
+
+  const outgoingPlayers = userRoster.filter((player) => outgoingPlayerIds.has(player.id));
+  const incomingPlayers = partnerRoster.filter((player) => incomingPlayerIds.has(player.id));
+
+  if (outgoingPlayers.length !== outgoingPlayerIds.size || incomingPlayers.length !== incomingPlayerIds.size) {
+    throw new Error('Unable to resolve one or more player assets in the offer');
+  }
+
+  const outgoingSessionPicks = outgoingPickAssets
+    .filter((asset) => asset.year === 2026)
+    .map((asset) =>
+      session.picks.find(
+        (entry) =>
+          entry.round === asset.round &&
+          entry.overall === asset.overallSlot &&
+          entry.ownerTeamAbbr === session.userTeamAbbr,
+      ),
+    )
+    .filter((pick): pick is DraftPickDTO => Boolean(pick));
+  const incomingSessionPicks = incomingPickAssets
+    .filter((asset) => asset.year === 2026)
+    .map((asset) =>
+      session.picks.find(
+        (entry) =>
+          entry.round === asset.round &&
+          entry.overall === asset.overallSlot &&
+          entry.ownerTeamAbbr === offer.proposingTeamAbbr,
+      ),
+    )
+    .filter((pick): pick is DraftPickDTO => Boolean(pick));
+
+  if (outgoingSessionPicks.length !== outgoingPickAssets.filter((asset) => asset.year === 2026).length) {
+    throw new Error('A current draft pick in the offer is no longer available');
+  }
+  if (incomingSessionPicks.length !== incomingPickAssets.filter((asset) => asset.year === 2026).length) {
+    throw new Error('The offering team no longer controls one of the live picks in this offer');
+  }
+
+  outgoingSessionPicks.forEach((pick) => {
+    if (pick.selectedPlayerId) {
+      throw new Error('A pick in the offer is no longer available');
+    }
+  });
+  incomingSessionPicks.forEach((pick) => {
+    if (pick.selectedPlayerId) {
+      throw new Error('The offering team no longer owns a pick in this offer');
+    }
+  });
+
+  const nextUserCapSpace = computeTradeCapSpace(
+    getProjectedCapSpaceForTeam(state, session.userTeamAbbr),
+    outgoingPlayers,
+    incomingPlayers,
+  );
+  const nextPartnerCapSpace = computeTradeCapSpace(
+    getProjectedCapSpaceForTeam(state, offer.proposingTeamAbbr),
+    incomingPlayers,
+    outgoingPlayers,
+  );
+
+  if (nextUserCapSpace < 0 || nextPartnerCapSpace < 0) {
+    throw new Error('One team would exceed the cap after this draft-day trade');
+  }
+
+  if (outgoingSessionPicks.length > 0 || incomingSessionPicks.length > 0) {
+    applyDraftTrade(
+      draftSessionId,
+      offer.proposingTeamAbbr,
+      outgoingSessionPicks.map((pick) => pick.id),
+      incomingSessionPicks.map((pick) => pick.id),
+      saveId,
+    );
+  }
+
+  if (outgoingPlayerIds.size > 0 || incomingPlayerIds.size > 0) {
+    state.teamRosters[session.userTeamAbbr] = userRoster
+      .filter((player) => !outgoingPlayerIds.has(player.id))
+      .concat(incomingPlayers.map((player) => ({ ...player, signedTeamAbbr: session.userTeamAbbr })));
+    state.teamRosters[offer.proposingTeamAbbr] = partnerRoster
+      .filter((player) => !incomingPlayerIds.has(player.id))
+      .concat(outgoingPlayers.map((player) => ({ ...player, signedTeamAbbr: offer.proposingTeamAbbr })));
+    state.roster = state.teamRosters[session.userTeamAbbr];
+    state.header.rosterCount = state.roster.length;
+    state.header.capSpace = nextUserCapSpace;
+    state.teamCaps[session.userTeamAbbr] = nextUserCapSpace;
+    state.teamCaps[offer.proposingTeamAbbr] = nextPartnerCapSpace;
+  }
+
+  pushNewsItem(state, {
+    type: 'trade',
+    teamAbbr: session.userTeamAbbr,
+    playerName: incomingPlayers[0]
+      ? `${incomingPlayers[0].firstName} ${incomingPlayers[0].lastName}`
+      : 'Draft pick package',
+    details: `${session.userTeamAbbr} accepted a draft-day trade with ${offer.proposingTeamAbbr}.`,
+    severity: 'info',
+  });
+
+  return {
+    session,
+    roster: state.roster,
+    header: {
+      saveId,
+      ...getSaveHeaderSnapshot(state),
+    },
+  };
 };
