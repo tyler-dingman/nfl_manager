@@ -53,19 +53,19 @@ export const buildInterestQuote = ({
   playerId,
   interestPct,
   teamAbbr,
-  teammateFirstNames,
+  samePositionTeammateFirstNames,
 }: {
   playerId: string;
   interestPct?: number | null;
   teamAbbr?: string | null;
-  teammateFirstNames?: string[];
+  samePositionTeammateFirstNames?: string[];
 }): string | undefined => {
   const bucket = getInterestBucket(interestPct);
   if (!bucket) return undefined;
 
   const teamName = getTeamDisplayName(teamAbbr);
   const teammateName = pickDeterministic(
-    (teammateFirstNames ?? []).filter(Boolean),
+    (samePositionTeammateFirstNames ?? []).filter(Boolean),
     `${playerId}:teammate`,
   );
 

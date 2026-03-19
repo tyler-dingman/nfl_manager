@@ -195,7 +195,7 @@ export function TradeBlockTable({
           {loading && data.length === 0 ? (
             <>
               <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
-                <table className="min-w-full w-full border-collapse table-fixed md:min-w-[940px] md:table-auto">
+                <table className="min-w-full w-max border-collapse table-fixed md:min-w-[940px] md:w-full md:table-auto">
                   <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
                     <tr>
                       <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
@@ -207,8 +207,8 @@ export function TradeBlockTable({
                       <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         Age
                       </th>
-                      <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">OVR</th>
-                      <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                      <th className="w-[72px] min-w-[72px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">OVR</th>
+                      <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         Potential Fits
                       </th>
                       <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>Action</th>
@@ -226,11 +226,7 @@ export function TradeBlockTable({
                         ].map((width, cellIndex) => (
                           <td
                             key={`${index}-${cellIndex}`}
-                            className={
-                              cellIndex >= 3
-                                ? 'hidden px-4 py-3 align-middle sm:px-6 md:table-cell'
-                                : 'px-4 py-3 align-middle sm:px-6'
-                            }
+                            className="px-4 py-3 align-middle sm:px-6"
                           >
                             <div className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`} />
                           </td>
@@ -250,7 +246,7 @@ export function TradeBlockTable({
           ) : (
             <>
               <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
-                <table className="min-w-full w-full border-collapse table-fixed md:min-w-[940px] md:table-auto">
+                <table className="min-w-full w-max border-collapse table-fixed md:min-w-[940px] md:w-full md:table-auto">
                   <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
                     <tr>
                       <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
@@ -262,10 +258,10 @@ export function TradeBlockTable({
                       <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         {renderSortableHeader('Age', 'age', toggleSort)}
                       </th>
-                      <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                      <th className="w-[72px] min-w-[72px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         {renderSortableHeader('OVR', 'rating', toggleSort)}
                       </th>
-                      <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                      <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         {renderSortableHeader('Potential Fits', 'fits', toggleSort)}
                       </th>
                       <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>Action</th>
@@ -309,10 +305,10 @@ export function TradeBlockTable({
                         <td className="px-4 py-2 text-sm text-muted-foreground sm:px-6">
                           {player.age ?? '—'}
                         </td>
-                        <td className="hidden px-4 py-2 text-sm font-semibold text-foreground sm:px-6 md:table-cell">
+                        <td className="px-4 py-2 text-sm font-semibold text-foreground sm:px-6">
                           {player.rating ?? '—'}
                         </td>
-                        <td className="hidden px-4 py-2 sm:px-6 md:table-cell">
+                        <td className="px-4 py-2 sm:px-6">
                           <div className="flex items-center gap-2">
                             {player.potentialFits.map((abbr) => {
                               const team = teamLookup.get(abbr);

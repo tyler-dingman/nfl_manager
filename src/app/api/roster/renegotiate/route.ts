@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { getSaveStateResult } from '@/server/api/store';
+import { ensureSaveState, getSaveState, getSaveStateResult } from '@/server/api/store';
 import { renegotiatePlayerInState, markPlayerDisgruntled } from '@/server/api/store';
 import { evaluateRenegotiateOffer } from '@/server/logic/renegotiate';
 import { clampOfferYears } from '@/lib/contract-negotiation';
@@ -9,6 +9,7 @@ export const POST = async (request: Request) => {
   let body: {
     saveId?: string;
     playerId?: string;
+    teamAbbr?: string;
     years?: number;
     apy?: number;
     guaranteed?: number;
@@ -20,12 +21,16 @@ export const POST = async (request: Request) => {
     body = {};
   }
 
-  const { saveId, playerId, years, apy, guaranteed } = body;
+  const { saveId, playerId, teamAbbr, years, apy, guaranteed } = body;
   if (!saveId || !playerId || !years || apy === undefined || guaranteed === undefined) {
     return NextResponse.json(
       { ok: false, error: 'saveId, playerId, years, apy, guaranteed are required' },
       { status: 400 },
     );
+  }
+
+  if (!getSaveState(saveId) && teamAbbr) {
+    ensureSaveState(saveId, teamAbbr);
   }
 
   const stateResult = getSaveStateResult(saveId);

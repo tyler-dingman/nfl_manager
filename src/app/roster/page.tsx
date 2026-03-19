@@ -507,21 +507,59 @@ export default function RosterPage() {
     apy: number;
     guaranteed: number;
   }) => {
-    if (!saveId || !activeRenegotiatePlayer) {
+    if (!activeRenegotiatePlayer) {
       return;
     }
 
-    const response = await apiFetch('/api/roster/renegotiate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId,
-        playerId: activeRenegotiatePlayer.id,
-        years: offer.years,
-        apy: offer.apy,
-        guaranteed: offer.guaranteed,
-      }),
-    });
+    const actionableSaveId = await ensureActionableSaveId(saveId);
+
+    if (!actionableSaveId) {
+      pushToast({
+        title: 'Session not initialized',
+        description: 'Please return to Team Select to start a new offseason.',
+        variant: 'error',
+      });
+      return;
+    }
+
+    const requestBody = {
+      saveId: actionableSaveId,
+      teamAbbr,
+      playerId: activeRenegotiatePlayer.id,
+      years: offer.years,
+      apy: offer.apy,
+      guaranteed: offer.guaranteed,
+    };
+
+    const submitRenegotiate = (body: typeof requestBody) =>
+      apiFetch(
+        '/api/roster/renegotiate',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        },
+        { skipSaveGuard: true },
+      );
+
+    let response = await submitRenegotiate(requestBody);
+
+    if (response.status === 404) {
+      const errorPayload = (await response.json()) as { ok?: boolean; error?: string };
+      if (errorPayload.error === 'Save not found') {
+        const recoveredSaveId = await ensureActionableSaveId(null);
+        if (!recoveredSaveId) {
+          throw new Error(errorPayload.error || 'Unable to renegotiate right now.');
+        }
+
+        response = await submitRenegotiate({
+          ...requestBody,
+          saveId: recoveredSaveId,
+        });
+      } else {
+        throw new Error(errorPayload.error || 'Unable to renegotiate right now.');
+      }
+    }
 
     const data = (await response.json()) as RenegotiateResultDTO | { ok: false; error: string };
     if (!response.ok || !data.ok) {
@@ -579,6 +617,7 @@ export default function RosterPage() {
   };
 
   const sortedPlayers = useMemo(() => {
+    const expiringPlayerIds = new Set(expiringContracts.map((player) => player.id));
     const cut = players
       .filter((player) => player.status.toLowerCase() === 'cut')
       .sort((a, b) => {
@@ -587,10 +626,13 @@ export default function RosterPage() {
         return bCut - aCut;
       });
     const active = players
-      .filter((player) => player.status.toLowerCase() !== 'cut')
+      .filter(
+        (player) =>
+          player.status.toLowerCase() !== 'cut' && !expiringPlayerIds.has(player.id),
+      )
       .sort((a, b) => (b.capHitValue ?? 0) - (a.capHitValue ?? 0));
     return [...cut, ...active];
-  }, [players]);
+  }, [expiringContracts, players]);
 
   return (
     <AppShell>
@@ -704,7 +746,7 @@ export default function RosterPage() {
                   {isExpiringLoading && expiringContracts.length === 0 ? (
                     <>
                       <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
-                        <table className="min-w-full w-full border-collapse table-fixed md:table-auto">
+                        <table className="min-w-full w-max border-collapse table-fixed md:w-full md:table-auto">
                           <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
                             <tr>
                               <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
@@ -716,10 +758,10 @@ export default function RosterPage() {
                               <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 Age
                               </th>
-                              <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                              <th className="w-[112px] min-w-[112px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 Status
                               </th>
-                              <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                              <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 Interest
                               </th>
                               <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
@@ -742,11 +784,7 @@ export default function RosterPage() {
                                 ].map((width, cellIndex) => (
                                   <td
                                     key={`${index}-${cellIndex}`}
-                                    className={
-                                      cellIndex >= 3
-                                        ? 'hidden px-4 py-3 align-middle sm:px-6 md:table-cell'
-                                        : 'px-4 py-3 align-middle sm:px-6'
-                                    }
+                                    className="px-4 py-3 align-middle sm:px-6"
                                   >
                                     <div
                                       className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`}
@@ -768,7 +806,7 @@ export default function RosterPage() {
                   ) : (
                     <>
                       <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
-                        <table className="min-w-full w-full border-collapse table-fixed md:min-w-[720px] md:table-auto">
+                        <table className="min-w-full w-max border-collapse table-fixed md:min-w-[720px] md:w-full md:table-auto">
                           <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
                             <tr>
                               <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
@@ -780,10 +818,10 @@ export default function RosterPage() {
                               <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 Age
                               </th>
-                              <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                              <th className="w-[112px] min-w-[112px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 {renderExpiringHeader('Status', 'status')}
                               </th>
-                              <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                              <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 {renderExpiringHeader('Interest', 'interest')}
                               </th>
                               <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
@@ -797,9 +835,9 @@ export default function RosterPage() {
                                 key={player.id}
                                 className="border-t border-border hover:bg-slate-50/60"
                               >
-                                <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
-                                  <div className="flex items-center gap-3">
-                                    <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                                <td className="px-4 py-1.5 text-left text-sm font-semibold text-foreground sm:px-6">
+                                  <div className="flex w-full items-start justify-start gap-3 text-left">
+                                    <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
                                       {player.headshotUrl ? (
                                         // eslint-disable-next-line @next/next/no-img-element
                                         <img
@@ -815,11 +853,11 @@ export default function RosterPage() {
                                         ).charAt(0)}`.toUpperCase()
                                       )}
                                     </div>
-                                    <div className="min-w-0">
-                                      <div className="truncate">{player.name}</div>
+                                    <div className="min-w-0 flex-1 text-left">
+                                      <div className="truncate leading-tight">{player.name}</div>
                                       {player.interestQuote ? (
                                         <div
-                                          className="line-clamp-2 text-xs font-normal text-muted-foreground"
+                                          className="line-clamp-2 pt-0.5 text-left text-xs font-normal leading-snug text-muted-foreground"
                                           title={player.interestQuote}
                                         >
                                           {player.interestQuote}
@@ -834,10 +872,10 @@ export default function RosterPage() {
                                 <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
                                   {player.age ?? '—'}
                                 </td>
-                                <td className="hidden px-4 py-1.5 text-sm text-muted-foreground sm:px-6 md:table-cell">
+                                <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
                                   <Badge variant="success">Pending</Badge>
                                 </td>
-                                <td className="hidden px-4 py-1.5 text-sm text-foreground sm:px-6 md:table-cell">
+                                <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
                                   {(() => {
                                     const score = Math.max(
                                       0,

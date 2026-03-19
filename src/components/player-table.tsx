@@ -252,7 +252,6 @@ export function PlayerTable({
   onRenegotiatePlayer,
   onSelectTradePlayer,
 }: PlayerTableProps) {
-  const [isMobile, setIsMobile] = React.useState(false);
   const [positionFilter, setPositionFilter] = React.useState('All');
   const [searchQuery, setSearchQuery] = React.useState('');
   const skeletonRows = React.useMemo(() => Array.from({ length: 8 }, (_, index) => index), []);
@@ -290,21 +289,6 @@ export function PlayerTable({
     }
     setSorting([]);
   }, [variant]);
-
-  React.useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 767px)');
-
-    const updateMobileState = (event: MediaQueryList | MediaQueryListEvent) => {
-      setIsMobile(event.matches);
-    };
-
-    updateMobileState(mediaQuery);
-    mediaQuery.addEventListener('change', updateMobileState);
-
-    return () => {
-      mediaQuery.removeEventListener('change', updateMobileState);
-    };
-  }, []);
 
   const filteredData = React.useMemo(() => {
     if (loading) return [];
@@ -685,31 +669,6 @@ export function PlayerTable({
         },
       },
       {
-        accessorKey: 'status',
-        header: ({ column }) => <SortableHeader column={column} label="Status" />,
-        meta: { mobileHidden: true },
-        cell: ({ row }) => {
-          const statusKey = row.original.status.toLowerCase();
-          return (
-            <div className="flex items-center gap-2">
-              <Badge variant={statusVariantMap[statusKey] ?? 'outline'}>
-                {row.original.status}
-              </Badge>
-              {row.original.signedTeamLogoUrl && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={row.original.signedTeamLogoUrl}
-                  alt={`${row.original.signedTeamAbbr ?? 'Team'} logo`}
-                  className="h-5 w-5"
-                  loading="lazy"
-                  decoding="async"
-                />
-              )}
-            </div>
-          );
-        },
-      },
-      {
         id: 'actions',
         header: 'Actions',
         cell: ({ row }) => {
@@ -753,17 +712,13 @@ export function PlayerTable({
         visibility[columnId] = false;
         return;
       }
-      if (isMobile && column.meta?.mobileHidden) {
-        visibility[columnId] = false;
-        return;
-      }
-      if (!isMobile && column.meta?.desktopHidden) {
+      if (column.meta?.desktopHidden) {
         visibility[columnId] = false;
       }
     });
 
     return visibility;
-  }, [columns, isMobile]);
+  }, [columns]);
 
   const handleSortingChange = React.useCallback(
     (updater: SortingState | ((prev: SortingState) => SortingState)) => {
@@ -820,7 +775,7 @@ export function PlayerTable({
   const rankHeaderClass = isDraftVariant ? 'w-[64px] min-w-[64px]' : '';
   const tableClassName = isDraftVariant
     ? 'w-full border-collapse table-fixed'
-    : 'min-w-full w-full border-collapse table-fixed md:min-w-[720px] md:table-auto';
+    : 'min-w-full w-max border-collapse table-fixed md:min-w-[720px] md:w-full md:table-auto';
   const getResponsiveColumnClass = (columnId: string) => {
     if (columnId === 'name') {
       return 'w-[180px] min-w-[180px] md:w-auto md:min-w-0';
@@ -837,7 +792,7 @@ export function PlayerTable({
     if (columnId === 'rank') {
       return rankHeaderClass;
     }
-    return '';
+    return 'w-[112px] min-w-[112px] md:w-auto md:min-w-0';
   };
 
   return (

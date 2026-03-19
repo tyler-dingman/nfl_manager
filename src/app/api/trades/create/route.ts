@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
 
+import { ensureSaveState, getSaveState } from '@/server/api/store';
 import { createTrade } from '@/server/api/trades';
 
 export const POST = async (request: Request) => {
   const body = (await request.json()) as {
     saveId?: string;
+    teamAbbr?: string;
     partnerTeamAbbr?: string;
     playerId?: string;
   };
@@ -15,6 +17,10 @@ export const POST = async (request: Request) => {
 
   if (!body.partnerTeamAbbr) {
     return NextResponse.json({ ok: false, error: 'partnerTeamAbbr is required' }, { status: 400 });
+  }
+
+  if (!getSaveState(body.saveId) && body.teamAbbr) {
+    ensureSaveState(body.saveId, body.teamAbbr);
   }
 
   const result = createTrade(body.saveId, body.partnerTeamAbbr, body.playerId);

@@ -5,6 +5,8 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 import { estimateRenegotiateScore } from '@/lib/renegotiate-scoring';
+import { formatMoneyMillions, getCapHitSchedule } from '@/server/logic/cap';
+import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
 
 type RenegotiateModalProps = {
   player: PlayerRowDTO;
@@ -15,10 +17,17 @@ type RenegotiateModalProps = {
   onSubmit: (offer: { years: number; apy: number; guaranteed: number }) => Promise<void>;
 };
 
-const formatMillions = (value: number) => `$${value.toFixed(1)}M`;
-
 const parseCapHitValue = (player: PlayerRowDTO) =>
   player.capHitValue ?? (Number(player.capHit.replace(/[^0-9.]/g, '')) || 0);
+
+const getNextLeagueYearCapHit = (apy: number, years: number): number => {
+  if (years <= 1) {
+    return 0;
+  }
+
+  const capHitSchedule = getCapHitSchedule(apy, years);
+  return capHitSchedule[1] ?? 0;
+};
 
 export default function RenegotiateModal({
   player,
@@ -59,6 +68,7 @@ export default function RenegotiateModal({
     position: player.position,
     seed: saveId ? `${saveId}-${player.id}-${years}-${apy}-${guaranteed}` : undefined,
   });
+  const nextLeagueYearCapHit = getNextLeagueYearCapHit(apy, years);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
@@ -115,7 +125,7 @@ export default function RenegotiateModal({
                 <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                   Cap hit
                 </p>
-                <p className="mt-1 font-semibold">{formatMillions(parseCapHitValue(player))}</p>
+                <p className="mt-1 font-semibold">{formatMoneyMillions(parseCapHitValue(player))}</p>
               </div>
               <div className="rounded-lg bg-white/70 px-3 py-2">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -127,7 +137,7 @@ export default function RenegotiateModal({
                 <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                   Guaranteed
                 </p>
-                <p className="mt-1 font-semibold">{formatMillions(currentGuaranteed)}</p>
+                <p className="mt-1 font-semibold">{formatMoneyMillions(currentGuaranteed)}</p>
               </div>
             </div>
           </div>
@@ -174,6 +184,32 @@ export default function RenegotiateModal({
               value={guaranteed}
               onChange={(event) => setGuaranteed(Number(event.target.value))}
             />
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Offer Summary
+            </p>
+            <div className="mt-2 grid gap-2 sm:grid-cols-3">
+              <div className="rounded-lg bg-white/70 px-3 py-2">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                  Total Value
+                </p>
+                <p className="mt-1 font-semibold">{formatMoneyMillions(apy * years)}</p>
+              </div>
+              <div className="rounded-lg bg-white/70 px-3 py-2">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                  {CURRENT_MODELED_LEAGUE_YEAR} Cap Hit
+                </p>
+                <p className="mt-1 font-semibold">{formatMoneyMillions(nextLeagueYearCapHit)}</p>
+              </div>
+              <div className="rounded-lg bg-white/70 px-3 py-2">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                  Guaranteed
+                </p>
+                <p className="mt-1 font-semibold">{formatMoneyMillions(guaranteed)}</p>
+              </div>
             </div>
           </div>
 

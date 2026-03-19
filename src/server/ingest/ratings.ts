@@ -8,7 +8,7 @@ export const blendPlayerRating = (baselineRating: number, maddenRating?: number 
     return clampRating(baselineRating);
   }
 
-  return clampRating(Math.ceil(baselineRating + (maddenRating - baselineRating) / 2));
+  return clampRating(Math.round(baselineRating * 0.25 + maddenRating * 0.75));
 };
 
 const clampRating = (value: number): number =>

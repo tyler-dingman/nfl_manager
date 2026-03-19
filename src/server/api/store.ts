@@ -92,6 +92,12 @@ const getCachedOtcRows = async (): Promise<OtcFreeAgencyRow[]> => {
   return otcRowsPromise;
 };
 
+const getExpectedFreeAgentYearOneCapHit = (player: PlayerRowDTO): number => {
+  const apy =
+    player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000;
+  return getYearOneCapHit(apy, 1);
+};
+
 const splitName = (name: string) => {
   const parts = name.trim().split(/\s+/);
   if (parts.length === 1) {
@@ -120,7 +126,15 @@ const normalizePlayerKey = (value: string): string =>
 
 const rosterFallbackByTeam = new Map<
   string,
-  Map<string, { capHit: number; deadCap: number; yearsRemaining?: number }>
+  Map<
+    string,
+    {
+      capHit: number;
+      deadCap: number;
+      baseSalary?: number;
+      yearsRemaining?: number;
+    }
+  >
 >();
 
 rosterFallbackByTeam.set(
@@ -131,6 +145,7 @@ rosterFallbackByTeam.set(
       {
         capHit: entry.capHitTop51,
         deadCap: entry.deadCap,
+        baseSalary: entry.baseSalary,
         yearsRemaining: entry.yearsRemaining,
       },
     ]),
@@ -186,9 +201,17 @@ const resolvePlayerContractValues = (
     getContractYearsRemaining(unifiedContract) ?? fallback?.yearsRemaining ?? 0;
   const deadCapFromUnified = toMillions(unifiedContract?.deadCap ?? null);
   const releaseSavingsFromUnified = toMillions(unifiedContract?.releaseSavings ?? null);
+  const releaseSavingsFromFallback = toMillions(fallback?.baseSalary ?? null);
   const deadCapFromSavings =
-    capHitValue > 0 && releaseSavingsFromUnified !== null
-      ? Math.max(0, Number((capHitValue - releaseSavingsFromUnified).toFixed(1)))
+    capHitValue > 0 && (releaseSavingsFromUnified ?? releaseSavingsFromFallback) !== null
+      ? Math.max(
+          0,
+          Number(
+            (
+              capHitValue - (releaseSavingsFromUnified ?? releaseSavingsFromFallback ?? 0)
+            ).toFixed(1),
+          ),
+        )
       : null;
   const deadCapEstimate =
     deadCapFromUnified ??
@@ -196,7 +219,9 @@ const resolvePlayerContractValues = (
     toMillions(fallback?.deadCap ?? null) ??
     Math.max(0, Number((capHitValue * 0.35).toFixed(1)));
   const releaseSavings =
-    releaseSavingsFromUnified ?? Math.max(0, Number((capHitValue - deadCapEstimate).toFixed(1)));
+    releaseSavingsFromUnified ??
+    releaseSavingsFromFallback ??
+    Math.max(0, Number((capHitValue - deadCapEstimate).toFixed(1)));
   const postJune1Savings = toMillions(unifiedContract?.postJune1Savings ?? null);
 
   return {
@@ -341,8 +366,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     teamAbbr: teamAbbr.toUpperCase(),
   }).map((player) => ({
     ...player,
-    year1CapHit:
-      player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000,
+    year1CapHit: getExpectedFreeAgentYearOneCapHit(player),
   })) as StoredPlayer[];
   const capSpace = capSpaceMillionsForTeam(normalizedTeamAbbr);
   const capLimit = capLimitMillionsForTeam(normalizedTeamAbbr, roster);
@@ -453,8 +477,7 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
 const toStoredPlayers = (players: PlayerRowDTO[]): StoredPlayer[] =>
   players.map((player) => ({
     ...player,
-    year1CapHit:
-      player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000,
+    year1CapHit: getExpectedFreeAgentYearOneCapHit(player),
   }));
 
 const resolveWalkawaysFromState = (state: SaveState): PlayerRowDTO[] => {
@@ -524,16 +547,19 @@ export const signFreeAgentInState = (
   }
 
   const [player] = state.freeAgents.splice(playerIndex, 1);
-  if (state.header.capSpace < player.year1CapHit) {
+  const year1CapHit = getExpectedFreeAgentYearOneCapHit(player);
+  if (state.header.capSpace < year1CapHit) {
     throw new Error('Signing would exceed available cap space');
   }
   const signedPlayer: StoredPlayer = {
     ...player,
     teamAbbr: state.header.teamAbbr,
     contractYearsRemaining: 1,
-    capHit: formatMoneyMillions(player.year1CapHit),
-    capHitValue: player.year1CapHit,
-    salary: player.year1CapHit,
+    capHit: formatMoneyMillions(year1CapHit),
+    capHitValue: year1CapHit,
+    salary:
+      player.freeAgentProfile?.expectedAnnualValue ??
+      (player.marketValue ?? year1CapHit * 1_000_000) / 1_000_000,
     guaranteed: 0,
     status: 'Active',
     currentTeamAbbr: state.header.teamAbbr,
@@ -551,9 +577,11 @@ export const signFreeAgentInState = (
       : player.freeAgentProfile,
     contract: {
       yearsRemaining: 1,
-      apy: player.year1CapHit,
+      apy:
+        player.freeAgentProfile?.expectedAnnualValue ??
+        (player.marketValue ?? year1CapHit * 1_000_000) / 1_000_000,
       guaranteed: 0,
-      capHit: player.year1CapHit,
+      capHit: year1CapHit,
       expiresAfterSeason: false,
     },
   };
@@ -564,14 +592,14 @@ export const signFreeAgentInState = (
   state.teamRosters[userTeam] = [...currentRoster, signedPlayer];
   state.roster = state.teamRosters[userTeam];
   state.header.rosterCount = state.roster.length;
-  state.header.capSpace = Number((state.header.capSpace - player.year1CapHit).toFixed(1));
+  state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
   state.teamCaps[userTeam] = state.header.capSpace;
   state.transactions.push({
     id: `tx_sign_${Date.now()}_${Math.random().toString(16).slice(2)}`,
     type: 'signing',
     playerId: signedPlayer.id,
     toTeamAbbr: userTeam,
-    capHit: signedPlayer.year1CapHit,
+    capHit: year1CapHit,
     createdAt: new Date().toISOString(),
   });
   pushNewsItem(state, {

@@ -3,6 +3,7 @@ import type { SaveHeaderDTO } from '@/types/save';
 
 import {
   getProjectedCapSpaceForTeam,
+  getOrBuildProjectedRosterForTeam,
   getProjectedRosterForTeam,
   getSaveHeaderSnapshot,
   getSaveStateResult,
@@ -95,79 +96,6 @@ type TradeBalanceResult = {
 
 const tradeStore = new Map<string, TradeState>();
 
-const BASE_PARTNER_PLAYERS: StoredTradePlayer[] = [
-  {
-    id: 'p1',
-    firstName: 'Amon-Ra',
-    lastName: 'St. Brown',
-    position: 'WR',
-    contractYearsRemaining: 3,
-    capHit: '$9.6M',
-    guaranteed: 30.4,
-    deadCap: 7.5,
-    age: 25,
-    status: 'Active',
-    headshotUrl: null,
-    year1CapHit: 9.6,
-  },
-  {
-    id: 'p2',
-    firstName: 'Micah',
-    lastName: 'Parsons',
-    position: 'LB',
-    contractYearsRemaining: 2,
-    capHit: '$8.3M',
-    guaranteed: 22.1,
-    deadCap: 6.2,
-    age: 26,
-    status: 'Active',
-    headshotUrl: null,
-    year1CapHit: 8.3,
-  },
-  {
-    id: 'p3',
-    firstName: 'Bijan',
-    lastName: 'Robinson',
-    position: 'RB',
-    contractYearsRemaining: 4,
-    capHit: '$5.4M',
-    guaranteed: 11.2,
-    deadCap: 3.1,
-    age: 23,
-    status: 'Active',
-    headshotUrl: null,
-    year1CapHit: 5.4,
-  },
-  {
-    id: 'p4',
-    firstName: 'Patrick',
-    lastName: 'Surtain',
-    position: 'CB',
-    contractYearsRemaining: 2,
-    capHit: '$7.1M',
-    guaranteed: 16.8,
-    deadCap: 4.2,
-    age: 24,
-    status: 'Active',
-    headshotUrl: null,
-    year1CapHit: 7.1,
-  },
-  {
-    id: 'p5',
-    firstName: 'Penei',
-    lastName: 'Sewell',
-    position: 'OL',
-    contractYearsRemaining: 3,
-    capHit: '$6.2M',
-    guaranteed: 18.4,
-    deadCap: 4.6,
-    age: 24,
-    status: 'Active',
-    headshotUrl: null,
-    year1CapHit: 6.2,
-  },
-];
-
 const PICK_VALUES: Record<string, { label: string; value: number }> = {
   '2025-r1': { label: '2025 Round 1 Pick', value: 95 },
   '2025-r2': { label: '2025 Round 2 Pick', value: 70 },
@@ -178,22 +106,11 @@ const PICK_VALUES: Record<string, { label: string; value: number }> = {
   '2025-r7': { label: '2025 Round 7 Pick', value: 5 },
 };
 
-const clonePartnerRoster = (teamAbbr: string) =>
-  BASE_PARTNER_PLAYERS.map((player, index) => ({
-    ...player,
-    id: `${teamAbbr}-${index + 1}`,
-  }));
-
 const getPartnerRoster = (
-  state: { teamRosters: Record<string, StoredTradePlayer[]> },
+  state: Parameters<typeof getOrBuildProjectedRosterForTeam>[0],
   teamAbbr: string,
 ): StoredTradePlayer[] => {
-  const normalized = teamAbbr.toUpperCase();
-  if (!state.teamRosters[normalized]) {
-    state.teamRosters[normalized] = clonePartnerRoster(normalized);
-  }
-
-  return state.teamRosters[normalized] ?? [];
+  return getOrBuildProjectedRosterForTeam(state, teamAbbr);
 };
 
 const toPlayerDTO = (player: StoredTradePlayer): PlayerRowDTO => ({

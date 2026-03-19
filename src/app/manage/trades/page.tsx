@@ -275,7 +275,7 @@ function TradeBuilderContent() {
         return;
       }
 
-      const activeSaveId = await ensureActionableSaveId(saveId);
+      let activeSaveId = await ensureActionableSaveId(saveId);
 
       if (!activeSaveId) {
         return;
@@ -293,6 +293,7 @@ function TradeBuilderContent() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             saveId: activeSaveId,
+            teamAbbr,
             partnerTeamAbbr,
             playerId: selectedPlayerId,
           }),
@@ -304,21 +305,59 @@ function TradeBuilderContent() {
         if (!recoveredSaveId) {
           return;
         }
+        activeSaveId = recoveredSaveId;
         response = await apiFetch('/api/trades/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             saveId: recoveredSaveId,
+            teamAbbr,
             partnerTeamAbbr,
             playerId: selectedPlayerId,
           }),
-        });
+        }, { skipSaveGuard: true });
       }
       if (!response.ok) {
         return;
       }
 
       const data = (await response.json()) as TradeCreateResponse;
+      const selectedPartnerPlayer =
+        selectedPlayerId && data.partnerRoster.some((player) => player.id === selectedPlayerId)
+          ? data.partnerRoster.find((player) => player.id === selectedPlayerId) ?? null
+          : null;
+      const selectedPlayerSeeded = selectedPlayerId
+        ? data.trade.receiveAssets.some((asset) => asset.playerId === selectedPlayerId)
+        : true;
+
+      if (selectedPartnerPlayer && !selectedPlayerSeeded) {
+        const addAssetResponse = await apiFetch(
+          `/api/trades/${data.trade.id}/add-asset`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              saveId: activeSaveId,
+              side: 'receive',
+              type: 'player',
+              playerId: selectedPlayerId,
+            }),
+          },
+          { skipSaveGuard: true },
+        );
+
+        if (addAssetResponse.ok) {
+          const updatedData = (await addAssetResponse.json()) as TradeCreateResponse;
+          lastTradeKeyRef.current = tradeKey;
+          setTrade(updatedData.trade);
+          setUserRoster(updatedData.userRoster);
+          setPartnerRoster(updatedData.partnerRoster);
+          setProposalStatus('');
+          setTradeInsights(null);
+          return;
+        }
+      }
+
       lastTradeKeyRef.current = tradeKey;
       setTrade(data.trade);
       setUserRoster(data.userRoster);

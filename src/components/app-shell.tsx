@@ -501,7 +501,26 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 </div>
 
                 <div className="hidden md:flex md:items-center md:justify-between">
-                  <div className="flex min-w-0 flex-wrap items-center gap-y-3">
+                  <div className="flex min-w-0 flex-wrap items-center gap-y-3 md:gap-x-3">
+                    <Link
+                      href="/teams?switch=1"
+                      aria-label="Change team"
+                      className="hidden h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring md:flex"
+                    >
+                      {selectedTeam?.logo_url ? (
+                        <Image
+                          src={selectedTeam.logo_url}
+                          alt={`${selectedTeam.name} logo`}
+                          width={40}
+                          height={40}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-xs font-semibold text-muted-foreground">
+                          {selectedTeam?.abbr ?? '--'}
+                        </span>
+                      )}
+                    </Link>
                     <div className="hidden flex-col pr-5 md:flex">
                       <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         Active Team

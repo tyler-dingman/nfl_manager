@@ -6,11 +6,18 @@ import {
   BadgeDollarSign,
   ClipboardCheck,
   Handshake,
+  MoreHorizontal,
   Plus,
   UserX,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import type { PlayerRowDTO } from '@/types/player';
 
 export type PlayerRowActionsVariant = 'roster' | 'freeAgent' | 'draft' | 'tradePicker' | 'resign';
@@ -131,30 +138,66 @@ export default function PlayerRowActions({
                 },
               ];
 
+  const mobileRosterActions = (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-9 w-[124px] justify-center gap-1.5 px-3 text-xs sm:hidden"
+          aria-label={`Open actions for ${name}`}
+        >
+          <MoreHorizontal className="h-4 w-4" />
+          <span>Actions</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-44">
+        {actions.map((action) => {
+          const Icon = action.icon;
+          return (
+            <DropdownMenuItem
+              key={action.label}
+              onClick={action.onClick}
+              disabled={Boolean(action.disabled)}
+              title={action.disabledReason}
+            >
+              <Icon className="mr-2 h-4 w-4" />
+              <span>{action.label}</span>
+            </DropdownMenuItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
   return (
-    <div className="flex flex-wrap items-center justify-start gap-1.5 md:justify-end md:gap-2">
+    <div className="flex flex-wrap items-center justify-start gap-1.5 sm:flex-nowrap sm:justify-end sm:gap-2">
+      {variant === 'roster' ? mobileRosterActions : null}
       {actions.map((action) => {
         const Icon = action.icon;
         const isDisabled = Boolean(action.disabled);
         const button = (
           <>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-9 w-[124px] justify-center gap-1.5 px-3 text-xs md:hidden"
-              onClick={action.onClick}
-              aria-label={`${action.label} ${name}`}
-              disabled={isDisabled}
-            >
-              <Icon className="h-4 w-4" />
-              <span>{action.label}</span>
-            </Button>
+            {variant !== 'roster' ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-9 w-[124px] justify-center gap-1.5 px-3 text-xs sm:hidden"
+                onClick={action.onClick}
+                aria-label={`${action.label} ${name}`}
+                disabled={isDisabled}
+              >
+                <Icon className="h-4 w-4" />
+                <span>{action.label}</span>
+              </Button>
+            ) : null}
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="hidden h-8 w-8 md:inline-flex"
+              className="hidden h-8 w-8 sm:inline-flex"
               onClick={action.onClick}
               aria-label={`${action.label} ${name}`}
               disabled={isDisabled}

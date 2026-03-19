@@ -60,8 +60,12 @@ export const GET = async (request: Request) => {
       };
     })
     .map((row, _, rows) => {
-      const teammateFirstNames = rows
-        .filter((teammate) => teammate.id !== row.id)
+      const samePositionTeammateFirstNames = rows
+        .filter(
+          (teammate) =>
+            teammate.id !== row.id &&
+            teammate.pos.trim().toUpperCase() === row.pos.trim().toUpperCase(),
+        )
         .map((teammate) => teammate.name.split(/\s+/)[0] ?? '')
         .filter(Boolean);
 
@@ -71,7 +75,7 @@ export const GET = async (request: Request) => {
           playerId: row.id,
           interestPct: row.interestPct,
           teamAbbr: stateResult.data.header.teamAbbr,
-          teammateFirstNames,
+          samePositionTeammateFirstNames,
         }),
       };
     })
