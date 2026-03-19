@@ -8,6 +8,8 @@ export type TeamOverview = {
   grade: string;
 };
 
+export type TeamNeed = 'QB' | 'RB' | 'WR' | 'TE' | 'OT' | 'IOL' | 'EDGE' | 'DL' | 'LB' | 'CB' | 'S';
+
 export type TeamOverviewRaw = {
   overall: number;
   offense: number;
@@ -38,6 +40,12 @@ type WeightedSlot = {
   bucket: OverviewBucket;
   count: number;
   weight: number;
+};
+
+type NeedGroup = {
+  label: TeamNeed;
+  buckets: OverviewBucket[];
+  starterCount: number;
 };
 
 const STARTER_SLOTS: WeightedSlot[] = [
@@ -72,6 +80,19 @@ const OFFENSE_BUCKETS = new Set<OverviewBucket>([
 ]);
 const DEFENSE_BUCKETS = new Set<OverviewBucket>(['EDGE', 'DL', 'LB', 'CB', 'S']);
 const SPECIAL_TEAMS_BUCKETS = new Set<OverviewBucket>(['K', 'P']);
+const NEED_GROUPS: NeedGroup[] = [
+  { label: 'QB', buckets: ['QB'], starterCount: 1 },
+  { label: 'RB', buckets: ['RB'], starterCount: 2 },
+  { label: 'WR', buckets: ['WR'], starterCount: 3 },
+  { label: 'TE', buckets: ['TE'], starterCount: 1 },
+  { label: 'OT', buckets: ['LT', 'RT'], starterCount: 2 },
+  { label: 'IOL', buckets: ['LG', 'C', 'RG'], starterCount: 3 },
+  { label: 'EDGE', buckets: ['EDGE'], starterCount: 2 },
+  { label: 'DL', buckets: ['DL'], starterCount: 2 },
+  { label: 'LB', buckets: ['LB'], starterCount: 3 },
+  { label: 'CB', buckets: ['CB'], starterCount: 3 },
+  { label: 'S', buckets: ['S'], starterCount: 2 },
+];
 
 const clampScore = (value: number, min = 60, max = 99) => Math.max(min, Math.min(max, value));
 
@@ -123,6 +144,28 @@ const average = (values: number[]): number | null => {
   return values.reduce((sum, value) => sum + value, 0) / values.length;
 };
 
+const MISSING_STARTER_RATING = 55;
+
+const buildGroupedRatings = (players: UnifiedPlayer[]) => {
+  const groupedRatings = new Map<OverviewBucket, number[]>();
+  const resolvedRatings: number[] = [];
+
+  players.forEach((player) => {
+    const rating = resolvePlayerRating(player);
+    if (rating === null) return;
+
+    resolvedRatings.push(rating);
+    const bucket = normalizeOverviewPosition(player.position);
+    const bucketRatings = groupedRatings.get(bucket) ?? [];
+    bucketRatings.push(rating);
+    groupedRatings.set(bucket, bucketRatings);
+  });
+
+  groupedRatings.forEach((ratings) => ratings.sort((a, b) => b - a));
+
+  return { groupedRatings, resolvedRatings };
+};
+
 const scoreWeightedSlots = (
   groupedRatings: Map<OverviewBucket, number[]>,
   slots: WeightedSlot[],
@@ -169,21 +212,7 @@ const scoreSide = (groupedRatings: Map<OverviewBucket, number[]>, buckets: Set<O
 };
 
 export const computeTeamOverviewRaw = (players: UnifiedPlayer[]): TeamOverviewRaw => {
-  const groupedRatings = new Map<OverviewBucket, number[]>();
-  const resolvedRatings: number[] = [];
-
-  players.forEach((player) => {
-    const rating = resolvePlayerRating(player);
-    if (rating === null) return;
-
-    resolvedRatings.push(rating);
-    const bucket = normalizeOverviewPosition(player.position);
-    const bucketRatings = groupedRatings.get(bucket) ?? [];
-    bucketRatings.push(rating);
-    groupedRatings.set(bucket, bucketRatings);
-  });
-
-  groupedRatings.forEach((ratings) => ratings.sort((a, b) => b - a));
+  const { groupedRatings, resolvedRatings } = buildGroupedRatings(players);
 
   const starterScore = scoreWeightedSlots(groupedRatings, STARTER_SLOTS);
   const starterAverage = starterScore.score ?? average(resolvedRatings) ?? 60;
@@ -214,6 +243,51 @@ export const computeTeamOverviewRaw = (players: UnifiedPlayer[]): TeamOverviewRa
     defense: defenseRaw,
     specialTeams: specialTeamsRaw,
   };
+};
+
+export const computeTeamNeeds = (players: UnifiedPlayer[], count = 3): TeamNeed[] => {
+  const { groupedRatings } = buildGroupedRatings(players);
+
+  const scoredNeeds = NEED_GROUPS.map((group) => {
+    const starterRatings = group.buckets
+      .flatMap((bucket) => groupedRatings.get(bucket) ?? [])
+      .sort((a, b) => b - a)
+      .slice(0, group.starterCount);
+
+    const paddedRatings = [
+      ...starterRatings,
+      ...Array.from({ length: Math.max(0, group.starterCount - starterRatings.length) }, () =>
+        MISSING_STARTER_RATING,
+      ),
+    ];
+
+    const needScore = average(paddedRatings) ?? MISSING_STARTER_RATING;
+    const weakestStarter = paddedRatings[paddedRatings.length - 1] ?? MISSING_STARTER_RATING;
+
+    return {
+      label: group.label,
+      needScore,
+      weakestStarter,
+      filledStarters: starterRatings.length,
+      starterCount: group.starterCount,
+    };
+  });
+
+  return scoredNeeds
+    .sort((a, b) => {
+      if (a.needScore !== b.needScore) {
+        return a.needScore - b.needScore;
+      }
+      if (a.weakestStarter !== b.weakestStarter) {
+        return a.weakestStarter - b.weakestStarter;
+      }
+      if (a.filledStarters !== b.filledStarters) {
+        return a.filledStarters - b.filledStarters;
+      }
+      return a.label.localeCompare(b.label);
+    })
+    .slice(0, count)
+    .map((entry) => entry.label);
 };
 
 export const scaleOverviewScore = (

@@ -53,22 +53,11 @@ export const ROUND_ONE_PICK_ORDER: RoundOnePick[] = [
   { abbr: 'SEA' },
 ];
 
-const NEEDS_POOL = ['QB', 'RB', 'WR', 'TE', 'OT', 'IOL', 'EDGE', 'DT', 'LB', 'CB', 'S'] as const;
-
 const logoUrlFor = (abbr: string) =>
   `https://static.www.nfl.com/t_q-best/league/api/clubs/logos/${abbr}.svg`;
 
-export const getTeamNeeds = (abbr: string): string[] => {
-  const hash = abbr
-    .split('')
-    .reduce((sum, char, index) => sum + char.charCodeAt(0) * (index + 7), 0);
-
-  const first = NEEDS_POOL[hash % NEEDS_POOL.length];
-  const second = NEEDS_POOL[(hash + 3) % NEEDS_POOL.length];
-  const third = NEEDS_POOL[(hash + 6) % NEEDS_POOL.length];
-
-  return Array.from(new Set([first, second, third]));
-};
+export const getTeamNeeds = (abbr: string, teams: TeamDTO[]): string[] =>
+  teams.find((team) => team.abbr === abbr)?.teamNeeds ?? ['QB', 'OT', 'CB'];
 
 export const buildRoundOneOrder = (teams: TeamDTO[]): DraftOrderTeam[] => {
   const teamsByAbbr = new Map(teams.map((team) => [team.abbr, team]));
@@ -82,7 +71,7 @@ export const buildRoundOneOrder = (teams: TeamDTO[]): DraftOrderTeam[] => {
       logoUrl: team?.logoUrl ?? logoUrlFor(pick.abbr),
       primaryColor: team?.colors[0] ?? '#1f2937',
       secondaryColor: team?.colors[1] ?? '#9ca3af',
-      needs: getTeamNeeds(pick.abbr),
+      needs: team?.teamNeeds ?? ['QB', 'OT', 'CB'],
       record: pick.record ?? null,
       note: pick.note ?? null,
     };

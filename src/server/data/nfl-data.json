@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-19T01:20:29.750Z",
+  "updatedAt": "2026-03-19T01:26:07.359Z",
   "teams": [
     {
       "id": "ARI",
@@ -11,7 +11,12 @@
       "offenseOverview": 85,
       "defenseOverview": 79,
       "specialTeamsOverview": 76,
-      "teamOverviewGrade": "B+"
+      "teamOverviewGrade": "B+",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "EDGE"
+      ]
     },
     {
       "id": "ATL",
@@ -23,7 +28,12 @@
       "offenseOverview": 81,
       "defenseOverview": 77,
       "specialTeamsOverview": 80,
-      "teamOverviewGrade": "B+"
+      "teamOverviewGrade": "B+",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "EDGE"
+      ]
     },
     {
       "id": "BAL",
@@ -35,7 +45,12 @@
       "offenseOverview": 81,
       "defenseOverview": 89,
       "specialTeamsOverview": 90,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "EDGE"
+      ]
     },
     {
       "id": "BUF",
@@ -47,7 +62,12 @@
       "offenseOverview": 88,
       "defenseOverview": 75,
       "specialTeamsOverview": 78,
-      "teamOverviewGrade": "A-"
+      "teamOverviewGrade": "A-",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "EDGE"
+      ]
     },
     {
       "id": "CAR",
@@ -59,7 +79,12 @@
       "offenseOverview": 76,
       "defenseOverview": 78,
       "specialTeamsOverview": 71,
-      "teamOverviewGrade": "B"
+      "teamOverviewGrade": "B",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "S"
+      ]
     },
     {
       "id": "CHI",
@@ -71,7 +96,12 @@
       "offenseOverview": 86,
       "defenseOverview": 85,
       "specialTeamsOverview": 82,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "S"
+      ]
     },
     {
       "id": "CIN",
@@ -83,7 +113,12 @@
       "offenseOverview": 87,
       "defenseOverview": 71,
       "specialTeamsOverview": 79,
-      "teamOverviewGrade": "A-"
+      "teamOverviewGrade": "A-",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "CB"
+      ]
     },
     {
       "id": "CLE",
@@ -95,7 +130,12 @@
       "offenseOverview": 69,
       "defenseOverview": 84,
       "specialTeamsOverview": 78,
-      "teamOverviewGrade": "B"
+      "teamOverviewGrade": "B",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "RB"
+      ]
     },
     {
       "id": "DAL",
@@ -107,7 +147,12 @@
       "offenseOverview": 86,
       "defenseOverview": 82,
       "specialTeamsOverview": 86,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "LB"
+      ]
     },
     {
       "id": "DEN",
@@ -119,7 +164,12 @@
       "offenseOverview": 85,
       "defenseOverview": 87,
       "specialTeamsOverview": 78,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "DL"
+      ]
     },
     {
       "id": "DET",
@@ -131,7 +181,12 @@
       "offenseOverview": 84,
       "defenseOverview": 85,
       "specialTeamsOverview": 89,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "CB"
+      ]
     },
     {
       "id": "GB",
@@ -143,7 +198,12 @@
       "offenseOverview": 84,
       "defenseOverview": 82,
       "specialTeamsOverview": 84,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "CB"
+      ]
     },
     {
       "id": "HOU",
@@ -155,7 +215,12 @@
       "offenseOverview": 82,
       "defenseOverview": 86,
       "specialTeamsOverview": 72,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "DL"
+      ]
     },
     {
       "id": "IND",
@@ -167,7 +232,12 @@
       "offenseOverview": 80,
       "defenseOverview": 82,
       "specialTeamsOverview": 86,
-      "teamOverviewGrade": "A-"
+      "teamOverviewGrade": "A-",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "LB"
+      ]
     },
     {
       "id": "JAX",
@@ -179,7 +249,12 @@
       "offenseOverview": 80,
       "defenseOverview": 78,
       "specialTeamsOverview": 84,
-      "teamOverviewGrade": "B+"
+      "teamOverviewGrade": "B+",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "RB"
+      ]
     },
     {
       "id": "KC",
@@ -191,7 +266,12 @@
       "offenseOverview": 89,
       "defenseOverview": 79,
       "specialTeamsOverview": 79,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "CB"
+      ]
     },
     {
       "id": "LV",
@@ -203,7 +283,12 @@
       "offenseOverview": 83,
       "defenseOverview": 82,
       "specialTeamsOverview": 65,
-      "teamOverviewGrade": "B+"
+      "teamOverviewGrade": "B+",
+      "teamNeeds": [
+        "OT",
+        "DL",
+        "IOL"
+      ]
     },
     {
       "id": "LAC",
@@ -215,7 +300,12 @@
       "offenseOverview": 79,
       "defenseOverview": 79,
       "specialTeamsOverview": 65,
-      "teamOverviewGrade": "B+"
+      "teamOverviewGrade": "B+",
+      "teamNeeds": [
+        "EDGE",
+        "OT",
+        "IOL"
+      ]
     },
     {
       "id": "LAR",
@@ -227,7 +317,12 @@
       "offenseOverview": 81,
       "defenseOverview": 84,
       "specialTeamsOverview": 81,
-      "teamOverviewGrade": "A-"
+      "teamOverviewGrade": "A-",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "DL"
+      ]
     },
     {
       "id": "MIA",
@@ -239,7 +334,12 @@
       "offenseOverview": 68,
       "defenseOverview": 68,
       "specialTeamsOverview": 75,
-      "teamOverviewGrade": "C"
+      "teamOverviewGrade": "C",
+      "teamNeeds": [
+        "OT",
+        "EDGE",
+        "IOL"
+      ]
     },
     {
       "id": "MIN",
@@ -251,7 +351,12 @@
       "offenseOverview": 81,
       "defenseOverview": 79,
       "specialTeamsOverview": 72,
-      "teamOverviewGrade": "B-"
+      "teamOverviewGrade": "B-",
+      "teamNeeds": [
+        "OT",
+        "EDGE",
+        "IOL"
+      ]
     },
     {
       "id": "NE",
@@ -263,7 +368,12 @@
       "offenseOverview": 83,
       "defenseOverview": 90,
       "specialTeamsOverview": 82,
-      "teamOverviewGrade": "A+"
+      "teamOverviewGrade": "A+",
+      "teamNeeds": [
+        "IOL",
+        "OT",
+        "WR"
+      ]
     },
     {
       "id": "NO",
@@ -275,7 +385,12 @@
       "offenseOverview": 84,
       "defenseOverview": 76,
       "specialTeamsOverview": 83,
-      "teamOverviewGrade": "B+"
+      "teamOverviewGrade": "B+",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "CB"
+      ]
     },
     {
       "id": "NYG",
@@ -287,7 +402,12 @@
       "offenseOverview": 80,
       "defenseOverview": 87,
       "specialTeamsOverview": 85,
-      "teamOverviewGrade": "B+"
+      "teamOverviewGrade": "B+",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "QB"
+      ]
     },
     {
       "id": "NYJ",
@@ -299,7 +419,12 @@
       "offenseOverview": 70,
       "defenseOverview": 79,
       "specialTeamsOverview": 76,
-      "teamOverviewGrade": "B-"
+      "teamOverviewGrade": "B-",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "QB"
+      ]
     },
     {
       "id": "PHI",
@@ -311,7 +436,12 @@
       "offenseOverview": 86,
       "defenseOverview": 80,
       "specialTeamsOverview": 75,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "EDGE"
+      ]
     },
     {
       "id": "PIT",
@@ -323,7 +453,12 @@
       "offenseOverview": 77,
       "defenseOverview": 91,
       "specialTeamsOverview": 74,
-      "teamOverviewGrade": "B+"
+      "teamOverviewGrade": "B+",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "QB"
+      ]
     },
     {
       "id": "SF",
@@ -335,7 +470,12 @@
       "offenseOverview": 91,
       "defenseOverview": 84,
       "specialTeamsOverview": 71,
-      "teamOverviewGrade": "A+"
+      "teamOverviewGrade": "A+",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "DL"
+      ]
     },
     {
       "id": "SEA",
@@ -347,7 +487,12 @@
       "offenseOverview": 80,
       "defenseOverview": 91,
       "specialTeamsOverview": 90,
-      "teamOverviewGrade": "A"
+      "teamOverviewGrade": "A",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "TE"
+      ]
     },
     {
       "id": "TB",
@@ -359,7 +504,12 @@
       "offenseOverview": 77,
       "defenseOverview": 82,
       "specialTeamsOverview": 85,
-      "teamOverviewGrade": "A-"
+      "teamOverviewGrade": "A-",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "EDGE"
+      ]
     },
     {
       "id": "TEN",
@@ -371,7 +521,12 @@
       "offenseOverview": 79,
       "defenseOverview": 77,
       "specialTeamsOverview": 84,
-      "teamOverviewGrade": "B+"
+      "teamOverviewGrade": "B+",
+      "teamNeeds": [
+        "OT",
+        "IOL",
+        "CB"
+      ]
     },
     {
       "id": "WAS",
@@ -383,7 +538,12 @@
       "offenseOverview": 72,
       "defenseOverview": 88,
       "specialTeamsOverview": 84,
-      "teamOverviewGrade": "A-"
+      "teamOverviewGrade": "A-",
+      "teamNeeds": [
+        "IOL",
+        "OT",
+        "RB"
+      ]
     }
   ],
   "players": [

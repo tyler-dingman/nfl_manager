@@ -66,6 +66,16 @@ const TeamSelectCard = ({
         <span>DEF {team.defenseOverview}</span>
         <span>ST {team.specialTeamsOverview}</span>
       </div>
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        {team.teamNeeds.map((need) => (
+          <span
+            key={`${team.id}-${need}`}
+            className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-900"
+          >
+            {need}
+          </span>
+        ))}
+      </div>
     </div>
     <ChevronRight className="h-4 w-4 text-muted-foreground transition group-hover:text-foreground" />
   </button>
@@ -106,6 +116,7 @@ function TeamSelectScreenInner() {
           defenseOverview: team.defenseOverview,
           specialTeamsOverview: team.specialTeamsOverview,
           teamOverviewGrade: team.teamOverviewGrade,
+          teamNeeds: team.teamNeeds,
         })),
       );
     };

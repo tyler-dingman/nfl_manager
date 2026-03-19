@@ -22,6 +22,7 @@ import {
 } from '@/server/logic/contract-expiration';
 import {
   computeOverviewGrade,
+  computeTeamNeeds,
   computeTeamOverviewRaw,
   scaleOverviewScore,
 } from '@/server/logic/team-overview';
@@ -440,10 +441,12 @@ const run = async () => {
   const teamOverviewProfiles = playerSync.teams.map((team) => {
     const rosteredPlayers = enrichedPlayers.filter((player) => player.teamAbbr === team.abbr);
     const overview = computeTeamOverviewRaw(rosteredPlayers);
+    const teamNeeds = computeTeamNeeds(rosteredPlayers);
 
     return {
       team,
       overview,
+      teamNeeds,
     };
   });
   const overallRawValues = teamOverviewProfiles.map((entry) => entry.overview.overall);
@@ -458,7 +461,7 @@ const run = async () => {
   const maxDefenseRaw = Math.max(...defenseRawValues);
   const minSpecialTeamsRaw = Math.min(...specialTeamsRawValues);
   const maxSpecialTeamsRaw = Math.max(...specialTeamsRawValues);
-  const enrichedTeams = teamOverviewProfiles.map(({ team, overview }) => {
+  const enrichedTeams = teamOverviewProfiles.map(({ team, overview, teamNeeds }) => {
     const teamOverview = scaleOverviewScore(overview.overall, minOverallRaw, maxOverallRaw, 69, 91);
     const offenseOverview = scaleOverviewScore(
       overview.offense,
@@ -489,6 +492,7 @@ const run = async () => {
       defenseOverview,
       specialTeamsOverview,
       teamOverviewGrade: computeOverviewGrade(teamOverview),
+      teamNeeds,
     };
   });
 
@@ -535,7 +539,7 @@ const run = async () => {
   console.log('[team-overview] summary');
   sortedTeamOverviews.forEach((team) => {
     console.log(
-      `[team-overview] ${team.name}: overall=${team.teamOverview} offense=${team.offenseOverview} defense=${team.defenseOverview} specialTeams=${team.specialTeamsOverview} grade=${team.teamOverviewGrade}`,
+      `[team-overview] ${team.name}: overall=${team.teamOverview} offense=${team.offenseOverview} defense=${team.defenseOverview} specialTeams=${team.specialTeamsOverview} grade=${team.teamOverviewGrade} needs=${(team.teamNeeds ?? []).join('/')}`,
     );
   });
   console.log(`[expiring] rostered players=${expiring.rosteredPlayers.length}`);

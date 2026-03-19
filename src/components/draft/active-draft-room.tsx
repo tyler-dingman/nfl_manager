@@ -18,6 +18,7 @@ import { apiFetch } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
+import type { TeamDTO } from '@/types/team';
 import type { FalcoNote } from '@/lib/falco';
 
 const SPEED_DELAYS = [1000, 500, 250] as const;
@@ -27,7 +28,7 @@ export type DraftSpeedLevel = 0 | 1 | 2;
 type ActiveDraftRoomProps = {
   session: DraftSessionDTO;
   draftSessionId: string;
-  teams: Array<{ abbr: string; name: string; logoUrl: string; colors: string[] }>;
+  teams: TeamDTO[];
   falcoNotes: FalcoNote[];
   speedLevel: DraftSpeedLevel;
   draftView: 'board' | 'trade';
@@ -128,7 +129,7 @@ export function ActiveDraftRoom({
     if (!onClock || !currentPick) {
       return [];
     }
-    const needs = getTeamNeeds(session.userTeamAbbr);
+    const needs = getTeamNeeds(session.userTeamAbbr, teams);
     const pickNumber = currentPick.overall;
     return bestAvailable
       .map((player) => {
@@ -145,7 +146,7 @@ export function ActiveDraftRoom({
       .sort((a, b) => b.score - a.score)
       .slice(0, 3)
       .map((entry) => entry.player);
-  }, [bestAvailable, currentPick, falcoTagsByPlayer, onClock, session.userTeamAbbr]);
+  }, [bestAvailable, currentPick, falcoTagsByPlayer, onClock, session.userTeamAbbr, teams]);
 
   const advanceCpuPick = React.useCallback(async () => {
     if (advanceInFlight.current || skipInFlight.current) {
@@ -290,7 +291,7 @@ export function ActiveDraftRoom({
         const label = getPickLabel({
           pickIndex: pick.overall,
           playerRank: player.rank ?? 999,
-          teamNeeds: getTeamNeeds(pick.ownerTeamAbbr),
+          teamNeeds: getTeamNeeds(pick.ownerTeamAbbr, teams),
           playerPosition: player.position,
           tags,
         });

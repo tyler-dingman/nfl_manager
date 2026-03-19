@@ -14,6 +14,7 @@ export type Team = {
   defenseOverview: number;
   specialTeamsOverview: number;
   teamOverviewGrade: string;
+  teamNeeds: string[];
 };
 
 type TeamState = {
@@ -35,6 +36,7 @@ const teams: Team[] = TEAM_LIST.map((team) => ({
   defenseOverview: 75,
   specialTeamsOverview: 75,
   teamOverviewGrade: 'B-',
+  teamNeeds: ['QB', 'OT', 'CB'],
 }));
 
 export const useTeamStore = create<TeamState>((set) => ({

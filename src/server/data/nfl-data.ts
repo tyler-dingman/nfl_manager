@@ -40,6 +40,7 @@ export type UnifiedTeam = {
   defenseOverview?: number;
   specialTeamsOverview?: number;
   teamOverviewGrade?: string;
+  teamNeeds?: string[];
 };
 
 export type UnifiedPlayer = {

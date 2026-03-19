@@ -9,4 +9,5 @@ export type TeamDTO = {
   defenseOverview: number;
   specialTeamsOverview: number;
   teamOverviewGrade: string;
+  teamNeeds: string[];
 };
