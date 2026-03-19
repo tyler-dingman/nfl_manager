@@ -138,7 +138,14 @@ const enrichFreeAgentsWithRatings = (
 
     return {
       ...freeAgent,
+      age: matchedPlayer?.age ?? freeAgent.age ?? null,
+      height: matchedPlayer?.height ?? freeAgent.height ?? null,
+      weight: matchedPlayer?.weight ?? freeAgent.weight ?? null,
+      baselineRating: matchedPlayer?.baselineRating ?? freeAgent.baselineRating ?? null,
+      maddenRating: matchedPlayer?.maddenRating ?? freeAgent.maddenRating ?? null,
       rating: matchedPlayer?.rating ?? freeAgent.rating ?? null,
+      headshotUrl: matchedPlayer?.headshotUrl ?? freeAgent.headshotUrl ?? null,
+      stats: matchedPlayer ? { ...matchedPlayer.stats } : (freeAgent.stats ?? {}),
     };
   });
 };

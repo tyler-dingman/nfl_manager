@@ -72,8 +72,13 @@ export type UnifiedFreeAgent = {
   normalizedName: string;
   position: string;
   age: number | null;
+  height: string | null;
+  weight: number | null;
+  baselineRating: number | null;
+  maddenRating: number | null;
   rating: number | null;
   headshotUrl: string | null;
+  stats: UnifiedPlayerStats;
   lastTeamAbbr: string;
   contractStatus: string | null;
   currentTeamAbbr: string | null;

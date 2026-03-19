@@ -1,3 +1,5 @@
+import type { UnifiedPlayerStats } from '@/server/data/nfl-data';
+
 export type FreeAgentProfileDTO = {
   source: 'real' | 'seed' | 'released';
   marketStatus: 'unsigned' | 'available' | 'signed' | 'removed';
@@ -34,10 +36,17 @@ export type PlayerRowDTO = {
   id: string;
   firstName: string;
   lastName: string;
+  teamAbbr?: string | null;
+  normalizedName?: string;
   position: string;
   age?: number;
+  height?: string | null;
+  weight?: number | null;
+  baselineRating?: number | null;
+  maddenRating?: number | null;
   marketValue?: number | null;
   rating?: number;
+  stats?: UnifiedPlayerStats;
   rank?: number;
   projectedPick?: number;
   college?: string;
@@ -59,6 +68,11 @@ export type PlayerRowDTO = {
   signedTeamLogoUrl?: string | null;
   signedAt?: string | null;
   cutAt?: string | null;
+  lastTeamAbbr?: string | null;
+  currentTeamAbbr?: string | null;
+  contractStatus?: string | null;
+  isUnsigned?: boolean;
+  averagePerYear?: number | null;
   freeAgentProfile?: FreeAgentProfileDTO;
   contract?: {
     yearsRemaining: number;

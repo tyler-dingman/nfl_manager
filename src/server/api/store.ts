@@ -23,6 +23,7 @@ import {
   buildTeamExpiringContracts,
 } from '@/server/logic/offseason-free-agency';
 import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
+import { normalizePlayerName } from '@/server/ingest/normalize';
 
 export type PlayerFilters = {
   position?: string;
@@ -227,13 +228,20 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
       id: `${teamAbbr.toLowerCase()}-${player.id}`,
       firstName,
       lastName,
+      teamAbbr: player.teamAbbr,
+      normalizedName: normalizePlayerName(player.name),
       position: player.position,
       rating: player.rating,
+      baselineRating: player.baselineRating,
+      maddenRating: player.maddenRating,
       contractYearsRemaining: yearsRemaining,
       capHit: formatMoneyMillions(year1CapHit),
       capHitValue: year1CapHit,
+      height: player.height,
+      weight: player.weight,
       salary: apy,
       guaranteed,
+      stats: { ...player.stats },
       deadCap,
       releaseSavings,
       postJune1Savings: postJune1Savings ?? undefined,
@@ -509,12 +517,15 @@ export const signFreeAgentInState = (
   }
   const signedPlayer: StoredPlayer = {
     ...player,
+    teamAbbr: state.header.teamAbbr,
     contractYearsRemaining: 1,
     capHit: formatMoneyMillions(player.year1CapHit),
     capHitValue: player.year1CapHit,
     salary: player.year1CapHit,
     guaranteed: 0,
     status: 'Active',
+    currentTeamAbbr: state.header.teamAbbr,
+    isUnsigned: false,
     signedAt: new Date().toISOString(),
     freeAgentProfile: player.freeAgentProfile
       ? {
@@ -582,12 +593,15 @@ export const offerContractInState = (
   const year1CapHit = getYearOneCapHit(apy, years);
   const signedPlayer: StoredPlayer = {
     ...player,
+    teamAbbr: state.header.teamAbbr,
     contractYearsRemaining: years,
     capHit: formatMoneyMillions(year1CapHit),
     capHitValue: year1CapHit,
     salary: apy,
     guaranteed,
     status: 'Signed',
+    currentTeamAbbr: state.header.teamAbbr,
+    isUnsigned: false,
     signedTeamAbbr: state.header.teamAbbr,
     signedTeamLogoUrl: logoUrlFor(state.header.teamAbbr),
     signedAt: new Date().toISOString(),
@@ -752,9 +766,11 @@ export const addWalkawayToFreeAgencyInState = (
     id: input.id,
     firstName: input.firstName,
     lastName: input.lastName,
+    normalizedName: normalizePlayerName(`${input.firstName} ${input.lastName}`),
     position: input.position,
     age: input.age,
     rating: input.rating,
+    stats: {},
     marketValue: cap,
     contractYearsRemaining: 0,
     capHit: '$0.0M',

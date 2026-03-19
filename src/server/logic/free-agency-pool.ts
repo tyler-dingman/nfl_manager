@@ -4,6 +4,7 @@ import type {
   UnifiedPlayer as IngestedPlayer,
 } from '@/server/data/nfl-data';
 import type { FreeAgentProfileDTO, PlayerRowDTO } from '@/types/player';
+import { normalizePlayerName } from '@/server/ingest/normalize';
 
 export type MarketTier = 'elite' | 'starter' | 'depth' | 'fringe';
 
@@ -27,11 +28,17 @@ export type FreeAgentSeedRecord = {
   lastName: string;
   position: string;
   age?: number;
+  height?: string | null;
+  weight?: number | null;
+  baselineRating?: number | null;
+  maddenRating?: number | null;
+  rating?: number | null;
   yearsPro?: number;
   lastContractApy?: number | null;
   lastGuaranteed?: number | null;
   source: 'real' | 'released';
   headshotUrl?: string | null;
+  stats?: IngestedPlayer['stats'];
   previousTeamAbbr?: string | null;
 };
 
@@ -184,10 +191,17 @@ export const identifyLeagueFreeAgents = (league: IngestedLeagueData): FreeAgentS
       firstName,
       lastName,
       position: bucketPosition(player.position),
+      age: player.age ?? undefined,
+      height: player.height,
+      weight: player.weight,
+      baselineRating: player.baselineRating,
+      maddenRating: player.maddenRating,
+      rating: player.rating,
       lastContractApy: latestContract?.capHit,
       lastGuaranteed: latestContract?.guaranteed,
       source: 'real',
       headshotUrl: player.headshotUrl,
+      stats: { ...player.stats },
       previousTeamAbbr: freeAgentPreviousTeam.get(player.id) ?? latestContract?.teamAbbr ?? null,
     });
   });
@@ -312,9 +326,16 @@ export const buildFreeAgencyPool = ({
       id: record.playerId,
       firstName: record.firstName,
       lastName: record.lastName,
+      normalizedName: normalizePlayerName(`${record.firstName} ${record.lastName}`),
       position: bucketPosition(record.position),
       age: record.age,
+      height: record.height ?? null,
+      weight: record.weight ?? null,
+      baselineRating: record.baselineRating ?? null,
+      maddenRating: record.maddenRating ?? null,
       marketValue: Math.round(profile.expectedAPY * 1_000_000),
+      rating: record.rating ?? undefined,
+      stats: record.stats ? { ...record.stats } : {},
       contractYearsRemaining: 0,
       capHit: '$0.0M',
       capHitValue: 0,
@@ -322,6 +343,11 @@ export const buildFreeAgencyPool = ({
       guaranteed: 0,
       status: 'Free Agent',
       headshotUrl: record.headshotUrl ?? null,
+      lastTeamAbbr: record.previousTeamAbbr ?? null,
+      currentTeamAbbr: null,
+      contractStatus: null,
+      isUnsigned: true,
+      averagePerYear: null,
       signedTeamAbbr: record.previousTeamAbbr ?? null,
       freeAgentProfile: profile,
       contract: {

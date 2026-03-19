@@ -33,6 +33,8 @@ const slugify = (value: string): string =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 
+const emptyPlayerStats = () => ({});
+
 const isFreeAgentStatus = (status: string | null): boolean => {
   if (!status) {
     return false;
@@ -215,8 +217,13 @@ const syncContractsInternal = async (
         normalizedName,
         position: fallback.position,
         age: fallback.age,
+        height: fallback.height,
+        weight: fallback.weight,
+        baselineRating: fallback.baselineRating,
+        maddenRating: fallback.maddenRating,
         rating: fallback.rating,
         headshotUrl: fallback.headshotUrl,
+        stats: { ...fallback.stats },
         lastTeamAbbr: result.teamAbbr,
         contractStatus: row.contractStatus,
         currentTeamAbbr,
@@ -248,8 +255,13 @@ const syncContractsInternal = async (
         normalizedName,
         position: matchedPlayer?.position ?? 'UNK',
         age: matchedPlayer?.age ?? null,
+        height: matchedPlayer?.height ?? null,
+        weight: matchedPlayer?.weight ?? null,
+        baselineRating: matchedPlayer?.baselineRating ?? null,
+        maddenRating: matchedPlayer?.maddenRating ?? null,
         rating: matchedPlayer?.rating ?? null,
         headshotUrl: matchedPlayer?.headshotUrl ?? null,
+        stats: matchedPlayer ? { ...matchedPlayer.stats } : emptyPlayerStats(),
         lastTeamAbbr: result.teamAbbr,
         contractStatus: row.contractStatus,
         currentTeamAbbr,
@@ -286,8 +298,13 @@ const syncContractsInternal = async (
           normalizedName: row.normalizedName,
           position: mergedPosition,
           age: row.age ?? matched?.age ?? existing?.age ?? null,
+          height: matched?.height ?? existing?.height ?? null,
+          weight: matched?.weight ?? existing?.weight ?? null,
+          baselineRating: matched?.baselineRating ?? existing?.baselineRating ?? null,
+          maddenRating: matched?.maddenRating ?? existing?.maddenRating ?? null,
           rating: matched?.rating ?? existing?.rating ?? null,
           headshotUrl: matched?.headshotUrl ?? existing?.headshotUrl ?? null,
+          stats: matched ? { ...matched.stats } : (existing?.stats ?? emptyPlayerStats()),
           lastTeamAbbr,
           contractStatus: row.freeAgentType ?? existing?.contractStatus ?? 'UFA',
           currentTeamAbbr: null,
