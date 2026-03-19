@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 type LiveDraftBoardProps = {
   entries: DraftBoardEntry[];
   selectedPlayerId?: string | null;
+  activeRunPositions?: string[];
   onSelectPlayer?: (playerId: string) => void;
   onDraftPlayer?: (playerId: string) => void;
   canDraft: boolean;
@@ -29,9 +30,19 @@ const valueTone = (delta: number) => {
   return 'text-muted-foreground';
 };
 
+const normalizeRunPosition = (position: string) => {
+  const normalized = position.toUpperCase();
+  if (['FS', 'SS', 'S', 'CB', 'DB'].includes(normalized)) return 'DB';
+  if (['EDGE', 'ED', 'DE', 'LE', 'RE'].includes(normalized)) return 'EDGE';
+  if (['DT', 'DL', 'NT', 'IDL'].includes(normalized)) return 'DL';
+  if (['LT', 'RT', 'OT', 'OL', 'LG', 'RG', 'C', 'IOL'].includes(normalized)) return 'OL';
+  return normalized;
+};
+
 export function LiveDraftBoard({
   entries,
   selectedPlayerId = null,
+  activeRunPositions = [],
   onSelectPlayer,
   onDraftPlayer,
   canDraft,
@@ -57,6 +68,7 @@ export function LiveDraftBoard({
         {entries.map((entry, index) => {
           const playerName = `${entry.player.firstName} ${entry.player.lastName}`;
           const isSelected = selectedPlayerId === entry.player.id;
+          const isRunPosition = activeRunPositions.includes(normalizeRunPosition(entry.player.position));
           return (
             <button
               key={entry.player.id}
@@ -64,6 +76,7 @@ export function LiveDraftBoard({
               className={cn(
                 'flex w-full flex-col gap-3 px-4 py-4 text-left transition hover:bg-slate-50 sm:px-5',
                 isSelected ? 'bg-slate-50' : '',
+                isRunPosition ? 'border-l-2 border-l-amber-400' : '',
               )}
               onClick={() => onSelectPlayer?.(entry.player.id)}
             >
@@ -104,6 +117,11 @@ export function LiveDraftBoard({
                         {tag}
                       </Badge>
                     ))}
+                    {isRunPosition ? (
+                      <Badge variant="outline" className="border-amber-200 text-amber-700">
+                        Position Run
+                      </Badge>
+                    ) : null}
                     {entry.valueDelta > 0 ? (
                       <span className={cn('inline-flex items-center gap-1 text-xs font-medium', valueTone(entry.valueDelta))}>
                         <ArrowDown className="h-3 w-3" />
@@ -111,6 +129,13 @@ export function LiveDraftBoard({
                       </span>
                     ) : null}
                   </div>
+                  {entry.tags.includes('Sleeper') || entry.tags.includes('Steal') ? (
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      {entry.tags.includes('Steal')
+                        ? 'Potential steal if available here.'
+                        : 'Hidden value candidate still on the board.'}
+                    </p>
+                  ) : null}
                 </div>
                 <div className="hidden shrink-0 text-right sm:block">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">

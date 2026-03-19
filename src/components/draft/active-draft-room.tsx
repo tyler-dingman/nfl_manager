@@ -8,6 +8,7 @@ import { DraftTradeChaosPanel } from '@/components/draft/draft-trade-chaos-panel
 import { DraftTradeOfferReviewModal } from '@/components/draft/draft-trade-offer-review-modal';
 import { LiveDraftBoard } from '@/components/draft/live-draft-board';
 import { OnTheClockBanner } from '@/components/draft/on-the-clock-banner';
+import { YourDraftSoFar } from '@/components/draft/your-draft-so-far';
 import { PlayerTable } from '@/components/player-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,11 @@ import {
 } from '@/features/draft/falco-quotes';
 import { useSaveStore } from '@/features/save/save-store';
 import { getDraftAutopick, rankDraftBoard } from '@/lib/draft-board';
+import {
+  detectActiveDraftRuns,
+  evaluateDraftPick,
+  summarizeDraftClass,
+} from '@/lib/draft-intelligence';
 import { getFalcoReaction, getPickLabel } from '@/lib/draft-reactions';
 import { useDraftClock } from '@/hooks/use-draft-clock';
 import { getTeamNeeds } from '@/components/draft/draft-utils';
@@ -165,6 +171,16 @@ export function ActiveDraftRoom({
     [session.userTeamAbbr, teams],
   );
 
+  const activeRuns = React.useMemo(
+    () => detectActiveDraftRuns(session.picks, session.prospects),
+    [session.picks, session.prospects],
+  );
+
+  const activeRunPositions = React.useMemo(
+    () => activeRuns.map((run) => run.position),
+    [activeRuns],
+  );
+
   const boardEntries = React.useMemo(
     () =>
       rankDraftBoard({
@@ -175,6 +191,32 @@ export function ActiveDraftRoom({
       }),
     [currentPick?.overall, session.currentPickIndex, session.prospects, teamNeeds],
   );
+
+  const userDraftSummary = React.useMemo(() => {
+    const userPicks = session.picks
+      .filter((pick) => pick.selectedByTeamAbbr === session.userTeamAbbr && pick.selectedPlayerId)
+      .map((pick) => {
+        const player = session.prospects.find((prospect) => prospect.id === pick.selectedPlayerId);
+        return player ? { pick, player } : null;
+      })
+      .filter((entry): entry is { pick: DraftSessionDTO['picks'][number]; player: PlayerRowDTO } =>
+        Boolean(entry),
+      );
+
+    const evaluations = userPicks.map(({ pick, player }) =>
+      evaluateDraftPick({
+        player,
+        currentPickOverall: pick.overall,
+        teamNeeds,
+      }),
+    );
+
+    return summarizeDraftClass({
+      picks: userPicks,
+      evaluations,
+      teamNeeds,
+    });
+  }, [session.picks, session.prospects, session.userTeamAbbr, teamNeeds]);
 
   const spotlightPlayer = React.useMemo(() => {
     if (!selectedBoardPlayerId) {
@@ -489,30 +531,18 @@ export function ActiveDraftRoom({
   }, [pushAlert, session.currentPickIndex, session.fallingProspectId, session.prospects]);
 
   React.useEffect(() => {
-    const drafted = session.picks
-      .filter((pick) => pick.selectedPlayerId)
-      .slice(-5)
-      .map((pick) => session.prospects.find((player) => player.id === pick.selectedPlayerId))
-      .filter(Boolean);
-    if (drafted.length < 3) return;
-    const counts = drafted.reduce<Record<string, number>>((acc, player) => {
-      const pos = player?.position ?? 'UNK';
-      acc[pos] = (acc[pos] ?? 0) + 1;
-      return acc;
-    }, {});
-    const runEntry = Object.entries(counts).find(([, count]) => count >= 3);
-    if (!runEntry) return;
-    const [position] = runEntry;
-    if (lastRunRef.current === position) return;
-    lastRunRef.current = position;
-    const message = buildAlertMessage('POSITION_RUN', { POSITION: position });
+    if (activeRuns.length === 0) return;
+    const currentRun = activeRuns[0];
+    if (lastRunRef.current === currentRun.position) return;
+    lastRunRef.current = currentRun.position;
+    const message = buildAlertMessage('POSITION_RUN', { POSITION: currentRun.position });
     pushAlert({
-      id: `run-${position}-${session.currentPickIndex}`,
+      id: `run-${currentRun.position}-${session.currentPickIndex}`,
       type: 'POSITION_RUN',
       message,
       createdAt: new Date().toISOString(),
     });
-  }, [buildAlertMessage, pushAlert, session.currentPickIndex, session.picks, session.prospects]);
+  }, [activeRuns, buildAlertMessage, pushAlert, session.currentPickIndex]);
 
   React.useEffect(() => {
     if (!saveId || !onClock || !currentPick || isUserDraftModalOpen) {
@@ -626,6 +656,8 @@ export function ActiveDraftRoom({
 
         <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
           <section className="space-y-5">
+            <YourDraftSoFar summary={userDraftSummary} />
+
             <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
               <div className="flex items-center justify-between gap-3">
                 <div>
@@ -682,9 +714,25 @@ export function ActiveDraftRoom({
           </section>
 
           <section className="min-w-0 space-y-5">
+            {activeRuns.length > 0 ? (
+              <section className="rounded-2xl border border-amber-200 bg-amber-50/80 p-4 shadow-sm">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge variant="outline" className="border-amber-300 bg-white text-amber-700">
+                    Draft Run
+                  </Badge>
+                  <p className="text-sm font-semibold text-amber-900">{activeRuns[0].headline}</p>
+                </div>
+                <p className="mt-2 text-sm text-amber-800">
+                  {activeRuns[0].count} {activeRuns[0].position} prospects went in the last{' '}
+                  {activeRuns[0].window} picks. Remaining value at that spot could disappear fast.
+                </p>
+              </section>
+            ) : null}
+
             <LiveDraftBoard
               entries={boardEntries}
               selectedPlayerId={selectedBoardPlayerId}
+              activeRunPositions={activeRunPositions}
               onSelectPlayer={setSelectedBoardPlayerId}
               onDraftPlayer={
                 onClock && onDraftPlayer
@@ -713,6 +761,15 @@ export function ActiveDraftRoom({
                       {spotlightPlayer.position} · {spotlightPlayer.college ?? 'College TBD'} · OVR{' '}
                       {spotlightPlayer.rating ?? spotlightPlayer.maddenRating ?? '--'}
                     </p>
+                    {boardEntries.find((entry) => entry.player.id === spotlightPlayer.id)?.tags.includes('Steal') ? (
+                      <p className="mt-2 text-sm text-emerald-700">
+                        Great value here. This player is still available later than expected.
+                      </p>
+                    ) : boardEntries.find((entry) => entry.player.id === spotlightPlayer.id)?.tags.includes('Sleeper') ? (
+                      <p className="mt-2 text-sm text-amber-700">
+                        Hidden value alert. This prospect could outperform the slot.
+                      </p>
+                    ) : null}
                   </div>
                   {onClock && onDraftPlayer ? (
                     <Button type="button" onClick={() => void onDraftPlayer(spotlightPlayer)}>

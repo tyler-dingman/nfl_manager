@@ -10,7 +10,7 @@ import { StepHeader } from '@/components/offseason/step-header';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
-import { buildRoundOneOrder } from '@/components/draft/draft-utils';
+import { buildRoundOneOrder, getTeamNeeds } from '@/components/draft/draft-utils';
 import { PlayerTable } from '@/components/player-table';
 import { Button } from '@/components/ui/button';
 import { useExperienceStore } from '@/features/experience/experience-store';
@@ -19,6 +19,8 @@ import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { getDraftGrade } from '@/lib/draft-utils';
+import { rankDraftBoard } from '@/lib/draft-board';
+import { detectActiveDraftRuns, evaluateDraftPick } from '@/lib/draft-intelligence';
 import { buildFalcoBoard } from '@/lib/falco';
 import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
@@ -72,6 +74,7 @@ function DraftRoomContent() {
   const [draftedPlayerName, setDraftedPlayerName] = React.useState<string | null>(null);
   const [draftedPlayerMeta, setDraftedPlayerMeta] = React.useState<string | null>(null);
   const [teamMessage, setTeamMessage] = React.useState<string | null>(null);
+  const [gradeReasons, setGradeReasons] = React.useState<string[]>([]);
   const [isGradeOpen, setIsGradeOpen] = React.useState(false);
   const [teams, setTeams] = React.useState<TeamsResponse['teams']>([]);
   const [selectedPickNumber, setSelectedPickNumber] = React.useState(1);
@@ -423,6 +426,17 @@ function DraftRoomContent() {
       return;
     }
 
+    const currentPick = session.picks[session.currentPickIndex];
+    const teamNeeds = getTeamNeeds(session.userTeamAbbr, teams);
+    const boardEntries = rankDraftBoard({
+      prospects: session.prospects,
+      teamNeeds,
+      currentPickOverall: currentPick?.overall ?? session.currentPickIndex + 1,
+      limit: 24,
+    });
+    const boardEntry = boardEntries.find((entry) => entry.player.id === player.id) ?? null;
+    const activeRuns = detectActiveDraftRuns(session.picks, session.prospects);
+
     const response = await apiFetch('/api/draft/pick', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -441,30 +455,20 @@ function DraftRoomContent() {
     );
     await refreshSaveHeader();
     const pick = payload.session.picks.find((entry) => entry.selectedPlayerId === player.id);
-    const pickNumber = pick?.overall ?? payload.session.currentPickIndex;
-    const expectedPick = player.rank ?? pickNumber;
-    const delta = pickNumber - expectedPick;
-    const grade =
-      delta <= -10
-        ? 'A+'
-        : delta <= -5
-          ? 'A'
-          : delta <= -1
-            ? 'A-'
-            : delta <= 3
-              ? 'B+'
-              : delta <= 7
-                ? 'B'
-                : delta <= 12
-                  ? 'C'
-                  : delta <= 18
-                    ? 'D'
-                    : 'F';
+    const pickNumber = pick?.overall ?? currentPick?.overall ?? payload.session.currentPickIndex;
+    const evaluation = evaluateDraftPick({
+      player,
+      currentPickOverall: pickNumber,
+      teamNeeds,
+      boardEntry,
+      activeRuns,
+    });
 
-    setGradeLetter(grade);
+    setGradeLetter(evaluation.grade);
     setDraftedPlayerName(`${player.firstName} ${player.lastName}`);
     setDraftedPlayerMeta(`${player.position} · ${player.college ?? '—'}`);
     setTeamMessage(getTeamCatchphrase(payload.session.userTeamAbbr));
+    setGradeReasons(evaluation.reasons);
     setIsGradeOpen(true);
   };
 
@@ -556,11 +560,13 @@ function DraftRoomContent() {
       <DraftGradeModal
         isOpen={isGradeOpen}
         gradeLetter={gradeLetter}
+        gradeLabel="Draft IQ"
         playerName={draftedPlayerName}
         playerMeta={draftedPlayerMeta}
         teamName={userTeam?.name ?? session?.userTeamAbbr ?? 'Your team'}
         teamLogoUrl={userTeam?.logoUrl}
         teamMessage={teamMessage}
+        reasons={gradeReasons}
         onClose={() => setIsGradeOpen(false)}
       />
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
