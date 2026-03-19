@@ -7,16 +7,13 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { ArrowDownRight, ArrowUpRight, Lock, Menu, Minus, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
-import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
 import { AdSlot } from '@/components/ads/AdSlot';
-import { Button } from '@/components/ui/button';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
-import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { getRouteForStep, getStepForPath } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
@@ -63,20 +60,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
-  const setPhase = useSaveStore((state) => state.setPhase);
   const mode = useExperienceStore((state) => state.mode);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const isHydrated = hasHydrated && experienceHasHydrated;
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completedSteps = useExperienceStore((state) => state.completedSteps);
-  const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
-  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [isAdvanceModalOpen, setIsAdvanceModalOpen] = useState(false);
-  const [advanceTarget, setAdvanceTarget] = useState<'free_agency' | 'draft' | 'season' | null>(
-    null,
-  );
   const [trajectoryPulse, setTrajectoryPulse] = useState(false);
   const wasNegativeRef = useRef(false);
   const lastSaveIdRef = useRef<string | null>(null);
@@ -296,24 +286,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     setIsMobileSidebarOpen(false);
   }, [pathname]);
 
-  const headerAdvanceTarget = useMemo<'free_agency' | 'draft' | 'season'>(() => {
-    if (mode === 'full') {
-      if (currentStep === 'manage') return 'free_agency';
-      if (currentStep === 'free-agency') return 'draft';
-      return 'season';
-    }
-
-    if (phase === 'free_agency') return 'draft';
-    if (phase === 'draft' || phase === 'season') return 'season';
-    return 'free_agency';
-  }, [currentStep, mode, phase]);
-
-  const handleHeaderContinue = () => {
-    if (!saveId) return;
-    setAdvanceTarget(headerAdvanceTarget);
-    setIsAdvanceModalOpen(true);
-  };
-
   if (!isHydrated) {
     return (
       <TeamThemeProvider team={teams[0]}>
@@ -489,8 +461,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                           <span className="text-foreground">
                             OVR {liveTeamSummary.overall ?? '—'}
                           </span>
-                          <TrajectoryIcon className="h-3.5 w-3.5 shrink-0" />
-                          <span className="truncate">{liveTrajectory.state}</span>
+                          <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
                         </span>
                       </div>
                       <div className="h-9 w-px shrink-0 bg-border" />
@@ -541,17 +512,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     ) : null}
                   </div>
                 </div>
-
-                <div className="md:hidden">
-                  <Button
-                    type="button"
-                    onClick={handleHeaderContinue}
-                    className="h-10 w-full bg-[var(--team-primary)] text-[var(--team-primary-foreground)] hover:bg-[var(--team-primary)] hover:opacity-95"
-                  >
-                    Continue
-                  </Button>
-                </div>
-
                 <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
                   <div className="flex min-w-0 items-center gap-3">
                     <Link
@@ -588,8 +548,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                           <span className="text-foreground">
                             OVR {liveTeamSummary.overall ?? '—'}
                           </span>
-                          <TrajectoryIcon className="h-3.5 w-3.5 shrink-0" />
-                          <span className="truncate">{liveTrajectory.state}</span>
+                          <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
                         </span>
                       </div>
                       <div className="h-10 w-px shrink-0 bg-border" />
@@ -618,13 +577,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </div>
 
                   <div className="flex min-w-0 items-center gap-3">
-                    <Button
-                      type="button"
-                      onClick={handleHeaderContinue}
-                      className="h-10 shrink-0 bg-[var(--team-primary)] px-4 text-[var(--team-primary-foreground)] hover:bg-[var(--team-primary)] hover:opacity-95"
-                    >
-                      Continue
-                    </Button>
                     <div className="relative">
                       <button
                         type="button"
@@ -678,73 +630,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               {children}
             </main>
           </div>
-          <ConfirmAdvanceModal
-            open={isAdvanceModalOpen}
-            onOpenChange={setIsAdvanceModalOpen}
-            title={
-              advanceTarget === 'draft'
-                ? 'Enter the Draft'
-                : advanceTarget === 'season'
-                  ? 'Enter the Season'
-                  : 'Enter Free Agency'
-            }
-            body={
-              advanceTarget === 'draft'
-                ? `You’re about to enter the NFL Draft.\n\nOnce you move on, Free Agency will be closed and you won’t be able to sign additional free agents.\n\nMake sure your roster is ready and your cap space is where you want it before drafting.`
-                : advanceTarget === 'season'
-                  ? `You’re about to begin the season.\n\nOnce you move on, the draft stage will be locked and you won’t be able to make further draft picks.\n\nMake sure your roster is ready before you move on.`
-                  : `You’re about to enter Free Agency.\n\nOnce you move on, the re-sign / cut stage will be closed and you won’t be able to return to make additional cap moves here.\n\nMake sure you’re comfortable with your cap space and roster before entering the market.`
-            }
-            confirmText={
-              advanceTarget === 'draft'
-                ? 'Confirm & Enter Draft'
-                : advanceTarget === 'season'
-                  ? 'Confirm & Enter Season'
-                  : 'Confirm & Enter Free Agency'
-            }
-            onConfirm={async () => {
-              if (!saveId || !advanceTarget) return;
-              if (advanceTarget === 'free_agency') {
-                recordProgressEvent({
-                  saveId,
-                  step: 'manage',
-                  eventKey: 'manage:continue',
-                  complete: true,
-                });
-                if (mode === 'full' && currentStep === 'manage') {
-                  completeCurrentStep();
-                }
-              } else if (advanceTarget === 'draft') {
-                recordProgressEvent({
-                  saveId,
-                  step: 'free-agency',
-                  eventKey: 'free-agency:continue',
-                  complete: true,
-                });
-                if (mode === 'full' && currentStep === 'free-agency') {
-                  completeCurrentStep();
-                }
-              } else {
-                recordProgressEvent({
-                  saveId,
-                  step: 'draft',
-                  eventKey: 'draft:continue',
-                  complete: true,
-                });
-                if (mode === 'full' && currentStep === 'draft') {
-                  completeCurrentStep();
-                }
-              }
-              await setPhase(advanceTarget);
-              setIsAdvanceModalOpen(false);
-              setAdvanceTarget(null);
-              if (advanceTarget === 'draft') {
-                router.push('/draft/room?mode=mock');
-              } else if (advanceTarget === 'free_agency') {
-                router.push('/free-agents');
-              }
-            }}
-          />
           <TradeOfferToast scopeKey={tradeOfferScopeKey} />
           <ToastViewport />
         </div>

@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 
-import { buildPickAsset } from '@/lib/trade-chart';
 import { gradeTradeOffer } from '@/lib/trade-offer-evaluator';
 import { buildTradePlayerAsset } from '@/lib/trade-player-valuation';
-import { getSaveStateResult } from '@/server/api/store';
+import { getDraftPickAssetById, getSaveStateResult } from '@/server/api/store';
 import {
   buildEvaluationContext,
   buildTeamContexts,
@@ -18,24 +17,6 @@ type EvaluateTradeOfferBody = {
   extraIncomingPickIds?: string[];
   extraOutgoingPlayerIds?: string[];
   extraOutgoingPickIds?: string[];
-};
-
-const buildPickFromId = (pickId: string, teamAbbr: string) => {
-  const [yearToken, roundToken, overallToken] = pickId.split(':');
-  const year = Number(yearToken);
-  const round = Number(roundToken?.replace(/^r/i, ''));
-  const overallSlot = overallToken ? Number(overallToken) : null;
-
-  if (!Number.isFinite(year) || !Number.isFinite(round)) {
-    throw new Error('Invalid pick id');
-  }
-
-  return buildPickAsset({
-    year,
-    round,
-    overallSlot,
-    owningTeamAbbr: teamAbbr,
-  });
 };
 
 export const POST = async (request: Request) => {
@@ -81,11 +62,15 @@ export const POST = async (request: Request) => {
 
   const extraIncomingPicks = (body.extraIncomingPickIds ?? [])
     .slice(0, 3)
-    .map((pickId) => buildPickFromId(pickId, aiTeam.team.abbr));
+    .map((pickId) => getDraftPickAssetById(state, pickId))
+    .filter((pick): pick is NonNullable<typeof pick> => Boolean(pick))
+    .filter((pick) => pick.owningTeamAbbr === aiTeam.team.abbr);
 
   const extraOutgoingPicks = (body.extraOutgoingPickIds ?? [])
     .slice(0, 3)
-    .map((pickId) => buildPickFromId(pickId, userTeam.team.abbr));
+    .map((pickId) => getDraftPickAssetById(state, pickId))
+    .filter((pick): pick is NonNullable<typeof pick> => Boolean(pick))
+    .filter((pick) => pick.owningTeamAbbr === userTeam.team.abbr);
 
   const incomingAssets = [...body.offer.incoming.assets, ...extraIncomingPlayers, ...extraIncomingPicks];
   const outgoingAssets = [...body.offer.outgoing.assets, ...extraOutgoingPlayers, ...extraOutgoingPicks];
@@ -121,11 +106,15 @@ export const POST = async (request: Request) => {
       label: graded.user.label,
       band: graded.user.band,
       score: graded.user.score,
+      probability: graded.user.probability,
+      explanation: graded.user.explanation,
     },
     aiInterest: {
       label: graded.ai.label,
       band: graded.ai.band,
       score: graded.ai.score,
+      probability: graded.ai.probability,
+      explanation: graded.ai.explanation,
     },
     incomingTotalValue: Number(
       incomingAssets.reduce((sum, asset) => sum + asset.projectedValuePoints, 0).toFixed(1),
@@ -133,5 +122,6 @@ export const POST = async (request: Request) => {
     outgoingTotalValue: Number(
       outgoingAssets.reduce((sum, asset) => sum + asset.projectedValuePoints, 0).toFixed(1),
     ),
+    aiExplanation: graded.ai.explanation,
   });
 };

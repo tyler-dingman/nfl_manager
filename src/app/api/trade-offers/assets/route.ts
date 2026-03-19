@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 
-import { getOrBuildProjectedRosterForTeam, getSaveStateResult } from '@/server/api/store';
+import {
+  getTeamTradeAssets,
+  getSaveStateResult,
+} from '@/server/api/store';
 import { toPlayerDTO } from '@/server/api/trades';
+import type { TeamTradeAssetSourceDTO } from '@/types/trade-offers';
 
 type TradeOfferAssetsBody = {
   saveId?: string;
@@ -22,13 +26,20 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: saveResult.error }, { status: 404 });
   }
 
+  const userTeamAbbr = saveResult.data.header.teamAbbr.toUpperCase();
+  const partnerTeamAbbr = body.partnerTeamAbbr.toUpperCase();
+  const buildAssetSource = (teamAbbr: string): TeamTradeAssetSourceDTO => {
+    const assets = getTeamTradeAssets(saveResult.data, teamAbbr);
+    return {
+      teamAbbr,
+      players: assets.players.map((player) => toPlayerDTO(player)),
+      draftPicks: assets.draftPicks,
+    };
+  };
+
   return NextResponse.json({
     ok: true,
-    partnerRoster: getOrBuildProjectedRosterForTeam(
-      saveResult.data,
-      body.partnerTeamAbbr.toUpperCase(),
-    )
-      .filter((player) => player.status?.toLowerCase() !== 'cut')
-      .map((player) => toPlayerDTO(player)),
+    user: buildAssetSource(userTeamAbbr),
+    partner: buildAssetSource(partnerTeamAbbr),
   });
 };

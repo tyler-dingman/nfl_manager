@@ -64,6 +64,8 @@ export type TradeOfferInterestDTO = {
   label: string;
   band: TradeFairnessBand;
   score: number;
+  probability?: number;
+  explanation?: string;
 };
 
 export type TradeOfferDTO = {
@@ -170,6 +172,12 @@ export type DraftPickTradeInput = {
   owningTeamAbbr: string;
   originalTeamAbbr?: string;
   projectedRound?: number | null;
+};
+
+export type TeamTradeAssetSourceDTO = {
+  teamAbbr: string;
+  players: PlayerRowDTO[];
+  draftPicks: TradePickAssetDTO[];
 };
 
 export type TradePlayerInput = Pick<

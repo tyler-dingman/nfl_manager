@@ -33,6 +33,7 @@ export const dynamic = 'force-dynamic';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
+import type { TradePickAssetDTO } from '@/types/trade-offers';
 
 type TradeAsset = {
   id: string;
@@ -100,14 +101,14 @@ type TradeProposeResponse = {
 
 type TradeInsights = Pick<TradeProposeResponse, 'simulation' | 'tradeBalance' | 'proposal'>;
 
-const PICK_OPTIONS = [
-  { id: '2025-r1', label: '2025 Round 1 Pick' },
-  { id: '2025-r2', label: '2025 Round 2 Pick' },
-  { id: '2025-r3', label: '2025 Round 3 Pick' },
-  { id: '2025-r4', label: '2025 Round 4 Pick' },
-  { id: '2025-r5', label: '2025 Round 5 Pick' },
-  { id: '2025-r6', label: '2025 Round 6 Pick' },
-  { id: '2025-r7', label: '2025 Round 7 Pick' },
+const PICK_OPTIONS: TradePickAssetDTO[] = [
+  { id: '2025-r1', type: 'pick', label: '2025 Round 1 Pick', year: 2025, round: 1, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 1, projectedValuePoints: 95, futureDiscount: 1 },
+  { id: '2025-r2', type: 'pick', label: '2025 Round 2 Pick', year: 2025, round: 2, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 2, projectedValuePoints: 70, futureDiscount: 1 },
+  { id: '2025-r3', type: 'pick', label: '2025 Round 3 Pick', year: 2025, round: 3, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 3, projectedValuePoints: 50, futureDiscount: 1 },
+  { id: '2025-r4', type: 'pick', label: '2025 Round 4 Pick', year: 2025, round: 4, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 4, projectedValuePoints: 30, futureDiscount: 1 },
+  { id: '2025-r5', type: 'pick', label: '2025 Round 5 Pick', year: 2025, round: 5, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 5, projectedValuePoints: 20, futureDiscount: 1 },
+  { id: '2025-r6', type: 'pick', label: '2025 Round 6 Pick', year: 2025, round: 6, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 6, projectedValuePoints: 10, futureDiscount: 1 },
+  { id: '2025-r7', type: 'pick', label: '2025 Round 7 Pick', year: 2025, round: 7, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 7, projectedValuePoints: 5, futureDiscount: 1 },
 ];
 
 const sumAssets = (assets: TradeAsset[]) => assets.reduce((total, asset) => total + asset.value, 0);

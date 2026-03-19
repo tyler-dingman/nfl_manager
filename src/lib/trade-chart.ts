@@ -90,6 +90,26 @@ export const getPickTradeValue = (
   return Number(values[roundSlotIndex(pick.round, overallSlot)].toFixed(1));
 };
 
+export const getDraftPickTradeValue = (
+  pick: Pick<DraftPickTradeInput, 'year' | 'round' | 'overallSlot' | 'projectedRound'>,
+  chartModel: TradeChartModel = CHART_CONFIG.model,
+) => {
+  const yearsOut = Math.max(0, pick.year - CHART_CONFIG.currentYear);
+  return yearsOut > 0
+    ? getFuturePickTradeValue(
+        {
+          year: pick.year,
+          round: pick.round,
+          overallSlot: pick.overallSlot,
+          projectedRound: pick.projectedRound,
+        },
+        yearsOut,
+        pick.projectedRound ?? pick.round,
+        chartModel,
+      )
+    : getPickTradeValue({ round: pick.round, overallSlot: pick.overallSlot }, chartModel);
+};
+
 export const getFuturePickTradeValue = (
   pick: Pick<DraftPickTradeInput, 'year' | 'round' | 'projectedRound' | 'overallSlot'>,
   yearsOut = Math.max(0, pick.year - CHART_CONFIG.currentYear),

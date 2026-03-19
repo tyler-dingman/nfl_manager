@@ -20,7 +20,12 @@ import { useToast } from '@/components/ui/toast';
 import { resolvePlayerRating } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
-import type { TradeOfferAssetDTO, TradeOfferDTO } from '@/types/trade-offers';
+import type {
+  TeamTradeAssetSourceDTO,
+  TradeOfferAssetDTO,
+  TradeOfferDTO,
+  TradePickAssetDTO,
+} from '@/types/trade-offers';
 
 type TradeOfferReviewModalProps = {
   offer: TradeOfferDTO | null;
@@ -46,11 +51,16 @@ type TradeOfferEvaluateResponse =
       aiInterest: TradeOfferDTO['aiInterest'];
       incomingTotalValue: number;
       outgoingTotalValue: number;
+      aiExplanation?: string;
     }
   | { ok: false; error: string };
 
 type TradeOfferAssetsResponse =
-  | { ok: true; partnerRoster: PlayerRowDTO[] }
+  | {
+      ok: true;
+      user: TeamTradeAssetSourceDTO;
+      partner: TeamTradeAssetSourceDTO;
+    }
   | { ok: false; error: string };
 
 type AcceptTradeOfferResponse =
@@ -85,15 +95,6 @@ const ADJUSTMENT_SLOT_COUNT = 3;
 const NFL_DRAFT_LOGO_URL =
   'https://upload.wikimedia.org/wikipedia/en/thumb/8/80/NFL_Draft_logo.svg/500px-NFL_Draft_logo.svg.png';
 
-const pickOptions = (teamAbbr: string) => [
-  { id: '2026:r2:48', label: `2026 Round 2 Pick · ${teamAbbr}` },
-  { id: '2026:r3:82', label: `2026 Round 3 Pick · ${teamAbbr}` },
-  { id: '2026:r4:116', label: `2026 Round 4 Pick · ${teamAbbr}` },
-  { id: '2026:r5:150', label: `2026 Round 5 Pick · ${teamAbbr}` },
-  { id: '2027:r1', label: `2027 Round 1 Pick · ${teamAbbr}` },
-  { id: '2027:r2', label: `2027 Round 2 Pick · ${teamAbbr}` },
-];
-
 const toSlotAsset = (asset: TradeOfferAssetDTO): TradeSlotAsset => ({
   id: asset.id,
   type: asset.type,
@@ -110,22 +111,6 @@ const toSlotAsset = (asset: TradeOfferAssetDTO): TradeSlotAsset => ({
       : null,
 });
 
-const assetToPickSelectionId = (asset: Extract<TradeOfferAssetDTO, { type: 'pick' }>) =>
-  `${asset.year}:r${asset.round}${asset.overallSlot ? `:${asset.overallSlot}` : ''}`;
-
-const pickSelectionIdToAssetId = (pickId: string, teamAbbr: string) => {
-  const [yearToken, roundToken, overallToken] = pickId.split(':');
-  const year = Number(yearToken);
-  const round = Number(roundToken?.replace(/^r/i, ''));
-  const overallSlot = overallToken ? Number(overallToken) : 0;
-
-  if (!Number.isFinite(year) || !Number.isFinite(round)) {
-    return null;
-  }
-
-  return `pick-${teamAbbr.toLowerCase()}-${year}-r${round}-${overallSlot}`;
-};
-
 const buildFallbackPlayerSlotAsset = (player: PlayerRowDTO): TradeSlotAsset => ({
   id: player.id,
   type: 'player',
@@ -139,18 +124,20 @@ const buildFallbackPlayerSlotAsset = (player: PlayerRowDTO): TradeSlotAsset => (
   playerTypeIndicator: getPlayerTypeIndicator(player),
 });
 
-const buildFallbackPickSlotAsset = (pickId: string, teamAbbr: string): TradeSlotAsset => {
-  const [yearToken, roundToken, overallToken] = pickId.split(':');
-  const year = Number(yearToken);
-  const round = Number(roundToken?.replace(/^r/i, '')) || 1;
-  const overallSlot = overallToken ? Number(overallToken) : null;
-  const label = pickOptions(teamAbbr).find((pick) => pick.id === pickId)?.label ?? pickId;
+const formatFallbackPickLabel = (pick: TradePickAssetDTO) => {
+  if (pick.overallSlot) {
+    return `${pick.year} Round ${pick.round} Pick · Pick ${pick.overallSlot}`;
+  }
+  return `${pick.year} Round ${pick.round} Pick · ${pick.originalTeamAbbr}`;
+};
 
+const buildFallbackPickSlotAsset = (pick: TradePickAssetDTO): TradeSlotAsset => {
   return {
-    id: pickId,
+    id: pick.id,
     type: 'pick',
-    label,
-    sublabel: `${year} R${round}${overallSlot ? ` · Pick ${overallSlot}` : ''}`,
+    label: formatFallbackPickLabel(pick),
+    sublabel: `${pick.year} R${pick.round}${pick.overallSlot ? ` · Pick ${pick.overallSlot}` : ''}`,
+    meta: `${Math.round(pick.projectedValuePoints)} pts`,
   };
 };
 
@@ -168,7 +155,7 @@ const interestBarClass = (score: number) => {
 
 const renderAssetMeta = (asset: TradeOfferAssetDTO) => {
   if (asset.type === 'pick') {
-    return `${asset.year} R${asset.round}${asset.overallSlot ? ` · Pick ${asset.overallSlot}` : ''}`;
+    return `${asset.year} R${asset.round}${asset.overallSlot ? ` · Pick ${asset.overallSlot}` : ` · ${asset.originalTeamAbbr}`} · ${Math.round(asset.projectedValuePoints)} pts`;
   }
   return `${asset.position} · ${asset.age ?? '—'} yrs · ${asset.contractSummary}`;
 };
@@ -225,12 +212,12 @@ const buildSlotAssets = ({
   selections,
   evaluatedAssets,
   roster,
-  teamAbbr,
+  draftPicks,
 }: {
   selections: ExtraSelection[];
   evaluatedAssets: TradeOfferAssetDTO[];
   roster: PlayerRowDTO[];
-  teamAbbr: string;
+  draftPicks: TradePickAssetDTO[];
 }) =>
   selections.map((selection) => {
     if (!selection) return null;
@@ -248,20 +235,17 @@ const buildSlotAssets = ({
       return player ? buildFallbackPlayerSlotAsset(player) : null;
     }
 
-    const evaluatedPickAssetId = pickSelectionIdToAssetId(selection.id, teamAbbr);
-    const evaluatedAsset =
-      evaluatedPickAssetId
-        ? evaluatedAssets.find(
-            (asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> =>
-              asset.type === 'pick' && asset.id === evaluatedPickAssetId,
-          )
-        : null;
+    const evaluatedAsset = evaluatedAssets.find(
+      (asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> =>
+        asset.type === 'pick' && asset.id === selection.id,
+    );
 
     if (evaluatedAsset) {
       return toSlotAsset(evaluatedAsset);
     }
 
-    return buildFallbackPickSlotAsset(selection.id, teamAbbr);
+    const pick = draftPicks.find((entry) => entry.id === selection.id);
+    return pick ? buildFallbackPickSlotAsset(pick) : null;
   });
 
 export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReviewModalProps) {
@@ -281,7 +265,10 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
   const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const clearActive = useTradeOfferStore((state) => state.clearActive);
   const { push: pushToast } = useToast();
-  const [partnerRoster, setPartnerRoster] = React.useState<PlayerRowDTO[]>([]);
+  const [userAssetSource, setUserAssetSource] = React.useState<TeamTradeAssetSourceDTO | null>(null);
+  const [partnerAssetSource, setPartnerAssetSource] = React.useState<TeamTradeAssetSourceDTO | null>(
+    null,
+  );
   const [extraIncomingSelections, setExtraIncomingSelections] = React.useState<ExtraSelection[]>(
     () => Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null),
   );
@@ -303,12 +290,14 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
   );
   const [duplicateMessage, setDuplicateMessage] = React.useState<string | null>(null);
   const [actionMessage, setActionMessage] = React.useState<string | null>(null);
+  const [meterExplanation, setMeterExplanation] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const evaluateRequestRef = React.useRef(0);
 
   React.useEffect(() => {
     if (!open || !offer) {
-      setPartnerRoster([]);
+      setUserAssetSource(null);
+      setPartnerAssetSource(null);
       setExtraIncomingSelections(Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null));
       setExtraOutgoingSelections(Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null));
       setEvaluatedIncomingAssets([]);
@@ -316,6 +305,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       setEvaluatedAiInterest(null);
       setDuplicateMessage(null);
       setActionMessage(null);
+      setMeterExplanation(null);
       setActivePickerContext(null);
       setIsSubmitting(false);
     }
@@ -355,7 +345,8 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       if (!response.ok) return;
       const data = (await response.json()) as TradeOfferAssetsResponse;
       if (!data.ok || cancelled) return;
-      setPartnerRoster(data.partnerRoster);
+      setUserAssetSource(data.user);
+      setPartnerAssetSource(data.partner);
     };
 
     void loadPartnerAssets();
@@ -400,27 +391,33 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       )
       .map((selection) => selection.id);
 
-    if (
-      extraIncomingPlayerIds.length === 0 &&
-      extraIncomingPickIds.length === 0 &&
-      extraOutgoingPlayerIds.length === 0 &&
-      extraOutgoingPickIds.length === 0
-    ) {
-      setEvaluatedIncomingAssets([]);
-      setEvaluatedOutgoingAssets([]);
-      setEvaluatedAiInterest(null);
-      return;
-    }
-
     let cancelled = false;
     const requestId = evaluateRequestRef.current + 1;
     evaluateRequestRef.current = requestId;
     const evaluate = async () => {
+      const actionableSaveId = await ensureRecoverableSaveId(
+        {
+          preferredSaveId: saveId,
+          teamId,
+          teamAbbr,
+          capSpace,
+          capLimit,
+          roster,
+          phase,
+          unlocked,
+        },
+        setSaveHeader,
+      );
+
+      if (!actionableSaveId || cancelled) {
+        return;
+      }
+
       const response = await apiFetch('/api/trade-offers/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          saveId,
+          saveId: actionableSaveId,
           offer,
           extraIncomingPlayerIds,
           extraIncomingPickIds,
@@ -434,19 +431,38 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       setEvaluatedIncomingAssets(data.extraIncomingAssets);
       setEvaluatedOutgoingAssets(data.extraOutgoingAssets);
       setEvaluatedAiInterest(data.aiInterest);
+      setMeterExplanation(data.aiExplanation ?? data.aiInterest.explanation ?? offer.reason);
     };
 
     void evaluate();
     return () => {
       cancelled = true;
     };
-  }, [extraIncomingSelections, extraOutgoingSelections, offer, open, saveId]);
+  }, [
+    capLimit,
+    capSpace,
+    extraIncomingSelections,
+    extraOutgoingSelections,
+    offer,
+    open,
+    phase,
+    roster,
+    saveId,
+    setSaveHeader,
+    teamAbbr,
+    teamId,
+    unlocked,
+  ]);
 
   if (!open || !offer) return null;
 
   const currentAiInterest = evaluatedAiInterest ?? offer.aiInterest;
   const clampedScore = Math.max(0, Math.min(MAX_METER_SCORE, currentAiInterest.score));
   const meterWidth = (clampedScore / MAX_METER_SCORE) * 100;
+  const currentExplanation =
+    meterExplanation ??
+    currentAiInterest.explanation ??
+    'They called about this framework and still see a realistic path to a deal.';
 
   const selectedIncomingIds = new Set(extraIncomingSelections.filter(Boolean).map((selection) => selection!.id));
   const selectedOutgoingIds = new Set(extraOutgoingSelections.filter(Boolean).map((selection) => selection!.id));
@@ -463,43 +479,49 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
   const existingIncomingPickIds = new Set(
     offer.incoming.assets
       .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> => asset.type === 'pick')
-      .map(assetToPickSelectionId),
+      .map((asset) => asset.id),
   );
   const existingOutgoingPickIds = new Set(
     offer.outgoing.assets
       .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> => asset.type === 'pick')
-      .map(assetToPickSelectionId),
+      .map((asset) => asset.id),
   );
+
+  const userPlayers = userAssetSource?.players ?? roster;
+  const userDraftPicks = userAssetSource?.draftPicks ?? [];
+  const partnerPlayers = partnerAssetSource?.players ?? [];
+  const partnerDraftPicks = partnerAssetSource?.draftPicks ?? [];
 
   const availablePlayers =
     activePickerContext?.side === 'incoming'
-      ? partnerRoster.filter(
+      ? partnerPlayers.filter(
           (player) => !existingIncomingPlayerIds.has(player.id) && !selectedIncomingIds.has(player.id),
         )
-      : roster.filter(
+      : userPlayers.filter(
           (player) => !existingOutgoingPlayerIds.has(player.id) && !selectedOutgoingIds.has(player.id),
         );
 
   const availablePicks = activePickerContext
-    ? pickOptions(activePickerContext.side === 'incoming' ? offer.proposingTeamAbbr : teamAbbr).filter(
-        (pick) =>
-          activePickerContext.side === 'incoming'
-            ? !existingIncomingPickIds.has(pick.id) && !selectedIncomingIds.has(pick.id)
-            : !existingOutgoingPickIds.has(pick.id) && !selectedOutgoingIds.has(pick.id),
+    ? (
+        activePickerContext.side === 'incoming' ? partnerDraftPicks : userDraftPicks
+      ).filter((pick) =>
+        activePickerContext.side === 'incoming'
+          ? !existingIncomingPickIds.has(pick.id) && !selectedIncomingIds.has(pick.id)
+          : !existingOutgoingPickIds.has(pick.id) && !selectedOutgoingIds.has(pick.id),
       )
     : [];
 
   const incomingSlotAssets = buildSlotAssets({
     selections: extraIncomingSelections,
     evaluatedAssets: evaluatedIncomingAssets,
-    roster: partnerRoster,
-    teamAbbr: offer.proposingTeamAbbr,
+    roster: partnerPlayers,
+    draftPicks: partnerDraftPicks,
   });
   const outgoingSlotAssets = buildSlotAssets({
     selections: extraOutgoingSelections,
     evaluatedAssets: evaluatedOutgoingAssets,
-    roster,
-    teamAbbr,
+    roster: userPlayers,
+    draftPicks: userDraftPicks,
   });
 
   const updateSelectionsForSide = (
@@ -751,6 +773,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                     style={{ width: `${meterWidth}%` }}
                   />
                 </div>
+                <p className="mt-3 text-sm text-muted-foreground">{currentExplanation}</p>
               </div>
             </div>
 

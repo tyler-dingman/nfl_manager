@@ -13,6 +13,14 @@ export const TRADE_INTEREST_THRESHOLDS = {
   high: 1.21,
 } as const;
 
+const PREMIUM_TRADE_RULES = {
+  eliteMultiplier: 1.2,
+  starMultiplier: 1.1,
+  elitePenalty: 0.62,
+  starPenalty: 0.78,
+  junkBundlePenalty: 0.72,
+} as const;
+
 export const TRADE_ACCEPT_MARK_SCORE = TRADE_INTEREST_THRESHOLDS.low;
 export const TRADE_ACCEPT_WIGGLE = Number((TRADE_ACCEPT_MARK_SCORE * 0.1).toFixed(3));
 
@@ -80,6 +88,59 @@ const styleMultiplier = (profile: TradeTeamProfile, bandBaseScore: number) => {
   return Number(bias.toFixed(3));
 };
 
+const highestPlayerRating = (assets: TradeOfferAssetDTO[]) =>
+  assets.reduce((max, asset) => {
+    if (asset.type !== 'player') return max;
+    return Math.max(max, asset.rating ?? 0);
+  }, 0);
+
+const pickValueTotal = (assets: TradeOfferAssetDTO[]) =>
+  assets.reduce((sum, asset) => sum + (asset.type === 'pick' ? asset.projectedValuePoints : 0), 0);
+
+const premiumPlayerGuardrail = (incoming: TradeOfferAssetDTO[], outgoing: TradeOfferAssetDTO[]) => {
+  const outgoingBestRating = highestPlayerRating(outgoing);
+  const incomingBestRating = highestPlayerRating(incoming);
+  const outgoingTotal = outgoing.reduce((sum, asset) => sum + asset.projectedValuePoints, 0);
+  const incomingTotal = incoming.reduce((sum, asset) => sum + asset.projectedValuePoints, 0);
+  const incomingPickValue = pickValueTotal(incoming);
+  const incomingLowValueAssets = incoming.filter((asset) => asset.projectedValuePoints < 45).length;
+
+  if (outgoingBestRating >= 94) {
+    const hasStrongCounter = incomingBestRating >= 90;
+    const hasPremiumPickSupport = incomingPickValue >= 300;
+    let multiplier =
+      incomingTotal >= outgoingTotal * PREMIUM_TRADE_RULES.eliteMultiplier
+        ? 1
+        : hasStrongCounter && hasPremiumPickSupport
+          ? 0.88
+          : PREMIUM_TRADE_RULES.elitePenalty;
+    if (!hasStrongCounter && incomingPickValue < 1200) {
+      multiplier *= 0.82;
+    }
+    if (incoming.length >= 3 && incomingLowValueAssets >= Math.ceil(incoming.length * 0.66)) {
+      multiplier *= PREMIUM_TRADE_RULES.junkBundlePenalty;
+    }
+    return Number(multiplier.toFixed(3));
+  }
+
+  if (outgoingBestRating >= 90) {
+    let multiplier = incomingTotal >= outgoingTotal * PREMIUM_TRADE_RULES.starMultiplier ? 1 : PREMIUM_TRADE_RULES.starPenalty;
+    if (incomingBestRating < 84 && incomingPickValue < 600) {
+      multiplier *= 0.88;
+    }
+    if (incoming.length >= 3 && incomingLowValueAssets >= Math.ceil(incoming.length * 0.66)) {
+      multiplier *= 0.84;
+    }
+    return Number(multiplier.toFixed(3));
+  }
+
+  if (incoming.length >= 4 && incomingLowValueAssets >= Math.ceil(incoming.length * 0.75) && outgoingTotal >= 300) {
+    return 0.86;
+  }
+
+  return 1;
+};
+
 const totalValue = (pkg: TradeAssetPackage) =>
   pkg.totalValue > 0
     ? pkg.totalValue
@@ -108,6 +169,55 @@ export const labelFromBand = (band: TradeFairnessBand) => {
   }
 };
 
+export const getTradeAcceptanceLabel = labelFromBand;
+
+export const probabilityFromTradeScore = (score: number) => {
+  const normalized = 1 / (1 + Math.exp(-7.5 * (score - TRADE_ACCEPT_MARK_SCORE)));
+  return Math.max(2, Math.min(99, Math.round(normalized * 100)));
+};
+
+const buildTradeExplanation = ({
+  incoming,
+  outgoing,
+  context,
+  score,
+  guardrail,
+  rawRatio,
+  needFit,
+  capFit,
+}: {
+  incoming: TradeOfferAssetDTO[];
+  outgoing: TradeOfferAssetDTO[];
+  context: TradeEvaluationContext;
+  score: number;
+  guardrail: number;
+  rawRatio: number;
+  needFit: number;
+  capFit: number;
+}) => {
+  if (guardrail < 0.8) {
+    return 'This still feels light for the premium talent or pick capital they would be giving up.';
+  }
+  if (capFit < 0.95) {
+    return 'They like pieces of the return, but the cap impact still makes this tougher to justify.';
+  }
+  if (needFit > 1.05) {
+    return `They value the fit at one of their key needs and view this as a close football trade.`;
+  }
+  if (score >= TRADE_INTEREST_THRESHOLDS.high) {
+    return rawRatio >= 1.12
+      ? 'The return is strong enough that this is becoming an easy yes for them.'
+      : 'They like the framework and see enough balanced value to move quickly.';
+  }
+  if (score >= TRADE_INTEREST_THRESHOLDS.low) {
+    return 'They believe this framework is close, but they still want a little more certainty in the return.';
+  }
+  if (pickValueTotal(outgoing) > 0 && incoming.some((asset) => asset.type === 'player')) {
+    return 'They are interested, but the player-for-pick balance still is not where they want it.';
+  }
+  return 'Right now the return is not close enough to what they are sending back.';
+};
+
 export const evaluateTradeForTeam = (
   incoming: TradeAssetPackage,
   outgoing: TradeAssetPackage,
@@ -121,15 +231,30 @@ export const evaluateTradeForTeam = (
   const rosterFit = rosterFitMultiplier(incoming.assets, outgoing.assets);
   const windowFit = windowMultiplier(incoming.assets, context, profile);
   const capFit = capFitMultiplier(incoming.assets, context);
-  const blendedBase = rawRatio * needFit * rosterFit * windowFit * capFit;
+  const guardrail = premiumPlayerGuardrail(incoming.assets, outgoing.assets);
+  const blendedBase = rawRatio * needFit * rosterFit * windowFit * capFit * guardrail;
   const gmStyle = styleMultiplier(profile, blendedBase);
   const score = Number((blendedBase * gmStyle).toFixed(3));
   const band = bandFromScore(score);
+  const probability = probabilityFromTradeScore(score);
+  const delta = Number((incomingValue - outgoingValue).toFixed(1));
 
   return {
     score,
     band,
     label: labelFromBand(band),
+    probability,
+    delta,
+    explanation: buildTradeExplanation({
+      incoming: incoming.assets,
+      outgoing: outgoing.assets,
+      context,
+      score,
+      guardrail,
+      rawRatio,
+      needFit,
+      capFit,
+    }),
     components: {
       rawRatio: Number(rawRatio.toFixed(3)),
       needFit: Number(needFit.toFixed(3)),
@@ -137,6 +262,7 @@ export const evaluateTradeForTeam = (
       windowFit: Number(windowFit.toFixed(3)),
       gmStyle: Number(gmStyle.toFixed(3)),
       capFit: Number(capFit.toFixed(3)),
+      premiumGuardrail: Number(guardrail.toFixed(3)),
     },
   };
 };

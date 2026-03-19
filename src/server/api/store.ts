@@ -3,12 +3,14 @@ import type { SaveHeaderDTO, SaveUnlocksDTO } from '@/types/save';
 import type { DraftSessionState } from '@/types/draft';
 import type { NewsItemDTO } from '@/types/news';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
+import type { TradePickAssetDTO } from '@/types/trade-offers';
 import {
   formatMoneyMillions,
   getCapHitSchedule,
   getRookieContract,
   getYearOneCapHit,
 } from '@/server/logic/cap';
+import { buildPickAsset } from '@/lib/trade-chart';
 import { logoUrlFor } from './team';
 import { buildFreeAgencyPool, buildFreeAgentProfile } from '@/server/logic/free-agency-pool';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
@@ -41,6 +43,7 @@ export type SaveState = {
   freeAgents: StoredPlayer[];
   teamRosters: Record<string, StoredPlayer[]>;
   teamCaps: Record<string, number>;
+  draftPickAssets: TradePickAssetDTO[];
   transactions: Array<{
     id: string;
     type: 'signing' | 'trade';
@@ -65,6 +68,12 @@ export type SaveState = {
     walkawayPlayerIds: string[];
   };
 };
+
+const TRADE_PICK_YEARS = [
+  CURRENT_MODELED_LEAGUE_YEAR,
+  CURRENT_MODELED_LEAGUE_YEAR + 1,
+] as const;
+const PICKS_PER_ROUND = 32;
 
 type SaveRestorePayload = {
   teamAbbr: string;
@@ -335,6 +344,65 @@ const capLimitMillionsForTeam = (teamAbbr: string, roster: StoredPlayer[]): numb
   return Number((availableCap + commitments).toFixed(1));
 };
 
+const projectedDraftOrder = NFL_LEAGUE_DATA.teams
+  .slice()
+  .sort((left, right) => {
+    const overviewDelta = (left.teamOverview ?? 75) - (right.teamOverview ?? 75);
+    if (overviewDelta !== 0) {
+      return overviewDelta;
+    }
+    return left.abbr.localeCompare(right.abbr);
+  })
+  .map((team) => team.abbr.toUpperCase());
+
+const buildInitialDraftPickAssets = (): TradePickAssetDTO[] =>
+  TRADE_PICK_YEARS.flatMap((year) =>
+    Array.from({ length: 7 }, (_, roundIndex) => {
+      const round = roundIndex + 1;
+      return projectedDraftOrder.map((teamAbbr, teamIndex) =>
+        buildPickAsset({
+          year,
+          round,
+          overallSlot: roundIndex * PICKS_PER_ROUND + teamIndex + 1,
+          owningTeamAbbr: teamAbbr,
+          originalTeamAbbr: teamAbbr,
+        }),
+      );
+    }).flat(),
+  );
+
+const sortDraftPickAssets = (assets: TradePickAssetDTO[]) =>
+  assets
+    .slice()
+    .sort((left, right) => {
+      if (left.year !== right.year) return left.year - right.year;
+      if (left.round !== right.round) return left.round - right.round;
+      if ((left.overallSlot ?? 999) !== (right.overallSlot ?? 999)) {
+        return (left.overallSlot ?? 999) - (right.overallSlot ?? 999);
+      }
+      return left.originalTeamAbbr.localeCompare(right.originalTeamAbbr);
+    });
+
+const ensureDraftPickAssets = (state: SaveState): TradePickAssetDTO[] => {
+  if (!state.draftPickAssets || state.draftPickAssets.length === 0) {
+    state.draftPickAssets = buildInitialDraftPickAssets();
+  }
+  return state.draftPickAssets;
+};
+
+const rebuildDraftPickAssetWithOwner = (
+  pick: TradePickAssetDTO,
+  owningTeamAbbr: string,
+): TradePickAssetDTO =>
+  buildPickAsset({
+    year: pick.year,
+    round: pick.round,
+    overallSlot: pick.overallSlot,
+    owningTeamAbbr,
+    originalTeamAbbr: pick.originalTeamAbbr,
+    projectedRound: pick.projectedRound,
+  });
+
 export const getProjectedRosterForTeam = (state: SaveState, teamAbbr: string): StoredPlayer[] =>
   clonePlayers(state.teamRosters[teamAbbr.toUpperCase()] ?? []);
 
@@ -352,6 +420,51 @@ export const getOrBuildProjectedRosterForTeam = (
 
 export const getProjectedCapSpaceForTeam = (state: SaveState, teamAbbr: string): number =>
   Number((state.teamCaps[teamAbbr.toUpperCase()] ?? capSpaceMillionsForTeam(teamAbbr)).toFixed(1));
+
+export const getTradablePlayersForTeam = (state: SaveState, teamAbbr: string): StoredPlayer[] =>
+  getOrBuildProjectedRosterForTeam(state, teamAbbr).filter(
+    (player) => player.status?.toLowerCase() !== 'cut',
+  );
+
+export const getTradableDraftPicksForTeam = (
+  state: SaveState,
+  teamAbbr: string,
+  years: number[] = [...TRADE_PICK_YEARS],
+): TradePickAssetDTO[] =>
+  sortDraftPickAssets(
+    ensureDraftPickAssets(state).filter(
+      (pick) => pick.owningTeamAbbr === teamAbbr.toUpperCase() && years.includes(pick.year),
+    ),
+  );
+
+export const getTeamTradeAssets = (
+  state: SaveState,
+  teamAbbr: string,
+  years: number[] = [...TRADE_PICK_YEARS],
+) => ({
+  players: getTradablePlayersForTeam(state, teamAbbr),
+  draftPicks: getTradableDraftPicksForTeam(state, teamAbbr, years),
+});
+
+export const getDraftPickAssetById = (
+  state: SaveState,
+  pickAssetId: string,
+): TradePickAssetDTO | null =>
+  ensureDraftPickAssets(state).find((pick) => pick.id === pickAssetId) ?? null;
+
+export const transferDraftPicksToTeam = (
+  state: SaveState,
+  pickAssetIds: string[],
+  owningTeamAbbr: string,
+): void => {
+  if (pickAssetIds.length === 0) {
+    return;
+  }
+  const targetIds = new Set(pickAssetIds);
+  state.draftPickAssets = ensureDraftPickAssets(state).map((pick) =>
+    targetIds.has(pick.id) ? rebuildDraftPickAssetWithOwner(pick, owningTeamAbbr.toUpperCase()) : pick,
+  );
+};
 
 const removePlayerFromAllRosters = (state: SaveState, playerId: string): void => {
   Object.keys(state.teamRosters).forEach((abbr) => {
@@ -414,6 +527,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     freeAgents,
     teamRosters: { [normalizedTeamAbbr]: roster },
     teamCaps: { [normalizedTeamAbbr]: capSpace },
+    draftPickAssets: buildInitialDraftPickAssets(),
     transactions: [],
     draftSessions: {},
     expiringContracts: getExpiringContractsForTeam(teamAbbr, NFL_LEAGUE_DATA),
@@ -472,6 +586,7 @@ export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): S
     createdAt: payload.createdAt ?? state.header.createdAt,
   };
   state.teamCaps[normalizedTeamAbbr] = state.header.capSpace;
+  state.draftPickAssets = buildInitialDraftPickAssets();
   state.offseason.hydrated = false;
   state.offseason.otcRows = [];
   state.freeAgents = [];
@@ -513,6 +628,9 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
   }
   if (!state.teamCaps) {
     state.teamCaps = { [state.header.teamAbbr]: state.header.capSpace };
+  }
+  if (!state.draftPickAssets) {
+    state.draftPickAssets = buildInitialDraftPickAssets();
   }
   if (!state.transactions) {
     state.transactions = [];

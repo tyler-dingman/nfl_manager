@@ -6,20 +6,16 @@ import PlayerHeadshot from '@/components/player-headshot';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
+import type { TradePickAssetDTO } from '@/types/trade-offers';
 
 const NFL_DRAFT_LOGO_URL =
   'https://upload.wikimedia.org/wikipedia/en/thumb/8/80/NFL_Draft_logo.svg/500px-NFL_Draft_logo.svg.png';
-
-type PickOption = {
-  id: string;
-  label: string;
-};
 
 type TradeAssetPickerModalProps = {
   isOpen: boolean;
   title: string;
   players: PlayerRowDTO[];
-  picks: PickOption[];
+  picks: TradePickAssetDTO[];
   onClose: () => void;
   onSelectPlayer: (player: PlayerRowDTO) => void;
   onSelectPick: (pickId: string) => void;
@@ -53,6 +49,13 @@ const normalizeTradePosition = (position: string) => {
   if (['FS', 'SS', 'S'].includes(normalized)) return 'S';
   if (['HB', 'FB', 'RB'].includes(normalized)) return 'RB';
   return normalized;
+};
+
+const formatPickLabel = (pick: TradePickAssetDTO) => {
+  if (pick.overallSlot) {
+    return `${pick.year} Round ${pick.round} Pick · Pick ${pick.overallSlot}`;
+  }
+  return `${pick.year} Round ${pick.round} Pick · ${pick.originalTeamAbbr}`;
 };
 
 export default function TradeAssetPickerModal({
@@ -176,8 +179,9 @@ export default function TradeAssetPickerModal({
                   <tr>
                     <th className="px-4 py-2">Name</th>
                     <th className="px-4 py-2">Pos</th>
+                    <th className="px-4 py-2">Age</th>
                     <th className="px-4 py-2">OVR</th>
-                    <th className="px-4 py-2">Cap Hit</th>
+                    <th className="px-4 py-2">Contract</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -202,13 +206,18 @@ export default function TradeAssetPickerModal({
                         </div>
                       </td>
                       <td className="px-4 py-2 text-muted-foreground">{player.position}</td>
+                      <td className="px-4 py-2 text-muted-foreground">{player.age ?? '--'}</td>
                       <td className="px-4 py-2 text-muted-foreground">{player.rating ?? '--'}</td>
-                      <td className="px-4 py-2 text-muted-foreground">{player.capHit}</td>
+                      <td className="px-4 py-2 text-muted-foreground">
+                        {player.contract
+                          ? `${player.contract.yearsRemaining} yr · $${player.contract.apy.toFixed(1)}M`
+                          : player.capHit}
+                      </td>
                     </tr>
                   ))}
                   {filteredPlayers.length === 0 ? (
                     <tr>
-                      <td className="px-4 py-4 text-sm text-muted-foreground" colSpan={4}>
+                      <td className="px-4 py-4 text-sm text-muted-foreground" colSpan={5}>
                         No players found.
                       </td>
                     </tr>
@@ -219,6 +228,11 @@ export default function TradeAssetPickerModal({
           </>
         ) : (
           <div className="mt-4 space-y-2">
+            {picks.length === 0 ? (
+              <div className="rounded-xl border border-dashed border-border px-4 py-6 text-sm text-muted-foreground">
+                No draft picks available.
+              </div>
+            ) : null}
             {picks.map((pick) => (
               <button
                 key={pick.id}
@@ -236,9 +250,18 @@ export default function TradeAssetPickerModal({
                     alt="NFL Draft"
                     className="h-8 w-8 shrink-0 object-contain"
                   />
-                  <span className="font-semibold text-foreground">{pick.label}</span>
+                  <div>
+                    <span className="font-semibold text-foreground">{formatPickLabel(pick)}</span>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {pick.originalTeamAbbr !== pick.owningTeamAbbr
+                        ? `Original ${pick.originalTeamAbbr} · Owned by ${pick.owningTeamAbbr}`
+                        : `Owned by ${pick.owningTeamAbbr}`}
+                    </p>
+                  </div>
                 </div>
-                <span className="text-xs text-muted-foreground">Draft Pick</span>
+                <span className="text-xs font-semibold text-muted-foreground">
+                  {Math.round(pick.projectedValuePoints)} pts
+                </span>
               </button>
             ))}
           </div>

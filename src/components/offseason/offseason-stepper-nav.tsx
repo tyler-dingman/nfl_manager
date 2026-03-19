@@ -26,7 +26,7 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
         </p>
       </div>
 
-      <div className="relative space-y-2 before:absolute before:left-3.5 before:top-2 before:h-[calc(100%-16px)] before:w-px before:bg-slate-200">
+      <div className="relative space-y-2 before:absolute before:bottom-6 before:left-4 before:top-4 before:w-px before:-translate-x-1/2 before:bg-slate-200">
         {OFFSEASON_STEPS.map((step, index) => {
           const isCompleted = completedSteps.includes(step.id);
           const isCurrent = step.id === currentStep;
@@ -35,14 +35,17 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
           return (
             <div key={step.id} className="relative rounded-lg px-2 py-2">
               <div className="flex items-start gap-3">
-                <span className="mt-0.5">
+                <span className="relative z-[1] mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-white">
                   {isCompleted ? (
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                    <CheckCircle2 className="h-4 w-4 fill-emerald-600 text-white" />
                   ) : isLocked ? (
                     <Lock className="h-4 w-4 text-muted-foreground" />
                   ) : (
                     <Circle
-                      className={cn('h-4 w-4', isCurrent ? 'text-slate-900' : 'text-slate-400')}
+                      className={cn(
+                        'h-4 w-4 fill-white',
+                        isCurrent ? 'text-slate-900' : 'text-slate-400',
+                      )}
                     />
                   )}
                 </span>

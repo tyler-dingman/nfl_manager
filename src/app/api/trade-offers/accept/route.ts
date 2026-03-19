@@ -5,14 +5,15 @@ import {
   TRADE_ACCEPT_WIGGLE,
   gradeTradeOffer,
 } from '@/lib/trade-offer-evaluator';
-import { buildPickAsset } from '@/lib/trade-chart';
 import { buildTradePlayerAsset } from '@/lib/trade-player-valuation';
 import {
+  getDraftPickAssetById,
   getOrBuildProjectedRosterForTeam,
   getProjectedCapSpaceForTeam,
   getSaveStateResult,
   getSaveHeaderSnapshot,
   pushNewsItem,
+  transferDraftPicksToTeam,
 } from '@/server/api/store';
 import { toPlayerDTO } from '@/server/api/trades';
 import { buildEvaluationContext, buildTeamContexts } from '@/server/logic/trade-offer-generator';
@@ -29,24 +30,6 @@ type AcceptTradeOfferBody = {
 };
 
 const ACCEPT_SCORE_FLOOR = Number((TRADE_ACCEPT_MARK_SCORE - TRADE_ACCEPT_WIGGLE).toFixed(3));
-
-const buildPickFromId = (pickId: string, teamAbbr: string) => {
-  const [yearToken, roundToken, overallToken] = pickId.split(':');
-  const year = Number(yearToken);
-  const round = Number(roundToken?.replace(/^r/i, ''));
-  const overallSlot = overallToken ? Number(overallToken) : null;
-
-  if (!Number.isFinite(year) || !Number.isFinite(round)) {
-    throw new Error('Invalid pick id');
-  }
-
-  return buildPickAsset({
-    year,
-    round,
-    overallSlot,
-    owningTeamAbbr: teamAbbr,
-  });
-};
 
 const capHitMillions = (player: PlayerRowDTO) =>
   Number(player.capHit.replace(/[^0-9.]/g, '')) || 0;
@@ -117,11 +100,15 @@ export const POST = async (request: Request) => {
 
   const extraIncomingPicks = (body.extraIncomingPickIds ?? [])
     .slice(0, 3)
-    .map((pickId) => buildPickFromId(pickId, aiTeam.team.abbr));
+    .map((pickId) => getDraftPickAssetById(state, pickId))
+    .filter((pick): pick is NonNullable<typeof pick> => Boolean(pick))
+    .filter((pick) => pick.owningTeamAbbr === aiTeam.team.abbr);
 
   const extraOutgoingPicks = (body.extraOutgoingPickIds ?? [])
     .slice(0, 3)
-    .map((pickId) => buildPickFromId(pickId, userTeam.team.abbr));
+    .map((pickId) => getDraftPickAssetById(state, pickId))
+    .filter((pick): pick is NonNullable<typeof pick> => Boolean(pick))
+    .filter((pick) => pick.owningTeamAbbr === userTeam.team.abbr);
 
   const incomingAssets = [
     ...body.offer.incoming.assets,
@@ -200,6 +187,8 @@ export const POST = async (request: Request) => {
         label: graded.ai.label,
         band: graded.ai.band,
         score: graded.ai.score,
+        probability: graded.ai.probability,
+        explanation: graded.ai.explanation,
       },
       error:
         nextUserCapSpace < 0 || nextPartnerCapSpace < 0
@@ -214,6 +203,16 @@ export const POST = async (request: Request) => {
   state.teamRosters[aiTeam.team.abbr] = partnerRoster
     .filter((player) => !incomingPlayerIds.has(player.id))
     .concat(outgoingPlayers.map((player) => ({ ...player, signedTeamAbbr: aiTeam.team.abbr })));
+  transferDraftPicksToTeam(
+    state,
+    incomingAssets.filter((asset) => asset.type === 'pick').map((asset) => asset.id),
+    userTeam.team.abbr,
+  );
+  transferDraftPicksToTeam(
+    state,
+    outgoingAssets.filter((asset) => asset.type === 'pick').map((asset) => asset.id),
+    aiTeam.team.abbr,
+  );
 
   state.roster = state.teamRosters[userTeam.team.abbr];
   state.header.rosterCount = state.roster.length;
@@ -270,6 +269,8 @@ export const POST = async (request: Request) => {
       label: graded.ai.label,
       band: graded.ai.band,
       score: graded.ai.score,
+      probability: graded.ai.probability,
+      explanation: graded.ai.explanation,
     },
     header: getSaveHeaderSnapshot(state),
     roster: state.roster.map((player) => toPlayerDTO(player)),
