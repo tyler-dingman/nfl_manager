@@ -212,7 +212,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const tradeOfferScopeKey = useMemo(() => {
     if (!saveId || !pathname) return null;
-    if (pathname.startsWith('/roster') || pathname.startsWith('/manage/trades')) {
+    if (pathname.startsWith('/roster')) {
       return `${saveId}:manage`;
     }
     if (pathname.startsWith('/free-agents')) {

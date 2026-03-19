@@ -159,6 +159,15 @@ export default function RosterPage() {
   });
   const onboardingPrimaryColor = selectedTeam?.color_primary ?? '#0f172a';
   const onboardingPrimaryTextColor = getReadableTextColor(onboardingPrimaryColor);
+  const hasBlockingModalOpen = Boolean(
+    isOnboardingOpen ||
+      activeCutPlayer ||
+      activeResignPlayer ||
+      activeExpiringContract ||
+      activeRenegotiatePlayer ||
+      isResignResultOpen ||
+      isRenegotiateResultOpen,
+  );
   const renderExpiringHeader = (
     label: string,
     key: 'rating' | 'name' | 'pos' | 'status' | 'interest',
@@ -237,15 +246,15 @@ export default function RosterPage() {
   }, [expiringContracts]);
 
   useEffect(() => {
-    if (phase !== 'resign_cut' || !saveId || !teamAbbr) return;
+    if (phase !== 'resign_cut') return;
     setRosterInteractionCount(0);
-  }, [phase, saveId, teamAbbr]);
+  }, [phase]);
 
   useEffect(() => {
-    if (phase !== 'resign_cut' || !saveId || !teamAbbr) return;
+    if (phase !== 'resign_cut' || hasBlockingModalOpen) return;
 
     const registerInteraction = () => {
-      setRosterInteractionCount((current) => (current >= 3 ? current : current + 1));
+      setRosterInteractionCount((current) => (current >= 4 ? current : current + 1));
     };
 
     window.addEventListener('pointerdown', registerInteraction, { passive: true });
@@ -257,15 +266,23 @@ export default function RosterPage() {
       window.removeEventListener('wheel', registerInteraction);
       window.removeEventListener('keydown', registerInteraction);
     };
-  }, [phase, saveId, teamAbbr]);
+  }, [hasBlockingModalOpen, phase]);
 
   useEffect(() => {
-    if (phase !== 'resign_cut' || !saveId || !teamAbbr || rosterInteractionCount < 3) return;
+    if (
+      phase !== 'resign_cut' ||
+      !saveId ||
+      !teamAbbr ||
+      hasBlockingModalOpen ||
+      rosterInteractionCount < 4
+    ) {
+      return;
+    }
     const requestKey = `${saveId}:${teamAbbr}`;
     if (initialTradeOfferRequestedRef.current === requestKey) return;
     initialTradeOfferRequestedRef.current = requestKey;
     void requestTradeOffer({ trigger: 'visit-manage-team' });
-  }, [phase, requestTradeOffer, rosterInteractionCount, saveId, teamAbbr]);
+  }, [hasBlockingModalOpen, phase, requestTradeOffer, rosterInteractionCount, saveId, teamAbbr]);
 
   const handleSubmitCut = async () => {
     if (!activeCutPlayer) {
