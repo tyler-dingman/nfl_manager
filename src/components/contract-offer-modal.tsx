@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import PlayerTypeIcon from '@/components/player-type-icon';
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 import { estimateResignInterest } from '@/lib/resign-scoring';
@@ -177,7 +178,12 @@ export default function ContractOfferModal({
                 Player Details
               </p>
               <p className="font-semibold text-foreground">
-                {player.firstName} {player.lastName}
+                <span className="inline-flex items-center gap-1.5">
+                  <span>
+                    {player.firstName} {player.lastName}
+                  </span>
+                  <PlayerTypeIcon player={player} />
+                </span>
               </p>
               <p className="text-sm text-muted-foreground">
                 {player.position}

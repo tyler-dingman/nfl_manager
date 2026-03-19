@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import PlayerTypeIcon from '@/components/player-type-icon';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import { useTeamStore } from '@/features/team/team-store';
 import { useTradeOfferStore } from '@/features/trades/trade-offer-store';
 import { apiFetch } from '@/lib/api';
 import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
+import { getPlayerTypeIndicator } from '@/lib/player-type-indicator';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import { useToast } from '@/components/ui/toast';
@@ -100,6 +102,10 @@ const toSlotAsset = (asset: TradeOfferAssetDTO): TradeSlotAsset => ({
       : `${asset.position} · ${asset.age ?? '—'} yrs`,
   meta: asset.type === 'pick' ? undefined : asset.contractSummary,
   headshotUrl: asset.type === 'player' ? (asset.headshotUrl ?? null) : null,
+  playerTypeIndicator:
+    asset.type === 'player'
+      ? getPlayerTypeIndicator({ age: asset.age ?? undefined, rating: asset.rating ?? undefined })
+      : null,
 });
 
 const assetToPickSelectionId = (asset: Extract<TradeOfferAssetDTO, { type: 'pick' }>) =>
@@ -128,6 +134,7 @@ const buildFallbackPlayerSlotAsset = (player: PlayerRowDTO): TradeSlotAsset => (
       ? `${player.contract.yearsRemaining} yr · $${player.contract.apy.toFixed(1)}M`
       : player.capHit,
   headshotUrl: player.headshotUrl ?? null,
+  playerTypeIndicator: getPlayerTypeIndicator(player),
 });
 
 const buildFallbackPickSlotAsset = (pickId: string, teamAbbr: string): TradeSlotAsset => {
@@ -181,7 +188,15 @@ const renderAssetCard = (asset: TradeOfferAssetDTO) => (
           </div>
         )}
         <div className="min-w-0">
-          <p className="text-sm font-semibold text-foreground">{asset.name}</p>
+          <div className="flex min-w-0 items-center gap-1.5">
+            <p className="truncate text-sm font-semibold text-foreground">{asset.name}</p>
+            <PlayerTypeIcon
+              indicator={getPlayerTypeIndicator({
+                age: asset.age ?? undefined,
+                rating: asset.rating ?? undefined,
+              })}
+            />
+          </div>
           <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
         </div>
       </div>

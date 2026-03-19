@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { ArrowLeftRight, ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import { PositionFilterBar } from '@/components/player-table';
+import PlayerTypeIcon from '@/components/player-type-icon';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -297,8 +298,11 @@ export function TradeBlockTable({
                               )}
                             </div>
                             <div className="min-w-0">
-                              <div className="truncate font-semibold text-foreground">
-                                {player.firstName} {player.lastName}
+                              <div className="flex min-w-0 items-center gap-1.5">
+                                <div className="truncate font-semibold text-foreground">
+                                  {player.firstName} {player.lastName}
+                                </div>
+                                <PlayerTypeIcon player={player} />
                               </div>
                               <div
                                 className="text-xs text-muted-foreground"

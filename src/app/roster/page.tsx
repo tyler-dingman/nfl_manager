@@ -8,6 +8,7 @@ import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
 import OnboardingModal from '@/components/onboarding/OnboardingModal';
 import { PlayerTable, PositionFilterBar } from '@/components/player-table';
+import PlayerTypeIcon from '@/components/player-type-icon';
 import { TradeBlockTable } from '@/components/trade-block-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
 import { StepHeader } from '@/components/offseason/step-header';
@@ -988,7 +989,12 @@ export default function RosterPage() {
                                       )}
                                     </div>
                                     <div className="min-w-0 flex-1 text-left">
-                                      <div className="truncate leading-tight">{player.name}</div>
+                                      <div className="flex min-w-0 items-center gap-1.5">
+                                        <div className="truncate leading-tight">{player.name}</div>
+                                        <PlayerTypeIcon
+                                          player={{ age: player.age, rating: player.rating }}
+                                        />
+                                      </div>
                                       {player.interestQuote ? (
                                         <div
                                           className="line-clamp-2 pt-0.5 text-left text-xs font-normal leading-snug text-muted-foreground"

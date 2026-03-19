@@ -3,7 +3,9 @@
 import * as React from 'react';
 import { X } from 'lucide-react';
 
+import PlayerTypeIcon from '@/components/player-type-icon';
 import { Button } from '@/components/ui/button';
+import type { PlayerTypeIndicatorResult } from '@/lib/player-type-indicator';
 import { cn } from '@/lib/utils';
 
 const NFL_DRAFT_LOGO_URL =
@@ -16,6 +18,7 @@ export type TradeSlotAsset = {
   sublabel?: string;
   meta?: string;
   headshotUrl?: string | null;
+  playerTypeIndicator?: PlayerTypeIndicatorResult | null;
 };
 
 type TradeAssetSlotsProps = {
@@ -86,7 +89,10 @@ export default function TradeAssetSlots({
                   </div>
                 )}
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{slot.label}</p>
+                  <div className="flex min-w-0 items-center gap-1.5">
+                    <p className="truncate text-sm font-semibold text-foreground">{slot.label}</p>
+                    <PlayerTypeIcon indicator={slot.playerTypeIndicator} />
+                  </div>
                   {slot.sublabel ? (
                     <p className="text-xs text-muted-foreground">{slot.sublabel}</p>
                   ) : null}

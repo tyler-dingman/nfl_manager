@@ -21,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import PlayerTypeIcon from '@/components/player-type-icon';
 import { getPreferredYearsForPlayer } from '@/lib/contracts';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
@@ -441,7 +442,12 @@ export function PlayerTable({
                   )}
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                  <div className="flex min-w-0 items-center gap-1.5">
+                    <p className="truncate text-sm font-semibold text-foreground">
+                      {formatName(player)}
+                    </p>
+                    <PlayerTypeIcon player={player} />
+                  </div>
                   <p className="text-xs text-muted-foreground md:hidden">
                     {player.position}
                     {player.rating !== undefined && player.rating !== null
@@ -580,6 +586,7 @@ export function PlayerTable({
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
+                  <PlayerTypeIcon player={player} />
                   {isCut ? (
                     <Badge variant="destructive" className="text-[10px] uppercase">
                       Cut
