@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 
 import { offerContract } from '@/server/api/players';
-import { getSaveStateResult, hydrateOffseasonFreeAgencyState } from '@/server/api/store';
+import {
+  ensureSaveState,
+  getSaveState,
+  getSaveStateResult,
+  hydrateOffseasonFreeAgencyState,
+} from '@/server/api/store';
 import { clampYears } from '@/lib/contracts';
 import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
 import { getTeamCatchphrase, getTeamHypeLine } from '@/lib/team-chants';
@@ -11,6 +16,7 @@ export const POST = async (request: Request) => {
     const body = (await request.json()) as {
       saveId?: string;
       playerId?: string;
+      teamAbbr?: string;
       years?: number;
       apy?: number;
       guaranteed?: number;
@@ -29,6 +35,11 @@ export const POST = async (request: Request) => {
 
     const years = clampYears(body.years);
     const guaranteed = typeof body.guaranteed === 'number' ? body.guaranteed : 0;
+
+    if (!getSaveState(body.saveId) && body.teamAbbr) {
+      ensureSaveState(body.saveId, body.teamAbbr);
+    }
+
     const stateResult = getSaveStateResult(body.saveId);
     if (!stateResult.ok) {
       return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });

@@ -40,6 +40,62 @@ export default function FreeAgentsPage() {
     typeof performance !== 'undefined' ? performance.now() : 0,
   );
 
+  const ensureActionableSaveId = async (preferredSaveId?: string | null) => {
+    let nextSaveId = preferredSaveId ?? saveId;
+
+    if (nextSaveId) {
+      const headerParams = new URLSearchParams({ saveId: nextSaveId });
+      if (teamAbbr) {
+        headerParams.set('teamAbbr', teamAbbr);
+      }
+      const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
+      if (headerResponse.status === 404) {
+        nextSaveId = '';
+      }
+    }
+
+    if (!nextSaveId) {
+      const createResponse = await apiFetch('/api/saves/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
+      });
+      if (!createResponse.ok) {
+        return null;
+      }
+
+      const data = (await createResponse.json()) as
+        | {
+            ok: true;
+            saveId: string;
+            teamAbbr: string;
+            capSpace: number;
+            capLimit: number;
+            rosterCount: number;
+            rosterLimit: number;
+            phase: string;
+            unlocked?: { freeAgency: boolean; draft: boolean };
+            createdAt: string;
+          }
+        | { ok: false; error: string };
+
+      if (!('ok' in data) || !data.ok) {
+        return null;
+      }
+
+      nextSaveId = data.saveId;
+      setSaveHeader(
+        {
+          ...data,
+          unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+        },
+        teamId || undefined,
+      );
+    }
+
+    return nextSaveId;
+  };
+
   useEffect(() => {
     setPlayers(data);
   }, [data]);
@@ -77,67 +133,41 @@ export default function FreeAgentsPage() {
       return;
     }
 
-    let activeSaveId = saveId;
-
-    if (activeSaveId) {
-      const headerParams = new URLSearchParams({ saveId: activeSaveId });
-      if (teamAbbr) {
-        headerParams.set('teamAbbr', teamAbbr);
-      }
-      const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
-      if (headerResponse.status === 404) {
-        activeSaveId = '';
-      }
-    }
-
-    if (!activeSaveId) {
-      const createResponse = await apiFetch('/api/saves/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
-      });
-      if (createResponse.ok) {
-        const data = (await createResponse.json()) as
-          | {
-              ok: true;
-              saveId: string;
-              teamAbbr: string;
-              capSpace: number;
-              capLimit: number;
-              rosterCount: number;
-              rosterLimit: number;
-              phase: string;
-              unlocked?: { freeAgency: boolean; draft: boolean };
-              createdAt: string;
-            }
-          | { ok: false; error: string };
-        if ('ok' in data && data.ok) {
-          activeSaveId = data.saveId;
-          setSaveHeader(
-            {
-              ...data,
-              unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-            },
-            teamId || undefined,
-          );
-        }
-      }
-    }
+    let activeSaveId = await ensureActionableSaveId(saveId);
     if (!activeSaveId) {
       return;
     }
 
-    const response = await apiFetch('/api/actions/offer-contract', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId: activeSaveId,
-        playerId: activeOfferPlayer.id,
-        years,
-        apy,
-        guaranteed,
-      }),
-    });
+    const submitOffer = (resolvedSaveId: string) =>
+      apiFetch('/api/actions/offer-contract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId: resolvedSaveId,
+          teamAbbr,
+          playerId: activeOfferPlayer.id,
+          years,
+          apy,
+          guaranteed,
+        }),
+      });
+
+    let response = await submitOffer(activeSaveId);
+
+    if (response.status === 404) {
+      const errorPayload = (await response.json()) as { ok?: boolean; error?: string };
+      if (errorPayload.error === 'Save not found') {
+        const recoveredSaveId = await ensureActionableSaveId(null);
+        if (recoveredSaveId) {
+          activeSaveId = recoveredSaveId;
+          response = await submitOffer(activeSaveId);
+        } else {
+          throw new Error(errorPayload.error || 'Unable to submit offer right now.');
+        }
+      } else {
+        throw new Error(errorPayload.error || 'Unable to submit offer right now.');
+      }
+    }
 
     if (!response.ok) {
       const data = (await response.json()) as { ok?: boolean; error?: string };

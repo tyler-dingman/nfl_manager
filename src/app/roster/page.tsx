@@ -125,6 +125,58 @@ export default function RosterPage() {
       <ArrowUpDown className="h-3 w-3" />
     </button>
   );
+  const ensureActionableSaveId = async (preferredSaveId?: string | null) => {
+    let nextSaveId = preferredSaveId ?? saveId;
+
+    if (nextSaveId) {
+      const headerParams = new URLSearchParams({ saveId: nextSaveId });
+      if (teamAbbr) {
+        headerParams.set('teamAbbr', teamAbbr);
+      }
+      const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
+      if (headerResponse.status === 404) {
+        nextSaveId = '';
+      }
+    }
+
+    if (!nextSaveId) {
+      const createResponse = await apiFetch('/api/saves/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId: teamId || undefined, teamAbbr: teamAbbr || undefined }),
+      });
+      if (!createResponse.ok) {
+        return null;
+      }
+
+      const data = (await createResponse.json()) as
+        | {
+            ok: true;
+            saveId: string;
+            teamAbbr: string;
+            capSpace: number;
+            capLimit: number;
+            rosterCount: number;
+            rosterLimit: number;
+            phase: string;
+            unlocked?: { freeAgency: boolean; draft: boolean };
+            createdAt: string;
+          }
+        | { ok: false; error: string };
+
+      if (!('ok' in data) || !data.ok) {
+        return null;
+      }
+
+      nextSaveId = data.saveId;
+      setSaveHeader({
+        ...data,
+        unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+      });
+    }
+
+    return nextSaveId;
+  };
 
   useEffect(() => {
     if (mode === 'full' && currentStep !== 'manage') {
@@ -168,7 +220,9 @@ export default function RosterPage() {
       return;
     }
 
-    if (!saveId) {
+    const actionableSaveId = await ensureActionableSaveId(saveId);
+
+    if (!actionableSaveId) {
       pushToast({
         title: 'Session not initialized',
         description: 'Please return to Team Select to start a new offseason.',
@@ -323,7 +377,9 @@ export default function RosterPage() {
       return;
     }
 
-    if (!saveId) {
+    const actionableSaveId = await ensureActionableSaveId(saveId);
+
+    if (!actionableSaveId) {
       pushToast({
         title: 'Session not initialized',
         description: 'Please return to Team Select to start a new offseason.',
@@ -333,7 +389,7 @@ export default function RosterPage() {
     }
 
     const requestBody = {
-      saveId,
+      saveId: actionableSaveId,
       teamAbbr,
       playerId,
       years: offer.years,
@@ -341,11 +397,31 @@ export default function RosterPage() {
       guaranteed: offer.guaranteed,
     };
 
-    const response = await apiFetch('/api/actions/resign-player', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody),
-    });
+    const submitResign = (body: typeof requestBody) =>
+      apiFetch('/api/actions/resign-player', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+    let response = await submitResign(requestBody);
+
+    if (response.status === 404) {
+      const errorPayload = (await response.json()) as { ok?: boolean; error?: string };
+      if (errorPayload.error === 'Save not found') {
+        const recoveredSaveId = await ensureActionableSaveId(null);
+        if (!recoveredSaveId) {
+          throw new Error(errorPayload.error || 'Please try again in a moment.');
+        }
+
+        response = await submitResign({
+          ...requestBody,
+          saveId: recoveredSaveId,
+        });
+      } else {
+        throw new Error(errorPayload.error || 'Please try again in a moment.');
+      }
+    }
 
     if (!response.ok) {
       const errorPayload = (await response.json()) as { ok?: boolean; error?: string };

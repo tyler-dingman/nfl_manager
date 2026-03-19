@@ -21,6 +21,7 @@ import { useTeamStore } from '@/features/team/team-store';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { computeCapRank, formatCapMillions, ordinal } from '@/lib/cap-space';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
+import { computeTeamNeeds, computeTeamOverview } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 
 const navRoutes = {
@@ -54,6 +55,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const saveId = useSaveStore((state) => state.saveId);
   const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
+  const roster = useSaveStore((state) => state.roster);
   const isUserOnClock = useSaveStore((state) => state.isUserOnClock);
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
@@ -88,6 +90,29 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     () => teams.find((team) => team.id === selectedTeamId) ?? teams[0],
     [selectedTeamId, teams],
   );
+  const liveRosterPlayers = useMemo(
+    () =>
+      roster.filter(
+        (player) =>
+          player.status?.toLowerCase() !== 'cut' &&
+          (!selectedTeam?.abbr || !player.teamAbbr || player.teamAbbr === selectedTeam.abbr),
+      ),
+    [roster, selectedTeam?.abbr],
+  );
+  const liveTeamSummary = useMemo(() => {
+    if (liveRosterPlayers.length === 0) {
+      return {
+        overall: selectedTeam?.teamOverview ?? null,
+        needs: selectedTeam?.teamNeeds ?? [],
+      };
+    }
+
+    const overview = computeTeamOverview(liveRosterPlayers);
+    return {
+      overall: overview.overall,
+      needs: computeTeamNeeds(liveRosterPlayers),
+    };
+  }, [liveRosterPlayers, selectedTeam?.teamNeeds, selectedTeam?.teamOverview]);
 
   const hasCapSpace = isHydrated && Boolean(saveId);
   const activeCapDollars = hasCapSpace ? capSpace * 1_000_000 : 0;
@@ -327,114 +352,137 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </aside>
 
           <div className="flex min-w-0 flex-1 flex-col">
-            <header className="flex h-16 items-center justify-between border-b border-border bg-white/80 px-4 md:sticky md:top-0 md:z-40 md:bg-white/95 md:backdrop-blur md:px-6">
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
-                  onClick={() => setIsMobileSidebarOpen((open) => !open)}
-                  aria-label={isMobileSidebarOpen ? 'Close menu' : 'Open menu'}
-                >
-                  {isMobileSidebarOpen ? (
-                    <X className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Menu className="h-4 w-4 text-muted-foreground" />
-                  )}
-                </button>
-                <Link
-                  href="/teams?switch=1"
-                  aria-label="Change team"
-                  className="group flex h-9 w-9 items-center justify-center bg-white transition hover:ring-2 hover:ring-ring md:overflow-hidden md:rounded-full md:border md:border-border"
-                >
-                  {selectedTeam?.logo_url ? (
-                    <>
-                      <Image
-                        src={selectedTeam.logo_url}
-                        alt={`${selectedTeam.name} logo`}
-                        width={36}
-                        height={36}
-                        className="block h-8 w-8 object-contain md:hidden"
-                      />
-                      <Image
-                        src={selectedTeam.logo_url}
-                        alt={`${selectedTeam.name} logo`}
-                        width={36}
-                        height={36}
-                        className="hidden h-full w-full object-cover md:block"
-                      />
-                    </>
-                  ) : (
-                    <span className="text-xs font-semibold text-muted-foreground">
-                      {selectedTeam?.abbr ?? '--'}
-                    </span>
-                  )}
-                </Link>
-                <div className="hidden flex-col md:flex">
-                  <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    Active Team
-                  </span>
-                  <span className="text-sm font-semibold">
-                    {selectedTeam?.name ?? 'Select a team'}
-                  </span>
-                </div>
-                <div className="ml-2 flex items-center gap-2 rounded-xl border border-border bg-white px-3 py-2">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground md:hidden">
-                    Cap
-                  </span>
-                  <span className="hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground md:block">
-                    Cap Space
-                  </span>
-                  <span
-                    className={cn(
-                      'whitespace-nowrap text-xs font-semibold md:text-sm',
-                      hasCapSpace && activeCapDollars < 0 ? 'text-destructive' : 'text-foreground',
-                      capPulse ? 'animate-pulse' : null,
-                    )}
-                  >
-                    {hasCapSpace ? `${formattedCapSpace} / ${ordinal(capRank)}` : '—'}
-                  </span>
-                </div>
-                {showOnTheClock ? (
-                  <span
-                    className="ml-3 hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] md:inline md:text-sm"
-                    style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
-                  >
-                    ON THE CLOCK
-                  </span>
-                ) : null}
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="relative">
+            <header className="border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:backdrop-blur md:px-6">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-3">
                   <button
                     type="button"
-                    onClick={() => setIsProfileOpen((open) => !open)}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
+                    onClick={() => setIsMobileSidebarOpen((open) => !open)}
+                    aria-label={isMobileSidebarOpen ? 'Close menu' : 'Open menu'}
                   >
-                    <span className="text-sm font-semibold text-muted-foreground">JD</span>
+                    {isMobileSidebarOpen ? (
+                      <X className="h-4 w-4 text-muted-foreground" />
+                    ) : (
+                      <Menu className="h-4 w-4 text-muted-foreground" />
+                    )}
                   </button>
-                  {isProfileOpen ? (
-                    <div className="absolute right-0 top-12 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
-                      <button
-                        type="button"
-                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                      >
-                        Profile
-                      </button>
-                      <button
-                        type="button"
-                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                      >
-                        Settings
-                      </button>
-                      <button
-                        type="button"
-                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                      >
-                        Log out
-                      </button>
-                    </div>
+                  <Link
+                    href="/teams?switch=1"
+                    aria-label="Change team"
+                    className="group flex h-9 w-9 items-center justify-center bg-white transition hover:ring-2 hover:ring-ring md:overflow-hidden md:rounded-full md:border md:border-border"
+                  >
+                    {selectedTeam?.logo_url ? (
+                      <>
+                        <Image
+                          src={selectedTeam.logo_url}
+                          alt={`${selectedTeam.name} logo`}
+                          width={36}
+                          height={36}
+                          className="block h-8 w-8 object-contain md:hidden"
+                        />
+                        <Image
+                          src={selectedTeam.logo_url}
+                          alt={`${selectedTeam.name} logo`}
+                          width={36}
+                          height={36}
+                          className="hidden h-full w-full object-cover md:block"
+                        />
+                      </>
+                    ) : (
+                      <span className="text-xs font-semibold text-muted-foreground">
+                        {selectedTeam?.abbr ?? '--'}
+                      </span>
+                    )}
+                  </Link>
+                  <div className="hidden flex-col md:flex">
+                    <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      Active Team
+                    </span>
+                    <span className="text-sm font-semibold">
+                      {selectedTeam?.name ?? 'Select a team'}
+                    </span>
+                  </div>
+                  <div className="hidden h-10 w-px bg-border md:block" />
+                  <div className="flex min-w-[112px] flex-col">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Cap Space
+                    </span>
+                    <span
+                      className={cn(
+                        'whitespace-nowrap text-sm font-semibold',
+                        hasCapSpace && activeCapDollars < 0
+                          ? 'text-destructive'
+                          : 'text-foreground',
+                        capPulse ? 'animate-pulse' : null,
+                      )}
+                    >
+                      {hasCapSpace ? `${formattedCapSpace} / ${ordinal(capRank)}` : '—'}
+                    </span>
+                  </div>
+                  <div className="hidden h-10 w-px bg-border sm:block" />
+                  <div className="flex min-w-[72px] flex-col">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      OVR
+                    </span>
+                    <span
+                      className="text-sm font-bold"
+                      style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
+                    >
+                      {liveTeamSummary.overall ?? '—'}
+                    </span>
+                  </div>
+                  <div className="hidden h-10 w-px bg-border lg:block" />
+                  <div className="min-w-[160px] flex-1 md:flex-none lg:max-w-[260px]">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Team Needs
+                    </span>
+                    <span className="block truncate text-sm font-semibold text-foreground">
+                      {liveTeamSummary.needs.length > 0 ? liveTeamSummary.needs.join(' · ') : '—'}
+                    </span>
+                  </div>
+                  {showOnTheClock ? (
+                    <span
+                      className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] md:inline md:text-sm"
+                      style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
+                    >
+                      ON THE CLOCK
+                    </span>
                   ) : null}
+                </div>
+
+                <div className="flex items-center gap-3 self-end md:self-auto">
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setIsProfileOpen((open) => !open)}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white"
+                    >
+                      <span className="text-sm font-semibold text-muted-foreground">JD</span>
+                    </button>
+                    {isProfileOpen ? (
+                      <div className="absolute right-0 top-12 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
+                        <button
+                          type="button"
+                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
+                        >
+                          Profile
+                        </button>
+                        <button
+                          type="button"
+                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
+                        >
+                          Settings
+                        </button>
+                        <button
+                          type="button"
+                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
+                        >
+                          Log out
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </header>

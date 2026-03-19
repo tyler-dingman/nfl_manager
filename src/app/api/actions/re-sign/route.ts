@@ -5,6 +5,8 @@ import { clampYears } from '@/lib/contracts';
 import { scoreResignOffer, decideResignAcceptance } from '@/server/logic/re-sign';
 import {
   addWalkawayToFreeAgencyInState,
+  ensureSaveState,
+  getSaveState,
   getSaveStateResult,
   pushNewsItem,
   resignExpiringContractInState,
@@ -49,6 +51,10 @@ export const POST = async (request: Request) => {
       { ok: false, error: 'saveId, playerId, years, apy, and guaranteed are required' },
       { status: 400 },
     );
+  }
+
+  if (!getSaveState(body.saveId) && body.teamAbbr) {
+    ensureSaveState(body.saveId, body.teamAbbr);
   }
 
   const stateResult = getSaveStateResult(body.saveId);
