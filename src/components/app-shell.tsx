@@ -354,7 +354,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <div className="flex min-w-0 flex-1 flex-col">
             <header className="border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:backdrop-blur md:px-6">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-3">
+                <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-3">
                   <button
                     type="button"
                     className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
@@ -420,7 +420,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       {hasCapSpace ? `${formattedCapSpace} / ${ordinal(capRank)}` : '—'}
                     </span>
                   </div>
-                  <div className="hidden h-10 w-px bg-border sm:block" />
+                  <div className="hidden h-10 w-px bg-border md:block" />
                   <div className="flex min-w-[72px] flex-col">
                     <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                       OVR
@@ -432,8 +432,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       {liveTeamSummary.overall ?? '—'}
                     </span>
                   </div>
-                  <div className="hidden h-10 w-px bg-border lg:block" />
-                  <div className="min-w-[160px] flex-1 md:flex-none lg:max-w-[260px]">
+                  <div className="hidden h-10 w-px bg-border md:block" />
+                  <div className="min-w-[160px] flex-1 md:flex-none md:max-w-[240px]">
                     <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                       Team Needs
                     </span>

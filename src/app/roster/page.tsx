@@ -7,6 +7,7 @@ import { ArrowUpDown, Handshake, MoreHorizontal } from 'lucide-react';
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
 import { PlayerTable, PositionFilterBar } from '@/components/player-table';
+import { TradeBlockTable } from '@/components/trade-block-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
 import { StepHeader } from '@/components/offseason/step-header';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
@@ -23,6 +24,7 @@ import { useToast } from '@/components/ui/toast';
 import { useExpiringContractsQuery } from '@/features/contracts/queries';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useRosterQuery } from '@/features/players/queries';
+import { useTradeBlockQuery } from '@/features/trades/queries';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
@@ -35,6 +37,7 @@ import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerRowDTO } from '@/types/player';
 import type { ResignResultDTO } from '@/types/resign';
 import type { RenegotiateResultDTO } from '@/types/renegotiate';
+import type { TradeBlockRow } from '@/types/trade-block';
 
 const getInterestTier = (interest: number) => {
   if (interest >= 85) return { label: 'Very High', barClass: 'bg-emerald-500' };
@@ -64,6 +67,11 @@ export default function RosterPage() {
     phase === 'resign_cut' ? saveId : null,
     phase === 'resign_cut' ? teamAbbr : null,
   );
+  const {
+    data: tradeBlockData,
+    isLoading: isTradeBlockLoading,
+    error: tradeBlockError,
+  } = useTradeBlockQuery(phase === 'resign_cut' ? saveId : null, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>(() =>
     rosterData.length > 0 ? rosterData : cachedRoster,
   );
@@ -90,7 +98,8 @@ export default function RosterPage() {
   const [renegotiateResult, setRenegotiateResult] = useState<RenegotiateResultDTO | null>(null);
   const [isRenegotiateResultOpen, setIsRenegotiateResultOpen] = useState(false);
   const [renegotiateResultPlayer, setRenegotiateResultPlayer] = useState<PlayerRowDTO | null>(null);
-  const [activeTab, setActiveTab] = useState<'expiring' | 'roster'>('expiring');
+  const [tradeBlockPlayers, setTradeBlockPlayers] = useState<TradeBlockRow[]>(() => tradeBlockData);
+  const [activeTab, setActiveTab] = useState<'expiring' | 'tradeBlock' | 'roster'>('expiring');
   const { push: pushToast } = useToast();
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const mode = useExperienceStore((state) => state.mode);
@@ -194,6 +203,10 @@ export default function RosterPage() {
   useEffect(() => {
     setExpiringContracts(expiringData);
   }, [expiringData]);
+
+  useEffect(() => {
+    setTradeBlockPlayers(tradeBlockData);
+  }, [tradeBlockData]);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') return;
@@ -608,6 +621,17 @@ export default function RosterPage() {
               <button
                 type="button"
                 className={`rounded-full px-3 py-1 transition ${
+                  activeTab === 'tradeBlock'
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-muted-foreground'
+                }`}
+                onClick={() => setActiveTab('tradeBlock')}
+              >
+                Trade Block
+              </button>
+              <button
+                type="button"
+                className={`rounded-full px-3 py-1 transition ${
                   activeTab === 'roster'
                     ? 'bg-white text-foreground shadow-sm'
                     : 'text-muted-foreground'
@@ -796,6 +820,21 @@ export default function RosterPage() {
                 <div className="px-4 py-4 text-sm text-destructive sm:px-6">{expiringError}</div>
               ) : null}
             </div>
+          ) : activeTab === 'tradeBlock' ? (
+            <>
+              <TradeBlockTable
+                data={tradeBlockPlayers}
+                loading={isTradeBlockLoading && tradeBlockPlayers.length === 0}
+                onExplorePlayer={(player) =>
+                  router.push(
+                    `/manage/trades?partnerTeamAbbr=${player.teamAbbr ?? ''}`,
+                  )
+                }
+              />
+              {tradeBlockError ? (
+                <div className="px-4 py-4 text-sm text-destructive sm:px-6">{tradeBlockError}</div>
+              ) : null}
+            </>
           ) : (
             <div className="max-h-[70vh] overflow-y-auto">
               <PlayerTable

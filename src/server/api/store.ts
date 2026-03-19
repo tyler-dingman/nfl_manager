@@ -286,6 +286,18 @@ const capLimitMillionsForTeam = (teamAbbr: string, roster: StoredPlayer[]): numb
 export const getProjectedRosterForTeam = (state: SaveState, teamAbbr: string): StoredPlayer[] =>
   clonePlayers(state.teamRosters[teamAbbr.toUpperCase()] ?? []);
 
+export const getOrBuildProjectedRosterForTeam = (
+  state: SaveState,
+  teamAbbr: string,
+): StoredPlayer[] => {
+  const normalizedTeamAbbr = teamAbbr.toUpperCase();
+  if (!state.teamRosters[normalizedTeamAbbr]) {
+    state.teamRosters[normalizedTeamAbbr] = buildRosterForTeam(normalizedTeamAbbr);
+  }
+
+  return clonePlayers(state.teamRosters[normalizedTeamAbbr] ?? []);
+};
+
 export const getProjectedCapSpaceForTeam = (state: SaveState, teamAbbr: string): number =>
   Number((state.teamCaps[teamAbbr.toUpperCase()] ?? capSpaceMillionsForTeam(teamAbbr)).toFixed(1));
 

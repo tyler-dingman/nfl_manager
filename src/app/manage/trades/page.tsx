@@ -118,6 +118,7 @@ function TradeBuilderContent() {
     state.teams.find((team) => team.id === state.selectedTeamId),
   );
   const selectedPlayerId = searchParams?.get('playerId') ?? undefined;
+  const requestedPartnerTeamAbbr = searchParams?.get('partnerTeamAbbr') ?? '';
 
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
@@ -185,11 +186,14 @@ function TradeBuilderContent() {
       return;
     }
 
-    const firstPartner = teams.find((team) => team.abbr !== selectedTeam?.abbr);
+    const requestedPartner = teams.find(
+      (team) => team.abbr === requestedPartnerTeamAbbr && team.abbr !== selectedTeam?.abbr,
+    );
+    const firstPartner = requestedPartner ?? teams.find((team) => team.abbr !== selectedTeam?.abbr);
     if (firstPartner) {
       setPartnerTeamAbbr(firstPartner.abbr);
     }
-  }, [partnerTeamAbbr, selectedTeam?.abbr, teams]);
+  }, [partnerTeamAbbr, requestedPartnerTeamAbbr, selectedTeam?.abbr, teams]);
 
   useEffect(() => {
     const loadTrade = async () => {
