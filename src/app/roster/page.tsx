@@ -617,11 +617,7 @@ export default function RosterPage() {
                 onClick={() => setActiveTab('expiring')}
               >
                 <span className="inline-flex items-center gap-1.5">
-                  <Handshake
-                    className="h-3.5 w-3.5"
-                    style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
-                    aria-hidden="true"
-                  />
+                  <Handshake className="h-3.5 w-3.5" aria-hidden="true" />
                   Expiring Contracts
                 </span>
               </button>
@@ -635,11 +631,7 @@ export default function RosterPage() {
                 onClick={() => setActiveTab('roster')}
               >
                 <span className="inline-flex items-center gap-1.5">
-                  <Users
-                    className="h-3.5 w-3.5"
-                    style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
-                    aria-hidden="true"
-                  />
+                  <Users className="h-3.5 w-3.5" aria-hidden="true" />
                   Roster
                 </span>
               </button>

@@ -208,7 +208,7 @@ export function PositionFilterBar({
           id="player-position-filter"
           value={active}
           onChange={(event) => onSelect(event.target.value)}
-          className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="h-10 w-full rounded-md border border-input bg-background pl-3 pr-10 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           {POSITION_FILTERS.map((position) => (
             <option key={position} value={position}>
@@ -809,7 +809,7 @@ export function PlayerTable({
 
   return (
     <div className="rounded-2xl border border-border bg-white shadow-sm">
-      <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
+      <div className="flex flex-col gap-4 border-b border-border px-0 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
           {variant !== 'draft' ? (
@@ -842,7 +842,7 @@ export function PlayerTable({
           ) : null}
         </div>
       </div>
-      <div className="max-w-full space-y-4 overflow-x-auto pl-3 pr-0 py-3 sm:px-6 sm:py-4">
+      <div className="max-w-full space-y-4 overflow-x-auto px-0 py-3 sm:px-6 sm:py-4">
         <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground md:hidden">
           <ArrowLeftRight className="h-3.5 w-3.5" />
           <span>Swipe to see more columns.</span>
