@@ -152,7 +152,7 @@ export default function ExperiencePage() {
             <Button
               type="button"
               onClick={handleContinue}
-              className="w-full bg-[var(--team-primary)] text-[var(--team-primary-foreground)] hover:opacity-95 md:w-auto"
+              className="w-full bg-[var(--team-primary)] text-[var(--team-primary-foreground)] hover:bg-[var(--team-primary)] hover:opacity-95 md:w-auto"
             >
               Continue
             </Button>

@@ -69,7 +69,7 @@ export function StepHeader({
           className={
             useCustomTheme
               ? 'h-10 w-full border border-white/20 bg-white/95 text-slate-900 hover:bg-white sm:w-auto'
-              : 'h-10 w-full bg-[var(--team-primary)] text-[var(--team-primary-foreground)] hover:opacity-95 sm:w-auto'
+              : 'h-10 w-full bg-[var(--team-primary)] text-[var(--team-primary-foreground)] hover:bg-[var(--team-primary)] hover:opacity-95 sm:w-auto'
           }
         >
           {continueLabel}

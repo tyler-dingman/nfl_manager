@@ -699,7 +699,7 @@ export default function RosterPage() {
                     </div>
                   </div>
                 </div>
-                <div className="space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
+                <div className="space-y-6 overflow-x-auto pl-4 pr-0 py-4 sm:px-6">
                   <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground md:hidden">
                     <ArrowLeftRight className="h-3.5 w-3.5" />
                     <span>Swipe to see more columns.</span>
@@ -761,7 +761,7 @@ export default function RosterPage() {
                             <th className="px-4 py-2 sm:px-6">
                               {renderExpiringHeader('Interest', 'interest')}
                             </th>
-                            <th className="sticky right-0 z-20 w-[136px] min-w-[136px] border-l border-slate-200 bg-slate-50 px-4 py-2 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:text-right md:shadow-none md:[box-shadow:none] sm:px-6">
+                            <th className="sticky right-0 z-20 w-[136px] min-w-[136px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none md:[box-shadow:none]">
                               Actions
                             </th>
                           </tr>
@@ -818,7 +818,7 @@ export default function RosterPage() {
                                   );
                                 })()}
                               </td>
-                              <td className="sticky right-0 z-10 w-[136px] min-w-[136px] border-l border-slate-200 bg-white px-4 py-1.5 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:text-right md:shadow-none md:[box-shadow:none] sm:px-6">
+                              <td className="sticky right-0 z-10 w-[136px] min-w-[136px] border-l border-slate-200 bg-white pl-4 pr-2 py-1.5 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none md:[box-shadow:none]">
                                 <Button
                                   type="button"
                                   variant="outline"
