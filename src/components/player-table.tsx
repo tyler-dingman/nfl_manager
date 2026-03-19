@@ -62,6 +62,7 @@ export type PlayerTableVariant = PlayerRowActionsVariant;
 type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
   meta?: {
     mobileHidden?: boolean;
+    desktopHidden?: boolean;
     hidden?: boolean;
   };
 };
@@ -475,7 +476,6 @@ export function PlayerTable({
         {
           accessorKey: 'position',
           header: ({ column }) => <SortableHeader column={column} label="Pos" />,
-          meta: { mobileHidden: true },
           cell: ({ row }) => (
             <span className="text-sm font-medium text-foreground">{row.original.position}</span>
           ),
@@ -483,7 +483,6 @@ export function PlayerTable({
         {
           accessorKey: 'age',
           header: ({ column }) => <SortableHeader column={column} label="Age" />,
-          meta: { mobileHidden: true },
           accessorFn: (row) => row.age ?? null,
           cell: ({ row }) => (
             <span className="text-sm text-muted-foreground">
@@ -619,9 +618,21 @@ export function PlayerTable({
       {
         accessorKey: 'position',
         header: ({ column }) => <SortableHeader column={column} label="Pos" />,
-        meta: { mobileHidden: true },
         cell: ({ row }) => (
           <span className="text-sm font-medium text-foreground">{row.original.position}</span>
+        ),
+      },
+      {
+        accessorKey: 'age',
+        header: ({ column }) => <SortableHeader column={column} label="Age" />,
+        meta: { desktopHidden: true },
+        accessorFn: (row) => row.age ?? null,
+        cell: ({ row }) => (
+          <span className="text-sm text-muted-foreground">
+            {row.original.age !== undefined && row.original.age !== null
+              ? Math.floor(row.original.age)
+              : '—'}
+          </span>
         ),
       },
       {
@@ -744,6 +755,10 @@ export function PlayerTable({
       }
       if (isMobile && column.meta?.mobileHidden) {
         visibility[columnId] = false;
+        return;
+      }
+      if (!isMobile && column.meta?.desktopHidden) {
+        visibility[columnId] = false;
       }
     });
 
@@ -797,19 +812,37 @@ export function PlayerTable({
   };
 
   const actionHeaderClass = isDraftVariant
-    ? 'sticky right-0 z-30 w-[120px] min-w-[120px] border-l border-slate-200 bg-slate-50 text-left'
-    : 'sticky right-0 z-20 w-[136px] min-w-[136px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none md:[box-shadow:none]';
+    ? 'sticky right-0 z-30 box-border w-[120px] min-w-[120px] border-l border-slate-200 bg-slate-50 text-left'
+    : 'sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
   const actionCellClass = isDraftVariant
-    ? 'sticky right-0 z-20 w-[120px] min-w-[120px] border-l border-slate-200 bg-white text-left'
-    : 'sticky right-0 z-10 w-[136px] min-w-[136px] border-l border-slate-200 bg-white pl-4 pr-2 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none md:[box-shadow:none]';
+    ? 'sticky right-0 z-20 box-border w-[120px] min-w-[120px] border-l border-slate-200 bg-white text-left'
+    : 'sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
   const rankHeaderClass = isDraftVariant ? 'w-[64px] min-w-[64px]' : '';
   const tableClassName = isDraftVariant
     ? 'w-full border-collapse table-fixed'
-    : 'w-full border-collapse md:min-w-[720px]';
+    : 'min-w-full w-full border-collapse table-fixed md:min-w-[720px] md:table-auto';
+  const getResponsiveColumnClass = (columnId: string) => {
+    if (columnId === 'name') {
+      return 'w-[180px] min-w-[180px] md:w-auto md:min-w-0';
+    }
+    if (columnId === 'position') {
+      return 'w-[64px] min-w-[64px] md:w-auto md:min-w-0';
+    }
+    if (columnId === 'age') {
+      return 'w-[64px] min-w-[64px] md:w-auto md:min-w-0';
+    }
+    if (columnId === 'actions') {
+      return actionHeaderClass;
+    }
+    if (columnId === 'rank') {
+      return rankHeaderClass;
+    }
+    return '';
+  };
 
   return (
-    <div className="rounded-2xl border border-border bg-white shadow-sm">
-      <div className="flex flex-col gap-4 border-b border-border px-0 py-4 sm:px-6">
+    <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+      <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
           {variant !== 'draft' ? (
@@ -842,12 +875,14 @@ export function PlayerTable({
           ) : null}
         </div>
       </div>
-      <div className="max-w-full space-y-4 overflow-x-auto px-0 py-3 sm:px-6 sm:py-4">
-        <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground md:hidden">
-          <ArrowLeftRight className="h-3.5 w-3.5" />
-          <span>Swipe to see more columns.</span>
+      <div className="py-3 sm:px-6 sm:py-4">
+        <div className="px-4 md:hidden">
+          <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+            <ArrowLeftRight className="h-3.5 w-3.5" />
+            <span>Swipe to see more columns.</span>
+          </div>
         </div>
-        <div className="space-y-3">
+        <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
           <table className={tableClassName}>
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
               {(variant === 'freeAgent' ? freeAgentTable : table)
@@ -858,9 +893,8 @@ export function PlayerTable({
                       <th
                         key={header.id}
                         className={cn(
-                          'px-4 py-2 sm:px-6',
-                          header.column.id === 'actions' && actionHeaderClass,
-                          header.column.id === 'rank' && rankHeaderClass,
+                          'px-4 py-2 text-left sm:px-6',
+                          getResponsiveColumnClass(header.column.id),
                         )}
                       >
                         {header.isPlaceholder
@@ -882,8 +916,9 @@ export function PlayerTable({
                             key={`${column.id}-${rowIndex}`}
                             className={cn(
                               'px-3 py-3 align-middle sm:px-6',
-                              column.id === 'actions' && actionCellClass,
-                              column.id === 'rank' && rankHeaderClass,
+                              column.id === 'actions'
+                                ? actionCellClass
+                                : getResponsiveColumnClass(column.id),
                             )}
                           >
                             <div
@@ -892,8 +927,8 @@ export function PlayerTable({
                                 column.id === 'name'
                                   ? 'w-40'
                                   : column.id === 'actions'
-                                    ? 'ml-auto w-10'
-                                    : 'w-16',
+                                    ? 'w-full'
+                                    : 'w-12',
                               )}
                             />
                           </td>
@@ -917,8 +952,9 @@ export function PlayerTable({
                               key={cell.id}
                               className={cn(
                                 'px-3 py-2.5 align-middle text-sm sm:px-6 sm:py-1.5',
-                                cell.column.id === 'actions' && actionCellClass,
-                                cell.column.id === 'rank' && rankHeaderClass,
+                                cell.column.id === 'actions'
+                                  ? actionCellClass
+                                  : getResponsiveColumnClass(cell.column.id),
                               )}
                             >
                               {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -929,13 +965,13 @@ export function PlayerTable({
                     })}
             </tbody>
           </table>
-          {loading ? (
-            <div className="flex items-center gap-2 px-1 text-xs text-muted-foreground">
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              <span>Loading players...</span>
-            </div>
-          ) : null}
         </div>
+        {loading ? (
+          <div className="mt-3 flex items-center gap-2 px-4 text-xs text-muted-foreground sm:px-0">
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            <span>Loading players...</span>
+          </div>
+        ) : null}
       </div>
       {!loading &&
         (variant === 'freeAgent' ? freeAgentTableData.length === 0 : filteredData.length === 0) && (

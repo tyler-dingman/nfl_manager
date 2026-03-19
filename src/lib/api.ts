@@ -35,10 +35,14 @@ const handleSaveNotFound = () => {
   window.location.assign('/');
 };
 
-export const apiFetch = async (path: string, init?: RequestInit) => {
+export const apiFetch = async (
+  path: string,
+  init?: RequestInit,
+  options?: { skipSaveGuard?: boolean },
+) => {
   const url = apiUrl(path);
   const response = await fetch(url, init);
-  if (response.status === 404 && shouldGuard404(url)) {
+  if (!options?.skipSaveGuard && response.status === 404 && shouldGuard404(url)) {
     handleSaveNotFound();
   }
   return response;

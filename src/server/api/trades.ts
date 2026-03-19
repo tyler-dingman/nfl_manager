@@ -537,9 +537,9 @@ export const createTrade = (
   };
 
   if (playerId) {
-    const player = findPlayer(stateResult.data.roster, playerId);
+    const player = findPlayer(getPartnerRoster(stateResult.data, partnerTeamAbbr), playerId);
     if (player) {
-      trade.sendAssets.push(buildPlayerAsset(player, 'send'));
+      trade.receiveAssets.push(buildPlayerAsset(player, 'receive'));
     }
   }
 

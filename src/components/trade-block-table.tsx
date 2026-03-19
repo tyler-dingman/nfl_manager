@@ -73,10 +73,7 @@ export function TradeBlockTable({
     desc: true,
   });
 
-  const teamLookup = useMemo(
-    () => new Map(teams.map((team) => [team.abbr, team])),
-    [teams],
-  );
+  const teamLookup = useMemo(() => new Map(teams.map((team) => [team.abbr, team])), [teams]);
 
   const filteredPlayers = useMemo(() => {
     const search = searchQuery.trim().toLowerCase();
@@ -91,10 +88,7 @@ export function TradeBlockTable({
       })
       .sort((left, right) => {
         const compareStrings = (a: string, b: string) => a.localeCompare(b);
-        const compareNumbers = (
-          a: number | null | undefined,
-          b: number | null | undefined,
-        ) => {
+        const compareNumbers = (a: number | null | undefined, b: number | null | undefined) => {
           const normalizedA = a ?? null;
           const normalizedB = b ?? null;
           if (normalizedA === null && normalizedB !== null) return 1;
@@ -156,13 +150,13 @@ export function TradeBlockTable({
   };
 
   const actionHeaderClass =
-    'sticky right-0 z-20 w-[136px] min-w-[136px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none md:[box-shadow:none]';
+    'sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
   const actionCellClass =
-    'sticky right-0 z-10 w-[136px] min-w-[136px] border-l border-slate-200 bg-white pl-4 pr-2 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none md:[box-shadow:none]';
+    'sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
 
   return (
     <div className="max-h-[70vh] overflow-y-auto">
-      <div className="rounded-2xl border border-border bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
         <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
@@ -182,164 +176,197 @@ export function TradeBlockTable({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={resetFilters}>Reset filters</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSearchQuery('')}>Clear search</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSearchQuery('')}>
+                    Clear search
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
         </div>
 
-        <div className="space-y-6 overflow-x-auto pl-4 pr-0 py-4 sm:px-6">
-          <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground md:hidden">
-            <ArrowLeftRight className="h-3.5 w-3.5" />
-            <span>Swipe to see more columns.</span>
+        <div className="py-4 sm:px-6">
+          <div className="px-4 md:hidden">
+            <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+              <ArrowLeftRight className="h-3.5 w-3.5" />
+              <span>Swipe to see more columns.</span>
+            </div>
           </div>
           {loading && data.length === 0 ? (
             <>
-              <table className="w-full border-collapse md:min-w-[940px]">
-                <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                  <tr>
-                    <th className="px-4 py-2 sm:px-6">Player</th>
-                    <th className="px-4 py-2 sm:px-6">Pos</th>
-                    <th className="px-4 py-2 sm:px-6">Age</th>
-                    <th className="px-4 py-2 sm:px-6">OVR</th>
-                    <th className="px-4 py-2 sm:px-6">Team</th>
-                    <th className="px-4 py-2 sm:px-6">Contract</th>
-                    <th className="px-4 py-2 sm:px-6">Potential Fits</th>
-                    <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Array.from({ length: 8 }, (_, index) => (
-                    <tr key={`trade-block-skeleton-${index}`} className="border-t border-border">
-                      {['w-40', 'w-12', 'w-10', 'w-10', 'w-20', 'w-12'].map(
-                        (width, cellIndex) => (
-                          <td key={`${index}-${cellIndex}`} className="px-4 py-3 align-middle sm:px-6">
+              <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
+                <table className="min-w-full w-full border-collapse table-fixed md:min-w-[940px] md:table-auto">
+                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                    <tr>
+                      <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                        Player
+                      </th>
+                      <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                        Pos
+                      </th>
+                      <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                        Age
+                      </th>
+                      <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">OVR</th>
+                      <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                        Potential Fits
+                      </th>
+                      <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.from({ length: 8 }, (_, index) => (
+                      <tr key={`trade-block-skeleton-${index}`} className="border-t border-border">
+                        {[
+                          'w-40',
+                          'w-12',
+                          'w-10',
+                          'hidden md:block w-10',
+                          'hidden md:block w-20',
+                        ].map((width, cellIndex) => (
+                          <td
+                            key={`${index}-${cellIndex}`}
+                            className={
+                              cellIndex >= 3
+                                ? 'hidden px-4 py-3 align-middle sm:px-6 md:table-cell'
+                                : 'px-4 py-3 align-middle sm:px-6'
+                            }
+                          >
                             <div className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`} />
                           </td>
-                        ),
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                        ))}
+                        <td className={`px-4 py-3 align-middle sm:px-6 ${actionCellClass}`}>
+                          <div className="h-4 w-full animate-pulse rounded bg-slate-200/80" />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               <div className="px-4 py-2 text-xs text-muted-foreground sm:px-6">
                 Loading players...
               </div>
             </>
           ) : (
             <>
-              <table className="w-full border-collapse md:min-w-[940px]">
-                <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                  <tr>
-                    <th className="px-4 py-2 sm:px-6">
-                      {renderSortableHeader('Player', 'name', toggleSort)}
-                    </th>
-                    <th className="px-4 py-2 sm:px-6">
-                      {renderSortableHeader('Pos', 'pos', toggleSort)}
-                    </th>
-                    <th className="px-4 py-2 sm:px-6">
-                      {renderSortableHeader('Age', 'age', toggleSort)}
-                    </th>
-                    <th className="px-4 py-2 sm:px-6">
-                      {renderSortableHeader('OVR', 'rating', toggleSort)}
-                    </th>
-                    <th className="px-4 py-2 sm:px-6">
-                      {renderSortableHeader('Potential Fits', 'fits', toggleSort)}
-                    </th>
-                    <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredPlayers.map((player) => (
-                    <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
-                      <td className="px-4 py-2 text-sm sm:px-6">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
-                            {player.headshotUrl ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={player.headshotUrl}
-                                alt={`${player.firstName} ${player.lastName}`}
-                                className="h-full w-full object-cover"
-                                loading="lazy"
-                                decoding="async"
-                              />
-                            ) : (
-                              `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
-                            )}
-                          </div>
-                          <div className="min-w-0">
-                            <div className="truncate font-semibold text-foreground">
-                              {player.firstName} {player.lastName}
-                            </div>
-                            <div className="text-xs text-muted-foreground" title={player.tradeBlockReason}>
-                              {player.tradeBlockReason}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-2 text-sm text-muted-foreground sm:px-6">{player.position}</td>
-                      <td className="px-4 py-2 text-sm text-muted-foreground sm:px-6">
-                        {player.age ?? '—'}
-                      </td>
-                      <td className="px-4 py-2 text-sm font-semibold text-foreground sm:px-6">
-                        {player.rating ?? '—'}
-                      </td>
-                      <td className="px-4 py-2 sm:px-6">
-                        <div className="flex items-center gap-2">
-                          {player.potentialFits.map((abbr) => {
-                            const team = teamLookup.get(abbr);
-                            const isUserTeam = abbr === userTeamAbbr;
-                            return (
-                              <div
-                                key={`${player.id}-${abbr}`}
-                                className="flex h-8 w-8 items-center justify-center rounded-full border bg-white shadow-sm"
-                                style={{
-                                  borderColor: isUserTeam
-                                    ? team?.color_primary ?? 'var(--team-primary)'
-                                    : undefined,
-                                  boxShadow: isUserTeam
-                                    ? `0 0 0 1px ${team?.color_primary ?? 'var(--team-primary)'}20`
-                                    : undefined,
-                                }}
-                                title={team?.name ?? abbr}
-                              >
-                                {team?.logo_url ? (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img
-                                    src={team.logo_url}
-                                    alt={team.name}
-                                    className="h-5 w-5 object-contain"
-                                    loading="lazy"
-                                    decoding="async"
-                                  />
-                                ) : (
-                                  <span className="text-[10px] font-semibold text-muted-foreground">
-                                    {abbr}
-                                  </span>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </td>
-                      <td className={`px-4 py-2 sm:px-6 ${actionCellClass}`}>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          className="w-[124px] justify-center gap-1.5 text-xs"
-                          onClick={() => onExplorePlayer(player)}
-                        >
-                          <ArrowLeftRight className="h-4 w-4" />
-                          Trade
-                        </Button>
-                      </td>
+              <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
+                <table className="min-w-full w-full border-collapse table-fixed md:min-w-[940px] md:table-auto">
+                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                    <tr>
+                      <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                        {renderSortableHeader('Player', 'name', toggleSort)}
+                      </th>
+                      <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                        {renderSortableHeader('Pos', 'pos', toggleSort)}
+                      </th>
+                      <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                        {renderSortableHeader('Age', 'age', toggleSort)}
+                      </th>
+                      <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                        {renderSortableHeader('OVR', 'rating', toggleSort)}
+                      </th>
+                      <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                        {renderSortableHeader('Potential Fits', 'fits', toggleSort)}
+                      </th>
+                      <th className={`px-4 py-2 sm:px-6 ${actionHeaderClass}`}>Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filteredPlayers.map((player) => (
+                      <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
+                        <td className="px-4 py-2 text-sm sm:px-6">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                              {player.headshotUrl ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={player.headshotUrl}
+                                  alt={`${player.firstName} ${player.lastName}`}
+                                  className="h-full w-full object-cover"
+                                  loading="lazy"
+                                  decoding="async"
+                                />
+                              ) : (
+                                `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <div className="truncate font-semibold text-foreground">
+                                {player.firstName} {player.lastName}
+                              </div>
+                              <div
+                                className="text-xs text-muted-foreground"
+                                title={player.tradeBlockReason}
+                              >
+                                {player.tradeBlockReason}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-2 text-sm text-muted-foreground sm:px-6">
+                          {player.position}
+                        </td>
+                        <td className="px-4 py-2 text-sm text-muted-foreground sm:px-6">
+                          {player.age ?? '—'}
+                        </td>
+                        <td className="hidden px-4 py-2 text-sm font-semibold text-foreground sm:px-6 md:table-cell">
+                          {player.rating ?? '—'}
+                        </td>
+                        <td className="hidden px-4 py-2 sm:px-6 md:table-cell">
+                          <div className="flex items-center gap-2">
+                            {player.potentialFits.map((abbr) => {
+                              const team = teamLookup.get(abbr);
+                              const isUserTeam = abbr === userTeamAbbr;
+                              return (
+                                <div
+                                  key={`${player.id}-${abbr}`}
+                                  className="flex h-8 w-8 items-center justify-center rounded-full border bg-white shadow-sm"
+                                  style={{
+                                    borderColor: isUserTeam
+                                      ? (team?.color_primary ?? 'var(--team-primary)')
+                                      : undefined,
+                                    boxShadow: isUserTeam
+                                      ? `0 0 0 1px ${team?.color_primary ?? 'var(--team-primary)'}20`
+                                      : undefined,
+                                  }}
+                                  title={team?.name ?? abbr}
+                                >
+                                  {team?.logo_url ? (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img
+                                      src={team.logo_url}
+                                      alt={team.name}
+                                      className="h-5 w-5 object-contain"
+                                      loading="lazy"
+                                      decoding="async"
+                                    />
+                                  ) : (
+                                    <span className="text-[10px] font-semibold text-muted-foreground">
+                                      {abbr}
+                                    </span>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </td>
+                        <td className={`px-4 py-2 sm:px-6 ${actionCellClass}`}>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="w-[124px] justify-center gap-1.5 text-xs"
+                            onClick={() => onExplorePlayer(player)}
+                          >
+                            <ArrowLeftRight className="h-4 w-4" />
+                            Trade
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               {filteredPlayers.length === 0 ? (
                 <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
                   No players match the current filters.

@@ -305,7 +305,10 @@ export default function RosterPage() {
       })
       .sort((a, b) => {
         const compareStrings = (left: string, right: string) => left.localeCompare(right);
-        const compareNumbers = (left: number | null | undefined, right: number | null | undefined) => {
+        const compareNumbers = (
+          left: number | null | undefined,
+          right: number | null | undefined,
+        ) => {
           const normalizedLeft = left ?? null;
           const normalizedRight = right ?? null;
           if (normalizedLeft === null && normalizedRight !== null) return 1;
@@ -658,7 +661,7 @@ export default function RosterPage() {
 
           {activeTab === 'expiring' ? (
             <div className="max-h-[70vh] overflow-y-auto">
-              <div className="rounded-2xl border border-border bg-white shadow-sm">
+              <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
                 <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <PositionFilterBar
@@ -691,153 +694,190 @@ export default function RosterPage() {
                     </div>
                   </div>
                 </div>
-                <div className="space-y-6 overflow-x-auto pl-4 pr-0 py-4 sm:px-6">
-                  <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground md:hidden">
-                    <ArrowLeftRight className="h-3.5 w-3.5" />
-                    <span>Swipe to see more columns.</span>
+                <div className="py-4 sm:px-6">
+                  <div className="px-4 md:hidden">
+                    <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                      <ArrowLeftRight className="h-3.5 w-3.5" />
+                      <span>Swipe to see more columns.</span>
+                    </div>
                   </div>
                   {isExpiringLoading && expiringContracts.length === 0 ? (
                     <>
-                      <table className="w-full border-collapse">
-                        <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                          <tr>
-                            <th className="px-4 py-2 sm:px-6">Name</th>
-                            <th className="px-4 py-2 sm:px-6">Pos</th>
-                            <th className="px-4 py-2 sm:px-6">Age</th>
-                            <th className="px-4 py-2 sm:px-6">OVR</th>
-                            <th className="px-4 py-2 sm:px-6">Value</th>
-                            <th className="px-4 py-2 sm:px-6">Interest</th>
-                            <th className="px-4 py-2 text-right sm:px-6">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {Array.from({ length: 8 }, (_, index) => (
-                            <tr
-                              key={`expiring-skeleton-${index}`}
-                              className="border-t border-border"
-                            >
-                              {['w-40', 'w-12', 'w-10', 'w-10', 'w-16', 'w-24', 'w-8'].map(
-                                (width, cellIndex) => (
+                      <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
+                        <table className="min-w-full w-full border-collapse table-fixed md:table-auto">
+                          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                            <tr>
+                              <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                Name
+                              </th>
+                              <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                Pos
+                              </th>
+                              <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                Age
+                              </th>
+                              <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                                Status
+                              </th>
+                              <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                                Interest
+                              </th>
+                              <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
+                                Actions
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {Array.from({ length: 8 }, (_, index) => (
+                              <tr
+                                key={`expiring-skeleton-${index}`}
+                                className="border-t border-border"
+                              >
+                                {[
+                                  'w-40',
+                                  'w-12',
+                                  'w-10',
+                                  'hidden md:block w-10',
+                                  'hidden md:block w-24',
+                                ].map((width, cellIndex) => (
                                   <td
                                     key={`${index}-${cellIndex}`}
-                                    className="px-4 py-3 align-middle sm:px-6"
+                                    className={
+                                      cellIndex >= 3
+                                        ? 'hidden px-4 py-3 align-middle sm:px-6 md:table-cell'
+                                        : 'px-4 py-3 align-middle sm:px-6'
+                                    }
                                   >
                                     <div
                                       className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`}
                                     />
                                   </td>
-                                ),
-                              )}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                                ))}
+                                <td className="sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 py-3 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
+                                  <div className="h-4 w-full animate-pulse rounded bg-slate-200/80" />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                       <div className="px-4 py-2 text-xs text-muted-foreground sm:px-6">
                         Loading players...
                       </div>
                     </>
                   ) : (
                     <>
-                      <table className="w-full border-collapse md:min-w-[720px]">
-                        <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                          <tr>
-                            <th className="px-4 py-2 sm:px-6">
-                              {renderExpiringHeader('Player', 'name')}
-                            </th>
-                            <th className="px-4 py-2 sm:px-6">
-                              {renderExpiringHeader('Pos', 'pos')}
-                            </th>
-                            <th className="px-4 py-2 sm:px-6">
-                              {renderExpiringHeader('Status', 'status')}
-                            </th>
-                            <th className="px-4 py-2 sm:px-6">
-                              {renderExpiringHeader('Interest', 'interest')}
-                            </th>
-                            <th className="sticky right-0 z-20 w-[136px] min-w-[136px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none md:[box-shadow:none]">
-                              Actions
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {filteredExpiringContracts.map((player) => (
-                            <tr
-                              key={player.id}
-                              className="border-t border-border hover:bg-slate-50/60"
-                            >
-                              <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
-                                <div className="flex items-center gap-3">
-                                  <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
-                                    {player.headshotUrl ? (
-                                      // eslint-disable-next-line @next/next/no-img-element
-                                      <img
-                                        src={player.headshotUrl}
-                                        alt={player.name}
-                                        className="h-full w-full object-cover"
-                                        loading="lazy"
-                                        decoding="async"
-                                      />
-                                    ) : (
-                                      `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(
-                                        player.name.split(' ').slice(1).join(' ') || player.name
-                                      ).charAt(0)}`.toUpperCase()
-                                    )}
-                                  </div>
-                                  <span>{player.name}</span>
-                                </div>
-                              </td>
-                              <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                                {player.pos}
-                              </td>
-                              <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                                <Badge variant="success">Pending</Badge>
-                              </td>
-                              <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                                {(() => {
-                                  const score = Math.max(0, Math.min(100, player.interestPct ?? 0));
-                                  const tier = getInterestTier(score);
-                                  return (
-                                    <div className="w-32">
-                                      <div className="mb-1 text-xs font-medium text-muted-foreground">
-                                        {tier.label}
-                                      </div>
-                                      <div className="h-2 w-full rounded-full bg-slate-200">
-                                        <div
-                                          className={`h-2 rounded-full ${tier.barClass}`}
-                                          style={{ width: `${score}%` }}
-                                        />
-                                      </div>
-                                    </div>
-                                  );
-                                })()}
-                              </td>
-                              <td className="sticky right-0 z-10 w-[136px] min-w-[136px] border-l border-slate-200 bg-white pl-4 pr-2 py-1.5 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none md:[box-shadow:none]">
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="sm"
-                                  disabled={!saveId}
-                                  onClick={() => setActiveExpiringContract(player)}
-                                  className="h-9 w-[124px] justify-center gap-1.5 text-xs md:hidden"
-                                >
-                                  <Handshake className="h-4 w-4" />
-                                  Re-sign
-                                </Button>
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="icon"
-                                  disabled={!saveId}
-                                  onClick={() => setActiveExpiringContract(player)}
-                                  className="hidden md:inline-flex"
-                                >
-                                  <Handshake className="h-4 w-4" />
-                                  <span className="sr-only">Re-sign {player.name}</span>
-                                </Button>
-                              </td>
+                      <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
+                        <table className="min-w-full w-full border-collapse table-fixed md:min-w-[720px] md:table-auto">
+                          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                            <tr>
+                              <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                {renderExpiringHeader('Player', 'name')}
+                              </th>
+                              <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                {renderExpiringHeader('Pos', 'pos')}
+                              </th>
+                              <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                Age
+                              </th>
+                              <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                                {renderExpiringHeader('Status', 'status')}
+                              </th>
+                              <th className="hidden px-4 py-2 text-left sm:px-6 md:table-cell">
+                                {renderExpiringHeader('Interest', 'interest')}
+                              </th>
+                              <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
+                                Actions
+                              </th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {filteredExpiringContracts.map((player) => (
+                              <tr
+                                key={player.id}
+                                className="border-t border-border hover:bg-slate-50/60"
+                              >
+                                <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
+                                  <div className="flex items-center gap-3">
+                                    <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                                      {player.headshotUrl ? (
+                                        // eslint-disable-next-line @next/next/no-img-element
+                                        <img
+                                          src={player.headshotUrl}
+                                          alt={player.name}
+                                          className="h-full w-full object-cover"
+                                          loading="lazy"
+                                          decoding="async"
+                                        />
+                                      ) : (
+                                        `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(
+                                          player.name.split(' ').slice(1).join(' ') || player.name
+                                        ).charAt(0)}`.toUpperCase()
+                                      )}
+                                    </div>
+                                    <span>{player.name}</span>
+                                  </div>
+                                </td>
+                                <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                                  {player.pos}
+                                </td>
+                                <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                                  {player.age ?? '—'}
+                                </td>
+                                <td className="hidden px-4 py-1.5 text-sm text-muted-foreground sm:px-6 md:table-cell">
+                                  <Badge variant="success">Pending</Badge>
+                                </td>
+                                <td className="hidden px-4 py-1.5 text-sm text-foreground sm:px-6 md:table-cell">
+                                  {(() => {
+                                    const score = Math.max(
+                                      0,
+                                      Math.min(100, player.interestPct ?? 0),
+                                    );
+                                    const tier = getInterestTier(score);
+                                    return (
+                                      <div className="w-32">
+                                        <div className="mb-1 text-xs font-medium text-muted-foreground">
+                                          {tier.label}
+                                        </div>
+                                        <div className="h-2 w-full rounded-full bg-slate-200">
+                                          <div
+                                            className={`h-2 rounded-full ${tier.barClass}`}
+                                            style={{ width: `${score}%` }}
+                                          />
+                                        </div>
+                                      </div>
+                                    );
+                                  })()}
+                                </td>
+                                <td className="sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 py-1.5 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={!saveId}
+                                    onClick={() => setActiveExpiringContract(player)}
+                                    className="h-9 w-[124px] justify-center gap-1.5 text-xs md:hidden"
+                                  >
+                                    <Handshake className="h-4 w-4" />
+                                    Re-sign
+                                  </Button>
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    disabled={!saveId}
+                                    onClick={() => setActiveExpiringContract(player)}
+                                    className="hidden md:inline-flex"
+                                  >
+                                    <Handshake className="h-4 w-4" />
+                                    <span className="sr-only">Re-sign {player.name}</span>
+                                  </Button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                       {filteredExpiringContracts.length === 0 ? (
                         <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
                           No players match the current filters.
@@ -858,7 +898,7 @@ export default function RosterPage() {
                 loading={isTradeBlockLoading && tradeBlockPlayers.length === 0}
                 onExplorePlayer={(player) =>
                   router.push(
-                    `/manage/trades?partnerTeamAbbr=${player.teamAbbr ?? ''}`,
+                    `/manage/trades?partnerTeamAbbr=${player.teamAbbr ?? ''}&playerId=${player.id}`,
                   )
                 }
               />
