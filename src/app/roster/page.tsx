@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Handshake, Loader2, MoreHorizontal } from 'lucide-react';
+import { Handshake, MoreHorizontal } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/toast';
-import { fetchExpiringContracts } from '@/features/contracts/queries';
+import { useExpiringContractsQuery } from '@/features/contracts/queries';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useRosterQuery } from '@/features/players/queries';
 import { useExperienceStore } from '@/features/experience/experience-store';
@@ -50,21 +50,32 @@ export default function RosterPage() {
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
   const phase = useSaveStore((state) => state.phase);
+  const cachedRoster = useSaveStore((state) => state.roster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const setRoster = useSaveStore((state) => state.setRoster);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const { data: rosterData, isLoading: isRosterLoading } = useRosterQuery(saveId, teamAbbr);
-  const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
+  const {
+    data: expiringData,
+    isLoading: isExpiringLoading,
+    error: expiringError,
+  } = useExpiringContractsQuery(
+    phase === 'resign_cut' ? saveId : null,
+    phase === 'resign_cut' ? teamAbbr : null,
+  );
+  const [players, setPlayers] = useState<PlayerRowDTO[]>(() =>
+    rosterData.length > 0 ? rosterData : cachedRoster,
+  );
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeResignPlayer, setActiveResignPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeRenegotiatePlayer, setActiveRenegotiatePlayer] = useState<PlayerRowDTO | null>(null);
   const [activeExpiringContract, setActiveExpiringContract] = useState<ExpiringContractRow | null>(
     null,
   );
-  const [expiringContracts, setExpiringContracts] = useState<ExpiringContractRow[]>([]);
-  const [isExpiringLoading, setIsExpiringLoading] = useState(false);
-  const [expiringError, setExpiringError] = useState<string | null>(null);
+  const [expiringContracts, setExpiringContracts] = useState<ExpiringContractRow[]>(
+    () => expiringData,
+  );
   const [expiringPositionFilter, setExpiringPositionFilter] = useState('All');
   const [expiringSearchQuery, setExpiringSearchQuery] = useState('');
   const [resignResult, setResignResult] = useState<ResignResultDTO | null>(null);
@@ -81,6 +92,14 @@ export default function RosterPage() {
   const markManageSubstepComplete = useExperienceStore((state) => state.markManageSubstepComplete);
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
   const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
+  const rosterFirstVisibleRowLoggedRef = useRef(false);
+  const expiringFirstVisibleRowLoggedRef = useRef(false);
+  const rosterStartedAtRef = useRef<number>(
+    typeof performance !== 'undefined' ? performance.now() : 0,
+  );
+  const expiringStartedAtRef = useRef<number>(
+    typeof performance !== 'undefined' ? performance.now() : 0,
+  );
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId),
@@ -99,6 +118,30 @@ export default function RosterPage() {
       setRoster(rosterData);
     }
   }, [rosterData, setRoster]);
+
+  useEffect(() => {
+    setExpiringContracts(expiringData);
+  }, [expiringData]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') return;
+    if (rosterFirstVisibleRowLoggedRef.current || players.length === 0) return;
+    rosterFirstVisibleRowLoggedRef.current = true;
+    console.info('[player-list] roster:first-row-visible', {
+      count: players.length,
+      ms: Number((performance.now() - rosterStartedAtRef.current).toFixed(1)),
+    });
+  }, [players]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') return;
+    if (expiringFirstVisibleRowLoggedRef.current || expiringContracts.length === 0) return;
+    expiringFirstVisibleRowLoggedRef.current = true;
+    console.info('[player-list] expiring:first-row-visible', {
+      count: expiringContracts.length,
+      ms: Number((performance.now() - expiringStartedAtRef.current).toFixed(1)),
+    });
+  }, [expiringContracts]);
 
   const handleSubmitCut = async () => {
     if (!activeCutPlayer) {
@@ -163,34 +206,6 @@ export default function RosterPage() {
       markManageSubstepComplete('Re-sign / Cut Players');
     }
   };
-
-  useEffect(() => {
-    if (phase !== 'resign_cut') {
-      return;
-    }
-
-    let isActive = true;
-    setIsExpiringLoading(true);
-    setExpiringError(null);
-
-    fetchExpiringContracts(saveId, teamAbbr)
-      .then((rows) => {
-        if (!isActive) return;
-        setExpiringContracts(rows);
-      })
-      .catch((error) => {
-        if (!isActive) return;
-        setExpiringError(error instanceof Error ? error.message : 'Unable to load contracts.');
-      })
-      .finally(() => {
-        if (!isActive) return;
-        setIsExpiringLoading(false);
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, [phase, saveId, teamAbbr]);
 
   const filteredExpiringContracts = useMemo(() => {
     const search = expiringSearchQuery.trim().toLowerCase();
@@ -508,13 +523,46 @@ export default function RosterPage() {
                   </div>
                 </div>
                 <div className="space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
-                  {isExpiringLoading ? (
-                    <div className="flex min-h-56 items-center justify-center">
-                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                        <span>Loading players...</span>
+                  {isExpiringLoading && expiringContracts.length === 0 ? (
+                    <>
+                      <table className="w-full border-collapse">
+                        <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                          <tr>
+                            <th className="px-4 py-2 sm:px-6">Name</th>
+                            <th className="px-4 py-2 sm:px-6">Pos</th>
+                            <th className="px-4 py-2 sm:px-6">Age</th>
+                            <th className="px-4 py-2 sm:px-6">OVR</th>
+                            <th className="px-4 py-2 sm:px-6">Value</th>
+                            <th className="px-4 py-2 sm:px-6">Interest</th>
+                            <th className="px-4 py-2 text-right sm:px-6">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {Array.from({ length: 8 }, (_, index) => (
+                            <tr
+                              key={`expiring-skeleton-${index}`}
+                              className="border-t border-border"
+                            >
+                              {['w-40', 'w-12', 'w-10', 'w-10', 'w-16', 'w-24', 'w-8'].map(
+                                (width, cellIndex) => (
+                                  <td
+                                    key={`${index}-${cellIndex}`}
+                                    className="px-4 py-3 align-middle sm:px-6"
+                                  >
+                                    <div
+                                      className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`}
+                                    />
+                                  </td>
+                                ),
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="px-4 py-2 text-xs text-muted-foreground sm:px-6">
+                        Loading players...
                       </div>
-                    </div>
+                    </>
                   ) : (
                     <>
                       <table className="w-full border-collapse md:min-w-[720px]">
@@ -542,6 +590,8 @@ export default function RosterPage() {
                                         src={player.headshotUrl}
                                         alt={player.name}
                                         className="h-full w-full object-cover"
+                                        loading="lazy"
+                                        decoding="async"
                                       />
                                     ) : (
                                       `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(

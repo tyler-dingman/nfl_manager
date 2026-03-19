@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
@@ -14,7 +14,6 @@ import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
-import { getFreeAgentExpectedApyDollars } from '@/lib/free-agent-valuation';
 import { apiFetch } from '@/lib/api';
 import type { PlayerRowDTO } from '@/types/player';
 
@@ -27,7 +26,7 @@ export default function FreeAgentsPage() {
   const setRoster = useSaveStore((state) => state.setRoster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const { data, isLoading } = useFreeAgentsQuery(saveId, teamAbbr);
-  const [players, setPlayers] = useState<PlayerRowDTO[]>([]);
+  const [players, setPlayers] = useState<PlayerRowDTO[]>(() => data);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const mode = useExperienceStore((state) => state.mode);
@@ -36,20 +35,24 @@ export default function FreeAgentsPage() {
   const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
   const [signedCount, setSignedCount] = useState(0);
   const [activeTab, setActiveTab] = useState<'available' | 'signed'>('available');
+  const firstVisibleRowLoggedRef = useRef(false);
+  const tableStartedAtRef = useRef<number>(
+    typeof performance !== 'undefined' ? performance.now() : 0,
+  );
 
   useEffect(() => {
-    setPlayers(
-      data.map((player) => ({
-        ...player,
-        marketValue:
-          getFreeAgentExpectedApyDollars({
-            position: player.position,
-            rating: player.rating,
-            marketValue: player.marketValue,
-          }) ?? null,
-      })),
-    );
+    setPlayers(data);
   }, [data]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') return;
+    if (firstVisibleRowLoggedRef.current || players.length === 0) return;
+    firstVisibleRowLoggedRef.current = true;
+    console.info('[player-list] free-agents:first-row-visible', {
+      count: players.length,
+      ms: Number((performance.now() - tableStartedAtRef.current).toFixed(1)),
+    });
+  }, [players]);
 
   useEffect(() => {
     if (mode === 'full' && currentStep !== 'free-agency') {

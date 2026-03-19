@@ -73,6 +73,10 @@ export type PlayerRowDTO = {
   contractStatus?: string | null;
   isUnsigned?: boolean;
   averagePerYear?: number | null;
+  expectedAnnualValue?: number | null;
+  marketTier?: 'elite' | 'starter' | 'depth' | 'fringe';
+  marketStatus?: 'unsigned' | 'available' | 'signed' | 'removed';
+  availabilityStatus?: 'available' | 'signed' | 'removed';
   freeAgentProfile?: FreeAgentProfileDTO;
   contract?: {
     yearsRemaining: number;
