@@ -230,6 +230,7 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
       teamAbbr: player.teamAbbr,
       normalizedName: normalizePlayerKey(player.name),
       position: player.position,
+      age: player.age ?? undefined,
       rating: player.rating,
       baselineRating: player.baselineRating,
       maddenRating: player.maddenRating,

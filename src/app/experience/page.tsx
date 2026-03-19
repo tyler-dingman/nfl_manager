@@ -11,6 +11,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
+import { useTeamStore } from '@/features/team/team-store';
+import { getReadableTextColor } from '@/lib/color-utils';
 
 type ExperienceMode = 'full' | 'freeAgency' | 'draft';
 
@@ -41,15 +43,22 @@ const EXPERIENCE_OPTIONS: Array<{
 export default function ExperiencePage() {
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
+  const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const phase = useSaveStore((state) => state.phase);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const setPhase = useSaveStore((state) => state.setPhase);
+  const teams = useTeamStore((state) => state.teams);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const setFullExperience = useExperienceStore((state) => state.setFullExperience);
   const setSandboxExperience = useExperienceStore((state) => state.setSandboxExperience);
 
   const defaultMode = useMemo(() => 'full' as const, []);
   const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
+  const selectedTeam = useMemo(
+    () => teams.find((team) => team.abbr === teamAbbr) ?? null,
+    [teamAbbr, teams],
+  );
+  const defaultBadgeTextColor = getReadableTextColor(selectedTeam?.color_primary ?? '#0f172a');
 
   const isHydrated = hasHydrated && experienceHasHydrated;
 
@@ -96,7 +105,7 @@ export default function ExperiencePage() {
 
   return (
     <AppShell>
-      <div className="mx-auto grid w-full max-w-5xl gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+      <div className="mx-auto grid w-full max-w-5xl gap-8 pb-40 md:pb-0 lg:grid-cols-[minmax(0,1fr)_280px]">
         <div className="flex w-full flex-col gap-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
@@ -112,16 +121,26 @@ export default function ExperiencePage() {
                 <button
                   key={option.key}
                   type="button"
-                  className={`group flex h-full flex-col gap-3 rounded-2xl border bg-white p-4 text-left transition ${
+                  className={`group relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border bg-white p-4 text-left transition ${
                     isSelected
                       ? 'border-slate-900/30 ring-2 ring-slate-900/10'
                       : 'border-border hover:-translate-y-0.5 hover:shadow-md'
                   }`}
                   onClick={() => setSelectedMode(option.key)}
                 >
-                  <div className="flex items-center justify-between">
+                  {option.isDefault ? (
+                    <div className="absolute right-0 top-[-2px] z-10">
+                      <Badge
+                        variant="secondary"
+                        className="overflow-hidden rounded-bl-sm rounded-br-none rounded-tl-none rounded-tr-none border-transparent bg-[var(--team-primary)] px-3.5"
+                        style={{ color: defaultBadgeTextColor }}
+                      >
+                        Default
+                      </Badge>
+                    </div>
+                  ) : null}
+                  <div className="pr-20">
                     <p className="text-sm font-semibold text-foreground">{option.title}</p>
-                    {option.isDefault ? <Badge variant="secondary">Default</Badge> : null}
                   </div>
                   <p className="text-sm text-muted-foreground">{option.description}</p>
                 </button>
@@ -130,7 +149,11 @@ export default function ExperiencePage() {
           </div>
 
           <div className="flex justify-end">
-            <Button type="button" onClick={handleContinue}>
+            <Button
+              type="button"
+              onClick={handleContinue}
+              className="w-full bg-[var(--team-primary)] text-[var(--team-primary-foreground)] hover:opacity-95 md:w-auto"
+            >
               Continue
             </Button>
           </div>

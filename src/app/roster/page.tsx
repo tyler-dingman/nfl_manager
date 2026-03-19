@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowUpDown, Handshake, MoreHorizontal } from 'lucide-react';
+import { ArrowLeftRight, ArrowUpDown, Handshake, MoreHorizontal, Users } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
@@ -127,7 +127,7 @@ export default function RosterPage() {
   ) => (
     <button
       type="button"
-      className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+      className="inline-flex items-center gap-1 text-left text-xs font-semibold uppercase text-muted-foreground"
       onClick={() => toggleExpiringSort(key)}
     >
       {label}
@@ -616,7 +616,14 @@ export default function RosterPage() {
                 }`}
                 onClick={() => setActiveTab('expiring')}
               >
-                Expiring Contracts
+                <span className="inline-flex items-center gap-1.5">
+                  <Handshake
+                    className="h-3.5 w-3.5"
+                    style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
+                    aria-hidden="true"
+                  />
+                  Expiring Contracts
+                </span>
               </button>
               <button
                 type="button"
@@ -627,7 +634,14 @@ export default function RosterPage() {
                 }`}
                 onClick={() => setActiveTab('roster')}
               >
-                Roster
+                <span className="inline-flex items-center gap-1.5">
+                  <Users
+                    className="h-3.5 w-3.5"
+                    style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
+                    aria-hidden="true"
+                  />
+                  Roster
+                </span>
               </button>
               <button
                 type="button"
@@ -639,8 +653,9 @@ export default function RosterPage() {
                 onClick={() => setActiveTab('tradeBlock')}
               >
                 <span className="inline-flex items-center gap-1.5">
-                  <span
-                    className="h-1.5 w-1.5 rounded-full bg-[color:var(--team-primary)]"
+                  <ArrowLeftRight
+                    className="h-3.5 w-3.5"
+                    style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
                     aria-hidden="true"
                   />
                   Trade Block
@@ -685,6 +700,10 @@ export default function RosterPage() {
                   </div>
                 </div>
                 <div className="space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
+                  <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground md:hidden">
+                    <ArrowLeftRight className="h-3.5 w-3.5" />
+                    <span>Swipe to see more columns.</span>
+                  </div>
                   {isExpiringLoading && expiringContracts.length === 0 ? (
                     <>
                       <table className="w-full border-collapse">
@@ -742,7 +761,9 @@ export default function RosterPage() {
                             <th className="px-4 py-2 sm:px-6">
                               {renderExpiringHeader('Interest', 'interest')}
                             </th>
-                            <th className="px-4 py-2 text-right sm:px-6">Actions</th>
+                            <th className="sticky right-0 z-20 w-[136px] min-w-[136px] border-l border-slate-200 bg-slate-50 px-4 py-2 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:text-right md:shadow-none md:[box-shadow:none] sm:px-6">
+                              Actions
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -797,13 +818,25 @@ export default function RosterPage() {
                                   );
                                 })()}
                               </td>
-                              <td className="px-4 py-1.5 text-right sm:px-6">
+                              <td className="sticky right-0 z-10 w-[136px] min-w-[136px] border-l border-slate-200 bg-white px-4 py-1.5 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:text-right md:shadow-none md:[box-shadow:none] sm:px-6">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  disabled={!saveId}
+                                  onClick={() => setActiveExpiringContract(player)}
+                                  className="h-9 w-[124px] justify-center gap-1.5 text-xs md:hidden"
+                                >
+                                  <Handshake className="h-4 w-4" />
+                                  Re-sign
+                                </Button>
                                 <Button
                                   type="button"
                                   variant="ghost"
                                   size="icon"
                                   disabled={!saveId}
                                   onClick={() => setActiveExpiringContract(player)}
+                                  className="hidden md:inline-flex"
                                 >
                                   <Handshake className="h-4 w-4" />
                                   <span className="sr-only">Re-sign {player.name}</span>

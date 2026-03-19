@@ -10,7 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowUpDown, Loader2, MoreHorizontal } from 'lucide-react';
+import { ArrowLeftRight, ArrowUpDown, Loader2, MoreHorizontal } from 'lucide-react';
 
 import PlayerRowActions, { type PlayerRowActionsVariant } from '@/components/player-row-actions';
 import { Badge } from '@/components/ui/badge';
@@ -41,6 +41,22 @@ export const POSITION_FILTERS = [
   'P',
 ] as const;
 
+const POSITION_FILTER_LABELS: Record<(typeof POSITION_FILTERS)[number], string> = {
+  All: 'All Positions',
+  QB: 'Quarterback',
+  RB: 'Running Back',
+  WR: 'Wide Receiver',
+  TE: 'Tight End',
+  ED: 'Edge',
+  OL: 'Offensive Line',
+  DL: 'Defensive Line',
+  LB: 'Linebacker',
+  CB: 'Cornerback',
+  S: 'Safety',
+  K: 'Kicker',
+  P: 'Punter',
+};
+
 export type PlayerTableVariant = PlayerRowActionsVariant;
 
 type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
@@ -59,7 +75,7 @@ const SortableHeader = ({
 }) => (
   <button
     type="button"
-    className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+    className="inline-flex items-center gap-1 text-left text-xs font-semibold uppercase text-muted-foreground"
     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
   >
     {label}
@@ -183,20 +199,39 @@ export function PositionFilterBar({
   onSelect: (value: string) => void;
 }) {
   return (
-    <div className="-mx-1 overflow-x-auto pb-1">
-      <div className="flex min-w-max gap-2 px-1">
-        {POSITION_FILTERS.map((position) => (
-          <Button
-            key={position}
-            type="button"
-            variant={active === position ? 'secondary' : 'ghost'}
-            size="sm"
-            className="h-9 rounded-full px-3 text-xs"
-            onClick={() => onSelect(position)}
-          >
-            {position}
-          </Button>
-        ))}
+    <div className="w-full">
+      <div className="md:hidden">
+        <label className="sr-only" htmlFor="player-position-filter">
+          Filter by position
+        </label>
+        <select
+          id="player-position-filter"
+          value={active}
+          onChange={(event) => onSelect(event.target.value)}
+          className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          {POSITION_FILTERS.map((position) => (
+            <option key={position} value={position}>
+              {POSITION_FILTER_LABELS[position]}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="-mx-1 hidden overflow-x-auto pb-1 md:block">
+        <div className="flex min-w-max gap-2 px-1">
+          {POSITION_FILTERS.map((position) => (
+            <Button
+              key={position}
+              type="button"
+              variant={active === position ? 'secondary' : 'ghost'}
+              size="sm"
+              className="h-9 rounded-full px-3 text-xs"
+              onClick={() => onSelect(position)}
+            >
+              {position}
+            </Button>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -762,11 +797,11 @@ export function PlayerTable({
   };
 
   const actionHeaderClass = isDraftVariant
-    ? 'sticky right-0 z-30 w-[120px] min-w-[120px] bg-slate-50 text-right border-l border-slate-200'
-    : 'w-[88px] text-right';
+    ? 'sticky right-0 z-30 w-[120px] min-w-[120px] border-l border-slate-200 bg-slate-50 text-left'
+    : 'sticky right-0 z-20 w-[136px] min-w-[136px] border-l border-slate-200 bg-slate-50 text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:text-right md:shadow-none md:[box-shadow:none]';
   const actionCellClass = isDraftVariant
-    ? 'sticky right-0 z-20 w-[120px] min-w-[120px] bg-white text-right border-l border-slate-200'
-    : 'w-[88px] text-right';
+    ? 'sticky right-0 z-20 w-[120px] min-w-[120px] border-l border-slate-200 bg-white text-left'
+    : 'sticky right-0 z-10 w-[136px] min-w-[136px] border-l border-slate-200 bg-white text-left [box-shadow:inset_1px_0_0_rgba(226,232,240,1),-8px_0_14px_-14px_rgba(15,23,42,0.28)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:text-right md:shadow-none md:[box-shadow:none]';
   const rankHeaderClass = isDraftVariant ? 'w-[64px] min-w-[64px]' : '';
   const tableClassName = isDraftVariant
     ? 'w-full border-collapse table-fixed'
@@ -807,7 +842,11 @@ export function PlayerTable({
           ) : null}
         </div>
       </div>
-      <div className="max-w-full space-y-4 overflow-x-auto px-3 py-3 sm:px-6 sm:py-4">
+      <div className="max-w-full space-y-4 overflow-x-auto pl-3 pr-0 py-3 sm:px-6 sm:py-4">
+        <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground md:hidden">
+          <ArrowLeftRight className="h-3.5 w-3.5" />
+          <span>Swipe to see more columns.</span>
+        </div>
         <div className="space-y-3">
           <table className={tableClassName}>
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">

@@ -279,7 +279,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:sticky md:top-0 md:z-auto md:flex md:h-screen md:translate-x-0 md:flex-col md:self-stretch md:overflow-y-auto"
             style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
           >
-            <div className="mb-[20px] mt-[20px] text-left text-sm">
+            <div className="mb-[20px] mt-[20px] flex items-start justify-between gap-3 text-left text-sm">
               <Link
                 href="/experience"
                 aria-label="Go to experience selection"
@@ -294,6 +294,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   priority
                 />
               </Link>
+              <button
+                type="button"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
+                onClick={() => setIsMobileSidebarOpen(false)}
+                aria-label="Close menu"
+              >
+                <X className="h-4 w-4 text-muted-foreground" />
+              </button>
             </div>
             {mode === 'full' ? (
               <OffseasonStepperNav
@@ -353,8 +361,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
           <div className="flex min-w-0 flex-1 flex-col">
             <header className="border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:backdrop-blur md:px-6">
-              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                <div className="flex min-w-0 flex-wrap items-start gap-x-3 gap-y-3 md:items-center">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3 md:hidden">
                   <button
                     type="button"
                     className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
@@ -403,64 +411,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       {selectedTeam?.name ?? 'Select a team'}
                     </span>
                   </div>
-                  <div className="hidden flex-col md:flex">
-                    <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      Active Team
-                    </span>
-                    <span className="text-sm font-semibold">
-                      {selectedTeam?.name ?? 'Select a team'}
-                    </span>
-                  </div>
-                  <div className="hidden h-10 w-px bg-border md:block" />
-                  <div className="flex min-w-[112px] flex-col">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      Cap Space
-                    </span>
-                    <span
-                      className={cn(
-                        'whitespace-nowrap text-sm font-semibold',
-                        hasCapSpace && activeCapDollars < 0
-                          ? 'text-destructive'
-                          : 'text-foreground',
-                        capPulse ? 'animate-pulse' : null,
-                      )}
-                    >
-                      {hasCapSpace ? `${formattedCapSpace} / ${ordinal(capRank)}` : '—'}
-                    </span>
-                  </div>
-                  <div className="hidden h-10 w-px bg-border md:block" />
-                  <div className="flex min-w-[72px] flex-col">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      OVR
-                    </span>
-                    <span
-                      className="text-sm font-bold"
-                      style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
-                    >
-                      {liveTeamSummary.overall ?? '—'}
-                    </span>
-                  </div>
-                  <div className="hidden h-10 w-px bg-border md:block" />
-                  <div className="min-w-[160px] flex-1 md:flex-none md:max-w-[240px]">
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      Team Needs
-                    </span>
-                    <span className="block text-sm font-semibold text-foreground md:truncate">
-                      {liveTeamSummary.needs.length > 0 ? liveTeamSummary.needs.join(' · ') : '—'}
-                    </span>
-                  </div>
-                  {showOnTheClock ? (
-                    <span
-                      className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] md:inline md:text-sm"
-                      style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
-                    >
-                      ON THE CLOCK
-                    </span>
-                  ) : null}
-                </div>
-
-                <div className="flex items-center gap-3 self-end md:self-auto">
-                  <div className="relative">
+                  <div className="relative md:hidden">
                     <button
                       type="button"
                       onClick={() => setIsProfileOpen((open) => !open)}
@@ -469,7 +420,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       <span className="text-sm font-semibold text-muted-foreground">JD</span>
                     </button>
                     {isProfileOpen ? (
-                      <div className="absolute right-0 top-12 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
+                      <div className="absolute right-0 top-12 z-10 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
                         <button
                           type="button"
                           className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -490,6 +441,139 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                         </button>
                       </div>
                     ) : null}
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-[10px] text-left md:hidden">
+                  <div className="min-w-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Cap Space
+                    </span>
+                    <span
+                      className={cn(
+                        'block truncate text-sm font-semibold',
+                        hasCapSpace && activeCapDollars < 0
+                          ? 'text-destructive'
+                          : 'text-foreground',
+                        capPulse ? 'animate-pulse' : null,
+                      )}
+                    >
+                      {hasCapSpace ? `${formattedCapSpace} / ${ordinal(capRank)}` : '—'}
+                    </span>
+                  </div>
+                  <div className="h-8 w-px shrink-0 bg-border" />
+                  <div className="min-w-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      OVR
+                    </span>
+                    <span
+                      className="block truncate text-sm font-bold"
+                      style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
+                    >
+                      {liveTeamSummary.overall ?? '—'}
+                    </span>
+                  </div>
+                  <div className="-ml-[2px] h-8 w-px shrink-0 bg-border" />
+                  <div className="min-w-0 flex-1">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Team Needs
+                    </span>
+                    <span className="block truncate text-sm font-semibold text-foreground">
+                      {liveTeamSummary.needs.length > 0 ? liveTeamSummary.needs.join(' · ') : '—'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="hidden md:flex md:items-center md:justify-between">
+                  <div className="flex min-w-0 flex-wrap items-center gap-y-3">
+                    <div className="hidden flex-col pr-5 md:flex">
+                      <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        Active Team
+                      </span>
+                      <span className="text-sm font-semibold">
+                        {selectedTeam?.name ?? 'Select a team'}
+                      </span>
+                    </div>
+                    <div className="hidden h-10 w-px bg-border md:block" />
+                    <div className="flex min-w-[112px] flex-col px-5">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        Cap Space
+                      </span>
+                      <span
+                        className={cn(
+                          'whitespace-nowrap text-sm font-semibold',
+                          hasCapSpace && activeCapDollars < 0
+                            ? 'text-destructive'
+                            : 'text-foreground',
+                          capPulse ? 'animate-pulse' : null,
+                        )}
+                      >
+                        {hasCapSpace ? `${formattedCapSpace} / ${ordinal(capRank)}` : '—'}
+                      </span>
+                    </div>
+                    <div className="hidden h-10 w-px bg-border md:block" />
+                    <div className="flex min-w-[72px] flex-col pl-5 pr-4">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        OVR
+                      </span>
+                      <span
+                        className="text-sm font-bold"
+                        style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
+                      >
+                        {liveTeamSummary.overall ?? '—'}
+                      </span>
+                    </div>
+                    <div className="hidden h-10 w-px bg-border md:block" />
+                    <div className="min-w-[160px] flex-1 pl-5 md:flex-none md:max-w-[240px]">
+                      <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        Team Needs
+                      </span>
+                      <span className="block text-sm font-semibold text-foreground md:truncate">
+                        {liveTeamSummary.needs.length > 0 ? liveTeamSummary.needs.join(' · ') : '—'}
+                      </span>
+                    </div>
+                    {showOnTheClock ? (
+                      <span
+                        className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] md:inline md:text-sm"
+                        style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
+                      >
+                        ON THE CLOCK
+                      </span>
+                    ) : null}
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={() => setIsProfileOpen((open) => !open)}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white"
+                      >
+                        <span className="text-sm font-semibold text-muted-foreground">JD</span>
+                      </button>
+                      {isProfileOpen ? (
+                        <div className="absolute right-0 top-12 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
+                          <button
+                            type="button"
+                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
+                          >
+                            Profile
+                          </button>
+                          <button
+                            type="button"
+                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
+                          >
+                            Settings
+                          </button>
+                          <button
+                            type="button"
+                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
+                          >
+                            Log out
+                          </button>
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               </div>
