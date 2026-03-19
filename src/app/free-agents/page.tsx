@@ -16,6 +16,7 @@ import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
+import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
@@ -205,6 +206,7 @@ export default function FreeAgentsPage() {
     };
 
     if (data.accepted && data.player) {
+      const previousRoster = roster;
       setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
       if (roster.length > 0) {
         const updatedPlayer = data.player;
@@ -226,6 +228,26 @@ export default function FreeAgentsPage() {
             kind: 'starReaction',
             durationMs: 5200,
             starReaction: reactionToast,
+          });
+        }
+        const chainReaction = generateChainReactionEffects({
+          beforeRoster: previousRoster,
+          afterRoster: nextRoster,
+          beforeCapSpace: capSpace,
+          afterCapSpace: data.header?.capSpace ?? capSpace,
+          moveType: 'freeAgency',
+          player: updatedPlayer,
+        });
+        if (chainReaction) {
+          pushToast({
+            id: `chain-reaction:freeAgency:${activeSaveId}:${updatedPlayer.id}`,
+            kind: 'chainReaction',
+            durationMs: 5600,
+            chainReaction: {
+              title: 'Ripple Effects',
+              subtitle: 'What this signing changes',
+              effects: chainReaction.effects.map((effect) => effect.message),
+            },
           });
         }
       }

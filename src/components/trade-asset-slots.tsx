@@ -6,6 +6,9 @@ import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+const NFL_DRAFT_LOGO_URL =
+  'https://upload.wikimedia.org/wikipedia/en/thumb/8/80/NFL_Draft_logo.svg/500px-NFL_Draft_logo.svg.png';
+
 export type TradeSlotAsset = {
   id: string;
   type: 'player' | 'pick';
@@ -70,9 +73,16 @@ export default function TradeAssetSlots({
                     alt={slot.label}
                     className="h-8 w-8 rounded-full object-cover"
                   />
+                ) : slot.type === 'pick' ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={NFL_DRAFT_LOGO_URL}
+                    alt="NFL Draft"
+                    className="h-8 w-8 shrink-0 object-contain"
+                  />
                 ) : (
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-600">
-                    {slot.type === 'pick' ? 'P' : slot.label.charAt(0)}
+                    {slot.label.charAt(0)}
                   </div>
                 )}
                 <div>

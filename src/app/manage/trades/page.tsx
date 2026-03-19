@@ -19,6 +19,7 @@ import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
+import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
@@ -464,6 +465,7 @@ function TradeBuilderContent() {
     );
     if (data.accepted) {
       pushAlert(buildChantAlert(teamAbbr, 'BIG_TRADE'));
+      const previousRoster = userRoster;
       const acquiredPlayerIds = new Set(
         data.trade.receiveAssets
           .filter((asset) => asset.type === 'player' && asset.playerId)
@@ -496,6 +498,26 @@ function TradeBuilderContent() {
               kind: 'starReaction',
               durationMs: 5200,
               starReaction: reactionToast,
+            });
+          }
+          const chainReaction = generateChainReactionEffects({
+            beforeRoster: previousRoster,
+            afterRoster: nextRoster,
+            beforeCapSpace: capSpace,
+            afterCapSpace: data.header.capSpace,
+            moveType: 'trade',
+            player: acquiredPlayer,
+          });
+          if (chainReaction) {
+            pushToast({
+              id: `chain-reaction:trade:${actionableSaveId}:${trade.id}:${acquiredPlayer.id}`,
+              kind: 'chainReaction',
+              durationMs: 5600,
+              chainReaction: {
+                title: 'Ripple Effects',
+                subtitle: 'What this trade changes',
+                effects: chainReaction.effects.map((effect) => effect.message),
+              },
             });
           }
         }
@@ -632,12 +654,6 @@ function TradeBuilderContent() {
 
     router.push('/roster');
   };
-
-  useEffect(() => {
-    if (mode === 'full' && currentStep !== 'manage') {
-      router.replace(getRouteForStep(currentStep));
-    }
-  }, [mode, currentStep, router]);
 
   return (
     <AppShell>

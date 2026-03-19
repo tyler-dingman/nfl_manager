@@ -6,6 +6,9 @@ import PlayerHeadshot from '@/components/player-headshot';
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 
+const NFL_DRAFT_LOGO_URL =
+  'https://upload.wikimedia.org/wikipedia/en/thumb/8/80/NFL_Draft_logo.svg/500px-NFL_Draft_logo.svg.png';
+
 type PickOption = {
   id: string;
   label: string;
@@ -220,7 +223,15 @@ export default function TradeAssetPickerModal({
                   onClose();
                 }}
               >
-                <span className="font-semibold text-foreground">{pick.label}</span>
+                <div className="flex items-center gap-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={NFL_DRAFT_LOGO_URL}
+                    alt="NFL Draft"
+                    className="h-8 w-8 shrink-0 object-contain"
+                  />
+                  <span className="font-semibold text-foreground">{pick.label}</span>
+                </div>
                 <span className="text-xs text-muted-foreground">Draft Pick</span>
               </button>
             ))}

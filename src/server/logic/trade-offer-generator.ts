@@ -349,7 +349,7 @@ const generateRosterOffers = (
         [buildTradePlayerAsset(userTarget, buildEvaluationContext(phase, aiTeam.team.abbr, aiTeam))],
         `${aiTeam.team.name} wants ${userTarget.firstName} ${userTarget.lastName} and will pay with picks.`,
         `They have a real need at ${normalizedPosition(userTarget)} and view ${userTarget.lastName} as a fit.`,
-        `${aiTeam.team.name} is calling about ${userTarget.lastName}`,
+        `${aiTeam.team.name} are calling about ${userTarget.lastName}`,
         `${state.header.id}:${phase}:${trigger}:${abbr}:outgoing:${userTarget.id}`,
         [
           `target-player:${userTarget.id}`,

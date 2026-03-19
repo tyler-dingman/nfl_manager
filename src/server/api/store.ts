@@ -689,9 +689,13 @@ export const offerContractInState = (
     throw new Error('Free agent not found');
   }
 
-  const [player] = state.freeAgents.splice(playerIndex, 1);
   const capHitSchedule = getCapHitSchedule(apy, years);
   const year1CapHit = getYearOneCapHit(apy, years);
+  if (state.header.capSpace < year1CapHit) {
+    throw new Error('Signing would exceed available cap space');
+  }
+
+  const [player] = state.freeAgents.splice(playerIndex, 1);
   const signedPlayer: StoredPlayer = {
     ...player,
     teamAbbr: state.header.teamAbbr,

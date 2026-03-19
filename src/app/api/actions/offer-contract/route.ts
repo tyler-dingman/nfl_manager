@@ -7,6 +7,7 @@ import {
 } from '@/server/api/store';
 import { clampYears } from '@/lib/contracts';
 import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
+import { getYearOneCapHit } from '@/server/logic/cap';
 import { getTeamCatchphrase, getTeamHypeLine } from '@/lib/team-chants';
 
 export const POST = async (request: Request) => {
@@ -42,6 +43,14 @@ export const POST = async (request: Request) => {
     const player = stateResult.data.freeAgents.find((agent) => agent.id === body.playerId);
     if (!player) {
       return NextResponse.json({ ok: false, error: 'Free agent not found' }, { status: 404 });
+    }
+
+    const yearOneCapHit = getYearOneCapHit(body.apy, years);
+    if (stateResult.data.header.capSpace < yearOneCapHit) {
+      return NextResponse.json({
+        ok: false,
+        error: `This signing would put you over the cap. You need at least $${yearOneCapHit.toFixed(1)}M in available cap space.`,
+      });
     }
 
     const breakdown = scoreFreeAgencyOffer({

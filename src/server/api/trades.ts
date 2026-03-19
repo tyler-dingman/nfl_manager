@@ -113,7 +113,7 @@ const getPartnerRoster = (
   return getOrBuildProjectedRosterForTeam(state, teamAbbr);
 };
 
-const toPlayerDTO = (player: StoredTradePlayer): PlayerRowDTO => ({
+export const toPlayerDTO = (player: StoredTradePlayer): PlayerRowDTO => ({
   id: player.id,
   firstName: player.firstName,
   lastName: player.lastName,

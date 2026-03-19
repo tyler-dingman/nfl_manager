@@ -82,9 +82,11 @@ function DraftRoomContent() {
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const roster = useSaveStore((state) => state.roster);
   const activeDraftSessionId = useSaveStore((state) => state.activeDraftSessionId);
   const setActiveDraftSessionId = useSaveStore((state) => state.setActiveDraftSessionId);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const setRoster = useSaveStore((state) => state.setRoster);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setPhase = useSaveStore((state) => state.setPhase);
   const setIsUserOnClock = useSaveStore((state) => state.setIsUserOnClock);
@@ -451,6 +453,11 @@ function DraftRoomContent() {
       return;
     }
     setSession(payload.session);
+    setRoster(
+      roster.some((entry) => entry.id === payload.draftedPlayer.id)
+        ? roster.map((entry) => (entry.id === payload.draftedPlayer.id ? payload.draftedPlayer : entry))
+        : [...roster, payload.draftedPlayer],
+    );
     await refreshSaveHeader();
     const pick = payload.session.picks.find((entry) => entry.selectedPlayerId === player.id);
     const pickNumber = pick?.overall ?? payload.session.currentPickIndex;

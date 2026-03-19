@@ -33,6 +33,7 @@ import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
+import { generateLeagueBuzzToast } from '@/lib/league-buzz';
 import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
@@ -208,12 +209,6 @@ export default function RosterPage() {
   });
 
   useEffect(() => {
-    if (mode === 'full' && currentStep !== 'manage') {
-      router.replace(getRouteForStep(currentStep));
-    }
-  }, [mode, currentStep, router]);
-
-  useEffect(() => {
     setPlayers(rosterData);
     if (rosterData.length > 0) {
       setRoster(rosterData);
@@ -360,6 +355,24 @@ export default function RosterPage() {
         ...data.header,
         unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
       });
+    }
+    const capSavings = data.player?.releaseSavings ?? activeCutPlayer.releaseSavings ?? 0;
+    if (capSavings > 10) {
+      const leagueBuzz = generateLeagueBuzzToast({
+        eventType: 'capClearingCut',
+        teamName: selectedTeam?.name ?? teamAbbr ?? 'Your team',
+        playerName: `${activeCutPlayer.firstName} ${activeCutPlayer.lastName}`,
+        capSavings,
+        teamAbbr,
+      });
+      if (leagueBuzz) {
+        pushToast({
+          id: `league-buzz:cut:${actionableSaveId}:${activeCutPlayer.id}`,
+          kind: 'leagueBuzz',
+          durationMs: 5600,
+          leagueBuzz,
+        });
+      }
     }
     setActiveCutPlayer(null);
     void requestTradeOffer({ trigger: 'after-cut', force: true });
@@ -547,6 +560,7 @@ export default function RosterPage() {
     }
 
     if (data.accepted) {
+      const wasExpiringResign = Boolean(activeExpiringContract);
       if (data.header) {
         setSaveHeader({
           ...data.header,
@@ -563,6 +577,22 @@ export default function RosterPage() {
           setRoster(next);
           return next;
         });
+        if (wasExpiringResign) {
+          const leagueBuzz = generateLeagueBuzzToast({
+            eventType: 'resign',
+            teamName: selectedTeam?.name ?? teamAbbr ?? 'Your team',
+            playerName: `${updatedPlayer.firstName} ${updatedPlayer.lastName}`,
+            teamAbbr,
+          });
+          if (leagueBuzz) {
+            pushToast({
+              id: `league-buzz:resign:${actionableSaveId}:${updatedPlayer.id}`,
+              kind: 'leagueBuzz',
+              durationMs: 5600,
+              leagueBuzz,
+            });
+          }
+        }
       }
       if (activeExpiringContract) {
         setExpiringContracts((prev) =>
@@ -663,6 +693,22 @@ export default function RosterPage() {
         setRoster(next);
         return next;
       });
+      if (data.accepted) {
+        const leagueBuzz = generateLeagueBuzzToast({
+          eventType: 'renegotiate',
+          teamName: selectedTeam?.name ?? teamAbbr ?? 'Your team',
+          playerName: `${data.player.firstName} ${data.player.lastName}`,
+          teamAbbr,
+        });
+        if (leagueBuzz) {
+          pushToast({
+            id: `league-buzz:renegotiate:${actionableSaveId}:${data.player.id}`,
+            kind: 'leagueBuzz',
+            durationMs: 5600,
+            leagueBuzz,
+          });
+        }
+      }
     }
 
     setActiveRenegotiatePlayer(null);

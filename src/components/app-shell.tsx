@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { Lock, Menu, X } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, Lock, Menu, Minus, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
@@ -22,6 +22,7 @@ import { useTeamStore } from '@/features/team/team-store';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { computeCapRank, formatCapMillions, ordinal } from '@/lib/cap-space';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
+import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
 import { computeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 
@@ -56,6 +57,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const saveId = useSaveStore((state) => state.saveId);
   const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
   const roster = useSaveStore((state) => state.roster);
   const isUserOnClock = useSaveStore((state) => state.isUserOnClock);
   const phase = useSaveStore((state) => state.phase);
@@ -75,8 +77,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     null,
   );
   const [capPulse, setCapPulse] = useState(false);
+  const [trajectoryPulse, setTrajectoryPulse] = useState(false);
   const wasNegativeRef = useRef(false);
   const lastSaveIdRef = useRef<string | null>(null);
+  const lastTrajectoryStateRef = useRef<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -143,6 +147,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     const delta = liveTeamSummary.overall - selectedTeam.teamOverview;
     return delta === 0 ? null : delta;
   }, [liveTeamSummary.overall, selectedTeam?.teamOverview]);
+  const liveTrajectory = useMemo(
+    () =>
+      computeFranchiseTrajectory({
+        roster: liveRosterPlayers,
+        teamOverview: liveTeamSummary.overall,
+        capSpace,
+        capLimit,
+      }),
+    [capLimit, capSpace, liveRosterPlayers, liveTeamSummary.overall],
+  );
 
   const hasCapSpace = isHydrated && Boolean(saveId);
   const activeCapDollars = hasCapSpace ? capSpace * 1_000_000 : 0;
@@ -161,9 +175,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const lockedRoutes = useMemo(() => {
     const locked = new Set<NavItem>();
-    if (phase !== 'resign_cut') {
-      locked.add('Re-sign/Cut Players');
-    }
     if (!unlocked.freeAgency || phase === 'draft' || phase === 'season') {
       locked.add('Free Agency');
     }
@@ -196,6 +207,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, [capSpace, pushAlert, saveId]);
 
+  useEffect(() => {
+    if (!saveId) return;
+    const previous = lastTrajectoryStateRef.current;
+    const next = liveTrajectory.state;
+    lastTrajectoryStateRef.current = next;
+    if (!previous || previous === next) return;
+    setTrajectoryPulse(true);
+    const timer = window.setTimeout(() => setTrajectoryPulse(false), 700);
+    return () => window.clearTimeout(timer);
+  }, [liveTrajectory.state, saveId]);
+
   const showNextActionBanner = useMemo(() => {
     if (!pathname) return false;
     if (phase === 'free_agency') {
@@ -224,12 +246,27 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     return null;
   }, [pathname, saveId]);
 
+  const trajectoryAccentClass =
+    liveTrajectory.state === 'Contender' || liveTrajectory.state === 'Rising'
+      ? 'text-emerald-600'
+      : liveTrajectory.state === 'Balanced'
+        ? 'text-amber-600'
+        : liveTrajectory.state === 'Declining'
+          ? 'text-orange-600'
+          : 'text-red-600';
+  const TrajectoryIcon =
+    liveTrajectory.state === 'Contender' || liveTrajectory.state === 'Rising'
+      ? ArrowUpRight
+      : liveTrajectory.state === 'Balanced'
+        ? Minus
+        : ArrowDownRight;
+
   useEffect(() => {
     if (!pathname) return;
     if (mode === 'full') {
       const requestedStep = getStepForPath(pathname);
       if (!requestedStep) return;
-      if (requestedStep !== currentStep) {
+      if (requestedStep !== currentStep && requestedStep !== 'manage') {
         router.replace(getRouteForStep(currentStep));
       }
       return;
@@ -242,13 +279,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       return;
     }
     if (phase === 'free_agency') {
-      if (pathname.startsWith('/roster') || pathname.startsWith('/draft')) {
+      if (pathname.startsWith('/draft')) {
         router.replace('/free-agents');
       }
       return;
     }
     if (phase === 'draft') {
-      if (pathname.startsWith('/roster') || pathname.startsWith('/free-agents')) {
+      if (pathname.startsWith('/free-agents')) {
         router.replace('/draft/room?mode=mock');
       }
     }
@@ -532,6 +569,22 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   <div className="-ml-[2px] h-8 w-px shrink-0 bg-border" />
                   <div className="min-w-0 flex-1">
                     <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Trajectory
+                    </span>
+                    <span
+                      className={cn(
+                        'inline-flex max-w-full items-center gap-1 text-sm font-semibold',
+                        trajectoryAccentClass,
+                        trajectoryPulse ? 'animate-pulse' : null,
+                      )}
+                    >
+                      <TrajectoryIcon className="h-3.5 w-3.5 shrink-0" />
+                      <span className="truncate">{liveTrajectory.state}</span>
+                    </span>
+                  </div>
+                  <div className="h-8 w-px shrink-0 bg-border" />
+                  <div className="min-w-0 flex-1">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                       Team Needs
                     </span>
                     <span className="block truncate text-sm font-semibold text-foreground">
@@ -609,6 +662,22 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                           </span>
                         ) : null}
                       </div>
+                    </div>
+                    <div className="hidden h-10 w-px bg-border md:block" />
+                    <div className="flex min-w-[108px] flex-col px-5">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        Trajectory
+                      </span>
+                      <span
+                        className={cn(
+                          'inline-flex items-center gap-1 whitespace-nowrap text-sm font-semibold',
+                          trajectoryAccentClass,
+                          trajectoryPulse ? 'animate-pulse' : null,
+                        )}
+                      >
+                        <TrajectoryIcon className="h-3.5 w-3.5 shrink-0" />
+                        {liveTrajectory.state}
+                      </span>
                     </div>
                     <div className="hidden h-10 w-px bg-border md:block" />
                     <div className="min-w-[160px] flex-1 pl-5 md:flex-none md:max-w-[240px]">

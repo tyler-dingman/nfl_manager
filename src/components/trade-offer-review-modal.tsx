@@ -6,11 +6,14 @@ import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { Button } from '@/components/ui/button';
 import { useSaveStore } from '@/features/save/save-store';
+import { useTeamStore } from '@/features/team/team-store';
+import { useTradeOfferStore } from '@/features/trades/trade-offer-store';
 import { apiFetch } from '@/lib/api';
-import {
-  TRADE_ACCEPT_MARK_SCORE,
-  TRADE_ACCEPT_WIGGLE,
-} from '@/lib/trade-offer-evaluator';
+import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
+import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
+import { useToast } from '@/components/ui/toast';
+import { resolvePlayerRating } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TradeOfferAssetDTO, TradeOfferDTO } from '@/types/trade-offers';
@@ -46,8 +49,37 @@ type TradeOfferAssetsResponse =
   | { ok: true; partnerRoster: PlayerRowDTO[] }
   | { ok: false; error: string };
 
+type AcceptTradeOfferResponse =
+  | {
+      ok: true;
+      accepted: true;
+      header: {
+        id: string;
+        teamAbbr: string;
+        capSpace: number;
+        capLimit: number;
+        rosterCount: number;
+        rosterLimit: number;
+        phase: string;
+        unlocked: { freeAgency: boolean; draft: boolean };
+        createdAt: string;
+      };
+      roster: PlayerRowDTO[];
+      aiInterest: TradeOfferDTO['aiInterest'];
+      partnerTeamAbbr: string;
+    }
+  | {
+      ok: true;
+      accepted: false;
+      aiInterest: TradeOfferDTO['aiInterest'];
+      error: string;
+    }
+  | { ok: false; error: string };
+
 const MAX_METER_SCORE = 1.2;
 const ADJUSTMENT_SLOT_COUNT = 3;
+const NFL_DRAFT_LOGO_URL =
+  'https://upload.wikimedia.org/wikipedia/en/thumb/8/80/NFL_Draft_logo.svg/500px-NFL_Draft_logo.svg.png';
 
 const pickOptions = (teamAbbr: string) => [
   { id: '2026:r2:48', label: `2026 Round 2 Pick · ${teamAbbr}` },
@@ -115,9 +147,14 @@ const buildFallbackPickSlotAsset = (pickId: string, teamAbbr: string): TradeSlot
 
 const interestToneClass = (score: number) => {
   if (score >= 1.09) return 'text-emerald-700';
-  if (score >= 0.95) return 'text-sky-700';
   if (score >= 0.82) return 'text-amber-700';
   return 'text-rose-700';
+};
+
+const interestBarClass = (score: number) => {
+  if (score >= 1.09) return 'bg-emerald-500';
+  if (score >= 0.82) return 'bg-amber-400';
+  return 'bg-rose-500';
 };
 
 const renderAssetMeta = (asset: TradeOfferAssetDTO) => {
@@ -126,6 +163,44 @@ const renderAssetMeta = (asset: TradeOfferAssetDTO) => {
   }
   return `${asset.position} · ${asset.age ?? '—'} yrs · ${asset.contractSummary}`;
 };
+
+const renderAssetCard = (asset: TradeOfferAssetDTO) => (
+  <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
+    {asset.type === 'player' ? (
+      <div className="flex items-center gap-3">
+        {asset.headshotUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={asset.headshotUrl}
+            alt={asset.name}
+            className="h-10 w-10 shrink-0 rounded-full object-cover"
+          />
+        ) : (
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
+            {asset.name.charAt(0)}
+          </div>
+        )}
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-foreground">{asset.name}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
+        </div>
+      </div>
+    ) : (
+      <div className="flex items-center gap-3">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={NFL_DRAFT_LOGO_URL}
+          alt="NFL Draft"
+          className="h-10 w-10 shrink-0 object-contain"
+        />
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-foreground">{asset.label}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
+        </div>
+      </div>
+    )}
+  </div>
+);
 
 const buildSlotAssets = ({
   selections,
@@ -172,8 +247,20 @@ const buildSlotAssets = ({
 
 export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReviewModalProps) {
   const saveId = useSaveStore((state) => state.saveId);
+  const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
   const roster = useSaveStore((state) => state.roster);
+  const phase = useSaveStore((state) => state.phase);
+  const unlocked = useSaveStore((state) => state.unlocked);
+  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const setRoster = useSaveStore((state) => state.setRoster);
+  const selectedTeam = useTeamStore((state) =>
+    state.teams.find((team) => team.id === state.selectedTeamId),
+  );
+  const clearActive = useTradeOfferStore((state) => state.clearActive);
+  const { push: pushToast } = useToast();
   const [partnerRoster, setPartnerRoster] = React.useState<PlayerRowDTO[]>([]);
   const [extraIncomingSelections, setExtraIncomingSelections] = React.useState<ExtraSelection[]>(
     () => Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null),
@@ -195,6 +282,9 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     null,
   );
   const [duplicateMessage, setDuplicateMessage] = React.useState<string | null>(null);
+  const [actionMessage, setActionMessage] = React.useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const evaluateRequestRef = React.useRef(0);
 
   React.useEffect(() => {
     if (!open || !offer) {
@@ -205,7 +295,9 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       setEvaluatedOutgoingAssets([]);
       setEvaluatedAiInterest(null);
       setDuplicateMessage(null);
+      setActionMessage(null);
       setActivePickerContext(null);
+      setIsSubmitting(false);
     }
   }, [offer, open]);
 
@@ -271,6 +363,8 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     }
 
     let cancelled = false;
+    const requestId = evaluateRequestRef.current + 1;
+    evaluateRequestRef.current = requestId;
     const evaluate = async () => {
       const response = await apiFetch('/api/trade-offers/evaluate', {
         method: 'POST',
@@ -286,7 +380,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       });
       if (!response.ok) return;
       const data = (await response.json()) as TradeOfferEvaluateResponse;
-      if (!data.ok || cancelled) return;
+      if (!data.ok || cancelled || evaluateRequestRef.current !== requestId) return;
       setEvaluatedIncomingAssets(data.extraIncomingAssets);
       setEvaluatedOutgoingAssets(data.extraOutgoingAssets);
       setEvaluatedAiInterest(data.aiInterest);
@@ -301,10 +395,8 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
   if (!open || !offer) return null;
 
   const currentAiInterest = evaluatedAiInterest ?? offer.aiInterest;
-  const meterWidth = Math.max(0, Math.min(100, (currentAiInterest.score / MAX_METER_SCORE) * 100));
-  const acceptMarkLeft = (TRADE_ACCEPT_MARK_SCORE / MAX_METER_SCORE) * 100;
-  const acceptZoneStart = ((TRADE_ACCEPT_MARK_SCORE - TRADE_ACCEPT_WIGGLE) / MAX_METER_SCORE) * 100;
-  const acceptZoneWidth = ((TRADE_ACCEPT_WIGGLE * 2) / MAX_METER_SCORE) * 100;
+  const clampedScore = Math.max(0, Math.min(MAX_METER_SCORE, currentAiInterest.score));
+  const meterWidth = (clampedScore / MAX_METER_SCORE) * 100;
 
   const selectedIncomingIds = new Set(extraIncomingSelections.filter(Boolean).map((selection) => selection!.id));
   const selectedOutgoingIds = new Set(extraOutgoingSelections.filter(Boolean).map((selection) => selection!.id));
@@ -371,6 +463,159 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     setExtraOutgoingSelections((current) => updater(current));
   };
 
+  const handleAcceptTrade = async () => {
+    if (!offer) return;
+    setActionMessage(null);
+    setIsSubmitting(true);
+
+    const actionableSaveId = await ensureRecoverableSaveId(
+      {
+        preferredSaveId: saveId,
+        teamId,
+        teamAbbr,
+        capSpace,
+        capLimit,
+        roster,
+        phase,
+        unlocked,
+      },
+      setSaveHeader,
+    );
+
+    if (!actionableSaveId) {
+      setActionMessage('Unable to recover your offseason session.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    const extraIncomingPlayerIds = extraIncomingSelections
+      .filter((selection): selection is Extract<ExtraSelection, { type: 'player' }> =>
+        Boolean(selection && selection.type === 'player'),
+      )
+      .map((selection) => selection.id);
+    const extraIncomingPickIds = extraIncomingSelections
+      .filter((selection): selection is Extract<ExtraSelection, { type: 'pick' }> =>
+        Boolean(selection && selection.type === 'pick'),
+      )
+      .map((selection) => selection.id);
+    const extraOutgoingPlayerIds = extraOutgoingSelections
+      .filter((selection): selection is Extract<ExtraSelection, { type: 'player' }> =>
+        Boolean(selection && selection.type === 'player'),
+      )
+      .map((selection) => selection.id);
+    const extraOutgoingPickIds = extraOutgoingSelections
+      .filter((selection): selection is Extract<ExtraSelection, { type: 'pick' }> =>
+        Boolean(selection && selection.type === 'pick'),
+      )
+      .map((selection) => selection.id);
+
+    const response = await apiFetch('/api/trade-offers/accept', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        saveId: actionableSaveId,
+        offer,
+        extraIncomingPlayerIds,
+        extraIncomingPickIds,
+        extraOutgoingPlayerIds,
+        extraOutgoingPickIds,
+      }),
+    });
+
+    if (!response.ok) {
+      setActionMessage('Unable to complete this trade right now.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    const data = (await response.json()) as AcceptTradeOfferResponse;
+    if (!data.ok) {
+      setActionMessage(data.error ?? 'Unable to complete this trade right now.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    setEvaluatedAiInterest(data.aiInterest);
+
+    if (!data.accepted) {
+      setActionMessage(data.error);
+      setIsSubmitting(false);
+      return;
+    }
+
+    setSaveHeader(
+      {
+        ok: true,
+        saveId: actionableSaveId,
+        teamAbbr: data.header.teamAbbr,
+        capSpace: data.header.capSpace,
+        capLimit: data.header.capLimit,
+        rosterCount: data.header.rosterCount,
+        rosterLimit: data.header.rosterLimit,
+        phase: data.header.phase,
+        unlocked: data.header.unlocked,
+        createdAt: data.header.createdAt,
+      },
+      teamId,
+    );
+    setRoster(data.roster);
+    const previousRoster = roster;
+
+    const acquiredPlayerIds = new Set(
+      [
+        ...offer.incoming.assets,
+        ...evaluatedIncomingAssets,
+      ]
+        .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> => asset.type === 'player')
+        .map((asset) => asset.playerId),
+    );
+    const acquiredPlayer = data.roster
+      .filter((player) => acquiredPlayerIds.has(player.id))
+      .sort((left, right) => (resolvePlayerRating(right) ?? -1) - (resolvePlayerRating(left) ?? -1))[0];
+
+    if (acquiredPlayer) {
+      const reactionToast = buildStarReactionToastPayload({
+        incomingPlayer: acquiredPlayer,
+        roster: data.roster,
+        actionType: 'trade',
+        teamAbbr,
+        teamName: selectedTeam?.name,
+      });
+      if (reactionToast) {
+        pushToast({
+          id: `star-reaction:trade-offer:${actionableSaveId}:${offer.id}:${acquiredPlayer.id}`,
+          kind: 'starReaction',
+          durationMs: 5200,
+          starReaction: reactionToast,
+        });
+      }
+      const chainReaction = generateChainReactionEffects({
+        beforeRoster: previousRoster,
+        afterRoster: data.roster,
+        beforeCapSpace: capSpace,
+        afterCapSpace: data.header.capSpace,
+        moveType: 'trade',
+        player: acquiredPlayer,
+      });
+      if (chainReaction) {
+        pushToast({
+          id: `chain-reaction:trade-offer:${actionableSaveId}:${offer.id}:${acquiredPlayer.id}`,
+          kind: 'chainReaction',
+          durationMs: 5600,
+          chainReaction: {
+            title: 'Ripple Effects',
+            subtitle: 'What this trade changes',
+            effects: chainReaction.effects.map((effect) => effect.message),
+          },
+        });
+      }
+    }
+
+    clearActive();
+    onClose();
+    setIsSubmitting(false);
+  };
+
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
@@ -413,30 +658,11 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                     {currentAiInterest.label}
                   </span>
                 </div>
-                <div className="relative mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
                   <div
-                    className="absolute inset-y-0 rounded-full bg-emerald-100"
-                    style={{ left: `${acceptZoneStart}%`, width: `${acceptZoneWidth}%` }}
-                  />
-                  <div
-                    className={cn(
-                      'h-2 rounded-full transition-all',
-                      currentAiInterest.score > TRADE_ACCEPT_MARK_SCORE + TRADE_ACCEPT_WIGGLE
-                        ? 'bg-amber-500'
-                        : currentAiInterest.score >= TRADE_ACCEPT_MARK_SCORE - TRADE_ACCEPT_WIGGLE
-                          ? 'bg-emerald-500'
-                          : 'bg-sky-500',
-                    )}
+                    className={cn('h-2 rounded-full transition-all', interestBarClass(currentAiInterest.score))}
                     style={{ width: `${meterWidth}%` }}
                   />
-                  <div
-                    className="absolute top-0 h-2 w-[2px] bg-slate-800"
-                    style={{ left: `${acceptMarkLeft}%` }}
-                  />
-                </div>
-                <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                  <span>Current</span>
-                  <span>Accept zone</span>
                 </div>
               </div>
             </div>
@@ -452,14 +678,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                   </p>
                 </div>
                 <div className="space-y-3 px-4 py-4">
-                  {offer.outgoing.assets.map((asset) => (
-                    <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
-                      <p className="text-sm font-semibold text-foreground">
-                        {asset.type === 'pick' ? asset.label : asset.name}
-                      </p>
-                      <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
-                    </div>
-                  ))}
+                  {offer.outgoing.assets.map((asset) => renderAssetCard(asset))}
                   <TradeAssetSlots
                     slots={outgoingSlotAssets}
                     onAdd={(slotIndex) => {
@@ -473,6 +692,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                       setIsPickerOpen(true);
                     }}
                     onRemove={(slotIndex) => {
+                      setActionMessage(null);
                       setExtraOutgoingSelections((current) =>
                         current.map((selection, index) => (index === slotIndex ? null : selection)),
                       );
@@ -491,14 +711,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                   </p>
                 </div>
                 <div className="space-y-3 px-4 py-4">
-                  {offer.incoming.assets.map((asset) => (
-                    <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
-                      <p className="text-sm font-semibold text-foreground">
-                        {asset.type === 'pick' ? asset.label : asset.name}
-                      </p>
-                      <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
-                    </div>
-                  ))}
+                  {offer.incoming.assets.map((asset) => renderAssetCard(asset))}
                   <TradeAssetSlots
                     slots={incomingSlotAssets}
                     onAdd={(slotIndex) => {
@@ -512,6 +725,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                       setIsPickerOpen(true);
                     }}
                     onRemove={(slotIndex) => {
+                      setActionMessage(null);
                       setExtraIncomingSelections((current) =>
                         current.map((selection, index) => (index === slotIndex ? null : selection)),
                       );
@@ -523,10 +737,18 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
           </div>
 
           <div className="border-t border-border px-4 py-4 sm:px-6">
-            <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-              <Button type="button" variant="outline" onClick={onClose}>
-                Close
-              </Button>
+            <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-h-[20px] text-sm text-muted-foreground">
+                {actionMessage ? <span>{actionMessage}</span> : null}
+              </div>
+              <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                <Button type="button" onClick={handleAcceptTrade} disabled={isSubmitting}>
+                  {isSubmitting ? 'Accepting...' : 'Accept Trade'}
+                </Button>
+                <Button type="button" variant="outline" onClick={onClose}>
+                  Close
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -554,6 +776,8 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
             setDuplicateMessage('That asset is already in this package.');
             return;
           }
+          setDuplicateMessage(null);
+          setActionMessage(null);
           updateSelectionsForSide(activePickerContext.side, (current) =>
             current.map((selection, index) =>
               index === activePickerContext.slotIndex ? { type: 'player', id: player.id } : selection,
@@ -568,6 +792,8 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
             setDuplicateMessage('That asset is already in this package.');
             return;
           }
+          setDuplicateMessage(null);
+          setActionMessage(null);
           updateSelectionsForSide(activePickerContext.side, (current) =>
             current.map((selection, index) =>
               index === activePickerContext.slotIndex ? { type: 'pick', id: pickId } : selection,

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-import { getSaveStateResult } from '@/server/api/store';
-import { buildTeamContexts } from '@/server/logic/trade-offer-generator';
+import { getOrBuildProjectedRosterForTeam, getSaveStateResult } from '@/server/api/store';
+import { toPlayerDTO } from '@/server/api/trades';
 
 type TradeOfferAssetsBody = {
   saveId?: string;
@@ -22,17 +22,13 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: saveResult.error }, { status: 404 });
   }
 
-  const contexts = buildTeamContexts(saveResult.data);
-  const partnerTeam = contexts.get(body.partnerTeamAbbr.toUpperCase());
-  if (!partnerTeam) {
-    return NextResponse.json(
-      { ok: false, error: 'Unable to resolve proposing team assets.' },
-      { status: 400 },
-    );
-  }
-
   return NextResponse.json({
     ok: true,
-    partnerRoster: partnerTeam.roster,
+    partnerRoster: getOrBuildProjectedRosterForTeam(
+      saveResult.data,
+      body.partnerTeamAbbr.toUpperCase(),
+    )
+      .filter((player) => player.status?.toLowerCase() !== 'cut')
+      .map((player) => toPlayerDTO(player)),
   });
 };
