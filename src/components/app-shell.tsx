@@ -21,7 +21,7 @@ import { useTeamStore } from '@/features/team/team-store';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
 import { computeCapRank, formatCapMillions, ordinal } from '@/lib/cap-space';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
-import { computeTeamNeeds, computeTeamOverview } from '@/lib/team-overview';
+import { computeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 
 const navRoutes = {
@@ -107,12 +107,28 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       };
     }
 
-    const overview = computeTeamOverview(liveRosterPlayers);
+    const rawOverview = computeTeamOverviewRaw(liveRosterPlayers);
+    const teamsWithRawOverview = teams.filter(
+      (team): team is typeof team & { teamOverviewRaw: number } =>
+        typeof team.teamOverviewRaw === 'number' && Number.isFinite(team.teamOverviewRaw),
+    );
+    const overallRawValues = teamsWithRawOverview.map((team) => team.teamOverviewRaw);
+    const overall =
+      overallRawValues.length > 1
+        ? scaleOverviewScore(
+            rawOverview.overall,
+            Math.min(...overallRawValues),
+            Math.max(...overallRawValues),
+            69,
+            91,
+          )
+        : (selectedTeam?.teamOverview ?? null);
+
     return {
-      overall: overview.overall,
+      overall,
       needs: computeTeamNeeds(liveRosterPlayers),
     };
-  }, [liveRosterPlayers, selectedTeam?.teamNeeds, selectedTeam?.teamOverview]);
+  }, [liveRosterPlayers, selectedTeam?.teamNeeds, selectedTeam?.teamOverview, teams]);
 
   const hasCapSpace = isHydrated && Boolean(saveId);
   const activeCapDollars = hasCapSpace ? capSpace * 1_000_000 : 0;

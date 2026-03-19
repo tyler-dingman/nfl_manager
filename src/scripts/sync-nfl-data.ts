@@ -487,6 +487,10 @@ const run = async () => {
 
     return {
       ...team,
+      teamOverviewRaw: overview.overall,
+      offenseOverviewRaw: overview.offense,
+      defenseOverviewRaw: overview.defense,
+      specialTeamsOverviewRaw: overview.specialTeams,
       teamOverview,
       offenseOverview,
       defenseOverview,
@@ -524,8 +528,7 @@ const run = async () => {
     (contract) => !contractPlayerIds.has(contract.playerId),
   );
   const sortedTeamOverviews = [...payload.teams].sort(
-    (a, b) =>
-      (b.teamOverview ?? 0) - (a.teamOverview ?? 0) || a.name.localeCompare(b.name),
+    (a, b) => (b.teamOverview ?? 0) - (a.teamOverview ?? 0) || a.name.localeCompare(b.name),
   );
 
   await mkdir(path.dirname(DATA_FILE), { recursive: true });

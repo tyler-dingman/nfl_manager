@@ -5,6 +5,7 @@ export type ExpiringContractRow = {
   teamAbbr: string;
   contractType: string;
   interestPct: number;
+  interestQuote?: string;
   age: number;
   rating?: number;
   estValue: number;

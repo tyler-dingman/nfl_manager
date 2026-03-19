@@ -813,10 +813,10 @@ export function PlayerTable({
 
   const actionHeaderClass = isDraftVariant
     ? 'sticky right-0 z-30 box-border w-[120px] min-w-[120px] border-l border-slate-200 bg-slate-50 text-left'
-    : 'sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
+    : 'sticky right-0 z-20 box-border w-[144px] min-w-[144px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
   const actionCellClass = isDraftVariant
     ? 'sticky right-0 z-20 box-border w-[120px] min-w-[120px] border-l border-slate-200 bg-white text-left'
-    : 'sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
+    : 'sticky right-0 z-10 box-border w-[144px] min-w-[144px] border-l border-slate-200 bg-white pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
   const rankHeaderClass = isDraftVariant ? 'w-[64px] min-w-[64px]' : '';
   const tableClassName = isDraftVariant
     ? 'w-full border-collapse table-fixed'

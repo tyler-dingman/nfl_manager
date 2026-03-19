@@ -815,7 +815,17 @@ export default function RosterPage() {
                                         ).charAt(0)}`.toUpperCase()
                                       )}
                                     </div>
-                                    <span>{player.name}</span>
+                                    <div className="min-w-0">
+                                      <div className="truncate">{player.name}</div>
+                                      {player.interestQuote ? (
+                                        <div
+                                          className="line-clamp-2 text-xs font-normal text-muted-foreground"
+                                          title={player.interestQuote}
+                                        >
+                                          {player.interestQuote}
+                                        </div>
+                                      ) : null}
+                                    </div>
                                   </div>
                                 </td>
                                 <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">

@@ -9,6 +9,10 @@ export type Team = {
   logo_url: string;
   color_primary: string;
   color_secondary: string;
+  teamOverviewRaw?: number;
+  offenseOverviewRaw?: number;
+  defenseOverviewRaw?: number;
+  specialTeamsOverviewRaw?: number;
   teamOverview: number;
   offenseOverview: number;
   defenseOverview: number;
@@ -31,6 +35,10 @@ const teams: Team[] = TEAM_LIST.map((team) => ({
   logo_url: team.logoUrl,
   color_primary: team.colors[0],
   color_secondary: team.colors[1],
+  teamOverviewRaw: undefined,
+  offenseOverviewRaw: undefined,
+  defenseOverviewRaw: undefined,
+  specialTeamsOverviewRaw: undefined,
   teamOverview: 75,
   offenseOverview: 75,
   defenseOverview: 75,

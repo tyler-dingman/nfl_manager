@@ -10,6 +10,7 @@ import {
   hydrateOffseasonFreeAgencyState,
 } from '@/server/api/store';
 import { calculatePlayerInterestForTeam } from '@/lib/signing-interest';
+import { buildInterestQuote } from '@/lib/expiring-interest-quotes';
 
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
@@ -56,6 +57,22 @@ export const GET = async (request: Request) => {
         rating: row.rating ?? sourceRosterPlayer?.rating,
         headshotUrl: row.headshotUrl ?? sourceRosterPlayer?.headshotUrl ?? null,
         interestPct: interestBreakdown.finalInterest,
+      };
+    })
+    .map((row, _, rows) => {
+      const teammateFirstNames = rows
+        .filter((teammate) => teammate.id !== row.id)
+        .map((teammate) => teammate.name.split(/\s+/)[0] ?? '')
+        .filter(Boolean);
+
+      return {
+        ...row,
+        interestQuote: buildInterestQuote({
+          playerId: row.id,
+          interestPct: row.interestPct,
+          teamAbbr: stateResult.data.header.teamAbbr,
+          teammateFirstNames,
+        }),
       };
     })
     .sort((a, b) => {
