@@ -12,20 +12,31 @@ type UseOnboardingOptions = {
 export function useOnboarding({ enabled, stepCount }: UseOnboardingOptions) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currentStep, setCurrentStep] = React.useState(0);
+  const [hasCheckedStorage, setHasCheckedStorage] = React.useState(false);
+  const hasSeenRef = React.useRef(false);
 
   React.useEffect(() => {
-    if (!enabled || typeof window === 'undefined') return;
+    if (!enabled || typeof window === 'undefined' || hasCheckedStorage) return;
     const hasSeen = window.localStorage.getItem(HAS_SEEN_ONBOARDING_KEY) === 'true';
+    hasSeenRef.current = hasSeen;
+    setHasCheckedStorage(true);
     if (!hasSeen) {
-      setIsOpen(true);
       setCurrentStep(0);
+      setIsOpen(true);
     }
-  }, [enabled]);
+  }, [enabled, hasCheckedStorage]);
+
+  React.useEffect(() => {
+    if (!enabled && isOpen) {
+      setIsOpen(false);
+    }
+  }, [enabled, isOpen]);
 
   const markSeen = React.useCallback(() => {
     if (typeof window !== 'undefined') {
       window.localStorage.setItem(HAS_SEEN_ONBOARDING_KEY, 'true');
     }
+    hasSeenRef.current = true;
     setIsOpen(false);
   }, []);
 
@@ -48,7 +59,7 @@ export function useOnboarding({ enabled, stepCount }: UseOnboardingOptions) {
   }, []);
 
   return {
-    isOpen,
+    isOpen: hasCheckedStorage && !hasSeenRef.current && isOpen,
     currentStep,
     totalSteps: stepCount,
     next,

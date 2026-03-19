@@ -308,7 +308,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <ToastProvider>
         <TeamFavicon primaryColor={selectedTeam?.color_primary ?? null} />
         <div
-          className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:flex-row"
+          className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:min-h-screen md:flex-row md:items-stretch"
           style={{ '--app-header-height': '64px' } as CSSProperties}
         >
           {isMobileSidebarOpen ? (
@@ -320,7 +320,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           ) : null}
 
           <aside
-            className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:sticky md:top-0 md:z-auto md:flex md:h-screen md:translate-x-0 md:flex-col md:self-stretch md:overflow-y-auto"
+            className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:sticky md:top-0 md:z-auto md:flex md:min-h-screen md:h-auto md:translate-x-0 md:flex-col md:self-stretch md:overflow-y-auto"
             style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
           >
             <div className="mb-[20px] mt-[20px] flex items-start justify-between gap-3 text-left text-sm">
@@ -403,7 +403,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             )}
           </aside>
 
-          <div className="flex min-w-0 flex-1 flex-col">
+          <div className="flex min-w-0 flex-1 flex-col md:min-h-screen">
             <header className="border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:backdrop-blur md:px-6">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3 md:hidden">
