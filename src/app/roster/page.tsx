@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Handshake, MoreHorizontal } from 'lucide-react';
+import { Handshake, Loader2, MoreHorizontal } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
@@ -63,6 +63,7 @@ export default function RosterPage() {
     null,
   );
   const [expiringContracts, setExpiringContracts] = useState<ExpiringContractRow[]>([]);
+  const [isExpiringLoading, setIsExpiringLoading] = useState(false);
   const [expiringError, setExpiringError] = useState<string | null>(null);
   const [expiringPositionFilter, setExpiringPositionFilter] = useState('All');
   const [expiringSearchQuery, setExpiringSearchQuery] = useState('');
@@ -169,6 +170,7 @@ export default function RosterPage() {
     }
 
     let isActive = true;
+    setIsExpiringLoading(true);
     setExpiringError(null);
 
     fetchExpiringContracts(saveId, teamAbbr)
@@ -179,6 +181,10 @@ export default function RosterPage() {
       .catch((error) => {
         if (!isActive) return;
         setExpiringError(error instanceof Error ? error.message : 'Unable to load contracts.');
+      })
+      .finally(() => {
+        if (!isActive) return;
+        setIsExpiringLoading(false);
       });
 
     return () => {
@@ -502,79 +508,98 @@ export default function RosterPage() {
                   </div>
                 </div>
                 <div className="space-y-6 overflow-x-auto px-4 py-4 sm:px-6">
-                  <table className="w-full border-collapse md:min-w-[720px]">
-                    <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                      <tr>
-                        <th className="px-4 py-2 sm:px-6">Player</th>
-                        <th className="px-4 py-2 sm:px-6">Pos</th>
-                        <th className="px-4 py-2 sm:px-6">Status</th>
-                        <th className="px-4 py-2 sm:px-6">Interest</th>
-                        <th className="px-4 py-2 text-right sm:px-6">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredExpiringContracts.map((player) => (
-                        <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
-                          <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
-                            <div className="flex items-center gap-3">
-                              <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
-                                {player.headshotUrl ? (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img
-                                    src={player.headshotUrl}
-                                    alt={player.name}
-                                    className="h-full w-full object-cover"
-                                  />
-                                ) : (
-                                  `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(
-                                    player.name.split(' ').slice(1).join(' ') || player.name
-                                  ).charAt(0)}`.toUpperCase()
-                                )}
-                              </div>
-                              <span>{player.name}</span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                            {player.pos}
-                          </td>
-                          <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                            <Badge variant="success">Pending</Badge>
-                          </td>
-                          <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                            {(() => {
-                              const score = Math.max(0, Math.min(100, player.interestPct ?? 0));
-                              const tier = getInterestTier(score);
-                              return (
-                                <div className="w-32">
-                                  <div className="mb-1 text-xs font-medium text-muted-foreground">
-                                    {tier.label}
-                                  </div>
-                                  <div className="h-2 w-full rounded-full bg-slate-200">
-                                    <div
-                                      className={`h-2 rounded-full ${tier.barClass}`}
-                                      style={{ width: `${score}%` }}
-                                    />
-                                  </div>
-                                </div>
-                              );
-                            })()}
-                          </td>
-                          <td className="px-4 py-1.5 text-right sm:px-6">
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              disabled={!saveId}
-                              onClick={() => setActiveExpiringContract(player)}
+                  {isExpiringLoading ? (
+                    <div className="flex min-h-56 items-center justify-center">
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        <span>Loading players...</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <table className="w-full border-collapse md:min-w-[720px]">
+                        <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                          <tr>
+                            <th className="px-4 py-2 sm:px-6">Player</th>
+                            <th className="px-4 py-2 sm:px-6">Pos</th>
+                            <th className="px-4 py-2 sm:px-6">Status</th>
+                            <th className="px-4 py-2 sm:px-6">Interest</th>
+                            <th className="px-4 py-2 text-right sm:px-6">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredExpiringContracts.map((player) => (
+                            <tr
+                              key={player.id}
+                              className="border-t border-border hover:bg-slate-50/60"
                             >
-                              <Handshake className="h-4 w-4" />
-                              <span className="sr-only">Re-sign {player.name}</span>
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                              <td className="px-4 py-1.5 text-sm font-semibold text-foreground sm:px-6">
+                                <div className="flex items-center gap-3">
+                                  <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                                    {player.headshotUrl ? (
+                                      // eslint-disable-next-line @next/next/no-img-element
+                                      <img
+                                        src={player.headshotUrl}
+                                        alt={player.name}
+                                        className="h-full w-full object-cover"
+                                      />
+                                    ) : (
+                                      `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(
+                                        player.name.split(' ').slice(1).join(' ') || player.name
+                                      ).charAt(0)}`.toUpperCase()
+                                    )}
+                                  </div>
+                                  <span>{player.name}</span>
+                                </div>
+                              </td>
+                              <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                                {player.pos}
+                              </td>
+                              <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                                <Badge variant="success">Pending</Badge>
+                              </td>
+                              <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                                {(() => {
+                                  const score = Math.max(0, Math.min(100, player.interestPct ?? 0));
+                                  const tier = getInterestTier(score);
+                                  return (
+                                    <div className="w-32">
+                                      <div className="mb-1 text-xs font-medium text-muted-foreground">
+                                        {tier.label}
+                                      </div>
+                                      <div className="h-2 w-full rounded-full bg-slate-200">
+                                        <div
+                                          className={`h-2 rounded-full ${tier.barClass}`}
+                                          style={{ width: `${score}%` }}
+                                        />
+                                      </div>
+                                    </div>
+                                  );
+                                })()}
+                              </td>
+                              <td className="px-4 py-1.5 text-right sm:px-6">
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="icon"
+                                  disabled={!saveId}
+                                  onClick={() => setActiveExpiringContract(player)}
+                                >
+                                  <Handshake className="h-4 w-4" />
+                                  <span className="sr-only">Re-sign {player.name}</span>
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      {filteredExpiringContracts.length === 0 ? (
+                        <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
+                          No players match the current filters.
+                        </div>
+                      ) : null}
+                    </>
+                  )}
                 </div>
               </div>
               {expiringError ? (
