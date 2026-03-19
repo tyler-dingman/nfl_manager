@@ -8,12 +8,12 @@ import { ArrowDownRight, ArrowUpRight, Lock, Menu, Minus, X } from 'lucide-react
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
-import NextActionBanner from '@/components/next-action-banner';
 import { StepIndicator } from '@/components/offseason/step-indicator';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
 import { AdSlot } from '@/components/ads/AdSlot';
+import { Button } from '@/components/ui/button';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
@@ -22,14 +22,11 @@ import { getRouteForStep, getStepForPath } from '@/features/experience/experienc
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
-import { TEAM_CAP_SPACE } from '@/data/team-caps';
-import { computeCapRank, formatCapMillions, ordinal } from '@/lib/cap-space';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
 import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
 import {
   createEmptyOffseasonProgressSnapshot,
   getHighestUnlockedStepIndexFromProgress,
-  getOverallOffseasonProgressPercent,
   getStepProgressPercent,
 } from '@/lib/offseason-progress';
 import { computeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
@@ -72,13 +69,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
-  const advancePhase = useSaveStore((state) => state.advancePhase);
   const setPhase = useSaveStore((state) => state.setPhase);
   const mode = useExperienceStore((state) => state.mode);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const isHydrated = hasHydrated && experienceHasHydrated;
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completedSteps = useExperienceStore((state) => state.completedSteps);
+  const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
+  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const progressSnapshot = useOffseasonProgressStore((state) =>
     saveId ? (state.bySave[saveId] ?? createEmptyOffseasonProgressSnapshot()) : createEmptyOffseasonProgressSnapshot(),
   );
@@ -88,7 +86,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [advanceTarget, setAdvanceTarget] = useState<'free_agency' | 'draft' | 'season' | null>(
     null,
   );
-  const [capPulse, setCapPulse] = useState(false);
   const [trajectoryPulse, setTrajectoryPulse] = useState(false);
   const wasNegativeRef = useRef(false);
   const lastSaveIdRef = useRef<string | null>(null);
@@ -170,19 +167,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     [capLimit, capSpace, liveRosterPlayers, liveTeamSummary.overall],
   );
 
-  const hasCapSpace = isHydrated && Boolean(saveId);
-  const activeCapDollars = hasCapSpace ? capSpace * 1_000_000 : 0;
-  const capsWithActive = useMemo(
-    () =>
-      TEAM_CAP_SPACE.map((entry) =>
-        entry.teamAbbr === selectedTeam?.abbr ? { ...entry, capSpace: activeCapDollars } : entry,
-      ),
-    [activeCapDollars, selectedTeam?.abbr],
-  );
-  const capRank = selectedTeam
-    ? computeCapRank(selectedTeam.abbr, capsWithActive)
-    : capsWithActive.length + 1;
-  const formattedCapSpace = hasCapSpace ? formatCapMillions(activeCapDollars) : '—';
   const showOnTheClock = Boolean(isUserOnClock && pathname?.startsWith('/draft'));
 
   const lockedRoutes = useMemo(() => {
@@ -208,8 +192,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     let timer: number | undefined;
     if (isNegative && !wasNegativeRef.current) {
       pushAlert(buildCapCrisisAlert());
-      setCapPulse(true);
-      timer = window.setTimeout(() => setCapPulse(false), 900);
     }
     wasNegativeRef.current = isNegative;
     return () => {
@@ -229,20 +211,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     const timer = window.setTimeout(() => setTrajectoryPulse(false), 700);
     return () => window.clearTimeout(timer);
   }, [liveTrajectory.state, saveId]);
-
-  const showNextActionBanner = useMemo(() => {
-    if (!pathname) return false;
-    if (phase === 'free_agency') {
-      return pathname.startsWith('/free-agents');
-    }
-    if (phase === 'draft') {
-      return pathname.startsWith('/draft');
-    }
-    return false;
-  }, [pathname, phase]);
-
-  const bannerPhase: 'resign_cut' | 'free_agency' | 'draft' | 'season' =
-    phase === 'free_agency' || phase === 'draft' || phase === 'season' ? phase : 'resign_cut';
 
   const tradeOfferScopeKey = useMemo(() => {
     if (!saveId || !pathname) return null;
@@ -300,10 +268,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     [progressSnapshot],
   );
   const stepIndicatorUnlockedIndex = Math.max(actualUnlockedStepIndex, progressUnlockedStepIndex);
-  const offseasonProgressPercent = useMemo(
-    () => getOverallOffseasonProgressPercent(progressSnapshot),
-    [progressSnapshot],
-  );
   const completedStepIndices = useMemo(
     () =>
       OFFSEASON_STEPS.flatMap((step, index) =>
@@ -377,6 +341,24 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setIsMobileSidebarOpen(false);
   }, [pathname]);
+
+  const headerAdvanceTarget = useMemo<'free_agency' | 'draft' | 'season'>(() => {
+    if (mode === 'full') {
+      if (currentStep === 'manage') return 'free_agency';
+      if (currentStep === 'free-agency') return 'draft';
+      return 'season';
+    }
+
+    if (phase === 'free_agency') return 'draft';
+    if (phase === 'draft' || phase === 'season') return 'season';
+    return 'free_agency';
+  }, [currentStep, mode, phase]);
+
+  const handleHeaderContinue = () => {
+    if (!saveId) return;
+    setAdvanceTarget(headerAdvanceTarget);
+    setIsAdvanceModalOpen(true);
+  };
 
   if (!isHydrated) {
     return (
@@ -494,7 +476,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </aside>
 
           <div className="flex min-w-0 flex-1 flex-col md:min-h-screen">
-            <header className="relative border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:px-6 md:pb-8 md:backdrop-blur">
+            <header className="border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:px-6 md:backdrop-blur">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3 md:hidden">
                   <button
@@ -537,12 +519,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       </span>
                     )}
                   </Link>
-                  <div className="min-w-0 flex-1 md:hidden">
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      Active Team
-                    </span>
+                  <div className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-semibold text-foreground">
                       {selectedTeam?.name ?? 'Select a team'}
+                    </span>
+                    <span
+                      className={cn(
+                        'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
+                        trajectoryAccentClass,
+                        trajectoryPulse ? 'animate-pulse' : null,
+                      )}
+                    >
+                      <span className="text-foreground">OVR {liveTeamSummary.overall ?? '—'}</span>
+                      <TrajectoryIcon className="h-3.5 w-3.5 shrink-0" />
+                      <span className="truncate">{liveTrajectory.state}</span>
                     </span>
                   </div>
                   <div className="relative md:hidden">
@@ -578,92 +568,32 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-[10px] text-left md:hidden">
-                  <div className="min-w-0">
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      Cap Space
-                    </span>
-                    <span
-                      className={cn(
-                        'block truncate text-sm font-semibold',
-                        hasCapSpace && activeCapDollars < 0
-                          ? 'text-destructive'
-                          : 'text-foreground',
-                        capPulse ? 'animate-pulse' : null,
-                      )}
-                    >
-                      {hasCapSpace ? `${formattedCapSpace} / ${ordinal(capRank)}` : '—'}
-                    </span>
-                  </div>
-                  <div className="h-8 w-px shrink-0 bg-border" />
-                  <div className="min-w-0">
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      OVR
-                    </span>
-                    <div className="flex items-baseline gap-1">
-                      <span
-                        className="block truncate text-sm font-bold"
-                        style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
-                      >
-                        {liveTeamSummary.overall ?? '—'}
-                      </span>
-                      {liveOverallDelta !== null ? (
-                        <span
-                          className={cn(
-                            'shrink-0 text-xs font-semibold',
-                            liveOverallDelta > 0 ? 'text-emerald-600' : 'text-red-600',
-                          )}
-                        >
-                          {liveOverallDelta > 0 ? `+${liveOverallDelta}` : liveOverallDelta}
-                        </span>
-                      ) : null}
-                    </div>
-                  </div>
-                  <div className="-ml-[2px] h-8 w-px shrink-0 bg-border" />
-                  <div className="min-w-0 flex-1">
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      Trajectory
-                    </span>
-                    <span
-                      className={cn(
-                        'inline-flex max-w-full items-center gap-1 text-sm font-semibold',
-                        trajectoryAccentClass,
-                        trajectoryPulse ? 'animate-pulse' : null,
-                      )}
-                    >
-                      <TrajectoryIcon className="h-3.5 w-3.5 shrink-0" />
-                      <span className="truncate">{liveTrajectory.state}</span>
-                    </span>
-                  </div>
-                  <div className="h-8 w-px shrink-0 bg-border" />
-                  <div className="min-w-0 flex-1">
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      Team Needs
-                    </span>
-                    <span className="block truncate text-sm font-semibold text-foreground">
-                      {liveTeamSummary.needs.length > 0 ? liveTeamSummary.needs.join(' · ') : '—'}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex justify-end md:hidden">
+                <div className="md:hidden">
                   <StepIndicator
                     currentStep={headerStepIndex}
                     steps={['Manage', 'Free Agency', 'Draft']}
-                    teamColor={selectedTeam?.color_primary}
-                    overallProgressPercent={offseasonProgressPercent}
-                    progressLabel="Offseason Progress"
                     unlockedStepIndex={stepIndicatorUnlockedIndex}
                     completedStepIndices={completedStepIndices}
+                    className="w-full"
                   />
                 </div>
 
-                <div className="hidden md:flex md:items-center md:justify-between">
-                  <div className="flex min-w-0 flex-wrap items-center gap-y-3 md:gap-x-3">
+                <div className="md:hidden">
+                  <Button
+                    type="button"
+                    onClick={handleHeaderContinue}
+                    className="h-10 w-full bg-[var(--team-primary)] text-[var(--team-primary-foreground)] hover:bg-[var(--team-primary)] hover:opacity-95"
+                  >
+                    Continue
+                  </Button>
+                </div>
+
+                <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
+                  <div className="flex min-w-0 items-center gap-3">
                     <Link
                       href="/teams?switch=1"
                       aria-label="Change team"
-                      className="hidden h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring md:flex"
+                      className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring"
                     >
                       {selectedTeam?.logo_url ? (
                         <Image
@@ -679,83 +609,25 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                         </span>
                       )}
                     </Link>
-                    <div className="hidden flex-col pr-5 md:flex">
-                      <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                        Active Team
-                      </span>
-                      <span className="text-sm font-semibold">
+                    <div className="min-w-0">
+                      <span className="block truncate text-sm font-semibold text-foreground">
                         {selectedTeam?.name ?? 'Select a team'}
                       </span>
-                    </div>
-                    <div className="hidden h-10 w-px bg-border md:block" />
-                    <div className="flex min-w-[112px] flex-col px-5">
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                        Cap Space
-                      </span>
                       <span
                         className={cn(
-                          'whitespace-nowrap text-sm font-semibold',
-                          hasCapSpace && activeCapDollars < 0
-                            ? 'text-destructive'
-                            : 'text-foreground',
-                          capPulse ? 'animate-pulse' : null,
-                        )}
-                      >
-                        {hasCapSpace ? `${formattedCapSpace} / ${ordinal(capRank)}` : '—'}
-                      </span>
-                    </div>
-                    <div className="hidden h-10 w-px bg-border md:block" />
-                    <div className="flex min-w-[72px] flex-col pl-5 pr-4">
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                        OVR
-                      </span>
-                      <div className="flex items-baseline gap-1">
-                        <span
-                          className="text-sm font-bold"
-                          style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
-                        >
-                          {liveTeamSummary.overall ?? '—'}
-                        </span>
-                        {liveOverallDelta !== null ? (
-                          <span
-                            className={cn(
-                              'text-xs font-semibold',
-                              liveOverallDelta > 0 ? 'text-emerald-600' : 'text-red-600',
-                            )}
-                          >
-                            {liveOverallDelta > 0 ? `+${liveOverallDelta}` : liveOverallDelta}
-                          </span>
-                        ) : null}
-                      </div>
-                    </div>
-                    <div className="hidden h-10 w-px bg-border md:block" />
-                    <div className="flex min-w-[108px] flex-col px-5">
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                        Trajectory
-                      </span>
-                      <span
-                        className={cn(
-                          'inline-flex items-center gap-1 whitespace-nowrap text-sm font-semibold',
+                          'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
                           trajectoryAccentClass,
                           trajectoryPulse ? 'animate-pulse' : null,
                         )}
                       >
+                        <span className="text-foreground">OVR {liveTeamSummary.overall ?? '—'}</span>
                         <TrajectoryIcon className="h-3.5 w-3.5 shrink-0" />
-                        {liveTrajectory.state}
-                      </span>
-                    </div>
-                    <div className="hidden h-10 w-px bg-border md:block" />
-                    <div className="min-w-[160px] flex-1 pl-5 md:flex-none md:max-w-[240px]">
-                      <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                        Team Needs
-                      </span>
-                      <span className="block text-sm font-semibold text-foreground md:truncate">
-                        {liveTeamSummary.needs.length > 0 ? liveTeamSummary.needs.join(' · ') : '—'}
+                        <span className="truncate">{liveTrajectory.state}</span>
                       </span>
                     </div>
                     {showOnTheClock ? (
                       <span
-                        className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] md:inline md:text-sm"
+                        className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] lg:inline"
                         style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
                       >
                         ON THE CLOCK
@@ -763,7 +635,21 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     ) : null}
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <StepIndicator
+                      currentStep={headerStepIndex}
+                      steps={['Manage', 'Free Agency', 'Draft']}
+                      unlockedStepIndex={stepIndicatorUnlockedIndex}
+                      completedStepIndices={completedStepIndices}
+                      className="max-w-full"
+                    />
+                    <Button
+                      type="button"
+                      onClick={handleHeaderContinue}
+                      className="h-10 shrink-0 bg-[var(--team-primary)] px-4 text-[var(--team-primary-foreground)] hover:bg-[var(--team-primary)] hover:opacity-95"
+                    >
+                      Continue
+                    </Button>
                     <div className="relative">
                       <button
                         type="button"
@@ -798,17 +684,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </div>
                 </div>
               </div>
-              <div className="pointer-events-none absolute bottom-0 right-6 hidden translate-y-1/2 md:block">
-                <StepIndicator
-                  currentStep={headerStepIndex}
-                  steps={['Manage', 'Free Agency', 'Draft']}
-                  teamColor={selectedTeam?.color_primary}
-                  overallProgressPercent={offseasonProgressPercent}
-                  progressLabel="Offseason Progress"
-                  unlockedStepIndex={stepIndicatorUnlockedIndex}
-                  completedStepIndices={completedStepIndices}
-                />
-              </div>
             </header>
 
             {showOnTheClock ? (
@@ -825,30 +700,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             ) : null}
 
             <main className="min-w-0 flex-1 px-4 py-5 sm:py-6 md:px-8">
-              {showNextActionBanner ? (
-                <NextActionBanner
-                  phase={bannerPhase}
-                  capSpaceMillions={capSpace}
-                  teamPrimaryColor={selectedTeam?.color_primary ?? 'var(--team-primary)'}
-                  onAdvance={() => {
-                    if (!saveId) return;
-                    if (phase === 'resign_cut') {
-                      setAdvanceTarget('free_agency');
-                      setIsAdvanceModalOpen(true);
-                      return;
-                    }
-                    if (phase === 'free_agency') {
-                      setAdvanceTarget('draft');
-                      setIsAdvanceModalOpen(true);
-                      return;
-                    }
-                    if (phase === 'draft') {
-                      setAdvanceTarget('season');
-                      setIsAdvanceModalOpen(true);
-                    }
-                  }}
-                />
-              ) : null}
               {children}
             </main>
           </div>
@@ -878,6 +729,37 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             }
             onConfirm={async () => {
               if (!saveId || !advanceTarget) return;
+              if (advanceTarget === 'free_agency') {
+                recordProgressEvent({
+                  saveId,
+                  step: 'manage',
+                  eventKey: 'manage:continue',
+                  complete: true,
+                });
+                if (mode === 'full' && currentStep === 'manage') {
+                  completeCurrentStep();
+                }
+              } else if (advanceTarget === 'draft') {
+                recordProgressEvent({
+                  saveId,
+                  step: 'free-agency',
+                  eventKey: 'free-agency:continue',
+                  complete: true,
+                });
+                if (mode === 'full' && currentStep === 'free-agency') {
+                  completeCurrentStep();
+                }
+              } else {
+                recordProgressEvent({
+                  saveId,
+                  step: 'draft',
+                  eventKey: 'draft:continue',
+                  complete: true,
+                });
+                if (mode === 'full' && currentStep === 'draft') {
+                  completeCurrentStep();
+                }
+              }
               await setPhase(advanceTarget);
               setIsAdvanceModalOpen(false);
               setAdvanceTarget(null);
