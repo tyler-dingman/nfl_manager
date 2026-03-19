@@ -12,6 +12,7 @@ import { NFL_TEAM_SEED, TEAM_ALIAS_TO_ABBR } from './teams';
 export type PlayerSyncResult = {
   teams: UnifiedTeam[];
   players: UnifiedPlayer[];
+  maddenRows: MaddenRatingRecord[];
   insertedPlayers: number;
   updatedPlayers: number;
   rosterErrors: Array<{ teamId: string; reason: string }>;
@@ -326,6 +327,7 @@ export const syncPlayers = async (
   return {
     teams,
     players: Array.from(nextPlayers.values()),
+    maddenRows,
     insertedPlayers,
     updatedPlayers,
     rosterErrors,

@@ -8,16 +8,26 @@ import type {
   UnifiedPlayer,
 } from '@/server/data/nfl-data';
 import { fetchBestAvailableEspnPlayerProfile } from '@/server/data-sources/espn';
+import {
+  buildMaddenPlayerKey,
+  type MaddenRatingRecord,
+} from '@/server/data-sources/madden-ratings';
 import { syncCap } from '@/server/ingest/cap';
 import { syncContracts } from '@/server/ingest/contracts';
 import { syncPlayers } from '@/server/ingest/players';
+import { blendPlayerRating, generateBaselinePlayerRating } from '@/server/ingest/ratings';
 import {
   buildRosterMatchedExpiringContracts,
   OFFSEASON_EXPIRING_SEASON_YEAR,
 } from '@/server/logic/contract-expiration';
-import { getKcRating } from '@/data/rosters/kc';
 
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
+const DEBUG_FREE_AGENT_NAMES = new Set([
+  'Tyreek Hill',
+  'Stefon Diggs',
+  'Taylor Decker',
+  'Jawaan Taylor',
+]);
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 const normalizePositionBucket = (position: string): string => {
@@ -45,6 +55,159 @@ const normalizeFreeAgentName = (value: string): string =>
     .toLowerCase()
     .replace(/\b(jr|sr|ii|iii|iv|v)\b/g, '')
     .replace(/[^a-z0-9]+/g, '');
+
+const extractEspnAthleteId = (value: string | null | undefined): string | null => {
+  if (!value) return null;
+  const match = value.match(/\/(\d+)(?:[./]|$)/);
+  return match?.[1] ?? null;
+};
+
+type FreeAgentLookupMatch = {
+  player: UnifiedPlayer;
+  strategy: 'id' | 'externalId' | 'normalizedName+position' | 'normalizedName';
+};
+
+type FreeAgentMaddenMatch = {
+  maddenRating: number;
+  strategy: 'normalizedName+position' | 'normalizedName';
+};
+
+const buildFreeAgentPlayerLookup = (players: UnifiedPlayer[]) => {
+  const playersById = new Map(players.map((player) => [player.id, player]));
+  const playersByExternalId = new Map<string, UnifiedPlayer[]>();
+  const playersByNormalizedName = new Map<string, UnifiedPlayer[]>();
+  const playersByNormalizedNameAndPosition = new Map<string, UnifiedPlayer[]>();
+
+  for (const player of players) {
+    const normalizedName = normalizeFreeAgentName(player.name);
+    const bucket = normalizePositionBucket(player.position);
+    const externalId = extractEspnAthleteId(player.headshotUrl);
+
+    const nameBucket = playersByNormalizedName.get(normalizedName) ?? [];
+    nameBucket.push(player);
+    playersByNormalizedName.set(normalizedName, nameBucket);
+
+    const namePositionKey = `${normalizedName}:${bucket}`;
+    const positionBucketPlayers = playersByNormalizedNameAndPosition.get(namePositionKey) ?? [];
+    positionBucketPlayers.push(player);
+    playersByNormalizedNameAndPosition.set(namePositionKey, positionBucketPlayers);
+
+    if (externalId) {
+      const externalBucket = playersByExternalId.get(externalId) ?? [];
+      externalBucket.push(player);
+      playersByExternalId.set(externalId, externalBucket);
+    }
+  }
+
+  return {
+    findMatch: ({
+      id,
+      externalId,
+      normalizedName,
+      position,
+    }: {
+      id: string;
+      externalId: string | null;
+      normalizedName: string;
+      position: string;
+    }): FreeAgentLookupMatch | null => {
+      const directMatch = playersById.get(id);
+      if (directMatch) {
+        return { player: directMatch, strategy: 'id' };
+      }
+
+      if (externalId) {
+        const externalMatches = playersByExternalId.get(externalId) ?? [];
+        if (externalMatches.length === 1) {
+          return { player: externalMatches[0], strategy: 'externalId' };
+        }
+      }
+
+      const positionBucket = normalizePositionBucket(position);
+      const nameAndPositionMatches =
+        playersByNormalizedNameAndPosition.get(`${normalizedName}:${positionBucket}`) ?? [];
+      if (nameAndPositionMatches.length === 1) {
+        return {
+          player: nameAndPositionMatches[0],
+          strategy: 'normalizedName+position',
+        };
+      }
+
+      const nameMatches = playersByNormalizedName.get(normalizedName) ?? [];
+      if (nameMatches.length === 1) {
+        return { player: nameMatches[0], strategy: 'normalizedName' };
+      }
+
+      return null;
+    },
+  };
+};
+
+const buildFreeAgentMaddenLookup = (rows: MaddenRatingRecord[]) => {
+  const byNameTeamAndPosition = new Map<string, number>();
+  const byNameOnly = new Map<string, number>();
+  const byNameOnlyCounts = new Map<string, number>();
+
+  rows.forEach((row) => {
+    const keyParts = buildMaddenPlayerKey({
+      playerName: row.playerName,
+      team: row.team,
+      position: row.position,
+    });
+
+    if (!keyParts.teamAbbr || !keyParts.normalizedName) {
+      return;
+    }
+
+    const normalizedName = normalizeFreeAgentName(keyParts.normalizedName);
+    const positionBucket = normalizePositionBucket(keyParts.position);
+    const positionalKey = `${normalizedName}:${keyParts.teamAbbr}:${positionBucket}`;
+    if (!byNameTeamAndPosition.has(positionalKey)) {
+      byNameTeamAndPosition.set(positionalKey, row.overallRating);
+    }
+
+    byNameOnlyCounts.set(normalizedName, (byNameOnlyCounts.get(normalizedName) ?? 0) + 1);
+    if (!byNameOnly.has(normalizedName)) {
+      byNameOnly.set(normalizedName, row.overallRating);
+    }
+  });
+
+  return {
+    findMatch: ({
+      normalizedName,
+      teamAbbr,
+      position,
+    }: {
+      normalizedName: string;
+      teamAbbr: string | null | undefined;
+      position: string;
+    }): FreeAgentMaddenMatch | null => {
+      if (teamAbbr) {
+        const nameTeamPositionKey = `${normalizedName}:${teamAbbr}:${normalizePositionBucket(position)}`;
+        const teamPositionMatch = byNameTeamAndPosition.get(nameTeamPositionKey);
+        if (teamPositionMatch !== undefined) {
+          return {
+            maddenRating: teamPositionMatch,
+            strategy: 'normalizedName+position',
+          };
+        }
+      }
+
+      const nameOnlyCount = byNameOnlyCounts.get(normalizedName) ?? 0;
+      if (nameOnlyCount === 1) {
+        const nameOnlyMatch = byNameOnly.get(normalizedName);
+        if (nameOnlyMatch !== undefined) {
+          return {
+            maddenRating: nameOnlyMatch,
+            strategy: 'normalizedName',
+          };
+        }
+      }
+
+      return null;
+    },
+  };
+};
 
 const buildRatedPlayers = (
   players: UnifiedPlayer[],
@@ -104,59 +267,30 @@ const buildRatedPlayers = (
   });
 };
 
-const getAuxiliaryLocalRating = (freeAgent: UnifiedFreeAgent): number | null => {
-  if (freeAgent.lastTeamAbbr === 'KC') {
-    return getKcRating(freeAgent.name) ?? null;
-  }
-  return null;
-};
-
 const enrichFreeAgentsWithRatings = async (
   freeAgents: UnifiedFreeAgent[],
   players: UnifiedPlayer[],
+  maddenRows: MaddenRatingRecord[],
 ): Promise<UnifiedFreeAgent[]> => {
-  const playersById = new Map(players.map((player) => [player.id, player]));
-  const playersByNormalizedName = new Map<string, UnifiedPlayer[]>();
-  const playersByNormalizedNameAndPosition = new Map<string, UnifiedPlayer[]>();
+  const playerLookup = buildFreeAgentPlayerLookup(players);
+  const maddenLookup = buildFreeAgentMaddenLookup(maddenRows);
   const espnProfileCache = new Map<
     string,
     Awaited<ReturnType<typeof fetchBestAvailableEspnPlayerProfile>>
   >();
 
-  for (const player of players) {
-    const normalizedName = normalizeFreeAgentName(player.name);
-    const bucket = normalizePositionBucket(player.position);
-
-    const nameBucket = playersByNormalizedName.get(normalizedName) ?? [];
-    nameBucket.push(player);
-    playersByNormalizedName.set(normalizedName, nameBucket);
-
-    const namePositionKey = `${normalizedName}:${bucket}`;
-    const positionBucketPlayers = playersByNormalizedNameAndPosition.get(namePositionKey) ?? [];
-    positionBucketPlayers.push(player);
-    playersByNormalizedNameAndPosition.set(namePositionKey, positionBucketPlayers);
-  }
-
   return Promise.all(
     freeAgents.map(async (freeAgent) => {
-      const directMatch = playersById.get(freeAgent.id) ?? null;
-      const normalizedName = freeAgent.normalizedName || normalizeFreeAgentName(freeAgent.name);
-      const positionBucket = normalizePositionBucket(freeAgent.position);
-      const nameAndPositionMatches =
-        playersByNormalizedNameAndPosition.get(`${normalizedName}:${positionBucket}`) ?? [];
-      const uniqueNameAndPositionMatch =
-        nameAndPositionMatches.length === 1 ? nameAndPositionMatches[0] : null;
-      const nameMatches = playersByNormalizedName.get(normalizedName) ?? [];
-      const uniqueNameMatch = nameMatches.length === 1 ? nameMatches[0] : null;
-      const matchedPlayer = directMatch ?? uniqueNameAndPositionMatch ?? uniqueNameMatch;
-      const auxiliaryRating = getAuxiliaryLocalRating(freeAgent);
+      const normalizedName = normalizeFreeAgentName(freeAgent.normalizedName || freeAgent.name);
+      const existingExternalId = extractEspnAthleteId(freeAgent.headshotUrl);
       const needsExternalProfile =
-        !matchedPlayer &&
-        (freeAgent.height === null ||
-          freeAgent.weight === null ||
-          freeAgent.headshotUrl === null ||
-          freeAgent.rating === null ||
-          Object.keys(freeAgent.stats ?? {}).length === 0);
+        freeAgent.height === null ||
+        freeAgent.weight === null ||
+        freeAgent.headshotUrl === null ||
+        freeAgent.baselineRating === null ||
+        freeAgent.maddenRating === null ||
+        freeAgent.rating === null ||
+        Object.keys(freeAgent.stats ?? {}).length === 0;
       let espnProfile = espnProfileCache.get(freeAgent.id) ?? null;
       if (needsExternalProfile && espnProfile === null) {
         espnProfile = await fetchBestAvailableEspnPlayerProfile({
@@ -167,14 +301,58 @@ const enrichFreeAgentsWithRatings = async (
         espnProfileCache.set(freeAgent.id, espnProfile);
       }
 
+      const externalId = existingExternalId ?? espnProfile?.id ?? null;
+      const playerMatch = playerLookup.findMatch({
+        id: freeAgent.id,
+        externalId,
+        normalizedName,
+        position: freeAgent.position,
+      });
+      const matchedPlayer = playerMatch?.player ?? null;
+      const maddenMatch =
+        matchedPlayer === null
+          ? maddenLookup.findMatch({
+              normalizedName,
+              teamAbbr: freeAgent.lastTeamAbbr,
+              position: freeAgent.position,
+            })
+          : null;
+      const resolvedBaselineRating =
+        matchedPlayer?.baselineRating ??
+        freeAgent.baselineRating ??
+        (maddenMatch ? generateBaselinePlayerRating() : null);
+      const resolvedMaddenRating =
+        matchedPlayer?.maddenRating ?? freeAgent.maddenRating ?? maddenMatch?.maddenRating ?? null;
+      const resolvedRating =
+        matchedPlayer?.rating ??
+        freeAgent.rating ??
+        (resolvedBaselineRating !== null
+          ? blendPlayerRating(resolvedBaselineRating, resolvedMaddenRating)
+          : null);
+
+      if (DEBUG_FREE_AGENT_NAMES.has(freeAgent.name)) {
+        console.log(
+          `[free-agent-ratings] ${JSON.stringify({
+            freeAgentId: freeAgent.id,
+            normalizedName,
+            position: freeAgent.position,
+            matchedSourceId: matchedPlayer?.id ?? externalId ?? null,
+            matchedBy: playerMatch?.strategy ?? maddenMatch?.strategy ?? 'none',
+            baselineRating: resolvedBaselineRating,
+            maddenRating: resolvedMaddenRating,
+            rating: resolvedRating,
+          })}`,
+        );
+      }
+
       return {
         ...freeAgent,
         age: matchedPlayer?.age ?? espnProfile?.age ?? freeAgent.age ?? null,
         height: matchedPlayer?.height ?? espnProfile?.height ?? freeAgent.height ?? null,
         weight: matchedPlayer?.weight ?? espnProfile?.weight ?? freeAgent.weight ?? null,
-        baselineRating: matchedPlayer?.baselineRating ?? freeAgent.baselineRating ?? null,
-        maddenRating: matchedPlayer?.maddenRating ?? freeAgent.maddenRating ?? null,
-        rating: matchedPlayer?.rating ?? freeAgent.rating ?? auxiliaryRating ?? null,
+        baselineRating: resolvedBaselineRating,
+        maddenRating: resolvedMaddenRating,
+        rating: resolvedRating,
         headshotUrl:
           matchedPlayer?.headshotUrl ?? espnProfile?.headshotUrl ?? freeAgent.headshotUrl ?? null,
         stats: matchedPlayer
@@ -197,6 +375,7 @@ const run = async () => {
   const enrichedFreeAgents = await enrichFreeAgentsWithRatings(
     contractSync.freeAgents,
     enrichedPlayers,
+    playerSync.maddenRows,
   );
 
   const payload: IngestedLeagueData = {
