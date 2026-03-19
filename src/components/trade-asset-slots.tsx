@@ -16,8 +16,8 @@ export type TradeSlotAsset = {
 };
 
 type TradeAssetSlotsProps = {
-  title: string;
-  subtitle: string;
+  title?: string;
+  subtitle?: string;
   slots: Array<TradeSlotAsset | null>;
   onAdd: (slotIndex: number) => void;
   onRemove: (slotIndex: number) => void;
@@ -32,17 +32,25 @@ export default function TradeAssetSlots({
   onRemove,
   onReplace,
 }: TradeAssetSlotsProps) {
+  const hasHeader = Boolean(title || subtitle);
+
   return (
-    <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            {title}
-          </p>
-          <h2 className="mt-1 text-lg font-semibold text-foreground">{subtitle}</h2>
+    <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
+      {hasHeader ? (
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            {title ? (
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                {title}
+              </p>
+            ) : null}
+            {subtitle ? (
+              <h2 className="mt-1 text-lg font-semibold text-foreground">{subtitle}</h2>
+            ) : null}
+          </div>
         </div>
-      </div>
-      <div className="mt-4 space-y-3">
+      ) : null}
+      <div className={cn('space-y-3', hasHeader && 'mt-4')}>
         {slots.map((slot, index) => (
           <button
             key={`slot-${index}`}

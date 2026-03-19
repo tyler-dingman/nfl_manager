@@ -50,6 +50,8 @@ const getInterestTier = (interest: number) => {
   return { label: 'Low', barClass: 'bg-rose-400' };
 };
 
+const VISIT_TRADE_OFFER_INTERACTION_THRESHOLD = 3;
+
 const getReadableTextColor = (backgroundColor?: string | null) => {
   if (!backgroundColor) return '#ffffff';
   const normalized = backgroundColor.replace('#', '');
@@ -139,7 +141,8 @@ export default function RosterPage() {
   const expiringStartedAtRef = useRef<number>(
     typeof performance !== 'undefined' ? performance.now() : 0,
   );
-  const initialTradeOfferRequestedRef = useRef<string | null>(null);
+  const tradeOfferShownForVisitRef = useRef<string | null>(null);
+  const lastTradeOfferAttemptBucketRef = useRef<string | null>(null);
   const [rosterInteractionCount, setRosterInteractionCount] = useState(0);
 
   const selectedTeam = useMemo(
@@ -248,13 +251,15 @@ export default function RosterPage() {
   useEffect(() => {
     if (phase !== 'resign_cut') return;
     setRosterInteractionCount(0);
+    tradeOfferShownForVisitRef.current = null;
+    lastTradeOfferAttemptBucketRef.current = null;
   }, [phase]);
 
   useEffect(() => {
     if (phase !== 'resign_cut' || hasBlockingModalOpen) return;
 
     const registerInteraction = () => {
-      setRosterInteractionCount((current) => (current >= 4 ? current : current + 1));
+      setRosterInteractionCount((current) => current + 1);
     };
 
     window.addEventListener('pointerdown', registerInteraction, { passive: true });
@@ -274,14 +279,26 @@ export default function RosterPage() {
       !saveId ||
       !teamAbbr ||
       hasBlockingModalOpen ||
-      rosterInteractionCount < 4
+      rosterInteractionCount < VISIT_TRADE_OFFER_INTERACTION_THRESHOLD
     ) {
       return;
     }
     const requestKey = `${saveId}:${teamAbbr}`;
-    if (initialTradeOfferRequestedRef.current === requestKey) return;
-    initialTradeOfferRequestedRef.current = requestKey;
-    void requestTradeOffer({ trigger: 'visit-manage-team' });
+    if (tradeOfferShownForVisitRef.current === requestKey) return;
+
+    const attemptBucket = Math.floor(
+      rosterInteractionCount / VISIT_TRADE_OFFER_INTERACTION_THRESHOLD,
+    );
+    const attemptKey = `${requestKey}:${attemptBucket}`;
+    if (lastTradeOfferAttemptBucketRef.current === attemptKey) return;
+    lastTradeOfferAttemptBucketRef.current = attemptKey;
+
+    void (async () => {
+      const wasShown = await requestTradeOffer({ trigger: 'visit-manage-team' });
+      if (wasShown) {
+        tradeOfferShownForVisitRef.current = requestKey;
+      }
+    })();
   }, [hasBlockingModalOpen, phase, requestTradeOffer, rosterInteractionCount, saveId, teamAbbr]);
 
   const handleSubmitCut = async () => {

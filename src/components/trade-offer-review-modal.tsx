@@ -445,48 +445,11 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
               <div className="rounded-2xl border border-border bg-white">
                 <div className="border-b border-border px-4 py-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    They Offer
+                    Your Offer
                   </p>
-                  <p className="mt-1 text-base font-semibold text-foreground">{offer.incoming.teamName}</p>
-                </div>
-                <div className="space-y-3 px-4 py-4">
-                  {offer.incoming.assets.map((asset) => (
-                    <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
-                      <p className="text-sm font-semibold text-foreground">
-                        {asset.type === 'pick' ? asset.label : asset.name}
-                      </p>
-                      <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
-                    </div>
-                  ))}
-                  <TradeAssetSlots
-                    title="Adjust Their Side"
-                    subtitle="Add up to 3 more incoming assets"
-                    slots={incomingSlotAssets}
-                    onAdd={(slotIndex) => {
-                      setActivePickerContext({ side: 'incoming', slotIndex });
-                      setDuplicateMessage(null);
-                      setIsPickerOpen(true);
-                    }}
-                    onReplace={(slotIndex) => {
-                      setActivePickerContext({ side: 'incoming', slotIndex });
-                      setDuplicateMessage(null);
-                      setIsPickerOpen(true);
-                    }}
-                    onRemove={(slotIndex) => {
-                      setExtraIncomingSelections((current) =>
-                        current.map((selection, index) => (index === slotIndex ? null : selection)),
-                      );
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-border bg-white">
-                <div className="border-b border-border px-4 py-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    They Want
+                  <p className="mt-1 text-base font-semibold text-foreground">
+                    {offer.outgoing.teamName}
                   </p>
-                  <p className="mt-1 text-base font-semibold text-foreground">{offer.outgoing.teamName}</p>
                 </div>
                 <div className="space-y-3 px-4 py-4">
                   {offer.outgoing.assets.map((asset) => (
@@ -498,8 +461,6 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                     </div>
                   ))}
                   <TradeAssetSlots
-                    title="Adjust Your Side"
-                    subtitle="Add up to 3 more outgoing assets"
                     slots={outgoingSlotAssets}
                     onAdd={(slotIndex) => {
                       setActivePickerContext({ side: 'outgoing', slotIndex });
@@ -513,6 +474,45 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                     }}
                     onRemove={(slotIndex) => {
                       setExtraOutgoingSelections((current) =>
+                        current.map((selection, index) => (index === slotIndex ? null : selection)),
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-border bg-white">
+                <div className="border-b border-border px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    CPU Offer
+                  </p>
+                  <p className="mt-1 text-base font-semibold text-foreground">
+                    {offer.incoming.teamName}
+                  </p>
+                </div>
+                <div className="space-y-3 px-4 py-4">
+                  {offer.incoming.assets.map((asset) => (
+                    <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
+                      <p className="text-sm font-semibold text-foreground">
+                        {asset.type === 'pick' ? asset.label : asset.name}
+                      </p>
+                      <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
+                    </div>
+                  ))}
+                  <TradeAssetSlots
+                    slots={incomingSlotAssets}
+                    onAdd={(slotIndex) => {
+                      setActivePickerContext({ side: 'incoming', slotIndex });
+                      setDuplicateMessage(null);
+                      setIsPickerOpen(true);
+                    }}
+                    onReplace={(slotIndex) => {
+                      setActivePickerContext({ side: 'incoming', slotIndex });
+                      setDuplicateMessage(null);
+                      setIsPickerOpen(true);
+                    }}
+                    onRemove={(slotIndex) => {
+                      setExtraIncomingSelections((current) =>
                         current.map((selection, index) => (index === slotIndex ? null : selection)),
                       );
                     }}

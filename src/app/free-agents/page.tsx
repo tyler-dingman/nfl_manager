@@ -7,6 +7,7 @@ import AppShell from '@/components/app-shell';
 import ContractOfferModal, { type OfferResponse } from '@/components/contract-offer-modal';
 import { StepHeader } from '@/components/offseason/step-header';
 import { PlayerTable } from '@/components/player-table';
+import { useToast } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useFreeAgentsQuery } from '@/features/players/queries';
 import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
@@ -14,9 +15,11 @@ import { useExperienceStore } from '@/features/experience/experience-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
+import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import type { PlayerRowDTO } from '@/types/player';
 
 export default function FreeAgentsPage() {
@@ -31,10 +34,13 @@ export default function FreeAgentsPage() {
   const roster = useSaveStore((state) => state.roster);
   const setRoster = useSaveStore((state) => state.setRoster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const teams = useTeamStore((state) => state.teams);
+  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const { data, isLoading } = useFreeAgentsQuery(saveId, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>(() => data);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
+  const { push: pushToast } = useToast();
   const mode = useExperienceStore((state) => state.mode);
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
@@ -46,6 +52,7 @@ export default function FreeAgentsPage() {
     typeof performance !== 'undefined' ? performance.now() : 0,
   );
   const initialTradeOfferRequestedRef = useRef<string | null>(null);
+  const selectedTeam = teams.find((team) => team.id === selectedTeamId) ?? null;
 
   const ensureActionableSaveId = async (preferredSaveId?: string | null) => {
     return ensureRecoverableSaveId(
@@ -206,6 +213,21 @@ export default function FreeAgentsPage() {
           ? roster.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
           : [...roster, updatedPlayer];
         setRoster(nextRoster);
+        const reactionToast = buildStarReactionToastPayload({
+          incomingPlayer: updatedPlayer,
+          roster: nextRoster,
+          actionType: 'freeAgency',
+          teamAbbr,
+          teamName: selectedTeam?.name,
+        });
+        if (reactionToast) {
+          pushToast({
+            id: `star-reaction:freeAgency:${activeSaveId}:${updatedPlayer.id}`,
+            kind: 'starReaction',
+            durationMs: 5200,
+            starReaction: reactionToast,
+          });
+        }
       }
       if ('header' in data && data.header) {
         setSaveHeader({

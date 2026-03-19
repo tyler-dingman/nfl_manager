@@ -11,6 +11,7 @@ import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { StepHeader } from '@/components/offseason/step-header';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
@@ -21,6 +22,8 @@ import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orc
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
+import { resolvePlayerRating } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -133,8 +136,10 @@ function TradeBuilderContent() {
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
+  const setRoster = useSaveStore((state) => state.setRoster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
+  const { push: pushToast } = useToast();
   const mode = useExperienceStore((state) => state.mode);
   const currentStep = useExperienceStore((state) => state.currentStep);
   const manageSubstepsCompleted = useExperienceStore((state) => state.manageSubstepsCompleted);
@@ -459,6 +464,11 @@ function TradeBuilderContent() {
     );
     if (data.accepted) {
       pushAlert(buildChantAlert(teamAbbr, 'BIG_TRADE'));
+      const acquiredPlayerIds = new Set(
+        data.trade.receiveAssets
+          .filter((asset) => asset.type === 'player' && asset.playerId)
+          .map((asset) => asset.playerId as string),
+      );
 
       const userRosterParams = new URLSearchParams({ saveId: actionableSaveId });
       if (teamAbbr) {
@@ -468,6 +478,27 @@ function TradeBuilderContent() {
       if (userRosterResponse.ok) {
         const nextRoster = (await userRosterResponse.json()) as PlayerRowDTO[];
         setUserRoster(nextRoster);
+        setRoster(nextRoster);
+        const acquiredPlayer = nextRoster
+          .filter((player) => acquiredPlayerIds.has(player.id))
+          .sort((left, right) => (resolvePlayerRating(right) ?? -1) - (resolvePlayerRating(left) ?? -1))[0];
+        if (acquiredPlayer) {
+          const reactionToast = buildStarReactionToastPayload({
+            incomingPlayer: acquiredPlayer,
+            roster: nextRoster,
+            actionType: 'trade',
+            teamAbbr,
+            teamName: selectedTeam?.name,
+          });
+          if (reactionToast) {
+            pushToast({
+              id: `star-reaction:trade:${actionableSaveId}:${trade.id}:${acquiredPlayer.id}`,
+              kind: 'starReaction',
+              durationMs: 5200,
+              starReaction: reactionToast,
+            });
+          }
+        }
       }
 
       const partnerRosterParams = new URLSearchParams({

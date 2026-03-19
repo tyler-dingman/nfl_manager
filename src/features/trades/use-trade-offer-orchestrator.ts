@@ -49,7 +49,7 @@ export const useTradeOfferOrchestrator = ({
       draftCurrentPickIndex?: number | null;
       force?: boolean;
     }) => {
-      if (!enabled || !saveId || !teamAbbr) return;
+      if (!enabled || !saveId || !teamAbbr) return false;
 
       const scopeKey = `${saveId}:${phase}`;
       const scope =
@@ -65,12 +65,12 @@ export const useTradeOfferOrchestrator = ({
             now: Date.now(),
           }))
       ) {
-        return;
+        return false;
       }
 
       const actionableSaveId = await ensureActionableSaveId(saveId);
       if (!actionableSaveId) {
-        return;
+        return false;
       }
 
       const response = await apiFetch('/api/trade-offers/next', {
@@ -89,12 +89,12 @@ export const useTradeOfferOrchestrator = ({
       });
 
       if (!response.ok) {
-        return;
+        return false;
       }
 
       const data = (await response.json()) as TradeOfferApiResponse;
       if (!data.ok || data.offers.length === 0) {
-        return;
+        return false;
       }
 
       const nextOffer =
@@ -114,6 +114,8 @@ export const useTradeOfferOrchestrator = ({
           cooldownMs: TRADE_OFFER_COOLDOWN_MS[phase],
         });
       }
+
+      return true;
     },
     [enabled, ensureActionableSaveId, phase, saveId, showOffer, teamAbbr],
   );
