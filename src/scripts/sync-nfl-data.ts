@@ -7,6 +7,7 @@ import type {
   UnifiedFreeAgent,
   UnifiedPlayer,
 } from '@/server/data/nfl-data';
+import { fetchBestAvailableEspnPlayerProfile } from '@/server/data-sources/espn';
 import { syncCap } from '@/server/ingest/cap';
 import { syncContracts } from '@/server/ingest/contracts';
 import { syncPlayers } from '@/server/ingest/players';
@@ -14,6 +15,7 @@ import {
   buildRosterMatchedExpiringContracts,
   OFFSEASON_EXPIRING_SEASON_YEAR,
 } from '@/server/logic/contract-expiration';
+import { getKcRating } from '@/data/rosters/kc';
 
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 
@@ -102,13 +104,24 @@ const buildRatedPlayers = (
   });
 };
 
-const enrichFreeAgentsWithRatings = (
+const getAuxiliaryLocalRating = (freeAgent: UnifiedFreeAgent): number | null => {
+  if (freeAgent.lastTeamAbbr === 'KC') {
+    return getKcRating(freeAgent.name) ?? null;
+  }
+  return null;
+};
+
+const enrichFreeAgentsWithRatings = async (
   freeAgents: UnifiedFreeAgent[],
   players: UnifiedPlayer[],
-): UnifiedFreeAgent[] => {
+): Promise<UnifiedFreeAgent[]> => {
   const playersById = new Map(players.map((player) => [player.id, player]));
   const playersByNormalizedName = new Map<string, UnifiedPlayer[]>();
   const playersByNormalizedNameAndPosition = new Map<string, UnifiedPlayer[]>();
+  const espnProfileCache = new Map<
+    string,
+    Awaited<ReturnType<typeof fetchBestAvailableEspnPlayerProfile>>
+  >();
 
   for (const player of players) {
     const normalizedName = normalizeFreeAgentName(player.name);
@@ -124,30 +137,54 @@ const enrichFreeAgentsWithRatings = (
     playersByNormalizedNameAndPosition.set(namePositionKey, positionBucketPlayers);
   }
 
-  return freeAgents.map((freeAgent) => {
-    const directMatch = playersById.get(freeAgent.id) ?? null;
-    const normalizedName = freeAgent.normalizedName || normalizeFreeAgentName(freeAgent.name);
-    const positionBucket = normalizePositionBucket(freeAgent.position);
-    const nameAndPositionMatches =
-      playersByNormalizedNameAndPosition.get(`${normalizedName}:${positionBucket}`) ?? [];
-    const uniqueNameAndPositionMatch =
-      nameAndPositionMatches.length === 1 ? nameAndPositionMatches[0] : null;
-    const nameMatches = playersByNormalizedName.get(normalizedName) ?? [];
-    const uniqueNameMatch = nameMatches.length === 1 ? nameMatches[0] : null;
-    const matchedPlayer = directMatch ?? uniqueNameAndPositionMatch ?? uniqueNameMatch;
+  return Promise.all(
+    freeAgents.map(async (freeAgent) => {
+      const directMatch = playersById.get(freeAgent.id) ?? null;
+      const normalizedName = freeAgent.normalizedName || normalizeFreeAgentName(freeAgent.name);
+      const positionBucket = normalizePositionBucket(freeAgent.position);
+      const nameAndPositionMatches =
+        playersByNormalizedNameAndPosition.get(`${normalizedName}:${positionBucket}`) ?? [];
+      const uniqueNameAndPositionMatch =
+        nameAndPositionMatches.length === 1 ? nameAndPositionMatches[0] : null;
+      const nameMatches = playersByNormalizedName.get(normalizedName) ?? [];
+      const uniqueNameMatch = nameMatches.length === 1 ? nameMatches[0] : null;
+      const matchedPlayer = directMatch ?? uniqueNameAndPositionMatch ?? uniqueNameMatch;
+      const auxiliaryRating = getAuxiliaryLocalRating(freeAgent);
+      const needsExternalProfile =
+        !matchedPlayer &&
+        (freeAgent.height === null ||
+          freeAgent.weight === null ||
+          freeAgent.headshotUrl === null ||
+          freeAgent.rating === null ||
+          Object.keys(freeAgent.stats ?? {}).length === 0);
+      let espnProfile = espnProfileCache.get(freeAgent.id) ?? null;
+      if (needsExternalProfile && espnProfile === null) {
+        espnProfile = await fetchBestAvailableEspnPlayerProfile({
+          name: freeAgent.name,
+          position: freeAgent.position,
+          age: freeAgent.age,
+        }).catch(() => null);
+        espnProfileCache.set(freeAgent.id, espnProfile);
+      }
 
-    return {
-      ...freeAgent,
-      age: matchedPlayer?.age ?? freeAgent.age ?? null,
-      height: matchedPlayer?.height ?? freeAgent.height ?? null,
-      weight: matchedPlayer?.weight ?? freeAgent.weight ?? null,
-      baselineRating: matchedPlayer?.baselineRating ?? freeAgent.baselineRating ?? null,
-      maddenRating: matchedPlayer?.maddenRating ?? freeAgent.maddenRating ?? null,
-      rating: matchedPlayer?.rating ?? freeAgent.rating ?? null,
-      headshotUrl: matchedPlayer?.headshotUrl ?? freeAgent.headshotUrl ?? null,
-      stats: matchedPlayer ? { ...matchedPlayer.stats } : (freeAgent.stats ?? {}),
-    };
-  });
+      return {
+        ...freeAgent,
+        age: matchedPlayer?.age ?? espnProfile?.age ?? freeAgent.age ?? null,
+        height: matchedPlayer?.height ?? espnProfile?.height ?? freeAgent.height ?? null,
+        weight: matchedPlayer?.weight ?? espnProfile?.weight ?? freeAgent.weight ?? null,
+        baselineRating: matchedPlayer?.baselineRating ?? freeAgent.baselineRating ?? null,
+        maddenRating: matchedPlayer?.maddenRating ?? freeAgent.maddenRating ?? null,
+        rating: matchedPlayer?.rating ?? freeAgent.rating ?? auxiliaryRating ?? null,
+        headshotUrl:
+          matchedPlayer?.headshotUrl ?? espnProfile?.headshotUrl ?? freeAgent.headshotUrl ?? null,
+        stats: matchedPlayer
+          ? { ...matchedPlayer.stats }
+          : espnProfile
+            ? { ...espnProfile.stats }
+            : (freeAgent.stats ?? {}),
+      };
+    }),
+  );
 };
 
 const run = async () => {
@@ -157,7 +194,10 @@ const run = async () => {
   const capSync = await syncCap();
   const contractSync = await syncContracts(playerSync.teams, playerSync.players);
   const enrichedPlayers = buildRatedPlayers(playerSync.players, contractSync.contracts);
-  const enrichedFreeAgents = enrichFreeAgentsWithRatings(contractSync.freeAgents, enrichedPlayers);
+  const enrichedFreeAgents = await enrichFreeAgentsWithRatings(
+    contractSync.freeAgents,
+    enrichedPlayers,
+  );
 
   const payload: IngestedLeagueData = {
     updatedAt: now,
