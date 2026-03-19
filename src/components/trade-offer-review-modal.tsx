@@ -175,27 +175,30 @@ const renderAssetCard = (asset: TradeOfferAssetDTO) => (
   <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
     {asset.type === 'player' ? (
       <div className="flex items-center gap-3">
-        {asset.headshotUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={asset.headshotUrl}
-            alt={asset.name}
-            className="h-10 w-10 shrink-0 rounded-full object-cover"
+        <div className="relative shrink-0">
+          <PlayerTypeIcon
+            indicator={getPlayerTypeIndicator({
+              age: asset.age ?? undefined,
+              rating: asset.rating ?? undefined,
+            })}
+            className="absolute -left-4 top-1/2 -translate-y-1/2"
           />
-        ) : (
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
-            {asset.name.charAt(0)}
-          </div>
-        )}
+          {asset.headshotUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={asset.headshotUrl}
+              alt={asset.name}
+              className="h-10 w-10 shrink-0 rounded-full object-cover"
+            />
+          ) : (
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
+              {asset.name.charAt(0)}
+            </div>
+          )}
+        </div>
         <div className="min-w-0">
           <div className="flex min-w-0 items-center gap-1.5">
             <p className="truncate text-sm font-semibold text-foreground">{asset.name}</p>
-            <PlayerTypeIcon
-              indicator={getPlayerTypeIndicator({
-                age: asset.age ?? undefined,
-                rating: asset.rating ?? undefined,
-              })}
-            />
           </div>
           <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
         </div>

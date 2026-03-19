@@ -161,18 +161,24 @@ export default function ContractOfferModal({
 
         <div className="overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
           <div className="grid gap-4 sm:grid-cols-[88px_1fr] sm:items-center">
-            <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-xl font-semibold text-slate-600 sm:h-24 sm:w-24">
-            {player.headshotUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={player.headshotUrl}
-                alt={player.firstName}
-                className="h-full w-full object-cover object-center"
+            <div className="relative w-fit">
+              <PlayerTypeIcon
+                player={player}
+                className="absolute -left-4 top-1/2 -translate-y-1/2"
               />
-            ) : (
-              `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
-            )}
-          </div>
+              <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-xl font-semibold text-slate-600 sm:h-24 sm:w-24">
+                {player.headshotUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={player.headshotUrl}
+                    alt={player.firstName}
+                    className="h-full w-full object-cover object-center"
+                  />
+                ) : (
+                  `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
+                )}
+              </div>
+            </div>
             <div className="space-y-1 text-sm">
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Player Details
@@ -182,7 +188,6 @@ export default function ContractOfferModal({
                   <span>
                     {player.firstName} {player.lastName}
                   </span>
-                  <PlayerTypeIcon player={player} />
                 </span>
               </p>
               <p className="text-sm text-muted-foreground">

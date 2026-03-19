@@ -972,7 +972,12 @@ export default function RosterPage() {
                               >
                                 <td className="px-4 py-1.5 text-left text-sm font-semibold text-foreground sm:px-6">
                                   <div className="flex w-full items-start justify-start gap-3 text-left">
-                                    <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                                    <div className="relative shrink-0">
+                                      <PlayerTypeIcon
+                                        player={{ age: player.age, rating: player.rating }}
+                                        className="absolute -left-4 top-1/2 -translate-y-1/2"
+                                      />
+                                      <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
                                       {player.headshotUrl ? (
                                         // eslint-disable-next-line @next/next/no-img-element
                                         <img
@@ -987,13 +992,11 @@ export default function RosterPage() {
                                           player.name.split(' ').slice(1).join(' ') || player.name
                                         ).charAt(0)}`.toUpperCase()
                                       )}
+                                      </div>
                                     </div>
                                     <div className="min-w-0 flex-1 text-left">
                                       <div className="flex min-w-0 items-center gap-1.5">
                                         <div className="truncate leading-tight">{player.name}</div>
-                                        <PlayerTypeIcon
-                                          player={{ age: player.age, rating: player.rating }}
-                                        />
                                       </div>
                                       {player.interestQuote ? (
                                         <div

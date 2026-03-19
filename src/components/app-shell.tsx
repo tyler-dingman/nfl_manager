@@ -9,6 +9,7 @@ import { ArrowDownRight, ArrowUpRight, Lock, Menu, Minus, X } from 'lucide-react
 import TeamThemeProvider from '@/components/team-theme-provider';
 import ConfirmAdvanceModal from '@/components/confirm-advance-modal';
 import NextActionBanner from '@/components/next-action-banner';
+import { StepIndicator } from '@/components/offseason/step-indicator';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
@@ -17,6 +18,7 @@ import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { getRouteForStep, getStepForPath } from '@/features/experience/experience-utils';
+import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { TEAM_CAP_SPACE } from '@/data/team-caps';
@@ -260,6 +262,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       : liveTrajectory.state === 'Balanced'
         ? Minus
         : ArrowDownRight;
+  const headerStepIndex = useMemo(() => {
+    if (mode === 'full') {
+      const fullModeIndex = OFFSEASON_STEPS.findIndex((step) => step.id === currentStep);
+      return fullModeIndex >= 0 ? fullModeIndex : 0;
+    }
+
+    if (phase === 'draft' || phase === 'season') {
+      return 2;
+    }
+    if (phase === 'free_agency') {
+      return 1;
+    }
+    return 0;
+  }, [currentStep, mode, phase]);
 
   useEffect(() => {
     if (!pathname) return;
@@ -441,7 +457,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </aside>
 
           <div className="flex min-w-0 flex-1 flex-col md:min-h-screen">
-            <header className="border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:backdrop-blur md:px-6">
+            <header className="relative border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:px-6 md:pb-8 md:backdrop-blur">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3 md:hidden">
                   <button
@@ -593,6 +609,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </div>
                 </div>
 
+                <div className="flex justify-end md:hidden">
+                  <StepIndicator
+                    currentStep={headerStepIndex}
+                    steps={['Manage', 'Free Agency', 'Draft']}
+                    teamColor={selectedTeam?.color_primary}
+                  />
+                </div>
+
                 <div className="hidden md:flex md:items-center md:justify-between">
                   <div className="flex min-w-0 flex-wrap items-center gap-y-3 md:gap-x-3">
                     <Link
@@ -732,6 +756,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="pointer-events-none absolute bottom-0 right-6 hidden translate-y-1/2 md:block">
+                <StepIndicator
+                  currentStep={headerStepIndex}
+                  steps={['Manage', 'Free Agency', 'Draft']}
+                  teamColor={selectedTeam?.color_primary}
+                />
               </div>
             </header>
 

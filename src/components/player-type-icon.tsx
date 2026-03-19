@@ -35,7 +35,7 @@ export default function PlayerTypeIcon({
       aria-label={indicator.label}
       data-player-type={indicator.type}
     >
-      <Icon className="h-3.5 w-3.5" />
+      <Icon className={cn('h-3.5 w-3.5', indicator.iconClassName)} />
     </span>
   );
 }

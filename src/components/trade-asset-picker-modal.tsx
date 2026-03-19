@@ -192,11 +192,16 @@ export default function TradeAssetPickerModal({
                     >
                       <td className="px-4 py-2 font-semibold text-foreground">
                         <div className="flex items-center gap-2">
-                          <PlayerHeadshot player={player} size={24} />
+                          <div className="relative shrink-0">
+                            <PlayerTypeIcon
+                              player={player}
+                              className="absolute -left-4 top-1/2 -translate-y-1/2"
+                            />
+                            <PlayerHeadshot player={player} size={24} />
+                          </div>
                           <span className="truncate">
                             {player.firstName} {player.lastName}
                           </span>
-                          <PlayerTypeIcon player={player} />
                         </div>
                       </td>
                       <td className="px-4 py-2 text-muted-foreground">{player.position}</td>

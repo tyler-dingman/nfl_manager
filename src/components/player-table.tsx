@@ -427,26 +427,31 @@ export function PlayerTable({
             const player = row.original;
             return (
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
-                  {player.headshotUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={player.headshotUrl}
-                      alt={formatName(player)}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  ) : (
-                    getInitials(player)
-                  )}
+                <div className="relative shrink-0">
+                  <PlayerTypeIcon
+                    player={player}
+                    className="absolute -left-4 top-1/2 -translate-y-1/2"
+                  />
+                  <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                    {player.headshotUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={player.headshotUrl}
+                        alt={formatName(player)}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      getInitials(player)
+                    )}
+                  </div>
                 </div>
                 <div className="space-y-0.5">
                   <div className="flex min-w-0 items-center gap-1.5">
                     <p className="truncate text-sm font-semibold text-foreground">
                       {formatName(player)}
                     </p>
-                    <PlayerTypeIcon player={player} />
                   </div>
                   <p className="text-xs text-muted-foreground md:hidden">
                     {player.position}
@@ -569,24 +574,29 @@ export function PlayerTable({
           const isCut = isCutPlayer(player);
           return (
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
-                {player.headshotUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={player.headshotUrl}
-                    alt={formatName(player)}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ) : (
-                  getInitials(player)
-                )}
+              <div className="relative shrink-0">
+                <PlayerTypeIcon
+                  player={player}
+                  className="absolute -left-4 top-1/2 -translate-y-1/2"
+                />
+                <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                  {player.headshotUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={player.headshotUrl}
+                      alt={formatName(player)}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    getInitials(player)
+                  )}
+                </div>
               </div>
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
-                  <PlayerTypeIcon player={player} />
                   {isCut ? (
                     <Badge variant="destructive" className="text-[10px] uppercase">
                       Cut

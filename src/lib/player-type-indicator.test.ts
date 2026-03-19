@@ -13,6 +13,11 @@ test('classifies up and coming when young and strong but not superstar', () => {
   assert.equal(indicator?.type, 'upcoming');
 });
 
+test('does not classify up and coming below the new threshold', () => {
+  const indicator = getPlayerTypeIndicator({ age: 24, rating: 81 });
+  assert.equal(indicator, null);
+});
+
 test('classifies declining when older and not superstar', () => {
   const indicator = getPlayerTypeIndicator({ age: 33, rating: 88 });
   assert.equal(indicator?.type, 'declining');

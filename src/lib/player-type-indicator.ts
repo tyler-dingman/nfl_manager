@@ -1,4 +1,4 @@
-import { Crown, TrendingDown, TrendingUp } from 'lucide-react';
+import { Star, TrendingDown, TrendingUp } from 'lucide-react';
 import type { PlayerRowDTO } from '@/types/player';
 
 export type PlayerTypeIndicatorType = 'superstar' | 'upcoming' | 'declining';
@@ -13,15 +13,17 @@ export type PlayerTypeIndicatorInput = Pick<
 export type PlayerTypeIndicatorResult = {
   type: PlayerTypeIndicatorType;
   label: 'Superstar' | 'Up and Coming' | 'Declining';
-  icon: typeof Crown | typeof TrendingUp | typeof TrendingDown;
+  icon: typeof Star | typeof TrendingUp | typeof TrendingDown;
   className: string;
+  iconClassName?: string;
 };
 
 const SUPERSTAR_INDICATOR: PlayerTypeIndicatorResult = {
   type: 'superstar',
   label: 'Superstar',
-  icon: Crown,
+  icon: Star,
   className: 'text-amber-500',
+  iconClassName: 'fill-current stroke-[1.75]',
 };
 
 const UPCOMING_INDICATOR: PlayerTypeIndicatorResult = {
@@ -65,7 +67,7 @@ export const getPlayerTypeIndicator = (
     return null;
   }
 
-  if (player.age <= 26 && rating >= 78) {
+  if (player.age <= 26 && rating >= 82) {
     return UPCOMING_INDICATOR;
   }
 
