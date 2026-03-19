@@ -10,6 +10,7 @@ import { StepHeader } from '@/components/offseason/step-header';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
+import { DraftRecap } from '@/components/draft/draft-recap';
 import { buildRoundOneOrder, getTeamNeeds } from '@/components/draft/draft-utils';
 import { PlayerTable } from '@/components/player-table';
 import { Button } from '@/components/ui/button';
@@ -18,9 +19,12 @@ import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
-import { getDraftGrade } from '@/lib/draft-utils';
 import { rankDraftBoard } from '@/lib/draft-board';
-import { detectActiveDraftRuns, evaluateDraftPick } from '@/lib/draft-intelligence';
+import {
+  detectActiveDraftRuns,
+  evaluateDraftPick,
+  summarizeDraftClass,
+} from '@/lib/draft-intelligence';
 import { buildFalcoBoard } from '@/lib/falco';
 import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
@@ -235,6 +239,48 @@ function DraftRoomContent() {
       .map((pick) => session.prospects.find((player) => player.id === pick.selectedPlayerId))
       .filter((player): player is PlayerRowDTO => Boolean(player));
   }, [session]);
+
+  const draftRecap = React.useMemo(() => {
+    if (!session) {
+      return null;
+    }
+
+    const teamNeeds = getTeamNeeds(session.userTeamAbbr, teams);
+    const entries = session.picks
+      .filter((pick) => pick.selectedByTeamAbbr === session.userTeamAbbr && pick.selectedPlayerId)
+      .map((pick) => {
+        const player = session.prospects.find((prospect) => prospect.id === pick.selectedPlayerId);
+        if (!player) {
+          return null;
+        }
+
+        const evaluation = evaluateDraftPick({
+          player,
+          currentPickOverall: pick.overall,
+          teamNeeds,
+        });
+
+        return { pick, player, evaluation };
+      })
+      .filter(
+        (
+          entry,
+        ): entry is {
+          pick: DraftSessionDTO['picks'][number];
+          player: PlayerRowDTO;
+          evaluation: ReturnType<typeof evaluateDraftPick>;
+        } => Boolean(entry),
+      );
+
+    return {
+      entries,
+      summary: summarizeDraftClass({
+        picks: entries.map(({ pick, player }) => ({ pick, player })),
+        evaluations: entries.map(({ evaluation }) => evaluation),
+        teamNeeds,
+      }),
+    };
+  }, [session, teams]);
 
   const roundOneOrder = React.useMemo(() => buildRoundOneOrder(teams), [teams]);
   const lobbyProspects = React.useMemo(() => buildTop32Prospects(), []);
@@ -665,38 +711,29 @@ function DraftRoomContent() {
               )}
             </div>
           ) : session.status === 'completed' ? (
-            <div className="rounded-2xl border border-border bg-white p-8 shadow-sm">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <h2 className="text-2xl font-semibold text-foreground">Draft Complete</h2>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {mode === 'real'
-                      ? 'Draft results saved to your roster.'
-                      : 'Mock draft finalized.'}
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-border bg-slate-50 px-6 py-4 text-center">
-                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    Draft Grade
-                  </p>
-                  <p className="mt-2 text-3xl font-bold text-foreground">
-                    {getDraftGrade(userSelections.map((player) => player.rank ?? 100))}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
-                {userSelections.map((player) => (
-                  <div
-                    key={player.id}
-                    className="rounded-xl border border-border bg-white px-4 py-3 shadow-sm"
-                  >
-                    <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {player.position} · Rank {player.rank ?? '--'}
+            <div className="space-y-5">
+              <div className="rounded-2xl border border-border bg-white p-8 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <h2 className="text-2xl font-semibold text-foreground">Draft Complete</h2>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      {mode === 'real'
+                        ? 'Draft results saved to your roster.'
+                        : 'Mock draft finalized.'}
                     </p>
                   </div>
-                ))}
+                  <div className="rounded-2xl border border-border bg-slate-50 px-6 py-4 text-center">
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      Players Drafted
+                    </p>
+                    <p className="mt-2 text-3xl font-bold text-foreground">{userSelections.length}</p>
+                  </div>
+                </div>
               </div>
+
+              {draftRecap ? (
+                <DraftRecap summary={draftRecap.summary} entries={draftRecap.entries} />
+              ) : null}
             </div>
           ) : (
             <ActiveDraftRoom
