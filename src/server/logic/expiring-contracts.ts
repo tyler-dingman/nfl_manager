@@ -4,6 +4,7 @@ import {
   buildRosterMatchedExpiringContracts,
   OFFSEASON_EXPIRING_SEASON_YEAR,
 } from '@/server/logic/contract-expiration';
+import { bucketPosition } from '@/server/logic/free-agency-pool';
 
 const toCurrency = (value: number | null | undefined): number => {
   if (value === null || value === undefined) {
@@ -40,6 +41,7 @@ export const getExpiringContractsForTeam = (
   const normalizedTeamAbbr = teamAbbr.toUpperCase();
   const seasonYear = OFFSEASON_EXPIRING_SEASON_YEAR;
   const playersById = new Map(leagueData.players.map((player) => [player.id, player]));
+  const uniqueRows = new Map<string, ExpiringContractRow>();
 
   const expiring = buildRosterMatchedExpiringContracts({
     players: leagueData.players,
@@ -48,32 +50,59 @@ export const getExpiringContractsForTeam = (
     seasonYear,
   });
 
-  const rows = expiring.endingThisSeason
-    .map((contract) => {
-      const matchingPlayer = playersById.get(contract.playerId);
-      if (!matchingPlayer) {
-        return null;
+  expiring.endingThisSeason.forEach((contract) => {
+    const matchingPlayer = playersById.get(contract.playerId);
+    if (!matchingPlayer) {
+      return;
+    }
+    const estValue = estimateValue(contract.averagePerYear, contract.capHit);
+    uniqueRows.set(matchingPlayer.id, {
+      id: matchingPlayer.id,
+      name: matchingPlayer.name,
+      pos: matchingPlayer.position,
+      teamAbbr: normalizedTeamAbbr,
+      lastTeamAbbr: normalizedTeamAbbr,
+      contractType: contract.contractStatus ?? 'UFA',
+      interestPct: 0,
+      age: matchingPlayer.age ?? 27,
+      rating: matchingPlayer.rating,
+      estValue,
+      currentSalary: toCurrency(contract.capHit),
+      maxValue: Math.round(estValue * 1.2),
+      headshotUrl: matchingPlayer.headshotUrl,
+      previousTeamAbbr: normalizedTeamAbbr,
+    });
+  });
+
+  leagueData.freeAgents
+    .filter(
+      (player) => player.lastTeamAbbr === normalizedTeamAbbr && player.currentTeamAbbr === null,
+    )
+    .forEach((player) => {
+      const id = player.id;
+      if (uniqueRows.has(id)) {
+        return;
       }
-      const estValue = estimateValue(contract.averagePerYear, contract.capHit);
-      return {
-        id: matchingPlayer.id,
-        name: matchingPlayer.name,
-        pos: matchingPlayer.position,
+      const estValue = estimateValue(player.averagePerYear, player.capHit);
+      uniqueRows.set(id, {
+        id,
+        name: player.name,
+        pos: bucketPosition(player.position ?? 'UNK'),
         teamAbbr: normalizedTeamAbbr,
         lastTeamAbbr: normalizedTeamAbbr,
-        contractType: contract.contractStatus ?? 'UFA',
+        contractType: player.contractStatus ?? 'UFA',
         interestPct: 0,
-        age: matchingPlayer.age ?? 27,
-        rating: matchingPlayer.rating,
+        age: player.age ?? 27,
+        rating: player.rating ?? undefined,
         estValue,
-        currentSalary: toCurrency(contract.capHit),
+        currentSalary: toCurrency(player.capHit),
         maxValue: Math.round(estValue * 1.2),
-        headshotUrl: matchingPlayer.headshotUrl,
+        headshotUrl: player.headshotUrl,
         previousTeamAbbr: normalizedTeamAbbr,
-      } satisfies ExpiringContractRow;
-    })
-    .filter((row): row is ExpiringContractRow => row !== null)
-    .sort(compareByRatingThenName);
+      });
+    });
+
+  const rows = Array.from(uniqueRows.values()).sort(compareByRatingThenName);
 
   return rows;
 };

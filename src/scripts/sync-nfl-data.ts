@@ -28,6 +28,13 @@ const DEBUG_FREE_AGENT_NAMES = new Set([
   'Taylor Decker',
   'Jawaan Taylor',
 ]);
+const DEBUG_EXPIRING_NAMES = new Set([
+  'Jawaan Taylor',
+  'Michael Danna',
+  'Jack Cochrane',
+  'Drue Tranquill',
+  'Rashee Rice',
+]);
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 const normalizePositionBucket = (position: string): string => {
@@ -207,6 +214,54 @@ const buildFreeAgentMaddenLookup = (rows: MaddenRatingRecord[]) => {
       return null;
     },
   };
+};
+
+const logExpiringDebugSamples = ({
+  players,
+  contracts,
+  freeAgents,
+  expiringPlayerIds,
+}: {
+  players: UnifiedPlayer[];
+  contracts: UnifiedContract[];
+  freeAgents: UnifiedFreeAgent[];
+  expiringPlayerIds: Set<string>;
+}) => {
+  const playersByName = new Map(players.map((player) => [player.name, player]));
+  const contractsByPlayerId = new Map(contracts.map((contract) => [contract.playerId, contract]));
+  const freeAgentsByName = new Map(freeAgents.map((player) => [player.name, player]));
+
+  DEBUG_EXPIRING_NAMES.forEach((name) => {
+    const player = playersByName.get(name) ?? null;
+    const freeAgent = freeAgentsByName.get(name) ?? null;
+    const contract = player ? (contractsByPlayerId.get(player.id) ?? null) : null;
+    const contractFinalYear = contract?.contractEndYear ?? null;
+    const yearsRemaining = contract?.years ?? null;
+    const includedInExpiringContracts = player
+      ? expiringPlayerIds.has(player.id)
+      : freeAgent !== null && freeAgent.lastTeamAbbr === 'KC' && freeAgent.currentTeamAbbr === null;
+    const reason = player
+      ? contractFinalYear === OFFSEASON_EXPIRING_SEASON_YEAR
+        ? 'contractFinalYear matches current playable season'
+        : contractFinalYear === null
+          ? 'no derived contractFinalYear'
+          : `contractFinalYear ${contractFinalYear} does not match current playable season ${OFFSEASON_EXPIRING_SEASON_YEAR}`
+      : freeAgent
+        ? 'included from current offseason free-agent pool'
+        : 'player not found in current rostered or free-agent pools';
+
+    console.log(
+      `[expiring] ${JSON.stringify({
+        playerName: name,
+        team: player?.teamAbbr ?? freeAgent?.lastTeamAbbr ?? null,
+        yearsRemaining,
+        contractFinalYear,
+        currentSeasonYear: OFFSEASON_EXPIRING_SEASON_YEAR,
+        includedInExpiringContracts,
+        reason,
+      })}`,
+    );
+  });
 };
 
 const buildRatedPlayers = (
@@ -396,6 +451,12 @@ const run = async () => {
     seasonYear: OFFSEASON_EXPIRING_SEASON_YEAR,
   });
   const expiringContractsCount = expiring.endingThisSeason.length;
+  logExpiringDebugSamples({
+    players: payload.players,
+    contracts: payload.contracts,
+    freeAgents: payload.freeAgents,
+    expiringPlayerIds: new Set(expiring.endingThisSeason.map((contract) => contract.playerId)),
+  });
   const unmatchedContracts = payload.contracts.filter(
     (contract) => !contractPlayerIds.has(contract.playerId),
   );

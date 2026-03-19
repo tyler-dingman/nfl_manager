@@ -3,16 +3,23 @@ import type { UnifiedContract, UnifiedPlayer } from '@/server/data/nfl-data';
 /**
  * Single source of truth for the OTC league year currently modeled by this dataset.
  *
- * Example: when OTC salary-cap tables are for 2026, a contract with finalYear=2026
- * is expiring "after this season" for offseason workflows.
+ * Example: when the app is in the 2026 offseason, OTC contract/cap tables are for 2026.
  */
 export const CURRENT_MODELED_LEAGUE_YEAR = 2026;
 
 /**
- * Season used for "ending after this season" checks in offseason/free-agency flows.
- * Kept as an explicit alias so call sites remain domain-readable.
+ * Single source of truth for the current playable NFL season that just finished
+ * and whose expirations should appear in the offseason UI.
+ *
+ * Example: in the 2026 offseason, contracts that expired after the 2025 season
+ * belong in Expiring Contracts.
  */
-export const OFFSEASON_EXPIRING_SEASON_YEAR = CURRENT_MODELED_LEAGUE_YEAR;
+export const CURRENT_PLAYABLE_SEASON_YEAR = CURRENT_MODELED_LEAGUE_YEAR - 1;
+
+/**
+ * Season used for "ending after this season" checks in offseason/free-agency flows.
+ */
+export const OFFSEASON_EXPIRING_SEASON_YEAR = CURRENT_PLAYABLE_SEASON_YEAR;
 
 export const isExpiringAfterSeason = (
   contractFinalYear: number | null | undefined,
