@@ -1132,7 +1132,7 @@ export default function RosterPage() {
                                     );
                                   })()}
                                 </td>
-                                <td className="sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 py-1.5 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
+                                <td className="sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 py-1.5 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none">
                                   <Button
                                     type="button"
                                     variant="outline"

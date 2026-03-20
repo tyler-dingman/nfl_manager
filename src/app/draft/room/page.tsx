@@ -5,15 +5,16 @@ import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
-import { AdSlot } from '@/components/ads/AdSlot';
+import { DraftTopControlBar } from '@/components/draft/draft-top-control-bar';
+import { DraftTrackerRibbon } from '@/components/draft/draft-tracker-ribbon';
 import { StepHeader } from '@/components/offseason/step-header';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
-import { DraftOrderPanel } from '@/components/draft/draft-order-panel';
 import { DraftRecap } from '@/components/draft/draft-recap';
+import { LiveDraftBoard } from '@/components/draft/live-draft-board';
+import { PickAnnouncement } from '@/components/draft/pick-announcement';
+import { ProspectDetailsModal } from '@/components/draft/prospect-details-modal';
 import { buildRoundOneOrder, getTeamNeeds } from '@/components/draft/draft-utils';
-import { PlayerTable } from '@/components/player-table';
-import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
@@ -35,7 +36,6 @@ import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TeamDTO } from '@/types/team';
-import { Pause, Play } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,8 +62,6 @@ type TeamsResponse = {
   teams: TeamDTO[];
 };
 
-const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
-
 const parseDraftSessionStartResponse = (text: string): DraftSessionStartResponse =>
   text ? (JSON.parse(text) as DraftSessionStartResponse) : { ok: false, error: 'Empty response' };
 
@@ -84,9 +82,13 @@ function DraftRoomContent() {
   const [gradeReasons, setGradeReasons] = React.useState<string[]>([]);
   const [isGradeOpen, setIsGradeOpen] = React.useState(false);
   const [teams, setTeams] = React.useState<TeamsResponse['teams']>([]);
-  const [selectedPickNumber, setSelectedPickNumber] = React.useState(1);
-  const [onTheClockPickNumber] = React.useState(1);
+  const [selectedPickNumber] = React.useState(1);
   const [lobbyMessage, setLobbyMessage] = React.useState('');
+  const [showSettings, setShowSettings] = React.useState(false);
+  const [pickAnnouncementPlayer, setPickAnnouncementPlayer] = React.useState<PlayerRowDTO | null>(null);
+  const [pickAnnouncementOpen, setPickAnnouncementOpen] = React.useState(false);
+  const [selectedLobbyPlayerId, setSelectedLobbyPlayerId] = React.useState<string | null>(null);
+  const [isLobbyProspectModalOpen, setIsLobbyProspectModalOpen] = React.useState(false);
 
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
@@ -337,6 +339,20 @@ function DraftRoomContent() {
     const userPick = roundOneOrder.find((pick) => pick.abbr === (teamAbbr || selectedTeam?.abbr));
     return userPick?.pickNumber ?? null;
   }, [roundOneOrder, selectedTeam?.abbr, session, teamAbbr]);
+  const lobbyBoardEntries = React.useMemo(
+    () =>
+      rankDraftBoard({
+        prospects: lobbyProspects,
+        teamNeeds: getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams),
+        currentPickOverall: userNextPickIndex ?? 1,
+        limit: lobbyProspects.length,
+      }),
+    [lobbyProspects, selectedTeam?.abbr, teamAbbr, teams, userNextPickIndex],
+  );
+  const selectedLobbyPlayer =
+    (selectedLobbyPlayerId
+      ? lobbyProspects.find((player) => player.id === selectedLobbyPlayerId)
+      : null) ?? lobbyBoardEntries[0]?.player ?? null;
 
   const fetchSession = React.useCallback(
     async (draftSessionId: string) => {
@@ -551,6 +567,9 @@ function DraftRoomContent() {
       }),
     );
     setGradeReasons(evaluation.reasons);
+    setPickAnnouncementPlayer(payload.draftedPlayer);
+    setPickAnnouncementOpen(true);
+    window.setTimeout(() => setPickAnnouncementOpen(false), 1800);
     setIsGradeOpen(true);
     trackProgress(
       `draft-pick:${payload.draftedPlayer.id}:${pickNumber}`,
@@ -611,12 +630,6 @@ function DraftRoomContent() {
       </AppShell>
     );
   }
-
-  const draftPhase = session
-    ? session.status === 'completed'
-      ? 'COMPLETED'
-      : 'IN_DRAFT'
-    : 'PRE_DRAFT';
 
   const canContinueInFull = modeExperience !== 'full' || session?.status === 'completed';
 
@@ -682,100 +695,93 @@ function DraftRoomContent() {
         reasons={gradeReasons}
         onClose={() => setIsGradeOpen(false)}
       />
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
+      <PickAnnouncement open={pickAnnouncementOpen} team={userTeam} player={pickAnnouncementPlayer} />
+      <div className="space-y-6">
+        <DraftTopControlBar
+          mode={mode}
+          session={session}
+          speedLevel={speedLevel}
+          showSettings={showSettings}
+          onSpeedChange={setSpeedLevel}
+          onTogglePause={togglePause}
+          onStartDraft={() => {
+            void startDraft();
+          }}
+          onToggleSettings={() => setShowSettings((current) => !current)}
+        />
+
         <div className="min-w-0">
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h1 className="text-2xl font-semibold text-foreground">Draft Room</h1>
-              <p className="text-sm text-muted-foreground">
-                Mode: {mode === 'real' ? 'Real Draft' : 'Mock Draft'}
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center justify-end gap-2">
-              <Button type="button" variant="secondary">
-                Settings
-              </Button>
-              <div className="flex items-center gap-2 rounded-full border border-border bg-white px-3 py-2">
-                <span className="text-xs font-semibold text-muted-foreground">Speed</span>
-                <input
-                  className="w-36"
-                  type="range"
-                  min={0}
-                  max={2}
-                  step={1}
-                  value={speedLevel}
-                  onChange={(event) => setSpeedLevel(Number(event.target.value) as DraftSpeedLevel)}
-                />
-                <span className="text-xs font-semibold text-muted-foreground">
-                  {speedLevel === 0
-                    ? '1x (1 sec)'
-                    : speedLevel === 2
-                      ? '4x (0.25 sec)'
-                      : '2x (0.5 sec)'}
-                </span>
-              </div>
-              {!session ? (
-                <Button type="button" onClick={startDraft}>
-                  Start Draft
-                </Button>
-              ) : (
-                <>
-                  <Button type="button" onClick={togglePause}>
-                    {session.isPaused ? (
-                      <>
-                        <Play className="mr-2 h-4 w-4" />
-                        Resume
-                      </>
-                    ) : (
-                      <>
-                        <Pause className="mr-2 h-4 w-4" />
-                        Pause
-                      </>
-                    )}
-                  </Button>
-                  <Button type="button" variant="secondary" onClick={() => setDraftView('trade')}>
-                    Propose Trade
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
           {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}
 
           {!session ? (
-            <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
-              {selectedPick ? (
-                <div className="order-2 lg:order-1 lg:w-[340px] lg:max-w-[340px] lg:min-w-[340px]">
-                  <DraftOrderPanel
-                    picks={roundOneOrder}
-                    selectedPickNumber={selectedPickNumber}
-                    onTheClockPickNumber={onTheClockPickNumber}
-                    onSelectPick={setSelectedPickNumber}
-                    currentPickIndex={onTheClockPickNumber}
-                    userNextPickIndex={userNextPickIndex}
-                    remainingProspects={lobbyProspects}
-                    variant={draftPhase === 'PRE_DRAFT' ? 'pre' : 'in'}
-                  />
-                </div>
-              ) : null}
-              {selectedPick ? (
-                <div className="order-1 lg:order-2">
-                  {lobbyMessage ? (
-                    <p className="mb-4 text-sm text-muted-foreground">{lobbyMessage}</p>
-                  ) : null}
-                  <div className="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-6">
-                    <PlayerTable
-                      data={lobbyProspects}
-                      variant="draft"
-                      onTheClockForUserTeam={false}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="rounded-2xl border border-border bg-white p-6 shadow-sm lg:col-span-2">
-                  <p className="text-sm text-muted-foreground">Loading draft order...</p>
-                </div>
-              )}
+            <div className="space-y-5">
+              <DraftTrackerRibbon
+                picks={roundOneOrder.map((pick) => ({
+                  id: `lobby-${pick.pickNumber}`,
+                  overall: pick.pickNumber,
+                  round: 1,
+                  ownerTeamAbbr: pick.abbr,
+                  originalTeamAbbr: pick.abbr,
+                  selectedPlayerId: null,
+                  selectedByTeamAbbr: null,
+                }))}
+                currentPickIndex={0}
+                prospects={lobbyProspects}
+                teams={teams}
+                userTeamAbbr={teamAbbr || selectedTeam?.abbr || 'KC'}
+              />
+
+              {lobbyMessage ? <p className="text-sm text-muted-foreground">{lobbyMessage}</p> : null}
+
+              <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_340px]">
+                <LiveDraftBoard
+                  entries={lobbyBoardEntries}
+                  teamNeeds={getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams)}
+                  activeRuns={[]}
+                  onInspectPlayer={(playerId) => {
+                    setSelectedLobbyPlayerId(playerId);
+                    setIsLobbyProspectModalOpen(true);
+                  }}
+                  canDraft={false}
+                />
+
+                <aside className="space-y-5">
+                  <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      War Room Setup
+                    </p>
+                    <h2 className="mt-1 text-lg font-semibold text-foreground">Set the board</h2>
+                    <div className="mt-4 space-y-4 text-sm text-slate-700">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                          Team Needs
+                        </p>
+                        <p className="mt-2">
+                          {getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams)
+                            .slice(0, 5)
+                            .join(' · ')}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                          First Pick
+                        </p>
+                        <p className="mt-2">
+                          {selectedPick ? `Pick ${selectedPick.pickNumber} · ${selectedPick.name}` : 'Loading draft order'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                          Room Note
+                        </p>
+                        <p className="mt-2">
+                          Premium positions and clean value should stay on your radar early. Let the board come to you.
+                        </p>
+                      </div>
+                    </div>
+                  </section>
+                </aside>
+              </div>
             </div>
           ) : session.status === 'completed' ? (
             <div className="space-y-5">
@@ -798,9 +804,7 @@ function DraftRoomContent() {
                 </div>
               </div>
 
-              {draftRecap ? (
-                <DraftRecap summary={draftRecap.summary} entries={draftRecap.entries} />
-              ) : null}
+              {draftRecap ? <DraftRecap summary={draftRecap.summary} entries={draftRecap.entries} /> : null}
             </div>
           ) : (
             <ActiveDraftRoom
@@ -811,7 +815,6 @@ function DraftRoomContent() {
               speedLevel={speedLevel}
               draftView={draftView}
               isUserDraftModalOpen={isGradeOpen}
-              draftPhase={draftPhase}
               onBackToBoard={() => setDraftView('board')}
               onDraftPlayer={handleDraftPlayer}
               onDraftTradeAccepted={handleDraftTradeAccepted}
@@ -819,13 +822,16 @@ function DraftRoomContent() {
             />
           )}
         </div>
-
-        <div className="hidden w-full lg:block">
-          <AdSlot placement="RIGHT_RAIL" />
-        </div>
       </div>
 
-      <AdSlot placement="ANCHOR" responsive={{ hideOnDesktop: true }} />
+      <ProspectDetailsModal
+        open={isLobbyProspectModalOpen}
+        player={selectedLobbyPlayer}
+        boardEntry={lobbyBoardEntries.find((entry) => entry.player.id === selectedLobbyPlayer?.id) ?? null}
+        teamNeeds={getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams)}
+        activeRuns={[]}
+        onClose={() => setIsLobbyProspectModalOpen(false)}
+      />
     </AppShell>
   );
 }

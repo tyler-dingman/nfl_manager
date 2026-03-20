@@ -158,7 +158,7 @@ export function TradeBlockTable({
   const actionHeaderClass =
     'sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none';
   const actionCellClass =
-    'sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
+    'sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none';
 
   return (
     <div className="max-h-[70vh] overflow-y-auto">
@@ -378,7 +378,7 @@ export function TradeBlockTable({
                             type="button"
                             variant="outline"
                             size="sm"
-                            className="w-[124px] justify-center gap-1.5 text-xs"
+                            className="w-[124px] justify-center gap-1.5 text-xs md:hidden"
                             onClick={(event) => {
                               event.stopPropagation();
                               onExplorePlayer(player);
@@ -386,6 +386,21 @@ export function TradeBlockTable({
                           >
                             <ArrowLeftRight className="h-4 w-4" />
                             Trade
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="hidden h-8 w-8 md:inline-flex"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              onExplorePlayer(player);
+                            }}
+                          >
+                            <ArrowLeftRight className="h-4 w-4" />
+                            <span className="sr-only">
+                              Trade for {player.firstName} {player.lastName}
+                            </span>
                           </Button>
                         </td>
                       </tr>

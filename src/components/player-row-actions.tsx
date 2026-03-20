@@ -178,7 +178,7 @@ export default function PlayerRowActions({
 
   return (
     <div
-      className="flex flex-wrap items-center justify-start gap-1.5 sm:flex-nowrap sm:justify-end sm:gap-2"
+      className="flex flex-wrap items-center justify-start gap-1.5 sm:flex-nowrap sm:justify-start sm:gap-2"
       onClick={(event) => event.stopPropagation()}
     >
       {variant === 'roster' ? mobileRosterActions : null}

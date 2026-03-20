@@ -1,105 +1,205 @@
 'use client';
 
+import * as React from 'react';
 import Image from 'next/image';
-import { ArrowDown, ArrowUpRight, Sparkles, Star } from 'lucide-react';
+import { ArrowUpRight, Search, Star } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
+import { ProspectIndicators } from '@/components/draft/prospect-indicators';
 import { Button } from '@/components/ui/button';
 import type { DraftBoardEntry } from '@/lib/draft-board';
+import type { DraftRun } from '@/lib/draft-intelligence';
+import { buildProspectIndicators } from '@/lib/draft-prospect-details';
 import { cn } from '@/lib/utils';
 
 type LiveDraftBoardProps = {
   entries: DraftBoardEntry[];
-  selectedPlayerId?: string | null;
-  activeRunPositions?: string[];
-  onSelectPlayer?: (playerId: string) => void;
+  teamNeeds: string[];
+  activeRuns?: DraftRun[];
+  onInspectPlayer?: (playerId: string) => void;
   onDraftPlayer?: (playerId: string) => void;
   canDraft: boolean;
 };
 
-const tagVariant = (tag: DraftBoardEntry['tags'][number]) => {
-  if (tag === 'Best Available') return 'default';
-  if (tag === 'Team Need') return 'success';
-  if (tag === 'Steal') return 'secondary';
-  return 'outline';
-};
+type SortKey = 'board' | 'rank' | 'rating' | 'fit';
 
-const valueTone = (delta: number) => {
-  if (delta >= 10) return 'text-emerald-700';
-  if (delta >= 5) return 'text-amber-700';
-  return 'text-muted-foreground';
-};
-
-const normalizeRunPosition = (position: string) => {
+const normalizePosition = (position: string) => {
   const normalized = position.toUpperCase();
-  if (['FS', 'SS', 'S', 'CB', 'DB'].includes(normalized)) return 'DB';
+  if (['LT', 'RT', 'OT'].includes(normalized)) return 'OT';
+  if (['LG', 'RG', 'C', 'IOL', 'OL'].includes(normalized)) return 'IOL';
   if (['EDGE', 'ED', 'DE', 'LE', 'RE'].includes(normalized)) return 'EDGE';
   if (['DT', 'DL', 'NT', 'IDL'].includes(normalized)) return 'DL';
-  if (['LT', 'RT', 'OT', 'OL', 'LG', 'RG', 'C', 'IOL'].includes(normalized)) return 'OL';
+  if (['OLB', 'ILB', 'MLB', 'LB', 'EDGE/LB'].includes(normalized)) return 'LB';
+  if (['FS', 'SS', 'S'].includes(normalized)) return 'S';
   return normalized;
+};
+
+const positionOptions = [
+  'All',
+  'QB',
+  'RB',
+  'WR',
+  'TE',
+  'OT',
+  'IOL',
+  'EDGE',
+  'DL',
+  'LB',
+  'CB',
+  'S',
+] as const;
+
+const ProspectAvatar = ({
+  headshotUrl,
+  name,
+  firstName,
+  lastName,
+}: {
+  headshotUrl?: string | null;
+  name: string;
+  firstName: string;
+  lastName: string;
+}) => {
+  if (headshotUrl) {
+    return (
+      <Image
+        src={headshotUrl}
+        alt={name}
+        width={48}
+        height={48}
+        className="h-12 w-12 rounded-full object-cover object-top"
+        unoptimized
+      />
+    );
+  }
+
+  return (
+    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-slate-200 to-slate-100 text-sm font-semibold text-slate-600">
+      {firstName.charAt(0)}
+      {lastName.charAt(0)}
+    </div>
+  );
 };
 
 export function LiveDraftBoard({
   entries,
-  selectedPlayerId = null,
-  activeRunPositions = [],
-  onSelectPlayer,
+  teamNeeds,
+  activeRuns = [],
+  onInspectPlayer,
   onDraftPlayer,
   canDraft,
 }: LiveDraftBoardProps) {
+  const [query, setQuery] = React.useState('');
+  const [positionFilter, setPositionFilter] = React.useState<(typeof positionOptions)[number]>('All');
+  const [sortKey, setSortKey] = React.useState<SortKey>('board');
+
+  const filteredEntries = React.useMemo(() => {
+    const lowerQuery = query.trim().toLowerCase();
+    const next = entries.filter((entry) => {
+      const fullName = `${entry.player.firstName} ${entry.player.lastName}`.toLowerCase();
+      const matchesQuery =
+        lowerQuery.length === 0 ||
+        fullName.includes(lowerQuery) ||
+        entry.player.college?.toLowerCase().includes(lowerQuery);
+      const matchesPosition =
+        positionFilter === 'All' ||
+        normalizePosition(entry.player.position) === positionFilter;
+      return matchesQuery && matchesPosition;
+    });
+
+    return next.slice().sort((left, right) => {
+      if (sortKey === 'rank') return (left.player.rank ?? 999) - (right.player.rank ?? 999);
+      if (sortKey === 'rating') {
+        return (right.player.rating ?? right.player.maddenRating ?? 0) - (left.player.rating ?? left.player.maddenRating ?? 0);
+      }
+      if (sortKey === 'fit') return right.fitScore - left.fitScore;
+      return right.boardScore - left.boardScore;
+    });
+  }, [entries, positionFilter, query, sortKey]);
+
   return (
     <section className="rounded-2xl border border-border bg-white shadow-sm">
       <div className="border-b border-border px-4 py-4 sm:px-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Live Draft Board
+              Prospect Board
             </p>
             <h2 className="mt-1 text-lg font-semibold text-foreground">Best Remaining</h2>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600">
-            <Sparkles className="h-3.5 w-3.5" />
-            Updates after every pick
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+            <label className="relative block">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search prospects"
+                className="h-10 rounded-full border border-border bg-white pl-9 pr-3 text-sm outline-none transition focus:border-slate-400"
+              />
+            </label>
+
+            <select
+              value={sortKey}
+              onChange={(event) => setSortKey(event.target.value as SortKey)}
+              className="h-10 rounded-full border border-border bg-white px-3 text-sm outline-none transition focus:border-slate-400"
+            >
+              <option value="board">Sort: Board</option>
+              <option value="rank">Sort: Rank</option>
+              <option value="rating">Sort: Grade</option>
+              <option value="fit">Sort: Fit</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="mt-4 overflow-x-auto pb-1">
+          <div className="flex min-w-max gap-2">
+            {positionOptions.map((position) => (
+              <button
+                key={position}
+                type="button"
+                className={cn(
+                  'rounded-full border px-3 py-1.5 text-xs font-semibold transition',
+                  positionFilter === position
+                    ? 'border-slate-900 bg-slate-900 text-white'
+                    : 'border-border bg-white text-slate-600 hover:border-slate-300',
+                )}
+                onClick={() => setPositionFilter(position)}
+              >
+                {position}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
       <div className="divide-y divide-border">
-        {entries.map((entry, index) => {
+        {filteredEntries.map((entry, index) => {
           const playerName = `${entry.player.firstName} ${entry.player.lastName}`;
-          const isSelected = selectedPlayerId === entry.player.id;
-          const isRunPosition = activeRunPositions.includes(normalizeRunPosition(entry.player.position));
+          const indicators = buildProspectIndicators({
+            player: entry.player,
+            boardEntry: entry,
+            teamNeeds,
+            activeRuns,
+          });
+
           return (
             <button
               key={entry.player.id}
               type="button"
-              className={cn(
-                'flex w-full flex-col gap-3 px-4 py-4 text-left transition hover:bg-slate-50 sm:px-5',
-                isSelected ? 'bg-slate-50' : '',
-                isRunPosition ? 'border-l-2 border-l-amber-400' : '',
-              )}
-              onClick={() => onSelectPlayer?.(entry.player.id)}
+              className="flex w-full flex-col gap-3 px-4 py-4 text-left transition hover:bg-slate-50 sm:px-5"
+              onClick={() => onInspectPlayer?.(entry.player.id)}
             >
               <div className="flex items-start gap-3">
-                <div className="flex min-w-[34px] shrink-0 items-center justify-center text-lg font-bold text-slate-400">
+                <div className="flex min-w-[32px] shrink-0 items-center justify-center text-lg font-bold text-slate-300">
                   {index + 1}
                 </div>
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100">
-                  {entry.player.headshotUrl ? (
-                    <Image
-                      src={entry.player.headshotUrl}
-                      alt={playerName}
-                      width={44}
-                      height={44}
-                      className="h-11 w-11 object-cover"
-                      unoptimized
-                    />
-                  ) : (
-                    <span className="text-sm font-semibold text-slate-500">
-                      {entry.player.firstName.charAt(0)}
-                      {entry.player.lastName.charAt(0)}
-                    </span>
-                  )}
+                <div className="shrink-0">
+                  <ProspectAvatar
+                    headshotUrl={entry.player.headshotUrl}
+                    name={playerName}
+                    firstName={entry.player.firstName}
+                    lastName={entry.player.lastName}
+                  />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
@@ -108,47 +208,45 @@ export function LiveDraftBoard({
                       {entry.player.position}
                     </span>
                   </div>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {entry.player.college ?? 'College TBD'} · OVR {entry.player.rating ?? entry.player.maddenRating ?? '--'}
+                  <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+                    {entry.player.college ?? 'School TBD'} · Rank {entry.player.rank ?? '--'} · OVR{' '}
+                    {entry.player.rating ?? entry.player.maddenRating ?? '--'}
                   </p>
-                  <div className="mt-2 flex flex-wrap items-center gap-2">
-                    {entry.tags.map((tag) => (
-                      <Badge key={tag} variant={tagVariant(tag)}>
-                        {tag}
-                      </Badge>
-                    ))}
-                    {isRunPosition ? (
-                      <Badge variant="outline" className="border-amber-200 text-amber-700">
-                        Position Run
-                      </Badge>
-                    ) : null}
-                    {entry.valueDelta > 0 ? (
-                      <span className={cn('inline-flex items-center gap-1 text-xs font-medium', valueTone(entry.valueDelta))}>
-                        <ArrowDown className="h-3 w-3" />
-                        {entry.valueDelta} picks later than expected
-                      </span>
-                    ) : null}
+                  <ProspectIndicators indicators={indicators} compact className="mt-3" />
+                  <div className="mt-3 grid gap-2 text-xs text-muted-foreground sm:grid-cols-3">
+                    <span>Board {entry.boardScore.toFixed(1)}</span>
+                    <span>Fit {entry.fitScore}</span>
+                    <span>
+                      {entry.valueDelta > 0 ? `${entry.valueDelta} picks later than expected` : 'On value'}
+                    </span>
                   </div>
-                  {entry.tags.includes('Sleeper') || entry.tags.includes('Steal') ? (
-                    <p className="mt-2 text-xs text-muted-foreground">
-                      {entry.tags.includes('Steal')
-                        ? 'Potential steal if available here.'
-                        : 'Hidden value candidate still on the board.'}
-                    </p>
-                  ) : null}
                 </div>
-                <div className="hidden shrink-0 text-right sm:block">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    Board
-                  </p>
-                  <p className="mt-1 text-sm font-semibold text-foreground">
-                    {entry.boardScore.toFixed(1)}
-                  </p>
+
+                <div className="hidden shrink-0 items-center gap-2 md:flex">
+                  {canDraft ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="gap-2"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onDraftPlayer?.(entry.player.id);
+                      }}
+                    >
+                      <Star className="h-4 w-4" />
+                      Draft
+                    </Button>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                      Scout
+                    </span>
+                  )}
                 </div>
               </div>
 
-              {canDraft ? (
-                <div className="flex justify-end">
+              <div className="flex justify-end md:hidden">
+                {canDraft ? (
                   <Button
                     type="button"
                     size="sm"
@@ -161,15 +259,13 @@ export function LiveDraftBoard({
                     <Star className="h-4 w-4" />
                     Draft
                   </Button>
-                </div>
-              ) : (
-                <div className="flex justify-end text-xs text-muted-foreground">
-                  <span className="inline-flex items-center gap-1">
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
                     <ArrowUpRight className="h-3.5 w-3.5" />
-                    Tap to spotlight
+                    Tap for details
                   </span>
-                </div>
-              )}
+                )}
+              </div>
             </button>
           );
         })}

@@ -102,6 +102,7 @@ type PlayerTableProps = {
   variant: PlayerTableVariant;
   loading?: boolean;
   freeAgentView?: 'available' | 'signed';
+  topSlot?: React.ReactNode;
   onPlayerSelect?: (player: PlayerRowDTO) => void;
   onTheClockForUserTeam?: boolean;
   onCutPlayer?: (player: PlayerRowDTO) => void;
@@ -245,6 +246,7 @@ export function PlayerTable({
   variant,
   loading = false,
   freeAgentView = 'available',
+  topSlot,
   onPlayerSelect,
   onTheClockForUserTeam = false,
   onCutPlayer,
@@ -784,7 +786,7 @@ export function PlayerTable({
     : 'sticky right-0 z-20 box-border w-[144px] min-w-[144px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none';
   const actionCellClass = isDraftVariant
     ? 'sticky right-0 z-20 box-border w-[120px] min-w-[120px] border-l border-slate-200 bg-white text-left'
-    : 'sticky right-0 z-10 box-border w-[144px] min-w-[144px] border-l border-slate-200 bg-white pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none';
+    : 'sticky right-0 z-10 box-border w-[144px] min-w-[144px] border-l border-slate-200 bg-white pl-4 pr-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-[88px] md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none';
   const rankHeaderClass = isDraftVariant ? 'w-[64px] min-w-[64px]' : '';
   const tableClassName = isDraftVariant
     ? 'w-full border-collapse table-fixed'
@@ -810,6 +812,7 @@ export function PlayerTable({
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+      {topSlot ? <div className="border-b border-border px-4 py-4 sm:px-6">{topSlot}</div> : null}
       <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />

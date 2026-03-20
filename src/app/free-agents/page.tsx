@@ -367,37 +367,39 @@ export default function FreeAgentsPage() {
           onSkip={handleSkip}
         />
       ) : null}
-      <div className="mb-4 flex flex-wrap items-center justify-start gap-3">
-        <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
-          <button
-            type="button"
-            className={`rounded-full px-3 py-1 transition ${
-              activeTab === 'available'
-                ? 'bg-white text-foreground shadow-sm'
-                : 'text-muted-foreground'
-            }`}
-            onClick={() => setActiveTab('available')}
-          >
-            Available
-          </button>
-          <button
-            type="button"
-            className={`rounded-full px-3 py-1 transition ${
-              activeTab === 'signed'
-                ? 'bg-white text-foreground shadow-sm'
-                : 'text-muted-foreground'
-            }`}
-            onClick={() => setActiveTab('signed')}
-          >
-            Signed
-          </button>
-        </div>
-      </div>
       <PlayerTable
         data={players}
         variant="freeAgent"
         loading={isLoading && players.length === 0}
         freeAgentView={activeTab}
+        topSlot={
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
+              <button
+                type="button"
+                className={`rounded-full px-3 py-1 transition ${
+                  activeTab === 'available'
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-muted-foreground'
+                }`}
+                onClick={() => setActiveTab('available')}
+              >
+                Available
+              </button>
+              <button
+                type="button"
+                className={`rounded-full px-3 py-1 transition ${
+                  activeTab === 'signed'
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-muted-foreground'
+                }`}
+                onClick={() => setActiveTab('signed')}
+              >
+                Signed
+              </button>
+            </div>
+          </div>
+        }
         onOfferPlayer={handleOfferPlayer}
         onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'freeAgent', player })}
       />

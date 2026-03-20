@@ -23,7 +23,7 @@ const TeamSelectCard = ({
   <button
     type="button"
     onClick={onSelect}
-    className={`group flex w-full items-center gap-3 rounded-2xl border bg-white px-4 py-3 text-left transition hover:-translate-y-0.5 hover:shadow-md ${
+    className={`group flex w-full items-center gap-3 rounded-2xl border bg-white px-4 py-4 text-left transition hover:-translate-y-0.5 hover:shadow-md ${
       isSelected ? 'border-slate-900/30 ring-2 ring-slate-900/10' : 'border-border'
     }`}
   >
@@ -32,39 +32,34 @@ const TeamSelectCard = ({
       style={{ backgroundColor: team.color_primary ?? '#e2e8f0' }}
       aria-hidden="true"
     />
-    <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-border bg-slate-50">
+    <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-slate-50">
       {team.logo_url ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={team.logo_url}
           alt={`${team.name} logo`}
-          className="h-full w-full object-contain"
+          className="h-9 w-9 object-contain"
         />
       ) : (
         <span className="text-xs font-semibold text-muted-foreground">{team.abbr}</span>
       )}
     </div>
-    <div className="flex-1">
-      <p className="text-sm font-semibold text-foreground">{team.name}</p>
-      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-        <div className="inline-flex items-center gap-1.5">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
-            OVR
-          </span>
-          <span className="text-sm font-semibold text-slate-900">
-            <span style={{ color: team.color_primary }} className="font-bold">
-              {team.teamOverview}
-            </span>
+    <div className="min-w-0 flex-1">
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-sm font-semibold leading-snug text-foreground">{team.name}</p>
+        <div className="shrink-0 text-right">
+          <span style={{ color: team.color_primary }} className="text-[15px] font-bold leading-none">
+            {team.teamOverview}
           </span>
         </div>
-        <div className="min-w-0 inline-flex flex-1 items-center gap-1.5">
-          <span className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
-            Needs
-          </span>
-          <span className="truncate text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-700">
-            {team.teamNeeds.join(' • ')}
-          </span>
+      </div>
+      <div className="mt-2 min-w-0">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+          Needs:
         </div>
+        <span className="mt-1 block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-700">
+          {team.teamNeeds.join(' • ')}
+        </span>
       </div>
     </div>
     <ChevronRight className="h-4 w-4 text-muted-foreground transition group-hover:text-foreground" />
