@@ -4,6 +4,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import type { PlayerRowDTO } from '@/types/player';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { subscribeToSaveDataUpdated } from '@/lib/save-sync-events';
 
 type PlayerQueryResult = {
   data: PlayerRowDTO[];
@@ -18,6 +19,25 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 const getCacheKey = (endpoint: string, saveId?: string | null, teamAbbr?: string | null) =>
   `${endpoint}:${saveId ?? 'none'}:${teamAbbr ?? 'none'}`;
+
+export const invalidatePlayerQueryCache = (
+  endpoint?: string,
+  saveId?: string | null,
+  teamAbbr?: string | null,
+) => {
+  if (!endpoint && !saveId && !teamAbbr) {
+    playerListCache.clear();
+    return;
+  }
+
+  for (const key of playerListCache.keys()) {
+    const [cachedEndpoint, cachedSaveId, cachedTeamAbbr] = key.split(':');
+    if (endpoint && cachedEndpoint !== endpoint) continue;
+    if (saveId && cachedSaveId !== saveId) continue;
+    if (teamAbbr && cachedTeamAbbr !== teamAbbr) continue;
+    playerListCache.delete(key);
+  }
+};
 
 const logTiming = (label: string, durationMs: number, extra?: Record<string, unknown>) => {
   if (!isDev) return;
@@ -127,6 +147,15 @@ const usePlayerQuery = (
   useEffect(() => {
     void refresh();
   }, [refresh]);
+
+  useEffect(() => {
+    return subscribeToSaveDataUpdated((detail) => {
+      if (!saveId || detail.saveId !== saveId) return;
+      if (teamAbbr && detail.teamAbbr && detail.teamAbbr !== teamAbbr) return;
+      invalidatePlayerQueryCache(endpoint, saveId, teamAbbr);
+      void refresh();
+    });
+  }, [endpoint, refresh, saveId, teamAbbr]);
 
   return { data, isLoading, error, refresh };
 };

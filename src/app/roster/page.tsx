@@ -244,6 +244,11 @@ export default function RosterPage() {
   }, [rosterData, setRoster]);
 
   useEffect(() => {
+    if (cachedRoster.length === 0) return;
+    setPlayers(cachedRoster);
+  }, [cachedRoster]);
+
+  useEffect(() => {
     setExpiringContracts(expiringData);
   }, [expiringData]);
 

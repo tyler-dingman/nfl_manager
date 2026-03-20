@@ -16,6 +16,7 @@ type TradeAssetPickerModalProps = {
   title: string;
   players: PlayerRowDTO[];
   picks: TradePickAssetDTO[];
+  loadingMessage?: string | null;
   onClose: () => void;
   onSelectPlayer: (player: PlayerRowDTO) => void;
   onSelectPick: (pickId: string) => void;
@@ -63,6 +64,7 @@ export default function TradeAssetPickerModal({
   title,
   players,
   picks,
+  loadingMessage,
   onClose,
   onSelectPlayer,
   onSelectPick,
@@ -150,6 +152,7 @@ export default function TradeAssetPickerModal({
         {duplicateMessage ? (
           <p className="mt-3 text-xs text-destructive">{duplicateMessage}</p>
         ) : null}
+        {loadingMessage ? <p className="mt-3 text-xs text-muted-foreground">{loadingMessage}</p> : null}
 
         {activeTab === 'players' ? (
           <>

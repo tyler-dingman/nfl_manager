@@ -13,6 +13,7 @@ import {
   getSaveStateResult,
   getSaveHeaderSnapshot,
   pushNewsItem,
+  transferStoredPlayerToTeam,
   transferDraftPicksToTeam,
 } from '@/server/api/store';
 import { toPlayerDTO } from '@/server/api/trades';
@@ -199,10 +200,10 @@ export const POST = async (request: Request) => {
 
   state.teamRosters[userTeam.team.abbr] = userRoster
     .filter((player) => !outgoingPlayerIds.has(player.id))
-    .concat(incomingPlayers.map((player) => ({ ...player, signedTeamAbbr: userTeam.team.abbr })));
+    .concat(incomingPlayers.map((player) => transferStoredPlayerToTeam(player, userTeam.team.abbr)));
   state.teamRosters[aiTeam.team.abbr] = partnerRoster
     .filter((player) => !incomingPlayerIds.has(player.id))
-    .concat(outgoingPlayers.map((player) => ({ ...player, signedTeamAbbr: aiTeam.team.abbr })));
+    .concat(outgoingPlayers.map((player) => transferStoredPlayerToTeam(player, aiTeam.team.abbr)));
   transferDraftPicksToTeam(
     state,
     incomingAssets.filter((asset) => asset.type === 'pick').map((asset) => asset.id),

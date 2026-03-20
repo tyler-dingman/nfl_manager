@@ -24,6 +24,7 @@ import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { dispatchSaveDataUpdated } from '@/lib/save-sync-events';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import { resolvePlayerRating } from '@/lib/team-overview';
@@ -509,6 +510,11 @@ function TradeBuilderContent() {
           const nextRoster = (await userRosterResponse.json()) as PlayerRowDTO[];
           setUserRoster(nextRoster);
           setRoster(nextRoster);
+          dispatchSaveDataUpdated({
+            saveId: actionableSaveId,
+            teamAbbr,
+            reason: 'trade-accepted',
+          });
           trackProgress(
             `trade:${data.trade.id}`,
             OFFSEASON_PROGRESS_POINTS.manage.trade,

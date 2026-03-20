@@ -4,6 +4,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { subscribeToSaveDataUpdated } from '@/lib/save-sync-events';
 
 type ExpiringContractsResponse =
   | { ok: true; players: ExpiringContractRow[] }
@@ -21,6 +22,23 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 const getCacheKey = (saveId?: string | null, teamAbbr?: string | null) =>
   `${saveId ?? 'none'}:${teamAbbr ?? 'none'}`;
+
+export const invalidateExpiringContractsCache = (
+  saveId?: string | null,
+  teamAbbr?: string | null,
+) => {
+  if (!saveId && !teamAbbr) {
+    expiringContractsCache.clear();
+    return;
+  }
+
+  for (const key of expiringContractsCache.keys()) {
+    const [cachedSaveId, cachedTeamAbbr] = key.split(':');
+    if (saveId && cachedSaveId !== saveId) continue;
+    if (teamAbbr && cachedTeamAbbr !== teamAbbr) continue;
+    expiringContractsCache.delete(key);
+  }
+};
 
 const logTiming = (label: string, durationMs: number, extra?: Record<string, unknown>) => {
   if (!isDev) return;
@@ -141,6 +159,15 @@ export const useExpiringContractsQuery = (
   useEffect(() => {
     void refresh();
   }, [refresh]);
+
+  useEffect(() => {
+    return subscribeToSaveDataUpdated((detail) => {
+      if (saveId && detail.saveId !== saveId) return;
+      if (teamAbbr && detail.teamAbbr && detail.teamAbbr !== teamAbbr) return;
+      invalidateExpiringContractsCache(saveId, teamAbbr);
+      void refresh();
+    });
+  }, [refresh, saveId, teamAbbr]);
 
   return { data, isLoading, error, refresh };
 };

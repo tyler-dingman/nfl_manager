@@ -14,6 +14,7 @@ import { apiFetch } from '@/lib/api';
 import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
 import { getPlayerTypeIndicator } from '@/lib/player-type-indicator';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { dispatchSaveDataUpdated } from '@/lib/save-sync-events';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import { useToast } from '@/components/ui/toast';
@@ -292,7 +293,89 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
   const [actionMessage, setActionMessage] = React.useState<string | null>(null);
   const [meterExplanation, setMeterExplanation] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isLoadingAssetSources, setIsLoadingAssetSources] = React.useState(false);
   const evaluateRequestRef = React.useRef(0);
+
+  const loadAssetSources = React.useCallback(async () => {
+    if (!offer || !saveId) return false;
+
+    setIsLoadingAssetSources(true);
+    const actionableSaveId = await ensureRecoverableSaveId(
+      {
+        preferredSaveId: saveId,
+        teamId,
+        teamAbbr,
+        capSpace,
+        capLimit,
+        roster,
+        phase,
+        unlocked,
+      },
+      setSaveHeader,
+    );
+
+    if (!actionableSaveId) {
+      setIsLoadingAssetSources(false);
+      setActionMessage('Unable to load trade assets right now.');
+      return false;
+    }
+
+    const response = await apiFetch(
+      '/api/trade-offers/assets',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId: actionableSaveId,
+          partnerTeamAbbr: offer.proposingTeamAbbr,
+        }),
+      },
+      { skipSaveGuard: true },
+    );
+
+    if (!response.ok) {
+      setIsLoadingAssetSources(false);
+      setActionMessage('Unable to load trade assets right now.');
+      return false;
+    }
+
+    const data = (await response.json()) as TradeOfferAssetsResponse;
+    if (!data.ok) {
+      setIsLoadingAssetSources(false);
+      setActionMessage(data.error ?? 'Unable to load trade assets right now.');
+      return false;
+    }
+
+    setUserAssetSource(data.user);
+    setPartnerAssetSource(data.partner);
+    setIsLoadingAssetSources(false);
+    return true;
+  }, [
+    capLimit,
+    capSpace,
+    offer,
+    phase,
+    roster,
+    saveId,
+    setSaveHeader,
+    teamAbbr,
+    teamId,
+    unlocked,
+  ]);
+
+  const openAssetPicker = React.useCallback(
+    async (side: ExtraSide, slotIndex: number) => {
+      setDuplicateMessage(null);
+      setActionMessage(null);
+      const loaded = await loadAssetSources();
+      if (!loaded) {
+        return;
+      }
+      setActivePickerContext({ side, slotIndex });
+      setIsPickerOpen(true);
+    },
+    [loadAssetSources],
+  );
 
   React.useEffect(() => {
     if (!open || !offer) {
@@ -316,37 +399,8 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
 
     let cancelled = false;
     const loadPartnerAssets = async () => {
-      const actionableSaveId = await ensureRecoverableSaveId(
-        {
-          preferredSaveId: saveId,
-          teamId,
-          teamAbbr,
-          capSpace,
-          capLimit,
-          roster,
-          phase,
-          unlocked,
-        },
-        setSaveHeader,
-      );
-
-      if (!actionableSaveId || cancelled) {
-        return;
-      }
-
-      const response = await apiFetch('/api/trade-offers/assets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          saveId: actionableSaveId,
-          partnerTeamAbbr: offer.proposingTeamAbbr,
-        }),
-      }, { skipSaveGuard: true });
-      if (!response.ok) return;
-      const data = (await response.json()) as TradeOfferAssetsResponse;
-      if (!data.ok || cancelled) return;
-      setUserAssetSource(data.user);
-      setPartnerAssetSource(data.partner);
+      const loaded = await loadAssetSources();
+      if (!loaded || cancelled) return;
     };
 
     void loadPartnerAssets();
@@ -354,17 +408,10 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       cancelled = true;
     };
   }, [
-    capLimit,
-    capSpace,
+    loadAssetSources,
     offer,
     open,
-    phase,
-    roster,
     saveId,
-    setSaveHeader,
-    teamAbbr,
-    teamId,
-    unlocked,
   ]);
 
   React.useEffect(() => {
@@ -631,6 +678,11 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       teamId,
     );
     setRoster(data.roster);
+    dispatchSaveDataUpdated({
+      saveId: actionableSaveId,
+      teamAbbr: data.header.teamAbbr,
+      reason: 'trade-offer-accepted',
+    });
     const previousRoster = roster;
 
     const acquiredPlayerIds = new Set(
@@ -792,14 +844,10 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                   <TradeAssetSlots
                     slots={outgoingSlotAssets}
                     onAdd={(slotIndex) => {
-                      setActivePickerContext({ side: 'outgoing', slotIndex });
-                      setDuplicateMessage(null);
-                      setIsPickerOpen(true);
+                      void openAssetPicker('outgoing', slotIndex);
                     }}
                     onReplace={(slotIndex) => {
-                      setActivePickerContext({ side: 'outgoing', slotIndex });
-                      setDuplicateMessage(null);
-                      setIsPickerOpen(true);
+                      void openAssetPicker('outgoing', slotIndex);
                     }}
                     onRemove={(slotIndex) => {
                       setActionMessage(null);
@@ -825,14 +873,10 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                   <TradeAssetSlots
                     slots={incomingSlotAssets}
                     onAdd={(slotIndex) => {
-                      setActivePickerContext({ side: 'incoming', slotIndex });
-                      setDuplicateMessage(null);
-                      setIsPickerOpen(true);
+                      void openAssetPicker('incoming', slotIndex);
                     }}
                     onReplace={(slotIndex) => {
-                      setActivePickerContext({ side: 'incoming', slotIndex });
-                      setDuplicateMessage(null);
-                      setIsPickerOpen(true);
+                      void openAssetPicker('incoming', slotIndex);
                     }}
                     onRemove={(slotIndex) => {
                       setActionMessage(null);
@@ -874,6 +918,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
         players={availablePlayers}
         picks={availablePicks}
         duplicateMessage={duplicateMessage}
+        loadingMessage={isLoadingAssetSources ? 'Loading assets...' : null}
         onClose={() => {
           setIsPickerOpen(false);
           setActivePickerContext(null);

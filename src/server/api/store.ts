@@ -472,6 +472,23 @@ const removePlayerFromAllRosters = (state: SaveState, playerId: string): void =>
   });
 };
 
+export const transferStoredPlayerToTeam = (
+  player: StoredPlayer,
+  nextTeamAbbr: string,
+): StoredPlayer => {
+  const normalizedTeamAbbr = nextTeamAbbr.toUpperCase();
+
+  return {
+    ...player,
+    teamAbbr: normalizedTeamAbbr,
+    currentTeamAbbr: normalizedTeamAbbr,
+    signedTeamAbbr: normalizedTeamAbbr,
+    lastTeamAbbr: player.teamAbbr ?? player.currentTeamAbbr ?? player.lastTeamAbbr ?? null,
+    signedTeamLogoUrl: logoUrlFor(normalizedTeamAbbr),
+    status: 'Active',
+  };
+};
+
 export const listSaveStates = (): Array<{ saveId: string; state: SaveState }> =>
   Array.from(saveStore.entries()).map(([saveId, state]) => ({ saveId, state }));
 

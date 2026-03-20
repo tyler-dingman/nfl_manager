@@ -8,6 +8,7 @@ import {
   getSaveHeaderSnapshot,
   getSaveStateResult,
   pushNewsItem,
+  transferStoredPlayerToTeam,
   type SaveResult,
 } from './store';
 import { parseMoneyMillions } from '@/server/logic/cap';
@@ -641,16 +642,10 @@ export const proposeTrade = (
 
     saveStateResult.data.teamRosters[userTeamAbbr] = userRoster
       .filter((player) => !sendPlayerIds.has(player.id))
-      .concat(receivedPlayers.map((player) => ({ ...player, signedTeamAbbr: userTeamAbbr })));
+      .concat(receivedPlayers.map((player) => transferStoredPlayerToTeam(player, userTeamAbbr)));
     saveStateResult.data.teamRosters[partnerTeamAbbr] = partnerRoster
       .filter((player) => !receivePlayerIds.has(player.id))
-      .concat(
-        sentPlayers.map((player) => ({
-          ...player,
-          signedTeamAbbr: partnerTeamAbbr,
-          year1CapHit: parseMoneyMillions(player.capHit),
-        })),
-      );
+      .concat(sentPlayers.map((player) => transferStoredPlayerToTeam(player, partnerTeamAbbr)));
 
     saveStateResult.data.roster = saveStateResult.data.teamRosters[userTeamAbbr];
     saveStateResult.data.header.rosterCount = saveStateResult.data.roster.length;

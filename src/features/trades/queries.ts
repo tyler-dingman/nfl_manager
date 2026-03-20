@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import { subscribeToSaveDataUpdated } from '@/lib/save-sync-events';
 import type { TradeBlockRow } from '@/types/trade-block';
 
 type TradeBlockQueryResult = {
@@ -13,6 +14,23 @@ type TradeBlockQueryResult = {
 };
 
 const tradeBlockCache = new Map<string, TradeBlockRow[]>();
+
+export const invalidateTradeBlockCache = (
+  saveId?: string | null,
+  teamAbbr?: string | null,
+) => {
+  if (!saveId && !teamAbbr) {
+    tradeBlockCache.clear();
+    return;
+  }
+
+  for (const key of tradeBlockCache.keys()) {
+    const [, cachedSaveId, cachedTeamAbbr] = key.split(':');
+    if (saveId && cachedSaveId !== saveId) continue;
+    if (teamAbbr && cachedTeamAbbr !== teamAbbr) continue;
+    tradeBlockCache.delete(key);
+  }
+};
 
 export const useTradeBlockQuery = (
   saveId: string | null | undefined,
@@ -92,6 +110,15 @@ export const useTradeBlockQuery = (
   useEffect(() => {
     void refresh();
   }, [refresh]);
+
+  useEffect(() => {
+    return subscribeToSaveDataUpdated((detail) => {
+      if (saveId && detail.saveId !== saveId) return;
+      if (teamAbbr && detail.teamAbbr && detail.teamAbbr !== teamAbbr) return;
+      invalidateTradeBlockCache(saveId, teamAbbr);
+      void refresh();
+    });
+  }, [refresh, saveId, teamAbbr]);
 
   return { data, isLoading, error, refresh };
 };

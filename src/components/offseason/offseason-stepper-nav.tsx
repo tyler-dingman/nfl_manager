@@ -1,9 +1,16 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { CheckCircle2, Circle, Lock } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/toast';
+import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS, type OffseasonStepId } from '@/features/experience/offseason-steps';
+import { getRouteForStep } from '@/features/experience/experience-utils';
+import { useExperienceStore } from '@/features/experience/experience-store';
+import { useSaveStore } from '@/features/save/save-store';
 import { cn } from '@/lib/utils';
 
 type Props = {
@@ -14,7 +21,40 @@ type Props = {
 };
 
 export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, completedSteps }: Props) {
+  const router = useRouter();
+  const saveId = useSaveStore((state) => state.saveId);
+  const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
+  const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
+  const { push: pushToast } = useToast();
   const currentIndex = OFFSEASON_STEPS.findIndex((step) => step.id === currentStep);
+  const isFinalStep = currentIndex === OFFSEASON_STEPS.length - 1;
+
+  const handleContinue = () => {
+    if (isFinalStep) return;
+
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: currentStep,
+        eventKey: `continue:${currentStep}:stepper`,
+        complete: true,
+      });
+    }
+
+    const nextStep = completeCurrentStep();
+    if (nextStep) {
+      pushToast({
+        id: `progress:${saveId ?? 'local'}:continue:${currentStep}:stepper`,
+        kind: 'progress',
+        durationMs: 2800,
+        progress: {
+          message: `${OFFSEASON_STEPS[currentIndex]?.label ?? 'Current phase'} complete.`,
+          detail: 'Offseason',
+        },
+      });
+      router.push(getRouteForStep(nextStep));
+    }
+  };
 
   return (
     <div className="space-y-4 text-sm">
@@ -53,15 +93,28 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
                   {isLocked ? (
                     <p className="text-sm font-medium text-muted-foreground">{step.label}</p>
                   ) : (
-                    <Link
-                      className={cn(
-                        'text-sm font-semibold',
-                        isCurrent ? 'text-foreground' : 'text-muted-foreground',
-                      )}
-                      href={step.route}
-                    >
-                      {step.label}
-                    </Link>
+                    <div className="flex flex-col items-start gap-1.5">
+                      <Link
+                        className={cn(
+                          'text-sm font-semibold',
+                          isCurrent ? 'text-foreground' : 'text-muted-foreground',
+                        )}
+                        href={step.route}
+                      >
+                        {step.label}
+                      </Link>
+                      {isCurrent && !isFinalStep ? (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          className="h-7 rounded-full px-2.5 text-[11px] font-semibold"
+                          onClick={handleContinue}
+                        >
+                          Continue
+                        </Button>
+                      ) : null}
+                    </div>
                   )}
                   {isLocked ? (
                     <p className="text-xs text-muted-foreground">
