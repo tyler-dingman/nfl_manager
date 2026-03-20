@@ -10,6 +10,7 @@ type ExperienceState = {
   manageSubstepsCompleted: string[];
   hasHydrated: boolean;
   setHasHydrated: (value: boolean) => void;
+  resetForNewRun: () => void;
   setFullExperience: () => void;
   setSandboxExperience: () => void;
   markManageSubstepComplete: (substep: string) => void;
@@ -47,6 +48,14 @@ export const useExperienceStore = create<ExperienceState>()(
       manageSubstepsCompleted: [],
       hasHydrated: false,
       setHasHydrated: (value) => set((state) => ({ ...state, hasHydrated: value })),
+      resetForNewRun: () =>
+        set((state) => ({
+          ...state,
+          mode: 'sandbox',
+          currentStep: firstStep,
+          completedSteps: [],
+          manageSubstepsCompleted: [],
+        })),
       setFullExperience: () =>
         set((state) => ({
           ...state,

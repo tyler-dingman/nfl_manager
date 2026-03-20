@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 
+import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore, type Team } from '@/features/team/team-store';
 import { apiFetch } from '@/lib/api';
@@ -73,6 +74,7 @@ function TeamSelectScreenInner() {
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const setActiveTeam = useSaveStore((state) => state.setActiveTeam);
   const clearSave = useSaveStore((state) => state.clearSave);
+  const resetForNewRun = useExperienceStore((state) => state.resetForNewRun);
 
   const [preselectedTeamId, setPreselectedTeamId] = useState<string | null>(null);
   const [showExpiredBanner, setShowExpiredBanner] = useState(false);
@@ -133,6 +135,7 @@ function TeamSelectScreenInner() {
 
   const handleSelectTeam = async (team: (typeof teams)[number]) => {
     clearSave();
+    resetForNewRun();
     setSelectedTeamId(team.id);
     setActiveTeam(team.id, team.abbr);
 
