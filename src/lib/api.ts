@@ -16,6 +16,52 @@ const shouldGuard404 = (url: string) =>
   url.includes('/api/free-agents') ||
   url.includes('/api/trades');
 
+const extractSaveIdFromRequest = (url: string, init?: RequestInit) => {
+  try {
+    const parsedUrl = new URL(url, 'http://localhost');
+    const querySaveId = parsedUrl.searchParams.get('saveId');
+    if (querySaveId) {
+      return querySaveId;
+    }
+  } catch {
+    // ignore URL parsing failures
+  }
+
+  if (typeof init?.body === 'string') {
+    try {
+      const parsedBody = JSON.parse(init.body) as { saveId?: string };
+      if (parsedBody.saveId) {
+        return parsedBody.saveId;
+      }
+    } catch {
+      // ignore body parsing failures
+    }
+  }
+
+  return null;
+};
+
+const getCurrentActiveSaveId = () => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const localSaveId = localStorage.getItem('falco_active_save_id');
+    if (localSaveId) {
+      return localSaveId;
+    }
+
+    const persisted = localStorage.getItem('nfl-manager-save');
+    if (!persisted) {
+      return null;
+    }
+
+    const parsed = JSON.parse(persisted) as { state?: { saveId?: string } };
+    return parsed.state?.saveId ?? null;
+  } catch {
+    return null;
+  }
+};
+
 const handleSaveNotFound = () => {
   if (typeof window === 'undefined') return;
   if (didRedirectForMissingSave) return;
@@ -43,6 +89,14 @@ export const apiFetch = async (
   const url = apiUrl(path);
   const response = await fetch(url, init);
   if (!options?.skipSaveGuard && response.status === 404 && shouldGuard404(url)) {
+    const requestedSaveId = extractSaveIdFromRequest(url, init);
+    const activeSaveId = getCurrentActiveSaveId();
+    const shouldRedirect =
+      requestedSaveId !== null && activeSaveId !== null && requestedSaveId === activeSaveId;
+
+    if (!shouldRedirect) {
+      return response;
+    }
     handleSaveNotFound();
   }
   return response;

@@ -89,6 +89,7 @@ function DraftRoomContent() {
   const [pickAnnouncementOpen, setPickAnnouncementOpen] = React.useState(false);
   const [selectedLobbyPlayerId, setSelectedLobbyPlayerId] = React.useState<string | null>(null);
   const [isLobbyProspectModalOpen, setIsLobbyProspectModalOpen] = React.useState(false);
+  const [draftControlBusy, setDraftControlBusy] = React.useState(false);
 
   const saveId = useSaveStore((state) => state.saveId);
   const [resolvedSaveId, setResolvedSaveId] = React.useState(saveId);
@@ -104,7 +105,6 @@ function DraftRoomContent() {
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const setRoster = useSaveStore((state) => state.setRoster);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
-  const setPhase = useSaveStore((state) => state.setPhase);
   const setIsUserOnClock = useSaveStore((state) => state.setIsUserOnClock);
   const modeExperience = useExperienceStore((state) => state.mode);
   const currentStep = useExperienceStore((state) => state.currentStep);
@@ -405,88 +405,176 @@ function DraftRoomContent() {
     [resolvedSaveId, saveId, setActiveDraftSessionId],
   );
 
+  const syncDraftPhase = React.useCallback(
+    async (activeSaveId: string) => {
+      const response = await apiFetch(
+        '/api/saves/phase',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ saveId: activeSaveId, phase: 'draft' }),
+        },
+        { skipSaveGuard: true },
+      );
+
+      if (!response.ok) {
+        return false;
+      }
+
+      const payload = (await response.json()) as
+        | {
+            ok: true;
+            saveId: string;
+            teamAbbr: string;
+            capSpace: number;
+            capLimit: number;
+            rosterCount: number;
+            rosterLimit: number;
+            phase: string;
+            unlocked?: { freeAgency: boolean; draft: boolean };
+            createdAt: string;
+          }
+        | { ok: false; error: string };
+
+      if (!payload.ok) {
+        setError(payload.error);
+        return false;
+      }
+
+      setResolvedSaveId(payload.saveId);
+      setSaveHeader(
+        {
+          ...payload,
+          unlocked: payload.unlocked ?? { freeAgency: true, draft: true },
+        },
+        teamId,
+      );
+      return true;
+    },
+    [setSaveHeader, teamId],
+  );
+
   const startDraft = React.useCallback(async () => {
-    const resolvedSaveId = await ensureSaveExists('draft');
-    if (!resolvedSaveId) {
-      setError('Select a team to start a save.');
+    if (draftControlBusy) {
       return false;
     }
-    setResolvedSaveId(resolvedSaveId);
-    await setPhase('draft');
-    setDraftView('board');
+
+    setDraftControlBusy(true);
     setLoading(true);
     setError('');
     setLobbyMessage('');
-    let response = await apiFetch('/api/draft/session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ saveId: resolvedSaveId, mode }),
-    }, { skipSaveGuard: true });
-    const text = await response.text();
-    const payload = parseDraftSessionStartResponse(text);
-    if (!response.ok || !payload.ok) {
-      if (!payload.ok && payload.error === 'Save not found') {
-        const freshSaveId = await ensureSaveExists();
-        if (freshSaveId) {
-          setResolvedSaveId(freshSaveId);
-          const retry = await apiFetch('/api/draft/session', {
+    setDraftView('board');
+
+    try {
+      const activeSaveId = await ensureSaveExists('draft');
+      if (!activeSaveId) {
+        setError('Select a team to start a save.');
+        return false;
+      }
+
+      const phaseSynced = await syncDraftPhase(activeSaveId);
+      if (!phaseSynced) {
+        setLobbyMessage('Unable to prepare draft session.');
+        return false;
+      }
+
+      const startWithSave = async (targetSaveId: string) => {
+        const response = await apiFetch(
+          '/api/draft/session',
+          {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ saveId: freshSaveId, mode }),
-          }, { skipSaveGuard: true });
-          const retryText = await retry.text();
-          const retryPayload = parseDraftSessionStartResponse(retryText);
-          if (retry.ok && retryPayload.ok) {
-            setActiveDraftSessionId(retryPayload.draftSessionId, freshSaveId);
-            if (retryPayload.session) {
-              setSession(retryPayload.session);
-            } else {
-              await fetchSession(retryPayload.draftSessionId, freshSaveId);
-            }
-            setLoading(false);
-            return true;
+            body: JSON.stringify({ saveId: targetSaveId, mode }),
+          },
+          { skipSaveGuard: true },
+        );
+        const text = await response.text();
+        return {
+          response,
+          payload: parseDraftSessionStartResponse(text),
+        };
+      };
+
+      let activeStartSaveId = activeSaveId;
+      let { response, payload } = await startWithSave(activeStartSaveId);
+
+      if (!response.ok || !payload.ok) {
+        if (!payload.ok && payload.error === 'Save not found') {
+          const freshSaveId = await ensureSaveExists('draft');
+          if (!freshSaveId) {
+            setLobbyMessage(payload.error);
+            return false;
           }
-          setLobbyMessage(retryPayload.ok ? 'Unable to start draft.' : retryPayload.error);
-          setLoading(false);
-          return false;
+          const freshPhaseSynced = await syncDraftPhase(freshSaveId);
+          if (!freshPhaseSynced) {
+            setLobbyMessage('Unable to restore draft session.');
+            return false;
+          }
+          activeStartSaveId = freshSaveId;
+          ({ response, payload } = await startWithSave(activeStartSaveId));
         }
       }
-      setLobbyMessage(payload.ok ? 'Unable to start draft.' : payload.error);
+
+      if (!response.ok || !payload.ok) {
+        setLobbyMessage(payload.ok ? 'Unable to start draft.' : payload.error);
+        return false;
+      }
+
+      setResolvedSaveId(activeStartSaveId);
+      setActiveDraftSessionId(payload.draftSessionId, activeStartSaveId);
+      if (payload.session) {
+        setSession(payload.session);
+      } else {
+        await fetchSession(payload.draftSessionId, activeStartSaveId);
+      }
+      return true;
+    } finally {
       setLoading(false);
-      return false;
+      setDraftControlBusy(false);
     }
-    setActiveDraftSessionId(payload.draftSessionId, resolvedSaveId);
-    if (payload.session) {
-      setSession(payload.session);
-    } else {
-      await fetchSession(payload.draftSessionId, resolvedSaveId);
-    }
-    setLoading(false);
-    return true;
-  }, [ensureSaveExists, fetchSession, mode, setActiveDraftSessionId, setPhase]);
+  }, [
+    draftControlBusy,
+    ensureSaveExists,
+    fetchSession,
+    mode,
+    setActiveDraftSessionId,
+    syncDraftPhase,
+  ]);
 
   const togglePause = React.useCallback(async () => {
+    if (draftControlBusy) {
+      return;
+    }
     const actionableSaveId = resolvedSaveId || saveId;
     if (!actionableSaveId || !activeDraftSessionId || !session) {
       return;
     }
+    setDraftControlBusy(true);
     const nextPaused = !session.isPaused;
-    const response = await apiFetch('/api/draft/session/pause', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId: actionableSaveId,
-        draftSessionId: activeDraftSessionId,
-        isPaused: nextPaused,
-      }),
-    });
-    const payload = (await response.json()) as DraftSessionResponse;
-    if (!response.ok || !payload.ok) {
-      setError(payload.ok ? 'Unable to update pause state' : payload.error);
-      return;
+    try {
+      const response = await apiFetch(
+        '/api/draft/session/pause',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            saveId: actionableSaveId,
+            draftSessionId: activeDraftSessionId,
+            isPaused: nextPaused,
+          }),
+        },
+        { skipSaveGuard: true },
+      );
+      const payload = (await response.json()) as DraftSessionResponse;
+      if (!response.ok || !payload.ok) {
+        setError(payload.ok ? 'Unable to update pause state' : payload.error);
+        return;
+      }
+      setSession(payload.session);
+    } finally {
+      setDraftControlBusy(false);
     }
-    setSession(payload.session);
-  }, [activeDraftSessionId, resolvedSaveId, saveId, session]);
+  }, [activeDraftSessionId, draftControlBusy, resolvedSaveId, saveId, session]);
 
   React.useEffect(() => {
     if (activeDraftSessionId) {
@@ -553,15 +641,19 @@ function DraftRoomContent() {
     const boardEntry = boardEntries.find((entry) => entry.player.id === player.id) ?? null;
     const activeRuns = detectActiveDraftRuns(session.picks, session.prospects);
 
-    const response = await apiFetch('/api/draft/pick', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId: actionableSaveId,
-        draftSessionId: activeDraftSessionId,
-        playerId: player.id,
-      }),
-    });
+    const response = await apiFetch(
+      '/api/draft/pick',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId: actionableSaveId,
+          draftSessionId: activeDraftSessionId,
+          playerId: player.id,
+        }),
+      },
+      { skipSaveGuard: true },
+    );
     const payload = (await response.json()) as DraftPickResponse;
     if (!response.ok || !payload.ok) {
       setError(payload.ok ? 'Unable to make pick.' : payload.error);
@@ -746,6 +838,7 @@ function DraftRoomContent() {
                   speedLevel,
                   showSettings,
                   hasStarted: false,
+                  isBusy: draftControlBusy,
                   onSpeedChange: setSpeedLevel,
                   onTogglePause: togglePause,
                   onStartDraft: () => {
@@ -841,6 +934,7 @@ function DraftRoomContent() {
               showSettings={showSettings}
               draftView={draftView}
               isUserDraftModalOpen={isGradeOpen}
+              isControlsBusy={draftControlBusy}
               onBackToBoard={() => setDraftView('board')}
               onSpeedChange={setSpeedLevel}
               onTogglePause={togglePause}

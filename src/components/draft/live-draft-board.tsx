@@ -217,7 +217,9 @@ export function LiveDraftBoard({
                     <span>Board {entry.boardScore.toFixed(1)}</span>
                     <span>Fit {entry.fitScore}</span>
                     <span>
-                      {entry.valueDelta > 0 ? `${entry.valueDelta} picks later than expected` : 'On value'}
+                      {entry.valueDelta > 0
+                        ? `${entry.valueDelta} ${entry.valueDelta === 1 ? 'pick' : 'picks'} later than expected`
+                        : 'On value'}
                     </span>
                   </div>
                 </div>

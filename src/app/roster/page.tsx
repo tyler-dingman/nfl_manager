@@ -382,11 +382,9 @@ export default function RosterPage() {
     }
 
     if (data.player) {
-      setPlayers((prev) => {
-        const next = prev.map((item) => (item.id === data.player?.id ? data.player : item));
-        setRoster(next);
-        return next;
-      });
+      const nextPlayers = players.map((item) => (item.id === data.player?.id ? data.player : item));
+      setPlayers(nextPlayers);
+      setRoster(nextPlayers);
     }
     if (data.header) {
       setSaveHeader({
@@ -619,14 +617,12 @@ export default function RosterPage() {
       }
       if (data.player) {
         const updatedPlayer = data.player;
-        setPlayers((prev) => {
-          const exists = prev.some((item) => item.id === updatedPlayer.id);
-          const next = exists
-            ? prev.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
-            : [updatedPlayer, ...prev];
-          setRoster(next);
-          return next;
-        });
+        const exists = players.some((item) => item.id === updatedPlayer.id);
+        const nextPlayers = exists
+          ? players.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
+          : [updatedPlayer, ...players];
+        setPlayers(nextPlayers);
+        setRoster(nextPlayers);
         if (wasExpiringResign) {
           const leagueBuzz = generateLeagueBuzzToast({
             eventType: 'resign',
@@ -743,11 +739,9 @@ export default function RosterPage() {
     }
 
     if (data.player) {
-      setPlayers((prev) => {
-        const next = prev.map((item) => (item.id === data.player?.id ? data.player : item));
-        setRoster(next);
-        return next;
-      });
+      const nextPlayers = players.map((item) => (item.id === data.player?.id ? data.player : item));
+      setPlayers(nextPlayers);
+      setRoster(nextPlayers);
       if (data.accepted) {
         const leagueBuzz = generateLeagueBuzzToast({
           eventType: 'renegotiate',

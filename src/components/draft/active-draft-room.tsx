@@ -50,6 +50,7 @@ type ActiveDraftRoomProps = {
   showSettings: boolean;
   draftView: 'board' | 'trade';
   isUserDraftModalOpen?: boolean;
+  isControlsBusy?: boolean;
   onBackToBoard: () => void;
   onSpeedChange: (value: DraftSpeedLevel) => void;
   onTogglePause: () => void;
@@ -104,6 +105,7 @@ export function ActiveDraftRoom({
   showSettings,
   draftView,
   isUserDraftModalOpen = false,
+  isControlsBusy = false,
   onBackToBoard,
   onSpeedChange,
   onTogglePause,
@@ -292,11 +294,15 @@ export function ActiveDraftRoom({
     }
     advanceInFlight.current = true;
     try {
-      const response = await apiFetch('/api/draft/session/advance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ draftSessionId, saveId }),
-      });
+      const response = await apiFetch(
+        '/api/draft/session/advance',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ draftSessionId, saveId }),
+        },
+        { skipSaveGuard: true },
+      );
       const text = await response.text();
       if (!text) {
         return;
@@ -327,11 +333,15 @@ export function ActiveDraftRoom({
           onSessionUpdate(snapshot);
           break;
         }
-        const response = await apiFetch('/api/draft/session/advance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ draftSessionId, saveId }),
-        });
+        const response = await apiFetch(
+          '/api/draft/session/advance',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ draftSessionId, saveId }),
+          },
+          { skipSaveGuard: true },
+        );
         const text = await response.text();
         if (!text) break;
         const payload = JSON.parse(text) as
@@ -562,18 +572,22 @@ export function ActiveDraftRoom({
     offersRequestRef.current = requestKey;
 
     const loadOffers = async () => {
-      const response = await apiFetch('/api/trade-offers/next', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          saveId,
-          userTeamAbbr: session.userTeamAbbr,
-          phase: 'draft',
-          trigger: `pick-${currentPick.overall}`,
-          draftSessionId,
-          draftCurrentPickIndex: session.currentPickIndex,
-        }),
-      });
+      const response = await apiFetch(
+        '/api/trade-offers/next',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            saveId,
+            userTeamAbbr: session.userTeamAbbr,
+            phase: 'draft',
+            trigger: `pick-${currentPick.overall}`,
+            draftSessionId,
+            draftCurrentPickIndex: session.currentPickIndex,
+          }),
+        },
+        { skipSaveGuard: true },
+      );
 
       if (!response.ok) {
         setDraftOffers([]);
@@ -667,6 +681,7 @@ export function ActiveDraftRoom({
             showSettings,
             hasStarted: true,
             isPaused: session.isPaused,
+            isBusy: isControlsBusy,
             onSpeedChange,
             onTogglePause,
             onStartDraft,

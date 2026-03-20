@@ -4,7 +4,6 @@ import * as React from 'react';
 import { X } from 'lucide-react';
 
 import PlayerTypeIcon from '@/components/player-type-icon';
-import { Button } from '@/components/ui/button';
 import type { PlayerTypeIndicatorResult } from '@/lib/player-type-indicator';
 import { cn } from '@/lib/utils';
 
@@ -58,12 +57,20 @@ export default function TradeAssetSlots({
       ) : null}
       <div className={cn('space-y-3', hasHeader && 'mt-4')}>
         {slots.map((slot, index) => (
-          <button
+          <div
             key={`slot-${index}`}
-            type="button"
+            role="button"
+            tabIndex={0}
             onClick={() => (slot ? onReplace(index) : onAdd(index))}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                slot ? onReplace(index) : onAdd(index);
+              }
+            }}
             className={cn(
               'flex w-full items-center justify-between rounded-xl border border-dashed border-border px-4 py-3 text-left transition hover:border-slate-300 hover:bg-slate-50',
+              'cursor-pointer focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2',
               slot && 'border-solid',
             )}
           >
@@ -102,21 +109,20 @@ export default function TradeAssetSlots({
               <span className="text-sm font-medium text-muted-foreground">+ Add asset</span>
             )}
             {slot ? (
-              <Button
+              <button
                 type="button"
-                variant="ghost"
-                size="icon"
-                className="h-7 w-7"
+                className="inline-flex h-7 w-7 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2"
                 onClick={(event) => {
+                  event.preventDefault();
                   event.stopPropagation();
                   onRemove(index);
                 }}
               >
                 <X className="h-4 w-4" />
                 <span className="sr-only">Remove asset</span>
-              </Button>
+              </button>
             ) : null}
-          </button>
+          </div>
         ))}
       </div>
     </div>

@@ -500,7 +500,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                           )}
                         >
                           <span className="inline-flex items-start gap-1 text-foreground">
-                            <span>OVR {liveTeamSummary.overall ?? '—'}</span>
+                            <span>
+                              OVR <span className="font-semibold">{liveTeamSummary.overall ?? '—'}</span>
+                            </span>
                             <HeaderDelta delta={liveOverallDelta} />
                           </span>
                           <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
@@ -589,7 +591,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                           )}
                         >
                           <span className="inline-flex items-start gap-1 text-foreground">
-                            <span>OVR {liveTeamSummary.overall ?? '—'}</span>
+                            <span>
+                              OVR <span className="font-semibold">{liveTeamSummary.overall ?? '—'}</span>
+                            </span>
                             <HeaderDelta delta={liveOverallDelta} />
                           </span>
                           <span className="ml-1.5 truncate">{liveTrajectory.state}</span>

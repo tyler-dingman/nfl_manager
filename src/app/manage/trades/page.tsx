@@ -442,6 +442,47 @@ function TradeBuilderContent() {
     void refreshTradeAssets();
   }, [partnerTeamAbbr, refreshTradeAssets, trade]);
 
+  const recreateTradeForCurrentContext = useCallback(
+    async (preferredSaveId?: string | null) => {
+      if (!partnerTeamAbbr || !teamAbbr) {
+        return null;
+      }
+
+      const actionableSaveId = await ensureActionableSaveId(preferredSaveId ?? saveId);
+      if (!actionableSaveId) {
+        return null;
+      }
+
+      const response = await apiFetch(
+        '/api/trades/create',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            saveId: actionableSaveId,
+            teamAbbr,
+            partnerTeamAbbr,
+            playerId: selectedPlayerId,
+          }),
+        },
+        { skipSaveGuard: true },
+      );
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const data = (await response.json()) as TradeCreateResponse;
+      setTrade(data.trade);
+      setUserRoster(data.userRoster);
+      setPartnerRoster(data.partnerRoster);
+      setProposalStatus('');
+      setTradeInsights(null);
+      return { tradeId: data.trade.id, saveId: actionableSaveId };
+    },
+    [ensureActionableSaveId, partnerTeamAbbr, saveId, selectedPlayerId, teamAbbr],
+  );
+
   const handleAddAsset = async (payload: {
     side: 'send' | 'receive';
     type: 'player' | 'pick';
@@ -453,7 +494,8 @@ function TradeBuilderContent() {
       return;
     }
 
-    const response = await apiFetch(`/api/trades/${trade.id}/add-asset`, {
+    let activeTradeId = trade.id;
+    let response = await apiFetch(`/api/trades/${activeTradeId}/add-asset`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -461,6 +503,22 @@ function TradeBuilderContent() {
         saveId: actionableSaveId,
       }),
     });
+
+    if (!response.ok) {
+      const reboundTrade = await recreateTradeForCurrentContext(actionableSaveId);
+      if (!reboundTrade) {
+        return;
+      }
+      activeTradeId = reboundTrade.tradeId;
+      response = await apiFetch(`/api/trades/${activeTradeId}/add-asset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...payload,
+          saveId: reboundTrade.saveId,
+        }),
+      });
+    }
 
     if (!response.ok) {
       return;
@@ -481,7 +539,8 @@ function TradeBuilderContent() {
       return;
     }
 
-    const response = await apiFetch(`/api/trades/${trade.id}/remove-asset`, {
+    let activeTradeId = trade.id;
+    let response = await apiFetch(`/api/trades/${activeTradeId}/remove-asset`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -489,6 +548,22 @@ function TradeBuilderContent() {
         saveId: actionableSaveId,
       }),
     });
+
+    if (!response.ok) {
+      const reboundTrade = await recreateTradeForCurrentContext(actionableSaveId);
+      if (!reboundTrade) {
+        return;
+      }
+      activeTradeId = reboundTrade.tradeId;
+      response = await apiFetch(`/api/trades/${activeTradeId}/remove-asset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...payload,
+          saveId: reboundTrade.saveId,
+        }),
+      });
+    }
 
     if (!response.ok) {
       return;
@@ -790,13 +865,13 @@ function TradeBuilderContent() {
           onSkip={handleSkip}
         />
       ) : null}
-      <div className="mt-3 space-y-6">
+      <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="space-y-1">
+          <div>
             <button
               type="button"
               onClick={handleBack}
-              className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+              className="mb-5 mt-5 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
               Back

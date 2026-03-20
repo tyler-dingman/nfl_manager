@@ -13,6 +13,7 @@ type DraftTrackerControls = {
   speedLevel: 0 | 1 | 2;
   showSettings: boolean;
   hasStarted: boolean;
+  isBusy?: boolean;
   onSpeedChange: (value: 0 | 1 | 2) => void;
   onTogglePause: () => void;
   onStartDraft: () => void;
@@ -71,13 +72,14 @@ export function DraftTrackerRibbon({
               <span className="text-xs font-semibold text-muted-foreground">Speed</span>
               <input
                 className="w-24 sm:w-28"
-                type="range"
-                min={0}
-                max={2}
-                step={1}
-                value={controls.speedLevel}
-                onChange={(event) => controls.onSpeedChange(Number(event.target.value) as 0 | 1 | 2)}
-              />
+              type="range"
+              min={0}
+              max={2}
+              step={1}
+              value={controls.speedLevel}
+              disabled={controls.isBusy}
+              onChange={(event) => controls.onSpeedChange(Number(event.target.value) as 0 | 1 | 2)}
+            />
               <span className="text-xs font-semibold text-foreground">
                 {speedLabel(controls.speedLevel)}
               </span>
@@ -89,26 +91,33 @@ export function DraftTrackerRibbon({
               size="sm"
               className="gap-2"
               onClick={controls.onToggleSettings}
+              disabled={controls.isBusy}
             >
               <Settings2 className="h-4 w-4" />
               Settings
             </Button>
 
             {!controls.hasStarted ? (
-              <Button type="button" size="sm" onClick={controls.onStartDraft}>
+              <Button type="button" size="sm" onClick={controls.onStartDraft} disabled={controls.isBusy}>
                 Start Draft
               </Button>
             ) : (
-              <Button type="button" size="sm" className="gap-2" onClick={controls.onTogglePause}>
+              <Button
+                type="button"
+                size="sm"
+                className="gap-2"
+                onClick={controls.onTogglePause}
+                disabled={controls.isBusy}
+              >
                 {controls.isPaused ? (
                   <>
                     <Play className="h-4 w-4" />
-                    Resume
+                    Resume Draft
                   </>
                 ) : (
                   <>
                     <Pause className="h-4 w-4" />
-                    Pause
+                    Pause Draft
                   </>
                 )}
               </Button>
