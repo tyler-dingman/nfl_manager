@@ -183,11 +183,18 @@ export function LiveDraftBoard({
           });
 
           return (
-            <button
+            <div
               key={entry.player.id}
-              type="button"
-              className="flex w-full flex-col gap-3 px-4 py-4 text-left transition hover:bg-slate-50 sm:px-5"
+              role="button"
+              tabIndex={0}
+              className="flex w-full cursor-pointer flex-col gap-3 px-4 py-4 text-left transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300 sm:px-5"
               onClick={() => onInspectPlayer?.(entry.player.id)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  onInspectPlayer?.(entry.player.id);
+                }
+              }}
             >
               <div className="flex items-start gap-3">
                 <div className="flex min-w-[32px] shrink-0 items-center justify-center text-lg font-bold text-slate-300">
@@ -268,7 +275,7 @@ export function LiveDraftBoard({
                   </span>
                 )}
               </div>
-            </button>
+            </div>
           );
         })}
       </div>

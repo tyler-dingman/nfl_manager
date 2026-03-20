@@ -79,6 +79,11 @@ export const POST = async (request: Request) => {
 
   try {
     const resolvedSaveId = findSaveIdForDraftSession(body.draftSessionId) ?? body.saveId;
+
+    if (body.sessionSnapshot) {
+      restoreDraftSession(resolvedSaveId, body.sessionSnapshot, body.saveSnapshot);
+    }
+
     const session = pickDraftPlayer(body.draftSessionId, body.playerId, resolvedSaveId);
     const draftedPlayer = session.prospects.find((player) => player.id === body.playerId);
     if (!draftedPlayer) {
@@ -99,7 +104,10 @@ export const POST = async (request: Request) => {
 
     if (
       body.sessionSnapshot &&
-      (message === 'Draft session not found' || message === 'Save not found')
+      (message === 'Draft session not found' ||
+        message === 'Save not found' ||
+        message === 'Not user pick' ||
+        message === 'Player not available')
     ) {
       try {
         const restoredSaveId = body.saveId!;
