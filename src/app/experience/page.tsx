@@ -13,6 +13,7 @@ import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { getReadableTextColor } from '@/lib/color-utils';
+import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 
 type ExperienceMode = 'full' | 'freeAgency' | 'draft';
 
@@ -44,9 +45,15 @@ export default function ExperiencePage() {
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const teamId = useSaveStore((state) => state.teamId);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
+  const roster = useSaveStore((state) => state.roster);
   const phase = useSaveStore((state) => state.phase);
+  const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const setPhase = useSaveStore((state) => state.setPhase);
+  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const teams = useTeamStore((state) => state.teams);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const setFullExperience = useExperienceStore((state) => state.setFullExperience);
@@ -78,6 +85,25 @@ export default function ExperiencePage() {
   }
 
   const handleContinue = async () => {
+    const actionableSaveId = await ensureRecoverableSaveId(
+      {
+        preferredSaveId: saveId,
+        teamId,
+        teamAbbr,
+        capSpace,
+        capLimit,
+        roster,
+        phase,
+        unlocked,
+      },
+      setSaveHeader,
+    );
+
+    if (!actionableSaveId) {
+      router.replace('/');
+      return;
+    }
+
     if (selectedMode === 'full') {
       setFullExperience();
       if (phase !== 'resign_cut') {

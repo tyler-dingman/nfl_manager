@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import PlayerDetailsModal from '@/components/player-details-modal';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
@@ -16,6 +17,7 @@ import { getPlayerTypeIndicator } from '@/lib/player-type-indicator';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { dispatchSaveDataUpdated } from '@/lib/save-sync-events';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
+import type { PlayerDetailsSource } from '@/lib/player-details';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import { useToast } from '@/components/ui/toast';
 import { resolvePlayerRating } from '@/lib/team-overview';
@@ -161,10 +163,17 @@ const renderAssetMeta = (asset: TradeOfferAssetDTO) => {
   return `${asset.position} · ${asset.age ?? '—'} yrs · ${asset.contractSummary}`;
 };
 
-const renderAssetCard = (asset: TradeOfferAssetDTO) => (
+const renderAssetCard = (
+  asset: TradeOfferAssetDTO,
+  onOpenPlayer?: (asset: Extract<TradeOfferAssetDTO, { type: 'player' }>) => void,
+) => (
   <div key={asset.id} className="rounded-xl border border-border px-3 py-3">
     {asset.type === 'player' ? (
-      <div className="flex items-center gap-3">
+      <button
+        type="button"
+        className="flex w-full items-center gap-3 text-left"
+        onClick={() => onOpenPlayer?.(asset)}
+      >
         <div className="shrink-0">
           {asset.headshotUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -191,7 +200,7 @@ const renderAssetCard = (asset: TradeOfferAssetDTO) => (
           </div>
           <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
         </div>
-      </div>
+      </button>
     ) : (
       <div className="flex items-center gap-3">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -260,6 +269,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
   const unlocked = useSaveStore((state) => state.unlocked);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const setRoster = useSaveStore((state) => state.setRoster);
+  const teams = useTeamStore((state) => state.teams);
   const selectedTeam = useTeamStore((state) =>
     state.teams.find((team) => team.id === state.selectedTeamId),
   );
@@ -294,7 +304,47 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
   const [meterExplanation, setMeterExplanation] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isLoadingAssetSources, setIsLoadingAssetSources] = React.useState(false);
+  const [activePlayerDetails, setActivePlayerDetails] = React.useState<PlayerDetailsSource | null>(
+    null,
+  );
   const evaluateRequestRef = React.useRef(0);
+
+  const openPlayerDetailsFromAsset = React.useCallback(
+    (asset: Extract<TradeOfferAssetDTO, { type: 'player' }>) => {
+      const userMatch = userAssetSource?.players.find((player) => player.id === asset.playerId);
+      const partnerMatch = partnerAssetSource?.players.find((player) => player.id === asset.playerId);
+      const matchedPlayer = userMatch ?? partnerMatch;
+
+      if (matchedPlayer) {
+        setActivePlayerDetails({
+          kind: matchedPlayer.teamAbbr === teamAbbr ? 'roster' : 'tradeAsset',
+          player: matchedPlayer,
+        });
+        return;
+      }
+
+      const nameParts = asset.name.split(' ');
+      const firstName = nameParts[0] ?? asset.name;
+      const lastName = nameParts.slice(1).join(' ') || asset.name;
+      setActivePlayerDetails({
+        kind: asset.teamAbbr === teamAbbr ? 'roster' : 'tradeAsset',
+        player: {
+          id: asset.playerId,
+          firstName,
+          lastName,
+          teamAbbr: asset.teamAbbr,
+          position: asset.position,
+          age: asset.age ?? undefined,
+          rating: asset.rating ?? undefined,
+          capHit: asset.capHit,
+          contractYearsRemaining: 0,
+          status: 'active',
+          headshotUrl: asset.headshotUrl ?? null,
+        },
+      });
+    },
+    [partnerAssetSource, teamAbbr, userAssetSource],
+  );
 
   const loadAssetSources = React.useCallback(async () => {
     if (!offer || !saveId) return false;
@@ -840,7 +890,9 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                   </p>
                 </div>
                 <div className="space-y-3 px-4 py-4">
-                  {offer.outgoing.assets.map((asset) => renderAssetCard(asset))}
+                  {offer.outgoing.assets.map((asset) =>
+                    renderAssetCard(asset, openPlayerDetailsFromAsset),
+                  )}
                   <TradeAssetSlots
                     slots={outgoingSlotAssets}
                     onAdd={(slotIndex) => {
@@ -869,7 +921,9 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                   </p>
                 </div>
                 <div className="space-y-3 px-4 py-4">
-                  {offer.incoming.assets.map((asset) => renderAssetCard(asset))}
+                  {offer.incoming.assets.map((asset) =>
+                    renderAssetCard(asset, openPlayerDetailsFromAsset),
+                  )}
                   <TradeAssetSlots
                     slots={incomingSlotAssets}
                     onAdd={(slotIndex) => {
@@ -955,6 +1009,16 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
             ),
           );
         }}
+      />
+      <PlayerDetailsModal
+        isOpen={Boolean(activePlayerDetails)}
+        source={activePlayerDetails}
+        roster={roster}
+        teams={teams}
+        userTeamAbbr={teamAbbr}
+        capSpace={capSpace}
+        capLimit={capLimit}
+        onClose={() => setActivePlayerDetails(null)}
       />
     </>
   );

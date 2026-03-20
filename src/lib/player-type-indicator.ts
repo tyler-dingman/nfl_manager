@@ -1,4 +1,5 @@
-import { Star, TrendingDown, TrendingUp } from 'lucide-react';
+import { createElement, type ComponentType, type SVGProps } from 'react';
+import { TrendingDown, TrendingUp } from 'lucide-react';
 import type { PlayerRowDTO } from '@/types/player';
 
 export type PlayerTypeIndicatorType = 'superstar' | 'upcoming' | 'declining';
@@ -13,17 +14,51 @@ export type PlayerTypeIndicatorInput = Pick<
 export type PlayerTypeIndicatorResult = {
   type: PlayerTypeIndicatorType;
   label: 'Superstar' | 'Up and Coming' | 'Declining';
-  icon: typeof Star | typeof TrendingUp | typeof TrendingDown;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
   className: string;
   iconClassName?: string;
 };
 
+const SuperstarStarIcon = (props: SVGProps<SVGSVGElement>) =>
+  createElement(
+    'svg',
+    { viewBox: '0 0 24 24', fill: 'none', 'aria-hidden': 'true', ...props },
+    createElement('path', {
+      d: 'M12 3.2L14.25 8.55',
+      stroke: 'currentColor',
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '1.95',
+    }),
+    createElement('path', {
+      d: 'M14.25 8.55H20.15L15.6 11.95',
+      stroke: 'currentColor',
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '1.7',
+    }),
+    createElement('path', {
+      d: 'M15.6 11.95L17.35 18.9L12 15.65L6.65 18.9L8.4 11.95',
+      stroke: 'currentColor',
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '1.65',
+    }),
+    createElement('path', {
+      d: 'M8.4 11.95L3.85 8.55H9.75L12 3.2',
+      stroke: 'currentColor',
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeWidth: '1.9',
+    }),
+  );
+
 const SUPERSTAR_INDICATOR: PlayerTypeIndicatorResult = {
   type: 'superstar',
   label: 'Superstar',
-  icon: Star,
+  icon: SuperstarStarIcon,
   className: 'text-amber-500',
-  iconClassName: 'fill-current stroke-[1.75]',
+  iconClassName: '',
 };
 
 const UPCOMING_INDICATOR: PlayerTypeIndicatorResult = {

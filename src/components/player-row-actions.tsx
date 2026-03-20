@@ -148,6 +148,7 @@ export default function PlayerRowActions({
           size="sm"
           className="h-9 w-[124px] justify-center gap-1.5 px-3 text-xs sm:hidden"
           aria-label={`Open actions for ${name}`}
+          onClick={(event) => event.stopPropagation()}
         >
           <MoreHorizontal className="h-4 w-4" />
           <span>Actions</span>
@@ -159,7 +160,10 @@ export default function PlayerRowActions({
           return (
             <DropdownMenuItem
               key={action.label}
-              onClick={action.onClick}
+              onClick={(event) => {
+                event.stopPropagation();
+                action.onClick?.();
+              }}
               disabled={Boolean(action.disabled)}
               title={action.disabledReason}
             >
@@ -173,7 +177,10 @@ export default function PlayerRowActions({
   );
 
   return (
-    <div className="flex flex-wrap items-center justify-start gap-1.5 sm:flex-nowrap sm:justify-end sm:gap-2">
+    <div
+      className="flex flex-wrap items-center justify-start gap-1.5 sm:flex-nowrap sm:justify-end sm:gap-2"
+      onClick={(event) => event.stopPropagation()}
+    >
       {variant === 'roster' ? mobileRosterActions : null}
       {actions.map((action) => {
         const Icon = action.icon;
@@ -186,7 +193,10 @@ export default function PlayerRowActions({
                 variant="outline"
                 size="sm"
                 className="h-9 w-[124px] justify-center gap-1.5 px-3 text-xs sm:hidden"
-                onClick={action.onClick}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  action.onClick?.();
+                }}
                 aria-label={`${action.label} ${name}`}
                 disabled={isDisabled}
               >
@@ -199,7 +209,10 @@ export default function PlayerRowActions({
               variant="ghost"
               size="icon"
               className="hidden h-8 w-8 sm:inline-flex"
-              onClick={action.onClick}
+              onClick={(event) => {
+                event.stopPropagation();
+                action.onClick?.();
+              }}
               aria-label={`${action.label} ${name}`}
               disabled={isDisabled}
             >

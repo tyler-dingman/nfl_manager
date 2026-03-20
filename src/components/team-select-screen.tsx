@@ -23,7 +23,7 @@ const TeamSelectCard = ({
   <button
     type="button"
     onClick={onSelect}
-    className={`group flex w-full items-center gap-3 rounded-2xl border bg-white p-4 text-left transition hover:-translate-y-0.5 hover:shadow-md ${
+    className={`group flex w-full items-center gap-3 rounded-2xl border bg-white px-4 py-3 text-left transition hover:-translate-y-0.5 hover:shadow-md ${
       isSelected ? 'border-slate-900/30 ring-2 ring-slate-900/10' : 'border-border'
     }`}
   >
@@ -46,20 +46,26 @@ const TeamSelectCard = ({
     </div>
     <div className="flex-1">
       <p className="text-sm font-semibold text-foreground">{team.name}</p>
-      <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
-        OVR
-      </p>
-      <p className="mt-0.5 text-sm font-semibold text-slate-900">
-        <span style={{ color: team.color_primary }} className="font-bold">
-          {team.teamOverview}
-        </span>
-      </p>
-      <p className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
-        Team Needs
-      </p>
-      <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-700">
-        {team.teamNeeds.join(' • ')}
-      </p>
+      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+        <div className="inline-flex items-center gap-1.5">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+            OVR
+          </span>
+          <span className="text-sm font-semibold text-slate-900">
+            <span style={{ color: team.color_primary }} className="font-bold">
+              {team.teamOverview}
+            </span>
+          </span>
+        </div>
+        <div className="min-w-0 inline-flex flex-1 items-center gap-1.5">
+          <span className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+            Needs
+          </span>
+          <span className="truncate text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-700">
+            {team.teamNeeds.join(' • ')}
+          </span>
+        </div>
+      </div>
     </div>
     <ChevronRight className="h-4 w-4 text-muted-foreground transition group-hover:text-foreground" />
   </button>

@@ -60,10 +60,12 @@ export function TradeBlockTable({
   data,
   loading = false,
   onExplorePlayer,
+  onSelectPlayer,
 }: {
   data: TradeBlockRow[];
   loading?: boolean;
   onExplorePlayer: (player: TradeBlockRow) => void;
+  onSelectPlayer?: (player: TradeBlockRow) => void;
 }) {
   const teams = useTeamStore((state) => state.teams);
   const userTeamAbbr = useSaveStore((state) => state.teamAbbr);
@@ -280,7 +282,13 @@ export function TradeBlockTable({
                   </thead>
                   <tbody>
                     {filteredPlayers.map((player) => (
-                      <tr key={player.id} className="border-t border-border hover:bg-slate-50/60">
+                      <tr
+                        key={player.id}
+                        className={`border-t border-border hover:bg-slate-50/60 ${
+                          onSelectPlayer ? 'cursor-pointer' : ''
+                        }`}
+                        onClick={onSelectPlayer ? () => onSelectPlayer(player) : undefined}
+                      >
                         <td className="px-4 py-2 text-sm sm:px-6">
                           <div className="flex items-center gap-3">
                             <div className="shrink-0">
@@ -371,7 +379,10 @@ export function TradeBlockTable({
                             variant="outline"
                             size="sm"
                             className="w-[124px] justify-center gap-1.5 text-xs"
-                            onClick={() => onExplorePlayer(player)}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              onExplorePlayer(player);
+                            }}
                           >
                             <ArrowLeftRight className="h-4 w-4" />
                             Trade

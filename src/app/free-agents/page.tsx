@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import AppShell from '@/components/app-shell';
 import ContractOfferModal, { type OfferResponse } from '@/components/contract-offer-modal';
 import { StepHeader } from '@/components/offseason/step-header';
+import PlayerDetailsModal from '@/components/player-details-modal';
 import { PlayerTable } from '@/components/player-table';
 import { useToast } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
@@ -23,6 +24,7 @@ import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
+import type { PlayerDetailsSource } from '@/lib/player-details';
 import type { PlayerRowDTO } from '@/types/player';
 
 export default function FreeAgentsPage() {
@@ -42,6 +44,7 @@ export default function FreeAgentsPage() {
   const { data, isLoading } = useFreeAgentsQuery(saveId, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>(() => data);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
+  const [activePlayerDetails, setActivePlayerDetails] = useState<PlayerDetailsSource | null>(null);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const { push: pushToast } = useToast();
   const mode = useExperienceStore((state) => state.mode);
@@ -396,6 +399,17 @@ export default function FreeAgentsPage() {
         loading={isLoading && players.length === 0}
         freeAgentView={activeTab}
         onOfferPlayer={handleOfferPlayer}
+        onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'freeAgent', player })}
+      />
+      <PlayerDetailsModal
+        isOpen={Boolean(activePlayerDetails)}
+        source={activePlayerDetails}
+        roster={roster}
+        teams={teams}
+        userTeamAbbr={teamAbbr}
+        capSpace={capSpace}
+        capLimit={capLimit}
+        onClose={() => setActivePlayerDetails(null)}
       />
       {activeOfferPlayer ? (
         <ContractOfferModal

@@ -102,6 +102,7 @@ type PlayerTableProps = {
   variant: PlayerTableVariant;
   loading?: boolean;
   freeAgentView?: 'available' | 'signed';
+  onPlayerSelect?: (player: PlayerRowDTO) => void;
   onTheClockForUserTeam?: boolean;
   onCutPlayer?: (player: PlayerRowDTO) => void;
   onTradePlayer?: (player: PlayerRowDTO) => void;
@@ -244,6 +245,7 @@ export function PlayerTable({
   variant,
   loading = false,
   freeAgentView = 'available',
+  onPlayerSelect,
   onTheClockForUserTeam = false,
   onCutPlayer,
   onTradePlayer,
@@ -910,8 +912,16 @@ export function PlayerTable({
                           key={row.id}
                           className={cn(
                             'border-t border-border hover:bg-slate-50/60',
+                            onPlayerSelect ? 'cursor-pointer' : null,
                             isCut ? 'opacity-60' : null,
                           )}
+                          onClick={
+                            onPlayerSelect
+                              ? () => {
+                                  onPlayerSelect(row.original);
+                                }
+                              : undefined
+                          }
                         >
                           {row.getVisibleCells().map((cell) => (
                             <td

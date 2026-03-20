@@ -7,6 +7,7 @@ import { ArrowLeftRight, ArrowUpDown, Handshake, MoreHorizontal, Users } from 'l
 import AppShell from '@/components/app-shell';
 import CutPlayerModal from '@/components/cut-player-modal';
 import OnboardingModal from '@/components/onboarding/OnboardingModal';
+import PlayerDetailsModal from '@/components/player-details-modal';
 import { PlayerTable, PositionFilterBar } from '@/components/player-table';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import { TradeBlockTable } from '@/components/trade-block-table';
@@ -42,6 +43,7 @@ import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { useOnboarding } from '@/hooks/useOnboarding';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
+import type { PlayerDetailsSource } from '@/lib/player-details';
 import type { PlayerRowDTO } from '@/types/player';
 import type { ResignResultDTO } from '@/types/resign';
 import type { RenegotiateResultDTO } from '@/types/renegotiate';
@@ -107,6 +109,7 @@ export default function RosterPage() {
   const [activeCutPlayer, setActiveCutPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeResignPlayer, setActiveResignPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeRenegotiatePlayer, setActiveRenegotiatePlayer] = useState<PlayerRowDTO | null>(null);
+  const [activePlayerDetails, setActivePlayerDetails] = useState<PlayerDetailsSource | null>(null);
   const [activeExpiringContract, setActiveExpiringContract] = useState<ExpiringContractRow | null>(
     null,
   );
@@ -290,12 +293,14 @@ export default function RosterPage() {
       setRosterInteractionCount((current) => current + 1);
     };
 
-    window.addEventListener('pointerdown', registerInteraction, { passive: true });
+    // Track completed clicks instead of pointerdown so we do not rerender the page
+    // before button click handlers on the roster table have a chance to fire.
+    window.addEventListener('click', registerInteraction, { passive: true });
     window.addEventListener('wheel', registerInteraction, { passive: true });
     window.addEventListener('keydown', registerInteraction);
 
     return () => {
-      window.removeEventListener('pointerdown', registerInteraction);
+      window.removeEventListener('click', registerInteraction);
       window.removeEventListener('wheel', registerInteraction);
       window.removeEventListener('keydown', registerInteraction);
     };
@@ -1050,7 +1055,13 @@ export default function RosterPage() {
                             {filteredExpiringContracts.map((player) => (
                               <tr
                                 key={player.id}
-                                className="border-t border-border hover:bg-slate-50/60"
+                                className="cursor-pointer border-t border-border hover:bg-slate-50/60"
+                                onClick={() =>
+                                  setActivePlayerDetails({
+                                    kind: 'expiring',
+                                    player,
+                                  })
+                                }
                               >
                                 <td className="px-4 py-1.5 text-left text-sm font-semibold text-foreground sm:px-6">
                                   <div className="flex w-full items-start justify-start gap-3 text-left">
@@ -1127,7 +1138,10 @@ export default function RosterPage() {
                                     variant="outline"
                                     size="sm"
                                     disabled={!saveId}
-                                    onClick={() => setActiveExpiringContract(player)}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setActiveExpiringContract(player);
+                                    }}
                                     className="h-9 w-[124px] justify-center gap-1.5 text-xs md:hidden"
                                   >
                                     <Handshake className="h-4 w-4" />
@@ -1138,7 +1152,10 @@ export default function RosterPage() {
                                     variant="ghost"
                                     size="icon"
                                     disabled={!saveId}
-                                    onClick={() => setActiveExpiringContract(player)}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setActiveExpiringContract(player);
+                                    }}
                                     className="hidden md:inline-flex"
                                   >
                                     <Handshake className="h-4 w-4" />
@@ -1168,6 +1185,7 @@ export default function RosterPage() {
               <TradeBlockTable
                 data={tradeBlockPlayers}
                 loading={isTradeBlockLoading && tradeBlockPlayers.length === 0}
+                onSelectPlayer={(player) => setActivePlayerDetails({ kind: 'tradeBlock', player })}
                 onExplorePlayer={(player) =>
                   router.push(
                     `/manage/trades?partnerTeamAbbr=${player.teamAbbr ?? ''}&playerId=${player.id}`,
@@ -1187,6 +1205,7 @@ export default function RosterPage() {
                 onCutPlayer={setActiveCutPlayer}
                 onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
                 onRenegotiatePlayer={setActiveRenegotiatePlayer}
+                onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'roster', player })}
               />
             </div>
           )}
@@ -1199,8 +1218,19 @@ export default function RosterPage() {
           onCutPlayer={setActiveCutPlayer}
           onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
           onRenegotiatePlayer={setActiveRenegotiatePlayer}
+          onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'roster', player })}
         />
       )}
+      <PlayerDetailsModal
+        isOpen={Boolean(activePlayerDetails)}
+        source={activePlayerDetails}
+        roster={players}
+        teams={teams}
+        userTeamAbbr={teamAbbr}
+        capSpace={capSpace}
+        capLimit={capLimit}
+        onClose={() => setActivePlayerDetails(null)}
+      />
       {activeCutPlayer ? (
         <CutPlayerModal
           player={activeCutPlayer}
