@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 import type { PlayerRowDTO } from '@/types/player';
 import type { DraftMode, DraftPickDTO, DraftSessionDTO, DraftSessionState } from '@/types/draft';
 
-import { addDraftedPlayersInState, getSaveStateResult, pushNewsItem } from './store';
+import { addDraftedPlayersInState, getSaveStateResult, listSaveStates, pushNewsItem } from './store';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import { createRng } from '@/lib/deterministic-rng';
 import { getSaveHeaderSnapshot, getProjectedCapSpaceForTeam } from './store';
@@ -34,6 +34,9 @@ const getDraftSessionState = (saveId: string, draftSessionId: string) => {
   }
   return { state, session };
 };
+
+export const findSaveIdForDraftSession = (draftSessionId: string): string | null =>
+  listSaveStates().find((entry) => Boolean(entry.state.draftSessions?.[draftSessionId]))?.saveId ?? null;
 
 const DRAFT_ORDER = [
   'LV',

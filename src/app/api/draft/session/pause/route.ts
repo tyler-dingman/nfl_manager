@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { setDraftSessionPaused } from '@/server/api/draft';
+import { findSaveIdForDraftSession, setDraftSessionPaused } from '@/server/api/draft';
 
 export const POST = async (request: Request) => {
   const body = (await request.json()) as {
@@ -17,7 +17,8 @@ export const POST = async (request: Request) => {
   }
 
   try {
-    const session = setDraftSessionPaused(body.draftSessionId, body.saveId, body.isPaused);
+    const resolvedSaveId = findSaveIdForDraftSession(body.draftSessionId) ?? body.saveId;
+    const session = setDraftSessionPaused(body.draftSessionId, resolvedSaveId, body.isPaused);
     return NextResponse.json({ ok: true, session });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to update pause state';

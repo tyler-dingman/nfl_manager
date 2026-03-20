@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 
 import { createDraftSession, getDraftSession } from '@/server/api/draft';
-import { getSaveStateResult, listSaveStates } from '@/server/api/store';
+import { getSaveStateResult, listSaveStates, restoreSaveState } from '@/server/api/store';
 import type { DraftMode } from '@/types/draft';
+import type { PlayerRowDTO } from '@/types/player';
+import type { SaveUnlocksDTO } from '@/types/save';
 
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
@@ -31,9 +33,21 @@ export const GET = async (request: Request) => {
 };
 
 export const POST = async (request: Request) => {
-  let body: { mode?: DraftMode; saveId?: string } = {};
+  let body:
+    | {
+        mode?: DraftMode;
+        saveId?: string;
+        teamAbbr?: string;
+        capSpace?: number;
+        capLimit?: number;
+        roster?: PlayerRowDTO[];
+        phase?: string;
+        unlocked?: SaveUnlocksDTO;
+        createdAt?: string;
+      }
+    | undefined = {};
   try {
-    body = (await request.json()) as { mode?: DraftMode; saveId?: string };
+    body = (await request.json()) as typeof body;
   } catch {
     body = {};
   }
@@ -43,11 +57,30 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: 'Invalid mode' }, { status: 400 });
   }
 
-  if (!body.saveId) {
+  if (!body?.saveId) {
     return NextResponse.json({ ok: false, error: 'saveId is required' }, { status: 400 });
   }
 
-  const stateResult = getSaveStateResult(body.saveId);
+  let stateResult = getSaveStateResult(body.saveId);
+  if (
+    !stateResult.ok &&
+    body.teamAbbr &&
+    typeof body.capSpace === 'number' &&
+    typeof body.capLimit === 'number' &&
+    Array.isArray(body.roster)
+  ) {
+    restoreSaveState(body.saveId, {
+      teamAbbr: body.teamAbbr,
+      capSpace: body.capSpace,
+      capLimit: body.capLimit,
+      roster: body.roster,
+      phase: body.phase,
+      unlocked: body.unlocked,
+      createdAt: body.createdAt,
+    });
+    stateResult = getSaveStateResult(body.saveId);
+  }
+
   if (!stateResult.ok) {
     return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });
   }

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { pickDraftPlayer } from '@/server/api/draft';
+import { findSaveIdForDraftSession, pickDraftPlayer } from '@/server/api/draft';
 import type { PlayerRowDTO } from '@/types/player';
 
 const NEED_ORDER = ['QB', 'WR', 'OT', 'EDGE', 'CB', 'DL', 'RB', 'LB', 'S', 'TE', 'OL', 'K'];
@@ -60,7 +60,8 @@ export const POST = async (request: Request) => {
   }
 
   try {
-    const session = pickDraftPlayer(body.draftSessionId, body.playerId, body.saveId);
+    const resolvedSaveId = findSaveIdForDraftSession(body.draftSessionId) ?? body.saveId;
+    const session = pickDraftPlayer(body.draftSessionId, body.playerId, resolvedSaveId);
     const draftedPlayer = session.prospects.find((player) => player.id === body.playerId);
     if (!draftedPlayer) {
       return NextResponse.json({ ok: false, error: 'Drafted player not found' }, { status: 404 });

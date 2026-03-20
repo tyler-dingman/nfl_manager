@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { advanceDraftSession } from '@/server/api/draft';
+import { advanceDraftSession, findSaveIdForDraftSession } from '@/server/api/draft';
 
 export const POST = async (request: Request) => {
   const body = (await request.json()) as {
@@ -16,7 +16,8 @@ export const POST = async (request: Request) => {
   }
 
   try {
-    const session = advanceDraftSession(body.draftSessionId, body.saveId);
+    const resolvedSaveId = findSaveIdForDraftSession(body.draftSessionId) ?? body.saveId;
+    const session = advanceDraftSession(body.draftSessionId, resolvedSaveId);
     return NextResponse.json({ ok: true, session });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to advance draft';

@@ -405,6 +405,22 @@ function DraftRoomContent() {
     [resolvedSaveId, saveId, setActiveDraftSessionId],
   );
 
+  const buildDraftSaveSnapshot = React.useCallback(
+    (activeSaveId: string) => ({
+      saveId: activeSaveId,
+      teamAbbr: teamAbbr || selectedTeam?.abbr || null,
+      capSpace,
+      capLimit,
+      roster,
+      phase: 'draft',
+      unlocked: {
+        freeAgency: true,
+        draft: true,
+      },
+    }),
+    [capLimit, capSpace, roster, selectedTeam?.abbr, teamAbbr],
+  );
+
   const syncDraftPhase = React.useCallback(
     async (activeSaveId: string) => {
       const response = await apiFetch(
@@ -412,7 +428,7 @@ function DraftRoomContent() {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ saveId: activeSaveId, phase: 'draft' }),
+          body: JSON.stringify(buildDraftSaveSnapshot(activeSaveId)),
         },
         { skipSaveGuard: true },
       );
@@ -451,7 +467,7 @@ function DraftRoomContent() {
       );
       return true;
     },
-    [setSaveHeader, teamId],
+    [buildDraftSaveSnapshot, setSaveHeader, teamId],
   );
 
   const startDraft = React.useCallback(async () => {
@@ -484,7 +500,10 @@ function DraftRoomContent() {
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ saveId: targetSaveId, mode }),
+            body: JSON.stringify({
+              ...buildDraftSaveSnapshot(targetSaveId),
+              mode,
+            }),
           },
           { skipSaveGuard: true },
         );
@@ -538,6 +557,7 @@ function DraftRoomContent() {
     fetchSession,
     mode,
     setActiveDraftSessionId,
+    buildDraftSaveSnapshot,
     syncDraftPhase,
   ]);
 

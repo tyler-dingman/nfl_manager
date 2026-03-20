@@ -1,23 +1,55 @@
 import { NextResponse } from 'next/server';
 
-import { setSavePhase } from '@/server/api/store';
+import { restoreSaveState, setSavePhase } from '@/server/api/store';
+import type { PlayerRowDTO } from '@/types/player';
+import type { SaveUnlocksDTO } from '@/types/save';
 
 export const POST = async (request: Request) => {
-  let body: { saveId?: string; phase?: string } = {};
+  let body:
+    | {
+        saveId?: string;
+        phase?: string;
+        teamAbbr?: string;
+        capSpace?: number;
+        capLimit?: number;
+        roster?: PlayerRowDTO[];
+        unlocked?: SaveUnlocksDTO;
+        createdAt?: string;
+      }
+    | undefined = {};
   try {
-    body = (await request.json()) as { saveId?: string; phase?: string };
+    body = (await request.json()) as typeof body;
   } catch {
     body = {};
   }
 
-  if (!body.saveId || !body.phase) {
+  if (!body?.saveId || !body.phase) {
     return NextResponse.json(
       { ok: false, error: 'saveId and phase are required' },
       { status: 400 },
     );
   }
 
-  const result = setSavePhase(body.saveId, body.phase);
+  let result = setSavePhase(body.saveId, body.phase);
+  if (
+    !result.ok &&
+    body.teamAbbr &&
+    typeof body.capSpace === 'number' &&
+    typeof body.capLimit === 'number' &&
+    Array.isArray(body.roster)
+  ) {
+    restoreSaveState(body.saveId, {
+      teamAbbr: body.teamAbbr,
+      capSpace: body.capSpace,
+      capLimit: body.capLimit,
+      roster: body.roster,
+      phase: body.phase,
+      unlocked: body.unlocked,
+      createdAt: body.createdAt,
+    });
+    result = setSavePhase(body.saveId, body.phase);
+  }
+
   if (!result.ok) {
     return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
   }
