@@ -31,6 +31,7 @@ import { apiFetch } from '@/lib/api';
 import { useToast } from '@/components/ui/toast';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveUnlocksDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
 import type { FalcoNote } from '@/lib/falco';
 import type { TradeOfferDTO } from '@/types/trade-offers';
@@ -44,6 +45,15 @@ type ActiveDraftRoomProps = {
   saveId: string;
   session: DraftSessionDTO;
   draftSessionId: string;
+  saveSnapshot: {
+    teamAbbr: string;
+    capSpace: number;
+    capLimit: number;
+    roster: PlayerRowDTO[];
+    phase?: string;
+    unlocked?: SaveUnlocksDTO;
+    createdAt?: string;
+  };
   teams: TeamDTO[];
   falcoNotes: FalcoNote[];
   speedLevel: DraftSpeedLevel;
@@ -99,6 +109,7 @@ export function ActiveDraftRoom({
   saveId,
   session,
   draftSessionId,
+  saveSnapshot,
   teams,
   falcoNotes,
   speedLevel,
@@ -299,7 +310,12 @@ export function ActiveDraftRoom({
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ draftSessionId, saveId }),
+          body: JSON.stringify({
+            draftSessionId,
+            saveId,
+            sessionSnapshot: sessionRef.current,
+            saveSnapshot,
+          }),
         },
         { skipSaveGuard: true },
       );
@@ -317,7 +333,7 @@ export function ActiveDraftRoom({
     } finally {
       advanceInFlight.current = false;
     }
-  }, [draftSessionId, onSessionUpdate, saveId]);
+  }, [draftSessionId, onSessionUpdate, saveId, saveSnapshot]);
 
   const handleSkipToUserPick = React.useCallback(async () => {
     if (onClock || skipInFlight.current || !saveId) {
@@ -338,7 +354,12 @@ export function ActiveDraftRoom({
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ draftSessionId, saveId }),
+            body: JSON.stringify({
+              draftSessionId,
+              saveId,
+              sessionSnapshot: snapshot,
+              saveSnapshot,
+            }),
           },
           { skipSaveGuard: true },
         );
@@ -355,7 +376,7 @@ export function ActiveDraftRoom({
     } finally {
       skipInFlight.current = false;
     }
-  }, [draftSessionId, onClock, onSessionUpdate, saveId, session]);
+  }, [draftSessionId, onClock, onSessionUpdate, saveId, saveSnapshot, session]);
 
   const clearDraftTimer = React.useCallback(() => {
     if (timerRef.current) {

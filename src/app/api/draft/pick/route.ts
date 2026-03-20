@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 
-import { findSaveIdForDraftSession, pickDraftPlayer } from '@/server/api/draft';
+import { findSaveIdForDraftSession, pickDraftPlayer, restoreDraftSession } from '@/server/api/draft';
+import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveUnlocksDTO } from '@/types/save';
 
 const NEED_ORDER = ['QB', 'WR', 'OT', 'EDGE', 'CB', 'DL', 'RB', 'LB', 'S', 'TE', 'OL', 'K'];
 
@@ -45,7 +47,23 @@ const buildDraftGrade = (player: PlayerRowDTO, teamNeeds: string[]) => {
 };
 
 export const POST = async (request: Request) => {
-  let body: { draftSessionId?: string; saveId?: string; playerId?: string } = {};
+  let body:
+    | {
+        draftSessionId?: string;
+        saveId?: string;
+        playerId?: string;
+        sessionSnapshot?: DraftSessionDTO;
+        saveSnapshot?: {
+          teamAbbr: string;
+          capSpace: number;
+          capLimit: number;
+          roster: PlayerRowDTO[];
+          phase?: string;
+          unlocked?: SaveUnlocksDTO;
+          createdAt?: string;
+        };
+      }
+    | undefined = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
@@ -78,6 +96,40 @@ export const POST = async (request: Request) => {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to make draft pick';
+
+    if (
+      body.sessionSnapshot &&
+      (message === 'Draft session not found' || message === 'Save not found')
+    ) {
+      try {
+        const restoredSaveId = body.saveId!;
+        const sessionSnapshot = body.sessionSnapshot;
+        if (!sessionSnapshot) {
+          return NextResponse.json({ ok: false, error: message }, { status: 400 });
+        }
+        const session = restoreDraftSession(restoredSaveId, sessionSnapshot, body.saveSnapshot);
+        const updatedSession = pickDraftPlayer(body.draftSessionId, body.playerId, restoredSaveId);
+        const draftedPlayer = updatedSession.prospects.find((player) => player.id === body.playerId);
+        if (!draftedPlayer) {
+          return NextResponse.json({ ok: false, error: 'Drafted player not found' }, { status: 404 });
+        }
+
+        const teamNeeds = getTeamNeeds(session.userTeamAbbr);
+        const grade = buildDraftGrade(draftedPlayer, teamNeeds);
+
+        return NextResponse.json({
+          ok: true,
+          session: updatedSession,
+          grade,
+          draftedPlayer,
+        });
+      } catch (restoreError) {
+        const restoreMessage =
+          restoreError instanceof Error ? restoreError.message : 'Unable to make draft pick';
+        return NextResponse.json({ ok: false, error: restoreMessage }, { status: 400 });
+      }
+    }
+
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };

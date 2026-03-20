@@ -3,11 +3,19 @@ import { randomUUID } from 'crypto';
 import type { PlayerRowDTO } from '@/types/player';
 import type { DraftMode, DraftPickDTO, DraftSessionDTO, DraftSessionState } from '@/types/draft';
 
-import { addDraftedPlayersInState, getSaveStateResult, listSaveStates, pushNewsItem } from './store';
+import {
+  addDraftedPlayersInState,
+  ensureSaveState,
+  getSaveStateResult,
+  listSaveStates,
+  pushNewsItem,
+  restoreSaveState,
+} from './store';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import { createRng } from '@/lib/deterministic-rng';
 import { getSaveHeaderSnapshot, getProjectedCapSpaceForTeam } from './store';
 import type { TradeOfferDTO } from '@/types/trade-offers';
+import type { SaveUnlocksDTO } from '@/types/save';
 
 export type DraftSessionStartResponse = {
   draftSessionId: string;
@@ -37,6 +45,50 @@ const getDraftSessionState = (saveId: string, draftSessionId: string) => {
 
 export const findSaveIdForDraftSession = (draftSessionId: string): string | null =>
   listSaveStates().find((entry) => Boolean(entry.state.draftSessions?.[draftSessionId]))?.saveId ?? null;
+
+type DraftSaveSnapshot = {
+  teamAbbr: string;
+  capSpace: number;
+  capLimit: number;
+  roster: PlayerRowDTO[];
+  phase?: string;
+  unlocked?: SaveUnlocksDTO;
+  createdAt?: string;
+};
+
+const cloneDraftSessionSnapshot = (session: DraftSessionDTO, saveId: string): DraftSessionState => ({
+  ...session,
+  rngState: session.rngState ?? session.rngSeed,
+  saveId,
+  finalized: session.status === 'completed',
+  picks: session.picks.map((pick) => ({ ...pick })),
+  prospects: session.prospects.map((prospect) => ({
+    ...prospect,
+    stats: { ...(prospect.stats ?? {}) },
+    contract: prospect.contract ? { ...prospect.contract } : prospect.contract,
+  })),
+});
+
+export const restoreDraftSession = (
+  saveId: string,
+  session: DraftSessionDTO,
+  saveSnapshot?: DraftSaveSnapshot,
+): DraftSessionDTO => {
+  const state = saveSnapshot
+    ? restoreSaveState(saveId, {
+        teamAbbr: saveSnapshot.teamAbbr,
+        capSpace: saveSnapshot.capSpace,
+        capLimit: saveSnapshot.capLimit,
+        roster: saveSnapshot.roster,
+        phase: saveSnapshot.phase,
+        unlocked: saveSnapshot.unlocked,
+        createdAt: saveSnapshot.createdAt,
+      })
+    : ensureSaveState(saveId, session.userTeamAbbr);
+
+  state.draftSessions[session.id] = cloneDraftSessionSnapshot(session, saveId);
+  return state.draftSessions[session.id];
+};
 
 const DRAFT_ORDER = [
   'LV',

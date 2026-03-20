@@ -408,7 +408,7 @@ function DraftRoomContent() {
   const buildDraftSaveSnapshot = React.useCallback(
     (activeSaveId: string) => ({
       saveId: activeSaveId,
-      teamAbbr: teamAbbr || selectedTeam?.abbr || null,
+      teamAbbr: teamAbbr || selectedTeam?.abbr || roster[0]?.teamAbbr || 'KC',
       capSpace,
       capLimit,
       roster,
@@ -581,6 +581,8 @@ function DraftRoomContent() {
             saveId: actionableSaveId,
             draftSessionId: activeDraftSessionId,
             isPaused: nextPaused,
+            sessionSnapshot: session,
+            saveSnapshot: buildDraftSaveSnapshot(actionableSaveId),
           }),
         },
         { skipSaveGuard: true },
@@ -594,7 +596,14 @@ function DraftRoomContent() {
     } finally {
       setDraftControlBusy(false);
     }
-  }, [activeDraftSessionId, draftControlBusy, resolvedSaveId, saveId, session]);
+  }, [
+    activeDraftSessionId,
+    buildDraftSaveSnapshot,
+    draftControlBusy,
+    resolvedSaveId,
+    saveId,
+    session,
+  ]);
 
   React.useEffect(() => {
     if (activeDraftSessionId) {
@@ -670,6 +679,8 @@ function DraftRoomContent() {
           saveId: actionableSaveId,
           draftSessionId: activeDraftSessionId,
           playerId: player.id,
+          sessionSnapshot: session,
+          saveSnapshot: buildDraftSaveSnapshot(actionableSaveId),
         }),
       },
       { skipSaveGuard: true },
@@ -948,6 +959,7 @@ function DraftRoomContent() {
               saveId={resolvedSaveId || saveId}
               session={session}
               draftSessionId={session.id}
+              saveSnapshot={buildDraftSaveSnapshot(resolvedSaveId || saveId)}
               teams={teams}
               falcoNotes={falcoBoard.notes}
               speedLevel={speedLevel}

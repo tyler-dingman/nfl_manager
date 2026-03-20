@@ -17,6 +17,7 @@ export type DraftSessionStatus = 'in_progress' | 'completed';
 export type DraftSessionDTO = {
   id: string;
   rngSeed: number;
+  rngState?: number;
   mode: DraftMode;
   userTeamAbbr: string;
   currentPickIndex: number;
