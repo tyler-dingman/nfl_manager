@@ -1,3 +1,5 @@
+import { getTeamFlavorHandle, getTeamReactionLine } from '@/lib/team-flavor';
+
 type LeagueBuzzEventType = 'capClearingCut' | 'renegotiate' | 'resign';
 
 export type LeagueBuzzToastPayload = {
@@ -71,14 +73,21 @@ export const generateLeagueBuzzToast = ({
     .replace('{teamName}', teamName)
     .replace('{playerName}', playerName)
     .replace('{capAmount}', capAmount);
+  const flavoredTail =
+    eventType === 'capClearingCut'
+      ? getTeamReactionLine(teamAbbr, 'suspenseful', { seed: `${seed}:tone` })
+      : getTeamReactionLine(teamAbbr, 'positive', { seed: `${seed}:tone` });
   const likesBase = 1800 + (hashString(`${seed}:likes`) % 6200);
   const repostsBase = 220 + (hashString(`${seed}:reposts`) % 1600);
   const commentsBase = 90 + (hashString(`${seed}:comments`) % 900);
 
   return {
     displayName: 'National Football League',
-    subtitle: 'League Buzz',
-    message,
+    subtitle:
+      getTeamFlavorHandle(teamAbbr) !== 'Franchise Football'
+        ? `League Buzz · ${getTeamFlavorHandle(teamAbbr)}`
+        : 'League Buzz',
+    message: `${message} ${flavoredTail}`.trim(),
     likes: formatCompact(likesBase),
     reposts: formatCompact(repostsBase),
     comments: formatCompact(commentsBase),

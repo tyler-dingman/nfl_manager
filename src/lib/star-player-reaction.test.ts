@@ -58,7 +58,7 @@ test('builds a deterministic toast payload for a valid move', () => {
 
   assert.ok(payload);
   assert.equal(payload?.displayName, 'Patrick Mahomes');
-  assert.equal(payload?.subtitle, 'Chiefs Locker Room');
+  assert.equal(payload?.subtitle, 'Chiefs Kingdom');
   assert.ok(payload?.message.length);
 });
 

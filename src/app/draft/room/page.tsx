@@ -29,7 +29,7 @@ import {
 } from '@/lib/draft-intelligence';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildFalcoBoard } from '@/lib/falco';
-import { getTeamCatchphrase } from '@/lib/team-chants';
+import { getTeamReactionLine } from '@/lib/team-flavor';
 import { apiFetch } from '@/lib/api';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
@@ -545,7 +545,11 @@ function DraftRoomContent() {
     setGradeLetter(evaluation.grade);
     setDraftedPlayerName(`${player.firstName} ${player.lastName}`);
     setDraftedPlayerMeta(`${player.position} · ${player.college ?? '—'}`);
-    setTeamMessage(getTeamCatchphrase(payload.session.userTeamAbbr));
+    setTeamMessage(
+      getTeamReactionLine(payload.session.userTeamAbbr, 'celebratory', {
+        seed: `${payload.session.id}:${player.id}:${pickNumber}`,
+      }),
+    );
     setGradeReasons(evaluation.reasons);
     setIsGradeOpen(true);
     trackProgress(

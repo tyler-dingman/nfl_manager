@@ -1,5 +1,6 @@
 import { TEAM_LIST } from '@/data/teams';
 import { createRng } from '@/lib/deterministic-rng';
+import { getTeamReactionLine } from '@/lib/team-flavor';
 import { buildPickAsset } from '@/lib/trade-chart';
 import { gradeTradeOffer } from '@/lib/trade-offer-evaluator';
 import { buildTradePlayerAsset, getPlayerTradeValue } from '@/lib/trade-player-valuation';
@@ -211,7 +212,11 @@ const buildOfferCandidate = (
     proposingTeamLogoUrl: aiTeam.team.logoUrl || logoUrlFor(aiTeam.team.abbr),
     headline,
     summary,
-    reason,
+    reason: `${reason} ${getTeamReactionLine(
+      aiTeam.team.abbr,
+      phase === 'draft' ? 'confident' : 'neutral',
+      { seed: `${seed}:reason` },
+    )}`.trim(),
     urgency:
       phase === 'draft'
         ? `Pick ${trigger.replace('pick-', '')} is live — ${aiTeam.team.name} wants a quick answer.`

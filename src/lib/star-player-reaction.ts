@@ -1,4 +1,5 @@
 import { resolvePlayerRating } from '@/lib/team-overview';
+import { getTeamFlavorHandle } from '@/lib/team-flavor';
 import type { PlayerRowDTO } from '@/types/player';
 
 export type StarReactionActionType = 'freeAgency' | 'trade';
@@ -80,6 +81,10 @@ const getIncomingFirstName = (
 };
 
 const buildTeamSubtitle = (teamName?: string | null, teamAbbr?: string | null) => {
+  const handle = getTeamFlavorHandle(teamAbbr);
+  if (handle && handle !== 'Franchise Football') {
+    return handle;
+  }
   const trimmedTeamName = teamName?.trim();
   if (trimmedTeamName) {
     const parts = trimmedTeamName.split(/\s+/);
