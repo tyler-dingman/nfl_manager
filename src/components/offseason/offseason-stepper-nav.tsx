@@ -115,7 +115,7 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
                 </div>
               </div>
               {index < OFFSEASON_STEPS.length - 1 ? (
-                <div className="ml-[11px] h-5 w-px border-l border-dashed border-slate-300" />
+                <div className="ml-[18px] h-5 w-px border-l border-dashed border-slate-300" />
               ) : null}
             </div>
           );

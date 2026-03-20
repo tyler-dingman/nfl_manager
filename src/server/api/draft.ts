@@ -298,10 +298,6 @@ export const pickDraftPlayer = (
   saveId: string,
 ): DraftSessionDTO => {
   const { session, state } = getDraftSessionState(saveId, draftSessionId);
-  if (session.isPaused) {
-    throw new Error('Draft is paused');
-  }
-
   const currentPick = session.picks[session.currentPickIndex];
   if (!currentPick || currentPick.ownerTeamAbbr !== session.userTeamAbbr) {
     throw new Error('Not user pick');

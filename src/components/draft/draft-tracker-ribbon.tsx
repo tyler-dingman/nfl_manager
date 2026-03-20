@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Pause, Play, Settings2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { getReadableTextColor } from '@/lib/color-utils';
 import { cn } from '@/lib/utils';
 import type { DraftPickDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
@@ -35,6 +36,16 @@ const speedLabel = (speedLevel: number) => {
   if (speedLevel === 0) return 'Slow';
   if (speedLevel === 2) return 'Fast';
   return 'Normal';
+};
+
+const getTrackerPickGrade = (pickOverall: number, player: PlayerRowDTO) => {
+  const playerRank = player.rank ?? pickOverall;
+  const delta = playerRank - pickOverall;
+  if (delta >= 10) return 'A';
+  if (delta >= 4) return 'B';
+  if (delta >= -3) return 'C';
+  if (delta >= -10) return 'D';
+  return 'F';
 };
 
 export function DraftTrackerRibbon({
@@ -131,6 +142,8 @@ export function DraftTrackerRibbon({
           {visiblePicks.map((pick, index) => {
             const absoluteIndex = startIndex + index;
             const team = teamLookup.get(pick.ownerTeamAbbr);
+            const primaryColor = team?.colors?.[0] ?? '#020617';
+            const onPrimaryColor = getReadableTextColor(primaryColor);
             const draftedPlayer = pick.selectedPlayerId
               ? prospects.find((player) => player.id === pick.selectedPlayerId)
               : null;
@@ -144,9 +157,18 @@ export function DraftTrackerRibbon({
                 className={cn(
                   'w-[176px] shrink-0 rounded-2xl border px-3 py-2 transition-all',
                   isCurrent
-                    ? 'border-slate-900 bg-slate-950 text-white shadow-lg ring-2 ring-slate-200'
+                    ? 'shadow-lg ring-2 ring-slate-200'
                     : 'border-border bg-slate-50 text-foreground',
                 )}
+                style={
+                  isCurrent
+                    ? {
+                        backgroundColor: primaryColor,
+                        borderColor: primaryColor,
+                        color: onPrimaryColor,
+                      }
+                    : undefined
+                }
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
@@ -162,7 +184,14 @@ export function DraftTrackerRibbon({
                       {team?.abbr ?? pick.ownerTeamAbbr}
                     </p>
                   </div>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
+                  <div
+                    className="flex h-8 w-8 items-center justify-center rounded-full"
+                    style={
+                      isCurrent
+                        ? { backgroundColor: onPrimaryColor === '#ffffff' ? 'rgba(255,255,255,0.14)' : 'rgba(15,23,42,0.12)' }
+                        : { backgroundColor: 'rgba(255,255,255,0.7)' }
+                    }
+                  >
                     {team?.logoUrl ? (
                       <Image
                         src={team.logoUrl}
@@ -176,8 +205,9 @@ export function DraftTrackerRibbon({
                       <span
                         className={cn(
                           'text-[11px] font-semibold',
-                          isCurrent ? 'text-white' : 'text-slate-600',
+                          isCurrent ? '' : 'text-slate-600',
                         )}
+                        style={isCurrent ? { color: onPrimaryColor } : undefined}
                       >
                         {pick.ownerTeamAbbr}
                       </span>
@@ -187,30 +217,71 @@ export function DraftTrackerRibbon({
 
                 <div className="mt-2 min-h-[2rem]">
                   {draftedPlayer ? (
-                    <>
-                      <p
-                        className={cn(
-                          'line-clamp-1 text-sm font-semibold',
-                          isCurrent ? 'text-white' : 'text-foreground',
+                    <div className="flex items-start gap-2">
+                      <div className="shrink-0">
+                        {draftedPlayer.headshotUrl ? (
+                          <Image
+                            src={draftedPlayer.headshotUrl}
+                            alt={`${draftedPlayer.firstName} ${draftedPlayer.lastName}`}
+                            width={28}
+                            height={28}
+                            className="h-7 w-7 rounded-full object-cover object-top"
+                            unoptimized
+                          />
+                        ) : (
+                          <div
+                            className="flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold"
+                            style={{
+                              backgroundColor: isCurrent
+                                ? onPrimaryColor === '#ffffff'
+                                  ? 'rgba(255,255,255,0.14)'
+                                  : 'rgba(15,23,42,0.12)'
+                                : 'rgba(255,255,255,0.7)',
+                              color: isCurrent ? onPrimaryColor : '#475569',
+                            }}
+                          >
+                            {draftedPlayer.firstName.charAt(0)}
+                            {draftedPlayer.lastName.charAt(0)}
+                          </div>
                         )}
-                      >
-                        {draftedPlayer.firstName} {draftedPlayer.lastName}
-                      </p>
-                      <p
-                        className={cn(
-                          'mt-0.5 text-[11px]',
-                          isCurrent ? 'text-slate-300' : 'text-muted-foreground',
-                        )}
-                      >
-                        {draftedPlayer.position}
-                      </p>
-                    </>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p
+                          className={cn(
+                            'line-clamp-1 text-sm font-semibold',
+                            isCurrent ? '' : 'text-foreground',
+                          )}
+                          style={isCurrent ? { color: onPrimaryColor } : undefined}
+                        >
+                          {draftedPlayer.firstName} {draftedPlayer.lastName}
+                        </p>
+                        <p
+                          className={cn(
+                            'mt-0.5 text-[11px]',
+                            isCurrent ? '' : 'text-muted-foreground',
+                          )}
+                          style={
+                            isCurrent
+                              ? {
+                                  color:
+                                    onPrimaryColor === '#ffffff'
+                                      ? 'rgba(255,255,255,0.78)'
+                                      : 'rgba(15,23,42,0.72)',
+                                }
+                              : undefined
+                          }
+                        >
+                          {draftedPlayer.position}
+                        </p>
+                      </div>
+                    </div>
                   ) : (
                     <p
                       className={cn(
                         'line-clamp-2 text-[11px] leading-4',
-                        isCurrent ? 'text-slate-300' : 'text-muted-foreground',
+                        isCurrent ? '' : 'text-muted-foreground',
                       )}
+                      style={isCurrent ? { color: onPrimaryColor === '#ffffff' ? 'rgba(255,255,255,0.78)' : 'rgba(15,23,42,0.72)' } : undefined}
                     >
                       {team?.teamNeeds?.slice(0, 2).join(' · ') || 'Best player available'}
                     </p>
@@ -221,11 +292,30 @@ export function DraftTrackerRibbon({
                   <p
                     className={cn(
                       'mt-1 text-[10px] font-semibold uppercase tracking-[0.18em]',
-                      isCurrent ? 'text-slate-300' : 'text-slate-500',
+                      isCurrent ? '' : 'text-slate-500',
                     )}
+                    style={isCurrent ? { color: onPrimaryColor === '#ffffff' ? 'rgba(255,255,255,0.72)' : 'rgba(15,23,42,0.64)' } : undefined}
                   >
                     Your pick
                   </p>
+                ) : null}
+
+                {isCompleted && draftedPlayer ? (
+                  <div className="mt-2 flex justify-end">
+                    <span
+                      className="inline-flex min-w-[28px] items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-bold"
+                      style={{
+                        backgroundColor: isCurrent
+                          ? onPrimaryColor === '#ffffff'
+                            ? 'rgba(255,255,255,0.14)'
+                            : 'rgba(15,23,42,0.12)'
+                          : '#e2e8f0',
+                        color: isCurrent ? onPrimaryColor : '#0f172a',
+                      }}
+                    >
+                      {getTrackerPickGrade(pick.overall, draftedPlayer)}
+                    </span>
+                  </div>
                 ) : null}
               </div>
             );

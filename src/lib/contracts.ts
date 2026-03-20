@@ -1,7 +1,8 @@
 import type { PlayerRowDTO } from '@/types/player';
 import { createRng } from '@/lib/deterministic-rng';
 
-export const clampYears = (years: number) => Math.max(1, Math.min(5, Math.round(years)));
+export const clampYears = (years: number, maxYears = 5) =>
+  Math.max(1, Math.min(maxYears, Math.round(years)));
 
 const normalizeWeights = (weights: number[]) => {
   const total = weights.reduce((sum, value) => sum + value, 0);
@@ -63,7 +64,7 @@ export const getPreferredYearsForPlayer = (player: PlayerRowDTO): number => {
   return 2;
 };
 
-export const getAllowedYearOptions = (player: PlayerRowDTO): number[] => {
+export const getAllowedYearOptions = (player: PlayerRowDTO, maxYears = 5): number[] => {
   const age = player.age ?? 27;
   const rating = player.rating ?? 75;
   const preferred = getPreferredYearsForPlayer(player);
@@ -76,8 +77,16 @@ export const getAllowedYearOptions = (player: PlayerRowDTO): number[] => {
   if (preferred >= 5 || (age <= 27 && rating >= 90 && rng() < 0.12)) {
     options.add(5);
   }
+  if (
+    maxYears >= 6 &&
+    (preferred >= 5 || (age <= 26 && rating >= 84) || (age <= 28 && rating >= 90 && rng() < 0.2))
+  ) {
+    options.add(6);
+  }
 
-  return Array.from(options).sort((a, b) => a - b);
+  return Array.from(options)
+    .filter((value) => value <= maxYears)
+    .sort((a, b) => a - b);
 };
 
 if (process.env.NODE_ENV !== 'production') {

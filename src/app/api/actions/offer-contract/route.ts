@@ -32,7 +32,7 @@ export const POST = async (request: Request) => {
       );
     }
 
-    const years = clampYears(body.years);
+    const years = clampYears(body.years, 6);
     const guaranteed = typeof body.guaranteed === 'number' ? body.guaranteed : 0;
 
     const stateResult = getSaveStateResult(body.saveId);
@@ -64,7 +64,7 @@ export const POST = async (request: Request) => {
     });
     const interestScore = breakdown.interestScore;
     const tone = interestScore >= 67 ? 'positive' : interestScore >= 34 ? 'neutral' : 'negative';
-    const accepted = breakdown.acceptanceProbability >= 0.7;
+    const accepted = breakdown.acceptanceProbability >= 0.65;
     if (!accepted) {
       return NextResponse.json({
         ok: true,

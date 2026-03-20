@@ -45,7 +45,7 @@ export const scoreFreeAgencyOffer = ({
     }) ??
     getApyCapForPosition(player.position);
 
-  const clampedYears = clampOfferYears(years, 5);
+  const clampedYears = clampOfferYears(years, 6);
   const preferredYears = getPreferredYearsForPlayer(player);
   const yearsFit = getYearsFit(preferredYears, clampedYears);
 
@@ -56,7 +56,7 @@ export const scoreFreeAgencyOffer = ({
     guaranteed,
     position: player.position,
     rating,
-    maxYears: 5,
+    maxYears: 6,
     seed: `fa:${player.id}:${years}:${apy}:${guaranteed}`,
   });
 
@@ -80,7 +80,7 @@ export const scoreFreeAgencyOffer = ({
     }) ?? getApyCapForPosition(player.position);
   const expectedYearsRange: [number, number] = [
     Math.max(1, preferredYears - 1),
-    Math.min(5, preferredYears + 1),
+    Math.min(6, preferredYears + 1),
   ];
 
   return {

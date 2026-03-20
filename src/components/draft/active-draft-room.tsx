@@ -663,6 +663,8 @@ export function ActiveDraftRoom({
             teamName={selectedTeam?.name ?? currentPick.ownerTeamAbbr}
             teamLogoUrl={selectedTeam?.logoUrl}
             teamAbbr={currentPick.ownerTeamAbbr}
+            teamPrimaryColor={selectedTeam?.colors?.[0] ?? null}
+            teamSecondaryColor={selectedTeam?.colors?.[1] ?? selectedTeam?.colors?.[0] ?? null}
             round={currentPick.round}
             overall={currentPick.overall}
             isUserOnClock={onClock}
