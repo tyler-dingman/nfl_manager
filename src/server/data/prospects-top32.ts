@@ -1,5 +1,7 @@
 import type { PlayerRowDTO } from '@/types/player';
 
+import { DRAFT_PROSPECTS } from './draft-prospects';
+
 export type ProspectSeed = {
   id: string;
   rank: number;
@@ -308,24 +310,69 @@ export const TOP_50_PROSPECTS: ProspectSeed[] = [
 ];
 
 export const buildTop32Prospects = (): PlayerRowDTO[] =>
-  TOP_50_PROSPECTS.map((prospect) => {
+  (DRAFT_PROSPECTS.length > 0
+    ? DRAFT_PROSPECTS.map((prospect) => ({
+        id: prospect.id,
+        rank: prospect.ranking ?? 999,
+        name: prospect.name,
+        position: prospect.position ?? 'ATH',
+        college: prospect.school ?? 'School TBD',
+        grade: prospect.grade ?? undefined,
+        projectedPick: prospect.projectedPick ?? prospect.ranking ?? undefined,
+        headshotUrl: prospect.headshotUrl ?? undefined,
+        age: prospect.age ?? undefined,
+        height: prospect.height ?? undefined,
+        weight: prospect.weight ?? undefined,
+        summary: prospect.summary ?? undefined,
+        archetype: prospect.archetype ?? undefined,
+        projectedRange: prospect.projectedRange ?? undefined,
+        classYear: prospect.classYear ?? undefined,
+        hometown: prospect.hometown ?? undefined,
+        espnPlayerId: prospect.espnPlayerId ?? undefined,
+        espnProfileUrl: prospect.espnProfileUrl ?? undefined,
+        source: prospect.source ?? undefined,
+        stats: prospect.stats,
+      }))
+    : TOP_50_PROSPECTS)
+    .map((prospect) => {
     const { firstName, lastName } = splitName(prospect.name);
     const stableId = prospect.id || `${slugify(prospect.name)}-${slugify(prospect.college)}`;
-    const projectedRound = prospect.rank <= 32 ? 'Round 1' : 'Round 2';
-    const gradeValue = 95 - (prospect.rank - 1) * 0.3;
+    const projectedPick = 'projectedPick' in prospect ? prospect.projectedPick : prospect.rank;
+    const projectedRound =
+      'projectedRange' in prospect && prospect.projectedRange
+        ? prospect.projectedRange
+        : prospect.rank <= 32
+          ? 'Round 1'
+          : 'Round 2';
+    const gradeValue =
+      'grade' in prospect && prospect.grade ? Number.parseFloat(prospect.grade) : 95 - (prospect.rank - 1) * 0.3;
     return {
       id: stableId,
       firstName,
       lastName,
       position: prospect.position,
       rank: prospect.rank,
-      projectedPick: prospect.rank,
+      projectedPick,
       college: prospect.college,
-      grade: gradeValue.toFixed(1),
+      school: prospect.college,
+      grade: Number.isFinite(gradeValue) ? gradeValue.toFixed(1) : undefined,
       projectedRound,
       contractYearsRemaining: 0,
       capHit: '-',
       status: 'Available',
       isDrafted: false,
+      headshotUrl: 'headshotUrl' in prospect ? prospect.headshotUrl : undefined,
+      age: 'age' in prospect ? prospect.age : undefined,
+      height: 'height' in prospect ? prospect.height : undefined,
+      weight: 'weight' in prospect ? prospect.weight : undefined,
+      stats: 'stats' in prospect ? prospect.stats : undefined,
+      summary: 'summary' in prospect ? prospect.summary : undefined,
+      archetype: 'archetype' in prospect ? prospect.archetype : undefined,
+      projectedRange: 'projectedRange' in prospect ? prospect.projectedRange : undefined,
+      classYear: 'classYear' in prospect ? prospect.classYear : undefined,
+      hometown: 'hometown' in prospect ? prospect.hometown : undefined,
+      espnPlayerId: 'espnPlayerId' in prospect ? prospect.espnPlayerId : undefined,
+      espnProfileUrl: 'espnProfileUrl' in prospect ? prospect.espnProfileUrl : undefined,
+      source: 'source' in prospect ? prospect.source : undefined,
     };
   });

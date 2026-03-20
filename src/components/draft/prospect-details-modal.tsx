@@ -225,9 +225,6 @@ export function ProspectDetailsModal({
                       Draft {player.firstName}
                     </Button>
                   ) : null}
-                  <Button type="button" variant="secondary" onClick={onClose}>
-                    Close
-                  </Button>
                 </div>
               </section>
             </div>

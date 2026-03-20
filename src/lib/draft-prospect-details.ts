@@ -1,4 +1,9 @@
 import type { DraftBoardEntry } from '@/lib/draft-board';
+import {
+  generateDraftProspectSummary,
+  getProjectedRangeFromRanking,
+  inferDraftProspectArchetype,
+} from '@/lib/draft-prospect-enrichment';
 import type { DraftRun } from '@/lib/draft-intelligence';
 import { resolvePlayerRating } from '@/lib/team-overview';
 import type { PlayerRowDTO } from '@/types/player';
@@ -46,17 +51,13 @@ const normalizePosition = (position: string) => {
 };
 
 const getProjectedRange = (player: PlayerRowDTO) => {
+  if (player.projectedRange) return player.projectedRange;
   const projected = player.projectedPick ?? player.rank ?? null;
-  if (!projected) return 'Day 2 projection';
-  if (projected <= 5) return 'Top 5 projection';
-  if (projected <= 10) return 'Top 10 projection';
-  if (projected <= 20) return 'Round 1 projection';
-  if (projected <= 40) return 'Top 40 projection';
-  if (projected <= 75) return 'Day 2 projection';
-  return 'Mid-round projection';
+  return getProjectedRangeFromRanking(projected ?? null);
 };
 
 const getArchetype = (player: PlayerRowDTO) => {
+  if (player.archetype) return player.archetype;
   const position = normalizePosition(player.position);
   const rating = resolvePlayerRating(player) ?? 74;
   if (position === 'QB') return rating >= 80 ? 'Franchise-caliber passer' : 'Toolsy pocket passer';
@@ -66,7 +67,14 @@ const getArchetype = (player: PlayerRowDTO) => {
   if (position === 'OT') return rating >= 80 ? 'Plug-and-play tackle' : 'Developmental blocker';
   if (position === 'DL') return rating >= 80 ? 'Power disruptor' : 'Rotational front piece';
   if (position === 'LB') return rating >= 80 ? 'Three-down linebacker' : 'Run-and-chase defender';
-  return rating >= 80 ? 'Immediate contributor' : 'Developmental upside bet';
+  return (
+    inferDraftProspectArchetype({
+      position: player.position,
+      stats: player.stats,
+      height: player.height,
+      weight: player.weight ?? null,
+    }) ?? (rating >= 80 ? 'Immediate contributor' : 'Developmental upside bet')
+  );
 };
 
 const baseStrengthsByPosition: Record<string, string[]> = {
@@ -127,6 +135,7 @@ const getSummary = (
   boardEntry: DraftBoardEntry | null | undefined,
   teamNeeds: string[],
 ) => {
+  if (player.summary) return player.summary;
   const rating = resolvePlayerRating(player) ?? 74;
   const normalizedPosition = normalizePosition(player.position);
   const needIndex = teamNeeds.findIndex((need) => normalizePosition(need) === normalizedPosition);
@@ -141,7 +150,17 @@ const getSummary = (
   if (valueDelta >= 8) {
     return `${player.firstName} ${player.lastName} is still sitting on the board later than expected, which makes the value hard to ignore. Even if the fit is not perfect, the draft room should be talking seriously about the upside of this slot.`;
   }
-  return `${player.firstName} ${player.lastName} brings a balanced profile for this stage of the draft. The fit is more about roster construction and long-term depth than a headline-grabbing swing, but there is real starter appeal here.`;
+  return generateDraftProspectSummary({
+    name: `${player.firstName} ${player.lastName}`.trim(),
+    ranking: player.rank ?? null,
+    school: player.college ?? player.school ?? null,
+    position: player.position,
+    classYear: player.classYear ?? null,
+    height: player.height ?? null,
+    weight: player.weight ?? null,
+    stats: player.stats ?? {},
+    archetype: player.archetype ?? null,
+  });
 };
 
 const getOutlook = (player: PlayerRowDTO, boardEntry: DraftBoardEntry | null | undefined) => {

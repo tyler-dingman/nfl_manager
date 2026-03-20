@@ -5,7 +5,6 @@ import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
-import { DraftTopControlBar } from '@/components/draft/draft-top-control-bar';
 import { DraftTrackerRibbon } from '@/components/draft/draft-tracker-ribbon';
 import { StepHeader } from '@/components/offseason/step-header';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
@@ -19,7 +18,7 @@ import { useToast } from '@/components/ui/toast';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
-import { getRouteForStep } from '@/features/experience/experience-utils';
+import { getRouteForStep, isStepUnlocked } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { rankDraftBoard } from '@/lib/draft-board';
@@ -32,6 +31,7 @@ import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildFalcoBoard } from '@/lib/falco';
 import { getTeamReactionLine } from '@/lib/team-flavor';
 import { apiFetch } from '@/lib/api';
+import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
@@ -91,9 +91,14 @@ function DraftRoomContent() {
   const [isLobbyProspectModalOpen, setIsLobbyProspectModalOpen] = React.useState(false);
 
   const saveId = useSaveStore((state) => state.saveId);
+  const [resolvedSaveId, setResolvedSaveId] = React.useState(saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const capSpace = useSaveStore((state) => state.capSpace);
+  const capLimit = useSaveStore((state) => state.capLimit);
   const roster = useSaveStore((state) => state.roster);
+  const phase = useSaveStore((state) => state.phase);
+  const unlocked = useSaveStore((state) => state.unlocked);
   const activeDraftSessionId = useSaveStore((state) => state.activeDraftSessionId);
   const setActiveDraftSessionId = useSaveStore((state) => state.setActiveDraftSessionId);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
@@ -146,6 +151,12 @@ function DraftRoomContent() {
   }, [session]);
 
   React.useEffect(() => {
+    if (saveId) {
+      setResolvedSaveId(saveId);
+    }
+  }, [saveId]);
+
+  React.useEffect(() => {
     setIsUserOnClock(userOnClock);
   }, [setIsUserOnClock, userOnClock]);
 
@@ -154,7 +165,7 @@ function DraftRoomContent() {
   }, [setIsUserOnClock]);
 
   React.useEffect(() => {
-    if (modeExperience === 'full' && currentStep !== 'draft') {
+    if (modeExperience === 'full' && !isStepUnlocked('draft', currentStep)) {
       router.replace(getRouteForStep(currentStep));
     }
   }, [modeExperience, currentStep, router]);
@@ -181,13 +192,17 @@ function DraftRoomContent() {
 
   const ensureSaveExists = React.useCallback(
     async (forcePhase?: 'draft') => {
-      if (saveId) {
-        const headerParams = new URLSearchParams({ saveId });
+      const preferredSaveId = resolvedSaveId || saveId;
+
+      if (preferredSaveId) {
+        const headerParams = new URLSearchParams({ saveId: preferredSaveId });
         const resolvedTeamAbbr = teamAbbr || selectedTeam?.abbr;
         if (resolvedTeamAbbr) {
           headerParams.set('teamAbbr', resolvedTeamAbbr);
         }
-        const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`);
+        const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`, undefined, {
+          skipSaveGuard: true,
+        });
         if (headerResponse.ok) {
           const headerData = (await headerResponse.json()) as
             | {
@@ -204,6 +219,7 @@ function DraftRoomContent() {
             | { ok: false; error: string };
           if (headerData.ok) {
             const resolvedPhase = forcePhase ?? headerData.phase;
+            setResolvedSaveId(headerData.saveId);
             setSaveHeader(
               {
                 ...headerData,
@@ -225,44 +241,43 @@ function DraftRoomContent() {
         return null;
       }
 
-      const response = await apiFetch('/api/saves/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamId: resolvedTeamId, teamAbbr: resolvedTeamAbbr }),
-      });
-      if (!response.ok) {
-        return null;
-      }
-      const data = (await response.json()) as
-        | {
-            ok: true;
-            saveId: string;
-            teamAbbr: string;
-            capSpace: number;
-            capLimit: number;
-            rosterCount: number;
-            rosterLimit: number;
-            phase: string;
-            unlocked?: { freeAgency: boolean; draft: boolean };
-          }
-        | { ok: false; error: string };
-      if (!data.ok) {
-        return null;
-      }
-
-      const resolvedPhase = forcePhase ?? data.phase;
-      setSaveHeader(
+      return ensureRecoverableSaveId(
         {
-          ...data,
-          unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-          phase: resolvedPhase,
-          createdAt: new Date().toISOString(),
+          preferredSaveId,
+          teamId: resolvedTeamId,
+          teamAbbr: resolvedTeamAbbr,
+          capSpace,
+          capLimit,
+          roster,
+          phase: forcePhase ?? phase,
+          unlocked,
         },
-        teamId,
+        (header, nextTeamId) => {
+          setResolvedSaveId(header.saveId);
+          setSaveHeader(
+            {
+              ...header,
+              phase: forcePhase ?? header.phase,
+            },
+            nextTeamId,
+          );
+        },
       );
-      return data.saveId;
     },
-    [saveId, selectedTeam?.abbr, selectedTeam?.id, setSaveHeader, teamAbbr, teamId],
+    [
+      capLimit,
+      capSpace,
+      phase,
+      resolvedSaveId,
+      roster,
+      saveId,
+      selectedTeam?.abbr,
+      selectedTeam?.id,
+      setSaveHeader,
+      teamAbbr,
+      teamId,
+      unlocked,
+    ],
   );
   const userSelections = React.useMemo(() => {
     if (!session) {
@@ -355,21 +370,24 @@ function DraftRoomContent() {
       : null) ?? lobbyBoardEntries[0]?.player ?? null;
 
   const fetchSession = React.useCallback(
-    async (draftSessionId: string) => {
-      if (!saveId) {
+    async (draftSessionId: string, saveIdOverride?: string | null) => {
+      const actionableSaveId = saveIdOverride ?? resolvedSaveId ?? saveId;
+      if (!actionableSaveId) {
         setError('Select a team to start a save.');
         return null;
       }
       setLoading(true);
       setError('');
-      const query = new URLSearchParams({ draftSessionId, saveId });
-      const response = await apiFetch(`/api/draft/session?${query.toString()}`);
+      const query = new URLSearchParams({ draftSessionId, saveId: actionableSaveId });
+      const response = await apiFetch(`/api/draft/session?${query.toString()}`, undefined, {
+        skipSaveGuard: true,
+      });
       const payload = (await response.json()) as DraftSessionResponse;
       if (!response.ok || !payload.ok) {
         const message = payload.ok ? 'Unable to load draft data.' : payload.error;
         // Clear draft session if save or session not found
         if (message === 'Draft session not found' || message === 'Save not found') {
-          setActiveDraftSessionId(null, saveId);
+          setActiveDraftSessionId(null, actionableSaveId);
           setSession(null);
           setError('');
           setLoading(false);
@@ -384,7 +402,7 @@ function DraftRoomContent() {
       setLoading(false);
       return payload.session;
     },
-    [saveId, setActiveDraftSessionId],
+    [resolvedSaveId, saveId, setActiveDraftSessionId],
   );
 
   const startDraft = React.useCallback(async () => {
@@ -393,6 +411,7 @@ function DraftRoomContent() {
       setError('Select a team to start a save.');
       return false;
     }
+    setResolvedSaveId(resolvedSaveId);
     await setPhase('draft');
     setDraftView('board');
     setLoading(true);
@@ -402,25 +421,19 @@ function DraftRoomContent() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ saveId: resolvedSaveId, mode }),
-    });
-    if (response.status === 404) {
-      response = await apiFetch('/api/draft/session/start', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ saveId: resolvedSaveId, mode }),
-      });
-    }
+    }, { skipSaveGuard: true });
     const text = await response.text();
     const payload = parseDraftSessionStartResponse(text);
     if (!response.ok || !payload.ok) {
       if (!payload.ok && payload.error === 'Save not found') {
         const freshSaveId = await ensureSaveExists();
         if (freshSaveId) {
-          const retry = await apiFetch('/api/draft/session/start', {
+          setResolvedSaveId(freshSaveId);
+          const retry = await apiFetch('/api/draft/session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ saveId: freshSaveId, mode }),
-          });
+          }, { skipSaveGuard: true });
           const retryText = await retry.text();
           const retryPayload = parseDraftSessionStartResponse(retryText);
           if (retry.ok && retryPayload.ok) {
@@ -428,7 +441,7 @@ function DraftRoomContent() {
             if (retryPayload.session) {
               setSession(retryPayload.session);
             } else {
-              await fetchSession(retryPayload.draftSessionId);
+              await fetchSession(retryPayload.draftSessionId, freshSaveId);
             }
             setLoading(false);
             return true;
@@ -446,21 +459,26 @@ function DraftRoomContent() {
     if (payload.session) {
       setSession(payload.session);
     } else {
-      await fetchSession(payload.draftSessionId);
+      await fetchSession(payload.draftSessionId, resolvedSaveId);
     }
     setLoading(false);
     return true;
   }, [ensureSaveExists, fetchSession, mode, setActiveDraftSessionId, setPhase]);
 
   const togglePause = React.useCallback(async () => {
-    if (!saveId || !activeDraftSessionId || !session) {
+    const actionableSaveId = resolvedSaveId || saveId;
+    if (!actionableSaveId || !activeDraftSessionId || !session) {
       return;
     }
     const nextPaused = !session.isPaused;
     const response = await apiFetch('/api/draft/session/pause', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ saveId, draftSessionId: activeDraftSessionId, isPaused: nextPaused }),
+      body: JSON.stringify({
+        saveId: actionableSaveId,
+        draftSessionId: activeDraftSessionId,
+        isPaused: nextPaused,
+      }),
     });
     const payload = (await response.json()) as DraftSessionResponse;
     if (!response.ok || !payload.ok) {
@@ -468,13 +486,13 @@ function DraftRoomContent() {
       return;
     }
     setSession(payload.session);
-  }, [activeDraftSessionId, saveId, session]);
+  }, [activeDraftSessionId, resolvedSaveId, saveId, session]);
 
   React.useEffect(() => {
     if (activeDraftSessionId) {
-      void fetchSession(activeDraftSessionId);
+      void fetchSession(activeDraftSessionId, resolvedSaveId || saveId);
     }
-  }, [activeDraftSessionId, fetchSession]);
+  }, [activeDraftSessionId, fetchSession, resolvedSaveId, saveId]);
 
   React.useEffect(() => {
     const loadTeams = async () => {
@@ -490,15 +508,18 @@ function DraftRoomContent() {
   }, []);
 
   React.useEffect(() => {
-    if (!saveId || activeDraftSessionId) {
+    const actionableSaveId = resolvedSaveId || saveId;
+    if (!actionableSaveId || activeDraftSessionId) {
       return;
     }
 
     const restoreActiveSession = async () => {
       setLoading(true);
       setError('');
-      const query = new URLSearchParams({ saveId });
-      const response = await apiFetch(`/api/draft/session/active?${query.toString()}`);
+      const query = new URLSearchParams({ saveId: actionableSaveId });
+      const response = await apiFetch(`/api/draft/session/active?${query.toString()}`, undefined, {
+        skipSaveGuard: true,
+      });
       const payload = (await response.json()) as ActiveDraftSessionResponse;
       if (!response.ok || !payload.ok) {
         setLoading(false);
@@ -508,15 +529,16 @@ function DraftRoomContent() {
       }
 
       setSession(payload.session);
-      setActiveDraftSessionId(payload.session?.id ?? null, saveId);
+      setActiveDraftSessionId(payload.session?.id ?? null, actionableSaveId);
       setLoading(false);
     };
 
     void restoreActiveSession();
-  }, [activeDraftSessionId, saveId, setActiveDraftSessionId]);
+  }, [activeDraftSessionId, resolvedSaveId, saveId, setActiveDraftSessionId]);
 
   const handleDraftPlayer = async (player: PlayerRowDTO) => {
-    if (!saveId || !activeDraftSessionId || !session) {
+    const actionableSaveId = resolvedSaveId || saveId;
+    if (!actionableSaveId || !activeDraftSessionId || !session) {
       return;
     }
 
@@ -534,7 +556,11 @@ function DraftRoomContent() {
     const response = await apiFetch('/api/draft/pick', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ saveId, draftSessionId: activeDraftSessionId, playerId: player.id }),
+      body: JSON.stringify({
+        saveId: actionableSaveId,
+        draftSessionId: activeDraftSessionId,
+        playerId: player.id,
+      }),
     });
     const payload = (await response.json()) as DraftPickResponse;
     if (!response.ok || !payload.ok) {
@@ -611,7 +637,7 @@ function DraftRoomContent() {
     [setRoster, setSaveHeader, teamId],
   );
 
-  if (!saveId) {
+  if (!(resolvedSaveId || saveId)) {
     return (
       <AppShell>
         <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
@@ -697,19 +723,6 @@ function DraftRoomContent() {
       />
       <PickAnnouncement open={pickAnnouncementOpen} team={userTeam} player={pickAnnouncementPlayer} />
       <div className="space-y-6">
-        <DraftTopControlBar
-          mode={mode}
-          session={session}
-          speedLevel={speedLevel}
-          showSettings={showSettings}
-          onSpeedChange={setSpeedLevel}
-          onTogglePause={togglePause}
-          onStartDraft={() => {
-            void startDraft();
-          }}
-          onToggleSettings={() => setShowSettings((current) => !current)}
-        />
-
         <div className="min-w-0">
           {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}
 
@@ -729,6 +742,17 @@ function DraftRoomContent() {
                 prospects={lobbyProspects}
                 teams={teams}
                 userTeamAbbr={teamAbbr || selectedTeam?.abbr || 'KC'}
+                controls={{
+                  speedLevel,
+                  showSettings,
+                  hasStarted: false,
+                  onSpeedChange: setSpeedLevel,
+                  onTogglePause: togglePause,
+                  onStartDraft: () => {
+                    void startDraft();
+                  },
+                  onToggleSettings: () => setShowSettings((current) => !current),
+                }}
               />
 
               {lobbyMessage ? <p className="text-sm text-muted-foreground">{lobbyMessage}</p> : null}
@@ -808,14 +832,22 @@ function DraftRoomContent() {
             </div>
           ) : (
             <ActiveDraftRoom
+              saveId={resolvedSaveId || saveId}
               session={session}
               draftSessionId={session.id}
               teams={teams}
               falcoNotes={falcoBoard.notes}
               speedLevel={speedLevel}
+              showSettings={showSettings}
               draftView={draftView}
               isUserDraftModalOpen={isGradeOpen}
               onBackToBoard={() => setDraftView('board')}
+              onSpeedChange={setSpeedLevel}
+              onTogglePause={togglePause}
+              onStartDraft={() => {
+                void startDraft();
+              }}
+              onToggleSettings={() => setShowSettings((current) => !current)}
               onDraftPlayer={handleDraftPlayer}
               onDraftTradeAccepted={handleDraftTradeAccepted}
               onSessionUpdate={setSession}

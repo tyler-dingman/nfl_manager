@@ -10,6 +10,8 @@ type SaveStoreState = {
   teamId: string;
   teamAbbr: string;
   capSpace: number;
+  startingCapSpace: number | null;
+  startingOverall: number | null;
   capLimit: number;
   rosterCount: number;
   rosterLimit: number;
@@ -24,6 +26,7 @@ type SaveStoreState = {
   setHasHydrated: (value: boolean) => void;
   setSaveLoadError: (error: string | null) => void;
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
+  setRunBaseline: (baseline: { capSpace: number; overall: number | null }) => void;
   setRoster: (players: PlayerRowDTO[]) => void;
   setActiveTeam: (teamId: string, teamAbbr: string) => void;
   setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
@@ -40,6 +43,8 @@ const DEFAULT_STATE = {
   teamId: '',
   teamAbbr: '',
   capSpace: 0,
+  startingCapSpace: null,
+  startingOverall: null,
   capLimit: 0,
   rosterCount: 0,
   rosterLimit: 0,
@@ -94,6 +99,10 @@ export const useSaveStore = create<SaveStoreState>()(
           teamId: teamId ?? state.teamId,
           teamAbbr,
           capSpace,
+          startingCapSpace:
+            state.saveId && state.saveId === saveId
+              ? state.startingCapSpace
+              : state.startingCapSpace ?? capSpace,
           capLimit,
           rosterCount,
           rosterLimit,
@@ -104,6 +113,12 @@ export const useSaveStore = create<SaveStoreState>()(
           activeDraftSessionId: state.activeDraftSessionIdsBySave[saveId] ?? null,
         }));
       },
+      setRunBaseline: (baseline) =>
+        set((state) => ({
+          ...state,
+          startingCapSpace: baseline.capSpace,
+          startingOverall: baseline.overall,
+        })),
       setRoster: (players) =>
         set((state) => ({
           ...state,
@@ -152,6 +167,8 @@ export const useSaveStore = create<SaveStoreState>()(
             teamId: '',
             teamAbbr: '',
             capSpace: 0,
+            startingCapSpace: null,
+            startingOverall: null,
             capLimit: 0,
             rosterCount: 0,
             rosterLimit: 0,
@@ -233,6 +250,10 @@ export const useSaveStore = create<SaveStoreState>()(
           saveId: data.saveId,
           teamAbbr: data.teamAbbr,
           capSpace: data.capSpace,
+          startingCapSpace:
+            state.saveId && state.saveId === data.saveId
+              ? state.startingCapSpace
+              : state.startingCapSpace ?? data.capSpace,
           capLimit: data.capLimit,
           rosterCount: state.roster.length
             ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length
@@ -273,6 +294,10 @@ export const useSaveStore = create<SaveStoreState>()(
           saveId: data.saveId,
           teamAbbr: data.teamAbbr,
           capSpace: data.capSpace,
+          startingCapSpace:
+            state.saveId && state.saveId === data.saveId
+              ? state.startingCapSpace
+              : state.startingCapSpace ?? data.capSpace,
           capLimit: data.capLimit,
           rosterCount: state.roster.length
             ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length
@@ -296,6 +321,8 @@ export const useSaveStore = create<SaveStoreState>()(
         teamAbbr: state.teamAbbr,
         phase: state.phase,
         unlocked: state.unlocked,
+        startingCapSpace: state.startingCapSpace,
+        startingOverall: state.startingOverall,
         activeDraftSessionId: state.activeDraftSessionId,
         activeDraftSessionIdsBySave: state.activeDraftSessionIdsBySave,
         roster: state.roster,

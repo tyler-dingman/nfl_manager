@@ -39,6 +39,7 @@ export type PlayerRowDTO = {
   teamAbbr?: string | null;
   normalizedName?: string;
   position: string;
+  school?: string | null;
   age?: number;
   height?: string | null;
   weight?: number | null;
@@ -52,6 +53,14 @@ export type PlayerRowDTO = {
   college?: string;
   grade?: string;
   projectedRound?: string;
+  espnPlayerId?: string | null;
+  espnProfileUrl?: string | null;
+  classYear?: string | null;
+  hometown?: string | null;
+  summary?: string | null;
+  archetype?: string | null;
+  projectedRange?: string | null;
+  source?: string | null;
   contractYearsRemaining: number;
   capHit: string;
   capHitValue?: number;

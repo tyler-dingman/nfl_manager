@@ -17,7 +17,6 @@ import {
   type FalcoAlertType,
   quotesByType,
 } from '@/features/draft/falco-quotes';
-import { useSaveStore } from '@/features/save/save-store';
 import { getDraftAutopick, rankDraftBoard } from '@/lib/draft-board';
 import {
   detectActiveDraftRuns,
@@ -42,14 +41,20 @@ const USER_PICK_DURATION_SECONDS = 90;
 export type DraftSpeedLevel = 0 | 1 | 2;
 
 type ActiveDraftRoomProps = {
+  saveId: string;
   session: DraftSessionDTO;
   draftSessionId: string;
   teams: TeamDTO[];
   falcoNotes: FalcoNote[];
   speedLevel: DraftSpeedLevel;
+  showSettings: boolean;
   draftView: 'board' | 'trade';
   isUserDraftModalOpen?: boolean;
   onBackToBoard: () => void;
+  onSpeedChange: (value: DraftSpeedLevel) => void;
+  onTogglePause: () => void;
+  onStartDraft: () => void;
+  onToggleSettings: () => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
   onDraftTradeAccepted: (payload: {
     nextSession: DraftSessionDTO;
@@ -90,19 +95,24 @@ const buildExpiryMs = (pickOverall: number, index: number) => {
 };
 
 export function ActiveDraftRoom({
+  saveId,
   session,
   draftSessionId,
   teams,
   falcoNotes,
   speedLevel,
+  showSettings,
   draftView,
   isUserDraftModalOpen = false,
   onBackToBoard,
+  onSpeedChange,
+  onTogglePause,
+  onStartDraft,
+  onToggleSettings,
   onDraftPlayer,
   onDraftTradeAccepted,
   onSessionUpdate,
 }: ActiveDraftRoomProps) {
-  const saveId = useSaveStore((state) => state.saveId);
   const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const { push: pushToast } = useToast();
   const currentPick = session.picks[session.currentPickIndex];
@@ -277,15 +287,15 @@ export function ActiveDraftRoom({
   }, [bestAvailable, currentPick, falcoTagsByPlayer, onClock, teamNeeds]);
 
   const advanceCpuPick = React.useCallback(async () => {
-    if (advanceInFlight.current || skipInFlight.current) {
+    if (advanceInFlight.current || skipInFlight.current || !saveId) {
       return;
     }
     advanceInFlight.current = true;
     try {
-      const response = await apiFetch('/api/draft/advance', {
+      const response = await apiFetch('/api/draft/session/advance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ draftSessionId }),
+        body: JSON.stringify({ draftSessionId, saveId }),
       });
       const text = await response.text();
       if (!text) {
@@ -301,10 +311,10 @@ export function ActiveDraftRoom({
     } finally {
       advanceInFlight.current = false;
     }
-  }, [draftSessionId, onSessionUpdate]);
+  }, [draftSessionId, onSessionUpdate, saveId]);
 
   const handleSkipToUserPick = React.useCallback(async () => {
-    if (onClock || skipInFlight.current) {
+    if (onClock || skipInFlight.current || !saveId) {
       return;
     }
     skipInFlight.current = true;
@@ -317,10 +327,10 @@ export function ActiveDraftRoom({
           onSessionUpdate(snapshot);
           break;
         }
-        const response = await apiFetch('/api/draft/advance', {
+        const response = await apiFetch('/api/draft/session/advance', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ draftSessionId }),
+          body: JSON.stringify({ draftSessionId, saveId }),
         });
         const text = await response.text();
         if (!text) break;
@@ -335,7 +345,7 @@ export function ActiveDraftRoom({
     } finally {
       skipInFlight.current = false;
     }
-  }, [draftSessionId, onClock, onSessionUpdate, session]);
+  }, [draftSessionId, onClock, onSessionUpdate, saveId, session]);
 
   const clearDraftTimer = React.useCallback(() => {
     if (timerRef.current) {
@@ -652,6 +662,16 @@ export function ActiveDraftRoom({
           prospects={session.prospects}
           teams={teams}
           userTeamAbbr={session.userTeamAbbr}
+          controls={{
+            speedLevel,
+            showSettings,
+            hasStarted: true,
+            isPaused: session.isPaused,
+            onSpeedChange,
+            onTogglePause,
+            onStartDraft,
+            onToggleSettings,
+          }}
         />
 
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">

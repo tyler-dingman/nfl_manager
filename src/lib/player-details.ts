@@ -619,7 +619,7 @@ export const buildPlayerDetailsModel = ({
       },
       {
         key: 'role',
-        label: 'Role Satisfaction',
+        label: 'Satisfaction',
         tier: toTier(roleScore),
         value: roleScore,
         helper: 'Based on where the player projects in the current room.',

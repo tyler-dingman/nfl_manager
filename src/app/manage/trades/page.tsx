@@ -34,7 +34,7 @@ export const dynamic = 'force-dynamic';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
-import type { TradePickAssetDTO } from '@/types/trade-offers';
+import type { TeamTradeAssetSourceDTO, TradePickAssetDTO } from '@/types/trade-offers';
 
 type TradeAsset = {
   id: string;
@@ -102,16 +102,6 @@ type TradeProposeResponse = {
 
 type TradeInsights = Pick<TradeProposeResponse, 'simulation' | 'tradeBalance' | 'proposal'>;
 
-const PICK_OPTIONS: TradePickAssetDTO[] = [
-  { id: '2025-r1', type: 'pick', label: '2025 Round 1 Pick', year: 2025, round: 1, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 1, projectedValuePoints: 95, futureDiscount: 1 },
-  { id: '2025-r2', type: 'pick', label: '2025 Round 2 Pick', year: 2025, round: 2, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 2, projectedValuePoints: 70, futureDiscount: 1 },
-  { id: '2025-r3', type: 'pick', label: '2025 Round 3 Pick', year: 2025, round: 3, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 3, projectedValuePoints: 50, futureDiscount: 1 },
-  { id: '2025-r4', type: 'pick', label: '2025 Round 4 Pick', year: 2025, round: 4, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 4, projectedValuePoints: 30, futureDiscount: 1 },
-  { id: '2025-r5', type: 'pick', label: '2025 Round 5 Pick', year: 2025, round: 5, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 5, projectedValuePoints: 20, futureDiscount: 1 },
-  { id: '2025-r6', type: 'pick', label: '2025 Round 6 Pick', year: 2025, round: 6, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 6, projectedValuePoints: 10, futureDiscount: 1 },
-  { id: '2025-r7', type: 'pick', label: '2025 Round 7 Pick', year: 2025, round: 7, overallSlot: null, owningTeamAbbr: 'KC', originalTeamAbbr: 'KC', projectedRound: 7, projectedValuePoints: 5, futureDiscount: 1 },
-];
-
 const sumAssets = (assets: TradeAsset[]) => assets.reduce((total, asset) => total + asset.value, 0);
 
 const getAcceptance = (sendAssets: TradeAsset[], receiveAssets: TradeAsset[]) => {
@@ -158,6 +148,8 @@ function TradeBuilderContent() {
   const [trade, setTrade] = useState<TradeDTO | null>(null);
   const [userRoster, setUserRoster] = useState<PlayerRowDTO[]>([]);
   const [partnerRoster, setPartnerRoster] = useState<PlayerRowDTO[]>([]);
+  const [userDraftPicks, setUserDraftPicks] = useState<TradePickAssetDTO[]>([]);
+  const [partnerDraftPicks, setPartnerDraftPicks] = useState<TradePickAssetDTO[]>([]);
   const [activeModalSide, setActiveModalSide] = useState<'send' | 'receive' | null>(null);
   const [activeSlotIndex, setActiveSlotIndex] = useState<number | null>(null);
   const [slotAction, setSlotAction] = useState<{
@@ -171,6 +163,7 @@ function TradeBuilderContent() {
   const [duplicateMessage, setDuplicateMessage] = useState<string | null>(null);
   const [proposalStatus, setProposalStatus] = useState<string>('');
   const [tradeInsights, setTradeInsights] = useState<TradeInsights | null>(null);
+  const [assetPickerLoadingMessage, setAssetPickerLoadingMessage] = useState<string | null>(null);
   const [resolvedSaveId, setResolvedSaveId] = useState<string>(saveId);
   const [sendSlotIds, setSendSlotIds] = useState<Array<string | null>>(
     Array.from({ length: 5 }, () => null),
@@ -399,6 +392,55 @@ function TradeBuilderContent() {
     setSendSlotIds(Array.from({ length: 5 }, () => null));
     setReceiveSlotIds(Array.from({ length: 5 }, () => null));
   }, [trade?.id]);
+
+  const refreshTradeAssets = useCallback(
+    async (preferredSaveId?: string | null) => {
+      const actionableSaveId = await ensureActionableSaveId(preferredSaveId ?? saveId);
+      if (!actionableSaveId || !partnerTeamAbbr) {
+        return null;
+      }
+
+      const response = await apiFetch('/api/trade-offers/assets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId: actionableSaveId,
+          partnerTeamAbbr,
+        }),
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const data = (await response.json()) as
+        | {
+            ok: true;
+            user: TeamTradeAssetSourceDTO;
+            partner: TeamTradeAssetSourceDTO;
+          }
+        | { ok: false; error: string };
+
+      if (!data.ok) {
+        return null;
+      }
+
+      setUserRoster(data.user.players);
+      setPartnerRoster(data.partner.players);
+      setUserDraftPicks(data.user.draftPicks);
+      setPartnerDraftPicks(data.partner.draftPicks);
+
+      return data;
+    },
+    [ensureActionableSaveId, partnerTeamAbbr, saveId],
+  );
+
+  useEffect(() => {
+    if (!trade || !partnerTeamAbbr) {
+      return;
+    }
+    void refreshTradeAssets();
+  }, [partnerTeamAbbr, refreshTradeAssets, trade]);
 
   const handleAddAsset = async (payload: {
     side: 'send' | 'receive';
@@ -651,7 +693,11 @@ function TradeBuilderContent() {
     };
   };
 
-  const openPicker = (side: 'send' | 'receive', slotIndex: number, replaceAsset?: TradeAsset) => {
+  const openPicker = async (
+    side: 'send' | 'receive',
+    slotIndex: number,
+    replaceAsset?: TradeAsset,
+  ) => {
     if (!replaceAsset) {
       if (side === 'send' && (trade?.sendAssets.length ?? 0) >= 5) {
         return;
@@ -660,10 +706,14 @@ function TradeBuilderContent() {
         return;
       }
     }
+
+    setAssetPickerLoadingMessage('Loading trade assets...');
+    await refreshTradeAssets();
     setDuplicateMessage(null);
     setActiveModalSide(side);
     setActiveSlotIndex(slotIndex);
     setPendingReplace(replaceAsset ? { side, asset: replaceAsset } : null);
+    setAssetPickerLoadingMessage(null);
   };
 
   const manageSubsteps = OFFSEASON_STEPS[0]?.substeps ?? [];
@@ -740,9 +790,9 @@ function TradeBuilderContent() {
           onSkip={handleSkip}
         />
       ) : null}
-      <div className="mt-6 space-y-6">
+      <div className="mt-3 space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
+          <div className="space-y-1">
             <button
               type="button"
               onClick={handleBack}
@@ -754,7 +804,7 @@ function TradeBuilderContent() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Trade Builder
             </p>
-            <h1 className="mt-2 text-2xl font-semibold text-foreground">Build a roster trade</h1>
+            <h1 className="text-2xl font-semibold text-foreground">Build a roster trade</h1>
             <p className="text-sm text-muted-foreground">
               Add players and picks to balance the deal.
             </p>
@@ -836,7 +886,9 @@ function TradeBuilderContent() {
               title="YOUR OFFER"
               subtitle="Send assets"
               slots={sendSlots.map((asset) => buildSlotAsset(asset, userRoster))}
-              onAdd={(index) => openPicker('send', index)}
+              onAdd={(index) => {
+                void openPicker('send', index);
+              }}
               onReplace={(index) => setSlotAction({ side: 'send', slotIndex: index })}
               onRemove={(index) => {
                 const asset = trade?.sendAssets[index];
@@ -884,7 +936,9 @@ function TradeBuilderContent() {
               title="THEIR OFFER"
               subtitle="Receive assets"
               slots={receiveSlots.map((asset) => buildSlotAsset(asset, partnerRoster))}
-              onAdd={(index) => openPicker('receive', index)}
+              onAdd={(index) => {
+                void openPicker('receive', index);
+              }}
               onReplace={(index) => setSlotAction({ side: 'receive', slotIndex: index })}
               onRemove={(index) => {
                 const asset = trade?.receiveAssets[index];
@@ -910,7 +964,8 @@ function TradeBuilderContent() {
         isOpen={activeModalSide !== null && activeSlotIndex !== null}
         title={activeModalSide === 'send' ? 'Add to Your Offer' : 'Add to Their Offer'}
         players={activeModalSide === 'send' ? userRoster : partnerRoster}
-        picks={PICK_OPTIONS}
+        picks={activeModalSide === 'send' ? userDraftPicks : partnerDraftPicks}
+        loadingMessage={assetPickerLoadingMessage}
         duplicateMessage={duplicateMessage}
         onClose={() => {
           setActiveModalSide(null);
@@ -1002,7 +1057,7 @@ function TradeBuilderContent() {
                     slotAction.side === 'send' ? trade?.sendAssets : trade?.receiveAssets;
                   const asset = assets?.[slotAction.slotIndex];
                   if (asset) {
-                    openPicker(slotAction.side, slotAction.slotIndex, asset);
+                    void openPicker(slotAction.side, slotAction.slotIndex, asset);
                   }
                 }}
               >

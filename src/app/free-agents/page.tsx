@@ -15,7 +15,7 @@ import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orc
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
-import { getRouteForStep } from '@/features/experience/experience-utils';
+import { getRouteForStep, isStepUnlocked } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
@@ -123,7 +123,7 @@ export default function FreeAgentsPage() {
   }, [players]);
 
   useEffect(() => {
-    if (mode === 'full' && currentStep !== 'free-agency') {
+    if (mode === 'full' && !isStepUnlocked('free-agency', currentStep)) {
       router.replace(getRouteForStep(currentStep));
     }
   }, [mode, currentStep, router]);

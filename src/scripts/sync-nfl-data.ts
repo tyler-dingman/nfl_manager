@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import type {
@@ -7,13 +7,25 @@ import type {
   UnifiedFreeAgent,
   UnifiedPlayer,
 } from '@/server/data/nfl-data';
+import type { DraftProspectRecord } from '@/server/data/draft-prospects';
+import {
+  fetchEspnDraftBoardRankings,
+  fetchEspnDraftProspectProfile,
+  resolveEspnDraftProspectProfile,
+} from '@/server/data-sources/espn-draft';
 import { fetchBestAvailableEspnPlayerProfile } from '@/server/data-sources/espn';
 import {
   buildMaddenPlayerKey,
   type MaddenRatingRecord,
 } from '@/server/data-sources/madden-ratings';
+import {
+  generateDraftProspectSummary,
+  getProjectedRangeFromRanking,
+  inferDraftProspectArchetype,
+} from '@/lib/draft-prospect-enrichment';
 import { syncCap } from '@/server/ingest/cap';
 import { syncContracts } from '@/server/ingest/contracts';
+import { normalizePlayerName } from '@/server/ingest/normalize';
 import { syncPlayers } from '@/server/ingest/players';
 import { blendPlayerRating, generateBaselinePlayerRating } from '@/server/ingest/ratings';
 import {
@@ -28,6 +40,10 @@ import {
 } from '@/server/logic/team-overview';
 
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
+const DRAFT_PROSPECTS_FILE = path.join(process.cwd(), 'src/server/data/draft-prospects.json');
+const DRAFT_CACHE_DIR = path.join(process.cwd(), 'src/server/data-cache');
+const DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'espn-draft-board.json');
+const DRAFT_PROFILE_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'espn-draft-profiles.json');
 const DEBUG_FREE_AGENT_NAMES = new Set([
   'Tyreek Hill',
   'Stefon Diggs',
@@ -74,6 +90,23 @@ const extractEspnAthleteId = (value: string | null | undefined): string | null =
   const match = value.match(/\/(\d+)(?:[./]|$)/);
   return match?.[1] ?? null;
 };
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const readJsonIfPresent = async <T>(filePath: string): Promise<T | null> => {
+  try {
+    const value = await readFile(filePath, 'utf8');
+    return JSON.parse(value) as T;
+  } catch {
+    return null;
+  }
+};
+
+type DraftProfileCache = Record<string, DraftProspectRecord>;
 
 type FreeAgentLookupMatch = {
   player: UnifiedPlayer;
@@ -426,6 +459,247 @@ const enrichFreeAgentsWithRatings = async (
   );
 };
 
+const seedDraftProspectFallbacks = async (): Promise<DraftProspectRecord[]> => {
+  const { TOP_50_PROSPECTS } = await import('@/server/data/prospects-top32');
+  return TOP_50_PROSPECTS.map((prospect) => {
+    const stableId = prospect.id || `${slugify(prospect.name)}-${slugify(prospect.college)}`;
+    const projectedRange = getProjectedRangeFromRanking(prospect.rank);
+    const archetype = inferDraftProspectArchetype({
+      position: prospect.position,
+      stats: {},
+      weight: null,
+    });
+
+    return {
+      id: stableId,
+      name: prospect.name,
+      normalizedName: normalizePlayerName(prospect.name),
+      school: prospect.college,
+      position: prospect.position,
+      ranking: prospect.rank,
+      espnPlayerId: null,
+      espnProfileUrl: null,
+      headshotUrl: null,
+      age: null,
+      classYear: null,
+      height: null,
+      weight: null,
+      hometown: null,
+      stats: {},
+      summary: generateDraftProspectSummary({
+        name: prospect.name,
+        ranking: prospect.rank,
+        school: prospect.college,
+        position: prospect.position,
+        classYear: null,
+        height: null,
+        weight: null,
+        stats: {},
+        archetype,
+      }),
+      archetype,
+      projectedRange,
+      source: 'falco-seed-fallback',
+      grade: (95 - (prospect.rank - 1) * 0.3).toFixed(1),
+      projectedPick: prospect.rank,
+    };
+  });
+};
+
+const buildDraftProfileCacheFromProspects = (prospects: DraftProspectRecord[]): DraftProfileCache =>
+  Object.fromEntries(
+    prospects
+      .filter((prospect) => Boolean(prospect.espnPlayerId))
+      .map((prospect) => [prospect.espnPlayerId as string, prospect]),
+  );
+
+const enrichDraftProspects = async (): Promise<{
+  prospects: DraftProspectRecord[];
+  resolvedCount: number;
+  unmatchedCount: number;
+  headshotMissingCount: number;
+  rankingMissingCount: number;
+  summaryCount: number;
+  sample: Array<{
+    ranking: number | null;
+    name: string;
+    school: string | null;
+    espnPlayerId: string | null;
+    hasHeadshot: boolean;
+    summary: string | null;
+  }>;
+}> => {
+  const boardCache = await readJsonIfPresent<Awaited<ReturnType<typeof fetchEspnDraftBoardRankings>>>(
+    DRAFT_BOARD_CACHE_FILE,
+  );
+  const profileCache = (await readJsonIfPresent<DraftProfileCache>(DRAFT_PROFILE_CACHE_FILE)) ?? {};
+
+  let rankings: Awaited<ReturnType<typeof fetchEspnDraftBoardRankings>> | null = null;
+  try {
+    rankings = await fetchEspnDraftBoardRankings();
+  } catch {
+    rankings = boardCache;
+  }
+
+  if (!rankings?.length) {
+    const fallback = await seedDraftProspectFallbacks();
+    return {
+      prospects: fallback,
+      resolvedCount: 0,
+      unmatchedCount: fallback.length,
+      headshotMissingCount: fallback.filter((prospect) => !prospect.headshotUrl).length,
+      rankingMissingCount: fallback.filter((prospect) => prospect.ranking === null).length,
+      summaryCount: fallback.filter((prospect) => Boolean(prospect.summary)).length,
+      sample: fallback.slice(0, 10).map((prospect) => ({
+        ranking: prospect.ranking,
+        name: prospect.name,
+        school: prospect.school,
+        espnPlayerId: prospect.espnPlayerId,
+        hasHeadshot: Boolean(prospect.headshotUrl),
+        summary: prospect.summary,
+      })),
+    };
+  }
+
+  const prospects: DraftProspectRecord[] = [];
+  let resolvedCount = 0;
+
+  for (const rankingEntry of rankings) {
+    const resolver = await resolveEspnDraftProspectProfile({
+      name: rankingEntry.name,
+      school: rankingEntry.school,
+      position: rankingEntry.position,
+      boardEspnPlayerId: rankingEntry.espnPlayerId,
+      boardEspnProfileUrl: rankingEntry.espnProfileUrl,
+    }).catch(() => null);
+
+    let prospect: DraftProspectRecord | null = null;
+
+    if (resolver?.espnPlayerId && profileCache[resolver.espnPlayerId]) {
+      prospect = profileCache[resolver.espnPlayerId];
+      resolvedCount += 1;
+    } else if (resolver?.espnPlayerId) {
+      const profile = await fetchEspnDraftProspectProfile(resolver.espnPlayerId).catch(() => null);
+      if (profile) {
+        const school = rankingEntry.school ?? profile.school;
+        const stableId = `${slugify(rankingEntry.name)}-${slugify(school ?? 'unknown')}`;
+        const archetype = inferDraftProspectArchetype({
+          position: rankingEntry.position ?? profile.position,
+          stats: profile.stats,
+          weight: rankingEntry.weight ?? profile.weight,
+        });
+
+        prospect = {
+          id: stableId,
+          name: rankingEntry.name,
+          normalizedName: rankingEntry.normalizedName,
+          school,
+          position: rankingEntry.position ?? profile.position,
+          ranking: rankingEntry.ranking,
+          espnPlayerId: resolver.espnPlayerId,
+          espnProfileUrl: resolver.espnProfileUrl ?? profile.espnProfileUrl,
+          headshotUrl: rankingEntry.headshotUrl ?? profile.headshotUrl,
+          age: profile.age,
+          classYear: profile.classYear,
+          height: rankingEntry.height ?? profile.height,
+          weight: rankingEntry.weight ?? profile.weight,
+          hometown: profile.hometown,
+          stats: profile.stats,
+          summary: generateDraftProspectSummary({
+            name: rankingEntry.name,
+            ranking: rankingEntry.ranking,
+            school,
+            position: rankingEntry.position ?? profile.position,
+            classYear: profile.classYear,
+            height: rankingEntry.height ?? profile.height,
+            weight: rankingEntry.weight ?? profile.weight,
+            stats: profile.stats,
+            archetype,
+          }),
+          archetype,
+          projectedRange: getProjectedRangeFromRanking(rankingEntry.ranking),
+          source:
+            resolver.source === 'board'
+              ? 'espn-best-available+college-athlete'
+              : 'espn-best-available+search+college-athlete',
+          grade: rankingEntry.grade,
+          projectedPick: rankingEntry.ranking,
+        };
+        resolvedCount += 1;
+      }
+    }
+
+    if (!prospect) {
+      const school = rankingEntry.school;
+      const stableId = `${slugify(rankingEntry.name)}-${slugify(school ?? 'unknown')}`;
+      const archetype = inferDraftProspectArchetype({
+        position: rankingEntry.position,
+        stats: {},
+        weight: rankingEntry.weight,
+      });
+
+      prospect = {
+        id: stableId,
+        name: rankingEntry.name,
+        normalizedName: rankingEntry.normalizedName,
+        school,
+        position: rankingEntry.position,
+        ranking: rankingEntry.ranking,
+        espnPlayerId: resolver?.espnPlayerId ?? rankingEntry.espnPlayerId,
+        espnProfileUrl: resolver?.espnProfileUrl ?? rankingEntry.espnProfileUrl,
+        headshotUrl: rankingEntry.headshotUrl,
+        age: null,
+        classYear: null,
+        height: rankingEntry.height,
+        weight: rankingEntry.weight,
+        hometown: null,
+        stats: {},
+        summary: generateDraftProspectSummary({
+          name: rankingEntry.name,
+          ranking: rankingEntry.ranking,
+          school,
+          position: rankingEntry.position,
+          classYear: null,
+          height: rankingEntry.height,
+          weight: rankingEntry.weight,
+          stats: {},
+          archetype,
+        }),
+        archetype,
+        projectedRange: getProjectedRangeFromRanking(rankingEntry.ranking),
+        source: 'espn-best-available',
+        grade: rankingEntry.grade,
+        projectedPick: rankingEntry.ranking,
+      };
+    }
+
+    prospects.push(prospect);
+  }
+
+  prospects.sort(
+    (a, b) =>
+      (a.ranking ?? Number.MAX_SAFE_INTEGER) - (b.ranking ?? Number.MAX_SAFE_INTEGER) ||
+      a.name.localeCompare(b.name),
+  );
+
+  return {
+    prospects,
+    resolvedCount,
+    unmatchedCount: prospects.length - resolvedCount,
+    headshotMissingCount: prospects.filter((prospect) => !prospect.headshotUrl).length,
+    rankingMissingCount: prospects.filter((prospect) => prospect.ranking === null).length,
+    summaryCount: prospects.filter((prospect) => Boolean(prospect.summary)).length,
+    sample: prospects.slice(0, 10).map((prospect) => ({
+      ranking: prospect.ranking,
+      name: prospect.name,
+      school: prospect.school,
+      espnPlayerId: prospect.espnPlayerId,
+      hasHeadshot: Boolean(prospect.headshotUrl),
+      summary: prospect.summary,
+    })),
+  };
+};
+
 const run = async () => {
   const now = new Date().toISOString();
 
@@ -508,6 +782,7 @@ const run = async () => {
     freeAgents: enrichedFreeAgents,
     cap: capSync.cap,
   };
+  const draftProspectSync = await enrichDraftProspects();
 
   const teamsWithPlayers = new Set(payload.players.map((player) => player.teamAbbr));
   const teamsWithoutPlayers = payload.teams.filter((team) => !teamsWithPlayers.has(team.abbr));
@@ -532,7 +807,40 @@ const run = async () => {
   );
 
   await mkdir(path.dirname(DATA_FILE), { recursive: true });
+  await mkdir(DRAFT_CACHE_DIR, { recursive: true });
   await writeFile(DATA_FILE, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  await writeFile(
+    DRAFT_PROSPECTS_FILE,
+    `${JSON.stringify(draftProspectSync.prospects, null, 2)}\n`,
+    'utf8',
+  );
+  await writeFile(
+    DRAFT_BOARD_CACHE_FILE,
+    `${JSON.stringify(
+      draftProspectSync.prospects.map((prospect) => ({
+        ranking: prospect.ranking,
+        grade: prospect.grade,
+        name: prospect.name,
+        normalizedName: prospect.normalizedName,
+        school: prospect.school,
+        position: prospect.position,
+        headshotUrl: prospect.headshotUrl,
+        espnPlayerId: prospect.espnPlayerId,
+        espnProfileUrl: prospect.espnProfileUrl,
+        height: prospect.height,
+        weight: prospect.weight,
+        source: prospect.source,
+      })),
+      null,
+      2,
+    )}\n`,
+    'utf8',
+  );
+  await writeFile(
+    DRAFT_PROFILE_CACHE_FILE,
+    `${JSON.stringify(buildDraftProfileCacheFromProspects(draftProspectSync.prospects), null, 2)}\n`,
+    'utf8',
+  );
 
   console.log('sync summary');
   console.log(`teams count: ${payload.teams.length}`);
@@ -581,6 +889,18 @@ const run = async () => {
     });
   }
   console.log(`[cap] unmatched=${capSync.unmatched.length}`);
+  console.log(`[draft-prospects] rankings ingested=${draftProspectSync.prospects.length}`);
+  console.log(`[draft-prospects] resolved espn profiles=${draftProspectSync.resolvedCount}`);
+  console.log(`[draft-prospects] unmatched prospects=${draftProspectSync.unmatchedCount}`);
+  console.log(`[draft-prospects] missing headshots=${draftProspectSync.headshotMissingCount}`);
+  console.log(`[draft-prospects] missing rankings=${draftProspectSync.rankingMissingCount}`);
+  console.log(`[draft-prospects] summaries generated=${draftProspectSync.summaryCount}`);
+  console.log('[draft-prospects] sample');
+  draftProspectSync.sample.forEach((prospect) => {
+    console.log(
+      `  rank=${prospect.ranking ?? '--'} name=${prospect.name} school=${prospect.school ?? '—'} espnPlayerId=${prospect.espnPlayerId ?? '—'} headshot=${prospect.hasHeadshot ? 'yes' : 'no'} summary=${prospect.summary ?? '—'}`,
+    );
+  });
 };
 
 run().catch((error) => {

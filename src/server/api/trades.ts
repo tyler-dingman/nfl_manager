@@ -2,16 +2,19 @@ import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 
 import {
+  getDraftPickAssetById,
   getProjectedCapSpaceForTeam,
   getOrBuildProjectedRosterForTeam,
   getProjectedRosterForTeam,
   getSaveHeaderSnapshot,
   getSaveStateResult,
+  getTradableDraftPicksForTeam,
   pushNewsItem,
   transferStoredPlayerToTeam,
   type SaveResult,
 } from './store';
 import { parseMoneyMillions } from '@/server/logic/cap';
+import type { TradePickAssetDTO } from '@/types/trade-offers';
 
 export type TradeSide = 'send' | 'receive';
 
@@ -97,16 +100,6 @@ type TradeBalanceResult = {
 
 const tradeStore = new Map<string, TradeState>();
 
-const PICK_VALUES: Record<string, { label: string; value: number }> = {
-  '2025-r1': { label: '2025 Round 1 Pick', value: 95 },
-  '2025-r2': { label: '2025 Round 2 Pick', value: 70 },
-  '2025-r3': { label: '2025 Round 3 Pick', value: 50 },
-  '2025-r4': { label: '2025 Round 4 Pick', value: 30 },
-  '2025-r5': { label: '2025 Round 5 Pick', value: 20 },
-  '2025-r6': { label: '2025 Round 6 Pick', value: 10 },
-  '2025-r7': { label: '2025 Round 7 Pick', value: 5 },
-};
-
 const getPartnerRoster = (
   state: Parameters<typeof getOrBuildProjectedRosterForTeam>[0],
   teamAbbr: string,
@@ -157,19 +150,21 @@ const buildPlayerAsset = (player: PlayerRowDTO, side: TradeSide): TradeAssetDTO 
   playerId: player.id,
 });
 
-const buildPickAsset = (pickId: string, side: TradeSide): TradeAssetDTO => {
-  const pick = PICK_VALUES[pickId];
-  if (!pick) {
-    throw new Error('Pick not found');
+const formatPickLabel = (pick: TradePickAssetDTO) => {
+  if (pick.overallSlot) {
+    return `${pick.year} Round ${pick.round} Pick · Pick ${pick.overallSlot}`;
   }
+  return `${pick.year} Round ${pick.round} Pick · ${pick.originalTeamAbbr}`;
+};
 
+const buildPickAsset = (pick: TradePickAssetDTO, side: TradeSide): TradeAssetDTO => {
   return {
-    id: `asset-${side}-pick-${pickId}`,
+    id: `asset-${side}-pick-${pick.id}`,
     type: 'pick',
     side,
-    label: pick.label,
-    value: pick.value,
-    pickId,
+    label: formatPickLabel(pick),
+    value: Math.round(pick.projectedValuePoints),
+    pickId: pick.id,
   };
 };
 
@@ -535,7 +530,25 @@ export const addTradeAsset = (
     if (assets.some((asset) => asset.pickId === payload.pickId)) {
       return { ok: true, data: cloneTrade(trade) };
     }
-    assets.push(buildPickAsset(payload.pickId, payload.side));
+    const saveStateResult = getSaveStateResult(trade.saveId);
+    if (!saveStateResult.ok) {
+      return saveStateResult;
+    }
+    const pick = getDraftPickAssetById(saveStateResult.data, payload.pickId);
+    if (!pick) {
+      throw new Error('Pick not found');
+    }
+    const owningTeamAbbr =
+      payload.side === 'send'
+        ? saveStateResult.data.header.teamAbbr.toUpperCase()
+        : trade.partnerTeamAbbr.toUpperCase();
+    const validPickIds = new Set(
+      getTradableDraftPicksForTeam(saveStateResult.data, owningTeamAbbr).map((item) => item.id),
+    );
+    if (!validPickIds.has(payload.pickId)) {
+      throw new Error('Pick not available for selected side');
+    }
+    assets.push(buildPickAsset(pick, payload.side));
   }
 
   return { ok: true, data: cloneTrade(trade) };

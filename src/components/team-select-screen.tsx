@@ -73,6 +73,7 @@ function TeamSelectScreenInner() {
   const setTeams = useTeamStore((state) => state.setTeams);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const setRunBaseline = useSaveStore((state) => state.setRunBaseline);
   const setActiveTeam = useSaveStore((state) => state.setActiveTeam);
   const clearSave = useSaveStore((state) => state.clearSave);
   const resetForNewRun = useExperienceStore((state) => state.resetForNewRun);
@@ -168,6 +169,10 @@ function TeamSelectScreenInner() {
           },
           team.id,
         );
+        setRunBaseline({
+          capSpace: data.capSpace,
+          overall: team.teamOverview ?? null,
+        });
       }
     }
 

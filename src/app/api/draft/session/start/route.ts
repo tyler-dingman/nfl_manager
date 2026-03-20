@@ -31,6 +31,7 @@ export const POST = async (request: Request) => {
 
   return NextResponse.json({
     ok: true,
+    draftSessionId: session.id,
     session,
   });
 };

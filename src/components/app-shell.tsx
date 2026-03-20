@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { ArrowDownRight, ArrowUpRight, Lock, Menu, Minus, X } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, Lock, Menu, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
@@ -14,7 +14,11 @@ import { AdSlot } from '@/components/ads/AdSlot';
 import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
-import { getRouteForStep, getStepForPath } from '@/features/experience/experience-utils';
+import {
+  getRouteForStep,
+  getStepForPath,
+  isStepUnlocked,
+} from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
@@ -47,6 +51,43 @@ const navSections: { title: string; items: NavItem[] }[] = [
   },
 ];
 
+function HeaderDelta({
+  delta,
+  suffix = '',
+}: {
+  delta: number | null;
+  suffix?: string;
+}) {
+  if (!delta) return null;
+
+  const positive = delta > 0;
+  const negative = delta < 0;
+  if (!positive && !negative) return null;
+
+  const Icon = positive ? ArrowUpRight : ArrowDownRight;
+  const displayValue = Math.abs(delta);
+  const label =
+    suffix === 'M'
+      ? `${displayValue.toFixed(1)}${suffix}`
+      : Number.isInteger(displayValue)
+        ? `${displayValue}${suffix}`
+        : `${displayValue.toFixed(1)}${suffix}`;
+
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center gap-0.5 text-[10px] font-semibold leading-none',
+        positive ? 'text-emerald-600' : 'text-red-600',
+      )}
+      aria-label={`${positive ? 'Up' : 'Down'} ${label}`}
+      title={`${positive ? '+' : '-'}${label}`}
+    >
+      <Icon className="h-2.5 w-2.5" strokeWidth={2.2} />
+      <span>{label}</span>
+    </span>
+  );
+}
+
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
@@ -54,6 +95,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const saveId = useSaveStore((state) => state.saveId);
   const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
+  const startingCapSpace = useSaveStore((state) => state.startingCapSpace);
+  const startingOverall = useSaveStore((state) => state.startingOverall);
   const capLimit = useSaveStore((state) => state.capLimit);
   const roster = useSaveStore((state) => state.roster);
   const isUserOnClock = useSaveStore((state) => state.isUserOnClock);
@@ -125,18 +168,28 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, [liveRosterPlayers, selectedTeam?.teamNeeds, selectedTeam?.teamOverview, teams]);
   const liveOverallDelta = useMemo(() => {
+    const baselineOverall = startingOverall ?? selectedTeam?.teamOverview ?? null;
     if (
       liveTeamSummary.overall === null ||
       liveTeamSummary.overall === undefined ||
-      selectedTeam?.teamOverview === null ||
-      selectedTeam?.teamOverview === undefined
+      baselineOverall === null ||
+      baselineOverall === undefined
     ) {
       return null;
     }
 
-    const delta = liveTeamSummary.overall - selectedTeam.teamOverview;
+    const delta = liveTeamSummary.overall - baselineOverall;
     return delta === 0 ? null : delta;
-  }, [liveTeamSummary.overall, selectedTeam?.teamOverview]);
+  }, [liveTeamSummary.overall, selectedTeam?.teamOverview, startingOverall]);
+  const liveCapSpaceDelta = useMemo(() => {
+    const baselineCapSpace = startingCapSpace ?? null;
+    if (baselineCapSpace === null || baselineCapSpace === undefined) {
+      return null;
+    }
+
+    const delta = Number((capSpace - baselineCapSpace).toFixed(1));
+    return delta === 0 ? null : delta;
+  }, [capSpace, startingCapSpace]);
   const liveTrajectory = useMemo(
     () =>
       computeFranchiseTrajectory({
@@ -215,19 +268,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         : liveTrajectory.state === 'Declining'
           ? 'text-orange-600'
           : 'text-red-600';
-  const TrajectoryIcon =
-    liveTrajectory.state === 'Contender' || liveTrajectory.state === 'Rising'
-      ? ArrowUpRight
-      : liveTrajectory.state === 'Balanced'
-        ? Minus
-        : ArrowDownRight;
-
   useEffect(() => {
     if (!pathname) return;
     if (mode === 'full') {
       const requestedStep = getStepForPath(pathname);
       if (!requestedStep) return;
-      if (requestedStep !== currentStep && requestedStep !== 'manage') {
+      if (!isStepUnlocked(requestedStep, currentStep)) {
         router.replace(getRouteForStep(currentStep));
       }
       return;
@@ -244,11 +290,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         router.replace('/free-agents');
       }
       return;
-    }
-    if (phase === 'draft') {
-      if (pathname.startsWith('/free-agents')) {
-        router.replace('/draft/room?mode=mock');
-      }
     }
   }, [pathname, phase, router, mode, currentStep]);
 
@@ -458,8 +499,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                             trajectoryPulse ? 'animate-pulse' : null,
                           )}
                         >
-                          <span className="text-foreground">
-                            OVR {liveTeamSummary.overall ?? '—'}
+                          <span className="inline-flex items-start gap-1 text-foreground">
+                            <span>OVR {liveTeamSummary.overall ?? '—'}</span>
+                            <HeaderDelta delta={liveOverallDelta} />
                           </span>
                           <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
                         </span>
@@ -471,11 +513,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                         </span>
                         <span
                           className={cn(
-                            'block whitespace-nowrap text-sm font-semibold',
+                            'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
                             capSpace < 0 ? 'text-destructive' : 'text-foreground',
                           )}
                         >
-                          {formatMoneyMillions(capSpace)}
+                          <span>{formatMoneyMillions(capSpace)}</span>
+                          <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
                         </span>
                       </div>
                     </div>
@@ -545,8 +588,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                             trajectoryPulse ? 'animate-pulse' : null,
                           )}
                         >
-                          <span className="text-foreground">
-                            OVR {liveTeamSummary.overall ?? '—'}
+                          <span className="inline-flex items-start gap-1 text-foreground">
+                            <span>OVR {liveTeamSummary.overall ?? '—'}</span>
+                            <HeaderDelta delta={liveOverallDelta} />
                           </span>
                           <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
                         </span>
@@ -558,11 +602,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                         </span>
                         <span
                           className={cn(
-                            'block whitespace-nowrap text-sm font-semibold',
+                            'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
                             capSpace < 0 ? 'text-destructive' : 'text-foreground',
                           )}
                         >
-                          {formatMoneyMillions(capSpace)}
+                          <span>{formatMoneyMillions(capSpace)}</span>
+                          <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
                         </span>
                       </div>
                     </div>
