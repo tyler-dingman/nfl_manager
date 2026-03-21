@@ -14,6 +14,14 @@ type ResignOfferResultModalProps = {
   onClose: () => void;
 };
 
+const HIDDEN_REASONING_TAGS = new Set([
+  'money',
+  'years',
+  'guaranteed',
+  'market_hawk',
+  'previous_team_familiarity',
+]);
+
 const formatApy = (apy: number) => `$${apy.toFixed(1)}M`;
 
 export default function ResignOfferResultModal({
@@ -33,6 +41,7 @@ export default function ResignOfferResultModal({
 
   const acceptedQuoteColor = resultTeam?.color_primary ?? '#0f172a';
   const acceptedQuoteTextColor = getReadableTextColor(acceptedQuoteColor);
+  const visibleReasoningTags = result.reasoningTags.filter((tag) => !HIDDEN_REASONING_TAGS.has(tag));
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
@@ -87,7 +96,7 @@ export default function ResignOfferResultModal({
           </div>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          {result.reasoningTags.map((tag) => (
+          {visibleReasoningTags.map((tag) => (
             <Badge key={tag} variant="secondary">
               {tag}
             </Badge>

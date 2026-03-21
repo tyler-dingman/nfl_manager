@@ -63,14 +63,14 @@ export const scoreResignOffer = ({
   const preferredYears = getPreferredYearsForPlayer(player);
   const expectedYearsRange: [number, number] = [
     Math.max(1, preferredYears - 1),
-    Math.min(5, preferredYears + 1),
+    Math.min(6, preferredYears + 1),
   ];
   const expectedGuaranteedPct = Math.max(
     getExpectedGuaranteedPctByAge(age),
     persona.expectedGuaranteedPctTarget,
   );
 
-  const clampedYears = clampOfferYears(years, 5);
+  const clampedYears = clampOfferYears(years, 6);
   const yearsFit = getYearsFit(preferredYears, clampedYears);
   const evaluation = evaluateContractOffer({
     marketApy: expectedApy,
@@ -79,7 +79,7 @@ export const scoreResignOffer = ({
     guaranteed,
     position: player.position,
     rating,
-    maxYears: 5,
+    maxYears: 6,
     seed: `${saveId}:${player.id}:${years}:${apy}:${guaranteed}`,
   });
   const fitInterest = calculatePlayerInterestForTeam(

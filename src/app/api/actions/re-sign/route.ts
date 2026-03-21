@@ -91,7 +91,7 @@ export const POST = async (request: Request) => {
     headshotUrl: expiringContract?.headshotUrl ?? null,
   };
 
-  const years = clampYears(body.years);
+  const years = clampYears(body.years, 6);
   const breakdown = scoreResignOffer({
     saveId: body.saveId,
     teamAbbr,

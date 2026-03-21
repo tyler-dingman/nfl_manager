@@ -599,11 +599,13 @@ export default function RosterPage() {
 
     setResignResult(data);
     setIsResignResultOpen(true);
-    pushToast({
-      title: data.accepted ? 'Offer accepted' : 'Offer declined',
-      description: data.accepted ? data.newsItem.details : 'The player decided to test the market.',
-      variant: data.accepted ? 'success' : 'error',
-    });
+    if (!data.accepted) {
+      pushToast({
+        title: 'Offer declined',
+        description: 'The player decided to test the market.',
+        variant: 'error',
+      });
+    }
     if (data.accepted) {
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
     }

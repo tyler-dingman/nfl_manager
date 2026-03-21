@@ -71,10 +71,7 @@ export default function ContractOfferModal({
   onClose,
   onSubmit,
 }: ContractOfferModalProps) {
-  const allowedYears = React.useMemo(
-    () => getAllowedYearOptions(player, scoreVariant === 'freeAgency' ? 6 : 5),
-    [player, scoreVariant],
-  );
+  const allowedYears = React.useMemo(() => getAllowedYearOptions(player, 6), [player]);
   const [years, setYears] = React.useState(allowedYears[0] ?? 2);
   const [apyInput, setApyInput] = React.useState('6');
   const [guaranteedInput, setGuaranteedInput] = React.useState('');

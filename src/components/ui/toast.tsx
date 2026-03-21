@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ArrowRightLeft, MessageCircle, Repeat2, Sparkles, TrendingUp, X } from 'lucide-react';
+import { ArrowRightLeft, Eye, Heart, MessageCircle, Repeat2, Sparkles, TrendingUp, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -10,9 +10,15 @@ type ToastKind = 'default' | 'starReaction' | 'leagueBuzz' | 'chainReaction' | '
 
 type StarReactionToastData = {
   displayName: string;
+  handle: string;
   subtitle: string;
+  timestampLabel: string;
   message: string;
   headshotUrl?: string | null;
+  likes: string;
+  reposts: string;
+  replies: string;
+  views?: string;
 };
 
 type LeagueBuzzToastData = {
@@ -109,24 +115,29 @@ const StarReactionToastCard = ({
   toast: ToastPayload & { id: string; starReaction: StarReactionToastData };
   onClose: () => void;
 }) => (
-  <div className="rounded-2xl border border-border bg-white p-4 text-sm shadow-xl">
+  <div className="rounded-[22px] border border-slate-200/90 bg-white p-4 text-sm shadow-[0_18px_45px_-18px_rgba(15,23,42,0.35)] backdrop-blur">
     <div className="flex items-start gap-3">
       {toast.starReaction.headshotUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={toast.starReaction.headshotUrl}
           alt={toast.starReaction.displayName}
-          className="mt-0.5 h-10 w-10 shrink-0 rounded-full object-cover"
+          className="mt-0.5 h-11 w-11 shrink-0 rounded-full object-cover"
         />
       ) : (
-        <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
+        <div className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
           {toast.starReaction.displayName.charAt(0)}
         </div>
       )}
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="truncate font-semibold text-foreground">{toast.starReaction.displayName}</p>
+            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+              <p className="truncate font-semibold text-foreground">{toast.starReaction.displayName}</p>
+              <span className="text-xs text-muted-foreground">{toast.starReaction.handle}</span>
+              <span className="text-xs text-muted-foreground">•</span>
+              <span className="text-xs text-muted-foreground">{toast.starReaction.timestampLabel}</span>
+            </div>
             <p className="mt-0.5 text-xs text-muted-foreground">{toast.starReaction.subtitle}</p>
           </div>
           <button
@@ -141,6 +152,26 @@ const StarReactionToastCard = ({
         <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-foreground">
           {toast.starReaction.message}
         </p>
+        <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
+          <span className="inline-flex items-center gap-1">
+            <MessageCircle className="h-3.5 w-3.5" />
+            {toast.starReaction.replies}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Repeat2 className="h-3.5 w-3.5" />
+            {toast.starReaction.reposts}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Heart className="h-3.5 w-3.5" />
+            {toast.starReaction.likes}
+          </span>
+          {toast.starReaction.views ? (
+            <span className="inline-flex items-center gap-1">
+              <Eye className="h-3.5 w-3.5" />
+              {toast.starReaction.views}
+            </span>
+          ) : null}
+        </div>
       </div>
     </div>
   </div>
@@ -278,8 +309,8 @@ export const ToastViewport = () => {
   }
 
   return (
-    <div className="fixed right-4 top-4 z-[60] flex w-[min(24rem,calc(100vw-2rem))] max-w-[calc(100vw-2rem)] flex-col gap-2 sm:w-80">
-      {context.toasts.map((toast) => (
+    <div className="fixed inset-x-3 top-3 z-[60] flex max-h-[calc(100dvh-1.5rem)] flex-col gap-2 overflow-hidden sm:inset-x-auto sm:right-4 sm:top-4 sm:w-[22rem]">
+      {context.toasts.slice(-3).map((toast) => (
         <div
           key={toast.id}
           className="animate-in slide-in-from-right-3 fade-in-0 duration-200"

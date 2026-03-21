@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   buildStarReactionToastPayload,
   getPlayerSide,
+  getTopRatedRosterPlayerOverall,
   getTopRatedRosterPlayerBySide,
 } from '@/lib/star-player-reaction';
 import type { PlayerRowDTO } from '@/types/player';
@@ -42,6 +43,16 @@ test('selects top-rated same-side roster player excluding the incoming player', 
   assert.equal(reactingPlayer?.id, 'qb1');
 });
 
+test('falls back to the top-rated overall player when side is unclear', () => {
+  const roster = [
+    makePlayer({ id: 'qb1', firstName: 'Patrick', lastName: 'Mahomes', position: 'QB', rating: 95 }),
+    makePlayer({ id: 'cb1', firstName: 'Trent', lastName: 'McDuffie', position: 'CB', rating: 88 }),
+  ];
+
+  const reactingPlayer = getTopRatedRosterPlayerOverall(roster, 'k1');
+  assert.equal(reactingPlayer?.id, 'qb1');
+});
+
 test('builds a deterministic toast payload for a valid move', () => {
   const roster = [
     makePlayer({ id: 'qb1', firstName: 'Patrick', lastName: 'Mahomes', position: 'QB', rating: 95 }),
@@ -59,10 +70,13 @@ test('builds a deterministic toast payload for a valid move', () => {
   assert.ok(payload);
   assert.equal(payload?.displayName, 'Patrick Mahomes');
   assert.equal(payload?.subtitle, 'Chiefs Kingdom');
+  assert.equal(payload?.handle, '@PatrickMahomes95');
+  assert.equal(payload?.timestampLabel, 'now');
   assert.ok(payload?.message.length);
+  assert.ok(payload?.likes.length);
 });
 
-test('returns null when the incoming player position is not offense or defense', () => {
+test('falls back to the top overall player when the incoming player position is not offense or defense', () => {
   const roster = [makePlayer({ id: 'qb1', firstName: 'Patrick', lastName: 'Mahomes', position: 'QB', rating: 95 })];
 
   const payload = buildStarReactionToastPayload({
@@ -73,5 +87,6 @@ test('returns null when the incoming player position is not offense or defense',
     teamName: 'Kansas City Chiefs',
   });
 
-  assert.equal(payload, null);
+  assert.ok(payload);
+  assert.equal(payload?.displayName, 'Patrick Mahomes');
 });
