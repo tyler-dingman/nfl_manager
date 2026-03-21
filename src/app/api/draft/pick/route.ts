@@ -1,49 +1,39 @@
 import { NextResponse } from 'next/server';
 
-import { findSaveIdForDraftSession, pickDraftPlayer, restoreDraftSession } from '@/server/api/draft';
+import {
+  findSaveIdForDraftSession,
+  getDraftSession,
+  pickDraftPlayer,
+  restoreDraftSession,
+} from '@/server/api/draft';
+import { getUserPickGrade } from '@/lib/draft-grading';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveUnlocksDTO } from '@/types/save';
 
-const NEED_ORDER = ['QB', 'WR', 'OT', 'EDGE', 'CB', 'DL', 'RB', 'LB', 'S', 'TE', 'OL', 'K'];
+const assignStoredUserGrade = (
+  session: DraftSessionDTO,
+  playerId: string,
+  teamNeeds: string[],
+) => {
+  const draftedPlayer = session.prospects.find((player) => player.id === playerId);
+  const draftedPick = session.picks.find((pick) => pick.selectedPlayerId === playerId);
 
-const getTeamNeeds = (teamAbbr: string): string[] => {
-  const seed = teamAbbr.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
-  return Array.from({ length: 3 }, (_, index) => NEED_ORDER[(seed + index) % NEED_ORDER.length]);
-};
+  if (!draftedPlayer || !draftedPick) {
+    return null;
+  }
 
-const buildDraftGrade = (player: PlayerRowDTO, teamNeeds: string[]) => {
-  const rank = player.rank ?? 999;
-  const isNeed = teamNeeds.includes(player.position);
+  const grade = getUserPickGrade({
+    playerRanking: draftedPlayer.rank ?? draftedPlayer.projectedPick ?? null,
+    pickNumber: draftedPick.overall,
+    teamNeeds,
+    playerPosition: draftedPlayer.position,
+  });
 
-  if (isNeed && rank <= 10) {
-    return {
-      letter: 'A',
-      reason: `${player.position} was a top need and you landed a top-10 prospect.`,
-    };
-  }
-  if (isNeed && rank <= 25) {
-    return {
-      letter: 'B',
-      reason: `${player.position} filled a need and came off the board in the top 25.`,
-    };
-  }
-  if (!isNeed && rank <= 25) {
-    return {
-      letter: 'C',
-      reason: `${player.position} was not a primary need, but the value in the top 25 was strong.`,
-    };
-  }
-  if (rank <= 75) {
-    return {
-      letter: 'D',
-      reason: `${player.position} was a reach compared to the top-ranked available prospects.`,
-    };
-  }
-  return {
-    letter: 'F',
-    reason: `${player.position} was a big reach relative to the board.`,
-  };
+  draftedPick.grade = grade.letter;
+  draftedPick.gradeReasons = grade.reasons;
+
+  return { draftedPlayer, grade };
 };
 
 export const POST = async (request: Request) => {
@@ -52,6 +42,7 @@ export const POST = async (request: Request) => {
         draftSessionId?: string;
         saveId?: string;
         playerId?: string;
+        teamNeeds?: string[];
         sessionSnapshot?: DraftSessionDTO;
         saveSnapshot?: {
           teamAbbr: string;
@@ -77,6 +68,8 @@ export const POST = async (request: Request) => {
     );
   }
 
+  const teamNeeds = body.teamNeeds ?? [];
+
   try {
     const resolvedSaveId = findSaveIdForDraftSession(body.draftSessionId) ?? body.saveId;
 
@@ -84,20 +77,18 @@ export const POST = async (request: Request) => {
       restoreDraftSession(resolvedSaveId, body.sessionSnapshot, body.saveSnapshot);
     }
 
-    const session = pickDraftPlayer(body.draftSessionId, body.playerId, resolvedSaveId);
-    const draftedPlayer = session.prospects.find((player) => player.id === body.playerId);
-    if (!draftedPlayer) {
+    pickDraftPlayer(body.draftSessionId, body.playerId, resolvedSaveId);
+    const session = getDraftSession(body.draftSessionId, resolvedSaveId);
+    const result = assignStoredUserGrade(session, body.playerId, teamNeeds);
+    if (!result) {
       return NextResponse.json({ ok: false, error: 'Drafted player not found' }, { status: 404 });
     }
-
-    const teamNeeds = getTeamNeeds(session.userTeamAbbr);
-    const grade = buildDraftGrade(draftedPlayer, teamNeeds);
 
     return NextResponse.json({
       ok: true,
       session,
-      grade,
-      draftedPlayer,
+      grade: result.grade,
+      draftedPlayer: result.draftedPlayer,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to make draft pick';
@@ -115,21 +106,19 @@ export const POST = async (request: Request) => {
         if (!sessionSnapshot) {
           return NextResponse.json({ ok: false, error: message }, { status: 400 });
         }
-        const session = restoreDraftSession(restoredSaveId, sessionSnapshot, body.saveSnapshot);
-        const updatedSession = pickDraftPlayer(body.draftSessionId, body.playerId, restoredSaveId);
-        const draftedPlayer = updatedSession.prospects.find((player) => player.id === body.playerId);
-        if (!draftedPlayer) {
+        restoreDraftSession(restoredSaveId, sessionSnapshot, body.saveSnapshot);
+        pickDraftPlayer(body.draftSessionId, body.playerId, restoredSaveId);
+        const updatedSession = getDraftSession(body.draftSessionId, restoredSaveId);
+        const result = assignStoredUserGrade(updatedSession, body.playerId, teamNeeds);
+        if (!result) {
           return NextResponse.json({ ok: false, error: 'Drafted player not found' }, { status: 404 });
         }
-
-        const teamNeeds = getTeamNeeds(session.userTeamAbbr);
-        const grade = buildDraftGrade(draftedPlayer, teamNeeds);
 
         return NextResponse.json({
           ok: true,
           session: updatedSession,
-          grade,
-          draftedPlayer,
+          grade: result.grade,
+          draftedPlayer: result.draftedPlayer,
         });
       } catch (restoreError) {
         const restoreMessage =

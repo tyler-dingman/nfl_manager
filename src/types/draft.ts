@@ -10,6 +10,8 @@ export type DraftPickDTO = {
   originalTeamAbbr: string;
   selectedPlayerId?: string | null;
   selectedByTeamAbbr?: string | null;
+  grade?: string | null;
+  gradeReasons?: string[] | null;
 };
 
 export type DraftSessionStatus = 'in_progress' | 'completed';

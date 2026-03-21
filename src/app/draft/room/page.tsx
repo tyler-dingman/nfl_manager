@@ -45,7 +45,7 @@ type DraftPickResponse =
   | {
       ok: true;
       session: DraftSessionDTO;
-      grade: { letter: string; reason: string };
+      grade: { letter: string; reasons: string[] };
       draftedPlayer: PlayerRowDTO;
     }
   | { ok: false; error: string };
@@ -87,6 +87,7 @@ function DraftRoomContent() {
   const [showSettings, setShowSettings] = React.useState(false);
   const [pickAnnouncementPlayer, setPickAnnouncementPlayer] = React.useState<PlayerRowDTO | null>(null);
   const [pickAnnouncementOpen, setPickAnnouncementOpen] = React.useState(false);
+  const [pickAnnouncementGrade, setPickAnnouncementGrade] = React.useState<string | null>(null);
   const [selectedLobbyPlayerId, setSelectedLobbyPlayerId] = React.useState<string | null>(null);
   const [isLobbyProspectModalOpen, setIsLobbyProspectModalOpen] = React.useState(false);
   const [draftControlBusy, setDraftControlBusy] = React.useState(false);
@@ -661,14 +662,6 @@ function DraftRoomContent() {
 
     const currentPick = session.picks[session.currentPickIndex];
     const teamNeeds = getTeamNeeds(session.userTeamAbbr, teams);
-    const boardEntries = rankDraftBoard({
-      prospects: session.prospects,
-      teamNeeds,
-      currentPickOverall: currentPick?.overall ?? session.currentPickIndex + 1,
-      limit: 24,
-    });
-    const boardEntry = boardEntries.find((entry) => entry.player.id === player.id) ?? null;
-    const activeRuns = detectActiveDraftRuns(session.picks, session.prospects);
 
     const response = await apiFetch(
       '/api/draft/pick',
@@ -679,6 +672,7 @@ function DraftRoomContent() {
           saveId: actionableSaveId,
           draftSessionId: activeDraftSessionId,
           playerId: player.id,
+          teamNeeds,
           sessionSnapshot: session,
           saveSnapshot: buildDraftSaveSnapshot(actionableSaveId),
         }),
@@ -699,15 +693,8 @@ function DraftRoomContent() {
     await refreshSaveHeader();
     const pick = payload.session.picks.find((entry) => entry.selectedPlayerId === player.id);
     const pickNumber = pick?.overall ?? currentPick?.overall ?? payload.session.currentPickIndex;
-    const evaluation = evaluateDraftPick({
-      player,
-      currentPickOverall: pickNumber,
-      teamNeeds,
-      boardEntry,
-      activeRuns,
-    });
 
-    setGradeLetter(evaluation.grade);
+    setGradeLetter(payload.grade.letter);
     setDraftedPlayerName(`${player.firstName} ${player.lastName}`);
     setDraftedPlayerMeta(`${player.position} · ${player.college ?? '—'}`);
     setTeamMessage(
@@ -715,8 +702,9 @@ function DraftRoomContent() {
         seed: `${payload.session.id}:${player.id}:${pickNumber}`,
       }),
     );
-    setGradeReasons(evaluation.reasons);
+    setGradeReasons(payload.grade.reasons);
     setPickAnnouncementPlayer(payload.draftedPlayer);
+    setPickAnnouncementGrade(payload.grade.letter);
     setPickAnnouncementOpen(true);
     window.setTimeout(() => setPickAnnouncementOpen(false), 1800);
     setIsGradeOpen(true);
@@ -844,7 +832,12 @@ function DraftRoomContent() {
         reasons={gradeReasons}
         onClose={() => setIsGradeOpen(false)}
       />
-      <PickAnnouncement open={pickAnnouncementOpen} team={userTeam} player={pickAnnouncementPlayer} />
+      <PickAnnouncement
+        open={pickAnnouncementOpen}
+        team={userTeam}
+        player={pickAnnouncementPlayer}
+        grade={pickAnnouncementGrade}
+      />
       <div className="space-y-6">
         <div className="min-w-0">
           {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}

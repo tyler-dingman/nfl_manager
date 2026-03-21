@@ -101,7 +101,9 @@ export function DraftRecap({ summary, entries }: DraftRecapProps) {
                   <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     Draft IQ
                   </p>
-                  <p className="mt-1 text-xl font-bold text-foreground">{evaluation.grade}</p>
+                  <p className="mt-1 text-xl font-bold text-foreground">
+                    {pick.grade ?? evaluation.grade}
+                  </p>
                 </div>
               </div>
 

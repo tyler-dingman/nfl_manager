@@ -14,6 +14,7 @@ import {
 } from './store';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import { createRng } from '@/lib/deterministic-rng';
+import { getRandomCpuGrade } from '@/lib/draft-grading';
 import { getSaveHeaderSnapshot, getProjectedCapSpaceForTeam } from './store';
 import type { TradeOfferDTO } from '@/types/trade-offers';
 import type { SaveUnlocksDTO } from '@/types/save';
@@ -178,6 +179,8 @@ const buildDraftPicks = (): DraftPickDTO[] =>
     originalTeamAbbr: teamAbbr,
     selectedPlayerId: null,
     selectedByTeamAbbr: null,
+    grade: null,
+    gradeReasons: null,
   }));
 
 const nextRandom = (session: DraftSessionState): number => {
@@ -375,7 +378,12 @@ export const advanceDraftSession = (draftSessionId: string, saveId: string): Dra
 
   const candidatePool = getCandidatePool(filteredPool);
   const player = pickFromPool(session, candidatePool);
+  const pick = session.picks[session.currentPickIndex];
   selectPlayer(session, session.currentPickIndex, player);
+  if (pick) {
+    pick.grade = getRandomCpuGrade();
+    pick.gradeReasons = ['League reaction sees this as a reasonable mix of value and fit.'];
+  }
   pushNewsItem(state, {
     type: 'draftPick',
     teamAbbr: currentPick.ownerTeamAbbr,

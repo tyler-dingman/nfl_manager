@@ -5,6 +5,7 @@ import { ArrowLeftRight, Pause, Play, Settings2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { getReadableTextColor } from '@/lib/color-utils';
+import { getStoredPickGrade } from '@/lib/draft-grading';
 import { cn } from '@/lib/utils';
 import type { DraftPickDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
@@ -38,16 +39,6 @@ const speedLabel = (speedLevel: number) => {
   if (speedLevel === 0) return 'Slow';
   if (speedLevel === 2) return 'Fast';
   return 'Normal';
-};
-
-const getTrackerPickGrade = (pickOverall: number, player: PlayerRowDTO) => {
-  const playerRank = player.rank ?? pickOverall;
-  const delta = playerRank - pickOverall;
-  if (delta >= 10) return 'A';
-  if (delta >= 4) return 'B';
-  if (delta >= -3) return 'C';
-  if (delta >= -10) return 'D';
-  return 'F';
 };
 
 export function DraftTrackerRibbon({
@@ -354,7 +345,7 @@ export function DraftTrackerRibbon({
                         color: isCurrent ? onPrimaryColor : '#0f172a',
                       }}
                     >
-                      {getTrackerPickGrade(pick.overall, draftedPlayer)}
+                      {getStoredPickGrade(pick) ?? 'B'}
                     </span>
                   </div>
                 ) : null}

@@ -7,9 +7,10 @@ type PickAnnouncementProps = {
   open: boolean;
   team: TeamDTO | null;
   player: PlayerRowDTO | null;
+  grade?: string | null;
 };
 
-export function PickAnnouncement({ open, team, player }: PickAnnouncementProps) {
+export function PickAnnouncement({ open, team, player, grade }: PickAnnouncementProps) {
   if (!open || !player) return null;
 
   return (
@@ -24,6 +25,11 @@ export function PickAnnouncement({ open, team, player }: PickAnnouncementProps) 
         <p className="mt-1 text-sm text-slate-300">
           {player.position} · {player.college ?? 'School TBD'}
         </p>
+        {grade ? (
+          <div className="mt-3 inline-flex rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-200">
+            Grade {grade}
+          </div>
+        ) : null}
       </div>
     </div>
   );
