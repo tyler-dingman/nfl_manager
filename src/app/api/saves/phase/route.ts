@@ -10,6 +10,7 @@ export const POST = async (request: Request) => {
         saveId?: string;
         phase?: string;
         teamAbbr?: string;
+        year?: number;
         capSpace?: number;
         capLimit?: number;
         roster?: PlayerRowDTO[];
@@ -40,6 +41,7 @@ export const POST = async (request: Request) => {
   ) {
     restoreSaveState(body.saveId, {
       teamAbbr: body.teamAbbr,
+      year: body.year,
       capSpace: body.capSpace,
       capLimit: body.capLimit,
       roster: body.roster,
@@ -59,6 +61,7 @@ export const POST = async (request: Request) => {
     ok: true,
     saveId: header.id,
     teamAbbr: header.teamAbbr,
+    year: header.year,
     capSpace: header.capSpace,
     capLimit: header.capLimit,
     rosterCount: header.rosterCount,

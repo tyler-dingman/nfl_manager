@@ -136,6 +136,7 @@ function TradeBuilderContent() {
   const capLimit = useSaveStore((state) => state.capLimit);
   const roster = useSaveStore((state) => state.roster);
   const phase = useSaveStore((state) => state.phase);
+  const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const unlocked = useSaveStore((state) => state.unlocked);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setRoster = useSaveStore((state) => state.setRoster);
@@ -226,6 +227,7 @@ function TradeBuilderContent() {
           preferredSaveId: preferredSaveId ?? resolvedSaveId ?? saveId,
           teamId,
           teamAbbr,
+          year: franchiseYear,
           capSpace,
           capLimit,
           roster,
@@ -241,7 +243,7 @@ function TradeBuilderContent() {
 
       return nextSaveId || null;
     },
-    [capLimit, capSpace, phase, resolvedSaveId, roster, saveId, setSaveHeader, teamAbbr, teamId, unlocked],
+    [capLimit, capSpace, phase, resolvedSaveId, roster, saveId, setSaveHeader, teamAbbr, teamId, unlocked, franchiseYear],
   );
   const requestTradeOffer = useTradeOfferOrchestrator({
     enabled: phase === 'resign_cut',

@@ -46,6 +46,7 @@ import { useOnboarding } from '@/hooks/useOnboarding';
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import type { PlayerDetailsSource } from '@/lib/player-details';
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveHeaderDTO } from '@/types/save';
 import type { ResignResultDTO } from '@/types/resign';
 import type { RenegotiateResultDTO } from '@/types/renegotiate';
 import type { TradeBlockRow } from '@/types/trade-block';
@@ -84,6 +85,7 @@ export default function RosterPage() {
   const capSpace = useSaveStore((state) => state.capSpace);
   const capLimit = useSaveStore((state) => state.capLimit);
   const phase = useSaveStore((state) => state.phase);
+  const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const unlocked = useSaveStore((state) => state.unlocked);
   const cachedRoster = useSaveStore((state) => state.roster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
@@ -223,6 +225,7 @@ export default function RosterPage() {
         preferredSaveId: preferredSaveId ?? saveId,
         teamId,
         teamAbbr,
+        year: franchiseYear,
         capSpace,
         capLimit,
         roster: cachedRoster,
@@ -375,17 +378,7 @@ export default function RosterPage() {
     const data = (await response.json()) as {
       ok?: boolean;
       error?: string;
-      header?: {
-        id: string;
-        teamAbbr: string;
-        capSpace: number;
-        capLimit: number;
-        rosterCount: number;
-        rosterLimit: number;
-        phase: string;
-        unlocked?: { freeAgency: boolean; draft: boolean };
-        createdAt: string;
-      };
+      header?: SaveHeaderDTO;
       player?: PlayerRowDTO;
     };
     if (!response.ok || !data.ok) {

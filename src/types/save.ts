@@ -6,6 +6,7 @@ export type SaveUnlocksDTO = {
 export type SaveHeaderDTO = {
   id: string;
   teamAbbr: string;
+  year: number;
   capSpace: number;
   capLimit: number;
   rosterCount: number;
@@ -19,6 +20,7 @@ export type SaveBootstrapDTO = {
   ok: true;
   saveId: string;
   teamAbbr: string;
+  year: number;
   capSpace: number;
   capLimit: number;
   rosterCount: number;

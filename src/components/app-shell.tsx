@@ -102,6 +102,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const saveId = useSaveStore((state) => state.saveId);
   const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
+  const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const capSpace = useSaveStore((state) => state.capSpace);
   const startingCapSpace = useSaveStore((state) => state.startingCapSpace);
   const startingOverall = useSaveStore((state) => state.startingOverall);
@@ -359,7 +360,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     pathname === '/experience' ||
     pathname?.startsWith('/experience/') ||
     pathname === '/offseason-recap' ||
-    pathname?.startsWith('/offseason-recap/');
+    pathname?.startsWith('/offseason-recap/') ||
+    pathname === '/sim-season' ||
+    pathname?.startsWith('/sim-season/') ||
+    pathname === '/season-recap' ||
+    pathname?.startsWith('/season-recap/');
 
   return (
     <TeamThemeProvider team={selectedTeam}>
@@ -405,7 +410,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
             {showOffseasonStepper ? (
               <OffseasonStepperNav
-                seasonLabel="2026 Offseason"
+                seasonLabel={`${franchiseYear} Offseason`}
                 teamName={selectedTeam?.name ?? 'Your Team'}
                 currentStep={currentStep}
                 completedSteps={completedSteps}

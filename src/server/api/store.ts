@@ -69,14 +69,11 @@ export type SaveState = {
   };
 };
 
-const TRADE_PICK_YEARS = [
-  CURRENT_MODELED_LEAGUE_YEAR,
-  CURRENT_MODELED_LEAGUE_YEAR + 1,
-] as const;
 const PICKS_PER_ROUND = 32;
 
 type SaveRestorePayload = {
   teamAbbr: string;
+  year?: number;
   capSpace: number;
   capLimit: number;
   roster: PlayerRowDTO[];
@@ -84,6 +81,8 @@ type SaveRestorePayload = {
   unlocked?: SaveUnlocksDTO;
   createdAt?: string;
 };
+
+const getTradePickYearsForLeagueYear = (year: number) => [year, year + 1] as const;
 
 const saveStore = new Map<string, SaveState>();
 let otcRowsCache: OtcFreeAgencyRow[] | null = null;
@@ -116,6 +115,8 @@ const getExpectedFreeAgentYearOneCapHit = (player: PlayerRowDTO): number => {
     player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000;
   return getYearOneCapHit(apy, 1);
 };
+
+const getLeagueYearForSave = (state: SaveState) => state.header.year ?? CURRENT_MODELED_LEAGUE_YEAR;
 
 const splitName = (name: string) => {
   const parts = name.trim().split(/\s+/);
@@ -355,8 +356,10 @@ const projectedDraftOrder = NFL_LEAGUE_DATA.teams
   })
   .map((team) => team.abbr.toUpperCase());
 
-const buildInitialDraftPickAssets = (): TradePickAssetDTO[] =>
-  TRADE_PICK_YEARS.flatMap((year) =>
+const buildInitialDraftPickAssets = (
+  leagueYear: number = CURRENT_MODELED_LEAGUE_YEAR,
+): TradePickAssetDTO[] =>
+  getTradePickYearsForLeagueYear(leagueYear).flatMap((year) =>
     Array.from({ length: 7 }, (_, roundIndex) => {
       const round = roundIndex + 1;
       return projectedDraftOrder.map((teamAbbr, teamIndex) =>
@@ -385,7 +388,7 @@ const sortDraftPickAssets = (assets: TradePickAssetDTO[]) =>
 
 const ensureDraftPickAssets = (state: SaveState): TradePickAssetDTO[] => {
   if (!state.draftPickAssets || state.draftPickAssets.length === 0) {
-    state.draftPickAssets = buildInitialDraftPickAssets();
+    state.draftPickAssets = buildInitialDraftPickAssets(getLeagueYearForSave(state));
   }
   return state.draftPickAssets;
 };
@@ -429,7 +432,7 @@ export const getTradablePlayersForTeam = (state: SaveState, teamAbbr: string): S
 export const getTradableDraftPicksForTeam = (
   state: SaveState,
   teamAbbr: string,
-  years: number[] = [...TRADE_PICK_YEARS],
+  years: number[] = [...getTradePickYearsForLeagueYear(getLeagueYearForSave(state))],
 ): TradePickAssetDTO[] =>
   sortDraftPickAssets(
     ensureDraftPickAssets(state).filter(
@@ -440,7 +443,7 @@ export const getTradableDraftPicksForTeam = (
 export const getTeamTradeAssets = (
   state: SaveState,
   teamAbbr: string,
-  years: number[] = [...TRADE_PICK_YEARS],
+  years: number[] = [...getTradePickYearsForLeagueYear(getLeagueYearForSave(state))],
 ) => ({
   players: getTradablePlayersForTeam(state, teamAbbr),
   draftPicks: getTradableDraftPicksForTeam(state, teamAbbr, years),
@@ -513,7 +516,11 @@ const resolveUnlocksForPhase = (phase: string, current?: SaveUnlocksDTO): SaveUn
   return next;
 };
 
-export const createSaveState = (saveId: string, teamAbbr: string): SaveState => {
+export const createSaveState = (
+  saveId: string,
+  teamAbbr: string,
+  year: number = CURRENT_MODELED_LEAGUE_YEAR,
+): SaveState => {
   const normalizedTeamAbbr = teamAbbr.toUpperCase();
   const roster = buildRosterForTeam(normalizedTeamAbbr);
   const freeAgents = buildFreeAgencyPool({
@@ -529,6 +536,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
   const header: SaveHeaderDTO = {
     id: saveId,
     teamAbbr: normalizedTeamAbbr,
+    year,
     capSpace,
     capLimit,
     rosterCount: roster.length,
@@ -544,7 +552,7 @@ export const createSaveState = (saveId: string, teamAbbr: string): SaveState => 
     freeAgents,
     teamRosters: { [normalizedTeamAbbr]: roster },
     teamCaps: { [normalizedTeamAbbr]: capSpace },
-    draftPickAssets: buildInitialDraftPickAssets(),
+    draftPickAssets: buildInitialDraftPickAssets(year),
     transactions: [],
     draftSessions: {},
     expiringContracts: getExpiringContractsForTeam(teamAbbr, NFL_LEAGUE_DATA),
@@ -594,6 +602,7 @@ export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): S
     ...state.header,
     id: saveId,
     teamAbbr: normalizedTeamAbbr,
+    year: payload.year ?? state.header.year ?? CURRENT_MODELED_LEAGUE_YEAR,
     capSpace: Number(payload.capSpace.toFixed(1)),
     capLimit: Number(payload.capLimit.toFixed(1)),
     rosterCount: restoredRoster.length,
@@ -603,11 +612,18 @@ export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): S
     createdAt: payload.createdAt ?? state.header.createdAt,
   };
   state.teamCaps[normalizedTeamAbbr] = state.header.capSpace;
-  state.draftPickAssets = buildInitialDraftPickAssets();
-  state.offseason.hydrated = false;
-  state.offseason.otcRows = [];
-  state.freeAgents = [];
-  state.expiringContracts = [];
+  state.draftPickAssets = buildInitialDraftPickAssets(state.header.year);
+  if (state.header.year > CURRENT_MODELED_LEAGUE_YEAR) {
+    state.offseason.hydrated = true;
+    state.offseason.otcRows = [];
+    state.freeAgents = [];
+    state.expiringContracts = buildExpiringContractsFromRoster(restoredRoster, normalizedTeamAbbr);
+  } else {
+    state.offseason.hydrated = false;
+    state.offseason.otcRows = [];
+    state.freeAgents = [];
+    state.expiringContracts = [];
+  }
 
   saveStore.set(saveId, state);
   return state;
@@ -647,7 +663,7 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
     state.teamCaps = { [state.header.teamAbbr]: state.header.capSpace };
   }
   if (!state.draftPickAssets) {
-    state.draftPickAssets = buildInitialDraftPickAssets();
+    state.draftPickAssets = buildInitialDraftPickAssets(getLeagueYearForSave(state));
   }
   if (!state.transactions) {
     state.transactions = [];
@@ -704,6 +720,234 @@ export const hydrateOffseasonFreeAgencyState = async (state: SaveState): Promise
   );
   state.freeAgents = toStoredPlayers(pool).filter((player) => !rosteredPlayerIds.has(player.id));
   state.offseason.hydrated = true;
+};
+
+const getPlayerMarketValueDollars = (player: StoredPlayer) => {
+  const salaryMillions =
+    player.contract?.apy ??
+    player.salary ??
+    player.capHitValue ??
+    player.year1CapHit ??
+    Math.max(1, (player.rating ?? player.maddenRating ?? player.baselineRating ?? 70) / 20);
+  return Math.max(1_000_000, Math.round(salaryMillions * 1_000_000));
+};
+
+const buildFreeAgentFromExpiredPlayer = (
+  state: SaveState,
+  player: StoredPlayer,
+  generatedAt: string,
+): StoredPlayer => {
+  const marketValue = getPlayerMarketValueDollars(player);
+  return {
+    ...player,
+    teamAbbr: null,
+    currentTeamAbbr: null,
+    contractYearsRemaining: 0,
+    capHit: '$0.0M',
+    capHitValue: 0,
+    salary: 0,
+    guaranteed: 0,
+    status: 'Free Agent',
+    lastTeamAbbr: player.teamAbbr ?? player.currentTeamAbbr ?? player.lastTeamAbbr ?? null,
+    signedTeamAbbr: player.teamAbbr ?? player.currentTeamAbbr ?? player.signedTeamAbbr ?? null,
+    isUnsigned: true,
+    marketValue,
+    year1CapHit: Math.max(1, Math.round(marketValue / 1_000_000)),
+    freeAgentProfile: buildFreeAgentProfile({
+      playerId: player.id,
+      saveId: state.header.id,
+      position: player.position,
+      age: player.age,
+      lastContractApy: marketValue,
+      lastGuaranteed: Math.round((player.guaranteed ?? player.contract?.guaranteed ?? 0) * 1_000_000),
+      teamAbbr: state.header.teamAbbr,
+      generatedAt,
+      source: player.cutAt ? 'released' : 'real',
+    }),
+    contract: {
+      yearsRemaining: 0,
+      apy: 0,
+      guaranteed: 0,
+      capHit: 0,
+      expiresAfterSeason: false,
+    },
+  };
+};
+
+const buildExpiringContractsFromRoster = (
+  roster: StoredPlayer[],
+  teamAbbr: string,
+): ExpiringContractRow[] =>
+  roster
+    .filter(
+      (player) =>
+        player.status?.toLowerCase() !== 'cut' &&
+        (player.teamAbbr ?? teamAbbr) === teamAbbr &&
+        (player.contractYearsRemaining ?? player.contract?.yearsRemaining ?? 0) === 1,
+    )
+    .map((player) => ({
+      id: player.id,
+      name: `${player.firstName} ${player.lastName}`.trim(),
+      pos: player.position,
+      teamAbbr,
+      lastTeamAbbr: teamAbbr,
+      previousTeamAbbr: teamAbbr,
+      contractType: player.contractStatus ?? 'UFA',
+      interestPct: 0,
+      age: player.age ?? 27,
+      rating: player.rating ?? player.maddenRating ?? player.baselineRating ?? undefined,
+      estValue: getPlayerMarketValueDollars(player),
+      currentSalary: Math.round(
+        ((player.contract?.apy ?? player.salary ?? player.capHitValue ?? player.year1CapHit ?? 0) *
+          1_000_000),
+      ),
+      maxValue: Math.round(getPlayerMarketValueDollars(player) * 1.15),
+      headshotUrl: player.headshotUrl ?? null,
+    }))
+    .sort((left, right) => (right.rating ?? 0) - (left.rating ?? 0));
+
+const recalculateTeamCapSpaceFromRoster = (teamAbbr: string, roster: StoredPlayer[]) => {
+  const capLimit = capLimitMillionsForTeam(teamAbbr, roster);
+  const commitments = roster
+    .filter((player) => player.status?.toLowerCase() !== 'cut')
+    .reduce((sum, player) => sum + (player.capHitValue ?? player.year1CapHit ?? 0), 0);
+  return Number((capLimit - commitments).toFixed(1));
+};
+
+export const advanceSaveStateToNextOffseason = (
+  saveId: string,
+): SaveResult<{
+  header: SaveHeaderDTO;
+  roster: PlayerRowDTO[];
+}> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
+  }
+
+  const state = stateResult.data;
+  const generatedAt = new Date().toISOString();
+  const nextYear = getLeagueYearForSave(state) + 1;
+  const allTeamAbbrs = NFL_LEAGUE_DATA.teams.map((team) => team.abbr.toUpperCase());
+
+  allTeamAbbrs.forEach((teamAbbr) => {
+    if (!state.teamRosters[teamAbbr]) {
+      state.teamRosters[teamAbbr] = buildRosterForTeam(teamAbbr);
+    }
+  });
+
+  const rolloverFreeAgents = new Map<string, StoredPlayer>();
+
+  Object.entries(state.teamRosters).forEach(([teamAbbr, roster]) => {
+    const nextRoster: StoredPlayer[] = [];
+    roster.forEach((player) => {
+      if (player.status?.toLowerCase() === 'cut') {
+        return;
+      }
+
+      const nextYearsRemaining = Math.max(
+        0,
+        (player.contractYearsRemaining ?? player.contract?.yearsRemaining ?? 0) - 1,
+      );
+      const nextCapHitSchedule = player.capHitSchedule?.slice(1);
+      const nextCapHit =
+        nextCapHitSchedule?.[0] ??
+        player.contract?.capHit ??
+        player.capHitValue ??
+        player.year1CapHit ??
+        0;
+
+      if (nextYearsRemaining <= 0) {
+        const freeAgent = buildFreeAgentFromExpiredPlayer(
+          state,
+          {
+            ...player,
+            teamAbbr,
+            currentTeamAbbr: teamAbbr,
+            lastTeamAbbr: teamAbbr,
+          },
+          generatedAt,
+        );
+        rolloverFreeAgents.set(freeAgent.id, freeAgent);
+        return;
+      }
+
+      nextRoster.push({
+        ...player,
+        teamAbbr,
+        currentTeamAbbr: teamAbbr,
+        contractYearsRemaining: nextYearsRemaining,
+        year1CapHit: nextCapHit,
+        capHitValue: nextCapHit,
+        capHit: formatMoneyMillions(nextCapHit),
+        capHitSchedule: nextCapHitSchedule,
+        contract: {
+          yearsRemaining: nextYearsRemaining,
+          apy: player.contract?.apy ?? player.salary ?? nextCapHit,
+          guaranteed: player.contract?.guaranteed ?? player.guaranteed ?? 0,
+          capHit: nextCapHit,
+          expiresAfterSeason: nextYearsRemaining <= 1,
+        },
+      });
+    });
+    state.teamRosters[teamAbbr] = nextRoster;
+    state.teamCaps[teamAbbr] = recalculateTeamCapSpaceFromRoster(teamAbbr, nextRoster);
+  });
+
+  state.header.year = nextYear;
+  state.header.phase = 'resign_cut';
+  state.header.unlocked = { freeAgency: false, draft: false };
+  state.header.createdAt = generatedAt;
+  state.header.teamAbbr = state.header.teamAbbr.toUpperCase();
+  state.roster = state.teamRosters[state.header.teamAbbr] ?? [];
+  state.header.rosterCount = state.roster.length;
+  state.header.capLimit = capLimitMillionsForTeam(state.header.teamAbbr, state.roster);
+  state.header.capSpace = state.teamCaps[state.header.teamAbbr] ?? recalculateTeamCapSpaceFromRoster(
+    state.header.teamAbbr,
+    state.roster,
+  );
+
+  state.expiringContracts = buildExpiringContractsFromRoster(state.roster, state.header.teamAbbr);
+  state.freeAgents = Array.from(
+    new Map(
+      [...state.freeAgents, ...Array.from(rolloverFreeAgents.values())].map((player) => [
+        player.id,
+        player,
+      ]),
+    ).values(),
+  )
+    .filter((player) => !state.roster.some((rosterPlayer) => rosterPlayer.id === player.id))
+    .map((player) => ({
+      ...player,
+      freeAgentProfile: player.freeAgentProfile
+        ? {
+            ...player.freeAgentProfile,
+            saveId: state.header.id,
+            source: player.cutAt ? 'released' : player.freeAgentProfile.source,
+            available: true,
+            availabilityStatus: 'available',
+            marketStatus: 'available',
+            generatedAt,
+            refreshedAt: generatedAt,
+            lastUpdated: generatedAt,
+          }
+        : player.freeAgentProfile,
+    }));
+
+  state.offseason.hydrated = true;
+  state.offseason.otcRows = [];
+  state.offseason.resolvedPlayerIds = [];
+  state.offseason.walkawayPlayerIds = [];
+  state.draftSessions = {};
+  state.draftPickAssets = buildInitialDraftPickAssets(nextYear);
+
+  return {
+    ok: true,
+    data: {
+      header: getSaveHeaderSnapshot(state),
+      roster: clonePlayers(state.roster),
+    },
+  };
 };
 
 const matchesFilter = (player: StoredPlayer, filters?: PlayerFilters): boolean => {

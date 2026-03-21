@@ -19,6 +19,7 @@ import { getSaveHeaderSnapshot, getProjectedCapSpaceForTeam } from './store';
 import type { TradeOfferDTO } from '@/types/trade-offers';
 import type { SaveUnlocksDTO } from '@/types/save';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
+import { computeTeamNeeds } from '@/lib/team-overview';
 
 export type DraftSessionStartResponse = {
   draftSessionId: string;
@@ -51,6 +52,7 @@ export const findSaveIdForDraftSession = (draftSessionId: string): string | null
 
 type DraftSaveSnapshot = {
   teamAbbr: string;
+  year?: number;
   capSpace: number;
   capLimit: number;
   roster: PlayerRowDTO[];
@@ -79,8 +81,9 @@ export const restoreDraftSession = (
 ): DraftSessionDTO => {
   const state = saveSnapshot
     ? restoreSaveState(saveId, {
-        teamAbbr: saveSnapshot.teamAbbr,
-        capSpace: saveSnapshot.capSpace,
+      teamAbbr: saveSnapshot.teamAbbr,
+      year: saveSnapshot.year,
+      capSpace: saveSnapshot.capSpace,
         capLimit: saveSnapshot.capLimit,
         roster: saveSnapshot.roster,
         phase: saveSnapshot.phase,
@@ -142,9 +145,10 @@ export const isDraftCompleteForSelection = (
   return currentPick.round > Math.max(1, Math.min(TOTAL_DRAFT_ROUNDS, Math.round(roundCount)));
 };
 
-const cloneProspects = (): PlayerRowDTO[] =>
+const cloneProspects = (year: number): PlayerRowDTO[] =>
   BASE_PROSPECTS.map((player, index) => ({
     ...player,
+    classYear: player.classYear ?? `${year}`,
     projectedPick: player.rank ?? index + 1,
   }));
 
@@ -234,13 +238,28 @@ const normalizeDraftNeedPosition = (position: string): string => {
   return normalized;
 };
 
-const getOrderedTeamNeeds = (teamAbbr: string): string[] =>
-  NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.allTeamNeeds ??
-  NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.teamNeeds ??
-  ['QB', 'OT', 'CB'];
+const getOrderedTeamNeeds = (
+  state: ReturnType<typeof getSaveStateOrThrow>,
+  teamAbbr: string,
+): string[] => {
+  const projectedRoster = state.teamRosters[teamAbbr]?.filter((player) => player.status?.toLowerCase() !== 'cut');
+  if (projectedRoster && projectedRoster.length > 0) {
+    return computeTeamNeeds(projectedRoster);
+  }
 
-const getActiveOrderedTeamNeeds = (session: DraftSessionState, teamAbbr: string): string[] => {
-  const orderedNeeds = getOrderedTeamNeeds(teamAbbr).map(normalizeDraftNeedPosition);
+  return (
+    NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.allTeamNeeds ??
+    NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.teamNeeds ??
+    ['QB', 'OT', 'CB']
+  );
+};
+
+const getActiveOrderedTeamNeeds = (
+  state: ReturnType<typeof getSaveStateOrThrow>,
+  session: DraftSessionState,
+  teamAbbr: string,
+): string[] => {
+  const orderedNeeds = getOrderedTeamNeeds(state, teamAbbr).map(normalizeDraftNeedPosition);
   const draftedPositions = new Set(
     session.picks
       .filter((pick) => pick.selectedByTeamAbbr === teamAbbr && pick.selectedPlayerId)
@@ -260,12 +279,13 @@ const getActiveOrderedTeamNeeds = (session: DraftSessionState, teamAbbr: string)
 };
 
 const buildNeedAwareCandidatePool = (
+  state: ReturnType<typeof getSaveStateOrThrow>,
   session: DraftSessionState,
   teamAbbr: string,
   round: number,
   prospects: PlayerRowDTO[],
 ): PlayerRowDTO[] => {
-  const needs = getActiveOrderedTeamNeeds(session, teamAbbr);
+  const needs = getActiveOrderedTeamNeeds(state, session, teamAbbr);
   const topNeed = needs[0] ?? null;
   const primaryNeeds = new Set(needs.slice(0, 2));
   const secondaryNeeds = new Set(needs.slice(2, 5));
@@ -382,7 +402,7 @@ export const createDraftSession = (
     isPaused: false,
     currentPickIndex: 0,
     picks: buildDraftPicks(),
-    prospects: cloneProspects(),
+    prospects: cloneProspects(state.header.year ?? 2026),
     status: 'in_progress',
   };
 
@@ -487,6 +507,7 @@ export const advanceDraftSession = (draftSessionId: string, saveId: string): Dra
   }
 
   const candidatePool = buildNeedAwareCandidatePool(
+    state,
     session,
     currentPick.ownerTeamAbbr,
     currentPick.round,
@@ -621,8 +642,9 @@ export const acceptDraftTradeOffer = (
     throw new Error('Unable to resolve one or more player assets in the offer');
   }
 
+  const activeDraftYear = state.header.year ?? 2026;
   const outgoingSessionPicks = outgoingPickAssets
-    .filter((asset) => asset.year === 2026)
+    .filter((asset) => asset.year === activeDraftYear)
     .map((asset) =>
       session.picks.find(
         (entry) =>
@@ -633,7 +655,7 @@ export const acceptDraftTradeOffer = (
     )
     .filter((pick): pick is DraftPickDTO => Boolean(pick));
   const incomingSessionPicks = incomingPickAssets
-    .filter((asset) => asset.year === 2026)
+    .filter((asset) => asset.year === activeDraftYear)
     .map((asset) =>
       session.picks.find(
         (entry) =>
@@ -644,10 +666,16 @@ export const acceptDraftTradeOffer = (
     )
     .filter((pick): pick is DraftPickDTO => Boolean(pick));
 
-  if (outgoingSessionPicks.length !== outgoingPickAssets.filter((asset) => asset.year === 2026).length) {
+  if (
+    outgoingSessionPicks.length !==
+    outgoingPickAssets.filter((asset) => asset.year === activeDraftYear).length
+  ) {
     throw new Error('A current draft pick in the offer is no longer available');
   }
-  if (incomingSessionPicks.length !== incomingPickAssets.filter((asset) => asset.year === 2026).length) {
+  if (
+    incomingSessionPicks.length !==
+    incomingPickAssets.filter((asset) => asset.year === activeDraftYear).length
+  ) {
     throw new Error('The offering team no longer controls one of the live picks in this offer');
   }
 

@@ -20,6 +20,7 @@ export const GET = async (request: Request) => {
   const saves = getSavesByTeam(teamId, teamAbbr).map((header) => ({
     saveId: header.id,
     teamAbbr: header.teamAbbr,
+    year: header.year,
     capSpace: header.capSpace,
     capLimit: header.capLimit,
     rosterCount: header.rosterCount,

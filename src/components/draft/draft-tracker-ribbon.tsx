@@ -29,6 +29,7 @@ type DraftTrackerControls = {
 };
 
 type DraftTrackerRibbonProps = {
+  year?: number;
   picks: DraftPickDTO[];
   currentPickIndex: number;
   prospects: PlayerRowDTO[];
@@ -45,6 +46,7 @@ const speedLabel = (speedLevel: number) => {
 };
 
 export function DraftTrackerRibbon({
+  year = 2026,
   picks,
   currentPickIndex,
   prospects,
@@ -81,7 +83,7 @@ export function DraftTrackerRibbon({
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             Draft Tracker
           </p>
-          <h2 className="mt-1 text-lg font-semibold text-foreground">2026 NFL Draft</h2>
+          <h2 className="mt-1 text-lg font-semibold text-foreground">{year} NFL Draft</h2>
         </div>
         {controls ? (
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">

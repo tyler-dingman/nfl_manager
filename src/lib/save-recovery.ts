@@ -6,6 +6,7 @@ type RecoverSaveOptions = {
   preferredSaveId?: string | null;
   teamId?: string | null;
   teamAbbr?: string | null;
+  year?: number | null;
   capSpace: number;
   capLimit: number;
   roster: PlayerRowDTO[];
@@ -62,6 +63,7 @@ export const ensureRecoverableSaveId = async (
           body: JSON.stringify({
             saveId: nextSaveId,
             teamAbbr: options.teamAbbr,
+            year: options.year ?? undefined,
             capSpace: options.capSpace,
             capLimit: options.capLimit,
             roster: options.roster,
@@ -88,7 +90,11 @@ export const ensureRecoverableSaveId = async (
   const createResponse = await apiFetch('/api/saves/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ teamId: options.teamId || undefined, teamAbbr: options.teamAbbr || undefined }),
+    body: JSON.stringify({
+      teamId: options.teamId || undefined,
+      teamAbbr: options.teamAbbr || undefined,
+      year: options.year ?? undefined,
+    }),
   });
   if (!createResponse.ok) {
     return null;
@@ -113,6 +119,7 @@ export const ensureRecoverableSaveId = async (
       body: JSON.stringify({
         saveId: restoredSaveId,
         teamAbbr: options.teamAbbr ?? createData.teamAbbr,
+        year: options.year ?? createData.year,
         capSpace: options.capSpace,
         capLimit: options.capLimit,
         roster: options.roster,

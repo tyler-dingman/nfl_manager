@@ -23,6 +23,7 @@ import { useToast } from '@/components/ui/toast';
 import { resolvePlayerRating } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveHeaderDTO } from '@/types/save';
 import type {
   TeamTradeAssetSourceDTO,
   TradeOfferAssetDTO,
@@ -67,20 +68,10 @@ type TradeOfferAssetsResponse =
   | { ok: false; error: string };
 
 type AcceptTradeOfferResponse =
-  | {
+    | {
       ok: true;
       accepted: true;
-      header: {
-        id: string;
-        teamAbbr: string;
-        capSpace: number;
-        capLimit: number;
-        rosterCount: number;
-        rosterLimit: number;
-        phase: string;
-        unlocked: { freeAgency: boolean; draft: boolean };
-        createdAt: string;
-      };
+      header: SaveHeaderDTO;
       roster: PlayerRowDTO[];
       aiInterest: TradeOfferDTO['aiInterest'];
       partnerTeamAbbr: string;
@@ -817,6 +808,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
         ok: true,
         saveId: actionableSaveId,
         teamAbbr: data.header.teamAbbr,
+        year: data.header.year,
         capSpace: data.header.capSpace,
         capLimit: data.header.capLimit,
         rosterCount: data.header.rosterCount,

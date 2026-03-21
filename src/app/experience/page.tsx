@@ -50,6 +50,7 @@ export default function ExperiencePage() {
   const capLimit = useSaveStore((state) => state.capLimit);
   const roster = useSaveStore((state) => state.roster);
   const phase = useSaveStore((state) => state.phase);
+  const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const setPhase = useSaveStore((state) => state.setPhase);
@@ -90,6 +91,7 @@ export default function ExperiencePage() {
         preferredSaveId: saveId,
         teamId,
         teamAbbr,
+        year: franchiseYear,
         capSpace,
         capLimit,
         roster,

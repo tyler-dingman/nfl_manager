@@ -41,6 +41,7 @@ import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveBootstrapDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
 
 export const dynamic = 'force-dynamic';
@@ -117,6 +118,7 @@ function DraftRoomContent() {
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setIsUserOnClock = useSaveStore((state) => state.setIsUserOnClock);
   const selectedDraftRounds = useSaveStore((state) => state.selectedDraftRounds);
+  const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const setSelectedDraftRounds = useSaveStore((state) => state.setSelectedDraftRounds);
   const setLatestDraftRecap = useSaveStore((state) => state.setLatestDraftRecap);
   const modeExperience = useExperienceStore((state) => state.mode);
@@ -263,17 +265,7 @@ function DraftRoomContent() {
         });
         if (headerResponse.ok) {
           const headerData = (await headerResponse.json()) as
-            | {
-                ok: true;
-                saveId: string;
-                teamAbbr: string;
-                capSpace: number;
-                capLimit: number;
-                rosterCount: number;
-                rosterLimit: number;
-                phase: string;
-                unlocked?: { freeAgency: boolean; draft: boolean };
-              }
+            | (SaveBootstrapDTO & { unlocked?: SaveBootstrapDTO['unlocked'] })
             | { ok: false; error: string };
           if (headerData.ok) {
             const resolvedPhase = forcePhase ?? headerData.phase;
@@ -304,6 +296,7 @@ function DraftRoomContent() {
           preferredSaveId,
           teamId: resolvedTeamId,
           teamAbbr: resolvedTeamAbbr,
+          year: franchiseYear,
           capSpace,
           capLimit,
           roster,
@@ -335,6 +328,7 @@ function DraftRoomContent() {
       teamAbbr,
       teamId,
       unlocked,
+      franchiseYear,
     ],
   );
   const userSelections = React.useMemo(() => {
@@ -467,6 +461,7 @@ function DraftRoomContent() {
     (activeSaveId: string) => ({
       saveId: activeSaveId,
       teamAbbr: teamAbbr || selectedTeam?.abbr || roster[0]?.teamAbbr || 'KC',
+      year: franchiseYear,
       capSpace,
       capLimit,
       roster,
@@ -476,7 +471,7 @@ function DraftRoomContent() {
         draft: true,
       },
     }),
-    [capLimit, capSpace, roster, selectedTeam?.abbr, teamAbbr],
+    [capLimit, capSpace, franchiseYear, roster, selectedTeam?.abbr, teamAbbr],
   );
 
   const syncDraftPhase = React.useCallback(
@@ -496,18 +491,7 @@ function DraftRoomContent() {
       }
 
       const payload = (await response.json()) as
-        | {
-            ok: true;
-            saveId: string;
-            teamAbbr: string;
-            capSpace: number;
-            capLimit: number;
-            rosterCount: number;
-            rosterLimit: number;
-            phase: string;
-            unlocked?: { freeAgency: boolean; draft: boolean };
-            createdAt: string;
-          }
+        | (SaveBootstrapDTO & { unlocked?: SaveBootstrapDTO['unlocked'] })
         | { ok: false; error: string };
 
       if (!payload.ok) {
@@ -792,6 +776,7 @@ function DraftRoomContent() {
       header: {
         saveId: string;
         teamAbbr: string;
+        year: number;
         capSpace: number;
         capLimit: number;
         rosterCount: number;
@@ -986,6 +971,7 @@ function DraftRoomContent() {
           {!session ? (
             <div className="space-y-5">
               <DraftTrackerRibbon
+                year={franchiseYear}
                 picks={roundOneOrder.map((pick) => ({
                   id: `lobby-${pick.pickNumber}`,
                   overall: pick.pickNumber,
@@ -1125,6 +1111,7 @@ function DraftRoomContent() {
           ) : (
             <ActiveDraftRoom
               saveId={resolvedSaveId || saveId}
+              year={franchiseYear}
               session={session}
               draftSessionId={session.id}
               saveSnapshot={buildDraftSaveSnapshot(resolvedSaveId || saveId)}

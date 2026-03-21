@@ -11,6 +11,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore, type Team } from '@/features/team/team-store';
 import { apiFetch } from '@/lib/api';
 import { approximateTrajectoryFromOverall } from '@/lib/offseason-recap';
+import type { SaveBootstrapDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
 
 const TeamSelectCard = ({
@@ -144,18 +145,7 @@ function TeamSelectScreenInner() {
     });
     if (response.ok) {
       const data = (await response.json()) as
-        | {
-            ok: true;
-            saveId: string;
-            teamAbbr: string;
-            capSpace: number;
-            capLimit: number;
-            rosterCount: number;
-            rosterLimit: number;
-            phase: string;
-            unlocked?: { freeAgency: boolean; draft: boolean };
-            createdAt: string;
-          }
+        | (SaveBootstrapDTO & { unlocked?: SaveBootstrapDTO['unlocked'] })
         | { ok: false; error: string };
       if ('ok' in data && data.ok) {
         setSaveHeader(

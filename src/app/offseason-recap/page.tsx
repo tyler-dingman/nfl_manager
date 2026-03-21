@@ -7,18 +7,14 @@ import { useRouter } from 'next/navigation';
 import AppShell from '@/components/app-shell';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
-import { apiFetch } from '@/lib/api';
 import {
-  approximateTrajectoryFromOverall,
   buildOffseasonSummary,
   computeEndingTrajectory,
   computeLiveOverall,
   selectTopOffseasonAdditions,
 } from '@/lib/offseason-recap';
-import type { SaveBootstrapDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
 
 export const dynamic = 'force-dynamic';
@@ -29,18 +25,13 @@ export default function OffseasonRecapPage() {
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const capSpace = useSaveStore((state) => state.capSpace);
   const capLimit = useSaveStore((state) => state.capLimit);
+  const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const startingOverall = useSaveStore((state) => state.startingOverall);
   const startingTrajectory = useSaveStore((state) => state.startingTrajectory);
   const startingNeeds = useSaveStore((state) => state.startingNeeds);
   const latestDraftRecap = useSaveStore((state) => state.latestDraftRecap);
-  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
-  const setRunBaseline = useSaveStore((state) => state.setRunBaseline);
-  const setActiveTeam = useSaveStore((state) => state.setActiveTeam);
-  const clearSave = useSaveStore((state) => state.clearSave);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
-  const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
-  const resetForNewRun = useExperienceStore((state) => state.resetForNewRun);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId) ?? teams.find((team) => team.abbr === teamAbbr) ?? null,
@@ -149,58 +140,12 @@ export default function OffseasonRecapPage() {
   ).length;
   const draftedCount = latestDraftRecap?.draftedPlayers.length ?? 0;
 
-  const handleFinishOffseason = async () => {
-    if (!selectedTeam) {
-      clearSave();
-      resetForNewRun();
-      router.push('/');
-      return;
-    }
-
-    clearSave();
-    resetForNewRun();
-    setSelectedTeamId(selectedTeam.id);
-    setActiveTeam(selectedTeam.id, selectedTeam.abbr);
-
-    const response = await apiFetch('/api/saves/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ teamAbbr: selectedTeam.abbr }),
-    });
-
-    if (!response.ok) {
-      router.push('/');
-      return;
-    }
-
-    const data = (await response.json()) as SaveBootstrapDTO | { ok: false; error?: string };
-    if ('ok' in data && !data.ok) {
-      router.push('/');
-      return;
-    }
-
-    setSaveHeader(
-      {
-        ...data,
-        unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-      },
-      selectedTeam.id,
-    );
-    setRunBaseline({
-      capSpace: data.capSpace,
-      overall: selectedTeam.teamOverview ?? null,
-      trajectory: approximateTrajectoryFromOverall(selectedTeam.teamOverview ?? null),
-      needs: selectedTeam.teamNeeds,
-    });
-    router.push('/experience');
-  };
-
   return (
     <AppShell>
       <div className="mx-auto w-full max-w-5xl space-y-5 pb-16">
         <section className="rounded-3xl border border-border bg-white p-5 shadow-sm md:p-7">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-            Offseason Recap
+            {franchiseYear} Offseason Recap
           </p>
           <div className="mt-3 flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
             <div>
@@ -370,8 +315,8 @@ export default function OffseasonRecapPage() {
         </section>
 
         <div className="flex justify-end">
-          <Button type="button" className="h-11 w-full md:w-auto" onClick={() => void handleFinishOffseason()}>
-            Finish Offseason
+          <Button type="button" className="h-11 w-full md:w-auto" onClick={() => router.push('/sim-season')}>
+            Sim Season
           </Button>
         </div>
       </div>

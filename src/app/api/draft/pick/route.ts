@@ -46,6 +46,7 @@ export const POST = async (request: Request) => {
         sessionSnapshot?: DraftSessionDTO;
         saveSnapshot?: {
           teamAbbr: string;
+          year?: number;
           capSpace: number;
           capLimit: number;
           roster: PlayerRowDTO[];

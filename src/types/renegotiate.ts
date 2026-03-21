@@ -1,4 +1,5 @@
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveHeaderDTO } from '@/types/save';
 
 export type RenegotiateResultDTO = {
   ok: true;
@@ -7,15 +8,5 @@ export type RenegotiateResultDTO = {
   label: string;
   quote: string;
   player?: PlayerRowDTO;
-  header?: {
-    id: string;
-    teamAbbr: string;
-    capSpace: number;
-    capLimit: number;
-    rosterCount: number;
-    rosterLimit: number;
-    phase: string;
-    unlocked?: { freeAgency: boolean; draft: boolean };
-    createdAt: string;
-  };
+  header?: SaveHeaderDTO;
 };

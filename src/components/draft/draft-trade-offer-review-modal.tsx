@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 import type { PlayerDetailsSource } from '@/lib/player-details';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
-import type { SaveUnlocksDTO } from '@/types/save';
+import type { SaveHeaderDTO, SaveUnlocksDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
 import type {
   TeamTradeAssetSourceDTO,
@@ -48,19 +48,11 @@ type DraftTradeOfferReviewModalProps = {
   onAccepted: (payload: {
     session: DraftSessionDTO;
     roster: PlayerRowDTO[];
-    header: {
-      saveId: string;
-      teamAbbr: string;
-      capSpace: number;
-      capLimit: number;
-      rosterCount: number;
-      rosterLimit: number;
-      phase: string;
-      unlocked: { freeAgency: boolean; draft: boolean };
-      createdAt: string;
-    };
+    header: SaveBootstrapHeader;
   }) => void;
 };
+
+type SaveBootstrapHeader = Omit<SaveHeaderDTO, 'id'> & { saveId: string };
 
 type ExtraSelection = { type: 'player'; id: string } | { type: 'pick'; id: string } | null;
 
@@ -98,17 +90,7 @@ type DraftTradeOfferAcceptResponse =
       accepted: true;
       session: DraftSessionDTO;
       roster: PlayerRowDTO[];
-      header: {
-        saveId: string;
-        teamAbbr: string;
-        capSpace: number;
-        capLimit: number;
-        rosterCount: number;
-        rosterLimit: number;
-        phase: string;
-        unlocked: { freeAgency: boolean; draft: boolean };
-        createdAt: string;
-      };
+      header: SaveBootstrapHeader;
       aiInterest: TradeOfferDTO['aiInterest'];
     }
   | { ok: true; accepted: false; aiInterest: TradeOfferDTO['aiInterest']; error: string }

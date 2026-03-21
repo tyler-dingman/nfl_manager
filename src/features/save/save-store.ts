@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { SaveBootstrapDTO, SaveHeaderDTO, SaveUnlocksDTO } from '@/types/save';
+import type { SeasonRecapSnapshot } from '@/types/franchise';
 import type { PlayerRowDTO } from '@/types/player';
 import { apiFetch } from '@/lib/api';
 
@@ -9,6 +10,7 @@ type SaveStoreState = {
   saveId: string;
   teamId: string;
   teamAbbr: string;
+  franchiseYear: number;
   capSpace: number;
   startingCapSpace: number | null;
   startingOverall: number | null;
@@ -44,6 +46,8 @@ type SaveStoreState = {
       rating?: number | null;
     }>;
   } | null;
+  latestSeasonRecap: SeasonRecapSnapshot | null;
+  seasonHistory: SeasonRecapSnapshot[];
   hasHydrated: boolean;
   saveLoadError: string | null;
   setHasHydrated: (value: boolean) => void;
@@ -61,6 +65,8 @@ type SaveStoreState = {
   setIsUserOnClock: (value: boolean) => void;
   setSelectedDraftRounds: (rounds: number) => void;
   setLatestDraftRecap: (recap: SaveStoreState['latestDraftRecap']) => void;
+  setLatestSeasonRecap: (recap: SeasonRecapSnapshot | null) => void;
+  appendSeasonHistory: (recap: SeasonRecapSnapshot) => void;
   clearSave: () => void;
   setPhase: (phase: string) => Promise<void>;
   advancePhase: () => Promise<void>;
@@ -72,6 +78,7 @@ const DEFAULT_STATE = {
   saveId: '',
   teamId: '',
   teamAbbr: '',
+  franchiseYear: 2026,
   capSpace: 0,
   startingCapSpace: null,
   startingOverall: null,
@@ -88,6 +95,8 @@ const DEFAULT_STATE = {
   isUserOnClock: false,
   selectedDraftRounds: 3,
   latestDraftRecap: null,
+  latestSeasonRecap: null,
+  seasonHistory: [],
   hasHydrated: false,
   saveLoadError: null,
 };
@@ -132,6 +141,7 @@ export const useSaveStore = create<SaveStoreState>()(
           saveId,
           teamId: teamId ?? state.teamId,
           teamAbbr,
+          franchiseYear: header.year,
           capSpace,
           startingCapSpace:
             state.saveId && state.saveId === saveId
@@ -197,6 +207,13 @@ export const useSaveStore = create<SaveStoreState>()(
           selectedDraftRounds: Math.max(1, Math.min(7, Math.round(rounds))),
         })),
       setLatestDraftRecap: (recap) => set((state) => ({ ...state, latestDraftRecap: recap })),
+      setLatestSeasonRecap: (recap) => set((state) => ({ ...state, latestSeasonRecap: recap })),
+      appendSeasonHistory: (recap) =>
+        set((state) => ({
+          ...state,
+          latestSeasonRecap: recap,
+          seasonHistory: [...state.seasonHistory.filter((entry) => entry.year !== recap.year), recap],
+        })),
       clearSave: () =>
         set((state) => {
           if (typeof window !== 'undefined') {
@@ -208,6 +225,7 @@ export const useSaveStore = create<SaveStoreState>()(
             saveId: '',
             teamId: '',
             teamAbbr: '',
+            franchiseYear: 2026,
             capSpace: 0,
             startingCapSpace: null,
             startingOverall: null,
@@ -224,18 +242,20 @@ export const useSaveStore = create<SaveStoreState>()(
             isUserOnClock: false,
             selectedDraftRounds: 3,
             latestDraftRecap: null,
+            latestSeasonRecap: null,
+            seasonHistory: [],
             saveLoadError: null,
           };
         }),
       setPhase: async (nextPhase) => {
-        const { saveId, teamAbbr } = get();
+        const { saveId, teamAbbr, franchiseYear } = get();
         if (!saveId) {
           return;
         }
         const response = await apiFetch('/api/saves/phase', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ saveId, phase: nextPhase }),
+          body: JSON.stringify({ saveId, phase: nextPhase, teamAbbr, year: franchiseYear }),
         });
         if (!response.ok) {
           get().setSaveLoadError('Unable to update save phase.');
@@ -248,6 +268,7 @@ export const useSaveStore = create<SaveStoreState>()(
         }
         set((state) => ({
           ...state,
+          franchiseYear: data.year,
           phase: data.phase,
           unlocked: resolveUnlocks(data.phase, data.unlocked),
           saveLoadError: null,
@@ -296,6 +317,7 @@ export const useSaveStore = create<SaveStoreState>()(
           ...state,
           saveId: data.saveId,
           teamAbbr: data.teamAbbr,
+          franchiseYear: data.year,
           capSpace: data.capSpace,
           startingCapSpace:
             state.saveId && state.saveId === data.saveId
@@ -340,6 +362,7 @@ export const useSaveStore = create<SaveStoreState>()(
           ...state,
           saveId: data.saveId,
           teamAbbr: data.teamAbbr,
+          franchiseYear: data.year,
           capSpace: data.capSpace,
           startingCapSpace:
             state.saveId && state.saveId === data.saveId
@@ -366,6 +389,7 @@ export const useSaveStore = create<SaveStoreState>()(
         saveId: state.saveId,
         teamId: state.teamId,
         teamAbbr: state.teamAbbr,
+        franchiseYear: state.franchiseYear,
         phase: state.phase,
         unlocked: state.unlocked,
         startingCapSpace: state.startingCapSpace,
@@ -379,6 +403,8 @@ export const useSaveStore = create<SaveStoreState>()(
         capLimit: state.capLimit,
         selectedDraftRounds: state.selectedDraftRounds,
         latestDraftRecap: state.latestDraftRecap,
+        latestSeasonRecap: state.latestSeasonRecap,
+        seasonHistory: state.seasonHistory,
       }),
       onRehydrateStorage: () => (state, error) => {
         if (!error) {

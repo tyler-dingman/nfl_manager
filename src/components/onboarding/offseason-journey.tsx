@@ -26,10 +26,9 @@ const STEPS: JourneyStep[] = [
     icon: ClipboardList,
   },
   {
-    title: 'Then 2026 season simulation (coming soon)',
+    title: 'Then simulate the season and roll into next offseason',
     helper: 'Step 4 of 4',
     icon: PlayCircle,
-    comingSoon: true,
   },
 ];
 

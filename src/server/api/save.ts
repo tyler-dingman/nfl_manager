@@ -27,11 +27,12 @@ const normalizeTeamAbbr = (teamId?: string, teamAbbr?: string): string | null =>
 export const ensureSave = (
   teamId?: string,
   teamAbbr?: string,
+  year?: number,
 ): { saveId: string; header: SaveHeaderDTO } => {
   const normalizedTeam = normalizeTeamAbbr(teamId, teamAbbr);
   if (!normalizedTeam) {
     const saveId = randomUUID();
-    const state = createSaveState(saveId, 'GB');
+    const state = createSaveState(saveId, 'GB', year);
     return { saveId, header: getSaveHeaderSnapshot(state) };
   }
 
@@ -44,15 +45,15 @@ export const ensureSave = (
   }
 
   const saveId = randomUUID();
-  const state = createSaveState(saveId, normalizedTeam);
+  const state = createSaveState(saveId, normalizedTeam, year);
   teamSaveIndex.set(normalizedTeam, saveId);
   return { saveId, header: getSaveHeaderSnapshot(state) };
 };
 
-export const createSave = (teamAbbr: string): SaveHeaderDTO => {
+export const createSave = (teamAbbr: string, year?: number): SaveHeaderDTO => {
   const normalizedTeam = normalizeTeamAbbr(undefined, teamAbbr) ?? teamAbbr;
   const saveId = randomUUID();
-  const state = createSaveState(saveId, normalizedTeam);
+  const state = createSaveState(saveId, normalizedTeam, year);
   teamSaveIndex.set(normalizedTeam, saveId);
   return getSaveHeaderSnapshot(state);
 };

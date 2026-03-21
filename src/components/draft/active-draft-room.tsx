@@ -32,7 +32,7 @@ import { useToast } from '@/components/ui/toast';
 import { generateRoundTransitionBuzzToast } from '@/lib/league-buzz';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
-import type { SaveUnlocksDTO } from '@/types/save';
+import type { SaveHeaderDTO, SaveUnlocksDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
 import type { FalcoNote } from '@/lib/falco';
 import type { TradeOfferDTO } from '@/types/trade-offers';
@@ -44,6 +44,7 @@ export type DraftSpeedLevel = 0 | 1 | 2;
 
 type ActiveDraftRoomProps = {
   saveId: string;
+  year: number;
   session: DraftSessionDTO;
   draftSessionId: string;
   saveSnapshot: {
@@ -72,17 +73,7 @@ type ActiveDraftRoomProps = {
   onDraftTradeAccepted: (payload: {
     nextSession: DraftSessionDTO;
     nextRoster: PlayerRowDTO[];
-    header: {
-      saveId: string;
-      teamAbbr: string;
-      capSpace: number;
-      capLimit: number;
-      rosterCount: number;
-      rosterLimit: number;
-      phase: string;
-      unlocked: { freeAgency: boolean; draft: boolean };
-      createdAt: string;
-    };
+    header: Omit<SaveHeaderDTO, 'id'> & { saveId: string };
   }) => void;
   onSessionUpdate: (session: DraftSessionDTO) => void;
 };
@@ -161,6 +152,7 @@ const buildManualDraftTradeOffer = ({
 
 export function ActiveDraftRoom({
   saveId,
+  year,
   session,
   draftSessionId,
   saveSnapshot,
@@ -823,6 +815,7 @@ export function ActiveDraftRoom({
         ) : null}
 
         <DraftTrackerRibbon
+          year={year}
           picks={session.picks}
           currentPickIndex={session.currentPickIndex}
           prospects={session.prospects}

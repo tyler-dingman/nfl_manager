@@ -22,6 +22,7 @@ export const GET = async (request: Request) => {
     ok: true,
     saveId: header.id,
     teamAbbr: header.teamAbbr,
+    year: header.year,
     capSpace: header.capSpace,
     capLimit: header.capLimit,
     rosterCount: header.rosterCount,

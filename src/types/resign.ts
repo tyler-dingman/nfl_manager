@@ -1,5 +1,6 @@
 import type { NewsItemDTO } from '@/types/news';
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveHeaderDTO } from '@/types/save';
 
 export type ResignResultDTO = {
   ok: true;
@@ -16,17 +17,7 @@ export type ResignResultDTO = {
   reasoningTags: string[];
   quote: string;
   newsItem: NewsItemDTO;
-  header?: {
-    id: string;
-    teamAbbr: string;
-    capSpace: number;
-    capLimit: number;
-    rosterCount: number;
-    rosterLimit: number;
-    phase: string;
-    unlocked?: { freeAgency: boolean; draft: boolean };
-    createdAt: string;
-  };
+  header?: SaveHeaderDTO;
   player?: PlayerRowDTO;
 };
 

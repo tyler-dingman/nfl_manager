@@ -26,6 +26,7 @@ import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import type { PlayerDetailsSource } from '@/lib/player-details';
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveHeaderDTO } from '@/types/save';
 
 export default function FreeAgentsPage() {
   const router = useRouter();
@@ -35,6 +36,7 @@ export default function FreeAgentsPage() {
   const capSpace = useSaveStore((state) => state.capSpace);
   const capLimit = useSaveStore((state) => state.capLimit);
   const phase = useSaveStore((state) => state.phase);
+  const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const unlocked = useSaveStore((state) => state.unlocked);
   const roster = useSaveStore((state) => state.roster);
   const setRoster = useSaveStore((state) => state.setRoster);
@@ -91,6 +93,7 @@ export default function FreeAgentsPage() {
         preferredSaveId: preferredSaveId ?? saveId,
         teamId,
         teamAbbr,
+        year: franchiseYear,
         capSpace,
         capLimit,
         roster,
@@ -205,17 +208,7 @@ export default function FreeAgentsPage() {
           tone?: OfferResponse['tone'];
           message?: string;
           notice?: string;
-          header?: {
-            id: string;
-            teamAbbr: string;
-            capSpace: number;
-            capLimit: number;
-            rosterCount: number;
-            rosterLimit: number;
-            phase: string;
-            unlocked?: { freeAgency: boolean; draft: boolean };
-            createdAt: string;
-          };
+          header?: SaveHeaderDTO;
         }
       | { ok?: false; error: string };
 
