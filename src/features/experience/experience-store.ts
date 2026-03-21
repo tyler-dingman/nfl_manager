@@ -13,6 +13,7 @@ type ExperienceState = {
   resetForNewRun: () => void;
   setFullExperience: () => void;
   setSandboxExperience: () => void;
+  enterSandboxStep: (step: OffseasonStepId) => void;
   markManageSubstepComplete: (substep: string) => void;
   completeCurrentStep: () => OffseasonStepId | null;
   skipCurrentStep: () => OffseasonStepId | null;
@@ -24,6 +25,12 @@ const getNextStep = (step: OffseasonStepId): OffseasonStepId | null => {
   const index = OFFSEASON_STEPS.findIndex((item) => item.id === step);
   if (index < 0 || index + 1 >= OFFSEASON_STEPS.length) return null;
   return OFFSEASON_STEPS[index + 1]?.id ?? null;
+};
+
+const getSandboxCompletedSteps = (step: OffseasonStepId) => {
+  const index = OFFSEASON_STEPS.findIndex((item) => item.id === step);
+  if (index <= 0) return [];
+  return OFFSEASON_STEPS.slice(0, index).map((item) => item.id);
 };
 
 const completeStep = (state: ExperienceState): ExperienceState => {
@@ -68,6 +75,15 @@ export const useExperienceStore = create<ExperienceState>()(
         set((state) => ({
           ...state,
           mode: 'sandbox',
+        })),
+      enterSandboxStep: (step) =>
+        set((state) => ({
+          ...state,
+          mode: 'sandbox',
+          currentStep: step,
+          completedSteps: getSandboxCompletedSteps(step),
+          manageSubstepsCompleted:
+            step === 'manage' ? [] : (OFFSEASON_STEPS[0]?.substeps ?? []),
         })),
       markManageSubstepComplete: (substep) =>
         set((state) => ({

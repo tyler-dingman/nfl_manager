@@ -22,6 +22,7 @@ export type DraftSessionDTO = {
   rngState?: number;
   mode: DraftMode;
   userTeamAbbr: string;
+  maxRounds: number;
   currentPickIndex: number;
   isPaused: boolean;
   picks: DraftPickDTO[];

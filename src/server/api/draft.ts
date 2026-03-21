@@ -129,12 +129,27 @@ const ROUND_ONE_DRAFT_ORDER = [
 ];
 
 const TOTAL_DRAFT_ROUNDS = 7;
+const PICKS_PER_ROUND = ROUND_ONE_DRAFT_ORDER.length;
+
+export const getMaxDraftPickForSelectedRounds = (roundCount: number) =>
+  Math.max(1, Math.min(TOTAL_DRAFT_ROUNDS, Math.round(roundCount))) * PICKS_PER_ROUND;
+
+export const isDraftCompleteForSelection = (
+  currentPick: DraftPickDTO | null | undefined,
+  roundCount: number,
+) => {
+  if (!currentPick) return true;
+  return currentPick.round > Math.max(1, Math.min(TOTAL_DRAFT_ROUNDS, Math.round(roundCount)));
+};
 
 const cloneProspects = (): PlayerRowDTO[] =>
   BASE_PROSPECTS.map((player, index) => ({
     ...player,
     projectedPick: player.rank ?? index + 1,
   }));
+
+const clampDraftRounds = (rounds?: number) =>
+  Math.max(1, Math.min(TOTAL_DRAFT_ROUNDS, Math.round(rounds ?? TOTAL_DRAFT_ROUNDS)));
 
 const FALL_REASONS = [
   'Injury Concerns',
@@ -224,32 +239,59 @@ const getOrderedTeamNeeds = (teamAbbr: string): string[] =>
   NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.teamNeeds ??
   ['QB', 'OT', 'CB'];
 
+const getActiveOrderedTeamNeeds = (session: DraftSessionState, teamAbbr: string): string[] => {
+  const orderedNeeds = getOrderedTeamNeeds(teamAbbr).map(normalizeDraftNeedPosition);
+  const draftedPositions = new Set(
+    session.picks
+      .filter((pick) => pick.selectedByTeamAbbr === teamAbbr && pick.selectedPlayerId)
+      .map((pick) => session.prospects.find((player) => player.id === pick.selectedPlayerId))
+      .filter((player): player is PlayerRowDTO => Boolean(player))
+      .map((player) => normalizeDraftNeedPosition(player.position)),
+  );
+
+  const remainingNeeds = orderedNeeds.filter((need, index) => {
+    if (draftedPositions.has(need)) {
+      return false;
+    }
+    return orderedNeeds.indexOf(need) === index;
+  });
+
+  return remainingNeeds.length > 0 ? remainingNeeds : orderedNeeds;
+};
+
 const buildNeedAwareCandidatePool = (
   session: DraftSessionState,
   teamAbbr: string,
   round: number,
   prospects: PlayerRowDTO[],
 ): PlayerRowDTO[] => {
-  const needs = getOrderedTeamNeeds(teamAbbr);
+  const needs = getActiveOrderedTeamNeeds(session, teamAbbr);
+  const topNeed = needs[0] ?? null;
   const primaryNeeds = new Set(needs.slice(0, 2));
   const secondaryNeeds = new Set(needs.slice(2, 5));
+  const firstRound = round === 1;
   const earlyRound = round <= 3;
+  const candidateDepth = firstRound ? 40 : earlyRound ? 30 : 24;
 
   return prospects
-    .slice(0, 24)
+    .slice(0, candidateDepth)
     .slice()
     .sort((left, right) => {
       const leftNeed = normalizeDraftNeedPosition(left.position);
       const rightNeed = normalizeDraftNeedPosition(right.position);
 
       const scoreNeedFit = (need: string) => {
-        if (primaryNeeds.has(need)) return earlyRound ? 18 : 10;
-        if (secondaryNeeds.has(need)) return earlyRound ? 9 : 5;
+        if (topNeed && need === topNeed) return firstRound ? 42 : earlyRound ? 26 : 14;
+        if (primaryNeeds.has(need)) return firstRound ? 28 : earlyRound ? 18 : 10;
+        if (secondaryNeeds.has(need)) return firstRound ? 14 : earlyRound ? 9 : 5;
         return 0;
       };
 
-      const leftScore = scoreNeedFit(leftNeed) - (left.rank ?? 999) + nextRandom(session) * 2;
-      const rightScore = scoreNeedFit(rightNeed) - (right.rank ?? 999) + nextRandom(session) * 2;
+      const leftRank = left.rank ?? 999;
+      const rightRank = right.rank ?? 999;
+      const leftScore = scoreNeedFit(leftNeed) + (100 - leftRank) * 0.55 + nextRandom(session) * 2;
+      const rightScore =
+        scoreNeedFit(rightNeed) + (100 - rightRank) * 0.55 + nextRandom(session) * 2;
       return rightScore - leftScore;
     })
     .slice(0, 12);
@@ -266,8 +308,8 @@ const pickFromPool = (session: DraftSessionState, pool: PlayerRowDTO[]): PlayerR
 
   const temperature = 0.6 + nextRandom(session) * 1.2;
   const weights = pool.map((player) => {
-    const rank = player.rank ?? 999;
-    return Math.exp(-(rank - 1) / temperature);
+    const slot = pool.indexOf(player);
+    return Math.exp(-slot / temperature);
   });
   const total = weights.reduce((sum, weight) => sum + weight, 0);
   const target = nextRandom(session) * total;
@@ -319,7 +361,11 @@ const finalizeDraftSession = (
   session.finalized = true;
 };
 
-export const createDraftSession = (mode: DraftMode, saveId: string): DraftSessionStartResponse => {
+export const createDraftSession = (
+  mode: DraftMode,
+  saveId: string,
+  maxRounds?: number,
+): DraftSessionStartResponse => {
   const draftSessionId = randomUUID();
   const rngSeed = Math.floor(Math.random() * 1_000_000_000) + 1;
   const state = getSaveStateOrThrow(saveId);
@@ -332,6 +378,7 @@ export const createDraftSession = (mode: DraftMode, saveId: string): DraftSessio
     mode,
     saveId,
     userTeamAbbr,
+    maxRounds: clampDraftRounds(maxRounds),
     isPaused: false,
     currentPickIndex: 0,
     picks: buildDraftPicks(),
@@ -382,7 +429,10 @@ export const pickDraftPlayer = (
     severity: 'success',
   });
   addDraftedPlayersInState(state, [player]);
-  if (session.currentPickIndex >= session.picks.length) {
+  if (
+    session.currentPickIndex >= session.picks.length ||
+    isDraftCompleteForSelection(session.picks[session.currentPickIndex], session.maxRounds)
+  ) {
     finalizeDraftSession(session, state);
   }
 
@@ -399,7 +449,7 @@ export const advanceDraftSession = (draftSessionId: string, saveId: string): Dra
   }
 
   const currentPick = session.picks[session.currentPickIndex];
-  if (!currentPick) {
+  if (!currentPick || isDraftCompleteForSelection(currentPick, session.maxRounds)) {
     finalizeDraftSession(session, state);
     return session;
   }
@@ -459,7 +509,10 @@ export const advanceDraftSession = (draftSessionId: string, saveId: string): Dra
     severity: 'info',
   });
 
-  if (session.currentPickIndex >= session.picks.length) {
+  if (
+    session.currentPickIndex >= session.picks.length ||
+    isDraftCompleteForSelection(session.picks[session.currentPickIndex], session.maxRounds)
+  ) {
     finalizeDraftSession(session, state);
   }
 

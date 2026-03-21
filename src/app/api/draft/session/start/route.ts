@@ -5,9 +5,9 @@ import { getSaveStateResult } from '@/server/api/store';
 import type { DraftMode } from '@/types/draft';
 
 export const POST = async (request: Request) => {
-  let body: { mode?: DraftMode; saveId?: string } = {};
+  let body: { mode?: DraftMode; saveId?: string; maxRounds?: number } = {};
   try {
-    body = (await request.json()) as { mode?: DraftMode; saveId?: string };
+    body = (await request.json()) as { mode?: DraftMode; saveId?: string; maxRounds?: number };
   } catch {
     body = {};
   }
@@ -26,7 +26,7 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });
   }
 
-  const sessionStart = createDraftSession(mode, body.saveId);
+  const sessionStart = createDraftSession(mode, body.saveId, body.maxRounds);
   const session = getDraftSession(sessionStart.draftSessionId, body.saveId);
 
   return NextResponse.json({

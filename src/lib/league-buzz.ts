@@ -12,6 +12,23 @@ export type LeagueBuzzToastPayload = {
   comments: string;
 };
 
+const ROUND_TRANSITION_MESSAGES = [
+  'Round {roundNumber} is in the books. We move to Round {nextRound}.',
+  'Round {roundNumber} complete. Day 2 keeps rolling.',
+  'Round {roundNumber} is over. Now the board starts to get interesting.',
+  '{playerLastName} is still on the board. Does he go early in Round {nextRound}?',
+  'A few surprise slides so far. Round {nextRound} should get wild.',
+  'We’re heading into Round {nextRound}. Teams are hunting value now.',
+  'Round {roundNumber} done. Let’s see who finds the steal next.',
+  '{playerLastName} keeps falling. Feels like Round {nextRound} could be his spot.',
+  'Needs start driving the board now. Round {nextRound} is up next.',
+  'That round flew by. On to Round {nextRound}.',
+  'Some big names still available. Round {nextRound} could get chaotic.',
+  'Round {roundNumber} closed. Expect movement early in Round {nextRound}.',
+  'The board’s thinning out. Now the value picks matter.',
+  'Round {roundNumber} is complete. Let’s see who reaches and who steals one in Round {nextRound}.',
+] as const;
+
 const JIM_SCHWARTZ_AVATAR_URL = '/images/jim_schwartz.png';
 
 const MESSAGE_TEMPLATES: Record<LeagueBuzzEventType, string[]> = {
@@ -96,6 +113,43 @@ export const generateLeagueBuzzToast = ({
         ? `League Buzz · ${getTeamFlavorHandle(teamAbbr)}`
         : 'League Buzz',
     message: `${message} ${flavoredTail}`.trim(),
+    avatarUrl: JIM_SCHWARTZ_AVATAR_URL,
+    likes: formatCompact(likesBase),
+    reposts: formatCompact(repostsBase),
+    comments: formatCompact(commentsBase),
+  };
+};
+
+export const generateRoundTransitionBuzzToast = ({
+  roundNumber,
+  nextRound,
+  fallingPlayerLastName,
+  teamAbbr,
+}: {
+  roundNumber: number;
+  nextRound: number;
+  fallingPlayerLastName?: string | null;
+  teamAbbr?: string | null;
+}): LeagueBuzzToastPayload => {
+  const seededMessages = ROUND_TRANSITION_MESSAGES.filter(
+    (message) => fallingPlayerLastName || !message.includes('{playerLastName}'),
+  );
+  const seed = `round-transition:${teamAbbr ?? ''}:${roundNumber}:${nextRound}:${fallingPlayerLastName ?? ''}`;
+  const template = seededMessages[hashString(seed) % seededMessages.length] ?? seededMessages[0];
+  const likesBase = 1400 + (hashString(`${seed}:likes`) % 4200);
+  const repostsBase = 180 + (hashString(`${seed}:reposts`) % 1200);
+  const commentsBase = 70 + (hashString(`${seed}:comments`) % 700);
+
+  return {
+    displayName: 'Jim Schwartz',
+    subtitle:
+      getTeamFlavorHandle(teamAbbr) !== 'Franchise Football'
+        ? `League Buzz · ${getTeamFlavorHandle(teamAbbr)}`
+        : 'League Buzz',
+    message: template
+      .replaceAll('{roundNumber}', String(roundNumber))
+      .replaceAll('{nextRound}', String(nextRound))
+      .replaceAll('{playerLastName}', fallingPlayerLastName ?? 'A prospect'),
     avatarUrl: JIM_SCHWARTZ_AVATAR_URL,
     likes: formatCompact(likesBase),
     reposts: formatCompact(repostsBase),

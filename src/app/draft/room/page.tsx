@@ -9,7 +9,7 @@ import { DraftTrackerRibbon } from '@/components/draft/draft-tracker-ribbon';
 import { StepHeader } from '@/components/offseason/step-header';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
-import { DraftRecap } from '@/components/draft/draft-recap';
+import { DraftRecapModal } from '@/components/draft/draft-recap-modal';
 import { LiveDraftBoard } from '@/components/draft/live-draft-board';
 import { PickAnnouncement } from '@/components/draft/pick-announcement';
 import { ProspectDetailsModal } from '@/components/draft/prospect-details-modal';
@@ -30,6 +30,12 @@ import {
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildFalcoBoard } from '@/lib/falco';
 import { getTeamReactionLine } from '@/lib/team-flavor';
+import {
+  generateEngagementCounts,
+  getPlayerSide,
+  getTopRatedRosterPlayerBySide,
+  getTopRatedRosterPlayerOverall,
+} from '@/lib/star-player-reaction';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
@@ -88,6 +94,9 @@ function DraftRoomContent() {
   const [pickAnnouncementPlayer, setPickAnnouncementPlayer] = React.useState<PlayerRowDTO | null>(null);
   const [pickAnnouncementOpen, setPickAnnouncementOpen] = React.useState(false);
   const [pickAnnouncementGrade, setPickAnnouncementGrade] = React.useState<string | null>(null);
+  const [pendingDraftReactionPlayer, setPendingDraftReactionPlayer] = React.useState<PlayerRowDTO | null>(
+    null,
+  );
   const [selectedLobbyPlayerId, setSelectedLobbyPlayerId] = React.useState<string | null>(null);
   const [isLobbyProspectModalOpen, setIsLobbyProspectModalOpen] = React.useState(false);
   const [draftControlBusy, setDraftControlBusy] = React.useState(false);
@@ -107,6 +116,9 @@ function DraftRoomContent() {
   const setRoster = useSaveStore((state) => state.setRoster);
   const refreshSaveHeader = useSaveStore((state) => state.refreshSaveHeader);
   const setIsUserOnClock = useSaveStore((state) => state.setIsUserOnClock);
+  const selectedDraftRounds = useSaveStore((state) => state.selectedDraftRounds);
+  const setSelectedDraftRounds = useSaveStore((state) => state.setSelectedDraftRounds);
+  const setLatestDraftRecap = useSaveStore((state) => state.setLatestDraftRecap);
   const modeExperience = useExperienceStore((state) => state.mode);
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completedSteps = useExperienceStore((state) => state.completedSteps);
@@ -120,6 +132,7 @@ function DraftRoomContent() {
     () => storedTeams.find((team) => team.id === selectedTeamId) ?? storedTeams[0] ?? null,
     [selectedTeamId, storedTeams],
   );
+  const [isDraftRecapOpen, setIsDraftRecapOpen] = React.useState(false);
   const falcoSeed = `${saveId ?? 'global'}-${session?.id ?? 'lobby'}`;
   const falcoBoard = React.useMemo(
     () => buildFalcoBoard(session?.prospects ?? buildTop32Prospects(), falcoSeed),
@@ -190,6 +203,50 @@ function DraftRoomContent() {
     if (!session) return null;
     return teams.find((team) => team.abbr === session.userTeamAbbr) ?? null;
   }, [session, teams]);
+
+  const buildDraftReactionToast = React.useCallback(
+    (player: PlayerRowDTO) => {
+      const side = getPlayerSide(player.position);
+      const reactingPlayer =
+        (side ? getTopRatedRosterPlayerBySide(roster, side, player.id) : null) ??
+        getTopRatedRosterPlayerOverall(roster, player.id);
+
+      if (!reactingPlayer) {
+        return null;
+      }
+
+      const teamName = userTeam?.name ?? session?.userTeamAbbr ?? 'This team';
+      const playerName = `${player.firstName} ${player.lastName}`.trim();
+      const seed = `draft:${session?.id ?? 'session'}:${player.id}:${reactingPlayer.id}`;
+      const hash = seed.split('').reduce((sum, char) => (sum * 31 + char.charCodeAt(0)) >>> 0, 7);
+      const messages = [
+        `We just got a dawg in ${playerName}! 💪`,
+        `Steal...welcome to ${teamName} ${playerName}! 🔥`,
+        `Showtime! Let's get to work ${playerName}! 😤`,
+        `${teamName} making moves baby! 🚀`,
+      ];
+      const engagement = generateEngagementCounts({
+        actionType: 'trade',
+        authorRating: reactingPlayer.rating ?? reactingPlayer.maddenRating ?? 84,
+        acquiredPlayerRating: player.rating ?? player.maddenRating ?? 80,
+        seed,
+      });
+
+      return {
+        displayName: `${reactingPlayer.firstName} ${reactingPlayer.lastName}`.trim(),
+        handle: `@${`${reactingPlayer.firstName ?? ''}${reactingPlayer.lastName ?? ''}`.replace(/[^a-z0-9]/gi, '').slice(0, 18) || 'FranchiseStar'}`,
+        subtitle: teamName,
+        timestampLabel: 'now',
+        message: messages[hash % messages.length] ?? messages[0],
+        headshotUrl: reactingPlayer.headshotUrl ?? null,
+        likes: engagement.likes,
+        reposts: engagement.reposts,
+        replies: engagement.replies,
+        views: engagement.views,
+      };
+    },
+    [roster, session?.id, session?.userTeamAbbr, userTeam?.name],
+  );
 
   const ensureSaveExists = React.useCallback(
     async (forcePhase?: 'draft') => {
@@ -504,6 +561,7 @@ function DraftRoomContent() {
             body: JSON.stringify({
               ...buildDraftSaveSnapshot(targetSaveId),
               mode,
+              maxRounds: selectedDraftRounds,
             }),
           },
           { skipSaveGuard: true },
@@ -557,6 +615,7 @@ function DraftRoomContent() {
     ensureSaveExists,
     fetchSession,
     mode,
+    selectedDraftRounds,
     setActiveDraftSessionId,
     buildDraftSaveSnapshot,
     syncDraftPhase,
@@ -611,6 +670,12 @@ function DraftRoomContent() {
       void fetchSession(activeDraftSessionId, resolvedSaveId || saveId);
     }
   }, [activeDraftSessionId, fetchSession, resolvedSaveId, saveId]);
+
+  React.useEffect(() => {
+    if (session?.status === 'completed') {
+      setIsDraftRecapOpen(true);
+    }
+  }, [session?.status]);
 
   React.useEffect(() => {
     const loadTeams = async () => {
@@ -707,6 +772,7 @@ function DraftRoomContent() {
     setPickAnnouncementGrade(payload.grade.letter);
     setPickAnnouncementOpen(true);
     window.setTimeout(() => setPickAnnouncementOpen(false), 1800);
+    setPendingDraftReactionPlayer(payload.draftedPlayer);
     setIsGradeOpen(true);
     trackProgress(
       `draft-pick:${payload.draftedPlayer.id}:${pickNumber}`,
@@ -806,6 +872,70 @@ function DraftRoomContent() {
     skipCurrentStep();
   };
 
+  const handleCloseDraftGradeModal = () => {
+    setIsGradeOpen(false);
+
+    if (!pendingDraftReactionPlayer || !saveId) {
+      return;
+    }
+
+    const draftedPlayer = pendingDraftReactionPlayer;
+    setPendingDraftReactionPlayer(null);
+    const reactionToast = buildDraftReactionToast(draftedPlayer);
+    if (!reactionToast) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      pushToast({
+        id: `star-reaction:draft:${saveId}:${draftedPlayer.id}`,
+        kind: 'starReaction',
+        durationMs: 5200,
+        starReaction: reactionToast,
+      });
+    }, 120);
+  };
+
+  const handleContinueFromDraftRecap = () => {
+    if (!session || !draftRecap) {
+      router.push('/offseason-recap');
+      return;
+    }
+
+    const teamNeeds = getTeamNeeds(session.userTeamAbbr, teams);
+    const needsAddressed = Array.from(
+      new Set(
+        draftRecap.entries
+          .map((entry) => entry.player.position.toUpperCase())
+          .filter((position) => teamNeeds.includes(position)),
+      ),
+    );
+    const remainingNeeds = teamNeeds.filter((need) => !needsAddressed.includes(need));
+
+    setLatestDraftRecap({
+      teamName: userTeam?.name ?? session.userTeamAbbr,
+      teamAbbr: session.userTeamAbbr,
+      roundCount: session.maxRounds,
+      overallGrade: draftRecap.summary.overallGrade,
+      summaryLines: draftRecap.summary.summaryLines,
+      needsAddressed,
+      remainingNeeds,
+      draftedPlayers: draftRecap.entries.map(({ pick, player, evaluation }) => ({
+        id: player.id,
+        name: `${player.firstName} ${player.lastName}`.trim(),
+        position: player.position,
+        school: player.college ?? player.school ?? null,
+        pickOverall: pick.overall,
+        pickRound: pick.round,
+        grade: pick.grade ?? evaluation.grade,
+        headshotUrl: player.headshotUrl ?? null,
+        rating: player.rating ?? player.maddenRating ?? null,
+      })),
+    });
+    setIsDraftRecapOpen(false);
+    router.push('/offseason-recap');
+  };
+
   return (
     <AppShell>
       {modeExperience === 'full' ? (
@@ -830,7 +960,7 @@ function DraftRoomContent() {
         teamLogoUrl={userTeam?.logoUrl}
         teamMessage={teamMessage}
         reasons={gradeReasons}
-        onClose={() => setIsGradeOpen(false)}
+        onClose={handleCloseDraftGradeModal}
       />
       <PickAnnouncement
         open={pickAnnouncementOpen}
@@ -838,6 +968,17 @@ function DraftRoomContent() {
         player={pickAnnouncementPlayer}
         grade={pickAnnouncementGrade}
       />
+      {session?.status === 'completed' && draftRecap ? (
+        <DraftRecapModal
+          open={isDraftRecapOpen}
+          teamName={userTeam?.name ?? session.userTeamAbbr}
+          roundCount={session.maxRounds}
+          teamNeeds={getTeamNeeds(session.userTeamAbbr, teams)}
+          summary={draftRecap.summary}
+          entries={draftRecap.entries}
+          onContinue={handleContinueFromDraftRecap}
+        />
+      ) : null}
       <div className="space-y-6">
         <div className="min-w-0">
           {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}
@@ -892,6 +1033,30 @@ function DraftRoomContent() {
                       War Room Setup
                     </p>
                     <h2 className="mt-1 text-lg font-semibold text-foreground">Set the board</h2>
+                    <div className="mt-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                        Draft Length
+                      </p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {[1, 2, 3, 4, 5, 6, 7].map((round) => {
+                          const isSelected = selectedDraftRounds === round;
+                          return (
+                            <button
+                              key={round}
+                              type="button"
+                              className={`min-h-10 rounded-full border px-3 py-2 text-sm font-semibold transition ${
+                                isSelected
+                                  ? 'border-slate-900 bg-slate-900 text-white'
+                                  : 'border-border bg-white text-foreground hover:bg-slate-50'
+                              }`}
+                              onClick={() => setSelectedDraftRounds(round)}
+                            >
+                              {round} {round === 1 ? 'Round' : 'Rounds'}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                     <div className="mt-4 space-y-4 text-sm text-slate-700">
                       <div>
                         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -909,6 +1074,15 @@ function DraftRoomContent() {
                         </p>
                         <p className="mt-2">
                           {selectedPick ? `Pick ${selectedPick.pickNumber} · ${selectedPick.name}` : 'Loading draft order'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                          Draft Plan
+                        </p>
+                        <p className="mt-2">
+                          This run will stop after Round {selectedDraftRounds}. Once your final pick is in,
+                          the room will jump straight into a full class recap.
                         </p>
                       </div>
                       <div>
@@ -932,8 +1106,8 @@ function DraftRoomContent() {
                     <h2 className="text-2xl font-semibold text-foreground">Draft Complete</h2>
                     <p className="mt-2 text-sm text-muted-foreground">
                       {mode === 'real'
-                        ? 'Draft results saved to your roster.'
-                        : 'Mock draft finalized.'}
+                        ? `${session.maxRounds}-round class locked in. Review the recap to close the offseason.`
+                        : `${session.maxRounds}-round mock complete. Review the recap to close the room.`}
                     </p>
                   </div>
                   <div className="rounded-2xl border border-border bg-slate-50 px-6 py-4 text-center">
@@ -944,8 +1118,9 @@ function DraftRoomContent() {
                   </div>
                 </div>
               </div>
-
-              {draftRecap ? <DraftRecap summary={draftRecap.summary} entries={draftRecap.entries} /> : null}
+              <div className="rounded-2xl border border-dashed border-border bg-white px-6 py-10 text-center text-sm text-muted-foreground shadow-sm">
+                Draft recap ready. Continue from the recap modal to view your offseason review.
+              </div>
             </div>
           ) : (
             <ActiveDraftRoom
@@ -979,9 +1154,11 @@ function DraftRoomContent() {
       <ProspectDetailsModal
         open={isLobbyProspectModalOpen}
         player={selectedLobbyPlayer}
+        players={lobbyBoardEntries.map((entry) => entry.player)}
         boardEntry={lobbyBoardEntries.find((entry) => entry.player.id === selectedLobbyPlayer?.id) ?? null}
         teamNeeds={getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams)}
         activeRuns={[]}
+        onSelectPlayer={setSelectedLobbyPlayerId}
         onClose={() => setIsLobbyProspectModalOpen(false)}
       />
     </AppShell>

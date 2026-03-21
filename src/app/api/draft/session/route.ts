@@ -44,6 +44,7 @@ export const POST = async (request: Request) => {
         phase?: string;
         unlocked?: SaveUnlocksDTO;
         createdAt?: string;
+        maxRounds?: number;
       }
     | undefined = {};
   try {
@@ -101,7 +102,7 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: true, draftSessionId: session.id, session });
   }
 
-  const sessionStart = createDraftSession(mode, body.saveId);
+  const sessionStart = createDraftSession(mode, body.saveId, body.maxRounds);
   const session = getDraftSession(sessionStart.draftSessionId, body.saveId);
 
   return NextResponse.json({ ok: true, draftSessionId: session.id, session });

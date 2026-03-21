@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { ArrowLeftRight, Pause, Play, Settings2 } from 'lucide-react';
+import { ArrowLeftRight, Pause, Play } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { getReadableTextColor } from '@/lib/color-utils';
@@ -18,6 +18,7 @@ type DraftTrackerControls = {
   isBusy?: boolean;
   canOfferTrade?: boolean;
   canSkipToUserPick?: boolean;
+  skipLabel?: string;
   onSpeedChange: (value: 0 | 1 | 2) => void;
   onTogglePause: () => void;
   onStartDraft: () => void;
@@ -70,11 +71,8 @@ export function DraftTrackerRibbon({
   const teamLookup = new Map(teams.map((team) => [team.abbr, team]));
   const userTeam = teamLookup.get(userTeamAbbr);
   const userTeamPrimaryColor = userTeam?.colors?.[0] ?? 'var(--team-primary)';
-  const userTeamSecondaryColor = userTeam?.colors?.[1] ?? 'var(--team-secondary)';
   const userTeamOnPrimaryColor =
     userTeam?.colors?.[0] ? getReadableTextColor(userTeam.colors[0]) : 'var(--team-on-primary)';
-  const userTeamOnSecondaryColor =
-    userTeam?.colors?.[1] ? getReadableTextColor(userTeam.colors[1]) : 'var(--team-on-secondary)';
 
   return (
     <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
@@ -95,7 +93,7 @@ export function DraftTrackerRibbon({
                 onClick={controls.onSkipToUserPick}
                 disabled={controls.isBusy}
               >
-                Skip To My Pick
+                {controls.skipLabel ?? 'Skip To My Pick'}
               </Button>
             ) : null}
 
@@ -115,29 +113,13 @@ export function DraftTrackerRibbon({
                 {speedLabel(controls.speedLevel)}
               </span>
             </div>
-
             <Button
               type="button"
               variant="secondary"
               size="sm"
               className="gap-2"
-              onClick={controls.onToggleSettings}
-              disabled={controls.isBusy}
-            >
-              <Settings2 className="h-4 w-4" />
-              Settings
-            </Button>
-
-            <Button
-              type="button"
-              size="sm"
-              className="gap-2"
               onClick={controls.onOfferTrade}
               disabled={controls.isBusy || controls.canOfferTrade === false}
-              style={{
-                backgroundColor: userTeamSecondaryColor,
-                color: userTeamOnSecondaryColor,
-              }}
             >
               <ArrowLeftRight className="h-4 w-4" />
               Offer Trade
@@ -166,8 +148,8 @@ export function DraftTrackerRibbon({
                 style={
                   controls.isPaused
                     ? {
-                        backgroundColor: userTeamPrimaryColor,
-                        color: userTeamOnPrimaryColor,
+                        backgroundColor: '#16a34a',
+                        color: '#ffffff',
                       }
                     : undefined
                 }

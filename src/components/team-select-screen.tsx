@@ -10,6 +10,7 @@ import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore, type Team } from '@/features/team/team-store';
 import { apiFetch } from '@/lib/api';
+import { approximateTrajectoryFromOverall } from '@/lib/offseason-recap';
 import type { TeamDTO } from '@/types/team';
 
 const TeamSelectCard = ({
@@ -167,6 +168,8 @@ function TeamSelectScreenInner() {
         setRunBaseline({
           capSpace: data.capSpace,
           overall: team.teamOverview ?? null,
+          trajectory: approximateTrajectoryFromOverall(team.teamOverview ?? null),
+          needs: team.teamNeeds,
         });
       }
     }

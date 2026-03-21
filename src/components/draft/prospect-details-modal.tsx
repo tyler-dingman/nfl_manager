@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 import { ProspectIndicators } from '@/components/draft/prospect-indicators';
 import { Button } from '@/components/ui/button';
@@ -14,11 +14,13 @@ import type { PlayerRowDTO } from '@/types/player';
 type ProspectDetailsModalProps = {
   open: boolean;
   player: PlayerRowDTO | null;
+  players?: PlayerRowDTO[];
   boardEntry?: DraftBoardEntry | null;
   teamNeeds: string[];
   activeRuns?: DraftRun[];
   canDraft?: boolean;
   onDraft?: (player: PlayerRowDTO) => void;
+  onSelectPlayer?: (playerId: string) => void;
   onClose: () => void;
 };
 
@@ -54,20 +56,49 @@ const fitTone = (fitScore: number) => {
 export function ProspectDetailsModal({
   open,
   player,
+  players = [],
   boardEntry,
   teamNeeds,
   activeRuns = [],
   canDraft = false,
   onDraft,
+  onSelectPlayer,
   onClose,
 }: ProspectDetailsModalProps) {
   const closeButtonRef = React.useRef<HTMLButtonElement>(null);
+  const selectedIndex = React.useMemo(() => {
+    if (!player) return -1;
+    return players.findIndex((entry) => entry.id === player.id);
+  }, [player, players]);
+  const previousPlayer = selectedIndex > 0 ? players[selectedIndex - 1] : null;
+  const nextPlayer =
+    selectedIndex !== -1 && selectedIndex < players.length - 1 ? players[selectedIndex + 1] : null;
+
+  const handleSelectPrevious = React.useCallback(() => {
+    if (previousPlayer && onSelectPlayer) {
+      onSelectPlayer(previousPlayer.id);
+    }
+  }, [onSelectPlayer, previousPlayer]);
+
+  const handleSelectNext = React.useCallback(() => {
+    if (nextPlayer && onSelectPlayer) {
+      onSelectPlayer(nextPlayer.id);
+    }
+  }, [nextPlayer, onSelectPlayer]);
 
   React.useEffect(() => {
     if (!open) return;
 
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose();
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        handleSelectPrevious();
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        handleSelectNext();
+      }
     };
 
     const previousOverflow = document.body.style.overflow;
@@ -79,7 +110,7 @@ export function ProspectDetailsModal({
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleEscape);
     };
-  }, [onClose, open]);
+  }, [handleSelectNext, handleSelectPrevious, onClose, open]);
 
   const model = React.useMemo(() => {
     if (!open || !player) return null;
@@ -97,23 +128,45 @@ export function ProspectDetailsModal({
         className="flex h-[100dvh] w-full flex-col overflow-hidden bg-white shadow-2xl sm:h-auto sm:max-h-[92dvh] sm:max-w-4xl sm:rounded-3xl"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex items-start justify-between border-b border-border px-5 py-4 sm:px-6">
+        <div className="flex items-start justify-between gap-3 border-b border-border px-5 py-4 sm:px-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
               Prospect Details
             </p>
             <h2 className="mt-1 text-lg font-semibold text-foreground sm:text-xl">{model.name}</h2>
           </div>
-          <Button
-            ref={closeButtonRef}
-            type="button"
-            variant="ghost"
-            size="icon"
-            aria-label="Close prospect details"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-          </Button>
+          <div className="flex items-center gap-1.5">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label="Previous prospect"
+              onClick={handleSelectPrevious}
+              disabled={!previousPlayer}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label="Next prospect"
+              onClick={handleSelectNext}
+              disabled={!nextPlayer}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              ref={closeButtonRef}
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label="Close prospect details"
+              onClick={onClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">

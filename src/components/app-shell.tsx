@@ -124,6 +124,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const lastTrajectoryStateRef = useRef<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
+  const routeStep = pathname ? getStepForPath(pathname) : null;
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -287,19 +288,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    if (phase === 'resign_cut') {
+    if (currentStep === 'manage') {
       if (pathname.startsWith('/free-agents') || pathname.startsWith('/draft')) {
         router.replace('/roster');
       }
       return;
     }
-    if (phase === 'free_agency') {
+    if (currentStep === 'free-agency') {
       if (pathname.startsWith('/draft')) {
         router.replace('/free-agents');
       }
       return;
     }
-  }, [pathname, phase, router, mode, currentStep]);
+  }, [pathname, router, mode, currentStep]);
 
   useEffect(() => {
     if (storedTeamAbbr) {
@@ -354,7 +355,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     ? shellRightRailRoutes.some((route) => pathname.startsWith(route))
     : false;
   const showOffseasonStepper =
-    mode === 'full' || pathname === '/experience' || pathname?.startsWith('/experience/');
+    Boolean(routeStep) ||
+    pathname === '/experience' ||
+    pathname?.startsWith('/experience/') ||
+    pathname === '/offseason-recap' ||
+    pathname?.startsWith('/offseason-recap/');
 
   return (
     <TeamThemeProvider team={selectedTeam}>

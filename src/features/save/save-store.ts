@@ -12,6 +12,8 @@ type SaveStoreState = {
   capSpace: number;
   startingCapSpace: number | null;
   startingOverall: number | null;
+  startingTrajectory: string | null;
+  startingNeeds: string[];
   capLimit: number;
   rosterCount: number;
   rosterLimit: number;
@@ -21,16 +23,44 @@ type SaveStoreState = {
   activeDraftSessionId: string | null;
   activeDraftSessionIdsBySave: Record<string, string>;
   isUserOnClock: boolean;
+  selectedDraftRounds: number;
+  latestDraftRecap: {
+    teamName: string;
+    teamAbbr: string;
+    roundCount: number;
+    overallGrade: string;
+    summaryLines: string[];
+    needsAddressed: string[];
+    remainingNeeds: string[];
+    draftedPlayers: Array<{
+      id: string;
+      name: string;
+      position: string;
+      school?: string | null;
+      pickOverall: number;
+      pickRound: number;
+      grade: string;
+      headshotUrl?: string | null;
+      rating?: number | null;
+    }>;
+  } | null;
   hasHydrated: boolean;
   saveLoadError: string | null;
   setHasHydrated: (value: boolean) => void;
   setSaveLoadError: (error: string | null) => void;
   setSaveHeader: (header: SaveHeaderDTO | SaveBootstrapDTO, teamId?: string) => void;
-  setRunBaseline: (baseline: { capSpace: number; overall: number | null }) => void;
+  setRunBaseline: (baseline: {
+    capSpace: number;
+    overall: number | null;
+    trajectory?: string | null;
+    needs?: string[];
+  }) => void;
   setRoster: (players: PlayerRowDTO[]) => void;
   setActiveTeam: (teamId: string, teamAbbr: string) => void;
   setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
   setIsUserOnClock: (value: boolean) => void;
+  setSelectedDraftRounds: (rounds: number) => void;
+  setLatestDraftRecap: (recap: SaveStoreState['latestDraftRecap']) => void;
   clearSave: () => void;
   setPhase: (phase: string) => Promise<void>;
   advancePhase: () => Promise<void>;
@@ -45,6 +75,8 @@ const DEFAULT_STATE = {
   capSpace: 0,
   startingCapSpace: null,
   startingOverall: null,
+  startingTrajectory: null,
+  startingNeeds: [],
   capLimit: 0,
   rosterCount: 0,
   rosterLimit: 0,
@@ -54,6 +86,8 @@ const DEFAULT_STATE = {
   activeDraftSessionId: null,
   activeDraftSessionIdsBySave: {},
   isUserOnClock: false,
+  selectedDraftRounds: 3,
+  latestDraftRecap: null,
   hasHydrated: false,
   saveLoadError: null,
 };
@@ -118,6 +152,8 @@ export const useSaveStore = create<SaveStoreState>()(
           ...state,
           startingCapSpace: baseline.capSpace,
           startingOverall: baseline.overall,
+          startingTrajectory: baseline.trajectory ?? state.startingTrajectory,
+          startingNeeds: baseline.needs ?? state.startingNeeds,
         })),
       setRoster: (players) =>
         set((state) => ({
@@ -155,6 +191,12 @@ export const useSaveStore = create<SaveStoreState>()(
           };
         }),
       setIsUserOnClock: (value) => set((state) => ({ ...state, isUserOnClock: value })),
+      setSelectedDraftRounds: (rounds) =>
+        set((state) => ({
+          ...state,
+          selectedDraftRounds: Math.max(1, Math.min(7, Math.round(rounds))),
+        })),
+      setLatestDraftRecap: (recap) => set((state) => ({ ...state, latestDraftRecap: recap })),
       clearSave: () =>
         set((state) => {
           if (typeof window !== 'undefined') {
@@ -169,6 +211,8 @@ export const useSaveStore = create<SaveStoreState>()(
             capSpace: 0,
             startingCapSpace: null,
             startingOverall: null,
+            startingTrajectory: null,
+            startingNeeds: [],
             capLimit: 0,
             rosterCount: 0,
             rosterLimit: 0,
@@ -178,6 +222,8 @@ export const useSaveStore = create<SaveStoreState>()(
             activeDraftSessionId: null,
             activeDraftSessionIdsBySave: {},
             isUserOnClock: false,
+            selectedDraftRounds: 3,
+            latestDraftRecap: null,
             saveLoadError: null,
           };
         }),
@@ -324,11 +370,15 @@ export const useSaveStore = create<SaveStoreState>()(
         unlocked: state.unlocked,
         startingCapSpace: state.startingCapSpace,
         startingOverall: state.startingOverall,
+        startingTrajectory: state.startingTrajectory,
+        startingNeeds: state.startingNeeds,
         activeDraftSessionId: state.activeDraftSessionId,
         activeDraftSessionIdsBySave: state.activeDraftSessionIdsBySave,
         roster: state.roster,
         capSpace: state.capSpace,
         capLimit: state.capLimit,
+        selectedDraftRounds: state.selectedDraftRounds,
+        latestDraftRecap: state.latestDraftRecap,
       }),
       onRehydrateStorage: () => (state, error) => {
         if (!error) {

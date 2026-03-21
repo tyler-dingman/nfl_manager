@@ -30,14 +30,6 @@ export function DraftGradeModal({
   reasons = [],
   onClose,
 }: DraftGradeModalProps) {
-  React.useEffect(() => {
-    if (!isOpen || !gradeLetter) {
-      return;
-    }
-    const timer = window.setTimeout(() => onClose(), 3800);
-    return () => window.clearTimeout(timer);
-  }, [gradeLetter, isOpen, onClose]);
-
   if (!isOpen || !gradeLetter) {
     return null;
   }

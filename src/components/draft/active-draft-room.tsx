@@ -29,6 +29,7 @@ import { useDraftClock } from '@/hooks/use-draft-clock';
 import { getTeamNeeds } from '@/components/draft/draft-utils';
 import { apiFetch } from '@/lib/api';
 import { useToast } from '@/components/ui/toast';
+import { generateRoundTransitionBuzzToast } from '@/lib/league-buzz';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveUnlocksDTO } from '@/types/save';
@@ -207,6 +208,7 @@ export function ActiveDraftRoom({
   const firedFreeFallRef = React.useRef(false);
   const lastRunRef = React.useRef<string | null>(null);
   const offersRequestRef = React.useRef<string | null>(null);
+  const lastCompletedRoundToastRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
     sessionRef.current = session;
@@ -333,6 +335,20 @@ export function ActiveDraftRoom({
     });
   }, [session.picks, session.prospects, session.userTeamAbbr, teamNeeds]);
 
+  const remainingUserPicksInSelectedRounds = React.useMemo(
+    () =>
+      session.picks.filter(
+        (pick) =>
+          pick.round <= session.maxRounds &&
+          pick.ownerTeamAbbr === session.userTeamAbbr &&
+          !pick.selectedPlayerId &&
+          pick.overall > (currentPick?.overall ?? 0),
+      ).length,
+    [currentPick?.overall, session.maxRounds, session.picks, session.userTeamAbbr],
+  );
+
+  const skipLabel = remainingUserPicksInSelectedRounds > 0 ? 'Skip To Next Pick' : 'Skip To End Of Draft';
+
   const spotlightPlayer = React.useMemo(() => {
     if (!selectedBoardPlayerId) {
       return boardEntries[0]?.player ?? null;
@@ -418,9 +434,13 @@ export function ActiveDraftRoom({
     try {
       let safety = 0;
       let snapshot = session;
-      while (safety < 64) {
+      while (safety < 260) {
         const current = snapshot.picks[snapshot.currentPickIndex];
-        if (!current || current.ownerTeamAbbr === snapshot.userTeamAbbr) {
+        if (!current || current.round > snapshot.maxRounds) {
+          onSessionUpdate(snapshot);
+          break;
+        }
+        if (remainingUserPicksInSelectedRounds > 0 && current.ownerTeamAbbr === snapshot.userTeamAbbr) {
           onSessionUpdate(snapshot);
           break;
         }
@@ -451,7 +471,15 @@ export function ActiveDraftRoom({
     } finally {
       skipInFlight.current = false;
     }
-  }, [draftSessionId, onClock, onSessionUpdate, saveId, saveSnapshot, session]);
+  }, [
+    draftSessionId,
+    onClock,
+    onSessionUpdate,
+    remainingUserPicksInSelectedRounds,
+    saveId,
+    saveSnapshot,
+    session,
+  ]);
 
   const clearDraftTimer = React.useCallback(() => {
     if (timerRef.current) {
@@ -643,6 +671,44 @@ export function ActiveDraftRoom({
   }, [pushAlert, session.currentPickIndex, session.fallingProspectId, session.prospects]);
 
   React.useEffect(() => {
+    if (session.maxRounds <= 1) return;
+    const current = session.picks[session.currentPickIndex];
+    if (!current) return;
+    if (current.round <= 1 || current.round > session.maxRounds) return;
+
+    const completedRound = current.round - 1;
+    if (lastCompletedRoundToastRef.current === completedRound) return;
+    lastCompletedRoundToastRef.current = completedRound;
+
+    const fallingLastName =
+      session.fallingProspectId &&
+      !session.prospects.find((player) => player.id === session.fallingProspectId)?.isDrafted
+        ? session.prospects.find((player) => player.id === session.fallingProspectId)?.lastName ?? null
+        : null;
+
+    pushToast({
+      id: `league-buzz:round-transition:${session.id}:${completedRound}`,
+      kind: 'leagueBuzz',
+      durationMs: 4200,
+      leagueBuzz: generateRoundTransitionBuzzToast({
+        roundNumber: completedRound,
+        nextRound: current.round,
+        fallingPlayerLastName: fallingLastName,
+        teamAbbr: session.userTeamAbbr,
+      }),
+    });
+  }, [
+    pushToast,
+    session.currentPickIndex,
+    session.fallingProspectId,
+    session.id,
+    session.maxRounds,
+    session.picks,
+    session.prospects,
+    session.userTeamAbbr,
+  ]);
+
+  React.useEffect(() => {
     if (activeRuns.length === 0) return;
     const currentRun = activeRuns[0];
     if (lastRunRef.current === currentRun.position) return;
@@ -770,6 +836,7 @@ export function ActiveDraftRoom({
             isBusy: isControlsBusy,
             canOfferTrade: onClock,
             canSkipToUserPick: !onClock,
+            skipLabel,
             onSpeedChange,
             onTogglePause,
             onStartDraft,
@@ -856,10 +923,12 @@ export function ActiveDraftRoom({
       <ProspectDetailsModal
         open={isProspectModalOpen}
         player={inspectedPlayer}
+        players={topRankedEntries.map((entry) => entry.player)}
         boardEntry={boardEntries.find((entry) => entry.player.id === inspectedPlayer?.id) ?? null}
         teamNeeds={teamNeeds}
         activeRuns={activeRuns}
         canDraft={Boolean(onClock && onDraftPlayer)}
+        onSelectPlayer={setSelectedBoardPlayerId}
         onDraft={
           onClock && onDraftPlayer
             ? (player) => {

@@ -57,7 +57,7 @@ export default function ExperiencePage() {
   const teams = useTeamStore((state) => state.teams);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const setFullExperience = useExperienceStore((state) => state.setFullExperience);
-  const setSandboxExperience = useExperienceStore((state) => state.setSandboxExperience);
+  const enterSandboxStep = useExperienceStore((state) => state.enterSandboxStep);
 
   const defaultMode = useMemo(() => 'full' as const, []);
   const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
@@ -113,9 +113,8 @@ export default function ExperiencePage() {
       return;
     }
 
-    setSandboxExperience();
-
     if (selectedMode === 'freeAgency') {
+      enterSandboxStep('free-agency');
       if (phase !== 'free_agency') {
         await setPhase('free_agency');
       }
@@ -123,6 +122,7 @@ export default function ExperiencePage() {
       return;
     }
 
+    enterSandboxStep('draft');
     if (phase !== 'draft') {
       await setPhase('draft');
     }
