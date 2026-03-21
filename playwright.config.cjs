@@ -6,6 +6,7 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000';
 module.exports = {
   testDir: 'tests/mobile',
   timeout: 30000,
+  workers: 1,
   expect: { timeout: 10000 },
   use: {
     baseURL,
@@ -14,6 +15,10 @@ module.exports = {
     video: 'retain-on-failure',
   },
   projects: [
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 7'] },
+    },
     {
       name: 'Mobile Safari',
       use: { ...devices['iPhone 14'] },

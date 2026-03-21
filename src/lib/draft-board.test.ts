@@ -6,20 +6,23 @@ import type { PlayerRowDTO } from '@/types/player';
 
 const makeProspect = (
   overrides: Partial<PlayerRowDTO> & Pick<PlayerRowDTO, 'id' | 'firstName' | 'lastName' | 'position'>,
-): PlayerRowDTO => ({
-  id: overrides.id,
-  firstName: overrides.firstName,
-  lastName: overrides.lastName,
-  position: overrides.position,
-  age: 22,
-  rating: 75,
-  rank: 20,
-  projectedPick: 20,
-  contractYearsRemaining: 4,
-  capHit: '$0.0M',
-  status: 'Available',
-  ...overrides,
-});
+): PlayerRowDTO => {
+  const { id, firstName, lastName, position, ...rest } = overrides;
+  return {
+    ...rest,
+    id,
+    firstName,
+    lastName,
+    position,
+    age: 22,
+    rating: 75,
+    rank: 20,
+    projectedPick: 20,
+    contractYearsRemaining: 4,
+    capHit: '$0.0M',
+    status: 'Available',
+  };
+};
 
 test('rankDraftBoard prioritizes best available and team need', () => {
   const board = rankDraftBoard({

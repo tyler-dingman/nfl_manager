@@ -147,10 +147,17 @@ export default function ContractOfferModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-      <div className="flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl bg-white shadow-lg">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contract-offer-modal-title"
+        className="flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl bg-white shadow-lg"
+      >
         <div className="flex items-start justify-between gap-3 border-b border-border px-4 py-4 sm:px-6">
           <div className="min-w-0">
-            <h3 className="text-base font-semibold text-foreground sm:text-lg">{title}</h3>
+            <h3 id="contract-offer-modal-title" className="text-base font-semibold text-foreground sm:text-lg">
+              {title}
+            </h3>
             {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
           </div>
           <Button type="button" variant="ghost" size="icon" onClick={onClose}>

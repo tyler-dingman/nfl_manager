@@ -5,7 +5,7 @@ test('draft board loads on mobile without horizontal overflow', async ({ page })
   await page.getByRole('button', { name: /Philadelphia Eagles/i }).click();
   await expect(page).toHaveURL(/\/experience/);
   await page.getByRole('button', { name: /Draft/i }).click();
-  await page.getByRole('button', { name: /Continue/i }).click();
+  await page.getByRole('main').getByRole('button', { name: /^Continue$/ }).click();
 
   await expect(page).toHaveURL(/\/draft\/room/);
 

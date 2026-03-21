@@ -7,20 +7,23 @@ import type { PlayerRowDTO } from '@/types/player';
 
 const makePlayer = (
   overrides: Partial<PlayerRowDTO> & Pick<PlayerRowDTO, 'id' | 'firstName' | 'lastName' | 'position'>,
-): PlayerRowDTO => ({
-  id: overrides.id,
-  firstName: overrides.firstName,
-  lastName: overrides.lastName,
-  position: overrides.position,
-  age: 22,
-  rating: 78,
-  rank: 18,
-  projectedPick: 18,
-  contractYearsRemaining: 4,
-  capHit: '$0.0M',
-  status: 'Available',
-  ...overrides,
-});
+): PlayerRowDTO => {
+  const { id, firstName, lastName, position, ...rest } = overrides;
+  return {
+    ...rest,
+    id,
+    firstName,
+    lastName,
+    position,
+    age: 22,
+    rating: 78,
+    rank: 18,
+    projectedPick: 18,
+    contractYearsRemaining: 4,
+    capHit: '$0.0M',
+    status: 'Available',
+  };
+};
 
 const makePick = (overall: number, selectedPlayerId: string | null): DraftPickDTO => ({
   id: `pick-${overall}`,
