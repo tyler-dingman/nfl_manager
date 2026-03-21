@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { getReSignQuote } from '@/lib/quotes';
 import { clampYears } from '@/lib/contracts';
+import type { ExpiringContractRow } from '@/lib/expiring-contracts';
 import { scoreResignOffer, decideResignAcceptance } from '@/server/logic/re-sign';
 import {
   addWalkawayToFreeAgencyInState,
@@ -21,6 +22,7 @@ type ResignPayload = {
   years?: number;
   apy?: number;
   guaranteed?: number;
+  expiringContract?: ExpiringContractRow;
 };
 
 const TEAM_NAME_BY_ABBR: Record<string, string> = {
@@ -63,7 +65,8 @@ export const POST = async (request: Request) => {
   const state = stateResult.data;
   await hydrateOffseasonFreeAgencyState(state);
   const player = state.roster.find((item) => item.id === body.playerId) ?? null;
-  const expiringContract = state.expiringContracts.find((entry) => entry.id === body.playerId);
+  const expiringContract =
+    state.expiringContracts.find((entry) => entry.id === body.playerId) ?? body.expiringContract ?? null;
 
   if (!player && !expiringContract) {
     return NextResponse.json<ResignErrorDTO>(
@@ -71,24 +74,26 @@ export const POST = async (request: Request) => {
       { status: 404 },
     );
   }
+  const resolvedExpiringContract = expiringContract;
 
   const teamAbbr = (body.teamAbbr ?? state.header.teamAbbr ?? '').toUpperCase();
   const teamName = TEAM_NAME_BY_ABBR[teamAbbr] ?? teamAbbr;
-  const expectedApyOverride = expiringContract
-    ? Number((expiringContract.estValue / 1_000_000).toFixed(2))
+  const expectedApyOverride = resolvedExpiringContract
+    ? Number((resolvedExpiringContract.estValue / 1_000_000).toFixed(2))
     : undefined;
 
   const offerPlayer = player ?? {
-    id: expiringContract!.id,
-    firstName: expiringContract!.name.split(' ')[0] ?? expiringContract!.name,
-    lastName: expiringContract!.name.split(' ').slice(1).join(' ') || expiringContract!.name,
-    position: expiringContract!.pos,
+    id: resolvedExpiringContract!.id,
+    firstName: resolvedExpiringContract!.name.split(' ')[0] ?? resolvedExpiringContract!.name,
+    lastName:
+      resolvedExpiringContract!.name.split(' ').slice(1).join(' ') || resolvedExpiringContract!.name,
+    position: resolvedExpiringContract!.pos,
     contractYearsRemaining: 0,
     capHit: '$0.0M',
     status: 'Expiring',
-    age: expiringContract?.age,
-    rating: expiringContract?.rating,
-    headshotUrl: expiringContract?.headshotUrl ?? null,
+    age: resolvedExpiringContract!.age,
+    rating: resolvedExpiringContract!.rating,
+    headshotUrl: resolvedExpiringContract!.headshotUrl ?? null,
   };
 
   const years = clampYears(body.years, 6);
@@ -97,7 +102,7 @@ export const POST = async (request: Request) => {
     teamAbbr,
     player: offerPlayer,
     teamRoster: state.roster,
-    previousTeamAbbr: expiringContract?.lastTeamAbbr,
+    previousTeamAbbr: resolvedExpiringContract?.lastTeamAbbr,
     years,
     apy: body.apy,
     guaranteed: body.guaranteed,
@@ -118,10 +123,10 @@ export const POST = async (request: Request) => {
       const result = resignPlayerInState(state, player.id, years, body.apy, body.guaranteed);
       updatedHeader = result.header;
       updatedPlayer = result.player;
-    } else if (expiringContract) {
+    } else if (resolvedExpiringContract) {
       const result = resignExpiringContractInState(
         state,
-        expiringContract,
+        resolvedExpiringContract,
         years,
         body.apy,
         body.guaranteed,
@@ -130,7 +135,7 @@ export const POST = async (request: Request) => {
       updatedPlayer = result.player;
     }
   } else {
-    const walkawayId = player?.id ?? expiringContract!.id;
+    const walkawayId = player?.id ?? resolvedExpiringContract!.id;
     addWalkawayToFreeAgencyInState(state, {
       id: walkawayId,
       firstName: offerPlayer.firstName,

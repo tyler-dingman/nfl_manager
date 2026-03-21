@@ -128,11 +128,25 @@ const buildTeamSubtitle = (teamName?: string | null, teamAbbr?: string | null) =
   return teamAbbr ? `${teamAbbr} Locker Room` : 'Locker Room';
 };
 
+const buildTeamSocialDisplayName = (teamName?: string | null, teamAbbr?: string | null) => {
+  const trimmedTeamName = teamName?.trim();
+  if (trimmedTeamName) return `${trimmedTeamName} Social`;
+  return teamAbbr ? `${teamAbbr} Social` : 'Team Social';
+};
+
 const buildHandle = (player: Pick<PlayerRowDTO, 'firstName' | 'lastName'>, rating?: number | null) => {
   const raw = `${player.firstName ?? ''}${player.lastName ?? ''}`.replace(/[^a-z0-9]/gi, '');
   const trimmed = raw.slice(0, 18) || 'FranchiseStar';
   const suffix = typeof rating === 'number' && rating >= 94 ? `${rating}` : '';
   return `@${trimmed}${suffix}`;
+};
+
+const buildTeamHandle = (teamName?: string | null, teamAbbr?: string | null) => {
+  const compactName =
+    teamName?.replace(/[^a-z0-9]/gi, '').slice(0, 14) ||
+    teamAbbr?.replace(/[^a-z0-9]/gi, '').slice(0, 10) ||
+    'Franchise';
+  return `@${compactName}HQ`;
 };
 
 const hashString = (value: string) => {
@@ -292,30 +306,33 @@ export const buildStarReactionToastPayload = ({
       : null) ??
     getTopRatedRosterPlayerOverall(roster, incomingPlayer.id) ??
     getTopRatedRosterPlayerOverall(roster);
-  if (!reactingPlayer) return null;
 
-  const displayName = getDisplayName(reactingPlayer);
+  const displayName = reactingPlayer
+    ? getDisplayName(reactingPlayer)
+    : buildTeamSocialDisplayName(teamName, teamAbbr);
   if (!displayName) return null;
 
   const engagement = generateEngagementCounts({
     actionType,
-    authorRating: resolvePlayerRating(reactingPlayer) ?? 82,
+    authorRating: reactingPlayer ? (resolvePlayerRating(reactingPlayer) ?? 82) : 84,
     acquiredPlayerRating: resolvePlayerRating(incomingPlayer) ?? 80,
-    seed: `${actionType}:${incomingPlayer.id}:${reactingPlayer.id}`,
+    seed: `${actionType}:${incomingPlayer.id}:${reactingPlayer?.id ?? teamAbbr ?? 'team'}`,
   });
 
   return {
     displayName,
-    handle: buildHandle(reactingPlayer, resolvePlayerRating(reactingPlayer)),
+    handle: reactingPlayer
+      ? buildHandle(reactingPlayer, resolvePlayerRating(reactingPlayer))
+      : buildTeamHandle(teamName, teamAbbr),
     subtitle: buildTeamSubtitle(teamName, teamAbbr),
     timestampLabel: 'now',
     message: getReactionMessage({
       incomingPlayer,
       actionType,
-      reactingPlayerId: reactingPlayer.id,
+      reactingPlayerId: reactingPlayer?.id ?? `${teamAbbr ?? 'team'}-social`,
       side,
     }),
-    headshotUrl: reactingPlayer.headshotUrl ?? null,
+    headshotUrl: reactingPlayer?.headshotUrl ?? null,
     likes: engagement.likes,
     reposts: engagement.reposts,
     replies: engagement.replies,

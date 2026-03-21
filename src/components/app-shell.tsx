@@ -11,7 +11,6 @@ import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-na
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
 import { AdSlot } from '@/components/ads/AdSlot';
-import { ToastProvider, ToastViewport } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import {
@@ -355,12 +354,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <TeamThemeProvider team={selectedTeam}>
-      <ToastProvider>
-        <TeamFavicon primaryColor={selectedTeam?.color_primary ?? null} />
-        <div
-          className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:min-h-screen md:flex-row md:items-stretch"
-          style={{ '--app-header-height': '64px' } as CSSProperties}
-        >
+      <TeamFavicon primaryColor={selectedTeam?.color_primary ?? null} />
+      <div
+        className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:min-h-screen md:flex-row md:items-stretch"
+        style={{ '--app-header-height': '64px' } as CSSProperties}
+      >
           {isMobileSidebarOpen ? (
             <div
               className="fixed inset-0 z-40 bg-black/50 md:hidden"
@@ -703,10 +701,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               ) : null}
             </div>
           </div>
-          <TradeOfferToast scopeKey={tradeOfferScopeKey} />
-          <ToastViewport />
-        </div>
-      </ToastProvider>
+        <TradeOfferToast scopeKey={tradeOfferScopeKey} />
+      </div>
     </TeamThemeProvider>
   );
 }

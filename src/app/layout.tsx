@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import AppProviders from '@/components/app-providers';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -40,7 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#111827" />
       </head>
       <body className="min-h-screen overflow-x-hidden bg-background text-foreground antialiased">
-        {children}
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

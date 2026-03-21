@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 import { estimateResignInterest } from '@/lib/resign-scoring';
 import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
-import { getAllowedYearOptions } from '@/lib/contracts';
 import { cn } from '@/lib/utils';
 import { formatMoneyMillions, getYearOneCapHit } from '@/server/logic/cap';
 import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
@@ -71,7 +70,7 @@ export default function ContractOfferModal({
   onClose,
   onSubmit,
 }: ContractOfferModalProps) {
-  const allowedYears = React.useMemo(() => getAllowedYearOptions(player, 6), [player]);
+  const allowedYears = React.useMemo(() => [1, 2, 3, 4, 5, 6], []);
   const [years, setYears] = React.useState(allowedYears[0] ?? 2);
   const [apyInput, setApyInput] = React.useState('6');
   const [guaranteedInput, setGuaranteedInput] = React.useState('');
@@ -192,10 +191,12 @@ export default function ContractOfferModal({
                 {player.college ? ` · ${player.college}` : ''}
                 {' · '}Age {age}
               </p>
-              <p className="text-xs leading-relaxed text-muted-foreground">
-                Preferred Years: {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]}
-                {' · '}Expected APY: ${estimate.expectedApy.toFixed(1)}M
-              </p>
+              {!response ? (
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Preferred Years: {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]}
+                  {' · '}Expected APY: ${estimate.expectedApy.toFixed(1)}M
+                </p>
+              ) : null}
             </div>
           </div>
 
@@ -273,15 +274,17 @@ export default function ContractOfferModal({
             {formatMoneyMillions(currentLeagueYearCapHit)}
           </p>
 
-          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
-            <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
-              <span>Interest: {interestLabel}</span>
-              <span>{score.toFixed(0)}%</span>
+          {!response ? (
+            <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
+              <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+                <span>Interest: {interestLabel}</span>
+                <span>{score.toFixed(0)}%</span>
+              </div>
+              <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
+                <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
+              </div>
             </div>
-            <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
-              <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
-            </div>
-          </div>
+          ) : null}
 
           {response ? (
             <div
@@ -293,7 +296,7 @@ export default function ContractOfferModal({
                 response.tone === 'negative' && 'border-red-200 bg-red-50 text-red-700',
               )}
             >
-              <p className="font-semibold">{response.message}</p>
+              <p className="font-semibold italic">“{response.message}”</p>
               <p className="mt-1 text-xs text-muted-foreground">{response.notice}</p>
             </div>
           ) : null}

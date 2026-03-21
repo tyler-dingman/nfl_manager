@@ -340,7 +340,7 @@ export default function RosterPage() {
       return;
     }
 
-    const actionableSaveId = await ensureActionableSaveId(saveId);
+    let actionableSaveId = await ensureActionableSaveId(saveId);
 
     if (!actionableSaveId) {
       pushToast({
@@ -529,7 +529,7 @@ export default function RosterPage() {
       return;
     }
 
-    const actionableSaveId = await ensureActionableSaveId(saveId);
+    let actionableSaveId = await ensureActionableSaveId(saveId);
 
     if (!actionableSaveId) {
       pushToast({
@@ -547,14 +547,19 @@ export default function RosterPage() {
       years: offer.years,
       apy: offer.apy,
       guaranteed: offer.guaranteed,
+      expiringContract: activeExpiringContract ?? undefined,
     };
 
     const submitResign = (body: typeof requestBody) =>
-      apiFetch('/api/actions/resign-player', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+      apiFetch(
+        '/api/actions/re-sign',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        },
+        { skipSaveGuard: true },
+      );
 
     let response = await submitResign(requestBody);
 
@@ -565,6 +570,7 @@ export default function RosterPage() {
         if (!recoveredSaveId) {
           throw new Error(errorPayload.error || 'Please try again in a moment.');
         }
+        actionableSaveId = recoveredSaveId;
 
         response = await submitResign({
           ...requestBody,
@@ -633,46 +639,57 @@ export default function RosterPage() {
           teamAbbr,
           teamName: selectedTeam?.name,
         });
-        if (reactionToast) {
-          pushToast({
-            id: `star-reaction:resign:${actionableSaveId}:${updatedPlayer.id}`,
-            kind: 'starReaction',
-            durationMs: 5200,
-            starReaction: reactionToast,
-          });
-        }
-        if (wasExpiringResign) {
-          const leagueBuzz = generateLeagueBuzzToast({
-            eventType: 'resign',
-            teamName: selectedTeam?.name ?? teamAbbr ?? 'Your team',
-            playerName: `${updatedPlayer.firstName} ${updatedPlayer.lastName}`,
-            teamAbbr,
-          });
-          if (leagueBuzz) {
+        const leagueBuzz = wasExpiringResign
+          ? generateLeagueBuzzToast({
+              eventType: 'resign',
+              teamName: selectedTeam?.name ?? teamAbbr ?? 'Your team',
+              playerName: `${updatedPlayer.firstName} ${updatedPlayer.lastName}`,
+              teamAbbr,
+            })
+          : null;
+        const showLeagueBuzz = Boolean(leagueBuzz) && (!reactionToast || Math.random() < 0.5);
+
+        window.setTimeout(() => {
+          if (showLeagueBuzz && leagueBuzz) {
             pushToast({
               id: `league-buzz:resign:${actionableSaveId}:${updatedPlayer.id}`,
               kind: 'leagueBuzz',
               durationMs: 5600,
               leagueBuzz,
             });
+            return;
           }
-        }
+
+          if (reactionToast) {
+            pushToast({
+              id: `star-reaction:resign:${actionableSaveId}:${updatedPlayer.id}`,
+              kind: 'starReaction',
+              durationMs: 5200,
+              starReaction: reactionToast,
+            });
+          }
+        }, 120);
       }
       if (activeExpiringContract) {
         setExpiringContracts((prev) =>
           prev.filter((contract) => contract.id !== activeExpiringContract.id),
         );
       }
-      trackProgress(
-        `resign:${playerId}`,
-        OFFSEASON_PROGRESS_POINTS.manage.resign,
-        `Re-signed a key player to keep the roster together.`,
-      );
+      if (saveId) {
+        recordProgressEvent({
+          saveId,
+          step: 'manage',
+          eventKey: `resign:${playerId}`,
+          points: OFFSEASON_PROGRESS_POINTS.manage.resign,
+        });
+      }
     }
 
     setActiveResignPlayer(null);
     setActiveExpiringContract(null);
-    void requestTradeOffer({ trigger: data.accepted ? 'after-resign-accepted' : 'after-resign-declined' });
+    if (!data.accepted) {
+      void requestTradeOffer({ trigger: 'after-resign-declined' });
+    }
     return;
   };
 
@@ -1282,7 +1299,9 @@ export default function RosterPage() {
       <ResignOfferResultModal
         result={resignResult}
         isOpen={isResignResultOpen}
-        onClose={() => setIsResignResultOpen(false)}
+        onClose={() => {
+          setIsResignResultOpen(false);
+        }}
       />
       {isRenegotiateResultOpen && renegotiateResult ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
