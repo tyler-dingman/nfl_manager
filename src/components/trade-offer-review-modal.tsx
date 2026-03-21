@@ -308,6 +308,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     null,
   );
   const evaluateRequestRef = React.useRef(0);
+  const resolvedSaveIdRef = React.useRef<string | null>(saveId);
 
   const openPlayerDetailsFromAsset = React.useCallback(
     (asset: Extract<TradeOfferAssetDTO, { type: 'player' }>) => {
@@ -350,9 +351,9 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     if (!offer || !saveId) return false;
 
     setIsLoadingAssetSources(true);
-    const actionableSaveId = await ensureRecoverableSaveId(
+    let actionableSaveId = await ensureRecoverableSaveId(
       {
-        preferredSaveId: saveId,
+        preferredSaveId: resolvedSaveIdRef.current ?? saveId,
         teamId,
         teamAbbr,
         capSpace,
@@ -369,8 +370,9 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       setActionMessage('Unable to load trade assets right now.');
       return false;
     }
+    resolvedSaveIdRef.current = actionableSaveId;
 
-    const response = await apiFetch(
+    let response = await apiFetch(
       '/api/trade-offers/assets',
       {
         method: 'POST',
@@ -382,6 +384,38 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       },
       { skipSaveGuard: true },
     );
+
+    if (response.status === 404) {
+      const recoveredSaveId = await ensureRecoverableSaveId(
+        {
+          preferredSaveId: null,
+          teamId,
+          teamAbbr,
+          capSpace,
+          capLimit,
+          roster,
+          phase,
+          unlocked,
+        },
+        setSaveHeader,
+      );
+      if (recoveredSaveId) {
+        actionableSaveId = recoveredSaveId;
+        resolvedSaveIdRef.current = recoveredSaveId;
+        response = await apiFetch(
+          '/api/trade-offers/assets',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              saveId: recoveredSaveId,
+              partnerTeamAbbr: offer.proposingTeamAbbr,
+            }),
+          },
+          { skipSaveGuard: true },
+        );
+      }
+    }
 
     if (!response.ok) {
       setIsLoadingAssetSources(false);
@@ -492,9 +526,9 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     const requestId = evaluateRequestRef.current + 1;
     evaluateRequestRef.current = requestId;
     const evaluate = async () => {
-      const actionableSaveId = await ensureRecoverableSaveId(
+      let actionableSaveId = await ensureRecoverableSaveId(
         {
-          preferredSaveId: saveId,
+          preferredSaveId: resolvedSaveIdRef.current ?? saveId,
           teamId,
           teamAbbr,
           capSpace,
@@ -509,8 +543,9 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       if (!actionableSaveId || cancelled) {
         return;
       }
+      resolvedSaveIdRef.current = actionableSaveId;
 
-      const response = await apiFetch('/api/trade-offers/evaluate', {
+      let response = await apiFetch('/api/trade-offers/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -522,6 +557,38 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
           extraOutgoingPickIds,
         }),
       });
+
+      if (response.status === 404 && !cancelled) {
+        const recoveredSaveId = await ensureRecoverableSaveId(
+          {
+            preferredSaveId: null,
+            teamId,
+            teamAbbr,
+            capSpace,
+            capLimit,
+            roster,
+            phase,
+            unlocked,
+          },
+          setSaveHeader,
+        );
+        if (recoveredSaveId) {
+          actionableSaveId = recoveredSaveId;
+          resolvedSaveIdRef.current = recoveredSaveId;
+          response = await apiFetch('/api/trade-offers/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              saveId: recoveredSaveId,
+              offer,
+              extraIncomingPlayerIds,
+              extraIncomingPickIds,
+              extraOutgoingPlayerIds,
+              extraOutgoingPickIds,
+            }),
+          });
+        }
+      }
       if (!response.ok) return;
       const data = (await response.json()) as TradeOfferEvaluateResponse;
       if (!data.ok || cancelled || evaluateRequestRef.current !== requestId) return;
@@ -637,9 +704,9 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     setActionMessage(null);
     setIsSubmitting(true);
 
-    const actionableSaveId = await ensureRecoverableSaveId(
+    let actionableSaveId = await ensureRecoverableSaveId(
       {
-        preferredSaveId: saveId,
+        preferredSaveId: resolvedSaveIdRef.current ?? saveId,
         teamId,
         teamAbbr,
         capSpace,
@@ -656,6 +723,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       setIsSubmitting(false);
       return;
     }
+    resolvedSaveIdRef.current = actionableSaveId;
 
     const extraIncomingPlayerIds = extraIncomingSelections
       .filter((selection): selection is Extract<ExtraSelection, { type: 'player' }> =>
@@ -678,7 +746,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       )
       .map((selection) => selection.id);
 
-    const response = await apiFetch('/api/trade-offers/accept', {
+    let response = await apiFetch('/api/trade-offers/accept', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -690,6 +758,38 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
         extraOutgoingPickIds,
       }),
     });
+
+    if (response.status === 404) {
+      const recoveredSaveId = await ensureRecoverableSaveId(
+        {
+          preferredSaveId: null,
+          teamId,
+          teamAbbr,
+          capSpace,
+          capLimit,
+          roster,
+          phase,
+          unlocked,
+        },
+        setSaveHeader,
+      );
+      if (recoveredSaveId) {
+        actionableSaveId = recoveredSaveId;
+        resolvedSaveIdRef.current = recoveredSaveId;
+        response = await apiFetch('/api/trade-offers/accept', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            saveId: recoveredSaveId,
+            offer,
+            extraIncomingPlayerIds,
+            extraIncomingPickIds,
+            extraOutgoingPlayerIds,
+            extraOutgoingPickIds,
+          }),
+        });
+      }
+    }
 
     if (!response.ok) {
       setActionMessage('Unable to complete this trade right now.');

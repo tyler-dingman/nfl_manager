@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Star, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 import { ProspectIndicators } from '@/components/draft/prospect-indicators';
 import { Button } from '@/components/ui/button';
@@ -217,16 +217,6 @@ export function ProspectDetailsModal({
                 <p className="mt-3 text-sm leading-7 text-slate-700">{model.outlook}</p>
               </section>
 
-              <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                  {canDraft && onDraft ? (
-                    <Button type="button" className="gap-2" onClick={() => onDraft(player)}>
-                      <Star className="h-4 w-4" />
-                      Draft {player.firstName}
-                    </Button>
-                  ) : null}
-                </div>
-              </section>
             </div>
           </div>
         </div>

@@ -34,7 +34,7 @@ type SaveStoreState = {
   clearSave: () => void;
   setPhase: (phase: string) => Promise<void>;
   advancePhase: () => Promise<void>;
-  refreshSaveHeader: () => Promise<void>;
+  refreshSaveHeader: (saveIdOverride?: string | null) => Promise<void>;
   ensureSaveId: () => Promise<string | null>;
 };
 
@@ -219,13 +219,14 @@ export const useSaveStore = create<SaveStoreState>()(
                 : 'season';
         await get().setPhase(nextPhase);
       },
-      refreshSaveHeader: async () => {
+      refreshSaveHeader: async (saveIdOverride) => {
         const { saveId, teamAbbr } = get();
-        if (!saveId) {
+        const targetSaveId = saveIdOverride ?? saveId;
+        if (!targetSaveId) {
           return;
         }
 
-        const params = new URLSearchParams({ saveId });
+        const params = new URLSearchParams({ saveId: targetSaveId });
         if (get().teamAbbr) {
           params.set('teamAbbr', get().teamAbbr);
         }

@@ -690,7 +690,7 @@ function DraftRoomContent() {
         ? roster.map((entry) => (entry.id === payload.draftedPlayer.id ? payload.draftedPlayer : entry))
         : [...roster, payload.draftedPlayer],
     );
-    await refreshSaveHeader();
+    await refreshSaveHeader(actionableSaveId);
     const pick = payload.session.picks.find((entry) => entry.selectedPlayerId === player.id);
     const pickNumber = pick?.overall ?? currentPick?.overall ?? payload.session.currentPickIndex;
 

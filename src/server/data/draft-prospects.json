@@ -2937,7 +2937,7 @@
     "summary": "A developmental LB prospect from Georgia Bulldogs, coverage lb offers intriguing traits and room to grow in a 6' 1\", 235 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Coverage LB",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 74
   },
@@ -3024,7 +3024,7 @@
     "summary": "A developmental IOL prospect from Kansas State, anchor iol offers intriguing traits and room to grow in a 6' 4\", 300 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Anchor IOL",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 76
   },
@@ -3100,7 +3100,7 @@
     "summary": "A developmental OT prospect from Stanford Cardinal, pass-set ot offers intriguing traits and room to grow in a 6' 7\", 310 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Pass-Set OT",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 78
   },
@@ -3138,7 +3138,7 @@
     "summary": "A developmental OT prospect from Northwestern Wildcats, power tackle offers intriguing traits and room to grow in a 6' 7\", 325 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Power Tackle",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 79
   },
@@ -3315,7 +3315,7 @@
     "summary": "A productive CB from Arizona, this prospect pairs cover cb traits with strong college output at 6' 2\", 195 lbs. Looks like an developmental who can compete for snaps early.",
     "archetype": "Cover CB",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 84
   },
@@ -3425,7 +3425,7 @@
     "summary": "A developmental DI prospect from Arizona State Sun Devils, developmental prospect offers intriguing traits and room to grow in a 6' 2\", 305 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Developmental Prospect",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 87
   },
@@ -3550,7 +3550,7 @@
     "summary": "A developmental WR prospect from Clemson Tigers, balanced wr offers intriguing traits and room to grow in a 5' 11\", 190 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Balanced WR",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 90
   },
@@ -3588,7 +3588,7 @@
     "summary": "A developmental OT prospect from Indiana Hoosiers, pass-set ot offers intriguing traits and room to grow in a 6' 5\", 308 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Pass-Set OT",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 91
   },
@@ -3626,7 +3626,7 @@
     "summary": "A developmental DI prospect from Florida State Seminoles, developmental prospect offers intriguing traits and room to grow in a 6' 5\", 337 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Developmental Prospect",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 92
   },
@@ -3664,7 +3664,7 @@
     "summary": "A productive S from Florida State Seminoles, this prospect pairs ballhawk safety traits with strong college output at 6' 1\", 193 lbs. Looks like an developmental who can compete for snaps early.",
     "archetype": "Ballhawk Safety",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 93
   },
@@ -3755,7 +3755,7 @@
     "summary": "A developmental WR prospect from Florida Gators, balanced wr offers intriguing traits and room to grow in a 5' 10\", 194 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Balanced WR",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 95
   },
@@ -3793,7 +3793,7 @@
     "summary": "A productive CB from Georgia Bulldogs, this prospect pairs cover cb traits with strong college output at 6' 1\", 190 lbs. Looks like an developmental who can compete for snaps early.",
     "archetype": "Cover CB",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 96
   },
@@ -3910,7 +3910,7 @@
     "summary": "A developmental QB prospect from LSU Tigers, pocket qb offers intriguing traits and room to grow in a 6' 1\", 205 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Pocket QB",
     "projectedRange": "Day 2",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 99
   },
@@ -3994,7 +3994,7 @@
     "summary": "A productive WR from Georgia State, this prospect pairs possession wr traits with strong college output at 6' 3\", 185 lbs. Looks like an developmental who can compete for snaps early.",
     "archetype": "Possession WR",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 101
   },
@@ -4032,7 +4032,7 @@
     "summary": "A developmental S prospect from Penn State Nittany Lions, ballhawk safety offers intriguing traits and room to grow in a 6' 2\", 200 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Ballhawk Safety",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 102
   },
@@ -4070,7 +4070,7 @@
     "summary": "A developmental LB prospect from LSU Tigers, run-and-chase lb offers intriguing traits and room to grow in a 6' 2\", 225 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Run-and-Chase LB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 103
   },
@@ -4157,7 +4157,7 @@
     "summary": "A productive QB from USC Trojans, this prospect pairs pocket qb traits with strong college output at 6' 4\", 230 lbs. Looks like an developmental who can compete for snaps early.",
     "archetype": "Pocket QB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 105
   },
@@ -4286,7 +4286,7 @@
     "summary": "A productive RB from Nebraska, this prospect pairs all-purpose rb traits with strong college output at 5' 11\", 200 lbs. Looks like an developmental who can compete for snaps early.",
     "archetype": "All-Purpose RB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 108
   },
@@ -4324,7 +4324,7 @@
     "summary": "A productive CB from Arkansas Razorbacks, this prospect pairs cover cb traits with strong college output at 6' 2\", 200 lbs. Looks like an developmental who can compete for snaps early.",
     "archetype": "Cover CB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 109
   },
@@ -4366,7 +4366,7 @@
     "summary": "A developmental WR prospect from LSU Tigers, balanced wr offers intriguing traits and room to grow in a 6' 4\", 208 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Balanced WR",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 110
   },
@@ -4510,7 +4510,7 @@
     "summary": "A developmental WR prospect from Oklahoma Sooners, balanced wr offers intriguing traits and room to grow in a 5' 9\", 188 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Balanced WR",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 114
   },
@@ -4589,7 +4589,7 @@
     "summary": "A developmental WR prospect from Auburn Tigers, balanced wr offers intriguing traits and room to grow in a 5' 10\", 180 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Balanced WR",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 116
   },
@@ -4627,7 +4627,7 @@
     "summary": "A developmental IOL prospect from Kentucky, anchor iol offers intriguing traits and room to grow in a 6' 5\", 318 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Anchor IOL",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 117
   },
@@ -4665,7 +4665,7 @@
     "summary": "A developmental CB prospect from Illinois Fighting Illini, cover cb offers intriguing traits and room to grow in a 5' 11\", 190 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Cover CB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 118
   },
@@ -4703,7 +4703,7 @@
     "summary": "A developmental CB prospect from Florida, cover cb offers intriguing traits and room to grow in a 6' 3\", 198 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Cover CB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 119
   },
@@ -4741,7 +4741,7 @@
     "summary": "A developmental S prospect from Mississippi State Bulldogs, ballhawk safety offers intriguing traits and room to grow in a 6' 0\", 220 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Ballhawk Safety",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 120
   },
@@ -4783,7 +4783,7 @@
     "summary": "A developmental QB prospect from Arizona State Sun Devils, pocket qb offers intriguing traits and room to grow in a 6' 2\", 205 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Pocket QB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 121
   },
@@ -4821,7 +4821,7 @@
     "summary": "A developmental EDGE prospect from Michigan Wolverines, power edge offers intriguing traits and room to grow in a 6' 3\", 243 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Power EDGE",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 122
   },
@@ -4870,7 +4870,7 @@
     "summary": "A developmental TE prospect from Stanford, move te offers intriguing traits and room to grow in a 6' 5\", 260 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Move TE",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 123
   },
@@ -4908,7 +4908,7 @@
     "summary": "A developmental S prospect from Alabama Crimson Tide, ballhawk safety offers intriguing traits and room to grow in a 6' 1\", 204 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Ballhawk Safety",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 124
   },
@@ -4946,7 +4946,7 @@
     "summary": "A productive S from Arizona Wildcats, this prospect pairs ballhawk safety traits with strong college output at 6' 2\", 202 lbs. Looks like an developmental who can compete for snaps early.",
     "archetype": "Ballhawk Safety",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 125
   },
@@ -4984,7 +4984,7 @@
     "summary": "A developmental OT prospect from Duke Blue Devils, pass-set ot offers intriguing traits and room to grow in a 6' 5\", 300 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Pass-Set OT",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 126
   },
@@ -5014,7 +5014,7 @@
     "summary": "A developmental IOL prospect from Notre Dame, anchor iol offers intriguing traits and room to grow in a 6' 4\", 305 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Anchor IOL",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 127
   },
@@ -5063,7 +5063,7 @@
     "summary": "A developmental QB prospect from South Carolina Gamecocks, pocket qb offers intriguing traits and room to grow in a 6' 3\", 240 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Pocket QB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 128
   },
@@ -5112,7 +5112,7 @@
     "summary": "A developmental QB prospect from Oklahoma Sooners, dual-threat qb offers intriguing traits and room to grow in a 6' 1\", 224 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Dual-Threat QB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 129
   },
@@ -5150,7 +5150,7 @@
     "summary": "A developmental IOL prospect from Georgia Tech Yellow Jackets, anchor iol offers intriguing traits and room to grow in a 6' 4\", 320 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Anchor IOL",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 130
   },
@@ -5188,7 +5188,7 @@
     "summary": "A developmental S prospect from Utah Utes, ballhawk safety offers intriguing traits and room to grow in a 6' 1\", 193 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Ballhawk Safety",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 131
   },
@@ -5264,7 +5264,7 @@
     "summary": "A developmental EDGE prospect from Auburn, power edge offers intriguing traits and room to grow in a 6' 4\", 255 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Power EDGE",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 133
   },
@@ -5302,7 +5302,7 @@
     "summary": "A productive S from Duke Blue Devils, this prospect pairs ballhawk safety traits with strong college output at 6' 1\", 195 lbs. Looks like an developmental who can compete for snaps early.",
     "archetype": "Ballhawk Safety",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 134
   },
@@ -5370,7 +5370,7 @@
     "summary": "A developmental EDGE prospect from Notre Dame Fighting Irish, power edge offers intriguing traits and room to grow in a 6' 4\", 247 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Power EDGE",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 136
   },
@@ -5408,7 +5408,7 @@
     "summary": "A developmental DL prospect from Missouri, interior disruptor offers intriguing traits and room to grow in a 6' 4\", 323 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Interior Disruptor",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 137
   },
@@ -5457,7 +5457,7 @@
     "summary": "A developmental TE prospect from Baylor Bears, move te offers intriguing traits and room to grow in a 6' 4\", 240 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Move TE",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 138
   },
@@ -5495,7 +5495,7 @@
     "summary": "A developmental CB prospect from Texas Longhorns, cover cb offers intriguing traits and room to grow in a 6' 0\", 188 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Cover CB",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 139
   },
@@ -5525,7 +5525,7 @@
     "summary": "A developmental OT prospect from Missouri Tigers, pass-set ot offers intriguing traits and room to grow in a 6' 5\", 324 lbs build. Best suited as a longer-term investment with upside.",
     "archetype": "Pass-Set OT",
     "projectedRange": "Day 3",
-    "source": "consensus-big-board+search+espn-athlete",
+    "source": "consensus-big-board+espn-profile-cache",
     "grade": null,
     "projectedPick": 140
   },

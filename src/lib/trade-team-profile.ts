@@ -25,7 +25,7 @@ export const getTeamTradeProfile = (
     resolvedRatings.length > 0
       ? resolvedRatings.reduce((sum, rating) => sum + rating, 0) / resolvedRatings.length
       : team.teamOverview;
-  const needs = computeTeamNeeds(roster, 5);
+  const needs = team.allTeamNeeds?.length ? team.allTeamNeeds.slice(0, 5) : computeTeamNeeds(roster, 5);
   const contenderBias = team.teamOverview >= 85 ? 0.78 : team.teamOverview <= 77 ? 0.28 : 0.5;
   const rebuildBias = rosterAge <= 25.8 || team.teamOverview <= 77 ? 0.72 : 0.32;
   const capSensitive = capSpace < 8 ? 0.82 : capSpace < 18 ? 0.56 : 0.34;

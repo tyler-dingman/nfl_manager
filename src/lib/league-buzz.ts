@@ -1,6 +1,6 @@
 import { getTeamFlavorHandle, getTeamReactionLine } from '@/lib/team-flavor';
 
-type LeagueBuzzEventType = 'capClearingCut' | 'renegotiate' | 'resign';
+type LeagueBuzzEventType = 'capClearingCut' | 'renegotiate' | 'resign' | 'freeAgency';
 
 export type LeagueBuzzToastPayload = {
   displayName: string;
@@ -27,12 +27,17 @@ const MESSAGE_TEMPLATES: Record<LeagueBuzzEventType, string[]> = {
     'The {teamName} lock in {playerName} long-term. Core piece stays home. 🔒',
     '{teamName} bring back a key piece before he hits the market. Huge retention win. 🏆',
   ],
+  freeAgency: [
+    '{teamName} land {playerName} in free agency. That is a real addition for this roster. ✍️',
+    '{teamName} make a notable free-agent move by signing {playerName}. Smart roster boost. 📈',
+  ],
 };
 
 const EVENT_ODDS: Record<LeagueBuzzEventType, number> = {
   capClearingCut: 1,
   renegotiate: 0.64,
   resign: 0.72,
+  freeAgency: 0.78,
 };
 
 const hashString = (value: string) => {

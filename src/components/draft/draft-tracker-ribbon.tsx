@@ -52,10 +52,21 @@ export function DraftTrackerRibbon({
   windowSize = 7,
   controls,
 }: DraftTrackerRibbonProps) {
+  const currentPick = picks[currentPickIndex] ?? null;
+  const currentRound = currentPick?.round ?? picks[0]?.round ?? 1;
+  const roundPicks = picks.filter((pick) => pick.round === currentRound);
+  const firstUserPickIndex = picks.findIndex((pick) => pick.ownerTeamAbbr === userTeamAbbr);
+  const shouldUnlockRoundScroll =
+    firstUserPickIndex >= 0 ? currentPickIndex >= firstUserPickIndex : false;
   const halfWindow = Math.floor(windowSize / 2);
-  const startIndex = Math.max(0, currentPickIndex - halfWindow);
-  const endIndex = Math.min(picks.length, startIndex + windowSize);
-  const visiblePicks = picks.slice(startIndex, endIndex);
+  const roundStartIndex = picks.findIndex((pick) => pick.round === currentRound);
+  const relativeCurrentIndex =
+    roundStartIndex >= 0 ? Math.max(0, currentPickIndex - roundStartIndex) : 0;
+  const windowStart = Math.max(0, relativeCurrentIndex - halfWindow);
+  const windowEnd = Math.min(roundPicks.length, windowStart + windowSize);
+  const visiblePicks = shouldUnlockRoundScroll
+    ? roundPicks
+    : roundPicks.slice(windowStart, windowEnd);
   const teamLookup = new Map(teams.map((team) => [team.abbr, team]));
   const userTeam = teamLookup.get(userTeamAbbr);
   const userTeamPrimaryColor = userTeam?.colors?.[0] ?? 'var(--team-primary)';
@@ -178,17 +189,16 @@ export function DraftTrackerRibbon({
         ) : null}
       </div>
 
-      <div className="mt-4 overflow-x-auto pb-1">
+      <div className={cn('mt-4 pb-1', shouldUnlockRoundScroll ? 'overflow-x-auto' : 'overflow-hidden')}>
         <div className="flex min-w-max gap-3">
-          {visiblePicks.map((pick, index) => {
-            const absoluteIndex = startIndex + index;
+          {visiblePicks.map((pick) => {
             const team = teamLookup.get(pick.ownerTeamAbbr);
             const primaryColor = team?.colors?.[0] ?? '#020617';
             const onPrimaryColor = getReadableTextColor(primaryColor);
             const draftedPlayer = pick.selectedPlayerId
               ? prospects.find((player) => player.id === pick.selectedPlayerId)
               : null;
-            const isCurrent = absoluteIndex === currentPickIndex;
+            const isCurrent = pick.id === currentPick?.id;
             const isCompleted = Boolean(draftedPlayer);
             const isUser = pick.ownerTeamAbbr === userTeamAbbr;
 

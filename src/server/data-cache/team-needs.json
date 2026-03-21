@@ -1,0 +1,514 @@
+{
+  "ARI": {
+    "teamAbbr": "ARI",
+    "teamName": "Arizona Cardinals",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "EDGE"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "EDGE",
+      "QB",
+      "DL"
+    ]
+  },
+  "ATL": {
+    "teamAbbr": "ATL",
+    "teamName": "Atlanta Falcons",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "EDGE"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "EDGE",
+      "QB",
+      "DL"
+    ]
+  },
+  "BAL": {
+    "teamAbbr": "BAL",
+    "teamName": "Baltimore Ravens",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "EDGE"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "EDGE",
+      "WR",
+      "LB"
+    ]
+  },
+  "BUF": {
+    "teamAbbr": "BUF",
+    "teamName": "Buffalo Bills",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "EDGE"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "EDGE",
+      "S",
+      "DL"
+    ]
+  },
+  "CAR": {
+    "teamAbbr": "CAR",
+    "teamName": "Carolina Panthers",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "S"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "S",
+      "CB",
+      "WR"
+    ]
+  },
+  "CHI": {
+    "teamAbbr": "CHI",
+    "teamName": "Chicago Bears",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "S"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "S",
+      "DL",
+      "WR"
+    ]
+  },
+  "CIN": {
+    "teamAbbr": "CIN",
+    "teamName": "Cincinnati Bengals",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "CB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "CB",
+      "EDGE",
+      "LB"
+    ]
+  },
+  "CLE": {
+    "teamAbbr": "CLE",
+    "teamName": "Cleveland Browns",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "RB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "RB",
+      "TE",
+      "QB"
+    ]
+  },
+  "DAL": {
+    "teamAbbr": "DAL",
+    "teamName": "Dallas Cowboys",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "LB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "LB",
+      "EDGE",
+      "RB"
+    ]
+  },
+  "DEN": {
+    "teamAbbr": "DEN",
+    "teamName": "Denver Broncos",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "DL"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "DL",
+      "RB",
+      "QB"
+    ]
+  },
+  "DET": {
+    "teamAbbr": "DET",
+    "teamName": "Detroit Lions",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "CB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "CB",
+      "LB",
+      "EDGE"
+    ]
+  },
+  "GB": {
+    "teamAbbr": "GB",
+    "teamName": "Green Bay Packers",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "CB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "CB",
+      "LB",
+      "WR"
+    ]
+  },
+  "HOU": {
+    "teamAbbr": "HOU",
+    "teamName": "Houston Texans",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "DL"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "DL",
+      "QB",
+      "RB"
+    ]
+  },
+  "IND": {
+    "teamAbbr": "IND",
+    "teamName": "Indianapolis Colts",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "LB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "LB",
+      "EDGE",
+      "RB"
+    ]
+  },
+  "JAX": {
+    "teamAbbr": "JAX",
+    "teamName": "Jacksonville Jaguars",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "RB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "RB",
+      "S",
+      "LB"
+    ]
+  },
+  "KC": {
+    "teamAbbr": "KC",
+    "teamName": "Kansas City Chiefs",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "CB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "CB",
+      "EDGE",
+      "WR"
+    ]
+  },
+  "LV": {
+    "teamAbbr": "LV",
+    "teamName": "Las Vegas Raiders",
+    "topNeeds": [
+      "OT",
+      "DL",
+      "IOL"
+    ],
+    "allNeeds": [
+      "OT",
+      "DL",
+      "IOL",
+      "RB",
+      "LB"
+    ]
+  },
+  "LAC": {
+    "teamAbbr": "LAC",
+    "teamName": "Los Angeles Chargers",
+    "topNeeds": [
+      "EDGE",
+      "OT",
+      "IOL"
+    ],
+    "allNeeds": [
+      "EDGE",
+      "OT",
+      "IOL",
+      "TE",
+      "WR"
+    ]
+  },
+  "LAR": {
+    "teamAbbr": "LAR",
+    "teamName": "Los Angeles Rams",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "DL"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "DL",
+      "QB",
+      "S"
+    ]
+  },
+  "MIA": {
+    "teamAbbr": "MIA",
+    "teamName": "Miami Dolphins",
+    "topNeeds": [
+      "OT",
+      "EDGE",
+      "IOL"
+    ],
+    "allNeeds": [
+      "OT",
+      "EDGE",
+      "IOL",
+      "RB",
+      "S"
+    ]
+  },
+  "MIN": {
+    "teamAbbr": "MIN",
+    "teamName": "Minnesota Vikings",
+    "topNeeds": [
+      "OT",
+      "EDGE",
+      "IOL"
+    ],
+    "allNeeds": [
+      "OT",
+      "EDGE",
+      "IOL",
+      "DL",
+      "QB"
+    ]
+  },
+  "NE": {
+    "teamAbbr": "NE",
+    "teamName": "New England Patriots",
+    "topNeeds": [
+      "IOL",
+      "OT",
+      "WR"
+    ],
+    "allNeeds": [
+      "IOL",
+      "OT",
+      "WR",
+      "S",
+      "QB"
+    ]
+  },
+  "NO": {
+    "teamAbbr": "NO",
+    "teamName": "New Orleans Saints",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "CB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "CB",
+      "QB",
+      "LB"
+    ]
+  },
+  "NYG": {
+    "teamAbbr": "NYG",
+    "teamName": "New York Giants",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "QB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "QB",
+      "EDGE",
+      "RB"
+    ]
+  },
+  "NYJ": {
+    "teamAbbr": "NYJ",
+    "teamName": "New York Jets",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "QB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "QB",
+      "TE",
+      "WR"
+    ]
+  },
+  "PHI": {
+    "teamAbbr": "PHI",
+    "teamName": "Philadelphia Eagles",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "S"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "S",
+      "EDGE",
+      "CB"
+    ]
+  },
+  "PIT": {
+    "teamAbbr": "PIT",
+    "teamName": "Pittsburgh Steelers",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "QB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "QB",
+      "EDGE",
+      "WR"
+    ]
+  },
+  "SF": {
+    "teamAbbr": "SF",
+    "teamName": "San Francisco 49ers",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "DL"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "DL",
+      "S",
+      "CB"
+    ]
+  },
+  "SEA": {
+    "teamAbbr": "SEA",
+    "teamName": "Seattle Seahawks",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "TE"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "TE",
+      "RB",
+      "DL"
+    ]
+  },
+  "TB": {
+    "teamAbbr": "TB",
+    "teamName": "Tampa Bay Buccaneers",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "EDGE"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "EDGE",
+      "CB",
+      "TE"
+    ]
+  },
+  "TEN": {
+    "teamAbbr": "TEN",
+    "teamName": "Tennessee Titans",
+    "topNeeds": [
+      "OT",
+      "IOL",
+      "CB"
+    ],
+    "allNeeds": [
+      "OT",
+      "IOL",
+      "CB",
+      "TE",
+      "LB"
+    ]
+  },
+  "WAS": {
+    "teamAbbr": "WAS",
+    "teamName": "Washington Commanders",
+    "topNeeds": [
+      "IOL",
+      "OT",
+      "RB"
+    ],
+    "allNeeds": [
+      "IOL",
+      "OT",
+      "RB",
+      "TE",
+      "CB"
+    ]
+  }
+}

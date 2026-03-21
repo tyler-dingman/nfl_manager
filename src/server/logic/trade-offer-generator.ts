@@ -5,6 +5,7 @@ import { buildPickAsset } from '@/lib/trade-chart';
 import { gradeTradeOffer } from '@/lib/trade-offer-evaluator';
 import { buildTradePlayerAsset, getPlayerTradeValue } from '@/lib/trade-player-valuation';
 import { getTeamTradeProfile } from '@/lib/trade-team-profile';
+import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { computeTeamNeeds, resolvePlayerRating } from '@/lib/team-overview';
 import { logoUrlFor } from '@/server/api/team';
 import {
@@ -92,6 +93,7 @@ const isTradableUserTarget = (player: PlayerRowDTO) => {
 };
 
 export const buildTeamContexts = (state: SaveState): Map<string, TeamRuntimeContext> => {
+  const generatedLeagueTeams = new Map(NFL_LEAGUE_DATA.teams.map((team) => [team.abbr, team]));
   const generatedTeams = new Map<string, TeamDTO>(
     TEAM_LIST.map((team) => [
       team.abbr,
@@ -106,7 +108,11 @@ export const buildTeamContexts = (state: SaveState): Map<string, TeamRuntimeCont
         defenseOverview: 75,
         specialTeamsOverview: 75,
         teamOverviewGrade: 'B-',
-        teamNeeds: ['QB', 'OT', 'CB'],
+        teamNeeds: generatedLeagueTeams.get(team.abbr)?.teamNeeds ?? ['QB', 'OT', 'CB'],
+        allTeamNeeds:
+          generatedLeagueTeams.get(team.abbr)?.allTeamNeeds ??
+          generatedLeagueTeams.get(team.abbr)?.teamNeeds ??
+          ['QB', 'OT', 'CB'],
       },
     ]),
   );
@@ -115,7 +121,7 @@ export const buildTeamContexts = (state: SaveState): Map<string, TeamRuntimeCont
   generatedTeams.forEach((team, abbr) => {
     const roster = activePlayers(getOrBuildProjectedRosterForTeam(state, abbr));
     const capSpace = getProjectedCapSpaceForTeam(state, abbr);
-    const needs = computeTeamNeeds(roster, 5);
+    const needs = team.allTeamNeeds?.length ? team.allTeamNeeds.slice(0, 5) : computeTeamNeeds(roster, 5);
     contexts.set(abbr, {
       team,
       roster,

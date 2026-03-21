@@ -340,13 +340,48 @@ function TradeBuilderContent() {
       }
 
       const data = (await response.json()) as TradeCreateResponse;
+      const selectedUserPlayer =
+        selectedPlayerId && data.userRoster.some((player) => player.id === selectedPlayerId)
+          ? data.userRoster.find((player) => player.id === selectedPlayerId) ?? null
+          : null;
       const selectedPartnerPlayer =
         selectedPlayerId && data.partnerRoster.some((player) => player.id === selectedPlayerId)
           ? data.partnerRoster.find((player) => player.id === selectedPlayerId) ?? null
           : null;
+      const selectedUserPlayerSeeded = selectedPlayerId
+        ? data.trade.sendAssets.some((asset) => asset.playerId === selectedPlayerId)
+        : true;
       const selectedPlayerSeeded = selectedPlayerId
         ? data.trade.receiveAssets.some((asset) => asset.playerId === selectedPlayerId)
         : true;
+
+      if (selectedUserPlayer && !selectedUserPlayerSeeded) {
+        const addAssetResponse = await apiFetch(
+          `/api/trades/${data.trade.id}/add-asset`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              saveId: activeSaveId,
+              side: 'send',
+              type: 'player',
+              playerId: selectedPlayerId,
+            }),
+          },
+          { skipSaveGuard: true },
+        );
+
+        if (addAssetResponse.ok) {
+          const updatedData = (await addAssetResponse.json()) as TradeCreateResponse;
+          lastTradeKeyRef.current = tradeKey;
+          setTrade(updatedData.trade);
+          setUserRoster(updatedData.userRoster);
+          setPartnerRoster(updatedData.partnerRoster);
+          setProposalStatus('');
+          setTradeInsights(null);
+          return;
+        }
+      }
 
       if (selectedPartnerPlayer && !selectedPlayerSeeded) {
         const addAssetResponse = await apiFetch(
@@ -586,11 +621,25 @@ function TradeBuilderContent() {
       return;
     }
 
-    const response = await apiFetch(`/api/trades/${trade.id}/propose`, {
+    let activeTradeId = trade.id;
+    let response = await apiFetch(`/api/trades/${activeTradeId}/propose`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ saveId: actionableSaveId }),
     });
+
+    if (!response.ok) {
+      const reboundTrade = await recreateTradeForCurrentContext(actionableSaveId);
+      if (!reboundTrade) {
+        return;
+      }
+      activeTradeId = reboundTrade.tradeId;
+      response = await apiFetch(`/api/trades/${activeTradeId}/propose`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ saveId: reboundTrade.saveId }),
+      });
+    }
 
     if (!response.ok) {
       return;

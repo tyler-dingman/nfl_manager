@@ -170,7 +170,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
     return {
       overall,
-      needs: computeTeamNeeds(liveRosterPlayers),
+      needs: selectedTeam?.teamNeeds ?? computeTeamNeeds(liveRosterPlayers),
     };
   }, [liveRosterPlayers, selectedTeam?.teamNeeds, selectedTeam?.teamOverview, teams]);
   const liveOverallDelta = useMemo(() => {

@@ -450,9 +450,17 @@ export const createTrade = (
   };
 
   if (playerId) {
-    const player = findPlayer(getPartnerRoster(stateResult.data, partnerTeamAbbr), playerId);
-    if (player) {
-      trade.receiveAssets.push(buildPlayerAsset(player, 'receive'));
+    const userPlayer = findPlayer(
+      getProjectedRosterForTeam(stateResult.data, stateResult.data.header.teamAbbr),
+      playerId,
+    );
+    if (userPlayer) {
+      trade.sendAssets.push(buildPlayerAsset(userPlayer, 'send'));
+    } else {
+      const partnerPlayer = findPlayer(getPartnerRoster(stateResult.data, partnerTeamAbbr), playerId);
+      if (partnerPlayer) {
+        trade.receiveAssets.push(buildPlayerAsset(partnerPlayer, 'receive'));
+      }
     }
   }
 

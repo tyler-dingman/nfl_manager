@@ -20,8 +20,6 @@ type LiveDraftBoardProps = {
   canDraft: boolean;
 };
 
-type SortKey = 'board' | 'rank' | 'rating' | 'fit';
-
 const normalizePosition = (position: string) => {
   const normalized = position.toUpperCase();
   if (['LT', 'RT', 'OT'].includes(normalized)) return 'OT';
@@ -90,7 +88,6 @@ export function LiveDraftBoard({
 }: LiveDraftBoardProps) {
   const [query, setQuery] = React.useState('');
   const [positionFilter, setPositionFilter] = React.useState<(typeof positionOptions)[number]>('All');
-  const [sortKey, setSortKey] = React.useState<SortKey>('board');
 
   const filteredEntries = React.useMemo(() => {
     const lowerQuery = query.trim().toLowerCase();
@@ -107,14 +104,17 @@ export function LiveDraftBoard({
     });
 
     return next.slice().sort((left, right) => {
-      if (sortKey === 'rank') return (left.player.rank ?? 999) - (right.player.rank ?? 999);
-      if (sortKey === 'rating') {
-        return (right.player.rating ?? right.player.maddenRating ?? 0) - (left.player.rating ?? left.player.maddenRating ?? 0);
+      const leftRank = left.player.rank ?? Number.MAX_SAFE_INTEGER;
+      const rightRank = right.player.rank ?? Number.MAX_SAFE_INTEGER;
+      if (leftRank !== rightRank) {
+        return leftRank - rightRank;
       }
-      if (sortKey === 'fit') return right.fitScore - left.fitScore;
-      return right.boardScore - left.boardScore;
+      return (
+        (right.player.rating ?? right.player.maddenRating ?? 0) -
+        (left.player.rating ?? left.player.maddenRating ?? 0)
+      );
     });
-  }, [entries, positionFilter, query, sortKey]);
+  }, [entries, positionFilter, query]);
 
   return (
     <section className="rounded-2xl border border-border bg-white shadow-sm">
@@ -137,17 +137,6 @@ export function LiveDraftBoard({
                 className="h-10 rounded-full border border-border bg-white pl-9 pr-3 text-sm outline-none transition focus:border-slate-400"
               />
             </label>
-
-            <select
-              value={sortKey}
-              onChange={(event) => setSortKey(event.target.value as SortKey)}
-              className="h-10 rounded-full border border-border bg-white px-3 text-sm outline-none transition focus:border-slate-400"
-            >
-              <option value="board">Sort: Board</option>
-              <option value="rank">Sort: Rank</option>
-              <option value="rating">Sort: Grade</option>
-              <option value="fit">Sort: Fit</option>
-            </select>
           </div>
         </div>
 
@@ -207,7 +196,7 @@ export function LiveDraftBoard({
             >
               <div className="flex items-start gap-3">
                 <div className="flex min-w-[32px] shrink-0 items-center justify-center text-lg font-bold text-slate-300">
-                  {index + 1}
+                  {entry.player.rank ?? index + 1}
                 </div>
                 <div className="shrink-0">
                   <ProspectAvatar
@@ -225,8 +214,7 @@ export function LiveDraftBoard({
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
-                    {entry.player.college ?? 'School TBD'} · Rank {entry.player.rank ?? '--'} · OVR{' '}
-                    {entry.player.rating ?? entry.player.maddenRating ?? '--'}
+                    {entry.player.college ?? 'School TBD'} · Rank {entry.player.rank ?? '--'}
                   </p>
                   <ProspectIndicators indicators={indicators} compact className="mt-3" />
                 </div>

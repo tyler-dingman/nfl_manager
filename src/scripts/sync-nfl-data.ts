@@ -44,6 +44,10 @@ import {
   computeTeamOverviewRaw,
   scaleOverviewScore,
 } from '@/server/logic/team-overview';
+import {
+  fetchTeamNeedsFromNflMockDraftDatabase,
+  type TeamNeedsRecord,
+} from '@/server/data-sources/team-needs';
 
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 const DRAFT_PROSPECTS_FILE = path.join(process.cwd(), 'src/server/data/draft-prospects.json');
@@ -53,6 +57,7 @@ const PFF_DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'pff-draft-board.j
 const CONSENSUS_DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'consensus-draft-board.json');
 const MERGED_DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'merged-draft-board.json');
 const DRAFT_PROFILE_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'espn-draft-profiles.json');
+const TEAM_NEEDS_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'team-needs.json');
 const TARGET_BIG_BOARD_SIZE = 320;
 const MINIMUM_DRAFT_BOARD_SIZE = 280;
 const MAX_ESPn_PROFILE_ENRICHMENT = 140;
@@ -118,6 +123,48 @@ const readJsonIfPresent = async <T>(filePath: string): Promise<T | null> => {
   }
 };
 
+const buildTeamNeedsLookup = (records: TeamNeedsRecord[]) =>
+  new Map(records.map((record) => [record.teamAbbr, record] as const));
+
+const inferFallbackTeamNeeds = (rosteredPlayers: UnifiedPlayer[], teamAbbr: string, teamName: string) => {
+  const allNeeds = computeTeamNeeds(rosteredPlayers, 5);
+
+  return {
+    teamAbbr,
+    teamName,
+    topNeeds: allNeeds.slice(0, 3),
+    allNeeds,
+  } satisfies TeamNeedsRecord;
+};
+
+const loadTeamNeedsRecords = async () => {
+  try {
+    const records = await fetchTeamNeedsFromNflMockDraftDatabase();
+    return {
+      records,
+      source: 'nfl-mock-draft-database' as const,
+    };
+  } catch (error) {
+    const cached = await readJsonIfPresent<TeamNeedsCachePayload>(TEAM_NEEDS_CACHE_FILE);
+    if (cached) {
+      return {
+        records: Object.values(cached),
+        source: 'cache' as const,
+      };
+    }
+
+    console.warn(
+      `[team-needs] falling back to roster inference because team-needs sync failed: ${
+        error instanceof Error ? error.message : 'unknown error'
+      }`,
+    );
+    return {
+      records: [] as TeamNeedsRecord[],
+      source: 'roster-inference' as const,
+    };
+  }
+};
+
 type DraftProfileCache = Record<string, DraftProspectRecord>;
 
 type ConsensusDraftProspectSeed = {
@@ -164,6 +211,16 @@ type FreeAgentLookupMatch = {
   player: UnifiedPlayer;
   strategy: 'id' | 'externalId' | 'normalizedName+position' | 'normalizedName';
 };
+
+type TeamNeedsCachePayload = Record<
+  string,
+  {
+    teamAbbr: string;
+    teamName: string;
+    topNeeds: string[];
+    allNeeds: string[];
+  }
+>;
 
 const normalizeSchoolName = (value: string | null | undefined) =>
   (value ?? '')
@@ -1091,15 +1148,19 @@ const run = async () => {
     enrichedPlayers,
     playerSync.maddenRows,
   );
+  const teamNeedsSync = await loadTeamNeedsRecords();
+  const scrapedTeamNeeds = buildTeamNeedsLookup(teamNeedsSync.records);
   const teamOverviewProfiles = playerSync.teams.map((team) => {
     const rosteredPlayers = enrichedPlayers.filter((player) => player.teamAbbr === team.abbr);
     const overview = computeTeamOverviewRaw(rosteredPlayers);
-    const teamNeeds = computeTeamNeeds(rosteredPlayers);
+    const fallbackNeeds = inferFallbackTeamNeeds(rosteredPlayers, team.abbr, team.name);
+    const normalizedNeeds = scrapedTeamNeeds.get(team.abbr) ?? fallbackNeeds;
 
     return {
       team,
       overview,
-      teamNeeds,
+      topNeeds: normalizedNeeds.topNeeds,
+      allNeeds: normalizedNeeds.allNeeds,
     };
   });
   const overallRawValues = teamOverviewProfiles.map((entry) => entry.overview.overall);
@@ -1114,7 +1175,7 @@ const run = async () => {
   const maxDefenseRaw = Math.max(...defenseRawValues);
   const minSpecialTeamsRaw = Math.min(...specialTeamsRawValues);
   const maxSpecialTeamsRaw = Math.max(...specialTeamsRawValues);
-  const enrichedTeams = teamOverviewProfiles.map(({ team, overview, teamNeeds }) => {
+  const enrichedTeams = teamOverviewProfiles.map(({ team, overview, topNeeds, allNeeds }) => {
     const teamOverview = scaleOverviewScore(overview.overall, minOverallRaw, maxOverallRaw, 69, 91);
     const offenseOverview = scaleOverviewScore(
       overview.offense,
@@ -1149,7 +1210,8 @@ const run = async () => {
       defenseOverview,
       specialTeamsOverview,
       teamOverviewGrade: computeOverviewGrade(teamOverview),
-      teamNeeds,
+      teamNeeds: topNeeds,
+      allTeamNeeds: allNeeds,
     };
   });
 
@@ -1281,12 +1343,39 @@ const run = async () => {
     `${JSON.stringify(buildDraftProfileCacheFromProspects(draftProspectSync.prospects), null, 2)}\n`,
     'utf8',
   );
+  await writeFile(
+    TEAM_NEEDS_CACHE_FILE,
+    `${JSON.stringify(
+      Object.fromEntries(
+        enrichedTeams.map((team) => [
+          team.abbr,
+          {
+            teamAbbr: team.abbr,
+            teamName: team.name,
+            topNeeds: team.teamNeeds ?? [],
+            allNeeds: team.allTeamNeeds ?? team.teamNeeds ?? [],
+          },
+        ]),
+      ),
+      null,
+      2,
+    )}\n`,
+    'utf8',
+  );
 
   console.log('sync summary');
   console.log(`teams count: ${payload.teams.length}`);
   console.log(`players count: ${payload.players.length}`);
   console.log(`contracts count: ${payload.contracts.length}`);
   console.log(`cap entries count: ${payload.cap.length}`);
+  console.log(
+    `[team-needs] source=${teamNeedsSync.source} teams=${enrichedTeams.length} sample=${JSON.stringify(
+      enrichedTeams.slice(0, 5).map((team) => ({
+        abbr: team.abbr,
+        topNeeds: team.teamNeeds ?? [],
+      })),
+    )}`,
+  );
   console.log('[team-overview] summary');
   sortedTeamOverviews.forEach((team) => {
     console.log(

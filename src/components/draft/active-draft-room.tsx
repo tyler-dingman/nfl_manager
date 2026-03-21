@@ -291,6 +291,21 @@ export function ActiveDraftRoom({
       }),
     [currentPick?.overall, session.currentPickIndex, session.prospects, teamNeeds],
   );
+  const topRankedEntries = React.useMemo(
+    () =>
+      boardEntries
+        .slice()
+        .sort((left, right) => {
+          const leftRank = left.player.rank ?? Number.MAX_SAFE_INTEGER;
+          const rightRank = right.player.rank ?? Number.MAX_SAFE_INTEGER;
+          if (leftRank !== rightRank) return leftRank - rightRank;
+          return (
+            (right.player.rating ?? right.player.maddenRating ?? 0) -
+            (left.player.rating ?? left.player.maddenRating ?? 0)
+          );
+        }),
+    [boardEntries],
+  );
 
   const userDraftSummary = React.useMemo(() => {
     const userPicks = session.picks
@@ -639,7 +654,16 @@ export function ActiveDraftRoom({
       message,
       createdAt: new Date().toISOString(),
     });
-  }, [activeRuns, buildAlertMessage, pushAlert, session.currentPickIndex]);
+    if (typeof window !== 'undefined' && window.matchMedia('(min-width: 1280px)').matches) {
+      pushToast({
+        id: `decision-note:${session.id}:${currentRun.position}:${session.currentPickIndex}`,
+        variant: 'info',
+        title: 'Decision Note',
+        description: `${currentRun.headline} ${currentRun.count} ${currentRun.position} prospects have gone in the last ${currentRun.window} picks.`,
+        durationMs: 4200,
+      });
+    }
+  }, [activeRuns, buildAlertMessage, pushAlert, pushToast, session.currentPickIndex, session.id]);
 
   React.useEffect(() => {
     if (!saveId || !onClock || !currentPick || isUserDraftModalOpen) {
@@ -708,8 +732,6 @@ export function ActiveDraftRoom({
   }, [now]);
 
   const selectedTeam = currentPick ? teamLookup.get(currentPick.ownerTeamAbbr) : null;
-  const bestFitEntry = boardEntries.find((entry) => entry.tags.includes('Team Need')) ?? boardEntries[0] ?? null;
-  const bestAvailableEntry = boardEntries[0] ?? null;
   const inspectedPlayer =
     (selectedBoardPlayerId
       ? bestAvailable.find((player) => player.id === selectedBoardPlayerId)
@@ -792,8 +814,7 @@ export function ActiveDraftRoom({
             session={session}
             userTeamName={teamLookup.get(session.userTeamAbbr)?.name ?? session.userTeamAbbr}
             teamNeeds={teamNeeds}
-            bestFit={bestFitEntry}
-            bestAvailable={bestAvailableEntry}
+            bestAvailableEntries={topRankedEntries.slice(0, 4)}
             activeRuns={activeRuns}
             summary={userDraftSummary}
             offers={draftOffers}

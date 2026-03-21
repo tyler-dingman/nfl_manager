@@ -13,6 +13,7 @@ const FALLBACK_TEAM_OVERVIEW = {
   specialTeamsOverview: 75,
   teamOverviewGrade: 'B-',
   teamNeeds: ['QB', 'OT', 'CB'],
+  allTeamNeeds: ['QB', 'OT', 'CB'],
 };
 
 export const listTeams = (): TeamDTO[] =>
@@ -37,5 +38,6 @@ export const listTeams = (): TeamDTO[] =>
       teamOverviewGrade:
         generatedTeam?.teamOverviewGrade ?? FALLBACK_TEAM_OVERVIEW.teamOverviewGrade,
       teamNeeds: generatedTeam?.teamNeeds ?? FALLBACK_TEAM_OVERVIEW.teamNeeds,
+      allTeamNeeds: generatedTeam?.allTeamNeeds ?? generatedTeam?.teamNeeds ?? FALLBACK_TEAM_OVERVIEW.allTeamNeeds,
     };
   });

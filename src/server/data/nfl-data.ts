@@ -45,6 +45,7 @@ export type UnifiedTeam = {
   specialTeamsOverview?: number;
   teamOverviewGrade?: string;
   teamNeeds?: string[];
+  allTeamNeeds?: string[];
 };
 
 export type UnifiedPlayer = {

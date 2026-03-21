@@ -45,6 +45,33 @@ const computeResultingCapSpace = (
   return Number((baseCapSpace + outgoingCap - incomingCap).toFixed(1));
 };
 
+const buildCapFailureMessage = ({
+  userTeamName,
+  partnerTeamName,
+  nextUserCapSpace,
+  nextPartnerCapSpace,
+}: {
+  userTeamName: string;
+  partnerTeamName: string;
+  nextUserCapSpace: number;
+  nextPartnerCapSpace: number;
+}) => {
+  const overCapTeams = [
+    nextUserCapSpace < 0 ? userTeamName : null,
+    nextPartnerCapSpace < 0 ? partnerTeamName : null,
+  ].filter((team): team is string => Boolean(team));
+
+  if (overCapTeams.length === 1) {
+    return `${overCapTeams[0]} would exceed the cap after this trade.`;
+  }
+
+  if (overCapTeams.length === 2) {
+    return `${overCapTeams[0]} and ${overCapTeams[1]} would exceed the cap after this trade.`;
+  }
+
+  return 'One team would exceed the cap after this trade.';
+};
+
 export const POST = async (request: Request) => {
   const body = (await request.json()) as AcceptTradeOfferBody;
   if (!body.saveId || !body.offer) {
@@ -193,7 +220,12 @@ export const POST = async (request: Request) => {
       },
       error:
         nextUserCapSpace < 0 || nextPartnerCapSpace < 0
-          ? 'One team would exceed the cap after this trade.'
+          ? buildCapFailureMessage({
+              userTeamName: userTeam.team.name,
+              partnerTeamName: aiTeam.team.name,
+              nextUserCapSpace,
+              nextPartnerCapSpace,
+            })
           : 'The other team still is not interested in this package.',
     });
   }

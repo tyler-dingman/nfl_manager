@@ -72,6 +72,9 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
 
   const push = React.useCallback(
     (toast: ToastPayload) => {
+      if (toast.kind === 'progress') {
+        return;
+      }
       const id = toast.id ?? `toast_${Date.now()}_${Math.random().toString(16).slice(2)}`;
       setToasts((current) => {
         const nextToast = { ...toast, id };
@@ -150,7 +153,7 @@ const StarReactionToastCard = ({
             <X className="h-4 w-4" />
           </button>
         </div>
-        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-100">
+        <p className="mt-3 whitespace-pre-wrap text-sm leading-5 text-slate-100">
           {toast.starReaction.message}
         </p>
         <div className="mt-3 flex items-center gap-4 text-xs text-slate-400">
@@ -216,7 +219,7 @@ const LeagueBuzzToastCard = ({
             <X className="h-4 w-4" />
           </button>
         </div>
-        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-100">
+        <p className="mt-3 whitespace-pre-wrap text-sm leading-5 text-slate-100">
           {toast.leagueBuzz.message}
         </p>
         <div className="mt-3 flex items-center gap-4 text-xs text-slate-400">
