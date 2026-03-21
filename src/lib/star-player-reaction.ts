@@ -2,7 +2,7 @@ import { resolvePlayerRating } from '@/lib/team-overview';
 import { getTeamFlavorHandle } from '@/lib/team-flavor';
 import type { PlayerRowDTO } from '@/types/player';
 
-export type StarReactionActionType = 'freeAgency' | 'trade';
+export type StarReactionActionType = 'freeAgency' | 'trade' | 'resign';
 export type PlayerSide = 'offense' | 'defense';
 
 export type StarReactionToastPayload = {
@@ -165,7 +165,9 @@ export const buildStarReactionToastPayload = ({
   const side = getPlayerSide(incomingPlayer.position);
   if (!side || roster.length === 0) return null;
 
-  const reactingPlayer = getTopRatedRosterPlayerBySide(roster, side, incomingPlayer.id);
+  const reactingPlayer =
+    getTopRatedRosterPlayerBySide(roster, side, incomingPlayer.id) ??
+    getTopRatedRosterPlayerBySide(roster, side);
   if (!reactingPlayer) return null;
 
   const displayName = getDisplayName(reactingPlayer);

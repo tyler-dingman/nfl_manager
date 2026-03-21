@@ -343,7 +343,19 @@ export const buildTop32Prospects = (): PlayerRowDTO[] =>
         ? prospect.projectedRange
         : prospect.rank <= 32
           ? 'Round 1'
-          : 'Round 2';
+          : prospect.rank <= 64
+            ? 'Round 2'
+            : prospect.rank <= 96
+              ? 'Round 3'
+              : prospect.rank <= 128
+                ? 'Round 4'
+                : prospect.rank <= 160
+                  ? 'Round 5'
+                  : prospect.rank <= 192
+                    ? 'Round 6'
+                    : prospect.rank <= 224
+                      ? 'Round 7'
+                      : 'Priority UDFA';
     const gradeValue =
       'grade' in prospect && prospect.grade ? Number.parseFloat(prospect.grade) : 95 - (prospect.rank - 1) * 0.3;
     return {

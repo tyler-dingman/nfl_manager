@@ -76,7 +76,11 @@ export function AdSlot({ placement, responsive, onClose, sticky = true }: AdSlot
           'fixed bottom-0 left-0 right-0 z-50 mx-auto w-full max-w-full px-3 pb-[env(safe-area-inset-bottom)]',
           responsiveClasses,
         )
-      : cn('w-full max-w-full', placement === 'HEADER' ? 'max-w-[240px]' : null, responsiveClasses);
+      : cn(
+          'w-full max-w-full',
+          placement === 'HEADER' ? 'mx-auto max-w-[728px]' : null,
+          responsiveClasses,
+        );
 
   const shouldStick = placement === 'RIGHT_RAIL' && sticky;
 

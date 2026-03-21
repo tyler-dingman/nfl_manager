@@ -17,10 +17,12 @@ type DraftTrackerControls = {
   hasStarted: boolean;
   isBusy?: boolean;
   canOfferTrade?: boolean;
+  canSkipToUserPick?: boolean;
   onSpeedChange: (value: 0 | 1 | 2) => void;
   onTogglePause: () => void;
   onStartDraft: () => void;
   onOfferTrade?: () => void;
+  onSkipToUserPick?: () => void;
   onToggleSettings: () => void;
   isPaused?: boolean;
 };
@@ -71,14 +73,21 @@ export function DraftTrackerRibbon({
             Draft Tracker
           </p>
           <h2 className="mt-1 text-lg font-semibold text-foreground">2026 NFL Draft</h2>
-          {picks[currentPickIndex] ? (
-            <p className="mt-1 text-sm text-muted-foreground">
-              Round {picks[currentPickIndex].round} • Pick {picks[currentPickIndex].overall}
-            </p>
-          ) : null}
         </div>
         {controls ? (
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+            {controls.canSkipToUserPick ? (
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={controls.onSkipToUserPick}
+                disabled={controls.isBusy}
+              >
+                Skip To My Pick
+              </Button>
+            ) : null}
+
             <div className="flex items-center gap-2 rounded-full border border-border bg-slate-50 px-3 py-2">
               <span className="text-xs font-semibold text-muted-foreground">Speed</span>
               <input

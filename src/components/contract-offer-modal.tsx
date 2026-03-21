@@ -196,8 +196,8 @@ export default function ContractOfferModal({
                 {' · '}Age {age}
               </p>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                Preferred years {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]} ·
-                Expected APY ${estimate.expectedApy.toFixed(1)}M
+                Preferred Years: {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]}
+                {' · '}Expected APY: ${estimate.expectedApy.toFixed(1)}M
               </p>
             </div>
           </div>

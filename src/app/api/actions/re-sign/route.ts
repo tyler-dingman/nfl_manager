@@ -6,6 +6,7 @@ import { scoreResignOffer, decideResignAcceptance } from '@/server/logic/re-sign
 import {
   addWalkawayToFreeAgencyInState,
   getSaveStateResult,
+  hydrateOffseasonFreeAgencyState,
   pushNewsItem,
   resignExpiringContractInState,
   resignPlayerInState,
@@ -60,6 +61,7 @@ export const POST = async (request: Request) => {
   }
 
   const state = stateResult.data;
+  await hydrateOffseasonFreeAgencyState(state);
   const player = state.roster.find((item) => item.id === body.playerId) ?? null;
   const expiringContract = state.expiringContracts.find((entry) => entry.id === body.playerId);
 

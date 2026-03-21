@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { CheckCircle2, Circle, Lock } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS, type OffseasonStepId } from '@/features/experience/offseason-steps';
-import { getRouteForStep } from '@/features/experience/experience-utils';
+import { getRouteForStep, getStepForPath } from '@/features/experience/experience-utils';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { cn } from '@/lib/utils';
@@ -20,12 +20,19 @@ type Props = {
 };
 
 export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, completedSteps }: Props) {
+  const pathname = usePathname();
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
   const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const currentIndex = OFFSEASON_STEPS.findIndex((step) => step.id === currentStep);
-  const isFinalStep = currentIndex === OFFSEASON_STEPS.length - 1;
+  const routeStep = pathname ? getStepForPath(pathname) : null;
+  const routeStepIndex = routeStep ? OFFSEASON_STEPS.findIndex((step) => step.id === routeStep) : -1;
+  const displayStep =
+    routeStep && routeStepIndex !== -1 && routeStepIndex <= currentIndex ? routeStep : currentStep;
+  const displayIndex = OFFSEASON_STEPS.findIndex((step) => step.id === displayStep);
+  const isViewingEarlierUnlockedStep = displayStep !== currentStep;
+  const isFinalStep = displayIndex === OFFSEASON_STEPS.length - 1;
 
   const handleContinue = () => {
     if (isFinalStep) return;
@@ -33,10 +40,18 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
     if (saveId) {
       recordProgressEvent({
         saveId,
-        step: currentStep,
-        eventKey: `continue:${currentStep}:stepper`,
+        step: displayStep,
+        eventKey: `continue:${displayStep}:stepper`,
         complete: true,
       });
+    }
+
+    if (isViewingEarlierUnlockedStep) {
+      const nextVisibleStep = OFFSEASON_STEPS[displayIndex + 1];
+      if (nextVisibleStep) {
+        router.push(getRouteForStep(nextVisibleStep.id));
+      }
+      return;
     }
 
     const nextStep = completeCurrentStep();
@@ -51,14 +66,15 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{seasonLabel}</p>
         <p className="mt-1 text-sm font-semibold text-foreground">{teamName}</p>
         <p className="mt-2 text-xs text-muted-foreground">
-          Step {currentIndex + 1} of {OFFSEASON_STEPS.length}
+          Step {displayIndex + 1} of {OFFSEASON_STEPS.length}
         </p>
       </div>
 
-      <div className="space-y-0.5">
+      <div className="relative space-y-0.5">
+        <div className="absolute bottom-6 left-[20px] top-6 w-px bg-slate-300" />
         {OFFSEASON_STEPS.map((step, index) => {
           const isCompleted = completedSteps.includes(step.id);
-          const isCurrent = step.id === currentStep;
+          const isCurrent = step.id === displayStep;
           const isLocked = index > currentIndex;
 
           return (
@@ -69,7 +85,9 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
                     {isCompleted ? (
                       <CheckCircle2 className="h-5 w-5 fill-emerald-600 text-white" />
                     ) : isLocked ? (
-                      <Lock className="h-4 w-4 text-muted-foreground" />
+                      <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white">
+                        <Lock className="h-4 w-4 text-muted-foreground" />
+                      </span>
                     ) : (
                       <Circle
                         className={cn(
@@ -114,9 +132,6 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
                   </div>
                 </div>
               </div>
-              {index < OFFSEASON_STEPS.length - 1 ? (
-                <div className="ml-[18px] h-5 w-px border-l border-dashed border-slate-300" />
-              ) : null}
             </div>
           );
         })}

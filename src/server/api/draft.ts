@@ -92,7 +92,7 @@ export const restoreDraftSession = (
   return state.draftSessions[session.id];
 };
 
-const DRAFT_ORDER = [
+const ROUND_ONE_DRAFT_ORDER = [
   'LV',
   'NYJ',
   'ARI',
@@ -126,6 +126,8 @@ const DRAFT_ORDER = [
   'NE',
   'SEA',
 ];
+
+const TOTAL_DRAFT_ROUNDS = 7;
 
 const cloneProspects = (): PlayerRowDTO[] =>
   BASE_PROSPECTS.map((player, index) => ({
@@ -171,17 +173,22 @@ const selectFallingProspect = (
 };
 
 const buildDraftPicks = (): DraftPickDTO[] =>
-  DRAFT_ORDER.map((teamAbbr, index) => ({
-    id: `pick-${index + 1}`,
-    overall: index + 1,
-    round: 1,
-    ownerTeamAbbr: teamAbbr,
-    originalTeamAbbr: teamAbbr,
-    selectedPlayerId: null,
-    selectedByTeamAbbr: null,
-    grade: null,
-    gradeReasons: null,
-  }));
+  Array.from({ length: TOTAL_DRAFT_ROUNDS }, (_, roundIndex) =>
+    ROUND_ONE_DRAFT_ORDER.map((teamAbbr, pickIndex) => {
+      const overall = roundIndex * ROUND_ONE_DRAFT_ORDER.length + pickIndex + 1;
+      return {
+        id: `pick-${overall}`,
+        overall,
+        round: roundIndex + 1,
+        ownerTeamAbbr: teamAbbr,
+        originalTeamAbbr: teamAbbr,
+        selectedPlayerId: null,
+        selectedByTeamAbbr: null,
+        grade: null,
+        gradeReasons: null,
+      };
+    }),
+  ).flat();
 
 const nextRandom = (session: DraftSessionState): number => {
   let seed = session.rngState | 0;

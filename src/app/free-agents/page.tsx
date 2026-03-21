@@ -238,28 +238,28 @@ export default function FreeAgentsPage() {
     if (data.accepted && data.player) {
       const previousRoster = roster;
       const updatedPlayer = data.player;
+      const exists = roster.some((item) => item.id === updatedPlayer.id);
+      const nextRoster = exists
+        ? roster.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
+        : [...roster, updatedPlayer];
       setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
-      if (roster.length > 0) {
-        const exists = roster.some((item) => item.id === updatedPlayer.id);
-        const nextRoster = exists
-          ? roster.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
-          : [...roster, updatedPlayer];
-        setRoster(nextRoster);
-        const reactionToast = buildStarReactionToastPayload({
-          incomingPlayer: updatedPlayer,
-          roster: nextRoster,
-          actionType: 'freeAgency',
-          teamAbbr,
-          teamName: selectedTeam?.name,
+      setRoster(nextRoster);
+      const reactionToast = buildStarReactionToastPayload({
+        incomingPlayer: updatedPlayer,
+        roster: nextRoster,
+        actionType: 'freeAgency',
+        teamAbbr,
+        teamName: selectedTeam?.name,
+      });
+      if (reactionToast) {
+        pushToast({
+          id: `star-reaction:freeAgency:${activeSaveId}:${updatedPlayer.id}`,
+          kind: 'starReaction',
+          durationMs: 5200,
+          starReaction: reactionToast,
         });
-        if (reactionToast) {
-          pushToast({
-            id: `star-reaction:freeAgency:${activeSaveId}:${updatedPlayer.id}`,
-            kind: 'starReaction',
-            durationMs: 5200,
-            starReaction: reactionToast,
-          });
-        }
+      }
+      if (previousRoster.length > 0) {
         const chainReaction = generateChainReactionEffects({
           beforeRoster: previousRoster,
           afterRoster: nextRoster,
@@ -303,7 +303,7 @@ export default function FreeAgentsPage() {
       if (mode === 'full') {
         setSignedCount((value) => value + 1);
       }
-      void requestTradeOffer({ trigger: 'after-free-agency-signing', force: true });
+      void requestTradeOffer({ trigger: 'after-free-agency-signing' });
       setTimeout(() => {
         setActiveOfferPlayer(null);
       }, 1400);

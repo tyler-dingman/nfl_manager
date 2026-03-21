@@ -9,6 +9,13 @@ export type DraftProspectRecord = {
   school: string | null;
   position: string | null;
   ranking: number | null;
+  sourceRanks: {
+    pff: number | null;
+    espn: number | null;
+    consensus: number | null;
+  };
+  averageRank: number | null;
+  confidence: 'high' | 'medium' | 'low';
   espnPlayerId: string | null;
   espnProfileUrl: string | null;
   headshotUrl: string | null;

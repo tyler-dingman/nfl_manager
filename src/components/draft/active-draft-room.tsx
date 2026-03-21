@@ -359,27 +359,6 @@ export function ActiveDraftRoom({
     return map;
   }, [falcoNotes]);
 
-  const falcoFavorites = React.useMemo(() => {
-    if (!onClock || !currentPick) {
-      return [];
-    }
-    return bestAvailable
-      .map((player) => {
-        const rank = player.rank ?? 999;
-        const tags = falcoTagsByPlayer.get(player.id) ?? [];
-        let score = 200 - rank;
-        score += Math.max(0, currentPick.overall - rank) * 2;
-        if (teamNeeds.includes(player.position)) score += 25;
-        if (tags.includes('Falco Favorite')) score += 20;
-        if (tags.includes('Falco Rising')) score += 10;
-        if (tags.includes('Falco Fading')) score -= 8;
-        return { player, score };
-      })
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 3)
-      .map((entry) => entry.player);
-  }, [bestAvailable, currentPick, falcoTagsByPlayer, onClock, teamNeeds]);
-
   const advanceCpuPick = React.useCallback(async () => {
     if (advanceInFlight.current || skipInFlight.current || !saveId) {
       return;
@@ -755,24 +734,6 @@ export function ActiveDraftRoom({
           />
         ) : null}
 
-        {onClock && falcoFavorites.length > 0 ? (
-          <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Falco Favorites
-            </p>
-            <div className="mt-3 grid gap-2 md:grid-cols-3">
-              {falcoFavorites.map((player) => (
-                <div key={player.id} className="rounded-xl border border-border bg-slate-50 px-3 py-3">
-                  <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {player.position} · Rank {player.rank ?? '--'}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-        ) : null}
-
         <DraftTrackerRibbon
           picks={session.picks}
           currentPickIndex={session.currentPickIndex}
@@ -786,34 +747,18 @@ export function ActiveDraftRoom({
             isPaused: session.isPaused,
             isBusy: isControlsBusy,
             canOfferTrade: onClock,
+            canSkipToUserPick: !onClock,
             onSpeedChange,
             onTogglePause,
             onStartDraft,
             onOfferTrade,
+            onSkipToUserPick: handleSkipToUserPick,
             onToggleSettings,
           }}
         />
 
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
           <section className="min-w-0 space-y-5">
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-white px-4 py-3 shadow-sm">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Prospect Board
-                </p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {onClock
-                    ? 'You are on the clock. Compare value, fit, and run pressure before making the call.'
-                    : 'The room is moving. Your board will keep updating as picks come off.'}
-                </p>
-              </div>
-              {!onClock ? (
-                <Button type="button" variant="secondary" size="sm" onClick={handleSkipToUserPick}>
-                  Skip To My Pick
-                </Button>
-              ) : null}
-            </div>
-
             <LiveDraftBoard
               entries={rankDraftBoard({
                 prospects: session.prospects,

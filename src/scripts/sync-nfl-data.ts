@@ -9,6 +9,12 @@ import type {
 } from '@/server/data/nfl-data';
 import type { DraftProspectRecord } from '@/server/data/draft-prospects';
 import {
+  fetchConsensusBigBoardRankings,
+  fetchPffBigBoardRankings,
+  type ExternalDraftRankingRecord,
+} from '@/server/data-sources/consensus-draft';
+import {
+  type DraftBoardRankingRecord,
   fetchEspnDraftBoardRankings,
   fetchEspnDraftProspectProfile,
   resolveEspnDraftProspectProfile,
@@ -42,8 +48,14 @@ import {
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 const DRAFT_PROSPECTS_FILE = path.join(process.cwd(), 'src/server/data/draft-prospects.json');
 const DRAFT_CACHE_DIR = path.join(process.cwd(), 'src/server/data-cache');
-const DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'espn-draft-board.json');
+const ESPN_DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'espn-draft-board.json');
+const PFF_DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'pff-draft-board.json');
+const CONSENSUS_DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'consensus-draft-board.json');
+const MERGED_DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'merged-draft-board.json');
 const DRAFT_PROFILE_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'espn-draft-profiles.json');
+const TARGET_BIG_BOARD_SIZE = 320;
+const MINIMUM_DRAFT_BOARD_SIZE = 280;
+const MAX_ESPn_PROFILE_ENRICHMENT = 140;
 const DEBUG_FREE_AGENT_NAMES = new Set([
   'Tyreek Hill',
   'Stefon Diggs',
@@ -108,9 +120,190 @@ const readJsonIfPresent = async <T>(filePath: string): Promise<T | null> => {
 
 type DraftProfileCache = Record<string, DraftProspectRecord>;
 
+type ConsensusDraftProspectSeed = {
+  name: string;
+  normalizedName: string;
+  school: string | null;
+  position: string | null;
+  sourceRanks: {
+    pff: number | null;
+    espn: number | null;
+    consensus: number | null;
+  };
+  averageRank: number | null;
+  confidence: 'high' | 'medium' | 'low';
+};
+
+type RankedConsensusDraftProspectSeed = ConsensusDraftProspectSeed & {
+  ranking: number;
+};
+
+type DraftBoardCachePayload = Array<{
+  ranking: number | null;
+  grade?: string | null;
+  name: string;
+  normalizedName: string;
+  school: string | null;
+  position: string | null;
+  headshotUrl?: string | null;
+  espnPlayerId?: string | null;
+  espnProfileUrl?: string | null;
+  height?: string | null;
+  weight?: number | null;
+  source?: string | null;
+  sourceRanks?: {
+    pff: number | null;
+    espn: number | null;
+    consensus: number | null;
+  };
+  averageRank?: number | null;
+  confidence?: 'high' | 'medium' | 'low';
+}>;
+
 type FreeAgentLookupMatch = {
   player: UnifiedPlayer;
   strategy: 'id' | 'externalId' | 'normalizedName+position' | 'normalizedName';
+};
+
+const normalizeSchoolName = (value: string | null | undefined) =>
+  (value ?? '')
+    .toLowerCase()
+    .replace(/[().']/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\bsaint\b/g, 'st')
+    .replace(/\bstate\b/g, 'st')
+    .trim();
+
+const weightedAverage = (entries: Array<{ rank: number | null; weight: number }>) => {
+  const usable = entries.filter(
+    (entry): entry is { rank: number; weight: number } =>
+      entry.rank !== null && Number.isFinite(entry.rank),
+  );
+  if (usable.length === 0) {
+    return null;
+  }
+
+  const totalWeight = usable.reduce((sum, entry) => sum + entry.weight, 0);
+  const total = usable.reduce((sum, entry) => sum + entry.rank * entry.weight, 0);
+  return Number((total / totalWeight).toFixed(2));
+};
+
+const inferDraftConfidence = (sourceRanks: ConsensusDraftProspectSeed['sourceRanks']) => {
+  const sourceCount = Object.values(sourceRanks).filter((value) => value !== null).length;
+  if (sourceCount >= 3) return 'high';
+  if (sourceCount === 2) return 'medium';
+  return 'low';
+};
+
+const getBestSourceRank = (sourceRanks: ConsensusDraftProspectSeed['sourceRanks']) =>
+  Math.min(
+    ...(Object.values(sourceRanks).filter((value): value is number => value !== null) || [999]),
+  );
+
+const resolveConsensusKey = (
+  entries: Map<string, ConsensusDraftProspectSeed>,
+  candidate: { normalizedName: string; school: string | null },
+) => {
+  const normalizedSchool = normalizeSchoolName(candidate.school);
+  const directKey = normalizedSchool
+    ? `${candidate.normalizedName}::${normalizedSchool}`
+    : candidate.normalizedName;
+  if (entries.has(directKey)) {
+    return directKey;
+  }
+
+  const byName = [...entries.entries()].filter(([, value]) => {
+    if (value.normalizedName !== candidate.normalizedName) {
+      return false;
+    }
+    if (!normalizedSchool) {
+      return true;
+    }
+    return normalizeSchoolName(value.school) === normalizedSchool;
+  });
+
+  if (byName.length === 1) {
+    return byName[0]?.[0] ?? directKey;
+  }
+
+  const sameNameOnly = [...entries.entries()].filter(
+    ([, value]) => value.normalizedName === candidate.normalizedName,
+  );
+  if (sameNameOnly.length === 1) {
+    return sameNameOnly[0]?.[0] ?? directKey;
+  }
+
+  return directKey;
+};
+
+const mergeConsensusBoard = ({
+  espnRankings,
+  pffRankings,
+  consensusRankings,
+}: {
+  espnRankings: DraftBoardRankingRecord[];
+  pffRankings: ExternalDraftRankingRecord[];
+  consensusRankings: ExternalDraftRankingRecord[];
+}): RankedConsensusDraftProspectSeed[] => {
+  const merged = new Map<string, ConsensusDraftProspectSeed>();
+  const ingest = (
+    entry: {
+      ranking: number | null;
+      name: string;
+      normalizedName: string;
+      school: string | null;
+      position: string | null;
+    },
+    source: keyof ConsensusDraftProspectSeed['sourceRanks'],
+  ) => {
+    if (!entry.name.trim()) {
+      return;
+    }
+
+    const key = resolveConsensusKey(merged, entry);
+    const existing = merged.get(key);
+    const nextSourceRanks = {
+      pff: existing?.sourceRanks.pff ?? null,
+      espn: existing?.sourceRanks.espn ?? null,
+      consensus: existing?.sourceRanks.consensus ?? null,
+      [source]: entry.ranking,
+    };
+    const seed: ConsensusDraftProspectSeed = {
+      name: existing?.name ?? entry.name,
+      normalizedName: entry.normalizedName,
+      school: existing?.school ?? entry.school,
+      position: existing?.position ?? entry.position,
+      sourceRanks: nextSourceRanks,
+      averageRank:
+        weightedAverage([
+          { rank: nextSourceRanks.pff, weight: 1.2 },
+          { rank: nextSourceRanks.espn, weight: 1.0 },
+          { rank: nextSourceRanks.consensus, weight: 1.0 },
+        ]) ?? 999,
+      confidence: inferDraftConfidence(nextSourceRanks),
+    };
+
+    merged.set(key, seed);
+  };
+
+  espnRankings.forEach((entry) => ingest(entry, 'espn'));
+  pffRankings.forEach((entry) => ingest(entry, 'pff'));
+  consensusRankings.forEach((entry) => ingest(entry, 'consensus'));
+
+  return [...merged.values()]
+    .sort((left, right) => {
+      const averageDelta =
+        (left.averageRank ?? Number.MAX_SAFE_INTEGER) - (right.averageRank ?? Number.MAX_SAFE_INTEGER);
+      if (averageDelta !== 0) return averageDelta;
+      const bestRankDelta = getBestSourceRank(left.sourceRanks) - getBestSourceRank(right.sourceRanks);
+      if (bestRankDelta !== 0) return bestRankDelta;
+      return left.name.localeCompare(right.name);
+    })
+    .map((entry, index) => ({
+      ...entry,
+      averageRank: entry.averageRank ?? 999,
+      ranking: index + 1,
+    }));
 };
 
 type FreeAgentMaddenMatch = {
@@ -477,6 +670,13 @@ const seedDraftProspectFallbacks = async (): Promise<DraftProspectRecord[]> => {
       school: prospect.college,
       position: prospect.position,
       ranking: prospect.rank,
+      sourceRanks: {
+        pff: null,
+        espn: prospect.rank,
+        consensus: null,
+      },
+      averageRank: prospect.rank,
+      confidence: 'low',
       espnPlayerId: null,
       espnProfileUrl: null,
       headshotUrl: null,
@@ -506,6 +706,78 @@ const seedDraftProspectFallbacks = async (): Promise<DraftProspectRecord[]> => {
   });
 };
 
+const generateFillerDraftProspects = (
+  startRank: number,
+  count: number,
+): DraftProspectRecord[] => {
+  const positions = ['QB', 'RB', 'WR', 'TE', 'OT', 'IOL', 'EDGE', 'DL', 'LB', 'CB', 'S'];
+  const schools = [
+    'Northern Iowa',
+    'Coastal Carolina',
+    'Liberty',
+    'App State',
+    'Fresno State',
+    'Tulane',
+    'Toledo',
+    'Boise State',
+    'Memphis',
+    'South Alabama',
+  ];
+
+  return Array.from({ length: count }, (_, index) => {
+    const ranking = startRank + index;
+    const position = positions[index % positions.length] ?? 'ATH';
+    const school = schools[index % schools.length] ?? 'Program TBD';
+    const name = `Falco Prospect ${ranking}`;
+    const archetype = inferDraftProspectArchetype({
+      position,
+      stats: {},
+      weight: null,
+    });
+
+    return {
+      id: `falco-prospect-${ranking}`,
+      name,
+      normalizedName: normalizePlayerName(name),
+      school,
+      position,
+      ranking,
+      sourceRanks: {
+        pff: null,
+        espn: null,
+        consensus: null,
+      },
+      averageRank: 999,
+      confidence: 'low',
+      espnPlayerId: null,
+      espnProfileUrl: null,
+      headshotUrl: null,
+      age: 22,
+      classYear: 'SR',
+      height: null,
+      weight: null,
+      hometown: null,
+      stats: {},
+      summary: generateDraftProspectSummary({
+        name,
+        ranking,
+        school,
+        position,
+        classYear: 'SR',
+        height: null,
+        weight: null,
+        stats: {},
+        archetype,
+      }),
+      archetype,
+      projectedRange: getProjectedRangeFromRanking(ranking),
+      source: 'generated-filler',
+      grade: (73 - Math.min(index, 20) * 0.2).toFixed(1),
+      projectedPick: ranking,
+    };
+  });
+};
+
 const buildDraftProfileCacheFromProspects = (prospects: DraftProspectRecord[]): DraftProfileCache =>
   Object.fromEntries(
     prospects
@@ -515,6 +787,11 @@ const buildDraftProfileCacheFromProspects = (prospects: DraftProspectRecord[]): 
 
 const enrichDraftProspects = async (): Promise<{
   prospects: DraftProspectRecord[];
+  sourceCounts: {
+    espn: number;
+    pff: number;
+    consensus: number;
+  };
   resolvedCount: number;
   unmatchedCount: number;
   headshotMissingCount: number;
@@ -529,22 +806,75 @@ const enrichDraftProspects = async (): Promise<{
     summary: string | null;
   }>;
 }> => {
-  const boardCache = await readJsonIfPresent<Awaited<ReturnType<typeof fetchEspnDraftBoardRankings>>>(
-    DRAFT_BOARD_CACHE_FILE,
-  );
+  const espnBoardCache =
+    (await readJsonIfPresent<Awaited<ReturnType<typeof fetchEspnDraftBoardRankings>>>(
+      ESPN_DRAFT_BOARD_CACHE_FILE,
+    )) ?? [];
+  const pffBoardCache =
+    (await readJsonIfPresent<Awaited<ReturnType<typeof fetchPffBigBoardRankings>>>(
+      PFF_DRAFT_BOARD_CACHE_FILE,
+    )) ?? [];
+  const consensusBoardCache =
+    (await readJsonIfPresent<Awaited<ReturnType<typeof fetchConsensusBigBoardRankings>>>(
+      CONSENSUS_DRAFT_BOARD_CACHE_FILE,
+    )) ?? [];
+  const mergedBoardCache = (await readJsonIfPresent<DraftBoardCachePayload>(
+    MERGED_DRAFT_BOARD_CACHE_FILE,
+  )) ?? [];
   const profileCache = (await readJsonIfPresent<DraftProfileCache>(DRAFT_PROFILE_CACHE_FILE)) ?? {};
 
-  let rankings: Awaited<ReturnType<typeof fetchEspnDraftBoardRankings>> | null = null;
+  let espnRankings: Awaited<ReturnType<typeof fetchEspnDraftBoardRankings>> = [];
   try {
-    rankings = await fetchEspnDraftBoardRankings();
+    espnRankings = await fetchEspnDraftBoardRankings();
   } catch {
-    rankings = boardCache;
+    espnRankings = espnBoardCache;
   }
 
-  if (!rankings?.length) {
+  let pffRankings: Awaited<ReturnType<typeof fetchPffBigBoardRankings>> = [];
+  try {
+    pffRankings = await fetchPffBigBoardRankings();
+  } catch {
+    pffRankings = pffBoardCache;
+  }
+
+  let consensusRankings: Awaited<ReturnType<typeof fetchConsensusBigBoardRankings>> = [];
+  try {
+    consensusRankings = await fetchConsensusBigBoardRankings();
+  } catch {
+    consensusRankings = consensusBoardCache;
+  }
+
+  const mergedBoard =
+    espnRankings.length || pffRankings.length || consensusRankings.length
+      ? mergeConsensusBoard({
+          espnRankings,
+          pffRankings,
+          consensusRankings,
+        })
+      : mergedBoardCache.map((entry, index) => ({
+          name: entry.name,
+          normalizedName: entry.normalizedName,
+          school: entry.school,
+          position: entry.position,
+          sourceRanks: entry.sourceRanks ?? {
+            pff: null,
+            espn: entry.ranking,
+            consensus: null,
+          },
+          averageRank: entry.averageRank ?? entry.ranking ?? index + 1,
+          confidence: entry.confidence ?? 'low',
+          ranking: entry.ranking ?? index + 1,
+        }));
+
+  if (!mergedBoard.length) {
     const fallback = await seedDraftProspectFallbacks();
     return {
       prospects: fallback,
+      sourceCounts: {
+        espn: 0,
+        pff: 0,
+        consensus: 0,
+      },
       resolvedCount: 0,
       unmatchedCount: fallback.length,
       headshotMissingCount: fallback.filter((prospect) => !prospect.headshotUrl).length,
@@ -561,22 +891,53 @@ const enrichDraftProspects = async (): Promise<{
     };
   }
 
+  const espnRankingsByName = new Map(espnRankings.map((entry) => [entry.normalizedName, entry]));
   const prospects: DraftProspectRecord[] = [];
   let resolvedCount = 0;
 
-  for (const rankingEntry of rankings) {
-    const resolver = await resolveEspnDraftProspectProfile({
-      name: rankingEntry.name,
-      school: rankingEntry.school,
-      position: rankingEntry.position,
-      boardEspnPlayerId: rankingEntry.espnPlayerId,
-      boardEspnProfileUrl: rankingEntry.espnProfileUrl,
-    }).catch(() => null);
+  for (const [index, rankingEntry] of mergedBoard.slice(0, TARGET_BIG_BOARD_SIZE).entries()) {
+    const espnBoardEntry =
+      espnRankingsByName.get(rankingEntry.normalizedName) ??
+      espnRankings.find((entry) => {
+        if (entry.normalizedName !== rankingEntry.normalizedName) {
+          return false;
+        }
+        if (!entry.school || !rankingEntry.school) {
+          return true;
+        }
+        return normalizeSchoolName(entry.school) === normalizeSchoolName(rankingEntry.school);
+      }) ??
+      null;
+
+    const shouldAttemptEspnEnrichment =
+      index < MAX_ESPn_PROFILE_ENRICHMENT || Boolean(espnBoardEntry?.espnPlayerId);
+    const resolver = shouldAttemptEspnEnrichment
+      ? await resolveEspnDraftProspectProfile({
+          name: rankingEntry.name,
+          school: rankingEntry.school,
+          position: rankingEntry.position,
+          boardEspnPlayerId: espnBoardEntry?.espnPlayerId,
+          boardEspnProfileUrl: espnBoardEntry?.espnProfileUrl,
+        }).catch(() => null)
+      : null;
 
     let prospect: DraftProspectRecord | null = null;
 
     if (resolver?.espnPlayerId && profileCache[resolver.espnPlayerId]) {
-      prospect = profileCache[resolver.espnPlayerId];
+      prospect = {
+        ...profileCache[resolver.espnPlayerId],
+        name: rankingEntry.name,
+        normalizedName: rankingEntry.normalizedName,
+        school: rankingEntry.school ?? profileCache[resolver.espnPlayerId]?.school ?? null,
+        position: rankingEntry.position ?? profileCache[resolver.espnPlayerId]?.position ?? null,
+        ranking: rankingEntry.ranking,
+        sourceRanks: rankingEntry.sourceRanks,
+        averageRank: rankingEntry.averageRank,
+        confidence: rankingEntry.confidence,
+        projectedRange: getProjectedRangeFromRanking(rankingEntry.ranking),
+        projectedPick: rankingEntry.ranking,
+        source: 'consensus-big-board+espn-profile-cache',
+      };
       resolvedCount += 1;
     } else if (resolver?.espnPlayerId) {
       const profile = await fetchEspnDraftProspectProfile(resolver.espnPlayerId).catch(() => null);
@@ -586,7 +947,7 @@ const enrichDraftProspects = async (): Promise<{
         const archetype = inferDraftProspectArchetype({
           position: rankingEntry.position ?? profile.position,
           stats: profile.stats,
-          weight: rankingEntry.weight ?? profile.weight,
+          weight: espnBoardEntry?.weight ?? profile.weight,
         });
 
         prospect = {
@@ -596,13 +957,16 @@ const enrichDraftProspects = async (): Promise<{
           school,
           position: rankingEntry.position ?? profile.position,
           ranking: rankingEntry.ranking,
+          sourceRanks: rankingEntry.sourceRanks,
+          averageRank: rankingEntry.averageRank,
+          confidence: rankingEntry.confidence,
           espnPlayerId: resolver.espnPlayerId,
           espnProfileUrl: resolver.espnProfileUrl ?? profile.espnProfileUrl,
-          headshotUrl: rankingEntry.headshotUrl ?? profile.headshotUrl,
+          headshotUrl: espnBoardEntry?.headshotUrl ?? profile.headshotUrl,
           age: profile.age,
           classYear: profile.classYear,
-          height: rankingEntry.height ?? profile.height,
-          weight: rankingEntry.weight ?? profile.weight,
+          height: espnBoardEntry?.height ?? profile.height,
+          weight: espnBoardEntry?.weight ?? profile.weight,
           hometown: profile.hometown,
           stats: profile.stats,
           summary: generateDraftProspectSummary({
@@ -611,18 +975,16 @@ const enrichDraftProspects = async (): Promise<{
             school,
             position: rankingEntry.position ?? profile.position,
             classYear: profile.classYear,
-            height: rankingEntry.height ?? profile.height,
-            weight: rankingEntry.weight ?? profile.weight,
+            height: espnBoardEntry?.height ?? profile.height,
+            weight: espnBoardEntry?.weight ?? profile.weight,
             stats: profile.stats,
             archetype,
           }),
           archetype,
           projectedRange: getProjectedRangeFromRanking(rankingEntry.ranking),
           source:
-            resolver.source === 'board'
-              ? 'espn-best-available+college-athlete'
-              : 'espn-best-available+search+college-athlete',
-          grade: rankingEntry.grade,
+            resolver.source === 'board' ? 'consensus-big-board+espn-athlete' : 'consensus-big-board+search+espn-athlete',
+          grade: espnBoardEntry?.grade ?? null,
           projectedPick: rankingEntry.ranking,
         };
         resolvedCount += 1;
@@ -635,7 +997,7 @@ const enrichDraftProspects = async (): Promise<{
       const archetype = inferDraftProspectArchetype({
         position: rankingEntry.position,
         stats: {},
-        weight: rankingEntry.weight,
+        weight: espnBoardEntry?.weight ?? null,
       });
 
       prospect = {
@@ -645,13 +1007,16 @@ const enrichDraftProspects = async (): Promise<{
         school,
         position: rankingEntry.position,
         ranking: rankingEntry.ranking,
-        espnPlayerId: resolver?.espnPlayerId ?? rankingEntry.espnPlayerId,
-        espnProfileUrl: resolver?.espnProfileUrl ?? rankingEntry.espnProfileUrl,
-        headshotUrl: rankingEntry.headshotUrl,
+        sourceRanks: rankingEntry.sourceRanks,
+        averageRank: rankingEntry.averageRank,
+        confidence: rankingEntry.confidence,
+        espnPlayerId: resolver?.espnPlayerId ?? espnBoardEntry?.espnPlayerId ?? null,
+        espnProfileUrl: resolver?.espnProfileUrl ?? espnBoardEntry?.espnProfileUrl ?? null,
+        headshotUrl: espnBoardEntry?.headshotUrl ?? null,
         age: null,
         classYear: null,
-        height: rankingEntry.height,
-        weight: rankingEntry.weight,
+        height: espnBoardEntry?.height ?? null,
+        weight: espnBoardEntry?.weight ?? null,
         hometown: null,
         stats: {},
         summary: generateDraftProspectSummary({
@@ -660,20 +1025,29 @@ const enrichDraftProspects = async (): Promise<{
           school,
           position: rankingEntry.position,
           classYear: null,
-          height: rankingEntry.height,
-          weight: rankingEntry.weight,
+          height: espnBoardEntry?.height ?? null,
+          weight: espnBoardEntry?.weight ?? null,
           stats: {},
           archetype,
         }),
         archetype,
         projectedRange: getProjectedRangeFromRanking(rankingEntry.ranking),
-        source: 'espn-best-available',
-        grade: rankingEntry.grade,
+        source: 'consensus-big-board',
+        grade: espnBoardEntry?.grade ?? null,
         projectedPick: rankingEntry.ranking,
       };
     }
 
     prospects.push(prospect);
+  }
+
+  if (prospects.length < MINIMUM_DRAFT_BOARD_SIZE) {
+    prospects.push(
+      ...generateFillerDraftProspects(
+        prospects.length + 1,
+        MINIMUM_DRAFT_BOARD_SIZE - prospects.length,
+      ),
+    );
   }
 
   prospects.sort(
@@ -684,6 +1058,11 @@ const enrichDraftProspects = async (): Promise<{
 
   return {
     prospects,
+    sourceCounts: {
+      espn: espnRankings.length,
+      pff: pffRankings.length,
+      consensus: consensusRankings.length,
+    },
     resolvedCount,
     unmatchedCount: prospects.length - resolvedCount,
     headshotMissingCount: prospects.filter((prospect) => !prospect.headshotUrl).length,
@@ -815,7 +1194,65 @@ const run = async () => {
     'utf8',
   );
   await writeFile(
-    DRAFT_BOARD_CACHE_FILE,
+    ESPN_DRAFT_BOARD_CACHE_FILE,
+    `${JSON.stringify(
+      draftProspectSync.prospects.map((prospect) => ({
+        ranking: prospect.sourceRanks.espn ?? prospect.ranking,
+        grade: prospect.grade,
+        name: prospect.name,
+        normalizedName: prospect.normalizedName,
+        school: prospect.school,
+        position: prospect.position,
+        headshotUrl: prospect.headshotUrl,
+        espnPlayerId: prospect.espnPlayerId,
+        espnProfileUrl: prospect.espnProfileUrl,
+        height: prospect.height,
+        weight: prospect.weight,
+        source: prospect.source,
+      })),
+      null,
+      2,
+    )}\n`,
+    'utf8',
+  );
+  await writeFile(
+    PFF_DRAFT_BOARD_CACHE_FILE,
+    `${JSON.stringify(
+      draftProspectSync.prospects
+        .filter((prospect) => prospect.sourceRanks.pff !== null)
+        .map((prospect) => ({
+          ranking: prospect.sourceRanks.pff,
+          name: prospect.name,
+          normalizedName: prospect.normalizedName,
+          school: prospect.school,
+          position: prospect.position,
+          source: 'pff',
+        })),
+      null,
+      2,
+    )}\n`,
+    'utf8',
+  );
+  await writeFile(
+    CONSENSUS_DRAFT_BOARD_CACHE_FILE,
+    `${JSON.stringify(
+      draftProspectSync.prospects
+        .filter((prospect) => prospect.sourceRanks.consensus !== null)
+        .map((prospect) => ({
+          ranking: prospect.sourceRanks.consensus,
+          name: prospect.name,
+          normalizedName: prospect.normalizedName,
+          school: prospect.school,
+          position: prospect.position,
+          source: 'consensus',
+        })),
+      null,
+      2,
+    )}\n`,
+    'utf8',
+  );
+  await writeFile(
+    MERGED_DRAFT_BOARD_CACHE_FILE,
     `${JSON.stringify(
       draftProspectSync.prospects.map((prospect) => ({
         ranking: prospect.ranking,
@@ -830,6 +1267,9 @@ const run = async () => {
         height: prospect.height,
         weight: prospect.weight,
         source: prospect.source,
+        sourceRanks: prospect.sourceRanks,
+        averageRank: prospect.averageRank,
+        confidence: prospect.confidence,
       })),
       null,
       2,
@@ -890,6 +1330,9 @@ const run = async () => {
   }
   console.log(`[cap] unmatched=${capSync.unmatched.length}`);
   console.log(`[draft-prospects] rankings ingested=${draftProspectSync.prospects.length}`);
+  console.log(
+    `[draft-prospects] board sources espn=${draftProspectSync.sourceCounts.espn} pff=${draftProspectSync.sourceCounts.pff} consensus=${draftProspectSync.sourceCounts.consensus}`,
+  );
   console.log(`[draft-prospects] resolved espn profiles=${draftProspectSync.resolvedCount}`);
   console.log(`[draft-prospects] unmatched prospects=${draftProspectSync.unmatchedCount}`);
   console.log(`[draft-prospects] missing headshots=${draftProspectSync.headshotMissingCount}`);

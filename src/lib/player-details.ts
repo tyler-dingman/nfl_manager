@@ -424,6 +424,36 @@ const buildTags = ({
   return [...new Set(tags)].slice(0, 4);
 };
 
+export const buildPlayerScoutingTags = ({
+  source,
+  roster,
+}: {
+  source: PlayerDetailsSource;
+  roster: PlayerRowDTO[];
+}) => {
+  const position = getSourcePosition(source);
+  const rating = getSourceRating(source);
+  const age = getSourceAge(source);
+  const roleRank = inferRoleRank(source, roster);
+  const contract = getContractSnapshot(source);
+  const contractValueTag = buildContractValueTag({
+    age,
+    rating,
+    apy: contract.apy,
+    yearsRemaining: contract.yearsRemaining,
+  });
+
+  return buildTags({
+    source,
+    rating,
+    age,
+    roleRank,
+    yearsRemaining: contract.yearsRemaining,
+    contractValueTag,
+    position,
+  });
+};
+
 const buildOutlook = ({
   age,
   rating,

@@ -131,7 +131,7 @@ export default function ExperiencePage() {
 
   return (
     <AppShell>
-      <div className="mx-auto grid w-full max-w-5xl gap-8 pb-40 md:pb-0 lg:grid-cols-[minmax(0,1fr)_280px]">
+      <div className="mx-auto w-full max-w-5xl pb-40 md:pb-0">
         <div className="flex w-full flex-col gap-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
@@ -184,12 +184,7 @@ export default function ExperiencePage() {
             </Button>
           </div>
         </div>
-
-        <div className="hidden w-full lg:block">
-          <AdSlot placement="RIGHT_RAIL" sticky={false} />
-        </div>
       </div>
-
       <AdSlot placement="ANCHOR" responsive={{ hideOnDesktop: true }} />
     </AppShell>
   );

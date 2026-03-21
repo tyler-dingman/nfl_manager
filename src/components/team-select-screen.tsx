@@ -3,7 +3,6 @@
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { ChevronRight } from 'lucide-react';
 
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
@@ -62,7 +61,6 @@ const TeamSelectCard = ({
         </span>
       </div>
     </div>
-    <ChevronRight className="h-4 w-4 text-muted-foreground transition group-hover:text-foreground" />
   </button>
 );
 

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import { ArrowUpRight, Search, Star } from 'lucide-react';
+import { ArrowUpRight, Search } from 'lucide-react';
 
 import { ProspectIndicators } from '@/components/draft/prospect-indicators';
 import { Button } from '@/components/ui/button';
@@ -229,15 +229,6 @@ export function LiveDraftBoard({
                     {entry.player.rating ?? entry.player.maddenRating ?? '--'}
                   </p>
                   <ProspectIndicators indicators={indicators} compact className="mt-3" />
-                  <div className="mt-3 grid gap-2 text-xs text-muted-foreground sm:grid-cols-3">
-                    <span>Board {entry.boardScore.toFixed(1)}</span>
-                    <span>Fit {entry.fitScore}</span>
-                    <span>
-                      {entry.valueDelta > 0
-                        ? `${entry.valueDelta} ${entry.valueDelta === 1 ? 'pick' : 'picks'} later than expected`
-                        : 'On value'}
-                    </span>
-                  </div>
                 </div>
 
                 <div className="hidden shrink-0 items-center gap-2 md:flex">
@@ -245,13 +236,11 @@ export function LiveDraftBoard({
                     <Button
                       type="button"
                       size="sm"
-                      className="gap-2"
                       onClick={(event) => {
                         event.stopPropagation();
                         onDraftPlayer?.(entry.player.id);
                       }}
                     >
-                      <Star className="h-4 w-4" />
                       Draft
                     </Button>
                   ) : (
@@ -268,13 +257,11 @@ export function LiveDraftBoard({
                   <Button
                     type="button"
                     size="sm"
-                    className="gap-2"
                     onClick={(event) => {
                       event.stopPropagation();
                       onDraftPlayer?.(entry.player.id);
                     }}
                   >
-                    <Star className="h-4 w-4" />
                     Draft
                   </Button>
                 ) : (

@@ -38,6 +38,7 @@ import { useTeamStore } from '@/features/team/team-store';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { generateLeagueBuzzToast } from '@/lib/league-buzz';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
+import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import { getTeamCatchphrase } from '@/lib/team-chants';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
@@ -56,7 +57,7 @@ const getInterestTier = (interest: number) => {
   return { label: 'Low', barClass: 'bg-rose-400' };
 };
 
-const VISIT_TRADE_OFFER_INTERACTION_THRESHOLD = 3;
+const VISIT_TRADE_OFFER_INTERACTION_THRESHOLD = 8;
 
 const getReadableTextColor = (backgroundColor?: string | null) => {
   if (!backgroundColor) return '#ffffff';
@@ -423,7 +424,7 @@ export default function RosterPage() {
       }
     }
     setActiveCutPlayer(null);
-    void requestTradeOffer({ trigger: 'after-cut', force: true });
+    void requestTradeOffer({ trigger: 'after-cut' });
     if (mode === 'full') {
       markManageSubstepComplete('Re-sign / Cut Players');
     }
@@ -623,6 +624,21 @@ export default function RosterPage() {
           : [updatedPlayer, ...players];
         setPlayers(nextPlayers);
         setRoster(nextPlayers);
+        const reactionToast = buildStarReactionToastPayload({
+          incomingPlayer: updatedPlayer,
+          roster: nextPlayers,
+          actionType: 'resign',
+          teamAbbr,
+          teamName: selectedTeam?.name,
+        });
+        if (reactionToast) {
+          pushToast({
+            id: `star-reaction:resign:${actionableSaveId}:${updatedPlayer.id}`,
+            kind: 'starReaction',
+            durationMs: 5200,
+            starReaction: reactionToast,
+          });
+        }
         if (wasExpiringResign) {
           const leagueBuzz = generateLeagueBuzzToast({
             eventType: 'resign',
@@ -769,7 +785,7 @@ export default function RosterPage() {
 
     setActiveRenegotiatePlayer(null);
     if (data.accepted) {
-      void requestTradeOffer({ trigger: 'after-renegotiate', force: true });
+      void requestTradeOffer({ trigger: 'after-renegotiate' });
     }
     if (mode === 'full') {
       markManageSubstepComplete('Re-sign / Cut Players');
@@ -995,7 +1011,6 @@ export default function RosterPage() {
                                   'w-40',
                                   'w-12',
                                   'w-10',
-                                  'hidden md:block w-10',
                                   'hidden md:block w-24',
                                 ].map((width, cellIndex) => (
                                   <td
@@ -1033,9 +1048,6 @@ export default function RosterPage() {
                               </th>
                               <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 Age
-                              </th>
-                              <th className="w-[112px] min-w-[112px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                {renderExpiringHeader('Status', 'status')}
                               </th>
                               <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                                 {renderExpiringHeader('Interest', 'interest')}
@@ -1086,10 +1098,10 @@ export default function RosterPage() {
                                       </div>
                                       {player.interestQuote ? (
                                         <div
-                                          className="line-clamp-2 pt-0.5 text-left text-xs font-normal leading-snug text-muted-foreground"
-                                          title={player.interestQuote}
+                                          className="line-clamp-2 pt-0.5 text-left text-xs italic font-normal leading-snug text-muted-foreground"
+                                          title={`"${player.interestQuote}"`}
                                         >
-                                          {player.interestQuote}
+                                          &ldquo;{player.interestQuote}&rdquo;
                                         </div>
                                       ) : null}
                                     </div>
@@ -1100,9 +1112,6 @@ export default function RosterPage() {
                                 </td>
                                 <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
                                   {player.age ?? '—'}
-                                </td>
-                                <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                                  <Badge variant="success">Pending</Badge>
                                 </td>
                                 <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
                                   {(() => {
@@ -1305,7 +1314,18 @@ export default function RosterPage() {
                 : 'the player'}
               .
             </p>
-            <div className="mt-4 rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm text-foreground">
+            <div
+              className="mt-4 rounded-xl px-4 py-3 text-sm"
+              style={
+                renegotiateResult.accepted
+                  ? {
+                      backgroundColor: selectedTeam?.color_primary ?? '#0f172a',
+                      border: `1px solid ${selectedTeam?.color_primary ?? '#0f172a'}`,
+                      color: getReadableTextColor(selectedTeam?.color_primary ?? '#0f172a'),
+                    }
+                  : undefined
+              }
+            >
               “
               {renegotiateResult.accepted
                 ? `${renegotiateResult.quote} ${getTeamCatchphrase(teamAbbr)}`

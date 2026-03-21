@@ -49,12 +49,12 @@ export function OnTheClockBanner({
   return (
     <section
       className={cn(
-        'overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all',
+        'overflow-x-auto overflow-y-hidden rounded-2xl border border-border bg-white shadow-sm transition-all',
         isCritical && isUserOnClock ? 'ring-2 ring-amber-300 ring-offset-2' : '',
       )}
     >
       <div
-        className="px-4 py-4 transition-colors duration-500 ease-in-out sm:px-6"
+        className="min-w-[760px] px-4 py-4 transition-colors duration-500 ease-in-out sm:px-6"
         style={{
           backgroundColor: primaryColor,
           color: onPrimaryColor,
@@ -85,7 +85,10 @@ export function OnTheClockBanner({
               )}
             </div>
             <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: mutedOnPrimary }}>
+              <p
+                className="text-[11px] font-semibold uppercase tracking-[0.24em]"
+                style={{ color: mutedOnPrimary, textShadow: 'none' }}
+              >
                 {isUserOnClock ? 'You Are On The Clock' : 'Pick In Progress'}
               </p>
               <h2 className="mt-1 text-xl font-semibold sm:text-2xl" style={{ color: onPrimaryColor }}>
@@ -161,13 +164,9 @@ export function OnTheClockBanner({
       </div>
       <div className="h-1.5 w-full bg-slate-100">
         <div
-          className={cn(
-            'h-1.5 transition-[width,background-color,opacity] duration-500 ease-in-out',
-            isCritical && isUserOnClock ? 'bg-amber-400' : 'bg-emerald-500',
-          )}
+          className="h-1.5 bg-emerald-500 transition-[width,background-color,opacity] duration-500 ease-in-out"
           style={{
             width: `${Math.max(0, Math.min(100, progressPct))}%`,
-            backgroundColor: isCritical && isUserOnClock ? undefined : primaryColor,
             opacity: 0.96,
           }}
         />

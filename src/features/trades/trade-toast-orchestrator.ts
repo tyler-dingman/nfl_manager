@@ -1,14 +1,14 @@
 import type { TradeOfferDTO, TradeOfferPhase } from '@/types/trade-offers';
 
 export const TRADE_OFFER_LIMITS: Record<TradeOfferPhase, number> = {
-  manage: 2,
-  freeAgency: 2,
+  manage: 1,
+  freeAgency: 1,
   draft: 4,
 };
 
 export const TRADE_OFFER_COOLDOWN_MS: Record<TradeOfferPhase, number> = {
-  manage: 45_000,
-  freeAgency: 45_000,
+  manage: 120_000,
+  freeAgency: 120_000,
   draft: 20_000,
 };
 

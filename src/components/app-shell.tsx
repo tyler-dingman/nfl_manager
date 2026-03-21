@@ -51,6 +51,13 @@ const navSections: { title: string; items: NavItem[] }[] = [
   },
 ];
 
+const shellRightRailRoutes = [
+  '/experience',
+  '/manage-team',
+  '/manage/trades',
+  '/cap-space',
+] as const;
+
 function HeaderDelta({
   delta,
   suffix = '',
@@ -342,6 +349,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     return null;
   }
 
+  const showShellRightRail = pathname
+    ? shellRightRailRoutes.some((route) => pathname.startsWith(route))
+    : false;
+
   return (
     <TeamThemeProvider team={selectedTeam}>
       <ToastProvider>
@@ -499,12 +510,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                             trajectoryPulse ? 'animate-pulse' : null,
                           )}
                         >
-                          <span className="inline-flex items-start gap-1 text-foreground">
-                            <span>
-                              OVR <span className="font-semibold">{liveTeamSummary.overall ?? '—'}</span>
+                            <span className="inline-flex items-start gap-1 text-foreground">
+                              <span>
+                                OVR{' '}
+                                <span className="text-sm font-semibold">
+                                  {liveTeamSummary.overall ?? '—'}
+                                </span>
+                              </span>
+                              <HeaderDelta delta={liveOverallDelta} />
                             </span>
-                            <HeaderDelta delta={liveOverallDelta} />
-                          </span>
                           <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
                         </span>
                       </div>
@@ -590,12 +604,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                             trajectoryPulse ? 'animate-pulse' : null,
                           )}
                         >
-                          <span className="inline-flex items-start gap-1 text-foreground">
-                            <span>
-                              OVR <span className="font-semibold">{liveTeamSummary.overall ?? '—'}</span>
+                            <span className="inline-flex items-start gap-1 text-foreground">
+                              <span>
+                                OVR{' '}
+                                <span className="text-sm font-semibold">
+                                  {liveTeamSummary.overall ?? '—'}
+                                </span>
+                              </span>
+                              <HeaderDelta delta={liveOverallDelta} />
                             </span>
-                            <HeaderDelta delta={liveOverallDelta} />
-                          </span>
                           <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
                         </span>
                       </div>
@@ -675,9 +692,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               </div>
             ) : null}
 
-            <main className="min-w-0 flex-1 px-4 py-5 sm:py-6 md:px-8">
-              {children}
-            </main>
+            <div className="flex min-w-0 flex-1 items-start gap-0">
+              <main className="min-w-0 flex-1 px-4 py-5 sm:py-6 md:px-8">
+                {children}
+              </main>
+              {showShellRightRail ? (
+                <aside className="hidden w-[260px] shrink-0 px-0 py-5 md:block md:pr-6 md:pt-6 lg:w-[280px] lg:pr-8">
+                  <AdSlot placement="RIGHT_RAIL" sticky={false} />
+                </aside>
+              ) : null}
+            </div>
           </div>
           <TradeOfferToast scopeKey={tradeOfferScopeKey} />
           <ToastViewport />

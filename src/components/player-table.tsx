@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import { getPreferredYearsForPlayer } from '@/lib/contracts';
+import { buildPlayerScoutingTags } from '@/lib/player-details';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
 
@@ -261,6 +262,21 @@ export function PlayerTable({
   const [searchQuery, setSearchQuery] = React.useState('');
   const skeletonRows = React.useMemo(() => Array.from({ length: 8 }, (_, index) => index), []);
   const isDraftVariant = variant === 'draft';
+  const rosterScoutingTags = React.useMemo(() => {
+    if (variant !== 'roster') {
+      return new Map<string, string[]>();
+    }
+
+    return new Map(
+      data.map((player) => [
+        player.id,
+        buildPlayerScoutingTags({
+          source: { kind: 'roster', player },
+          roster: data,
+        }),
+      ]),
+    );
+  }, [data, variant]);
   const [sorting, setSorting] = React.useState<SortingState>(() => {
     if (variant === 'roster') {
       return [
@@ -573,6 +589,7 @@ export function PlayerTable({
         cell: ({ row }) => {
           const player = row.original;
           const isCut = isCutPlayer(player);
+          const scoutingTags = (rosterScoutingTags.get(player.id) ?? []).slice(0, 1);
           return (
             <div className="flex items-center gap-3">
               <div className="shrink-0">
@@ -591,7 +608,7 @@ export function PlayerTable({
                   )}
                 </div>
               </div>
-              <div className="space-y-0.5">
+              <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-semibold text-foreground">{formatName(player)}</p>
                   <PlayerTypeIcon player={player} />
@@ -601,6 +618,19 @@ export function PlayerTable({
                     </Badge>
                   ) : null}
                 </div>
+                {scoutingTags.length > 0 ? (
+                  <div className="flex flex-wrap gap-1">
+                    {scoutingTags.map((tag) => (
+                      <Badge
+                        key={`${player.id}-${tag}`}
+                        variant="outline"
+                        className="rounded-full px-2 py-0 text-[10px] font-medium leading-4 text-slate-600"
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : null}
                 <p className="text-xs text-muted-foreground md:hidden">
                   {player.position}
                   {player.contractYearsRemaining > 0
@@ -714,6 +744,7 @@ export function PlayerTable({
     onSelectTradePlayer,
     onTheClockForUserTeam,
     onTradePlayer,
+    rosterScoutingTags,
     variant,
   ]);
 
@@ -811,7 +842,7 @@ export function PlayerTable({
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+    <div className="overflow-visible rounded-2xl border border-border bg-white shadow-sm">
       {topSlot ? <div className="border-b border-border px-4 py-4 sm:px-6">{topSlot}</div> : null}
       <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">

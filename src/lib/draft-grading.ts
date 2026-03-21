@@ -1,17 +1,13 @@
 import type { DraftPickDTO } from '@/types/draft';
 
 const CPU_GRADE_WEIGHTS = [
-  { grade: 'D', weight: 2 },
-  { grade: 'D+', weight: 3 },
   { grade: 'C-', weight: 5 },
-  { grade: 'C', weight: 10 },
-  { grade: 'C+', weight: 18 },
-  { grade: 'B-', weight: 18 },
+  { grade: 'C', weight: 12 },
+  { grade: 'C+', weight: 22 },
+  { grade: 'B-', weight: 22 },
   { grade: 'B', weight: 16 },
   { grade: 'B+', weight: 12 },
   { grade: 'A-', weight: 10 },
-  { grade: 'A', weight: 4 },
-  { grade: 'A+', weight: 2 },
 ] as const;
 
 const GRADE_ORDER = ['D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'] as const;

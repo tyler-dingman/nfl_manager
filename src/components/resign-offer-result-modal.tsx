@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import { useTeamStore } from '@/features/team/team-store';
+import { getReadableTextColor } from '@/lib/color-utils';
 import type { ResignResultDTO } from '@/types/resign';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,9 +21,18 @@ export default function ResignOfferResultModal({
   isOpen,
   onClose,
 }: ResignOfferResultModalProps) {
+  const teams = useTeamStore((state) => state.teams);
+  const resultTeam = React.useMemo(
+    () => teams.find((team) => team.abbr === result?.teamAbbr),
+    [result?.teamAbbr, teams],
+  );
+
   if (!isOpen || !result) {
     return null;
   }
+
+  const acceptedQuoteColor = resultTeam?.color_primary ?? '#0f172a';
+  const acceptedQuoteTextColor = getReadableTextColor(acceptedQuoteColor);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
@@ -39,7 +50,18 @@ export default function ResignOfferResultModal({
             ? `${result.teamAbbr} re-signing confirmed.`
             : 'The player decided to test the market.'}
         </p>
-        <div className="mt-4 rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm text-foreground">
+        <div
+          className="mt-4 rounded-xl border px-4 py-3 text-sm"
+          style={
+            result.accepted
+              ? {
+                  backgroundColor: acceptedQuoteColor,
+                  borderColor: acceptedQuoteColor,
+                  color: acceptedQuoteTextColor,
+                }
+              : undefined
+          }
+        >
           “{result.quote}”
         </div>
         <div className="mt-4 grid gap-3 text-sm text-foreground">
