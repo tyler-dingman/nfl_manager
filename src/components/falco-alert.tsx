@@ -46,7 +46,7 @@ export default function FalcoAlertToast() {
         <FalcoAvatar size={28} />
         <div className="flex-1">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            {activeAlert.title ?? 'Falco Alert'}
+            {activeAlert.title ?? 'Five Wide Alert'}
           </p>
           {activeAlert.lines && activeAlert.lines.length > 0 ? (
             <div className="mt-2 space-y-1 text-sm font-semibold text-foreground">

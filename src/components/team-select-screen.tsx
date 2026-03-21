@@ -4,6 +4,8 @@ import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
+import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+import { FiveWideWordmark } from '@/components/branding/fivewide-wordmark';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore, type Team } from '@/features/team/team-store';
@@ -176,20 +178,16 @@ function TeamSelectScreenInner() {
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-          <div className="flex h-7 w-auto items-start sm:h-9">
-            <Image
-              src="/images/falco_logo.png"
-              alt="Falco"
-              width={180}
-              height={36}
-              className="h-full w-auto"
-              priority
-            />
+          <div className="flex items-center gap-3">
+            <FiveWideLogo size={24} containerClassName="h-10 w-10 shrink-0" priority />
+            <div className="leading-none">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                Offseason Mode
+              </p>
+              <FiveWideWordmark className="mt-1 h-[15px]" priority />
+            </div>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
-              Offseason Mode
-            </p>
             <h1 className="mt-3 text-3xl font-semibold text-foreground">Choose a Team</h1>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
               Second chances start in the offseason. Choose a team to become the offseason GM—manage

@@ -40,7 +40,7 @@ export default function FalcoPhaseSummaryCard({
           <FalcoAvatar size={28} />
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Falco Summary
+              Five Wide Summary
             </p>
             <p className="mt-1 text-base font-semibold text-foreground">{summary.quote}</p>
             <p className="mt-2 text-sm text-muted-foreground">{summary.implication}</p>

@@ -6,6 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { ArrowDownRight, ArrowUp, Lock, Menu, X } from 'lucide-react';
 
+import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+import { FiveWideWordmark } from '@/components/branding/fivewide-wordmark';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
 import { TeamFavicon } from '@/components/team-favicon';
@@ -351,6 +353,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const showShellRightRail = pathname
     ? shellRightRailRoutes.some((route) => pathname.startsWith(route))
     : false;
+  const showOffseasonStepper =
+    mode === 'full' || pathname === '/experience' || pathname?.startsWith('/experience/');
 
   return (
     <TeamThemeProvider team={selectedTeam}>
@@ -375,16 +379,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <Link
                 href="/experience"
                 aria-label="Go to experience selection"
-                className="inline-flex cursor-pointer"
+                className="inline-flex cursor-pointer items-center gap-3"
               >
-                <Image
-                  src="/images/falco_logo.png"
-                  alt="Falco"
-                  width={200}
-                  height={60}
-                  className="block h-auto w-auto max-h-[120px] max-w-[120px] object-contain"
-                  priority
-                />
+                <FiveWideLogo size={28} containerClassName="h-11 w-11 shrink-0" priority />
+                <span className="text-left">
+                  <span className="block text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                    Offseason Mode
+                  </span>
+                  <FiveWideWordmark className="mt-1 h-[15px]" priority />
+                </span>
               </Link>
               <button
                 type="button"
@@ -395,7 +398,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <X className="h-4 w-4 text-muted-foreground" />
               </button>
             </div>
-            {mode === 'full' ? (
+            {showOffseasonStepper ? (
               <OffseasonStepperNav
                 seasonLabel="2026 Offseason"
                 teamName={selectedTeam?.name ?? 'Your Team'}

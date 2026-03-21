@@ -25,7 +25,7 @@ export default function DraftBigBoardPage() {
       <div className="mb-6 flex flex-col gap-2">
         <div className="flex items-center gap-3">
           <FalcoAvatar size={28} />
-          <h1 className="text-2xl font-semibold text-foreground">Falco’s Big Board</h1>
+          <h1 className="text-2xl font-semibold text-foreground">Five Wide Big Board</h1>
         </div>
         <p className="text-sm text-muted-foreground">Built from tape, traits, and truth.</p>
       </div>
@@ -33,7 +33,7 @@ export default function DraftBigBoardPage() {
         <section className="rounded-3xl border border-white/5 bg-gradient-to-br from-[#0b1220] via-[#0b1220] to-[#111827] p-4 shadow-[0_20px_50px_rgba(3,7,18,0.35)] md:p-6">
           <div className="mb-4 flex items-center justify-between">
             <div className="text-sm font-semibold uppercase tracking-[0.3em] text-white/50">
-              Falco Rankings
+              Five Wide Rankings
             </div>
             <div className="text-xs font-medium text-white/40">{prospects.length} Prospects</div>
           </div>
@@ -60,7 +60,7 @@ export default function DraftBigBoardPage() {
             <div className="flex items-center gap-3">
               <FalcoAvatar size={28} />
               <div>
-                <div className="text-base font-semibold text-foreground">Falco’s Takes</div>
+                <div className="text-base font-semibold text-foreground">Five Wide Takes</div>
                 <div className="text-xs text-muted-foreground">Live desk chatter</div>
               </div>
             </div>
@@ -74,7 +74,7 @@ export default function DraftBigBoardPage() {
               >
                 <div className="flex items-center gap-3">
                   <FalcoAvatar size={20} className="h-5 w-5" />
-                  <div className="text-xs font-semibold text-muted-foreground">Falco Draft</div>
+                  <div className="text-xs font-semibold text-muted-foreground">Five Wide Draft</div>
                   <span
                     className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${falcoToneStyles(
                       tweet.tone,

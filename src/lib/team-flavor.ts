@@ -33,7 +33,7 @@ const DEFAULT_TEAM_FLAVOR: TeamFlavor = {
   teamName: 'NFL Team',
   identityLabel: 'Franchise Football',
   fanPhrases: ['Build it right', 'Set the tone', 'Keep stacking wins'],
-  hashtags: ['#FalcoFranchise', '#BuildTheRoster'],
+  hashtags: ['#FiveWide', '#BuildTheRoster'],
   positiveReactions: ['Fans will love that move.', 'That fits the vision.'],
   neutralReactions: ['Interesting move here.', 'There is something building.'],
   celebrationLines: ['That is a big one.', 'That should energize the building.'],

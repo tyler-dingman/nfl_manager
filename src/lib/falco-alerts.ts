@@ -5,7 +5,7 @@ export const buildChantAlert = (
   teamAbbr: string | undefined,
   type: 'BIG_SIGNING' | 'BIG_TRADE',
 ): FalcoAlertItem => {
-  const chant = (teamAbbr && teamChants[teamAbbr]?.chant) ?? 'Falco Alert';
+  const chant = (teamAbbr && teamChants[teamAbbr]?.chant) ?? 'Five Wide Alert';
   const createdAt = new Date().toISOString();
   return {
     id: `${type.toLowerCase()}-${teamAbbr ?? 'team'}-${createdAt}`,
@@ -22,7 +22,7 @@ export const buildCapCrisisAlert = (): FalcoAlertItem => {
   return {
     id: `cap-crisis-${createdAt}`,
     type: 'CAP_CRISIS',
-    title: 'Falco Alert',
+    title: 'Five Wide Alert',
     message: "You're in the red. Pain heals. Glory lasts forever-but not if you can't sign anyone.",
     lines: [
       "You're in the red.",

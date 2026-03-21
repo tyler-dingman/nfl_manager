@@ -785,7 +785,7 @@ const generateFillerDraftProspects = (
     const ranking = startRank + index;
     const position = positions[index % positions.length] ?? 'ATH';
     const school = schools[index % schools.length] ?? 'Program TBD';
-    const name = `Falco Prospect ${ranking}`;
+    const name = `Five Wide Prospect ${ranking}`;
     const archetype = inferDraftProspectArchetype({
       position,
       stats: {},

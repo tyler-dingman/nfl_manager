@@ -1,6 +1,4 @@
-import Image from 'next/image';
-
-import { cn } from '@/lib/utils';
+import { FiveWideLogo } from '@/components/branding/fivewide-logo';
 
 type FalcoAvatarProps = {
   size?: number;
@@ -9,12 +7,10 @@ type FalcoAvatarProps = {
 
 export default function FalcoAvatar({ size = 28, className }: FalcoAvatarProps) {
   return (
-    <Image
-      src="/images/falco_icon.png"
-      alt="Falco"
-      width={size}
-      height={size}
-      className={cn('rounded-full ring-1 ring-border object-cover', className)}
+    <FiveWideLogo
+      size={Math.max(12, size - 16)}
+      containerClassName={className}
+      containerStyle={{ width: size, height: size }}
     />
   );
 }

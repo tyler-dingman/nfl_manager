@@ -41,7 +41,7 @@ const requestText = (url: string): Promise<string> =>
         agent: insecureAgent,
         headers: {
           Accept: 'application/json, text/html;q=0.9,*/*;q=0.8',
-          'User-Agent': 'Mozilla/5.0 (Falco Draft Sync)',
+          'User-Agent': 'Mozilla/5.0 (Five Wide Draft Sync)',
         },
       },
       (response) => {
