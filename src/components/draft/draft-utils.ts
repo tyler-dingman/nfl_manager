@@ -73,7 +73,7 @@ export const buildRoundOneOrder = (teams: TeamDTO[]): DraftOrderTeam[] => {
       logoUrl: team?.logoUrl ?? logoUrlFor(pick.abbr),
       primaryColor: team?.colors[0] ?? '#1f2937',
       secondaryColor: team?.colors[1] ?? '#9ca3af',
-      needs: team?.teamNeeds ?? ['QB', 'OT', 'CB'],
+      needs: getTeamNeeds(pick.abbr, teams).slice(0, 3),
       record: pick.record ?? null,
       note: pick.note ?? null,
     };

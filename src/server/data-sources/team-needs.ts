@@ -8,6 +8,7 @@ type RawTeamNeedsRow = {
 };
 
 type TeamNeedsPageProps = {
+  needs?: RawTeamNeedsRow[];
   teams?: RawTeamNeedsRow[];
 };
 
@@ -111,7 +112,7 @@ export const parseTeamNeedsHtml = (html: string): TeamNeedsRecord[] => {
   }
 
   const props = JSON.parse(decodeHtmlEntities(match[1])) as TeamNeedsPageProps;
-  const rows = props.teams ?? [];
+  const rows = props.needs ?? props.teams ?? [];
 
   return rows
     .map((row) => {

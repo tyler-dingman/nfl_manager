@@ -18,6 +18,7 @@ import { getRandomCpuGrade } from '@/lib/draft-grading';
 import { getSaveHeaderSnapshot, getProjectedCapSpaceForTeam } from './store';
 import type { TradeOfferDTO } from '@/types/trade-offers';
 import type { SaveUnlocksDTO } from '@/types/save';
+import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 
 export type DraftSessionStartResponse = {
   draftSessionId: string;
@@ -200,7 +201,59 @@ const nextRandom = (session: DraftSessionState): number => {
   return result;
 };
 
-const getCandidatePool = (prospects: PlayerRowDTO[]): PlayerRowDTO[] => prospects.slice(0, 12);
+const normalizeDraftNeedPosition = (position: string): string => {
+  const normalized = position.trim().toUpperCase();
+
+  if (['LT', 'RT', 'T', 'OT', 'OL'].includes(normalized)) return 'OT';
+  if (['LG', 'RG', 'G', 'C', 'IOL'].includes(normalized)) return 'IOL';
+  if (['DE', 'LE', 'RE', 'EDGE', 'ED'].includes(normalized)) return 'EDGE';
+  if (['DT', 'NT', 'DL', 'IDL'].includes(normalized)) return 'DL';
+  if (['MLB', 'ILB', 'OLB', 'LOLB', 'ROLB', 'LB'].includes(normalized)) return 'LB';
+  if (['FS', 'SS', 'S', 'SAFETY'].includes(normalized)) return 'S';
+  if (['CB', 'CORNER'].includes(normalized)) return 'CB';
+  if (['HB', 'FB', 'RB'].includes(normalized)) return 'RB';
+  if (['WR'].includes(normalized)) return 'WR';
+  if (['TE'].includes(normalized)) return 'TE';
+  if (['QB'].includes(normalized)) return 'QB';
+
+  return normalized;
+};
+
+const getOrderedTeamNeeds = (teamAbbr: string): string[] =>
+  NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.allTeamNeeds ??
+  NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.teamNeeds ??
+  ['QB', 'OT', 'CB'];
+
+const buildNeedAwareCandidatePool = (
+  session: DraftSessionState,
+  teamAbbr: string,
+  round: number,
+  prospects: PlayerRowDTO[],
+): PlayerRowDTO[] => {
+  const needs = getOrderedTeamNeeds(teamAbbr);
+  const primaryNeeds = new Set(needs.slice(0, 2));
+  const secondaryNeeds = new Set(needs.slice(2, 5));
+  const earlyRound = round <= 3;
+
+  return prospects
+    .slice(0, 24)
+    .slice()
+    .sort((left, right) => {
+      const leftNeed = normalizeDraftNeedPosition(left.position);
+      const rightNeed = normalizeDraftNeedPosition(right.position);
+
+      const scoreNeedFit = (need: string) => {
+        if (primaryNeeds.has(need)) return earlyRound ? 18 : 10;
+        if (secondaryNeeds.has(need)) return earlyRound ? 9 : 5;
+        return 0;
+      };
+
+      const leftScore = scoreNeedFit(leftNeed) - (left.rank ?? 999) + nextRandom(session) * 2;
+      const rightScore = scoreNeedFit(rightNeed) - (right.rank ?? 999) + nextRandom(session) * 2;
+      return rightScore - leftScore;
+    })
+    .slice(0, 12);
+};
 
 const pickFromPool = (session: DraftSessionState, pool: PlayerRowDTO[]): PlayerRowDTO => {
   if (pool.length === 0) {
@@ -383,7 +436,12 @@ export const advanceDraftSession = (draftSessionId: string, saveId: string): Dra
     }
   }
 
-  const candidatePool = getCandidatePool(filteredPool);
+  const candidatePool = buildNeedAwareCandidatePool(
+    session,
+    currentPick.ownerTeamAbbr,
+    currentPick.round,
+    filteredPool,
+  );
   const player = pickFromPool(session, candidatePool);
   const pick = session.picks[session.currentPickIndex];
   selectPlayer(session, session.currentPickIndex, player);
