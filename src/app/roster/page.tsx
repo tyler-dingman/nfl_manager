@@ -351,16 +351,26 @@ export default function RosterPage() {
       return;
     }
 
-    const response = await apiFetch('/api/actions/cut-player', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId,
-        playerId: activeCutPlayer.id,
-        teamId: teamId || undefined,
-        teamAbbr: teamAbbr || undefined,
-      }),
-    });
+    const submitCutRequest = async (targetSaveId: string) =>
+      apiFetch('/api/actions/cut-player', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId: targetSaveId,
+          playerId: activeCutPlayer.id,
+          teamId: teamId || undefined,
+          teamAbbr: teamAbbr || undefined,
+        }),
+      });
+
+    let response = await submitCutRequest(actionableSaveId);
+    if (response.status === 404) {
+      const recoveredSaveId = await ensureActionableSaveId(null);
+      if (recoveredSaveId) {
+        actionableSaveId = recoveredSaveId;
+        response = await submitCutRequest(recoveredSaveId);
+      }
+    }
 
     const data = (await response.json()) as {
       ok?: boolean;
@@ -406,22 +416,40 @@ export default function RosterPage() {
       );
     }
     const capSavings = data.player?.releaseSavings ?? activeCutPlayer.releaseSavings ?? 0;
-    if (capSavings > 10) {
-      const leagueBuzz = generateLeagueBuzzToast({
-        eventType: 'capClearingCut',
-        teamName: selectedTeam?.name ?? teamAbbr ?? 'Your team',
-        playerName: `${activeCutPlayer.firstName} ${activeCutPlayer.lastName}`,
-        capSavings,
-        teamAbbr,
+    const reactionToast = buildStarReactionToastPayload({
+      incomingPlayer: {
+        id: activeCutPlayer.id,
+        firstName: activeCutPlayer.firstName,
+        lastName: activeCutPlayer.lastName,
+        position: activeCutPlayer.position,
+      },
+      roster: players,
+      actionType: 'cut',
+      teamAbbr,
+      teamName: selectedTeam?.name,
+    });
+    const leagueBuzz = generateLeagueBuzzToast({
+      eventType: 'capClearingCut',
+      teamName: selectedTeam?.name ?? teamAbbr ?? 'Your team',
+      playerName: `${activeCutPlayer.firstName} ${activeCutPlayer.lastName}`,
+      capSavings,
+      teamAbbr,
+    });
+    const showLeagueBuzz = Boolean(leagueBuzz) && (!reactionToast || Math.random() < 0.5);
+    if (showLeagueBuzz && leagueBuzz) {
+      pushToast({
+        id: `league-buzz:cut:${actionableSaveId}:${activeCutPlayer.id}`,
+        kind: 'leagueBuzz',
+        durationMs: 5600,
+        leagueBuzz,
       });
-      if (leagueBuzz) {
-        pushToast({
-          id: `league-buzz:cut:${actionableSaveId}:${activeCutPlayer.id}`,
-          kind: 'leagueBuzz',
-          durationMs: 5600,
-          leagueBuzz,
-        });
-      }
+    } else if (reactionToast) {
+      pushToast({
+        id: `star-reaction:cut:${actionableSaveId}:${activeCutPlayer.id}`,
+        kind: 'starReaction',
+        durationMs: 5600,
+        starReaction: reactionToast,
+      });
     }
     setActiveCutPlayer(null);
     void requestTradeOffer({ trigger: 'after-cut' });
@@ -760,11 +788,6 @@ export default function RosterPage() {
     setRenegotiateResult(data);
     setRenegotiateResultPlayer(activeRenegotiatePlayer);
     setIsRenegotiateResultOpen(true);
-    pushToast({
-      title: data.accepted ? 'Renegotiation accepted' : 'Renegotiation declined',
-      description: data.accepted ? 'Contract updated.' : data.quote,
-      variant: data.accepted ? 'success' : 'error',
-    });
 
     if (data.header) {
       setSaveHeader({
@@ -1336,7 +1359,7 @@ export default function RosterPage() {
               .
             </p>
             <div
-              className="mt-4 rounded-xl px-4 py-3 text-sm"
+              className="mt-4 rounded-xl px-4 py-3 text-sm italic"
               style={
                 renegotiateResult.accepted
                   ? {

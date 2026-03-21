@@ -128,7 +128,7 @@ export default function NewsTicker({ saveId }: NewsTickerProps) {
                   <div key={item.id} className="rounded-xl border border-border px-4 py-3">
                     <p className="text-sm font-semibold text-foreground">{item.details}</p>
                     {item.quote ? (
-                      <p className="mt-2 text-xs text-muted-foreground">
+                      <p className="mt-2 text-xs italic text-muted-foreground">
                         &ldquo;{item.quote}&rdquo;
                       </p>
                     ) : null}

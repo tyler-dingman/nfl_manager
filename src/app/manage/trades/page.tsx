@@ -3,14 +3,21 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronDown } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { StepHeader } from '@/components/offseason/step-header';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
@@ -700,6 +707,7 @@ function TradeBuilderContent() {
   };
 
   const partnerTeam = teams.find((team) => team.abbr === partnerTeamAbbr);
+  const partnerTeamOptions = teams.filter((team) => team.abbr !== selectedTeam?.abbr);
   const sendSlots = useMemo(() => {
     const assets = trade?.sendAssets ?? [];
     const used = new Set<string>();
@@ -993,19 +1001,48 @@ function TradeBuilderContent() {
                   {partnerTeam?.name ?? 'Trade partner'}
                 </p>
               </div>
-              <select
-                className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-                value={partnerTeamAbbr}
-                onChange={(event) => setPartnerTeamAbbr(event.target.value)}
-              >
-                {teams
-                  .filter((team) => team.abbr !== selectedTeam?.abbr)
-                  .map((team) => (
-                    <option key={team.abbr} value={team.abbr}>
-                      {team.name}
-                    </option>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    type="button"
+                    className="inline-flex h-9 min-w-[220px] items-center justify-between gap-3 rounded-md border border-input bg-background px-3 text-sm text-foreground"
+                  >
+                    <span className="flex min-w-0 items-center gap-2">
+                      {partnerTeam?.logoUrl ? (
+                        <Image
+                          src={partnerTeam.logoUrl}
+                          alt={`${partnerTeam.name} logo`}
+                          width={18}
+                          height={18}
+                          className="h-[18px] w-[18px] shrink-0 object-contain"
+                        />
+                      ) : null}
+                      <span className="truncate">{partnerTeam?.name ?? 'Trade partner'}</span>
+                    </span>
+                    <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[260px]">
+                  {partnerTeamOptions.map((team) => (
+                    <DropdownMenuItem
+                      key={team.abbr}
+                      className="gap-2"
+                      onClick={() => setPartnerTeamAbbr(team.abbr)}
+                    >
+                      {team.logoUrl ? (
+                        <Image
+                          src={team.logoUrl}
+                          alt={`${team.name} logo`}
+                          width={18}
+                          height={18}
+                          className="h-[18px] w-[18px] shrink-0 object-contain"
+                        />
+                      ) : null}
+                      <span className="truncate">{team.name}</span>
+                    </DropdownMenuItem>
                   ))}
-              </select>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <TradeAssetSlots
               title="THEIR OFFER"

@@ -6,15 +6,18 @@ export type LeagueBuzzToastPayload = {
   displayName: string;
   subtitle: string;
   message: string;
+  avatarUrl?: string | null;
   likes: string;
   reposts: string;
   comments: string;
 };
 
+const JIM_SCHWARTZ_AVATAR_URL = '/images/jim_schwartz.png';
+
 const MESSAGE_TEMPLATES: Record<LeagueBuzzEventType, string[]> = {
   capClearingCut: [
-    'The {teamName} just cleared {capAmount} in cap space by releasing {playerName}. Prime to make a move? 💰',
-    '{teamName} opens major cap room with a veteran release. Watch this space. 👀',
+    '{teamName} made a hard decision by cutting {playerName}, but it saves {capAmount} in much needed cap space.',
+    '{teamName} move on from {playerName} to create {capAmount} in much needed cap space. Tough business.',
   ],
   renegotiate: [
     'The {teamName} restructure {playerName}’s deal to create flexibility. Smart front office move. 📊',
@@ -27,7 +30,7 @@ const MESSAGE_TEMPLATES: Record<LeagueBuzzEventType, string[]> = {
 };
 
 const EVENT_ODDS: Record<LeagueBuzzEventType, number> = {
-  capClearingCut: 0.78,
+  capClearingCut: 1,
   renegotiate: 0.64,
   resign: 0.72,
 };
@@ -82,12 +85,13 @@ export const generateLeagueBuzzToast = ({
   const commentsBase = 90 + (hashString(`${seed}:comments`) % 900);
 
   return {
-    displayName: 'National Football League',
+    displayName: 'Jim Schwartz',
     subtitle:
       getTeamFlavorHandle(teamAbbr) !== 'Franchise Football'
         ? `League Buzz · ${getTeamFlavorHandle(teamAbbr)}`
         : 'League Buzz',
     message: `${message} ${flavoredTail}`.trim(),
+    avatarUrl: JIM_SCHWARTZ_AVATAR_URL,
     likes: formatCompact(likesBase),
     reposts: formatCompact(repostsBase),
     comments: formatCompact(commentsBase),

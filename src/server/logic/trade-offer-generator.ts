@@ -66,6 +66,22 @@ const averageRating = (players: PlayerRowDTO[]) => {
   return ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
 };
 
+const pickShortlistedCandidate = <T,>({
+  candidates,
+  seed,
+  maxShortlist = 5,
+}: {
+  candidates: T[];
+  seed: string;
+  maxShortlist?: number;
+}) => {
+  if (candidates.length === 0) return null;
+  const shortlist = candidates.slice(0, maxShortlist);
+  const rng = createRng(seed);
+  const index = Math.floor(rng() * shortlist.length);
+  return shortlist[index] ?? shortlist[0] ?? null;
+};
+
 const isTradableUserTarget = (player: PlayerRowDTO) => {
   const rating = resolvePlayerRating(player) ?? 0;
   const age = player.age ?? 27;
@@ -330,10 +346,39 @@ const generateRosterOffers = (
       }
     }
 
-    const userTarget = tradableTargets.find((player) => {
-      const pos = normalizedPosition(player);
-      const rating = resolvePlayerRating(player) ?? 0;
-      return aiTeam.needs.includes(pos) && rating >= 76;
+    const userTargetCandidates = tradableTargets
+      .filter((player) => {
+        const pos = normalizedPosition(player);
+        const rating = resolvePlayerRating(player) ?? 0;
+        return aiTeam.needs.includes(pos) && rating >= 74;
+      })
+      .sort((left, right) => {
+        const leftPos = normalizedPosition(left);
+        const rightPos = normalizedPosition(right);
+        const leftNeedIndex = aiTeam.needs.indexOf(leftPos);
+        const rightNeedIndex = aiTeam.needs.indexOf(rightPos);
+        if (leftNeedIndex !== rightNeedIndex) {
+          return leftNeedIndex - rightNeedIndex;
+        }
+
+        const rightRating = resolvePlayerRating(right) ?? 0;
+        const leftRating = resolvePlayerRating(left) ?? 0;
+        if (rightRating !== leftRating) {
+          return rightRating - leftRating;
+        }
+
+        const leftAge = left.age ?? 27;
+        const rightAge = right.age ?? 27;
+        if (leftAge !== rightAge) {
+          return leftAge - rightAge;
+        }
+
+        return `${left.firstName} ${left.lastName}`.localeCompare(`${right.firstName} ${right.lastName}`);
+      });
+
+    const userTarget = pickShortlistedCandidate({
+      candidates: userTargetCandidates,
+      seed: `${state.header.id}:${phase}:${trigger}:${abbr}:outgoing-target`,
     });
 
     if (userTarget) {

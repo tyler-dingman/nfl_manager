@@ -71,7 +71,7 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
       </div>
 
       <div className="relative space-y-0.5">
-        <div className="absolute bottom-6 left-[18px] top-6 w-px bg-slate-300" />
+        <div className="absolute bottom-6 left-[20px] top-6 w-px bg-slate-300" />
         {OFFSEASON_STEPS.map((step, index) => {
           const isCompleted = completedSteps.includes(step.id);
           const isCurrent = step.id === displayStep;

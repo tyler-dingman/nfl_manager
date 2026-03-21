@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { ArrowDownRight, ArrowUpRight, Lock, Menu, X } from 'lucide-react';
+import { ArrowDownRight, ArrowUp, Lock, Menu, X } from 'lucide-react';
 
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
@@ -70,7 +70,7 @@ function HeaderDelta({
   const negative = delta < 0;
   if (!positive && !negative) return null;
 
-  const Icon = positive ? ArrowUpRight : ArrowDownRight;
+  const Icon = positive ? ArrowUp : ArrowDownRight;
   const displayValue = Math.abs(delta);
   const label =
     suffix === 'M'

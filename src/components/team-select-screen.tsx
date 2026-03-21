@@ -26,11 +26,6 @@ const TeamSelectCard = ({
       isSelected ? 'border-slate-900/30 ring-2 ring-slate-900/10' : 'border-border'
     }`}
   >
-    <span
-      className="h-full w-1.5 rounded-full"
-      style={{ backgroundColor: team.color_primary ?? '#e2e8f0' }}
-      aria-hidden="true"
-    />
     <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-slate-50">
       {team.logo_url ? (
         // eslint-disable-next-line @next/next/no-img-element

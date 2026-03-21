@@ -25,6 +25,7 @@ type LeagueBuzzToastData = {
   displayName: string;
   subtitle: string;
   message: string;
+  avatarUrl?: string | null;
   likes: string;
   reposts: string;
   comments: string;
@@ -115,17 +116,17 @@ const StarReactionToastCard = ({
   toast: ToastPayload & { id: string; starReaction: StarReactionToastData };
   onClose: () => void;
 }) => (
-  <div className="rounded-[22px] border border-slate-200/90 bg-white p-4 text-sm shadow-[0_18px_45px_-18px_rgba(15,23,42,0.35)] backdrop-blur">
+  <div className="rounded-[22px] border border-white/10 bg-black p-4 text-sm text-slate-100 shadow-[0_18px_45px_-18px_rgba(0,0,0,0.65)] backdrop-blur">
     <div className="flex items-start gap-3">
       {toast.starReaction.headshotUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={toast.starReaction.headshotUrl}
           alt={toast.starReaction.displayName}
-          className="mt-0.5 h-11 w-11 shrink-0 rounded-full object-cover"
+          className="mt-0.5 h-11 w-11 shrink-0 rounded-full border border-white/10 object-cover"
         />
       ) : (
-        <div className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
+        <div className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-800 text-sm font-semibold text-slate-200">
           {toast.starReaction.displayName.charAt(0)}
         </div>
       )}
@@ -133,26 +134,26 @@ const StarReactionToastCard = ({
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
-              <p className="truncate font-semibold text-foreground">{toast.starReaction.displayName}</p>
-              <span className="text-xs text-muted-foreground">{toast.starReaction.handle}</span>
-              <span className="text-xs text-muted-foreground">•</span>
-              <span className="text-xs text-muted-foreground">{toast.starReaction.timestampLabel}</span>
+              <p className="truncate font-semibold text-slate-50">{toast.starReaction.displayName}</p>
+              <span className="text-xs text-slate-400">{toast.starReaction.handle}</span>
+              <span className="text-xs text-slate-500">•</span>
+              <span className="text-xs text-slate-400">{toast.starReaction.timestampLabel}</span>
             </div>
-            <p className="mt-0.5 text-xs text-muted-foreground">{toast.starReaction.subtitle}</p>
+            <p className="mt-0.5 text-xs text-slate-400">{toast.starReaction.subtitle}</p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 rounded-full p-1 text-muted-foreground transition hover:bg-slate-100 hover:text-foreground"
+            className="shrink-0 rounded-full p-1 text-slate-500 transition hover:bg-white/8 hover:text-slate-100"
             aria-label="Close reaction toast"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
-        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-foreground">
+        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-100">
           {toast.starReaction.message}
         </p>
-        <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
+        <div className="mt-3 flex items-center gap-4 text-xs text-slate-400">
           <span className="inline-flex items-center gap-1">
             <MessageCircle className="h-3.5 w-3.5" />
             {toast.starReaction.replies}
@@ -184,30 +185,41 @@ const LeagueBuzzToastCard = ({
   toast: ToastPayload & { id: string; leagueBuzz: LeagueBuzzToastData };
   onClose: () => void;
 }) => (
-  <div className="rounded-2xl border border-border bg-white p-4 text-sm shadow-xl">
+  <div className="rounded-2xl border border-white/10 bg-black p-4 text-sm text-slate-100 shadow-[0_18px_45px_-18px_rgba(0,0,0,0.65)]">
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#0a2a66] to-[#d50a0a] text-[11px] font-bold tracking-[0.18em] text-white">
-        NFL
-      </div>
+      {toast.leagueBuzz.avatarUrl ? (
+        <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white ring-1 ring-white/10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={toast.leagueBuzz.avatarUrl}
+            alt={toast.leagueBuzz.displayName}
+            className="h-full w-full scale-[0.86] object-cover object-top"
+          />
+        </div>
+      ) : (
+        <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#0a2a66] to-[#d50a0a] text-[11px] font-bold tracking-[0.18em] text-white">
+          NFL
+        </div>
+      )}
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="truncate font-semibold text-foreground">{toast.leagueBuzz.displayName}</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">{toast.leagueBuzz.subtitle}</p>
+            <p className="truncate font-semibold text-slate-50">{toast.leagueBuzz.displayName}</p>
+            <p className="mt-0.5 text-xs text-slate-400">{toast.leagueBuzz.subtitle}</p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 rounded-full p-1 text-muted-foreground transition hover:bg-slate-100 hover:text-foreground"
+            className="shrink-0 rounded-full p-1 text-slate-500 transition hover:bg-white/8 hover:text-slate-100"
             aria-label="Close league buzz toast"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
-        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-foreground">
+        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-100">
           {toast.leagueBuzz.message}
         </p>
-        <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
+        <div className="mt-3 flex items-center gap-4 text-xs text-slate-400">
           <span className="inline-flex items-center gap-1">
             <MessageCircle className="h-3.5 w-3.5" />
             {toast.leagueBuzz.comments}

@@ -2,7 +2,7 @@ import { resolvePlayerRating } from '@/lib/team-overview';
 import { getTeamFlavorHandle } from '@/lib/team-flavor';
 import type { PlayerRowDTO } from '@/types/player';
 
-export type StarReactionActionType = 'freeAgency' | 'trade' | 'resign';
+export type StarReactionActionType = 'freeAgency' | 'trade' | 'resign' | 'cut';
 export type PlayerSide = 'offense' | 'defense';
 
 export type StarReactionToastPayload = {
@@ -90,6 +90,22 @@ const RESIGN_MESSAGE_TEMPLATES = [
   'Huge to bring {firstName} back 🏆',
   'Loyalty. Love to see it ❤️',
   'Let’s keep building together {firstName} 😤',
+] as const;
+
+const CUT_OFFENSIVE_MESSAGE_TEMPLATES = [
+  'Sad to see my dog {firstName} go... 😔',
+  'This one hurts. Going to miss {firstName} in the huddle.',
+  'Going to miss my dog {firstName}... tough one.',
+  'Hate seeing {firstName} leave the room. Wishing him the best.',
+  '{firstName} was one of ours. This one stings.',
+] as const;
+
+const CUT_DEFENSIVE_MESSAGE_TEMPLATES = [
+  'Sad to see my dog {firstName} go... 😔',
+  'This one hurts. Going to miss {firstName} flying around with us.',
+  'Going to miss my dog {firstName}... tough one.',
+  'Hate seeing {firstName} leave this defense. Wishing him the best.',
+  '{firstName} meant a lot to this unit. This one stings.',
 ] as const;
 
 const normalizePosition = (position?: string | null) => position?.trim().toUpperCase() ?? '';
@@ -181,6 +197,12 @@ export const getTopRatedRosterPlayerOverall = (
   roster: PlayerRowDTO[],
   excludedPlayerId?: string | null,
 ) =>
+  getTopRatedRosterPlayersOverall(roster, excludedPlayerId)[0] ?? null;
+
+export const getTopRatedRosterPlayersOverall = (
+  roster: PlayerRowDTO[],
+  excludedPlayerId?: string | null,
+) =>
   roster
     .filter((player) => {
       if (!getDisplayName(player)) return false;
@@ -195,9 +217,16 @@ export const getTopRatedRosterPlayerOverall = (
         return right.headshotUrl ? 1 : -1;
       }
       return getDisplayName(left).localeCompare(getDisplayName(right));
-    })[0] ?? null;
+    });
 
 export const getTopRatedRosterPlayerBySide = (
+  roster: PlayerRowDTO[],
+  side: PlayerSide,
+  excludedPlayerId?: string | null,
+) =>
+  getTopRatedRosterPlayersBySide(roster, side, excludedPlayerId)[0] ?? null;
+
+export const getTopRatedRosterPlayersBySide = (
   roster: PlayerRowDTO[],
   side: PlayerSide,
   excludedPlayerId?: string | null,
@@ -216,7 +245,19 @@ export const getTopRatedRosterPlayerBySide = (
         return right.headshotUrl ? 1 : -1;
       }
       return getDisplayName(left).localeCompare(getDisplayName(right));
-    })[0] ?? null;
+    });
+
+const pickReactionAuthor = ({
+  candidates,
+  seed,
+}: {
+  candidates: PlayerRowDTO[];
+  seed: string;
+}) => {
+  if (candidates.length === 0) return null;
+  if (candidates.length === 1) return candidates[0];
+  return candidates[hashString(seed) % Math.min(2, candidates.length)] ?? candidates[0];
+};
 
 export const getReactionMessage = ({
   incomingPlayer,
@@ -234,6 +275,10 @@ export const getReactionMessage = ({
   const templates =
     actionType === 'resign'
       ? RESIGN_MESSAGE_TEMPLATES
+      : actionType === 'cut'
+        ? side === 'defense'
+          ? CUT_DEFENSIVE_MESSAGE_TEMPLATES
+          : CUT_OFFENSIVE_MESSAGE_TEMPLATES
       : side === 'defense'
         ? DEFENSIVE_MESSAGE_TEMPLATES
         : OFFENSIVE_MESSAGE_TEMPLATES;
@@ -244,6 +289,7 @@ export const getReactionMessage = ({
 const getMoveWeight = (actionType: StarReactionActionType) => {
   if (actionType === 'trade') return 1.2;
   if (actionType === 'freeAgency') return 1.05;
+  if (actionType === 'cut') return 0.82;
   return 0.9;
 };
 
@@ -299,13 +345,34 @@ export const buildStarReactionToastPayload = ({
   const side = getPlayerSide(incomingPlayer.position);
   if (roster.length === 0) return null;
 
+  const reactionSeed = `${actionType}:${incomingPlayer.id}:${incomingPlayer.position ?? 'unknown'}`;
+  const sameSideCandidates = side
+    ? [
+        ...getTopRatedRosterPlayersBySide(roster, side, incomingPlayer.id),
+        ...getTopRatedRosterPlayersBySide(roster, side),
+      ].filter(
+        (player, index, candidates) =>
+          candidates.findIndex((candidate) => candidate.id === player.id) === index,
+      )
+    : [];
+
+  const overallCandidates = [
+    ...getTopRatedRosterPlayersOverall(roster, incomingPlayer.id),
+    ...getTopRatedRosterPlayersOverall(roster),
+  ].filter(
+    (player, index, candidates) =>
+      candidates.findIndex((candidate) => candidate.id === player.id) === index,
+  );
+
   const reactingPlayer =
-    (side
-      ? getTopRatedRosterPlayerBySide(roster, side, incomingPlayer.id) ??
-        getTopRatedRosterPlayerBySide(roster, side)
-      : null) ??
-    getTopRatedRosterPlayerOverall(roster, incomingPlayer.id) ??
-    getTopRatedRosterPlayerOverall(roster);
+    pickReactionAuthor({
+      candidates: side ? sameSideCandidates : [],
+      seed: `${reactionSeed}:side`,
+    }) ??
+    pickReactionAuthor({
+      candidates: overallCandidates,
+      seed: `${reactionSeed}:overall`,
+    });
 
   const displayName = reactingPlayer
     ? getDisplayName(reactingPlayer)

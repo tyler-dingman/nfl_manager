@@ -18,5 +18,7 @@ test('league buzz uses formatted cap amount in cap-clearing cut copy when genera
   }
 
   assert.match(payload.message, /\$14\.2M|Watch this space/);
+  assert.equal(payload.displayName, 'Jim Schwartz');
+  assert.ok(payload.avatarUrl);
   assert.ok(payload.likes.length > 0);
 });
