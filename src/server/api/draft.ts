@@ -10,6 +10,7 @@ import {
   listSaveStates,
   pushNewsItem,
   restoreSaveState,
+  transferStoredPlayerToTeam,
 } from './store';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import { createRng } from '@/lib/deterministic-rng';
@@ -410,10 +411,6 @@ export const applyDraftTrade = (
   saveId: string,
 ): DraftSessionDTO => {
   const { session } = getDraftSessionState(saveId, draftSessionId);
-  if (session.isPaused) {
-    throw new Error('Draft is paused');
-  }
-
   if (session.mode !== 'mock') {
     throw new Error('Trades are mock-only for now');
   }
@@ -452,9 +449,6 @@ export const acceptDraftTradeOffer = (
   offer: TradeOfferDTO,
 ) => {
   const { session, state } = getDraftSessionState(saveId, draftSessionId);
-  if (session.isPaused) {
-    throw new Error('Draft is paused');
-  }
   if (session.status === 'completed') {
     throw new Error('Draft is already complete');
   }
@@ -570,10 +564,12 @@ export const acceptDraftTradeOffer = (
   if (outgoingPlayerIds.size > 0 || incomingPlayerIds.size > 0) {
     state.teamRosters[session.userTeamAbbr] = userRoster
       .filter((player) => !outgoingPlayerIds.has(player.id))
-      .concat(incomingPlayers.map((player) => ({ ...player, signedTeamAbbr: session.userTeamAbbr })));
+      .concat(incomingPlayers.map((player) => transferStoredPlayerToTeam(player, session.userTeamAbbr)));
     state.teamRosters[offer.proposingTeamAbbr] = partnerRoster
       .filter((player) => !incomingPlayerIds.has(player.id))
-      .concat(outgoingPlayers.map((player) => ({ ...player, signedTeamAbbr: offer.proposingTeamAbbr })));
+      .concat(
+        outgoingPlayers.map((player) => transferStoredPlayerToTeam(player, offer.proposingTeamAbbr)),
+      );
     state.roster = state.teamRosters[session.userTeamAbbr];
     state.header.rosterCount = state.roster.length;
     state.header.capSpace = nextUserCapSpace;

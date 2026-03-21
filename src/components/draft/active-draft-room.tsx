@@ -65,6 +65,7 @@ type ActiveDraftRoomProps = {
   onSpeedChange: (value: DraftSpeedLevel) => void;
   onTogglePause: () => void;
   onStartDraft: () => void;
+  onOfferTrade: () => void;
   onToggleSettings: () => void;
   onDraftPlayer?: (player: PlayerRowDTO) => void;
   onDraftTradeAccepted: (payload: {
@@ -105,6 +106,58 @@ const buildExpiryMs = (pickOverall: number, index: number) => {
   return base - index * 2500;
 };
 
+const buildManualDraftTradeOffer = ({
+  partnerTeam,
+  userTeam,
+}: {
+  partnerTeam: TeamDTO;
+  userTeam: TeamDTO | null;
+}): TradeOfferDTO => ({
+  id: `draft-offer-builder:${partnerTeam.abbr}`,
+  phase: 'draft',
+  archetype: 'move_down',
+  trigger: 'manual-offer',
+  generatedAt: new Date().toISOString(),
+  chartModel: 'drafttek-classic',
+  proposingTeamAbbr: partnerTeam.abbr,
+  proposingTeamName: partnerTeam.name,
+  proposingTeamLogoUrl: partnerTeam.logoUrl,
+  headline: `Offer ${partnerTeam.name} a trade`,
+  summary: 'Build a package from either side and test their interest live.',
+  reason: 'Use players, picks, or both to shape the deal.',
+  incoming: {
+    teamAbbr: partnerTeam.abbr,
+    teamName: partnerTeam.name,
+    totalValue: 0,
+    assets: [],
+  },
+  outgoing: {
+    teamAbbr: userTeam?.abbr ?? 'USER',
+    teamName: userTeam?.name ?? 'Your Team',
+    totalValue: 0,
+    assets: [],
+  },
+  userInterest: {
+    label: 'Build a Package',
+    band: 'low_interest',
+    score: 0,
+    explanation: 'Add assets to see how the framework looks for both teams.',
+  },
+  aiInterest: {
+    label: 'Build a Package',
+    band: 'low_interest',
+    score: 0,
+    explanation: 'Add assets to see how the framework looks for both teams.',
+  },
+  debug: {
+    seed: `draft-offer-builder:${partnerTeam.abbr}`,
+    candidateScore: 0,
+    userScore: 0,
+    aiScore: 0,
+    reasons: ['manual trade builder'],
+  },
+});
+
 export function ActiveDraftRoom({
   saveId,
   session,
@@ -121,6 +174,7 @@ export function ActiveDraftRoom({
   onSpeedChange,
   onTogglePause,
   onStartDraft,
+  onOfferTrade,
   onToggleSettings,
   onDraftPlayer,
   onDraftTradeAccepted,
@@ -139,6 +193,10 @@ export function ActiveDraftRoom({
   const [selectedBoardPlayerId, setSelectedBoardPlayerId] = React.useState<string | null>(null);
   const [isProspectModalOpen, setIsProspectModalOpen] = React.useState(false);
   const [now, setNow] = React.useState(() => Date.now());
+  const userTeam = React.useMemo(
+    () => teams.find((team) => team.abbr === session.userTeamAbbr) ?? null,
+    [session.userTeamAbbr, teams],
+  );
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const advanceInFlight = React.useRef(false);
   const skipInFlight = React.useRef(false);
@@ -161,10 +219,34 @@ export function ActiveDraftRoom({
 
   React.useEffect(() => {
     if (draftView === 'trade') {
-      setReviewOffer((current) => current ?? draftOffers[0] ?? null);
+      const nextPartnerTeamAbbr =
+        session.picks
+          .slice(session.currentPickIndex + 1)
+          .find(
+            (pick) =>
+              !pick.selectedPlayerId && pick.ownerTeamAbbr !== session.userTeamAbbr,
+          )?.ownerTeamAbbr ?? teams.find((team) => team.abbr !== session.userTeamAbbr)?.abbr;
+      const partnerTeam = teams.find((team) => team.abbr === nextPartnerTeamAbbr) ?? null;
+
+      setReviewOffer((current) => {
+        if (current) return current;
+        if (partnerTeam) {
+          return buildManualDraftTradeOffer({ partnerTeam, userTeam });
+        }
+        return draftOffers[0] ?? null;
+      });
       onBackToBoard();
     }
-  }, [draftOffers, draftView, onBackToBoard]);
+  }, [
+    draftOffers,
+    draftView,
+    onBackToBoard,
+    session.currentPickIndex,
+    session.picks,
+    session.userTeamAbbr,
+    teams,
+    userTeam,
+  ]);
 
   React.useEffect(() => {
     firedFreeFallRef.current = false;
@@ -194,7 +276,6 @@ export function ActiveDraftRoom({
     () => getTeamNeeds(session.userTeamAbbr, teams),
     [session.userTeamAbbr, teams],
   );
-
   const activeRuns = React.useMemo(
     () => detectActiveDraftRuns(session.picks, session.prospects),
     [session.picks, session.prospects],
@@ -664,7 +745,6 @@ export function ActiveDraftRoom({
             teamLogoUrl={selectedTeam?.logoUrl}
             teamAbbr={currentPick.ownerTeamAbbr}
             teamPrimaryColor={selectedTeam?.colors?.[0] ?? null}
-            teamSecondaryColor={selectedTeam?.colors?.[1] ?? selectedTeam?.colors?.[0] ?? null}
             round={currentPick.round}
             overall={currentPick.overall}
             isUserOnClock={onClock}
@@ -705,9 +785,11 @@ export function ActiveDraftRoom({
             hasStarted: true,
             isPaused: session.isPaused,
             isBusy: isControlsBusy,
+            canOfferTrade: onClock,
             onSpeedChange,
             onTogglePause,
             onStartDraft,
+            onOfferTrade,
             onToggleSettings,
           }}
         />
@@ -826,7 +908,11 @@ export function ActiveDraftRoom({
       <DraftTradeOfferReviewModal
         open={Boolean(reviewOffer)}
         offer={reviewOffer}
+        saveId={saveId}
         draftSessionId={draftSessionId}
+        sessionSnapshot={session}
+        saveSnapshot={saveSnapshot}
+        teams={teams}
         onClose={() => setReviewOffer(null)}
         onAccepted={({ session: nextSession, roster: nextRoster, header }) => {
           onDraftTradeAccepted({

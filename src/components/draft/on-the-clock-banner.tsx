@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Clock3, PhoneCall, ShieldAlert } from 'lucide-react';
 
-import { getReadableTextColor, lightenHexColor } from '@/lib/color-utils';
+import { getReadableTextColor } from '@/lib/color-utils';
 import { cn } from '@/lib/utils';
 
 type OnTheClockBannerProps = {
@@ -11,7 +11,6 @@ type OnTheClockBannerProps = {
   teamLogoUrl?: string | null;
   teamAbbr: string;
   teamPrimaryColor?: string | null;
-  teamSecondaryColor?: string | null;
   round: number;
   overall: number;
   isUserOnClock: boolean;
@@ -34,7 +33,6 @@ export function OnTheClockBanner({
   teamLogoUrl,
   teamAbbr,
   teamPrimaryColor,
-  teamSecondaryColor,
   round,
   overall,
   isUserOnClock,
@@ -44,9 +42,6 @@ export function OnTheClockBanner({
   activeTradeOfferCount = 0,
 }: OnTheClockBannerProps) {
   const primaryColor = teamPrimaryColor ?? '#020617';
-  const secondaryColor = teamSecondaryColor
-    ? lightenHexColor(teamSecondaryColor, 0.08)
-    : lightenHexColor(primaryColor, 0.14);
   const onPrimaryColor = getReadableTextColor(primaryColor);
   const mutedOnPrimary =
     onPrimaryColor === '#ffffff' ? 'rgba(255,255,255,0.78)' : 'rgba(15,23,42,0.72)';
@@ -61,7 +56,7 @@ export function OnTheClockBanner({
       <div
         className="px-4 py-4 transition-colors duration-500 ease-in-out sm:px-6"
         style={{
-          backgroundImage: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`,
+          backgroundColor: primaryColor,
           color: onPrimaryColor,
         }}
       >
@@ -97,7 +92,8 @@ export function OnTheClockBanner({
                 {isUserOnClock ? 'Make the call.' : `${teamName} are up.`}
               </h2>
               <p className="mt-1 text-sm" style={{ color: mutedOnPrimary }}>
-                Round {round} · Pick {overall} · {teamName}
+                Round <span className="font-bold" style={{ color: onPrimaryColor }}>{round}</span> · Pick{' '}
+                <span className="font-bold" style={{ color: onPrimaryColor }}>{overall}</span> · {teamName}
               </p>
             </div>
           </div>

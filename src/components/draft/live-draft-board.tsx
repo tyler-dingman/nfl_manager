@@ -160,9 +160,18 @@ export function LiveDraftBoard({
                 className={cn(
                   'rounded-full border px-3 py-1.5 text-xs font-semibold transition',
                   positionFilter === position
-                    ? 'border-slate-900 bg-slate-900 text-white'
+                    ? ''
                     : 'border-border bg-white text-slate-600 hover:border-slate-300',
                 )}
+                style={
+                  positionFilter === position
+                    ? {
+                        backgroundColor: 'var(--team-primary)',
+                        borderColor: 'var(--team-primary)',
+                        color: 'var(--team-on-primary)',
+                      }
+                    : undefined
+                }
                 onClick={() => setPositionFilter(position)}
               >
                 {position}

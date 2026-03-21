@@ -973,6 +973,7 @@ function DraftRoomContent() {
               onStartDraft={() => {
                 void startDraft();
               }}
+              onOfferTrade={() => setDraftView('trade')}
               onToggleSettings={() => setShowSettings((current) => !current)}
               onDraftPlayer={handleDraftPlayer}
               onDraftTradeAccepted={handleDraftTradeAccepted}
