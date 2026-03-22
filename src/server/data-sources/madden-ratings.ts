@@ -1,4 +1,8 @@
-import { normalizePlayerName, normalizeTeamName, normalizeTeamSlug } from '@/server/ingest/normalize';
+import {
+  normalizePlayerName,
+  normalizeTeamName,
+  normalizeTeamSlug,
+} from '@/server/ingest/normalize';
 import { TEAM_ALIAS_TO_ABBR, NFL_TEAM_SEED } from '@/server/ingest/teams';
 
 const MADDEN_BASE_URL = 'https://www.maddenratings.com';
@@ -49,7 +53,11 @@ const parseRows = (html: string, fallbackTeamName: string): MaddenRatingRecord[]
     if (!cleaned) return false;
     if (/^image:/i.test(cleaned)) return false;
     if (/^(united states|greece|canada|australia)$/i.test(cleaned)) return false;
-    if (/^(qb|rb|hb|fb|wr|te|lt|lg|c|rg|rt|ol|dt|nt|de|le|re|edge|ledg|redg|lb|mlb|ilb|olb|lolb|rolb|mike|sam|will|cb|fs|ss|s|k|p)$/i.test(cleaned)) {
+    if (
+      /^(qb|rb|hb|fb|wr|te|lt|lg|c|rg|rt|ol|dt|nt|de|le|re|edge|ledg|redg|lb|mlb|ilb|olb|lolb|rolb|mike|sam|will|cb|fs|ss|s|k|p)$/i.test(
+        cleaned,
+      )
+    ) {
       return false;
     }
     if (/^\d+\.?$/.test(cleaned)) return false;
@@ -74,7 +82,9 @@ const parseRows = (html: string, fallbackTeamName: string): MaddenRatingRecord[]
     const position = (positionMatch?.[1] ?? '').toUpperCase();
 
     // OVR is the first 2-digit number after the position/archetype block
-    const ratingBlockMatch = rowText.match(/#\d+\s+[A-Z]{1,5}\s+\|[^0-9]*?(\d{2})\s+\d{2}\s+[\d,]+/i);
+    const ratingBlockMatch = rowText.match(
+      /#\d+\s+[A-Z]{1,5}\s+\|[^0-9]*?(\d{2})\s+\d{2}\s+[\d,]+/i,
+    );
     const overallRating = Number.parseInt(ratingBlockMatch?.[1] ?? '', 10);
 
     if (!playerName || !position || !Number.isFinite(overallRating)) {
@@ -118,8 +128,7 @@ const fetchTeamPage = async (teamName: string): Promise<string> => {
 export const normalizeMaddenTeamToAbbr = (team: string): string | undefined => {
   const normalized = normalizeTeamName(team);
   return (
-    TEAM_ALIAS_TO_ABBR[normalized] ??
-    TEAM_ALIAS_TO_ABBR[normalized.replace(/\bnfl\b/g, '').trim()]
+    TEAM_ALIAS_TO_ABBR[normalized] ?? TEAM_ALIAS_TO_ABBR[normalized.replace(/\bnfl\b/g, '').trim()]
   );
 };
 

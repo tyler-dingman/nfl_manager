@@ -24,7 +24,7 @@ const normalizePosition = (position: string) => {
   return normalized;
 };
 
-const unique = <T,>(values: T[]) => Array.from(new Set(values));
+const unique = <T>(values: T[]) => Array.from(new Set(values));
 
 const toGrade = (score: number) => {
   if (score >= 95) return 'A+';
@@ -71,7 +71,10 @@ export type DraftClassSummary = {
   totalValueAdded: number;
 };
 
-export const detectActiveDraftRuns = (picks: DraftPickDTO[], prospects: PlayerRowDTO[]): DraftRun[] => {
+export const detectActiveDraftRuns = (
+  picks: DraftPickDTO[],
+  prospects: PlayerRowDTO[],
+): DraftRun[] => {
   const selectedPicks = picks
     .filter((pick) => pick.selectedPlayerId)
     .sort((left, right) => left.overall - right.overall);
@@ -143,13 +146,14 @@ export const evaluateDraftPick = ({
   );
   const isNeed = matchingNeedIndex !== -1;
   const boardRankScore = clampNumber(34 - Math.max(0, playerRank - currentPickOverall), 8, 34);
-  const teamNeedScore = isNeed ? [22, 18, 14][matchingNeedIndex] ?? 10 : 4;
+  const teamNeedScore = isNeed ? ([22, 18, 14][matchingNeedIndex] ?? 10) : 4;
   const valueAtPickScore = clampNumber(14 + valueDelta * 2.2, 0, 30);
-  const sleeperScore = boardEntry?.tags.includes('Sleeper') || boardEntry?.tags.includes('Steal')
-    ? 10
-    : valueDelta >= DRAFT_INTELLIGENCE_CONSTANTS.sleeperThreshold
-      ? 6
-      : 0;
+  const sleeperScore =
+    boardEntry?.tags.includes('Sleeper') || boardEntry?.tags.includes('Steal')
+      ? 10
+      : valueDelta >= DRAFT_INTELLIGENCE_CONSTANTS.sleeperThreshold
+        ? 6
+        : 0;
   const runPressureScore = activeRuns?.some((run) => run.position === normalizedPlayerPosition)
     ? 8
     : 0;
@@ -232,9 +236,7 @@ export const summarizeDraftClass = ({
   const addressedNeedPositions = unique(
     picks
       .map(({ player }) => normalizePosition(player.position))
-      .filter((position) =>
-        teamNeeds.some((need) => normalizePosition(need) === position),
-      ),
+      .filter((position) => teamNeeds.some((need) => normalizePosition(need) === position)),
   );
   const bestPickIndex = evaluations.reduce(
     (bestIndex, evaluation, index, array) =>

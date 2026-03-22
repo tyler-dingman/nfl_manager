@@ -1,4 +1,9 @@
-import { computeTeamNeeds, normalizeOverviewPosition, resolvePlayerRating, type TeamNeed } from '@/lib/team-overview';
+import {
+  computeTeamNeeds,
+  normalizeOverviewPosition,
+  resolvePlayerRating,
+  type TeamNeed,
+} from '@/lib/team-overview';
 import type { PlayerRowDTO } from '@/types/player';
 
 export type FranchiseTrajectoryState =
@@ -19,7 +24,8 @@ export type FranchiseTrajectory = {
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
-const normalizeCapLimitMillions = (capLimit: number) => (capLimit > 1_000 ? capLimit / 1_000_000 : capLimit);
+const normalizeCapLimitMillions = (capLimit: number) =>
+  capLimit > 1_000 ? capLimit / 1_000_000 : capLimit;
 
 const NEED_STARTER_COUNT: Record<TeamNeed, number> = {
   QB: 1,
@@ -123,8 +129,10 @@ const computeDepthScore = (roster: PlayerRowDTO[]) => {
       starters.length > 0
         ? starters.reduce((sum, rating) => sum + rating, 0) / starters.length
         : 55;
-    const shortagePenalty = starters.length < starterCount ? (starterCount - starters.length) * 5 : 0;
-    const weaknessPenalty = Math.max(0, 74 - average) * (index === 0 ? 1.7 : index === 1 ? 1.25 : 0.95);
+    const shortagePenalty =
+      starters.length < starterCount ? (starterCount - starters.length) * 5 : 0;
+    const weaknessPenalty =
+      Math.max(0, 74 - average) * (index === 0 ? 1.7 : index === 1 ? 1.25 : 0.95);
     totalPenalty += shortagePenalty + weaknessPenalty;
   });
 

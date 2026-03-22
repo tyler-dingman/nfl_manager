@@ -41,9 +41,7 @@ export const lightenHexColor = (hexColor: string, amount = 0.12): string => {
   const green = mix(Number.parseInt(hex.slice(2, 4), 16));
   const blue = mix(Number.parseInt(hex.slice(4, 6), 16));
 
-  return `#${[red, green, blue]
-    .map((value) => value.toString(16).padStart(2, '0'))
-    .join('')}`;
+  return `#${[red, green, blue].map((value) => value.toString(16).padStart(2, '0')).join('')}`;
 };
 
 if (process.env.NODE_ENV !== 'production') {

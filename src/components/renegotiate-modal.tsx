@@ -124,7 +124,9 @@ export default function RenegotiateModal({
                 <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                   Cap hit
                 </p>
-                <p className="mt-1 font-semibold">{formatMoneyMillions(parseCapHitValue(player))}</p>
+                <p className="mt-1 font-semibold">
+                  {formatMoneyMillions(parseCapHitValue(player))}
+                </p>
               </div>
               <div className="rounded-lg bg-white/70 px-3 py-2">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -143,51 +145,53 @@ export default function RenegotiateModal({
 
           <div className="mt-5 grid gap-4 sm:grid-cols-3">
             <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Years
-            </label>
-            <select
-              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={years}
-              onChange={(event) => setYears(Number(event.target.value))}
-            >
-              {[1, 2, 3, 4, 5, 6].map((value) => (
-                <option key={value} value={value}>
-                  {value} years
-                </option>
-              ))}
-            </select>
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Years
+              </label>
+              <select
+                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+                value={years}
+                onChange={(event) => setYears(Number(event.target.value))}
+              >
+                {[1, 2, 3, 4, 5, 6].map((value) => (
+                  <option key={value} value={value}>
+                    {value} years
+                  </option>
+                ))}
+              </select>
             </div>
             <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Value / yr (M)
-            </label>
-            <input
-              type="number"
-              step="0.5"
-              min="0"
-              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={apy}
-              onChange={(event) => setApy(Number(event.target.value))}
-            />
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Value / yr (M)
+              </label>
+              <input
+                type="number"
+                step="0.5"
+                min="0"
+                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+                value={apy}
+                onChange={(event) => setApy(Number(event.target.value))}
+              />
             </div>
             <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Guaranteed (M)
-            </label>
-            <input
-              type="number"
-              step="0.5"
-              min="0"
-              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={guaranteed}
-              onChange={(event) => setGuaranteed(Number(event.target.value))}
-            />
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Guaranteed (M)
+              </label>
+              <input
+                type="number"
+                step="0.5"
+                min="0"
+                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+                value={guaranteed}
+                onChange={(event) => setGuaranteed(Number(event.target.value))}
+              />
             </div>
           </div>
 
           <p className="mt-5 text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">{CURRENT_MODELED_LEAGUE_YEAR} Cap Number:</span>{' '}
+            <span className="font-semibold text-foreground">
+              {CURRENT_MODELED_LEAGUE_YEAR} Cap Number:
+            </span>{' '}
             {formatMoneyMillions(currentLeagueYearCapHit)}
           </p>
 

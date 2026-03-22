@@ -31,14 +31,16 @@ const offer: TradeOfferDTO = {
 
 test('no-spam pacing blocks repeated manage offers during cooldown', () => {
   const scope = registerTradeOfferShown(createEmptyTradeOfferScope(), offer, 1_000);
-  assert.equal(
-    shouldRequestTradeOffer({ phase: 'manage', scope, now: 5_000 }),
-    false,
-  );
+  assert.equal(shouldRequestTradeOffer({ phase: 'manage', scope, now: 5_000 }), false);
 });
 
 test('draft pacing waits several picks before next offer', () => {
-  const scope = registerTradeOfferShown(createEmptyTradeOfferScope(), { ...offer, phase: 'draft' }, 1_000, 10);
+  const scope = registerTradeOfferShown(
+    createEmptyTradeOfferScope(),
+    { ...offer, phase: 'draft' },
+    1_000,
+    10,
+  );
   assert.equal(
     shouldRequestTradeOffer({ phase: 'draft', scope, currentDraftPickIndex: 12, now: 2_000 }),
     false,

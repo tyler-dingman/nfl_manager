@@ -91,12 +91,22 @@ export function OnTheClockBanner({
               >
                 {isUserOnClock ? 'You Are On The Clock' : 'Pick In Progress'}
               </p>
-              <h2 className="mt-1 text-xl font-semibold sm:text-2xl" style={{ color: onPrimaryColor }}>
+              <h2
+                className="mt-1 text-xl font-semibold sm:text-2xl"
+                style={{ color: onPrimaryColor }}
+              >
                 {isUserOnClock ? 'Make the call.' : `${teamName} are up.`}
               </h2>
               <p className="mt-1 text-sm" style={{ color: mutedOnPrimary }}>
-                Round <span className="font-bold" style={{ color: onPrimaryColor }}>{round}</span> · Pick{' '}
-                <span className="font-bold" style={{ color: onPrimaryColor }}>{overall}</span> · {teamName}
+                Round{' '}
+                <span className="font-bold" style={{ color: onPrimaryColor }}>
+                  {round}
+                </span>{' '}
+                · Pick{' '}
+                <span className="font-bold" style={{ color: onPrimaryColor }}>
+                  {overall}
+                </span>{' '}
+                · {teamName}
               </p>
             </div>
           </div>
@@ -145,7 +155,10 @@ export function OnTheClockBanner({
                 <Clock3 className="h-4 w-4" style={{ color: mutedOnPrimary }} />
               )}
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: mutedOnPrimary }}>
+                <p
+                  className="text-[11px] font-semibold uppercase tracking-[0.2em]"
+                  style={{ color: mutedOnPrimary }}
+                >
                   Draft Clock
                 </p>
                 <p

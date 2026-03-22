@@ -66,7 +66,9 @@ export const POST = async (request: Request) => {
   await hydrateOffseasonFreeAgencyState(state);
   const player = state.roster.find((item) => item.id === body.playerId) ?? null;
   const expiringContract =
-    state.expiringContracts.find((entry) => entry.id === body.playerId) ?? body.expiringContract ?? null;
+    state.expiringContracts.find((entry) => entry.id === body.playerId) ??
+    body.expiringContract ??
+    null;
 
   if (!player && !expiringContract) {
     return NextResponse.json<ResignErrorDTO>(
@@ -86,7 +88,8 @@ export const POST = async (request: Request) => {
     id: resolvedExpiringContract!.id,
     firstName: resolvedExpiringContract!.name.split(' ')[0] ?? resolvedExpiringContract!.name,
     lastName:
-      resolvedExpiringContract!.name.split(' ').slice(1).join(' ') || resolvedExpiringContract!.name,
+      resolvedExpiringContract!.name.split(' ').slice(1).join(' ') ||
+      resolvedExpiringContract!.name,
     position: resolvedExpiringContract!.pos,
     contractYearsRemaining: 0,
     capHit: '$0.0M',

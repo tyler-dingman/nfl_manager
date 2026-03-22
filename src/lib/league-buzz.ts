@@ -229,7 +229,10 @@ export const generateFreeAgencyWaveTransitionToast = ({
         : 'League Buzz',
     message: template
       .replaceAll('{teamName}', teamName)
-      .replaceAll('{player1}', player1 ? `${player1.firstName} ${player1.lastName}` : 'the right pieces')
+      .replaceAll(
+        '{player1}',
+        player1 ? `${player1.firstName} ${player1.lastName}` : 'the right pieces',
+      )
       .replaceAll('{andPlayer2Text}', andPlayer2Text),
     avatarUrl: JIM_SCHWARTZ_AVATAR_URL,
     likes: formatCompact(likesBase),

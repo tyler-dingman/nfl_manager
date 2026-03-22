@@ -333,8 +333,8 @@ export const buildTop32Prospects = (): PlayerRowDTO[] =>
         source: prospect.source ?? undefined,
         stats: prospect.stats,
       }))
-    : TOP_50_PROSPECTS)
-    .map((prospect) => {
+    : TOP_50_PROSPECTS
+  ).map((prospect) => {
     const { firstName, lastName } = splitName(prospect.name);
     const stableId = prospect.id || `${slugify(prospect.name)}-${slugify(prospect.college)}`;
     const projectedPick = 'projectedPick' in prospect ? prospect.projectedPick : prospect.rank;
@@ -357,7 +357,9 @@ export const buildTop32Prospects = (): PlayerRowDTO[] =>
                       ? 'Round 7'
                       : 'Priority UDFA';
     const gradeValue =
-      'grade' in prospect && prospect.grade ? Number.parseFloat(prospect.grade) : 95 - (prospect.rank - 1) * 0.3;
+      'grade' in prospect && prospect.grade
+        ? Number.parseFloat(prospect.grade)
+        : 95 - (prospect.rank - 1) * 0.3;
     return {
       id: stableId,
       firstName,

@@ -32,8 +32,7 @@ type AcceptTradeOfferBody = {
 
 const ACCEPT_SCORE_FLOOR = Number((TRADE_ACCEPT_MARK_SCORE - TRADE_ACCEPT_WIGGLE).toFixed(3));
 
-const capHitMillions = (player: PlayerRowDTO) =>
-  Number(player.capHit.replace(/[^0-9.]/g, '')) || 0;
+const capHitMillions = (player: PlayerRowDTO) => Number(player.capHit.replace(/[^0-9.]/g, '')) || 0;
 
 const computeResultingCapSpace = (
   baseCapSpace: number,
@@ -174,19 +173,28 @@ export const POST = async (request: Request) => {
 
   const outgoingPlayerIds = new Set(
     outgoingAssets
-      .filter((asset): asset is Extract<(typeof outgoingAssets)[number], { type: 'player' }> => asset.type === 'player')
+      .filter(
+        (asset): asset is Extract<(typeof outgoingAssets)[number], { type: 'player' }> =>
+          asset.type === 'player',
+      )
       .map((asset) => asset.playerId),
   );
   const incomingPlayerIds = new Set(
     incomingAssets
-      .filter((asset): asset is Extract<(typeof incomingAssets)[number], { type: 'player' }> => asset.type === 'player')
+      .filter(
+        (asset): asset is Extract<(typeof incomingAssets)[number], { type: 'player' }> =>
+          asset.type === 'player',
+      )
       .map((asset) => asset.playerId),
   );
 
   const outgoingPlayers = userRoster.filter((player) => outgoingPlayerIds.has(player.id));
   const incomingPlayers = partnerRoster.filter((player) => incomingPlayerIds.has(player.id));
 
-  if (outgoingPlayers.length !== outgoingPlayerIds.size || incomingPlayers.length !== incomingPlayerIds.size) {
+  if (
+    outgoingPlayers.length !== outgoingPlayerIds.size ||
+    incomingPlayers.length !== incomingPlayerIds.size
+  ) {
     return NextResponse.json(
       { ok: false, error: 'Unable to resolve one or more players in the proposal.' },
       { status: 400 },
@@ -232,7 +240,9 @@ export const POST = async (request: Request) => {
 
   state.teamRosters[userTeam.team.abbr] = userRoster
     .filter((player) => !outgoingPlayerIds.has(player.id))
-    .concat(incomingPlayers.map((player) => transferStoredPlayerToTeam(player, userTeam.team.abbr)));
+    .concat(
+      incomingPlayers.map((player) => transferStoredPlayerToTeam(player, userTeam.team.abbr)),
+    );
   state.teamRosters[aiTeam.team.abbr] = partnerRoster
     .filter((player) => !incomingPlayerIds.has(player.id))
     .concat(outgoingPlayers.map((player) => transferStoredPlayerToTeam(player, aiTeam.team.abbr)));

@@ -155,7 +155,10 @@ export default function ContractOfferModal({
       >
         <div className="flex items-start justify-between gap-3 border-b border-border px-4 py-4 sm:px-6">
           <div className="min-w-0">
-            <h3 id="contract-offer-modal-title" className="text-base font-semibold text-foreground sm:text-lg">
+            <h3
+              id="contract-offer-modal-title"
+              className="text-base font-semibold text-foreground sm:text-lg"
+            >
               {title}
             </h3>
             {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
@@ -209,75 +212,77 @@ export default function ContractOfferModal({
 
           <div className="mt-5 grid gap-4 sm:grid-cols-3">
             <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Years
-            </label>
-            <select
-              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={years}
-              onChange={(event) => {
-                setYears(Number(event.target.value));
-                setResponse(null);
-              }}
-            >
-              {allowedYears.map((value) => (
-                <option key={value} value={value}>
-                  {value} years
-                </option>
-              ))}
-            </select>
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Years
+              </label>
+              <select
+                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+                value={years}
+                onChange={(event) => {
+                  setYears(Number(event.target.value));
+                  setResponse(null);
+                }}
+              >
+                {allowedYears.map((value) => (
+                  <option key={value} value={value}>
+                    {value} years
+                  </option>
+                ))}
+              </select>
             </div>
             <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              APY (M)
-            </label>
-            <input
-              type="number"
-              inputMode="decimal"
-              step={0.5}
-              min={0}
-              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={apyInput}
-              onChange={(event) => {
-                if (!allowNumericInput(event.target.value)) return;
-                setApyInput(event.target.value);
-                setResponse(null);
-              }}
-              onBlur={() => {
-                if (apyInput.trim() === '') return;
-                const clamped = clampNumber(parseNumericInput(apyInput), 0, 99);
-                setApyInput(clamped.toFixed(1));
-              }}
-            />
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                APY (M)
+              </label>
+              <input
+                type="number"
+                inputMode="decimal"
+                step={0.5}
+                min={0}
+                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+                value={apyInput}
+                onChange={(event) => {
+                  if (!allowNumericInput(event.target.value)) return;
+                  setApyInput(event.target.value);
+                  setResponse(null);
+                }}
+                onBlur={() => {
+                  if (apyInput.trim() === '') return;
+                  const clamped = clampNumber(parseNumericInput(apyInput), 0, 99);
+                  setApyInput(clamped.toFixed(1));
+                }}
+              />
             </div>
             <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Guaranteed (M)
-            </label>
-            <input
-              type="number"
-              inputMode="decimal"
-              step={0.1}
-              min={0}
-              max={60}
-              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={guaranteedInput}
-              onChange={(event) => {
-                if (!allowNumericInput(event.target.value)) return;
-                setGuaranteedInput(event.target.value);
-                setResponse(null);
-              }}
-              onBlur={() => {
-                if (guaranteedInput.trim() === '') return;
-                const clamped = clampNumber(parseNumericInput(guaranteedInput), 0, 60);
-                setGuaranteedInput(clamped.toFixed(1));
-              }}
-            />
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Guaranteed (M)
+              </label>
+              <input
+                type="number"
+                inputMode="decimal"
+                step={0.1}
+                min={0}
+                max={60}
+                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+                value={guaranteedInput}
+                onChange={(event) => {
+                  if (!allowNumericInput(event.target.value)) return;
+                  setGuaranteedInput(event.target.value);
+                  setResponse(null);
+                }}
+                onBlur={() => {
+                  if (guaranteedInput.trim() === '') return;
+                  const clamped = clampNumber(parseNumericInput(guaranteedInput), 0, 60);
+                  setGuaranteedInput(clamped.toFixed(1));
+                }}
+              />
             </div>
           </div>
 
           <p className="mt-5 text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">{CURRENT_MODELED_LEAGUE_YEAR} Cap Number:</span>{' '}
+            <span className="font-semibold text-foreground">
+              {CURRENT_MODELED_LEAGUE_YEAR} Cap Number:
+            </span>{' '}
             {formatMoneyMillions(currentLeagueYearCapHit)}
           </p>
 
@@ -297,8 +302,7 @@ export default function ContractOfferModal({
             <div
               className={cn(
                 'mt-4 rounded-lg border px-4 py-3 text-sm',
-                response.tone === 'positive' &&
-                  'border-emerald-200 bg-emerald-50 text-emerald-700',
+                response.tone === 'positive' && 'border-emerald-200 bg-emerald-50 text-emerald-700',
                 response.tone === 'neutral' && 'border-amber-200 bg-amber-50 text-amber-700',
                 response.tone === 'negative' && 'border-red-200 bg-red-50 text-red-700',
               )}

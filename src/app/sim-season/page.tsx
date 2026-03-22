@@ -29,7 +29,10 @@ export default function SimSeasonPage() {
   const [isSimulating, setIsSimulating] = useState(false);
 
   const selectedTeam = useMemo(
-    () => teams.find((team) => team.id === selectedTeamId) ?? teams.find((team) => team.abbr === teamAbbr) ?? null,
+    () =>
+      teams.find((team) => team.id === selectedTeamId) ??
+      teams.find((team) => team.abbr === teamAbbr) ??
+      null,
     [selectedTeamId, teamAbbr, teams],
   );
   const teamDtos = useMemo<TeamDTO[]>(
@@ -133,8 +136,8 @@ export default function SimSeasonPage() {
                 {selectedTeam?.name ?? 'Your Team'} season projection
               </h1>
               <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                A fast franchise-style sim based on the roster you built, the offseason ground you covered,
-                and where the team now sits entering the year.
+                A fast franchise-style sim based on the roster you built, the offseason ground you
+                covered, and where the team now sits entering the year.
               </p>
             </div>
             {selectedTeam?.logo_url ? (
@@ -157,7 +160,9 @@ export default function SimSeasonPage() {
             <div className="flex min-h-[240px] flex-col items-center justify-center gap-4 text-center">
               <div className="h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-slate-900" />
               <div className="space-y-2">
-                <p className="text-lg font-semibold text-foreground">Running the {franchiseYear} season...</p>
+                <p className="text-lg font-semibold text-foreground">
+                  Running the {franchiseYear} season...
+                </p>
                 <p className="text-sm text-muted-foreground">
                   Projecting wins, playoff path, and who leads the way on both sides of the ball.
                 </p>
@@ -178,13 +183,17 @@ export default function SimSeasonPage() {
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     Division Finish
                   </p>
-                  <p className="mt-2 text-xl font-semibold text-foreground">{recap.divisionFinish}</p>
+                  <p className="mt-2 text-xl font-semibold text-foreground">
+                    {recap.divisionFinish}
+                  </p>
                 </div>
                 <div className="rounded-2xl border border-border bg-slate-50 p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     Outcome
                   </p>
-                  <p className="mt-2 text-xl font-semibold text-foreground">{recap.seasonOutcome}</p>
+                  <p className="mt-2 text-xl font-semibold text-foreground">
+                    {recap.seasonOutcome}
+                  </p>
                 </div>
               </div>
 
@@ -193,7 +202,11 @@ export default function SimSeasonPage() {
               </div>
 
               <div className="flex justify-end">
-                <Button type="button" className="h-11 w-full md:w-auto" onClick={() => router.push('/season-recap')}>
+                <Button
+                  type="button"
+                  className="h-11 w-full md:w-auto"
+                  onClick={() => router.push('/season-recap')}
+                >
                   View Season Recap
                 </Button>
               </div>

@@ -50,9 +50,7 @@ export const shouldRequestTradeOffer = ({
       return true;
     }
     const safeCurrentDraftPickIndex = currentDraftPickIndex ?? scope.lastDraftPickIndex;
-    return (
-      safeCurrentDraftPickIndex - scope.lastDraftPickIndex >= TRADE_OFFER_DRAFT_PICK_COOLDOWN
-    );
+    return safeCurrentDraftPickIndex - scope.lastDraftPickIndex >= TRADE_OFFER_DRAFT_PICK_COOLDOWN;
   }
 
   return now - scope.lastShownAt >= TRADE_OFFER_COOLDOWN_MS[phase];
@@ -71,7 +69,10 @@ export const registerTradeOfferShown = (
   lastDraftPickIndex: draftPickIndex ?? scope.lastDraftPickIndex,
 });
 
-export const registerTradeOfferDismissed = (scope: ScopeState, offer: TradeOfferDTO): ScopeState => ({
+export const registerTradeOfferDismissed = (
+  scope: ScopeState,
+  offer: TradeOfferDTO,
+): ScopeState => ({
   ...scope,
   shownOfferIds: Array.from(new Set([...scope.shownOfferIds, offer.id])),
 });

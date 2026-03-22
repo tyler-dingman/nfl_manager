@@ -19,10 +19,7 @@ export type ProgressEventInput = {
 
 export const OFFSEASON_PROGRESS_MAX = 100;
 
-export const OFFSEASON_PROGRESS_POINTS: Record<
-  OffseasonProgressStep,
-  Record<string, number>
-> = {
+export const OFFSEASON_PROGRESS_POINTS: Record<OffseasonProgressStep, Record<string, number>> = {
   manage: {
     resign: 32,
     cut: 22,
@@ -57,9 +54,7 @@ export const getStepProgressPercent = (
   step: OffseasonProgressStep,
 ) => Math.max(0, Math.min(OFFSEASON_PROGRESS_MAX, Math.round(snapshot[step].score)));
 
-export const getOverallOffseasonProgressPercent = (
-  snapshot: OffseasonProgressSnapshot,
-) => {
+export const getOverallOffseasonProgressPercent = (snapshot: OffseasonProgressSnapshot) => {
   const total =
     getStepProgressPercent(snapshot, 'manage') +
     getStepProgressPercent(snapshot, 'free-agency') +
@@ -68,16 +63,12 @@ export const getOverallOffseasonProgressPercent = (
   return Math.round(total / 3);
 };
 
-export const getCompletedOffseasonStepCount = (
-  snapshot: OffseasonProgressSnapshot,
-) =>
+export const getCompletedOffseasonStepCount = (snapshot: OffseasonProgressSnapshot) =>
   (['manage', 'free-agency', 'draft'] as OffseasonProgressStep[]).filter(
     (step) => getStepProgressPercent(snapshot, step) >= OFFSEASON_PROGRESS_MAX,
   ).length;
 
-export const getHighestUnlockedStepIndexFromProgress = (
-  snapshot: OffseasonProgressSnapshot,
-) => {
+export const getHighestUnlockedStepIndexFromProgress = (snapshot: OffseasonProgressSnapshot) => {
   if (getStepProgressPercent(snapshot, 'draft') >= OFFSEASON_PROGRESS_MAX) return 2;
   if (getStepProgressPercent(snapshot, 'free-agency') >= OFFSEASON_PROGRESS_MAX) return 2;
   if (getStepProgressPercent(snapshot, 'manage') >= OFFSEASON_PROGRESS_MAX) return 1;
@@ -99,10 +90,7 @@ export const applyProgressEvent = (
 
   const nextScore = input.complete
     ? OFFSEASON_PROGRESS_MAX
-    : Math.min(
-        OFFSEASON_PROGRESS_MAX,
-        current.score + Math.max(0, Math.round(input.points ?? 0)),
-      );
+    : Math.min(OFFSEASON_PROGRESS_MAX, current.score + Math.max(0, Math.round(input.points ?? 0)));
   const nextCompleted = input.complete || nextScore >= OFFSEASON_PROGRESS_MAX;
   const nextRecord: StepProgressRecord = {
     score: nextScore,

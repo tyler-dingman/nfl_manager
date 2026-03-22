@@ -1,6 +1,10 @@
 import { TEAM_LIST } from '@/data/teams';
 import { createRng } from '@/lib/deterministic-rng';
-import { computeTeamNeeds, normalizeOverviewPosition, resolvePlayerRating } from '@/lib/team-overview';
+import {
+  computeTeamNeeds,
+  normalizeOverviewPosition,
+  resolvePlayerRating,
+} from '@/lib/team-overview';
 import {
   getOrBuildProjectedRosterForTeam,
   getProjectedCapSpaceForTeam,
@@ -126,7 +130,9 @@ const buildRatedRoster = (players: PlayerRowDTO[], teamAbbr: string): RatedPlaye
         resolvedRating,
       };
     })
-    .filter((player): player is RatedPlayer => player !== null && player.status.toLowerCase() !== 'cut');
+    .filter(
+      (player): player is RatedPlayer => player !== null && player.status.toLowerCase() !== 'cut',
+    );
 
 const buildTeamContext = (state: SaveState): Map<string, TeamContext> => {
   const context = new Map<string, TeamContext>();
@@ -143,7 +149,9 @@ const buildTeamContext = (state: SaveState): Map<string, TeamContext> => {
       ratedByPosition.set(position, room);
     });
 
-    ratedByPosition.forEach((room) => room.sort((left, right) => right.resolvedRating - left.resolvedRating));
+    ratedByPosition.forEach((room) =>
+      room.sort((left, right) => right.resolvedRating - left.resolvedRating),
+    );
 
     const roomStrength = new Map<TradePosition, number>();
     ratedByPosition.forEach((room, position) => {
@@ -199,10 +207,22 @@ const isUntouchable = ({ player, depthRank, starterCount }: CandidateContext) =>
   if ((player.age ?? 30) <= 24 && yearsRemaining >= 3 && player.resolvedRating >= 80) {
     return true;
   }
-  if (depthRank <= starterCount && player.age !== undefined && player.age <= 26 && yearsRemaining >= 2 && player.resolvedRating >= 84) {
+  if (
+    depthRank <= starterCount &&
+    player.age !== undefined &&
+    player.age <= 26 &&
+    yearsRemaining >= 2 &&
+    player.resolvedRating >= 84
+  ) {
     return true;
   }
-  if (depthRank <= starterCount && player.capHitValue !== undefined && player.capHitValue <= 2 && player.resolvedRating >= 78 && (player.age ?? 30) <= 27) {
+  if (
+    depthRank <= starterCount &&
+    player.capHitValue !== undefined &&
+    player.capHitValue <= 2 &&
+    player.resolvedRating >= 78 &&
+    (player.age ?? 30) <= 27
+  ) {
     return true;
   }
 
@@ -267,7 +287,11 @@ const scoreCandidate = (input: CandidateContext): ScoreContribution[] => {
     });
   }
 
-  if (depthRank > 1 && player.resolvedRating >= starterThreshold - 3 && player.resolvedRating >= 72) {
+  if (
+    depthRank > 1 &&
+    player.resolvedRating >= starterThreshold - 3 &&
+    player.resolvedRating >= 72
+  ) {
     contributions.push({
       category: 'role_redundancy',
       score: 6,
@@ -445,7 +469,9 @@ export const buildTradeBlock = (
       if ((right.rating ?? 0) !== (left.rating ?? 0)) {
         return (right.rating ?? 0) - (left.rating ?? 0);
       }
-      return `${left.firstName} ${left.lastName}`.localeCompare(`${right.firstName} ${right.lastName}`);
+      return `${left.firstName} ${left.lastName}`.localeCompare(
+        `${right.firstName} ${right.lastName}`,
+      );
     })
     .filter((row) => row.potentialFits.length > 0)
     .filter((row) => {

@@ -421,15 +421,13 @@ export default function FreeAgentsPage() {
               </button>
             </div>
             <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-              <span className="font-semibold text-slate-700">
-                Wave {freeAgencyWave}
-              </span>
+              <span className="font-semibold text-slate-700">Wave {freeAgencyWave}</span>
               <span>
                 {freeAgencyWave === 1
                   ? 'Tampering Window'
                   : freeAgencyWave === 2
-                  ? 'Secondary Market'
-                  : 'Final Wave'}
+                    ? 'Secondary Market'
+                    : 'Final Wave'}
               </span>
               <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold text-foreground">
                 Signed {signedCount}

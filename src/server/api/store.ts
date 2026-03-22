@@ -203,8 +203,10 @@ const initializeFreeAgentMarketFields = (player: StoredPlayer): StoredPlayer => 
 };
 
 const getTeamNeedsForAbbr = (teamAbbr: string): string[] =>
-  NFL_LEAGUE_DATA.teams.find((team) => team.abbr.toUpperCase() === teamAbbr.toUpperCase())?.allTeamNeeds ??
-  NFL_LEAGUE_DATA.teams.find((team) => team.abbr.toUpperCase() === teamAbbr.toUpperCase())?.teamNeeds ??
+  NFL_LEAGUE_DATA.teams.find((team) => team.abbr.toUpperCase() === teamAbbr.toUpperCase())
+    ?.allTeamNeeds ??
+  NFL_LEAGUE_DATA.teams.find((team) => team.abbr.toUpperCase() === teamAbbr.toUpperCase())
+    ?.teamNeeds ??
   [];
 
 const splitName = (name: string) => {
@@ -316,9 +318,9 @@ const resolvePlayerContractValues = (
       ? Math.max(
           0,
           Number(
-            (
-              capHitValue - (releaseSavingsFromUnified ?? releaseSavingsFromFallback ?? 0)
-            ).toFixed(1),
+            (capHitValue - (releaseSavingsFromUnified ?? releaseSavingsFromFallback ?? 0)).toFixed(
+              1,
+            ),
           ),
         )
       : null;
@@ -464,16 +466,14 @@ const buildInitialDraftPickAssets = (
   );
 
 const sortDraftPickAssets = (assets: TradePickAssetDTO[]) =>
-  assets
-    .slice()
-    .sort((left, right) => {
-      if (left.year !== right.year) return left.year - right.year;
-      if (left.round !== right.round) return left.round - right.round;
-      if ((left.overallSlot ?? 999) !== (right.overallSlot ?? 999)) {
-        return (left.overallSlot ?? 999) - (right.overallSlot ?? 999);
-      }
-      return left.originalTeamAbbr.localeCompare(right.originalTeamAbbr);
-    });
+  assets.slice().sort((left, right) => {
+    if (left.year !== right.year) return left.year - right.year;
+    if (left.round !== right.round) return left.round - right.round;
+    if ((left.overallSlot ?? 999) !== (right.overallSlot ?? 999)) {
+      return (left.overallSlot ?? 999) - (right.overallSlot ?? 999);
+    }
+    return left.originalTeamAbbr.localeCompare(right.originalTeamAbbr);
+  });
 
 const ensureDraftPickAssets = (state: SaveState): TradePickAssetDTO[] => {
   if (!state.draftPickAssets || state.draftPickAssets.length === 0) {
@@ -554,7 +554,9 @@ export const transferDraftPicksToTeam = (
   }
   const targetIds = new Set(pickAssetIds);
   state.draftPickAssets = ensureDraftPickAssets(state).map((pick) =>
-    targetIds.has(pick.id) ? rebuildDraftPickAssetWithOwner(pick, owningTeamAbbr.toUpperCase()) : pick,
+    targetIds.has(pick.id)
+      ? rebuildDraftPickAssetWithOwner(pick, owningTeamAbbr.toUpperCase())
+      : pick,
   );
 };
 
@@ -871,7 +873,9 @@ const buildFreeAgentFromExpiredPlayer = (
       position: player.position,
       age: player.age,
       lastContractApy: marketValue,
-      lastGuaranteed: Math.round((player.guaranteed ?? player.contract?.guaranteed ?? 0) * 1_000_000),
+      lastGuaranteed: Math.round(
+        (player.guaranteed ?? player.contract?.guaranteed ?? 0) * 1_000_000,
+      ),
       teamAbbr: state.header.teamAbbr,
       generatedAt,
       source: player.cutAt ? 'released' : 'real',
@@ -913,8 +917,8 @@ const buildExpiringContractsFromRoster = (
       rating: player.rating ?? player.maddenRating ?? player.baselineRating ?? undefined,
       estValue: getPlayerMarketValueDollars(player),
       currentSalary: Math.round(
-        ((player.contract?.apy ?? player.salary ?? player.capHitValue ?? player.year1CapHit ?? 0) *
-          1_000_000),
+        (player.contract?.apy ?? player.salary ?? player.capHitValue ?? player.year1CapHit ?? 0) *
+          1_000_000,
       ),
       maxValue: Math.round(getPlayerMarketValueDollars(player) * 1.15),
       headshotUrl: player.headshotUrl ?? null,
@@ -1017,10 +1021,9 @@ export const advanceSaveStateToNextOffseason = (
   state.roster = state.teamRosters[state.header.teamAbbr] ?? [];
   state.header.rosterCount = state.roster.length;
   state.header.capLimit = capLimitMillionsForTeam(state.header.teamAbbr, state.roster);
-  state.header.capSpace = state.teamCaps[state.header.teamAbbr] ?? recalculateTeamCapSpaceFromRoster(
-    state.header.teamAbbr,
-    state.roster,
-  );
+  state.header.capSpace =
+    state.teamCaps[state.header.teamAbbr] ??
+    recalculateTeamCapSpaceFromRoster(state.header.teamAbbr, state.roster);
 
   state.expiringContracts = buildExpiringContractsFromRoster(state.roster, state.header.teamAbbr);
   const rosteredPlayerIds = new Set(
@@ -1047,7 +1050,7 @@ export const advanceSaveStateToNextOffseason = (
       }),
       freeAgentProfile: player.freeAgentProfile
         ? {
-          ...player.freeAgentProfile,
+            ...player.freeAgentProfile,
             saveId: state.header.id,
             source: player.cutAt ? 'released' : player.freeAgentProfile.source,
             available: true,
@@ -1155,7 +1158,8 @@ const pickCpuSigningTeam = (state: SaveState, player: StoredPlayer, wave: FreeAg
       const needScore = needIndex === 0 ? 32 : needIndex === 1 ? 20 : needIndex === 2 ? 14 : 4;
       const capSpace = state.teamCaps[teamAbbr] ?? capSpaceMillionsForTeam(teamAbbr);
       const ageScore = player.age ? Math.max(0, 30 - player.age) : 6;
-      const ratingScore = (player.rating ?? player.maddenRating ?? player.baselineRating ?? 70) - 65;
+      const ratingScore =
+        (player.rating ?? player.maddenRating ?? player.baselineRating ?? 70) - 65;
       const fitSeed = hashString(`${state.header.id}:${teamAbbr}:${player.id}:${wave}`);
       const randomness = fitSeed % 7;
       return {
@@ -1181,12 +1185,13 @@ const signFreeAgentToCpuTeamInState = (
 
   const player = state.freeAgents[playerIndex];
   const currentAskAnnualValue =
-    getCurrentAskAnnualValue(player) ??
-    player.freeAgentProfile?.expectedContractYears ??
-    1;
+    getCurrentAskAnnualValue(player) ?? player.freeAgentProfile?.expectedContractYears ?? 1;
   const years = Math.max(
     1,
-    Math.min(4, player.freeAgentProfile?.expectedContractYears ?? (player.rating ?? 72) >= 80 ? 3 : 2),
+    Math.min(
+      4,
+      (player.freeAgentProfile?.expectedContractYears ?? (player.rating ?? 72) >= 80) ? 3 : 2,
+    ),
   );
   const guaranteed = Number((currentAskAnnualValue * years * 0.42).toFixed(1));
   const year1CapHit = getYearOneCapHit(currentAskAnnualValue, years);
@@ -1232,7 +1237,9 @@ const signFreeAgentToCpuTeamInState = (
   const roster = state.teamRosters[teamAbbr] ?? buildRosterForTeam(teamAbbr);
   removePlayerFromAllRosters(state, signedPlayer.id);
   state.teamRosters[teamAbbr] = [...roster, transferStoredPlayerToTeam(signedPlayer, teamAbbr)];
-  state.teamCaps[teamAbbr] = Number(((state.teamCaps[teamAbbr] ?? capSpaceMillionsForTeam(teamAbbr)) - year1CapHit).toFixed(1));
+  state.teamCaps[teamAbbr] = Number(
+    ((state.teamCaps[teamAbbr] ?? capSpaceMillionsForTeam(teamAbbr)) - year1CapHit).toFixed(1),
+  );
   state.transactions.push({
     id: `tx_cpu_sign_${Date.now()}_${Math.random().toString(16).slice(2)}`,
     type: 'signing',
@@ -1267,18 +1274,24 @@ const simulateCpuWaveSignings = (state: SaveState, nextWave: FreeAgencyWave) => 
   const cpuSignedCount = state.freeAgents.filter((player) => player.isSignedByCpu).length;
   const totalCurrentlySigned = userSignedCount + cpuSignedCount;
   const overallTargetSigned =
-    nextWave === 2
-      ? Math.round(originalPoolSize * 0.3)
-      : Math.round(originalPoolSize * 0.5);
+    nextWave === 2 ? Math.round(originalPoolSize * 0.3) : Math.round(originalPoolSize * 0.5);
   const available = state.freeAgents.filter((player) => isAvailableFreeAgent(player));
-  const eliteAvailable = available.filter((player) => (player.rating ?? player.maddenRating ?? 0) >= 80);
+  const eliteAvailable = available.filter(
+    (player) => (player.rating ?? player.maddenRating ?? 0) >= 80,
+  );
   const desiredEliteSignings =
-    nextWave === 2 ? Math.ceil(eliteAvailable.length * 0.8) : Math.ceil(eliteAvailable.length * 0.5);
+    nextWave === 2
+      ? Math.ceil(eliteAvailable.length * 0.8)
+      : Math.ceil(eliteAvailable.length * 0.5);
   const additionalNeeded = Math.max(0, overallTargetSigned - totalCurrentlySigned);
 
   const rankedAvailable = [...available].sort((left, right) => {
-    const leftNeedWeight = getTeamNeedsForAbbr(state.header.teamAbbr).includes(left.position) ? 0 : 1;
-    const rightNeedWeight = getTeamNeedsForAbbr(state.header.teamAbbr).includes(right.position) ? 0 : 1;
+    const leftNeedWeight = getTeamNeedsForAbbr(state.header.teamAbbr).includes(left.position)
+      ? 0
+      : 1;
+    const rightNeedWeight = getTeamNeedsForAbbr(state.header.teamAbbr).includes(right.position)
+      ? 0
+      : 1;
     if (leftNeedWeight !== rightNeedWeight) return leftNeedWeight - rightNeedWeight;
     const leftScore =
       (left.rating ?? left.maddenRating ?? left.baselineRating ?? 70) * 5 -
@@ -1299,7 +1312,10 @@ const simulateCpuWaveSignings = (state: SaveState, nextWave: FreeAgencyWave) => 
     .slice(0, Math.max(0, additionalNeeded - eliteTargets.length));
   const targets = [...eliteTargets, ...fillTargets]
     .slice(0, Math.max(additionalNeeded, eliteTargets.length))
-    .filter((player, index, collection) => collection.findIndex((entry) => entry.id === player.id) === index);
+    .filter(
+      (player, index, collection) =>
+        collection.findIndex((entry) => entry.id === player.id) === index,
+    );
 
   targets.forEach((player) => {
     const teamAbbr = pickCpuSigningTeam(state, player, nextWave);
@@ -1336,7 +1352,8 @@ export const getFreeAgencyMarket = (
       wave: state.offseason.freeAgencyWave,
       waveLabel: getWaveLabel(state.offseason.freeAgencyWave),
       originalPoolSize: state.offseason.initialFreeAgentCount || players.length,
-      availableCount: players.filter((player) => !player.isSignedByCpu && !player.isSignedByUser).length,
+      availableCount: players.filter((player) => !player.isSignedByCpu && !player.isSignedByUser)
+        .length,
       userSignedCount: players.filter((player) => player.isSignedByUser).length,
       cpuSignedCount: players.filter((player) => player.isSignedByCpu).length,
       players,

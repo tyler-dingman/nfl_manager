@@ -79,7 +79,9 @@ function DraftRoomContent() {
   const [selectedPickNumber] = React.useState(1);
   const [lobbyMessage, setLobbyMessage] = React.useState('');
   const [showSettings, setShowSettings] = React.useState(false);
-  const [pickAnnouncementPlayer, setPickAnnouncementPlayer] = React.useState<PlayerRowDTO | null>(null);
+  const [pickAnnouncementPlayer, setPickAnnouncementPlayer] = React.useState<PlayerRowDTO | null>(
+    null,
+  );
   const [pickAnnouncementOpen, setPickAnnouncementOpen] = React.useState(false);
   const [pickAnnouncementGrade, setPickAnnouncementGrade] = React.useState<string | null>(null);
   const [selectedLobbyPlayerId, setSelectedLobbyPlayerId] = React.useState<string | null>(null);
@@ -191,7 +193,14 @@ function DraftRoomContent() {
       }
       completeCurrentStep();
     }
-  }, [modeExperience, session?.status, completedSteps, completeCurrentStep, recordProgressEvent, saveId]);
+  }, [
+    modeExperience,
+    session?.status,
+    completedSteps,
+    completeCurrentStep,
+    recordProgressEvent,
+    saveId,
+  ]);
 
   const userTeam = React.useMemo(() => {
     if (!session) return null;
@@ -208,9 +217,13 @@ function DraftRoomContent() {
         if (resolvedTeamAbbr) {
           headerParams.set('teamAbbr', resolvedTeamAbbr);
         }
-        const headerResponse = await apiFetch(`/api/saves/header?${headerParams.toString()}`, undefined, {
-          skipSaveGuard: true,
-        });
+        const headerResponse = await apiFetch(
+          `/api/saves/header?${headerParams.toString()}`,
+          undefined,
+          {
+            skipSaveGuard: true,
+          },
+        );
         if (headerResponse.ok) {
           const headerData = (await headerResponse.json()) as
             | (SaveBootstrapDTO & { unlocked?: SaveBootstrapDTO['unlocked'] })
@@ -367,7 +380,9 @@ function DraftRoomContent() {
   const selectedLobbyPlayer =
     (selectedLobbyPlayerId
       ? lobbyProspects.find((player) => player.id === selectedLobbyPlayerId)
-      : null) ?? lobbyBoardEntries[0]?.player ?? null;
+      : null) ??
+    lobbyBoardEntries[0]?.player ??
+    null;
 
   const fetchSession = React.useCallback(
     async (draftSessionId: string, saveIdOverride?: string | null) => {
@@ -684,7 +699,9 @@ function DraftRoomContent() {
     setSession(payload.session);
     setRoster(
       roster.some((entry) => entry.id === payload.draftedPlayer.id)
-        ? roster.map((entry) => (entry.id === payload.draftedPlayer.id ? payload.draftedPlayer : entry))
+        ? roster.map((entry) =>
+            entry.id === payload.draftedPlayer.id ? payload.draftedPlayer : entry,
+          )
         : [...roster, payload.draftedPlayer],
     );
     await refreshSaveHeader(actionableSaveId);
@@ -901,7 +918,9 @@ function DraftRoomContent() {
                 }}
               />
 
-              {lobbyMessage ? <p className="text-sm text-muted-foreground">{lobbyMessage}</p> : null}
+              {lobbyMessage ? (
+                <p className="text-sm text-muted-foreground">{lobbyMessage}</p>
+              ) : null}
 
               <div className="min-w-0">
                 <LiveDraftBoard
@@ -932,7 +951,9 @@ function DraftRoomContent() {
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                       Players Drafted
                     </p>
-                    <p className="mt-2 text-3xl font-bold text-foreground">{userSelections.length}</p>
+                    <p className="mt-2 text-3xl font-bold text-foreground">
+                      {userSelections.length}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -974,7 +995,9 @@ function DraftRoomContent() {
         open={isLobbyProspectModalOpen}
         player={selectedLobbyPlayer}
         players={lobbyBoardEntries.map((entry) => entry.player)}
-        boardEntry={lobbyBoardEntries.find((entry) => entry.player.id === selectedLobbyPlayer?.id) ?? null}
+        boardEntry={
+          lobbyBoardEntries.find((entry) => entry.player.id === selectedLobbyPlayer?.id) ?? null
+        }
         teamNeeds={getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams)}
         activeRuns={[]}
         onSelectPlayer={setSelectedLobbyPlayerId}

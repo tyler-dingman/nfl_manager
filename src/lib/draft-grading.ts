@@ -56,7 +56,10 @@ const getNeedBoost = (teamNeeds: string[], playerPosition: string) => {
   return 0;
 };
 
-export const calculateValueDelta = (playerRanking: number | null | undefined, pickNumber: number) => {
+export const calculateValueDelta = (
+  playerRanking: number | null | undefined,
+  pickNumber: number,
+) => {
   if (!Number.isFinite(playerRanking)) {
     return 0;
   }

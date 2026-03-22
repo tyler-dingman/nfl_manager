@@ -3,10 +3,7 @@ import { NextResponse } from 'next/server';
 import { gradeTradeOffer } from '@/lib/trade-offer-evaluator';
 import { buildTradePlayerAsset } from '@/lib/trade-player-valuation';
 import { getDraftPickAssetById, getSaveStateResult } from '@/server/api/store';
-import {
-  buildEvaluationContext,
-  buildTeamContexts,
-} from '@/server/logic/trade-offer-generator';
+import { buildEvaluationContext, buildTeamContexts } from '@/server/logic/trade-offer-generator';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TradeOfferDTO } from '@/types/trade-offers';
 
@@ -22,7 +19,10 @@ type EvaluateTradeOfferBody = {
 export const POST = async (request: Request) => {
   const body = (await request.json()) as EvaluateTradeOfferBody;
   if (!body.saveId || !body.offer) {
-    return NextResponse.json({ ok: false, error: 'Missing trade offer evaluation inputs.' }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: 'Missing trade offer evaluation inputs.' },
+      { status: 400 },
+    );
   }
 
   const saveResult = getSaveStateResult(body.saveId);
@@ -35,7 +35,10 @@ export const POST = async (request: Request) => {
   const userTeam = contexts.get(state.header.teamAbbr.toUpperCase());
   const aiTeam = contexts.get(body.offer.proposingTeamAbbr.toUpperCase());
   if (!userTeam || !aiTeam) {
-    return NextResponse.json({ ok: false, error: 'Unable to resolve trade offer teams.' }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: 'Unable to resolve trade offer teams.' },
+      { status: 400 },
+    );
   }
 
   const extraIncomingPlayers = (body.extraIncomingPlayerIds ?? [])
@@ -72,8 +75,16 @@ export const POST = async (request: Request) => {
     .filter((pick): pick is NonNullable<typeof pick> => Boolean(pick))
     .filter((pick) => pick.owningTeamAbbr === userTeam.team.abbr);
 
-  const incomingAssets = [...body.offer.incoming.assets, ...extraIncomingPlayers, ...extraIncomingPicks];
-  const outgoingAssets = [...body.offer.outgoing.assets, ...extraOutgoingPlayers, ...extraOutgoingPicks];
+  const incomingAssets = [
+    ...body.offer.incoming.assets,
+    ...extraIncomingPlayers,
+    ...extraIncomingPicks,
+  ];
+  const outgoingAssets = [
+    ...body.offer.outgoing.assets,
+    ...extraOutgoingPlayers,
+    ...extraOutgoingPicks,
+  ];
 
   const graded = gradeTradeOffer(
     {

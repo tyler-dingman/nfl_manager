@@ -68,7 +68,11 @@ test('younger premium player can outvalue older expensive veteran', () => {
 });
 
 test('bad expensive contracts are penalized', () => {
-  const fairDeal = getPlayerTradeValue(makePlayer({ averagePerYear: 8, capHitValue: 8, capHit: '$8.0M' })).value;
-  const expensiveDeal = getPlayerTradeValue(makePlayer({ averagePerYear: 18, capHitValue: 18, capHit: '$18.0M' })).value;
+  const fairDeal = getPlayerTradeValue(
+    makePlayer({ averagePerYear: 8, capHitValue: 8, capHit: '$8.0M' }),
+  ).value;
+  const expensiveDeal = getPlayerTradeValue(
+    makePlayer({ averagePerYear: 18, capHitValue: 18, capHit: '$18.0M' }),
+  ).value;
   assert.ok(fairDeal > expensiveDeal);
 });

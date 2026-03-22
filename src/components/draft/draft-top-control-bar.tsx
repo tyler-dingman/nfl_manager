@@ -45,7 +45,9 @@ export function DraftTopControlBar({
           <h1 className="mt-1 text-2xl font-semibold text-foreground">Draft Room</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             2026 NFL Draft
-            {currentPick ? ` • Round ${currentPick.round} • Pick ${currentPick.overall}` : ' • Ready to begin'}
+            {currentPick
+              ? ` • Round ${currentPick.round} • Pick ${currentPick.overall}`
+              : ' • Ready to begin'}
           </p>
         </div>
 
@@ -64,7 +66,13 @@ export function DraftTopControlBar({
             <span className="text-xs font-semibold text-foreground">{speedLabel(speedLevel)}</span>
           </div>
 
-          <Button type="button" variant="secondary" size="sm" className="gap-2" onClick={onToggleSettings}>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            className="gap-2"
+            onClick={onToggleSettings}
+          >
             <Settings2 className="h-4 w-4" />
             Settings
           </Button>
@@ -107,13 +115,17 @@ export function DraftTopControlBar({
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Trade Chaos
             </p>
-            <p className="mt-1">Draft-day calls surface around premium picks and on-the-clock pressure.</p>
+            <p className="mt-1">
+              Draft-day calls surface around premium picks and on-the-clock pressure.
+            </p>
           </div>
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Board Mode
             </p>
-            <p className="mt-1">Prospects are ranked with live need, value, and run-risk context.</p>
+            <p className="mt-1">
+              Prospects are ranked with live need, value, and run-risk context.
+            </p>
           </div>
         </div>
       ) : null}

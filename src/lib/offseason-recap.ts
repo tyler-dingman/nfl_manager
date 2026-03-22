@@ -1,5 +1,9 @@
 import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
-import { computeTeamOverviewRaw, resolvePlayerRating, scaleOverviewScore } from '@/lib/team-overview';
+import {
+  computeTeamOverviewRaw,
+  resolvePlayerRating,
+  scaleOverviewScore,
+} from '@/lib/team-overview';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TeamDTO } from '@/types/team';
 
@@ -199,17 +203,25 @@ export const buildOffseasonSummary = ({
   if (overallDelta !== null && overallDelta >= 2) {
     lines.push('The roster came out of the offseason stronger on paper and deeper in key spots.');
   } else if (overallDelta !== null && overallDelta <= -1) {
-    lines.push('The offseason asked for some long-view bets, even if the short-term roster took on risk.');
+    lines.push(
+      'The offseason asked for some long-view bets, even if the short-term roster took on risk.',
+    );
   } else {
     lines.push('The offseason kept the roster competitive while reshaping key areas.');
   }
 
   if (needsAddressed >= 2) {
-    lines.push('Multiple top needs were addressed, giving the roster a cleaner path into the season.');
+    lines.push(
+      'Multiple top needs were addressed, giving the roster a cleaner path into the season.',
+    );
   } else if (needsAddressed === 1) {
-    lines.push('One major need was addressed, but there is still work to do at the back end of the roster.');
+    lines.push(
+      'One major need was addressed, but there is still work to do at the back end of the roster.',
+    );
   } else {
-    lines.push('The class leaned more toward value than direct need-filling, which leaves some pressure points.');
+    lines.push(
+      'The class leaned more toward value than direct need-filling, which leaves some pressure points.',
+    );
   }
 
   if (startingTrajectory !== endingTrajectory) {

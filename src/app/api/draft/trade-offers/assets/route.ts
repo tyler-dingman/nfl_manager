@@ -57,8 +57,7 @@ export const POST = async (request: Request) => {
       partner: buildSource(partnerTeamAbbr),
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : 'Unable to load draft trade assets.';
+    const message = error instanceof Error ? error.message : 'Unable to load draft trade assets.';
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };

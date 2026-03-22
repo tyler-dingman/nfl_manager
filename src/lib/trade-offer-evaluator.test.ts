@@ -2,7 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { bandFromScore, evaluateTradeForTeam } from '@/lib/trade-offer-evaluator';
-import type { TradeAssetPackage, TradeEvaluationContext, TradeTeamProfile } from '@/types/trade-offers';
+import type {
+  TradeAssetPackage,
+  TradeEvaluationContext,
+  TradeTeamProfile,
+} from '@/types/trade-offers';
 
 const context: TradeEvaluationContext = {
   teamAbbr: 'KC',
@@ -63,7 +67,11 @@ const makePlayerAsset = (
   projectedValuePoints: value,
 });
 
-const makePickAsset = (value: number, year: number, round: number): TradeAssetPackage['assets'][number] => ({
+const makePickAsset = (
+  value: number,
+  year: number,
+  round: number,
+): TradeAssetPackage['assets'][number] => ({
   id: `pick-kc-${year}-r${round}-${value}`,
   type: 'pick',
   label: `${year} Round ${round}`,
@@ -86,19 +94,25 @@ test('fairness bands map to expected ranges', () => {
 });
 
 test('teams prefer offers that match needs', () => {
-  const needMatch = evaluateTradeForTeam(makePackage(100, 'OT'), makePackage(100, 'LB'), context, profile);
-  const offNeed = evaluateTradeForTeam(makePackage(100, 'RB'), makePackage(100, 'LB'), context, profile);
+  const needMatch = evaluateTradeForTeam(
+    makePackage(100, 'OT'),
+    makePackage(100, 'LB'),
+    context,
+    profile,
+  );
+  const offNeed = evaluateTradeForTeam(
+    makePackage(100, 'RB'),
+    makePackage(100, 'LB'),
+    context,
+    profile,
+  );
   assert.ok(needMatch.score > offNeed.score);
 });
 
 test('junk bundles do not buy star players easily', () => {
   const incoming: TradeAssetPackage = {
     totalValue: 36,
-    assets: [
-      makePickAsset(12, 2026, 6),
-      makePickAsset(11, 2026, 7),
-      makePickAsset(13, 2027, 6),
-    ],
+    assets: [makePickAsset(12, 2026, 6), makePickAsset(11, 2026, 7), makePickAsset(13, 2027, 6)],
   };
   const outgoing: TradeAssetPackage = {
     totalValue: 640,

@@ -109,7 +109,8 @@ const toSlotAsset = (asset: TradeOfferAssetDTO): TradeSlotAsset => ({
     asset.type === 'pick'
       ? `${asset.year} R${asset.round}${asset.overallSlot ? ` · Pick ${asset.overallSlot}` : ''}`
       : `${asset.position} · ${asset.age ?? '—'} yrs`,
-  meta: asset.type === 'pick' ? `${Math.round(asset.projectedValuePoints)} pts` : asset.contractSummary,
+  meta:
+    asset.type === 'pick' ? `${Math.round(asset.projectedValuePoints)} pts` : asset.contractSummary,
   headshotUrl: asset.type === 'player' ? (asset.headshotUrl ?? null) : null,
   playerTypeIndicator:
     asset.type === 'player'
@@ -227,7 +228,11 @@ const renderAssetCard = (
     ) : (
       <div className="flex items-center gap-3">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={NFL_DRAFT_LOGO_URL} alt="NFL Draft" className="h-10 w-10 shrink-0 object-contain" />
+        <img
+          src={NFL_DRAFT_LOGO_URL}
+          alt="NFL Draft"
+          className="h-10 w-10 shrink-0 object-contain"
+        />
         <div className="min-w-0">
           <p className="text-sm font-semibold text-foreground">{asset.label}</p>
           <p className="mt-1 text-xs text-muted-foreground">{renderAssetMeta(asset)}</p>
@@ -312,7 +317,9 @@ export function DraftTradeOfferReviewModal({
   );
 
   const isManualOffer = Boolean(offer && offer.trigger === 'manual-offer');
-  const [partnerTeamAbbr, setPartnerTeamAbbr] = React.useState<string>(offer?.proposingTeamAbbr ?? '');
+  const [partnerTeamAbbr, setPartnerTeamAbbr] = React.useState<string>(
+    offer?.proposingTeamAbbr ?? '',
+  );
   const partnerTeam = React.useMemo(
     () => teams.find((team) => team.abbr === partnerTeamAbbr) ?? null,
     [partnerTeamAbbr, teams],
@@ -323,23 +330,26 @@ export function DraftTradeOfferReviewModal({
     return buildManualDraftOffer({ partnerTeam, userTeam });
   }, [isManualOffer, offer, partnerTeam, userTeam]);
 
-  const [userAssetSource, setUserAssetSource] = React.useState<TeamTradeAssetSourceDTO | null>(null);
-  const [partnerAssetSource, setPartnerAssetSource] = React.useState<TeamTradeAssetSourceDTO | null>(null);
+  const [userAssetSource, setUserAssetSource] = React.useState<TeamTradeAssetSourceDTO | null>(
+    null,
+  );
+  const [partnerAssetSource, setPartnerAssetSource] =
+    React.useState<TeamTradeAssetSourceDTO | null>(null);
   const [extraIncomingSelections, setExtraIncomingSelections] = React.useState<ExtraSelection[]>(
     () => Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null),
   );
   const [extraOutgoingSelections, setExtraOutgoingSelections] = React.useState<ExtraSelection[]>(
     () => Array.from({ length: ADJUSTMENT_SLOT_COUNT }, () => null),
   );
-  const [evaluatedIncomingAssets, setEvaluatedIncomingAssets] = React.useState<TradeOfferAssetDTO[]>(
-    [],
-  );
-  const [evaluatedOutgoingAssets, setEvaluatedOutgoingAssets] = React.useState<TradeOfferAssetDTO[]>(
-    [],
-  );
-  const [evaluatedAiInterest, setEvaluatedAiInterest] = React.useState<TradeOfferDTO['aiInterest'] | null>(
-    null,
-  );
+  const [evaluatedIncomingAssets, setEvaluatedIncomingAssets] = React.useState<
+    TradeOfferAssetDTO[]
+  >([]);
+  const [evaluatedOutgoingAssets, setEvaluatedOutgoingAssets] = React.useState<
+    TradeOfferAssetDTO[]
+  >([]);
+  const [evaluatedAiInterest, setEvaluatedAiInterest] = React.useState<
+    TradeOfferDTO['aiInterest'] | null
+  >(null);
   const [meterExplanation, setMeterExplanation] = React.useState<string | null>(null);
   const [isPickerOpen, setIsPickerOpen] = React.useState(false);
   const [activePickerContext, setActivePickerContext] = React.useState<ActivePickerContext | null>(
@@ -392,7 +402,9 @@ export function DraftTradeOfferReviewModal({
   const openPlayerDetailsFromAsset = React.useCallback(
     (asset: Extract<TradeOfferAssetDTO, { type: 'player' }>) => {
       const userMatch = userAssetSource?.players.find((player) => player.id === asset.playerId);
-      const partnerMatch = partnerAssetSource?.players.find((player) => player.id === asset.playerId);
+      const partnerMatch = partnerAssetSource?.players.find(
+        (player) => player.id === asset.playerId,
+      );
       const matchedPlayer = userMatch ?? partnerMatch;
 
       if (matchedPlayer) {
@@ -525,7 +537,9 @@ export function DraftTradeOfferReviewModal({
       setEvaluatedIncomingAssets(data.extraIncomingAssets);
       setEvaluatedOutgoingAssets(data.extraOutgoingAssets);
       setEvaluatedAiInterest(data.aiInterest);
-      setMeterExplanation(data.aiExplanation ?? data.aiInterest.explanation ?? effectiveOffer.reason);
+      setMeterExplanation(
+        data.aiExplanation ?? data.aiInterest.explanation ?? effectiveOffer.reason,
+      );
     };
 
     void evaluate();
@@ -560,26 +574,40 @@ export function DraftTradeOfferReviewModal({
   }
 
   const currentAiInterest = evaluatedAiInterest ?? effectiveOffer.aiInterest;
-  const selectedIncomingIds = new Set(extraIncomingSelections.filter(Boolean).map((selection) => selection!.id));
-  const selectedOutgoingIds = new Set(extraOutgoingSelections.filter(Boolean).map((selection) => selection!.id));
+  const selectedIncomingIds = new Set(
+    extraIncomingSelections.filter(Boolean).map((selection) => selection!.id),
+  );
+  const selectedOutgoingIds = new Set(
+    extraOutgoingSelections.filter(Boolean).map((selection) => selection!.id),
+  );
   const existingIncomingPlayerIds = new Set(
     effectiveOffer.incoming.assets
-      .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> => asset.type === 'player')
+      .filter(
+        (asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> =>
+          asset.type === 'player',
+      )
       .map((asset) => asset.playerId),
   );
   const existingOutgoingPlayerIds = new Set(
     effectiveOffer.outgoing.assets
-      .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> => asset.type === 'player')
+      .filter(
+        (asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> =>
+          asset.type === 'player',
+      )
       .map((asset) => asset.playerId),
   );
   const existingIncomingPickIds = new Set(
     effectiveOffer.incoming.assets
-      .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> => asset.type === 'pick')
+      .filter(
+        (asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> => asset.type === 'pick',
+      )
       .map((asset) => asset.id),
   );
   const existingOutgoingPickIds = new Set(
     effectiveOffer.outgoing.assets
-      .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> => asset.type === 'pick')
+      .filter(
+        (asset): asset is Extract<TradeOfferAssetDTO, { type: 'pick' }> => asset.type === 'pick',
+      )
       .map((asset) => asset.id),
   );
 
@@ -591,19 +619,20 @@ export function DraftTradeOfferReviewModal({
   const availablePlayers =
     activePickerContext?.side === 'incoming'
       ? partnerPlayers.filter(
-          (player) => !existingIncomingPlayerIds.has(player.id) && !selectedIncomingIds.has(player.id),
+          (player) =>
+            !existingIncomingPlayerIds.has(player.id) && !selectedIncomingIds.has(player.id),
         )
       : userPlayers.filter(
-          (player) => !existingOutgoingPlayerIds.has(player.id) && !selectedOutgoingIds.has(player.id),
+          (player) =>
+            !existingOutgoingPlayerIds.has(player.id) && !selectedOutgoingIds.has(player.id),
         );
 
   const availablePicks = activePickerContext
-    ? (
-        activePickerContext.side === 'incoming' ? partnerDraftPicks : userDraftPicks
-      ).filter((pick) =>
-        activePickerContext.side === 'incoming'
-          ? !existingIncomingPickIds.has(pick.id) && !selectedIncomingIds.has(pick.id)
-          : !existingOutgoingPickIds.has(pick.id) && !selectedOutgoingIds.has(pick.id),
+    ? (activePickerContext.side === 'incoming' ? partnerDraftPicks : userDraftPicks).filter(
+        (pick) =>
+          activePickerContext.side === 'incoming'
+            ? !existingIncomingPickIds.has(pick.id) && !selectedIncomingIds.has(pick.id)
+            : !existingOutgoingPickIds.has(pick.id) && !selectedOutgoingIds.has(pick.id),
       )
     : [];
 
@@ -630,9 +659,9 @@ export function DraftTradeOfferReviewModal({
   const currentExplanation =
     totalAssetCount === 0
       ? 'Start with an empty framework, then add players or picks to see live interest.'
-      : meterExplanation ??
+      : (meterExplanation ??
         currentAiInterest.explanation ??
-        'This package is close enough to evaluate live as you adjust it.';
+        'This package is close enough to evaluate live as you adjust it.');
 
   const updateSelectionsForSide = (
     side: TradeSide,
@@ -703,7 +732,10 @@ export function DraftTradeOfferReviewModal({
 
     const acquiredPlayerIds = new Set(
       [...effectiveOffer.incoming.assets, ...evaluatedIncomingAssets]
-        .filter((asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> => asset.type === 'player')
+        .filter(
+          (asset): asset is Extract<TradeOfferAssetDTO, { type: 'player' }> =>
+            asset.type === 'player',
+        )
         .map((asset) => asset.playerId),
     );
     const acquiredPlayer = data.roster.find((player) => acquiredPlayerIds.has(player.id)) ?? null;
@@ -782,7 +814,9 @@ export function DraftTradeOfferReviewModal({
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Offer Trade
               </p>
-              <h3 className="mt-1 text-lg font-semibold text-foreground">{effectiveOffer.headline}</h3>
+              <h3 className="mt-1 text-lg font-semibold text-foreground">
+                {effectiveOffer.headline}
+              </h3>
               <p className="mt-1 text-sm text-muted-foreground">{effectiveOffer.summary}</p>
             </div>
             <div className="flex items-center gap-2">
@@ -852,7 +886,9 @@ export function DraftTradeOfferReviewModal({
                       className="h-10 w-10 shrink-0 object-contain"
                     />
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-foreground">{effectiveOffer.proposingTeamName}</p>
+                      <p className="text-sm font-semibold text-foreground">
+                        {effectiveOffer.proposingTeamName}
+                      </p>
                       <p className="mt-1 text-xs text-muted-foreground">{effectiveOffer.reason}</p>
                     </div>
                   </div>
@@ -860,13 +896,18 @@ export function DraftTradeOfferReviewModal({
                   <div className="mt-4 rounded-xl bg-white/90 px-4 py-3">
                     <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
                       <span>Interest Meter</span>
-                      <span className={cn('font-semibold', interestToneClass(currentAiInterest.score))}>
+                      <span
+                        className={cn('font-semibold', interestToneClass(currentAiInterest.score))}
+                      >
                         {totalAssetCount === 0 ? 'Build a Package' : currentAiInterest.label}
                       </span>
                     </div>
                     <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
                       <div
-                        className={cn('h-2 rounded-full transition-all', interestBarClass(currentAiInterest.score))}
+                        className={cn(
+                          'h-2 rounded-full transition-all',
+                          interestBarClass(currentAiInterest.score),
+                        )}
                         style={{ width: `${totalAssetCount === 0 ? 0 : meterWidth}%` }}
                       />
                     </div>
@@ -961,7 +1002,9 @@ export function DraftTradeOfferReviewModal({
           setActionMessage(null);
           updateSelectionsForSide(activePickerContext.side, (current) =>
             current.map((selection, index) =>
-              index === activePickerContext.slotIndex ? { type: 'player', id: player.id } : selection,
+              index === activePickerContext.slotIndex
+                ? { type: 'player', id: player.id }
+                : selection,
             ),
           );
         }}

@@ -88,8 +88,9 @@ export function DraftTrackerRibbon({
   const teamLookup = new Map(teams.map((team) => [team.abbr, team]));
   const userTeam = teamLookup.get(userTeamAbbr);
   const userTeamPrimaryColor = userTeam?.colors?.[0] ?? 'var(--team-primary)';
-  const userTeamOnPrimaryColor =
-    userTeam?.colors?.[0] ? getReadableTextColor(userTeam.colors[0]) : 'var(--team-on-primary)';
+  const userTeamOnPrimaryColor = userTeam?.colors?.[0]
+    ? getReadableTextColor(userTeam.colors[0])
+    : 'var(--team-on-primary)';
 
   const centerPickInTracker = React.useCallback(
     (pickId: string | null | undefined, behavior: ScrollBehavior = 'smooth') => {
@@ -104,7 +105,10 @@ export function DraftTrackerRibbon({
         return;
       }
 
-      const targetLeft = Math.max(0, pickCard.offsetLeft - (tracker.clientWidth - pickCard.offsetWidth) / 2);
+      const targetLeft = Math.max(
+        0,
+        pickCard.offsetLeft - (tracker.clientWidth - pickCard.offsetWidth) / 2,
+      );
 
       tracker.scrollTo({
         left: targetLeft,
@@ -201,14 +205,16 @@ export function DraftTrackerRibbon({
               <span className="text-xs font-semibold text-muted-foreground">Speed</span>
               <input
                 className="w-24 sm:w-28"
-              type="range"
-              min={0}
-              max={2}
-              step={1}
-              value={controls.speedLevel}
-              disabled={controls.isBusy}
-              onChange={(event) => controls.onSpeedChange(Number(event.target.value) as 0 | 1 | 2)}
-            />
+                type="range"
+                min={0}
+                max={2}
+                step={1}
+                value={controls.speedLevel}
+                disabled={controls.isBusy}
+                onChange={(event) =>
+                  controls.onSpeedChange(Number(event.target.value) as 0 | 1 | 2)
+                }
+              />
               <span className="text-xs font-semibold text-foreground">
                 {speedLabel(controls.speedLevel)}
               </span>
@@ -328,7 +334,12 @@ export function DraftTrackerRibbon({
                     className="flex h-8 w-8 items-center justify-center rounded-full"
                     style={
                       isCurrent
-                        ? { backgroundColor: onPrimaryColor === '#ffffff' ? 'rgba(255,255,255,0.14)' : 'rgba(15,23,42,0.12)' }
+                        ? {
+                            backgroundColor:
+                              onPrimaryColor === '#ffffff'
+                                ? 'rgba(255,255,255,0.14)'
+                                : 'rgba(15,23,42,0.12)',
+                          }
                         : { backgroundColor: 'rgba(255,255,255,0.7)' }
                     }
                   >
@@ -421,7 +432,16 @@ export function DraftTrackerRibbon({
                         'line-clamp-2 text-[11px] leading-4',
                         isCurrent ? '' : 'text-muted-foreground',
                       )}
-                      style={isCurrent ? { color: onPrimaryColor === '#ffffff' ? 'rgba(255,255,255,0.78)' : 'rgba(15,23,42,0.72)' } : undefined}
+                      style={
+                        isCurrent
+                          ? {
+                              color:
+                                onPrimaryColor === '#ffffff'
+                                  ? 'rgba(255,255,255,0.78)'
+                                  : 'rgba(15,23,42,0.72)',
+                            }
+                          : undefined
+                      }
                     >
                       {team?.teamNeeds?.slice(0, 2).join(' · ') || 'Best player available'}
                     </p>
@@ -434,7 +454,16 @@ export function DraftTrackerRibbon({
                       'mt-1 text-[10px] font-semibold uppercase tracking-[0.18em]',
                       isCurrent ? '' : 'text-slate-500',
                     )}
-                    style={isCurrent ? { color: onPrimaryColor === '#ffffff' ? 'rgba(255,255,255,0.72)' : 'rgba(15,23,42,0.64)' } : undefined}
+                    style={
+                      isCurrent
+                        ? {
+                            color:
+                              onPrimaryColor === '#ffffff'
+                                ? 'rgba(255,255,255,0.72)'
+                                : 'rgba(15,23,42,0.64)',
+                          }
+                        : undefined
+                    }
                   >
                     Your pick
                   </p>
@@ -475,13 +504,17 @@ export function DraftTrackerRibbon({
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Trade Chaos
             </p>
-            <p className="mt-1">Draft-day calls surface around premium picks and on-the-clock pressure.</p>
+            <p className="mt-1">
+              Draft-day calls surface around premium picks and on-the-clock pressure.
+            </p>
           </div>
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Board Mode
             </p>
-            <p className="mt-1">Prospects are ranked with live need, value, and run-risk context.</p>
+            <p className="mt-1">
+              Prospects are ranked with live need, value, and run-risk context.
+            </p>
           </div>
         </div>
       ) : null}

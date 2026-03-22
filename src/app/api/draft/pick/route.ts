@@ -11,11 +11,7 @@ import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveUnlocksDTO } from '@/types/save';
 
-const assignStoredUserGrade = (
-  session: DraftSessionDTO,
-  playerId: string,
-  teamNeeds: string[],
-) => {
+const assignStoredUserGrade = (session: DraftSessionDTO, playerId: string, teamNeeds: string[]) => {
   const draftedPlayer = session.prospects.find((player) => player.id === playerId);
   const draftedPick = session.picks.find((pick) => pick.selectedPlayerId === playerId);
 
@@ -112,7 +108,10 @@ export const POST = async (request: Request) => {
         const updatedSession = getDraftSession(body.draftSessionId, restoredSaveId);
         const result = assignStoredUserGrade(updatedSession, body.playerId, teamNeeds);
         if (!result) {
-          return NextResponse.json({ ok: false, error: 'Drafted player not found' }, { status: 404 });
+          return NextResponse.json(
+            { ok: false, error: 'Drafted player not found' },
+            { status: 404 },
+          );
         }
 
         return NextResponse.json({

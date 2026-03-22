@@ -51,11 +51,7 @@ export const POST = async (request: Request) => {
           return NextResponse.json({ ok: false, error: message }, { status: 400 });
         }
         restoreDraftSession(restoredSaveId, sessionSnapshot, body.saveSnapshot);
-        const session = setDraftSessionPaused(
-          body.draftSessionId,
-          restoredSaveId,
-          body.isPaused,
-        );
+        const session = setDraftSessionPaused(body.draftSessionId, restoredSaveId, body.isPaused);
         return NextResponse.json({ ok: true, session });
       } catch (restoreError) {
         const restoreMessage =

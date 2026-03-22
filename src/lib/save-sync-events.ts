@@ -17,9 +17,7 @@ export const dispatchSaveDataUpdated = (detail: SaveDataUpdatedDetail) => {
   window.dispatchEvent(new CustomEvent<SaveDataUpdatedDetail>(SAVE_DATA_UPDATED_EVENT, { detail }));
 };
 
-export const subscribeToSaveDataUpdated = (
-  listener: (detail: SaveDataUpdatedDetail) => void,
-) => {
+export const subscribeToSaveDataUpdated = (listener: (detail: SaveDataUpdatedDetail) => void) => {
   if (typeof window === 'undefined') {
     return () => undefined;
   }

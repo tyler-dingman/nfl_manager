@@ -57,17 +57,18 @@ const normalizedPosition = (player: Pick<PlayerRowDTO, 'position'>) => {
 const activePlayers = (roster: PlayerRowDTO[]) =>
   roster.filter(
     (player) =>
-      player.status?.toLowerCase() !== 'cut' &&
-      typeof resolvePlayerRating(player) === 'number',
+      player.status?.toLowerCase() !== 'cut' && typeof resolvePlayerRating(player) === 'number',
   );
 
 const averageRating = (players: PlayerRowDTO[]) => {
-  const ratings = players.map((player) => resolvePlayerRating(player)).filter((value): value is number => value !== null);
+  const ratings = players
+    .map((player) => resolvePlayerRating(player))
+    .filter((value): value is number => value !== null);
   if (ratings.length === 0) return 70;
   return ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
 };
 
-const pickShortlistedCandidate = <T,>({
+const pickShortlistedCandidate = <T>({
   candidates,
   seed,
   maxShortlist = 5,
@@ -86,7 +87,10 @@ const pickShortlistedCandidate = <T,>({
 const isTradableUserTarget = (player: PlayerRowDTO) => {
   const rating = resolvePlayerRating(player) ?? 0;
   const age = player.age ?? 27;
-  const yearsRemaining = Math.max(1, player.contract?.yearsRemaining ?? player.contractYearsRemaining ?? 1);
+  const yearsRemaining = Math.max(
+    1,
+    player.contract?.yearsRemaining ?? player.contractYearsRemaining ?? 1,
+  );
   if (player.position === 'QB' && rating >= 86 && yearsRemaining >= 2) return false;
   if (rating >= 90 && yearsRemaining >= 2 && age <= 29) return false;
   return rating >= 72;
@@ -109,10 +113,8 @@ export const buildTeamContexts = (state: SaveState): Map<string, TeamRuntimeCont
         specialTeamsOverview: 75,
         teamOverviewGrade: 'B-',
         teamNeeds: generatedLeagueTeams.get(team.abbr)?.teamNeeds ?? ['QB', 'OT', 'CB'],
-        allTeamNeeds:
-          generatedLeagueTeams.get(team.abbr)?.allTeamNeeds ??
-          generatedLeagueTeams.get(team.abbr)?.teamNeeds ??
-          ['QB', 'OT', 'CB'],
+        allTeamNeeds: generatedLeagueTeams.get(team.abbr)?.allTeamNeeds ??
+          generatedLeagueTeams.get(team.abbr)?.teamNeeds ?? ['QB', 'OT', 'CB'],
       },
     ]),
   );
@@ -121,7 +123,9 @@ export const buildTeamContexts = (state: SaveState): Map<string, TeamRuntimeCont
   generatedTeams.forEach((team, abbr) => {
     const roster = activePlayers(getOrBuildProjectedRosterForTeam(state, abbr));
     const capSpace = getProjectedCapSpaceForTeam(state, abbr);
-    const needs = team.allTeamNeeds?.length ? team.allTeamNeeds.slice(0, 5) : computeTeamNeeds(roster, 5);
+    const needs = team.allTeamNeeds?.length
+      ? team.allTeamNeeds.slice(0, 5)
+      : computeTeamNeeds(roster, 5);
     contexts.set(abbr, {
       team,
       roster,
@@ -305,7 +309,10 @@ const generateRosterOffers = (
     const offeredPlayer = aiRoster.find((player) => {
       const rating = resolvePlayerRating(player) ?? 0;
       const pos = normalizedPosition(player);
-      const yearsRemaining = Math.max(1, player.contract?.yearsRemaining ?? player.contractYearsRemaining ?? 1);
+      const yearsRemaining = Math.max(
+        1,
+        player.contract?.yearsRemaining ?? player.contractYearsRemaining ?? 1,
+      );
       return (
         rating >= 75 &&
         (userNeedSet.has(pos) || userNeedSet.has(player.position)) &&
@@ -314,13 +321,14 @@ const generateRosterOffers = (
     });
 
     if (offeredPlayer) {
-      const offeredValue = getPlayerTradeValue(offeredPlayer, buildEvaluationContext(phase, userTeam.team.abbr, userTeam)).value;
+      const offeredValue = getPlayerTradeValue(
+        offeredPlayer,
+        buildEvaluationContext(phase, userTeam.team.abbr, userTeam),
+      ).value;
       const outgoingPickAssets = draftPickForValue(
         userTeam.team.abbr,
         offeredValue * TRADE_OFFER_USER_BUY_IN_MULTIPLIER,
-      ).map((pick) =>
-        buildPickAsset(pick),
-      );
+      ).map((pick) => buildPickAsset(pick));
       const candidate = buildOfferCandidate(
         phase,
         trigger,
@@ -331,7 +339,12 @@ const generateRosterOffers = (
           : aiTeam.capSpace < 8
             ? 'cap_casualty'
             : 'buried_depth',
-        [buildTradePlayerAsset(offeredPlayer, buildEvaluationContext(phase, userTeam.team.abbr, userTeam))],
+        [
+          buildTradePlayerAsset(
+            offeredPlayer,
+            buildEvaluationContext(phase, userTeam.team.abbr, userTeam),
+          ),
+        ],
         outgoingPickAssets,
         `${aiTeam.team.name} will send ${offeredPlayer.firstName} ${offeredPlayer.lastName} for draft capital.`,
         userNeedSet.has(normalizedPosition(offeredPlayer))
@@ -379,7 +392,9 @@ const generateRosterOffers = (
           return leftAge - rightAge;
         }
 
-        return `${left.firstName} ${left.lastName}`.localeCompare(`${right.firstName} ${right.lastName}`);
+        return `${left.firstName} ${left.lastName}`.localeCompare(
+          `${right.firstName} ${right.lastName}`,
+        );
       });
 
     const userTarget = pickShortlistedCandidate({
@@ -388,13 +403,14 @@ const generateRosterOffers = (
     });
 
     if (userTarget) {
-      const targetValue = getPlayerTradeValue(userTarget, buildEvaluationContext(phase, aiTeam.team.abbr, aiTeam)).value;
+      const targetValue = getPlayerTradeValue(
+        userTarget,
+        buildEvaluationContext(phase, aiTeam.team.abbr, aiTeam),
+      ).value;
       const aiPickAssets = draftPickForValue(
         aiTeam.team.abbr,
         targetValue * TRADE_OFFER_USER_SELL_DISCOUNT,
-      ).map((pick) =>
-        buildPickAsset(pick),
-      );
+      ).map((pick) => buildPickAsset(pick));
       const candidate = buildOfferCandidate(
         phase,
         trigger,
@@ -402,7 +418,12 @@ const generateRosterOffers = (
         aiTeam,
         (userTarget.age ?? 27) <= 25 ? 'young_expiring' : 'needs_based_swap',
         aiPickAssets,
-        [buildTradePlayerAsset(userTarget, buildEvaluationContext(phase, aiTeam.team.abbr, aiTeam))],
+        [
+          buildTradePlayerAsset(
+            userTarget,
+            buildEvaluationContext(phase, aiTeam.team.abbr, aiTeam),
+          ),
+        ],
         `${aiTeam.team.name} wants ${userTarget.firstName} ${userTarget.lastName} and will pay with picks.`,
         `They have a real need at ${normalizedPosition(userTarget)} and view ${userTarget.lastName} as a fit.`,
         `${aiTeam.team.name} are calling about ${userTarget.lastName}`,
@@ -422,15 +443,29 @@ const generateRosterOffers = (
   return candidates;
 };
 
-const buildDraftPickMovePackage = (teamAbbr: string, pickNumber: number, wantsToMoveUp: boolean) => {
+const buildDraftPickMovePackage = (
+  teamAbbr: string,
+  pickNumber: number,
+  wantsToMoveUp: boolean,
+) => {
   if (wantsToMoveUp) {
     return [
-      buildPickAsset({ year: 2026, round: 1, overallSlot: Math.min(32, pickNumber + 4), owningTeamAbbr: teamAbbr }),
+      buildPickAsset({
+        year: 2026,
+        round: 1,
+        overallSlot: Math.min(32, pickNumber + 4),
+        owningTeamAbbr: teamAbbr,
+      }),
       buildPickAsset({ year: 2026, round: 2, overallSlot: 45, owningTeamAbbr: teamAbbr }),
     ];
   }
   return [
-    buildPickAsset({ year: 2026, round: 1, overallSlot: Math.max(1, pickNumber - 4), owningTeamAbbr: teamAbbr }),
+    buildPickAsset({
+      year: 2026,
+      round: 1,
+      overallSlot: Math.max(1, pickNumber - 4),
+      owningTeamAbbr: teamAbbr,
+    }),
   ];
 };
 
@@ -527,9 +562,10 @@ const generateDraftOffers = (
     rng() < 0.1
       ? contexts
           .values()
-          .find((context) =>
-            context.team.abbr !== userTeam.team.abbr &&
-            context.roster.some((player) => (resolvePlayerRating(player) ?? 0) >= 80),
+          .find(
+            (context) =>
+              context.team.abbr !== userTeam.team.abbr &&
+              context.roster.some((player) => (resolvePlayerRating(player) ?? 0) >= 80),
           )
       : undefined;
   if (splashTeam) {
@@ -544,8 +580,16 @@ const generateDraftOffers = (
         splashTeam,
         'splash_player_pick',
         [
-          buildTradePlayerAsset(splashPlayer, buildEvaluationContext('draft', userTeam.team.abbr, userTeam)),
-          buildPickAsset({ year: draftYear, round: 2, overallSlot: 50, owningTeamAbbr: splashTeam.team.abbr }),
+          buildTradePlayerAsset(
+            splashPlayer,
+            buildEvaluationContext('draft', userTeam.team.abbr, userTeam),
+          ),
+          buildPickAsset({
+            year: draftYear,
+            round: 2,
+            overallSlot: 50,
+            owningTeamAbbr: splashTeam.team.abbr,
+          }),
         ],
         [
           buildPickAsset({
@@ -601,7 +645,14 @@ export const generateTradeOffers = (
           shownOfferIds,
           context.draftCurrentPickIndex ?? 17,
         )
-      : generateRosterOffers(context.phase, context.trigger, state, userTeam, contexts, shownOfferIds);
+      : generateRosterOffers(
+          context.phase,
+          context.trigger,
+          state,
+          userTeam,
+          contexts,
+          shownOfferIds,
+        );
 
   const rng = createRng(`${state.header.id}:${context.phase}:${context.trigger}:offers`);
   const ranked = candidates

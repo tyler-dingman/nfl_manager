@@ -13,7 +13,10 @@ test('contract offer modal is scrollable on mobile', async ({ page }) => {
   await page.getByRole('button', { name: /Philadelphia Eagles/i }).click();
   await expect(page).toHaveURL(/\/experience/);
   await page.getByRole('button', { name: /Free Agency/i }).click();
-  await page.getByRole('main').getByRole('button', { name: /^Continue$/ }).click();
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: /^Continue$/ })
+    .click();
 
   await expect(page).toHaveURL(/\/free-agents/);
 

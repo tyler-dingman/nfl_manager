@@ -13,7 +13,10 @@ const selectTeamAndContinue = async (page: Page, modeName: RegExp) => {
   await page.getByRole('button', { name: /Philadelphia Eagles/i }).click();
   await expect(page).toHaveURL(/\/experience/);
   await page.getByRole('button', { name: modeName }).click();
-  await page.getByRole('main').getByRole('button', { name: /^Continue$/ }).click();
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: /^Continue$/ })
+    .click();
 };
 
 test('full experience continues into manage team roster flow', async ({ page }) => {
@@ -33,7 +36,9 @@ test('trade hub opens from manage team flow', async ({ page }) => {
   await page.getByRole('button', { name: /Propose Trade/i }).click();
 
   await expect(page).toHaveURL(/\/manage\/trades/);
-  await expect(page.getByRole('button', { name: /Select team|Cardinals|Falcons|Bills/i }).first()).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: /Select team|Cardinals|Falcons|Bills/i }).first(),
+  ).toBeVisible();
 });
 
 test('draft can be started and shows live controls', async ({ page }) => {
@@ -45,5 +50,7 @@ test('draft can be started and shows live controls', async ({ page }) => {
 
   await expect(page.getByRole('button', { name: /^Pause Draft$/ })).toBeVisible();
   await expect(page.getByText(/Pick In Progress|You Are On The Clock/i)).toBeVisible();
-  await expect(page.getByRole('button', { name: /Skip To Next Pick|Skip To End Of Draft/i })).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: /Skip To Next Pick|Skip To End Of Draft/i }),
+  ).toBeVisible();
 });

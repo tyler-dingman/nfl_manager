@@ -16,24 +16,8 @@
       "defenseOverview": 79,
       "specialTeamsOverview": 76,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "OT",
-        "EDGE",
-        "LB"
-      ],
-      "allTeamNeeds": [
-        "OT",
-        "EDGE",
-        "LB",
-        "QB",
-        "RB",
-        "WR",
-        "CB",
-        "DL",
-        "S",
-        "IOL",
-        "TE"
-      ]
+      "teamNeeds": ["OT", "EDGE", "LB"],
+      "allTeamNeeds": ["OT", "EDGE", "LB", "QB", "RB", "WR", "CB", "DL", "S", "IOL", "TE"]
     },
     {
       "id": "ATL",
@@ -50,24 +34,8 @@
       "defenseOverview": 78,
       "specialTeamsOverview": 84,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "CB",
-        "WR",
-        "DL"
-      ],
-      "allTeamNeeds": [
-        "CB",
-        "WR",
-        "DL",
-        "EDGE",
-        "OT",
-        "TE",
-        "RB",
-        "QB",
-        "IOL",
-        "LB",
-        "S"
-      ]
+      "teamNeeds": ["CB", "WR", "DL"],
+      "allTeamNeeds": ["CB", "WR", "DL", "EDGE", "OT", "TE", "RB", "QB", "IOL", "LB", "S"]
     },
     {
       "id": "BAL",
@@ -84,24 +52,8 @@
       "defenseOverview": 89,
       "specialTeamsOverview": 90,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "IOL",
-        "WR",
-        "EDGE"
-      ],
-      "allTeamNeeds": [
-        "IOL",
-        "WR",
-        "EDGE",
-        "DL",
-        "OT",
-        "TE",
-        "CB",
-        "RB",
-        "LB",
-        "S",
-        "QB"
-      ]
+      "teamNeeds": ["IOL", "WR", "EDGE"],
+      "allTeamNeeds": ["IOL", "WR", "EDGE", "DL", "OT", "TE", "CB", "RB", "LB", "S", "QB"]
     },
     {
       "id": "BUF",
@@ -118,24 +70,8 @@
       "defenseOverview": 75,
       "specialTeamsOverview": 78,
       "teamOverviewGrade": "A-",
-      "teamNeeds": [
-        "WR",
-        "EDGE",
-        "LB"
-      ],
-      "allTeamNeeds": [
-        "WR",
-        "EDGE",
-        "LB",
-        "S",
-        "CB",
-        "DL",
-        "OT",
-        "IOL",
-        "RB",
-        "TE",
-        "QB"
-      ]
+      "teamNeeds": ["WR", "EDGE", "LB"],
+      "allTeamNeeds": ["WR", "EDGE", "LB", "S", "CB", "DL", "OT", "IOL", "RB", "TE", "QB"]
     },
     {
       "id": "CAR",
@@ -152,24 +88,8 @@
       "defenseOverview": 78,
       "specialTeamsOverview": 71,
       "teamOverviewGrade": "B",
-      "teamNeeds": [
-        "DL",
-        "EDGE",
-        "TE"
-      ],
-      "allTeamNeeds": [
-        "DL",
-        "EDGE",
-        "TE",
-        "OT",
-        "WR",
-        "LB",
-        "CB",
-        "S",
-        "IOL",
-        "QB",
-        "RB"
-      ]
+      "teamNeeds": ["DL", "EDGE", "TE"],
+      "allTeamNeeds": ["DL", "EDGE", "TE", "OT", "WR", "LB", "CB", "S", "IOL", "QB", "RB"]
     },
     {
       "id": "CHI",
@@ -186,24 +106,8 @@
       "defenseOverview": 85,
       "specialTeamsOverview": 82,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "DL",
-        "EDGE",
-        "S"
-      ],
-      "allTeamNeeds": [
-        "DL",
-        "EDGE",
-        "S",
-        "LB",
-        "OT",
-        "WR",
-        "IOL",
-        "CB",
-        "RB",
-        "QB",
-        "TE"
-      ]
+      "teamNeeds": ["DL", "EDGE", "S"],
+      "allTeamNeeds": ["DL", "EDGE", "S", "LB", "OT", "WR", "IOL", "CB", "RB", "QB", "TE"]
     },
     {
       "id": "CIN",
@@ -220,24 +124,8 @@
       "defenseOverview": 71,
       "specialTeamsOverview": 79,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "S",
-        "CB",
-        "EDGE"
-      ],
-      "allTeamNeeds": [
-        "S",
-        "CB",
-        "EDGE",
-        "DL",
-        "LB",
-        "OT",
-        "IOL",
-        "WR",
-        "RB",
-        "TE",
-        "QB"
-      ]
+      "teamNeeds": ["S", "CB", "EDGE"],
+      "allTeamNeeds": ["S", "CB", "EDGE", "DL", "LB", "OT", "IOL", "WR", "RB", "TE", "QB"]
     },
     {
       "id": "CLE",
@@ -254,24 +142,8 @@
       "defenseOverview": 83,
       "specialTeamsOverview": 78,
       "teamOverviewGrade": "B",
-      "teamNeeds": [
-        "OT",
-        "WR",
-        "EDGE"
-      ],
-      "allTeamNeeds": [
-        "OT",
-        "WR",
-        "EDGE",
-        "IOL",
-        "CB",
-        "QB",
-        "S",
-        "LB",
-        "DL",
-        "TE",
-        "RB"
-      ]
+      "teamNeeds": ["OT", "WR", "EDGE"],
+      "allTeamNeeds": ["OT", "WR", "EDGE", "IOL", "CB", "QB", "S", "LB", "DL", "TE", "RB"]
     },
     {
       "id": "DAL",
@@ -288,24 +160,8 @@
       "defenseOverview": 82,
       "specialTeamsOverview": 86,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "CB",
-        "EDGE",
-        "LB"
-      ],
-      "allTeamNeeds": [
-        "CB",
-        "EDGE",
-        "LB",
-        "S",
-        "WR",
-        "DL",
-        "OT",
-        "RB",
-        "TE",
-        "IOL",
-        "QB"
-      ]
+      "teamNeeds": ["CB", "EDGE", "LB"],
+      "allTeamNeeds": ["CB", "EDGE", "LB", "S", "WR", "DL", "OT", "RB", "TE", "IOL", "QB"]
     },
     {
       "id": "DEN",
@@ -322,24 +178,8 @@
       "defenseOverview": 87,
       "specialTeamsOverview": 78,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "LB",
-        "TE",
-        "WR"
-      ],
-      "allTeamNeeds": [
-        "LB",
-        "TE",
-        "WR",
-        "DL",
-        "OT",
-        "RB",
-        "EDGE",
-        "S",
-        "IOL",
-        "QB",
-        "CB"
-      ]
+      "teamNeeds": ["LB", "TE", "WR"],
+      "allTeamNeeds": ["LB", "TE", "WR", "DL", "OT", "RB", "EDGE", "S", "IOL", "QB", "CB"]
     },
     {
       "id": "DET",
@@ -356,24 +196,8 @@
       "defenseOverview": 84,
       "specialTeamsOverview": 89,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "OT",
-        "EDGE",
-        "IOL"
-      ],
-      "allTeamNeeds": [
-        "OT",
-        "EDGE",
-        "IOL",
-        "CB",
-        "RB",
-        "DL",
-        "LB",
-        "S",
-        "TE",
-        "WR",
-        "QB"
-      ]
+      "teamNeeds": ["OT", "EDGE", "IOL"],
+      "allTeamNeeds": ["OT", "EDGE", "IOL", "CB", "RB", "DL", "LB", "S", "TE", "WR", "QB"]
     },
     {
       "id": "GB",
@@ -390,24 +214,8 @@
       "defenseOverview": 82,
       "specialTeamsOverview": 84,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "CB",
-        "OT",
-        "DL"
-      ],
-      "allTeamNeeds": [
-        "CB",
-        "OT",
-        "DL",
-        "IOL",
-        "EDGE",
-        "LB",
-        "WR",
-        "RB",
-        "QB",
-        "TE",
-        "S"
-      ]
+      "teamNeeds": ["CB", "OT", "DL"],
+      "allTeamNeeds": ["CB", "OT", "DL", "IOL", "EDGE", "LB", "WR", "RB", "QB", "TE", "S"]
     },
     {
       "id": "HOU",
@@ -424,24 +232,8 @@
       "defenseOverview": 86,
       "specialTeamsOverview": 72,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "OT",
-        "DL",
-        "IOL"
-      ],
-      "allTeamNeeds": [
-        "OT",
-        "DL",
-        "IOL",
-        "RB",
-        "LB",
-        "WR",
-        "EDGE",
-        "S",
-        "TE",
-        "CB",
-        "QB"
-      ]
+      "teamNeeds": ["OT", "DL", "IOL"],
+      "allTeamNeeds": ["OT", "DL", "IOL", "RB", "LB", "WR", "EDGE", "S", "TE", "CB", "QB"]
     },
     {
       "id": "IND",
@@ -458,24 +250,8 @@
       "defenseOverview": 82,
       "specialTeamsOverview": 86,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "EDGE",
-        "LB",
-        "WR"
-      ],
-      "allTeamNeeds": [
-        "EDGE",
-        "LB",
-        "WR",
-        "S",
-        "DL",
-        "OT",
-        "QB",
-        "CB",
-        "IOL",
-        "TE",
-        "RB"
-      ]
+      "teamNeeds": ["EDGE", "LB", "WR"],
+      "allTeamNeeds": ["EDGE", "LB", "WR", "S", "DL", "OT", "QB", "CB", "IOL", "TE", "RB"]
     },
     {
       "id": "JAX",
@@ -492,24 +268,8 @@
       "defenseOverview": 78,
       "specialTeamsOverview": 84,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "DL",
-        "CB",
-        "WR"
-      ],
-      "allTeamNeeds": [
-        "DL",
-        "CB",
-        "WR",
-        "S",
-        "LB",
-        "RB",
-        "OT",
-        "IOL",
-        "EDGE",
-        "TE",
-        "QB"
-      ]
+      "teamNeeds": ["DL", "CB", "WR"],
+      "allTeamNeeds": ["DL", "CB", "WR", "S", "LB", "RB", "OT", "IOL", "EDGE", "TE", "QB"]
     },
     {
       "id": "KC",
@@ -526,24 +286,8 @@
       "defenseOverview": 79,
       "specialTeamsOverview": 79,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "CB",
-        "WR",
-        "EDGE"
-      ],
-      "allTeamNeeds": [
-        "CB",
-        "WR",
-        "EDGE",
-        "OT",
-        "RB",
-        "TE",
-        "DL",
-        "S",
-        "LB",
-        "IOL",
-        "QB"
-      ]
+      "teamNeeds": ["CB", "WR", "EDGE"],
+      "allTeamNeeds": ["CB", "WR", "EDGE", "OT", "RB", "TE", "DL", "S", "LB", "IOL", "QB"]
     },
     {
       "id": "LV",
@@ -560,24 +304,8 @@
       "defenseOverview": 82,
       "specialTeamsOverview": 65,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "QB",
-        "WR",
-        "EDGE"
-      ],
-      "allTeamNeeds": [
-        "QB",
-        "WR",
-        "EDGE",
-        "OT",
-        "IOL",
-        "DL",
-        "CB",
-        "S",
-        "LB",
-        "RB",
-        "TE"
-      ]
+      "teamNeeds": ["QB", "WR", "EDGE"],
+      "allTeamNeeds": ["QB", "WR", "EDGE", "OT", "IOL", "DL", "CB", "S", "LB", "RB", "TE"]
     },
     {
       "id": "LAC",
@@ -594,24 +322,8 @@
       "defenseOverview": 79,
       "specialTeamsOverview": 65,
       "teamOverviewGrade": "A-",
-      "teamNeeds": [
-        "IOL",
-        "DL",
-        "OT"
-      ],
-      "allTeamNeeds": [
-        "IOL",
-        "DL",
-        "OT",
-        "EDGE",
-        "S",
-        "CB",
-        "TE",
-        "WR",
-        "LB",
-        "RB",
-        "QB"
-      ]
+      "teamNeeds": ["IOL", "DL", "OT"],
+      "allTeamNeeds": ["IOL", "DL", "OT", "EDGE", "S", "CB", "TE", "WR", "LB", "RB", "QB"]
     },
     {
       "id": "LAR",
@@ -628,24 +340,8 @@
       "defenseOverview": 84,
       "specialTeamsOverview": 81,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "WR",
-        "OT",
-        "CB"
-      ],
-      "allTeamNeeds": [
-        "WR",
-        "OT",
-        "CB",
-        "QB",
-        "TE",
-        "LB",
-        "S",
-        "EDGE",
-        "DL",
-        "IOL",
-        "RB"
-      ]
+      "teamNeeds": ["WR", "OT", "CB"],
+      "allTeamNeeds": ["WR", "OT", "CB", "QB", "TE", "LB", "S", "EDGE", "DL", "IOL", "RB"]
     },
     {
       "id": "MIA",
@@ -662,24 +358,8 @@
       "defenseOverview": 68,
       "specialTeamsOverview": 74,
       "teamOverviewGrade": "C",
-      "teamNeeds": [
-        "CB",
-        "WR",
-        "OT"
-      ],
-      "allTeamNeeds": [
-        "CB",
-        "WR",
-        "OT",
-        "EDGE",
-        "IOL",
-        "TE",
-        "S",
-        "QB",
-        "DL",
-        "LB",
-        "RB"
-      ]
+      "teamNeeds": ["CB", "WR", "OT"],
+      "allTeamNeeds": ["CB", "WR", "OT", "EDGE", "IOL", "TE", "S", "QB", "DL", "LB", "RB"]
     },
     {
       "id": "MIN",
@@ -696,24 +376,8 @@
       "defenseOverview": 79,
       "specialTeamsOverview": 72,
       "teamOverviewGrade": "B-",
-      "teamNeeds": [
-        "S",
-        "CB",
-        "DL"
-      ],
-      "allTeamNeeds": [
-        "S",
-        "CB",
-        "DL",
-        "RB",
-        "IOL",
-        "WR",
-        "EDGE",
-        "LB",
-        "TE",
-        "QB",
-        "OT"
-      ]
+      "teamNeeds": ["S", "CB", "DL"],
+      "allTeamNeeds": ["S", "CB", "DL", "RB", "IOL", "WR", "EDGE", "LB", "TE", "QB", "OT"]
     },
     {
       "id": "NE",
@@ -730,24 +394,8 @@
       "defenseOverview": 89,
       "specialTeamsOverview": 82,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "EDGE",
-        "OT",
-        "WR"
-      ],
-      "allTeamNeeds": [
-        "EDGE",
-        "OT",
-        "WR",
-        "TE",
-        "LB",
-        "CB",
-        "S",
-        "DL",
-        "IOL",
-        "RB",
-        "QB"
-      ]
+      "teamNeeds": ["EDGE", "OT", "WR"],
+      "allTeamNeeds": ["EDGE", "OT", "WR", "TE", "LB", "CB", "S", "DL", "IOL", "RB", "QB"]
     },
     {
       "id": "NO",
@@ -764,24 +412,8 @@
       "defenseOverview": 76,
       "specialTeamsOverview": 83,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "WR",
-        "EDGE",
-        "RB"
-      ],
-      "allTeamNeeds": [
-        "WR",
-        "EDGE",
-        "RB",
-        "CB",
-        "LB",
-        "S",
-        "DL",
-        "TE",
-        "IOL",
-        "OT",
-        "QB"
-      ]
+      "teamNeeds": ["WR", "EDGE", "RB"],
+      "allTeamNeeds": ["WR", "EDGE", "RB", "CB", "LB", "S", "DL", "TE", "IOL", "OT", "QB"]
     },
     {
       "id": "NYG",
@@ -798,24 +430,8 @@
       "defenseOverview": 86,
       "specialTeamsOverview": 85,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "LB",
-        "WR",
-        "S"
-      ],
-      "allTeamNeeds": [
-        "LB",
-        "WR",
-        "S",
-        "OT",
-        "CB",
-        "RB",
-        "IOL",
-        "DL",
-        "EDGE",
-        "QB",
-        "TE"
-      ]
+      "teamNeeds": ["LB", "WR", "S"],
+      "allTeamNeeds": ["LB", "WR", "S", "OT", "CB", "RB", "IOL", "DL", "EDGE", "QB", "TE"]
     },
     {
       "id": "NYJ",
@@ -832,24 +448,8 @@
       "defenseOverview": 79,
       "specialTeamsOverview": 76,
       "teamOverviewGrade": "B-",
-      "teamNeeds": [
-        "LB",
-        "WR",
-        "EDGE"
-      ],
-      "allTeamNeeds": [
-        "LB",
-        "WR",
-        "EDGE",
-        "CB",
-        "QB",
-        "DL",
-        "IOL",
-        "S",
-        "OT",
-        "TE",
-        "RB"
-      ]
+      "teamNeeds": ["LB", "WR", "EDGE"],
+      "allTeamNeeds": ["LB", "WR", "EDGE", "CB", "QB", "DL", "IOL", "S", "OT", "TE", "RB"]
     },
     {
       "id": "PHI",
@@ -866,24 +466,8 @@
       "defenseOverview": 80,
       "specialTeamsOverview": 75,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "OT",
-        "EDGE",
-        "TE"
-      ],
-      "allTeamNeeds": [
-        "OT",
-        "EDGE",
-        "TE",
-        "WR",
-        "S",
-        "CB",
-        "IOL",
-        "QB",
-        "DL",
-        "LB",
-        "RB"
-      ]
+      "teamNeeds": ["OT", "EDGE", "TE"],
+      "allTeamNeeds": ["OT", "EDGE", "TE", "WR", "S", "CB", "IOL", "QB", "DL", "LB", "RB"]
     },
     {
       "id": "PIT",
@@ -900,24 +484,8 @@
       "defenseOverview": 90,
       "specialTeamsOverview": 74,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "WR",
-        "QB",
-        "CB"
-      ],
-      "allTeamNeeds": [
-        "WR",
-        "QB",
-        "CB",
-        "OT",
-        "IOL",
-        "DL",
-        "S",
-        "LB",
-        "EDGE",
-        "TE",
-        "RB"
-      ]
+      "teamNeeds": ["WR", "QB", "CB"],
+      "allTeamNeeds": ["WR", "QB", "CB", "OT", "IOL", "DL", "S", "LB", "EDGE", "TE", "RB"]
     },
     {
       "id": "SF",
@@ -934,24 +502,8 @@
       "defenseOverview": 85,
       "specialTeamsOverview": 71,
       "teamOverviewGrade": "A+",
-      "teamNeeds": [
-        "OT",
-        "WR",
-        "EDGE"
-      ],
-      "allTeamNeeds": [
-        "OT",
-        "WR",
-        "EDGE",
-        "DL",
-        "S",
-        "IOL",
-        "CB",
-        "TE",
-        "LB",
-        "RB",
-        "QB"
-      ]
+      "teamNeeds": ["OT", "WR", "EDGE"],
+      "allTeamNeeds": ["OT", "WR", "EDGE", "DL", "S", "IOL", "CB", "TE", "LB", "RB", "QB"]
     },
     {
       "id": "SEA",
@@ -968,24 +520,8 @@
       "defenseOverview": 91,
       "specialTeamsOverview": 90,
       "teamOverviewGrade": "A",
-      "teamNeeds": [
-        "CB",
-        "RB",
-        "EDGE"
-      ],
-      "allTeamNeeds": [
-        "CB",
-        "RB",
-        "EDGE",
-        "IOL",
-        "S",
-        "WR",
-        "DL",
-        "OT",
-        "LB",
-        "QB",
-        "TE"
-      ]
+      "teamNeeds": ["CB", "RB", "EDGE"],
+      "allTeamNeeds": ["CB", "RB", "EDGE", "IOL", "S", "WR", "DL", "OT", "LB", "QB", "TE"]
     },
     {
       "id": "TB",
@@ -1002,24 +538,8 @@
       "defenseOverview": 81,
       "specialTeamsOverview": 85,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "EDGE",
-        "LB",
-        "TE"
-      ],
-      "allTeamNeeds": [
-        "EDGE",
-        "LB",
-        "TE",
-        "CB",
-        "IOL",
-        "WR",
-        "DL",
-        "OT",
-        "S",
-        "QB",
-        "RB"
-      ]
+      "teamNeeds": ["EDGE", "LB", "TE"],
+      "allTeamNeeds": ["EDGE", "LB", "TE", "CB", "IOL", "WR", "DL", "OT", "S", "QB", "RB"]
     },
     {
       "id": "TEN",
@@ -1036,24 +556,8 @@
       "defenseOverview": 78,
       "specialTeamsOverview": 84,
       "teamOverviewGrade": "B+",
-      "teamNeeds": [
-        "EDGE",
-        "RB",
-        "LB"
-      ],
-      "allTeamNeeds": [
-        "EDGE",
-        "RB",
-        "LB",
-        "WR",
-        "CB",
-        "OT",
-        "IOL",
-        "S",
-        "DL",
-        "TE",
-        "QB"
-      ]
+      "teamNeeds": ["EDGE", "RB", "LB"],
+      "allTeamNeeds": ["EDGE", "RB", "LB", "WR", "CB", "OT", "IOL", "S", "DL", "TE", "QB"]
     },
     {
       "id": "WAS",
@@ -1070,24 +574,8 @@
       "defenseOverview": 88,
       "specialTeamsOverview": 84,
       "teamOverviewGrade": "A-",
-      "teamNeeds": [
-        "EDGE",
-        "LB",
-        "S"
-      ],
-      "allTeamNeeds": [
-        "EDGE",
-        "LB",
-        "S",
-        "WR",
-        "RB",
-        "CB",
-        "IOL",
-        "OT",
-        "DL",
-        "TE",
-        "QB"
-      ]
+      "teamNeeds": ["EDGE", "LB", "S"],
+      "allTeamNeeds": ["EDGE", "LB", "S", "WR", "RB", "CB", "IOL", "OT", "DL", "TE", "QB"]
     }
   ],
   "players": [

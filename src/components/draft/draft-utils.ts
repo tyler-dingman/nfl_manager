@@ -58,8 +58,7 @@ const logoUrlFor = (abbr: string) =>
 
 export const getTeamNeeds = (abbr: string, teams: TeamDTO[]): string[] =>
   teams.find((team) => team.abbr === abbr)?.allTeamNeeds ??
-  teams.find((team) => team.abbr === abbr)?.teamNeeds ??
-  ['QB', 'OT', 'CB'];
+  teams.find((team) => team.abbr === abbr)?.teamNeeds ?? ['QB', 'OT', 'CB'];
 
 export const buildRoundOneOrder = (teams: TeamDTO[]): DraftOrderTeam[] => {
   const teamsByAbbr = new Map(teams.map((team) => [team.abbr, team]));

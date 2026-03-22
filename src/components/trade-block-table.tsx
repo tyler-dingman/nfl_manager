@@ -219,7 +219,9 @@ export function TradeBlockTable({
                       <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         Age
                       </th>
-                      <th className="w-[72px] min-w-[72px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">OVR</th>
+                      <th className="w-[72px] min-w-[72px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                        OVR
+                      </th>
                       <th className="w-[96px] min-w-[96px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
                         Cap Hit
                       </th>
@@ -232,21 +234,18 @@ export function TradeBlockTable({
                   <tbody>
                     {Array.from({ length: 8 }, (_, index) => (
                       <tr key={`trade-block-skeleton-${index}`} className="border-t border-border">
-                        {[
-                          'w-40',
-                          'w-12',
-                          'w-10',
-                          'w-10',
-                          'w-20',
-                          'w-20',
-                        ].map((width, cellIndex) => (
-                          <td
-                            key={`${index}-${cellIndex}`}
-                            className="px-4 py-3 align-middle sm:px-6"
-                          >
-                            <div className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`} />
-                          </td>
-                        ))}
+                        {['w-40', 'w-12', 'w-10', 'w-10', 'w-20', 'w-20'].map(
+                          (width, cellIndex) => (
+                            <td
+                              key={`${index}-${cellIndex}`}
+                              className="px-4 py-3 align-middle sm:px-6"
+                            >
+                              <div
+                                className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`}
+                              />
+                            </td>
+                          ),
+                        )}
                         <td className={`px-4 py-3 align-middle sm:px-6 ${actionCellClass}`}>
                           <div className="h-4 w-full animate-pulse rounded bg-slate-200/80" />
                         </td>

@@ -161,9 +161,7 @@ export default function PlayerDetailsModal({
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
               Player Details
             </p>
-            <h2 className="mt-1 text-lg font-semibold text-foreground sm:text-xl">
-              {model.name}
-            </h2>
+            <h2 className="mt-1 text-lg font-semibold text-foreground sm:text-xl">{model.name}</h2>
           </div>
           <div className="flex items-center gap-1">
             {onSelectSource ? (
@@ -290,7 +288,10 @@ export default function PlayerDetailsModal({
                   {[0, 1, 2].map((index) => (
                     <div
                       key={`${meter.key}-${index}`}
-                      className={cn('h-2 flex-1 rounded-full transition-colors', meterBarClass(index, meter.value))}
+                      className={cn(
+                        'h-2 flex-1 rounded-full transition-colors',
+                        meterBarClass(index, meter.value),
+                      )}
                     />
                   ))}
                 </div>

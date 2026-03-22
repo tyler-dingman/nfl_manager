@@ -87,7 +87,8 @@ export function LiveDraftBoard({
   canDraft,
 }: LiveDraftBoardProps) {
   const [query, setQuery] = React.useState('');
-  const [positionFilter, setPositionFilter] = React.useState<(typeof positionOptions)[number]>('All');
+  const [positionFilter, setPositionFilter] =
+    React.useState<(typeof positionOptions)[number]>('All');
 
   const filteredEntries = React.useMemo(() => {
     const lowerQuery = query.trim().toLowerCase();
@@ -98,8 +99,7 @@ export function LiveDraftBoard({
         fullName.includes(lowerQuery) ||
         entry.player.college?.toLowerCase().includes(lowerQuery);
       const matchesPosition =
-        positionFilter === 'All' ||
-        normalizePosition(entry.player.position) === positionFilter;
+        positionFilter === 'All' || normalizePosition(entry.player.position) === positionFilter;
       return matchesQuery && matchesPosition;
     });
 
@@ -208,7 +208,9 @@ export function LiveDraftBoard({
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <p className="text-sm font-semibold text-foreground sm:text-base">{playerName}</p>
+                    <p className="text-sm font-semibold text-foreground sm:text-base">
+                      {playerName}
+                    </p>
                     <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                       {entry.player.position}
                     </span>

@@ -109,9 +109,13 @@ export const useExpiringContractsQuery = (
         }
         const query = params.toString();
         const startedAt = performance.now();
-        let response = await apiFetch(`/api/contracts/expiring${query ? `?${query}` : ''}`, undefined, {
-          skipSaveGuard: true,
-        });
+        let response = await apiFetch(
+          `/api/contracts/expiring${query ? `?${query}` : ''}`,
+          undefined,
+          {
+            skipSaveGuard: true,
+          },
+        );
         if (response.status === 404 && activeSaveId) {
           const recoveredSaveId = await ensureRecoverableSaveId(
             {
@@ -129,9 +133,13 @@ export const useExpiringContractsQuery = (
           if (recoveredSaveId) {
             const retryParams = new URLSearchParams({ saveId: recoveredSaveId });
             retryParams.set('teamAbbr', activeTeamAbbr);
-            response = await apiFetch(`/api/contracts/expiring?${retryParams.toString()}`, undefined, {
-              skipSaveGuard: true,
-            });
+            response = await apiFetch(
+              `/api/contracts/expiring?${retryParams.toString()}`,
+              undefined,
+              {
+                skipSaveGuard: true,
+              },
+            );
           }
         }
         const endedAt = performance.now();

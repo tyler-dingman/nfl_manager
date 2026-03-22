@@ -27,7 +27,9 @@ export function OffseasonStepperNav({ seasonLabel, teamName, currentStep, comple
   const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const currentIndex = OFFSEASON_STEPS.findIndex((step) => step.id === currentStep);
   const routeStep = pathname ? getStepForPath(pathname) : null;
-  const routeStepIndex = routeStep ? OFFSEASON_STEPS.findIndex((step) => step.id === routeStep) : -1;
+  const routeStepIndex = routeStep
+    ? OFFSEASON_STEPS.findIndex((step) => step.id === routeStep)
+    : -1;
   const displayStep =
     routeStep && routeStepIndex !== -1 && routeStepIndex <= currentIndex ? routeStep : currentStep;
   const displayIndex = OFFSEASON_STEPS.findIndex((step) => step.id === displayStep);

@@ -1,11 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { buildPickAsset, getFuturePickTradeValue, getPickTradeValue, sumPickPackageValue } from '@/lib/trade-chart';
+import {
+  buildPickAsset,
+  getFuturePickTradeValue,
+  getPickTradeValue,
+  sumPickPackageValue,
+} from '@/lib/trade-chart';
 
 test('draft pick chart returns higher values for earlier picks', () => {
-  assert.ok(getPickTradeValue({ round: 1, overallSlot: 1 }) > getPickTradeValue({ round: 1, overallSlot: 32 }));
-  assert.ok(getPickTradeValue({ round: 2, overallSlot: 33 }) > getPickTradeValue({ round: 5, overallSlot: 150 }));
+  assert.ok(
+    getPickTradeValue({ round: 1, overallSlot: 1 }) >
+      getPickTradeValue({ round: 1, overallSlot: 32 }),
+  );
+  assert.ok(
+    getPickTradeValue({ round: 2, overallSlot: 33 }) >
+      getPickTradeValue({ round: 5, overallSlot: 150 }),
+  );
 });
 
 test('future pick discount lowers value against current-year pick', () => {

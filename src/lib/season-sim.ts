@@ -1,8 +1,18 @@
 import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
 import { selectTopOffseasonAdditions } from '@/lib/offseason-recap';
 import { getTopRatedRosterPlayerOverall } from '@/lib/star-player-reaction';
-import { computeTeamNeeds, computeTeamOverviewRaw, resolvePlayerRating, scaleOverviewScore } from '@/lib/team-overview';
-import type { SeasonImpactAddition, SeasonLeaderStat, SeasonOutcome, SeasonRecapSnapshot } from '@/types/franchise';
+import {
+  computeTeamNeeds,
+  computeTeamOverviewRaw,
+  resolvePlayerRating,
+  scaleOverviewScore,
+} from '@/lib/team-overview';
+import type {
+  SeasonImpactAddition,
+  SeasonLeaderStat,
+  SeasonOutcome,
+  SeasonRecapSnapshot,
+} from '@/types/franchise';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TeamDTO } from '@/types/team';
 
@@ -85,18 +95,23 @@ const getTeamOverviewForRoster = ({
 const pickBestByPosition = (roster: PlayerRowDTO[], positions: string[]) =>
   roster
     .filter((player) => positions.includes(player.position.toUpperCase()))
-    .sort((left, right) => (resolvePlayerRating(right) ?? 0) - (resolvePlayerRating(left) ?? 0))[0] ?? null;
+    .sort(
+      (left, right) => (resolvePlayerRating(right) ?? 0) - (resolvePlayerRating(left) ?? 0),
+    )[0] ?? null;
 
 const pickBestPassCatcher = (roster: PlayerRowDTO[]) =>
   roster
     .filter((player) => ['WR', 'TE', 'RB'].includes(player.position.toUpperCase()))
-    .sort((left, right) => (resolvePlayerRating(right) ?? 0) - (resolvePlayerRating(left) ?? 0))[0] ??
-  null;
+    .sort(
+      (left, right) => (resolvePlayerRating(right) ?? 0) - (resolvePlayerRating(left) ?? 0),
+    )[0] ?? null;
 
 const pickBestDefender = (roster: PlayerRowDTO[], positions: string[]) =>
   roster
     .filter((player) => positions.includes(player.position.toUpperCase()))
-    .sort((left, right) => (resolvePlayerRating(right) ?? 0) - (resolvePlayerRating(left) ?? 0))[0] ?? null;
+    .sort(
+      (left, right) => (resolvePlayerRating(right) ?? 0) - (resolvePlayerRating(left) ?? 0),
+    )[0] ?? null;
 
 const formatRecordNote = (wins: number): string => {
   if (wins >= 14) return 'best in the conference';
@@ -159,7 +174,11 @@ const buildLeader = (
   };
 };
 
-const buildSeasonLeaders = (roster: PlayerRowDTO[], wins: number, seed: string): SeasonLeaderStat[] => {
+const buildSeasonLeaders = (
+  roster: PlayerRowDTO[],
+  wins: number,
+  seed: string,
+): SeasonLeaderStat[] => {
   const qb = pickBestByPosition(roster, ['QB']);
   const rb = pickBestByPosition(roster, ['RB', 'HB', 'FB']);
   const passCatcher = pickBestPassCatcher(roster);
@@ -167,9 +186,11 @@ const buildSeasonLeaders = (roster: PlayerRowDTO[], wins: number, seed: string):
     pickBestDefender(roster, ['LB', 'MLB', 'ILB', 'OLB', 'CB', 'S', 'FS', 'SS']) ??
     getTopRatedRosterPlayerOverall(roster);
   const topEdge =
-    pickBestDefender(roster, ['EDGE', 'ED', 'DE', 'DL', 'DT']) ?? getTopRatedRosterPlayerOverall(roster);
+    pickBestDefender(roster, ['EDGE', 'ED', 'DE', 'DL', 'DT']) ??
+    getTopRatedRosterPlayerOverall(roster);
   const ballhawk =
-    pickBestDefender(roster, ['CB', 'S', 'FS', 'SS', 'DB']) ?? getTopRatedRosterPlayerOverall(roster);
+    pickBestDefender(roster, ['CB', 'S', 'FS', 'SS', 'DB']) ??
+    getTopRatedRosterPlayerOverall(roster);
   const winsFactor = wins * 0.05;
   const qbRating = resolvePlayerRating(qb ?? { position: 'QB' }) ?? 75;
   const rbRating = resolvePlayerRating(rb ?? { position: 'RB' }) ?? 72;
@@ -194,7 +215,11 @@ const buildSeasonLeaders = (roster: PlayerRowDTO[], wins: number, seed: string):
       rb,
       620 + rbRating * 9 + wins * 18 + unitFromSeed(`${seed}:rush-yds`) * 160,
     ),
-    buildLeader('Rush TD', rb, 4 + rbRating * 0.09 + winsFactor * 4 + unitFromSeed(`${seed}:rush-td`) * 3),
+    buildLeader(
+      'Rush TD',
+      rb,
+      4 + rbRating * 0.09 + winsFactor * 4 + unitFromSeed(`${seed}:rush-td`) * 3,
+    ),
     buildLeader(
       'Receptions',
       passCatcher,
@@ -242,15 +267,23 @@ const buildKeyNotes = ({
   const notes: string[] = [];
   const topAddition = impactAdditions[0];
   if (topAddition) {
-    notes.push(`${topAddition.name} gave ${teamName} an immediate jolt after arriving ${topAddition.acquisitionType.toLowerCase()}.`);
+    notes.push(
+      `${topAddition.name} gave ${teamName} an immediate jolt after arriving ${topAddition.acquisitionType.toLowerCase()}.`,
+    );
   }
   if (remainingNeeds.length > 0) {
-    notes.push(`${remainingNeeds[0]} still feels like a pressure point heading into the next offseason.`);
+    notes.push(
+      `${remainingNeeds[0]} still feels like a pressure point heading into the next offseason.`,
+    );
   }
   if (seasonOutcome === 'Missed Playoffs') {
-    notes.push(`The record settled at ${wins} wins, but the roster still showed enough backbone to keep building from here.`);
+    notes.push(
+      `The record settled at ${wins} wins, but the roster still showed enough backbone to keep building from here.`,
+    );
   } else {
-    notes.push(`The season ended with ${seasonOutcome.toLowerCase()}, proof that the offseason changes translated to Sundays.`);
+    notes.push(
+      `The season ended with ${seasonOutcome.toLowerCase()}, proof that the offseason changes translated to Sundays.`,
+    );
   }
   return notes.slice(0, 3);
 };
@@ -299,7 +332,9 @@ export const simulateSeasonRecap = ({
     .sort((left, right) => right - left)
     .slice(0, 8);
   const topEndAverage =
-    topPlayers.length > 0 ? topPlayers.reduce((sum, rating) => sum + rating, 0) / topPlayers.length : 74;
+    topPlayers.length > 0
+      ? topPlayers.reduce((sum, rating) => sum + rating, 0) / topPlayers.length
+      : 74;
   const balancePenalty = Math.max(0, needs.length - 3) * 0.18;
   const offseasonBoost =
     impactAdditions.length * 0.4 +

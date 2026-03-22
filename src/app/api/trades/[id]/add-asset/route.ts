@@ -17,10 +17,7 @@ export const POST = async (request: Request, { params }: { params: { id: string 
     }
 
     if (!body.side || !body.type) {
-      return NextResponse.json(
-        { ok: false, error: 'side and type are required' },
-        { status: 400 },
-      );
+      return NextResponse.json({ ok: false, error: 'side and type are required' }, { status: 400 });
     }
 
     const result = addTradeAsset(

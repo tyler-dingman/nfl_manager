@@ -17,15 +17,13 @@ type RecoverSaveOptions = {
 
 type SetSaveHeader = (header: SaveBootstrapDTO, teamId?: string) => void;
 
-const isBootstrapResponse = (
-  value: unknown,
-): value is SaveBootstrapDTO =>
+const isBootstrapResponse = (value: unknown): value is SaveBootstrapDTO =>
   Boolean(
     value &&
-      typeof value === 'object' &&
-      'ok' in value &&
-      (value as { ok?: boolean }).ok === true &&
-      'saveId' in value,
+    typeof value === 'object' &&
+    'ok' in value &&
+    (value as { ok?: boolean }).ok === true &&
+    'saveId' in value,
   );
 
 export const ensureRecoverableSaveId = async (

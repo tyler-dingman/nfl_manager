@@ -106,7 +106,9 @@ const parseNeedList = (rawValue: string | null | undefined) =>
   );
 
 export const parseTeamNeedsHtml = (html: string): TeamNeedsRecord[] => {
-  const match = html.match(/data-react-class="team_needs\/Index"[\s\S]*?data-react-props="([^"]+)"/i);
+  const match = html.match(
+    /data-react-class="team_needs\/Index"[\s\S]*?data-react-props="([^"]+)"/i,
+  );
   if (!match?.[1]) {
     throw new Error('Unable to locate team needs payload in NFL Mock Draft Database page.');
   }

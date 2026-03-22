@@ -52,8 +52,7 @@ export const useTradeOfferOrchestrator = ({
       if (!enabled || !saveId || !teamAbbr) return false;
 
       const scopeKey = `${saveId}:${phase}`;
-      const scope =
-        useTradeOfferStore.getState().scopes[scopeKey] ?? createEmptyTradeOfferScope();
+      const scope = useTradeOfferStore.getState().scopes[scopeKey] ?? createEmptyTradeOfferScope();
 
       if (
         (force && scope.shownCount >= TRADE_OFFER_LIMITS[phase]) ||

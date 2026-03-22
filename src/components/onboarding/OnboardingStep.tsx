@@ -61,12 +61,7 @@ export default function OnboardingStep({
       <div className="flex flex-1 flex-col justify-between">
         <div>
           <div className="relative mx-auto mt-5 flex h-44 w-full max-w-[280px] items-center justify-center sm:mt-6 sm:h-52 sm:max-w-[320px]">
-            <Image
-              src={illustration}
-              alt=""
-              priority
-              className="h-full w-full object-contain"
-            />
+            <Image src={illustration} alt="" priority className="h-full w-full object-contain" />
           </div>
 
           <div className="mt-6 text-center sm:mt-7">

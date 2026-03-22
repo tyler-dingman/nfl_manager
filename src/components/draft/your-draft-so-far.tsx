@@ -44,7 +44,9 @@ export function YourDraftSoFar({ summary }: YourDraftSoFarProps) {
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             Value Added
           </p>
-          <p className="mt-1 text-lg font-semibold text-foreground">{summary.totalValueAdded.toFixed(1)}</p>
+          <p className="mt-1 text-lg font-semibold text-foreground">
+            {summary.totalValueAdded.toFixed(1)}
+          </p>
         </div>
       </div>
 
@@ -82,7 +84,9 @@ export function YourDraftSoFar({ summary }: YourDraftSoFarProps) {
         {summary.needsAddressed > 0 ? (
           <div className="flex items-start gap-2 text-sm text-muted-foreground">
             <ShieldCheck className="mt-0.5 h-4 w-4 text-blue-600" />
-            <span>{summary.needsAddressed} roster need{summary.needsAddressed > 1 ? 's' : ''} addressed</span>
+            <span>
+              {summary.needsAddressed} roster need{summary.needsAddressed > 1 ? 's' : ''} addressed
+            </span>
           </div>
         ) : null}
       </div>

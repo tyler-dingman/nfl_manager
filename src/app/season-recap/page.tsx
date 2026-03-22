@@ -37,7 +37,9 @@ export default function SeasonRecapPage() {
   const [busy, setBusy] = useState(false);
 
   const selectedTeam =
-    teams.find((team) => team.id === selectedTeamId) ?? teams.find((team) => team.abbr === teamAbbr) ?? null;
+    teams.find((team) => team.id === selectedTeamId) ??
+    teams.find((team) => team.abbr === teamAbbr) ??
+    null;
 
   const recap = latestSeasonRecap;
 
@@ -64,7 +66,10 @@ export default function SeasonRecapPage() {
     [selectedTeam?.teamOverview, teams],
   );
 
-  const computedOverview = useMemo(() => computeOverviewForRoster(roster), [computeOverviewForRoster, roster]);
+  const computedOverview = useMemo(
+    () => computeOverviewForRoster(roster),
+    [computeOverviewForRoster, roster],
+  );
 
   if (!recap) {
     return (
@@ -149,7 +154,9 @@ export default function SeasonRecapPage() {
               <h1 className="text-3xl font-semibold text-foreground">
                 {recap.teamName} finish {recap.wins}-{recap.losses}
               </h1>
-              <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{recap.summaryLines[0]}</p>
+              <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+                {recap.summaryLines[0]}
+              </p>
             </div>
             <div className="rounded-2xl border border-border bg-slate-50 px-4 py-3 text-center">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -168,7 +175,9 @@ export default function SeasonRecapPage() {
             <p className="mt-2 text-2xl font-semibold text-foreground">{liveTrajectory.state}</p>
             <p className="mt-2 text-sm text-muted-foreground">
               OVR {computedOverview ?? '—'}
-              {recap.overallDelta !== null ? ` (${recap.overallDelta >= 0 ? '+' : ''}${recap.overallDelta})` : ''}
+              {recap.overallDelta !== null
+                ? ` (${recap.overallDelta >= 0 ? '+' : ''}${recap.overallDelta})`
+                : ''}
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-white p-5 shadow-sm">
@@ -177,7 +186,9 @@ export default function SeasonRecapPage() {
             </p>
             <p className="mt-2 text-2xl font-semibold text-foreground">{recap.divisionFinish}</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              {recap.playoffSeed ? `Playoff seed #${recap.playoffSeed}` : 'Outside the playoff bracket'}
+              {recap.playoffSeed
+                ? `Playoff seed #${recap.playoffSeed}`
+                : 'Outside the playoff bracket'}
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-white p-5 shadow-sm">
@@ -198,12 +209,17 @@ export default function SeasonRecapPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Team Leaders
               </p>
-              <h2 className="mt-1 text-xl font-semibold text-foreground">Who carried the production</h2>
+              <h2 className="mt-1 text-xl font-semibold text-foreground">
+                Who carried the production
+              </h2>
             </div>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {recap.leaders.map((leader) => (
-              <div key={`${leader.category}-${leader.playerId}`} className="flex items-center gap-3 rounded-2xl border border-border bg-slate-50 px-4 py-3">
+              <div
+                key={`${leader.category}-${leader.playerId}`}
+                className="flex items-center gap-3 rounded-2xl border border-border bg-slate-50 px-4 py-3"
+              >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-white">
                   {leader.headshotUrl ? (
                     <Image
@@ -242,12 +258,17 @@ export default function SeasonRecapPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Immediate Impact Additions
               </p>
-              <h2 className="mt-1 text-xl font-semibold text-foreground">Offseason moves that showed up</h2>
+              <h2 className="mt-1 text-xl font-semibold text-foreground">
+                Offseason moves that showed up
+              </h2>
             </div>
           </div>
           <div className="mt-4 grid gap-3">
             {recap.impactAdditions.map((addition) => (
-              <div key={`${addition.acquisitionType}-${addition.id}`} className="rounded-2xl border border-border bg-slate-50 px-4 py-3">
+              <div
+                key={`${addition.acquisitionType}-${addition.id}`}
+                className="rounded-2xl border border-border bg-slate-50 px-4 py-3"
+              >
                 <div className="flex flex-wrap items-center gap-2">
                   <p className="text-sm font-semibold text-foreground">{addition.name}</p>
                   <Badge variant="secondary">{addition.position}</Badge>
@@ -260,7 +281,12 @@ export default function SeasonRecapPage() {
         </section>
 
         <div className="flex justify-end">
-          <Button type="button" className="h-11 w-full md:w-auto" disabled={busy} onClick={() => void handleStartNextOffseason()}>
+          <Button
+            type="button"
+            className="h-11 w-full md:w-auto"
+            disabled={busy}
+            onClick={() => void handleStartNextOffseason()}
+          >
             {busy ? `Starting ${nextOffseasonLabel}...` : `Start ${nextOffseasonLabel}`}
           </Button>
         </div>

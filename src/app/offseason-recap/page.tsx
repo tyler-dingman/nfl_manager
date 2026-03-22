@@ -34,7 +34,10 @@ export default function OffseasonRecapPage() {
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
 
   const selectedTeam = useMemo(
-    () => teams.find((team) => team.id === selectedTeamId) ?? teams.find((team) => team.abbr === teamAbbr) ?? null,
+    () =>
+      teams.find((team) => team.id === selectedTeamId) ??
+      teams.find((team) => team.abbr === teamAbbr) ??
+      null,
     [selectedTeamId, teamAbbr, teams],
   );
   const teamDtos = useMemo<TeamDTO[]>(
@@ -153,8 +156,8 @@ export default function OffseasonRecapPage() {
                 {selectedTeam?.name ?? 'Your Team'} ready for what is next
               </h1>
               <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                A clean look at how the roster changed, where the class landed, and which additions are
-                most likely to matter right away.
+                A clean look at how the roster changed, where the class landed, and which additions
+                are most likely to matter right away.
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-slate-50 px-4 py-3 text-center">
@@ -175,7 +178,7 @@ export default function OffseasonRecapPage() {
               Team Trajectory
             </p>
             <p className="mt-2 text-2xl font-semibold text-foreground">
-              {(startingTrajectory ?? 'Balanced')} → {endingTrajectory}
+              {startingTrajectory ?? 'Balanced'} → {endingTrajectory}
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
               {summaryLines[0] ?? 'The roster pushed forward with a clearer direction.'}
@@ -201,7 +204,9 @@ export default function OffseasonRecapPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Immediate Impact Additions
               </p>
-              <h2 className="mt-1 text-xl font-semibold text-foreground">Top 3 who can move the needle</h2>
+              <h2 className="mt-1 text-xl font-semibold text-foreground">
+                Top 3 who can move the needle
+              </h2>
             </div>
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline">Signed {signedCount}</Badge>
@@ -239,7 +244,9 @@ export default function OffseasonRecapPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="truncate text-sm font-semibold text-foreground">{addition.name}</p>
+                      <p className="truncate text-sm font-semibold text-foreground">
+                        {addition.name}
+                      </p>
                       <Badge variant="secondary">{addition.position}</Badge>
                       <Badge variant="outline">{addition.acquisitionType}</Badge>
                     </div>
@@ -275,11 +282,13 @@ export default function OffseasonRecapPage() {
               <div>
                 <p className="text-sm font-semibold text-foreground">Started With</p>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {(startingNeeds.length > 0 ? startingNeeds : selectedTeam?.teamNeeds ?? []).slice(0, 3).map((need) => (
-                    <Badge key={`start-${need}`} variant="outline">
-                      {need}
-                    </Badge>
-                  ))}
+                  {(startingNeeds.length > 0 ? startingNeeds : (selectedTeam?.teamNeeds ?? []))
+                    .slice(0, 3)
+                    .map((need) => (
+                      <Badge key={`start-${need}`} variant="outline">
+                        {need}
+                      </Badge>
+                    ))}
                 </div>
               </div>
               <div>
@@ -292,7 +301,9 @@ export default function OffseasonRecapPage() {
                       </Badge>
                     ))
                   ) : (
-                    <span className="text-sm text-muted-foreground">No top needs directly addressed.</span>
+                    <span className="text-sm text-muted-foreground">
+                      No top needs directly addressed.
+                    </span>
                   )}
                 </div>
               </div>
@@ -306,7 +317,9 @@ export default function OffseasonRecapPage() {
                       </Badge>
                     ))
                   ) : (
-                    <span className="text-sm text-muted-foreground">Top needs were covered well.</span>
+                    <span className="text-sm text-muted-foreground">
+                      Top needs were covered well.
+                    </span>
                   )}
                 </div>
               </div>
@@ -315,7 +328,11 @@ export default function OffseasonRecapPage() {
         </section>
 
         <div className="flex justify-end">
-          <Button type="button" className="h-11 w-full md:w-auto" onClick={() => router.push('/sim-season')}>
+          <Button
+            type="button"
+            className="h-11 w-full md:w-auto"
+            onClick={() => router.push('/sim-season')}
+          >
             Sim Season
           </Button>
         </div>

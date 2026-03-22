@@ -12,12 +12,7 @@ type Props = {
   onSkip: () => void;
 };
 
-export function StepHeader({
-  canContinue,
-  continueLabel = 'Continue',
-  onContinue,
-  onSkip,
-}: Props) {
+export function StepHeader({ canContinue, continueLabel = 'Continue', onContinue, onSkip }: Props) {
   void canContinue;
   void continueLabel;
   void onContinue;

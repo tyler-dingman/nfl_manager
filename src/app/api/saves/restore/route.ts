@@ -39,9 +39,9 @@ export const POST = async (request: Request) => {
   }
 
   const state = restoreSaveState(body.saveId, {
-      teamAbbr: body.teamAbbr,
-      year: body.year,
-      capSpace: body.capSpace,
+    teamAbbr: body.teamAbbr,
+    year: body.year,
+    capSpace: body.capSpace,
     capLimit: body.capLimit,
     roster: body.roster,
     phase: body.phase,

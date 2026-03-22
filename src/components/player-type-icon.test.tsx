@@ -20,9 +20,7 @@ const makePlayer = (overrides: Partial<PlayerRowDTO> = {}): PlayerRowDTO => ({
 });
 
 test('non-draft player table renders player type icon', () => {
-  const html = renderToStaticMarkup(
-    <PlayerTable data={[makePlayer()]} variant="roster" />,
-  );
+  const html = renderToStaticMarkup(<PlayerTable data={[makePlayer()]} variant="roster" />);
 
   assert.match(html, /data-player-type="upcoming"/);
 });
@@ -30,7 +28,9 @@ test('non-draft player table renders player type icon', () => {
 test('draft player table does not render player type icon', () => {
   const html = renderToStaticMarkup(
     <PlayerTable
-      data={[makePlayer({ id: 'prospect-1', position: 'WR', status: 'Available', isDrafted: false })]}
+      data={[
+        makePlayer({ id: 'prospect-1', position: 'WR', status: 'Available', isDrafted: false }),
+      ]}
       variant="draft"
       onTheClockForUserTeam={true}
     />,

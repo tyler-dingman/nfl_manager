@@ -1,7 +1,16 @@
 'use client';
 
 import * as React from 'react';
-import { ArrowRightLeft, Eye, Heart, MessageCircle, Repeat2, Sparkles, TrendingUp, X } from 'lucide-react';
+import {
+  ArrowRightLeft,
+  Eye,
+  Heart,
+  MessageCircle,
+  Repeat2,
+  Sparkles,
+  TrendingUp,
+  X,
+} from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -137,7 +146,9 @@ const StarReactionToastCard = ({
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
-              <p className="truncate font-semibold text-slate-50">{toast.starReaction.displayName}</p>
+              <p className="truncate font-semibold text-slate-50">
+                {toast.starReaction.displayName}
+              </p>
               <span className="text-xs text-slate-400">{toast.starReaction.handle}</span>
               <span className="text-xs text-slate-500">•</span>
               <span className="text-xs text-slate-400">{toast.starReaction.timestampLabel}</span>
@@ -326,10 +337,7 @@ export const ToastViewport = () => {
   return (
     <div className="fixed inset-x-3 top-3 z-[60] flex max-h-[calc(100dvh-1.5rem)] flex-col gap-2 overflow-hidden sm:inset-x-auto sm:right-4 sm:top-4 sm:w-[22rem]">
       {context.toasts.slice(-3).map((toast) => (
-        <div
-          key={toast.id}
-          className="animate-in slide-in-from-right-3 fade-in-0 duration-200"
-        >
+        <div key={toast.id} className="animate-in slide-in-from-right-3 fade-in-0 duration-200">
           {toast.kind === 'starReaction' && toast.starReaction ? (
             <StarReactionToastCard
               toast={toast as ToastPayload & { id: string; starReaction: StarReactionToastData }}

@@ -84,7 +84,9 @@ export function WarRoomPanel({
                   </button>
                 ))
               ) : (
-                <p className="text-sm text-muted-foreground">No top prospects available right now.</p>
+                <p className="text-sm text-muted-foreground">
+                  No top prospects available right now.
+                </p>
               )}
             </div>
           </div>
@@ -98,7 +100,8 @@ export function WarRoomPanel({
           </p>
           <p className="mt-2 text-sm font-semibold text-amber-900">{activeRuns[0].headline}</p>
           <p className="mt-2 text-sm text-amber-800">
-            {activeRuns[0].count} {activeRuns[0].position} prospects have gone in the last {activeRuns[0].window} picks.
+            {activeRuns[0].count} {activeRuns[0].position} prospects have gone in the last{' '}
+            {activeRuns[0].window} picks.
           </p>
         </section>
       ) : null}

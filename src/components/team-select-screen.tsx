@@ -33,11 +33,7 @@ const TeamSelectCard = ({
     <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-slate-50">
       {team.logo_url ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={team.logo_url}
-          alt={`${team.name} logo`}
-          className="h-9 w-9 object-contain"
-        />
+        <img src={team.logo_url} alt={`${team.name} logo`} className="h-9 w-9 object-contain" />
       ) : (
         <span className="text-xs font-semibold text-muted-foreground">{team.abbr}</span>
       )}
@@ -46,7 +42,10 @@ const TeamSelectCard = ({
       <div className="flex items-start justify-between gap-3">
         <p className="text-sm font-semibold leading-snug text-foreground">{team.name}</p>
         <div className="shrink-0 text-right">
-          <span style={{ color: team.color_primary }} className="text-[15px] font-bold leading-none">
+          <span
+            style={{ color: team.color_primary }}
+            className="text-[15px] font-bold leading-none"
+          >
             {team.teamOverview}
           </span>
         </div>

@@ -62,10 +62,13 @@ export function DraftRecapModal({
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                       Overall Grade
                     </p>
-                    <p className="mt-2 text-5xl font-bold text-foreground">{summary.overallGrade}</p>
+                    <p className="mt-2 text-5xl font-bold text-foreground">
+                      {summary.overallGrade}
+                    </p>
                   </div>
                   <div className="max-w-md text-sm text-muted-foreground">
-                    {summary.summaryLines[0] ?? 'Your class added talent and direction to the roster.'}
+                    {summary.summaryLines[0] ??
+                      'Your class added talent and direction to the roster.'}
                   </div>
                 </div>
               </section>
@@ -90,7 +93,9 @@ export function DraftRecapModal({
                           </span>
                         ))
                       ) : (
-                        <span className="text-sm text-muted-foreground">No top needs directly addressed.</span>
+                        <span className="text-sm text-muted-foreground">
+                          No top needs directly addressed.
+                        </span>
                       )}
                     </div>
                   </div>
@@ -107,7 +112,9 @@ export function DraftRecapModal({
                           </span>
                         ))
                       ) : (
-                        <span className="text-sm text-muted-foreground">Top needs were covered well.</span>
+                        <span className="text-sm text-muted-foreground">
+                          Top needs were covered well.
+                        </span>
                       )}
                     </div>
                   </div>
@@ -146,7 +153,8 @@ export function DraftRecapModal({
                           {player.firstName} {player.lastName}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          Pick {pick.overall} • {player.position} • {player.college ?? player.school ?? 'School TBD'}
+                          Pick {pick.overall} • {player.position} •{' '}
+                          {player.college ?? player.school ?? 'School TBD'}
                         </p>
                       </div>
                       <div className="rounded-xl border border-border bg-white px-3 py-2 text-center">

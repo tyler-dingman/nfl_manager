@@ -243,7 +243,19 @@ function TradeBuilderContent() {
 
       return nextSaveId || null;
     },
-    [capLimit, capSpace, phase, resolvedSaveId, roster, saveId, setSaveHeader, teamAbbr, teamId, unlocked, franchiseYear],
+    [
+      capLimit,
+      capSpace,
+      phase,
+      resolvedSaveId,
+      roster,
+      saveId,
+      setSaveHeader,
+      teamAbbr,
+      teamId,
+      unlocked,
+      franchiseYear,
+    ],
   );
   const requestTradeOffer = useTradeOfferOrchestrator({
     enabled: phase === 'resign_cut',
@@ -326,16 +338,20 @@ function TradeBuilderContent() {
           return;
         }
         activeSaveId = recoveredSaveId;
-        response = await apiFetch('/api/trades/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            saveId: recoveredSaveId,
-            teamAbbr,
-            partnerTeamAbbr,
-            playerId: selectedPlayerId,
-          }),
-        }, { skipSaveGuard: true });
+        response = await apiFetch(
+          '/api/trades/create',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              saveId: recoveredSaveId,
+              teamAbbr,
+              partnerTeamAbbr,
+              playerId: selectedPlayerId,
+            }),
+          },
+          { skipSaveGuard: true },
+        );
       }
       if (!response.ok) {
         return;
@@ -344,11 +360,11 @@ function TradeBuilderContent() {
       const data = (await response.json()) as TradeCreateResponse;
       const selectedUserPlayer =
         selectedPlayerId && data.userRoster.some((player) => player.id === selectedPlayerId)
-          ? data.userRoster.find((player) => player.id === selectedPlayerId) ?? null
+          ? (data.userRoster.find((player) => player.id === selectedPlayerId) ?? null)
           : null;
       const selectedPartnerPlayer =
         selectedPlayerId && data.partnerRoster.some((player) => player.id === selectedPlayerId)
-          ? data.partnerRoster.find((player) => player.id === selectedPlayerId) ?? null
+          ? (data.partnerRoster.find((player) => player.id === selectedPlayerId) ?? null)
           : null;
       const selectedUserPlayerSeeded = selectedPlayerId
         ? data.trade.sendAssets.some((asset) => asset.playerId === selectedPlayerId)
@@ -681,30 +697,32 @@ function TradeBuilderContent() {
         userRosterParams.set('teamAbbr', teamAbbr);
       }
       const userRosterResponse = await apiFetch(`/api/roster?${userRosterParams.toString()}`);
-        if (userRosterResponse.ok) {
-          const nextRoster = (await userRosterResponse.json()) as PlayerRowDTO[];
-          setUserRoster(nextRoster);
-          setRoster(nextRoster);
-          dispatchSaveDataUpdated({
-            saveId: actionableSaveId,
-            teamAbbr,
-            reason: 'trade-accepted',
-          });
+      if (userRosterResponse.ok) {
+        const nextRoster = (await userRosterResponse.json()) as PlayerRowDTO[];
+        setUserRoster(nextRoster);
+        setRoster(nextRoster);
+        dispatchSaveDataUpdated({
+          saveId: actionableSaveId,
+          teamAbbr,
+          reason: 'trade-accepted',
+        });
+        trackProgress(
+          `trade:${data.trade.id}`,
+          OFFSEASON_PROGRESS_POINTS.manage.trade,
+          'Completed a trade to reshape the roster.',
+        );
+        if (capSpace < 0 && data.header.capSpace >= 0) {
           trackProgress(
-            `trade:${data.trade.id}`,
-            OFFSEASON_PROGRESS_POINTS.manage.trade,
-            'Completed a trade to reshape the roster.',
+            'cap-resolved:trade',
+            OFFSEASON_PROGRESS_POINTS.manage.cap_resolved,
+            'Solved your cap crunch through the trade market.',
           );
-          if (capSpace < 0 && data.header.capSpace >= 0) {
-            trackProgress(
-              'cap-resolved:trade',
-              OFFSEASON_PROGRESS_POINTS.manage.cap_resolved,
-              'Solved your cap crunch through the trade market.',
-            );
-          }
-          const acquiredPlayer = nextRoster
-            .filter((player) => acquiredPlayerIds.has(player.id))
-            .sort((left, right) => (resolvePlayerRating(right) ?? -1) - (resolvePlayerRating(left) ?? -1))[0];
+        }
+        const acquiredPlayer = nextRoster
+          .filter((player) => acquiredPlayerIds.has(player.id))
+          .sort(
+            (left, right) => (resolvePlayerRating(right) ?? -1) - (resolvePlayerRating(left) ?? -1),
+          )[0];
         if (acquiredPlayer) {
           const reactionToast = buildStarReactionToastPayload({
             incomingPlayer: acquiredPlayer,

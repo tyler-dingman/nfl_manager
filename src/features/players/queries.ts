@@ -140,13 +140,7 @@ const usePlayerQuery = (
     } finally {
       setIsLoading(false);
     }
-  }, [
-    cacheKey,
-    endpoint,
-    errorMessage,
-    saveId,
-    teamAbbr,
-  ]);
+  }, [cacheKey, endpoint, errorMessage, saveId, teamAbbr]);
 
   useEffect(() => {
     void refresh();
@@ -180,16 +174,17 @@ export const useFreeAgentsQuery = (
 } => {
   const endpoint = '/api/free-agents';
   const cacheKey = getCacheKey(endpoint, saveId, teamAbbr);
-  const [data, setData] = useState<FreeAgencyMarketDTO>(() =>
-    freeAgencyMarketCache.get(cacheKey) ?? {
-      wave: 1,
-      waveLabel: 'Wave 1: Tampering Window',
-      originalPoolSize: 0,
-      availableCount: 0,
-      userSignedCount: 0,
-      cpuSignedCount: 0,
-      players: [],
-    },
+  const [data, setData] = useState<FreeAgencyMarketDTO>(
+    () =>
+      freeAgencyMarketCache.get(cacheKey) ?? {
+        wave: 1,
+        waveLabel: 'Wave 1: Tampering Window',
+        originalPoolSize: 0,
+        availableCount: 0,
+        userSignedCount: 0,
+        cpuSignedCount: 0,
+        players: [],
+      },
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

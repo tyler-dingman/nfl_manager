@@ -4,3 +4,4 @@ out
 dist
 coverage
 .vercel
+data-cache

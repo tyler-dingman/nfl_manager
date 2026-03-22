@@ -138,9 +138,7 @@ export default function RosterPage() {
   const [renegotiateResult, setRenegotiateResult] = useState<RenegotiateResultDTO | null>(null);
   const [isRenegotiateResultOpen, setIsRenegotiateResultOpen] = useState(false);
   const [renegotiateResultPlayer, setRenegotiateResultPlayer] = useState<PlayerRowDTO | null>(null);
-  const [pendingRenegotiateToast, setPendingRenegotiateToast] = useState<ToastPayload | null>(
-    null,
-  );
+  const [pendingRenegotiateToast, setPendingRenegotiateToast] = useState<ToastPayload | null>(null);
   const [tradeBlockPlayers, setTradeBlockPlayers] = useState<TradeBlockRow[]>(() => tradeBlockData);
   const [activeTab, setActiveTab] = useState<'expiring' | 'tradeBlock' | 'roster'>('expiring');
   const { push: pushToast } = useToast();
@@ -207,12 +205,12 @@ export default function RosterPage() {
   const onboardingPrimaryTextColor = getReadableTextColor(onboardingPrimaryColor);
   const hasBlockingModalOpen = Boolean(
     isOnboardingOpen ||
-      activeCutPlayer ||
-      activeResignPlayer ||
-      activeExpiringContract ||
-      activeRenegotiatePlayer ||
-      isResignResultOpen ||
-      isRenegotiateResultOpen,
+    activeCutPlayer ||
+    activeResignPlayer ||
+    activeExpiringContract ||
+    activeRenegotiatePlayer ||
+    isResignResultOpen ||
+    isRenegotiateResultOpen,
   );
   const renderExpiringHeader = (
     label: string,
@@ -910,8 +908,7 @@ export default function RosterPage() {
       });
     const active = players
       .filter(
-        (player) =>
-          player.status.toLowerCase() !== 'cut' && !expiringPlayerIds.has(player.id),
+        (player) => player.status.toLowerCase() !== 'cut' && !expiringPlayerIds.has(player.id),
       )
       .sort((a, b) => (b.capHitValue ?? 0) - (a.capHitValue ?? 0));
     return [...cut, ...active];
@@ -1068,21 +1065,18 @@ export default function RosterPage() {
                                 key={`expiring-skeleton-${index}`}
                                 className="border-t border-border"
                               >
-                                {[
-                                  'w-40',
-                                  'w-12',
-                                  'w-10',
-                                  'hidden md:block w-24',
-                                ].map((width, cellIndex) => (
-                                  <td
-                                    key={`${index}-${cellIndex}`}
-                                    className="px-4 py-3 align-middle sm:px-6"
-                                  >
-                                    <div
-                                      className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`}
-                                    />
-                                  </td>
-                                ))}
+                                {['w-40', 'w-12', 'w-10', 'hidden md:block w-24'].map(
+                                  (width, cellIndex) => (
+                                    <td
+                                      key={`${index}-${cellIndex}`}
+                                      className="px-4 py-3 align-middle sm:px-6"
+                                    >
+                                      <div
+                                        className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`}
+                                      />
+                                    </td>
+                                  ),
+                                )}
                                 <td className="sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 py-3 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
                                   <div className="h-4 w-full animate-pulse rounded bg-slate-200/80" />
                                 </td>
@@ -1134,20 +1128,20 @@ export default function RosterPage() {
                                   <div className="flex w-full items-start justify-start gap-3 text-left">
                                     <div className="shrink-0">
                                       <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
-                                      {player.headshotUrl ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img
-                                          src={player.headshotUrl}
-                                          alt={player.name}
-                                          className="h-full w-full object-cover"
-                                          loading="lazy"
-                                          decoding="async"
-                                        />
-                                      ) : (
-                                        `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(
-                                          player.name.split(' ').slice(1).join(' ') || player.name
-                                        ).charAt(0)}`.toUpperCase()
-                                      )}
+                                        {player.headshotUrl ? (
+                                          // eslint-disable-next-line @next/next/no-img-element
+                                          <img
+                                            src={player.headshotUrl}
+                                            alt={player.name}
+                                            className="h-full w-full object-cover"
+                                            loading="lazy"
+                                            decoding="async"
+                                          />
+                                        ) : (
+                                          `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(
+                                            player.name.split(' ').slice(1).join(' ') || player.name
+                                          ).charAt(0)}`.toUpperCase()
+                                        )}
                                       </div>
                                     </div>
                                     <div className="min-w-0 flex-1 text-left">
@@ -1264,13 +1258,13 @@ export default function RosterPage() {
           ) : (
             <div className="max-h-[70vh] overflow-y-auto">
               <PlayerTable
-              data={sortedPlayers}
-              variant="roster"
-              loading={isRosterLoading && players.length === 0}
-              onVisiblePlayersChange={setVisibleRosterPlayers}
-              onCutPlayer={setActiveCutPlayer}
-              onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
-              onRenegotiatePlayer={setActiveRenegotiatePlayer}
+                data={sortedPlayers}
+                variant="roster"
+                loading={isRosterLoading && players.length === 0}
+                onVisiblePlayersChange={setVisibleRosterPlayers}
+                onCutPlayer={setActiveCutPlayer}
+                onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
+                onRenegotiatePlayer={setActiveRenegotiatePlayer}
                 onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'roster', player })}
               />
             </div>

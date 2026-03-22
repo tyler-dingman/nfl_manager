@@ -9,10 +9,7 @@ import { buildTradePlayerAsset } from '@/lib/trade-player-valuation';
 import { acceptDraftTradeOffer } from '@/server/api/draft';
 import { ensureDraftTradeContext, resolveDraftTradePickAssetById } from '@/server/api/draft-trade';
 import { getOrBuildProjectedRosterForTeam, getProjectedCapSpaceForTeam } from '@/server/api/store';
-import {
-  buildEvaluationContext,
-  buildTeamContexts,
-} from '@/server/logic/trade-offer-generator';
+import { buildEvaluationContext, buildTeamContexts } from '@/server/logic/trade-offer-generator';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveUnlocksDTO } from '@/types/save';
@@ -40,8 +37,7 @@ type AcceptDraftTradeOfferBody = {
 
 const ACCEPT_SCORE_FLOOR = Number((TRADE_ACCEPT_MARK_SCORE - TRADE_ACCEPT_WIGGLE).toFixed(3));
 
-const capHitMillions = (player: PlayerRowDTO) =>
-  Number(player.capHit.replace(/[^0-9.]/g, '')) || 0;
+const capHitMillions = (player: PlayerRowDTO) => Number(player.capHit.replace(/[^0-9.]/g, '')) || 0;
 
 const computeResultingCapSpace = (
   baseCapSpace: number,
@@ -165,12 +161,18 @@ export const POST = async (request: Request) => {
 
     const outgoingPlayerIds = new Set(
       outgoingAssets
-        .filter((asset): asset is Extract<(typeof outgoingAssets)[number], { type: 'player' }> => asset.type === 'player')
+        .filter(
+          (asset): asset is Extract<(typeof outgoingAssets)[number], { type: 'player' }> =>
+            asset.type === 'player',
+        )
         .map((asset) => asset.playerId),
     );
     const incomingPlayerIds = new Set(
       incomingAssets
-        .filter((asset): asset is Extract<(typeof incomingAssets)[number], { type: 'player' }> => asset.type === 'player')
+        .filter(
+          (asset): asset is Extract<(typeof incomingAssets)[number], { type: 'player' }> =>
+            asset.type === 'player',
+        )
         .map((asset) => asset.playerId),
     );
 
@@ -199,9 +201,7 @@ export const POST = async (request: Request) => {
     );
 
     const isAccepted =
-      graded.ai.score >= ACCEPT_SCORE_FLOOR &&
-      nextUserCapSpace >= 0 &&
-      nextPartnerCapSpace >= 0;
+      graded.ai.score >= ACCEPT_SCORE_FLOOR && nextUserCapSpace >= 0 && nextPartnerCapSpace >= 0;
 
     if (!isAccepted) {
       return NextResponse.json({

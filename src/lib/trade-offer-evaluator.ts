@@ -62,10 +62,16 @@ const windowMultiplier = (
     (asset) => asset.type === 'player' && (asset.age ?? 27) >= 29,
   ).length;
   if (context.contenderWindow === 'win_now') {
-    return Number((1 + incomingVeterans * 0.04 - incomingPicks * 0.02 + profile.prefersVeterans * 0.04).toFixed(3));
+    return Number(
+      (1 + incomingVeterans * 0.04 - incomingPicks * 0.02 + profile.prefersVeterans * 0.04).toFixed(
+        3,
+      ),
+    );
   }
   if (context.contenderWindow === 'rebuild') {
-    return Number((1 + incomingPicks * 0.05 - incomingVeterans * 0.03 + profile.prefersPicks * 0.05).toFixed(3));
+    return Number(
+      (1 + incomingPicks * 0.05 - incomingVeterans * 0.03 + profile.prefersPicks * 0.05).toFixed(3),
+    );
   }
   return 1;
 };
@@ -163,7 +169,11 @@ const premiumPlayerGuardrail = (incoming: TradeOfferAssetDTO[], outgoing: TradeO
     return Number(multiplier.toFixed(3));
   }
 
-  if (incoming.length >= 4 && incomingLowValueAssets >= Math.ceil(incoming.length * 0.75) && outgoingTotal >= 300) {
+  if (
+    incoming.length >= 4 &&
+    incomingLowValueAssets >= Math.ceil(incoming.length * 0.75) &&
+    outgoingTotal >= 300
+  ) {
     return 0.86;
   }
 

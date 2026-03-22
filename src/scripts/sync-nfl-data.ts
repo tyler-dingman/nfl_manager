@@ -126,7 +126,11 @@ const readJsonIfPresent = async <T>(filePath: string): Promise<T | null> => {
 const buildTeamNeedsLookup = (records: TeamNeedsRecord[]) =>
   new Map(records.map((record) => [record.teamAbbr, record] as const));
 
-const inferFallbackTeamNeeds = (rosteredPlayers: UnifiedPlayer[], teamAbbr: string, teamName: string) => {
+const inferFallbackTeamNeeds = (
+  rosteredPlayers: UnifiedPlayer[],
+  teamAbbr: string,
+  teamName: string,
+) => {
   const allNeeds = computeTeamNeeds(rosteredPlayers, 5);
 
   return {
@@ -350,9 +354,11 @@ const mergeConsensusBoard = ({
   return [...merged.values()]
     .sort((left, right) => {
       const averageDelta =
-        (left.averageRank ?? Number.MAX_SAFE_INTEGER) - (right.averageRank ?? Number.MAX_SAFE_INTEGER);
+        (left.averageRank ?? Number.MAX_SAFE_INTEGER) -
+        (right.averageRank ?? Number.MAX_SAFE_INTEGER);
       if (averageDelta !== 0) return averageDelta;
-      const bestRankDelta = getBestSourceRank(left.sourceRanks) - getBestSourceRank(right.sourceRanks);
+      const bestRankDelta =
+        getBestSourceRank(left.sourceRanks) - getBestSourceRank(right.sourceRanks);
       if (bestRankDelta !== 0) return bestRankDelta;
       return left.name.localeCompare(right.name);
     })
@@ -763,10 +769,7 @@ const seedDraftProspectFallbacks = async (): Promise<DraftProspectRecord[]> => {
   });
 };
 
-const generateFillerDraftProspects = (
-  startRank: number,
-  count: number,
-): DraftProspectRecord[] => {
+const generateFillerDraftProspects = (startRank: number, count: number): DraftProspectRecord[] => {
   const positions = ['QB', 'RB', 'WR', 'TE', 'OT', 'IOL', 'EDGE', 'DL', 'LB', 'CB', 'S'];
   const schools = [
     'Northern Iowa',
@@ -875,9 +878,8 @@ const enrichDraftProspects = async (): Promise<{
     (await readJsonIfPresent<Awaited<ReturnType<typeof fetchConsensusBigBoardRankings>>>(
       CONSENSUS_DRAFT_BOARD_CACHE_FILE,
     )) ?? [];
-  const mergedBoardCache = (await readJsonIfPresent<DraftBoardCachePayload>(
-    MERGED_DRAFT_BOARD_CACHE_FILE,
-  )) ?? [];
+  const mergedBoardCache =
+    (await readJsonIfPresent<DraftBoardCachePayload>(MERGED_DRAFT_BOARD_CACHE_FILE)) ?? [];
   const profileCache = (await readJsonIfPresent<DraftProfileCache>(DRAFT_PROFILE_CACHE_FILE)) ?? {};
 
   let espnRankings: Awaited<ReturnType<typeof fetchEspnDraftBoardRankings>> = [];
@@ -1040,7 +1042,9 @@ const enrichDraftProspects = async (): Promise<{
           archetype,
           projectedRange: getProjectedRangeFromRanking(rankingEntry.ranking),
           source:
-            resolver.source === 'board' ? 'consensus-big-board+espn-athlete' : 'consensus-big-board+search+espn-athlete',
+            resolver.source === 'board'
+              ? 'consensus-big-board+espn-athlete'
+              : 'consensus-big-board+search+espn-athlete',
           grade: espnBoardEntry?.grade ?? null,
           projectedPick: rankingEntry.ranking,
         };

@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { offerContract } from '@/server/api/players';
-import {
-  getSaveStateResult,
-  hydrateOffseasonFreeAgencyState,
-} from '@/server/api/store';
+import { getSaveStateResult, hydrateOffseasonFreeAgencyState } from '@/server/api/store';
 import { clampYears } from '@/lib/contracts';
 import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
 import { getYearOneCapHit } from '@/server/logic/cap';

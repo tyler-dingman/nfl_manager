@@ -4,12 +4,7 @@ import assert from 'node:assert/strict';
 import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
 import type { PlayerRowDTO } from '@/types/player';
 
-const makePlayer = (
-  id: string,
-  position: string,
-  rating: number,
-  age: number,
-): PlayerRowDTO => ({
+const makePlayer = (id: string, position: string, rating: number, age: number): PlayerRowDTO => ({
   id,
   firstName: id,
   lastName: 'Player',

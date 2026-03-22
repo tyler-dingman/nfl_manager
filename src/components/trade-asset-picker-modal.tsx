@@ -152,7 +152,9 @@ export default function TradeAssetPickerModal({
         {duplicateMessage ? (
           <p className="mt-3 text-xs text-destructive">{duplicateMessage}</p>
         ) : null}
-        {loadingMessage ? <p className="mt-3 text-xs text-muted-foreground">{loadingMessage}</p> : null}
+        {loadingMessage ? (
+          <p className="mt-3 text-xs text-muted-foreground">{loadingMessage}</p>
+        ) : null}
 
         {activeTab === 'players' ? (
           <>

@@ -1,4 +1,9 @@
-import { computeTeamNeeds, normalizeOverviewPosition, resolvePlayerRating, type TeamNeed } from '@/lib/team-overview';
+import {
+  computeTeamNeeds,
+  normalizeOverviewPosition,
+  resolvePlayerRating,
+  type TeamNeed,
+} from '@/lib/team-overview';
 import type { PlayerRowDTO } from '@/types/player';
 
 export type ChainReactionMoveType = 'freeAgency' | 'trade';
@@ -127,7 +132,8 @@ export const generateChainReactionEffects = ({
   const beforeNeeds = computeTeamNeeds(beforeRoster);
   const afterNeeds = computeTeamNeeds(afterRoster);
   const focusLabel = DISPLAY_LABEL[focusPosition];
-  const improvement = roomStrength(afterRooms, focusPosition) - roomStrength(beforeRooms, focusPosition);
+  const improvement =
+    roomStrength(afterRooms, focusPosition) - roomStrength(beforeRooms, focusPosition);
   const beforeDepth = roomDepth(beforeRooms, focusPosition);
   const afterDepth = roomDepth(afterRooms, focusPosition);
   const capDelta = Number((afterCapSpace - beforeCapSpace).toFixed(1));
@@ -168,7 +174,10 @@ export const generateChainReactionEffects = ({
   }
 
   if (effects.length < 2 && afterDepth > beforeDepth) {
-    effects.push({ id: 'inbound-interest', message: `Inbound calls at ${focusLabel} could increase` });
+    effects.push({
+      id: 'inbound-interest',
+      message: `Inbound calls at ${focusLabel} could increase`,
+    });
     tradeOfferTriggers.push(focusPosition);
   }
 

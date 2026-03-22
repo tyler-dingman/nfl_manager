@@ -1,11 +1,6 @@
 import { createRng } from '@/lib/deterministic-rng';
 
-export type TeamFlavorTone =
-  | 'positive'
-  | 'celebratory'
-  | 'suspenseful'
-  | 'confident'
-  | 'neutral';
+export type TeamFlavorTone = 'positive' | 'celebratory' | 'suspenseful' | 'confident' | 'neutral';
 
 export type TeamFlavorPhraseCategory =
   | 'fanPhrases'
@@ -75,7 +70,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     hashtags: ['#RavensFlock', '#PlayLikeARaven'],
     positiveReactions: ['Ravens Flock will respect that move.', 'That feels very Baltimore.'],
     neutralReactions: ['The Flock is watching this one.', 'Baltimore sees the edge in it.'],
-    celebrationLines: ['Ravens Flock is going to love that tone.', 'That should play in Baltimore.'],
+    celebrationLines: [
+      'Ravens Flock is going to love that tone.',
+      'That should play in Baltimore.',
+    ],
     confidentReactions: ['That is Ravens football.', 'Baltimore just got meaner.'],
   },
   BUF: {
@@ -97,8 +95,14 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     fanPhrases: ['Keep Pounding', 'Panthers grit', 'Bring the fight', 'Carolina edge'],
     hashtags: ['#KeepPounding', '#Panthers'],
     positiveReactions: ['Keep Pounding fits that move.', 'Carolina needed that kind of spark.'],
-    neutralReactions: ['Carolina is watching this unfold.', 'There is real upside here for the Panthers.'],
-    celebrationLines: ['Keep Pounding will sound better after that one.', 'That gives Carolina real juice.'],
+    neutralReactions: [
+      'Carolina is watching this unfold.',
+      'There is real upside here for the Panthers.',
+    ],
+    celebrationLines: [
+      'Keep Pounding will sound better after that one.',
+      'That gives Carolina real juice.',
+    ],
     confidentReactions: ['That is a strong Panthers move.', 'Carolina just added some edge.'],
   },
   CHI: {
@@ -109,7 +113,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     hashtags: ['#BearDown', '#DaBears'],
     positiveReactions: ['Bear Down fans will appreciate that.', 'That feels right for Chicago.'],
     neutralReactions: ['Chicago is paying attention.', 'This one has real Windy City intrigue.'],
-    celebrationLines: ['Bear Down should sound loud after that.', 'That is a Chicago crowd-pleaser.'],
+    celebrationLines: [
+      'Bear Down should sound loud after that.',
+      'That is a Chicago crowd-pleaser.',
+    ],
     confidentReactions: ['That is Bears football.', 'Chicago just got more physical.'],
   },
   CIN: {
@@ -121,7 +128,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     positiveReactions: ['Who Dey will get behind that one.', 'The Jungle will like that move.'],
     neutralReactions: ['Cincy is watching closely.', 'There is real Jungle buzz here.'],
     celebrationLines: ['Who Dey is going to be loud after that.', 'That should juice the Jungle.'],
-    confidentReactions: ['That is a Bengals swing with conviction.', 'Cincy just got more dangerous.'],
+    confidentReactions: [
+      'That is a Bengals swing with conviction.',
+      'Cincy just got more dangerous.',
+    ],
   },
   CLE: {
     teamAbbr: 'CLE',
@@ -132,19 +142,33 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     hashtags: ['#DawgPound', '#Browns'],
     positiveReactions: ['Dawg Pound will love the grit in that.', 'That fits Cleveland.'],
     neutralReactions: ['Cleveland is sizing that up.', 'The Dawg Pound sees the angle here.'],
-    celebrationLines: ['Dawg Pound is going to bark after that one.', 'That should play in Cleveland.'],
+    celebrationLines: [
+      'Dawg Pound is going to bark after that one.',
+      'That should play in Cleveland.',
+    ],
     confidentReactions: ['That is a Browns move.', 'Cleveland just got sturdier.'],
   },
   DAL: {
     teamAbbr: 'DAL',
     teamName: 'Dallas Cowboys',
     identityLabel: 'America’s Team Spotlight',
-    fanPhrases: ['America’s Team', 'How Bout Them Cowboys', 'Big-stage football', 'Dallas spotlight'],
+    fanPhrases: [
+      'America’s Team',
+      'How Bout Them Cowboys',
+      'Big-stage football',
+      'Dallas spotlight',
+    ],
     hashtags: ['#Cowboys', '#AmericasTeam'],
-    positiveReactions: ['Dallas will make noise about that one.', 'That is a move built for attention.'],
+    positiveReactions: [
+      'Dallas will make noise about that one.',
+      'That is a move built for attention.',
+    ],
     neutralReactions: ['The spotlight is on this move.', 'Dallas is always good for a headline.'],
     celebrationLines: ['How Bout Them Cowboys after that.', 'That should light up the fanbase.'],
-    confidentReactions: ['That is a headline-grabbing Cowboys swing.', 'Dallas just made a loud move.'],
+    confidentReactions: [
+      'That is a headline-grabbing Cowboys swing.',
+      'Dallas just made a loud move.',
+    ],
   },
   DEN: {
     teamAbbr: 'DEN',
@@ -177,7 +201,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     hashtags: ['#GoPackGo', '#Titletown'],
     positiveReactions: ['Go Pack Go fits that move.', 'Green Bay will appreciate the value there.'],
     neutralReactions: ['Lambeau will be watching.', 'That has real Titletown intrigue.'],
-    celebrationLines: ['Go Pack Go is going to sound good after that.', 'That should play in Green Bay.'],
+    celebrationLines: [
+      'Go Pack Go is going to sound good after that.',
+      'That should play in Green Bay.',
+    ],
     confidentReactions: ['That is a Packers move with purpose.', 'Green Bay just got cleaner.'],
   },
   HOU: {
@@ -200,7 +227,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     positiveReactions: ['For The Shoe fits that one.', 'Indy will appreciate that move.'],
     neutralReactions: ['The Shoe is paying attention.', 'There is some Indy intrigue now.'],
     celebrationLines: ['For The Shoe should sound good after that.', 'That gives Indy a boost.'],
-    confidentReactions: ['That is a Colts move with purpose.', 'Indianapolis just got more balanced.'],
+    confidentReactions: [
+      'That is a Colts move with purpose.',
+      'Indianapolis just got more balanced.',
+    ],
   },
   JAX: {
     teamAbbr: 'JAX',
@@ -221,9 +251,15 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     fanPhrases: ['Chiefs Kingdom', 'Arrowhead Pride', 'Run it back', 'Let’s go Chiefs'],
     hashtags: ['#ChiefsKingdom', '#ArrowheadPride'],
     positiveReactions: ['Chiefs Kingdom loves that move.', 'Arrowhead will approve.'],
-    neutralReactions: ['Arrowhead is watching this closely.', 'Chiefs Kingdom sees what you are building.'],
+    neutralReactions: [
+      'Arrowhead is watching this closely.',
+      'Chiefs Kingdom sees what you are building.',
+    ],
     celebrationLines: ['Chiefs Kingdom is going to be loud.', 'Arrowhead should love that one.'],
-    confidentReactions: ['That is a Chiefs move with conviction.', 'Kansas City just sharpened the roster.'],
+    confidentReactions: [
+      'That is a Chiefs move with conviction.',
+      'Kansas City just sharpened the roster.',
+    ],
   },
   LAC: {
     teamAbbr: 'LAC',
@@ -233,7 +269,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     hashtags: ['#BoltUp', '#Chargers'],
     positiveReactions: ['Bolt Up fits that one.', 'That should energize Chargers fans.'],
     neutralReactions: ['There is real buzz around this move.', 'The Bolts are watching carefully.'],
-    celebrationLines: ['Bolt Up is going to sound good after that.', 'That should juice the fanbase.'],
+    celebrationLines: [
+      'Bolt Up is going to sound good after that.',
+      'That should juice the fanbase.',
+    ],
     confidentReactions: ['That is a smart Chargers swing.', 'Los Angeles just got more dangerous.'],
   },
   LAR: {
@@ -257,7 +296,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     positiveReactions: ['Raider Nation approves.', 'That has real silver-and-black energy.'],
     neutralReactions: ['Vegas is watching the angle here.', 'Raider Nation sees the upside.'],
     celebrationLines: ['Raider Nation is going to love that.', 'Just win baby fits that move.'],
-    confidentReactions: ['That is a Raiders swing with swagger.', 'Las Vegas just made a loud move.'],
+    confidentReactions: [
+      'That is a Raiders swing with swagger.',
+      'Las Vegas just made a loud move.',
+    ],
   },
   MIA: {
     teamAbbr: 'MIA',
@@ -279,7 +321,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     positiveReactions: ['SKOL fans will love that pick.', 'That feels right for Minnesota.'],
     neutralReactions: ['SKOL is watching this closely.', 'Minnesota sees what this could become.'],
     celebrationLines: ['SKOL should sound loud after that.', 'That gives the Vikings some juice.'],
-    confidentReactions: ['That is a Vikings move with purpose.', 'Minnesota just got more balanced.'],
+    confidentReactions: [
+      'That is a Vikings move with purpose.',
+      'Minnesota just got more balanced.',
+    ],
   },
   NE: {
     teamAbbr: 'NE',
@@ -287,7 +332,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     identityLabel: 'Do Your Job',
     fanPhrases: ['Do Your Job', 'Patriots discipline', 'Foxborough edge', 'Handle business'],
     hashtags: ['#DoYourJob', '#Patriots'],
-    positiveReactions: ['New England will respect that move.', 'That has real Patriots discipline.'],
+    positiveReactions: [
+      'New England will respect that move.',
+      'That has real Patriots discipline.',
+    ],
     neutralReactions: ['Foxborough is evaluating that one.', 'There is some Patriots buzz here.'],
     celebrationLines: ['Do Your Job fits that move.', 'That should play in New England.'],
     confidentReactions: ['That is a Patriots-style move.', 'New England just got more dependable.'],
@@ -296,11 +344,19 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     teamAbbr: 'NO',
     teamName: 'New Orleans Saints',
     identityLabel: 'Who Dat',
-    fanPhrases: ['Who Dat', 'Black and gold pride', 'Superdome energy', 'Make it loud in New Orleans'],
+    fanPhrases: [
+      'Who Dat',
+      'Black and gold pride',
+      'Superdome energy',
+      'Make it loud in New Orleans',
+    ],
     hashtags: ['#WhoDat', '#Saints'],
     positiveReactions: ['Who Dat will like that one.', 'That should play in New Orleans.'],
     neutralReactions: ['The Dome is paying attention.', 'There is some Who Dat intrigue here.'],
-    celebrationLines: ['Who Dat should sound good after that.', 'That one will energize New Orleans.'],
+    celebrationLines: [
+      'Who Dat should sound good after that.',
+      'That one will energize New Orleans.',
+    ],
     confidentReactions: ['That is a Saints move with intent.', 'New Orleans just got stronger.'],
   },
   NYG: {
@@ -322,18 +378,29 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     hashtags: ['#GangGreen', '#TakeFlight'],
     positiveReactions: ['Gang Green will like that move.', 'That should help the Jets.'],
     neutralReactions: ['Take Flight has eyes on this one.', 'There is some Jets buzz here.'],
-    celebrationLines: ['Take Flight should sound good after that.', 'That should energize Gang Green.'],
+    celebrationLines: [
+      'Take Flight should sound good after that.',
+      'That should energize Gang Green.',
+    ],
     confidentReactions: ['That is a Jets move with purpose.', 'New York just got more dangerous.'],
   },
   PHI: {
     teamAbbr: 'PHI',
     teamName: 'Philadelphia Eagles',
     identityLabel: 'Fly Eagles Fly',
-    fanPhrases: ['Fly Eagles Fly', 'Philly toughness', 'Own the line of scrimmage', 'Midnight green edge'],
+    fanPhrases: [
+      'Fly Eagles Fly',
+      'Philly toughness',
+      'Own the line of scrimmage',
+      'Midnight green edge',
+    ],
     hashtags: ['#FlyEaglesFly', '#Birds'],
     positiveReactions: ['Fly Eagles Fly fits that one.', 'Philly will love the toughness there.'],
     neutralReactions: ['The Birds are watching closely.', 'Philly sees the logic in this one.'],
-    celebrationLines: ['Fly Eagles Fly is going to sound loud after that.', 'That should play in Philly.'],
+    celebrationLines: [
+      'Fly Eagles Fly is going to sound loud after that.',
+      'That should play in Philly.',
+    ],
     confidentReactions: ['That is an Eagles move with bite.', 'Philadelphia just got meaner.'],
   },
   PIT: {
@@ -344,8 +411,14 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     fanPhrases: ['Here We Go', 'Steeler Nation', 'Black and gold standard', 'Pittsburgh toughness'],
     hashtags: ['#HereWeGo', '#SteelerNation'],
     positiveReactions: ['Steeler Nation will respect that.', 'That feels right for Pittsburgh.'],
-    neutralReactions: ['Pittsburgh is watching the details.', 'There is some Here We Go buzz here.'],
-    celebrationLines: ['Here We Go is going to be loud after that.', 'That should play in Pittsburgh.'],
+    neutralReactions: [
+      'Pittsburgh is watching the details.',
+      'There is some Here We Go buzz here.',
+    ],
+    celebrationLines: [
+      'Here We Go is going to be loud after that.',
+      'That should play in Pittsburgh.',
+    ],
     confidentReactions: ['That is Steelers football.', 'Pittsburgh just got tougher.'],
   },
   SEA: {
@@ -358,7 +431,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     positiveReactions: ['The 12s will love that move.', 'Seattle can get behind that.'],
     neutralReactions: ['The 12s are watching closely.', 'There is some Go Hawks buzz here.'],
     celebrationLines: ['Go Hawks should sound loud after that.', 'That should fire up Seattle.'],
-    confidentReactions: ['That is a Seahawks move with conviction.', 'Seattle just got more dangerous.'],
+    confidentReactions: [
+      'That is a Seahawks move with conviction.',
+      'Seattle just got more dangerous.',
+    ],
   },
   SF: {
     teamAbbr: 'SF',
@@ -370,7 +446,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     positiveReactions: ['The Faithful will love that one.', 'That feels very 49ers.'],
     neutralReactions: ['The Faithful is watching this closely.', 'There is real Niners buzz here.'],
     celebrationLines: ['Bang Bang Niner Gang after that.', 'That should play in Santa Clara.'],
-    confidentReactions: ['That is a 49ers move with intent.', 'San Francisco just got even sharper.'],
+    confidentReactions: [
+      'That is a 49ers move with intent.',
+      'San Francisco just got even sharper.',
+    ],
   },
   TB: {
     teamAbbr: 'TB',
@@ -391,7 +470,10 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     hashtags: ['#TitanUp', '#Titans'],
     positiveReactions: ['Titan Up fits that move.', 'Tennessee needed that kind of help.'],
     neutralReactions: ['Nashville is watching closely.', 'There is some Titans buzz here.'],
-    celebrationLines: ['Titan Up should sound good after that.', 'That is a strong Tennessee move.'],
+    celebrationLines: [
+      'Titan Up should sound good after that.',
+      'That is a strong Tennessee move.',
+    ],
     confidentReactions: ['That is Titans football.', 'Tennessee just got tougher.'],
   },
   WAS: {
@@ -400,10 +482,22 @@ const TEAM_FLAVOR: Record<string, TeamFlavor> = {
     identityLabel: 'Take Command',
     fanPhrases: ['Take Command', 'Washington momentum', 'Burgundy and gold edge', 'Own the East'],
     hashtags: ['#TakeCommand', '#Commanders'],
-    positiveReactions: ['Take Command fans will like that one.', 'Washington needed that kind of move.'],
-    neutralReactions: ['Washington is watching this carefully.', 'There is some Commanders buzz here.'],
-    celebrationLines: ['Take Command should sound better after that.', 'That should energize Washington.'],
-    confidentReactions: ['That is a Commanders move with conviction.', 'Washington just got stronger.'],
+    positiveReactions: [
+      'Take Command fans will like that one.',
+      'Washington needed that kind of move.',
+    ],
+    neutralReactions: [
+      'Washington is watching this carefully.',
+      'There is some Commanders buzz here.',
+    ],
+    celebrationLines: [
+      'Take Command should sound better after that.',
+      'That should energize Washington.',
+    ],
+    confidentReactions: [
+      'That is a Commanders move with conviction.',
+      'Washington just got stronger.',
+    ],
   },
 };
 

@@ -71,11 +71,17 @@ const getApy = (player: TradePlayerInput) =>
 
 const contractMultiplier = (player: TradePlayerInput, position: string) => {
   const apy = getApy(player);
-  const yearsRemaining = Math.max(1, player.contract?.yearsRemaining ?? player.contractYearsRemaining ?? 1);
+  const yearsRemaining = Math.max(
+    1,
+    player.contract?.yearsRemaining ?? player.contractYearsRemaining ?? 1,
+  );
   const rating = resolvePlayerRating(player) ?? 70;
   const marketRate = Math.max(2, (rating - 55) * 0.42);
   const overpayRatio = apy / marketRate;
-  const costFactor = overpayRatio <= 1 ? 1.03 + (1 - overpayRatio) * 0.07 : Math.max(0.68, 1 - (overpayRatio - 1) * 0.18);
+  const costFactor =
+    overpayRatio <= 1
+      ? 1.03 + (1 - overpayRatio) * 0.07
+      : Math.max(0.68, 1 - (overpayRatio - 1) * 0.18);
   const termFactor =
     yearsRemaining === 1
       ? position === 'QB'
@@ -126,7 +132,12 @@ const normalizedTradePosition = (position: string) => {
 
 const needMultiplier = (position: string, context?: TradeEvaluationContext) => {
   if (!context) return 1;
-  const idx = context.needs.findIndex((need) => need === position || (need === 'OT' && ['LT', 'RT'].includes(position)) || (need === 'IOL' && ['LG', 'RG', 'C'].includes(position)));
+  const idx = context.needs.findIndex(
+    (need) =>
+      need === position ||
+      (need === 'OT' && ['LT', 'RT'].includes(position)) ||
+      (need === 'IOL' && ['LG', 'RG', 'C'].includes(position)),
+  );
   if (idx === -1) return 1;
   return Number((1.12 - idx * 0.035).toFixed(3));
 };

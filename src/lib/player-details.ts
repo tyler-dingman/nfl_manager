@@ -98,14 +98,19 @@ const formatMoneyMillions = (value: number | null | undefined) =>
   value === null || value === undefined || !Number.isFinite(value) ? '—' : `$${value.toFixed(1)}M`;
 
 const formatContractYears = (years: number | null | undefined) =>
-  years === null || years === undefined || years <= 0 ? '—' : `${years} yr${years === 1 ? '' : 's'}`;
+  years === null || years === undefined || years <= 0
+    ? '—'
+    : `${years} yr${years === 1 ? '' : 's'}`;
 
-const inferTeamAbbr = (
-  source: PlayerDetailsSource,
-  userTeamAbbr?: string | null,
-) => {
+const inferTeamAbbr = (source: PlayerDetailsSource, userTeamAbbr?: string | null) => {
   if (source.kind === 'expiring') {
-    return source.player.teamAbbr ?? source.player.lastTeamAbbr ?? source.player.previousTeamAbbr ?? userTeamAbbr ?? null;
+    return (
+      source.player.teamAbbr ??
+      source.player.lastTeamAbbr ??
+      source.player.previousTeamAbbr ??
+      userTeamAbbr ??
+      null
+    );
   }
   const player = source.player;
   return (
@@ -135,8 +140,7 @@ const getSourceStats = (source: PlayerDetailsSource): UnifiedPlayerStats | undef
 
 const getSourceAge = (source: PlayerDetailsSource) => source.player.age ?? null;
 
-const getSourceHeadshot = (source: PlayerDetailsSource) =>
-  source.player.headshotUrl ?? null;
+const getSourceHeadshot = (source: PlayerDetailsSource) => source.player.headshotUrl ?? null;
 
 const getSourceHeight = (source: PlayerDetailsSource) =>
   source.kind === 'expiring' ? null : (source.player.height ?? null);
@@ -175,8 +179,7 @@ const getContractSnapshot = (source: PlayerDetailsSource) => {
     player.averagePerYear ??
     player.expectedAnnualValue ??
     (typeof player.marketValue === 'number' ? player.marketValue / 1_000_000 : null);
-  const finalYear =
-    yearsRemaining > 0 ? CURRENT_MODELED_LEAGUE_YEAR + yearsRemaining - 1 : null;
+  const finalYear = yearsRemaining > 0 ? CURRENT_MODELED_LEAGUE_YEAR + yearsRemaining - 1 : null;
   const marketValue =
     player.expectedAnnualValue ??
     player.freeAgentProfile?.expectedAnnualValue ??
@@ -231,10 +234,14 @@ const inferRoleRank = (source: PlayerDetailsSource, roster: PlayerRowDTO[]) => {
 const bestRoleLabel = (position: string, rank: number | null) => {
   if (!rank) return null;
   if (position === 'QB') return rank === 1 ? 'Franchise QB' : rank === 2 ? 'QB2' : 'Depth QB';
-  if (position === 'CB') return rank === 1 ? 'CB1' : rank === 2 ? 'CB2' : rank === 3 ? 'Nickel CB' : 'Depth CB';
-  if (position === 'WR') return rank === 1 ? 'WR1' : rank === 2 ? 'WR2' : rank === 3 ? 'Slot WR' : 'Depth WR';
-  if (DEFENSIVE_LINE_POSITIONS.has(position)) return rank === 1 ? 'Edge Starter' : rank === 2 ? 'Frontline Starter' : 'Rotation Rusher';
-  if (OFFENSIVE_LINE_POSITIONS.has(position)) return rank <= 2 ? 'Starting Tackle' : rank <= 5 ? 'Starting OL' : 'Depth OL';
+  if (position === 'CB')
+    return rank === 1 ? 'CB1' : rank === 2 ? 'CB2' : rank === 3 ? 'Nickel CB' : 'Depth CB';
+  if (position === 'WR')
+    return rank === 1 ? 'WR1' : rank === 2 ? 'WR2' : rank === 3 ? 'Slot WR' : 'Depth WR';
+  if (DEFENSIVE_LINE_POSITIONS.has(position))
+    return rank === 1 ? 'Edge Starter' : rank === 2 ? 'Frontline Starter' : 'Rotation Rusher';
+  if (OFFENSIVE_LINE_POSITIONS.has(position))
+    return rank <= 2 ? 'Starting Tackle' : rank <= 5 ? 'Starting OL' : 'Depth OL';
   return rank === 1 ? 'Starter' : rank <= 3 ? 'Rotation Piece' : 'Depth Piece';
 };
 
@@ -260,10 +267,7 @@ const buildLoyaltyScore = (
   return 42;
 };
 
-const buildRoleSatisfactionScore = (
-  rating: number | null,
-  roleRank: number | null,
-) => {
+const buildRoleSatisfactionScore = (rating: number | null, roleRank: number | null) => {
   if (!rating) return 55;
   if (!roleRank) return 55;
   if (roleRank === 1) return 82;
@@ -283,13 +287,16 @@ const buildHappinessScore = ({
   roleScore: number;
   apy: number | null;
 }) => {
-  if (source.kind !== 'expiring' && (source.player.marketStatus === 'unsigned' || source.player.isUnsigned)) {
+  if (
+    source.kind !== 'expiring' &&
+    (source.player.marketStatus === 'unsigned' || source.player.isUnsigned)
+  ) {
     return 55;
   }
   if (!rating) return 55;
 
   const compensationScore = apy ? clamp(55 + (apy - rating / 6) * 6, 30, 88) : 55;
-  let score = Math.round((compensationScore * 0.55) + (roleScore * 0.45));
+  let score = Math.round(compensationScore * 0.55 + roleScore * 0.45);
 
   const age = getSourceAge(source);
   if ((age ?? 99) <= 25 && rating >= 84 && !apy) {
@@ -465,10 +472,14 @@ const buildOutlook = ({
   trajectoryState: string;
   yearsRemaining: number;
 }) => {
-  if ((age ?? 99) <= 25 && (rating ?? 0) >= 82) return 'Ascending piece with room to grow inside this roster.';
-  if ((age ?? 0) >= 31 && (rating ?? 0) <= 87) return 'Likely a win-now contributor with a shorter runway ahead.';
-  if (yearsRemaining <= 1) return 'A pivotal contract-year player who could shape the next phase of the roster.';
-  if (trajectoryState === 'Contender') return 'Stable contributor for a team built to push right now.';
+  if ((age ?? 99) <= 25 && (rating ?? 0) >= 82)
+    return 'Ascending piece with room to grow inside this roster.';
+  if ((age ?? 0) >= 31 && (rating ?? 0) <= 87)
+    return 'Likely a win-now contributor with a shorter runway ahead.';
+  if (yearsRemaining <= 1)
+    return 'A pivotal contract-year player who could shape the next phase of the roster.';
+  if (trajectoryState === 'Contender')
+    return 'Stable contributor for a team built to push right now.';
   return 'Projects as a steady long-term piece if the role stays consistent.';
 };
 
@@ -493,12 +504,18 @@ const buildSummary = ({
 }) => {
   const teamReference = teamName ?? 'this team';
   const rolePhrase =
-    roleRank === 1 ? 'a clear starter' : roleRank && roleRank <= 3 ? 'part of the weekly rotation' : 'more of a depth option';
+    roleRank === 1
+      ? 'a clear starter'
+      : roleRank && roleRank <= 3
+        ? 'part of the weekly rotation'
+        : 'more of a depth option';
   const agePhrase =
     (age ?? 99) <= 25 ? 'young ascending' : (age ?? 0) >= 30 ? 'veteran' : 'established';
   const unitPhrase = OFFENSIVE_POSITIONS.has(position) ? 'offense' : 'defense';
   const valuePhrase =
-    contractValueTag === 'Steal' || contractValueTag === 'Team Friendly' || contractValueTag === 'Rookie Value'
+    contractValueTag === 'Steal' ||
+    contractValueTag === 'Team Friendly' ||
+    contractValueTag === 'Rookie Value'
       ? 'gives the front office useful value flexibility'
       : contractValueTag === 'Expensive'
         ? 'comes with a heavier financial commitment'
@@ -508,7 +525,11 @@ const buildSummary = ({
     return `${getSourceDisplayName(source)} heads toward the end of his deal as ${rolePhrase} for ${teamReference}. He remains a ${agePhrase} ${position} whose next contract will say a lot about how this roster is being shaped.`;
   }
 
-  if (source.kind === 'freeAgent' || source.player.marketStatus === 'unsigned' || source.player.isUnsigned) {
+  if (
+    source.kind === 'freeAgent' ||
+    source.player.marketStatus === 'unsigned' ||
+    source.player.isUnsigned
+  ) {
     return `${getSourceDisplayName(source)} is a ${agePhrase} ${position} option on the open market. With a ${rating ? `${rating} OVR profile` : 'solid profile'}, he could help immediately if ${teamReference} wants to invest at the position.`;
   }
 

@@ -30,7 +30,11 @@ export default function PlayerTypeIcon({
 
   return (
     <span
-      className={cn('inline-flex shrink-0 items-center align-middle', indicator.className, className)}
+      className={cn(
+        'inline-flex shrink-0 items-center align-middle',
+        indicator.className,
+        className,
+      )}
       title={indicator.label}
       aria-label={indicator.label}
       data-player-type={indicator.type}

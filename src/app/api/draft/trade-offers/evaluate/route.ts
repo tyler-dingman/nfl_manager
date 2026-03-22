@@ -4,10 +4,7 @@ import { gradeTradeOffer } from '@/lib/trade-offer-evaluator';
 import { buildTradePlayerAsset } from '@/lib/trade-player-valuation';
 import { ensureDraftTradeContext, resolveDraftTradePickAssetById } from '@/server/api/draft-trade';
 import { getOrBuildProjectedRosterForTeam } from '@/server/api/store';
-import {
-  buildEvaluationContext,
-  buildTeamContexts,
-} from '@/server/logic/trade-offer-generator';
+import { buildEvaluationContext, buildTeamContexts } from '@/server/logic/trade-offer-generator';
 import type { DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveUnlocksDTO } from '@/types/save';
@@ -162,8 +159,7 @@ export const POST = async (request: Request) => {
       aiExplanation: graded.ai.explanation,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : 'Unable to evaluate this draft trade.';
+    const message = error instanceof Error ? error.message : 'Unable to evaluate this draft trade.';
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };

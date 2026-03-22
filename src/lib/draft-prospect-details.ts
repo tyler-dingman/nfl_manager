@@ -80,24 +80,46 @@ const getArchetype = (player: PlayerRowDTO) => {
 const baseStrengthsByPosition: Record<string, string[]> = {
   QB: ['Poised decision-maker', 'Creates explosive-play upside', 'Comfortable leading a room'],
   RB: ['Good burst through first contact', 'Presses creases with urgency', 'Useful in space'],
-  WR: ['Creates separation at multiple levels', 'Threatens after the catch', 'Expands the offense vertically'],
+  WR: [
+    'Creates separation at multiple levels',
+    'Threatens after the catch',
+    'Expands the offense vertically',
+  ],
   TE: ['Reliable size target', 'Can help in multiple personnel groupings', 'Adds red-zone utility'],
   OT: ['Length for NFL edges', 'Stabilizes the pocket', 'Anchor shows starter traits'],
-  IOL: ['Strong hands in tight quarters', 'Helps firm up the interior', 'Plays with balance and finish'],
-  EDGE: ['Wins with burst off the edge', 'Flashes pressure upside', 'Fits a premium pass-rush role'],
+  IOL: [
+    'Strong hands in tight quarters',
+    'Helps firm up the interior',
+    'Plays with balance and finish',
+  ],
+  EDGE: [
+    'Wins with burst off the edge',
+    'Flashes pressure upside',
+    'Fits a premium pass-rush role',
+  ],
   DL: ['Power through contact', 'Can disrupt the middle', 'Adds depth to the front'],
-  LB: ['Range to flow sideline to sideline', 'Fits modern sub-package football', 'Active downhill demeanor'],
+  LB: [
+    'Range to flow sideline to sideline',
+    'Fits modern sub-package football',
+    'Active downhill demeanor',
+  ],
   CB: ['Mirror skills in coverage', 'Helps against explosive receivers', 'Can match outside speed'],
   S: ['Versatile secondary piece', 'Good downhill trigger', 'Helps clean up over the top'],
 };
 
 const baseWeaknessesByPosition: Record<string, string[]> = {
   QB: ['Will need faster answers against NFL pressure', 'Consistency can still come and go'],
-  RB: ['Long-term value at the position is tougher to bank on', 'Pass-pro detail still needs polish'],
+  RB: [
+    'Long-term value at the position is tougher to bank on',
+    'Pass-pro detail still needs polish',
+  ],
   WR: ['Physical corners will test him early', 'Route pacing still has room to sharpen'],
   TE: ['Blocking consistency is still developing', 'Volume role may take time'],
   OT: ['Technique polish is still coming together', 'Hand timing can drift under speed-to-power'],
-  IOL: ['May need time before handling top interior power', 'Positional ceiling is more steady than flashy'],
+  IOL: [
+    'May need time before handling top interior power',
+    'Positional ceiling is more steady than flashy',
+  ],
   EDGE: ['Rush plan needs more counters', 'Run-game discipline still fluctuates'],
   DL: ['Pad level can run high', 'Pass-rush finish is still developing'],
   LB: ['Coverage instincts need continued refinement', 'Can get caught peeking in traffic'],
@@ -105,16 +127,25 @@ const baseWeaknessesByPosition: Record<string, string[]> = {
   S: ['Can be stressed by layered route combinations', 'Tackling consistency must hold up'],
 };
 
-const getFitReason = (player: PlayerRowDTO, teamNeeds: string[], boardEntry?: DraftBoardEntry | null) => {
+const getFitReason = (
+  player: PlayerRowDTO,
+  teamNeeds: string[],
+  boardEntry?: DraftBoardEntry | null,
+) => {
   const normalizedPosition = normalizePosition(player.position);
   const needIndex = teamNeeds.findIndex((need) => normalizePosition(need) === normalizedPosition);
   if (needIndex === 0) return `Direct hit for your top need at ${player.position}.`;
   if (needIndex !== -1) return `Helps stabilize a current need without reaching.`;
-  if ((boardEntry?.valueDelta ?? 0) >= 8) return 'The value is strong enough to justify building ahead.';
+  if ((boardEntry?.valueDelta ?? 0) >= 8)
+    return 'The value is strong enough to justify building ahead.';
   return 'More of a board-value play than a direct need swing.';
 };
 
-const getFitScore = (player: PlayerRowDTO, teamNeeds: string[], boardEntry?: DraftBoardEntry | null) => {
+const getFitScore = (
+  player: PlayerRowDTO,
+  teamNeeds: string[],
+  boardEntry?: DraftBoardEntry | null,
+) => {
   const normalizedPosition = normalizePosition(player.position);
   const needIndex = teamNeeds.findIndex((need) => normalizePosition(need) === normalizedPosition);
   const valueBoost = Math.max(0, boardEntry?.valueDelta ?? 0);
@@ -167,7 +198,8 @@ const getOutlook = (player: PlayerRowDTO, boardEntry: DraftBoardEntry | null | u
   const rating = resolvePlayerRating(player) ?? 74;
   const valueDelta = boardEntry?.valueDelta ?? 0;
   if (rating >= 82) return 'Projects as an immediate contributor with starter-level upside.';
-  if (valueDelta >= 8) return 'Could become one of the better value picks in this class if the board keeps falling his way.';
+  if (valueDelta >= 8)
+    return 'Could become one of the better value picks in this class if the board keeps falling his way.';
   if (premiumPositions.has(normalizePosition(player.position))) {
     return 'Developmental piece now, with the kind of position value that can pay off quickly.';
   }
@@ -241,8 +273,19 @@ export const buildProspectDetailsModel = ({
     weight: player.weight ?? null,
     archetype: getArchetype(player),
     summary: getSummary(player, boardEntry, teamNeeds),
-    strengths: (baseStrengthsByPosition[position] ?? ['High-end competitive profile', 'Scheme versatility', 'Starter upside']).slice(0, 3),
-    weaknesses: (baseWeaknessesByPosition[position] ?? ['Projection carries some volatility', 'Will need development time']).slice(0, 2),
+    strengths: (
+      baseStrengthsByPosition[position] ?? [
+        'High-end competitive profile',
+        'Scheme versatility',
+        'Starter upside',
+      ]
+    ).slice(0, 3),
+    weaknesses: (
+      baseWeaknessesByPosition[position] ?? [
+        'Projection carries some volatility',
+        'Will need development time',
+      ]
+    ).slice(0, 2),
     fitScore,
     fitLabel: getFitLabel(fitScore),
     fitReason: getFitReason(player, teamNeeds, boardEntry),

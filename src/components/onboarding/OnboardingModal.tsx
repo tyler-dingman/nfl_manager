@@ -150,8 +150,7 @@ export default function OnboardingModal({
             className={cn(
               'relative transition-all duration-200 ease-out',
               transitionState === 'idle' && 'translate-x-0 opacity-100',
-              transitionState === 'enter' &&
-                'translate-x-0 opacity-100',
+              transitionState === 'enter' && 'translate-x-0 opacity-100',
               transitionState === 'exit' &&
                 (transitionDirection === 'forward'
                   ? '-translate-x-3 opacity-0'

@@ -19,16 +19,16 @@ type RecordProgressArgs = {
 
 type OffseasonProgressStoreState = {
   bySave: Record<string, OffseasonProgressSnapshot>;
-  recordEvent: (
-    args: RecordProgressArgs,
-  ) => { changed: boolean; stepJustCompleted: boolean; snapshot: OffseasonProgressSnapshot };
+  recordEvent: (args: RecordProgressArgs) => {
+    changed: boolean;
+    stepJustCompleted: boolean;
+    snapshot: OffseasonProgressSnapshot;
+  };
   resetSave: (saveId: string) => void;
 };
 
-const getSnapshotForSave = (
-  bySave: Record<string, OffseasonProgressSnapshot>,
-  saveId: string,
-) => bySave[saveId] ?? createEmptyOffseasonProgressSnapshot();
+const getSnapshotForSave = (bySave: Record<string, OffseasonProgressSnapshot>, saveId: string) =>
+  bySave[saveId] ?? createEmptyOffseasonProgressSnapshot();
 
 export const useOffseasonProgressStore = create<OffseasonProgressStoreState>()(
   persist(

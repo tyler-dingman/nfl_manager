@@ -150,7 +150,10 @@ const buildTeamSocialDisplayName = (teamName?: string | null, teamAbbr?: string 
   return teamAbbr ? `${teamAbbr} Social` : 'Team Social';
 };
 
-const buildHandle = (player: Pick<PlayerRowDTO, 'firstName' | 'lastName'>, rating?: number | null) => {
+const buildHandle = (
+  player: Pick<PlayerRowDTO, 'firstName' | 'lastName'>,
+  rating?: number | null,
+) => {
   const raw = `${player.firstName ?? ''}${player.lastName ?? ''}`.replace(/[^a-z0-9]/gi, '');
   const trimmed = raw.slice(0, 18) || 'FranchiseStar';
   const suffix = typeof rating === 'number' && rating >= 94 ? `${rating}` : '';
@@ -196,8 +199,7 @@ export const getPlayerSide = (position?: string | null): PlayerSide | null => {
 export const getTopRatedRosterPlayerOverall = (
   roster: PlayerRowDTO[],
   excludedPlayerId?: string | null,
-) =>
-  getTopRatedRosterPlayersOverall(roster, excludedPlayerId)[0] ?? null;
+) => getTopRatedRosterPlayersOverall(roster, excludedPlayerId)[0] ?? null;
 
 export const getTopRatedRosterPlayersOverall = (
   roster: PlayerRowDTO[],
@@ -223,8 +225,7 @@ export const getTopRatedRosterPlayerBySide = (
   roster: PlayerRowDTO[],
   side: PlayerSide,
   excludedPlayerId?: string | null,
-) =>
-  getTopRatedRosterPlayersBySide(roster, side, excludedPlayerId)[0] ?? null;
+) => getTopRatedRosterPlayersBySide(roster, side, excludedPlayerId)[0] ?? null;
 
 export const getTopRatedRosterPlayersBySide = (
   roster: PlayerRowDTO[],
@@ -247,13 +248,7 @@ export const getTopRatedRosterPlayersBySide = (
       return getDisplayName(left).localeCompare(getDisplayName(right));
     });
 
-const pickReactionAuthor = ({
-  candidates,
-  seed,
-}: {
-  candidates: PlayerRowDTO[];
-  seed: string;
-}) => {
+const pickReactionAuthor = ({ candidates, seed }: { candidates: PlayerRowDTO[]; seed: string }) => {
   if (candidates.length === 0) return null;
   if (candidates.length === 1) return candidates[0];
   return candidates[hashString(seed) % Math.min(2, candidates.length)] ?? candidates[0];
@@ -279,9 +274,9 @@ export const getReactionMessage = ({
         ? side === 'defense'
           ? CUT_DEFENSIVE_MESSAGE_TEMPLATES
           : CUT_OFFENSIVE_MESSAGE_TEMPLATES
-      : side === 'defense'
-        ? DEFENSIVE_MESSAGE_TEMPLATES
-        : OFFENSIVE_MESSAGE_TEMPLATES;
+        : side === 'defense'
+          ? DEFENSIVE_MESSAGE_TEMPLATES
+          : OFFENSIVE_MESSAGE_TEMPLATES;
   const template = templates[hashString(seed) % templates.length] ?? templates[0];
   return template.replace('{firstName}', firstName);
 };
@@ -308,17 +303,21 @@ export const generateEngagementCounts = ({
   const starWeight = Math.max(0.8, (authorRating + acquiredPlayerRating) / 180);
 
   const replies =
-    24 + Math.round((850 - 24) * Math.min(1, hashToUnit(`${seed}:replies`) * moveWeight * starWeight));
+    24 +
+    Math.round((850 - 24) * Math.min(1, hashToUnit(`${seed}:replies`) * moveWeight * starWeight));
   const reposts =
     100 +
-    Math.round((4_500 - 100) * Math.min(1, hashToUnit(`${seed}:reposts`) * moveWeight * starWeight));
+    Math.round(
+      (4_500 - 100) * Math.min(1, hashToUnit(`${seed}:reposts`) * moveWeight * starWeight),
+    );
   const likes =
     900 +
     Math.round((28_000 - 900) * Math.min(1, hashToUnit(`${seed}:likes`) * moveWeight * starWeight));
   const views =
     18_000 +
     Math.round(
-      (1_200_000 - 18_000) * Math.min(1, hashToUnit(`${seed}:views`) * (moveWeight + 0.05) * starWeight),
+      (1_200_000 - 18_000) *
+        Math.min(1, hashToUnit(`${seed}:views`) * (moveWeight + 0.05) * starWeight),
     );
 
   return {

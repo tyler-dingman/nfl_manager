@@ -99,9 +99,7 @@ export const getDraftTradeAssetSource = (
   const liveCurrentYearPicks = session.picks
     .filter(
       (pick) =>
-        pick.ownerTeamAbbr === normalizedTeamAbbr &&
-        !pick.selectedPlayerId &&
-        pick.round >= 1,
+        pick.ownerTeamAbbr === normalizedTeamAbbr && !pick.selectedPlayerId && pick.round >= 1,
     )
     .map(buildLiveSessionPickAsset);
   const futurePicks = saveAssets.draftPicks.filter(

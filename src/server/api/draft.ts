@@ -48,7 +48,8 @@ const getDraftSessionState = (saveId: string, draftSessionId: string) => {
 };
 
 export const findSaveIdForDraftSession = (draftSessionId: string): string | null =>
-  listSaveStates().find((entry) => Boolean(entry.state.draftSessions?.[draftSessionId]))?.saveId ?? null;
+  listSaveStates().find((entry) => Boolean(entry.state.draftSessions?.[draftSessionId]))?.saveId ??
+  null;
 
 type DraftSaveSnapshot = {
   teamAbbr: string;
@@ -61,7 +62,10 @@ type DraftSaveSnapshot = {
   createdAt?: string;
 };
 
-const cloneDraftSessionSnapshot = (session: DraftSessionDTO, saveId: string): DraftSessionState => ({
+const cloneDraftSessionSnapshot = (
+  session: DraftSessionDTO,
+  saveId: string,
+): DraftSessionState => ({
   ...session,
   rngState: session.rngState ?? session.rngSeed,
   saveId,
@@ -81,9 +85,9 @@ export const restoreDraftSession = (
 ): DraftSessionDTO => {
   const state = saveSnapshot
     ? restoreSaveState(saveId, {
-      teamAbbr: saveSnapshot.teamAbbr,
-      year: saveSnapshot.year,
-      capSpace: saveSnapshot.capSpace,
+        teamAbbr: saveSnapshot.teamAbbr,
+        year: saveSnapshot.year,
+        capSpace: saveSnapshot.capSpace,
         capLimit: saveSnapshot.capLimit,
         roster: saveSnapshot.roster,
         phase: saveSnapshot.phase,
@@ -242,15 +246,16 @@ const getOrderedTeamNeeds = (
   state: ReturnType<typeof getSaveStateOrThrow>,
   teamAbbr: string,
 ): string[] => {
-  const projectedRoster = state.teamRosters[teamAbbr]?.filter((player) => player.status?.toLowerCase() !== 'cut');
+  const projectedRoster = state.teamRosters[teamAbbr]?.filter(
+    (player) => player.status?.toLowerCase() !== 'cut',
+  );
   if (projectedRoster && projectedRoster.length > 0) {
     return computeTeamNeeds(projectedRoster);
   }
 
   return (
     NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.allTeamNeeds ??
-    NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.teamNeeds ??
-    ['QB', 'OT', 'CB']
+    NFL_LEAGUE_DATA.teams.find((team) => team.abbr === teamAbbr)?.teamNeeds ?? ['QB', 'OT', 'CB']
   );
 };
 
@@ -512,7 +517,7 @@ export const advanceDraftSession = (
 
   const player =
     mode === 'best_available'
-      ? filteredPool[0] ?? pool[0]
+      ? (filteredPool[0] ?? pool[0])
       : pickFromPool(
           session,
           buildNeedAwareCandidatePool(
@@ -586,8 +591,7 @@ export const applyDraftTrade = (
   return session;
 };
 
-const capHitMillions = (player: PlayerRowDTO) =>
-  Number(player.capHit.replace(/[^0-9.]/g, '')) || 0;
+const capHitMillions = (player: PlayerRowDTO) => Number(player.capHit.replace(/[^0-9.]/g, '')) || 0;
 
 const computeTradeCapSpace = (
   baseCapSpace: number,
@@ -628,12 +632,18 @@ export const acceptDraftTradeOffer = (
 
   const outgoingPlayerIds = new Set(
     offer.outgoing.assets
-      .filter((asset): asset is Extract<(typeof offer.outgoing.assets)[number], { type: 'player' }> => asset.type === 'player')
+      .filter(
+        (asset): asset is Extract<(typeof offer.outgoing.assets)[number], { type: 'player' }> =>
+          asset.type === 'player',
+      )
       .map((asset) => asset.playerId),
   );
   const incomingPlayerIds = new Set(
     offer.incoming.assets
-      .filter((asset): asset is Extract<(typeof offer.incoming.assets)[number], { type: 'player' }> => asset.type === 'player')
+      .filter(
+        (asset): asset is Extract<(typeof offer.incoming.assets)[number], { type: 'player' }> =>
+          asset.type === 'player',
+      )
       .map((asset) => asset.playerId),
   );
 
@@ -647,7 +657,10 @@ export const acceptDraftTradeOffer = (
   const outgoingPlayers = userRoster.filter((player) => outgoingPlayerIds.has(player.id));
   const incomingPlayers = partnerRoster.filter((player) => incomingPlayerIds.has(player.id));
 
-  if (outgoingPlayers.length !== outgoingPlayerIds.size || incomingPlayers.length !== incomingPlayerIds.size) {
+  if (
+    outgoingPlayers.length !== outgoingPlayerIds.size ||
+    incomingPlayers.length !== incomingPlayerIds.size
+  ) {
     throw new Error('Unable to resolve one or more player assets in the offer');
   }
 
@@ -727,11 +740,15 @@ export const acceptDraftTradeOffer = (
   if (outgoingPlayerIds.size > 0 || incomingPlayerIds.size > 0) {
     state.teamRosters[session.userTeamAbbr] = userRoster
       .filter((player) => !outgoingPlayerIds.has(player.id))
-      .concat(incomingPlayers.map((player) => transferStoredPlayerToTeam(player, session.userTeamAbbr)));
+      .concat(
+        incomingPlayers.map((player) => transferStoredPlayerToTeam(player, session.userTeamAbbr)),
+      );
     state.teamRosters[offer.proposingTeamAbbr] = partnerRoster
       .filter((player) => !incomingPlayerIds.has(player.id))
       .concat(
-        outgoingPlayers.map((player) => transferStoredPlayerToTeam(player, offer.proposingTeamAbbr)),
+        outgoingPlayers.map((player) =>
+          transferStoredPlayerToTeam(player, offer.proposingTeamAbbr),
+        ),
       );
     state.roster = state.teamRosters[session.userTeamAbbr];
     state.header.rosterCount = state.roster.length;

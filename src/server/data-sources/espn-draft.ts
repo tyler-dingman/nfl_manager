@@ -351,8 +351,13 @@ export const fetchEspnDraftBoardRankings = async (): Promise<DraftBoardRankingRe
   const payload = extractBoardJson(html);
   const positionsById = new Map(
     (payload.positions ?? [])
-      .filter((position): position is { id: string; abbreviation?: string; displayName?: string } => Boolean(position.id))
-      .map((position) => [position.id, position.abbreviation ?? position.displayName ?? position.id]),
+      .filter((position): position is { id: string; abbreviation?: string; displayName?: string } =>
+        Boolean(position.id),
+      )
+      .map((position) => [
+        position.id,
+        position.abbreviation ?? position.displayName ?? position.id,
+      ]),
   );
 
   return (payload.bestAvailable?.athletes ?? []).map((athlete) => {
@@ -458,16 +463,16 @@ export const fetchEspnDraftProspectProfile = async (
     }
   } else if (athlete.statistics?.$ref) {
     try {
-      const statsPayload = await requestJson<EspnAthleteStatsResponse>(toHttps(athlete.statistics.$ref)!);
+      const statsPayload = await requestJson<EspnAthleteStatsResponse>(
+        toHttps(athlete.statistics.$ref)!,
+      );
       stats = mapEspnStatCategoriesToUnifiedStats(statsPayload);
     } catch {
       stats = {};
     }
   }
 
-  const hometown = [athlete.birthPlace?.city, athlete.birthPlace?.state]
-    .filter(Boolean)
-    .join(', ');
+  const hometown = [athlete.birthPlace?.city, athlete.birthPlace?.state].filter(Boolean).join(', ');
 
   return {
     espnPlayerId,

@@ -60,7 +60,10 @@ export function DraftTradeChaosPanel({
       <div className="grid gap-3 p-4 sm:p-5 xl:grid-cols-2">
         {offers.map((offer) => {
           const secondsLeft = Math.max(0, Math.ceil((offer.expiresAt - now) / 1000));
-          const meterWidth = Math.max(8, Math.min(100, (Math.min(1.2, offer.aiInterest.score) / 1.2) * 100));
+          const meterWidth = Math.max(
+            8,
+            Math.min(100, (Math.min(1.2, offer.aiInterest.score) / 1.2) * 100),
+          );
           return (
             <div key={offer.id} className="rounded-2xl border border-border bg-slate-50 p-4">
               <div className="flex items-start justify-between gap-3">
@@ -83,7 +86,9 @@ export function DraftTradeChaosPanel({
                 {offer.urgency ? (
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-700">
                     <Clock3 className="h-3.5 w-3.5" />
-                    {secondsLeft <= 10 ? 'Offer expires soon' : `Expires in ${formatExpiry(offer.expiresAt, now)}`}
+                    {secondsLeft <= 10
+                      ? 'Offer expires soon'
+                      : `Expires in ${formatExpiry(offer.expiresAt, now)}`}
                   </span>
                 ) : null}
               </div>
@@ -120,7 +125,10 @@ export function DraftTradeChaosPanel({
                 </div>
                 <div className="mt-2 h-2 rounded-full bg-slate-200">
                   <div
-                    className={cn('h-2 rounded-full transition-all', fairnessTrack(offer.aiInterest.score))}
+                    className={cn(
+                      'h-2 rounded-full transition-all',
+                      fairnessTrack(offer.aiInterest.score),
+                    )}
                     style={{ width: `${meterWidth}%` }}
                   />
                 </div>
@@ -130,7 +138,12 @@ export function DraftTradeChaosPanel({
                 <Button type="button" className="sm:flex-1" onClick={() => onReview(offer)}>
                   Review
                 </Button>
-                <Button type="button" variant="outline" className="sm:flex-1" onClick={() => onDecline(offer.id)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="sm:flex-1"
+                  onClick={() => onDecline(offer.id)}
+                >
                   Decline
                 </Button>
               </div>

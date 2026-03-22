@@ -176,7 +176,9 @@ export function ProspectDetailsModal({
                 <div className="shrink-0">{renderProspectAvatar(player, model.name)}</div>
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-2xl font-semibold text-foreground sm:text-3xl">{model.name}</h3>
+                    <h3 className="text-2xl font-semibold text-foreground sm:text-3xl">
+                      {model.name}
+                    </h3>
                     <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                       {model.position}
                     </span>
@@ -249,12 +251,7 @@ export function ProspectDetailsModal({
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Team Fit
                 </p>
-                <div
-                  className={cn(
-                    'mt-3 rounded-2xl border px-4 py-4',
-                    fitTone(model.fitScore),
-                  )}
-                >
+                <div className={cn('mt-3 rounded-2xl border px-4 py-4', fitTone(model.fitScore))}>
                   <div className="flex items-center justify-between gap-3">
                     <span className="text-sm font-semibold">{model.fitLabel}</span>
                     <span className="text-2xl font-semibold">{model.fitScore}</span>
@@ -269,7 +266,6 @@ export function ProspectDetailsModal({
                 </p>
                 <p className="mt-3 text-sm leading-7 text-slate-700">{model.outlook}</p>
               </section>
-
             </div>
           </div>
         </div>

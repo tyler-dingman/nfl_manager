@@ -15,10 +15,7 @@ type TradeBlockQueryResult = {
 
 const tradeBlockCache = new Map<string, TradeBlockRow[]>();
 
-export const invalidateTradeBlockCache = (
-  saveId?: string | null,
-  teamAbbr?: string | null,
-) => {
+export const invalidateTradeBlockCache = (saveId?: string | null, teamAbbr?: string | null) => {
   if (!saveId && !teamAbbr) {
     tradeBlockCache.clear();
     return;
@@ -69,7 +66,7 @@ export const useTradeBlockQuery = (
         skipSaveGuard: true,
       });
       if (response.status === 404) {
-          const recoveredSaveId = await ensureRecoverableSaveId(
+        const recoveredSaveId = await ensureRecoverableSaveId(
           {
             preferredSaveId: saveId,
             teamId: saveState.teamId,

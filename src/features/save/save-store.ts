@@ -170,7 +170,7 @@ export const useSaveStore = create<SaveStoreState>()(
           startingCapSpace:
             state.saveId && state.saveId === saveId
               ? state.startingCapSpace
-              : state.startingCapSpace ?? capSpace,
+              : (state.startingCapSpace ?? capSpace),
           capLimit,
           rosterCount,
           rosterLimit,
@@ -241,7 +241,10 @@ export const useSaveStore = create<SaveStoreState>()(
         set((state) => ({
           ...state,
           latestSeasonRecap: recap,
-          seasonHistory: [...state.seasonHistory.filter((entry) => entry.year !== recap.year), recap],
+          seasonHistory: [
+            ...state.seasonHistory.filter((entry) => entry.year !== recap.year),
+            recap,
+          ],
         })),
       clearSave: () =>
         set((state) => {
@@ -352,7 +355,7 @@ export const useSaveStore = create<SaveStoreState>()(
           startingCapSpace:
             state.saveId && state.saveId === data.saveId
               ? state.startingCapSpace
-              : state.startingCapSpace ?? data.capSpace,
+              : (state.startingCapSpace ?? data.capSpace),
           capLimit: data.capLimit,
           rosterCount: state.roster.length
             ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length
@@ -397,7 +400,7 @@ export const useSaveStore = create<SaveStoreState>()(
           startingCapSpace:
             state.saveId && state.saveId === data.saveId
               ? state.startingCapSpace
-              : state.startingCapSpace ?? data.capSpace,
+              : (state.startingCapSpace ?? data.capSpace),
           capLimit: data.capLimit,
           rosterCount: state.roster.length
             ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length

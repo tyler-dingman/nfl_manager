@@ -13,18 +13,7 @@ export type TeamOverviewRaw = {
   specialTeams: number;
 };
 
-export type TeamNeed =
-  | 'QB'
-  | 'RB'
-  | 'WR'
-  | 'TE'
-  | 'OT'
-  | 'IOL'
-  | 'EDGE'
-  | 'DL'
-  | 'LB'
-  | 'CB'
-  | 'S';
+export type TeamNeed = 'QB' | 'RB' | 'WR' | 'TE' | 'OT' | 'IOL' | 'EDGE' | 'DL' | 'LB' | 'CB' | 'S';
 
 export type OverviewPlayer = {
   position: string;

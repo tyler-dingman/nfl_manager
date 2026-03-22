@@ -1,12 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { detectActiveDraftRuns, evaluateDraftPick, summarizeDraftClass } from '@/lib/draft-intelligence';
+import {
+  detectActiveDraftRuns,
+  evaluateDraftPick,
+  summarizeDraftClass,
+} from '@/lib/draft-intelligence';
 import type { DraftPickDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 
 const makePlayer = (
-  overrides: Partial<PlayerRowDTO> & Pick<PlayerRowDTO, 'id' | 'firstName' | 'lastName' | 'position'>,
+  overrides: Partial<PlayerRowDTO> &
+    Pick<PlayerRowDTO, 'id' | 'firstName' | 'lastName' | 'position'>,
 ): PlayerRowDTO => {
   const { id, firstName, lastName, position, ...rest } = overrides;
   return {

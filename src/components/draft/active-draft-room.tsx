@@ -191,9 +191,9 @@ export function ActiveDraftRoom({
     [currentPick?.overall, session.picks, session.userTeamAbbr],
   );
   const [draftFeed, setDraftFeed] = React.useState<DraftEventDTO[]>([]);
-  const [draftOffers, setDraftOffers] = React.useState<Array<TradeOfferDTO & { expiresAt: number }>>(
-    [],
-  );
+  const [draftOffers, setDraftOffers] = React.useState<
+    Array<TradeOfferDTO & { expiresAt: number }>
+  >([]);
   const [reviewOffer, setReviewOffer] = React.useState<TradeOfferDTO | null>(null);
   const [selectedBoardPlayerId, setSelectedBoardPlayerId] = React.useState<string | null>(null);
   const [isProspectModalOpen, setIsProspectModalOpen] = React.useState(false);
@@ -228,10 +228,8 @@ export function ActiveDraftRoom({
       const nextPartnerTeamAbbr =
         session.picks
           .slice(session.currentPickIndex + 1)
-          .find(
-            (pick) =>
-              !pick.selectedPlayerId && pick.ownerTeamAbbr !== session.userTeamAbbr,
-          )?.ownerTeamAbbr ?? teams.find((team) => team.abbr !== session.userTeamAbbr)?.abbr;
+          .find((pick) => !pick.selectedPlayerId && pick.ownerTeamAbbr !== session.userTeamAbbr)
+          ?.ownerTeamAbbr ?? teams.find((team) => team.abbr !== session.userTeamAbbr)?.abbr;
       const partnerTeam = teams.find((team) => team.abbr === nextPartnerTeamAbbr) ?? null;
 
       setReviewOffer((current) => {
@@ -293,17 +291,15 @@ export function ActiveDraftRoom({
   );
   const topRankedEntries = React.useMemo(
     () =>
-      boardEntries
-        .slice()
-        .sort((left, right) => {
-          const leftRank = left.player.rank ?? Number.MAX_SAFE_INTEGER;
-          const rightRank = right.player.rank ?? Number.MAX_SAFE_INTEGER;
-          if (leftRank !== rightRank) return leftRank - rightRank;
-          return (
-            (right.player.rating ?? right.player.maddenRating ?? 0) -
-            (left.player.rating ?? left.player.maddenRating ?? 0)
-          );
-        }),
+      boardEntries.slice().sort((left, right) => {
+        const leftRank = left.player.rank ?? Number.MAX_SAFE_INTEGER;
+        const rightRank = right.player.rank ?? Number.MAX_SAFE_INTEGER;
+        if (leftRank !== rightRank) return leftRank - rightRank;
+        return (
+          (right.player.rating ?? right.player.maddenRating ?? 0) -
+          (left.player.rating ?? left.player.maddenRating ?? 0)
+        );
+      }),
     [boardEntries],
   );
 
@@ -345,7 +341,8 @@ export function ActiveDraftRoom({
     [currentPick?.overall, session.maxRounds, session.picks, session.userTeamAbbr],
   );
 
-  const skipLabel = remainingUserPicksInSelectedRounds > 0 ? 'Skip To Next Pick' : 'Skip To End Of Draft';
+  const skipLabel =
+    remainingUserPicksInSelectedRounds > 0 ? 'Skip To Next Pick' : 'Skip To End Of Draft';
 
   const spotlightPlayer = React.useMemo(() => {
     if (!selectedBoardPlayerId) {
@@ -364,7 +361,10 @@ export function ActiveDraftRoom({
       setSelectedBoardPlayerId(boardEntries[0].player.id);
       return;
     }
-    if (selectedBoardPlayerId && !bestAvailable.some((player) => player.id === selectedBoardPlayerId)) {
+    if (
+      selectedBoardPlayerId &&
+      !bestAvailable.some((player) => player.id === selectedBoardPlayerId)
+    ) {
       setSelectedBoardPlayerId(boardEntries[0]?.player.id ?? null);
     }
   }, [bestAvailable, boardEntries, selectedBoardPlayerId]);
@@ -456,59 +456,58 @@ export function ActiveDraftRoom({
     [draftSessionId, saveId, saveSnapshot],
   );
 
-  const handleSkipSimulation = React.useCallback(async (target: DraftSkipTarget) => {
-    if (onClock || skipInFlight.current || !saveId) {
-      return;
-    }
-
-    skipInFlight.current = true;
-    try {
-      let safety = 0;
-      let snapshot = session;
-      const startingRound = snapshot.picks[snapshot.currentPickIndex]?.round ?? currentPick?.round ?? 1;
-
-      while (safety < 260) {
-        const current = snapshot.picks[snapshot.currentPickIndex];
-        if (!current || current.round > snapshot.maxRounds) {
-          onSessionUpdate(snapshot);
-          break;
-        }
-
-        if (target === 'next_user_pick' && current.ownerTeamAbbr === snapshot.userTeamAbbr) {
-          onSessionUpdate(snapshot);
-          break;
-        }
-
-        if (target === 'end_round' && current.round > startingRound) {
-          onSessionUpdate(snapshot);
-          break;
-        }
-
-        const nextSnapshot = await advanceDraftWithMode(
-          snapshot,
-          target === 'next_user_pick' ? 'default' : 'best_available',
-        );
-        if (!nextSnapshot) {
-          break;
-        }
-        snapshot = nextSnapshot;
-        onSessionUpdate(snapshot);
-        safety += 1;
+  const handleSkipSimulation = React.useCallback(
+    async (target: DraftSkipTarget) => {
+      if (onClock || skipInFlight.current || !saveId) {
+        return;
       }
-    } finally {
-      skipInFlight.current = false;
-    }
-  }, [
-    advanceDraftWithMode,
-    currentPick?.round,
-    onClock,
-    onSessionUpdate,
-    saveId,
-    session,
-  ]);
+
+      skipInFlight.current = true;
+      try {
+        let safety = 0;
+        let snapshot = session;
+        const startingRound =
+          snapshot.picks[snapshot.currentPickIndex]?.round ?? currentPick?.round ?? 1;
+
+        while (safety < 260) {
+          const current = snapshot.picks[snapshot.currentPickIndex];
+          if (!current || current.round > snapshot.maxRounds) {
+            onSessionUpdate(snapshot);
+            break;
+          }
+
+          if (target === 'next_user_pick' && current.ownerTeamAbbr === snapshot.userTeamAbbr) {
+            onSessionUpdate(snapshot);
+            break;
+          }
+
+          if (target === 'end_round' && current.round > startingRound) {
+            onSessionUpdate(snapshot);
+            break;
+          }
+
+          const nextSnapshot = await advanceDraftWithMode(
+            snapshot,
+            target === 'next_user_pick' ? 'default' : 'best_available',
+          );
+          if (!nextSnapshot) {
+            break;
+          }
+          snapshot = nextSnapshot;
+          onSessionUpdate(snapshot);
+          safety += 1;
+        }
+      } finally {
+        skipInFlight.current = false;
+      }
+    },
+    [advanceDraftWithMode, currentPick?.round, onClock, onSessionUpdate, saveId, session],
+  );
 
   const handleSkipToUserPick = React.useCallback(async () => {
-    await handleSkipSimulation(remainingUserPicksInSelectedRounds > 0 ? 'next_user_pick' : 'end_draft');
+    await handleSkipSimulation(
+      remainingUserPicksInSelectedRounds > 0 ? 'next_user_pick' : 'end_draft',
+    );
   }, [handleSkipSimulation, remainingUserPicksInSelectedRounds]);
 
   const handleSkipToEndOfRound = React.useCallback(async () => {
@@ -583,7 +582,8 @@ export function ActiveDraftRoom({
   const draftBestAvailable = boardEntries[0]?.player ?? null;
   const { secondsRemaining, isCritical, progressPct } = useDraftClock({
     clockKey: onClock && currentPick ? `${session.id}:${currentPick.id}` : null,
-    enabled: onClock && session.status === 'in_progress' && !session.isPaused && !isUserDraftModalOpen,
+    enabled:
+      onClock && session.status === 'in_progress' && !session.isPaused && !isUserDraftModalOpen,
     durationSeconds: USER_PICK_DURATION_SECONDS,
     onExpire: async () => {
       if (autoPickInFlightRef.current || !onClock || !onDraftPlayer || !currentPick) {
@@ -702,7 +702,11 @@ export function ActiveDraftRoom({
         type: 'FREE_FALL',
         title: `${player.firstName} ${player.lastName}`,
         message: "He's slipping.",
-        lines: ["He's slipping.", "Something's spooked teams. Could be noise. Could be real.", 'Trust your read.'],
+        lines: [
+          "He's slipping.",
+          "Something's spooked teams. Could be noise. Could be real.",
+          'Trust your read.',
+        ],
         createdAt: new Date().toISOString(),
       });
     }
@@ -721,7 +725,8 @@ export function ActiveDraftRoom({
     const fallingLastName =
       session.fallingProspectId &&
       !session.prospects.find((player) => player.id === session.fallingProspectId)?.isDrafted
-        ? session.prospects.find((player) => player.id === session.fallingProspectId)?.lastName ?? null
+        ? (session.prospects.find((player) => player.id === session.fallingProspectId)?.lastName ??
+          null)
         : null;
 
     pushToast({

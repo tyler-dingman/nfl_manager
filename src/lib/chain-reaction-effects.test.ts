@@ -17,7 +17,11 @@ const makePlayer = (id: string, position: string, rating: number): PlayerRowDTO 
 });
 
 test('signing into a weak room creates upgraded room feedback', () => {
-  const beforeRoster = [makePlayer('wr1', 'WR', 73), makePlayer('wr2', 'WR', 71), makePlayer('qb', 'QB', 86)];
+  const beforeRoster = [
+    makePlayer('wr1', 'WR', 73),
+    makePlayer('wr2', 'WR', 71),
+    makePlayer('qb', 'QB', 86),
+  ];
   const afterRoster = [...beforeRoster, makePlayer('wr3', 'WR', 87)];
 
   const result = generateChainReactionEffects({

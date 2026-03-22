@@ -82,8 +82,7 @@ export const useExperienceStore = create<ExperienceState>()(
           mode: 'sandbox',
           currentStep: step,
           completedSteps: getSandboxCompletedSteps(step),
-          manageSubstepsCompleted:
-            step === 'manage' ? [] : (OFFSEASON_STEPS[0]?.substeps ?? []),
+          manageSubstepsCompleted: step === 'manage' ? [] : (OFFSEASON_STEPS[0]?.substeps ?? []),
         })),
       markManageSubstepComplete: (substep) =>
         set((state) => ({

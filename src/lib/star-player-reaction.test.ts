@@ -34,7 +34,13 @@ test('classifies offense and defense positions', () => {
 
 test('selects top-rated same-side roster player excluding the incoming player', () => {
   const roster = [
-    makePlayer({ id: 'qb1', firstName: 'Patrick', lastName: 'Mahomes', position: 'QB', rating: 95 }),
+    makePlayer({
+      id: 'qb1',
+      firstName: 'Patrick',
+      lastName: 'Mahomes',
+      position: 'QB',
+      rating: 95,
+    }),
     makePlayer({ id: 'wr1', firstName: 'Tyreek', lastName: 'Hill', position: 'WR', rating: 91 }),
     makePlayer({ id: 'cb1', firstName: 'Trent', lastName: 'McDuffie', position: 'CB', rating: 88 }),
   ];
@@ -45,7 +51,13 @@ test('selects top-rated same-side roster player excluding the incoming player', 
 
 test('falls back to the top-rated overall player when side is unclear', () => {
   const roster = [
-    makePlayer({ id: 'qb1', firstName: 'Patrick', lastName: 'Mahomes', position: 'QB', rating: 95 }),
+    makePlayer({
+      id: 'qb1',
+      firstName: 'Patrick',
+      lastName: 'Mahomes',
+      position: 'QB',
+      rating: 95,
+    }),
     makePlayer({ id: 'cb1', firstName: 'Trent', lastName: 'McDuffie', position: 'CB', rating: 88 }),
   ];
 
@@ -55,13 +67,24 @@ test('falls back to the top-rated overall player when side is unclear', () => {
 
 test('builds a deterministic toast payload for a valid move', () => {
   const roster = [
-    makePlayer({ id: 'qb1', firstName: 'Patrick', lastName: 'Mahomes', position: 'QB', rating: 95 }),
+    makePlayer({
+      id: 'qb1',
+      firstName: 'Patrick',
+      lastName: 'Mahomes',
+      position: 'QB',
+      rating: 95,
+    }),
     makePlayer({ id: 'wr1', firstName: 'Tee', lastName: 'Higgins', position: 'WR', rating: 89 }),
     makePlayer({ id: 'te1', firstName: 'Travis', lastName: 'Kelce', position: 'TE', rating: 93 }),
   ];
 
   const payload = buildStarReactionToastPayload({
-    incomingPlayer: makePlayer({ id: 'new-wr', firstName: 'Tee', lastName: 'Higgins', position: 'WR' }),
+    incomingPlayer: makePlayer({
+      id: 'new-wr',
+      firstName: 'Tee',
+      lastName: 'Higgins',
+      position: 'WR',
+    }),
     roster,
     actionType: 'freeAgency',
     teamAbbr: 'KC',
@@ -77,10 +100,23 @@ test('builds a deterministic toast payload for a valid move', () => {
 });
 
 test('falls back to the top overall player when the incoming player position is not offense or defense', () => {
-  const roster = [makePlayer({ id: 'qb1', firstName: 'Patrick', lastName: 'Mahomes', position: 'QB', rating: 95 })];
+  const roster = [
+    makePlayer({
+      id: 'qb1',
+      firstName: 'Patrick',
+      lastName: 'Mahomes',
+      position: 'QB',
+      rating: 95,
+    }),
+  ];
 
   const payload = buildStarReactionToastPayload({
-    incomingPlayer: makePlayer({ id: 'k1', firstName: 'Harrison', lastName: 'Butker', position: 'K' }),
+    incomingPlayer: makePlayer({
+      id: 'k1',
+      firstName: 'Harrison',
+      lastName: 'Butker',
+      position: 'K',
+    }),
     roster,
     actionType: 'trade',
     teamAbbr: 'KC',

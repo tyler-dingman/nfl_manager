@@ -60,13 +60,7 @@ const shellRightRailRoutes = [
   '/cap-space',
 ] as const;
 
-function HeaderDelta({
-  delta,
-  suffix = '',
-}: {
-  delta: number | null;
-  suffix?: string;
-}) {
+function HeaderDelta({ delta, suffix = '' }: { delta: number | null; suffix?: string }) {
   if (!delta) return null;
 
   const positive = delta > 0;
@@ -378,189 +372,298 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:min-h-screen md:flex-row md:items-stretch"
         style={{ '--app-header-height': '64px' } as CSSProperties}
       >
-          {isMobileSidebarOpen ? (
-            <div
-              className="fixed inset-0 z-40 bg-black/50 md:hidden"
-              onClick={() => setIsMobileSidebarOpen(false)}
-              aria-hidden="true"
-            />
-          ) : null}
+        {isMobileSidebarOpen ? (
+          <div
+            className="fixed inset-0 z-40 bg-black/50 md:hidden"
+            onClick={() => setIsMobileSidebarOpen(false)}
+            aria-hidden="true"
+          />
+        ) : null}
 
-          <aside
-            className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:sticky md:top-0 md:z-auto md:flex md:min-h-screen md:h-auto md:translate-x-0 md:flex-col md:self-stretch md:overflow-y-auto"
-            style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
-          >
-            <div className="mb-[20px] mt-[20px] flex items-start justify-between gap-3 text-left text-sm">
-              <Link
-                href="/experience"
-                aria-label="Go to experience selection"
-                className="inline-flex cursor-pointer items-center gap-3"
-              >
-                <FiveWideLogo size={28} containerClassName="h-11 w-11 shrink-0" priority />
-                <span className="text-left">
-                  <span className="block text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                    Offseason Mode
-                  </span>
-                  <FiveWideWordmark className="mt-1 h-[15px]" priority />
+        <aside
+          className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:sticky md:top-0 md:z-auto md:flex md:min-h-screen md:h-auto md:translate-x-0 md:flex-col md:self-stretch md:overflow-y-auto"
+          style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
+        >
+          <div className="mb-[20px] mt-[20px] flex items-start justify-between gap-3 text-left text-sm">
+            <Link
+              href="/experience"
+              aria-label="Go to experience selection"
+              className="inline-flex cursor-pointer items-center gap-3"
+            >
+              <FiveWideLogo size={28} containerClassName="h-11 w-11 shrink-0" priority />
+              <span className="text-left">
+                <span className="block text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                  Offseason Mode
                 </span>
-              </Link>
-              <button
-                type="button"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
-                onClick={() => setIsMobileSidebarOpen(false)}
-                aria-label="Close menu"
-              >
-                <X className="h-4 w-4 text-muted-foreground" />
-              </button>
-            </div>
-            {showOffseasonStepper ? (
-              <OffseasonStepperNav
-                seasonLabel={`${franchiseYear} Offseason`}
-                teamName={selectedTeam?.name ?? 'Your Team'}
-                currentStep={currentStep}
-                completedSteps={completedSteps}
-              />
-            ) : (
-              <nav className="flex flex-col gap-6 text-sm">
-                {navSections.map((section) => (
-                  <div key={section.title} className="space-y-2">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      {section.title}
-                    </p>
-                    <div className="space-y-1">
-                      {section.items.map((item) => {
-                        const href = navRoutes[item];
-                        const isActive = pathname === href.split('?')[0];
-                        if (lockedRoutes.has(item)) {
-                          return (
-                            <span
-                              key={item}
-                              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground/70 opacity-70"
-                              title="Locked until the next phase"
-                            >
-                              <span className="flex h-6 w-1 rounded-full bg-transparent" />
-                              <Lock className="h-4 w-4 text-muted-foreground/70" />
-                              <span>{item}</span>
-                            </span>
-                          );
-                        }
-
+                <FiveWideWordmark className="mt-1 h-[15px]" priority />
+              </span>
+            </Link>
+            <button
+              type="button"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
+              onClick={() => setIsMobileSidebarOpen(false)}
+              aria-label="Close menu"
+            >
+              <X className="h-4 w-4 text-muted-foreground" />
+            </button>
+          </div>
+          {showOffseasonStepper ? (
+            <OffseasonStepperNav
+              seasonLabel={`${franchiseYear} Offseason`}
+              teamName={selectedTeam?.name ?? 'Your Team'}
+              currentStep={currentStep}
+              completedSteps={completedSteps}
+            />
+          ) : (
+            <nav className="flex flex-col gap-6 text-sm">
+              {navSections.map((section) => (
+                <div key={section.title} className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    {section.title}
+                  </p>
+                  <div className="space-y-1">
+                    {section.items.map((item) => {
+                      const href = navRoutes[item];
+                      const isActive = pathname === href.split('?')[0];
+                      if (lockedRoutes.has(item)) {
                         return (
-                          <Link
+                          <span
                             key={item}
-                            href={href}
-                            aria-current={isActive ? 'page' : undefined}
-                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground/70 opacity-70"
+                            title="Locked until the next phase"
                           >
-                            <span
-                              className="h-6 w-1 rounded-full"
-                              style={{
-                                backgroundColor: isActive ? 'var(--team-primary)' : 'transparent',
-                              }}
-                            />
-                            <span className={isActive ? 'text-foreground' : undefined}>{item}</span>
-                          </Link>
+                            <span className="flex h-6 w-1 rounded-full bg-transparent" />
+                            <Lock className="h-4 w-4 text-muted-foreground/70" />
+                            <span>{item}</span>
+                          </span>
                         );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </nav>
-            )}
-          </aside>
+                      }
 
-          <div className="flex min-w-0 flex-1 flex-col md:min-h-screen">
-            <header className="border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:px-6 md:backdrop-blur">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-3 md:hidden">
+                      return (
+                        <Link
+                          key={item}
+                          href={href}
+                          aria-current={isActive ? 'page' : undefined}
+                          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                        >
+                          <span
+                            className="h-6 w-1 rounded-full"
+                            style={{
+                              backgroundColor: isActive ? 'var(--team-primary)' : 'transparent',
+                            }}
+                          />
+                          <span className={isActive ? 'text-foreground' : undefined}>{item}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </nav>
+          )}
+        </aside>
+
+        <div className="flex min-w-0 flex-1 flex-col md:min-h-screen">
+          <header className="border-b border-border bg-white/80 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-white/95 md:px-6 md:backdrop-blur">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3 md:hidden">
+                <button
+                  type="button"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
+                  onClick={() => setIsMobileSidebarOpen((open) => !open)}
+                  aria-label={isMobileSidebarOpen ? 'Close menu' : 'Open menu'}
+                >
+                  {isMobileSidebarOpen ? (
+                    <X className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <Menu className="h-4 w-4 text-muted-foreground" />
+                  )}
+                </button>
+                <Link
+                  href="/teams?switch=1"
+                  aria-label="Change team"
+                  className="group flex h-9 w-9 items-center justify-center bg-white transition hover:ring-2 hover:ring-ring md:overflow-hidden md:rounded-full md:border md:border-border"
+                >
+                  {selectedTeam?.logo_url ? (
+                    <>
+                      <Image
+                        src={selectedTeam.logo_url}
+                        alt={`${selectedTeam.name} logo`}
+                        width={36}
+                        height={36}
+                        className="block h-8 w-8 object-contain md:hidden"
+                      />
+                      <Image
+                        src={selectedTeam.logo_url}
+                        alt={`${selectedTeam.name} logo`}
+                        width={36}
+                        height={36}
+                        className="hidden h-full w-full object-cover md:block"
+                      />
+                    </>
+                  ) : (
+                    <span className="text-xs font-semibold text-muted-foreground">
+                      {selectedTeam?.abbr ?? '--'}
+                    </span>
+                  )}
+                </Link>
+                <div className="min-w-0 flex-1">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="min-w-0">
+                      <span className="block truncate text-sm font-semibold text-foreground">
+                        {selectedTeam?.name ?? 'Select a team'}
+                      </span>
+                      <span
+                        className={cn(
+                          'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
+                          trajectoryAccentClass,
+                          trajectoryPulse ? 'animate-pulse' : null,
+                        )}
+                      >
+                        <span className="inline-flex items-start gap-1 text-foreground">
+                          <span>
+                            OVR{' '}
+                            <span className="text-sm font-semibold">
+                              {liveTeamSummary.overall ?? '—'}
+                            </span>
+                          </span>
+                          <HeaderDelta delta={liveOverallDelta} />
+                        </span>
+                        <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
+                      </span>
+                    </div>
+                    <div className="h-9 w-px shrink-0 bg-border" />
+                    <div className="shrink-0">
+                      <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        Cap Space
+                      </span>
+                      <span
+                        className={cn(
+                          'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
+                          capSpace < 0 ? 'text-destructive' : 'text-foreground',
+                        )}
+                      >
+                        <span>{formatMoneyMillions(capSpace)}</span>
+                        <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
+                      </span>
+                    </div>
+                    {showTeamNeeds ? (
+                      <div className="hidden md:flex items-center border-l border-border pl-3">
+                        <TeamNeeds teamNeeds={liveTeamSummary.needs} />
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="relative md:hidden">
                   <button
                     type="button"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
-                    onClick={() => setIsMobileSidebarOpen((open) => !open)}
-                    aria-label={isMobileSidebarOpen ? 'Close menu' : 'Open menu'}
+                    onClick={() => setIsProfileOpen((open) => !open)}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white"
                   >
-                    {isMobileSidebarOpen ? (
-                      <X className="h-4 w-4 text-muted-foreground" />
-                    ) : (
-                      <Menu className="h-4 w-4 text-muted-foreground" />
-                    )}
+                    <span className="text-sm font-semibold text-muted-foreground">JD</span>
                   </button>
+                  {isProfileOpen ? (
+                    <div className="absolute right-0 top-12 z-10 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
+                      <button
+                        type="button"
+                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
+                      >
+                        Profile
+                      </button>
+                      <button
+                        type="button"
+                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
+                      >
+                        Settings
+                      </button>
+                      <button
+                        type="button"
+                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
+                      >
+                        Log out
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+              <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
+                <div className="flex min-w-0 items-center gap-3">
                   <Link
                     href="/teams?switch=1"
                     aria-label="Change team"
-                    className="group flex h-9 w-9 items-center justify-center bg-white transition hover:ring-2 hover:ring-ring md:overflow-hidden md:rounded-full md:border md:border-border"
+                    className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring"
                   >
                     {selectedTeam?.logo_url ? (
-                      <>
-                        <Image
-                          src={selectedTeam.logo_url}
-                          alt={`${selectedTeam.name} logo`}
-                          width={36}
-                          height={36}
-                          className="block h-8 w-8 object-contain md:hidden"
-                        />
-                        <Image
-                          src={selectedTeam.logo_url}
-                          alt={`${selectedTeam.name} logo`}
-                          width={36}
-                          height={36}
-                          className="hidden h-full w-full object-cover md:block"
-                        />
-                      </>
+                      <Image
+                        src={selectedTeam.logo_url}
+                        alt={`${selectedTeam.name} logo`}
+                        width={40}
+                        height={40}
+                        className="h-full w-full object-cover"
+                      />
                     ) : (
                       <span className="text-xs font-semibold text-muted-foreground">
                         {selectedTeam?.abbr ?? '--'}
                       </span>
                     )}
                   </Link>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex min-w-0 items-center gap-3">
-                      <div className="min-w-0">
-                        <span className="block truncate text-sm font-semibold text-foreground">
-                          {selectedTeam?.name ?? 'Select a team'}
-                        </span>
-                        <span
-                          className={cn(
-                            'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
-                            trajectoryAccentClass,
-                            trajectoryPulse ? 'animate-pulse' : null,
-                          )}
-                        >
-                            <span className="inline-flex items-start gap-1 text-foreground">
-                              <span>
-                                OVR{' '}
-                                <span className="text-sm font-semibold">
-                                  {liveTeamSummary.overall ?? '—'}
-                                </span>
-                              </span>
-                              <HeaderDelta delta={liveOverallDelta} />
+                  <div className="flex min-w-0 items-center gap-4">
+                    <div className="min-w-0">
+                      <span className="block truncate text-sm font-semibold text-foreground">
+                        {selectedTeam?.name ?? 'Select a team'}
+                      </span>
+                      <span
+                        className={cn(
+                          'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
+                          trajectoryAccentClass,
+                          trajectoryPulse ? 'animate-pulse' : null,
+                        )}
+                      >
+                        <span className="inline-flex items-start gap-1 text-foreground">
+                          <span>
+                            OVR{' '}
+                            <span className="text-sm font-semibold">
+                              {liveTeamSummary.overall ?? '—'}
                             </span>
-                          <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
+                          </span>
+                          <HeaderDelta delta={liveOverallDelta} />
                         </span>
-                      </div>
-                      <div className="h-9 w-px shrink-0 bg-border" />
-                      <div className="shrink-0">
-                        <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                          Cap Space
-                        </span>
-                        <span
-                          className={cn(
-                            'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
-                            capSpace < 0 ? 'text-destructive' : 'text-foreground',
-                          )}
-                        >
-                          <span>{formatMoneyMillions(capSpace)}</span>
-                          <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
-                        </span>
-                      </div>
-                      {showTeamNeeds ? (
-                        <div className="hidden md:flex items-center border-l border-border pl-3">
-                          <TeamNeeds teamNeeds={liveTeamSummary.needs} />
-                        </div>
-                      ) : null}
+                        <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
+                      </span>
                     </div>
+                    <div className="h-10 w-px shrink-0 bg-border" />
+                    <div className="shrink-0">
+                      <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        Cap Space
+                      </span>
+                      <span
+                        className={cn(
+                          'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
+                          capSpace < 0 ? 'text-destructive' : 'text-foreground',
+                        )}
+                      >
+                        <span>{formatMoneyMillions(capSpace)}</span>
+                        <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
+                      </span>
+                    </div>
+                    {showTeamNeeds ? (
+                      <div className="hidden lg:flex items-center border-l border-border pl-3">
+                        <TeamNeeds teamNeeds={liveTeamSummary.needs} />
+                      </div>
+                    ) : null}
                   </div>
-                  <div className="relative md:hidden">
+                  {showOnTheClock ? (
+                    <span
+                      className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] lg:inline"
+                      style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
+                    >
+                      ON THE CLOCK
+                    </span>
+                  ) : null}
+                </div>
+
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="relative">
                     <button
                       type="button"
                       onClick={() => setIsProfileOpen((open) => !open)}
@@ -569,7 +672,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       <span className="text-sm font-semibold text-muted-foreground">JD</span>
                     </button>
                     {isProfileOpen ? (
-                      <div className="absolute right-0 top-12 z-10 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
+                      <div className="absolute right-0 top-12 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
                         <button
                           type="button"
                           className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -592,143 +695,32 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     ) : null}
                   </div>
                 </div>
-                <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
-                  <div className="flex min-w-0 items-center gap-3">
-                    <Link
-                      href="/teams?switch=1"
-                      aria-label="Change team"
-                      className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring"
-                    >
-                      {selectedTeam?.logo_url ? (
-                        <Image
-                          src={selectedTeam.logo_url}
-                          alt={`${selectedTeam.name} logo`}
-                          width={40}
-                          height={40}
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-xs font-semibold text-muted-foreground">
-                          {selectedTeam?.abbr ?? '--'}
-                        </span>
-                      )}
-                    </Link>
-                    <div className="flex min-w-0 items-center gap-4">
-                      <div className="min-w-0">
-                        <span className="block truncate text-sm font-semibold text-foreground">
-                          {selectedTeam?.name ?? 'Select a team'}
-                        </span>
-                        <span
-                          className={cn(
-                            'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
-                            trajectoryAccentClass,
-                            trajectoryPulse ? 'animate-pulse' : null,
-                          )}
-                        >
-                            <span className="inline-flex items-start gap-1 text-foreground">
-                              <span>
-                                OVR{' '}
-                                <span className="text-sm font-semibold">
-                                  {liveTeamSummary.overall ?? '—'}
-                                </span>
-                              </span>
-                              <HeaderDelta delta={liveOverallDelta} />
-                            </span>
-                          <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
-                        </span>
-                      </div>
-                      <div className="h-10 w-px shrink-0 bg-border" />
-                      <div className="shrink-0">
-                        <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                          Cap Space
-                        </span>
-                        <span
-                          className={cn(
-                            'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
-                            capSpace < 0 ? 'text-destructive' : 'text-foreground',
-                          )}
-                        >
-                          <span>{formatMoneyMillions(capSpace)}</span>
-                          <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
-                        </span>
-                      </div>
-                      {showTeamNeeds ? (
-                        <div className="hidden lg:flex items-center border-l border-border pl-3">
-                          <TeamNeeds teamNeeds={liveTeamSummary.needs} />
-                        </div>
-                      ) : null}
-                    </div>
-                    {showOnTheClock ? (
-                      <span
-                        className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] lg:inline"
-                        style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
-                      >
-                        ON THE CLOCK
-                      </span>
-                    ) : null}
-                  </div>
-
-                  <div className="flex min-w-0 items-center gap-3">
-                    <div className="relative">
-                      <button
-                        type="button"
-                        onClick={() => setIsProfileOpen((open) => !open)}
-                        className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white"
-                      >
-                        <span className="text-sm font-semibold text-muted-foreground">JD</span>
-                      </button>
-                      {isProfileOpen ? (
-                        <div className="absolute right-0 top-12 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
-                          <button
-                            type="button"
-                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                          >
-                            Profile
-                          </button>
-                          <button
-                            type="button"
-                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                          >
-                            Settings
-                          </button>
-                          <button
-                            type="button"
-                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                          >
-                            Log out
-                          </button>
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
               </div>
-            </header>
-
-            {showOnTheClock ? (
-              <div className="mt-3 w-full px-4 md:hidden">
-                <div className="rounded-xl bg-gradient-to-r from-[#0A2A66] via-[#1453B8] to-[#0A2A66] px-4 py-2 text-center">
-                  <span
-                    className="text-sm font-extrabold uppercase tracking-[0.25em] text-[#ff2d55]"
-                    style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
-                  >
-                    ON THE CLOCK
-                  </span>
-                </div>
-              </div>
-            ) : null}
-
-            <div className="flex min-w-0 flex-1 items-start gap-0">
-              <main className="min-w-0 flex-1 px-4 py-5 sm:py-6 md:px-8">
-                {children}
-              </main>
-              {showShellRightRail ? (
-                <aside className="hidden w-[260px] shrink-0 px-0 py-5 md:block md:pr-6 md:pt-6 lg:w-[280px] lg:pr-8">
-                  <AdSlot placement="RIGHT_RAIL" sticky={false} />
-                </aside>
-              ) : null}
             </div>
+          </header>
+
+          {showOnTheClock ? (
+            <div className="mt-3 w-full px-4 md:hidden">
+              <div className="rounded-xl bg-gradient-to-r from-[#0A2A66] via-[#1453B8] to-[#0A2A66] px-4 py-2 text-center">
+                <span
+                  className="text-sm font-extrabold uppercase tracking-[0.25em] text-[#ff2d55]"
+                  style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
+                >
+                  ON THE CLOCK
+                </span>
+              </div>
+            </div>
+          ) : null}
+
+          <div className="flex min-w-0 flex-1 items-start gap-0">
+            <main className="min-w-0 flex-1 px-4 py-5 sm:py-6 md:px-8">{children}</main>
+            {showShellRightRail ? (
+              <aside className="hidden w-[260px] shrink-0 px-0 py-5 md:block md:pr-6 md:pt-6 lg:w-[280px] lg:pr-8">
+                <AdSlot placement="RIGHT_RAIL" sticky={false} />
+              </aside>
+            ) : null}
           </div>
+        </div>
         <TradeOfferToast scopeKey={tradeOfferScopeKey} />
       </div>
     </TeamThemeProvider>

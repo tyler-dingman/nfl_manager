@@ -17,7 +17,13 @@ export function TradeOfferToast({ scopeKey }: TradeOfferToastProps) {
   const closeReview = useTradeOfferStore((state) => state.closeReview);
 
   if (!activeOffer || !scopeKey) {
-    return <TradeOfferReviewModal offer={reviewOffer} open={Boolean(reviewOffer)} onClose={closeReview} />;
+    return (
+      <TradeOfferReviewModal
+        offer={reviewOffer}
+        open={Boolean(reviewOffer)}
+        onClose={closeReview}
+      />
+    );
   }
 
   return (
@@ -25,20 +31,20 @@ export function TradeOfferToast({ scopeKey }: TradeOfferToastProps) {
       <div className="fixed bottom-6 right-6 z-50 w-[420px] max-w-[calc(100vw-1.5rem)] rounded-2xl border border-border bg-white p-4 shadow-xl">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={activeOffer.proposingTeamLogoUrl}
-            alt={activeOffer.proposingTeamName}
-            className="mt-0.5 h-10 w-10 shrink-0 object-contain"
-          />
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Trade Offer
-            </p>
-            <p className="mt-1 text-sm font-semibold text-foreground">{activeOffer.headline}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{activeOffer.summary}</p>
-            <p className="mt-2 text-xs text-muted-foreground">{activeOffer.reason}</p>
-          </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={activeOffer.proposingTeamLogoUrl}
+              alt={activeOffer.proposingTeamName}
+              className="mt-0.5 h-10 w-10 shrink-0 object-contain"
+            />
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Trade Offer
+              </p>
+              <p className="mt-1 text-sm font-semibold text-foreground">{activeOffer.headline}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{activeOffer.summary}</p>
+              <p className="mt-2 text-xs text-muted-foreground">{activeOffer.reason}</p>
+            </div>
           </div>
           <Button
             type="button"
@@ -64,7 +70,11 @@ export function TradeOfferToast({ scopeKey }: TradeOfferToastProps) {
           </Button>
         </div>
       </div>
-      <TradeOfferReviewModal offer={reviewOffer} open={Boolean(reviewOffer)} onClose={closeReview} />
+      <TradeOfferReviewModal
+        offer={reviewOffer}
+        open={Boolean(reviewOffer)}
+        onClose={closeReview}
+      />
     </>
   );
 }

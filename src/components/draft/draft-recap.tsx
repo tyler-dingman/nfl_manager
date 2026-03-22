@@ -76,10 +76,7 @@ export function DraftRecap({ summary, entries }: DraftRecapProps) {
 
         <div className="mt-4 space-y-3">
           {entries.map(({ pick, player, evaluation }) => (
-            <div
-              key={pick.id}
-              className="rounded-xl border border-border bg-slate-50 px-4 py-4"
-            >
+            <div key={pick.id} className="rounded-xl border border-border bg-slate-50 px-4 py-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
@@ -109,7 +106,10 @@ export function DraftRecap({ summary, entries }: DraftRecapProps) {
 
               <div className="mt-3 grid gap-2 md:grid-cols-2">
                 {evaluation.reasons.map((reason) => (
-                  <div key={`${pick.id}-${reason}`} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <div
+                    key={`${pick.id}-${reason}`}
+                    className="flex items-start gap-2 text-sm text-muted-foreground"
+                  >
                     {reason.includes('need') ? (
                       <ShieldCheck className="mt-0.5 h-4 w-4 text-blue-600" />
                     ) : reason.includes('value') || reason.includes('Sleeper') ? (

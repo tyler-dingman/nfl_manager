@@ -531,7 +531,8 @@ export function PlayerTable({
         {
           id: 'contractAsk',
           header: ({ column }) => <SortableHeader column={column} label="Ask" />,
-          accessorFn: (row) => row.currentAskAnnualValue ?? row.expectedAnnualValue ?? row.marketValue ?? 0,
+          accessorFn: (row) =>
+            row.currentAskAnnualValue ?? row.expectedAnnualValue ?? row.marketValue ?? 0,
           cell: ({ row }) => {
             const player = row.original;
             if (isSignedPlayer(player)) {
@@ -549,8 +550,7 @@ export function PlayerTable({
                 </span>
                 {player.askReductionAmount && player.askReductionAmount > 0 ? (
                   <span className="inline-flex items-center gap-1 text-[11px] font-medium text-rose-500">
-                    <ArrowDown className="h-3 w-3" />
-                    ${player.askReductionAmount.toFixed(1)}M
+                    <ArrowDown className="h-3 w-3" />${player.askReductionAmount.toFixed(1)}M
                   </span>
                 ) : null}
               </div>
