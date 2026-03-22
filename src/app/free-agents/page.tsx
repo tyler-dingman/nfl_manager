@@ -37,6 +37,7 @@ export default function FreeAgentsPage() {
   const capLimit = useSaveStore((state) => state.capLimit);
   const phase = useSaveStore((state) => state.phase);
   const unlocked = useSaveStore((state) => state.unlocked);
+  const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const roster = useSaveStore((state) => state.roster);
   const setRoster = useSaveStore((state) => state.setRoster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
@@ -286,6 +287,7 @@ export default function FreeAgentsPage() {
       if ('header' in data && data.header) {
         setSaveHeader({
           ...data.header,
+          year: data.header.year ?? franchiseYear,
           unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
         });
       }
