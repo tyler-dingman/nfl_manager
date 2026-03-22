@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { getFreeAgents } from '@/server/api/players';
+import { getFreeAgencyMarket } from '@/server/api/players';
 import { getSaveStateResult, hydrateOffseasonFreeAgencyState } from '@/server/api/store';
 
 const getParam = (request: Request, key: string) =>
@@ -26,7 +26,7 @@ export const GET = async (request: Request) => {
     query: getParam(request, 'query'),
   };
 
-  const result = getFreeAgents(saveId, filters);
+  const result = getFreeAgencyMarket(saveId, filters);
   if (!result.ok) {
     return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
   }

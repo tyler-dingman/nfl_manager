@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { useSaveStore } from '@/features/save/save-store';
+import type { FreeAgencyMarketDTO } from '@/types/free-agency';
 import type { PlayerRowDTO } from '@/types/player';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
@@ -14,6 +15,7 @@ type PlayerQueryResult = {
 };
 
 const playerListCache = new Map<string, PlayerRowDTO[]>();
+const freeAgencyMarketCache = new Map<string, FreeAgencyMarketDTO>();
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -27,6 +29,7 @@ export const invalidatePlayerQueryCache = (
 ) => {
   if (!endpoint && !saveId && !teamAbbr) {
     playerListCache.clear();
+    freeAgencyMarketCache.clear();
     return;
   }
 
@@ -36,6 +39,7 @@ export const invalidatePlayerQueryCache = (
     if (saveId && cachedSaveId !== saveId) continue;
     if (teamAbbr && cachedTeamAbbr !== teamAbbr) continue;
     playerListCache.delete(key);
+    freeAgencyMarketCache.delete(key);
   }
 };
 
@@ -168,5 +172,116 @@ export const useRosterQuery = (
 export const useFreeAgentsQuery = (
   saveId: string | null | undefined,
   teamAbbr?: string | null,
-): PlayerQueryResult =>
-  usePlayerQuery(saveId, teamAbbr, '/api/free-agents', 'Unable to load free agents.');
+): {
+  data: FreeAgencyMarketDTO;
+  isLoading: boolean;
+  error: string | null;
+  refresh: () => Promise<void>;
+} => {
+  const endpoint = '/api/free-agents';
+  const cacheKey = getCacheKey(endpoint, saveId, teamAbbr);
+  const [data, setData] = useState<FreeAgencyMarketDTO>(() =>
+    freeAgencyMarketCache.get(cacheKey) ?? {
+      wave: 1,
+      waveLabel: 'Wave 1: Tampering Window',
+      originalPoolSize: 0,
+      availableCount: 0,
+      userSignedCount: 0,
+      cpuSignedCount: 0,
+      players: [],
+    },
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const refresh = useCallback(async () => {
+    if (!saveId) {
+      setData({
+        wave: 1,
+        waveLabel: 'Wave 1: Tampering Window',
+        originalPoolSize: 0,
+        availableCount: 0,
+        userSignedCount: 0,
+        cpuSignedCount: 0,
+        players: [],
+      });
+      setIsLoading(false);
+      setError(null);
+      return;
+    }
+
+    const cached = freeAgencyMarketCache.get(cacheKey);
+    if (cached) {
+      setData(cached);
+    }
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const saveState = useSaveStore.getState();
+      const fetchMarket = async (activeSaveId: string) => {
+        const params = new URLSearchParams({ saveId: activeSaveId });
+        const activeTeamAbbr = teamAbbr ?? saveState.teamAbbr;
+        if (activeTeamAbbr) {
+          params.set('teamAbbr', activeTeamAbbr);
+        }
+        const url = `${endpoint}?${params.toString()}`;
+        let response = await apiFetch(url, undefined, { skipSaveGuard: true });
+        if (response.status === 404) {
+          const recoveredSaveId = await ensureRecoverableSaveId(
+            {
+              preferredSaveId: activeSaveId,
+              teamId: saveState.teamId,
+              teamAbbr: activeTeamAbbr,
+              capSpace: saveState.capSpace,
+              capLimit: saveState.capLimit,
+              roster: saveState.roster,
+              phase: saveState.phase,
+              unlocked: saveState.unlocked,
+            },
+            saveState.setSaveHeader,
+          );
+          if (recoveredSaveId) {
+            const retryParams = new URLSearchParams({ saveId: recoveredSaveId });
+            if (activeTeamAbbr) {
+              retryParams.set('teamAbbr', activeTeamAbbr);
+            }
+            response = await apiFetch(`${endpoint}?${retryParams.toString()}`, undefined, {
+              skipSaveGuard: true,
+            });
+          }
+        }
+        return response;
+      };
+
+      const response = await fetchMarket(saveId);
+      if (!response.ok) {
+        setError('Unable to load free agents.');
+        return;
+      }
+
+      const payload = (await response.json()) as FreeAgencyMarketDTO;
+      freeAgencyMarketCache.set(cacheKey, payload);
+      setData(payload);
+    } catch (queryError) {
+      setError(queryError instanceof Error ? queryError.message : 'Unable to load free agents.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [cacheKey, saveId, teamAbbr]);
+
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
+
+  useEffect(() => {
+    return subscribeToSaveDataUpdated((detail) => {
+      if (!saveId || detail.saveId !== saveId) return;
+      if (teamAbbr && detail.teamAbbr && detail.teamAbbr !== teamAbbr) return;
+      invalidatePlayerQueryCache(endpoint, saveId, teamAbbr);
+      void refresh();
+    });
+  }, [endpoint, refresh, saveId, teamAbbr]);
+
+  return { data, isLoading, error, refresh };
+};

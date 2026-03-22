@@ -25,6 +25,7 @@ import {
   buildTeamExpiringContracts,
 } from '@/server/logic/offseason-free-agency';
 import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
+import type { FreeAgencyMarketDTO, FreeAgencyWave } from '@/types/free-agency';
 
 export type PlayerFilters = {
   position?: string;
@@ -66,6 +67,8 @@ export type SaveState = {
     otcRows: OtcFreeAgencyRow[];
     resolvedPlayerIds: string[];
     walkawayPlayerIds: string[];
+    freeAgencyWave: FreeAgencyWave;
+    initialFreeAgentCount: number;
   };
 };
 
@@ -112,11 +115,97 @@ const getCachedOtcRows = async (): Promise<OtcFreeAgencyRow[]> => {
 
 const getExpectedFreeAgentYearOneCapHit = (player: PlayerRowDTO): number => {
   const apy =
-    player.freeAgentProfile?.expectedAnnualValue ?? (player.marketValue ?? 1_000_000) / 1_000_000;
+    player.currentAskAnnualValue ??
+    player.expectedAnnualValue ??
+    player.freeAgentProfile?.expectedAnnualValue ??
+    (player.marketValue ?? 1_000_000) / 1_000_000;
   return getYearOneCapHit(apy, 1);
 };
 
 const getLeagueYearForSave = (state: SaveState) => state.header.year ?? CURRENT_MODELED_LEAGUE_YEAR;
+
+const normalizeFreeAgencyWave = (wave: number | null | undefined): FreeAgencyWave => {
+  if (wave === 2 || wave === 3) return wave;
+  return 1;
+};
+
+const getWaveLabel = (wave: FreeAgencyWave) => {
+  if (wave === 1) return 'Wave 1: Tampering Window';
+  if (wave === 2) return 'Wave 2: Secondary Market';
+  return 'Wave 3: Final Wave';
+};
+
+const hashString = (value: string) => {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash * 33 + value.charCodeAt(index)) >>> 0;
+  }
+  return hash;
+};
+
+const getOriginalAskAnnualValue = (player: StoredPlayer) =>
+  player.originalAskAnnualValue ??
+  player.currentAskAnnualValue ??
+  player.expectedAnnualValue ??
+  player.freeAgentProfile?.expectedAnnualValue ??
+  (typeof player.marketValue === 'number' ? player.marketValue / 1_000_000 : null);
+
+const getCurrentAskAnnualValue = (player: StoredPlayer) =>
+  player.currentAskAnnualValue ??
+  player.expectedAnnualValue ??
+  player.freeAgentProfile?.expectedAnnualValue ??
+  (typeof player.marketValue === 'number' ? player.marketValue / 1_000_000 : null);
+
+const applyAskToPlayer = (player: StoredPlayer, currentAskAnnualValue: number): StoredPlayer => {
+  const originalAskAnnualValue = getOriginalAskAnnualValue(player) ?? currentAskAnnualValue;
+  const current = Number(currentAskAnnualValue.toFixed(1));
+  const reductionAmount = Math.max(0, Number((originalAskAnnualValue - current).toFixed(1)));
+  const reductionPct =
+    originalAskAnnualValue > 0
+      ? Math.max(0, Math.round((reductionAmount / originalAskAnnualValue) * 100))
+      : 0;
+
+  return {
+    ...player,
+    originalAskAnnualValue,
+    currentAskAnnualValue: current,
+    askReductionAmount: reductionAmount,
+    askReductionPct: reductionPct,
+    expectedAnnualValue: current,
+    freeAgentProfile: player.freeAgentProfile
+      ? {
+          ...player.freeAgentProfile,
+          expectedAnnualValue: current,
+        }
+      : player.freeAgentProfile,
+  };
+};
+
+const initializeFreeAgentMarketFields = (player: StoredPlayer): StoredPlayer => {
+  const currentAskAnnualValue = getCurrentAskAnnualValue(player);
+  if (currentAskAnnualValue === null) {
+    return {
+      ...player,
+      signedWave: player.signedWave ?? null,
+      isSignedByUser: player.isSignedByUser ?? false,
+      isSignedByCpu: player.isSignedByCpu ?? false,
+    };
+  }
+  return applyAskToPlayer(
+    {
+      ...player,
+      signedWave: player.signedWave ?? null,
+      isSignedByUser: player.isSignedByUser ?? false,
+      isSignedByCpu: player.isSignedByCpu ?? false,
+    },
+    currentAskAnnualValue,
+  );
+};
+
+const getTeamNeedsForAbbr = (teamAbbr: string): string[] =>
+  NFL_LEAGUE_DATA.teams.find((team) => team.abbr.toUpperCase() === teamAbbr.toUpperCase())?.allTeamNeeds ??
+  NFL_LEAGUE_DATA.teams.find((team) => team.abbr.toUpperCase() === teamAbbr.toUpperCase())?.teamNeeds ??
+  [];
 
 const splitName = (name: string) => {
   const parts = name.trim().split(/\s+/);
@@ -527,10 +616,12 @@ export const createSaveState = (
     saveId,
     league: NFL_LEAGUE_DATA,
     teamAbbr: teamAbbr.toUpperCase(),
-  }).map((player) => ({
-    ...player,
-    year1CapHit: getExpectedFreeAgentYearOneCapHit(player),
-  })) as StoredPlayer[];
+  }).map((player) =>
+    initializeFreeAgentMarketFields({
+      ...player,
+      year1CapHit: getExpectedFreeAgentYearOneCapHit(player),
+    } as StoredPlayer),
+  );
   const capSpace = capSpaceMillionsForTeam(normalizedTeamAbbr);
   const capLimit = capLimitMillionsForTeam(normalizedTeamAbbr, roster);
   const header: SaveHeaderDTO = {
@@ -563,6 +654,8 @@ export const createSaveState = (
       otcRows: [],
       resolvedPlayerIds: [],
       walkawayPlayerIds: [],
+      freeAgencyWave: 1,
+      initialFreeAgentCount: freeAgents.length,
     },
   };
 
@@ -603,6 +696,7 @@ export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): S
     id: saveId,
     teamAbbr: normalizedTeamAbbr,
     year: payload.year ?? state.header.year ?? CURRENT_MODELED_LEAGUE_YEAR,
+    freeAgencyWave: normalizeFreeAgencyWave(state.offseason?.freeAgencyWave),
     capSpace: Number(payload.capSpace.toFixed(1)),
     capLimit: Number(payload.capLimit.toFixed(1)),
     rosterCount: restoredRoster.length,
@@ -618,12 +712,15 @@ export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): S
     state.offseason.otcRows = [];
     state.freeAgents = [];
     state.expiringContracts = buildExpiringContractsFromRoster(restoredRoster, normalizedTeamAbbr);
+    state.offseason.freeAgencyWave = normalizeFreeAgencyWave(state.offseason.freeAgencyWave);
   } else {
     state.offseason.hydrated = false;
     state.offseason.otcRows = [];
     state.freeAgents = [];
     state.expiringContracts = [];
+    state.offseason.freeAgencyWave = 1;
   }
+  state.offseason.initialFreeAgentCount = state.offseason.initialFreeAgentCount ?? 0;
 
   saveStore.set(saveId, state);
   return state;
@@ -674,17 +771,26 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
       otcRows: [],
       resolvedPlayerIds: [],
       walkawayPlayerIds: [],
+      freeAgencyWave: 1,
+      initialFreeAgentCount: 0,
     };
   }
+  state.offseason.freeAgencyWave = normalizeFreeAgencyWave(state.offseason.freeAgencyWave);
+  state.offseason.initialFreeAgentCount =
+    state.offseason.initialFreeAgentCount ??
+    state.freeAgents.filter((player) => !player.isSignedByCpu && !player.isSignedByUser).length;
+  state.header.freeAgencyWave = state.offseason.freeAgencyWave;
 
   return { ok: true, data: state };
 };
 
 const toStoredPlayers = (players: PlayerRowDTO[]): StoredPlayer[] =>
-  players.map((player) => ({
-    ...player,
-    year1CapHit: getExpectedFreeAgentYearOneCapHit(player),
-  }));
+  players.map((player) =>
+    initializeFreeAgentMarketFields({
+      ...player,
+      year1CapHit: getExpectedFreeAgentYearOneCapHit(player),
+    } as StoredPlayer),
+  );
 
 const resolveWalkawaysFromState = (state: SaveState): PlayerRowDTO[] => {
   const ids = new Set(state.offseason.walkawayPlayerIds);
@@ -720,6 +826,12 @@ export const hydrateOffseasonFreeAgencyState = async (state: SaveState): Promise
   );
   state.freeAgents = toStoredPlayers(pool).filter((player) => !rosteredPlayerIds.has(player.id));
   state.offseason.hydrated = true;
+  state.offseason.freeAgencyWave = normalizeFreeAgencyWave(state.offseason.freeAgencyWave);
+  state.offseason.initialFreeAgentCount = Math.max(
+    state.offseason.initialFreeAgentCount ?? 0,
+    state.freeAgents.length,
+  );
+  state.header.freeAgencyWave = state.offseason.freeAgencyWave;
 };
 
 const getPlayerMarketValueDollars = (player: StoredPlayer) => {
@@ -738,7 +850,7 @@ const buildFreeAgentFromExpiredPlayer = (
   generatedAt: string,
 ): StoredPlayer => {
   const marketValue = getPlayerMarketValueDollars(player);
-  return {
+  return initializeFreeAgentMarketFields({
     ...player,
     teamAbbr: null,
     currentTeamAbbr: null,
@@ -771,7 +883,10 @@ const buildFreeAgentFromExpiredPlayer = (
       capHit: 0,
       expiresAfterSeason: false,
     },
-  };
+    signedWave: null,
+    isSignedByUser: false,
+    isSignedByCpu: false,
+  });
 };
 
 const buildExpiringContractsFromRoster = (
@@ -908,6 +1023,12 @@ export const advanceSaveStateToNextOffseason = (
   );
 
   state.expiringContracts = buildExpiringContractsFromRoster(state.roster, state.header.teamAbbr);
+  const rosteredPlayerIds = new Set(
+    Object.values(state.teamRosters)
+      .flat()
+      .filter((player) => player.status?.toLowerCase() !== 'cut')
+      .map((player) => player.id),
+  );
   state.freeAgents = Array.from(
     new Map(
       [...state.freeAgents, ...Array.from(rolloverFreeAgents.values())].map((player) => [
@@ -916,12 +1037,17 @@ export const advanceSaveStateToNextOffseason = (
       ]),
     ).values(),
   )
-    .filter((player) => !state.roster.some((rosterPlayer) => rosterPlayer.id === player.id))
+    .filter((player) => !rosteredPlayerIds.has(player.id))
     .map((player) => ({
-      ...player,
+      ...initializeFreeAgentMarketFields({
+        ...player,
+        signedWave: null,
+        isSignedByUser: false,
+        isSignedByCpu: false,
+      }),
       freeAgentProfile: player.freeAgentProfile
         ? {
-            ...player.freeAgentProfile,
+          ...player.freeAgentProfile,
             saveId: state.header.id,
             source: player.cutAt ? 'released' : player.freeAgentProfile.source,
             available: true,
@@ -938,6 +1064,9 @@ export const advanceSaveStateToNextOffseason = (
   state.offseason.otcRows = [];
   state.offseason.resolvedPlayerIds = [];
   state.offseason.walkawayPlayerIds = [];
+  state.offseason.freeAgencyWave = 1;
+  state.offseason.initialFreeAgentCount = state.freeAgents.length;
+  state.header.freeAgencyWave = 1;
   state.draftSessions = {};
   state.draftPickAssets = buildInitialDraftPickAssets(nextYear);
 
@@ -977,6 +1106,266 @@ const matchesFilter = (player: StoredPlayer, filters?: PlayerFilters): boolean =
 export const filterPlayers = (players: StoredPlayer[], filters?: PlayerFilters): StoredPlayer[] =>
   players.filter((player) => matchesFilter(player, filters));
 
+const isCpuSignedFreeAgent = (player: StoredPlayer) =>
+  Boolean(player.isSignedByCpu) ||
+  (player.signedTeamAbbr !== null &&
+    player.signedTeamAbbr !== undefined &&
+    player.signedTeamAbbr !== '' &&
+    player.signedTeamAbbr !== player.currentTeamAbbr &&
+    player.status.toLowerCase() === 'signed');
+
+const isAvailableFreeAgent = (player: StoredPlayer) =>
+  !player.isSignedByCpu &&
+  !player.isSignedByUser &&
+  player.freeAgentProfile?.availabilityStatus !== 'signed' &&
+  player.availabilityStatus !== 'signed' &&
+  player.marketStatus !== 'signed' &&
+  player.status.toLowerCase() !== 'signed' &&
+  player.status.toLowerCase() !== 'active';
+
+const getUserSignedFreeAgents = (state: SaveState): StoredPlayer[] => {
+  const signedIds = new Set(
+    state.transactions
+      .filter(
+        (transaction) =>
+          transaction.type === 'signing' &&
+          transaction.toTeamAbbr?.toUpperCase() === state.header.teamAbbr.toUpperCase(),
+      )
+      .map((transaction) => transaction.playerId),
+  );
+
+  return state.roster
+    .filter((player) => signedIds.has(player.id))
+    .map((player) =>
+      initializeFreeAgentMarketFields({
+        ...player,
+        isSignedByUser: true,
+        isSignedByCpu: false,
+      }),
+    );
+};
+
+const pickCpuSigningTeam = (state: SaveState, player: StoredPlayer, wave: FreeAgencyWave) => {
+  const candidates = NFL_LEAGUE_DATA.teams
+    .map((team) => team.abbr.toUpperCase())
+    .filter((teamAbbr) => teamAbbr !== state.header.teamAbbr.toUpperCase())
+    .map((teamAbbr) => {
+      const needs = getTeamNeedsForAbbr(teamAbbr);
+      const needIndex = needs.findIndex((need) => need === player.position);
+      const needScore = needIndex === 0 ? 32 : needIndex === 1 ? 20 : needIndex === 2 ? 14 : 4;
+      const capSpace = state.teamCaps[teamAbbr] ?? capSpaceMillionsForTeam(teamAbbr);
+      const ageScore = player.age ? Math.max(0, 30 - player.age) : 6;
+      const ratingScore = (player.rating ?? player.maddenRating ?? player.baselineRating ?? 70) - 65;
+      const fitSeed = hashString(`${state.header.id}:${teamAbbr}:${player.id}:${wave}`);
+      const randomness = fitSeed % 7;
+      return {
+        teamAbbr,
+        score: needScore + ratingScore + ageScore + randomness + Math.max(0, capSpace / 2),
+        capSpace,
+      };
+    })
+    .filter((candidate) => candidate.capSpace >= getExpectedFreeAgentYearOneCapHit(player))
+    .sort((left, right) => right.score - left.score);
+
+  return candidates[0]?.teamAbbr ?? null;
+};
+
+const signFreeAgentToCpuTeamInState = (
+  state: SaveState,
+  playerId: string,
+  teamAbbr: string,
+  wave: FreeAgencyWave,
+) => {
+  const playerIndex = state.freeAgents.findIndex((agent) => agent.id === playerId);
+  if (playerIndex === -1) return null;
+
+  const player = state.freeAgents[playerIndex];
+  const currentAskAnnualValue =
+    getCurrentAskAnnualValue(player) ??
+    player.freeAgentProfile?.expectedContractYears ??
+    1;
+  const years = Math.max(
+    1,
+    Math.min(4, player.freeAgentProfile?.expectedContractYears ?? (player.rating ?? 72) >= 80 ? 3 : 2),
+  );
+  const guaranteed = Number((currentAskAnnualValue * years * 0.42).toFixed(1));
+  const year1CapHit = getYearOneCapHit(currentAskAnnualValue, years);
+  const signedAt = new Date().toISOString();
+  const signedPlayer = initializeFreeAgentMarketFields({
+    ...player,
+    status: 'Signed',
+    teamAbbr: null,
+    currentTeamAbbr: teamAbbr,
+    signedTeamAbbr: teamAbbr,
+    signedTeamLogoUrl: logoUrlFor(teamAbbr),
+    isUnsigned: false,
+    signedAt,
+    signedWave: wave,
+    isSignedByUser: false,
+    isSignedByCpu: true,
+    capHitSchedule: getCapHitSchedule(currentAskAnnualValue, years),
+    contractYearsRemaining: years,
+    capHitValue: year1CapHit,
+    capHit: formatMoneyMillions(year1CapHit),
+    salary: currentAskAnnualValue,
+    guaranteed,
+    contract: {
+      yearsRemaining: years,
+      apy: currentAskAnnualValue,
+      guaranteed,
+      capHit: year1CapHit,
+      expiresAfterSeason: false,
+    },
+    freeAgentProfile: player.freeAgentProfile
+      ? {
+          ...player.freeAgentProfile,
+          marketStatus: 'signed',
+          availabilityStatus: 'signed',
+          available: false,
+          refreshedAt: signedAt,
+          lastUpdated: signedAt,
+        }
+      : player.freeAgentProfile,
+  });
+
+  state.freeAgents[playerIndex] = signedPlayer;
+  const roster = state.teamRosters[teamAbbr] ?? buildRosterForTeam(teamAbbr);
+  removePlayerFromAllRosters(state, signedPlayer.id);
+  state.teamRosters[teamAbbr] = [...roster, transferStoredPlayerToTeam(signedPlayer, teamAbbr)];
+  state.teamCaps[teamAbbr] = Number(((state.teamCaps[teamAbbr] ?? capSpaceMillionsForTeam(teamAbbr)) - year1CapHit).toFixed(1));
+  state.transactions.push({
+    id: `tx_cpu_sign_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    type: 'signing',
+    playerId: signedPlayer.id,
+    toTeamAbbr: teamAbbr,
+    capHit: year1CapHit,
+    createdAt: signedAt,
+  });
+  return signedPlayer;
+};
+
+const advanceRemainingAsksForWave = (state: SaveState, wave: FreeAgencyWave) => {
+  if (wave <= 1) return;
+  state.freeAgents = state.freeAgents.map((player) => {
+    if (!isAvailableFreeAgent(player)) {
+      return player;
+    }
+    const originalAskAnnualValue = getOriginalAskAnnualValue(player);
+    if (originalAskAnnualValue === null) {
+      return player;
+    }
+    const multiplier = wave === 2 ? 0.9 : 0.81;
+    return applyAskToPlayer(player, Number((originalAskAnnualValue * multiplier).toFixed(1)));
+  });
+};
+
+const simulateCpuWaveSignings = (state: SaveState, nextWave: FreeAgencyWave) => {
+  const originalPoolSize =
+    state.offseason.initialFreeAgentCount ||
+    state.freeAgents.filter((player) => !player.isSignedByUser && !player.isSignedByCpu).length;
+  const userSignedCount = getUserSignedFreeAgents(state).length;
+  const cpuSignedCount = state.freeAgents.filter((player) => player.isSignedByCpu).length;
+  const totalCurrentlySigned = userSignedCount + cpuSignedCount;
+  const overallTargetSigned =
+    nextWave === 2
+      ? Math.round(originalPoolSize * 0.3)
+      : Math.round(originalPoolSize * 0.5);
+  const available = state.freeAgents.filter((player) => isAvailableFreeAgent(player));
+  const eliteAvailable = available.filter((player) => (player.rating ?? player.maddenRating ?? 0) >= 80);
+  const desiredEliteSignings =
+    nextWave === 2 ? Math.ceil(eliteAvailable.length * 0.8) : Math.ceil(eliteAvailable.length * 0.5);
+  const additionalNeeded = Math.max(0, overallTargetSigned - totalCurrentlySigned);
+
+  const rankedAvailable = [...available].sort((left, right) => {
+    const leftNeedWeight = getTeamNeedsForAbbr(state.header.teamAbbr).includes(left.position) ? 0 : 1;
+    const rightNeedWeight = getTeamNeedsForAbbr(state.header.teamAbbr).includes(right.position) ? 0 : 1;
+    if (leftNeedWeight !== rightNeedWeight) return leftNeedWeight - rightNeedWeight;
+    const leftScore =
+      (left.rating ?? left.maddenRating ?? left.baselineRating ?? 70) * 5 -
+      (left.age ?? 27) +
+      (hashString(`${state.header.id}:${left.id}:${nextWave}`) % 9);
+    const rightScore =
+      (right.rating ?? right.maddenRating ?? right.baselineRating ?? 70) * 5 -
+      (right.age ?? 27) +
+      (hashString(`${state.header.id}:${right.id}:${nextWave}`) % 9);
+    return rightScore - leftScore;
+  });
+
+  const eliteTargets = rankedAvailable
+    .filter((player) => (player.rating ?? player.maddenRating ?? 0) >= 80)
+    .slice(0, desiredEliteSignings);
+  const fillTargets = rankedAvailable
+    .filter((player) => !eliteTargets.some((elite) => elite.id === player.id))
+    .slice(0, Math.max(0, additionalNeeded - eliteTargets.length));
+  const targets = [...eliteTargets, ...fillTargets]
+    .slice(0, Math.max(additionalNeeded, eliteTargets.length))
+    .filter((player, index, collection) => collection.findIndex((entry) => entry.id === player.id) === index);
+
+  targets.forEach((player) => {
+    const teamAbbr = pickCpuSigningTeam(state, player, nextWave);
+    if (!teamAbbr) return;
+    signFreeAgentToCpuTeamInState(state, player.id, teamAbbr, nextWave);
+  });
+};
+
+export const getFreeAgencyMarket = (
+  saveId: string,
+  filters?: PlayerFilters,
+): SaveResult<FreeAgencyMarketDTO> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
+  }
+
+  const state = stateResult.data;
+  const filteredFreeAgents = filterPlayers(state.freeAgents, filters).map((player) =>
+    initializeFreeAgentMarketFields(player),
+  );
+  const filteredUserSigned = filterPlayers(getUserSignedFreeAgents(state), filters).map((player) =>
+    initializeFreeAgentMarketFields(player),
+  );
+  const players = [...filteredFreeAgents, ...filteredUserSigned].map((player) => ({
+    ...player,
+    isSignedByUser: player.isSignedByUser ?? false,
+    isSignedByCpu: player.isSignedByCpu ?? isCpuSignedFreeAgent(player),
+  }));
+
+  return {
+    ok: true,
+    data: {
+      wave: state.offseason.freeAgencyWave,
+      waveLabel: getWaveLabel(state.offseason.freeAgencyWave),
+      originalPoolSize: state.offseason.initialFreeAgentCount || players.length,
+      availableCount: players.filter((player) => !player.isSignedByCpu && !player.isSignedByUser).length,
+      userSignedCount: players.filter((player) => player.isSignedByUser).length,
+      cpuSignedCount: players.filter((player) => player.isSignedByCpu).length,
+      players,
+      header: getSaveHeaderSnapshot(state),
+    },
+  };
+};
+
+export const advanceFreeAgencyWaveInState = (
+  state: SaveState,
+): { header: SaveHeaderDTO; market: FreeAgencyMarketDTO } => {
+  const currentWave = normalizeFreeAgencyWave(state.offseason.freeAgencyWave);
+  const nextWave = currentWave === 1 ? 2 : 3;
+  simulateCpuWaveSignings(state, nextWave);
+  state.offseason.freeAgencyWave = nextWave;
+  state.header.freeAgencyWave = nextWave;
+  advanceRemainingAsksForWave(state, nextWave);
+
+  const marketResult = getFreeAgencyMarket(state.header.id);
+  if (!marketResult.ok) {
+    throw new Error(marketResult.error);
+  }
+
+  return {
+    header: getSaveHeaderSnapshot(state),
+    market: marketResult.data,
+  };
+};
+
 export const signFreeAgentInState = (
   state: SaveState,
   playerId: string,
@@ -1005,6 +1394,9 @@ export const signFreeAgentInState = (
     currentTeamAbbr: state.header.teamAbbr,
     isUnsigned: false,
     signedAt: new Date().toISOString(),
+    signedWave: state.offseason.freeAgencyWave,
+    isSignedByUser: true,
+    isSignedByCpu: false,
     freeAgentProfile: player.freeAgentProfile
       ? {
           ...player.freeAgentProfile,
@@ -1089,6 +1481,9 @@ export const offerContractInState = (
     signedTeamAbbr: state.header.teamAbbr,
     signedTeamLogoUrl: logoUrlFor(state.header.teamAbbr),
     signedAt: new Date().toISOString(),
+    signedWave: state.offseason.freeAgencyWave,
+    isSignedByUser: true,
+    isSignedByCpu: false,
     capHitSchedule,
     freeAgentProfile: player.freeAgentProfile
       ? {

@@ -1,5 +1,6 @@
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
+import type { FreeAgencyMarketDTO } from '@/types/free-agency';
 
 import {
   filterPlayers,
@@ -8,6 +9,8 @@ import {
   cutPlayerInState,
   offerContractInState,
   signFreeAgentInState,
+  getFreeAgencyMarket as getFreeAgencyMarketFromState,
+  advanceFreeAgencyWaveInState,
   type SaveResult,
   type PlayerFilters,
 } from './store';
@@ -48,6 +51,13 @@ const toPlayerListRow = (player: PlayerRowDTO): PlayerRowDTO => ({
   isUnsigned: player.isUnsigned,
   averagePerYear: player.averagePerYear ?? null,
   expectedAnnualValue: player.freeAgentProfile?.expectedAnnualValue ?? player.expectedAnnualValue,
+  originalAskAnnualValue: player.originalAskAnnualValue ?? null,
+  currentAskAnnualValue: player.currentAskAnnualValue ?? null,
+  askReductionAmount: player.askReductionAmount ?? null,
+  askReductionPct: player.askReductionPct ?? null,
+  signedWave: player.signedWave ?? null,
+  isSignedByUser: player.isSignedByUser ?? false,
+  isSignedByCpu: player.isSignedByCpu ?? false,
   marketTier: player.freeAgentProfile?.marketTier ?? player.marketTier,
   marketStatus: player.freeAgentProfile?.marketStatus ?? player.marketStatus,
   availabilityStatus: player.freeAgentProfile?.availabilityStatus ?? player.availabilityStatus,
@@ -83,6 +93,45 @@ export const getFreeAgents = (
   return {
     ok: true,
     data: filterPlayers(stateResult.data.freeAgents, filters).map(toPlayerListRow),
+  };
+};
+
+export const getFreeAgencyMarket = (
+  saveId: string,
+  filters?: PlayerFilters,
+): SaveResult<FreeAgencyMarketDTO> => {
+  const result = getFreeAgencyMarketFromState(saveId, filters);
+  if (!result.ok) {
+    return result;
+  }
+
+  return {
+    ok: true,
+    data: {
+      ...result.data,
+      players: result.data.players.map(toPlayerListRow),
+    },
+  };
+};
+
+export const advanceFreeAgencyWave = (
+  saveId: string,
+): SaveResult<{ header: SaveHeaderDTO; market: FreeAgencyMarketDTO }> => {
+  const stateResult = getSaveStateResult(saveId);
+  if (!stateResult.ok) {
+    return stateResult;
+  }
+
+  const result = advanceFreeAgencyWaveInState(stateResult.data);
+  return {
+    ok: true,
+    data: {
+      header: result.header,
+      market: {
+        ...result.market,
+        players: result.market.players.map(toPlayerListRow),
+      },
+    },
   };
 };
 

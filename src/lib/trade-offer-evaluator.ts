@@ -14,10 +14,10 @@ export const TRADE_INTEREST_THRESHOLDS = {
 } as const;
 
 const PREMIUM_TRADE_RULES = {
-  eliteMultiplier: 1.2,
-  starMultiplier: 1.1,
-  elitePenalty: 0.62,
-  starPenalty: 0.78,
+  eliteMultiplier: 1.55,
+  starMultiplier: 1.3,
+  elitePenalty: 0.42,
+  starPenalty: 0.6,
   junkBundlePenalty: 0.72,
 } as const;
 
@@ -97,6 +97,14 @@ const highestPlayerRating = (assets: TradeOfferAssetDTO[]) =>
 const pickValueTotal = (assets: TradeOfferAssetDTO[]) =>
   assets.reduce((sum, asset) => sum + (asset.type === 'pick' ? asset.projectedValuePoints : 0), 0);
 
+const countPlayersAtOrAbove = (assets: TradeOfferAssetDTO[], rating: number) =>
+  assets.filter((asset) => asset.type === 'player' && (asset.rating ?? 0) >= rating).length;
+
+const countPremiumPicks = (assets: TradeOfferAssetDTO[], minimumProjectedValue: number) =>
+  assets.filter(
+    (asset) => asset.type === 'pick' && asset.projectedValuePoints >= minimumProjectedValue,
+  ).length;
+
 const premiumPlayerGuardrail = (incoming: TradeOfferAssetDTO[], outgoing: TradeOfferAssetDTO[]) => {
   const outgoingBestRating = highestPlayerRating(outgoing);
   const incomingBestRating = highestPlayerRating(incoming);
@@ -104,17 +112,27 @@ const premiumPlayerGuardrail = (incoming: TradeOfferAssetDTO[], outgoing: TradeO
   const incomingTotal = incoming.reduce((sum, asset) => sum + asset.projectedValuePoints, 0);
   const incomingPickValue = pickValueTotal(incoming);
   const incomingLowValueAssets = incoming.filter((asset) => asset.projectedValuePoints < 45).length;
+  const incomingNinetyPlusPlayers = countPlayersAtOrAbove(incoming, 90);
+  const incomingEightyEightPlusPlayers = countPlayersAtOrAbove(incoming, 88);
+  const incomingBlueChipPicks = countPremiumPicks(incoming, 320);
+  const incomingStrongPicks = countPremiumPicks(incoming, 220);
 
   if (outgoingBestRating >= 94) {
-    const hasStrongCounter = incomingBestRating >= 90;
-    const hasPremiumPickSupport = incomingPickValue >= 300;
+    const hasStrongCounter = incomingNinetyPlusPlayers >= 2;
+    const hasPremiumPickSupport = incomingBlueChipPicks >= 2 || incomingPickValue >= 1200;
     let multiplier =
       incomingTotal >= outgoingTotal * PREMIUM_TRADE_RULES.eliteMultiplier
         ? 1
         : hasStrongCounter && hasPremiumPickSupport
-          ? 0.88
+          ? 0.72
           : PREMIUM_TRADE_RULES.elitePenalty;
-    if (!hasStrongCounter && incomingPickValue < 1200) {
+    if (incomingBestRating < 90) {
+      multiplier *= 0.72;
+    }
+    if (incomingNinetyPlusPlayers === 0 && incomingBlueChipPicks < 2) {
+      multiplier *= 0.7;
+    }
+    if (incomingPickValue < 900) {
       multiplier *= 0.82;
     }
     if (incoming.length >= 3 && incomingLowValueAssets >= Math.ceil(incoming.length * 0.66)) {
@@ -124,9 +142,20 @@ const premiumPlayerGuardrail = (incoming: TradeOfferAssetDTO[], outgoing: TradeO
   }
 
   if (outgoingBestRating >= 90) {
-    let multiplier = incomingTotal >= outgoingTotal * PREMIUM_TRADE_RULES.starMultiplier ? 1 : PREMIUM_TRADE_RULES.starPenalty;
-    if (incomingBestRating < 84 && incomingPickValue < 600) {
-      multiplier *= 0.88;
+    const hasPremiumPlayerSupport =
+      incomingNinetyPlusPlayers >= 1 || incomingEightyEightPlusPlayers >= 2;
+    const hasPremiumPickSupport = incomingStrongPicks >= 2 || incomingPickValue >= 650;
+    let multiplier =
+      incomingTotal >= outgoingTotal * PREMIUM_TRADE_RULES.starMultiplier
+        ? 1
+        : hasPremiumPlayerSupport && hasPremiumPickSupport
+          ? 0.82
+          : PREMIUM_TRADE_RULES.starPenalty;
+    if (incomingBestRating < 88 && incomingPickValue < 750) {
+      multiplier *= 0.78;
+    }
+    if (incomingNinetyPlusPlayers === 0 && incomingStrongPicks === 0) {
+      multiplier *= 0.8;
     }
     if (incoming.length >= 3 && incomingLowValueAssets >= Math.ceil(incoming.length * 0.66)) {
       multiplier *= 0.84;

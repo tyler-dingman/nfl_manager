@@ -23,7 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useToast } from '@/components/ui/toast';
+import { useToast, type ToastPayload } from '@/components/ui/toast';
 import { useExpiringContractsQuery } from '@/features/contracts/queries';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useRosterQuery } from '@/features/players/queries';
@@ -58,7 +58,9 @@ const getInterestTier = (interest: number) => {
   return { label: 'Low', barClass: 'bg-rose-400' };
 };
 
-const VISIT_TRADE_OFFER_INTERACTION_THRESHOLD = 8;
+const VISIT_TRADE_OFFER_INTERACTION_THRESHOLD = 10;
+const FOLLOW_UP_TRADE_OFFER_INTERACTION_GAP = 10;
+const MAX_VISIT_TRADE_OFFERS = 3;
 
 const getReadableTextColor = (backgroundColor?: string | null) => {
   if (!backgroundColor) return '#ffffff';
@@ -113,6 +115,8 @@ export default function RosterPage() {
   const [activeResignPlayer, setActiveResignPlayer] = useState<PlayerRowDTO | null>(null);
   const [activeRenegotiatePlayer, setActiveRenegotiatePlayer] = useState<PlayerRowDTO | null>(null);
   const [activePlayerDetails, setActivePlayerDetails] = useState<PlayerDetailsSource | null>(null);
+  const [visibleRosterPlayers, setVisibleRosterPlayers] = useState<PlayerRowDTO[]>([]);
+  const [visibleTradeBlockPlayers, setVisibleTradeBlockPlayers] = useState<TradeBlockRow[]>([]);
   const [activeExpiringContract, setActiveExpiringContract] = useState<ExpiringContractRow | null>(
     null,
   );
@@ -130,9 +134,13 @@ export default function RosterPage() {
   });
   const [resignResult, setResignResult] = useState<ResignResultDTO | null>(null);
   const [isResignResultOpen, setIsResignResultOpen] = useState(false);
+  const [pendingResignToast, setPendingResignToast] = useState<ToastPayload | null>(null);
   const [renegotiateResult, setRenegotiateResult] = useState<RenegotiateResultDTO | null>(null);
   const [isRenegotiateResultOpen, setIsRenegotiateResultOpen] = useState(false);
   const [renegotiateResultPlayer, setRenegotiateResultPlayer] = useState<PlayerRowDTO | null>(null);
+  const [pendingRenegotiateToast, setPendingRenegotiateToast] = useState<ToastPayload | null>(
+    null,
+  );
   const [tradeBlockPlayers, setTradeBlockPlayers] = useState<TradeBlockRow[]>(() => tradeBlockData);
   const [activeTab, setActiveTab] = useState<'expiring' | 'tradeBlock' | 'roster'>('expiring');
   const { push: pushToast } = useToast();
@@ -152,8 +160,8 @@ export default function RosterPage() {
   const expiringStartedAtRef = useRef<number>(
     typeof performance !== 'undefined' ? performance.now() : 0,
   );
-  const tradeOfferShownForVisitRef = useRef<string | null>(null);
-  const lastTradeOfferAttemptBucketRef = useRef<string | null>(null);
+  const shownTradeOfferCountRef = useRef(0);
+  const lastTradeOfferAttemptKeyRef = useRef<string | null>(null);
   const [rosterInteractionCount, setRosterInteractionCount] = useState(0);
 
   const selectedTeam = useMemo(
@@ -286,8 +294,8 @@ export default function RosterPage() {
   useEffect(() => {
     if (phase !== 'resign_cut') return;
     setRosterInteractionCount(0);
-    tradeOfferShownForVisitRef.current = null;
-    lastTradeOfferAttemptBucketRef.current = null;
+    shownTradeOfferCountRef.current = 0;
+    lastTradeOfferAttemptKeyRef.current = null;
   }, [phase]);
 
   useEffect(() => {
@@ -316,24 +324,26 @@ export default function RosterPage() {
       !saveId ||
       !teamAbbr ||
       hasBlockingModalOpen ||
-      rosterInteractionCount < VISIT_TRADE_OFFER_INTERACTION_THRESHOLD
+      shownTradeOfferCountRef.current >= MAX_VISIT_TRADE_OFFERS
     ) {
       return;
     }
     const requestKey = `${saveId}:${teamAbbr}`;
-    if (tradeOfferShownForVisitRef.current === requestKey) return;
+    const requiredInteractionCount =
+      VISIT_TRADE_OFFER_INTERACTION_THRESHOLD +
+      shownTradeOfferCountRef.current * FOLLOW_UP_TRADE_OFFER_INTERACTION_GAP;
+    if (rosterInteractionCount < requiredInteractionCount) {
+      return;
+    }
 
-    const attemptBucket = Math.floor(
-      rosterInteractionCount / VISIT_TRADE_OFFER_INTERACTION_THRESHOLD,
-    );
-    const attemptKey = `${requestKey}:${attemptBucket}`;
-    if (lastTradeOfferAttemptBucketRef.current === attemptKey) return;
-    lastTradeOfferAttemptBucketRef.current = attemptKey;
+    const attemptKey = `${requestKey}:${shownTradeOfferCountRef.current}:${requiredInteractionCount}`;
+    if (lastTradeOfferAttemptKeyRef.current === attemptKey) return;
+    lastTradeOfferAttemptKeyRef.current = attemptKey;
 
     void (async () => {
       const wasShown = await requestTradeOffer({ trigger: 'visit-manage-team' });
       if (wasShown) {
-        tradeOfferShownForVisitRef.current = requestKey;
+        shownTradeOfferCountRef.current += 1;
       }
     })();
   }, [hasBlockingModalOpen, phase, requestTradeOffer, rosterInteractionCount, saveId, teamAbbr]);
@@ -445,7 +455,6 @@ export default function RosterPage() {
       });
     }
     setActiveCutPlayer(null);
-    void requestTradeOffer({ trigger: 'after-cut' });
     if (mode === 'full') {
       markManageSubstepComplete('Re-sign / Cut Players');
     }
@@ -541,6 +550,7 @@ export default function RosterPage() {
   }, [activeExpiringContract]);
 
   const handleSubmitResign = async (offer: { years: number; apy: number; guaranteed: number }) => {
+    setPendingResignToast(null);
     if (!activeResignPlayer && !activeExpiringContract) {
       return;
     }
@@ -670,26 +680,21 @@ export default function RosterPage() {
           : null;
         const showLeagueBuzz = Boolean(leagueBuzz) && (!reactionToast || Math.random() < 0.5);
 
-        window.setTimeout(() => {
-          if (showLeagueBuzz && leagueBuzz) {
-            pushToast({
-              id: `league-buzz:resign:${actionableSaveId}:${updatedPlayer.id}`,
-              kind: 'leagueBuzz',
-              durationMs: 5600,
-              leagueBuzz,
-            });
-            return;
-          }
-
-          if (reactionToast) {
-            pushToast({
-              id: `star-reaction:resign:${actionableSaveId}:${updatedPlayer.id}`,
-              kind: 'starReaction',
-              durationMs: 5200,
-              starReaction: reactionToast,
-            });
-          }
-        }, 120);
+        if (showLeagueBuzz && leagueBuzz) {
+          setPendingResignToast({
+            id: `league-buzz:resign:${actionableSaveId}:${updatedPlayer.id}`,
+            kind: 'leagueBuzz',
+            durationMs: 5600,
+            leagueBuzz,
+          });
+        } else if (reactionToast) {
+          setPendingResignToast({
+            id: `star-reaction:resign:${actionableSaveId}:${updatedPlayer.id}`,
+            kind: 'starReaction',
+            durationMs: 5200,
+            starReaction: reactionToast,
+          });
+        }
       }
       if (activeExpiringContract) {
         setExpiringContracts((prev) =>
@@ -708,9 +713,6 @@ export default function RosterPage() {
 
     setActiveResignPlayer(null);
     setActiveExpiringContract(null);
-    if (!data.accepted) {
-      void requestTradeOffer({ trigger: 'after-resign-declined' });
-    }
     return;
   };
 
@@ -719,6 +721,7 @@ export default function RosterPage() {
     apy: number;
     guaranteed: number;
   }) => {
+    setPendingRenegotiateToast(null);
     if (!activeRenegotiatePlayer) {
       return;
     }
@@ -801,7 +804,7 @@ export default function RosterPage() {
           teamAbbr,
         });
         if (leagueBuzz) {
-          pushToast({
+          setPendingRenegotiateToast({
             id: `league-buzz:renegotiate:${actionableSaveId}:${data.player.id}`,
             kind: 'leagueBuzz',
             durationMs: 5600,
@@ -819,12 +822,35 @@ export default function RosterPage() {
     }
 
     setActiveRenegotiatePlayer(null);
-    if (data.accepted) {
-      void requestTradeOffer({ trigger: 'after-renegotiate' });
-    }
     if (mode === 'full') {
       markManageSubstepComplete('Re-sign / Cut Players');
     }
+  };
+
+  const playerDetailSources = useMemo<PlayerDetailsSource[]>(() => {
+    if (activeTab === 'expiring') {
+      return filteredExpiringContracts.map((player) => ({ kind: 'expiring', player }));
+    }
+    if (activeTab === 'tradeBlock') {
+      return visibleTradeBlockPlayers.map((player) => ({ kind: 'tradeBlock', player }));
+    }
+    return visibleRosterPlayers.map((player) => ({ kind: 'roster', player }));
+  }, [activeTab, filteredExpiringContracts, visibleRosterPlayers, visibleTradeBlockPlayers]);
+
+  const closeResignResultModal = () => {
+    setIsResignResultOpen(false);
+    if (pendingResignToast) {
+      pushToast(pendingResignToast);
+    }
+    setPendingResignToast(null);
+  };
+
+  const closeRenegotiateResultModal = () => {
+    setIsRenegotiateResultOpen(false);
+    if (pendingRenegotiateToast) {
+      pushToast(pendingRenegotiateToast);
+    }
+    setPendingRenegotiateToast(null);
   };
 
   const manageSubsteps = OFFSEASON_STEPS[0]?.substeps ?? [];
@@ -1223,6 +1249,7 @@ export default function RosterPage() {
               <TradeBlockTable
                 data={tradeBlockPlayers}
                 loading={isTradeBlockLoading && tradeBlockPlayers.length === 0}
+                onVisiblePlayersChange={setVisibleTradeBlockPlayers}
                 onSelectPlayer={(player) => setActivePlayerDetails({ kind: 'tradeBlock', player })}
                 onExplorePlayer={(player) =>
                   router.push(
@@ -1237,12 +1264,13 @@ export default function RosterPage() {
           ) : (
             <div className="max-h-[70vh] overflow-y-auto">
               <PlayerTable
-                data={sortedPlayers}
-                variant="roster"
-                loading={isRosterLoading && players.length === 0}
-                onCutPlayer={setActiveCutPlayer}
-                onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
-                onRenegotiatePlayer={setActiveRenegotiatePlayer}
+              data={sortedPlayers}
+              variant="roster"
+              loading={isRosterLoading && players.length === 0}
+              onVisiblePlayersChange={setVisibleRosterPlayers}
+              onCutPlayer={setActiveCutPlayer}
+              onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
+              onRenegotiatePlayer={setActiveRenegotiatePlayer}
                 onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'roster', player })}
               />
             </div>
@@ -1253,6 +1281,7 @@ export default function RosterPage() {
           data={sortedPlayers}
           variant="roster"
           loading={isRosterLoading && players.length === 0}
+          onVisiblePlayersChange={setVisibleRosterPlayers}
           onCutPlayer={setActiveCutPlayer}
           onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
           onRenegotiatePlayer={setActiveRenegotiatePlayer}
@@ -1262,12 +1291,14 @@ export default function RosterPage() {
       <PlayerDetailsModal
         isOpen={Boolean(activePlayerDetails)}
         source={activePlayerDetails}
+        sources={playerDetailSources}
         roster={players}
         teams={teams}
         userTeamAbbr={teamAbbr}
         capSpace={capSpace}
         capLimit={capLimit}
         onClose={() => setActivePlayerDetails(null)}
+        onSelectSource={(nextSource) => setActivePlayerDetails(nextSource)}
       />
       {activeCutPlayer ? (
         <CutPlayerModal
@@ -1315,9 +1346,7 @@ export default function RosterPage() {
       <ResignOfferResultModal
         result={resignResult}
         isOpen={isResignResultOpen}
-        onClose={() => {
-          setIsResignResultOpen(false);
-        }}
+        onClose={closeResignResultModal}
       />
       {isRenegotiateResultOpen && renegotiateResult ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
@@ -1339,7 +1368,7 @@ export default function RosterPage() {
                 type="button"
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsRenegotiateResultOpen(false)}
+                onClick={closeRenegotiateResultModal}
               >
                 ✕
               </Button>
@@ -1370,7 +1399,7 @@ export default function RosterPage() {
               ”
             </div>
             <div className="mt-6 flex justify-end">
-              <Button type="button" onClick={() => setIsRenegotiateResultOpen(false)}>
+              <Button type="button" onClick={closeRenegotiateResultModal}>
                 Continue
               </Button>
             </div>

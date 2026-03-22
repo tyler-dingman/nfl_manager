@@ -14,6 +14,7 @@ import { LiveDraftBoard } from '@/components/draft/live-draft-board';
 import { PickAnnouncement } from '@/components/draft/pick-announcement';
 import { ProspectDetailsModal } from '@/components/draft/prospect-details-modal';
 import { buildRoundOneOrder, getTeamNeeds } from '@/components/draft/draft-utils';
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
@@ -101,6 +102,8 @@ function DraftRoomContent() {
   const [selectedLobbyPlayerId, setSelectedLobbyPlayerId] = React.useState<string | null>(null);
   const [isLobbyProspectModalOpen, setIsLobbyProspectModalOpen] = React.useState(false);
   const [draftControlBusy, setDraftControlBusy] = React.useState(false);
+  const [isDraftSetupOpen, setIsDraftSetupOpen] = React.useState(true);
+  const [pendingDraftRounds, setPendingDraftRounds] = React.useState<number | null>(null);
 
   const saveId = useSaveStore((state) => state.saveId);
   const [resolvedSaveId, setResolvedSaveId] = React.useState(saveId);
@@ -171,6 +174,12 @@ function DraftRoomContent() {
       setResolvedSaveId(saveId);
     }
   }, [saveId]);
+
+  React.useEffect(() => {
+    if (!session && pendingDraftRounds === null) {
+      setPendingDraftRounds(selectedDraftRounds);
+    }
+  }, [pendingDraftRounds, selectedDraftRounds, session]);
 
   React.useEffect(() => {
     setIsUserOnClock(userOnClock);
@@ -990,6 +999,7 @@ function DraftRoomContent() {
                   showSettings,
                   hasStarted: false,
                   isBusy: draftControlBusy,
+                  canStartDraft: !isDraftSetupOpen,
                   onSpeedChange: setSpeedLevel,
                   onTogglePause: togglePause,
                   onStartDraft: () => {
@@ -1001,7 +1011,7 @@ function DraftRoomContent() {
 
               {lobbyMessage ? <p className="text-sm text-muted-foreground">{lobbyMessage}</p> : null}
 
-              <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_340px]">
+              <div className="min-w-0">
                 <LiveDraftBoard
                   entries={lobbyBoardEntries}
                   teamNeeds={getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams)}
@@ -1012,76 +1022,6 @@ function DraftRoomContent() {
                   }}
                   canDraft={false}
                 />
-
-                <aside className="space-y-5">
-                  <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      War Room Setup
-                    </p>
-                    <h2 className="mt-1 text-lg font-semibold text-foreground">Set the board</h2>
-                    <div className="mt-4">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                        Draft Length
-                      </p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {[1, 2, 3, 4, 5, 6, 7].map((round) => {
-                          const isSelected = selectedDraftRounds === round;
-                          return (
-                            <button
-                              key={round}
-                              type="button"
-                              className={`min-h-10 rounded-full border px-3 py-2 text-sm font-semibold transition ${
-                                isSelected
-                                  ? 'border-slate-900 bg-slate-900 text-white'
-                                  : 'border-border bg-white text-foreground hover:bg-slate-50'
-                              }`}
-                              onClick={() => setSelectedDraftRounds(round)}
-                            >
-                              {round} {round === 1 ? 'Round' : 'Rounds'}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div className="mt-4 space-y-4 text-sm text-slate-700">
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                          Team Needs
-                        </p>
-                        <p className="mt-2">
-                          {getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams)
-                            .slice(0, 5)
-                            .join(' · ')}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                          First Pick
-                        </p>
-                        <p className="mt-2">
-                          {selectedPick ? `Pick ${selectedPick.pickNumber} · ${selectedPick.name}` : 'Loading draft order'}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                          Draft Plan
-                        </p>
-                        <p className="mt-2">
-                          This run will stop after Round {selectedDraftRounds}. Once your final pick is in,
-                          the room will jump straight into a full class recap.
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                          Room Note
-                        </p>
-                        <p className="mt-2">
-                          Premium positions and clean value should stay on your radar early. Let the board come to you.
-                        </p>
-                      </div>
-                    </div>
-                  </section>
-                </aside>
               </div>
             </div>
           ) : session.status === 'completed' ? (
@@ -1148,6 +1088,99 @@ function DraftRoomContent() {
         onSelectPlayer={setSelectedLobbyPlayerId}
         onClose={() => setIsLobbyProspectModalOpen(false)}
       />
+      {!session && isDraftSetupOpen ? (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 px-4 py-6 sm:items-center">
+          <div className="w-full max-w-xl rounded-3xl bg-white p-5 shadow-2xl sm:p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+              Draft Setup
+            </p>
+            <h2 className="mt-1 text-xl font-semibold text-foreground">Set the board</h2>
+
+            <div className="mt-5 space-y-5 text-sm text-slate-700">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Draft Length
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {[1, 2, 3, 4, 5, 6, 7].map((round) => {
+                    const isSelected = pendingDraftRounds === round;
+                    return (
+                      <button
+                        key={round}
+                        type="button"
+                        className={`min-h-10 rounded-full border px-3 py-2 text-sm font-semibold transition ${
+                          isSelected
+                            ? 'border-slate-900 bg-slate-900 text-white'
+                            : 'border-border bg-white text-foreground hover:bg-slate-50'
+                        }`}
+                        onClick={() => setPendingDraftRounds(round)}
+                      >
+                        {round === 1 ? '1 Round' : `${round} Rounds`}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Team Needs
+                </p>
+                <p className="mt-2">
+                  {getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams)
+                    .slice(0, 5)
+                    .join(' · ')}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  First Pick
+                </p>
+                <p className="mt-2">
+                  {selectedPick
+                    ? `Pick ${selectedPick.pickNumber} · ${selectedPick.name}`
+                    : 'Loading draft order'}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Draft Plan
+                </p>
+                <p className="mt-2">
+                  This run will stop after Round {pendingDraftRounds ?? selectedDraftRounds}. Once
+                  your final pick is in, the room will jump straight into a full class recap.
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Room Note
+                </p>
+                <p className="mt-2">
+                  Premium positions and clean value should stay on your radar early. Let the board
+                  come to you.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <Button
+                type="button"
+                onClick={() => {
+                  if (!pendingDraftRounds) return;
+                  setSelectedDraftRounds(pendingDraftRounds);
+                  setIsDraftSetupOpen(false);
+                }}
+                disabled={!pendingDraftRounds}
+              >
+                Continue
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </AppShell>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeftRight, ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import { PositionFilterBar } from '@/components/player-table';
@@ -61,11 +61,13 @@ export function TradeBlockTable({
   loading = false,
   onExplorePlayer,
   onSelectPlayer,
+  onVisiblePlayersChange,
 }: {
   data: TradeBlockRow[];
   loading?: boolean;
   onExplorePlayer: (player: TradeBlockRow) => void;
   onSelectPlayer?: (player: TradeBlockRow) => void;
+  onVisiblePlayersChange?: (players: TradeBlockRow[]) => void;
 }) {
   const teams = useTeamStore((state) => state.teams);
   const userTeamAbbr = useSaveStore((state) => state.teamAbbr);
@@ -140,6 +142,10 @@ export function TradeBlockTable({
         return sort.desc ? -result : result;
       });
   }, [data, positionFilter, searchQuery, sort]);
+
+  useEffect(() => {
+    onVisiblePlayersChange?.(filteredPlayers);
+  }, [filteredPlayers, onVisiblePlayersChange]);
 
   const toggleSort = (key: TradeBlockSortKey) => {
     setSort((current) =>

@@ -7,6 +7,7 @@ export type SaveHeaderDTO = {
   id: string;
   teamAbbr: string;
   year: number;
+  freeAgencyWave?: 1 | 2 | 3;
   capSpace: number;
   capLimit: number;
   rosterCount: number;
@@ -21,6 +22,7 @@ export type SaveBootstrapDTO = {
   saveId: string;
   teamAbbr: string;
   year: number;
+  freeAgencyWave?: 1 | 2 | 3;
   capSpace: number;
   capLimit: number;
   rosterCount: number;

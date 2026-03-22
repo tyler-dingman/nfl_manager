@@ -88,13 +88,13 @@ type TradeOfferApiResponse =
 const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
 
 const desiredOfferCount = (pickOverall: number) => {
-  if (pickOverall <= 10) return 3;
-  if (pickOverall <= 24) return 2;
-  return 1;
+  if (pickOverall <= 10) return 4;
+  if (pickOverall <= 24) return 3;
+  return 2;
 };
 
 const buildExpiryMs = (pickOverall: number, index: number) => {
-  const base = pickOverall <= 10 ? 28000 : pickOverall <= 24 ? 22000 : 18000;
+  const base = pickOverall <= 10 ? 38000 : pickOverall <= 24 ? 30000 : 24000;
   return base - index * 2500;
 };
 
@@ -178,6 +178,16 @@ export function ActiveDraftRoom({
   const currentPick = session.picks[session.currentPickIndex];
   const onClock =
     currentPick?.ownerTeamAbbr === session.userTeamAbbr && !currentPick?.selectedPlayerId;
+  const nextUserPick = React.useMemo(
+    () =>
+      session.picks.find(
+        (pick) =>
+          pick.ownerTeamAbbr === session.userTeamAbbr &&
+          !pick.selectedPlayerId &&
+          pick.overall >= (currentPick?.overall ?? 1),
+      ) ?? null,
+    [currentPick?.overall, session.picks, session.userTeamAbbr],
+  );
   const [draftFeed, setDraftFeed] = React.useState<DraftEventDTO[]>([]);
   const [draftOffers, setDraftOffers] = React.useState<Array<TradeOfferDTO & { expiresAt: number }>>(
     [],
@@ -247,12 +257,6 @@ export function ActiveDraftRoom({
     lastRunRef.current = null;
     offersRequestRef.current = null;
   }, [session.id]);
-
-  React.useEffect(() => {
-    setDraftOffers((current) =>
-      current.filter((offer) => offer.expiresAt > Date.now() && offer.trigger === `pick-${currentPick?.overall ?? 0}`),
-    );
-  }, [currentPick?.id, currentPick?.overall]);
 
   const bestAvailable = React.useMemo(() => {
     return session.prospects
@@ -724,7 +728,16 @@ export function ActiveDraftRoom({
   }, [activeRuns, buildAlertMessage, pushAlert, pushToast, session.currentPickIndex, session.id]);
 
   React.useEffect(() => {
-    if (!saveId || !onClock || !currentPick || isUserDraftModalOpen) {
+    if (!saveId || !currentPick || isUserDraftModalOpen || !nextUserPick) {
+      return;
+    }
+
+    const isEarlyPressureWindow =
+      currentPick.overall >= 3 &&
+      currentPick.overall < nextUserPick.overall &&
+      (currentPick.overall % 3 === 0 || nextUserPick.overall - currentPick.overall <= 6);
+
+    if (!onClock && !isEarlyPressureWindow) {
       return;
     }
 
@@ -763,14 +776,20 @@ export function ActiveDraftRoom({
         return;
       }
 
-      const limited = data.offers.slice(0, desiredOfferCount(currentPick.overall));
       const createdAt = Date.now();
-      setDraftOffers(
-        limited.map((offer, index) => ({
-          ...offer,
-          expiresAt: createdAt + buildExpiryMs(currentPick.overall, index),
-        })),
-      );
+      const limited = data.offers.slice(0, desiredOfferCount(currentPick.overall));
+      setDraftOffers((current) => {
+        const next = [
+          ...current.filter((offer) => offer.expiresAt > createdAt),
+          ...limited.map((offer, index) => ({
+            ...offer,
+            expiresAt: createdAt + buildExpiryMs(currentPick.overall, index),
+          })),
+        ];
+        return Array.from(new Map(next.map((offer) => [offer.id, offer])).values())
+          .sort((left, right) => left.expiresAt - right.expiresAt)
+          .slice(0, 4);
+      });
     };
 
     void loadOffers();
@@ -778,6 +797,7 @@ export function ActiveDraftRoom({
     currentPick,
     draftSessionId,
     isUserDraftModalOpen,
+    nextUserPick,
     onClock,
     saveId,
     session.currentPickIndex,
@@ -810,7 +830,7 @@ export function ActiveDraftRoom({
             secondsRemaining={onClock ? secondsRemaining : null}
             progressPct={onClock ? progressPct : 100}
             isCritical={isCritical}
-            activeTradeOfferCount={onClock ? draftOffers.length : 0}
+            activeTradeOfferCount={draftOffers.length}
           />
         ) : null}
 

@@ -7,6 +7,28 @@ import { getSaveStateResult, hydrateOffseasonFreeAgencyState } from '@/server/ap
 import { calculatePlayerInterestForTeam } from '@/lib/signing-interest';
 import { buildInterestQuote } from '@/lib/expiring-interest-quotes';
 
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
+const hashId = (value: string) =>
+  value.split('').reduce((total, char) => total + char.charCodeAt(0), 0);
+
+const shapeInterestScore = (playerId: string, rawInterest: number) => {
+  const hash = hashId(playerId);
+  const bucket = hash % 3;
+  const variance = (hash % 9) - 4;
+  const normalizedRaw = clamp(rawInterest, 0, 100);
+
+  if (bucket === 0) {
+    return clamp(18 + Math.round((normalizedRaw / 100) * 14) + variance, 12, 39);
+  }
+
+  if (bucket === 1) {
+    return clamp(44 + Math.round((normalizedRaw / 100) * 18) + variance, 40, 69);
+  }
+
+  return clamp(72 + Math.round((normalizedRaw / 100) * 20) + variance, 70, 96);
+};
+
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const saveId = searchParams.get('saveId');
@@ -47,7 +69,7 @@ export const GET = async (request: Request) => {
         ...row,
         rating: row.rating ?? sourceRosterPlayer?.rating,
         headshotUrl: row.headshotUrl ?? sourceRosterPlayer?.headshotUrl ?? null,
-        interestPct: interestBreakdown.finalInterest,
+        interestPct: shapeInterestScore(row.id, interestBreakdown.finalInterest),
       };
     })
     .map((row, _, rows) => {

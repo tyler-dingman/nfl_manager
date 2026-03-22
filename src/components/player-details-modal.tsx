@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 import PlayerTypeIcon from '@/components/player-type-icon';
 import { Button } from '@/components/ui/button';
@@ -14,12 +14,14 @@ import type { TeamDTO } from '@/types/team';
 type PlayerDetailsModalProps = {
   isOpen: boolean;
   source: PlayerDetailsSource | null;
+  sources?: PlayerDetailsSource[];
   roster: PlayerRowDTO[];
   teams: Array<TeamDTO | StoreTeam>;
   userTeamAbbr?: string | null;
   capSpace: number;
   capLimit: number;
   onClose: () => void;
+  onSelectSource?: (source: PlayerDetailsSource) => void;
 };
 
 const tierTextClass: Record<'Low' | 'Medium' | 'High', string> = {
@@ -77,17 +79,29 @@ const renderHeroAvatar = (name: string, headshotUrl: string | null) => {
   );
 };
 
+const getSourceId = (source: PlayerDetailsSource | null) => source?.player.id ?? null;
+
 export default function PlayerDetailsModal({
   isOpen,
   source,
+  sources = [],
   roster,
   teams,
   userTeamAbbr,
   capSpace,
   capLimit,
   onClose,
+  onSelectSource,
 }: PlayerDetailsModalProps) {
   const closeButtonRef = React.useRef<HTMLButtonElement>(null);
+  const currentSourceId = React.useMemo(() => getSourceId(source), [source]);
+  const currentIndex = React.useMemo(
+    () => sources.findIndex((entry) => getSourceId(entry) === currentSourceId),
+    [currentSourceId, sources],
+  );
+  const previousSource = currentIndex > 0 ? sources[currentIndex - 1] : null;
+  const nextSource =
+    currentIndex >= 0 && currentIndex < sources.length - 1 ? sources[currentIndex + 1] : null;
 
   React.useEffect(() => {
     if (!isOpen) return;
@@ -95,6 +109,14 @@ export default function PlayerDetailsModal({
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
+        return;
+      }
+      if (event.key === 'ArrowLeft' && previousSource && onSelectSource) {
+        onSelectSource(previousSource);
+        return;
+      }
+      if (event.key === 'ArrowRight' && nextSource && onSelectSource) {
+        onSelectSource(nextSource);
       }
     };
 
@@ -107,7 +129,7 @@ export default function PlayerDetailsModal({
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleEscape);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, nextSource, onClose, onSelectSource, previousSource]);
 
   const model = React.useMemo(() => {
     if (!isOpen || !source) return null;
@@ -143,16 +165,42 @@ export default function PlayerDetailsModal({
               {model.name}
             </h2>
           </div>
-          <Button
-            ref={closeButtonRef}
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            aria-label="Close player details"
-          >
-            <X className="h-4 w-4" />
-          </Button>
+          <div className="flex items-center gap-1">
+            {onSelectSource ? (
+              <>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => previousSource && onSelectSource(previousSource)}
+                  disabled={!previousSource}
+                  aria-label="Previous player"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => nextSource && onSelectSource(nextSource)}
+                  disabled={!nextSource}
+                  aria-label="Next player"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </>
+            ) : null}
+            <Button
+              ref={closeButtonRef}
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              aria-label="Close player details"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">

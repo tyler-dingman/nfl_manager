@@ -314,7 +314,7 @@ export default function ContractOfferModal({
         <div className="border-t border-border px-4 py-4 sm:px-6">
           <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <Button type="button" variant="outline" className="h-10" onClick={onClose}>
-              Cancel
+              {response ? 'Continue' : 'Cancel'}
             </Button>
             <Button type="button" className="h-10" disabled={isSubmitting} onClick={handleSubmit}>
               {isSubmitting ? 'Sending...' : submitLabel}

@@ -83,6 +83,13 @@ export type PlayerRowDTO = {
   isUnsigned?: boolean;
   averagePerYear?: number | null;
   expectedAnnualValue?: number | null;
+  originalAskAnnualValue?: number | null;
+  currentAskAnnualValue?: number | null;
+  askReductionAmount?: number | null;
+  askReductionPct?: number | null;
+  signedWave?: 1 | 2 | 3 | null;
+  isSignedByUser?: boolean;
+  isSignedByCpu?: boolean;
   marketTier?: 'elite' | 'starter' | 'depth' | 'fringe';
   marketStatus?: 'unsigned' | 'available' | 'signed' | 'removed';
   availabilityStatus?: 'available' | 'signed' | 'removed';

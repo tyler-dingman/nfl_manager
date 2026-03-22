@@ -425,8 +425,8 @@ const generateRosterOffers = (
 const buildDraftPickMovePackage = (teamAbbr: string, pickNumber: number, wantsToMoveUp: boolean) => {
   if (wantsToMoveUp) {
     return [
-      buildPickAsset({ year: 2026, round: 1, overallSlot: pickNumber + 5, owningTeamAbbr: teamAbbr }),
-      buildPickAsset({ year: 2027, round: 3, projectedRound: 3, owningTeamAbbr: teamAbbr }),
+      buildPickAsset({ year: 2026, round: 1, overallSlot: Math.min(32, pickNumber + 4), owningTeamAbbr: teamAbbr }),
+      buildPickAsset({ year: 2026, round: 2, overallSlot: 45, owningTeamAbbr: teamAbbr }),
     ];
   }
   return [
@@ -444,22 +444,60 @@ const generateDraftOffers = (
 ): TradeOfferCandidate[] => {
   const candidates: TradeOfferCandidate[] = [];
   const userPickOverall = Math.max(1, pickIndex + 1);
-  const nearbyTeams = TEAM_LIST.filter((team) => team.abbr !== userTeam.team.abbr).slice(0, 10);
+  const nearbyTeams = TEAM_LIST.filter((team) => team.abbr !== userTeam.team.abbr).slice(0, 12);
+  const draftYear = state.header.year;
+  const rng = createRng(`${state.header.id}:draft:${trigger}:${userPickOverall}`);
 
   nearbyTeams.forEach((team, index) => {
     const aiTeam = contexts.get(team.abbr);
     if (!aiTeam) return;
 
-    const wantsToMoveUp = index % 2 === 0;
-    const incomingAssets = buildDraftPickMovePackage(team.abbr, userPickOverall, wantsToMoveUp);
-    const outgoingAssets = [
-      buildPickAsset({
-        year: 2026,
-        round: 1,
-        overallSlot: userPickOverall,
-        owningTeamAbbr: userTeam.team.abbr,
-      }),
-    ];
+    const wantsToMoveUp = index % 5 !== 4;
+    const incomingAssets = wantsToMoveUp
+      ? buildDraftPickMovePackage(team.abbr, userPickOverall, true)
+      : [
+          buildPickAsset({
+            year: draftYear,
+            round: 1,
+            overallSlot: Math.max(1, userPickOverall - 4),
+            owningTeamAbbr: team.abbr,
+          }),
+        ];
+    const outgoingAssets = wantsToMoveUp
+      ? [
+          buildPickAsset({
+            year: draftYear,
+            round: 1,
+            overallSlot: userPickOverall,
+            owningTeamAbbr: userTeam.team.abbr,
+          }),
+          buildPickAsset({
+            year: draftYear,
+            round: 2,
+            overallSlot: 41 + (index % 10),
+            owningTeamAbbr: userTeam.team.abbr,
+          }),
+          buildPickAsset({
+            year: draftYear,
+            round: 3,
+            overallSlot: 73 + (index % 12),
+            owningTeamAbbr: userTeam.team.abbr,
+          }),
+        ]
+      : [
+          buildPickAsset({
+            year: draftYear,
+            round: 1,
+            overallSlot: userPickOverall,
+            owningTeamAbbr: userTeam.team.abbr,
+          }),
+          buildPickAsset({
+            year: 2027,
+            round: 4,
+            projectedRound: 4,
+            owningTeamAbbr: userTeam.team.abbr,
+          }),
+        ];
 
     const candidate = buildOfferCandidate(
       'draft',
@@ -470,11 +508,11 @@ const generateDraftOffers = (
       incomingAssets,
       outgoingAssets,
       wantsToMoveUp
-        ? `${aiTeam.team.name} wants to jump up for Pick ${userPickOverall}.`
-        : `${aiTeam.team.name} will move up and send back a nearby first.`,
+        ? `${aiTeam.team.name} wants to jump up for Pick ${userPickOverall} and is pushing for your Day 2 capital.`
+        : `${aiTeam.team.name} will move you up, but they want a premium return.`,
       wantsToMoveUp
-        ? 'They think a premium player is about to come off the board.'
-        : 'They are shopping draft position and future flexibility.',
+        ? 'They think a premium player is about to come off the board and are pricing the move aggressively.'
+        : 'They are willing to send the earlier pick, but only if you pay to climb.',
       `Pick ${userPickOverall} is on the clock — ${aiTeam.team.name} calling`,
       `${state.header.id}:draft:${trigger}:${team.abbr}:${index}`,
       [`draft-pick:${userPickOverall}`, `move-up:${String(wantsToMoveUp)}`],
@@ -485,12 +523,15 @@ const generateDraftOffers = (
     }
   });
 
-  const splashTeam = contexts
-    .values()
-    .find((context) =>
-      context.team.abbr !== userTeam.team.abbr &&
-      context.roster.some((player) => (resolvePlayerRating(player) ?? 0) >= 80),
-    );
+  const splashTeam =
+    rng() < 0.1
+      ? contexts
+          .values()
+          .find((context) =>
+            context.team.abbr !== userTeam.team.abbr &&
+            context.roster.some((player) => (resolvePlayerRating(player) ?? 0) >= 80),
+          )
+      : undefined;
   if (splashTeam) {
     const splashPlayer = splashTeam.roster
       .filter((player) => (resolvePlayerRating(player) ?? 0) >= 80)
@@ -504,11 +545,11 @@ const generateDraftOffers = (
         'splash_player_pick',
         [
           buildTradePlayerAsset(splashPlayer, buildEvaluationContext('draft', userTeam.team.abbr, userTeam)),
-          buildPickAsset({ year: 2026, round: 2, overallSlot: 50, owningTeamAbbr: splashTeam.team.abbr }),
+          buildPickAsset({ year: draftYear, round: 2, overallSlot: 50, owningTeamAbbr: splashTeam.team.abbr }),
         ],
         [
           buildPickAsset({
-            year: 2026,
+            year: draftYear,
             round: 1,
             overallSlot: userPickOverall,
             owningTeamAbbr: userTeam.team.abbr,

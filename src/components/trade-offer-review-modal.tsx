@@ -12,14 +12,13 @@ import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { useTradeOfferStore } from '@/features/trades/trade-offer-store';
 import { apiFetch } from '@/lib/api';
-import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
 import { getPlayerTypeIndicator } from '@/lib/player-type-indicator';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { dispatchSaveDataUpdated } from '@/lib/save-sync-events';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import type { PlayerDetailsSource } from '@/lib/player-details';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
-import { useToast } from '@/components/ui/toast';
+import { useToast, type ToastPayload } from '@/components/ui/toast';
 import { resolvePlayerRating } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 import type { PlayerRowDTO } from '@/types/player';
@@ -825,8 +824,6 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       teamAbbr: data.header.teamAbbr,
       reason: 'trade-offer-accepted',
     });
-    const previousRoster = roster;
-
     const acquiredPlayerIds = new Set(
       [
         ...offer.incoming.assets,
@@ -839,6 +836,8 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       .filter((player) => acquiredPlayerIds.has(player.id))
       .sort((left, right) => (resolvePlayerRating(right) ?? -1) - (resolvePlayerRating(left) ?? -1))[0];
 
+    let postCloseToast: ToastPayload | null = null;
+
     if (acquiredPlayer) {
       const reactionToast = buildStarReactionToastPayload({
         incomingPlayer: acquiredPlayer,
@@ -848,32 +847,12 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
         teamName: selectedTeam?.name,
       });
       if (reactionToast) {
-        pushToast({
+        postCloseToast = {
           id: `star-reaction:trade-offer:${actionableSaveId}:${offer.id}:${acquiredPlayer.id}`,
           kind: 'starReaction',
           durationMs: 5200,
           starReaction: reactionToast,
-        });
-      }
-      const chainReaction = generateChainReactionEffects({
-        beforeRoster: previousRoster,
-        afterRoster: data.roster,
-        beforeCapSpace: capSpace,
-        afterCapSpace: data.header.capSpace,
-        moveType: 'trade',
-        player: acquiredPlayer,
-      });
-      if (chainReaction) {
-        pushToast({
-          id: `chain-reaction:trade-offer:${actionableSaveId}:${offer.id}:${acquiredPlayer.id}`,
-          kind: 'chainReaction',
-          durationMs: 5600,
-          chainReaction: {
-            title: 'Ripple Effects',
-            subtitle: 'What this trade changes',
-            effects: chainReaction.effects.map((effect) => effect.message),
-          },
-        });
+        };
       }
     }
 
@@ -916,6 +895,11 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
 
     clearActive();
     onClose();
+    if (postCloseToast) {
+      window.setTimeout(() => {
+        pushToast(postCloseToast as ToastPayload);
+      }, 80);
+    }
     setIsSubmitting(false);
   };
 

@@ -1,7 +1,7 @@
 import type { TradeOfferDTO, TradeOfferPhase } from '@/types/trade-offers';
 
 export const TRADE_OFFER_LIMITS: Record<TradeOfferPhase, number> = {
-  manage: 1,
+  manage: 3,
   freeAgency: 1,
   draft: 4,
 };

@@ -11,6 +11,7 @@ type SaveStoreState = {
   teamId: string;
   teamAbbr: string;
   franchiseYear: number;
+  freeAgencyWave: 1 | 2 | 3;
   capSpace: number;
   startingCapSpace: number | null;
   startingOverall: number | null;
@@ -64,6 +65,7 @@ type SaveStoreState = {
   setActiveDraftSessionId: (sessionId: string | null, saveIdOverride?: string) => void;
   setIsUserOnClock: (value: boolean) => void;
   setSelectedDraftRounds: (rounds: number) => void;
+  setFreeAgencyWave: (wave: 1 | 2 | 3) => void;
   setLatestDraftRecap: (recap: SaveStoreState['latestDraftRecap']) => void;
   setLatestSeasonRecap: (recap: SeasonRecapSnapshot | null) => void;
   appendSeasonHistory: (recap: SeasonRecapSnapshot) => void;
@@ -74,11 +76,32 @@ type SaveStoreState = {
   ensureSaveId: () => Promise<string | null>;
 };
 
-const DEFAULT_STATE = {
+const DEFAULT_STATE: Omit<
+  SaveStoreState,
+  | 'setHasHydrated'
+  | 'setSaveLoadError'
+  | 'setSaveHeader'
+  | 'setRunBaseline'
+  | 'setRoster'
+  | 'setActiveTeam'
+  | 'setActiveDraftSessionId'
+  | 'setIsUserOnClock'
+  | 'setSelectedDraftRounds'
+  | 'setFreeAgencyWave'
+  | 'setLatestDraftRecap'
+  | 'setLatestSeasonRecap'
+  | 'appendSeasonHistory'
+  | 'clearSave'
+  | 'setPhase'
+  | 'advancePhase'
+  | 'refreshSaveHeader'
+  | 'ensureSaveId'
+> = {
   saveId: '',
   teamId: '',
   teamAbbr: '',
   franchiseYear: 2026,
+  freeAgencyWave: 1,
   capSpace: 0,
   startingCapSpace: null,
   startingOverall: null,
@@ -142,6 +165,7 @@ export const useSaveStore = create<SaveStoreState>()(
           teamId: teamId ?? state.teamId,
           teamAbbr,
           franchiseYear: header.year,
+          freeAgencyWave: (header.freeAgencyWave ?? state.freeAgencyWave ?? 1) as 1 | 2 | 3,
           capSpace,
           startingCapSpace:
             state.saveId && state.saveId === saveId
@@ -206,6 +230,11 @@ export const useSaveStore = create<SaveStoreState>()(
           ...state,
           selectedDraftRounds: Math.max(1, Math.min(7, Math.round(rounds))),
         })),
+      setFreeAgencyWave: (wave) =>
+        set((state) => ({
+          ...state,
+          freeAgencyWave: Math.max(1, Math.min(3, Math.round(wave))) as 1 | 2 | 3,
+        })),
       setLatestDraftRecap: (recap) => set((state) => ({ ...state, latestDraftRecap: recap })),
       setLatestSeasonRecap: (recap) => set((state) => ({ ...state, latestSeasonRecap: recap })),
       appendSeasonHistory: (recap) =>
@@ -226,6 +255,7 @@ export const useSaveStore = create<SaveStoreState>()(
             teamId: '',
             teamAbbr: '',
             franchiseYear: 2026,
+            freeAgencyWave: 1,
             capSpace: 0,
             startingCapSpace: null,
             startingOverall: null,

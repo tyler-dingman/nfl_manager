@@ -31,6 +31,38 @@ const ROUND_TRANSITION_MESSAGES = [
 
 const JIM_SCHWARTZ_AVATAR_URL = '/images/jim_schwartz.png';
 
+const FREE_AGENCY_WAVE_SIGNED_MESSAGES = {
+  1: [
+    '{teamName} is loading up. They signed {player1} right out of the gate.',
+    '{teamName} wasted no time. {player1}{andPlayer2Text} are in.',
+    '{teamName} came out aggressive in free agency. {player1} headlines the early haul.',
+    '{teamName} made noise early. {player1}{andPlayer2Text} gives them immediate help.',
+    '{teamName} attacked the market fast. Keep an eye on this group after adding {player1}.',
+  ],
+  2: [
+    '{teamName} came away with some smart value at positions of need.',
+    '{teamName} stayed patient and found value in Wave 2.',
+    '{teamName} didn’t force it early, but they found useful help in the second wave.',
+    '{teamName} may not have chased headlines, but they improved in Wave 2.',
+    '{teamName} found some nice value as the market settled.',
+    '{teamName} found value with {player1}{andPlayer2Text} as the market cooled.',
+    '{teamName} addressed needs without overspending in Wave 2.',
+  ],
+} as const;
+
+const FREE_AGENCY_WAVE_QUIET_MESSAGES = {
+  1: [
+    '{teamName} stayed quiet during the opening wave. Let’s see if patience pays off.',
+    '{teamName} passed on the early frenzy. Wave 2 could be where they strike.',
+    '{teamName} sat out the first push. Plenty of needs still to solve.',
+  ],
+  2: [
+    '{teamName} is still looking for answers as the market thins out.',
+    '{teamName} heads into the final wave with work still to do.',
+    '{teamName} didn’t make a splash yet. Final wave will be important.',
+  ],
+} as const;
+
 const MESSAGE_TEMPLATES: Record<LeagueBuzzEventType, string[]> = {
   capClearingCut: [
     '{teamName} made a hard decision by cutting {playerName}, but it saves {capAmount} in much needed cap space.',
@@ -150,6 +182,55 @@ export const generateRoundTransitionBuzzToast = ({
       .replaceAll('{roundNumber}', String(roundNumber))
       .replaceAll('{nextRound}', String(nextRound))
       .replaceAll('{playerLastName}', fallingPlayerLastName ?? 'A prospect'),
+    avatarUrl: JIM_SCHWARTZ_AVATAR_URL,
+    likes: formatCompact(likesBase),
+    reposts: formatCompact(repostsBase),
+    comments: formatCompact(commentsBase),
+  };
+};
+
+export const generateFreeAgencyWaveTransitionToast = ({
+  teamName,
+  fromWave,
+  nextWave,
+  signedPlayers,
+  teamAbbr,
+}: {
+  teamName: string;
+  fromWave: 1 | 2;
+  nextWave: 2 | 3;
+  signedPlayers: Array<{
+    firstName: string;
+    lastName: string;
+    rating?: number | null;
+    marketValue?: number | null;
+  }>;
+  teamAbbr?: string | null;
+}): LeagueBuzzToastPayload | null => {
+  const player1 = signedPlayers[0];
+  const player2 = signedPlayers[1];
+  const signedTemplatePool =
+    fromWave === 1 ? FREE_AGENCY_WAVE_SIGNED_MESSAGES[1] : FREE_AGENCY_WAVE_SIGNED_MESSAGES[2];
+  const quietTemplatePool =
+    fromWave === 1 ? FREE_AGENCY_WAVE_QUIET_MESSAGES[1] : FREE_AGENCY_WAVE_QUIET_MESSAGES[2];
+  const seed = `free-agency-wave:${teamAbbr ?? ''}:${teamName}:${fromWave}:${nextWave}:${player1?.lastName ?? ''}:${player2?.lastName ?? ''}`;
+  const templatePool = signedPlayers.length > 0 ? signedTemplatePool : quietTemplatePool;
+  const template = templatePool[hashString(seed) % templatePool.length] ?? templatePool[0];
+  const andPlayer2Text = player2 ? ` and ${player2.firstName} ${player2.lastName}` : '';
+  const likesBase = 1600 + (hashString(`${seed}:likes`) % 4600);
+  const repostsBase = 220 + (hashString(`${seed}:reposts`) % 1500);
+  const commentsBase = 90 + (hashString(`${seed}:comments`) % 950);
+
+  return {
+    displayName: 'Jim Schwartz',
+    subtitle:
+      getTeamFlavorHandle(teamAbbr) !== 'Franchise Football'
+        ? `League Buzz · ${getTeamFlavorHandle(teamAbbr)}`
+        : 'League Buzz',
+    message: template
+      .replaceAll('{teamName}', teamName)
+      .replaceAll('{player1}', player1 ? `${player1.firstName} ${player1.lastName}` : 'the right pieces')
+      .replaceAll('{andPlayer2Text}', andPlayer2Text),
     avatarUrl: JIM_SCHWARTZ_AVATAR_URL,
     likes: formatCompact(likesBase),
     reposts: formatCompact(repostsBase),

@@ -10,7 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowLeftRight, ArrowUpDown, Loader2, MoreHorizontal } from 'lucide-react';
+import { ArrowDown, ArrowLeftRight, ArrowUpDown, Loader2, MoreHorizontal } from 'lucide-react';
 
 import PlayerRowActions, { type PlayerRowActionsVariant } from '@/components/player-row-actions';
 import { Badge } from '@/components/ui/badge';
@@ -102,9 +102,10 @@ type PlayerTableProps = {
   data: PlayerRowDTO[];
   variant: PlayerTableVariant;
   loading?: boolean;
-  freeAgentView?: 'available' | 'signed';
+  freeAgentView?: 'available' | 'userSigned' | 'signed';
   topSlot?: React.ReactNode;
   onPlayerSelect?: (player: PlayerRowDTO) => void;
+  onVisiblePlayersChange?: (players: PlayerRowDTO[]) => void;
   onTheClockForUserTeam?: boolean;
   onCutPlayer?: (player: PlayerRowDTO) => void;
   onTradePlayer?: (player: PlayerRowDTO) => void;
@@ -145,6 +146,7 @@ const formatSignedMarketValue = (player: PlayerRowDTO) => {
 
 const formatContractAsk = (player: PlayerRowDTO) => {
   const expectedApy =
+    player.currentAskAnnualValue ??
     player.expectedAnnualValue ??
     player.freeAgentProfile?.expectedAnnualValue ??
     (typeof player.marketValue === 'number' ? player.marketValue / 1_000_000 : null);
@@ -161,10 +163,14 @@ const formatContractAsk = (player: PlayerRowDTO) => {
 
 const isSignedPlayer = (player: PlayerRowDTO) =>
   player.status.toLowerCase() === 'signed' ||
+  Boolean(player.isSignedByUser) ||
+  Boolean(player.isSignedByCpu) ||
   player.availabilityStatus === 'signed' ||
   player.marketStatus === 'signed' ||
   player.freeAgentProfile?.availabilityStatus === 'signed' ||
   player.freeAgentProfile?.marketStatus === 'signed';
+const isUserSignedPlayer = (player: PlayerRowDTO) => Boolean(player.isSignedByUser);
+const isCpuSignedPlayer = (player: PlayerRowDTO) => Boolean(player.isSignedByCpu);
 const isCutPlayer = (player: PlayerRowDTO) => player.status.toLowerCase() === 'cut';
 
 const parseCapHitValue = (player: PlayerRowDTO) => {
@@ -249,6 +255,7 @@ export function PlayerTable({
   freeAgentView = 'available',
   topSlot,
   onPlayerSelect,
+  onVisiblePlayersChange,
   onTheClockForUserTeam = false,
   onCutPlayer,
   onTradePlayer,
@@ -304,6 +311,7 @@ export function PlayerTable({
     if (variant === 'freeAgent') {
       setSorting([
         { id: 'ratingSort', desc: true },
+        { id: 'contractAsk', desc: false },
         { id: 'name', desc: false },
       ]);
       return;
@@ -327,7 +335,7 @@ export function PlayerTable({
   const signedData = React.useMemo(() => {
     if (loading || variant !== 'freeAgent') return [];
     return filteredData
-      .filter((player) => isSignedPlayer(player))
+      .filter((player) => isCpuSignedPlayer(player))
       .sort((a, b) => {
         const aSignedAt = a.signedAt ? Date.parse(a.signedAt) : 0;
         const bSignedAt = b.signedAt ? Date.parse(b.signedAt) : 0;
@@ -344,9 +352,21 @@ export function PlayerTable({
     return filteredData.filter((player) => !isSignedPlayer(player));
   }, [filteredData, loading, variant]);
 
+  const userSignedData = React.useMemo(() => {
+    if (loading || variant !== 'freeAgent') return [];
+    return filteredData
+      .filter((player) => isUserSignedPlayer(player))
+      .sort((a, b) => {
+        const aSignedAt = a.signedAt ? Date.parse(a.signedAt) : 0;
+        const bSignedAt = b.signedAt ? Date.parse(b.signedAt) : 0;
+        if (aSignedAt !== bSignedAt) return bSignedAt - aSignedAt;
+        return formatName(a).localeCompare(formatName(b));
+      });
+  }, [filteredData, loading, variant]);
+
   const columns = React.useMemo<PlayerColumnDef[]>(() => {
     if (variant === 'draft') {
-      return [
+      const freeAgentColumns: PlayerColumnDef[] = [
         {
           accessorKey: 'rank',
           header: ({ column }) => <SortableHeader column={column} label="Rank" />,
@@ -429,6 +449,10 @@ export function PlayerTable({
           },
         },
       ];
+
+      return freeAgentView === 'signed' || freeAgentView === 'userSigned'
+        ? freeAgentColumns.filter((column) => getColumnId(column) !== 'actions')
+        : freeAgentColumns;
     }
 
     if (variant === 'freeAgent') {
@@ -507,12 +531,40 @@ export function PlayerTable({
         {
           id: 'contractAsk',
           header: ({ column }) => <SortableHeader column={column} label="Ask" />,
-          accessorFn: (row) => row.expectedAnnualValue ?? row.marketValue ?? 0,
+          accessorFn: (row) => row.currentAskAnnualValue ?? row.expectedAnnualValue ?? row.marketValue ?? 0,
+          cell: ({ row }) => {
+            const player = row.original;
+            if (isSignedPlayer(player)) {
+              return (
+                <span className="text-sm text-muted-foreground">
+                  {formatSignedMarketValue(player) ?? '—'}
+                </span>
+              );
+            }
+
+            return (
+              <div className="flex flex-col leading-tight">
+                <span className="text-sm font-semibold text-foreground">
+                  {formatContractAsk(player)}
+                </span>
+                {player.askReductionAmount && player.askReductionAmount > 0 ? (
+                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-rose-500">
+                    <ArrowDown className="h-3 w-3" />
+                    ${player.askReductionAmount.toFixed(1)}M
+                  </span>
+                ) : null}
+              </div>
+            );
+          },
+        },
+        {
+          id: 'signedTeam',
+          header: ({ column }) => <SortableHeader column={column} label="Team" />,
+          accessorFn: (row) => row.signedTeamAbbr ?? row.currentTeamAbbr ?? row.teamAbbr ?? '',
+          meta: { mobileHidden: true },
           cell: ({ row }) => (
             <span className="text-sm text-muted-foreground">
-              {isSignedPlayer(row.original)
-                ? (formatSignedMarketValue(row.original) ?? '—')
-                : formatContractAsk(row.original)}
+              {row.original.signedTeamAbbr ?? row.original.currentTeamAbbr ?? '—'}
             </span>
           ),
         },
@@ -744,6 +796,7 @@ export function PlayerTable({
     onSelectTradePlayer,
     onTheClockForUserTeam,
     onTradePlayer,
+    freeAgentView,
     rosterScoutingTags,
     variant,
   ]);
@@ -794,8 +847,14 @@ export function PlayerTable({
     if (variant !== 'freeAgent') {
       return filteredData;
     }
-    return freeAgentView === 'signed' ? signedData : availableData;
-  }, [availableData, filteredData, freeAgentView, signedData, variant]);
+    if (freeAgentView === 'signed') return signedData;
+    if (freeAgentView === 'userSigned') return userSignedData;
+    return availableData;
+  }, [availableData, filteredData, freeAgentView, signedData, userSignedData, variant]);
+
+  React.useEffect(() => {
+    onVisiblePlayersChange?.(variant === 'freeAgent' ? freeAgentTableData : filteredData);
+  }, [filteredData, freeAgentTableData, onVisiblePlayersChange, variant]);
 
   const freeAgentTable = useReactTable({
     data: freeAgentTableData,

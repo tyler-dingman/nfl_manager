@@ -16,6 +16,7 @@ type DraftTrackerControls = {
   showSettings: boolean;
   hasStarted: boolean;
   isBusy?: boolean;
+  canStartDraft?: boolean;
   canOfferTrade?: boolean;
   canSkipToUserPick?: boolean;
   skipLabel?: string;
@@ -132,7 +133,7 @@ export function DraftTrackerRibbon({
                 type="button"
                 size="sm"
                 onClick={controls.onStartDraft}
-                disabled={controls.isBusy}
+                disabled={controls.isBusy || controls.canStartDraft === false}
                 style={{
                   backgroundColor: userTeamPrimaryColor,
                   color: userTeamOnPrimaryColor,
