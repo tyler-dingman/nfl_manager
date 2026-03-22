@@ -1,9 +1,16 @@
 'use client';
 
+import * as React from 'react';
 import Image from 'next/image';
-import { ArrowLeftRight, Pause, Play } from 'lucide-react';
+import { ArrowLeftRight, ChevronDown, Pause, Play } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { getReadableTextColor } from '@/lib/color-utils';
 import { getStoredPickGrade } from '@/lib/draft-grading';
 import { cn } from '@/lib/utils';
@@ -20,11 +27,15 @@ type DraftTrackerControls = {
   canOfferTrade?: boolean;
   canSkipToUserPick?: boolean;
   skipLabel?: string;
+  canSkipToEndOfRound?: boolean;
+  canSkipToEndOfDraft?: boolean;
   onSpeedChange: (value: 0 | 1 | 2) => void;
   onTogglePause: () => void;
   onStartDraft: () => void;
   onOfferTrade?: () => void;
   onSkipToUserPick?: () => void;
+  onSkipToEndOfRound?: () => void;
+  onSkipToEndOfDraft?: () => void;
   onToggleSettings: () => void;
   isPaused?: boolean;
 };
@@ -56,6 +67,9 @@ export function DraftTrackerRibbon({
   windowSize = 7,
   controls,
 }: DraftTrackerRibbonProps) {
+  const trackerScrollRef = React.useRef<HTMLDivElement | null>(null);
+  const trackerIdleTimeoutRef = React.useRef<number | null>(null);
+  const pickCardRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const currentPick = picks[currentPickIndex] ?? null;
   const currentRound = currentPick?.round ?? picks[0]?.round ?? 1;
   const roundPicks = picks.filter((pick) => pick.round === currentRound);
@@ -77,6 +91,60 @@ export function DraftTrackerRibbon({
   const userTeamOnPrimaryColor =
     userTeam?.colors?.[0] ? getReadableTextColor(userTeam.colors[0]) : 'var(--team-on-primary)';
 
+  const centerPickInTracker = React.useCallback(
+    (pickId: string | null | undefined, behavior: ScrollBehavior = 'smooth') => {
+      if (!shouldUnlockRoundScroll || !pickId) {
+        return;
+      }
+
+      const tracker = trackerScrollRef.current;
+      const pickCard = pickCardRefs.current[pickId];
+
+      if (!tracker || !pickCard) {
+        return;
+      }
+
+      const targetLeft = Math.max(0, pickCard.offsetLeft - (tracker.clientWidth - pickCard.offsetWidth) / 2);
+
+      tracker.scrollTo({
+        left: targetLeft,
+        behavior,
+      });
+    },
+    [shouldUnlockRoundScroll],
+  );
+
+  const scheduleRecenter = React.useCallback(() => {
+    if (!shouldUnlockRoundScroll || !currentPick?.id) {
+      return;
+    }
+
+    if (trackerIdleTimeoutRef.current !== null) {
+      window.clearTimeout(trackerIdleTimeoutRef.current);
+    }
+
+    trackerIdleTimeoutRef.current = window.setTimeout(() => {
+      centerPickInTracker(currentPick.id, 'smooth');
+      trackerIdleTimeoutRef.current = null;
+    }, 1000);
+  }, [centerPickInTracker, currentPick?.id, shouldUnlockRoundScroll]);
+
+  React.useEffect(() => {
+    if (!shouldUnlockRoundScroll || !currentPick?.id) {
+      return;
+    }
+
+    centerPickInTracker(currentPick.id, 'smooth');
+  }, [centerPickInTracker, currentPick?.id, currentPickIndex, shouldUnlockRoundScroll]);
+
+  React.useEffect(() => {
+    return () => {
+      if (trackerIdleTimeoutRef.current !== null) {
+        window.clearTimeout(trackerIdleTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
       <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
@@ -89,15 +157,44 @@ export function DraftTrackerRibbon({
         {controls ? (
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
             {controls.canSkipToUserPick ? (
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                onClick={controls.onSkipToUserPick}
-                disabled={controls.isBusy}
-              >
-                {controls.skipLabel ?? 'Skip To My Pick'}
-              </Button>
+              <div className="flex items-stretch">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="rounded-r-none border-r-0"
+                  onClick={controls.onSkipToUserPick}
+                  disabled={controls.isBusy}
+                >
+                  {controls.skipLabel ?? 'Skip To My Pick'}
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="rounded-l-none px-2"
+                      disabled={controls.isBusy}
+                      aria-label="More skip options"
+                    >
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    {controls.canSkipToEndOfRound ? (
+                      <DropdownMenuItem onClick={controls.onSkipToEndOfRound}>
+                        Skip To End Of Round
+                      </DropdownMenuItem>
+                    ) : null}
+                    {controls.canSkipToEndOfDraft ? (
+                      <DropdownMenuItem onClick={controls.onSkipToEndOfDraft}>
+                        Skip To End Of Draft
+                      </DropdownMenuItem>
+                    ) : null}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             ) : null}
 
             <div className="flex items-center gap-2 rounded-full border border-border bg-slate-50 px-3 py-2">
@@ -174,7 +271,11 @@ export function DraftTrackerRibbon({
         ) : null}
       </div>
 
-      <div className={cn('mt-4 pb-1', shouldUnlockRoundScroll ? 'overflow-x-auto' : 'overflow-hidden')}>
+      <div
+        ref={trackerScrollRef}
+        className={cn('mt-4 pb-1', shouldUnlockRoundScroll ? 'overflow-x-auto' : 'overflow-hidden')}
+        onScroll={shouldUnlockRoundScroll ? scheduleRecenter : undefined}
+      >
         <div className="flex min-w-max gap-3">
           {visiblePicks.map((pick) => {
             const team = teamLookup.get(pick.ownerTeamAbbr);
@@ -190,6 +291,9 @@ export function DraftTrackerRibbon({
             return (
               <div
                 key={pick.id}
+                ref={(node) => {
+                  pickCardRefs.current[pick.id] = node;
+                }}
                 className={cn(
                   'w-[176px] shrink-0 rounded-2xl border px-3 py-2 transition-all',
                   isCurrent

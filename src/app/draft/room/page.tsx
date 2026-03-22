@@ -8,7 +8,6 @@ import AppShell from '@/components/app-shell';
 import { DraftTrackerRibbon } from '@/components/draft/draft-tracker-ribbon';
 import { StepHeader } from '@/components/offseason/step-header';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
-import { DraftGradeModal } from '@/components/draft/draft-grade-modal';
 import { DraftRecapModal } from '@/components/draft/draft-recap-modal';
 import { LiveDraftBoard } from '@/components/draft/live-draft-board';
 import { PickAnnouncement } from '@/components/draft/pick-announcement';
@@ -30,13 +29,6 @@ import {
 } from '@/lib/draft-intelligence';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildFalcoBoard } from '@/lib/falco';
-import { getTeamReactionLine } from '@/lib/team-flavor';
-import {
-  generateEngagementCounts,
-  getPlayerSide,
-  getTopRatedRosterPlayerBySide,
-  getTopRatedRosterPlayerOverall,
-} from '@/lib/star-player-reaction';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
@@ -83,12 +75,6 @@ function DraftRoomContent() {
   const [loading, setLoading] = React.useState(false);
   const [speedLevel, setSpeedLevel] = React.useState<DraftSpeedLevel>(1);
   const [draftView, setDraftView] = React.useState<'board' | 'trade'>('board');
-  const [gradeLetter, setGradeLetter] = React.useState<string | null>(null);
-  const [draftedPlayerName, setDraftedPlayerName] = React.useState<string | null>(null);
-  const [draftedPlayerMeta, setDraftedPlayerMeta] = React.useState<string | null>(null);
-  const [teamMessage, setTeamMessage] = React.useState<string | null>(null);
-  const [gradeReasons, setGradeReasons] = React.useState<string[]>([]);
-  const [isGradeOpen, setIsGradeOpen] = React.useState(false);
   const [teams, setTeams] = React.useState<TeamsResponse['teams']>([]);
   const [selectedPickNumber] = React.useState(1);
   const [lobbyMessage, setLobbyMessage] = React.useState('');
@@ -96,9 +82,6 @@ function DraftRoomContent() {
   const [pickAnnouncementPlayer, setPickAnnouncementPlayer] = React.useState<PlayerRowDTO | null>(null);
   const [pickAnnouncementOpen, setPickAnnouncementOpen] = React.useState(false);
   const [pickAnnouncementGrade, setPickAnnouncementGrade] = React.useState<string | null>(null);
-  const [pendingDraftReactionPlayer, setPendingDraftReactionPlayer] = React.useState<PlayerRowDTO | null>(
-    null,
-  );
   const [selectedLobbyPlayerId, setSelectedLobbyPlayerId] = React.useState<string | null>(null);
   const [isLobbyProspectModalOpen, setIsLobbyProspectModalOpen] = React.useState(false);
   const [draftControlBusy, setDraftControlBusy] = React.useState(false);
@@ -214,50 +197,6 @@ function DraftRoomContent() {
     if (!session) return null;
     return teams.find((team) => team.abbr === session.userTeamAbbr) ?? null;
   }, [session, teams]);
-
-  const buildDraftReactionToast = React.useCallback(
-    (player: PlayerRowDTO) => {
-      const side = getPlayerSide(player.position);
-      const reactingPlayer =
-        (side ? getTopRatedRosterPlayerBySide(roster, side, player.id) : null) ??
-        getTopRatedRosterPlayerOverall(roster, player.id);
-
-      if (!reactingPlayer) {
-        return null;
-      }
-
-      const teamName = userTeam?.name ?? session?.userTeamAbbr ?? 'This team';
-      const playerName = `${player.firstName} ${player.lastName}`.trim();
-      const seed = `draft:${session?.id ?? 'session'}:${player.id}:${reactingPlayer.id}`;
-      const hash = seed.split('').reduce((sum, char) => (sum * 31 + char.charCodeAt(0)) >>> 0, 7);
-      const messages = [
-        `We just got a dawg in ${playerName}! 💪`,
-        `Steal...welcome to ${teamName} ${playerName}! 🔥`,
-        `Showtime! Let's get to work ${playerName}! 😤`,
-        `${teamName} making moves baby! 🚀`,
-      ];
-      const engagement = generateEngagementCounts({
-        actionType: 'trade',
-        authorRating: reactingPlayer.rating ?? reactingPlayer.maddenRating ?? 84,
-        acquiredPlayerRating: player.rating ?? player.maddenRating ?? 80,
-        seed,
-      });
-
-      return {
-        displayName: `${reactingPlayer.firstName} ${reactingPlayer.lastName}`.trim(),
-        handle: `@${`${reactingPlayer.firstName ?? ''}${reactingPlayer.lastName ?? ''}`.replace(/[^a-z0-9]/gi, '').slice(0, 18) || 'FranchiseStar'}`,
-        subtitle: teamName,
-        timestampLabel: 'now',
-        message: messages[hash % messages.length] ?? messages[0],
-        headshotUrl: reactingPlayer.headshotUrl ?? null,
-        likes: engagement.likes,
-        reposts: engagement.reposts,
-        replies: engagement.replies,
-        views: engagement.views,
-      };
-    },
-    [roster, session?.id, session?.userTeamAbbr, userTeam?.name],
-  );
 
   const ensureSaveExists = React.useCallback(
     async (forcePhase?: 'draft') => {
@@ -752,21 +691,10 @@ function DraftRoomContent() {
     const pick = payload.session.picks.find((entry) => entry.selectedPlayerId === player.id);
     const pickNumber = pick?.overall ?? currentPick?.overall ?? payload.session.currentPickIndex;
 
-    setGradeLetter(payload.grade.letter);
-    setDraftedPlayerName(`${player.firstName} ${player.lastName}`);
-    setDraftedPlayerMeta(`${player.position} · ${player.college ?? '—'}`);
-    setTeamMessage(
-      getTeamReactionLine(payload.session.userTeamAbbr, 'celebratory', {
-        seed: `${payload.session.id}:${player.id}:${pickNumber}`,
-      }),
-    );
-    setGradeReasons(payload.grade.reasons);
     setPickAnnouncementPlayer(payload.draftedPlayer);
     setPickAnnouncementGrade(payload.grade.letter);
     setPickAnnouncementOpen(true);
     window.setTimeout(() => setPickAnnouncementOpen(false), 1800);
-    setPendingDraftReactionPlayer(payload.draftedPlayer);
-    setIsGradeOpen(true);
     trackProgress(
       `draft-pick:${payload.draftedPlayer.id}:${pickNumber}`,
       OFFSEASON_PROGRESS_POINTS.draft.pick,
@@ -822,7 +750,7 @@ function DraftRoomContent() {
     return (
       <AppShell>
         <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-          <p className="text-sm text-muted-foreground">Loading draft room...</p>
+          <p className="text-sm text-muted-foreground">Let the {franchiseYear} Draft begin!</p>
         </div>
       </AppShell>
     );
@@ -864,30 +792,6 @@ function DraftRoomContent() {
       });
     }
     skipCurrentStep();
-  };
-
-  const handleCloseDraftGradeModal = () => {
-    setIsGradeOpen(false);
-
-    if (!pendingDraftReactionPlayer || !saveId) {
-      return;
-    }
-
-    const draftedPlayer = pendingDraftReactionPlayer;
-    setPendingDraftReactionPlayer(null);
-    const reactionToast = buildDraftReactionToast(draftedPlayer);
-    if (!reactionToast) {
-      return;
-    }
-
-    window.setTimeout(() => {
-      pushToast({
-        id: `star-reaction:draft:${saveId}:${draftedPlayer.id}`,
-        kind: 'starReaction',
-        durationMs: 5200,
-        starReaction: reactionToast,
-      });
-    }, 120);
   };
 
   const handleContinueFromDraftRecap = () => {
@@ -944,18 +848,6 @@ function DraftRoomContent() {
           onSkip={handleSkip}
         />
       ) : null}
-      <DraftGradeModal
-        isOpen={isGradeOpen}
-        gradeLetter={gradeLetter}
-        gradeLabel="Draft IQ"
-        playerName={draftedPlayerName}
-        playerMeta={draftedPlayerMeta}
-        teamName={userTeam?.name ?? session?.userTeamAbbr ?? 'Your team'}
-        teamLogoUrl={userTeam?.logoUrl}
-        teamMessage={teamMessage}
-        reasons={gradeReasons}
-        onClose={handleCloseDraftGradeModal}
-      />
       <PickAnnouncement
         open={pickAnnouncementOpen}
         team={userTeam}
@@ -1060,7 +952,7 @@ function DraftRoomContent() {
               speedLevel={speedLevel}
               showSettings={showSettings}
               draftView={draftView}
-              isUserDraftModalOpen={isGradeOpen}
+              isUserDraftModalOpen={pickAnnouncementOpen}
               isControlsBusy={draftControlBusy}
               onBackToBoard={() => setDraftView('board')}
               onSpeedChange={setSpeedLevel}

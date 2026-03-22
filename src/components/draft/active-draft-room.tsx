@@ -85,6 +85,8 @@ type TradeOfferApiResponse =
     }
   | { ok: false; error: string };
 
+type DraftSkipTarget = 'next_user_pick' | 'end_round' | 'end_draft';
+
 const formatName = (player: PlayerRowDTO) => `${player.firstName} ${player.lastName}`;
 
 const desiredOfferCount = (pickOverall: number) => {
@@ -422,45 +424,74 @@ export function ActiveDraftRoom({
     }
   }, [draftSessionId, onSessionUpdate, saveId, saveSnapshot]);
 
-  const handleSkipToUserPick = React.useCallback(async () => {
+  const advanceDraftWithMode = React.useCallback(
+    async (snapshot: DraftSessionDTO, mode: 'default' | 'best_available' = 'default') => {
+      const response = await apiFetch(
+        '/api/draft/session/advance',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            draftSessionId,
+            saveId,
+            sessionSnapshot: snapshot,
+            saveSnapshot,
+            mode,
+          }),
+        },
+        { skipSaveGuard: true },
+      );
+      const text = await response.text();
+      if (!text) {
+        return null;
+      }
+      const payload = JSON.parse(text) as
+        | { ok: true; session: DraftSessionDTO }
+        | { ok: false; error: string };
+      if (!response.ok || !payload.ok) {
+        return null;
+      }
+      return payload.session;
+    },
+    [draftSessionId, saveId, saveSnapshot],
+  );
+
+  const handleSkipSimulation = React.useCallback(async (target: DraftSkipTarget) => {
     if (onClock || skipInFlight.current || !saveId) {
       return;
     }
+
     skipInFlight.current = true;
     try {
       let safety = 0;
       let snapshot = session;
+      const startingRound = snapshot.picks[snapshot.currentPickIndex]?.round ?? currentPick?.round ?? 1;
+
       while (safety < 260) {
         const current = snapshot.picks[snapshot.currentPickIndex];
         if (!current || current.round > snapshot.maxRounds) {
           onSessionUpdate(snapshot);
           break;
         }
-        if (remainingUserPicksInSelectedRounds > 0 && current.ownerTeamAbbr === snapshot.userTeamAbbr) {
+
+        if (target === 'next_user_pick' && current.ownerTeamAbbr === snapshot.userTeamAbbr) {
           onSessionUpdate(snapshot);
           break;
         }
-        const response = await apiFetch(
-          '/api/draft/session/advance',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              draftSessionId,
-              saveId,
-              sessionSnapshot: snapshot,
-              saveSnapshot,
-            }),
-          },
-          { skipSaveGuard: true },
+
+        if (target === 'end_round' && current.round > startingRound) {
+          onSessionUpdate(snapshot);
+          break;
+        }
+
+        const nextSnapshot = await advanceDraftWithMode(
+          snapshot,
+          target === 'next_user_pick' ? 'default' : 'best_available',
         );
-        const text = await response.text();
-        if (!text) break;
-        const payload = JSON.parse(text) as
-          | { ok: true; session: DraftSessionDTO }
-          | { ok: false; error: string };
-        if (!response.ok || !payload.ok) break;
-        snapshot = payload.session;
+        if (!nextSnapshot) {
+          break;
+        }
+        snapshot = nextSnapshot;
         onSessionUpdate(snapshot);
         safety += 1;
       }
@@ -468,14 +499,25 @@ export function ActiveDraftRoom({
       skipInFlight.current = false;
     }
   }, [
-    draftSessionId,
+    advanceDraftWithMode,
+    currentPick?.round,
     onClock,
     onSessionUpdate,
-    remainingUserPicksInSelectedRounds,
     saveId,
-    saveSnapshot,
     session,
   ]);
+
+  const handleSkipToUserPick = React.useCallback(async () => {
+    await handleSkipSimulation(remainingUserPicksInSelectedRounds > 0 ? 'next_user_pick' : 'end_draft');
+  }, [handleSkipSimulation, remainingUserPicksInSelectedRounds]);
+
+  const handleSkipToEndOfRound = React.useCallback(async () => {
+    await handleSkipSimulation('end_round');
+  }, [handleSkipSimulation]);
+
+  const handleSkipToEndOfDraft = React.useCallback(async () => {
+    await handleSkipSimulation('end_draft');
+  }, [handleSkipSimulation]);
 
   const clearDraftTimer = React.useCallback(() => {
     if (timerRef.current) {
@@ -847,14 +889,18 @@ export function ActiveDraftRoom({
             hasStarted: true,
             isPaused: session.isPaused,
             isBusy: isControlsBusy,
-            canOfferTrade: onClock,
+            canOfferTrade: true,
             canSkipToUserPick: !onClock,
+            canSkipToEndOfRound: !onClock,
+            canSkipToEndOfDraft: !onClock,
             skipLabel,
             onSpeedChange,
             onTogglePause,
             onStartDraft,
             onOfferTrade,
             onSkipToUserPick: handleSkipToUserPick,
+            onSkipToEndOfRound: handleSkipToEndOfRound,
+            onSkipToEndOfDraft: handleSkipToEndOfDraft,
             onToggleSettings,
           }}
         />

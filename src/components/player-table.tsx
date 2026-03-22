@@ -249,7 +249,7 @@ export function PositionFilterBar({
 }
 
 export function PlayerTable({
-  data,
+  data = [],
   variant,
   loading = false,
   freeAgentView = 'available',

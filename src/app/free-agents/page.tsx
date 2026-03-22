@@ -8,7 +8,7 @@ import ContractOfferModal, { type OfferResponse } from '@/components/contract-of
 import { StepHeader } from '@/components/offseason/step-header';
 import PlayerDetailsModal from '@/components/player-details-modal';
 import { PlayerTable } from '@/components/player-table';
-import { useToast, type ToastPayload } from '@/components/ui/toast';
+import { useToast } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useFreeAgentsQuery } from '@/features/players/queries';
 import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
@@ -18,54 +18,50 @@ import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { getRouteForStep, isStepUnlocked } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
+import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
 import { buildChantAlert } from '@/lib/falco-alerts';
 import { apiFetch } from '@/lib/api';
-import { generateFreeAgencyWaveTransitionToast, generateLeagueBuzzToast } from '@/lib/league-buzz';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import type { PlayerDetailsSource } from '@/lib/player-details';
 import type { PlayerRowDTO } from '@/types/player';
-import type { SaveHeaderDTO } from '@/types/save';
-import type { FreeAgencyMarketDTO, FreeAgencyView } from '@/types/free-agency';
 
 export default function FreeAgentsPage() {
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const freeAgencyWave = useSaveStore((state) => state.freeAgencyWave);
   const capSpace = useSaveStore((state) => state.capSpace);
   const capLimit = useSaveStore((state) => state.capLimit);
   const phase = useSaveStore((state) => state.phase);
-  const franchiseYear = useSaveStore((state) => state.franchiseYear);
-  const freeAgencyWave = useSaveStore((state) => state.freeAgencyWave);
   const unlocked = useSaveStore((state) => state.unlocked);
   const roster = useSaveStore((state) => state.roster);
   const setRoster = useSaveStore((state) => state.setRoster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
-  const { data, isLoading, refresh } = useFreeAgentsQuery(saveId, teamAbbr);
-  const [market, setMarket] = useState<FreeAgencyMarketDTO>(() => data);
+  const { data, isLoading } = useFreeAgentsQuery(saveId, teamAbbr);
+  const [players, setPlayers] = useState<PlayerRowDTO[]>(() => data.players);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
   const [activePlayerDetails, setActivePlayerDetails] = useState<PlayerDetailsSource | null>(null);
-  const [visiblePlayers, setVisiblePlayers] = useState<PlayerRowDTO[]>([]);
-  const [pendingOfferToast, setPendingOfferToast] = useState<ToastPayload | null>(null);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const { push: pushToast } = useToast();
   const mode = useExperienceStore((state) => state.mode);
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
-  const enterSandboxStep = useExperienceStore((state) => state.enterSandboxStep);
   const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
   const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
-  const [activeTab, setActiveTab] = useState<FreeAgencyView>('available');
+  const [signedCount, setSignedCount] = useState(0);
+  const [activeTab, setActiveTab] = useState<'available' | 'userSigned' | 'signed'>('available');
+  const selectedTeam = teams.find((team) => team.id === selectedTeamId) ?? null;
   const firstVisibleRowLoggedRef = useRef(false);
   const tableStartedAtRef = useRef<number>(
     typeof performance !== 'undefined' ? performance.now() : 0,
   );
   const initialTradeOfferRequestedRef = useRef<string | null>(null);
-  const selectedTeam = teams.find((team) => team.id === selectedTeamId) ?? null;
+
   const trackProgress = (
     eventKey: string,
     points: number,
@@ -97,7 +93,6 @@ export default function FreeAgentsPage() {
         preferredSaveId: preferredSaveId ?? saveId,
         teamId,
         teamAbbr,
-        year: franchiseYear,
         capSpace,
         capLimit,
         roster,
@@ -116,10 +111,8 @@ export default function FreeAgentsPage() {
   });
 
   useEffect(() => {
-    setMarket(data);
+    setPlayers(data.players);
   }, [data]);
-
-  const players = market.players;
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') return;
@@ -149,14 +142,6 @@ export default function FreeAgentsPage() {
     setActiveOfferPlayer(player);
   };
 
-  const handleCloseOfferModal = () => {
-    setActiveOfferPlayer(null);
-    if (pendingOfferToast) {
-      pushToast(pendingOfferToast);
-      setPendingOfferToast(null);
-    }
-  };
-
   const handleSubmitOffer = async ({
     years,
     apy,
@@ -166,7 +151,6 @@ export default function FreeAgentsPage() {
     apy: number;
     guaranteed: number;
   }): Promise<OfferResponse | void> => {
-    setPendingOfferToast(null);
     if (!activeOfferPlayer) {
       return;
     }
@@ -223,7 +207,17 @@ export default function FreeAgentsPage() {
           tone?: OfferResponse['tone'];
           message?: string;
           notice?: string;
-          header?: SaveHeaderDTO;
+          header?: {
+            id: string;
+            teamAbbr: string;
+            capSpace: number;
+            capLimit: number;
+            rosterCount: number;
+            rosterLimit: number;
+            phase: string;
+            unlocked?: { freeAgency: boolean; draft: boolean };
+            createdAt: string;
+          };
         }
       | { ok?: false; error: string };
 
@@ -244,11 +238,13 @@ export default function FreeAgentsPage() {
     };
 
     if (data.accepted && data.player) {
+      const previousRoster = roster;
       const updatedPlayer = data.player;
       const exists = roster.some((item) => item.id === updatedPlayer.id);
       const nextRoster = exists
         ? roster.map((item) => (item.id === updatedPlayer.id ? updatedPlayer : item))
         : [...roster, updatedPlayer];
+      setPlayers((prev) => prev.map((item) => (item.id === data.player?.id ? data.player : item)));
       setRoster(nextRoster);
       const reactionToast = buildStarReactionToastPayload({
         incomingPlayer: updatedPlayer,
@@ -257,28 +253,35 @@ export default function FreeAgentsPage() {
         teamAbbr,
         teamName: selectedTeam?.name,
       });
-      const leagueBuzz = generateLeagueBuzzToast({
-        eventType: 'freeAgency',
-        teamName: selectedTeam?.name ?? teamAbbr ?? 'Your team',
-        playerName: `${updatedPlayer.firstName} ${updatedPlayer.lastName}`,
-        teamAbbr,
-      });
-      const showLeagueBuzz = Boolean(leagueBuzz) && (!reactionToast || Math.random() < 0.5);
-
-      if (showLeagueBuzz && leagueBuzz) {
-        setPendingOfferToast({
-          id: `league-buzz:freeAgency:${activeSaveId}:${updatedPlayer.id}`,
-          kind: 'leagueBuzz',
-          durationMs: 5600,
-          leagueBuzz,
-        });
-      } else if (reactionToast) {
-        setPendingOfferToast({
+      if (reactionToast) {
+        pushToast({
           id: `star-reaction:freeAgency:${activeSaveId}:${updatedPlayer.id}`,
           kind: 'starReaction',
           durationMs: 5200,
           starReaction: reactionToast,
         });
+      }
+      if (previousRoster.length > 0) {
+        const chainReaction = generateChainReactionEffects({
+          beforeRoster: previousRoster,
+          afterRoster: nextRoster,
+          beforeCapSpace: capSpace,
+          afterCapSpace: data.header?.capSpace ?? capSpace,
+          moveType: 'freeAgency',
+          player: updatedPlayer,
+        });
+        if (chainReaction) {
+          pushToast({
+            id: `chain-reaction:freeAgency:${activeSaveId}:${updatedPlayer.id}`,
+            kind: 'chainReaction',
+            durationMs: 5600,
+            chainReaction: {
+              title: 'Ripple Effects',
+              subtitle: 'What this signing changes',
+              effects: chainReaction.effects.map((effect) => effect.message),
+            },
+          });
+        }
       }
       if ('header' in data && data.header) {
         setSaveHeader({
@@ -286,7 +289,6 @@ export default function FreeAgentsPage() {
           unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
         });
       }
-      await refresh();
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
       trackProgress(
         `free-agency-sign:${updatedPlayer.id}`,
@@ -300,111 +302,34 @@ export default function FreeAgentsPage() {
           `Filled a team need at ${updatedPlayer.position}.`,
         );
       }
+      if (mode === 'full') {
+        setSignedCount((value) => value + 1);
+      }
       void requestTradeOffer({ trigger: 'after-free-agency-signing' });
+      setTimeout(() => {
+        setActiveOfferPlayer(null);
+      }, 1400);
       return responsePayload;
     }
 
+    void requestTradeOffer({ trigger: 'after-free-agency-offer' });
     return responsePayload;
   };
 
-  const canContinueInFull = mode !== 'full' || market.wave === 3;
-
-  const proceedToDraft = () => {
-    if (mode === 'full' && currentStep === 'free-agency') {
-      if (saveId) {
-        recordProgressEvent({
-          saveId,
-          step: 'free-agency',
-          eventKey: 'continue:free-agency',
-          complete: true,
-        });
-      }
-      const nextStep = completeCurrentStep();
-      if (nextStep) router.push(getRouteForStep(nextStep));
-      return;
-    }
-
-    enterSandboxStep('draft');
-    router.push(getRouteForStep('draft'));
-  };
+  const canContinueInFull = mode !== 'full' || signedCount > 0;
 
   const handleContinue = () => {
-    proceedToDraft();
-  };
-
-  const handleAdvanceWave = async () => {
-    if (!saveId) return;
-    if (market.wave === 3) {
-      proceedToDraft();
-      return;
-    }
-
-    let activeSaveId = await ensureActionableSaveId(saveId);
-    if (!activeSaveId) return;
-
-    const currentWave = market.wave;
-    const userWaveSignings = market.players
-      .filter((player) => player.isSignedByUser && player.signedWave === currentWave)
-      .sort((left, right) => {
-        const leftScore = left.rating ?? left.marketValue ?? 0;
-        const rightScore = right.rating ?? right.marketValue ?? 0;
-        return rightScore - leftScore;
-      });
-
-    const submitAdvance = (resolvedSaveId: string) =>
-      apiFetch('/api/free-agents/advance-wave', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ saveId: resolvedSaveId }),
-      });
-
-    let response = await submitAdvance(activeSaveId);
-    if (response.status === 404) {
-      const recoveredSaveId = await ensureActionableSaveId(null);
-      if (recoveredSaveId) {
-        activeSaveId = recoveredSaveId;
-        response = await submitAdvance(activeSaveId);
-      }
-    }
-
-    if (!response.ok) {
-      const payload = (await response.json()) as { error?: string };
-      throw new Error(payload.error || 'Unable to advance free agency right now.');
-    }
-
-    const payload = (await response.json()) as {
-      ok: true;
-      header: SaveHeaderDTO;
-      market: FreeAgencyMarketDTO;
-    };
-
-    setSaveHeader({
-      ...payload.header,
-      unlocked: payload.header.unlocked ?? { freeAgency: false, draft: false },
-    });
-    setMarket(payload.market);
-
-    const transitionToast = generateFreeAgencyWaveTransitionToast({
-      teamAbbr,
-      teamName: selectedTeam?.name ?? teamAbbr ?? 'Your team',
-      fromWave: currentWave as 1 | 2,
-      nextWave: payload.market.wave === 2 ? 2 : 3,
-      signedPlayers: userWaveSignings.slice(0, 2).map((player) => ({
-        firstName: player.firstName,
-        lastName: player.lastName,
-        rating: player.rating ?? null,
-        marketValue: player.marketValue ?? null,
-      })),
-    });
-
-    if (transitionToast) {
-      pushToast({
-        id: `league-buzz:free-agency-wave:${activeSaveId}:${currentWave}`,
-        kind: 'leagueBuzz',
-        durationMs: 5600,
-        leagueBuzz: transitionToast,
+    if (mode !== 'full' || currentStep !== 'free-agency') return;
+    if (saveId) {
+      recordProgressEvent({
+        saveId,
+        step: 'free-agency',
+        eventKey: 'continue:free-agency',
+        complete: true,
       });
     }
+    const nextStep = completeCurrentStep();
+    if (nextStep) router.push(getRouteForStep(nextStep));
   };
 
   const handleSkip = () => {
@@ -438,7 +363,7 @@ export default function FreeAgentsPage() {
           title="Free Agency"
           stepNumber={2}
           totalSteps={OFFSEASON_STEPS.length}
-          instruction="Move through all three market waves, then head into the draft."
+          instruction="Sign at least one player or skip to continue to the draft."
           canContinue={canContinueInFull}
           onContinue={handleContinue}
           onSkip={handleSkip}
@@ -451,101 +376,90 @@ export default function FreeAgentsPage() {
         freeAgentView={activeTab}
         topSlot={
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
-                <button
-                  type="button"
-                  className={`rounded-full px-3 py-1 transition ${
-                    activeTab === 'available'
-                      ? 'bg-white text-foreground shadow-sm'
-                      : 'text-muted-foreground'
-                  }`}
-                  onClick={() => setActiveTab('available')}
-                >
-                  Available
-                </button>
-                <button
-                  type="button"
-                  className={`inline-flex items-center gap-2 rounded-full px-3 py-1 transition ${
-                    activeTab === 'userSigned'
-                      ? 'bg-white text-foreground shadow-sm'
-                      : 'text-muted-foreground'
-                  }`}
-                  onClick={() => setActiveTab('userSigned')}
-                >
-                  {selectedTeam?.logo_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={selectedTeam.logo_url}
-                      alt={`${selectedTeam.abbr} logo`}
-                      className="h-4 w-4"
-                    />
-                  ) : null}
-                  Signed
-                </button>
-                <button
-                  type="button"
-                  className={`rounded-full px-3 py-1 transition ${
-                    activeTab === 'signed'
-                      ? 'bg-white text-foreground shadow-sm'
-                      : 'text-muted-foreground'
-                  }`}
-                  onClick={() => setActiveTab('signed')}
-                >
-                  Signed
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700">
-                {market.waveLabel}
-              </span>
+            <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
               <button
                 type="button"
-                className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-slate-800"
-                onClick={() => void handleAdvanceWave()}
+                className={`rounded-full px-3 py-1 transition ${
+                  activeTab === 'available'
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-muted-foreground'
+                }`}
+                onClick={() => setActiveTab('available')}
               >
-                {market.wave === 1
-                  ? 'Advance to Wave 2'
-                  : market.wave === 2
-                    ? 'Advance to Wave 3'
-                    : 'Advance to Draft'}
+                Available
               </button>
+              <button
+                type="button"
+                className={`rounded-full px-3 py-1 transition ${
+                  activeTab === 'userSigned'
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-muted-foreground'
+                }`}
+                onClick={() => setActiveTab('userSigned')}
+              >
+                {selectedTeam ? (
+                  <img
+                    src={selectedTeam.logo_url}
+                    alt={`${selectedTeam.name} logo`}
+                    className="mr-1 inline-block h-3 w-3 rounded-full object-cover"
+                  />
+                ) : null}
+                {selectedTeam?.abbr ?? 'Team'} Signed
+              </button>
+              <button
+                type="button"
+                className={`rounded-full px-3 py-1 transition ${
+                  activeTab === 'signed'
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-muted-foreground'
+                }`}
+                onClick={() => setActiveTab('signed')}
+              >
+                Signed
+              </button>
+            </div>
+            <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+              <span className="font-semibold text-slate-700">
+                Wave {freeAgencyWave}
+              </span>
+              <span>
+                {freeAgencyWave === 1
+                  ? 'Tampering Window'
+                  : freeAgencyWave === 2
+                  ? 'Secondary Market'
+                  : 'Final Wave'}
+              </span>
+              <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold text-foreground">
+                Signed {signedCount}
+              </span>
             </div>
           </div>
         }
         onOfferPlayer={handleOfferPlayer}
-        onVisiblePlayersChange={setVisiblePlayers}
         onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'freeAgent', player })}
       />
       <PlayerDetailsModal
         isOpen={Boolean(activePlayerDetails)}
         source={activePlayerDetails}
-        sources={visiblePlayers.map((player) => ({ kind: 'freeAgent', player }))}
         roster={roster}
         teams={teams}
         userTeamAbbr={teamAbbr}
         capSpace={capSpace}
         capLimit={capLimit}
         onClose={() => setActivePlayerDetails(null)}
-        onSelectSource={(nextSource) => setActivePlayerDetails(nextSource)}
       />
       {activeOfferPlayer ? (
         <ContractOfferModal
           player={activeOfferPlayer}
           isOpen={Boolean(activeOfferPlayer)}
-          onClose={handleCloseOfferModal}
+          onClose={() => setActiveOfferPlayer(null)}
           onSubmit={handleSubmitOffer}
           title={`Sign ${activeOfferPlayer.firstName} ${activeOfferPlayer.lastName}`}
           subtitle="Set contract terms and gauge interest."
           submitLabel="Submit Offer"
           expectedApyOverride={
-            activeOfferPlayer.currentAskAnnualValue !== null &&
-            activeOfferPlayer.currentAskAnnualValue !== undefined
-              ? activeOfferPlayer.currentAskAnnualValue
-              : activeOfferPlayer.marketValue !== null &&
-                  activeOfferPlayer.marketValue !== undefined
-                ? activeOfferPlayer.marketValue / 1_000_000
+            activeOfferPlayer.marketValue !== null && activeOfferPlayer.marketValue !== undefined
+              ? activeOfferPlayer.marketValue / 1_000_000
               : undefined
           }
           scoreVariant="freeAgency"

@@ -459,7 +459,11 @@ export const pickDraftPlayer = (
   return session;
 };
 
-export const advanceDraftSession = (draftSessionId: string, saveId: string): DraftSessionDTO => {
+export const advanceDraftSession = (
+  draftSessionId: string,
+  saveId: string,
+  mode: 'default' | 'best_available' = 'default',
+): DraftSessionDTO => {
   const { session, state } = getDraftSessionState(saveId, draftSessionId);
   if (session.isPaused) {
     throw new Error('Draft is paused');
@@ -506,14 +510,19 @@ export const advanceDraftSession = (draftSessionId: string, saveId: string): Dra
     }
   }
 
-  const candidatePool = buildNeedAwareCandidatePool(
-    state,
-    session,
-    currentPick.ownerTeamAbbr,
-    currentPick.round,
-    filteredPool,
-  );
-  const player = pickFromPool(session, candidatePool);
+  const player =
+    mode === 'best_available'
+      ? filteredPool[0] ?? pool[0]
+      : pickFromPool(
+          session,
+          buildNeedAwareCandidatePool(
+            state,
+            session,
+            currentPick.ownerTeamAbbr,
+            currentPick.round,
+            filteredPool,
+          ),
+        );
   const pick = session.picks[session.currentPickIndex];
   selectPlayer(session, session.currentPickIndex, player);
   if (pick) {

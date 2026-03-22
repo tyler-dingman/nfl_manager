@@ -9,6 +9,7 @@ import { ArrowDownRight, ArrowUp, Lock, Menu, X } from 'lucide-react';
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
 import { FiveWideWordmark } from '@/components/branding/fivewide-wordmark';
 import TeamThemeProvider from '@/components/team-theme-provider';
+import { TeamNeeds } from '@/components/team-needs';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
@@ -209,6 +210,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         capLimit,
       }),
     [capLimit, capSpace, liveRosterPlayers, liveTeamSummary.overall],
+  );
+
+  const showTeamNeeds = Boolean(
+    pathname?.startsWith('/free-agents') || pathname?.startsWith('/draft'),
   );
 
   const showOnTheClock = Boolean(isUserOnClock && pathname?.startsWith('/draft'));
@@ -548,6 +553,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                           <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
                         </span>
                       </div>
+                      {showTeamNeeds ? (
+                        <div className="hidden md:flex items-center border-l border-border pl-3">
+                          <TeamNeeds teamNeeds={liveTeamSummary.needs} />
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                   <div className="relative md:hidden">
@@ -642,6 +652,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                           <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
                         </span>
                       </div>
+                      {showTeamNeeds ? (
+                        <div className="hidden lg:flex items-center border-l border-border pl-3">
+                          <TeamNeeds teamNeeds={liveTeamSummary.needs} />
+                        </div>
+                      ) : null}
                     </div>
                     {showOnTheClock ? (
                       <span
