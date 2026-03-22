@@ -26,6 +26,7 @@ import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
 import type { PlayerDetailsSource } from '@/lib/player-details';
 import type { PlayerRowDTO } from '@/types/player';
+import type { SaveBootstrapDTO, SaveHeaderDTO } from '@/types/save';
 
 export default function FreeAgentsPage() {
   const router = useRouter();
@@ -285,10 +286,11 @@ export default function FreeAgentsPage() {
         }
       }
       if ('header' in data && data.header) {
+        const sourceHeader = data.header as SaveHeaderDTO | SaveBootstrapDTO;
         setSaveHeader({
-          ...data.header,
-          year: data.header.year ?? franchiseYear,
-          unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
+          ...sourceHeader,
+          year: 'year' in sourceHeader ? sourceHeader.year : franchiseYear,
+          unlocked: sourceHeader.unlocked ?? { freeAgency: false, draft: false },
         });
       }
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));

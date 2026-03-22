@@ -26,7 +26,12 @@ import { useTeamStore } from '@/features/team/team-store';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
 import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
 import { formatMoneyMillions } from '@/server/logic/cap';
-import { computeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
+import {
+  computeTeamNeeds,
+  computeTeamOverviewRaw,
+  scaleOverviewScore,
+  type TeamNeed,
+} from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 
 const navRoutes = {
@@ -549,7 +554,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     </div>
                     {showTeamNeeds ? (
                       <div className="hidden md:flex items-center border-l border-border pl-3">
-                        <TeamNeeds teamNeeds={liveTeamSummary.needs} />
+                        <TeamNeeds teamNeeds={liveTeamSummary.needs as TeamNeed[]} />
                       </div>
                     ) : null}
                   </div>
@@ -648,7 +653,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     </div>
                     {showTeamNeeds ? (
                       <div className="hidden lg:flex items-center border-l border-border pl-3">
-                        <TeamNeeds teamNeeds={liveTeamSummary.needs} />
+                        <TeamNeeds teamNeeds={liveTeamSummary.needs as TeamNeed[]} />
                       </div>
                     ) : null}
                   </div>

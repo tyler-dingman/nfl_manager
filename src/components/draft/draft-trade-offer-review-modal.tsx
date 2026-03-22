@@ -397,7 +397,7 @@ export function DraftTradeOfferReviewModal({
     setActionMessage(null);
     setActivePickerContext(null);
     setIsSubmitting(false);
-  }, [effectiveOffer?.id, open]);
+  }, [effectiveOffer, open]);
 
   const openPlayerDetailsFromAsset = React.useCallback(
     (asset: Extract<TradeOfferAssetDTO, { type: 'player' }>) => {
