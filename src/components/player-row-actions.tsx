@@ -154,7 +154,7 @@ export default function PlayerRowActions({
           <span>Actions</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-44">
+      <DropdownMenuContent align="end" className="w-44 z-50">
         {actions.map((action) => {
           const Icon = action.icon;
           return (

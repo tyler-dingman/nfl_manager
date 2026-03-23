@@ -143,6 +143,20 @@ export default function RenegotiateModal({
             </div>
           </div>
 
+          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
+            <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+              <span>Acceptance: {estimate.label}</span>
+              <span>{estimate.score.toFixed(0)}%</span>
+            </div>
+            <div className="relative mt-2 h-2 w-full rounded-full bg-slate-200">
+              <div
+                className="h-2 rounded-full bg-emerald-500"
+                style={{ width: `${estimate.score}%` }}
+              />
+              <div className="absolute top-0 h-2 w-[2px] bg-slate-700" style={{ left: '70%' }} />
+            </div>
+          </div>
+
           <div className="mt-5 grid gap-4 sm:grid-cols-3">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
@@ -194,20 +208,6 @@ export default function RenegotiateModal({
             </span>{' '}
             {formatMoneyMillions(currentLeagueYearCapHit)}
           </p>
-
-          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
-            <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
-              <span>Acceptance: {estimate.label}</span>
-              <span>{estimate.score.toFixed(0)}%</span>
-            </div>
-            <div className="relative mt-2 h-2 w-full rounded-full bg-slate-200">
-              <div
-                className="h-2 rounded-full bg-emerald-500"
-                style={{ width: `${estimate.score}%` }}
-              />
-              <div className="absolute top-0 h-2 w-[2px] bg-slate-700" style={{ left: '70%' }} />
-            </div>
-          </div>
         </div>
 
         <div className="border-t border-border px-4 py-4 sm:px-6">

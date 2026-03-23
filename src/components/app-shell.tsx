@@ -11,6 +11,7 @@ import { FiveWideWordmark } from '@/components/branding/fivewide-wordmark';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { TeamNeeds } from '@/components/team-needs';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
+import { PhaseStepper } from '@/components/phase-stepper';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
 import { AdSlot } from '@/components/ads/AdSlot';
@@ -211,9 +212,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     [capLimit, capSpace, liveRosterPlayers, liveTeamSummary.overall],
   );
 
-  const showTeamNeeds = Boolean(
-    pathname?.startsWith('/free-agents') || pathname?.startsWith('/draft'),
-  );
+  const showTeamNeeds = Boolean(pathname);
 
   const showOnTheClock = Boolean(isUserOnClock && pathname?.startsWith('/draft'));
 
@@ -704,6 +703,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           </header>
 
+          {showOffseasonStepper && mode === 'full' ? (
+            <PhaseStepper currentStep={currentStep} completedSteps={completedSteps} />
+          ) : null}
+
           {showOnTheClock ? (
             <div className="mt-3 w-full px-4 md:hidden">
               <div className="rounded-xl bg-gradient-to-r from-[#0A2A66] via-[#1453B8] to-[#0A2A66] px-4 py-2 text-center">
@@ -718,7 +721,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           ) : null}
 
           <div className="flex min-w-0 flex-1 items-start gap-0">
-            <main className="min-w-0 flex-1 px-4 py-5 sm:py-6 md:px-8">{children}</main>
+            <main className="min-w-0 flex-1 px-4 py-5 pb-24 sm:py-6 md:px-8 md:pb-6">{children}</main>
             {showShellRightRail ? (
               <aside className="hidden w-[260px] shrink-0 px-0 py-5 md:block md:pr-6 md:pt-6 lg:w-[280px] lg:pr-8">
                 <AdSlot placement="RIGHT_RAIL" sticky={false} />

@@ -12,7 +12,6 @@ import { PlayerTable, PositionFilterBar } from '@/components/player-table';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import { TradeBlockTable } from '@/components/trade-block-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
-import { StepHeader } from '@/components/offseason/step-header';
 import ResignOfferResultModal from '@/components/resign-offer-result-modal';
 import RenegotiateModal from '@/components/renegotiate-modal';
 import { Badge } from '@/components/ui/badge';
@@ -916,18 +915,6 @@ export default function RosterPage() {
 
   return (
     <AppShell>
-      {mode === 'full' ? (
-        <StepHeader
-          title="Manage Team"
-          stepNumber={1}
-          totalSteps={OFFSEASON_STEPS.length}
-          instruction="Re-sign, cut, and explore trades before entering free agency."
-          canContinue={canContinueInFull}
-          backgroundColor={selectedTeam?.color_primary}
-          onContinue={handleContinue}
-          onSkip={handleSkip}
-        />
-      ) : null}
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -982,7 +969,7 @@ export default function RosterPage() {
             {activeTab === 'tradeBlock' ? (
               <Button
                 type="button"
-                className="h-9 rounded-full px-4 text-sm font-semibold"
+                className="w-full h-9 rounded-full px-4 text-sm font-semibold sm:w-auto"
                 style={{ backgroundColor: selectedTeam?.color_primary }}
                 onClick={() => router.push('/manage/trades')}
               >
@@ -1000,7 +987,7 @@ export default function RosterPage() {
                       active={expiringPositionFilter}
                       onSelect={setExpiringPositionFilter}
                     />
-                    <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
+                    <div className="flex w-full items-center gap-2 sm:w-auto sm:max-w-sm">
                       <input
                         type="search"
                         placeholder="Search players..."

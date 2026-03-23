@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
 import { DraftTrackerRibbon } from '@/components/draft/draft-tracker-ribbon';
-import { StepHeader } from '@/components/offseason/step-header';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftRecapModal } from '@/components/draft/draft-recap-modal';
 import { LiveDraftBoard } from '@/components/draft/live-draft-board';
@@ -853,18 +852,6 @@ function DraftRoomContent() {
 
   return (
     <AppShell>
-      {modeExperience === 'full' ? (
-        <StepHeader
-          title="Draft"
-          stepNumber={3}
-          totalSteps={OFFSEASON_STEPS.length}
-          instruction="Complete your draft to finish the offseason journey."
-          canContinue={canContinueInFull}
-          continueLabel="Finish Offseason"
-          onContinue={handleContinue}
-          onSkip={handleSkip}
-        />
-      ) : null}
       <PickAnnouncement
         open={pickAnnouncementOpen}
         team={userTeam}

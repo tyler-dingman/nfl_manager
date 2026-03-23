@@ -172,7 +172,7 @@ export function TradeBlockTable({
         <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
-            <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
+            <div className="flex w-full items-center gap-2 sm:w-auto sm:max-w-sm">
               <input
                 type="search"
                 placeholder="Search players..."

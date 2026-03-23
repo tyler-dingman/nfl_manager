@@ -1,10 +1,12 @@
 import * as React from 'react';
+import { createPortal } from 'react-dom';
 
 import { cn } from '@/lib/utils';
 
 type DropdownContextValue = {
   open: boolean;
   setOpen: (open: boolean) => void;
+  triggerRef: React.MutableRefObject<HTMLElement | null>;
 };
 
 const DropdownContext = React.createContext<DropdownContextValue | null>(null);
@@ -19,9 +21,10 @@ function useDropdownContext() {
 
 function DropdownMenu({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
+  const triggerRef = React.useRef<HTMLElement | null>(null);
 
   return (
-    <DropdownContext.Provider value={{ open, setOpen }}>
+    <DropdownContext.Provider value={{ open, setOpen, triggerRef }}>
       <div className="relative inline-flex">{children}</div>
     </DropdownContext.Provider>
   );
@@ -34,7 +37,15 @@ function DropdownMenuTrigger({
   children: React.ReactElement;
   asChild?: boolean;
 }) {
-  const { open, setOpen } = useDropdownContext();
+  const { open, setOpen, triggerRef } = useDropdownContext();
+
+  const setTriggerRef = React.useCallback(
+    (element: HTMLElement | null) => {
+      triggerRef.current = element;
+    },
+    [triggerRef],
+  );
+
   const triggerProps: React.HTMLAttributes<HTMLButtonElement> = {
     onClick: (event: React.MouseEvent) => {
       event.preventDefault();
@@ -45,11 +56,14 @@ function DropdownMenuTrigger({
   };
 
   if (asChild) {
-    return React.cloneElement(children, triggerProps as React.HTMLAttributes<HTMLButtonElement>);
+    return React.cloneElement(children, {
+      ...triggerProps,
+      ref: setTriggerRef,
+    } as React.HTMLAttributes<HTMLButtonElement>);
   }
 
   return (
-    <button type="button" {...triggerProps}>
+    <button type="button" {...triggerProps} ref={setTriggerRef}>
       {children}
     </button>
   );
@@ -59,7 +73,7 @@ const DropdownMenuContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { align?: 'start' | 'end' }
 >(({ className, align = 'start', ...props }, ref) => {
-  const { open, setOpen } = useDropdownContext();
+  const { open, setOpen, triggerRef } = useDropdownContext();
   const contentRef = React.useRef<HTMLDivElement>(null);
 
   React.useImperativeHandle(ref, () => contentRef.current as HTMLDivElement);
@@ -85,20 +99,42 @@ const DropdownMenuContent = React.forwardRef<
     return null;
   }
 
-  const alignClass = align === 'end' ? 'right-0' : 'left-0';
+  const triggerRect = triggerRef.current?.getBoundingClientRect();
+  if (!triggerRect) {
+    return null;
+  }
 
-  return (
+  const alignStyles:
+    | React.CSSProperties
+    | undefined =
+    align === 'end'
+      ? {
+          position: 'fixed',
+          top: triggerRect.bottom,
+          right: window.innerWidth - triggerRect.right,
+          minWidth: '10rem',
+        }
+      : {
+          position: 'fixed',
+          top: triggerRect.bottom,
+          left: triggerRect.left,
+          minWidth: '10rem',
+        };
+
+  const content = (
     <div
       ref={contentRef}
       role="menu"
       className={cn(
-        'absolute top-full z-[80] mt-2 min-w-[10rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md',
-        alignClass,
+        'z-[1000] mt-2 overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md',
         className,
       )}
+      style={alignStyles}
       {...props}
     />
   );
+
+  return createPortal(content, document.body);
 });
 DropdownMenuContent.displayName = 'DropdownMenuContent';
 
