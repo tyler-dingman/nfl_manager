@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import { CheckCircle2, Circle, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { MouseEvent } from 'react';
 
 import { OFFSEASON_STEPS, type OffseasonStepId } from '@/features/experience/offseason-steps';
+import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { useTeamStore } from '@/features/team/team-store';
@@ -38,46 +38,44 @@ export function PhaseStepper({ currentStep, completedSteps }: Props) {
         const isCurrent = step.id === currentStep;
         const accessible = isStepAccessible(index);
 
-        const onStepClick = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+        const onStepClick = async (event: MouseEvent<HTMLButtonElement>) => {
           if (!accessible) {
             event.preventDefault();
             return;
           }
 
-          const nextIndex = index;
-          if (nextIndex === currentIndex + 1) {
-            if (recordProgressEvent && completeCurrentStep) {
-              if (history.state?.idx || history.state?.idx === 0) {
-                // no-op
-              }
-            }
-            const next = completeCurrentStep();
-            if (next) {
-              router.push(step.route);
-              if (typeof window !== 'undefined' && window?.location) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            }
-            event.preventDefault();
+          if (isCurrent) {
             return;
           }
 
-          // history backward/forward: simply route
-          if (step.route !== router.pathname) {
-            router.push(step.route);
+          const targetRoute = getRouteForStep(step.id);
+
+          if (index === currentIndex + 1 && completeCurrentStep) {
+            const next = completeCurrentStep();
+            if (next) {
+              router.push(targetRoute);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            return;
+          }
+
+          if (accessible) {
+            router.push(targetRoute);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         };
 
         return (
           <div key={step.id} className="flex items-center">
-            <Link
-              href={accessible ? step.route : '#'}
+            <button
+              type="button"
               onClick={onStepClick}
               className={cn(
                 'flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors',
                 {
                   'text-black': !isCurrent,
                   'text-white': isCurrent,
+                  'opacity-50 cursor-not-allowed': !accessible,
                 },
               )}
               style={{
@@ -88,19 +86,17 @@ export function PhaseStepper({ currentStep, completedSteps }: Props) {
                     ? `${accentColor}33`
                     : '#fff',
               }}
-              onClick={(e) => {
-                if (!isAccessible) {
-                  e.preventDefault();
-                }
-              }}
+              disabled={!accessible}
             >
-              {isCompleted ? (
+              {step.id === 'draft' && !accessible ? (
+                <Lock className="h-3 w-3" style={{ color: '#94a3b8' }} />
+              ) : isCompleted ? (
                 <CheckCircle2 className="h-3 w-3" style={{ color: accentColor }} />
               ) : (
                 <Circle className="h-3 w-3" style={{ color: isCurrent ? '#ffffff' : '#94a3b8' }} />
               )}
               <span>{step.label}</span>
-            </Link>
+            </button>
             {index < OFFSEASON_STEPS.length - 1 && (
               <div
                 className="mx-2 h-px w-4"
