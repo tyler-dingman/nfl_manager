@@ -30,6 +30,7 @@ type EspnDraftBoardAthlete = {
   height?: number;
   link?: string;
   headshot?: { href?: string };
+  logo?: { href?: string };
   attributes?: Array<{
     name?: string;
     displayName?: string;
@@ -134,6 +135,7 @@ export type DraftBoardRankingRecord = {
   name: string;
   normalizedName: string;
   school: string | null;
+  collegeLogoUrl: string | null;
   position: string | null;
   headshotUrl: string | null;
   espnPlayerId: string | null;
@@ -183,7 +185,7 @@ const requestText = (url: string): Promise<string> =>
         agent: insecureAgent,
         headers: {
           Accept: 'application/json, text/html;q=0.9,*/*;q=0.8',
-          'User-Agent': 'Mozilla/5.0 (Five Wide Draft Sync)',
+          'User-Agent': 'Mozilla/5.0 (Down & Distance Draft Sync)',
         },
       },
       (response) => {
@@ -371,6 +373,7 @@ export const fetchEspnDraftBoardRankings = async (): Promise<DraftBoardRankingRe
       name: athlete.displayName?.trim() ?? 'Unknown Prospect',
       normalizedName: normalizePlayerName(athlete.displayName ?? ''),
       school,
+      collegeLogoUrl: athlete.logo?.href?.trim() ?? null,
       position: getPositionLabel(athlete, positionsById),
       headshotUrl: athlete.headshot?.href?.trim() ?? null,
       espnPlayerId: athlete.alternativeId?.trim() ?? null,

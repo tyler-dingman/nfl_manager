@@ -1,0 +1,243 @@
+import type { SourceCategory, SourceDefinition, SourcePlatform } from '../types';
+
+type KcSourceInput = {
+  id: string;
+  displayName: string;
+  category: SourceCategory;
+  trust: number;
+  breaking?: number;
+  analysis?: number;
+  relevance?: number;
+  platform?: SourcePlatform;
+  handle?: string;
+  url?: string;
+  notes?: string;
+  fanInterest?: number;
+};
+
+const source = ({
+  id,
+  displayName,
+  category,
+  trust,
+  breaking = 65,
+  analysis = 70,
+  relevance = 100,
+  platform = 'WEB',
+  handle,
+  url,
+  notes,
+  fanInterest,
+}: KcSourceInput): SourceDefinition => ({
+  id,
+  name: displayName,
+  displayName,
+  team: 'KC',
+  category,
+  trustScore: trust,
+  breakingNewsScore: breaking,
+  analysisScore: analysis,
+  teamRelevanceScore: relevance,
+  fanInterestScore: fanInterest,
+  platform,
+  handle,
+  url: url ?? (platform === 'X' && handle ? `https://x.com/${handle}` : undefined),
+  enabled: true,
+  priority: Math.max(breaking, analysis),
+  notes,
+});
+
+export const KC_SOURCES: SourceDefinition[] = [
+  source({
+    id: 'KC_CHIEFS',
+    displayName: 'Kansas City Chiefs',
+    category: 'OFFICIAL',
+    trust: 100,
+    breaking: 100,
+    url: 'https://www.chiefs.com/',
+  }),
+  source({
+    id: 'KC_CHIEFS_PR',
+    displayName: 'Chiefs PR',
+    category: 'OFFICIAL',
+    trust: 100,
+    breaking: 100,
+    platform: 'X',
+    handle: 'ChiefsPR',
+  }),
+  source({
+    id: 'KC_CHIEFS_SOCIAL',
+    displayName: 'Kansas City Chiefs',
+    category: 'OFFICIAL',
+    trust: 100,
+    breaking: 95,
+    platform: 'X',
+    handle: 'Chiefs',
+  }),
+  source({
+    id: 'KC_MATT_MCMULLEN',
+    displayName: 'Matt McMullen',
+    category: 'OFFICIAL',
+    trust: 98,
+    breaking: 90,
+    platform: 'X',
+    handle: 'KCChiefsMatt',
+    notes: 'Chiefs Senior Team Reporter',
+  }),
+  source({
+    id: 'MATT_DERRICK',
+    displayName: 'Matt Derrick',
+    category: 'LOCAL_BEAT',
+    trust: 94,
+    breaking: 92,
+    platform: 'X',
+    handle: 'mattderrick',
+    notes: 'Chiefs Digest',
+  }),
+  source({
+    id: 'PETE_SWEENEY',
+    displayName: 'Pete Sweeney',
+    category: 'LOCAL_BEAT',
+    trust: 92,
+    breaking: 90,
+    notes: 'Kansas City Star Chiefs beat reporter',
+  }),
+  source({
+    id: 'JESSE_NEWELL',
+    displayName: 'Jesse Newell',
+    category: 'LOCAL_BEAT',
+    trust: 92,
+    breaking: 88,
+    notes: 'Kansas City Star',
+  }),
+  source({
+    id: 'NICK_JACOBS',
+    displayName: 'Nick Jacobs',
+    category: 'LOCAL_BEAT',
+    trust: 91,
+    breaking: 90,
+    notes: 'KSHB 41',
+  }),
+  source({
+    id: 'ADAM_TEICHER',
+    displayName: 'Adam Teicher',
+    category: 'LOCAL_BEAT',
+    trust: 92,
+    breaking: 85,
+    notes: 'ESPN',
+  }),
+  source({
+    id: 'NATE_TAYLOR',
+    displayName: 'Nate Taylor',
+    category: 'LOCAL_BEAT',
+    trust: 92,
+    breaking: 85,
+  }),
+  source({
+    id: 'JOHN_DIXON',
+    displayName: 'John Dixon',
+    category: 'LOCAL_MEDIA',
+    trust: 86,
+    breaking: 78,
+    analysis: 88,
+    notes: 'Arrowhead Pride',
+  }),
+  source({
+    id: 'KSHB_41',
+    displayName: 'KSHB 41',
+    category: 'LOCAL_MEDIA',
+    trust: 88,
+    breaking: 88,
+    url: 'https://www.kshb.com/sports/football/chiefs',
+  }),
+  source({
+    id: 'KC_STAR_CHIEFS',
+    displayName: 'Kansas City Star Chiefs',
+    category: 'LOCAL_MEDIA',
+    trust: 90,
+    breaking: 88,
+    url: 'https://www.kansascity.com/sports/nfl/kansas-city-chiefs/',
+  }),
+  source({
+    id: 'CHIEFS_DIGEST',
+    displayName: 'Chiefs Digest',
+    category: 'LOCAL_MEDIA',
+    trust: 90,
+    breaking: 90,
+    url: 'https://chiefsdigest.com/',
+  }),
+  source({
+    id: 'ARROWHEAD_PRIDE',
+    displayName: 'Arrowhead Pride',
+    category: 'LOCAL_MEDIA',
+    trust: 84,
+    breaking: 75,
+    analysis: 88,
+    url: 'https://www.arrowheadpride.com/',
+  }),
+  source({
+    id: 'SPORTS_RADIO_810',
+    displayName: 'Sports Radio 810',
+    category: 'LOCAL_MEDIA',
+    trust: 82,
+    breaking: 76,
+    relevance: 95,
+    url: 'https://www.810whb.com/',
+  }),
+  source({
+    id: '96_5_THE_FAN',
+    displayName: '96.5 The Fan',
+    category: 'LOCAL_MEDIA',
+    trust: 84,
+    breaking: 78,
+    url: 'https://www.audacy.com/965thefan',
+  }),
+  source({
+    id: 'KC_SPORTS_NETWORK',
+    displayName: 'KC Sports Network',
+    category: 'CREATOR',
+    trust: 82,
+    analysis: 95,
+    platform: 'YOUTUBE',
+    url: 'https://www.youtube.com/@KCSportsNetwork',
+  }),
+  source({
+    id: 'HOW_BOUT_THOSE_CHIEFS',
+    displayName: 'How Bout Those Chiefs',
+    category: 'CREATOR',
+    trust: 75,
+    analysis: 88,
+    platform: 'YOUTUBE',
+    url: 'https://www.youtube.com/@howboutthosechiefs',
+  }),
+  source({
+    id: 'RGR_FOOTBALL',
+    displayName: 'RGR Football',
+    category: 'CREATOR',
+    trust: 78,
+    analysis: 92,
+    platform: 'YOUTUBE',
+    url: 'https://www.youtube.com/@RGRFootball',
+  }),
+  source({
+    id: 'CHIEFS_OFFICIAL_YOUTUBE',
+    displayName: 'Kansas City Chiefs YouTube',
+    category: 'OFFICIAL',
+    trust: 100,
+    analysis: 85,
+    platform: 'YOUTUBE',
+    url: 'https://www.youtube.com/@KansasCityChiefs',
+  }),
+  source({
+    id: 'CHIEFS_REDDIT',
+    displayName: 'r/KansasCityChiefs',
+    category: 'COMMUNITY',
+    trust: 45,
+    breaking: 45,
+    fanInterest: 100,
+    platform: 'REDDIT',
+    url: 'https://www.reddit.com/r/KansasCityChiefs/',
+  }),
+];
+
+export const KC_VIDEO_SOURCES = KC_SOURCES.filter((item) => item.platform === 'YOUTUBE');

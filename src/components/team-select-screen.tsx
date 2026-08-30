@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
-import { FiveWideWordmark } from '@/components/branding/fivewide-wordmark';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore, type Team } from '@/features/team/team-store';
@@ -163,20 +162,23 @@ function TeamSelectScreenInner() {
       }
     }
 
-    router.push('/experience');
+    router.push('/offseasonmanager/experience');
   };
 
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-          <div className="flex items-center gap-3">
-            <FiveWideLogo size={24} containerClassName="h-10 w-10 shrink-0" priority />
+          <div className="flex flex-col items-start gap-2">
+            <FiveWideLogo
+              size={96}
+              containerClassName="h-auto w-36 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0"
+              priority
+            />
             <div className="leading-none">
               <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
                 Offseason Mode
               </p>
-              <FiveWideWordmark className="mt-1 h-[15px]" priority />
             </div>
           </div>
           <div>

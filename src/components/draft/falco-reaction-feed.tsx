@@ -35,7 +35,7 @@ export function FalcoReactionFeed({ events }: FalcoReactionFeedProps) {
   if (events.length === 0) {
     return (
       <div className="rounded-2xl border border-border bg-white p-4 text-sm text-muted-foreground shadow-sm">
-        Five Wide is watching the board... reactions will appear here.
+        Down & Distance is watching the board... reactions will appear here.
       </div>
     );
   }

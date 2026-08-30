@@ -7,16 +7,21 @@ import { Badge } from '@/components/ui/badge';
 import type { DraftOrderTeam } from './draft-utils';
 
 type DraftStagePanelProps = {
+  year?: number;
   selectedPick: DraftOrderTeam;
   onTheClockPickNumber: number;
 };
 
-export function DraftStagePanel({ selectedPick, onTheClockPickNumber }: DraftStagePanelProps) {
+export function DraftStagePanel({
+  year = 2026,
+  selectedPick,
+  onTheClockPickNumber,
+}: DraftStagePanelProps) {
   const isOnClock = selectedPick.pickNumber === onTheClockPickNumber;
 
   return (
     <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
-      <h1 className="text-2xl font-semibold text-foreground">2026 NFL Draft — Round 1</h1>
+      <h1 className="text-2xl font-semibold text-foreground">{year} NFL Draft — Round 1</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         Pick {selectedPick.pickNumber} — {selectedPick.name} —{' '}
         {isOnClock ? 'On the Clock' : 'Up Next'}

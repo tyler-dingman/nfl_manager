@@ -106,18 +106,6 @@ export function WarRoomPanel({
         </section>
       ) : null}
 
-      {offers.length > 0 ? (
-        <div>
-          <DraftTradeChaosPanel
-            offers={offers}
-            now={now}
-            onReview={onReviewOffer}
-            onDecline={onDeclineOffer}
-            onDismiss={onDismissOffer}
-          />
-        </div>
-      ) : null}
-
       <YourDraftSoFar summary={summary} />
 
       <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">

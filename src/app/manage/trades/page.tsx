@@ -962,7 +962,12 @@ function TradeBuilderContent() {
               Add players and picks to balance the deal.
             </p>
           </div>
-          <Button type="button" onClick={handlePropose} disabled={!trade}>
+          <Button
+            type="button"
+            onClick={handlePropose}
+            disabled={!trade}
+            className="h-8 px-2.5 text-xs"
+          >
             Propose Trade
           </Button>
         </div>

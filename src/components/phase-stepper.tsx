@@ -18,7 +18,9 @@ type Props = {
 
 export function PhaseStepper({ currentStep, completedSteps }: Props) {
   const currentIndex = OFFSEASON_STEPS.findIndex((step) => step.id === currentStep);
-  const selectedTeam = useTeamStore((state) => state.teams.find((team) => team.id === state.selectedTeamId));
+  const selectedTeam = useTeamStore((state) =>
+    state.teams.find((team) => team.id === state.selectedTeamId),
+  );
   const accentColor = selectedTeam?.color_primary ?? '#0f766e';
   const router = useRouter();
   const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);

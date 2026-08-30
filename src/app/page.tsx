@@ -1,3 +1,3 @@
-import TeamSelectScreen from '@/components/team-select-screen';
+import DownDistanceHome from '@/components/down-distance-home';
 
-export default TeamSelectScreen;
+export default DownDistanceHome;

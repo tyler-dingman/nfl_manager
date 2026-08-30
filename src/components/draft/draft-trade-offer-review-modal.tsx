@@ -922,13 +922,18 @@ export function DraftTradeOfferReviewModal({
                   <div className="mt-3 space-y-2">
                     <Button
                       type="button"
-                      className="w-full"
+                      className="h-8 w-full px-2.5 text-xs"
                       onClick={handleSubmitTrade}
                       disabled={isSubmitting || totalAssetCount === 0}
                     >
                       {isSubmitting ? 'Submitting...' : 'Submit Trade'}
                     </Button>
-                    <Button type="button" variant="outline" className="w-full" onClick={onClose}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="h-8 w-full px-2.5 text-xs"
+                      onClick={onClose}
+                    >
                       Close
                     </Button>
                   </div>

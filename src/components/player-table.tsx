@@ -456,7 +456,7 @@ export function PlayerTable({
     }
 
     if (variant === 'freeAgent') {
-      return [
+      const freeAgentColumns: PlayerColumnDef[] = [
         {
           id: 'ratingSort',
           accessorFn: (row) => row.rating ?? -1,
@@ -517,6 +517,18 @@ export function PlayerTable({
           ),
         },
         {
+          accessorKey: 'rating',
+          header: ({ column }) => <SortableHeader column={column} label="OVR" />,
+          accessorFn: (row) => row.rating ?? -1,
+          cell: ({ row }) => (
+            <span className="text-sm font-medium text-foreground">
+              {row.original.rating !== undefined && row.original.rating !== null
+                ? row.original.rating
+                : '—'}
+            </span>
+          ),
+        },
+        {
           accessorKey: 'age',
           header: ({ column }) => <SortableHeader column={column} label="Age" />,
           accessorFn: (row) => row.age ?? null,
@@ -558,17 +570,6 @@ export function PlayerTable({
           },
         },
         {
-          id: 'signedTeam',
-          header: ({ column }) => <SortableHeader column={column} label="Team" />,
-          accessorFn: (row) => row.signedTeamAbbr ?? row.currentTeamAbbr ?? row.teamAbbr ?? '',
-          meta: { mobileHidden: true },
-          cell: ({ row }) => (
-            <span className="text-sm text-muted-foreground">
-              {row.original.signedTeamAbbr ?? row.original.currentTeamAbbr ?? '—'}
-            </span>
-          ),
-        },
-        {
           id: 'demandTier',
           header: ({ column }) => <SortableHeader column={column} label="Tier" />,
           accessorFn: (row) => row.marketTier ?? row.freeAgentProfile?.marketTier ?? '',
@@ -577,31 +578,6 @@ export function PlayerTable({
               {row.original.marketTier ?? row.original.freeAgentProfile?.marketTier ?? '—'}
             </span>
           ),
-        },
-        {
-          accessorKey: 'status',
-          header: ({ column }) => <SortableHeader column={column} label="Status" />,
-          meta: { mobileHidden: true },
-          cell: ({ row }) => {
-            const statusKey = row.original.status.toLowerCase();
-            return (
-              <div className="flex items-center gap-2">
-                <Badge variant={statusVariantMap[statusKey] ?? 'outline'}>
-                  {row.original.status}
-                </Badge>
-                {row.original.signedTeamLogoUrl && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={row.original.signedTeamLogoUrl}
-                    alt={`${row.original.signedTeamAbbr ?? 'Team'} logo`}
-                    className="h-5 w-5"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                )}
-              </div>
-            );
-          },
         },
         {
           id: 'actions',
@@ -625,6 +601,10 @@ export function PlayerTable({
           },
         },
       ];
+
+      return freeAgentView === 'signed' || freeAgentView === 'userSigned'
+        ? freeAgentColumns.filter((column) => getColumnId(column) !== 'actions')
+        : freeAgentColumns;
     }
 
     return [

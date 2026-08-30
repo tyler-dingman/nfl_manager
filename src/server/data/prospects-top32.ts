@@ -1,6 +1,6 @@
 import type { PlayerRowDTO } from '@/types/player';
 
-import { DRAFT_PROSPECTS } from './draft-prospects';
+import { getDraftProspectsForYear } from './draft-prospects';
 
 export type ProspectSeed = {
   id: string;
@@ -309,9 +309,9 @@ export const TOP_50_PROSPECTS: ProspectSeed[] = [
   },
 ];
 
-export const buildTop32Prospects = (): PlayerRowDTO[] =>
-  (DRAFT_PROSPECTS.length > 0
-    ? DRAFT_PROSPECTS.map((prospect) => ({
+export const buildTop32Prospects = (year = 2026): PlayerRowDTO[] =>
+  (getDraftProspectsForYear(year).length > 0
+    ? getDraftProspectsForYear(year).map((prospect) => ({
         id: prospect.id,
         rank: prospect.ranking ?? 999,
         name: prospect.name,

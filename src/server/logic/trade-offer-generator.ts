@@ -469,6 +469,61 @@ const buildDraftPickMovePackage = (
   ];
 };
 
+const balanceDraftPickPackage = ({
+  baseAssets,
+  targetValue,
+  teamAbbr,
+  year,
+  allowFuturePick = true,
+}: {
+  baseAssets: ReturnType<typeof buildPickAsset>[];
+  targetValue: number;
+  teamAbbr: string;
+  year: number;
+  allowFuturePick?: boolean;
+}) => {
+  const assets = [...baseAssets];
+  let runningValue = assets.reduce((sum, asset) => sum + asset.projectedValuePoints, 0);
+
+  const supplementalPickInputs = [
+    { year, round: 3, overallSlot: 80, owningTeamAbbr: teamAbbr },
+    { year, round: 4, overallSlot: 112, owningTeamAbbr: teamAbbr },
+    { year, round: 5, overallSlot: 145, owningTeamAbbr: teamAbbr },
+    { year, round: 6, overallSlot: 177, owningTeamAbbr: teamAbbr },
+    ...(allowFuturePick
+      ? [
+          {
+            year: year + 1,
+            round: 3,
+            projectedRound: 3,
+            owningTeamAbbr: teamAbbr,
+          },
+          {
+            year: year + 1,
+            round: 4,
+            projectedRound: 4,
+            owningTeamAbbr: teamAbbr,
+          },
+          {
+            year: year + 1,
+            round: 5,
+            projectedRound: 5,
+            owningTeamAbbr: teamAbbr,
+          },
+        ]
+      : []),
+  ];
+
+  for (const pickInput of supplementalPickInputs) {
+    if (runningValue >= targetValue) break;
+    const asset = buildPickAsset(pickInput);
+    assets.push(asset);
+    runningValue += asset.projectedValuePoints;
+  }
+
+  return assets;
+};
+
 const generateDraftOffers = (
   trigger: string,
   state: SaveState,
@@ -488,51 +543,38 @@ const generateDraftOffers = (
     if (!aiTeam) return;
 
     const wantsToMoveUp = index % 5 !== 4;
+    const moveDistance = 2 + (index % 4);
+    const userPickAsset = buildPickAsset({
+      year: draftYear,
+      round: 1,
+      overallSlot: userPickOverall,
+      owningTeamAbbr: userTeam.team.abbr,
+    });
+    const aiFirstPickAsset = buildPickAsset({
+      year: draftYear,
+      round: 1,
+      overallSlot: wantsToMoveUp
+        ? Math.min(32, userPickOverall + moveDistance)
+        : Math.max(1, userPickOverall - moveDistance),
+      owningTeamAbbr: team.abbr,
+    });
+
     const incomingAssets = wantsToMoveUp
-      ? buildDraftPickMovePackage(team.abbr, userPickOverall, true)
-      : [
-          buildPickAsset({
-            year: draftYear,
-            round: 1,
-            overallSlot: Math.max(1, userPickOverall - 4),
-            owningTeamAbbr: team.abbr,
-          }),
-        ];
+      ? balanceDraftPickPackage({
+          baseAssets: [aiFirstPickAsset],
+          targetValue: Number((userPickAsset.projectedValuePoints * 0.97).toFixed(1)),
+          teamAbbr: team.abbr,
+          year: draftYear,
+        })
+      : [aiFirstPickAsset];
     const outgoingAssets = wantsToMoveUp
-      ? [
-          buildPickAsset({
-            year: draftYear,
-            round: 1,
-            overallSlot: userPickOverall,
-            owningTeamAbbr: userTeam.team.abbr,
-          }),
-          buildPickAsset({
-            year: draftYear,
-            round: 2,
-            overallSlot: 41 + (index % 10),
-            owningTeamAbbr: userTeam.team.abbr,
-          }),
-          buildPickAsset({
-            year: draftYear,
-            round: 3,
-            overallSlot: 73 + (index % 12),
-            owningTeamAbbr: userTeam.team.abbr,
-          }),
-        ]
-      : [
-          buildPickAsset({
-            year: draftYear,
-            round: 1,
-            overallSlot: userPickOverall,
-            owningTeamAbbr: userTeam.team.abbr,
-          }),
-          buildPickAsset({
-            year: 2027,
-            round: 4,
-            projectedRound: 4,
-            owningTeamAbbr: userTeam.team.abbr,
-          }),
-        ];
+      ? [userPickAsset]
+      : balanceDraftPickPackage({
+          baseAssets: [userPickAsset],
+          targetValue: Number((aiFirstPickAsset.projectedValuePoints * 0.97).toFixed(1)),
+          teamAbbr: userTeam.team.abbr,
+          year: draftYear,
+        });
 
     const candidate = buildOfferCandidate(
       'draft',
@@ -543,11 +585,11 @@ const generateDraftOffers = (
       incomingAssets,
       outgoingAssets,
       wantsToMoveUp
-        ? `${aiTeam.team.name} wants to jump up for Pick ${userPickOverall} and is pushing for your Day 2 capital.`
-        : `${aiTeam.team.name} will move you up, but they want a premium return.`,
+        ? `${aiTeam.team.name} want to jump up for Pick ${userPickOverall} with a package built closer to chart value.`
+        : `${aiTeam.team.name} will move you up if the pick value comes back close to even.`,
       wantsToMoveUp
-        ? 'They think a premium player is about to come off the board and are pricing the move aggressively.'
-        : 'They are willing to send the earlier pick, but only if you pay to climb.',
+        ? 'They think a premium player is about to come off the board, but this opener is built to stay near fair chart value.'
+        : 'They are open to sliding back if the pick package stays close to even on the chart.',
       `Pick ${userPickOverall} is on the clock — ${aiTeam.team.name} calling`,
       `${state.header.id}:draft:${trigger}:${team.abbr}:${index}`,
       [`draft-pick:${userPickOverall}`, `move-up:${String(wantsToMoveUp)}`],

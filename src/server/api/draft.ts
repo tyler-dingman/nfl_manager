@@ -28,8 +28,6 @@ export type DraftSessionStartResponse = {
 
 const USER_TEAM_ABBR = 'GB';
 
-const BASE_PROSPECTS: PlayerRowDTO[] = buildTop32Prospects();
-
 const getSaveStateOrThrow = (saveId: string) => {
   const result = getSaveStateResult(saveId);
   if (!result.ok) {
@@ -150,7 +148,7 @@ export const isDraftCompleteForSelection = (
 };
 
 const cloneProspects = (year: number): PlayerRowDTO[] =>
-  BASE_PROSPECTS.map((player, index) => ({
+  buildTop32Prospects(year).map((player, index) => ({
     ...player,
     classYear: player.classYear ?? `${year}`,
     projectedPick: player.rank ?? index + 1,

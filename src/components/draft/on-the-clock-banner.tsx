@@ -18,6 +18,7 @@ type OnTheClockBannerProps = {
   progressPct?: number;
   isCritical?: boolean;
   activeTradeOfferCount?: number;
+  onTradeOffersClick?: () => void;
 };
 
 const formatClock = (seconds: number | null | undefined) => {
@@ -40,6 +41,7 @@ export function OnTheClockBanner({
   progressPct = 0,
   isCritical = false,
   activeTradeOfferCount = 0,
+  onTradeOffersClick,
 }: OnTheClockBannerProps) {
   const primaryColor = teamPrimaryColor ?? '#020617';
   const onPrimaryColor = getReadableTextColor(primaryColor);
@@ -49,12 +51,12 @@ export function OnTheClockBanner({
   return (
     <section
       className={cn(
-        'overflow-x-auto overflow-y-hidden rounded-2xl border border-border bg-white shadow-sm transition-all',
+        'overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all',
         isCritical && isUserOnClock ? 'ring-2 ring-amber-300 ring-offset-2' : '',
       )}
     >
       <div
-        className="min-w-[760px] px-4 py-4 transition-colors duration-500 ease-in-out sm:px-6"
+        className="px-4 py-4 transition-colors duration-500 ease-in-out sm:px-6"
         style={{
           backgroundColor: primaryColor,
           color: onPrimaryColor,
@@ -111,10 +113,12 @@ export function OnTheClockBanner({
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
             {activeTradeOfferCount > 0 ? (
-              <div
-                className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold"
+              <button
+                type="button"
+                onClick={onTradeOffersClick}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold transition hover:border-slate-300 hover:bg-slate-100 sm:w-auto sm:justify-start"
                 style={{
                   borderColor:
                     onPrimaryColor === '#ffffff' ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)',
@@ -122,16 +126,17 @@ export function OnTheClockBanner({
                     onPrimaryColor === '#ffffff' ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.08)',
                   color: onPrimaryColor,
                 }}
+                aria-label={`View ${activeTradeOfferCount} trade offer${activeTradeOfferCount === 1 ? '' : 's'}`}
               >
                 <PhoneCall className="h-3.5 w-3.5" />
                 {activeTradeOfferCount === 1
                   ? 'Teams calling...'
                   : `${activeTradeOfferCount} teams calling...`}
-              </div>
+              </button>
             ) : null}
             <div
               className={cn(
-                'inline-flex min-w-[148px] items-center gap-2 rounded-2xl border px-4 py-3',
+                'inline-flex w-full items-center gap-2 rounded-2xl border px-4 py-3 sm:min-w-[148px] sm:w-auto',
               )}
               style={{
                 borderColor:

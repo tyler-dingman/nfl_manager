@@ -7,7 +7,6 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { ArrowDownRight, ArrowUp, Lock, Menu, X } from 'lucide-react';
 
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
-import { FiveWideWordmark } from '@/components/branding/fivewide-wordmark';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { TeamNeeds } from '@/components/team-needs';
 import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
@@ -371,7 +370,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <TeamThemeProvider team={selectedTeam}>
-      <TeamFavicon primaryColor={selectedTeam?.color_primary ?? null} />
+      <TeamFavicon teamAbbr={selectedTeam?.abbr ?? null} />
       <div
         className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:min-h-screen md:flex-row md:items-stretch"
         style={{ '--app-header-height': '64px' } as CSSProperties}
@@ -388,18 +387,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           className="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:sticky md:top-0 md:z-auto md:flex md:min-h-screen md:h-auto md:translate-x-0 md:flex-col md:self-stretch md:overflow-y-auto"
           style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
         >
-          <div className="mb-[20px] mt-[20px] flex items-start justify-between gap-3 text-left text-sm">
+          <div className="mb-[20px] mt-7 flex items-start justify-between gap-3 text-left text-sm">
             <Link
-              href="/experience"
+              href="/offseasonmanager/experience"
               aria-label="Go to experience selection"
-              className="inline-flex cursor-pointer items-center gap-3"
+              className="inline-flex min-w-0 flex-1 cursor-pointer flex-col items-start"
             >
-              <FiveWideLogo size={28} containerClassName="h-11 w-11 shrink-0" priority />
-              <span className="text-left">
-                <span className="block text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                  Offseason Mode
-                </span>
-                <FiveWideWordmark className="mt-1 h-[15px]" priority />
+              <FiveWideLogo
+                size={128}
+                containerClassName="h-auto w-full max-w-[200px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0"
+                priority
+              />
+              <span className="mt-2 block text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                Offseason Mode
               </span>
             </Link>
             <button
@@ -721,7 +721,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           ) : null}
 
           <div className="flex min-w-0 flex-1 items-start gap-0">
-            <main className="min-w-0 flex-1 px-4 py-5 pb-24 sm:py-6 md:px-8 md:pb-6">{children}</main>
+            <main className="min-w-0 flex-1 px-4 py-5 pb-24 sm:py-6 md:px-8 md:pb-6">
+              {children}
+            </main>
             {showShellRightRail ? (
               <aside className="hidden w-[260px] shrink-0 px-0 py-5 md:block md:pr-6 md:pt-6 lg:w-[280px] lg:pr-8">
                 <AdSlot placement="RIGHT_RAIL" sticky={false} />

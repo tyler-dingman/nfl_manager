@@ -969,7 +969,7 @@ export default function RosterPage() {
             {activeTab === 'tradeBlock' ? (
               <Button
                 type="button"
-                className="w-full h-9 rounded-full px-4 text-sm font-semibold sm:w-auto"
+                className="h-8 w-full rounded-full px-2.5 text-xs font-semibold sm:w-auto"
                 style={{ backgroundColor: selectedTeam?.color_primary }}
                 onClick={() => router.push('/manage/trades')}
               >

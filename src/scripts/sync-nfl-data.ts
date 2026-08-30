@@ -51,6 +51,7 @@ import {
 
 const DATA_FILE = path.join(process.cwd(), 'src/server/data/nfl-data.json');
 const DRAFT_PROSPECTS_FILE = path.join(process.cwd(), 'src/server/data/draft-prospects.json');
+const COLLEGE_LOGOS_FILE = path.join(process.cwd(), 'src/data/college-logos.json');
 const DRAFT_CACHE_DIR = path.join(process.cwd(), 'src/server/data-cache');
 const ESPN_DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'espn-draft-board.json');
 const PFF_DRAFT_BOARD_CACHE_FILE = path.join(DRAFT_CACHE_DIR, 'pff-draft-board.json');
@@ -226,6 +227,8 @@ type TeamNeedsCachePayload = Record<
   }
 >;
 
+type CollegeLogoMap = Record<string, string>;
+
 const normalizeSchoolName = (value: string | null | undefined) =>
   (value ?? '')
     .toLowerCase()
@@ -234,6 +237,28 @@ const normalizeSchoolName = (value: string | null | undefined) =>
     .replace(/\bsaint\b/g, 'st')
     .replace(/\bstate\b/g, 'st')
     .trim();
+
+const mergeCollegeLogoMap = ({
+  existing,
+  espnRankings,
+}: {
+  existing: CollegeLogoMap;
+  espnRankings: DraftBoardRankingRecord[];
+}): CollegeLogoMap => {
+  const next: CollegeLogoMap = { ...existing };
+
+  for (const ranking of espnRankings) {
+    const school = ranking.school?.trim();
+    const logoUrl = ranking.collegeLogoUrl?.trim();
+    if (!school || !logoUrl) continue;
+
+    next[school] = logoUrl;
+  }
+
+  return Object.fromEntries(
+    Object.entries(next).sort(([left], [right]) => left.localeCompare(right)),
+  );
+};
 
 const weightedAverage = (entries: Array<{ rank: number | null; weight: number }>) => {
   const usable = entries.filter(
@@ -788,7 +813,7 @@ const generateFillerDraftProspects = (startRank: number, count: number): DraftPr
     const ranking = startRank + index;
     const position = positions[index % positions.length] ?? 'ATH';
     const school = schools[index % schools.length] ?? 'Program TBD';
-    const name = `Five Wide Prospect ${ranking}`;
+    const name = `Down & Distance Prospect ${ranking}`;
     const archetype = inferDraftProspectArchetype({
       position,
       stats: {},
@@ -847,6 +872,7 @@ const buildDraftProfileCacheFromProspects = (prospects: DraftProspectRecord[]): 
 
 const enrichDraftProspects = async (): Promise<{
   prospects: DraftProspectRecord[];
+  espnRankings: DraftBoardRankingRecord[];
   sourceCounts: {
     espn: number;
     pff: number;
@@ -929,6 +955,7 @@ const enrichDraftProspects = async (): Promise<{
     const fallback = await seedDraftProspectFallbacks();
     return {
       prospects: fallback,
+      espnRankings: [],
       sourceCounts: {
         espn: 0,
         pff: 0,
@@ -1119,6 +1146,7 @@ const enrichDraftProspects = async (): Promise<{
 
   return {
     prospects,
+    espnRankings,
     sourceCounts: {
       espn: espnRankings.length,
       pff: pffRankings.length,
@@ -1253,6 +1281,11 @@ const run = async () => {
 
   await mkdir(path.dirname(DATA_FILE), { recursive: true });
   await mkdir(DRAFT_CACHE_DIR, { recursive: true });
+  const existingCollegeLogos = (await readJsonIfPresent<CollegeLogoMap>(COLLEGE_LOGOS_FILE)) ?? {};
+  const mergedCollegeLogos = mergeCollegeLogoMap({
+    existing: existingCollegeLogos,
+    espnRankings: draftProspectSync.espnRankings,
+  });
   await writeFile(DATA_FILE, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
   await writeFile(
     DRAFT_PROSPECTS_FILE,
@@ -1268,6 +1301,10 @@ const run = async () => {
         name: prospect.name,
         normalizedName: prospect.normalizedName,
         school: prospect.school,
+        collegeLogoUrl:
+          draftProspectSync.espnRankings.find(
+            (entry) => entry.normalizedName === prospect.normalizedName,
+          )?.collegeLogoUrl ?? null,
         position: prospect.position,
         headshotUrl: prospect.headshotUrl,
         espnPlayerId: prospect.espnPlayerId,
@@ -1326,6 +1363,10 @@ const run = async () => {
         name: prospect.name,
         normalizedName: prospect.normalizedName,
         school: prospect.school,
+        collegeLogoUrl:
+          draftProspectSync.espnRankings.find(
+            (entry) => entry.normalizedName === prospect.normalizedName,
+          )?.collegeLogoUrl ?? null,
         position: prospect.position,
         headshotUrl: prospect.headshotUrl,
         espnPlayerId: prospect.espnPlayerId,
@@ -1347,6 +1388,7 @@ const run = async () => {
     `${JSON.stringify(buildDraftProfileCacheFromProspects(draftProspectSync.prospects), null, 2)}\n`,
     'utf8',
   );
+  await writeFile(COLLEGE_LOGOS_FILE, `${JSON.stringify(mergedCollegeLogos, null, 2)}\n`, 'utf8');
   await writeFile(
     TEAM_NEEDS_CACHE_FILE,
     `${JSON.stringify(

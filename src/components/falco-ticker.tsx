@@ -23,7 +23,7 @@ export default function FalcoTicker({ alerts }: FalcoTickerProps) {
       <div className="mb-3 flex items-center gap-2">
         <FalcoAvatar size={24} />
         <div>
-          <p className="text-sm font-semibold text-foreground">Five Wide Alerts</p>
+          <p className="text-sm font-semibold text-foreground">Down & Distance Alerts</p>
           <p className="text-xs text-muted-foreground">Draft desk ticker</p>
         </div>
       </div>

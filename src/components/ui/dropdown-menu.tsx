@@ -104,9 +104,7 @@ const DropdownMenuContent = React.forwardRef<
     return null;
   }
 
-  const alignStyles:
-    | React.CSSProperties
-    | undefined =
+  const alignStyles: React.CSSProperties | undefined =
     align === 'end'
       ? {
           position: 'fixed',

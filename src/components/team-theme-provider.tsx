@@ -4,6 +4,7 @@ import type { CSSProperties, ReactNode } from 'react';
 
 import type { Team } from '@/features/team/team-store';
 import { getReadableTextColor } from '@/lib/color-utils';
+import { getTeamBrandTheme } from '@/lib/team-brand-themes';
 
 const normalizeHex = (value: string) => {
   const trimmed = value.trim().replace('#', '');
@@ -34,12 +35,22 @@ const getLuminance = (hex: string) => {
 const getOnColor = (hex: string) => (getLuminance(hex) > 0.5 ? '#0f172a' : '#ffffff');
 
 const toTeamStyle = (team?: Team): CSSProperties => {
-  const primary = team?.color_primary ?? '#1f2937';
-  const secondary = team?.color_secondary ?? '#4b5563';
+  const theme = getTeamBrandTheme(team?.abbr);
+  const { primary, secondary, dark, light } = theme;
   const primaryForeground = getReadableTextColor(primary);
   return {
+    '--primary': primary,
+    '--secondary': secondary,
+    '--dark': dark,
+    '--light': light,
     '--team-primary': primary,
     '--team-secondary': secondary,
+    '--team-dark': dark,
+    '--team-light': light,
+    '--brand-primary': primary,
+    '--brand-secondary': secondary,
+    '--brand-dark': dark,
+    '--brand-light': light,
     '--team-primary-foreground': primaryForeground,
     '--team-on-primary': primaryForeground,
     '--team-on-secondary': getOnColor(secondary),

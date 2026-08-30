@@ -12,6 +12,7 @@ import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { apiFetch } from '@/lib/api';
 import { approximateTrajectoryFromOverall } from '@/lib/offseason-recap';
+import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
 import { computeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
 import type { SaveBootstrapDTO } from '@/types/save';
@@ -27,6 +28,8 @@ export default function SeasonRecapPage() {
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const latestSeasonRecap = useSaveStore((state) => state.latestSeasonRecap);
+  const phase = useSaveStore((state) => state.phase);
+  const unlocked = useSaveStore((state) => state.unlocked);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const setRoster = useSaveStore((state) => state.setRoster);
   const setRunBaseline = useSaveStore((state) => state.setRunBaseline);
@@ -91,11 +94,59 @@ export default function SeasonRecapPage() {
     }
 
     setBusy(true);
-    const response = await apiFetch('/api/franchise/advance-offseason', {
+    const actionableSaveId = await ensureRecoverableSaveId(
+      {
+        preferredSaveId: saveId,
+        teamId: selectedTeam.id,
+        teamAbbr: teamAbbr ?? selectedTeam.abbr,
+        year: franchiseYear,
+        capSpace,
+        capLimit,
+        roster,
+        phase,
+        unlocked,
+      },
+      setSaveHeader,
+    );
+
+    if (!actionableSaveId) {
+      setBusy(false);
+      return;
+    }
+
+    let response = await apiFetch('/api/franchise/advance-offseason', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ saveId }),
+      body: JSON.stringify({ saveId: actionableSaveId }),
     });
+
+    if (response.status === 404) {
+      const recoveredSaveId = await ensureRecoverableSaveId(
+        {
+          preferredSaveId: actionableSaveId,
+          teamId: selectedTeam.id,
+          teamAbbr: teamAbbr ?? selectedTeam.abbr,
+          year: franchiseYear,
+          capSpace,
+          capLimit,
+          roster,
+          phase,
+          unlocked,
+        },
+        setSaveHeader,
+      );
+
+      if (!recoveredSaveId) {
+        setBusy(false);
+        return;
+      }
+
+      response = await apiFetch('/api/franchise/advance-offseason', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ saveId: recoveredSaveId }),
+      });
+    }
 
     if (!response.ok) {
       setBusy(false);
@@ -132,7 +183,7 @@ export default function SeasonRecapPage() {
     });
     setFullExperience();
     setBusy(false);
-    router.push('/roster');
+    router.push('/manage-team');
   };
 
   const liveTrajectory = computeFranchiseTrajectory({

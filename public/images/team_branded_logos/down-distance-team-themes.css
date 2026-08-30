@@ -1,0 +1,226 @@
+/* Down & Distance — 32 NFL-inspired team themes */
+:root { --dd-primary:#B7F000; --dd-secondary:#B7F000; --dd-dark:#00182D; --dd-light:#FFFFFF; }
+
+.theme-arizona-cardinals {
+  --dd-primary: #97233F;
+  --dd-secondary: #FFB612;
+  --dd-dark: #000000;
+  --dd-light: #FFFFFF;
+}
+
+.theme-atlanta-falcons {
+  --dd-primary: #A71930;
+  --dd-secondary: #A5ACAF;
+  --dd-dark: #000000;
+  --dd-light: #FFFFFF;
+}
+
+.theme-baltimore-ravens {
+  --dd-primary: #241773;
+  --dd-secondary: #9E7C0C;
+  --dd-dark: #000000;
+  --dd-light: #FFFFFF;
+}
+
+.theme-buffalo-bills {
+  --dd-primary: #00338D;
+  --dd-secondary: #C60C30;
+  --dd-dark: #001B44;
+  --dd-light: #FFFFFF;
+}
+
+.theme-carolina-panthers {
+  --dd-primary: #0085CA;
+  --dd-secondary: #BFC0BF;
+  --dd-dark: #101820;
+  --dd-light: #FFFFFF;
+}
+
+.theme-chicago-bears {
+  --dd-primary: #0B162A;
+  --dd-secondary: #C83803;
+  --dd-dark: #05101F;
+  --dd-light: #FFFFFF;
+}
+
+.theme-cincinnati-bengals {
+  --dd-primary: #FB4F14;
+  --dd-secondary: #FFFFFF;
+  --dd-dark: #000000;
+  --dd-light: #FFFFFF;
+}
+
+.theme-cleveland-browns {
+  --dd-primary: #311D00;
+  --dd-secondary: #FF3C00;
+  --dd-dark: #1C1000;
+  --dd-light: #FFFFFF;
+}
+
+.theme-dallas-cowboys {
+  --dd-primary: #041E42;
+  --dd-secondary: #869397;
+  --dd-dark: #001733;
+  --dd-light: #FFFFFF;
+}
+
+.theme-denver-broncos {
+  --dd-primary: #FB4F14;
+  --dd-secondary: #002244;
+  --dd-dark: #00152B;
+  --dd-light: #FFFFFF;
+}
+
+.theme-detroit-lions {
+  --dd-primary: #0076B6;
+  --dd-secondary: #B0B7BC;
+  --dd-dark: #08162A;
+  --dd-light: #FFFFFF;
+}
+
+.theme-green-bay-packers {
+  --dd-primary: #203731;
+  --dd-secondary: #FFB612;
+  --dd-dark: #10251F;
+  --dd-light: #FFFFFF;
+}
+
+.theme-houston-texans {
+  --dd-primary: #03202F;
+  --dd-secondary: #A71930;
+  --dd-dark: #02131C;
+  --dd-light: #FFFFFF;
+}
+
+.theme-indianapolis-colts {
+  --dd-primary: #002C5F;
+  --dd-secondary: #A2AAAD;
+  --dd-dark: #001A38;
+  --dd-light: #FFFFFF;
+}
+
+.theme-jacksonville-jaguars {
+  --dd-primary: #006778;
+  --dd-secondary: #D7A22A;
+  --dd-dark: #101820;
+  --dd-light: #FFFFFF;
+}
+
+.theme-kansas-city-chiefs {
+  --dd-primary: #E31837;
+  --dd-secondary: #FFB81C;
+  --dd-dark: #8F001C;
+  --dd-light: #FFFFFF;
+}
+
+.theme-las-vegas-raiders {
+  --dd-primary: #000000;
+  --dd-secondary: #A5ACAF;
+  --dd-dark: #111111;
+  --dd-light: #FFFFFF;
+}
+
+.theme-los-angeles-chargers {
+  --dd-primary: #0080C6;
+  --dd-secondary: #FFC20E;
+  --dd-dark: #002A5E;
+  --dd-light: #FFFFFF;
+}
+
+.theme-los-angeles-rams {
+  --dd-primary: #003594;
+  --dd-secondary: #FFA300;
+  --dd-dark: #001D4F;
+  --dd-light: #FFFFFF;
+}
+
+.theme-miami-dolphins {
+  --dd-primary: #008E97;
+  --dd-secondary: #FC4C02;
+  --dd-dark: #005778;
+  --dd-light: #FFFFFF;
+}
+
+.theme-minnesota-vikings {
+  --dd-primary: #4F2683;
+  --dd-secondary: #FFC62F;
+  --dd-dark: #2F1554;
+  --dd-light: #FFFFFF;
+}
+
+.theme-new-england-patriots {
+  --dd-primary: #002244;
+  --dd-secondary: #C60C30;
+  --dd-dark: #00152B;
+  --dd-light: #FFFFFF;
+}
+
+.theme-new-orleans-saints {
+  --dd-primary: #D3BC8D;
+  --dd-secondary: #FFFFFF;
+  --dd-dark: #101820;
+  --dd-light: #FFFFFF;
+}
+
+.theme-new-york-giants {
+  --dd-primary: #0B2265;
+  --dd-secondary: #A71930;
+  --dd-dark: #06163E;
+  --dd-light: #FFFFFF;
+}
+
+.theme-new-york-jets {
+  --dd-primary: #125740;
+  --dd-secondary: #FFFFFF;
+  --dd-dark: #0A3226;
+  --dd-light: #FFFFFF;
+}
+
+.theme-philadelphia-eagles {
+  --dd-primary: #004C54;
+  --dd-secondary: #A5ACAF;
+  --dd-dark: #002D32;
+  --dd-light: #FFFFFF;
+}
+
+.theme-pittsburgh-steelers {
+  --dd-primary: #FFB612;
+  --dd-secondary: #FFFFFF;
+  --dd-dark: #101820;
+  --dd-light: #FFFFFF;
+}
+
+.theme-san-francisco-49ers {
+  --dd-primary: #AA0000;
+  --dd-secondary: #B3995D;
+  --dd-dark: #650000;
+  --dd-light: #FFFFFF;
+}
+
+.theme-seattle-seahawks {
+  --dd-primary: #002244;
+  --dd-secondary: #69BE28;
+  --dd-dark: #00162D;
+  --dd-light: #FFFFFF;
+}
+
+.theme-tampa-bay-buccaneers {
+  --dd-primary: #D50A0A;
+  --dd-secondary: #B1BABF;
+  --dd-dark: #34302B;
+  --dd-light: #FFFFFF;
+}
+
+.theme-tennessee-titans {
+  --dd-primary: #0C2340;
+  --dd-secondary: #4B92DB;
+  --dd-dark: #07162A;
+  --dd-light: #FFFFFF;
+}
+
+.theme-washington-commanders {
+  --dd-primary: #5A1414;
+  --dd-secondary: #FFB612;
+  --dd-dark: #360B0B;
+  --dd-light: #FFFFFF;
+}

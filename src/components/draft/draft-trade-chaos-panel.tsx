@@ -83,14 +83,6 @@ export function DraftTradeChaosPanel({
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <Badge variant="outline">{offer.archetype.replace(/_/g, ' ')}</Badge>
                 <Badge variant="secondary">Pick-for-pick value live</Badge>
-                {offer.urgency ? (
-                  <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-700">
-                    <Clock3 className="h-3.5 w-3.5" />
-                    {secondsLeft <= 10
-                      ? 'Offer expires soon'
-                      : `Expires in ${formatExpiry(offer.expiresAt, now)}`}
-                  </span>
-                ) : null}
               </div>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-2">

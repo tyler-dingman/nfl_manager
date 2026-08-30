@@ -12,7 +12,7 @@ export function LogoContainer({ children, className, style }: LogoContainerProps
   return (
     <span
       className={cn(
-        'inline-flex items-center justify-center rounded-[5px] bg-[#0B0B0B] p-2 shadow-[0_1px_3px_rgba(0,0,0,0.2)]',
+        'inline-flex items-center justify-center overflow-hidden rounded-[5px] border-2 border-[var(--secondary)] bg-[var(--dark)] p-1.5 shadow-[0_1px_3px_rgba(0,0,0,0.2)] ring-1 ring-[var(--primary)]/30 transition-colors duration-300',
         className,
       )}
       style={style}

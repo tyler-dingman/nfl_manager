@@ -17,5 +17,5 @@ export default function StartRedirect({
   }
 
   const query = params.toString();
-  redirect(query ? `/?${query}` : '/');
+  redirect(query ? `/offseasonmanager?${query}` : '/offseasonmanager');
 }

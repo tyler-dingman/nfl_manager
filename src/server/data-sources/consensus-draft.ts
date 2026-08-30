@@ -2,9 +2,10 @@ import https from 'node:https';
 
 import { normalizePlayerName } from '@/server/ingest/normalize';
 
-const PFF_BIG_BOARD_URL = 'https://www.pff.com/news/draft-2026-nfl-draft-big-board';
-const MOCK_DRAFT_DATABASE_BIG_BOARD_URL =
-  'https://www.nflmockdraftdatabase.com/big-boards/2026/consensus-big-board-2026';
+const getPffBigBoardUrl = (year: number) =>
+  `https://www.pff.com/news/draft-${year}-nfl-draft-big-board`;
+const getMockDraftDatabaseBigBoardUrl = (year: number) =>
+  `https://www.nflmockdraftdatabase.com/big-boards/${year}/consensus-big-board-${year}`;
 
 const insecureAgent = new https.Agent({ rejectUnauthorized: false });
 
@@ -41,7 +42,7 @@ const requestText = (url: string): Promise<string> =>
         agent: insecureAgent,
         headers: {
           Accept: 'application/json, text/html;q=0.9,*/*;q=0.8',
-          'User-Agent': 'Mozilla/5.0 (Five Wide Draft Sync)',
+          'User-Agent': 'Mozilla/5.0 (Down & Distance Draft Sync)',
         },
       },
       (response) => {
@@ -88,8 +89,10 @@ const buildRecord = ({
   source,
 });
 
-export const fetchPffBigBoardRankings = async (): Promise<ExternalDraftRankingRecord[]> => {
-  const html = await requestText(PFF_BIG_BOARD_URL);
+export const fetchPffBigBoardRankings = async (
+  year = 2026,
+): Promise<ExternalDraftRankingRecord[]> => {
+  const html = await requestText(getPffBigBoardUrl(year));
   const matches = html.matchAll(
     /<h3 class="wp-block-heading">(\d+)\.\s*([A-Z/+-]+)\s+(.+?),\s*([^<]+)<\/h3>/g,
   );
@@ -137,8 +140,10 @@ const extractMockDraftDatabasePayload = (html: string): MockDraftDatabaseConsens
   return JSON.parse(decodeHtmlEntities(match[1])) as MockDraftDatabaseConsensusPayload;
 };
 
-export const fetchConsensusBigBoardRankings = async (): Promise<ExternalDraftRankingRecord[]> => {
-  const html = await requestText(MOCK_DRAFT_DATABASE_BIG_BOARD_URL);
+export const fetchConsensusBigBoardRankings = async (
+  year = 2026,
+): Promise<ExternalDraftRankingRecord[]> => {
+  const html = await requestText(getMockDraftDatabaseBigBoardUrl(year));
   const payload = extractMockDraftDatabasePayload(html);
   const selections = payload.mock?.selections ?? [];
 

@@ -42,6 +42,7 @@ export default function FreeAgentsPage() {
   const unlocked = useSaveStore((state) => state.unlocked);
   const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const roster = useSaveStore((state) => state.roster);
+  const setPhase = useSaveStore((state) => state.setPhase);
   const setRoster = useSaveStore((state) => state.setRoster);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const teams = useTeamStore((state) => state.teams);
@@ -58,7 +59,6 @@ export default function FreeAgentsPage() {
   const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
   const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const [activeTab, setActiveTab] = useState<'available' | 'userSigned' | 'signed'>('available');
-  const [signedCount, setSignedCount] = useState(0);
   const selectedTeam = teams.find((team) => team.id === selectedTeamId) ?? null;
   const firstVisibleRowLoggedRef = useRef(false);
   const tableStartedAtRef = useRef<number>(
@@ -117,6 +117,8 @@ export default function FreeAgentsPage() {
   useEffect(() => {
     setPlayers(data.players);
   }, [data]);
+
+  const userSignedCount = players.filter((player) => player.isSignedByUser).length;
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') return;
@@ -295,6 +297,7 @@ export default function FreeAgentsPage() {
           unlocked: sourceHeader.unlocked ?? { freeAgency: false, draft: false },
         });
       }
+      setActiveTab('userSigned');
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
       trackProgress(
         `free-agency-sign:${updatedPlayer.id}`,
@@ -307,9 +310,6 @@ export default function FreeAgentsPage() {
           OFFSEASON_PROGRESS_POINTS['free-agency'].fill_need,
           `Filled a team need at ${updatedPlayer.position}.`,
         );
-      }
-      if (mode === 'full') {
-        setSignedCount((value) => value + 1);
       }
       void requestTradeOffer({ trigger: 'after-free-agency-signing' });
       setTimeout(() => {
@@ -337,11 +337,14 @@ export default function FreeAgentsPage() {
         throw new Error(errorData.error || 'Failed to advance wave');
       }
 
-      const result = (await response.json()) as { header: SaveHeaderDTO; market: FreeAgencyMarketDTO };
-      
+      const result = (await response.json()) as {
+        header: SaveHeaderDTO;
+        market: FreeAgencyMarketDTO;
+      };
+
       // Update the save header with new wave
       setSaveHeader(result.header);
-      
+
       // Update players with the new market data
       setPlayers(result.market.players);
 
@@ -369,9 +372,6 @@ export default function FreeAgentsPage() {
         });
       }
 
-      // Update signed count
-      setSignedCount(userSignedPlayers.length);
-
     } catch (error) {
       console.error('Failed to advance wave:', error);
       // Could add error toast here
@@ -379,31 +379,13 @@ export default function FreeAgentsPage() {
   };
 
   const handleContinue = async () => {
-    if (!saveId) return;
-
-    try {
-      const response = await apiFetch('/api/free-agents/advance-to-draft', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ saveId }),
-      });
-
-      if (!response.ok) {
-        const errorData = (await response.json()) as { error?: string };
-        throw new Error(errorData.error || 'Failed to advance to draft');
-      }
-
-      const result = (await response.json()) as { header: SaveHeaderDTO };
-      
-      // Update the save header to reflect the new phase
-      setSaveHeader(result.header);
-
-      // Navigate to the draft page
-      router.push('/draft');
-    } catch (error) {
-      console.error('Failed to advance to draft:', error);
-      // Could add error toast here
+    if (freeAgencyWave < 3) {
+      await handleAdvanceWave();
+      return;
     }
+
+    await setPhase('draft');
+    router.push('/draft/room?mode=mock');
   };
 
   const handleSkip = () => {
@@ -428,9 +410,9 @@ export default function FreeAgentsPage() {
     }
     const nextStep = skipCurrentStep();
     if (nextStep) router.push(getRouteForStep(nextStep));
-  }
+  };
 
-  const canContinueInFull = mode !== 'full' || signedCount > 0;
+  const canContinueInFull = mode !== 'full' || userSignedCount > 0;
 
   return (
     <AppShell>
@@ -469,7 +451,7 @@ export default function FreeAgentsPage() {
                     className="mr-1 inline-block h-3 w-3 rounded-full object-cover"
                   />
                 ) : null}
-                {selectedTeam?.abbr ?? 'Team'} Signed
+                Signed
               </button>
               <button
                 type="button"
@@ -485,7 +467,9 @@ export default function FreeAgentsPage() {
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-                <span className="font-semibold text-slate-700">Wave {freeAgencyWave}</span>
+                <span className="font-semibold text-slate-700">
+                  Wave {freeAgencyWave}
+                </span>
                 <span>
                   {freeAgencyWave === 1
                     ? 'Tampering Window'
@@ -493,31 +477,15 @@ export default function FreeAgentsPage() {
                       ? 'Secondary Market'
                       : 'Final Wave'}
                 </span>
-                <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold text-foreground">
-                  Signed {signedCount}
-                </span>
               </div>
-              {freeAgencyWave < 3 ? (
-                <Button
-                  type="button"
-                  className="h-9 rounded-full px-4 text-sm font-semibold"
-                  style={{ backgroundColor: selectedTeam?.color_primary }}
-                  onClick={handleAdvanceWave}
-                >
-                  {freeAgencyWave === 1
-                    ? 'Advance to Wave 2'
-                    : 'Advance to Wave 3'}
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  className="h-9 rounded-full px-4 text-sm font-semibold"
-                  style={{ backgroundColor: selectedTeam?.color_primary }}
-                  onClick={handleContinue}
-                >
-                  Advance to Draft
-                </Button>
-              )}
+              <Button
+                type="button"
+                className="h-8 rounded-full px-3 text-xs font-semibold"
+                style={{ backgroundColor: selectedTeam?.color_primary }}
+                onClick={handleContinue}
+              >
+                Continue
+              </Button>
             </div>
           </div>
         }

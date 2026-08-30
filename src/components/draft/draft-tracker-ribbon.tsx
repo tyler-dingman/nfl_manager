@@ -152,21 +152,82 @@ export function DraftTrackerRibbon({
   return (
     <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
       <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Draft Tracker
-          </p>
-          <h2 className="mt-1 text-lg font-semibold text-foreground">{year} NFL Draft</h2>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Draft Tracker
+            </p>
+            <h2 className="mt-1 text-lg font-semibold text-foreground">{year} NFL Draft</h2>
+          </div>
+          {controls ? (
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                className="h-8 gap-1.5 px-2.5 text-xs"
+                onClick={controls.onOfferTrade}
+                disabled={controls.isBusy || controls.canOfferTrade === false}
+              >
+                <ArrowLeftRight className="h-3.5 w-3.5" />
+                Offer Trade
+              </Button>
+
+              {!controls.hasStarted ? (
+                <Button
+                  type="button"
+                  size="sm"
+                  className="h-8 px-2.5 text-xs"
+                  onClick={controls.onStartDraft}
+                  disabled={controls.isBusy || controls.canStartDraft === false}
+                  style={{
+                    backgroundColor: userTeamPrimaryColor,
+                    color: userTeamOnPrimaryColor,
+                  }}
+                >
+                  Start Draft
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  size="sm"
+                  className="h-8 gap-1.5 px-2.5 text-xs"
+                  onClick={controls.onTogglePause}
+                  disabled={controls.isBusy}
+                  style={
+                    controls.isPaused
+                      ? {
+                          backgroundColor: '#16a34a',
+                          color: '#ffffff',
+                        }
+                      : undefined
+                  }
+                >
+                  {controls.isPaused ? (
+                    <>
+                      <Play className="h-3.5 w-3.5" />
+                      Resume Draft
+                    </>
+                  ) : (
+                    <>
+                      <Pause className="h-3.5 w-3.5" />
+                      Pause Draft
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+          ) : null}
         </div>
         {controls ? (
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
             {controls.canSkipToUserPick ? (
-              <div className="flex items-stretch">
+              <div className="flex w-full max-w-full items-stretch sm:w-auto">
                 <Button
                   type="button"
                   variant="secondary"
                   size="sm"
-                  className="rounded-r-none border-r-0"
+                  className="h-8 min-w-0 flex-1 rounded-r-none border-r-0 px-2.5 text-xs sm:flex-none"
                   onClick={controls.onSkipToUserPick}
                   disabled={controls.isBusy}
                 >
@@ -178,14 +239,14 @@ export function DraftTrackerRibbon({
                       type="button"
                       variant="secondary"
                       size="sm"
-                      className="rounded-l-none px-2"
+                      className="h-8 rounded-l-none px-2"
                       disabled={controls.isBusy}
                       aria-label="More skip options"
                     >
-                      <ChevronDown className="h-4 w-4" />
+                      <ChevronDown className="h-3.5 w-3.5" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuContent align="start" className="w-48 max-w-[calc(100vw-2rem)]">
                     {controls.canSkipToEndOfRound ? (
                       <DropdownMenuItem onClick={controls.onSkipToEndOfRound}>
                         Skip To End Of Round
@@ -201,10 +262,10 @@ export function DraftTrackerRibbon({
               </div>
             ) : null}
 
-            <div className="flex items-center gap-2 rounded-full border border-border bg-slate-50 px-3 py-2">
-              <span className="text-xs font-semibold text-muted-foreground">Speed</span>
+            <div className="hidden items-center gap-1.5 rounded-full border border-border bg-slate-50 px-2.5 py-1.5 sm:flex">
+              <span className="text-[11px] font-semibold text-muted-foreground">Speed</span>
               <input
-                className="w-24 sm:w-28"
+                className="w-20 sm:w-24"
                 type="range"
                 min={0}
                 max={2}
@@ -215,64 +276,10 @@ export function DraftTrackerRibbon({
                   controls.onSpeedChange(Number(event.target.value) as 0 | 1 | 2)
                 }
               />
-              <span className="text-xs font-semibold text-foreground">
+              <span className="text-[11px] font-semibold text-foreground">
                 {speedLabel(controls.speedLevel)}
               </span>
             </div>
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="gap-2"
-              onClick={controls.onOfferTrade}
-              disabled={controls.isBusy || controls.canOfferTrade === false}
-            >
-              <ArrowLeftRight className="h-4 w-4" />
-              Offer Trade
-            </Button>
-
-            {!controls.hasStarted ? (
-              <Button
-                type="button"
-                size="sm"
-                onClick={controls.onStartDraft}
-                disabled={controls.isBusy || controls.canStartDraft === false}
-                style={{
-                  backgroundColor: userTeamPrimaryColor,
-                  color: userTeamOnPrimaryColor,
-                }}
-              >
-                Start Draft
-              </Button>
-            ) : (
-              <Button
-                type="button"
-                size="sm"
-                className="gap-2"
-                onClick={controls.onTogglePause}
-                disabled={controls.isBusy}
-                style={
-                  controls.isPaused
-                    ? {
-                        backgroundColor: '#16a34a',
-                        color: '#ffffff',
-                      }
-                    : undefined
-                }
-              >
-                {controls.isPaused ? (
-                  <>
-                    <Play className="h-4 w-4" />
-                    Resume Draft
-                  </>
-                ) : (
-                  <>
-                    <Pause className="h-4 w-4" />
-                    Pause Draft
-                  </>
-                )}
-              </Button>
-            )}
           </div>
         ) : null}
       </div>
@@ -493,7 +500,7 @@ export function DraftTrackerRibbon({
       </div>
 
       {controls?.showSettings ? (
-        <div className="mt-4 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 sm:grid-cols-3">
+        <div className="mt-4 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-[13px] text-slate-700 sm:grid-cols-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Draft Clock

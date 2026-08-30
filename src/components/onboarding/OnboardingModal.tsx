@@ -142,7 +142,7 @@ export default function OnboardingModal({
         className="w-full max-w-[560px] overflow-hidden rounded-[28px] border border-white/50 bg-white/95 shadow-[0_24px_80px_rgba(15,23,42,0.28)] transition-all duration-200 ease-out animate-in fade-in zoom-in-95"
         role="dialog"
         aria-modal="true"
-        aria-label="Five Wide onboarding"
+        aria-label="Down & Distance onboarding"
       >
         <div className="relative overflow-hidden px-5 py-5 sm:px-8 sm:py-7">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-slate-100/80 to-transparent" />

@@ -1037,10 +1037,15 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
                 {actionMessage ? <span>{actionMessage}</span> : null}
               </div>
               <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-                <Button type="button" onClick={handleAcceptTrade} disabled={isSubmitting}>
+                <Button
+                  type="button"
+                  onClick={handleAcceptTrade}
+                  disabled={isSubmitting}
+                  className="h-8 px-2.5 text-xs"
+                >
                   {isSubmitting ? 'Accepting...' : 'Accept Trade'}
                 </Button>
-                <Button type="button" variant="outline" onClick={onClose}>
+                <Button type="button" variant="outline" onClick={onClose} className="h-8 px-2.5 text-xs">
                   Close
                 </Button>
               </div>

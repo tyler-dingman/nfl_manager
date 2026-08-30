@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 
 type DraftTopControlBarProps = {
+  year?: number;
   mode: DraftMode;
   session: DraftSessionDTO | null;
   speedLevel: 0 | 1 | 2;
@@ -24,6 +25,7 @@ const speedLabel = (speedLevel: number) => {
 };
 
 export function DraftTopControlBar({
+  year = 2026,
   mode,
   session,
   speedLevel,
@@ -44,7 +46,7 @@ export function DraftTopControlBar({
           </p>
           <h1 className="mt-1 text-2xl font-semibold text-foreground">Draft Room</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            2026 NFL Draft
+            {year} NFL Draft
             {currentPick
               ? ` • Round ${currentPick.round} • Pick ${currentPick.overall}`
               : ' • Ready to begin'}

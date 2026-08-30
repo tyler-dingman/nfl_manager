@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { FalcoReactionFeed, type DraftEventDTO } from '@/components/draft/falco-reaction-feed';
 import { DraftTrackerRibbon } from '@/components/draft/draft-tracker-ribbon';
+import { DraftTradeChaosPanel } from '@/components/draft/draft-trade-chaos-panel';
 import { DraftTradeOfferReviewModal } from '@/components/draft/draft-trade-offer-review-modal';
 import { LiveDraftBoard } from '@/components/draft/live-draft-board';
 import { OnTheClockBanner } from '@/components/draft/on-the-clock-banner';
@@ -196,6 +197,8 @@ export function ActiveDraftRoom({
   >([]);
   const [reviewOffer, setReviewOffer] = React.useState<TradeOfferDTO | null>(null);
   const [selectedBoardPlayerId, setSelectedBoardPlayerId] = React.useState<string | null>(null);
+  const [showTradeChaosPanel, setShowTradeChaosPanel] = React.useState(false);
+  const [wasPausedByModal, setWasPausedByModal] = React.useState(false);
   const [isProspectModalOpen, setIsProspectModalOpen] = React.useState(false);
   const [now, setNow] = React.useState(() => Date.now());
   const userTeam = React.useMemo(
@@ -781,8 +784,9 @@ export function ActiveDraftRoom({
 
     const isEarlyPressureWindow =
       currentPick.overall >= 3 &&
-      currentPick.overall < nextUserPick.overall &&
-      (currentPick.overall % 3 === 0 || nextUserPick.overall - currentPick.overall <= 6);
+      currentPick.overall < (nextUserPick?.overall ?? Infinity) &&
+      (currentPick.overall % 3 === 0 ||
+        (nextUserPick ? nextUserPick.overall - currentPick.overall <= 6 : false));
 
     if (!onClock && !isEarlyPressureWindow) {
       return;
@@ -804,7 +808,7 @@ export function ActiveDraftRoom({
             saveId,
             userTeamAbbr: session.userTeamAbbr,
             phase: 'draft',
-            trigger: `pick-${currentPick.overall}`,
+            trigger: `pick-${nextUserPick.overall}`,
             draftSessionId,
             draftCurrentPickIndex: session.currentPickIndex,
           }),
@@ -830,7 +834,7 @@ export function ActiveDraftRoom({
           ...current.filter((offer) => offer.expiresAt > createdAt),
           ...limited.map((offer, index) => ({
             ...offer,
-            expiresAt: createdAt + buildExpiryMs(currentPick.overall, index),
+            expiresAt: Infinity,
           })),
         ];
         return Array.from(new Map(next.map((offer) => [offer.id, offer])).values())
@@ -851,10 +855,6 @@ export function ActiveDraftRoom({
     session.id,
     session.userTeamAbbr,
   ]);
-
-  React.useEffect(() => {
-    setDraftOffers((current) => current.filter((offer) => offer.expiresAt > now));
-  }, [now]);
 
   const selectedTeam = currentPick ? teamLookup.get(currentPick.ownerTeamAbbr) : null;
   const inspectedPlayer =
@@ -878,6 +878,14 @@ export function ActiveDraftRoom({
             progressPct={onClock ? progressPct : 100}
             isCritical={isCritical}
             activeTradeOfferCount={draftOffers.length}
+            onTradeOffersClick={() => {
+              const isPaused = session.isPaused;
+              setWasPausedByModal(!isPaused);
+              if (!isPaused) {
+                onTogglePause();
+              }
+              setShowTradeChaosPanel(true);
+            }}
           />
         ) : null}
 
@@ -983,6 +991,49 @@ export function ActiveDraftRoom({
           />
         </div>
       </div>
+
+      {showTradeChaosPanel && draftOffers.length > 0 ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4">
+          <div className="w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <h3 className="text-lg font-semibold">Live Trade Chaos</h3>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowTradeChaosPanel(false);
+                  if (wasPausedByModal) {
+                    onTogglePause();
+                    setWasPausedByModal(false);
+                  }
+                }}
+                className="rounded-md px-2 py-1 text-sm font-semibold text-muted-foreground transition hover:bg-slate-100"
+              >
+                Close
+              </button>
+            </div>
+            <div className="h-[70vh] overflow-y-auto p-4">
+              <DraftTradeChaosPanel
+                offers={draftOffers}
+                now={now}
+                onReview={(offer) => {
+                  setReviewOffer(offer);
+                  setShowTradeChaosPanel(false);
+                  if (wasPausedByModal) {
+                    onTogglePause();
+                    setWasPausedByModal(false);
+                  }
+                }}
+                onDecline={(offerId) =>
+                  setDraftOffers((current) => current.filter((offer) => offer.id !== offerId))
+                }
+                onDismiss={(offerId) =>
+                  setDraftOffers((current) => current.filter((offer) => offer.id !== offerId))
+                }
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <ProspectDetailsModal
         open={isProspectModalOpen}

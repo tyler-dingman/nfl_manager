@@ -1,10 +1,10 @@
 import type { PlayerRowDTO } from '@/types/player';
 
 export type FalcoTag =
-  | 'Five Wide Rising'
-  | 'Five Wide Fading'
-  | 'Five Wide Concern'
-  | 'Five Wide Favorite'
+  | 'Down & Distance Rising'
+  | 'Down & Distance Fading'
+  | 'Down & Distance Concern'
+  | 'Down & Distance Favorite'
   | 'Boom/Bust'
   | 'High Floor'
   | 'Scheme Fit'
@@ -28,7 +28,7 @@ export type FalcoTweet = {
 };
 
 export const falcoProfile = {
-  name: 'Five Wide',
+  name: 'Down & Distance',
   tagline: 'Built from tape, traits, and truth.',
 };
 
@@ -59,9 +59,11 @@ const sample = <T>(rng: () => number, items: T[]) =>
   items[Math.floor(rng() * items.length)] ?? items[0];
 
 const pickTag = (rng: () => number, delta: number): FalcoTag => {
-  if (delta >= 3) return sample(rng, ['Five Wide Rising', 'Five Wide Favorite', 'High Floor']);
-  if (delta <= -3) return sample(rng, ['Five Wide Fading', 'Five Wide Concern', 'Boom/Bust']);
-  return sample(rng, ['Scheme Fit', 'High Floor', 'Five Wide Favorite']);
+  if (delta >= 3)
+    return sample(rng, ['Down & Distance Rising', 'Down & Distance Favorite', 'High Floor']);
+  if (delta <= -3)
+    return sample(rng, ['Down & Distance Fading', 'Down & Distance Concern', 'Boom/Bust']);
+  return sample(rng, ['Scheme Fit', 'High Floor', 'Down & Distance Favorite']);
 };
 
 const noteTemplates = {
@@ -89,24 +91,24 @@ const noteTemplates = {
 
 const tweetTemplates = {
   hype: [
-    'Five Wide: {name} is a problem. Long, explosive, and just getting started.',
-    'Five Wide: {name} has first-round tape all day. Tape doesn’t lie.',
-    'Five Wide: Don’t overthink {name}. He’s a tone-setter.',
+    'Down & Distance: {name} is a problem. Long, explosive, and just getting started.',
+    'Down & Distance: {name} has first-round tape all day. Tape doesn’t lie.',
+    'Down & Distance: Don’t overthink {name}. He’s a tone-setter.',
   ],
   skeptical: [
-    'Five Wide: I like {name}, but I’m not sure the ceiling is real.',
-    'Five Wide: The traits are loud. The polish is not.',
-    'Five Wide: {name} might need more time than people want to admit.',
+    'Down & Distance: I like {name}, but I’m not sure the ceiling is real.',
+    'Down & Distance: The traits are loud. The polish is not.',
+    'Down & Distance: {name} might need more time than people want to admit.',
   ],
   value: [
-    'Five Wide: If {name} gets to your pick, it’s value.',
-    'Five Wide: {name} is the kind of board win you remember.',
-    'Five Wide: The market is sleeping on {name}.',
+    'Down & Distance: If {name} gets to your pick, it’s value.',
+    'Down & Distance: {name} is the kind of board win you remember.',
+    'Down & Distance: The market is sleeping on {name}.',
   ],
   concern: [
-    'Five Wide: I’m hearing mixed on {name}. Watch the medicals.',
-    'Five Wide: There’s a real risk profile with {name}.',
-    'Five Wide: {name} can be great, but there’s volatility here.',
+    'Down & Distance: I’m hearing mixed on {name}. Watch the medicals.',
+    'Down & Distance: There’s a real risk profile with {name}.',
+    'Down & Distance: {name} can be great, but there’s volatility here.',
   ],
 };
 
@@ -183,7 +185,7 @@ export const buildFalcoBoard = (
     const tag = pickTag(rng, delta);
     const name = `${prospect.firstName} ${prospect.lastName}`.trim();
     const template =
-      tag === 'Five Wide Concern' || tag === 'Injury Flag' || tag === 'Character Flag'
+      tag === 'Down & Distance Concern' || tag === 'Injury Flag' || tag === 'Character Flag'
         ? sample(rng, noteTemplates.concern)
         : delta >= 3
           ? sample(rng, noteTemplates.rising)

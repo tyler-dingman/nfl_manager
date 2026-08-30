@@ -8,7 +8,7 @@ import type {
 
 export const TRADE_INTEREST_THRESHOLDS = {
   reject: 0.82,
-  low: 0.95,
+  low: 0.9,
   fair: 1.09,
   high: 1.21,
 } as const;

@@ -3,8 +3,9 @@ import AppProviders from '@/components/app-providers';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Five Wide',
-  description: 'Five Wide offseason football management',
+  title: 'Down & Distance',
+  description:
+    'Keep it high and tight. News, video, fan conversation, roster context, and tools for every NFL fan.',
   icons: {
     icon: [
       { url: '/images/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
@@ -27,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="shortcut icon" href="/images/favicon/favicon-32x32.png" />
         <link rel="apple-touch-icon" href="/images/favicon/apple-touch-icon.png" />
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
-        <meta name="theme-color" content="#111827" />
+        <meta name="theme-color" content="#FF3D38" />
       </head>
       <body className="min-h-screen overflow-x-hidden bg-background text-foreground antialiased">
         <AppProviders>{children}</AppProviders>

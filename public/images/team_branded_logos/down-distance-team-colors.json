@@ -1,0 +1,194 @@
+{
+  "Arizona Cardinals": {
+    "primary": "#97233F",
+    "secondary": "#FFB612",
+    "dark": "#000000",
+    "light": "#FFFFFF"
+  },
+  "Atlanta Falcons": {
+    "primary": "#A71930",
+    "secondary": "#A5ACAF",
+    "dark": "#000000",
+    "light": "#FFFFFF"
+  },
+  "Baltimore Ravens": {
+    "primary": "#241773",
+    "secondary": "#9E7C0C",
+    "dark": "#000000",
+    "light": "#FFFFFF"
+  },
+  "Buffalo Bills": {
+    "primary": "#00338D",
+    "secondary": "#C60C30",
+    "dark": "#001B44",
+    "light": "#FFFFFF"
+  },
+  "Carolina Panthers": {
+    "primary": "#0085CA",
+    "secondary": "#BFC0BF",
+    "dark": "#101820",
+    "light": "#FFFFFF"
+  },
+  "Chicago Bears": {
+    "primary": "#0B162A",
+    "secondary": "#C83803",
+    "dark": "#05101F",
+    "light": "#FFFFFF"
+  },
+  "Cincinnati Bengals": {
+    "primary": "#FB4F14",
+    "secondary": "#FFFFFF",
+    "dark": "#000000",
+    "light": "#FFFFFF"
+  },
+  "Cleveland Browns": {
+    "primary": "#311D00",
+    "secondary": "#FF3C00",
+    "dark": "#1C1000",
+    "light": "#FFFFFF"
+  },
+  "Dallas Cowboys": {
+    "primary": "#041E42",
+    "secondary": "#869397",
+    "dark": "#001733",
+    "light": "#FFFFFF"
+  },
+  "Denver Broncos": {
+    "primary": "#FB4F14",
+    "secondary": "#002244",
+    "dark": "#00152B",
+    "light": "#FFFFFF"
+  },
+  "Detroit Lions": {
+    "primary": "#0076B6",
+    "secondary": "#B0B7BC",
+    "dark": "#08162A",
+    "light": "#FFFFFF"
+  },
+  "Green Bay Packers": {
+    "primary": "#203731",
+    "secondary": "#FFB612",
+    "dark": "#10251F",
+    "light": "#FFFFFF"
+  },
+  "Houston Texans": {
+    "primary": "#03202F",
+    "secondary": "#A71930",
+    "dark": "#02131C",
+    "light": "#FFFFFF"
+  },
+  "Indianapolis Colts": {
+    "primary": "#002C5F",
+    "secondary": "#A2AAAD",
+    "dark": "#001A38",
+    "light": "#FFFFFF"
+  },
+  "Jacksonville Jaguars": {
+    "primary": "#006778",
+    "secondary": "#D7A22A",
+    "dark": "#101820",
+    "light": "#FFFFFF"
+  },
+  "Kansas City Chiefs": {
+    "primary": "#E31837",
+    "secondary": "#FFB81C",
+    "dark": "#8F001C",
+    "light": "#FFFFFF"
+  },
+  "Las Vegas Raiders": {
+    "primary": "#000000",
+    "secondary": "#A5ACAF",
+    "dark": "#111111",
+    "light": "#FFFFFF"
+  },
+  "Los Angeles Chargers": {
+    "primary": "#0080C6",
+    "secondary": "#FFC20E",
+    "dark": "#002A5E",
+    "light": "#FFFFFF"
+  },
+  "Los Angeles Rams": {
+    "primary": "#003594",
+    "secondary": "#FFA300",
+    "dark": "#001D4F",
+    "light": "#FFFFFF"
+  },
+  "Miami Dolphins": {
+    "primary": "#008E97",
+    "secondary": "#FC4C02",
+    "dark": "#005778",
+    "light": "#FFFFFF"
+  },
+  "Minnesota Vikings": {
+    "primary": "#4F2683",
+    "secondary": "#FFC62F",
+    "dark": "#2F1554",
+    "light": "#FFFFFF"
+  },
+  "New England Patriots": {
+    "primary": "#002244",
+    "secondary": "#C60C30",
+    "dark": "#00152B",
+    "light": "#FFFFFF"
+  },
+  "New Orleans Saints": {
+    "primary": "#D3BC8D",
+    "secondary": "#FFFFFF",
+    "dark": "#101820",
+    "light": "#FFFFFF"
+  },
+  "New York Giants": {
+    "primary": "#0B2265",
+    "secondary": "#A71930",
+    "dark": "#06163E",
+    "light": "#FFFFFF"
+  },
+  "New York Jets": {
+    "primary": "#125740",
+    "secondary": "#FFFFFF",
+    "dark": "#0A3226",
+    "light": "#FFFFFF"
+  },
+  "Philadelphia Eagles": {
+    "primary": "#004C54",
+    "secondary": "#A5ACAF",
+    "dark": "#002D32",
+    "light": "#FFFFFF"
+  },
+  "Pittsburgh Steelers": {
+    "primary": "#FFB612",
+    "secondary": "#FFFFFF",
+    "dark": "#101820",
+    "light": "#FFFFFF"
+  },
+  "San Francisco 49ers": {
+    "primary": "#AA0000",
+    "secondary": "#B3995D",
+    "dark": "#650000",
+    "light": "#FFFFFF"
+  },
+  "Seattle Seahawks": {
+    "primary": "#002244",
+    "secondary": "#69BE28",
+    "dark": "#00162D",
+    "light": "#FFFFFF"
+  },
+  "Tampa Bay Buccaneers": {
+    "primary": "#D50A0A",
+    "secondary": "#B1BABF",
+    "dark": "#34302B",
+    "light": "#FFFFFF"
+  },
+  "Tennessee Titans": {
+    "primary": "#0C2340",
+    "secondary": "#4B92DB",
+    "dark": "#07162A",
+    "light": "#FFFFFF"
+  },
+  "Washington Commanders": {
+    "primary": "#5A1414",
+    "secondary": "#FFB612",
+    "dark": "#360B0B",
+    "light": "#FFFFFF"
+  }
+}

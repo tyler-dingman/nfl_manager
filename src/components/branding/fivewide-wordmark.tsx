@@ -10,10 +10,10 @@ type FiveWideWordmarkProps = {
 export function FiveWideWordmark({ className, priority = false }: FiveWideWordmarkProps) {
   return (
     <Image
-      src="/images/five_wide_wordmark_black.png"
-      alt="Five Wide"
-      width={659}
-      height={66}
+      src="/images/down_distance_badge.png"
+      alt="Down & Distance"
+      width={1594}
+      height={806}
       className={cn('h-auto w-auto object-contain', className)}
       priority={priority}
     />

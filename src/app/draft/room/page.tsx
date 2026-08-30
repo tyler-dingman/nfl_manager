@@ -124,8 +124,8 @@ function DraftRoomContent() {
   const [isDraftRecapOpen, setIsDraftRecapOpen] = React.useState(false);
   const falcoSeed = `${saveId ?? 'global'}-${session?.id ?? 'lobby'}`;
   const falcoBoard = React.useMemo(
-    () => buildFalcoBoard(session?.prospects ?? buildTop32Prospects(), falcoSeed),
-    [falcoSeed, session?.prospects],
+    () => buildFalcoBoard(session?.prospects ?? buildTop32Prospects(franchiseYear), falcoSeed),
+    [falcoSeed, franchiseYear, session?.prospects],
   );
   const trackProgress = React.useCallback(
     (eventKey: string, points: number, message: string, detail = 'Draft') => {
@@ -344,7 +344,7 @@ function DraftRoomContent() {
   }, [session, teams]);
 
   const roundOneOrder = React.useMemo(() => buildRoundOneOrder(teams), [teams]);
-  const lobbyProspects = React.useMemo(() => buildTop32Prospects(), []);
+  const lobbyProspects = React.useMemo(() => buildTop32Prospects(franchiseYear), [franchiseYear]);
 
   const selectedPick = React.useMemo(
     () =>
@@ -1035,36 +1035,7 @@ function DraftRoomContent() {
                 </p>
               </div>
 
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  First Pick
-                </p>
-                <p className="mt-2">
-                  {selectedPick
-                    ? `Pick ${selectedPick.pickNumber} · ${selectedPick.name}`
-                    : 'Loading draft order'}
-                </p>
-              </div>
 
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Draft Plan
-                </p>
-                <p className="mt-2">
-                  This run will stop after Round {pendingDraftRounds ?? selectedDraftRounds}. Once
-                  your final pick is in, the room will jump straight into a full class recap.
-                </p>
-              </div>
-
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Room Note
-                </p>
-                <p className="mt-2">
-                  Premium positions and clean value should stay on your radar early. Let the board
-                  come to you.
-                </p>
-              </div>
             </div>
 
             <div className="mt-6 flex justify-end">

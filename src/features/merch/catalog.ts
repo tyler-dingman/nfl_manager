@@ -1,0 +1,187 @@
+export type MerchCategory = 'Men' | 'Women' | 'Kids' | 'Hats' | 'Accessories' | 'Sale';
+
+export type MerchProduct = {
+  id: string;
+  name: string;
+  category: MerchCategory;
+  type: string;
+  price: number;
+  compareAtPrice?: number;
+  colors: string[];
+  sizes: string[];
+  imageUrl?: string;
+  badge?: 'New' | 'Best Seller' | 'Sale';
+};
+
+export const MERCH_CATEGORIES: MerchCategory[] = [
+  'Men',
+  'Women',
+  'Kids',
+  'Hats',
+  'Accessories',
+  'Sale',
+];
+
+export const MERCH_PRODUCTS: MerchProduct[] = [
+  {
+    id: 'camo-pocket-tee',
+    name: 'Camo Pocket Badge Tee',
+    category: 'Men',
+    type: "Men's Shirts",
+    price: 38,
+    colors: ['#5B503A'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    imageUrl: '/images/store/mens_shirts/camo_shirt.png',
+    badge: 'New',
+  },
+  {
+    id: 'low-man-wins-tee',
+    name: 'Low Man Wins Tee',
+    category: 'Men',
+    type: "Men's Shirts",
+    price: 34,
+    colors: ['#F2E7D2'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    imageUrl: '/images/store/mens_shirts/low_man_wins.png',
+    badge: 'New',
+  },
+  {
+    id: 'one-eleventh-tee',
+    name: 'Do Your 1/11th Tee',
+    category: 'Men',
+    type: "Men's Shirts",
+    price: 36,
+    colors: ['#FFFFFF'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    imageUrl: '/images/store/mens_shirts/one_eleventh.png',
+    badge: 'New',
+  },
+  {
+    id: 'watch-the-stunts-tee',
+    name: 'Watch the Stunts Tee',
+    category: 'Men',
+    type: "Men's Shirts",
+    price: 34,
+    colors: ['#F2E7D2'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    imageUrl: '/images/store/mens_shirts/watch_the_stunts.png',
+    badge: 'New',
+  },
+  {
+    id: 'sideline-hoodie',
+    name: 'Sideline Heavyweight Hoodie',
+    category: 'Men',
+    type: 'Hoodie',
+    price: 72,
+    colors: ['#00172B', '#FF3D38'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL'],
+    badge: 'Best Seller',
+  },
+  {
+    id: 'high-tight-tee',
+    name: 'Keep It High & Tight Tee',
+    category: 'Men',
+    type: 'T-Shirt',
+    price: 34,
+    colors: ['#F4D9B7', '#00172B'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL'],
+    badge: 'New',
+  },
+  {
+    id: 'fourth-quarter-crew',
+    name: 'Fourth Quarter Crewneck',
+    category: 'Women',
+    type: 'Crewneck',
+    price: 64,
+    colors: ['#FF3D38', '#F4D9B7'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    badge: 'New',
+  },
+  {
+    id: 'distance-crop',
+    name: 'Down & Distance Cropped Tee',
+    category: 'Women',
+    type: 'T-Shirt',
+    price: 32,
+    colors: ['#F4D9B7', '#00172B'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+  },
+  {
+    id: 'rookie-hoodie',
+    name: 'Rookie Season Hoodie',
+    category: 'Kids',
+    type: 'Hoodie',
+    price: 48,
+    colors: ['#00172B', '#FF3D38'],
+    sizes: ['YS', 'YM', 'YL', 'YXL'],
+  },
+  {
+    id: 'little-playmaker',
+    name: 'Little Playmaker Tee',
+    category: 'Kids',
+    type: 'T-Shirt',
+    price: 24,
+    colors: ['#F4D9B7', '#FF3D38'],
+    sizes: ['YS', 'YM', 'YL', 'YXL'],
+  },
+  {
+    id: 'script-snapback',
+    name: 'D&D Script Snapback',
+    category: 'Hats',
+    type: 'Snapback',
+    price: 36,
+    colors: ['#00172B', '#FF3D38'],
+    sizes: ['One Size'],
+    badge: 'Best Seller',
+  },
+  {
+    id: 'camp-cap',
+    name: 'Training Camp Performance Cap',
+    category: 'Hats',
+    type: 'Performance Hat',
+    price: 38,
+    colors: ['#F4D9B7', '#00172B'],
+    sizes: ['S/M', 'L/XL'],
+    badge: 'New',
+  },
+  {
+    id: 'stadium-tumbler',
+    name: 'Fourth Down Stadium Tumbler',
+    category: 'Accessories',
+    type: 'Drinkware',
+    price: 30,
+    colors: ['#00172B'],
+    sizes: ['24 oz'],
+  },
+  {
+    id: 'tailgate-tote',
+    name: 'Game Day Utility Tote',
+    category: 'Accessories',
+    type: 'Bag',
+    price: 42,
+    colors: ['#F4D9B7', '#FF3D38'],
+    sizes: ['One Size'],
+  },
+  {
+    id: 'archive-tee',
+    name: 'Archive Yard Marker Tee',
+    category: 'Sale',
+    type: 'T-Shirt',
+    price: 22,
+    compareAtPrice: 34,
+    colors: ['#00172B'],
+    sizes: ['S', 'M', 'L', 'XL'],
+    badge: 'Sale',
+  },
+  {
+    id: 'end-zone-beanie',
+    name: 'End Zone Cuff Beanie',
+    category: 'Sale',
+    type: 'Beanie',
+    price: 19,
+    compareAtPrice: 30,
+    colors: ['#FF3D38'],
+    sizes: ['One Size'],
+    badge: 'Sale',
+  },
+];

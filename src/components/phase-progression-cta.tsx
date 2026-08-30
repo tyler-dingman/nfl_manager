@@ -67,9 +67,7 @@ export function PhaseProgressionCTA({ currentStep, completedSteps }: Props) {
       <div className="px-4 py-4">
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium text-foreground">
-              Continue to {getNextPhaseLabel()}
-            </p>
+            <p className="text-sm font-medium text-foreground">Continue to {getNextPhaseLabel()}</p>
             <p className="text-xs text-muted-foreground">
               {isFinalStep
                 ? 'Review your offseason performance'

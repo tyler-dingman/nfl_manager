@@ -747,7 +747,10 @@ export const getSaveStateResult = (saveId: string): SaveResult<SaveState> => {
     state.header.unlocked = resolveUnlocksForPhase(state.header.phase);
   }
   if (state.expiringContracts.length === 0) {
-    state.expiringContracts = getExpiringContractsForTeam(state.header.teamAbbr, NFL_LEAGUE_DATA);
+    state.expiringContracts =
+      getLeagueYearForSave(state) > CURRENT_MODELED_LEAGUE_YEAR
+        ? buildExpiringContractsFromRoster(state.roster, state.header.teamAbbr)
+        : getExpiringContractsForTeam(state.header.teamAbbr, NFL_LEAGUE_DATA);
   }
   if (!state.newsFeed) {
     state.newsFeed = [];
@@ -801,6 +804,29 @@ const resolveWalkawaysFromState = (state: SaveState): PlayerRowDTO[] => {
 
 export const hydrateOffseasonFreeAgencyState = async (state: SaveState): Promise<void> => {
   if (state.offseason.hydrated) {
+    return;
+  }
+
+  if (getLeagueYearForSave(state) > CURRENT_MODELED_LEAGUE_YEAR) {
+    const rosteredPlayerIds = new Set(
+      Object.values(state.teamRosters)
+        .flat()
+        .filter((player) => player.status?.toLowerCase() !== 'cut')
+        .map((player) => player.id),
+    );
+    state.expiringContracts =
+      state.expiringContracts.length > 0
+        ? state.expiringContracts
+        : buildExpiringContractsFromRoster(state.roster, state.header.teamAbbr);
+    state.freeAgents = state.freeAgents.filter((player) => !rosteredPlayerIds.has(player.id));
+    state.offseason.hydrated = true;
+    state.offseason.otcRows = [];
+    state.offseason.freeAgencyWave = normalizeFreeAgencyWave(state.offseason.freeAgencyWave);
+    state.offseason.initialFreeAgentCount = Math.max(
+      state.offseason.initialFreeAgentCount ?? 0,
+      state.freeAgents.length,
+    );
+    state.header.freeAgencyWave = state.offseason.freeAgencyWave;
     return;
   }
 
