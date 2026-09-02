@@ -1,0 +1,182 @@
+[
+  {
+    "id": "ari-001",
+    "teamId": "ARI",
+    "question": "Before moving to St. Louis in 1960, in which city did the Cardinals franchise play?",
+    "answers": [
+      "Chicago",
+      "Cleveland",
+      "Detroit",
+      "Milwaukee"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "The franchise played in Chicago for decades before relocating to St. Louis in 1960.",
+    "category": "TEAM_HISTORY",
+    "era": "1960S_OR_EARLIER",
+    "seasonYear": 1960,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "ari-002",
+    "teamId": "ARI",
+    "question": "In what year did the Cardinals franchise move from St. Louis to Arizona?",
+    "answers": [
+      "1984",
+      "1986",
+      "1988",
+      "1990"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "The Cardinals relocated from St. Louis to Arizona in 1988 and initially played as the Phoenix Cardinals.",
+    "category": "TEAM_HISTORY",
+    "era": "1980S",
+    "seasonYear": 1988,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "ari-003",
+    "teamId": "ARI",
+    "question": "Which wide receiver did the Cardinals select with the third overall pick in the 2004 NFL Draft?",
+    "answers": [
+      "Anquan Boldin",
+      "Larry Fitzgerald",
+      "Steve Breaston",
+      "David Boston"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Arizona selected Larry Fitzgerald third overall in the 2004 NFL Draft. He went on to become the franchise's all-time leader in receiving yards and touchdowns.",
+    "category": "DRAFT",
+    "era": "2000S",
+    "seasonYear": 2004,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "ari-004",
+    "teamId": "ARI",
+    "question": "Which quarterback led the Cardinals to their first Super Bowl appearance following the 2008 season?",
+    "answers": [
+      "Jake Plummer",
+      "Carson Palmer",
+      "Kurt Warner",
+      "Matt Leinart"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Kurt Warner led Arizona through the 2008 playoffs and into Super Bowl XLIII, the first Super Bowl appearance in franchise history.",
+    "category": "PLAYOFFS_CHAMPIONSHIPS",
+    "era": "2000S",
+    "seasonYear": 2008,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "ari-005",
+    "teamId": "ARI",
+    "question": "Which team did the Cardinals face in Super Bowl XLIII?",
+    "answers": [
+      "New England Patriots",
+      "Pittsburgh Steelers",
+      "Baltimore Ravens",
+      "Indianapolis Colts"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Arizona faced Pittsburgh in Super Bowl XLIII, losing 27-23 after a dramatic fourth-quarter finish.",
+    "category": "PLAYOFFS_CHAMPIONSHIPS",
+    "era": "2000S",
+    "seasonYear": 2008,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "ari-006",
+    "teamId": "ARI",
+    "question": "Which Cardinals receiver set an NFL record with 546 receiving yards during the 2008 postseason?",
+    "answers": [
+      "Anquan Boldin",
+      "Steve Breaston",
+      "Larry Fitzgerald",
+      "Early Doucet"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Larry Fitzgerald totaled 546 receiving yards during Arizona's four-game 2008 postseason run, setting an NFL record for a single postseason.",
+    "category": "RECORDS_STATS",
+    "era": "2000S",
+    "seasonYear": 2008,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "ari-007",
+    "teamId": "ARI",
+    "question": "Which team did Arizona defeat in the NFC Championship Game to reach Super Bowl XLIII?",
+    "answers": [
+      "Philadelphia Eagles",
+      "New York Giants",
+      "Carolina Panthers",
+      "Dallas Cowboys"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "The Cardinals defeated the Philadelphia Eagles 32-25 in the NFC Championship Game to advance to Super Bowl XLIII.",
+    "category": "FAMOUS_GAMES",
+    "era": "2000S",
+    "seasonYear": 2008,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "ari-008",
+    "teamId": "ARI",
+    "question": "In which round of the 1998 NFL Draft did the Cardinals select Pat Tillman?",
+    "answers": [
+      "Third round",
+      "Fifth round",
+      "Sixth round",
+      "Seventh round"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Arizona selected Pat Tillman in the seventh round of the 1998 NFL Draft after his college career at Arizona State.",
+    "category": "DRAFT",
+    "era": "1990S",
+    "seasonYear": 1998,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "ari-009",
+    "teamId": "ARI",
+    "question": "What name did the franchise use when it first moved to Arizona in 1988?",
+    "answers": [
+      "Arizona Cardinals",
+      "Phoenix Cardinals",
+      "Tempe Cardinals",
+      "Southwest Cardinals"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "The franchise was known as the Phoenix Cardinals after moving to Arizona in 1988. It changed its name to the Arizona Cardinals in 1994.",
+    "category": "TEAM_HISTORY",
+    "era": "1980S",
+    "seasonYear": 1988,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "ari-010",
+    "teamId": "ARI",
+    "question": "Which Cardinals running back was named NFL Offensive Rookie of the Year in 1979?",
+    "answers": [
+      "Ottis Anderson",
+      "Stump Mitchell",
+      "Johnny Johnson",
+      "Terry Metcalf"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "Ottis Anderson rushed for 1,605 yards as a rookie in 1979 and was named NFL Offensive Rookie of the Year.",
+    "category": "PLAYERS_LEGENDS",
+    "era": "1970S",
+    "seasonYear": 1979,
+    "isEvergreen": true,
+    "isActive": true
+  }
+]

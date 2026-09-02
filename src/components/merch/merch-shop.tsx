@@ -5,9 +5,12 @@ import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { ArrowRight, ChevronDown, Menu, Search, Shirt, Tag, X } from 'lucide-react';
 
-import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+import LoginButton from '@/components/auth/login-button';
 import { MerchCartButton, useMerchCart } from '@/components/merch/merch-cart';
 import TeamThemeProvider from '@/components/team-theme-provider';
+import MoveTheChainsIndicator from '@/components/rewards/move-the-chains-indicator';
+import PrimaryNavigation from '@/components/primary-navigation';
+import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
 import { MERCH_CATEGORIES, MERCH_PRODUCTS, type MerchCategory } from '@/features/merch/catalog';
 
 export default function MerchShop() {
@@ -41,28 +44,40 @@ export default function MerchShop() {
   return (
     <TeamThemeProvider>
       <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
+        <SiteHeaderShell tone="merch">
+          <SiteHeaderLogo generic />
+          <PrimaryNavigation active="merch" tone="dark" />
+          <div className="ml-auto flex items-center gap-2">
+            <MoveTheChainsIndicator />
+            <LoginButton dark={false} />
+            <button
+              type="button"
+              onClick={() => setIsSearchOpen(true)}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#00172B]/15 transition hover:bg-white/20"
+              aria-label="Search shop"
+            >
+              <Search className="h-5 w-5" />
+            </button>
+            <MerchCartButton />
+          </div>
+        </SiteHeaderShell>
         <div className="bg-[#00172B] px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-[#F4D9B7]">
           Free shipping on orders $75+ · Shop preview
         </div>
-        <header className="border-b border-[#00172B]/10 bg-[#FF3D38]">
-          <div className="mx-auto flex h-24 max-w-[1440px] items-center gap-6 px-4 sm:px-6 lg:px-8">
+        <div className="border-b border-[#00172B]/10 bg-[#FF3D38]">
+          <div className="mx-auto flex min-h-12 max-w-[1440px] items-center px-4 sm:px-6 lg:px-8">
             <button
               type="button"
               onClick={() => setMobileMenu(true)}
-              className="lg:hidden"
-              aria-label="Open shop navigation"
+              className="flex items-center gap-2 text-sm font-black lg:hidden"
+              aria-label="Open shop departments"
             >
-              <Menu />
+              <Menu className="h-4 w-4" /> Shop departments
             </button>
-            <Link href="/" aria-label="Down & Distance home">
-              <FiveWideLogo
-                generic
-                size={62}
-                containerClassName="h-auto w-32 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:w-40"
-                priority
-              />
-            </Link>
-            <nav className="hidden items-center gap-6 text-sm font-black lg:flex">
+            <nav
+              className="hidden items-center gap-6 text-sm font-black lg:flex"
+              aria-label="Shop departments"
+            >
               <button type="button" onClick={() => setCategory('All')}>
                 New &amp; Trending
               </button>
@@ -77,19 +92,8 @@ export default function MerchShop() {
                 </button>
               ))}
             </nav>
-            <div className="ml-auto flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setIsSearchOpen(true)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 transition hover:bg-white/20"
-                aria-label="Search shop"
-              >
-                <Search className="h-5 w-5" />
-              </button>
-              <MerchCartButton />
-            </div>
           </div>
-        </header>
+        </div>
         {mobileMenu ? (
           <div className="fixed inset-0 z-50 bg-[#00172B] p-6 text-white">
             <button
@@ -227,7 +231,7 @@ export default function MerchShop() {
                   Featured drop · Camo collection
                 </p>
                 <h1 className="mt-5 max-w-3xl text-5xl font-black uppercase leading-[0.9] tracking-[-0.05em] text-[#00172B] sm:text-7xl">
-                  Head in the game.
+                  Get your head in the game.
                 </h1>
                 <p className="mt-6 max-w-xl text-lg font-semibold leading-7 text-[#00172B]/70">
                   The Down &amp; Distance Camo Rope Hat brings a field-ready finish to every game

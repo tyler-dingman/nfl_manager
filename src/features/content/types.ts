@@ -29,6 +29,8 @@ export type TeamBriefing = {
   imageUrl?: string | null;
   updatedAt: string;
   sourceCount: number;
+  status?: string | null;
+  materialUpdateCount?: number;
   sources: BriefingSource[];
 };
 

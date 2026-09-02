@@ -5,9 +5,12 @@ import Link from 'next/link';
 import { ArrowLeft, Check, PackageCheck, RefreshCcw, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 
-import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+import LoginButton from '@/components/auth/login-button';
 import { MerchCartButton, useMerchCart } from '@/components/merch/merch-cart';
 import TeamThemeProvider from '@/components/team-theme-provider';
+import MoveTheChainsIndicator from '@/components/rewards/move-the-chains-indicator';
+import PrimaryNavigation from '@/components/primary-navigation';
+import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
 import type { MerchProduct } from '@/features/merch/catalog';
 
 export default function MerchProductDetail({ product }: { product: MerchProduct }) {
@@ -17,27 +20,18 @@ export default function MerchProductDetail({ product }: { product: MerchProduct 
   return (
     <TeamThemeProvider>
       <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
+        <SiteHeaderShell tone="merch">
+          <SiteHeaderLogo generic />
+          <PrimaryNavigation active="merch" tone="dark" />
+          <div className="ml-auto flex items-center gap-2">
+            <MoveTheChainsIndicator />
+            <LoginButton dark={false} />
+            <MerchCartButton />
+          </div>
+        </SiteHeaderShell>
         <div className="bg-[#00172B] px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-[#F4D9B7]">
           Free shipping on orders $75+ · Shop preview
         </div>
-        <header className="border-b border-[#00172B]/10 bg-[#FF3D38]">
-          <div className="mx-auto flex h-24 max-w-[1440px] items-center px-4 sm:px-6 lg:px-8">
-            <Link href="/" aria-label="Down & Distance home">
-              <FiveWideLogo
-                generic
-                size={62}
-                containerClassName="h-auto w-32 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:w-40"
-                priority
-              />
-            </Link>
-            <Link href="/merch" className="ml-8 hidden text-sm font-black sm:block">
-              Merch
-            </Link>
-            <div className="ml-auto">
-              <MerchCartButton />
-            </div>
-          </div>
-        </header>
 
         <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8 lg:py-14">
           <Link

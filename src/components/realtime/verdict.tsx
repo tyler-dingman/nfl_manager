@@ -5,7 +5,7 @@ import type { StoryVerdict } from '@/features/realtime/types';
 export default function Verdict({ verdict }: { verdict: StoryVerdict }) {
   return (
     <section className="rounded-3xl border-2 border-[var(--primary)] bg-white p-6 shadow-sm sm:p-8">
-      <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--primary)]">
+      <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
         <CheckCircle2 className="h-4 w-4" /> The Verdict
       </p>
       <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
@@ -41,7 +41,7 @@ export default function Verdict({ verdict }: { verdict: StoryVerdict }) {
           <dt className="text-[10px] font-black uppercase tracking-wider text-slate-400">
             Bottom line
           </dt>
-          <dd className="mt-1 font-black text-[var(--primary)]">{verdict.bottomLine}</dd>
+          <dd className="mt-1 font-black text-[var(--team-primary-text)]">{verdict.bottomLine}</dd>
         </div>
       </dl>
     </section>

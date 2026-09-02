@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import type { SourceDefinition } from '@/data/sources';
 import {
@@ -6,6 +6,9 @@ import {
   listRegisteredSources,
   updateRegisteredSource,
 } from '@/server/source-registry';
+import { authError } from '@/server/auth/http';
+import { currentUser } from '@/server/auth/request';
+import { isAllowedAdminUser } from '@/server/admin/authorization';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,14 +18,23 @@ const adminEnabled = () =>
 const unavailable = () =>
   NextResponse.json({ error: 'Source admin is disabled.' }, { status: 404 });
 
-export async function GET(request: Request) {
+async function requireSourceAdmin(request: NextRequest) {
+  if (!adminEnabled()) return null;
+  const user = await currentUser(request);
+  if (!isAllowedAdminUser(user?.id, process.env.ADMIN_USER_IDS ?? '')) return null;
+  return user;
+}
+
+export async function GET(request: NextRequest) {
   if (!adminEnabled()) return unavailable();
+  if (!(await requireSourceAdmin(request))) return authError('Admin access required.', 403);
   const team = new URL(request.url).searchParams.get('team');
   return NextResponse.json({ sources: listRegisteredSources(team) });
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   if (!adminEnabled()) return unavailable();
+  if (!(await requireSourceAdmin(request))) return authError('Admin access required.', 403);
   const input = (await request.json()) as SourceDefinition;
   if (!input.id || !input.displayName || !input.category) {
     return NextResponse.json(
@@ -40,8 +52,9 @@ export async function POST(request: Request) {
   }
 }
 
-export async function PATCH(request: Request) {
+export async function PATCH(request: NextRequest) {
   if (!adminEnabled()) return unavailable();
+  if (!(await requireSourceAdmin(request))) return authError('Admin access required.', 403);
   const input = (await request.json()) as { id?: string; changes?: Partial<SourceDefinition> };
   if (!input.id || !input.changes) {
     return NextResponse.json({ error: 'id and changes are required.' }, { status: 400 });

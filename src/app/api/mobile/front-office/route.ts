@@ -1,0 +1,14 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { TEAM_LIST } from '@/data/teams';
+import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
+import { listPublicStories } from '@/server/story-engine/projections';
+import { loadTeamBriefings } from '@/server/content/team-briefings';
+export async function GET(request:NextRequest){
+ const team=(request.nextUrl.searchParams.get('team')??'KC').toUpperCase(),teamInfo=TEAM_LIST.find(item=>item.abbr===team);
+ if(!teamInfo)return NextResponse.json({error:'Unknown NFL team.'},{status:404});
+ const roster=NFL_LEAGUE_DATA.players.filter(player=>player.teamAbbr===team).map(player=>{const contract=NFL_LEAGUE_DATA.contracts.find(item=>item.playerId===player.id&&item.teamAbbr===team);return{id:player.id,name:player.name,position:player.position,age:player.age,status:contract?.contractStatus??'Active',headshotUrl:player.headshotUrl,capHit:contract?.capHit??null,years:contract?.years??null};}).sort((a,b)=>a.position.localeCompare(b.position)||a.name.localeCompare(b.name));
+ const cap=NFL_LEAGUE_DATA.cap.find(item=>item.teamAbbr===team)??null,[stories,briefings]=await Promise.all([listPublicStories(team,40),loadTeamBriefings(team)]);
+ const canonicalTransactions=stories.filter(story=>/TRANSACTION|SIGNING|TRADE|ROSTER|RELEASE/i.test(story.storyType)).slice(0,8).map(story=>({id:story.id,headline:story.headline,summary:story.shortSummary,status:story.status,occurredAt:story.lastMeaningfulUpdateAt,source:story.primarySource?.name??null,story:{id:story.id,title:story.headline,summary:story.whatHappened||story.shortSummary,whyItMatters:story.whyItMatters,whatsNext:story.whatsNext,status:story.status,importanceScore:story.importanceScore,lastMaterialUpdateAt:story.lastMeaningfulUpdateAt,sources:story.sources.map(source=>({id:source.id,sourceName:source.name,sourceUrl:source.url,isOfficialSource:source.official}))}}));
+ const transactions=canonicalTransactions.length?canonicalTransactions:briefings.filter(item=>/TRANSACTION|SIGNING|TRADE|ROSTER|RELEASE/i.test(`${item.category} ${item.headline}`)).slice(0,8).map(item=>({id:item.id,headline:item.headline,summary:item.summary,status:item.category.toUpperCase(),occurredAt:item.updatedAt,source:item.sources[0]?.publisher??null,story:{id:item.id,title:item.headline,summary:item.summary,whyItMatters:item.whyItMatters??'',whatsNext:'Follow the linked reporting for the next verified update.',status:item.category.toUpperCase(),importanceScore:70,lastMaterialUpdateAt:item.updatedAt,sources:item.sources.map(source=>({id:source.id,sourceName:source.publisher,sourceUrl:source.url,isOfficialSource:source.kind==='official'}))}}));
+ return NextResponse.json({team:{abbr:team,name:teamInfo.name,logoUrl:teamInfo.logoUrl,colors:teamInfo.colors},updatedAt:NFL_LEAGUE_DATA.updatedAt,cap,roster,transactions,availability:{depthChart:false,injuries:false}});
+}

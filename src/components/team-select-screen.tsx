@@ -1,12 +1,15 @@
 'use client';
 
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
-import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+import MainSiteHeader from '@/components/main-site-header';
+import TeamThemeProvider from '@/components/team-theme-provider';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
+import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
+import { saveFanTeamPreference } from '@/features/team/fan-team-preference';
 import { useTeamStore, type Team } from '@/features/team/team-store';
 import { apiFetch } from '@/lib/api';
 import { approximateTrajectoryFromOverall } from '@/lib/offseason-recap';
@@ -75,6 +78,7 @@ function TeamSelectScreenInner() {
 
   const [preselectedTeamId, setPreselectedTeamId] = useState<string | null>(null);
   const [showExpiredBanner, setShowExpiredBanner] = useState(false);
+  const autoStartedTeamRef = useRef<string | null>(null);
 
   useEffect(() => {
     const loadTeams = async () => {
@@ -130,84 +134,121 @@ function TeamSelectScreenInner() {
 
   const filteredTeams = useMemo(() => teams, [teams]);
 
-  const handleSelectTeam = async (team: (typeof teams)[number]) => {
-    clearSave();
-    resetForNewRun();
-    setSelectedTeamId(team.id);
-    setActiveTeam(team.id, team.abbr);
+  const handleSelectTeam = useCallback(
+    async (team: (typeof teams)[number]) => {
+      clearSave();
+      resetForNewRun();
+      setSelectedTeamId(team.id);
+      setActiveTeam(team.id, team.abbr);
+      saveFanTeamPreference(team.abbr);
 
-    const response = await apiFetch('/api/saves/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ teamAbbr: team.abbr }),
-    });
-    if (response.ok) {
-      const data = (await response.json()) as
-        | (SaveBootstrapDTO & { unlocked?: SaveBootstrapDTO['unlocked'] })
-        | { ok: false; error: string };
-      if ('ok' in data && data.ok) {
-        setSaveHeader(
-          {
-            ...data,
-            unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-          },
-          team.id,
-        );
-        setRunBaseline({
-          capSpace: data.capSpace,
-          overall: team.teamOverview ?? null,
-          trajectory: approximateTrajectoryFromOverall(team.teamOverview ?? null),
-          needs: team.teamNeeds,
-        });
+      const response = await apiFetch('/api/saves/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamAbbr: team.abbr }),
+      });
+      if (response.ok) {
+        const data = (await response.json()) as
+          | (SaveBootstrapDTO & { unlocked?: SaveBootstrapDTO['unlocked'] })
+          | { ok: false; error: string };
+        if ('ok' in data && data.ok) {
+          setSaveHeader(
+            {
+              ...data,
+              unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+            },
+            team.id,
+          );
+          setRunBaseline({
+            capSpace: data.capSpace,
+            overall: team.teamOverview ?? null,
+            trajectory: approximateTrajectoryFromOverall(team.teamOverview ?? null),
+            needs: team.teamNeeds,
+          });
+        }
       }
-    }
 
-    router.push('/offseasonmanager/experience');
-  };
+      router.push(getOffseasonManagerRoute('/experience', team.abbr));
+    },
+    [
+      clearSave,
+      resetForNewRun,
+      router,
+      setActiveTeam,
+      setRunBaseline,
+      setSaveHeader,
+      setSelectedTeamId,
+    ],
+  );
 
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-          <div className="flex flex-col items-start gap-2">
-            <FiveWideLogo
-              size={96}
-              containerClassName="h-auto w-36 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0"
-              priority
-            />
-            <div className="leading-none">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                Offseason Mode
+  useEffect(() => {
+    const teamParam = searchParams?.get('team')?.toUpperCase();
+    if (!teamParam || autoStartedTeamRef.current === teamParam) return;
+    const match = teams.find((team) => team.abbr === teamParam);
+    if (!match) return;
+    autoStartedTeamRef.current = teamParam;
+    void handleSelectTeam(match);
+  }, [handleSelectTeam, searchParams, teams]);
+
+  const requestedTeam = teams.find(
+    (team) => team.abbr === searchParams?.get('team')?.toUpperCase(),
+  );
+
+  if (requestedTeam) {
+    return (
+      <TeamThemeProvider team={requestedTeam}>
+        <MainSiteHeader teamAbbr={requestedTeam.abbr} active="front-office" />
+        <div className="front-office-app min-h-screen bg-[#f7f4ee]">
+          <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-24 text-center">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--team-primary-text)]">
+                Front Office
               </p>
+              <h1 className="mt-3 text-3xl font-semibold text-foreground">
+                Opening {requestedTeam.name}…
+              </h1>
             </div>
           </div>
+        </div>
+      </TeamThemeProvider>
+    );
+  }
+
+  return (
+    <TeamThemeProvider>
+      <MainSiteHeader active="front-office" />
+      <div className="front-office-app min-h-screen bg-[#f7f4ee]">
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10">
           <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+              Front Office
+            </p>
             <h1 className="mt-3 text-3xl font-semibold text-foreground">Choose a Team</h1>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
               Second chances start in the offseason. Choose a team to become the offseason GM—manage
               the cap, re-sign or cut players, then move into free agency and the draft.
             </p>
           </div>
-        </div>
 
-        {showExpiredBanner ? (
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            Your offseason session expired. Start a new run.
+          {showExpiredBanner ? (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+              Your offseason session expired. Start a new run.
+            </div>
+          ) : null}
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {filteredTeams.map((team) => (
+              <TeamSelectCard
+                key={team.id}
+                team={team}
+                isSelected={team.id === preselectedTeamId}
+                onSelect={() => handleSelectTeam(team)}
+              />
+            ))}
           </div>
-        ) : null}
-
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {filteredTeams.map((team) => (
-            <TeamSelectCard
-              key={team.id}
-              team={team}
-              isSelected={team.id === preselectedTeamId}
-              onSelect={() => handleSelectTeam(team)}
-            />
-          ))}
         </div>
       </div>
-    </div>
+    </TeamThemeProvider>
   );
 }
 

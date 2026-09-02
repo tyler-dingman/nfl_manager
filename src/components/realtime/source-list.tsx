@@ -34,7 +34,7 @@ export default function SourceList({
                   {source.role} · Trust tier {source.trustTier}
                 </span>
               </span>
-              <ExternalLink className="h-4 w-4 text-slate-400 group-hover:text-[var(--primary)]" />
+              <ExternalLink className="h-4 w-4 text-slate-400 group-hover:text-[var(--team-primary-text)]" />
             </a>
           </li>
         ))}

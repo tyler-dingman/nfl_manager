@@ -90,10 +90,10 @@
     "light": "#FFFFFF"
   },
   "Kansas City Chiefs": {
-    "primary": "#E31837",
+    "primary": "#EA2D46",
     "secondary": "#FFB81C",
-    "dark": "#8F001C",
-    "light": "#FFFFFF"
+    "dark": "#E31837",
+    "light": "#F4D9B7"
   },
   "Las Vegas Raiders": {
     "primary": "#000000",

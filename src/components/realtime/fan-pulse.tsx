@@ -11,7 +11,7 @@ export default function FanPulse({ pulse }: { pulse: FanPulseData }) {
     <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="flex items-start justify-between">
         <div>
-          <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--primary)]">
+          <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--team-primary-text)]">
             <MessageCircle className="h-4 w-4" />{' '}
             {pulse.status === 'EARLY_PULSE' ? 'Early Fan Pulse' : 'Fan Pulse'}
           </p>
@@ -61,7 +61,7 @@ export default function FanPulse({ pulse }: { pulse: FanPulseData }) {
       <button
         type="button"
         onClick={() => setExpanded((value) => !value)}
-        className="mt-6 flex items-center gap-1 text-sm font-black text-[var(--primary)]"
+        className="mt-6 flex items-center gap-1 text-sm font-black text-[var(--team-primary-text)]"
       >
         <BarChart3 className="h-4 w-4" /> Platform breakdown{' '}
         <ChevronDown className={`h-4 w-4 transition ${expanded ? 'rotate-180' : ''}`} />

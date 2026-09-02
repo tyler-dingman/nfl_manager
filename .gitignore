@@ -4,3 +4,17 @@ out
 .env.local
 .env
 tsconfig.tsbuildinfo
+
+# Private presenter media and generated avatar output
+public/images/video/tyler_*
+tools/avatar-studio/input/*
+tools/avatar-studio/output/*
+tools/avatar-studio/cache/*
+tools/avatar-studio/vendor/*
+tools/avatar-studio/weights/*
+tools/avatar-studio/tmp/*
+tools/avatar-studio/**/__pycache__/
+tools/avatar-studio/**/*.pyc
+!tools/avatar-studio/input/.gitkeep
+!tools/avatar-studio/output/**/.gitkeep
+!tools/avatar-studio/cache/.gitkeep

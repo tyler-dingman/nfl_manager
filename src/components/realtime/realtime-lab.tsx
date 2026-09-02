@@ -40,11 +40,11 @@ export default function RealtimeLab() {
   return (
     <TeamThemeProvider team={team}>
       <div className="min-h-screen bg-[#f3f5f7] text-slate-950">
-        <header className="border-b border-white/10 bg-[var(--dark)] text-white">
+        <header className="border-b border-white/10 bg-[var(--dark)] text-[var(--team-on-dark)]">
           <div className="mx-auto flex min-h-24 max-w-[1440px] items-center gap-5 px-4 py-4 sm:px-6 lg:px-8">
             <Link
               href="/"
-              className="flex items-center gap-3 text-sm font-bold text-white/60 hover:text-white"
+              className="flex items-center gap-3 text-sm font-bold text-[var(--team-on-dark)] opacity-80 hover:opacity-100"
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="hidden sm:inline">Home</span>
@@ -69,7 +69,7 @@ export default function RealtimeLab() {
                 <select
                   value={selectedTeamId}
                   onChange={(event) => setSelectedTeamId(event.target.value)}
-                  className="appearance-none rounded-full border border-white/15 bg-white/10 py-2.5 pl-4 pr-9 text-sm font-black text-white"
+                  className="appearance-none rounded-full border border-current/20 bg-white/10 py-2.5 pl-4 pr-9 text-sm font-black text-[var(--team-on-dark)]"
                 >
                   <option value="" className="text-slate-950">
                     NFL
@@ -80,7 +80,7 @@ export default function RealtimeLab() {
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-3 h-4 w-4 text-white/60" />
+                <ChevronDown className="pointer-events-none absolute right-3 top-3 h-4 w-4 text-[var(--team-on-dark)] opacity-80" />
               </label>
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function RealtimeLab() {
         <main className="mx-auto max-w-[1280px] space-y-8 px-4 py-8 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--primary)]">
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
                 Realtime story lab
               </p>
               <h1 className="mt-2 text-3xl font-black sm:text-4xl">
@@ -121,7 +121,7 @@ export default function RealtimeLab() {
           <WatchSection videos={story.videos} consensus={story.videoConsensus} />
           {story.verdict ? <Verdict verdict={story.verdict} /> : null}
           <section className="rounded-3xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-            <Shield className="mx-auto h-7 w-7 text-[var(--primary)]" />
+            <Shield className="mx-auto h-7 w-7 text-[var(--team-primary-text)]" />
             <h2 className="mt-3 text-xl font-black">Down & Distance is the understanding layer.</h2>
             <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-slate-500">
               Every summary retains its original attribution. Reporting, videos, and fan discussion

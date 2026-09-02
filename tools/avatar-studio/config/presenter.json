@@ -1,0 +1,28 @@
+{
+  "presenters": {
+    "main-presenter": {
+      "referenceImage": "../../../public/images/video/tyler_image.jpg",
+      "defaultNarration": "../../../public/images/video/tyler_voice.m4a",
+      "studioBackground": "../../../public/images/video/studio_desk.png",
+      "deskForeground": null,
+      "crop": { "mode": "waist-up" },
+      "studio": {
+        "x": 960,
+        "y": 715,
+        "scale": 0.72,
+        "anchor": "bottom-center",
+        "shadowOpacity": 0.28,
+        "brightness": 0.0,
+        "contrast": 1.0,
+        "saturation": 1.0
+      },
+      "avatar": {
+        "engine": "infinitetalk",
+        "resolution": "480p",
+        "fps": 30,
+        "maxTestSeconds": 12,
+        "motionPreset": "restrained-broadcast"
+      }
+    }
+  }
+}

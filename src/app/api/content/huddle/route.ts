@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 
 import { TEAM_LIST } from '@/data/teams';
-import { teamContentEngine } from '@/features/content/content-engine';
-import { getGeneratedTeamBriefings } from '@/features/content/generated-briefings';
+import { loadTeamBriefings } from '@/server/content/team-briefings';
+import { canonicalHuddle, canonicalThreeAndOut } from '@/server/content/canonical-surfaces';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,10 +13,9 @@ export async function GET(request: Request) {
   const teamName = team?.name ?? 'NFL';
 
   try {
-    const generatedBriefings = getGeneratedTeamBriefings(teamAbbr);
-    const briefings = generatedBriefings.length
-      ? generatedBriefings
-      : await teamContentEngine.buildBriefings(teamAbbr, teamName);
+    const threeAndOut = await canonicalThreeAndOut(teamAbbr);
+    const canonical = await canonicalHuddle(teamAbbr, threeAndOut?.current.storyIds ?? [], 4);
+    const briefings = canonical.length >= 4 ? canonical : await loadTeamBriefings(teamAbbr);
     return NextResponse.json({ teamAbbr, teamName, briefings });
   } catch (error) {
     console.error('[content-engine] failed to build briefings', error);

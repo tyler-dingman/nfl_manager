@@ -32,6 +32,18 @@
   --ring: 222.2 84% 4.9%;
 
   --radius: 0.75rem;
+
+  --site-header-height: 5rem;
+  --site-logo-width: 8rem;
+  --site-logo-height: 4rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --site-header-height: 6rem;
+    --site-logo-width: 10rem;
+    --site-logo-height: 5rem;
+  }
 }
 
 .dark {
@@ -66,4 +78,105 @@
 
 body {
   @apply bg-background text-foreground;
+}
+
+@layer components {
+  .trivia-primary-button {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[var(--secondary)] px-5 py-3 text-sm font-black uppercase tracking-wide text-[var(--team-on-secondary)] transition hover:brightness-105 focus:outline-none focus:ring-4 focus:ring-[var(--secondary)] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .trivia-secondary-button {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-white/15 focus:outline-none focus:ring-4 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .front-office-app {
+    --background: 40 36% 96%;
+    --foreground: 208 100% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 208 100% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 208 100% 8%;
+    --ui-primary: 208 100% 8%;
+    --primary-foreground: 0 0% 100%;
+    --ui-secondary: 36 60% 84%;
+    --secondary-foreground: 208 100% 8%;
+    --muted: 38 30% 94%;
+    --muted-foreground: 215 18% 42%;
+    --accent: 38 35% 92%;
+    --accent-foreground: 208 100% 8%;
+    --border: 210 20% 88%;
+    --input: 210 20% 86%;
+    --ring: 208 100% 8%;
+    --radius: 1rem;
+    color: #00172b;
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    letter-spacing: -0.008em;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .front-office-app .text-sm {
+    font-size: 0.9375rem;
+    line-height: 1.45rem;
+  }
+
+  .front-office-app .text-xs {
+    font-size: 0.8125rem;
+    line-height: 1.2rem;
+  }
+
+  .front-office-app .text-\[10px\],
+  .front-office-app .text-\[11px\] {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .front-office-app input,
+  .front-office-app select,
+  .front-office-app textarea {
+    font-size: 0.9375rem;
+  }
+
+  .front-office-app h1,
+  .front-office-app h2,
+  .front-office-app h3 {
+    color: #00172b;
+    font-weight: 900;
+    letter-spacing: -0.035em;
+  }
+
+  .front-office-app h1 {
+    line-height: 0.98;
+  }
+
+  .front-office-app button,
+  .front-office-app [role='button'] {
+    font-weight: 800;
+  }
+
+  .front-office-app .font-semibold {
+    font-weight: 800;
+  }
+
+  .front-office-app .uppercase {
+    font-weight: 800;
+    letter-spacing: 0.18em;
+  }
+
+  .front-office-app input:focus,
+  .front-office-app select:focus,
+  .front-office-app textarea:focus {
+    border-color: var(--primary);
+    outline: 2px solid color-mix(in srgb, var(--primary) 22%, transparent);
+    outline-offset: 1px;
+  }
+
+  .front-office-app main .bg-white {
+    border-color: color-mix(in srgb, var(--dark) 12%, transparent);
+  }
+
+  .front-office-app table thead {
+    color: var(--dark);
+    font-weight: 800;
+  }
 }

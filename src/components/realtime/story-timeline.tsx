@@ -4,7 +4,7 @@ import StoryStatusBadge from './story-status-badge';
 export default function StoryTimeline({ items }: { items: TimelineItem[] }) {
   return (
     <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-      <p className="text-xs font-black uppercase tracking-[0.2em] text-[var(--primary)]">
+      <p className="text-xs font-black uppercase tracking-[0.2em] text-[var(--team-primary-text)]">
         Story timeline
       </p>
       <ol className="mt-6 space-y-0">

@@ -28,7 +28,7 @@ export const TEAM_BRAND_THEMES: Record<string, TeamBrandTheme> = {
   HOU: { primary: '#03202F', secondary: '#A71930', dark: '#02131C', light: '#FFFFFF' },
   IND: { primary: '#002C5F', secondary: '#A2AAAD', dark: '#001A38', light: '#FFFFFF' },
   JAX: { primary: '#006778', secondary: '#D7A22A', dark: '#101820', light: '#FFFFFF' },
-  KC: { primary: '#E31837', secondary: '#FFB81C', dark: '#8F001C', light: '#FFFFFF' },
+  KC: { primary: '#EA2D46', secondary: '#FFB81C', dark: '#E31837', light: '#F4D9B7' },
   LV: { primary: '#000000', secondary: '#A5ACAF', dark: '#111111', light: '#FFFFFF' },
   LAC: { primary: '#0080C6', secondary: '#FFC20E', dark: '#002A5E', light: '#FFFFFF' },
   LAR: { primary: '#003594', secondary: '#FFA300', dark: '#001D4F', light: '#FFFFFF' },

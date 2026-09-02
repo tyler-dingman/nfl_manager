@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
   BarChart3,
@@ -21,34 +21,21 @@ import {
 } from 'lucide-react';
 
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+import LoginButton from '@/components/auth/login-button';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import type { TeamBriefing } from '@/features/content/types';
+import { recordBriefingConsumed } from '@/features/content/consumption';
 import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fan-team-preference';
+import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import { useTeamStore, type Team } from '@/features/team/team-store';
-
-const huddleItems = [
-  {
-    label: 'Top story',
-    title: 'The position battle everyone is watching just took another turn',
-    summary:
-      'A strong practice, a revealing coach quote, and a wave of fan reaction have changed the conversation.',
-    meta: '12 sources · Updated 18 min ago',
-  },
-  {
-    label: 'Roster watch',
-    title: 'One under-the-radar player is making a serious push for snaps',
-    summary:
-      'Local reporters agree the depth chart may be less settled than it looked entering the week.',
-    meta: '7 sources · Updated 41 min ago',
-  },
-  {
-    label: 'What it means',
-    title: 'The latest move creates a real decision for the front office',
-    summary:
-      'Here is the cap, roster, and scheme context behind today’s most important transaction.',
-    meta: 'D&D analysis · 4 min read',
-  },
-];
+import { useAuthUser } from '@/features/auth/auth-session';
+import EditorialVisual from '@/components/editorial/editorial-visual';
+import DailyTriviaWidget from '@/components/trivia/daily-trivia-widget';
+import CatchUpCallout from '@/components/catch-up/catch-up-callout';
+import PlaybookHero from '@/components/home/playbook-hero';
+import HuddleStoryCard from '@/components/huddle/huddle-story-card';
+import PrimaryNavigation from '@/components/primary-navigation';
+import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
 
 const watchItems = [
   {
@@ -60,7 +47,7 @@ const watchItems = [
   { type: 'Local podcast', title: 'What reporters are hearing inside the building', time: '32:05' },
 ];
 
-const wireItems = [
+const fallbackWireItems = [
   { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },
   { time: '10:18 AM', text: 'Injury report brings encouraging news at a key position.' },
   { time: '9:05 AM', text: 'New comments clarify the plan for the starting lineup.' },
@@ -78,11 +65,11 @@ function TeamGateway({
 }) {
   return (
     <TeamThemeProvider>
-      <div className="relative min-h-screen bg-[var(--dark)] px-4 pb-12 pt-8 text-[var(--light)] sm:px-6 sm:pt-12">
+      <div className="relative min-h-screen bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">
         <button
           type="button"
           onClick={onClose}
-          className="fixed right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:bg-white/20"
+          className="fixed right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"
           aria-label="Close team selection"
         >
           <X className="h-5 w-5" />
@@ -94,13 +81,13 @@ function TeamGateway({
             containerClassName="h-auto w-full max-w-[300px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-[360px]"
             priority
           />
-          <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[var(--secondary)]">
+          <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[#FF3D38]">
             Keep it high and tight
           </p>
           <h1 className="mt-10 text-center text-4xl font-black tracking-tight sm:text-5xl">
             Pick your team. Enter your football world.
           </h1>
-          <p className="mt-4 max-w-2xl text-center text-base leading-7 text-white/60">
+          <p className="mt-4 max-w-2xl text-center text-base leading-7 text-[#00172B]/65">
             Your news, videos, roster moves, fan conversations, and front-office tools begin with
             one choice.
           </p>
@@ -110,19 +97,19 @@ function TeamGateway({
                 type="button"
                 key={team.id}
                 onClick={() => onSelect(team)}
-                className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06] p-3 text-center transition hover:-translate-y-1 hover:border-[var(--secondary)] hover:bg-white/10"
+                className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-[#00172B]/10 bg-white/55 p-3 text-center transition hover:-translate-y-1 hover:border-[#FF3D38]/50 hover:bg-white/85 hover:shadow-md"
               >
                 <span
                   className="flex h-16 w-16 items-center justify-center rounded-xl border p-2 shadow-sm transition group-hover:scale-105"
                   style={{
-                    backgroundColor: `color-mix(in srgb, ${team.color_primary} 24%, var(--dark))`,
+                    backgroundColor: `color-mix(in srgb, ${team.color_primary} 12%, white)`,
                     borderColor: `color-mix(in srgb, ${team.color_secondary} 55%, transparent)`,
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={team.logo_url} alt="" className="h-full w-full object-contain" />
                 </span>
-                <span className="mt-3 text-xs font-bold leading-4 text-white/75 group-hover:text-white">
+                <span className="mt-3 text-xs font-bold leading-4 text-[#00172B]/75 group-hover:text-[#00172B]">
                   {team.name}
                 </span>
               </button>
@@ -143,7 +130,23 @@ export default function DownDistanceHome() {
   const [searchQuery, setSearchQuery] = useState('');
   const [hasSelectedTeam, setHasSelectedTeam] = useState(false);
   const [briefings, setBriefings] = useState<TeamBriefing[]>([]);
+  const [wireEntries, setWireEntries] = useState<
+    Array<{ id: string; headline: string; occurredAt: string }>
+  >([]);
   const [selectedBriefing, setSelectedBriefing] = useState<TeamBriefing | null>(null);
+  const { user } = useAuthUser();
+  const [personalization, setPersonalization] = useState<{
+    primaryTeam?: { teamId?: string } | null;
+    savedContent?: Array<{ id: string }>;
+  } | null>(null);
+
+  const openBriefing = useCallback(
+    (briefing: TeamBriefing) => {
+      setSelectedBriefing(briefing);
+      if (user) void recordBriefingConsumed(briefing);
+    },
+    [user],
+  );
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId),
@@ -169,12 +172,17 @@ export default function DownDistanceHome() {
     setSelectedBriefing(null);
     const loadBriefings = async () => {
       try {
-        const response = await fetch(`/api/content/huddle?team=${encodeURIComponent(teamAbbr)}`, {
+        if (teamAbbr === 'NFL') return;
+        const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {
           signal: controller.signal,
         });
         if (!response.ok) return;
-        const payload = (await response.json()) as { briefings?: TeamBriefing[] };
-        setBriefings(payload.briefings ?? []);
+        const payload = (await response.json()) as {
+          huddle?: TeamBriefing[];
+          wire?: Array<{ id: string; headline: string; occurredAt: string }>;
+        };
+        setBriefings(payload.huddle ?? []);
+        setWireEntries(payload.wire ?? []);
       } catch (error) {
         if (!(error instanceof DOMException && error.name === 'AbortError')) {
           console.error('[huddle] failed to load briefings', error);
@@ -185,24 +193,46 @@ export default function DownDistanceHome() {
     return () => controller.abort();
   }, [teamAbbr]);
 
+  useEffect(() => {
+    if (!user) {
+      setPersonalization(null);
+      return;
+    }
+    void fetch('/api/user/home', { cache: 'no-store' })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((body: { personalization?: typeof personalization } | null) => {
+        const nextPersonalization = body?.personalization ?? null;
+        setPersonalization(nextPersonalization);
+        const primaryTeamId = nextPersonalization?.primaryTeam?.teamId;
+        const primaryTeam = teams.find((team) => team.abbr === primaryTeamId);
+        if (primaryTeam) {
+          setSelectedTeamId(primaryTeam.id);
+          setHasSelectedTeam(true);
+          void saveFanTeamPreference(primaryTeam.abbr);
+        }
+      });
+  }, [setSelectedTeamId, teams, user]);
+
   const huddleCards = useMemo(
     () =>
-      briefings.length
-        ? briefings.map((briefing) => ({
-            id: briefing.id,
-            label: briefing.category,
-            title: briefing.headline,
-            summary: briefing.summary,
-            meta: `${briefing.sourceCount} sources · Updated ${new Date(briefing.updatedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`,
-            briefing,
-          }))
-        : huddleItems.map((item, index) => ({
-            ...item,
-            id: `fallback-${index}`,
-            briefing: null,
-          })),
+      briefings.map((briefing) => ({
+        id: briefing.id,
+        label: briefing.category,
+        title: briefing.headline,
+        summary: briefing.summary,
+        briefing,
+      })),
     [briefings],
   );
+  const displayedWireItems = wireEntries.length
+    ? wireEntries.map((entry) => ({
+        time: new Date(entry.occurredAt).toLocaleTimeString([], {
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+        text: entry.headline,
+      }))
+    : fallbackWireItems;
   const searchItems = useMemo(
     () => [
       ...huddleCards.map((item) => ({
@@ -217,7 +247,7 @@ export default function DownDistanceHome() {
         description: `${item.type} · ${item.time}`,
         href: '#watch',
       })),
-      ...wireItems.map((item) => ({
+      ...displayedWireItems.map((item) => ({
         category: 'The Wire',
         title: item.text,
         description: item.time,
@@ -233,16 +263,10 @@ export default function DownDistanceHome() {
         category: 'Front Office',
         title: `${teamName} depth chart, cap outlook, transactions, and draft capital`,
         description: 'Roster and team-building information',
-        href: '#front-office',
-      },
-      {
-        category: 'Be the GM',
-        title: 'Offseason Manager',
-        description: 'Manage the cap, contracts, trades, free agency, and draft',
-        href: '/offseasonmanager',
+        href: getOffseasonManagerRoute('', activeTeam?.abbr),
       },
     ],
-    [huddleCards, teamName],
+    [activeTeam?.abbr, displayedWireItems, huddleCards, teamName],
   );
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
   const searchResults = normalizedSearchQuery
@@ -255,7 +279,7 @@ export default function DownDistanceHome() {
 
   return (
     <TeamThemeProvider team={activeTeam}>
-      <div className="min-h-screen bg-[#f4f6f8] text-slate-950">
+      <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
         {isTeamMenuOpen ? (
           <div className="fixed inset-0 z-50 overflow-y-auto">
             <TeamGateway
@@ -317,11 +341,11 @@ export default function DownDistanceHome() {
                       }}
                       className="group flex items-start gap-4 rounded-2xl px-3 py-3 transition hover:bg-slate-100"
                     >
-                      <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--primary)] text-white">
+                      <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--primary)] text-[var(--team-on-primary)]">
                         <Search className="h-4 w-4" />
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-[var(--primary)]">
+                        <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-[var(--team-primary-text)]">
                           {item.category}
                         </span>
                         <span className="mt-1 block font-bold leading-5 text-slate-950">
@@ -358,29 +382,38 @@ export default function DownDistanceHome() {
             }}
           >
             <article className="w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl">
-              <div className="relative bg-[var(--dark)] px-6 py-8 text-white sm:px-10 sm:py-10">
+              <div className="relative">
+                <EditorialVisual
+                  story={{
+                    teamId: teamAbbr,
+                    category: selectedBriefing.category,
+                    headline: selectedBriefing.headline,
+                    summary: selectedBriefing.summary,
+                  }}
+                  variant="hero"
+                  decorative
+                />
                 <button
                   type="button"
                   onClick={() => setSelectedBriefing(null)}
-                  className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
+                  className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/20 text-white transition hover:bg-black/30"
                   aria-label="Close briefing"
                 >
                   <X className="h-5 w-5" />
                 </button>
-                <p className="pr-12 text-xs font-black uppercase tracking-[0.24em] text-[var(--secondary)]">
-                  {selectedBriefing.category}
-                </p>
-                <h2 className="mt-4 max-w-2xl text-3xl font-black leading-tight tracking-tight sm:text-4xl">
-                  {selectedBriefing.headline}
-                </h2>
-                <p className="mt-5 text-xs font-semibold text-white/50">
-                  {selectedBriefing.sourceCount} sources · Updated{' '}
-                  {new Date(selectedBriefing.updatedAt).toLocaleString()}
-                </p>
               </div>
               <div className="space-y-8 px-6 py-8 sm:px-10">
+                <div>
+                  <h2 className="text-3xl font-black leading-tight tracking-tight sm:text-4xl">
+                    {selectedBriefing.headline}
+                  </h2>
+                  <p className="mt-3 text-xs font-semibold text-slate-400">
+                    {selectedBriefing.sourceCount} sources · Updated{' '}
+                    {new Date(selectedBriefing.updatedAt).toLocaleString()}
+                  </p>
+                </div>
                 <section>
-                  <h3 className="text-xs font-black uppercase tracking-[0.22em] text-[var(--primary)]">
+                  <h3 className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
                     The short version
                   </h3>
                   <p className="mt-3 text-lg leading-8 text-slate-700">
@@ -407,7 +440,7 @@ export default function DownDistanceHome() {
                         className="group flex items-center justify-between gap-4 py-4"
                       >
                         <span>
-                          <span className="block text-xs font-black uppercase tracking-[0.16em] text-[var(--primary)]">
+                          <span className="block text-xs font-black uppercase tracking-[0.16em] text-[var(--team-primary-text)]">
                             {source.publisher} · {source.kind}
                           </span>
                           <span className="mt-1 block font-bold leading-6 text-slate-800 group-hover:underline">
@@ -423,135 +456,103 @@ export default function DownDistanceHome() {
             </article>
           </div>
         ) : null}
-        <header className="sticky top-0 z-40 border-b border-white/10 bg-[var(--dark)] text-[var(--light)] shadow-sm">
-          <div className="mx-auto flex h-24 max-w-[1440px] items-center gap-5 px-4 py-3 sm:px-6 lg:px-8">
-            <Link href="/" className="mb-3 mt-4 shrink-0" aria-label="Down & Distance home">
-              <FiveWideLogo
-                size={62}
-                teamAbbr={activeTeam?.abbr}
-                generic={!activeTeam}
-                containerClassName="h-auto w-32 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:w-40"
-                priority
-              />
-            </Link>
-            <nav className="hidden items-center gap-6 text-sm font-semibold lg:flex">
-              <Link href={`/huddle${teamRouteSuffix}`} className="text-white">
-                The Huddle
-              </Link>
-              <Link
-                href={`/watch${teamRouteSuffix}`}
-                className="text-white/65 transition hover:text-white"
-              >
-                Watch
-              </Link>
-              <Link
-                href={`/wire${teamRouteSuffix}`}
-                className="text-white/65 transition hover:text-white"
-              >
-                The Wire
-              </Link>
-              <Link
-                href={`/front-office${teamRouteSuffix}`}
-                className="text-white/65 transition hover:text-white"
-              >
-                Front Office
-              </Link>
-              <Link href="/merch" className="text-white/65 transition hover:text-white">
-                Merch
-              </Link>
-            </nav>
-            <div className="ml-auto flex items-center gap-2">
+        <SiteHeaderShell>
+          <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
+          <PrimaryNavigation teamAbbr={activeTeam?.abbr} active="huddle" />
+          <div className="ml-auto flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsSearchOpen(true)}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] hover:bg-white/10"
+              aria-label="Search"
+            >
+              <Search className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              className="hidden h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] hover:bg-white/10 sm:flex"
+              aria-label="Notifications"
+            >
+              <Bell className="h-4 w-4" />
+            </button>
+            <div className="relative">
               <button
                 type="button"
-                onClick={() => setIsSearchOpen(true)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/75 hover:bg-white/10"
-                aria-label="Search"
+                onClick={() => setIsTeamMenuOpen((open) => !open)}
+                className="flex h-10 items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 pr-4 text-sm font-bold leading-none transition hover:bg-white/15"
+                aria-expanded={isTeamMenuOpen}
               >
-                <Search className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                className="hidden h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/75 hover:bg-white/10 sm:flex"
-                aria-label="Notifications"
-              >
-                <Bell className="h-4 w-4" />
-              </button>
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setIsTeamMenuOpen((open) => !open)}
-                  className="flex h-11 items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 pr-4 text-sm font-bold transition hover:bg-white/15"
-                  aria-expanded={isTeamMenuOpen}
-                >
-                  {activeTeam ? (
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={activeTeam.logo_url} alt="" className="h-6 w-6 object-contain" />
-                    </span>
-                  ) : (
-                    <Shield className="h-5 w-5 text-[var(--secondary)]" />
-                  )}
-                  <span>{activeTeam ? `${activeTeam.abbr} · Team Select` : 'Team Select'}</span>
-                  <Menu className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <section className="relative overflow-hidden bg-[var(--primary)] text-[var(--light)]">
-          <div className="absolute inset-x-0 bottom-0 h-1 bg-[var(--secondary)]" />
-          <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[var(--dark)] opacity-25 blur-3xl" />
-          <div className="mx-auto grid max-w-[1440px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1fr_auto] lg:px-8 lg:py-14">
-            <div className="relative max-w-4xl">
-              <div className="mb-5 flex items-center gap-3">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  {activeTeam ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={activeTeam.logo_url} alt="" className="h-10 w-10 object-contain" />
-                  ) : (
-                    <Shield className="h-7 w-7 text-[var(--primary)]" />
-                  )}
-                </span>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--secondary)]">
-                    Keep it high and tight
-                  </p>
-                  <p className="mt-1 text-sm text-white/55">Saturday, August 29 · Team briefing</p>
-                </div>
-              </div>
-              <h1 className="max-w-3xl text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
-                Everything {teamName}, all in one place.
-              </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">
-                The stories, videos, roster moves, and fan conversations that matter—ranked and
-                explained for you.
-              </p>
-            </div>
-            <div className="relative flex items-end">
-              <Link
-                href="/offseasonmanager"
-                className="group flex min-w-64 items-center justify-between gap-6 rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15"
-              >
-                <span>
-                  <span className="block text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--secondary)]">
-                    Be the GM
+                {activeTeam ? (
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={activeTeam.logo_url} alt="" className="h-6 w-6 object-contain" />
                   </span>
-                  <span className="mt-1 block text-lg font-bold">Open Offseason Manager</span>
+                ) : (
+                  <Shield className="h-5 w-5 text-[var(--team-secondary-on-dark)]" />
+                )}
+                <span className="hidden sm:inline">
+                  {activeTeam ? `${activeTeam.abbr} · Team Select` : 'Team Select'}
                 </span>
-                <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
-              </Link>
+                <Menu className="h-4 w-4" />
+              </button>
             </div>
+            <LoginButton />
           </div>
-        </section>
+        </SiteHeaderShell>
+
+        <PlaybookHero
+          team={activeTeam}
+          frontOfficeHref={getOffseasonManagerRoute('', activeTeam?.abbr)}
+        />
+
+        {user && personalization ? (
+          <section className="border-b border-[#00172B]/10 bg-[#00172B] text-white">
+            <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#F4D9B7]">
+                  Your Down &amp; Distance
+                </p>
+                <p className="mt-1 text-sm font-bold text-white/75">
+                  {personalization.primaryTeam?.teamId ?? teamAbbr} ·{' '}
+                  {personalization.savedContent?.length ?? 0} saved
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2 text-xs font-black">
+                <Link
+                  href="/account/content"
+                  className="rounded-full bg-white px-4 py-2 text-[#00172B] hover:bg-[#F4D9B7]"
+                >
+                  Open saved content
+                </Link>
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+          <Link
+            href={`/game-day${teamRouteSuffix}`}
+            className="mb-7 grid overflow-hidden rounded-3xl bg-[var(--dark)] text-[var(--team-on-dark)] shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg md:grid-cols-[1fr_auto]"
+          >
+            <div className="p-6 sm:p-8">
+              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--team-secondary-on-dark)]">
+                Your tailgate is open
+              </p>
+              <h2 className="mt-3 text-3xl font-black">{teamAbbr} Game Day</h2>
+              <p className="mt-2 text-sm text-[var(--team-light-on-dark)]">
+                Watch on the TV. React, predict, and talk trash here.
+              </p>
+            </div>
+            <span className="flex min-h-20 items-center justify-center bg-[var(--primary)] px-8 font-black text-[var(--team-on-primary)]">
+              GET IN HERE <ArrowRight className="ml-3 h-5 w-5" />
+            </span>
+          </Link>
           <section id="huddle" className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
             <div>
+              {user && activeTeam ? <CatchUpCallout teamId={activeTeam.abbr} /> : null}
               <div className="mb-4 flex items-end justify-between gap-4">
                 <div>
-                  <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--primary)]">
+                  <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--team-primary-text)]">
                     <Sparkles className="h-4 w-4" /> The Huddle
                   </div>
                   <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
@@ -560,64 +561,58 @@ export default function DownDistanceHome() {
                 </div>
                 <Link
                   href={`/huddle${teamRouteSuffix}`}
-                  className="hidden text-sm font-bold text-[var(--primary)] sm:block"
+                  className="hidden text-sm font-bold text-[var(--team-primary-text)] sm:block"
                 >
-                  View full briefing →
+                  See the whole field →
                 </Link>
               </div>
-              <div className="grid gap-4 lg:grid-cols-3">
+              <div className="grid items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {huddleCards.map((item, index) => (
-                  <button
-                    type="button"
+                  <HuddleStoryCard
                     key={item.id}
-                    onClick={() => item.briefing && setSelectedBriefing(item.briefing)}
-                    disabled={!item.briefing}
-                    className={`group flex flex-col justify-start overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition enabled:hover:-translate-y-0.5 enabled:hover:shadow-md disabled:cursor-default ${index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''}`}
-                  >
-                    <div
-                      className={`relative overflow-hidden bg-[var(--dark)] ${index === 0 ? 'h-44' : 'h-28'}`}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/80 via-transparent to-black/70" />
-                      <div className="absolute left-5 top-5 rounded-full bg-[var(--secondary)] px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[var(--dark)]">
-                        {item.label}
-                      </div>
-                      <div className="absolute bottom-5 right-5 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur">
-                        {index === 0 ? <Zap className="h-5 w-5" /> : <Radio className="h-5 w-5" />}
-                      </div>
-                    </div>
-                    <div className={index === 0 ? 'p-6' : 'p-5'}>
-                      <h3
-                        className={`${index === 0 ? 'text-2xl' : 'text-lg'} font-black leading-tight tracking-tight`}
-                      >
-                        {item.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-6 text-slate-600">{item.summary}</p>
-                      <p className="mt-4 text-xs font-semibold text-slate-400">{item.meta}</p>
-                    </div>
-                  </button>
+                    id={item.id}
+                    teamId={teamAbbr}
+                    headline={item.title}
+                    summary={item.summary}
+                    category={item.label}
+                    status={item.briefing.status}
+                    sourceCount={item.briefing.sourceCount}
+                    updatedAt={item.briefing.updatedAt}
+                    materialUpdateCount={item.briefing.materialUpdateCount}
+                    lead={index === 0}
+                    onOpen={() => openBriefing(item.briefing)}
+                  />
                 ))}
+                {!huddleCards.length ? (
+                  <div className="rounded-2xl border border-dashed border-[#00172B]/15 bg-white/55 p-8 text-sm font-semibold text-[#40556b] md:col-span-2 xl:col-span-3">
+                    No verified Huddle stories are ready for {teamName} yet.
+                  </div>
+                ) : null}
               </div>
             </div>
             <aside className="space-y-6">
-              <section className="overflow-hidden rounded-2xl bg-[var(--primary)] text-white shadow-sm">
+              <Link
+                href={`/three-and-out${teamRouteSuffix}`}
+                className="block overflow-hidden rounded-2xl bg-[var(--primary)] text-[var(--team-on-primary)] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
                 <div className="p-6">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase tracking-[0.24em] text-white/65">
-                      D&D Daily
+                    <span className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--team-on-primary)]">
+                      What matters right now
                     </span>
                     <span className="rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold">
-                      2:04
+                      3 stories
                     </span>
                   </div>
-                  <h3 className="mt-8 text-3xl font-black leading-none">Two-Minute Drill</h3>
-                  <p className="mt-3 text-sm leading-6 text-white/70">
-                    Today’s essential {teamAbbr} update, sourced and summarized.
+                  <h3 className="mt-8 text-3xl font-black leading-none">Three and Out</h3>
+                  <p className="mt-3 text-sm leading-6 text-[var(--team-on-primary)]">
+                    The three biggest {teamAbbr} stories, ranked, sourced, and explained.
                   </p>
-                  <button className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--secondary)] font-black text-[var(--dark)]">
-                    <Play className="h-4 w-4 fill-current" /> Play today’s briefing
-                  </button>
+                  <span className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--secondary)] font-black text-[var(--team-on-secondary)]">
+                    Open Three and Out <ArrowRight className="h-4 w-4" />
+                  </span>
                 </div>
-              </section>
+              </Link>
               <section
                 id="wire"
                 className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
@@ -631,7 +626,7 @@ export default function DownDistanceHome() {
                   </span>
                 </div>
                 <div className="mt-4 divide-y divide-slate-100">
-                  {wireItems.map((item) => (
+                  {displayedWireItems.map((item) => (
                     <div key={`${item.time}-${item.text}`} className="py-4 first:pt-1">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                         {item.time}
@@ -644,10 +639,14 @@ export default function DownDistanceHome() {
             </aside>
           </section>
 
+          <section className="mt-10">
+            <DailyTriviaWidget teamId={teamAbbr} />
+          </section>
+
           <section id="watch" className="mt-10 rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
             <div className="mb-6 flex items-end justify-between">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--secondary)]">
+                <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--team-secondary-on-dark)]">
                   Watch
                 </p>
                 <h2 className="mt-2 text-2xl font-black">Worth your time today</h2>
@@ -671,7 +670,7 @@ export default function DownDistanceHome() {
                     </span>
                   </div>
                   <div className="p-5">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--secondary)]">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--team-secondary-on-dark)]">
                       {item.type}
                     </p>
                     <h3 className="mt-2 font-bold leading-6">{item.title}</h3>
@@ -711,7 +710,7 @@ export default function DownDistanceHome() {
                   The conversation shifted after three straight positive practice reports. Fans are
                   increasingly convinced the competition has a clear leader.
                 </p>
-                <button className="mt-5 text-sm font-black text-[var(--primary)]">
+                <button className="mt-5 text-sm font-black text-[var(--team-primary-text)]">
                   Open the original discussion →
                 </button>
               </div>
@@ -720,7 +719,7 @@ export default function DownDistanceHome() {
               id="front-office"
               className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
             >
-              <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--primary)]">
+              <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
                 <Shield className="h-4 w-4" /> Front Office
               </p>
               <h2 className="mt-2 text-2xl font-black">Build the complete picture</h2>
@@ -735,7 +734,7 @@ export default function DownDistanceHome() {
                     key={item.label}
                     className="rounded-2xl border border-slate-200 p-4 text-left transition hover:border-[var(--primary)] hover:bg-slate-50"
                   >
-                    <item.icon className="h-5 w-5 text-[var(--primary)]" />
+                    <item.icon className="h-5 w-5 text-[var(--team-primary-text)]" />
                     <span className="mt-4 block text-xs font-bold text-slate-500">
                       {item.label}
                     </span>
@@ -744,10 +743,10 @@ export default function DownDistanceHome() {
                 ))}
               </div>
               <Link
-                href="/offseasonmanager"
-                className="mt-5 flex w-full items-center justify-between rounded-2xl bg-[var(--dark)] p-4 font-black text-[var(--light)]"
+                href={getOffseasonManagerRoute('', activeTeam?.abbr)}
+                className="mt-5 flex w-full items-center justify-between rounded-2xl bg-[var(--dark)] p-4 font-black text-[var(--team-on-dark)]"
               >
-                <span>Take control in Offseason Manager</span>
+                <span>Take control in Front Office</span>
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </div>

@@ -28,10 +28,10 @@ export default function CatchMeUp({ data }: { data: CatchMeUpData }) {
     setPlaying(true);
   };
   return (
-    <section className="overflow-hidden rounded-3xl bg-[var(--primary)] text-white shadow-lg">
+    <section className="overflow-hidden rounded-3xl bg-[var(--primary)] text-[var(--team-on-primary)] shadow-lg">
       <div className="grid gap-5 p-6 sm:grid-cols-[1fr_auto] sm:items-end sm:p-8">
         <div>
-          <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-white/65">
+          <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--team-on-primary)] opacity-80">
             <Sparkles className="h-4 w-4" /> {heard ? 'You’re caught up' : 'New since you left'}
           </p>
           <h2 className="mt-3 text-3xl font-black">
@@ -39,14 +39,14 @@ export default function CatchMeUp({ data }: { data: CatchMeUpData }) {
               ? 'Nothing meaningful waiting.'
               : `${data.storyCount} things happened since ${data.since}`}
           </h2>
-          <p className="mt-2 text-sm text-white/65">
+          <p className="mt-2 text-sm text-[var(--team-on-primary)] opacity-80">
             A no-filler team briefing built from meaningful updates only.
           </p>
         </div>
         <button
           type="button"
           onClick={toggle}
-          className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-[var(--secondary)] px-6 font-black text-[var(--dark)]"
+          className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-[var(--secondary)] px-6 font-black text-[var(--team-on-secondary)]"
           aria-label={playing ? 'Pause Catch Me Up' : 'Play Catch Me Up'}
         >
           {playing ? (

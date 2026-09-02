@@ -15,12 +15,12 @@ export default function WatchSection({
   }, new Map<StoryVideo['category'], StoryVideo[]>());
   return (
     <section className="rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--secondary)]">
+      <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-secondary-on-dark)]">
         Watch
       </p>
       <h2 className="mt-2 text-3xl font-black">Go deeper without hunting.</h2>
       <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
-        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--secondary)]">
+        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--team-secondary-on-dark)]">
           The 30-second take
         </p>
         <p className="mt-2 text-sm leading-6 text-white/70">{consensus}</p>
@@ -40,7 +40,7 @@ export default function WatchSection({
                   className="group rounded-2xl bg-white/[0.07] p-4 transition hover:bg-white/[0.12]"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--secondary)] text-[var(--dark)]">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--secondary)] text-[var(--team-on-secondary)]">
                       <Play className="h-4 w-4 fill-current" />
                     </span>
                     <span className="text-xs font-bold text-white/45">{video.duration}</span>

@@ -16,13 +16,13 @@ export default function ThreeAndOut({
   ];
   return (
     <section>
-      <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--primary)]">
-        3 &amp; Out
+      <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--team-primary-text)]">
+        Three and Out
       </p>
       <div className="mt-4 grid gap-3">
         {items.map(([label, text], index) => (
           <div key={label} className="grid grid-cols-[42px_1fr] gap-3 rounded-2xl bg-slate-50 p-4">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--dark)] text-sm font-black text-white">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--dark)] text-sm font-black text-[var(--team-on-dark)]">
               {index + 1}
             </span>
             <div>

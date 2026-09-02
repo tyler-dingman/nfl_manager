@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowLeft, CalendarDays, Globe2, Layers3, MapPin, PackageOpen, Radio } from 'lucide-react';
 
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+import LoginButton from '@/components/auth/login-button';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { PROMO_CONCEPTS } from '@/features/promos/concepts';
 import PromoConceptCard from './promo-concept-card';
@@ -43,9 +44,12 @@ export default function PromosPage() {
               containerClassName="h-auto w-32 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:w-40"
               priority
             />
-            <span className="ml-auto rounded-full border border-white/15 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/55">
-              Internal concept deck
-            </span>
+            <div className="ml-auto flex items-center gap-2">
+              <LoginButton />
+              <span className="hidden rounded-full border border-white/15 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/55 sm:inline-flex">
+                Internal concept deck
+              </span>
+            </div>
           </div>
         </header>
         <main>

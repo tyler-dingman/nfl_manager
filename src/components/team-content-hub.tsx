@@ -3,19 +3,26 @@
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, Clock3, Play, Radio, Shield, Sparkles, Users } from 'lucide-react';
+import { ArrowRight, Bookmark, Clock3, Play, Radio, Shield, Sparkles, Users } from 'lucide-react';
 
-import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+import LoginButton from '@/components/auth/login-button';
+import EditorialVisual from '@/components/editorial/editorial-visual';
 import TeamThemeProvider from '@/components/team-theme-provider';
+import PrimaryNavigation from '@/components/primary-navigation';
+import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
+import ThreeAndOutExperience from '@/components/three-and-out/three-and-out-experience';
 import type { TeamBriefing } from '@/features/content/types';
+import { recordBriefingConsumed } from '@/features/content/consumption';
 import {
   clearFanTeamPreference,
-  readFanTeamPreference,
+  readCanonicalFanTeamPreference,
   saveFanTeamPreference,
 } from '@/features/team/fan-team-preference';
+import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import { useTeamStore } from '@/features/team/team-store';
+import { useAuthUser } from '@/features/auth/auth-session';
 
-type HubKind = 'huddle' | 'watch' | 'wire' | 'front-office';
+type HubKind = 'huddle' | 'three-and-out' | 'watch' | 'wire' | 'front-office';
 
 const hubMeta = {
   huddle: {
@@ -23,6 +30,12 @@ const hubMeta = {
     title: 'The stories that matter, without the article pileup.',
     description:
       'Important topics gathered across sources, condensed, and linked back to the original coverage.',
+  },
+  'three-and-out': {
+    eyebrow: 'Three and Out',
+    title: 'The three things you need to know right now.',
+    description:
+      'The biggest ongoing football stories, ranked by importance, sourced, and updated as they change.',
   },
   watch: {
     eyebrow: 'Watch',
@@ -76,12 +89,11 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
   );
   const teamAbbr = activeTeam?.abbr ?? 'NFL';
   const teamName = activeTeam?.name ?? 'NFL';
-  const routeSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';
   const meta = hubMeta[kind];
   const [briefings, setBriefings] = useState<TeamBriefing[]>([]);
 
   useEffect(() => {
-    setPersistedAbbr(readFanTeamPreference());
+    void readCanonicalFanTeamPreference().then(setPersistedAbbr);
   }, []);
 
   useEffect(() => {
@@ -101,32 +113,11 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
   return (
     <TeamThemeProvider team={activeTeam}>
       <div className="min-h-screen bg-[#f4f6f8] text-slate-950">
-        <header className="border-b border-white/10 bg-[var(--dark)] text-white">
-          <div className="mx-auto flex min-h-24 max-w-[1440px] items-center gap-6 px-4 py-4 sm:px-6 lg:px-8">
-            <Link href="/" aria-label="Down & Distance home">
-              <FiveWideLogo
-                size={62}
-                teamAbbr={activeTeam?.abbr}
-                generic={!activeTeam}
-                containerClassName="h-auto w-32 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:w-40"
-                priority
-              />
-            </Link>
-            <nav className="hidden gap-6 text-sm font-bold lg:flex">
-              {(Object.keys(hubMeta) as HubKind[]).map((navKind) => (
-                <Link
-                  key={navKind}
-                  href={`/${navKind}${routeSuffix}`}
-                  className={navKind === kind ? 'text-white' : 'text-white/55 hover:text-white'}
-                >
-                  {hubMeta[navKind].eyebrow}
-                </Link>
-              ))}
-              <Link href="/merch" className="text-white/55 hover:text-white">
-                Merch
-              </Link>
-            </nav>
-            <label className="ml-auto flex items-center gap-2 text-xs font-black uppercase tracking-wider text-white/55">
+        <SiteHeaderShell>
+          <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
+          <PrimaryNavigation teamAbbr={activeTeam?.abbr} active={kind === 'wire' ? null : kind} />
+          <div className="ml-auto flex items-center gap-2">
+            <label className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[var(--team-on-dark)]">
               <span className="hidden sm:inline">Team</span>
               <select
                 value={activeTeam?.abbr ?? ''}
@@ -142,7 +133,7 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
                     event.target.value ? `${currentPath}?team=${event.target.value}` : currentPath,
                   );
                 }}
-                className="rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-bold normal-case tracking-normal text-white outline-none"
+                className="h-10 rounded-full border border-current/20 bg-white/10 px-4 text-sm font-bold leading-none normal-case tracking-normal text-[var(--team-on-dark)] outline-none"
               >
                 <option value="" className="text-slate-950">
                   NFL
@@ -154,62 +145,153 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
                 ))}
               </select>
             </label>
+            <LoginButton />
           </div>
-        </header>
+        </SiteHeaderShell>
 
-        <section className="bg-[var(--dark)] text-white">
+        <section className="bg-[var(--dark)] text-[var(--team-on-dark)]">
           <div className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
-            <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--secondary)]">
+            <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--team-secondary-on-dark)]">
               {teamName} · {meta.eyebrow}
             </p>
             <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
               {meta.title}
             </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/60">{meta.description}</p>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--team-light-on-dark)]">
+              {meta.description}
+            </p>
           </div>
         </section>
 
         <main className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
-          {kind === 'huddle' ? <HuddleGrid briefings={briefings} /> : null}
+          {kind === 'huddle' ? <HuddleGrid briefings={briefings} teamAbbr={teamAbbr} /> : null}
+          {kind === 'three-and-out' ? (
+            activeTeam ? (
+              <ThreeAndOutExperience teamId={activeTeam.abbr} />
+            ) : (
+              <section className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm sm:p-12">
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
+                  Team required
+                </p>
+                <h2 className="mt-3 text-3xl font-black">
+                  Choose your team to open Three and Out.
+                </h2>
+                <p className="mx-auto mt-3 max-w-xl text-slate-500">
+                  Use Team Select above to load the three stories that matter most for your team.
+                </p>
+              </section>
+            )
+          ) : null}
           {kind === 'watch' ? <WatchGrid /> : null}
           {kind === 'wire' ? <WireTimeline /> : null}
-          {kind === 'front-office' ? <FrontOffice teamName={teamName} /> : null}
+          {kind === 'front-office' ? <FrontOffice teamName={teamName} teamAbbr={teamAbbr} /> : null}
         </main>
       </div>
     </TeamThemeProvider>
   );
 }
 
-function HuddleGrid({ briefings }: { briefings: TeamBriefing[] }) {
+function HuddleGrid({ briefings, teamAbbr }: { briefings: TeamBriefing[]; teamAbbr: string }) {
+  const { user, hydrated } = useAuthUser();
+  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (!hydrated || !user || !briefings.length) return;
+    void fetch('/api/user/saved-content')
+      .then((response) => (response.ok ? response.json() : null))
+      .then((body: { items?: Array<{ contentId: string }> } | null) =>
+        setSavedIds(new Set((body?.items ?? []).map((item) => item.contentId))),
+      );
+  }, [briefings, hydrated, user]);
+
+  const toggleSaved = async (briefing: TeamBriefing) => {
+    if (!user) {
+      window.location.assign(`/login?next=${encodeURIComponent(`/huddle?team=${teamAbbr}`)}`);
+      return;
+    }
+    const saved = savedIds.has(briefing.id);
+    const response = await fetch(
+      `/api/user/saved-content?contentType=STORY&contentId=${encodeURIComponent(briefing.id)}`,
+      saved
+        ? { method: 'DELETE' }
+        : {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              contentType: 'STORY',
+              contentId: briefing.id,
+              title: briefing.headline,
+              href: `/huddle?team=${teamAbbr}`,
+              metadata: { teamAbbr, category: briefing.category },
+            }),
+          },
+    );
+    if (response.ok) {
+      setSavedIds((current) => {
+        const next = new Set(current);
+        if (saved) next.delete(briefing.id);
+        else next.add(briefing.id);
+        return next;
+      });
+    }
+  };
+
   return (
     <div className="grid gap-5 lg:grid-cols-3">
       {briefings.length ? (
         briefings.map((briefing) => (
           <article
             key={briefing.id}
-            className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm"
+            className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
           >
-            <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--primary)]">
-              <Sparkles className="h-4 w-4" /> {briefing.category}
-            </p>
-            <h2 className="mt-4 text-2xl font-black leading-tight">{briefing.headline}</h2>
-            <p className="mt-4 leading-7 text-slate-600">{briefing.summary}</p>
-            <p className="mt-6 text-xs font-bold text-slate-400">{briefing.sourceCount} sources</p>
-            <div className="mt-4 border-t border-slate-100 pt-4">
-              {briefing.sources.map((source) => (
-                <a
-                  key={source.id}
-                  href={source.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mb-2 flex items-center justify-between gap-4 text-sm font-bold text-[var(--primary)] hover:underline"
-                >
-                  <span>
-                    {source.publisher}: {source.title}
-                  </span>
-                  <ArrowRight className="h-4 w-4 shrink-0" />
-                </a>
-              ))}
+            <EditorialVisual
+              story={{
+                teamId: briefing.teamAbbr,
+                category: briefing.category,
+                headline: briefing.headline,
+                summary: briefing.summary,
+              }}
+              variant="card"
+              decorative
+            />
+            <div className="p-7">
+              <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--team-primary-text)]">
+                <Sparkles className="h-4 w-4" /> {briefing.category}
+              </p>
+              <h2 className="mt-4 text-2xl font-black leading-tight">{briefing.headline}</h2>
+              <p className="mt-4 leading-7 text-slate-600">{briefing.summary}</p>
+              <p className="mt-6 text-xs font-bold text-slate-400">
+                {briefing.sourceCount} sources
+              </p>
+              <button
+                type="button"
+                onClick={() => void toggleSaved(briefing)}
+                className="mt-4 inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-xs font-black text-[var(--team-primary-text)] hover:bg-slate-50"
+              >
+                <Bookmark
+                  className={`h-4 w-4 ${savedIds.has(briefing.id) ? 'fill-current' : ''}`}
+                />
+                {savedIds.has(briefing.id) ? 'Saved' : user ? 'Save' : 'Sign in to save'}
+              </button>
+              <div className="mt-4 border-t border-slate-100 pt-4">
+                {briefing.sources.map((source) => (
+                  <a
+                    key={source.id}
+                    href={source.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => {
+                      if (user) void recordBriefingConsumed(briefing);
+                    }}
+                    className="mb-2 flex items-center justify-between gap-4 text-sm font-bold text-[var(--team-primary-text)] hover:underline"
+                  >
+                    <span>
+                      {source.publisher}: {source.title}
+                    </span>
+                    <ArrowRight className="h-4 w-4 shrink-0" />
+                  </a>
+                ))}
+              </div>
             </div>
           </article>
         ))
@@ -238,7 +320,7 @@ function WatchGrid() {
             </span>
           </div>
           <div className="p-6">
-            <p className="text-xs font-black uppercase tracking-wider text-[var(--secondary)]">
+            <p className="text-xs font-black uppercase tracking-wider text-[var(--team-secondary-on-dark)]">
               {type}
             </p>
             <h2 className="mt-2 text-lg font-black">{title}</h2>
@@ -276,7 +358,7 @@ function WireTimeline() {
   );
 }
 
-function FrontOffice({ teamName }: { teamName: string }) {
+function FrontOffice({ teamName, teamAbbr }: { teamName: string; teamAbbr?: string | null }) {
   const tools = [
     ['Depth chart', 'Current roster and roles', Users],
     ['Cap outlook', 'Contracts and available space', Shield],
@@ -287,21 +369,21 @@ function FrontOffice({ teamName }: { teamName: string }) {
     <div className="grid gap-5 md:grid-cols-2">
       {tools.map(([title, description, Icon]) => (
         <article key={title} className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
-          <Icon className="h-7 w-7 text-[var(--primary)]" />
+          <Icon className="h-7 w-7 text-[var(--team-primary-text)]" />
           <h2 className="mt-6 text-2xl font-black">{title}</h2>
           <p className="mt-2 text-slate-600">
             {teamName} · {description}
           </p>
-          <button className="mt-6 font-black text-[var(--primary)]">
+          <button className="mt-6 font-black text-[var(--team-primary-text)]">
             Explore {title.toLowerCase()} →
           </button>
         </article>
       ))}
       <Link
-        href="/offseasonmanager"
-        className="flex items-center justify-between rounded-3xl bg-[var(--dark)] p-7 text-xl font-black text-white md:col-span-2"
+        href={getOffseasonManagerRoute('', teamAbbr)}
+        className="flex items-center justify-between rounded-3xl bg-[var(--dark)] p-7 text-xl font-black text-[var(--team-on-dark)] md:col-span-2"
       >
-        <span>Take control in Offseason Manager</span>
+        <span>Take control in Front Office</span>
         <ArrowRight />
       </Link>
     </div>

@@ -328,7 +328,7 @@ export function MerchCartButton({ className = '' }: { className?: string }) {
     <button
       type="button"
       onClick={openCart}
-      className={`relative flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 ${className}`}
+      className={`relative flex h-10 w-10 items-center justify-center rounded-full border border-[#00172B]/15 ${className}`}
       aria-label={`Open shopping bag with ${count} items`}
     >
       <ShoppingBag className="h-5 w-5" />

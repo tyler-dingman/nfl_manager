@@ -1,0 +1,6 @@
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { C, Eyebrow, Heading } from '../components/screen';
+import { getSavedContent, type SavedItem } from '../lib/api';
+export default function Saved(){const [items,setItems]=useState<SavedItem[]|null>(null);useEffect(()=>{getSavedContent().then(setItems).catch(()=>setItems([]));},[]);return <ScrollView style={s.page} contentContainerStyle={s.body}><Eyebrow>YOUR LIBRARY</Eyebrow><Heading>Saved</Heading>{items===null?<ActivityIndicator color={C.red} style={s.loader}/>:items.length?items.map(i=><View key={i.id} style={s.card}><Text style={s.type}>{i.contentType}</Text><Text style={s.title}>{i.title}</Text></View>):<View style={s.empty}><Text style={s.title}>Nothing saved yet.</Text><Text style={s.copy}>Save a story to keep it here for later.</Text></View>}</ScrollView>}
+const s=StyleSheet.create({page:{flex:1,backgroundColor:C.cream},body:{padding:20,paddingBottom:40},loader:{marginTop:40},card:{backgroundColor:C.white,borderRadius:16,padding:18,marginTop:12},type:{color:C.red,fontSize:13,fontWeight:'900',letterSpacing:1.2},title:{color:C.ink,fontWeight:'900',fontSize:18,marginTop:7},empty:{backgroundColor:C.white,borderRadius:18,padding:22,marginTop:24},copy:{color:C.muted,fontSize:16,lineHeight:23,marginTop:8}});

@@ -8,11 +8,38 @@ export function readFanTeamPreference() {
   }
 }
 
-export function saveFanTeamPreference(teamAbbr: string) {
+export async function readCanonicalFanTeamPreference() {
+  const localTeam = readFanTeamPreference();
   try {
-    window.localStorage.setItem(FAN_TEAM_STORAGE_KEY, teamAbbr.toUpperCase());
+    const response = await fetch('/api/user/home', { cache: 'no-store', credentials: 'include' });
+    if (!response.ok) return localTeam;
+    const body = (await response.json()) as {
+      personalization?: { primaryTeam?: { teamId?: string | null } | null };
+    };
+    const serverTeam = body.personalization?.primaryTeam?.teamId?.toUpperCase() ?? null;
+    if (serverTeam) window.localStorage.setItem(FAN_TEAM_STORAGE_KEY, serverTeam);
+    return serverTeam ?? localTeam;
+  } catch {
+    return localTeam;
+  }
+}
+
+export async function saveFanTeamPreference(teamAbbr: string) {
+  const normalized = teamAbbr.toUpperCase();
+  try {
+    window.localStorage.setItem(FAN_TEAM_STORAGE_KEY, normalized);
   } catch {
     // The selected team still works for this visit when storage is unavailable.
+  }
+  try {
+    await fetch('/api/user/team-follows/primary', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ teamId: normalized }),
+    });
+  } catch {
+    // Anonymous and offline users still retain the local team selection.
   }
 }
 

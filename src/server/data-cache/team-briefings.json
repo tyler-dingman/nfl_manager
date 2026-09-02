@@ -391,21 +391,91 @@
   ],
   "KC": [
     {
-      "id": "kc-official-top-story",
+      "id": "kc-official-story-ad66aff12509467a",
       "teamAbbr": "KC",
       "category": "Breaking trade",
-      "headline": "Chiefs Land Josh Ezeudu in Trade Deal with Giants",
-      "summary": "Kansas City Chiefs acquired offensive lineman Josh Ezeudu from the New York Giants in a trade, with Ezeudu having appeared in 33 games over the last four seasons.",
-      "whyItMatters": "This trade adds depth and experience to the Chiefs' offensive line, potentially strengthening their ability to handle the Giants' defensive pressure in upcoming matchups.",
+      "headline": "Chiefs Acquire OT Diego Pounds in Trade with Baltimore",
+      "summary": "Kansas City bolstered its offensive line on Sunday",
+      "whyItMatters": null,
       "sourceIds": [
-        "kc-official-aHR0cHM6Ly93d3cuY2"
+        "kc-official-ad66aff12509467a"
       ],
+      "imageUrl": "https://static.clubs.nfl.com/image/upload/t_editorial_landscape_12_desktop/chiefs/wgtst9275j7j21ppjad7.jpg",
+      "updatedAt": "2026-08-31T00:17:11.000Z",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "id": "kc-official-ad66aff12509467a",
+          "kind": "official",
+          "publisher": "Kansas City Chiefs",
+          "title": "Chiefs Acquire OT Diego Pounds in Trade with Baltimore",
+          "url": "https://www.chiefs.com/news/chiefs-acquire-ot-diego-pounds-in-trade-with-baltimore",
+          "publishedAt": "2026-08-31T00:17:11.000Z"
+        }
+      ]
+    },
+    {
+      "id": "kc-official-story-eb052da23f1368cd",
+      "teamAbbr": "KC",
+      "category": "Roster watch",
+      "headline": "Kansas City Chiefs Finalize 53-Man Roster",
+      "summary": "The Kansas City Chiefs have narrowed their roster down to 53 players.",
+      "whyItMatters": null,
+      "sourceIds": [
+        "kc-official-eb052da23f1368cd"
+      ],
+      "imageUrl": "https://static.clubs.nfl.com/image/upload/t_editorial_landscape_12_desktop/chiefs/vyl6qldyav5qpd6nua1h.jpg",
+      "updatedAt": "2026-08-31T00:12:32.000Z",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "id": "kc-official-eb052da23f1368cd",
+          "kind": "official",
+          "publisher": "Kansas City Chiefs",
+          "title": "Here's a Look at the Chiefs Initial 53-Man Roster",
+          "url": "https://www.chiefs.com/news/here-s-a-look-at-the-chiefs-initial-53-man-roster-x9897",
+          "publishedAt": "2026-08-31T00:12:32.000Z"
+        }
+      ]
+    },
+    {
+      "id": "kc-official-story-ed5e9c37ff148cce",
+      "teamAbbr": "KC",
+      "category": "Roster watch",
+      "headline": "Kansas City Chiefs Announce Roster Moves for 2026 NFL Season",
+      "summary": "The Kansas City Chiefs have officially announced their roster moves ahead of the 2026 NFL season.",
+      "whyItMatters": null,
+      "sourceIds": [
+        "kc-official-ed5e9c37ff148cce"
+      ],
+      "imageUrl": "https://static.clubs.nfl.com/image/upload/t_editorial_landscape_12_desktop/chiefs/ommwkq2rrtjo8jo7hidy.png",
+      "updatedAt": "2026-08-31T00:09:18.000Z",
+      "sourceCount": 1,
+      "sources": [
+        {
+          "id": "kc-official-ed5e9c37ff148cce",
+          "kind": "official",
+          "publisher": "Kansas City Chiefs",
+          "title": "Chiefs Announce Roster Moves Heading into 2026 NFL Season",
+          "url": "https://www.chiefs.com/news/chiefs-announce-roster-moves-heading-into-2026-nfl-season",
+          "publishedAt": "2026-08-31T00:09:18.000Z"
+        }
+      ]
+    },
+    {
+      "id": "kc-official-story-ce4515c366a05b55",
+      "teamAbbr": "KC",
+      "category": "Breaking trade",
+      "headline": "Kansas City Chiefs Acquire OL Josh Ezeudu in Trade with Giants",
+      "summary": "The Chiefs acquired offensive lineman Josh Ezeudu from the New York Giants in a trade, as Ezeudu has appeared in 33 games for the Giants over the last four seasons.",
+      "whyItMatters": null,
+      "sourceIds": [],
       "imageUrl": "https://static.clubs.nfl.com/image/upload/t_editorial_landscape_12_desktop/chiefs/hv4vnyrqyqwtv2vldnwj.jpg",
       "updatedAt": "2026-08-26T22:42:06.000Z",
       "sourceCount": 1,
       "sources": [
         {
-          "id": "kc-official-aHR0cHM6Ly93d3cuY2",
+          "id": "kc-official-ce4515c366a05b55",
           "kind": "official",
           "publisher": "Kansas City Chiefs",
           "title": "Chiefs Acquire OL Josh Ezeudu in Trade with Giants",

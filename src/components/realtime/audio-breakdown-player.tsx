@@ -61,10 +61,10 @@ export default function AudioBreakdownPlayer({ audio }: { audio: StoryAudio[] })
   };
 
   return (
-    <section className="rounded-3xl bg-[var(--dark)] p-5 text-white sm:p-6">
+    <section className="rounded-3xl bg-[var(--dark)] p-5 text-[var(--team-on-dark)] sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--secondary)]">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--team-secondary-on-dark)]">
             Audio rundown
           </p>
           <h3 className="mt-1 text-xl font-black">{active.label}</h3>
@@ -72,7 +72,7 @@ export default function AudioBreakdownPlayer({ audio }: { audio: StoryAudio[] })
         <select
           value={depth}
           onChange={(event) => setDepth(event.target.value as AudioDepth)}
-          className="rounded-full border border-white/15 bg-white/10 px-3 py-2 text-xs font-bold text-white"
+          className="rounded-full border border-current/20 bg-white/10 px-3 py-2 text-xs font-bold text-[var(--team-on-dark)]"
           aria-label="Select explanation depth"
         >
           <option value="quick" className="text-slate-950">
@@ -90,7 +90,7 @@ export default function AudioBreakdownPlayer({ audio }: { audio: StoryAudio[] })
         <button
           type="button"
           onClick={toggle}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--secondary)] text-[var(--dark)]"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--secondary)] text-[var(--team-on-secondary)]"
           aria-label={playing ? 'Pause audio breakdown' : 'Play audio breakdown'}
         >
           {playing ? (

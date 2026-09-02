@@ -1,0 +1,362 @@
+[
+  {
+    "id": "kc-031",
+    "teamId": "KC",
+    "question": "Which running back did the Chiefs select in the first round of the 2008 NFL Draft?",
+    "answers": [
+      "Jamaal Charles",
+      "Larry Johnson",
+      "Kolby Smith",
+      "Dantrell Savage"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "Jamaal Charles was not a first-round pick; Kansas City selected him in the third round of the 2008 NFL Draft. This question should not be activated.",
+    "category": "DRAFT",
+    "era": "2000S",
+    "seasonYear": 2008,
+    "isEvergreen": true,
+    "isActive": false
+  },
+  {
+    "id": "kc-032",
+    "teamId": "KC",
+    "question": "In which round of the 2008 NFL Draft did the Chiefs select Jamaal Charles?",
+    "answers": [
+      "First round",
+      "Second round",
+      "Third round",
+      "Fourth round"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Kansas City selected Jamaal Charles in the third round of the 2008 NFL Draft with the 73rd overall pick.",
+    "category": "DRAFT",
+    "era": "2000S",
+    "seasonYear": 2008,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-033",
+    "teamId": "KC",
+    "question": "Which Chiefs defensive lineman was selected fifth overall in the 1989 NFL Draft?",
+    "answers": [
+      "Neil Smith",
+      "Derrick Thomas",
+      "Bill Maas",
+      "Dan Saleaumua"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Kansas City selected Derrick Thomas fifth overall out of Alabama in the 1989 NFL Draft.",
+    "category": "DRAFT",
+    "era": "1980S",
+    "seasonYear": 1989,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-034",
+    "teamId": "KC",
+    "question": "Which Chiefs player won the NFL MVP award for the 2018 season?",
+    "answers": [
+      "Travis Kelce",
+      "Tyreek Hill",
+      "Patrick Mahomes",
+      "Chris Jones"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Patrick Mahomes won NFL MVP in his first season as Kansas City's full-time starting quarterback after throwing 50 touchdown passes.",
+    "category": "RECORDS_STATS",
+    "era": "2010S_2020S",
+    "seasonYear": 2018,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-035",
+    "teamId": "KC",
+    "question": "How many touchdown passes did Patrick Mahomes throw during his 2018 MVP season?",
+    "answers": [
+      "45",
+      "48",
+      "50",
+      "55"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Mahomes threw 50 touchdown passes in 2018 while also passing for 5,097 yards.",
+    "category": "RECORDS_STATS",
+    "era": "2010S_2020S",
+    "seasonYear": 2018,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-036",
+    "teamId": "KC",
+    "question": "Which Chiefs running back scored the game-clinching touchdown in Super Bowl LIV?",
+    "answers": [
+      "LeSean McCoy",
+      "Damien Williams",
+      "Darwin Thompson",
+      "Spencer Ware"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Damien Williams broke a 38-yard touchdown run late in the fourth quarter to give Kansas City its final points in the 31-20 victory.",
+    "category": "FAMOUS_GAMES",
+    "era": "2010S_2020S",
+    "seasonYear": 2019,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-037",
+    "teamId": "KC",
+    "question": "Which team did Kansas City defeat in the AFC Championship Game to reach Super Bowl LIV?",
+    "answers": [
+      "Buffalo Bills",
+      "New England Patriots",
+      "Tennessee Titans",
+      "Baltimore Ravens"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Kansas City defeated Tennessee 35-24 in the AFC Championship Game to advance to Super Bowl LIV.",
+    "category": "PLAYOFFS_CHAMPIONSHIPS",
+    "era": "2010S_2020S",
+    "seasonYear": 2019,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-038",
+    "teamId": "KC",
+    "question": "Which Chiefs quarterback started the team's first game at Arrowhead Stadium in 1972?",
+    "answers": [
+      "Len Dawson",
+      "Mike Livingston",
+      "Pete Beathard",
+      "Bill Kenney"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "Len Dawson was Kansas City's starting quarterback when the Chiefs opened Arrowhead Stadium in 1972.",
+    "category": "STADIUM_IDENTITY",
+    "era": "1970S",
+    "seasonYear": 1972,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-039",
+    "teamId": "KC",
+    "question": "Which Chiefs defensive back was nicknamed 'The Hammer' and became a Pro Football Hall of Famer?",
+    "answers": [
+      "Johnny Robinson",
+      "Emmitt Thomas",
+      "Deron Cherry",
+      "Kevin Ross"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "Johnny Robinson starred at safety for the Chiefs and became a Pro Football Hall of Famer.",
+    "category": "PLAYERS_LEGENDS",
+    "era": "1960S_OR_EARLIER",
+    "seasonYear": null,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-040",
+    "teamId": "KC",
+    "question": "Which Chiefs Hall of Famer was selected first overall in the 1963 AFL Draft?",
+    "answers": [
+      "Buck Buchanan",
+      "Bobby Bell",
+      "Willie Lanier",
+      "Curley Culp"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "The Chiefs selected defensive tackle Buck Buchanan with the first overall pick in the 1963 AFL Draft.",
+    "category": "DRAFT",
+    "era": "1960S_OR_EARLIER",
+    "seasonYear": 1963,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-041",
+    "teamId": "KC",
+    "question": "Which Chiefs linebacker was nicknamed 'Contact' because of his physical style of play?",
+    "answers": [
+      "Bobby Bell",
+      "Willie Lanier",
+      "Derrick Thomas",
+      "Jim Lynch"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Hall of Fame middle linebacker Willie Lanier was known as 'Contact' Lanier and anchored the Chiefs defense during its AFL championship era.",
+    "category": "PLAYERS_LEGENDS",
+    "era": "1960S_OR_EARLIER",
+    "seasonYear": null,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-042",
+    "teamId": "KC",
+    "question": "Which Chiefs running back rushed for a franchise-record 1,789 yards in 2006?",
+    "answers": [
+      "Priest Holmes",
+      "Larry Johnson",
+      "Jamaal Charles",
+      "Christian Okoye"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Larry Johnson rushed for 1,789 yards during the 2006 season, setting the Chiefs' single-season rushing record.",
+    "category": "RECORDS_STATS",
+    "era": "2000S",
+    "seasonYear": 2006,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-043",
+    "teamId": "KC",
+    "question": "Which quarterback threw the game-winning touchdown pass to Travis Kelce in overtime of the 2021 AFC Divisional playoff against Buffalo?",
+    "answers": [
+      "Alex Smith",
+      "Patrick Mahomes",
+      "Chad Henne",
+      "Matt Moore"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Patrick Mahomes connected with Travis Kelce for an 8-yard overtime touchdown to finish Kansas City's 42-36 victory over Buffalo.",
+    "category": "FAMOUS_GAMES",
+    "era": "2010S_2020S",
+    "seasonYear": 2021,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-044",
+    "teamId": "KC",
+    "question": "Which team did Kansas City defeat to win Super Bowl LVII?",
+    "answers": [
+      "San Francisco 49ers",
+      "Philadelphia Eagles",
+      "Los Angeles Rams",
+      "Cincinnati Bengals"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Kansas City defeated Philadelphia 38-35 in Super Bowl LVII.",
+    "category": "PLAYOFFS_CHAMPIONSHIPS",
+    "era": "2010S_2020S",
+    "seasonYear": 2022,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-045",
+    "teamId": "KC",
+    "question": "Which Chiefs receiver caught the team's first touchdown of Super Bowl LVII?",
+    "answers": [
+      "JuJu Smith-Schuster",
+      "Kadarius Toney",
+      "Marquez Valdes-Scantling",
+      "Travis Kelce"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Travis Kelce caught an 18-yard touchdown pass from Patrick Mahomes in the first quarter of Super Bowl LVII.",
+    "category": "FAMOUS_GAMES",
+    "era": "2010S_2020S",
+    "seasonYear": 2022,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-046",
+    "teamId": "KC",
+    "question": "Which Chiefs player returned a punt 65 yards to set up a fourth-quarter touchdown in Super Bowl LVII?",
+    "answers": [
+      "Mecole Hardman",
+      "Kadarius Toney",
+      "Skyy Moore",
+      "Isiah Pacheco"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Kadarius Toney returned a punt 65 yards to the Philadelphia 5-yard line, setting up a Chiefs touchdown in Super Bowl LVII.",
+    "category": "FAMOUS_GAMES",
+    "era": "2010S_2020S",
+    "seasonYear": 2022,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-047",
+    "teamId": "KC",
+    "question": "Which team did the Chiefs defeat in the AFC Championship Game to reach Super Bowl LVII?",
+    "answers": [
+      "Buffalo Bills",
+      "Cincinnati Bengals",
+      "Baltimore Ravens",
+      "Jacksonville Jaguars"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Kansas City defeated Cincinnati 23-20 in the AFC Championship Game following the 2022 season.",
+    "category": "PLAYOFFS_CHAMPIONSHIPS",
+    "era": "2010S_2020S",
+    "seasonYear": 2022,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-048",
+    "teamId": "KC",
+    "question": "Which team did Kansas City defeat in the AFC Championship Game before winning Super Bowl LVIII?",
+    "answers": [
+      "Buffalo Bills",
+      "Cincinnati Bengals",
+      "Baltimore Ravens",
+      "Miami Dolphins"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Kansas City defeated Baltimore 17-10 in the AFC Championship Game to advance to Super Bowl LVIII.",
+    "category": "PLAYOFFS_CHAMPIONSHIPS",
+    "era": "2010S_2020S",
+    "seasonYear": 2023,
+    "isEvergreen": true,
+    "isActive": true
+  },
+  {
+    "id": "kc-049",
+    "teamId": "KC",
+    "question": "Which Chiefs running back scored the team's first touchdown in Super Bowl LVIII?",
+    "answers": [
+      "Isiah Pacheco",
+      "Clyde Edwards-Helaire",
+      "Jerick McKinnon",
+      "Patrick Mahomes"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Jerick McKinnon did not score Kansas City's first touchdown in Super Bowl LVIII. The Chiefs' first touchdown was a pass from Patrick Mahomes to Marquez Valdes-Scantling. This question should not be activated.",
+    "category": "FAMOUS_GAMES",
+    "era": "2010S_2020S",
+    "seasonYear": 2023,
+    "isEvergreen": true,
+    "isActive": false
+  },
+  {
+    "id": "kc-050",
+    "teamId": "KC",
+    "question": "Who caught Kansas City's first touchdown pass in Super Bowl LVIII?",
+    "answers": [
+      "Travis Kelce",
+      "Rashee Rice",
+      "Marquez Valdes-Scantling",
+      "Mecole Hardman"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Marquez Valdes-Scantling caught a 16-yard touchdown pass from Patrick Mahomes in the third quarter for Kansas City's first touchdown of Super Bowl LVIII.",
+    "category": "FAMOUS_GAMES",
+    "era": "2010S_2020S",
+    "seasonYear": 2023,
+    "isEvergreen": true,
+    "isActive": true
+  }
+]

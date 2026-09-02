@@ -1,4 +1,5 @@
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { loadEnvConfig } from '@next/env';
 
@@ -115,10 +116,17 @@ const newsValuePatterns = [
   /draft|contract|extension/i,
 ];
 
-const selectTopArticle = (items: FeedItem[]) => {
+const selectTopArticles = (items: FeedItem[], limit: number) => {
   const now = Date.now();
+  const seen = new Set<string>();
   return [...items]
-    .slice(0, 15)
+    .slice(0, 30)
+    .filter((item) => {
+      const key = `${item.url}|${item.title.toLowerCase()}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
     .map((item, index) => {
       const ageHours = Math.max(0, (now - new Date(item.publishedAt).getTime()) / 3_600_000);
       const lowValue = lowValuePatterns.some((pattern) => pattern.test(item.title));
@@ -130,7 +138,9 @@ const selectTopArticle = (items: FeedItem[]) => {
         score: 100 - index * 4 - ageHours / 12 + (newsValue ? 28 : 0) - (lowValue ? 80 : 0),
       };
     })
-    .sort((left, right) => right.score - left.score)[0]?.item;
+    .sort((left, right) => right.score - left.score)
+    .slice(0, limit)
+    .map(({ item }) => item);
 };
 
 const summarizer = new OllamaTopicSummarizer();
@@ -145,7 +155,7 @@ const categoryFor = (article: FeedItem) => {
   return 'Team update';
 };
 
-const syncTeam = async (team: (typeof TEAM_LIST)[number]) => {
+const syncTeam = async (team: (typeof TEAM_LIST)[number], limit: number) => {
   const host = TEAM_HOSTS[team.abbr];
   if (!host) throw new Error(`No official news host configured for ${team.abbr}`);
   const feedUrl = `https://www.${host}/rss/news`;
@@ -153,65 +163,83 @@ const syncTeam = async (team: (typeof TEAM_LIST)[number]) => {
     headers: { 'User-Agent': 'Down-Distance-Local-Content-Test/1.0' },
   });
   if (!response.ok) throw new Error(`${team.abbr} RSS failed: ${response.status}`);
-  const article = selectTopArticle(parseFeed(await response.text()));
-  if (!article) throw new Error(`${team.abbr} RSS contained no usable articles`);
-
-  const source: ContentSource = {
-    id: `${team.abbr.toLowerCase()}-official-${Buffer.from(article.url).toString('base64url').slice(0, 18)}`,
-    teamAbbr: team.abbr,
-    kind: 'official',
-    publisher: team.name,
-    title: article.title,
-    url: article.url,
-    publishedAt: article.publishedAt,
-    excerpt: article.description || article.title,
-    imageUrl: article.imageUrl,
-    topicKey: 'official-top-story',
-    importance: 85,
-  };
-  const generated = await summarizer.summarize({
-    teamAbbr: team.abbr,
-    teamName: team.name,
-    topicKey: 'official-top-story',
-    sources: [source],
-  });
+  const articles = selectTopArticles(parseFeed(await response.text()), limit);
+  if (!articles.length) throw new Error(`${team.abbr} RSS contained no usable articles`);
   const model = process.env.OLLAMA_CONTENT_MODEL ?? 'qwen3:4b';
   const useExtractiveSafety = model.includes('0.6b');
-
-  return {
-    id: `${team.abbr.toLowerCase()}-official-top-story`,
-    teamAbbr: team.abbr,
-    ...generated,
-    category: categoryFor(article),
-    headline: useExtractiveSafety ? article.title : generated.headline,
-    summary: useExtractiveSafety ? article.description || article.title : generated.summary,
-    whyItMatters: useExtractiveSafety ? null : generated.whyItMatters,
-    imageUrl: article.imageUrl,
-    updatedAt: article.publishedAt,
-    sourceCount: 1,
-    sources: [
-      {
-        id: source.id,
-        kind: source.kind,
-        publisher: source.publisher,
-        title: source.title,
-        url: source.url,
-        publishedAt: source.publishedAt,
-      },
-    ],
-  } satisfies TeamBriefing;
+  const briefings: TeamBriefing[] = [];
+  for (const [index, article] of articles.entries()) {
+    const articleKey = createHash('sha256').update(article.url).digest('hex').slice(0, 16);
+    const topicKey = `official-story-${articleKey}`;
+    const source: ContentSource = {
+      id: `${team.abbr.toLowerCase()}-official-${articleKey}`,
+      teamAbbr: team.abbr,
+      kind: 'official',
+      publisher: team.name,
+      title: article.title,
+      url: article.url,
+      publishedAt: article.publishedAt,
+      excerpt: article.description || article.title,
+      imageUrl: article.imageUrl,
+      topicKey,
+      importance: Math.max(60, 90 - index * 6),
+    };
+    const generated = await summarizer.summarize({
+      teamAbbr: team.abbr,
+      teamName: team.name,
+      topicKey,
+      sources: [source],
+    });
+    briefings.push({
+      id: `${team.abbr.toLowerCase()}-${topicKey}`,
+      teamAbbr: team.abbr,
+      ...generated,
+      category: categoryFor(article),
+      headline: useExtractiveSafety ? article.title : generated.headline,
+      summary: useExtractiveSafety ? article.description || article.title : generated.summary,
+      whyItMatters: useExtractiveSafety ? null : generated.whyItMatters,
+      imageUrl: article.imageUrl,
+      updatedAt: article.publishedAt,
+      sourceCount: 1,
+      sources: [
+        {
+          id: source.id,
+          kind: source.kind,
+          publisher: source.publisher,
+          title: source.title,
+          url: source.url,
+          publishedAt: source.publishedAt,
+        },
+      ],
+    });
+  }
+  return briefings;
 };
 
 const main = async () => {
-  const output: Record<string, TeamBriefing[]> = {};
+  const requestedTeam = process.argv
+    .find((argument) => argument.startsWith('--team='))
+    ?.split('=')[1]
+    ?.toUpperCase();
+  const requestedLimit = Number(
+    process.argv.find((argument) => argument.startsWith('--limit='))?.split('=')[1] ?? '1',
+  );
+  const limit = Number.isInteger(requestedLimit) && requestedLimit > 0 ? requestedLimit : 1;
+  const outputPath = path.join(process.cwd(), 'src/server/data-cache/team-briefings.json');
+  const existing = JSON.parse(await readFile(outputPath, 'utf8')) as Record<string, TeamBriefing[]>;
+  const output: Record<string, TeamBriefing[]> = requestedTeam ? existing : {};
   const failures: string[] = [];
+  const teams = requestedTeam
+    ? TEAM_LIST.filter((team) => team.abbr === requestedTeam)
+    : TEAM_LIST;
+  if (!teams.length) throw new Error(`Unknown team: ${requestedTeam}`);
 
-  for (const [index, team] of TEAM_LIST.entries()) {
-    process.stdout.write(`[${index + 1}/${TEAM_LIST.length}] ${team.abbr} ${team.name} ... `);
+  for (const [index, team] of teams.entries()) {
+    process.stdout.write(`[${index + 1}/${teams.length}] ${team.abbr} ${team.name} ... `);
     try {
-      const briefing = await syncTeam(team);
-      output[team.abbr] = [briefing];
-      console.log(briefing.headline);
+      const briefings = await syncTeam(team, limit);
+      output[team.abbr] = briefings;
+      console.log(`${briefings.length} briefings: ${briefings.map((item) => item.headline).join(' | ')}`);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       failures.push(`${team.abbr}: ${message}`);
@@ -219,7 +247,6 @@ const main = async () => {
     }
   }
 
-  const outputPath = path.join(process.cwd(), 'src/server/data-cache/team-briefings.json');
   await writeFile(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
   console.log(`\nSaved ${Object.keys(output).length} team briefings to ${outputPath}`);
   if (failures.length) {
