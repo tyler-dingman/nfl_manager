@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { currentUser } from '@/server/auth/request';
 import { assertSameOrigin, authError } from '@/server/auth/http';
-import { createCommerceOrder } from '@/server/commerce/orders';
+import { currentUser } from '@/server/auth/request';
+import { createStripeCheckout } from '@/server/commerce/orders';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 const schema = z.object({
+  checkoutAttemptId: z.string().uuid(),
   email: z.string().email(),
   phone: z.string().max(30).optional(),
   firstName: z.string().min(1).max(80),
@@ -14,8 +19,6 @@ const schema = z.object({
   state: z.string().min(2).max(40),
   postalCode: z.string().min(5).max(12),
   shippingMethod: z.enum(['STANDARD', 'EXPRESS']),
-  paymentMethod: z.enum(['APPLE_PAY', 'GOOGLE_PAY', 'PAYPAL']),
-  paymentFixture: z.enum(['SUCCESS', 'DECLINED']).optional(),
   promoCode: z.string().max(40).optional(),
   items: z
     .array(
@@ -28,14 +31,15 @@ const schema = z.object({
     .min(1)
     .max(50),
 });
+
 export async function POST(request: NextRequest) {
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);
-    return NextResponse.json({
-      order: await createCommerceOrder(user?.id ?? null, schema.parse(await request.json())),
-    });
+    return NextResponse.json(
+      await createStripeCheckout(user?.id ?? null, schema.parse(await request.json())),
+    );
   } catch (error) {
-    return authError(error instanceof Error ? error.message : 'Unable to place order.');
+    return authError(error instanceof Error ? error.message : 'Unable to start card checkout.');
   }
 }

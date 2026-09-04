@@ -3,6 +3,7 @@ import { authDb } from '@/server/auth/database';
 import { createNotification } from '@/server/notifications/repository';
 import { demoPaymentProvider, demoTaxProvider, manualShippingProvider } from './providers';
 import { syncCommerceCatalog } from './catalog';
+import { createStripePaymentIntentForOrder } from './stripe';
 
 export type CheckoutInput = {
   email: string;
@@ -19,6 +20,10 @@ export type CheckoutInput = {
   paymentFixture?: 'SUCCESS' | 'DECLINED';
   promoCode?: string;
   items: Array<{ productId: string; size: string; quantity: number }>;
+};
+
+export type StripeCheckoutInput = Omit<CheckoutInput, 'paymentMethod' | 'paymentFixture'> & {
+  checkoutAttemptId: string;
 };
 
 async function discountFor(subtotalCents: number, code?: string) {
@@ -161,6 +166,126 @@ export async function createCommerceOrder(userId: string | null, input: Checkout
   return { id, orderNumber, totalCents };
 }
 
+export async function createStripeCheckout(userId: string | null, input: StripeCheckoutInput) {
+  await syncCommerceCatalog();
+  const sql = authDb();
+  const existing = await sql<any[]>`
+    SELECT id,order_number,total_cents,currency,stripe_payment_intent_id
+    FROM commerce_orders WHERE checkout_attempt_id=${input.checkoutAttemptId} LIMIT 1`;
+  let order = existing[0];
+
+  if (!order) {
+    const uniqueItems = new Map<string, number>();
+    for (const item of input.items)
+      uniqueItems.set(
+        `${item.productId}:${item.size}`,
+        (uniqueItems.get(`${item.productId}:${item.size}`) ?? 0) + item.quantity,
+      );
+    const variantIds = [...uniqueItems.keys()];
+    const variants = await sql<any[]>`
+      SELECT v.*,p.name AS product_name,p.base_price_cents,
+        COALESCE(v.price_cents,p.base_price_cents) unit_price_cents
+      FROM commerce_product_variants v JOIN commerce_products p ON p.id=v.product_id
+      WHERE v.id=ANY(${variantIds}) AND v.active=true AND p.active=true`;
+    if (variants.length !== variantIds.length)
+      throw new Error('One cart item is no longer available.');
+    const subtotalCents = variants.reduce(
+      (sum, variant) => sum + variant.unit_price_cents * uniqueItems.get(variant.id)!,
+      0,
+    );
+    const discount = await discountFor(subtotalCents, input.promoCode);
+    const shipping = manualShippingProvider.quote(input.shippingMethod);
+    const tax = demoTaxProvider.calculate({ subtotalCents, discountCents: discount.cents });
+    const totalCents = subtotalCents - discount.cents + shipping.amountCents + tax.amountCents;
+    const id = randomUUID();
+
+    order = await sql.begin(async (tx) => {
+      await tx`SELECT pg_advisory_xact_lock(hashtext(${input.checkoutAttemptId}))`;
+      const [alreadyCreated] = await tx<any[]>`
+        SELECT id,order_number,total_cents,currency,stripe_payment_intent_id
+        FROM commerce_orders WHERE checkout_attempt_id=${input.checkoutAttemptId} LIMIT 1`;
+      if (alreadyCreated) return alreadyCreated;
+      const [{ number }] = await tx<{ number: number }[]>`
+        SELECT nextval('commerce_order_number_seq')::int number`;
+      const orderNumber = `DND-${number}`;
+      for (const variant of variants) {
+        const quantity = uniqueItems.get(variant.id)!;
+        const reserved = await tx`
+          UPDATE commerce_product_variants
+          SET inventory_reserved=inventory_reserved+${quantity},updated_at=now()
+          WHERE id=${variant.id} AND inventory_on_hand-inventory_reserved>=${quantity}
+          RETURNING id`;
+        if (!reserved.length) throw new Error(`${variant.product_name} sold out during checkout.`);
+      }
+      await tx`INSERT INTO commerce_orders(
+        id,order_number,user_id,email,phone,customer_first_name,customer_last_name,status,
+        payment_status,fulfillment_status,payment_provider,subtotal_cents,discount_total_cents,
+        shipping_total_cents,tax_total_cents,total_cents,promo_code,shipping_address,
+        shipping_method,currency,checkout_attempt_id
+      ) VALUES(
+        ${id},${orderNumber},${userId},${input.email.toLowerCase()},${input.phone ?? null},
+        ${input.firstName},${input.lastName},'NEW','PENDING','NEW','STRIPE',${subtotalCents},
+        ${discount.cents},${shipping.amountCents},${tax.amountCents},${totalCents},${discount.code},
+        ${tx.json({ firstName: input.firstName, lastName: input.lastName, address1: input.address1, address2: input.address2 ?? null, city: input.city, state: input.state, postalCode: input.postalCode, country: 'US' })},
+        ${input.shippingMethod},'usd',${input.checkoutAttemptId}
+      )`;
+      for (const variant of variants) {
+        const quantity = uniqueItems.get(variant.id)!;
+        await tx`INSERT INTO commerce_order_items(
+          id,order_id,product_id,variant_id,sku,product_name,variant_label,image_url,quantity,
+          unit_price_cents,line_total_cents
+        ) VALUES(
+          ${randomUUID()},${id},${variant.product_id},${variant.id},${variant.sku},
+          ${variant.product_name},${variant.color_label ?? variant.size ?? 'Standard'},
+          ${variant.image_url},${quantity},${variant.unit_price_cents},
+          ${variant.unit_price_cents * quantity}
+        )`;
+      }
+      if (discount.code)
+        await tx`UPDATE commerce_promo_codes SET usage_count=usage_count+1,updated_at=now()
+          WHERE code=${discount.code}`;
+      return {
+        id,
+        order_number: orderNumber,
+        total_cents: totalCents,
+        currency: 'usd',
+        stripe_payment_intent_id: null,
+      };
+    });
+  }
+
+  const intent = await createStripePaymentIntentForOrder({
+    id: order.id,
+    orderNumber: order.order_number,
+    totalCents: order.total_cents,
+    currency: order.currency,
+  });
+  if (!intent.client_secret) throw new Error('Stripe did not return a payment client secret.');
+  await sql`UPDATE commerce_orders
+    SET stripe_payment_intent_id=${intent.id},payment_reference=${intent.id},updated_at=now()
+    WHERE id=${order.id} AND payment_status<>'PAID'`;
+  return {
+    order: { id: order.id, orderNumber: order.order_number, totalCents: order.total_cents },
+    paymentIntentId: intent.id,
+    clientSecret: intent.client_secret,
+  };
+}
+
+export async function stripeCheckoutStatus(orderId: string, paymentIntentId: string) {
+  const [order] = await authDb()<any[]>`
+    SELECT id,order_number,total_cents,payment_status
+    FROM commerce_orders
+    WHERE id=${orderId} AND stripe_payment_intent_id=${paymentIntentId} AND payment_provider='STRIPE'
+    LIMIT 1`;
+  if (!order) throw new Error('Stripe checkout was not found.');
+  return {
+    id: order.id,
+    orderNumber: order.order_number,
+    totalCents: order.total_cents,
+    paymentStatus: order.payment_status,
+  };
+}
+
 const orderSelect = `SELECT o.*,COALESCE(jsonb_agg(jsonb_build_object('id',i.id,'productId',i.product_id,'variantId',i.variant_id,'sku',i.sku,'productName',i.product_name,'variantLabel',i.variant_label,'imageUrl',i.image_url,'quantity',i.quantity,'unitPriceCents',i.unit_price_cents,'lineTotalCents',i.line_total_cents) ORDER BY i.created_at) FILTER(WHERE i.id IS NOT NULL),'[]') items FROM commerce_orders o LEFT JOIN commerce_order_items i ON i.order_id=o.id`;
 export async function customerOrders(userId: string) {
   return authDb().unsafe<any[]>(
@@ -205,6 +330,8 @@ export async function transitionOrder(
   const sql = authDb();
   const order = await adminOrder(orderId);
   if (!order) throw new Error('Order not found.');
+  if (input.action !== 'CANCEL' && order.payment_status !== 'PAID')
+    throw new Error('Payment must be PAID before fulfillment can begin.');
   if (input.action === 'CANCEL' && !['NEW', 'PICKING', 'PACKED'].includes(order.fulfillment_status))
     throw new Error('Only unshipped orders can be canceled.');
   const map = {

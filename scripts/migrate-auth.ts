@@ -38,6 +38,7 @@ async function main() {
       '022_crew_share_recipients.sql',
       '023_commerce.sql',
       '024_stripe_webhooks.sql',
+      '025_stripe_checkout_attempts.sql',
     ]) {
       if (file === '017_search_documents.sql') {
         const [extension] = await sql<{ available: boolean }[]>`

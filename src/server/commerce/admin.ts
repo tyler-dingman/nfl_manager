@@ -29,7 +29,7 @@ export async function commerceAdminData(section: string, search = '', status = '
   const [today, recent, low] = await Promise.all([
     sql<
       any[]
-    >`SELECT count(*) FILTER(WHERE created_at>=current_date)::int AS "newOrders",COALESCE(sum(total_cents) FILTER(WHERE created_at>=current_date),0)::int revenue,count(*) FILTER(WHERE fulfillment_status IN('NEW','PICKING','PACKED'))::int AS "needFulfillment",count(*) FILTER(WHERE fulfillment_status='SHIPPED' AND shipped_at>=current_date)::int shipped FROM commerce_orders`,
+    >`SELECT count(*) FILTER(WHERE created_at>=current_date)::int AS "newOrders",COALESCE(sum(total_cents) FILTER(WHERE created_at>=current_date AND payment_status='PAID'),0)::int revenue,count(*) FILTER(WHERE payment_status='PAID' AND fulfillment_status IN('NEW','PICKING','PACKED'))::int AS "needFulfillment",count(*) FILTER(WHERE fulfillment_status='SHIPPED' AND shipped_at>=current_date)::int shipped FROM commerce_orders`,
     adminOrders('', 'ALL'),
     sql<
       any[]

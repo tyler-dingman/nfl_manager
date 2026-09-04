@@ -32,6 +32,7 @@ test('shipping reduces on-hand and reserved inventory while cancel releases rese
   assert.match(source, /inventory_on_hand=inventory_on_hand-/);
   assert.match(source, /inventory_reserved=inventory_reserved-/);
   assert.match(source, /if \(input\.action === 'CANCEL'\)/);
+  assert.match(source, /payment_status !== 'PAID'/);
 });
 test('admin commerce APIs use the canonical admin allowlist', () => {
   for (const file of [
@@ -64,6 +65,13 @@ test('checkout entry presents promo before wallets and keeps required address fi
   assert.match(source, /<Field name="email"[^>]+required/);
   assert.match(source, /<Field name="address1"[^>]+required/);
   assert.match(source, /checkoutStage === 'express-review'/);
+});
+
+test('migration runner includes Stripe checkout attempts after webhook support', () => {
+  const runner = readFileSync('scripts/migrate-auth.ts', 'utf8');
+  assert.ok(
+    runner.indexOf('024_stripe_webhooks.sql') < runner.indexOf('025_stripe_checkout_attempts.sql'),
+  );
 });
 
 test('express checkout uses official payment marks with accessible labels and text fallbacks', () => {

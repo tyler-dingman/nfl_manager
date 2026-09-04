@@ -28,6 +28,20 @@ export function validateStripePaymentIntent(
   return orderId;
 }
 
+export function stripePaymentIntentParams(order: {
+  id: string;
+  orderNumber: string;
+  totalCents: number;
+  currency?: string;
+}): Stripe.PaymentIntentCreateParams {
+  return {
+    amount: order.totalCents,
+    currency: order.currency ?? 'usd',
+    metadata: { orderId: order.id, orderNumber: order.orderNumber },
+    payment_method_types: ['card'],
+  };
+}
+
 function stripeClient() {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error('STRIPE_SECRET_KEY is not configured.');
@@ -49,11 +63,8 @@ export async function createStripePaymentIntentForOrder(order: {
   totalCents: number;
   currency?: string;
 }) {
-  return stripeClient().paymentIntents.create({
-    amount: order.totalCents,
-    currency: order.currency ?? 'usd',
-    metadata: { orderId: order.id, orderNumber: order.orderNumber },
-    automatic_payment_methods: { enabled: true },
+  return stripeClient().paymentIntents.create(stripePaymentIntentParams(order), {
+    idempotencyKey: `dnd-checkout-${order.id}`,
   });
 }
 

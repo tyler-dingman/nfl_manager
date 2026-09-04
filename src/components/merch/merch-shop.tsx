@@ -450,7 +450,7 @@ export default function MerchShop() {
         <footer className="mt-12 bg-[#00172B] px-4 py-10 text-[#F4D9B7]">
           <div className="mx-auto flex max-w-[1440px] flex-col justify-between gap-4 sm:flex-row">
             <p className="font-black">Down &amp; Distance Supply Co.</p>
-            <p className="text-sm opacity-55">Storefront preview · Demo checkout enabled</p>
+            <p className="text-sm opacity-55">Storefront preview · Stripe test checkout enabled</p>
           </div>
         </footer>
       </div>

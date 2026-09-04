@@ -18,8 +18,14 @@ import {
   type ExpressProviderId,
 } from '@/features/merch/express-checkout';
 import { PaymentBrandMark } from './payment-brand-mark';
+import { StripeCardPayment } from './stripe-card-payment';
 type CartItem = { productId: string; size: string; quantity: number };
 type OrderConfirmation = { id: string; orderNumber: string; totalCents: number };
+type PreparedStripeCheckout = {
+  order: OrderConfirmation;
+  paymentIntentId: string;
+  clientSecret: string;
+};
 type Quote = {
   subtotalCents: number;
   discountCents: number;
@@ -28,7 +34,7 @@ type Quote = {
   totalCents: number;
   promoCode: string | null;
 };
-type CheckoutStage = 'bag' | 'entry' | 'standard' | 'express-review';
+type CheckoutStage = 'bag' | 'entry' | 'standard' | 'payment' | 'express-review';
 type CartContextValue = {
   count: number;
   addItem: (productId: string, size: string, quantity?: number) => void;
@@ -49,7 +55,9 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
     [open, setOpen] = useState(false),
     [checkoutStage, setCheckoutStage] = useState<CheckoutStage>('bag'),
     [hydrated, setHydrated] = useState(false),
-    [placing, setPlacing] = useState(false);
+    [placing, setPlacing] = useState(false),
+    [checkoutAttemptId, setCheckoutAttemptId] = useState<string | null>(null),
+    [stripeCheckout, setStripeCheckout] = useState<PreparedStripeCheckout | null>(null);
   const [order, setOrder] = useState<OrderConfirmation | null>(null),
     [error, setError] = useState(''),
     [promoCode, setPromoCode] = useState(''),
@@ -104,6 +112,8 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
         : [...current, { productId, size, quantity }];
     });
     setOrder(null);
+    setStripeCheckout(null);
+    setCheckoutAttemptId(null);
     setCheckoutStage('bag');
     setOpen(true);
     console.info('add_to_cart', { productId, quantity });
@@ -136,19 +146,62 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    await placeOrder({
-      email: form.get('email'),
-      phone: form.get('phone') || undefined,
-      firstName: form.get('firstName'),
-      lastName: form.get('lastName'),
-      address1: form.get('address1'),
-      address2: form.get('address2') || undefined,
-      city: form.get('city'),
-      state: form.get('state'),
-      postalCode: form.get('postalCode'),
-      shippingMethod: form.get('shippingMethod'),
-      paymentMethod: 'CARD',
+    setPlacing(true);
+    setError('');
+    const attemptId = checkoutAttemptId ?? crypto.randomUUID();
+    setCheckoutAttemptId(attemptId);
+    const response = await fetch('/api/commerce/stripe/checkout', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        checkoutAttemptId: attemptId,
+        email: form.get('email'),
+        phone: form.get('phone') || undefined,
+        firstName: form.get('firstName'),
+        lastName: form.get('lastName'),
+        address1: form.get('address1'),
+        address2: form.get('address2') || undefined,
+        city: form.get('city'),
+        state: form.get('state'),
+        postalCode: form.get('postalCode'),
+        shippingMethod: form.get('shippingMethod'),
+        promoCode: quote?.promoCode ?? undefined,
+        items,
+      }),
     });
+    const body = await response.json().catch(() => null);
+    if (response.ok) {
+      setStripeCheckout(body);
+      setCheckoutStage('payment');
+    } else setError(body?.error ?? 'Unable to start card checkout.');
+    setPlacing(false);
+  };
+  const confirmStripePayment = async (paymentIntentId: string) => {
+    if (!stripeCheckout) throw new Error('Card checkout is not ready.');
+    if (paymentIntentId !== stripeCheckout.paymentIntentId)
+      throw new Error('Stripe returned an unexpected payment reference.');
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      const response = await fetch('/api/commerce/stripe/status', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ orderId: stripeCheckout.order.id, paymentIntentId }),
+      });
+      const body = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(body?.error ?? 'Unable to verify payment.');
+      if (body.order.paymentStatus === 'PAID') {
+        setOrder(stripeCheckout.order);
+        setItems([]);
+        setCheckoutAttemptId(null);
+        setStripeCheckout(null);
+        console.info('stripe_test_order_confirmed', { orderId: body.order.id });
+        console.info('order_confirmation_viewed', { orderId: body.order.id });
+        return;
+      }
+      if (body.order.paymentStatus === 'CANCELED')
+        throw new Error("Payment didn't go through. Check your card details and try again.");
+      await new Promise((resolve) => setTimeout(resolve, 750));
+    }
+    throw new Error('Payment was received and is still being verified. Check again in a moment.');
   };
   const applyPromo = async () => {
     setError('');
@@ -213,7 +266,7 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
                     ? 'Order confirmed'
                     : checkoutStage === 'bag'
                       ? 'Your bag'
-                      : 'Demo checkout'}
+                      : 'Secure checkout'}
                 </p>
                 <h2 className="mt-1 text-2xl font-black">
                   {order
@@ -222,9 +275,11 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
                       ? 'How do you want to check out?'
                       : checkoutStage === 'express-review'
                         ? 'Review your order'
-                        : checkoutStage === 'standard'
-                          ? 'Almost game time.'
-                          : `${count} items`}
+                        : checkoutStage === 'payment'
+                          ? 'Secure card payment'
+                          : checkoutStage === 'standard'
+                            ? 'Almost game time.'
+                            : `${count} items`}
                 </h2>
               </div>
               <button
@@ -243,7 +298,7 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
                 <h3 className="mt-6 text-3xl font-black">THANKS FOR YOUR ORDER</h3>
                 <p className="mt-3 text-xl font-black">Order #{order.orderNumber}</p>
                 <p className="mt-2 text-[#00172B]/60">
-                  We’ve received your order. No real payment was processed.
+                  Test order confirmed. No real charge was made.
                 </p>
                 <div className="mt-7 w-full rounded-2xl bg-white p-5 text-left">
                   <p className="font-black">WHAT’S NEXT</p>
@@ -299,10 +354,18 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
                   })
                 }
               />
+            ) : checkoutStage === 'payment' && stripeCheckout ? (
+              <StripeCardPayment
+                clientSecret={stripeCheckout.clientSecret}
+                orderId={stripeCheckout.order.id}
+                totalCents={stripeCheckout.order.totalCents}
+                onConfirmed={confirmStripePayment}
+                onBack={() => setCheckoutStage('standard')}
+              />
             ) : checkoutStage === 'standard' ? (
               <form onSubmit={submit} className="flex-1 overflow-y-auto p-6">
                 <div className="rounded-2xl bg-[#F4D9B7] p-4 text-sm font-bold">
-                  DEMO CHECKOUT — NO REAL PAYMENT WILL BE PROCESSED
+                  STRIPE TEST MODE — NO REAL CHARGE WILL BE MADE
                 </div>
                 <Section title="Contact">
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -336,11 +399,11 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
                   <Choice
                     name="paymentMethod"
                     value="CARD"
-                    label="Card — demo payment"
+                    label="Card — secure Stripe test payment"
                     defaultChecked
                   />
                   <p className="mt-2 text-xs text-slate-500">
-                    Demo payment environment. No card number or real charge is accepted.
+                    Enter Stripe test-card details on the next step. Never use a live card here.
                   </p>
                 </Section>
                 {error ? (
@@ -359,7 +422,7 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
                   disabled={placing}
                   className="h-14 w-full rounded-full bg-[#FF3D38] font-black text-white disabled:opacity-50"
                 >
-                  {placing ? 'PLACING ORDER…' : 'PLACE DEMO ORDER'}
+                  {placing ? 'PREPARING PAYMENT…' : 'CONTINUE TO SECURE PAYMENT'}
                 </button>
                 <button
                   type="button"
@@ -502,7 +565,9 @@ function CheckoutEntry({
   const subtotalCents = Math.round(subtotal * 100);
   return (
     <div className="flex-1 overflow-y-auto p-6">
-      <p className="text-sm text-slate-500">No real payment will be processed.</p>
+      <p className="text-sm text-slate-500">
+        Card checkout uses Stripe test mode. Express options remain preview-only.
+      </p>
       <section className="mt-6">
         <h3 className="text-xs font-black uppercase tracking-[.18em]">Have a promo code?</h3>
         <div className="mt-3 flex gap-2">

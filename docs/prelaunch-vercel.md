@@ -15,7 +15,7 @@ Set these for both **Production** and **Preview** while both deployments must re
 - `ADMIN_USER_IDS=<comma-separated internal IDs>`
 - `STRIPE_MODE=test`
 - `STRIPE_SECRET_KEY=sk_test_...`
-- `STRIPE_PUBLISHABLE_KEY=pk_test_...`
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...`
 - `STRIPE_WEBHOOK_SECRET=whsec_...`
 
 Add enabled social-login, notification, content, and YouTube provider variables from `.env.example`. Keep `OBSERVER_MODE=true` for private observation unless real push delivery is intentionally being tested. Self-hosted localhost services such as Ollama, Chatterbox, Whisper, and the embedding service are not reachable from Vercel; give them deployed authenticated URLs or disable the associated features.
@@ -27,7 +27,7 @@ For **Development**, keep `PRELAUNCH_MODE=false` unless testing the gate locally
 1. In the existing Vercel project, confirm the GitHub repository is `tyler-dingman/nfl_manager` and the framework preset is Next.js.
 2. Keep the default install/build behavior: `npm install` and `npm run build`. No custom output directory is required.
 3. Add the scoped environment variables above.
-4. Apply database migrations with `npm run auth:migrate` against the hosted database before testing commerce. This repository does not run migrations automatically during build.
+4. Apply database migrations through `025_stripe_checkout_attempts.sql` with `npm run auth:migrate` against the hosted database before testing commerce. This repository does not run migrations automatically during build.
 5. Deploy and verify the generated Vercel URL shows only the private-preview screen in a fresh browser.
 6. Add `downdistance.com` in Vercel Project Settings → Domains and make the DNS changes Vercel displays. DNS is not managed by this repository.
 7. Update `AUTH_BASE_URL` and every enabled OAuth provider callback to the final HTTPS domain.

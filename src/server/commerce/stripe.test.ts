@@ -4,9 +4,27 @@ import test from 'node:test';
 import Stripe from 'stripe';
 import {
   constructStripeWebhookEvent,
+  stripePaymentIntentParams,
   stripePaymentResult,
   validateStripePaymentIntent,
 } from './stripe';
+
+test('PaymentIntent uses the authoritative order amount and canonical metadata', () => {
+  assert.deepEqual(
+    stripePaymentIntentParams({
+      id: 'order-1',
+      orderNumber: 'DND-1042',
+      totalCents: 5273,
+      currency: 'usd',
+    }),
+    {
+      amount: 5273,
+      currency: 'usd',
+      metadata: { orderId: 'order-1', orderNumber: 'DND-1042' },
+      payment_method_types: ['card'],
+    },
+  );
+});
 
 test('valid Stripe signature is accepted and an invalid signature is rejected', () => {
   const originalKey = process.env.STRIPE_SECRET_KEY;
@@ -100,4 +118,31 @@ test('public webhook route uses raw request text and no session authentication',
   assert.match(source, /request\.text\(\)/);
   assert.match(source, /stripe-signature/);
   assert.doesNotMatch(source, /currentUser|isAllowedAdminUser|assertSameOrigin/);
+});
+
+test('card checkout is server-created, idempotent, and cannot use the demo endpoint', () => {
+  const orders = readFileSync('src/server/commerce/orders.ts', 'utf8');
+  const checkoutRoute = readFileSync('src/app/api/commerce/checkout/route.ts', 'utf8');
+  const stripeRoute = readFileSync('src/app/api/commerce/stripe/checkout/route.ts', 'utf8');
+  const migration = readFileSync('db/migrations/025_stripe_checkout_attempts.sql', 'utf8');
+  assert.match(orders, /'NEW','PENDING','NEW','STRIPE'/);
+  assert.match(orders, /pg_advisory_xact_lock/);
+  assert.match(orders, /checkout_attempt_id/);
+  assert.match(migration, /UNIQUE INDEX[\s\S]+checkout_attempt_id/);
+  assert.match(stripeRoute, /createStripeCheckout/);
+  assert.doesNotMatch(checkoutRoute, /'CARD'/);
+});
+
+test('client confirms through Stripe Elements and waits for webhook PAID state', () => {
+  const payment = readFileSync('src/components/merch/stripe-card-payment.tsx', 'utf8');
+  const cart = readFileSync('src/components/merch/merch-cart.tsx', 'utf8');
+  assert.match(payment, /PaymentElement/);
+  assert.match(payment, /stripe\.confirmPayment/);
+  assert.match(payment, /NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY/);
+  assert.doesNotMatch(payment, /STRIPE_SECRET_KEY|sk_test_/);
+  assert.match(cart, /paymentStatus === 'PAID'/);
+  assert.ok(
+    cart.indexOf("paymentStatus === 'PAID'") < cart.indexOf('setOrder(stripeCheckout.order)'),
+  );
+  assert.match(cart, /Payment didn't go through/);
 });

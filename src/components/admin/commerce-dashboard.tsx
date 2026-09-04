@@ -226,13 +226,15 @@ function AdminOrder({
   }, [load]);
   if (!order) return <p>Loading order…</p>;
   const action =
-    order.fulfillment_status === 'NEW'
-      ? 'START_PICKING'
-      : order.fulfillment_status === 'PICKING'
-        ? 'MARK_PACKED'
-        : order.fulfillment_status === 'PACKED'
-          ? 'MARK_SHIPPED'
-          : null;
+    order.payment_status !== 'PAID'
+      ? null
+      : order.fulfillment_status === 'NEW'
+        ? 'START_PICKING'
+        : order.fulfillment_status === 'PICKING'
+          ? 'MARK_PACKED'
+          : order.fulfillment_status === 'PACKED'
+            ? 'MARK_SHIPPED'
+            : null;
   const update = async () => {
     if (!action) return;
     const r = await fetch(`/api/admin/commerce/orders/${orderId}`, {
@@ -288,6 +290,17 @@ function AdminOrder({
         </section>
       </div>
       <section className="mt-5 rounded-2xl bg-white p-5">
+        <h3 className="font-black">PAYMENT</h3>
+        <p className="mt-3">
+          <b>{order.payment_status}</b> · {order.payment_provider}
+        </p>
+        {order.stripe_payment_intent_id ? (
+          <p className="mt-2 break-all font-mono text-sm">
+            Stripe PaymentIntent: {order.stripe_payment_intent_id}
+          </p>
+        ) : null}
+      </section>
+      <section className="mt-5 rounded-2xl bg-white p-5">
         <h3 className="font-black">FULFILLMENT</h3>
         {order.fulfillment_status === 'PACKED' ? (
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -321,6 +334,8 @@ function AdminOrder({
           >
             {action.replaceAll('_', ' ')}
           </button>
+        ) : order.payment_status !== 'PAID' ? (
+          <p className="mt-4 font-bold">Awaiting successful payment before fulfillment.</p>
         ) : (
           <p className="mt-4 font-bold">
             {order.carrier} {order.tracking_number}
@@ -507,7 +522,7 @@ function Settings() {
       <h2 className="text-4xl font-black">SETTINGS</h2>
       <div className="mt-5 rounded-2xl bg-white p-6">
         <p>
-          <b>Payment:</b> Demo
+          <b>Payment:</b> Stripe test mode for cards
         </p>
         <p>
           <b>Shipping:</b> Manual
@@ -516,8 +531,8 @@ function Settings() {
           <b>Tax:</b> Demo estimate
         </p>
         <p className="mt-4 text-sm text-slate-500">
-          Stripe, wallet, PayPal, carrier, and production tax adapters are intentionally
-          disconnected.
+          Express wallets, PayPal, carrier, Printful, and production tax adapters are intentionally
+          disconnected. Stripe card payments remain in test mode.
         </p>
       </div>
     </>
