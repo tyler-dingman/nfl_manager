@@ -1,8 +1,35 @@
 import { createRemoteJWKSet, importPKCS8, jwtVerify, SignJWT } from 'jose';
 import { authConfig } from '../config';
 import type { AuthProviderAdapter } from '../types';
+import type { NormalizedIdentity } from '../types';
 
 const jwks = createRemoteJWKSet(new URL('https://appleid.apple.com/auth/keys'));
+
+export function normalizeAppleIdentity(
+  payload: Record<string, unknown>,
+  suppliedUser?: string,
+): NormalizedIdentity {
+  if (typeof payload.sub !== 'string' || !payload.sub)
+    throw new Error('Apple identity subject is missing.');
+  let supplied: { name?: { firstName?: string; lastName?: string } } = {};
+  try {
+    supplied = suppliedUser ? (JSON.parse(suppliedUser) as typeof supplied) : {};
+  } catch {
+    /* Apple user data is optional and only normally supplied on first authorization. */
+  }
+  const firstName = supplied.name?.firstName?.trim() || null;
+  const lastName = supplied.name?.lastName?.trim() || null;
+  const tokenEmail = typeof payload.email === 'string' ? payload.email : null;
+  return {
+    provider: 'APPLE',
+    providerSubject: payload.sub,
+    email: tokenEmail,
+    emailVerified: payload.email_verified === true || payload.email_verified === 'true',
+    displayName: [firstName, lastName].filter(Boolean).join(' ') || null,
+    firstName,
+    lastName,
+  };
+}
 
 async function appleClientSecret() {
   const { APPLE_CLIENT_ID, APPLE_TEAM_ID, APPLE_KEY_ID, APPLE_PRIVATE_KEY } = authConfig;
@@ -63,23 +90,6 @@ export const appleProvider: AuthProviderAdapter = {
       audience: audiences,
     });
     if (nonce && payload.nonce !== nonce) throw new Error('Apple authentication nonce is invalid.');
-    if (!payload.sub) throw new Error('Apple identity subject is missing.');
-    let supplied: { name?: { firstName?: string; lastName?: string } } = {};
-    try {
-      supplied = user ? (JSON.parse(user) as typeof supplied) : {};
-    } catch {
-      /* Apple user data is optional. */
-    }
-    const firstName = supplied.name?.firstName ?? null;
-    const lastName = supplied.name?.lastName ?? null;
-    return {
-      provider: 'APPLE',
-      providerSubject: payload.sub,
-      email: typeof payload.email === 'string' ? payload.email : null,
-      emailVerified: payload.email_verified === true || payload.email_verified === 'true',
-      displayName: [firstName, lastName].filter(Boolean).join(' ') || null,
-      firstName,
-      lastName,
-    };
+    return normalizeAppleIdentity(payload, user);
   },
 };

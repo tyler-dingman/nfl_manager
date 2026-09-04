@@ -9,6 +9,7 @@ import { issueSession } from '@/server/auth/service';
 import { getOnboarding } from '@/server/user/repository';
 async function callback(request: NextRequest, providerName: string, values: URLSearchParams) {
   try {
+    if (values.get('error')) throw new Error('Provider authorization was canceled or denied.');
     const stateToken = request.cookies.get(OAUTH_COOKIE)?.value;
     if (!stateToken) throw new Error('Authentication state is missing.');
     const state = await readOAuthState(stateToken);
@@ -40,9 +41,11 @@ async function callback(request: NextRequest, providerName: string, values: URLS
     response.cookies.delete(OAUTH_COOKIE);
     return response;
   } catch (error) {
-    return NextResponse.redirect(
+    const response = NextResponse.redirect(
       new URL(`/login?error=${encodeURIComponent((error as Error).message)}`, request.url),
     );
+    response.cookies.delete(OAUTH_COOKIE);
+    return response;
   }
 }
 export async function GET(request: NextRequest, { params }: { params: { provider: string } }) {

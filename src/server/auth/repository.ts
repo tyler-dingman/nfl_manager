@@ -100,8 +100,11 @@ export async function resolveSocialUser(identity: NormalizedIdentity) {
       SELECT u.*, i.id AS identity_id FROM user_identities i JOIN users u ON u.id = i.user_id
       WHERE i.provider = ${identity.provider} AND i.provider_subject = ${identity.providerSubject} LIMIT 1`;
     if (existing[0]) {
-      await tx`UPDATE user_identities SET last_used_at = now(), provider_email = ${identity.email},
-        provider_email_verified = ${identity.emailVerified}, updated_at = now() WHERE id = ${existing[0].identity_id}`;
+      await tx`UPDATE user_identities SET last_used_at = now(),
+        provider_email = COALESCE(${identity.email},provider_email),
+        provider_email_verified = provider_email_verified OR ${identity.emailVerified},
+        provider_display_name = COALESCE(${identity.displayName},provider_display_name),
+        updated_at = now() WHERE id = ${existing[0].identity_id}`;
       const refreshed = await tx<UserRow[]>`
         UPDATE users SET
           avatar_url = CASE
@@ -116,12 +119,11 @@ export async function resolveSocialUser(identity: NormalizedIdentity) {
 
     // Email similarity is not proof that two identities belong to the same person.
     // Existing accounts must be linked from an authenticated session instead.
-    const matching =
-      identity.emailVerified && identity.email
-        ? await tx<
-            UserRow[]
-          >`SELECT * FROM users WHERE lower(primary_email) = ${identity.email.toLowerCase()} LIMIT 1`
-        : [];
+    const matching = identity.email
+      ? await tx<
+          UserRow[]
+        >`SELECT * FROM users WHERE lower(primary_email) = ${identity.email.toLowerCase()} LIMIT 1`
+      : [];
     if (matching[0]) {
       throw new Error(
         'An account already uses this email. Sign in to that account and connect this provider from Security.',
@@ -239,9 +241,7 @@ export async function rotateSession(
 ) {
   const sql = authDb();
   return sql.begin(async (tx) => {
-    const active = await tx<
-      Array<{ id: string; user_id: string; token_family_id: string }>
-    >`
+    const active = await tx<Array<{ id: string; user_id: string; token_family_id: string }>>`
       UPDATE sessions SET revoked_at = now(), last_used_at = now()
       WHERE refresh_token_hash = ${tokenHash(oldToken)} AND revoked_at IS NULL AND expires_at > now()
       RETURNING id, user_id, token_family_id`;

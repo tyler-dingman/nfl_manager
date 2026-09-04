@@ -27,15 +27,33 @@ const schema = z.object({
 export const authConfig = schema.parse(process.env);
 export const isAuthDatabaseConfigured = Boolean(authConfig.DATABASE_URL);
 
+export function configuredSocialProviders(config: typeof authConfig = authConfig) {
+  return {
+    apple: Boolean(
+      config.APPLE_CLIENT_ID &&
+      config.APPLE_TEAM_ID &&
+      config.APPLE_KEY_ID &&
+      config.APPLE_PRIVATE_KEY,
+    ),
+    google: Boolean(config.GOOGLE_CLIENT_ID && config.GOOGLE_CLIENT_SECRET),
+    facebook: Boolean(config.FACEBOOK_APP_ID && config.FACEBOOK_APP_SECRET),
+  };
+}
+
 export function validateProductionAuthConfig() {
-  if (
-    process.env.NODE_ENV !== 'production' ||
-    process.env.NEXT_PHASE === 'phase-production-build'
-  )
+  if (process.env.NODE_ENV !== 'production' || process.env.NEXT_PHASE === 'phase-production-build')
     return;
   requireAuthConfig();
   const providers = [
-    ['APPLE', [authConfig.APPLE_CLIENT_ID, authConfig.APPLE_TEAM_ID, authConfig.APPLE_KEY_ID, authConfig.APPLE_PRIVATE_KEY]],
+    [
+      'APPLE',
+      [
+        authConfig.APPLE_CLIENT_ID,
+        authConfig.APPLE_TEAM_ID,
+        authConfig.APPLE_KEY_ID,
+        authConfig.APPLE_PRIVATE_KEY,
+      ],
+    ],
     ['GOOGLE', [authConfig.GOOGLE_CLIENT_ID, authConfig.GOOGLE_CLIENT_SECRET]],
     ['FACEBOOK', [authConfig.FACEBOOK_APP_ID, authConfig.FACEBOOK_APP_SECRET]],
   ] as const;
@@ -56,16 +74,7 @@ export function publicAuthConfig() {
   return {
     database: Boolean(authConfig.DATABASE_URL),
     email: Boolean(authConfig.DATABASE_URL && authConfig.AUTH_JWT_SECRET),
-    providers: {
-      apple: Boolean(
-        authConfig.APPLE_CLIENT_ID &&
-        authConfig.APPLE_TEAM_ID &&
-        authConfig.APPLE_KEY_ID &&
-        authConfig.APPLE_PRIVATE_KEY,
-      ),
-      google: Boolean(authConfig.GOOGLE_CLIENT_ID && authConfig.GOOGLE_CLIENT_SECRET),
-      facebook: Boolean(authConfig.FACEBOOK_APP_ID && authConfig.FACEBOOK_APP_SECRET),
-    },
+    providers: configuredSocialProviders(),
   };
 }
 
