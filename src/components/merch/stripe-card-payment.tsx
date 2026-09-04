@@ -11,23 +11,33 @@ function StripePaymentForm({
   orderId,
   totalCents,
   onConfirmed,
+  onBeforeConfirm,
   onBack,
 }: {
   orderId: string;
   totalCents: number;
   onConfirmed: (paymentIntentId: string) => Promise<void>;
+  onBeforeConfirm: () => Promise<void>;
   onBack: () => void;
 }) {
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [finalizing, setFinalizing] = useState(false);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!stripe || !elements) return;
     setSubmitting(true);
     setError('');
+    try {
+      await onBeforeConfirm();
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Unable to prepare payment retry.');
+      setSubmitting(false);
+      return;
+    }
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: `${window.location.origin}/orders/${orderId}` },
@@ -44,6 +54,7 @@ function StripePaymentForm({
       return;
     }
     try {
+      setFinalizing(true);
       await onConfirmed(result.paymentIntent.id);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Unable to confirm your payment.');
@@ -61,7 +72,12 @@ function StripePaymentForm({
           <span>Order total</span>
           <span>${(totalCents / 100).toFixed(2)}</span>
         </div>
-        <PaymentElement options={{ layout: 'tabs' }} />
+        <PaymentElement
+          options={{
+            layout: 'tabs',
+            wallets: { applePay: 'never', googlePay: 'never', link: 'never' },
+          }}
+        />
       </section>
       {error ? (
         <p role="alert" className="mt-4 rounded-xl bg-red-50 p-3 text-sm font-bold text-red-700">
@@ -72,7 +88,11 @@ function StripePaymentForm({
         disabled={!stripe || !elements || submitting}
         className="mt-6 h-14 w-full rounded-full bg-[#FF3D38] font-black text-white disabled:opacity-50"
       >
-        {submitting ? 'CONFIRMING PAYMENT…' : `PAY $${(totalCents / 100).toFixed(2)}`}
+        {finalizing
+          ? 'PAYMENT RECEIVED — CONFIRMING ORDER…'
+          : submitting
+            ? 'CONFIRMING PAYMENT…'
+            : `PAY $${(totalCents / 100).toFixed(2)}`}
       </button>
       <button type="button" onClick={onBack} className="mt-2 w-full py-3 text-sm font-black">
         Back to shipping information
@@ -86,12 +106,14 @@ export function StripeCardPayment({
   orderId,
   totalCents,
   onConfirmed,
+  onBeforeConfirm,
   onBack,
 }: {
   clientSecret: string;
   orderId: string;
   totalCents: number;
   onConfirmed: (paymentIntentId: string) => Promise<void>;
+  onBeforeConfirm: () => Promise<void>;
   onBack: () => void;
 }) {
   if (!stripePromise)
@@ -115,6 +137,7 @@ export function StripeCardPayment({
         orderId={orderId}
         totalCents={totalCents}
         onConfirmed={onConfirmed}
+        onBeforeConfirm={onBeforeConfirm}
         onBack={onBack}
       />
     </Elements>

@@ -99,9 +99,11 @@ function Dashboard({ data, open }: { data: any; open: (id: string) => void }) {
   return (
     <>
       <h2 className="text-4xl font-black">TODAY</h2>
-      <div className="mt-6 grid gap-3 sm:grid-cols-4">
+      <div className="mt-6 grid gap-3 sm:grid-cols-3 xl:grid-cols-6">
         <Card label="New Orders" value={t.newOrders ?? 0} />
-        <Card label="Revenue" value={money(t.revenue ?? 0)} />
+        <Card label="Gross Sales" value={money(t.grossSales ?? 0)} />
+        <Card label="Refunds" value={money(t.refunds ?? 0)} />
+        <Card label="Net Revenue" value={money(t.netRevenue ?? 0)} />
         <Card label="Need Fulfillment" value={t.needFulfillment ?? 0} />
         <Card label="Shipped" value={t.shipped ?? 0} />
       </div>
@@ -213,7 +215,8 @@ function AdminOrder({
     [carrier, setCarrier] = useState('USPS'),
     [tracking, setTracking] = useState(''),
     [note, setNote] = useState(''),
-    [error, setError] = useState('');
+    [error, setError] = useState(''),
+    [refundOpen, setRefundOpen] = useState(false);
   const load = useCallback(
     () =>
       fetch(`/api/admin/commerce/orders/${orderId}`)
@@ -225,16 +228,15 @@ function AdminOrder({
     void load();
   }, [load]);
   if (!order) return <p>Loading order…</p>;
-  const action =
-    order.payment_status !== 'PAID'
-      ? null
-      : order.fulfillment_status === 'NEW'
-        ? 'START_PICKING'
-        : order.fulfillment_status === 'PICKING'
-          ? 'MARK_PACKED'
-          : order.fulfillment_status === 'PACKED'
-            ? 'MARK_SHIPPED'
-            : null;
+  const action = !['PAID', 'PARTIALLY_REFUNDED'].includes(order.payment_status)
+    ? null
+    : order.fulfillment_status === 'NEW'
+      ? 'START_PICKING'
+      : order.fulfillment_status === 'PICKING'
+        ? 'MARK_PACKED'
+        : order.fulfillment_status === 'PACKED'
+          ? 'MARK_SHIPPED'
+          : null;
   const update = async () => {
     if (!action) return;
     const r = await fetch(`/api/admin/commerce/orders/${orderId}`, {
@@ -299,6 +301,49 @@ function AdminOrder({
             Stripe PaymentIntent: {order.stripe_payment_intent_id}
           </p>
         ) : null}
+        <div className="mt-4 grid gap-2 text-sm sm:grid-cols-3">
+          <p>
+            Original paid
+            <br />
+            <b>{money(order.total_cents)}</b>
+          </p>
+          <p>
+            Refunded
+            <br />
+            <b>{money(order.refunded_total_cents ?? 0)}</b>
+          </p>
+          <p>
+            Net paid
+            <br />
+            <b>{money(order.total_cents - (order.refunded_total_cents ?? 0))}</b>
+          </p>
+        </div>
+        {order.paid_at ? (
+          <p className="mt-3 text-sm text-slate-500">
+            Paid {new Date(order.paid_at).toLocaleString()}
+          </p>
+        ) : null}
+        {order.refunds?.length ? (
+          <div className="mt-4 border-t pt-4 text-sm">
+            <b>REFUNDS</b>
+            {order.refunds.map((refund: any) => (
+              <p key={refund.id} className="mt-2 break-all">
+                {money(refund.amountCents)} · {refund.status} ·{' '}
+                {refund.stripeRefundId ?? 'Awaiting Stripe ID'}
+              </p>
+            ))}
+          </div>
+        ) : null}
+        {order.payment_provider === 'STRIPE' &&
+        ['PAID', 'PARTIALLY_REFUNDED'].includes(order.payment_status) &&
+        order.total_cents > (order.refunded_total_cents ?? 0) ? (
+          <button
+            onClick={() => setRefundOpen(true)}
+            className="mt-5 rounded-xl border border-[#FF3D38] px-5 py-3 font-black text-[#D71920]"
+          >
+            ISSUE REFUND
+          </button>
+        ) : null}
       </section>
       <section className="mt-5 rounded-2xl bg-white p-5">
         <h3 className="font-black">FULFILLMENT</h3>
@@ -334,7 +379,7 @@ function AdminOrder({
           >
             {action.replaceAll('_', ' ')}
           </button>
-        ) : order.payment_status !== 'PAID' ? (
+        ) : !['PAID', 'PARTIALLY_REFUNDED'].includes(order.payment_status) ? (
           <p className="mt-4 font-bold">Awaiting successful payment before fulfillment.</p>
         ) : (
           <p className="mt-4 font-bold">
@@ -343,7 +388,132 @@ function AdminOrder({
         )}
         {error ? <p className="mt-2 text-red-700">{error}</p> : null}
       </section>
+      {refundOpen ? (
+        <RefundDialog
+          order={order}
+          close={() => setRefundOpen(false)}
+          completed={(next) => {
+            setOrder(next);
+            setRefundOpen(false);
+            reload();
+          }}
+        />
+      ) : null}
     </>
+  );
+}
+
+function RefundDialog({
+  order,
+  close,
+  completed,
+}: {
+  order: any;
+  close: () => void;
+  completed: (order: any) => void;
+}) {
+  const remaining = order.total_cents - (order.refunded_total_cents ?? 0);
+  const [type, setType] = useState<'FULL' | 'PARTIAL'>('FULL');
+  const [amount, setAmount] = useState('');
+  const [reason, setReason] = useState('CUSTOMER_REQUEST');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const submit = async () => {
+    setSubmitting(true);
+    setError('');
+    const amountCents = type === 'PARTIAL' ? Math.round(Number(amount) * 100) : undefined;
+    const response = await fetch(`/api/admin/commerce/orders/${order.id}/refunds`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ requestId: crypto.randomUUID(), type, amountCents, reason }),
+    });
+    const body = await response.json().catch(() => null);
+    if (response.ok) completed(body.order);
+    else {
+      setError(body?.error ?? 'Unable to issue refund.');
+      setSubmitting(false);
+    }
+  };
+  return (
+    <div className="fixed inset-0 z-[200] grid place-items-center bg-[#00172B]/60 p-5">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="refund-title"
+        className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
+      >
+        <h3 id="refund-title" className="text-2xl font-black">
+          CONFIRM STRIPE REFUND
+        </h3>
+        <p className="mt-2 text-sm">
+          This sends a real test-mode refund to Stripe. Inventory will not be restocked.
+        </p>
+        <div className="mt-5 flex gap-2">
+          {(['FULL', 'PARTIAL'] as const).map((value) => (
+            <button
+              key={value}
+              onClick={() => setType(value)}
+              className={`rounded-full px-4 py-2 text-sm font-black ${type === value ? 'bg-[#00172B] text-white' : 'bg-slate-100'}`}
+            >
+              {value}
+            </button>
+          ))}
+        </div>
+        {type === 'PARTIAL' ? (
+          <label className="mt-4 block text-sm font-bold">
+            Amount (maximum {money(remaining)})
+            <input
+              value={amount}
+              onChange={(event) => setAmount(event.target.value)}
+              type="number"
+              min="0.01"
+              max={(remaining / 100).toFixed(2)}
+              step="0.01"
+              className="mt-1 h-11 w-full rounded-xl border px-3"
+            />
+          </label>
+        ) : (
+          <p className="mt-4 font-black">Refund {money(remaining)}</p>
+        )}
+        <label className="mt-4 block text-sm font-bold">
+          Reason
+          <select
+            value={reason}
+            onChange={(event) => setReason(event.target.value)}
+            className="mt-1 h-11 w-full rounded-xl border px-3"
+          >
+            <option value="CUSTOMER_REQUEST">Customer request</option>
+            <option value="DAMAGED_ITEM">Damaged item</option>
+            <option value="ORDER_CORRECTION">Order correction</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </label>
+        {error ? (
+          <p role="alert" className="mt-3 text-sm font-bold text-red-700">
+            {error}
+          </p>
+        ) : null}
+        <div className="mt-6 flex gap-3">
+          <button
+            onClick={close}
+            disabled={submitting}
+            className="flex-1 rounded-xl border py-3 font-black"
+          >
+            CANCEL
+          </button>
+          <button
+            onClick={() => void submit()}
+            disabled={
+              submitting ||
+              (type === 'PARTIAL' && (!Number(amount) || Number(amount) * 100 > remaining))
+            }
+            className="flex-1 rounded-xl bg-[#FF3D38] py-3 font-black text-white disabled:opacity-50"
+          >
+            {submitting ? 'REFUNDING…' : 'CONFIRM REFUND'}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 function Inventory({ data, reload }: { data: any; reload: () => void }) {

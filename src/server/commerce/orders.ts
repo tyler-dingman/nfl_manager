@@ -170,7 +170,8 @@ export async function createStripeCheckout(userId: string | null, input: StripeC
   await syncCommerceCatalog();
   const sql = authDb();
   const existing = await sql<any[]>`
-    SELECT id,order_number,total_cents,currency,stripe_payment_intent_id
+    SELECT id,order_number,total_cents,currency,stripe_payment_intent_id,payment_status,
+      inventory_reservation_status
     FROM commerce_orders WHERE checkout_attempt_id=${input.checkoutAttemptId} LIMIT 1`;
   let order = existing[0];
 
@@ -202,7 +203,8 @@ export async function createStripeCheckout(userId: string | null, input: StripeC
     order = await sql.begin(async (tx) => {
       await tx`SELECT pg_advisory_xact_lock(hashtext(${input.checkoutAttemptId}))`;
       const [alreadyCreated] = await tx<any[]>`
-        SELECT id,order_number,total_cents,currency,stripe_payment_intent_id
+        SELECT id,order_number,total_cents,currency,stripe_payment_intent_id,payment_status,
+          inventory_reservation_status
         FROM commerce_orders WHERE checkout_attempt_id=${input.checkoutAttemptId} LIMIT 1`;
       if (alreadyCreated) return alreadyCreated;
       const [{ number }] = await tx<{ number: number }[]>`
@@ -221,13 +223,14 @@ export async function createStripeCheckout(userId: string | null, input: StripeC
         id,order_number,user_id,email,phone,customer_first_name,customer_last_name,status,
         payment_status,fulfillment_status,payment_provider,subtotal_cents,discount_total_cents,
         shipping_total_cents,tax_total_cents,total_cents,promo_code,shipping_address,
-        shipping_method,currency,checkout_attempt_id
+        shipping_method,currency,checkout_attempt_id,inventory_reservation_status,
+        payment_attempt_started_at
       ) VALUES(
         ${id},${orderNumber},${userId},${input.email.toLowerCase()},${input.phone ?? null},
         ${input.firstName},${input.lastName},'NEW','PENDING','NEW','STRIPE',${subtotalCents},
         ${discount.cents},${shipping.amountCents},${tax.amountCents},${totalCents},${discount.code},
         ${tx.json({ firstName: input.firstName, lastName: input.lastName, address1: input.address1, address2: input.address2 ?? null, city: input.city, state: input.state, postalCode: input.postalCode, country: 'US' })},
-        ${input.shippingMethod},'usd',${input.checkoutAttemptId}
+        ${input.shippingMethod},'usd',${input.checkoutAttemptId},'HELD',now()
       )`;
       for (const variant of variants) {
         const quantity = uniqueItems.get(variant.id)!;
@@ -254,6 +257,9 @@ export async function createStripeCheckout(userId: string | null, input: StripeC
     });
   }
 
+  if (order.payment_status === 'CANCELED')
+    throw new Error('This payment was canceled. Start a new checkout attempt.');
+
   const intent = await createStripePaymentIntentForOrder({
     id: order.id,
     orderNumber: order.order_number,
@@ -271,6 +277,43 @@ export async function createStripeCheckout(userId: string | null, input: StripeC
   };
 }
 
+export async function prepareStripePaymentRetry(orderId: string, paymentIntentId: string) {
+  const sql = authDb();
+  return sql.begin(async (tx) => {
+    const [order] = await tx<any[]>`
+      SELECT id,payment_status,payment_provider,stripe_payment_intent_id,
+        inventory_reservation_status
+      FROM commerce_orders WHERE id=${orderId} FOR UPDATE`;
+    if (
+      !order ||
+      order.payment_provider !== 'STRIPE' ||
+      order.stripe_payment_intent_id !== paymentIntentId
+    )
+      throw new Error('Stripe checkout was not found.');
+    if (['PAID', 'REFUNDED', 'PARTIALLY_REFUNDED'].includes(order.payment_status))
+      return {
+        paymentStatus: order.payment_status,
+        reservationStatus: order.inventory_reservation_status,
+      };
+    if (order.payment_status === 'CANCELED')
+      throw new Error('This payment was canceled. Start a new checkout attempt.');
+    if (order.inventory_reservation_status === 'RELEASED') {
+      const shortages = await tx<any[]>`
+        SELECT i.variant_id FROM commerce_order_items i
+        JOIN commerce_product_variants v ON v.id=i.variant_id
+        WHERE i.order_id=${orderId} AND v.inventory_on_hand-v.inventory_reserved<i.quantity`;
+      if (shortages.length) throw new Error('An item sold out before payment could be retried.');
+      await tx`UPDATE commerce_product_variants v
+        SET inventory_reserved=inventory_reserved+i.quantity,updated_at=now()
+        FROM commerce_order_items i WHERE i.order_id=${orderId} AND i.variant_id=v.id`;
+    }
+    await tx`UPDATE commerce_orders SET payment_status='PENDING',
+      inventory_reservation_status='HELD',payment_attempt_started_at=now(),updated_at=now()
+      WHERE id=${orderId}`;
+    return { paymentStatus: 'PENDING', reservationStatus: 'HELD' };
+  });
+}
+
 export async function stripeCheckoutStatus(orderId: string, paymentIntentId: string) {
   const [order] = await authDb()<any[]>`
     SELECT id,order_number,total_cents,payment_status
@@ -286,22 +329,42 @@ export async function stripeCheckoutStatus(orderId: string, paymentIntentId: str
   };
 }
 
-const orderSelect = `SELECT o.*,COALESCE(jsonb_agg(jsonb_build_object('id',i.id,'productId',i.product_id,'variantId',i.variant_id,'sku',i.sku,'productName',i.product_name,'variantLabel',i.variant_label,'imageUrl',i.image_url,'quantity',i.quantity,'unitPriceCents',i.unit_price_cents,'lineTotalCents',i.line_total_cents) ORDER BY i.created_at) FILTER(WHERE i.id IS NOT NULL),'[]') items FROM commerce_orders o LEFT JOIN commerce_order_items i ON i.order_id=o.id`;
+const orderSelect = `SELECT o.*,
+  COALESCE(jsonb_agg(jsonb_build_object('id',i.id,'productId',i.product_id,'variantId',i.variant_id,'sku',i.sku,'productName',i.product_name,'variantLabel',i.variant_label,'imageUrl',i.image_url,'quantity',i.quantity,'unitPriceCents',i.unit_price_cents,'lineTotalCents',i.line_total_cents) ORDER BY i.created_at) FILTER(WHERE i.id IS NOT NULL),'[]') items,
+  (SELECT COALESCE(jsonb_agg(jsonb_build_object('id',r.id,'stripeRefundId',r.stripe_refund_id,'amountCents',r.amount_cents,'currency',r.currency,'status',r.status,'reason',r.reason,'createdAt',r.created_at) ORDER BY r.created_at DESC),'[]') FROM commerce_refunds r WHERE r.order_id=o.id) refunds
+  FROM commerce_orders o LEFT JOIN commerce_order_items i ON i.order_id=o.id`;
 export async function customerOrders(userId: string) {
-  return authDb().unsafe<any[]>(
+  const orders = await authDb().unsafe<any[]>(
     `${orderSelect} WHERE o.user_id=$1 GROUP BY o.id ORDER BY o.created_at DESC`,
     [userId],
   );
+  return orders.map(sanitizeCustomerOrder);
 }
 export async function customerOrder(userId: string, orderId: string) {
-  return (
+  const order =
     (
       await authDb().unsafe<any[]>(`${orderSelect} WHERE o.user_id=$1 AND o.id=$2 GROUP BY o.id`, [
         userId,
         orderId,
       ])
-    )[0] ?? null
-  );
+    )[0] ?? null;
+  return order ? sanitizeCustomerOrder(order) : null;
+}
+
+function sanitizeCustomerOrder(order: any) {
+  const {
+    internal_note: _internalNote,
+    checkout_attempt_id: _checkoutAttemptId,
+    payment_reference: _paymentReference,
+    stripe_payment_intent_id: _stripePaymentIntentId,
+    stripe_payment_event_created_at: _stripeEventTime,
+    payment_attempt_started_at: _paymentAttemptTime,
+    ...safe
+  } = order;
+  return {
+    ...safe,
+    refunds: (safe.refunds ?? []).map(({ reason: _reason, ...refund }: any) => refund),
+  };
 }
 export async function adminOrders(search = '', status = 'ALL') {
   const sql = authDb();
@@ -330,8 +393,13 @@ export async function transitionOrder(
   const sql = authDb();
   const order = await adminOrder(orderId);
   if (!order) throw new Error('Order not found.');
-  if (input.action !== 'CANCEL' && order.payment_status !== 'PAID')
+  if (input.action !== 'CANCEL' && !['PAID', 'PARTIALLY_REFUNDED'].includes(order.payment_status))
     throw new Error('Payment must be PAID before fulfillment can begin.');
+  if (
+    ['START_PICKING', 'MARK_PACKED', 'MARK_SHIPPED'].includes(input.action) &&
+    order.inventory_reservation_status !== 'HELD'
+  )
+    throw new Error('Inventory must be reserved before fulfillment can begin.');
   if (input.action === 'CANCEL' && !['NEW', 'PICKING', 'PACKED'].includes(order.fulfillment_status))
     throw new Error('Only unshipped orders can be canceled.');
   const map = {
@@ -349,10 +417,14 @@ export async function transitionOrder(
     if (input.action === 'MARK_SHIPPED') {
       for (const item of order.items)
         await tx`UPDATE commerce_product_variants SET inventory_on_hand=inventory_on_hand-${item.quantity},inventory_reserved=inventory_reserved-${item.quantity},updated_at=now() WHERE id=${item.variantId}`;
+      await tx`UPDATE commerce_orders SET inventory_reservation_status='CONSUMED' WHERE id=${orderId}`;
     }
     if (input.action === 'CANCEL') {
-      for (const item of order.items)
-        await tx`UPDATE commerce_product_variants SET inventory_reserved=inventory_reserved-${item.quantity},updated_at=now() WHERE id=${item.variantId}`;
+      if (order.inventory_reservation_status === 'HELD') {
+        for (const item of order.items)
+          await tx`UPDATE commerce_product_variants SET inventory_reserved=GREATEST(0,inventory_reserved-${item.quantity}),updated_at=now() WHERE id=${item.variantId}`;
+        await tx`UPDATE commerce_orders SET inventory_reservation_status='RELEASED' WHERE id=${orderId}`;
+      }
     }
     await tx`UPDATE commerce_orders SET status=${to},fulfillment_status=${to},carrier=COALESCE(${input.carrier ?? null},carrier),tracking_number=COALESCE(${input.trackingNumber ?? null},tracking_number),internal_note=COALESCE(${input.internalNote ?? null},internal_note),shipped_at=CASE WHEN ${to}='SHIPPED' THEN now() ELSE shipped_at END,delivered_at=CASE WHEN ${to}='DELIVERED' THEN now() ELSE delivered_at END,canceled_at=CASE WHEN ${to}='CANCELED' THEN now() ELSE canceled_at END,updated_at=now() WHERE id=${orderId}`;
   });

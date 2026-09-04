@@ -22,14 +22,21 @@ export async function commerceAdminData(section: string, search = '', status = '
     return {
       customers: await sql<
         any[]
-      >`SELECT concat(customer_first_name,' ',customer_last_name) name,email,count(*)::int AS "orderCount",sum(total_cents)::int AS "lifetimeSpendCents",max(created_at) AS "lastOrder" FROM commerce_orders GROUP BY email,customer_first_name,customer_last_name ORDER BY "lifetimeSpendCents" DESC`,
+      >`SELECT concat(customer_first_name,' ',customer_last_name) name,email,count(*)::int AS "orderCount",
+        COALESCE(sum(total_cents-refunded_total_cents) FILTER(WHERE payment_status IN ('PAID','PARTIALLY_REFUNDED','REFUNDED')),0)::int AS "lifetimeSpendCents",
+        max(created_at) AS "lastOrder" FROM commerce_orders GROUP BY email,customer_first_name,customer_last_name ORDER BY "lifetimeSpendCents" DESC`,
     };
   if (section === 'promos')
     return { promos: await sql<any[]>`SELECT * FROM commerce_promo_codes ORDER BY code` };
   const [today, recent, low] = await Promise.all([
-    sql<
-      any[]
-    >`SELECT count(*) FILTER(WHERE created_at>=current_date)::int AS "newOrders",COALESCE(sum(total_cents) FILTER(WHERE created_at>=current_date AND payment_status='PAID'),0)::int revenue,count(*) FILTER(WHERE payment_status='PAID' AND fulfillment_status IN('NEW','PICKING','PACKED'))::int AS "needFulfillment",count(*) FILTER(WHERE fulfillment_status='SHIPPED' AND shipped_at>=current_date)::int shipped FROM commerce_orders`,
+    sql<any[]>`SELECT count(*) FILTER(WHERE created_at>=current_date)::int AS "newOrders",
+      COALESCE(sum(total_cents) FILTER(WHERE paid_at>=current_date),0)::int AS "grossSales",
+      COALESCE((SELECT sum(amount_cents) FROM commerce_refunds WHERE status='SUCCEEDED' AND COALESCE(stripe_created_at,created_at)>=current_date),0)::int AS refunds,
+      COALESCE(sum(total_cents) FILTER(WHERE paid_at>=current_date),0)::int-
+        COALESCE((SELECT sum(amount_cents) FROM commerce_refunds WHERE status='SUCCEEDED' AND COALESCE(stripe_created_at,created_at)>=current_date),0)::int AS "netRevenue",
+      count(*) FILTER(WHERE payment_status IN ('PAID','PARTIALLY_REFUNDED') AND fulfillment_status IN('NEW','PICKING','PACKED'))::int AS "needFulfillment",
+      count(*) FILTER(WHERE fulfillment_status='SHIPPED' AND shipped_at>=current_date)::int shipped
+      FROM commerce_orders`,
     adminOrders('', 'ALL'),
     sql<
       any[]

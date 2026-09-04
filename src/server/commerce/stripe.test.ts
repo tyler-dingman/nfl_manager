@@ -5,7 +5,10 @@ import Stripe from 'stripe';
 import {
   constructStripeWebhookEvent,
   stripePaymentIntentParams,
+  stripePaymentEventIsStale,
   stripePaymentResult,
+  stripeRefundStatus,
+  refundedPaymentStatus,
   validateStripePaymentIntent,
 } from './stripe';
 
@@ -64,19 +67,28 @@ test('PaymentIntent validation requires canonical metadata, amount, and currency
   const order = { id: 'order-1', totalCents: 4200, currency: 'usd' };
   assert.equal(
     validateStripePaymentIntent(
-      { amount: 4200, currency: 'usd', metadata: { orderId: 'order-1', orderNumber: 'DND-1' } },
+      {
+        id: 'pi_1',
+        amount: 4200,
+        currency: 'usd',
+        metadata: { orderId: 'order-1', orderNumber: 'DND-1' },
+      },
       order,
     ),
     'order-1',
   );
   assert.throws(
-    () => validateStripePaymentIntent({ amount: 4200, currency: 'usd', metadata: {} }, order),
+    () =>
+      validateStripePaymentIntent(
+        { id: 'pi_1', amount: 4200, currency: 'usd', metadata: {} },
+        order,
+      ),
     /orderId/,
   );
   assert.throws(
     () =>
       validateStripePaymentIntent(
-        { amount: 4200, currency: 'usd', metadata: { orderId: 'missing' } },
+        { id: 'pi_1', amount: 4200, currency: 'usd', metadata: { orderId: 'missing' } },
         null,
       ),
     /not found/,
@@ -84,7 +96,7 @@ test('PaymentIntent validation requires canonical metadata, amount, and currency
   assert.throws(
     () =>
       validateStripePaymentIntent(
-        { amount: 4100, currency: 'usd', metadata: { orderId: 'order-1' } },
+        { id: 'pi_1', amount: 4100, currency: 'usd', metadata: { orderId: 'order-1' } },
         order,
       ),
     /amount/,
@@ -92,7 +104,7 @@ test('PaymentIntent validation requires canonical metadata, amount, and currency
   assert.throws(
     () =>
       validateStripePaymentIntent(
-        { amount: 4200, currency: 'eur', metadata: { orderId: 'order-1' } },
+        { id: 'pi_1', amount: 4200, currency: 'eur', metadata: { orderId: 'order-1' } },
         order,
       ),
     /currency/,
@@ -102,15 +114,18 @@ test('PaymentIntent validation requires canonical metadata, amount, and currency
 test('webhook persistence protects duplicate delivery and cancellation inventory release', () => {
   const source = readFileSync('src/server/commerce/stripe.ts', 'utf8');
   assert.match(source, /ON CONFLICT\(stripe_event_id\) DO NOTHING/);
-  assert.match(source, /payment_status NOT IN \('PAID','CANCELED'\)/);
+  assert.match(source, /ON CONFLICT\(stripe_refund_id\) DO UPDATE/);
   assert.match(source, /inventory_reserved=GREATEST\(0,v\.inventory_reserved-i\.quantity\)/);
-  assert.doesNotMatch(
-    source.slice(
-      source.indexOf("event.type === 'payment_intent.succeeded'"),
-      source.indexOf("event.type === 'payment_intent.payment_failed'"),
-    ),
-    /inventory_/,
-  );
+});
+
+test('payment events ignore older attempts and refund states are deterministic', () => {
+  assert.equal(stripePaymentEventIsStale(100, 101, null), true);
+  assert.equal(stripePaymentEventIsStale(100, null, new Date(101_000)), true);
+  assert.equal(stripePaymentEventIsStale(102, 101, new Date(100_000)), false);
+  assert.equal(stripeRefundStatus('succeeded'), 'SUCCEEDED');
+  assert.equal(stripeRefundStatus('failed'), 'FAILED');
+  assert.equal(refundedPaymentStatus(5000, 1000), 'PARTIALLY_REFUNDED');
+  assert.equal(refundedPaymentStatus(5000, 5000), 'REFUNDED');
 });
 
 test('public webhook route uses raw request text and no session authentication', () => {
@@ -140,9 +155,28 @@ test('client confirms through Stripe Elements and waits for webhook PAID state',
   assert.match(payment, /stripe\.confirmPayment/);
   assert.match(payment, /NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY/);
   assert.doesNotMatch(payment, /STRIPE_SECRET_KEY|sk_test_/);
-  assert.match(cart, /paymentStatus === 'PAID'/);
-  assert.ok(
-    cart.indexOf("paymentStatus === 'PAID'") < cart.indexOf('setOrder(stripeCheckout.order)'),
-  );
+  assert.match(cart, /\['PAID', 'PARTIALLY_REFUNDED', 'REFUNDED'\]\.includes/);
   assert.match(cart, /Payment didn't go through/);
+  assert.match(payment, /link: 'never'/);
+  assert.match(payment, /applePay: 'never'/);
+  assert.match(payment, /googlePay: 'never'/);
+  assert.match(cart, /sessionStorage/);
+  assert.match(cart, /\/api\/commerce\/stripe\/retry/);
+});
+
+test('refunds are admin-confirmed, idempotent, and never alter inventory', () => {
+  const route = readFileSync(
+    'src/app/api/admin/commerce/orders/[orderId]/refunds/route.ts',
+    'utf8',
+  );
+  const source = readFileSync('src/server/commerce/stripe.ts', 'utf8');
+  const refundStart = source.indexOf('export async function createStripeRefund');
+  const refundEnd = source.indexOf('export type StripeWebhookResult');
+  const refundSource = source.slice(refundStart, refundEnd);
+  assert.match(route, /isAllowedAdminUser/);
+  assert.match(route, /assertSameOrigin/);
+  assert.match(source, /idempotencyKey: `dnd-refund-/);
+  assert.match(source, /refund\.created/);
+  assert.match(source, /refund\.updated/);
+  assert.doesNotMatch(refundSource, /inventory_on_hand|inventory_reserved/);
 });

@@ -54,9 +54,16 @@ export function CustomerOrders() {
                 <p className="text-sm text-slate-500">{date(order.created_at)}</p>
               </div>
               <p className="font-black">{money(order.total_cents)}</p>
-              <span className="rounded-full bg-[#00172B] px-3 py-1 text-xs font-black text-white">
-                {order.fulfillment_status}
-              </span>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-[#00172B] px-3 py-1 text-xs font-black text-white">
+                  {order.fulfillment_status}
+                </span>
+                {order.payment_status.includes('REFUND') ? (
+                  <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-black">
+                    {order.payment_status.replaceAll('_', ' ')}
+                  </span>
+                ) : null}
+              </div>
             </Link>
           ))
         ) : (
@@ -115,6 +122,12 @@ export function CustomerOrderDetail({ orderId }: { orderId: string }) {
             ['Shipping', order.shipping_total_cents],
             ['Estimated tax', order.tax_total_cents],
             ['Total', order.total_cents],
+            ...(order.refunded_total_cents > 0
+              ? [
+                  ['Refunded', -order.refunded_total_cents],
+                  ['Net paid', order.total_cents - order.refunded_total_cents],
+                ]
+              : []),
           ].map(([label, value]) => (
             <div key={String(label)} className="mt-3 flex justify-between">
               <span>{label}</span>

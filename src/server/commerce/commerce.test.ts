@@ -27,17 +27,27 @@ test('commerce schema separates payment and fulfillment and normalizes inventory
   assert.match(sql, /commerce_order_items/);
   assert.doesNotMatch(sql, /card_number|card_cvc/i);
 });
+test('commerce hardening schema adds refund lifecycle and reservation state', () => {
+  const sql = readFileSync('db/migrations/026_commerce_payment_hardening.sql', 'utf8');
+  for (const status of ['PENDING', 'PAID', 'FAILED', 'CANCELED', 'REFUNDED', 'PARTIALLY_REFUNDED'])
+    assert.match(sql, new RegExp(`'${status}'`));
+  assert.match(sql, /CREATE TABLE IF NOT EXISTS commerce_refunds/);
+  assert.match(sql, /request_id uuid UNIQUE/);
+  assert.match(sql, /stripe_refund_id text UNIQUE/);
+  assert.match(sql, /inventory_reservation_status/);
+});
 test('shipping reduces on-hand and reserved inventory while cancel releases reservation', () => {
   const source = readFileSync('src/server/commerce/orders.ts', 'utf8');
   assert.match(source, /inventory_on_hand=inventory_on_hand-/);
   assert.match(source, /inventory_reserved=inventory_reserved-/);
   assert.match(source, /if \(input\.action === 'CANCEL'\)/);
-  assert.match(source, /payment_status !== 'PAID'/);
+  assert.match(source, /\['PAID', 'PARTIALLY_REFUNDED'\]\.includes/);
 });
 test('admin commerce APIs use the canonical admin allowlist', () => {
   for (const file of [
     'src/app/api/admin/commerce/route.ts',
     'src/app/api/admin/commerce/orders/[orderId]/route.ts',
+    'src/app/api/admin/commerce/orders/[orderId]/refunds/route.ts',
     'src/app/api/admin/commerce/inventory/[variantId]/route.ts',
     'src/app/api/admin/commerce/products/route.ts',
   ])
@@ -71,6 +81,10 @@ test('migration runner includes Stripe checkout attempts after webhook support',
   const runner = readFileSync('scripts/migrate-auth.ts', 'utf8');
   assert.ok(
     runner.indexOf('024_stripe_webhooks.sql') < runner.indexOf('025_stripe_checkout_attempts.sql'),
+  );
+  assert.ok(
+    runner.indexOf('025_stripe_checkout_attempts.sql') <
+      runner.indexOf('026_commerce_payment_hardening.sql'),
   );
 });
 

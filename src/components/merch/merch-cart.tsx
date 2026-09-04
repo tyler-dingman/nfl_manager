@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type FormEvent,
   type ReactNode,
@@ -41,6 +42,7 @@ type CartContextValue = {
   openCart: () => void;
 };
 const STORAGE_KEY = 'down-distance-demo-cart';
+const STRIPE_CHECKOUT_STORAGE_KEY = 'down-distance-stripe-checkout';
 const CartContext = createContext<CartContextValue | null>(null);
 export function useMerchCart() {
   const value = useContext(CartContext);
@@ -56,8 +58,8 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
     [checkoutStage, setCheckoutStage] = useState<CheckoutStage>('bag'),
     [hydrated, setHydrated] = useState(false),
     [placing, setPlacing] = useState(false),
-    [checkoutAttemptId, setCheckoutAttemptId] = useState<string | null>(null),
     [stripeCheckout, setStripeCheckout] = useState<PreparedStripeCheckout | null>(null);
+  const checkoutAttemptId = useRef<string | null>(null);
   const [order, setOrder] = useState<OrderConfirmation | null>(null),
     [error, setError] = useState(''),
     [promoCode, setPromoCode] = useState(''),
@@ -97,6 +99,38 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
       .catch(() => undefined);
   }, []);
   useEffect(() => {
+    const stored = sessionStorage.getItem(STRIPE_CHECKOUT_STORAGE_KEY);
+    if (!stored) return;
+    try {
+      const checkout = JSON.parse(stored) as PreparedStripeCheckout;
+      void fetch('/api/commerce/stripe/status', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          orderId: checkout.order.id,
+          paymentIntentId: checkout.paymentIntentId,
+        }),
+      })
+        .then(async (response) => ({ response, body: await response.json().catch(() => null) }))
+        .then(({ response, body }) => {
+          if (!response.ok) return;
+          if (['PAID', 'PARTIALLY_REFUNDED', 'REFUNDED'].includes(body.order.paymentStatus)) {
+            setOrder(checkout.order);
+            setItems([]);
+            sessionStorage.removeItem(STRIPE_CHECKOUT_STORAGE_KEY);
+          } else if (body.order.paymentStatus === 'CANCELED') {
+            sessionStorage.removeItem(STRIPE_CHECKOUT_STORAGE_KEY);
+          } else {
+            setStripeCheckout(checkout);
+            setCheckoutStage('payment');
+          }
+          setOpen(true);
+        });
+    } catch {
+      sessionStorage.removeItem(STRIPE_CHECKOUT_STORAGE_KEY);
+    }
+  }, []);
+  useEffect(() => {
     if (hydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [hydrated, items]);
   const count = items.reduce((n, x) => n + x.quantity, 0),
@@ -113,7 +147,8 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
     });
     setOrder(null);
     setStripeCheckout(null);
-    setCheckoutAttemptId(null);
+    sessionStorage.removeItem(STRIPE_CHECKOUT_STORAGE_KEY);
+    checkoutAttemptId.current = null;
     setCheckoutStage('bag');
     setOpen(true);
     console.info('add_to_cart', { productId, quantity });
@@ -148,8 +183,8 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
     const form = new FormData(event.currentTarget);
     setPlacing(true);
     setError('');
-    const attemptId = checkoutAttemptId ?? crypto.randomUUID();
-    setCheckoutAttemptId(attemptId);
+    const attemptId = checkoutAttemptId.current ?? crypto.randomUUID();
+    checkoutAttemptId.current = attemptId;
     const response = await fetch('/api/commerce/stripe/checkout', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -172,6 +207,7 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
     const body = await response.json().catch(() => null);
     if (response.ok) {
       setStripeCheckout(body);
+      sessionStorage.setItem(STRIPE_CHECKOUT_STORAGE_KEY, JSON.stringify(body));
       setCheckoutStage('payment');
     } else setError(body?.error ?? 'Unable to start card checkout.');
     setPlacing(false);
@@ -180,7 +216,7 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
     if (!stripeCheckout) throw new Error('Card checkout is not ready.');
     if (paymentIntentId !== stripeCheckout.paymentIntentId)
       throw new Error('Stripe returned an unexpected payment reference.');
-    for (let attempt = 0; attempt < 20; attempt += 1) {
+    for (let attempt = 0; attempt < 40; attempt += 1) {
       const response = await fetch('/api/commerce/stripe/status', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -188,11 +224,12 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
       });
       const body = await response.json().catch(() => null);
       if (!response.ok) throw new Error(body?.error ?? 'Unable to verify payment.');
-      if (body.order.paymentStatus === 'PAID') {
+      if (['PAID', 'PARTIALLY_REFUNDED', 'REFUNDED'].includes(body.order.paymentStatus)) {
         setOrder(stripeCheckout.order);
         setItems([]);
-        setCheckoutAttemptId(null);
+        checkoutAttemptId.current = null;
         setStripeCheckout(null);
+        sessionStorage.removeItem(STRIPE_CHECKOUT_STORAGE_KEY);
         console.info('stripe_test_order_confirmed', { orderId: body.order.id });
         console.info('order_confirmation_viewed', { orderId: body.order.id });
         return;
@@ -202,6 +239,19 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
       await new Promise((resolve) => setTimeout(resolve, 750));
     }
     throw new Error('Payment was received and is still being verified. Check again in a moment.');
+  };
+  const prepareStripeRetry = async () => {
+    if (!stripeCheckout) throw new Error('Card checkout is not ready.');
+    const response = await fetch('/api/commerce/stripe/retry', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        orderId: stripeCheckout.order.id,
+        paymentIntentId: stripeCheckout.paymentIntentId,
+      }),
+    });
+    const body = await response.json().catch(() => null);
+    if (!response.ok) throw new Error(body?.error ?? 'Unable to prepare payment.');
   };
   const applyPromo = async () => {
     setError('');
@@ -360,6 +410,7 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
                 orderId={stripeCheckout.order.id}
                 totalCents={stripeCheckout.order.totalCents}
                 onConfirmed={confirmStripePayment}
+                onBeforeConfirm={prepareStripeRetry}
                 onBack={() => setCheckoutStage('standard')}
               />
             ) : checkoutStage === 'standard' ? (
