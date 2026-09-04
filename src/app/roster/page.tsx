@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeftRight, ArrowUpDown, Handshake, MoreHorizontal, Users } from 'lucide-react';
 
@@ -79,6 +79,14 @@ const getReadableTextColor = (backgroundColor?: string | null) => {
 };
 
 export default function RosterPage() {
+  return (
+    <Suspense fallback={null}>
+      <RosterPageContent />
+    </Suspense>
+  );
+}
+
+function RosterPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);

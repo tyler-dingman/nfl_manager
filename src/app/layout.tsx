@@ -16,6 +16,16 @@ export const metadata: Metadata = {
     shortcut: '/images/favicon/favicon-32x32.png',
   },
   manifest: '/images/favicon/site.webmanifest',
+  ...(process.env.PRELAUNCH_MODE === 'true'
+    ? {
+        robots: {
+          index: false,
+          follow: false,
+          noarchive: true,
+          googleBot: { index: false, follow: false, noarchive: true },
+        },
+      }
+    : {}),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
