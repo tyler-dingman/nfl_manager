@@ -38,6 +38,202 @@
   --site-logo-height: 4rem;
 }
 
+/* Apple supplies the browser-rendered Pay artwork; children remain the fallback elsewhere. */
+@supports (-webkit-appearance: -apple-pay-button) {
+  .apple-pay-demo-button {
+    -webkit-appearance: -apple-pay-button;
+    -apple-pay-button-type: plain;
+    -apple-pay-button-style: black;
+  }
+
+  .apple-pay-demo-button > * {
+    visibility: hidden;
+  }
+
+  .apple-pay-demo-button:disabled {
+    -webkit-appearance: none;
+  }
+
+  .apple-pay-demo-button:disabled .wallet-loading-label {
+    visibility: visible;
+  }
+}
+
+@layer components {
+  /* Semantic contract for every filled team-primary interactive state. Important declarations
+     prevent page-level foreground utilities and inherited body color from breaking contrast. */
+  .team-primary-filled,
+  .team-primary-filled:hover,
+  .team-primary-filled:active,
+  .team-primary-filled:focus-visible {
+    background-color: var(--team-primary-fill) !important;
+    color: var(--color-on-primary) !important;
+  }
+
+  .team-primary-filled :where(*) {
+    color: inherit !important;
+  }
+
+  .team-primary-filled-hover:hover,
+  .team-primary-filled-hover:active,
+  .team-primary-filled-hover:focus-visible {
+    background-color: var(--team-primary-fill) !important;
+    color: var(--color-on-primary) !important;
+  }
+
+  .game-day-hero {
+    background: #080d11;
+  }
+
+  .game-day-stadium {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0.08) 48%, rgba(0, 0, 0, 0.42)),
+      radial-gradient(
+        ellipse at 60% 56%,
+        color-mix(in srgb, var(--primary) 35%, #253727) 0 15%,
+        #333c38 16% 26%,
+        #171d1b 27% 48%,
+        #080d11 70%
+      );
+  }
+
+  .game-day-stadium-photo {
+    background: #080d11;
+  }
+
+  .game-day-stadium-image {
+    object-position: center 54%;
+  }
+
+  .game-day-stadium-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(5, 9, 12, 0.86) 0%,
+        rgba(5, 9, 12, 0.56) 25%,
+        rgba(5, 9, 12, 0.08) 58%,
+        rgba(5, 9, 12, 0.18) 100%
+      ),
+      linear-gradient(0deg, rgba(5, 9, 12, 0.46), transparent 45%);
+  }
+
+  .game-day-lights {
+    position: absolute;
+    inset: 0;
+    opacity: 0.34;
+    background-image: radial-gradient(circle, var(--secondary) 0 1.5px, transparent 2px);
+    background-size: 31px 31px;
+    mask-image: radial-gradient(
+      ellipse at 61% 55%,
+      transparent 0 26%,
+      black 28% 66%,
+      transparent 72%
+    );
+  }
+
+  .game-day-lot-lines {
+    position: absolute;
+    inset: 0;
+    opacity: 0.18;
+    background: repeating-linear-gradient(
+      25deg,
+      transparent 0 31px,
+      white 32px 33px,
+      transparent 34px 64px
+    );
+    mask-image: radial-gradient(
+      ellipse at 61% 55%,
+      transparent 0 31%,
+      black 34% 73%,
+      transparent 78%
+    );
+  }
+
+  .game-day-stadium-bowl {
+    position: absolute;
+    left: 61%;
+    top: 54%;
+    width: min(44vw, 590px);
+    aspect-ratio: 1.55;
+    transform: translate(-50%, -50%) rotate(-7deg);
+    border: clamp(18px, 3.5vw, 48px) solid color-mix(in srgb, var(--primary) 70%, #1a2022);
+    border-radius: 50%;
+    background: #1b2121;
+    box-shadow:
+      0 0 0 18px #737b78,
+      0 30px 70px #000;
+  }
+
+  .game-day-field {
+    position: absolute;
+    inset: 16%;
+    display: grid;
+    place-items: center;
+    border: 3px solid rgba(255, 255, 255, 0.72);
+    background: repeating-linear-gradient(90deg, #315c37 0 9%, #3d6c42 9% 18%);
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 900;
+    letter-spacing: 0.2em;
+  }
+
+  .game-day-car {
+    position: absolute;
+    z-index: 1;
+    width: 15px;
+    height: 7px;
+    border-radius: 3px;
+    background: var(--secondary);
+    box-shadow: 0 2px 5px #000;
+  }
+
+  .game-day-page small {
+    display: block;
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.48);
+  }
+
+  @media (max-width: 767px) {
+    .game-day-stadium-image {
+      object-position: 59% center;
+    }
+
+    .game-day-stadium-vignette {
+      background: linear-gradient(
+        180deg,
+        rgba(5, 9, 12, 0.56),
+        rgba(5, 9, 12, 0.12) 42%,
+        rgba(5, 9, 12, 0.58)
+      );
+    }
+
+    .game-day-stadium-bowl {
+      left: 60%;
+      top: 35%;
+      width: 115vw;
+      opacity: 0.82;
+    }
+    .game-day-hero > div:last-child {
+      min-height: 540px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .game-day-page *,
+    .game-day-page *::before,
+    .game-day-page *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
 @media (min-width: 640px) {
   :root {
     --site-header-height: 6rem;
@@ -108,6 +304,11 @@ body {
     --input: 210 20% 86%;
     --ring: 208 100% 8%;
     --radius: 1rem;
+    --fo-navy: #00172b;
+    --fo-cream: #f7f4ee;
+    --fo-paper: #fffdf9;
+    --fo-line: color-mix(in srgb, var(--fo-navy) 12%, transparent);
+    --fo-shadow: 0 10px 30px rgba(0, 23, 43, 0.07);
     color: #00172b;
     font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
     letter-spacing: -0.008em;
@@ -172,11 +373,190 @@ body {
   }
 
   .front-office-app main .bg-white {
-    border-color: color-mix(in srgb, var(--dark) 12%, transparent);
+    border-color: var(--fo-line);
   }
 
   .front-office-app table thead {
     color: var(--dark);
     font-weight: 800;
+  }
+
+  /* Shared Front Office visual system. This is deliberately scoped so the global
+     D&D header and the rest of the site retain their existing treatment. */
+  .front-office-app .front-office-shell {
+    background:
+      radial-gradient(
+        circle at 88% 10%,
+        color-mix(in srgb, var(--secondary) 9%, transparent),
+        transparent 30rem
+      ),
+      var(--fo-cream);
+  }
+
+  .front-office-app .front-office-sidebar {
+    border-color: var(--fo-line);
+    background: color-mix(in srgb, var(--fo-paper) 96%, transparent);
+  }
+
+  .front-office-app .front-office-sidebar > div:first-child {
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .front-office-app .front-office-nav-item:hover,
+  .front-office-app .front-office-nav-item[aria-current='page'] {
+    background: color-mix(in srgb, var(--primary) 9%, var(--fo-paper));
+  }
+
+  .front-office-app .front-office-nav-item[aria-current='page'] {
+    color: var(--primary);
+  }
+
+  .front-office-app .front-office-team-summary {
+    position: relative;
+    margin: 1rem 1rem 0;
+    overflow: hidden;
+    border: 1px solid var(--fo-line);
+    border-radius: 1rem;
+    background: linear-gradient(
+      115deg,
+      color-mix(in srgb, var(--fo-paper) 96%, var(--secondary)),
+      var(--fo-paper)
+    );
+    box-shadow: var(--fo-shadow);
+  }
+
+  .front-office-app .front-office-team-summary::after {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    width: 9rem;
+    height: 5rem;
+    content: '';
+    pointer-events: none;
+    opacity: 0.12;
+    transform: translateY(-50%);
+    background-image:
+      radial-gradient(circle at 12% 70%, var(--primary) 0 2px, transparent 3px),
+      radial-gradient(circle at 42% 38%, var(--primary) 0 2px, transparent 3px),
+      radial-gradient(circle at 72% 65%, var(--primary) 0 2px, transparent 3px),
+      linear-gradient(145deg, transparent 47%, var(--primary) 48% 50%, transparent 51%);
+  }
+
+  .front-office-app .front-office-workspace > :where(div, section),
+  .front-office-app .front-office-workspace > :where(div, section) > :where(section) {
+    isolation: isolate;
+  }
+
+  .front-office-app main :where(.rounded-xl, .rounded-2xl, .rounded-3xl).bg-white,
+  .front-office-app main :where(.rounded-xl, .rounded-2xl, .rounded-3xl).bg-card,
+  .front-office-app [role='dialog'] {
+    border-color: var(--fo-line);
+    background-color: var(--fo-paper);
+    box-shadow: var(--fo-shadow);
+  }
+
+  .front-office-app main table {
+    background: var(--fo-paper);
+  }
+
+  .front-office-app main table thead {
+    border-bottom: 1px solid var(--fo-line);
+    background: color-mix(in srgb, var(--fo-cream) 72%, white);
+  }
+
+  .front-office-app main table tbody tr {
+    transition: background-color 140ms ease;
+  }
+
+  .front-office-app main table tbody tr:hover {
+    background: color-mix(in srgb, var(--primary) 5%, var(--fo-paper));
+  }
+
+  .front-office-app :where(input, select, textarea) {
+    border-radius: 0.75rem;
+    background-color: var(--fo-paper);
+  }
+
+  .front-office-app :where(button, a)[class*='rounded-full'],
+  .front-office-app :where(button, a)[class*='rounded-md'],
+  .front-office-app :where(button, a)[class*='rounded-lg'] {
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+    transition-duration: 150ms;
+  }
+
+  .front-office-app :where(button, a):focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--primary) 32%, transparent);
+    outline-offset: 2px;
+  }
+
+  .front-office-app [role='dialog'] {
+    border: 1px solid color-mix(in srgb, white 55%, var(--fo-line));
+    box-shadow: 0 28px 80px rgba(0, 23, 43, 0.24);
+  }
+
+  .front-office-app [role='dialog'] > :first-child {
+    background: linear-gradient(
+      100deg,
+      color-mix(in srgb, var(--primary) 6%, var(--fo-paper)),
+      var(--fo-paper)
+    );
+  }
+
+  .front-office-app .front-office-experience-card.is-selected {
+    background-color: var(--team-dark);
+    background-image:
+      radial-gradient(
+        circle at 18% 22%,
+        color-mix(in srgb, var(--secondary) 65%, transparent) 0 2px,
+        transparent 3px
+      ),
+      radial-gradient(
+        circle at 76% 25%,
+        color-mix(in srgb, var(--secondary) 55%, transparent) 0 2px,
+        transparent 3px
+      ),
+      linear-gradient(
+        145deg,
+        transparent 48%,
+        color-mix(in srgb, var(--secondary) 35%, transparent) 49% 50%,
+        transparent 51%
+      );
+  }
+
+  .front-office-app .front-office-feature-panel {
+    border-color: color-mix(in srgb, var(--secondary) 18%, transparent);
+    background-color: var(--team-dark);
+    background-image:
+      radial-gradient(
+        circle at 85% 20%,
+        color-mix(in srgb, var(--secondary) 45%, transparent) 0 2px,
+        transparent 3px
+      ),
+      linear-gradient(125deg, var(--team-dark), color-mix(in srgb, var(--team-dark) 86%, black));
+    color: var(--team-on-dark);
+    box-shadow: 0 18px 40px color-mix(in srgb, var(--team-dark) 24%, transparent);
+  }
+
+  .front-office-app .front-office-feature-panel :where(h1, h2, h3, .text-foreground) {
+    color: var(--team-on-dark);
+  }
+
+  .front-office-app .front-office-feature-panel .text-muted-foreground {
+    color: color-mix(in srgb, var(--team-on-dark) 72%, transparent);
+  }
+
+  @media (min-width: 768px) {
+    .front-office-app .front-office-team-summary {
+      margin: 1rem 1.5rem 0;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .front-office-app .front-office-team-summary {
+      margin: 0.75rem 0.75rem 0;
+    }
   }
 }

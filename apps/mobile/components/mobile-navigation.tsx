@@ -1,13 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
 import { type Href, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useTeamBranding } from '../lib/team-branding';
+import { getUnreadNotificationCount } from '../lib/api';
 
 const destinations: { label: string; icon: keyof typeof Ionicons.glyphMap; href: Href }[] = [
   { label: 'Home', icon: 'home-outline', href: '/' },
   { label: 'Three and Out', icon: 'podium-outline', href: '/three' },
-  { label: 'The Wire', icon: 'flash-outline', href: '/wire' },
+  { label: 'The Beat', icon: 'newspaper-outline', href: '/wire' },
+  { label: 'Film Room', icon: 'videocam-outline', href: '/film-room' as Href },
+  { label: 'The Crew', icon: 'people-outline', href: '/crew' as Href },
   { label: 'Trivia', icon: 'help-circle-outline', href: '/trivia' },
   { label: 'Game Day', icon: 'football-outline', href: '/game-day' },
   { label: 'Get Caught Up', icon: 'time-outline', href: '/catch-up' },
@@ -18,6 +21,42 @@ const destinations: { label: string; icon: keyof typeof Ionicons.glyphMap; href:
   { label: 'Account', icon: 'person-outline', href: '/account' },
   { label: 'Choose Team', icon: 'shield-outline', href: '/team-select' },
 ];
+
+export function MobileHeaderActions() {
+  const router = useRouter();
+  const { theme } = useTeamBranding();
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    void getUnreadNotificationCount()
+      .then(setCount)
+      .catch(() => setCount(0));
+  }, []);
+  return (
+    <View style={s.headerActions}>
+      <Pressable
+        accessibilityLabel="Search"
+        hitSlop={8}
+        onPress={() => router.push('/search')}
+        style={s.headerAction}
+      >
+        <Ionicons name="search" color={theme.light} size={22} />
+      </Pressable>
+      <Pressable
+        accessibilityLabel={`${count} unread notifications`}
+        hitSlop={8}
+        onPress={() => router.push('/notifications' as Href)}
+        style={s.headerAction}
+      >
+        <Ionicons name="notifications-outline" color={theme.light} size={22} />
+        {count ? (
+          <View style={[s.badge, { backgroundColor: theme.secondary }]}>
+            <Text style={s.badgeText}>{count > 9 ? '9+' : count}</Text>
+          </View>
+        ) : null}
+      </Pressable>
+    </View>
+  );
+}
 
 export function MobileMenuButton() {
   const router = useRouter();
@@ -42,7 +81,11 @@ export function MobileMenuButton() {
       </Pressable>
       <Modal animationType="slide" onRequestClose={() => setOpen(false)} transparent visible={open}>
         <View style={s.overlay}>
-          <Pressable accessibilityLabel="Close navigation menu" onPress={() => setOpen(false)} style={s.scrim} />
+          <Pressable
+            accessibilityLabel="Close navigation menu"
+            onPress={() => setOpen(false)}
+            style={s.scrim}
+          />
           <View style={[s.drawer, { backgroundColor: theme.dark }]}>
             <View style={[s.drawerHeader, { borderBottomColor: theme.secondary }]}>
               <Image
@@ -51,7 +94,11 @@ export function MobileMenuButton() {
                 source={logoSource}
                 style={s.drawerLogo}
               />
-              <Pressable accessibilityLabel="Close navigation menu" hitSlop={10} onPress={() => setOpen(false)}>
+              <Pressable
+                accessibilityLabel="Close navigation menu"
+                hitSlop={10}
+                onPress={() => setOpen(false)}
+              >
                 <Ionicons color={theme.light} name="close" size={28} />
               </Pressable>
             </View>
@@ -117,4 +164,18 @@ const s = StyleSheet.create({
   },
   linkPressed: { backgroundColor: '#152936' },
   linkText: { flex: 1, color: '#FFFFFF', fontSize: 17, fontWeight: '800' },
+  headerActions: { flexDirection: 'row', paddingRight: 8 },
+  headerAction: { width: 42, height: 42, alignItems: 'center', justifyContent: 'center' },
+  badge: {
+    position: 'absolute',
+    right: 2,
+    top: 2,
+    minWidth: 17,
+    height: 17,
+    borderRadius: 9,
+    paddingHorizontal: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  badgeText: { color: '#081824', fontSize: 9, fontWeight: '900' },
 });

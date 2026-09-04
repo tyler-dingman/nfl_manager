@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { ArrowUpRight, Check, Clock3, RotateCcw } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -10,9 +10,9 @@ import TeamThemeProvider from '@/components/team-theme-provider';
 import type { CatchUpResponse } from '@/features/catch-up/types';
 import { readCanonicalFanTeamPreference } from '@/features/team/fan-team-preference';
 import { useTeamStore } from '@/features/team/team-store';
+import ThreeOutAudioCard from '@/components/catch-up/three-out-audio-card';
 
 export default function CatchUpExperience() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const teams = useTeamStore((state) => state.teams);
   const requestedTeam = searchParams?.get('team')?.toUpperCase();
@@ -101,15 +101,6 @@ export default function CatchUpExperience() {
                 </p>
               ) : null}
             </div>
-            {teamId ? (
-              <button
-                type="button"
-                onClick={() => router.push(`/three-and-out?team=${teamId}`)}
-                className="text-sm font-black text-[var(--team-primary-text)]"
-              >
-                Open Three and Out →
-              </button>
-            ) : null}
           </div>
 
           {loading ? <div className="mt-8 h-72 animate-pulse rounded-3xl bg-white" /> : null}
@@ -142,11 +133,14 @@ export default function CatchUpExperience() {
 
           {!loading && data?.items.length ? (
             <div className="mt-8 space-y-5">
+              {process.env.NEXT_PUBLIC_THREE_OUT_AUDIO_ENABLED !== 'false' ? (
+                <ThreeOutAudioCard data={data} />
+              ) : null}
               {data.items.map((item) => (
                 <article key={item.id} className="overflow-hidden rounded-3xl bg-white shadow-sm">
                   <div className="border-l-4 border-[var(--primary)] p-6 sm:p-8">
                     <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className="rounded-full bg-[var(--primary)] px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[var(--team-on-primary)]">
+                      <span className="team-primary-filled rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em]">
                         {item.type}
                       </span>
                       <span className="text-xs font-bold text-slate-400">

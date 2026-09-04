@@ -28,7 +28,7 @@ export default function CatchMeUp({ data }: { data: CatchMeUpData }) {
     setPlaying(true);
   };
   return (
-    <section className="overflow-hidden rounded-3xl bg-[var(--primary)] text-[var(--team-on-primary)] shadow-lg">
+    <section className="team-primary-filled overflow-hidden rounded-3xl shadow-lg">
       <div className="grid gap-5 p-6 sm:grid-cols-[1fr_auto] sm:items-end sm:p-8">
         <div>
           <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--team-on-primary)] opacity-80">

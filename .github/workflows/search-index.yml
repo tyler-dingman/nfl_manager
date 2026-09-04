@@ -1,0 +1,28 @@
+name: Search index reconciliation
+
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: Run a full reindex
+        type: boolean
+        default: false
+  schedule:
+    - cron: '30 4 * * *'
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Reconcile search index
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SEARCH_EMBEDDING_BASE_URL: ${{ secrets.SEARCH_EMBEDDING_BASE_URL }}
+          SEARCH_EMBEDDING_MODEL: BAAI/bge-small-en-v1.5
+        run: npm run search:index -- ${{ inputs.full && '--full' || '' }}

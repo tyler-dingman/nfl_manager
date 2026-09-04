@@ -24,11 +24,11 @@ export default function PrimaryNavigation({
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const activeItem = active === undefined ? getPrimaryNavActive(pathname) : active;
-  const activeClass = tone === 'light' ? 'text-[var(--team-on-dark)]' : 'text-[#00172B]';
+  const activeClass = tone === 'light' ? 'text-[var(--team-on-dark)]' : 'text-white';
   const inactiveClass =
     tone === 'light'
       ? 'text-[var(--team-light-on-dark)] hover:text-[var(--team-on-dark)]'
-      : 'text-[#00172B]/65 hover:text-[#00172B]';
+      : 'text-white/75 hover:text-white';
 
   useEffect(() => setMobileOpen(false), [pathname]);
 
@@ -56,7 +56,7 @@ export default function PrimaryNavigation({
         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border xl:hidden ${
           tone === 'light'
             ? 'border-white/15 text-[var(--light)] hover:bg-white/10'
-            : 'border-[#00172B]/15 text-[#00172B] hover:bg-white/20'
+            : 'border-white/30 text-white hover:bg-white/20'
         }`}
         aria-label="Open primary navigation"
         aria-expanded={mobileOpen}

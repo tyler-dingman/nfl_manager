@@ -46,6 +46,12 @@ test('RSS parser and normalizer produce stable candidates', () => {
   assert.equal(candidate.url, 'https://chiefs.example/a');
   assert.equal(canonicalizeUrl('https://x.test/a?ref=y'), 'https://x.test/a');
 });
+test('Atom parser preserves CDATA titles and summaries', () => {
+  const xml = `<feed><entry><title type="html"><![CDATA[Chiefs’ practice update]]></title><link rel="alternate" href="https://chiefs.example/practice"/><id>atom-1</id><published>2026-09-03T15:00:00-04:00</published><summary type="html"><![CDATA[<p>R Mason Thomas missed practice.</p>]]></summary></entry></feed>`;
+  const [item] = parseRssOrAtom(xml, source);
+  assert.equal(item.title, 'Chiefs’ practice update');
+  assert.equal(item.excerpt, 'R Mason Thomas missed practice.');
+});
 test('clustering merges strong matches and flags the ambiguous band', () => {
   const base = normalizeRawItem(
     {

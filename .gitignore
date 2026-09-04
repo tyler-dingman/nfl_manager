@@ -4,6 +4,11 @@ out
 .env.local
 .env
 tsconfig.tsbuildinfo
+private/tts/*.wav
+private/tts/cache/
+apps/web/private/tts/*.wav
+apps/web/private/tts/*.mp3
+services/chatterbox/.venv/
 
 # Private presenter media and generated avatar output
 public/images/video/tyler_*

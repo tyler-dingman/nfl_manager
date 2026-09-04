@@ -14,8 +14,8 @@ export async function GET(request: Request) {
 
   try {
     const threeAndOut = await canonicalThreeAndOut(teamAbbr);
-    const canonical = await canonicalHuddle(teamAbbr, threeAndOut?.current.storyIds ?? [], 4);
-    const briefings = canonical.length >= 4 ? canonical : await loadTeamBriefings(teamAbbr);
+    const canonical = await canonicalHuddle(teamAbbr, threeAndOut?.current.storyIds ?? [], 100);
+    const briefings = canonical.length ? canonical : await loadTeamBriefings(teamAbbr);
     return NextResponse.json({ teamAbbr, teamName, briefings });
   } catch (error) {
     console.error('[content-engine] failed to build briefings', error);

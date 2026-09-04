@@ -25,11 +25,17 @@ const storyRecord = (r: any): StoryRecord => ({
   firstReportedAt: r.first_reported_at,
   lastMeaningfulUpdateAt: r.last_meaningful_update_at,
   version: r.version,
+  sourceItemCount: r.source_item_count,
+  publisherCount: r.publisher_count,
+  independentSourceCount: r.independent_source_count,
+  hotReadQualifiedAt: r.hot_read_qualified_at,
+  hotReadUntil: r.hot_read_until,
+  clusterReason: r.cluster_reason,
 });
 export async function listPublicStories(teamId: string, limit = 30): Promise<StoryView[]> {
   const sql = authDb();
   const rows =
-    await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.team_id=${teamId} GROUP BY s.id ORDER BY s.importance_score DESC,s.last_meaningful_update_at DESC LIMIT ${limit}`;
+    await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.team_id=${teamId} AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING' GROUP BY s.id ORDER BY s.importance_score DESC,s.last_meaningful_update_at DESC LIMIT ${limit}`;
   const published = rows.filter((r: any) =>
     isStoryPublishable({ ...storyRecord(r), sourceCount: r.source_count }),
   );
@@ -69,6 +75,11 @@ export async function listPublicStories(teamId: string, limit = 30): Promise<Sto
       sources,
       primarySource: selectPrimarySource(sources),
       version: r.version,
+      sourceItemCount: r.source_item_count,
+      publisherCount: r.publisher_count,
+      independentSourceCount: r.independent_source_count,
+      hotReadUntil: r.hot_read_until?.toISOString() ?? null,
+      clusterReason: r.cluster_reason,
     };
   });
 }

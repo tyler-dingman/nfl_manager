@@ -30,15 +30,20 @@ export default function CatchUpCallout({ teamId }: { teamId: string }) {
 
   if (!data.totalMeaningfulChanges) {
     return (
-      <section className="mb-6 flex items-center gap-3 rounded-2xl border border-[#00172B]/10 bg-white px-5 py-4 shadow-sm">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-700">
-          <Check className="h-5 w-5" />
-        </span>
-        <div>
-          <p className="text-sm font-black uppercase tracking-[0.12em]">You’re caught up</p>
-          <p className="mt-0.5 text-sm font-semibold text-[#00172B]/50">
-            Nothing important has changed since you were here.
-          </p>
+      <section
+        className="border-b border-[#00172B]/10 bg-white/80 text-[#00172B]"
+        aria-label="Catch-up status"
+      >
+        <div className="mx-auto flex max-w-[1440px] items-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-700">
+            <Check className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.12em]">You’re caught up</p>
+            <p className="mt-0.5 text-sm font-semibold text-[#00172B]/60">
+              Nothing important has changed since you were here.
+            </p>
+          </div>
         </div>
       </section>
     );
@@ -46,33 +51,32 @@ export default function CatchUpCallout({ teamId }: { teamId: string }) {
 
   const one = data.totalMeaningfulChanges === 1;
   return (
-    <section className="mb-6 overflow-hidden rounded-2xl bg-[#00172B] text-white shadow-sm">
-      <div className="grid gap-5 p-6 sm:grid-cols-[1fr_auto] sm:items-center">
+    <section
+      className="border-b border-white/10 bg-[#00172B] text-white"
+      aria-label="Catch-up status"
+    >
+      <div className="mx-auto grid max-w-[1440px] gap-4 px-4 py-5 sm:grid-cols-[1fr_auto] sm:items-center sm:px-6 lg:px-8">
         <div>
-          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.24em] text-[var(--team-secondary-on-dark)]">
-            <RotateCcw className="h-4 w-4" /> {one ? 'One thing changed' : 'Get caught up'}
-          </div>
-          <h3 className="mt-3 text-2xl font-black leading-tight">
-            {one
-              ? data.items[0]?.headline
-              : data.mode === 'CURRENT_STATE'
-                ? 'Here’s where things stand now.'
-                : `${data.totalMeaningfulChanges} things happened while you were away.`}
-          </h3>
-          <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-white/55">
-            <Clock3 className="h-4 w-4" /> {data.estimatedReadMinutes} min read · Since{' '}
-            {new Date(data.baselineAt).toLocaleString([], {
-              weekday: 'short',
-              hour: 'numeric',
-              minute: '2-digit',
-            })}
+          <h2 className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.12em]">
+            <RotateCcw
+              className="h-4 w-4 text-[var(--team-secondary-on-dark)]"
+              aria-hidden="true"
+            />
+            {data.totalMeaningfulChanges} {one ? 'new update' : 'new updates'} since your last visit
+          </h2>
+          <p className="mt-1 text-sm font-semibold text-white/70">
+            Catch up on what changed with {data.teamName}.
+          </p>
+          <p className="mt-1 flex items-center gap-2 text-xs font-semibold text-white/55">
+            <Clock3 className="h-3.5 w-3.5" aria-hidden="true" /> {data.estimatedReadMinutes} min
+            read
           </p>
         </div>
         <Link
           href={href}
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[var(--secondary)] px-6 text-sm font-black text-[var(--team-on-secondary)] transition hover:-translate-y-0.5"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[var(--secondary)] px-6 text-sm font-black text-[var(--team-on-secondary)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
-          {one ? 'See the update' : 'Catch me up'} <ArrowRight className="h-4 w-4" />
+          Catch me up <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>
     </section>

@@ -13,6 +13,7 @@ import {
   Settings2,
   ShieldCheck,
   Trophy,
+  Users,
 } from 'lucide-react';
 
 import { clearPreviewSession, useAuthUser } from '@/features/auth/auth-session';
@@ -49,6 +50,7 @@ export default function LoginButton({ dark = true }: { dark?: boolean }) {
   }
 
   const links = [
+    ['/crew', 'My Crew', Users],
     ['/account/my-team', 'My Team', Settings2],
     ['/rewards', 'Rewards', Trophy],
     ['/account/notifications', 'Notifications', Bell],

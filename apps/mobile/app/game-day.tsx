@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
+  ImageBackground,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -10,12 +11,15 @@ import {
 } from 'react-native';
 import { createGameDayRoom, gameDayAction, getGameDayRoom } from '../lib/api';
 import { useTeam } from '../lib/team-context';
+import { useTeamBranding } from '../lib/team-branding';
 import type { GameDayRoom } from '../lib/types';
 import { C, Heading } from '../components/screen';
-const reactions = ['🔥', '😂', '😤', '🤦', '🍺', '👀'],
+const reactions = ['🔥', '😂', '🤯', '👏', '🏈', '🍻', '❤️', '💩'],
   drives = ['TOUCHDOWN', 'FIELD_GOAL', 'PUNT', 'TURNOVER'];
+const KC_STADIUM = require('../../../public/images/gameday/stadium/kc/kc_full.png');
 export default function GameDay() {
   const { teamId } = useTeam(),
+    { theme } = useTeamBranding(),
     [room, setRoom] = useState<GameDayRoom | null>(null),
     [loading, setLoading] = useState(false),
     [message, setMessage] = useState(''),
@@ -53,20 +57,30 @@ export default function GameDay() {
   };
   if (!room)
     return (
-      <View style={s.empty}>
-        <Heading>Game Day</Heading>
-        <Text style={s.intro}>Open a private digital tailgate for {teamId} game day.</Text>
-        <Pressable
-          style={s.primary}
-          onPress={async () => {
-            const id = await createGameDayRoom(teamId);
-            await load(id);
-          }}
-        >
-          <Text style={s.primaryText}>CREATE A TAILGATE</Text>
-        </Pressable>
-        {error ? <Text style={s.error}>{error}</Text> : null}
-      </View>
+      <ScrollView style={s.page} contentContainerStyle={s.body}>
+        <MobileGameDayHero teamId={teamId} primary={theme.primary} secondary={theme.secondary} />
+        <View style={s.infoGrid}>
+          <MiniInfo label="WEATHER · PREVIEW" value="78°" detail="Partly cloudy" />
+          <MiniInfo label="ODDS · PREVIEW" value={`${teamId} -230`} detail="Fixture data" />
+          <MiniInfo label="LOCATION" value="Home" detail="Stadium info" />
+        </View>
+        <View style={s.emptyCard}>
+          <Heading>Your digital tailgate.</Heading>
+          <Text style={s.intro}>
+            Open a private room to react, predict, and talk with your people.
+          </Text>
+          <Pressable
+            style={[s.primary, { backgroundColor: theme.primary }]}
+            onPress={async () => {
+              const id = await createGameDayRoom(teamId);
+              await load(id);
+            }}
+          >
+            <Text style={s.primaryText}>CREATE A TAILGATE</Text>
+          </Pressable>
+          {error ? <Text style={s.error}>{error}</Text> : null}
+        </View>
+      </ScrollView>
     );
   const g = room.gameState,
     live = room.status === 'LIVE';
@@ -76,6 +90,17 @@ export default function GameDay() {
       contentContainerStyle={s.body}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={() => load(room.id)} />}
     >
+      <MobileGameDayHero
+        teamId={teamId}
+        primary={theme.primary}
+        secondary={theme.secondary}
+        room={room}
+      />
+      <View style={s.infoGrid}>
+        <MiniInfo label="WEATHER · PREVIEW" value="78°" detail="Partly cloudy" />
+        <MiniInfo label="ODDS · PREVIEW" value={`${teamId} -230`} detail="Fixture data" />
+        <MiniInfo label="LOCATION" value="Home" detail="Stadium info" />
+      </View>
       <View style={s.score}>
         <Text style={s.phase}>
           {room.status === 'POSTGAME'
@@ -169,10 +194,74 @@ export default function GameDay() {
     </ScrollView>
   );
 }
+function MobileGameDayHero({
+  teamId,
+  primary,
+  secondary,
+  room,
+}: {
+  teamId: string;
+  primary: string;
+  secondary: string;
+  room?: GameDayRoom;
+}) {
+  const game = room?.gameState,
+    live = room?.status === 'LIVE' || room?.status === 'HALFTIME',
+    final = room?.status === 'POSTGAME';
+  const content = (
+    <>
+      {teamId === 'KC' ? (
+        <View style={s.heroVignette} />
+      ) : (
+        <View style={[s.heroGlow, { backgroundColor: primary }]} />
+      )}
+      <View style={s.heroHeadline}>
+        <Text style={s.sunday}>SUNDAY</Text>
+        <Text style={[s.funday, { color: secondary }]}>FUNDAY</Text>
+      </View>
+      <View style={s.countdown}>
+        <Text style={s.countLabel}>{final ? 'FINAL' : live ? 'GAME STATUS' : 'KICKOFF IN'}</Text>
+        <Text style={s.countValue}>
+          {live || final
+            ? `${game?.awayTeamId} ${game?.awayScore} · ${game?.homeTeamId} ${game?.homeScore}`
+            : '08 : 35 : 42'}
+        </Text>
+        <Text style={s.countDetail}>
+          {live ? `Q${game?.quarter} · ${game?.clock}` : `${teamId} GAME DAY · PREVIEW`}
+        </Text>
+      </View>
+      <Text style={s.atmosphere}>TAILGATE ATMOSPHERE · SIMULATED</Text>
+      <View style={s.progress}>
+        <View style={[s.progressFill, { backgroundColor: secondary }]} />
+      </View>
+    </>
+  );
+  return teamId === 'KC' ? (
+    <ImageBackground
+      source={KC_STADIUM}
+      resizeMode="cover"
+      imageStyle={s.heroImage}
+      style={[s.hero, { borderColor: secondary }]}
+    >
+      {content}
+    </ImageBackground>
+  ) : (
+    <View style={[s.hero, { borderColor: secondary }]}>{content}</View>
+  );
+}
+function MiniInfo({ label, value, detail }: { label: string; value: string; detail: string }) {
+  return (
+    <View style={s.miniInfo}>
+      <Text style={s.miniLabel}>{label}</Text>
+      <Text style={s.miniValue}>{value}</Text>
+      <Text style={s.miniDetail}>{detail}</Text>
+    </View>
+  );
+}
 const s = StyleSheet.create({
   page: { backgroundColor: C.cream },
   body: { padding: 16, paddingBottom: 50, gap: 14 },
-  empty: { flex: 1, backgroundColor: C.cream, padding: 22, justifyContent: 'center' },
+  emptyCard: { backgroundColor: C.white, borderRadius: 20, padding: 20 },
   intro: { color: C.muted, fontSize: 16, lineHeight: 23, marginTop: 10 },
   primary: {
     backgroundColor: C.red,
@@ -227,4 +316,52 @@ const s = StyleSheet.create({
   },
   sendText: { color: C.white, fontWeight: '900', fontSize: 13 },
   error: { color: '#B91C1C', fontWeight: '800', marginTop: 12 },
+  hero: {
+    overflow: 'hidden',
+    minHeight: 360,
+    borderRadius: 24,
+    borderWidth: 1,
+    backgroundColor: '#080D11',
+    padding: 22,
+    justifyContent: 'space-between',
+  },
+  heroGlow: {
+    position: 'absolute',
+    width: 280,
+    height: 280,
+    borderRadius: 140,
+    right: -90,
+    top: 35,
+    opacity: 0.28,
+  },
+  heroImage: { resizeMode: 'cover' },
+  heroVignette: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(4,8,11,.42)',
+  },
+  heroHeadline: { marginTop: 24 },
+  sunday: { color: C.white, fontSize: 47, lineHeight: 47, fontWeight: '900', letterSpacing: -2 },
+  funday: {
+    fontSize: 48,
+    lineHeight: 50,
+    fontWeight: '900',
+    letterSpacing: -2,
+  },
+  countdown: {
+    backgroundColor: 'rgba(0,0,0,.72)',
+    borderRadius: 18,
+    padding: 18,
+    alignItems: 'center',
+  },
+  countLabel: { color: '#AEB8BE', fontSize: 12, fontWeight: '900', letterSpacing: 1.4 },
+  countValue: { color: C.white, fontSize: 31, fontWeight: '900', marginTop: 8 },
+  countDetail: { color: '#C8D0D4', fontSize: 12, fontWeight: '800', marginTop: 6 },
+  atmosphere: { color: '#AEB8BE', fontSize: 10, fontWeight: '900', letterSpacing: 1 },
+  progress: { height: 5, borderRadius: 4, backgroundColor: '#42494D' },
+  progressFill: { height: 5, width: '25%', borderRadius: 4 },
+  infoGrid: { flexDirection: 'row', gap: 8 },
+  miniInfo: { flex: 1, minHeight: 120, borderRadius: 16, backgroundColor: '#111517', padding: 12 },
+  miniLabel: { color: '#929DA3', fontSize: 9, fontWeight: '900' },
+  miniValue: { color: C.white, fontSize: 18, fontWeight: '900', marginTop: 12 },
+  miniDetail: { color: '#AEB8BE', fontSize: 11, marginTop: 5 },
 });

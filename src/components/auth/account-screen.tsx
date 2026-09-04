@@ -103,7 +103,7 @@ function ProfileSection({ name, email }: { name: string; email: string }) {
           className={inputClass}
         />
       </label>
-      <button className="inline-flex h-12 items-center gap-2 rounded-full bg-[var(--dark)] px-6 font-black text-[var(--team-on-dark)] hover:bg-[var(--primary)] hover:text-[var(--team-on-primary)]">
+      <button className="team-primary-filled-hover inline-flex h-12 items-center gap-2 rounded-full bg-[var(--dark)] px-6 font-black text-[var(--team-on-dark)]">
         {saved ? <Check className="h-4 w-4" /> : null}
         {saved ? 'Saved' : 'Save profile'}
       </button>
@@ -214,7 +214,7 @@ function PreferencesSection({ onTeamChange }: { onTeamChange: (teamAbbr: string)
         />
         <ToggleRow
           label="Autoplay video"
-          description="Automatically begin video when opening Watch."
+          description="Automatically begin video when opening Film Room."
           checked={autoplay}
           onChange={(value) => {
             setAutoplay(value);
@@ -231,32 +231,37 @@ function PreferencesSection({ onTeamChange }: { onTeamChange: (teamAbbr: string)
 }
 
 function NotificationsSection() {
-  const [settings, setSettings] = useState({
-    breaking: true,
-    threeAndOut: true,
-    roster: false,
-    merch: false,
+  const [settings, setSettings] = useState<Record<string, boolean>>({
+    BREAKING_NEWS: true,
+    GAME_DAY: true,
+    TRIVIA_FRIENDS: true,
+    CREW_ACTIVITY: true,
+    CREW_TRIVIA: true,
+    CREW_GAME_DAY: true,
+    FRONT_OFFICE: true,
   });
   useEffect(() => {
-    void fetch('/api/user/preferences')
+    void fetch('/api/user/notification-preferences')
       .then((r) => r.json())
       .then((body) => {
-        const advanced = body.preferences?.advancedNotifications ?? {};
-        setSettings({
-          breaking: advanced.breaking ?? true,
-          threeAndOut: advanced.threeAndOut ?? true,
-          roster: advanced.roster ?? false,
-          merch: advanced.merch ?? false,
-        });
+        const saved = Object.fromEntries(
+          (body.preferences ?? [])
+            .filter((preference: { channel: string }) => preference.channel === 'IN_APP')
+            .map((preference: { category: string; enabled: boolean }) => [
+              preference.category,
+              preference.enabled,
+            ]),
+        );
+        setSettings((current) => ({ ...current, ...saved }));
       });
   }, []);
-  const update = (key: keyof typeof settings, value: boolean) => {
+  const update = (key: string, value: boolean) => {
     const next = { ...settings, [key]: value };
     setSettings(next);
-    void fetch('/api/user/preferences', {
+    void fetch('/api/user/notification-preferences', {
       method: 'PATCH',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ advancedNotifications: next }),
+      body: JSON.stringify({ category: key, channel: 'IN_APP', enabled: value }),
     });
   };
   return (
@@ -269,26 +274,44 @@ function NotificationsSection() {
         <ToggleRow
           label="Breaking team news"
           description="Major injuries, trades, and roster changes."
-          checked={settings.breaking}
-          onChange={(value) => update('breaking', value)}
+          checked={settings.BREAKING_NEWS}
+          onChange={(value) => update('BREAKING_NEWS', value)}
         />
         <ToggleRow
-          label="Three and Out updates"
-          description="When the top-three ranking materially changes."
-          checked={settings.threeAndOut}
-          onChange={(value) => update('threeAndOut', value)}
+          label="Game Day"
+          description="Kickoff and meaningful Game Day updates."
+          checked={settings.GAME_DAY}
+          onChange={(value) => update('GAME_DAY', value)}
         />
         <ToggleRow
-          label="Front Office reminders"
-          description="Deadlines and unfinished team-building decisions."
-          checked={settings.roster}
-          onChange={(value) => update('roster', value)}
+          label="Trivia & Friends"
+          description="Invites, leaderboard changes, and buddy activity."
+          checked={settings.TRIVIA_FRIENDS}
+          onChange={(value) => update('TRIVIA_FRIENDS', value)}
         />
         <ToggleRow
-          label="Merch drops"
-          description="New collections, restocks, and sales."
-          checked={settings.merch}
-          onChange={(value) => update('merch', value)}
+          label="Crew activity"
+          description="Stories and videos shared by your Crew."
+          checked={settings.CREW_ACTIVITY}
+          onChange={(value) => update('CREW_ACTIVITY', value)}
+        />
+        <ToggleRow
+          label="Crew trivia & challenges"
+          description="Crew challenges and leaderboard milestones."
+          checked={settings.CREW_TRIVIA}
+          onChange={(value) => update('CREW_TRIVIA', value)}
+        />
+        <ToggleRow
+          label="Crew Game Day"
+          description="Crew predictions and meaningful Game Day activity."
+          checked={settings.CREW_GAME_DAY}
+          onChange={(value) => update('CREW_GAME_DAY', value)}
+        />
+        <ToggleRow
+          label="Front Office"
+          description="Important results and progression events."
+          checked={settings.FRONT_OFFICE}
+          onChange={(value) => update('FRONT_OFFICE', value)}
         />
       </div>
     </div>
@@ -324,7 +347,7 @@ function CollectionSection({ section }: { section: 'saved' | 'front-office' }) {
             {savedItems.map((item) => (
               <Link
                 key={item.id}
-                href={item.href ?? '/huddle'}
+                href={item.href ?? '/the-beat'}
                 className="rounded-2xl border border-[#00172B]/10 bg-white p-4 hover:border-[var(--primary)]"
               >
                 <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--team-primary-text)]">
@@ -349,14 +372,14 @@ function CollectionSection({ section }: { section: 'saved' | 'front-office' }) {
                   : 'No saved stories yet.'}
             </h2>
             <Link
-              href={isFrontOffice ? getOffseasonManagerRoute('') : '/huddle'}
+              href={isFrontOffice ? getOffseasonManagerRoute('') : '/the-beat'}
               className="mt-5 inline-flex rounded-full bg-[var(--dark)] px-5 py-3 text-sm font-black text-[var(--team-on-dark)]"
             >
               {isFrontOffice && hasSave
                 ? 'Resume Front Office'
                 : isFrontOffice
                   ? 'Start Front Office'
-                  : 'Browse The Huddle'}
+                  : 'Browse The Beat'}
             </Link>
           </>
         )}
@@ -596,7 +619,7 @@ export default function AccountScreen({ section }: { section: AccountSection }) 
                 <Link
                   key={id}
                   href={sectionHref(id)}
-                  className={`flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-bold ${section === id ? 'bg-[var(--primary)] text-[var(--team-on-primary)]' : 'text-[var(--team-light-on-dark)] hover:bg-white/10 hover:text-[var(--team-on-dark)]'}`}
+                  className={`flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-bold ${section === id ? 'team-primary-filled' : 'text-[var(--team-light-on-dark)] hover:bg-white/10 hover:text-[var(--team-on-dark)]'}`}
                 >
                   <Icon className="h-4 w-4" /> {label}
                 </Link>

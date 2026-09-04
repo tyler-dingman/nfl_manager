@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Check, PackageCheck, RefreshCcw, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Check, Minus, PackageCheck, Plus, RefreshCcw, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 
 import LoginButton from '@/components/auth/login-button';
@@ -15,6 +15,7 @@ import type { MerchProduct } from '@/features/merch/catalog';
 
 export default function MerchProductDetail({ product }: { product: MerchProduct }) {
   const [size, setSize] = useState(product.sizes[0] ?? 'One Size');
+  const [quantity, setQuantity] = useState(1);
   const { addItem } = useMerchCart();
 
   return (
@@ -70,9 +71,15 @@ export default function MerchProductDetail({ product }: { product: MerchProduct 
               <h1 className="mt-3 text-4xl font-black leading-tight sm:text-5xl">{product.name}</h1>
               <p className="mt-5 text-2xl font-black">${product.price.toFixed(2)}</p>
               <p className="mt-6 text-lg font-semibold leading-8 text-[#00172B]/65">
-                Built for football people. A premium Down &amp; Distance staple designed for game
-                day, tailgates, and every rep between Sundays.
+                {product.type === 'Koozie'
+                  ? 'Keep it cold. Rep your city. All season long.'
+                  : 'Built for Sundays, Saturdays, and everything in between.'}
               </p>
+              {product.cityName ? (
+                <p className="mt-5 text-sm font-black uppercase tracking-wider">
+                  City colorway · {product.cityName}
+                </p>
+              ) : null}
 
               <div className="mt-8 border-t border-[#00172B]/10 pt-7">
                 <div className="flex items-center justify-between">
@@ -95,12 +102,35 @@ export default function MerchProductDetail({ product }: { product: MerchProduct 
                 </div>
               </div>
 
+              <div className="mt-7">
+                <p className="text-sm font-black uppercase tracking-[0.12em]">Quantity</p>
+                <div className="mt-3 inline-flex items-center rounded-full border bg-white">
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((value) => Math.max(1, value - 1))}
+                    className="p-3"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="h-4 w-4" />
+                  </button>
+                  <span className="w-10 text-center font-black">{quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((value) => Math.min(20, value + 1))}
+                    className="p-3"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
               <button
                 type="button"
-                onClick={() => addItem(product.id, size)}
+                onClick={() => addItem(product.id, size, quantity)}
                 className="mt-7 flex h-16 w-full items-center justify-center rounded-full bg-[#FF3D38] text-lg font-black text-white transition hover:bg-[#e93430]"
               >
-                Add to bag · ${product.price.toFixed(2)}
+                Add to cart · ${(product.price * quantity).toFixed(2)}
               </button>
               <p className="mt-3 flex items-center justify-center gap-2 text-xs font-bold text-[#00172B]/50">
                 <Check className="h-4 w-4" /> Demo cart — no payment collected

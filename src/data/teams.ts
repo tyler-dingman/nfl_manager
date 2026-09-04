@@ -5,6 +5,7 @@ export type TeamInfo = {
   id: string;
   abbr: string;
   name: string;
+  city: string;
   colors: [string, string];
   logoUrl: string;
 };
@@ -16,6 +17,7 @@ export const TEAM_LIST: TeamInfo[] = NFL_TEAM_SEED.map((team) => ({
   id: team.abbreviation.toLowerCase(),
   abbr: team.abbreviation,
   name: team.name,
+  city: team.city,
   colors: (() => {
     const theme = getTeamBrandTheme(team.abbreviation);
     return [theme.primary, theme.secondary] as [string, string];

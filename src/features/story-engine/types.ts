@@ -103,6 +103,12 @@ export type StoryRecord = {
   firstReportedAt: string | Date;
   lastMeaningfulUpdateAt: string | Date;
   version: number;
+  sourceItemCount?: number;
+  publisherCount?: number;
+  independentSourceCount?: number;
+  hotReadQualifiedAt?: string | Date | null;
+  hotReadUntil?: string | Date | null;
+  clusterReason?: string | null;
 };
 
 export type MaterialChangeResult = {

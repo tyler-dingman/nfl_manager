@@ -1,6 +1,9 @@
-import { drainJobs, scheduleDueSources, workOne } from '../src/server/story-engine/service';
+import { loadEnvConfig } from '@next/env';
 
 async function main() {
+  loadEnvConfig(process.cwd());
+  const { drainJobs, scheduleDueSources, workOne } =
+    await import('../src/server/story-engine/service');
   const command = process.argv[2] ?? 'run';
   if (command === 'schedule') console.log(await scheduleDueSources());
   else if (command === 'work') console.log(await workOne());

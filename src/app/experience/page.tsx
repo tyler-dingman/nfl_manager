@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { ArrowRight, DraftingCompass, Handshake, Trophy } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import { AdSlot } from '@/components/ads/AdSlot';
@@ -11,8 +12,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
-import { useTeamStore } from '@/features/team/team-store';
-import { getReadableTextColor } from '@/lib/color-utils';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 
 type ExperienceMode = 'full' | 'freeAgency' | 'draft';
@@ -41,6 +40,12 @@ const EXPERIENCE_OPTIONS: Array<{
   },
 ];
 
+const EXPERIENCE_ICONS = {
+  full: Trophy,
+  freeAgency: Handshake,
+  draft: DraftingCompass,
+} as const;
+
 export default function ExperiencePage() {
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
@@ -55,18 +60,12 @@ export default function ExperiencePage() {
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const setPhase = useSaveStore((state) => state.setPhase);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
-  const teams = useTeamStore((state) => state.teams);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const setFullExperience = useExperienceStore((state) => state.setFullExperience);
   const enterSandboxStep = useExperienceStore((state) => state.enterSandboxStep);
 
   const defaultMode = useMemo(() => 'full' as const, []);
   const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
-  const selectedTeam = useMemo(
-    () => teams.find((team) => team.abbr === teamAbbr) ?? null,
-    [teamAbbr, teams],
-  );
-  const defaultBadgeTextColor = getReadableTextColor(selectedTeam?.color_primary ?? '#0f172a');
 
   const isHydrated = hasHydrated && experienceHasHydrated;
 
@@ -133,26 +132,32 @@ export default function ExperiencePage() {
 
   return (
     <AppShell>
-      <div className="mx-auto w-full max-w-5xl pb-40 md:pb-0">
-        <div className="flex w-full flex-col gap-6">
+      <div className="mx-auto w-full max-w-6xl pb-40 md:pb-0">
+        <div className="flex w-full flex-col gap-7">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
               Experience
             </p>
-            <h1 className="mt-2 text-3xl font-semibold text-foreground">Choose your experience</h1>
+            <h1 className="mt-2 text-3xl font-semibold text-foreground md:text-4xl">
+              Choose your experience
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Pick the path that fits how you want to build.
+            </p>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
             {EXPERIENCE_OPTIONS.map((option) => {
               const isSelected = selectedMode === option.key;
+              const Icon = EXPERIENCE_ICONS[option.key];
               return (
                 <button
                   key={option.key}
                   type="button"
-                  className={`group relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border bg-white p-4 text-left transition ${
+                  className={`front-office-experience-card group relative flex min-h-64 h-full flex-col overflow-hidden rounded-2xl border p-6 text-left transition ${
                     isSelected
-                      ? 'border-slate-900/30 ring-2 ring-slate-900/10'
-                      : 'border-border hover:-translate-y-0.5 hover:shadow-md'
+                      ? 'is-selected border-transparent bg-[var(--team-dark)] text-[var(--team-on-dark)] shadow-xl'
+                      : 'border-border bg-white hover:-translate-y-0.5 hover:shadow-lg'
                   }`}
                   onClick={() => setSelectedMode(option.key)}
                 >
@@ -160,17 +165,30 @@ export default function ExperiencePage() {
                     <div className="absolute right-0 top-[-2px] z-10">
                       <Badge
                         variant="secondary"
-                        className="overflow-hidden rounded-bl-sm rounded-br-none rounded-tl-none rounded-tr-none border-transparent bg-[var(--team-primary)] px-3.5"
-                        style={{ color: defaultBadgeTextColor }}
+                        className="overflow-hidden rounded-bl-sm rounded-br-none rounded-tl-none rounded-tr-none border-transparent bg-[var(--team-dark)] px-3.5 text-[var(--team-on-dark)]"
                       >
                         Default
                       </Badge>
                     </div>
                   ) : null}
-                  <div className="pr-20">
-                    <p className="text-sm font-semibold text-foreground">{option.title}</p>
+                  <Icon className="mb-auto h-9 w-9" aria-hidden="true" />
+                  <div className="mt-8 pr-20">
+                    <p
+                      className={`text-xl font-semibold ${isSelected ? 'text-inherit' : 'text-foreground'}`}
+                    >
+                      {option.title}
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground">{option.description}</p>
+                  <p
+                    className={`mt-1 text-sm ${isSelected ? 'text-inherit opacity-80' : 'text-muted-foreground'}`}
+                  >
+                    {option.description}
+                  </p>
+                  <span
+                    className={`mt-6 inline-flex h-10 w-10 items-center justify-center rounded-full border ${isSelected ? 'border-current' : 'border-border bg-[#f7f4ee]'}`}
+                  >
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </span>
                 </button>
               );
             })}
@@ -180,7 +198,7 @@ export default function ExperiencePage() {
             <Button
               type="button"
               onClick={handleContinue}
-              className="w-full bg-[var(--team-primary)] text-[var(--team-primary-foreground)] hover:bg-[var(--team-primary)] hover:opacity-95 md:w-auto"
+              className="w-full bg-[var(--team-dark)] text-[var(--team-on-dark)] hover:bg-[var(--team-dark)] hover:opacity-95 focus-visible:ring-[var(--team-dark)] md:w-auto"
             >
               Continue
             </Button>

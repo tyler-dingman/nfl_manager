@@ -76,7 +76,7 @@ export function PhaseStepper({ currentStep, completedSteps }: Props) {
                 'flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors',
                 {
                   'text-black': !isCurrent,
-                  'text-white': isCurrent,
+                  'team-primary-filled': isCurrent,
                   'opacity-50 cursor-not-allowed': !accessible,
                 },
               )}

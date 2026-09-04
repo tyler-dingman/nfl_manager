@@ -59,10 +59,7 @@ export default function ConfirmAdvanceModal({
           <Button
             ref={confirmButtonRef}
             type="button"
-            style={{
-              backgroundColor: 'var(--team-primary)',
-              color: 'var(--team-primary-foreground)',
-            }}
+            className="team-primary-filled"
             onClick={onConfirm}
           >
             {confirmText}

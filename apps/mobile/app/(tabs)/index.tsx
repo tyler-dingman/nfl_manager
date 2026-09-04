@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { C, Eyebrow, Heading } from '../../components/screen';
 import { StoryCard } from '../../components/story-card';
 import { EditorialVisual } from '../../components/editorial-visual';
-import { getCatchUp, getHome, getRewards } from '../../lib/api';
+import { getCatchUp, getHome, getHomepageGame, getRewards, type HomepageGame } from '../../lib/api';
 import type { HomeData } from '../../lib/types';
 import { useTeam } from '../../lib/team-context';
 import { useTeamBranding } from '../../lib/team-branding';
@@ -15,13 +15,17 @@ export default function Home() {
     [loading, setLoading] = useState(false),
     [error, setError] = useState<string | null>(null);
   const [catchUpCount, setCatchUpCount] = useState<number | null>(null),
-    [yards, setYards] = useState<number | null>(null);
+    [yards, setYards] = useState<number | null>(null),
+    [game, setGame] = useState<HomepageGame | null>(null);
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const result = await getHome(teamId);
       setData(result.data);
+      void getHomepageGame(teamId)
+        .then(setGame)
+        .catch(() => setGame(null));
       void getCatchUp(teamId)
         .then((v) => setCatchUpCount(v.totalMeaningfulChanges))
         .catch(() => setCatchUpCount(null));
@@ -51,18 +55,39 @@ export default function Home() {
           <View style={s.stateCard}>
             <Text style={s.stateTitle}>We couldn’t load your team.</Text>
             <Text style={s.stateBody}>{error}</Text>
-            <Pressable onPress={() => void load()}><Text style={[s.retry, { color: theme.primary }]}>TRY AGAIN →</Text></Pressable>
+            <Pressable onPress={() => void load()}>
+              <Text style={[s.retry, { color: theme.primary }]}>TRY AGAIN →</Text>
+            </Pressable>
           </View>
         ) : null}
-        <Pressable style={[s.gameDay, { backgroundColor: theme.dark }]} onPress={() => router.push('/game-day')}>
-          <View>
-            <Text style={[s.gameEyebrow, { color: theme.secondary }]}>YOUR TAILGATE IS OPEN</Text>
-            <Text style={[s.gameTitle, { color: theme.light }]}>Game Day</Text>
-            <Text style={[s.gameBody, { color: theme.light }]}>Watch. Tap. React. Keep watching.</Text>
-          </View>
-          <Text style={[s.gameArrow, { color: theme.secondary }]}>›</Text>
-        </Pressable>
-        <Pressable style={[s.catchup, { backgroundColor: theme.primary }]} onPress={() => router.push('/catch-up')}>
+        {game ? (
+          <Pressable
+            style={[s.gameDay, { backgroundColor: theme.dark }]}
+            onPress={() => router.push('/game-day')}
+          >
+            <View>
+              <Text style={[s.gameEyebrow, { color: theme.secondary }]}>
+                WEEK {game.weekNumber} · {game.state}
+              </Text>
+              <Text style={[s.gameTitle, { color: theme.light }]}>IT’S GAME DAY</Text>
+              <Text style={[s.gameBody, { color: theme.light }]}>
+                {game.teamName} vs {game.opponentName}
+              </Text>
+              <Text style={[s.gameMeta, { color: theme.light }]}>
+                {new Date(game.startsAt).toLocaleTimeString([], {
+                  hour: 'numeric',
+                  minute: '2-digit',
+                })}
+                {game.venue ? ` · ${game.venue}` : ''}
+              </Text>
+            </View>
+            <Text style={[s.gameArrow, { color: theme.secondary }]}>›</Text>
+          </Pressable>
+        ) : null}
+        <Pressable
+          style={[s.catchup, { backgroundColor: theme.primary }]}
+          onPress={() => router.push('/catch-up')}
+        >
           <Text style={[s.catchEyebrow, { color: theme.secondary }]}>GET CAUGHT UP</Text>
           <Text style={[s.catchTitle, { color: theme.light }]}>While you were away</Text>
           <Text style={[s.catchBody, { color: theme.light }]}>
@@ -71,7 +96,17 @@ export default function Home() {
               : 'Open the latest meaningful changes without reading every article.'}
           </Text>
         </Pressable>
-        <Pressable style={[s.rewards, { backgroundColor: theme.dark }]} onPress={() => router.push('/rewards')}>
+        <Pressable style={s.ask} onPress={() => router.push('/search')}>
+          <Text style={[s.askLabel, { color: theme.primary }]}>ASK D&D</Text>
+          <Text style={s.askTitle}>
+            Ask anything about {data?.threeAndOut?.current.teamName ?? teamId} football
+          </Text>
+          <Text style={s.askPrompt}>Injuries · roster · latest stories · film</Text>
+        </Pressable>
+        <Pressable
+          style={[s.rewards, { backgroundColor: theme.dark }]}
+          onPress={() => router.push('/rewards')}
+        >
           <View>
             <Text style={[s.rewardLabel, { color: theme.secondary }]}>MOVE THE CHAINS</Text>
             <Text style={[s.rewardTitle, { color: theme.light }]}>Engagement Rewards</Text>
@@ -145,6 +180,7 @@ const s = StyleSheet.create({
   gameEyebrow: { fontSize: 13, fontWeight: '900', letterSpacing: 1.2 },
   gameTitle: { fontSize: 27, fontWeight: '900', marginTop: 8 },
   gameBody: { fontSize: 16, lineHeight: 22, marginTop: 5 },
+  gameMeta: { fontSize: 12, opacity: 0.72, marginTop: 6 },
   gameArrow: { fontSize: 40, fontWeight: '900' },
   catchEyebrow: { fontSize: 13, fontWeight: '900', letterSpacing: 1.4 },
   catchTitle: { fontSize: 24, fontWeight: '900', marginTop: 12 },
@@ -194,4 +230,15 @@ const s = StyleSheet.create({
   stateBody: { color: C.muted, lineHeight: 19, marginTop: 7 },
   retry: { fontSize: 13, fontWeight: '900', marginTop: 14 },
   empty: { color: C.muted, lineHeight: 20, marginBottom: 12 },
+  ask: {
+    backgroundColor: C.white,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: '#E5DED3',
+    padding: 18,
+    marginTop: 10,
+  },
+  askLabel: { fontSize: 12, fontWeight: '900', letterSpacing: 1.4 },
+  askTitle: { color: C.ink, fontSize: 18, lineHeight: 23, fontWeight: '900', marginTop: 7 },
+  askPrompt: { color: C.muted, fontSize: 13, marginTop: 6 },
 });

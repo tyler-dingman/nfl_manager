@@ -342,7 +342,7 @@ export default function TriviaGame({
               .map((row, index) => (
                 <div
                   key={row.userId}
-                  className={`grid grid-cols-[42px_1fr_auto] items-center gap-3 border-b border-white/10 px-4 py-4 last:border-0 ${row.userId === game.currentUserId ? 'bg-[var(--primary)] text-[var(--team-on-primary)]' : 'bg-white/[.06]'}`}
+                  className={`grid grid-cols-[42px_1fr_auto] items-center gap-3 border-b border-white/10 px-4 py-4 last:border-0 ${row.userId === game.currentUserId ? 'team-primary-filled' : 'bg-white/[.06]'}`}
                 >
                   <span className="text-xl font-black">{index + 1}</span>
                   <span className="truncate font-black">{row.name}</span>
@@ -484,7 +484,7 @@ function CompactStandings({ rows, currentUserId }: { rows: Standing[]; currentUs
         {rows.slice(0, 5).map((row, index) => (
           <div
             key={row.userId}
-            className={`grid grid-cols-[20px_1fr_auto] items-center gap-2 rounded-md px-2 py-1.5 text-xs font-black ${row.userId === currentUserId ? 'bg-[var(--primary)] text-[var(--team-on-primary)]' : 'bg-white/[.06]'}`}
+            className={`grid grid-cols-[20px_1fr_auto] items-center gap-2 rounded-md px-2 py-1.5 text-xs font-black ${row.userId === currentUserId ? 'team-primary-filled' : 'bg-white/[.06]'}`}
           >
             <span>{index + 1}</span>
             <span className="truncate">{row.name}</span>

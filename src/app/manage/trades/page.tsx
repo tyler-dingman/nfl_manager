@@ -972,7 +972,7 @@ function TradeBuilderContent() {
           </Button>
         </div>
 
-        <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+        <div className="front-office-feature-panel rounded-2xl border border-border bg-white p-6 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-foreground">Acceptance Meter</p>

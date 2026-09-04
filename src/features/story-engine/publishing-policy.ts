@@ -1,13 +1,15 @@
 import { STORY_ENGINE_THRESHOLDS } from './config';
 import type { ContentCandidate, RegisteredSource, StoryRecord, SynthesizedStory } from './types';
+import {
+  evidenceCounts,
+  isOfficialSource,
+  publisherKey,
+  type StoryEvidence,
+} from './corroboration';
 
 export type PublishingAction = 'AUTO_PUBLISH' | 'REVIEW_REQUIRED' | 'DO_NOT_PUBLISH';
 export type PublishingOverride = 'FORCE_PUBLISH' | 'FORCE_REVIEW' | 'HIDE' | null;
-export type PolicyEvidence = {
-  candidate: ContentCandidate;
-  source: RegisteredSource;
-  supportType?: 'SUPPORTS' | 'CONTRADICTS' | 'CORRECTS' | 'OFFICIAL_CONFIRMATION';
-};
+export type PolicyEvidence = StoryEvidence;
 export type PublishingDecision = {
   action: PublishingAction;
   reason: string;
@@ -16,6 +18,8 @@ export type PublishingDecision = {
 };
 const uncertain =
   /\brumou?r|speculat|anonymous|could|might|may |believe|opinion|reportedly|conflicting|dispute|unconfirmed\b/i;
+const editorialFraming =
+  /\b(?:winners?|losers?|rankings?|predictions?|hypothetical|wish\s?list|underdogs?|steals?|gamble|options?|reasons? why)\b/i;
 const factualTypes = new Set([
   'TRADE',
   'SIGNING',
@@ -23,10 +27,25 @@ const factualTypes = new Set([
   'TRANSACTION',
   'INJURY',
   'PRACTICE',
+  'DEPTH_CHART',
+  'CONTRACT',
+  'COACHING',
+  'SUSPENSION',
   'GAME',
   'SCHEDULE',
   'ROSTER',
 ]);
+const evidenceConflicts = (evidence: PolicyEvidence[]) => {
+  const texts = evidence.map(({ candidate }) =>
+    `${candidate.title} ${candidate.excerpt}`.toLowerCase(),
+  );
+  const has = (pattern: RegExp) => texts.some((text) => pattern.test(text));
+  return (
+    (has(/\b(out|ruled out)\b/) && has(/\b(questionable|expected to play|available)\b/)) ||
+    (has(/\b(trade completed|has traded|acquired|acquires)\b/) &&
+      has(/\b(trade talks?|discussions?|considering|could trade|may trade)\b/))
+  );
+};
 export function evaluatePublishingPolicy(input: {
   story: SynthesizedStory | StoryRecord;
   storyType: string;
@@ -64,7 +83,7 @@ export function evaluatePublishingPolicy(input: {
       confidence,
       breaking: false,
     };
-  if (evidence.some((e) => e.supportType === 'CONTRADICTS'))
+  if (evidence.some((e) => e.supportType === 'CONTRADICTS') || evidenceConflicts(evidence))
     return {
       action: 'REVIEW_REQUIRED',
       reason: 'Available evidence contains conflicting reports.',
@@ -72,29 +91,42 @@ export function evaluatePublishingPolicy(input: {
       breaking: false,
     };
   const text = `${story.headline} ${story.summary} ${story.whatHappened}`;
-  if (uncertain.test(text))
+  const publisherApproved =
+    evidence.length > 0 && evidence.every((item) => item.source.metadata.publishAll === true);
+  if (!publisherApproved && uncertain.test(text))
     return {
       action: 'REVIEW_REQUIRED',
       reason: 'The story contains rumor, speculation, or uncertain attribution.',
       confidence,
       breaking: false,
     };
-  if ((input.clusterConfidence ?? 1) < 0.72 || confidence < 80)
+  if (!publisherApproved && editorialFraming.test(text))
+    return {
+      action: 'REVIEW_REQUIRED',
+      reason:
+        'The item is framed as analysis, ranking, prediction, or reaction rather than a concrete factual event.',
+      confidence,
+      breaking: false,
+    };
+  if ((input.clusterConfidence ?? 1) < 0.72)
     return {
       action: 'REVIEW_REQUIRED',
       reason: 'Clustering or synthesis confidence requires editorial review.',
       confidence,
       breaking: false,
     };
-  const official = evidence.some((e) =>
-    ['OFFICIAL_TEAM', 'NFL_OFFICIAL'].includes(e.source.sourceType),
+  const official = evidence.some((e) => isOfficialSource(e.source));
+  const tierOne = evidence.some(
+    (e) => e.source.pollingTier === 'A' && e.supportType !== 'CONTRADICTS',
   );
+  const counts = evidenceCounts(evidence);
   const reliable = evidence.filter((e) => e.source.reliabilityScore >= 0.9);
+  const reliablePublishers = new Set(reliable.map((e) => publisherKey(e.source))).size;
   const grounded =
     story instanceof Object && 'claims' in story
       ? (story as SynthesizedStory).claims.every((c) => c.sourceEvidenceIds.length > 0)
       : true;
-  const approvedFact = factualTypes.has(input.storyType) && (official || reliable.length >= 2);
+  const factual = factualTypes.has(input.storyType) || publisherApproved;
   if (!grounded)
     return {
       action: 'DO_NOT_PUBLISH',
@@ -102,18 +134,60 @@ export function evaluatePublishingPolicy(input: {
       confidence,
       breaking: false,
     };
-  if (approvedFact && confidence >= 90)
+  const tierOneQualified =
+    factual &&
+    (official || tierOne) &&
+    confidence >= STORY_ENGINE_THRESHOLDS.tierOnePublishConfidence;
+  const corroboratedTierTwoQualified =
+    factual &&
+    counts.independentSourceCount >= 2 &&
+    confidence >= STORY_ENGINE_THRESHOLDS.corroboratedTierTwoPublishConfidence;
+  const legacyTrustedQualified =
+    factual &&
+    reliablePublishers >= 2 &&
+    confidence >= STORY_ENGINE_THRESHOLDS.autoPublishConfidence;
+  const tierTwoSingleQualified =
+    factual &&
+    counts.independentSourceCount === 1 &&
+    evidence.some((item) => item.source.pollingTier === 'B') &&
+    confidence >= STORY_ENGINE_THRESHOLDS.tierTwoSinglePublishConfidence;
+  const tierThreeSingleQualified =
+    factual &&
+    counts.publisherCount >= 1 &&
+    evidence.every((item) => item.source.pollingTier === 'C') &&
+    confidence >= STORY_ENGINE_THRESHOLDS.tierThreeSinglePublishConfidence;
+  if (
+    tierOneQualified ||
+    corroboratedTierTwoQualified ||
+    legacyTrustedQualified ||
+    tierTwoSingleQualified ||
+    tierThreeSingleQualified
+  )
     return {
       action: 'AUTO_PUBLISH',
-      reason: official
-        ? 'High-confidence factual update from an official source.'
-        : 'High-confidence factual update corroborated by trusted sources.',
+      reason: tierOneQualified
+        ? official
+          ? 'Tier 1 official factual Chiefs development can publish immediately.'
+          : 'Tier 1 factual Chiefs development can publish immediately.'
+        : corroboratedTierTwoQualified || legacyTrustedQualified
+          ? `${counts.independentSourceCount} independent qualifying publishers corroborate the same factual development.`
+          : tierTwoSingleQualified
+            ? publisherApproved
+              ? 'Configured source is approved for automatic Beat publishing.'
+              : 'Tier 2 factual Chiefs development qualifies under all-tier publishing mode.'
+            : 'Tier 3 factual Chiefs development qualifies under all-tier publishing mode.',
       confidence,
       breaking: story.importanceScore >= STORY_ENGINE_THRESHOLDS.breakingImportance,
     };
+  const singleTierTwo =
+    factual &&
+    counts.independentSourceCount === 1 &&
+    evidence.some((item) => item.source.pollingTier === 'B');
   return {
     action: 'REVIEW_REQUIRED',
-    reason: 'Evidence is credible but does not meet automatic publication criteria.',
+    reason: singleTierTwo
+      ? 'Pending independent Tier 2 corroboration or Tier 1 confirmation.'
+      : 'Evidence is credible but does not meet automatic publication criteria.',
     confidence,
     breaking: false,
   };

@@ -20,8 +20,8 @@ import type { RegisteredSource } from '@/features/story-engine/types';
 import { RssSourceFetcher, type SourceFetcher } from './fetcher';
 import * as repo from './repository';
 
-export async function scheduleDueSources(now = new Date()) {
-  const sources = await repo.dueSources(now, SOURCE_BATCH_SIZE);
+export async function scheduleDueSources(now = new Date(), teamId?: string) {
+  const sources = await repo.dueSources(now, SOURCE_BATCH_SIZE, teamId);
   let queued = 0;
   for (const source of sources) {
     const intervalSeconds = registeredSourceIntervalSeconds(source);
@@ -51,11 +51,11 @@ export async function processCandidate(
     new Date(Date.now() - 72 * 3_600_000),
   );
   const match = findCandidateStory(candidate, stories);
-  if (match.ambiguous) {
+  if (match.ambiguous && source.metadata.publishAll !== true) {
     await repo.setCandidateStatus(candidateId, 'REVIEW_REQUIRED', match.reason);
     return { action: 'review', match };
   }
-  if (!match.storyId) {
+  if (!match.storyId || match.ambiguous) {
     const synth = await synthesizer.synthesize({
       existingStory: null,
       evidence: [{ candidate, source }],
@@ -82,8 +82,33 @@ export async function processCandidate(
   const official = source.sourceType === 'OFFICIAL_TEAM' || source.sourceType === 'NFL_OFFICIAL';
   const change = evaluateMaterialChange(story, candidate, official);
   if (!change.material) {
-    await repo.attachEvidence(story, candidate, source, null, null, 'TRIVIAL');
-    return { action: 'corroborated', storyId: story.id };
+    const evidence = [...(await repo.evidenceForStory(story.id)), { candidate, source }];
+    const synth = await synthesizer.synthesize({ existingStory: story, evidence });
+    // A confirming source must be allowed to promote a pending factual story. Preserve the
+    // canonical wording for a non-material confirmation rather than copying the latest headline.
+    synth.headline = story.headline;
+    synth.summary = story.summary;
+    synth.whatHappened = story.whatHappened;
+    const decision = evaluatePublishingPolicy({
+      story: synth,
+      storyType: story.storyType,
+      evidence,
+      clusterConfidence: match.confidence,
+      override: await repo.activePublishingOverride(story.id),
+    });
+    const promotes =
+      story.publicationState !== 'AUTO_PUBLISHED' && decision.action === 'AUTO_PUBLISH';
+    await repo.attachEvidence(
+      story,
+      candidate,
+      source,
+      promotes ? synth : null,
+      promotes ? publicationStateFor(decision) : null,
+      promotes ? 'SOURCE_CONFIRMATION' : 'TRIVIAL',
+      promotes ? decision : undefined,
+      match.reason,
+    );
+    return { action: promotes ? 'published' : 'corroborated', storyId: story.id };
   }
   const evidence = [...(await repo.evidenceForStory(story.id)), { candidate, source }];
   const synth = await synthesizer.synthesize({ existingStory: story, evidence });
@@ -109,6 +134,7 @@ export async function processCandidate(
     publicationStateFor(decision),
     change.changeType,
     decision,
+    match.reason,
   );
   return { action: 'updated', storyId: story.id, change: change.changeType };
 }
@@ -116,11 +142,18 @@ export async function processCandidate(
 export async function processSource(
   source: RegisteredSource,
   fetcher: SourceFetcher = new RssSourceFetcher(),
+  options: { publishedSince?: Date } = {},
 ) {
+  const started = Date.now();
   try {
     const result = await fetcher.fetch(source);
     let inserted = 0;
-    for (const raw of result.items) {
+    const eligibleItems = options.publishedSince
+      ? result.items.filter(
+          (item) => new Date(item.publishedAt).getTime() >= options.publishedSince!.getTime(),
+        )
+      : result.items;
+    for (const raw of eligibleItems) {
       const candidate = normalizeRawItem(raw, source);
       const id = await repo.saveCandidate(candidate);
       if (id) {
@@ -133,13 +166,23 @@ export async function processSource(
       result.etag,
       result.lastModified,
       nextCheckAfterSuccess(registeredSourceIntervalSeconds(source)),
+      Date.now() - started,
+      result.items.length
+        ? new Date(Math.max(...result.items.map((item) => new Date(item.publishedAt).getTime())))
+        : null,
     );
-    return { fetched: result.items.length, inserted, notModified: result.notModified };
+    return {
+      fetched: result.items.length,
+      eligible: eligibleItems.length,
+      inserted,
+      notModified: result.notModified,
+    };
   } catch (error) {
     await repo.markSourceFailure(
       source,
       error instanceof Error ? error.message : String(error),
       nextCheckAfterFailure(registeredSourceIntervalSeconds(source), source.failureCount + 1),
+      Date.now() - started,
     );
     throw error;
   }
@@ -173,6 +216,47 @@ export async function drainJobs(max = 100) {
     const result = await workOne();
     if (!result) break;
     results.push(result);
+  }
+  return results;
+}
+
+export async function replayRecentStories(teamId: string, hours: number) {
+  const since = new Date(Date.now() - hours * 3_600_000);
+  const storyIds = await repo.storyIdsWithEvidenceSince(teamId, since);
+  const results: Array<{ storyId: string; action: string; reason: string }> = [];
+  for (const storyId of storyIds) {
+    const story = await repo.storyById(storyId);
+    if (!story || ['AUTO_PUBLISHED', 'PUBLISHED'].includes(story.publicationState)) continue;
+    const evidence = await repo.evidenceForStory(storyId);
+    const tierThreeOnly = evidence.every(({ source }) => source.pollingTier === 'C');
+    const explicitlyTeamRelevant = evidence.some(({ candidate }) =>
+      /\b(?:chiefs|kansas city|kc)\b/i.test(`${candidate.title} ${candidate.excerpt}`),
+    );
+    if (tierThreeOnly && !explicitlyTeamRelevant) {
+      results.push({
+        storyId,
+        action: 'held',
+        reason: 'Tier 3 item is not explicitly Chiefs-relevant.',
+      });
+      continue;
+    }
+    const synth = await new GroundedDeterministicStorySynthesizer().synthesize({
+      existingStory: story,
+      evidence,
+    });
+    const decision = evaluatePublishingPolicy({
+      story: synth,
+      storyType: story.storyType,
+      evidence,
+      override: await repo.activePublishingOverride(story.id),
+    });
+    if (decision.action !== 'AUTO_PUBLISH') {
+      results.push({ storyId, action: 'held', reason: decision.reason });
+      continue;
+    }
+    synth.status = decision.breaking ? 'BREAKING' : synth.status;
+    await repo.promoteExistingStory(story, synth, decision);
+    results.push({ storyId, action: 'published', reason: decision.reason });
   }
   return results;
 }

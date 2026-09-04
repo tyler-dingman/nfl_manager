@@ -61,19 +61,13 @@ const getPhaseCopy = (phase: NextActionBannerProps['phase'], capSpace: number) =
 export default function NextActionBanner({
   phase,
   capSpaceMillions,
-  teamPrimaryColor,
   onAdvance,
 }: NextActionBannerProps) {
   const copy = getPhaseCopy(phase, capSpaceMillions);
   const isCapCrisis = capSpaceMillions < 0;
 
   return (
-    <div
-      className={cn(
-        'mb-6 rounded-2xl border border-transparent p-5 text-[var(--team-primary-foreground)]',
-      )}
-      style={{ backgroundColor: teamPrimaryColor }}
-    >
+    <div className={cn('team-primary-filled mb-6 rounded-2xl border border-transparent p-5')}>
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <p

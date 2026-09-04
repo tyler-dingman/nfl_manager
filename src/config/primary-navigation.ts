@@ -1,7 +1,6 @@
 export const PRIMARY_NAV_ITEMS = [
-  { id: 'huddle', label: 'The Huddle', href: '/huddle' },
-  { id: 'three-and-out', label: 'Three and Out', href: '/three-and-out' },
-  { id: 'watch', label: 'Watch', href: '/watch' },
+  { id: 'huddle', label: 'The Beat', href: '/the-beat' },
+  { id: 'watch', label: 'Film Room', href: '/watch' },
   { id: 'front-office', label: 'Front Office', href: '/offseasonmanager' },
   { id: 'trivia', label: 'Trivia', href: '/trivia' },
   { id: 'merch', label: 'Merch', href: '/merch' },
@@ -29,8 +28,12 @@ const matchesPath = (pathname: string, basePath: string) =>
 
 export function getPrimaryNavActive(pathname: string | null): PrimaryNavItemId | null {
   if (!pathname) return null;
-  if (matchesPath(pathname, '/huddle') || matchesPath(pathname, '/story')) return 'huddle';
-  if (matchesPath(pathname, '/three-and-out')) return 'three-and-out';
+  if (
+    matchesPath(pathname, '/the-beat') ||
+    matchesPath(pathname, '/huddle') ||
+    matchesPath(pathname, '/story')
+  )
+    return 'huddle';
   if (matchesPath(pathname, '/watch')) return 'watch';
   if (FRONT_OFFICE_PATHS.some((path) => matchesPath(pathname, path))) return 'front-office';
   if (matchesPath(pathname, '/trivia')) return 'trivia';

@@ -26,6 +26,25 @@ async function request<T>(path: string): Promise<T> {
   if (!response.ok) throw new Error(`D&D API ${response.status}`);
   return response.json() as Promise<T>;
 }
+export type HomepageGame = {
+  id: string;
+  weekNumber: number;
+  startsAt: string;
+  timeZone: string;
+  teamAbbr: string;
+  teamName: string;
+  opponentAbbr: string;
+  opponentName: string;
+  venue: string | null;
+  weather: { temperature: number; condition: string } | null;
+  betting: { spread: string | null; overUnder: number | null } | null;
+  state: 'PREGAME' | 'LIVE' | 'FINAL';
+  devOverride?: boolean;
+};
+export async function getHomepageGame(teamId: string) {
+  return (await request<{ game: HomepageGame | null }>(`/api/game-day/homepage?team=${teamId}`))
+    .game;
+}
 export async function getGameDayRoom(teamId: string, roomId?: string) {
   const r = await authenticatedFetch(
     roomId ? `/api/game-day/rooms/${roomId}` : `/api/game-day/rooms?team=${teamId}`,
@@ -93,12 +112,15 @@ export async function getDailyTrivia(teamId = TEAM_ID): Promise<DailyTrivia> {
     throw new Error(body?.error ?? 'Today’s Trivia question is unavailable.');
   return body;
 }
-export async function answerDailyTrivia(teamId: string, input: {
-  dailyQuestionId: string;
-  questionId: string;
-  selectedAnswer: TriviaChoice;
-  responseTimeMs: number;
-}): Promise<DailyTriviaResult> {
+export async function answerDailyTrivia(
+  teamId: string,
+  input: {
+    dailyQuestionId: string;
+    questionId: string;
+    selectedAnswer: TriviaChoice;
+    responseTimeMs: number;
+  },
+): Promise<DailyTriviaResult> {
   const response = await authenticatedFetch('/api/trivia/daily/answer', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -219,6 +241,138 @@ export async function removeSavedContent(contentType: string, contentId: string)
     { method: 'DELETE' },
   );
 }
+export type MobileNotification = {
+  id: string;
+  title: string;
+  body: string;
+  deepLink: string | null;
+  imageUrl: string | null;
+  category: string;
+  priority: string;
+  createdAt: string;
+  readAt: string | null;
+};
+export async function getNotifications() {
+  return authJson<{ notifications: MobileNotification[]; nextCursor: string | null }>(
+    '/api/user/notifications?limit=50',
+  );
+}
+export async function getUnreadNotificationCount() {
+  return (await authJson<{ count: number }>('/api/user/notifications/unread-count')).count;
+}
+export async function updateNotifications(
+  action: 'read-all' | 'seen' | 'read',
+  notificationId?: string,
+) {
+  return authJson('/api/user/notifications', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action, ...(notificationId ? { notificationId } : {}) }),
+  });
+}
+export type MobileBriefing = {
+  id: string;
+  headline: string;
+  summary: string;
+  whyItMatters?: string;
+  category: string;
+  updatedAt: string;
+  hotReadUntil?: string | null;
+  sourceCount: number;
+  sources: Array<{ id: string; publisher: string; url: string; kind?: string; title?: string }>;
+};
+export async function getBeat(teamId: string) {
+  return (await request<{ briefings: MobileBriefing[] }>(`/api/content/huddle?team=${teamId}`))
+    .briefings;
+}
+export async function getBeatStory(storyId: string, teamId: string) {
+  return request<MobileBriefing>(
+    `/api/content/huddle/${encodeURIComponent(storyId)}?team=${encodeURIComponent(teamId)}`,
+  );
+}
+export type MobileFilmVideo = {
+  id: string;
+  category: string;
+  title: string;
+  description: string | null;
+  thumbnail: string;
+  duration: string;
+  publishedAt: string | null;
+  channel: { id: string; name: string };
+  youtubeUrl: string;
+  channelUrl: string;
+};
+export async function getFilmRoom(teamId: string) {
+  return request<{ videos: MobileFilmVideo[]; message?: string }>(`/api/film-room?team=${teamId}`);
+}
+export type MobileCrew = {
+  id: string;
+  name: string;
+  teamAbbr: string;
+  role: 'OWNER' | 'MEMBER';
+  weeklyYards: number;
+  rank: number;
+  members: Array<{
+    id: string;
+    displayName: string;
+    avatarUrl: string | null;
+    role: string;
+    weeklyYards: number;
+    lifetimeYards: number;
+  }>;
+  activity: Array<{
+    id: string;
+    type: string;
+    href: string | null;
+    message: string | null;
+    metadata: { title?: string };
+    createdAt: string;
+    actorName: string | null;
+  }>;
+};
+export async function getCrew() {
+  return (await authJson<{ crew: MobileCrew | null }>('/api/crew')).crew;
+}
+export async function createCrew(name: string, teamAbbr: string) {
+  return authJson('/api/crew', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, teamAbbr }),
+  });
+}
+export async function createCrewInvite(
+  channel: 'EMAIL' | 'SMS' | 'SHARE_LINK',
+  recipient?: string,
+) {
+  return authJson<{ invite: { inviteUrl: string; delivery: { state: string } } }>(
+    '/api/crew/invites',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ channel, recipient }),
+    },
+  );
+}
+export async function shareToCrew(input: {
+  contentType: string;
+  contentId: string;
+  href: string;
+  title: string;
+  message?: string;
+  recipientIds: string[];
+}) {
+  return authJson('/api/crew/share', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input),
+  });
+}
+export type CrewShareRecipient = { id: string; displayName: string; avatarUrl: string | null };
+export async function getCrewShareRecipients() {
+  return authJson<{ crew: { id: string; name: string } | null; recipients: CrewShareRecipient[] }>(
+    '/api/crew/share',
+  );
+}
 export type UserProfile = {
   id: string;
   displayName: string;
@@ -270,6 +424,42 @@ export type MerchProduct = {
 };
 export async function getMerch() {
   return request<{ categories: string[]; products: MerchProduct[] }>('/api/mobile/merch');
+}
+export async function placeCommerceOrder(input: Record<string, unknown>) {
+  return (
+    await authJson<{ order: { id: string; orderNumber: string; totalCents: number } }>(
+      '/api/commerce/checkout',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input),
+      },
+    )
+  ).order;
+}
+export async function quoteCommerceOrder(input: Record<string, unknown>) {
+  return (
+    await authJson<{
+      quote: {
+        subtotalCents: number;
+        discountCents: number;
+        shippingCents: number | null;
+        taxCents: number | null;
+        totalCents: number;
+        promoCode: string | null;
+      };
+    }>('/api/commerce/quote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(input),
+    })
+  ).quote;
+}
+export async function getCommerceOrders() {
+  return (await authJson<{ orders: any[] }>('/api/commerce/orders')).orders;
+}
+export async function getCommerceOrder(orderId: string) {
+  return (await authJson<{ order: any }>(`/api/commerce/orders/${orderId}`)).order;
 }
 export type PlayerResult = {
   id: string;

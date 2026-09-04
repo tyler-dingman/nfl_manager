@@ -13,7 +13,22 @@ const schema = z.discriminatedUnion('action', [
   z.object({
     action: z.literal('REACTION'),
     activityId: z.string().uuid(),
-    reaction: z.enum(['🔥', '😂', '😤', '🤦', '🍺', '👀', 'FIRST DOWN', "THAT'S SIX"]),
+    reaction: z.enum([
+      '🔥',
+      '😂',
+      '🤯',
+      '👏',
+      '🏈',
+      '🍻',
+      '❤️',
+      '💩',
+      '😤',
+      '🤦',
+      '🍺',
+      '👀',
+      'FIRST DOWN',
+      "THAT'S SIX",
+    ]),
   }),
   z.object({
     action: z.literal('PREDICT'),

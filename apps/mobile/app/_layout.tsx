@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from '../lib/auth-context';
 import { TeamProvider } from '../lib/team-context';
 import { useTeamBranding } from '../lib/team-branding';
 import { notificationDestination, syncPushRegistration } from '../lib/push';
+import { CommerceCartProvider } from '../lib/commerce-cart';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -33,7 +34,9 @@ function RootNavigator() {
     );
   return (
     <TeamProvider>
-      <AuthenticatedStack authenticated={Boolean(user)} />
+      <CommerceCartProvider>
+        <AuthenticatedStack authenticated={Boolean(user)} />
+      </CommerceCartProvider>
     </TeamProvider>
   );
 }
@@ -62,8 +65,18 @@ function AuthenticatedStack({ authenticated }: { authenticated: boolean }) {
           <Stack.Screen name="notification-settings" options={{ title: 'Notifications' }} />
           <Stack.Screen name="search" options={{ title: 'Search' }} />
           <Stack.Screen name="merch" options={{ title: 'Merch' }} />
+          <Stack.Screen name="merch-product/[productId]" options={{ title: 'Product' }} />
+          <Stack.Screen name="merch-cart" options={{ title: 'Cart' }} />
+          <Stack.Screen name="merch-checkout" options={{ title: 'Demo Checkout' }} />
+          <Stack.Screen name="orders" options={{ title: 'My Orders' }} />
+          <Stack.Screen name="order/[orderId]" options={{ title: 'Order' }} />
           <Stack.Screen name="front-office" options={{ title: 'Front Office' }} />
           <Stack.Screen name="game-day" options={{ title: 'Game Day' }} />
+          <Stack.Screen name="beat" options={{ title: 'The Beat' }} />
+          <Stack.Screen name="beat-story/[id]" options={{ title: 'The Beat' }} />
+          <Stack.Screen name="notifications" options={{ title: 'Notifications' }} />
+          <Stack.Screen name="film-room" options={{ title: 'Film Room' }} />
+          <Stack.Screen name="crew" options={{ title: 'The Crew' }} />
           <Stack.Screen name="player/[playerId]" options={{ title: 'Player' }} />
         </Stack.Protected>
         <Stack.Protected guard={!authenticated}>

@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
   BarChart3,
-  Bell,
   Clock3,
   Flame,
   Menu,
@@ -29,13 +28,18 @@ import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fa
 import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import { useTeamStore, type Team } from '@/features/team/team-store';
 import { useAuthUser } from '@/features/auth/auth-session';
-import EditorialVisual from '@/components/editorial/editorial-visual';
+import BriefingDetailModal from '@/components/huddle/briefing-detail-modal';
 import DailyTriviaWidget from '@/components/trivia/daily-trivia-widget';
 import CatchUpCallout from '@/components/catch-up/catch-up-callout';
 import PlaybookHero from '@/components/home/playbook-hero';
+import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';
 import HuddleStoryCard from '@/components/huddle/huddle-story-card';
 import PrimaryNavigation from '@/components/primary-navigation';
 import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
+import AiSearchPanel from '@/components/search/ai-search-panel';
+import { gameDayHeroAsset } from '@/config/game-day-hero';
+import type { HomepageGame } from '@/features/game-day/homepage-game';
+import NotificationCenter from '@/components/notifications/notification-center';
 
 const watchItems = [
   {
@@ -65,11 +69,11 @@ function TeamGateway({
 }) {
   return (
     <TeamThemeProvider>
-      <div className="relative min-h-screen bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">
+      <div className="relative min-h-[calc(100vh-var(--site-header-height))] bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">
         <button
           type="button"
           onClick={onClose}
-          className="fixed right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"
+          className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"
           aria-label="Close team selection"
         >
           <X className="h-5 w-5" />
@@ -128,12 +132,14 @@ export default function DownDistanceHome() {
   const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [aiSearchQuery, setAiSearchQuery] = useState('');
   const [hasSelectedTeam, setHasSelectedTeam] = useState(false);
   const [briefings, setBriefings] = useState<TeamBriefing[]>([]);
   const [wireEntries, setWireEntries] = useState<
     Array<{ id: string; headline: string; occurredAt: string }>
   >([]);
   const [selectedBriefing, setSelectedBriefing] = useState<TeamBriefing | null>(null);
+  const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);
   const { user } = useAuthUser();
   const [personalization, setPersonalization] = useState<{
     primaryTeam?: { teamId?: string } | null;
@@ -156,6 +162,12 @@ export default function DownDistanceHome() {
   const teamName = activeTeam?.name ?? 'NFL';
   const teamAbbr = activeTeam?.abbr ?? 'NFL';
   const teamRouteSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('search') === '1') setIsSearchOpen(true);
+    if (params.get('team-select') === '1') setIsTeamMenuOpen(true);
+  }, []);
 
   useEffect(() => {
     const savedTeamAbbr = readFanTeamPreference();
@@ -192,6 +204,33 @@ export default function DownDistanceHome() {
     void loadBriefings();
     return () => controller.abort();
   }, [teamAbbr]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setHomepageGame(null);
+    if (!activeTeam || !gameDayHeroAsset(activeTeam.abbr)) return () => controller.abort();
+    const params = new URLSearchParams({ team: activeTeam.abbr });
+    if (process.env.NODE_ENV !== 'production') {
+      const pageParams = new URLSearchParams(window.location.search);
+      if (pageParams.get('gameday') === '1') params.set('gameday', '1');
+      const previewAt = pageParams.get('gamedayAt');
+      if (previewAt) params.set('gamedayAt', previewAt);
+    }
+    void fetch(`/api/game-day/homepage?${params}`, {
+      cache: 'no-store',
+      signal: controller.signal,
+    })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((payload: { game?: HomepageGame | null } | null) =>
+        setHomepageGame(payload?.game ?? null),
+      )
+      .catch((error) => {
+        if (!(error instanceof DOMException && error.name === 'AbortError')) {
+          console.error('[game-day-hero] failed to load game', error);
+        }
+      });
+    return () => controller.abort();
+  }, [activeTeam]);
 
   useEffect(() => {
     if (!user) {
@@ -236,13 +275,13 @@ export default function DownDistanceHome() {
   const searchItems = useMemo(
     () => [
       ...huddleCards.map((item) => ({
-        category: 'The Huddle',
+        category: 'The Beat',
         title: item.title,
         description: item.summary,
         href: '#huddle',
       })),
       ...watchItems.map((item) => ({
-        category: 'Watch',
+        category: 'Film Room',
         title: item.title,
         description: `${item.type} · ${item.time}`,
         href: '#watch',
@@ -281,7 +320,7 @@ export default function DownDistanceHome() {
     <TeamThemeProvider team={activeTeam}>
       <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
         {isTeamMenuOpen ? (
-          <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 overflow-y-auto">
             <TeamGateway
               teams={teams}
               onClose={() => setIsTeamMenuOpen(false)}
@@ -296,7 +335,7 @@ export default function DownDistanceHome() {
         ) : null}
         {isSearchOpen ? (
           <div
-            className="fixed inset-0 z-50 flex items-start justify-center bg-slate-950/75 px-4 pt-[8vh] backdrop-blur-sm"
+            className="fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 flex items-start justify-center overflow-hidden bg-slate-950/75 px-4 py-4 backdrop-blur-sm sm:py-8"
             role="dialog"
             aria-modal="true"
             aria-label="Search Down & Distance"
@@ -304,7 +343,7 @@ export default function DownDistanceHome() {
               if (event.currentTarget === event.target) setIsSearchOpen(false);
             }}
           >
-            <div className="w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-white shadow-2xl">
+            <div className="flex max-h-full w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-white shadow-2xl">
               <div className="flex items-center gap-3 border-b border-slate-200 px-5">
                 <Search className="h-5 w-5 shrink-0 text-slate-400" />
                 <input
@@ -326,7 +365,7 @@ export default function DownDistanceHome() {
                   <X className="h-4 w-4" />
                 </button>
               </div>
-              <div className="max-h-[65vh] overflow-y-auto p-3">
+              <div className="min-h-0 flex-1 overflow-y-auto p-3">
                 <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">
                   {normalizedSearchQuery ? `${searchResults.length} results` : 'Suggested'}
                 </p>
@@ -341,7 +380,7 @@ export default function DownDistanceHome() {
                       }}
                       className="group flex items-start gap-4 rounded-2xl px-3 py-3 transition hover:bg-slate-100"
                     >
-                      <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--primary)] text-[var(--team-on-primary)]">
+                      <span className="team-primary-filled mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
                         <Search className="h-4 w-4" />
                       </span>
                       <span className="min-w-0 flex-1">
@@ -372,89 +411,11 @@ export default function DownDistanceHome() {
           </div>
         ) : null}
         {selectedBriefing ? (
-          <div
-            className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-950/75 px-4 py-[6vh] backdrop-blur-sm"
-            role="dialog"
-            aria-modal="true"
-            aria-label={selectedBriefing.headline}
-            onMouseDown={(event) => {
-              if (event.currentTarget === event.target) setSelectedBriefing(null);
-            }}
-          >
-            <article className="w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl">
-              <div className="relative">
-                <EditorialVisual
-                  story={{
-                    teamId: teamAbbr,
-                    category: selectedBriefing.category,
-                    headline: selectedBriefing.headline,
-                    summary: selectedBriefing.summary,
-                  }}
-                  variant="hero"
-                  decorative
-                />
-                <button
-                  type="button"
-                  onClick={() => setSelectedBriefing(null)}
-                  className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/20 text-white transition hover:bg-black/30"
-                  aria-label="Close briefing"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-              <div className="space-y-8 px-6 py-8 sm:px-10">
-                <div>
-                  <h2 className="text-3xl font-black leading-tight tracking-tight sm:text-4xl">
-                    {selectedBriefing.headline}
-                  </h2>
-                  <p className="mt-3 text-xs font-semibold text-slate-400">
-                    {selectedBriefing.sourceCount} sources · Updated{' '}
-                    {new Date(selectedBriefing.updatedAt).toLocaleString()}
-                  </p>
-                </div>
-                <section>
-                  <h3 className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
-                    The short version
-                  </h3>
-                  <p className="mt-3 text-lg leading-8 text-slate-700">
-                    {selectedBriefing.summary}
-                  </p>
-                </section>
-                {selectedBriefing.whyItMatters ? (
-                  <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                    <h3 className="font-black text-slate-950">Why it matters</h3>
-                    <p className="mt-2 leading-7 text-slate-600">{selectedBriefing.whyItMatters}</p>
-                  </section>
-                ) : null}
-                <section>
-                  <h3 className="text-xs font-black uppercase tracking-[0.22em] text-slate-400">
-                    Sources
-                  </h3>
-                  <div className="mt-3 divide-y divide-slate-200 border-y border-slate-200">
-                    {selectedBriefing.sources.map((source) => (
-                      <a
-                        key={source.id}
-                        href={source.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="group flex items-center justify-between gap-4 py-4"
-                      >
-                        <span>
-                          <span className="block text-xs font-black uppercase tracking-[0.16em] text-[var(--team-primary-text)]">
-                            {source.publisher} · {source.kind}
-                          </span>
-                          <span className="mt-1 block font-bold leading-6 text-slate-800 group-hover:underline">
-                            {source.title}
-                          </span>
-                        </span>
-                        <ArrowRight className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:translate-x-1" />
-                      </a>
-                    ))}
-                  </div>
-                </section>
-              </div>
-            </article>
-          </div>
+          <BriefingDetailModal
+            briefing={selectedBriefing}
+            teamAbbr={teamAbbr}
+            onClose={() => setSelectedBriefing(null)}
+          />
         ) : null}
         <SiteHeaderShell>
           <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
@@ -468,13 +429,7 @@ export default function DownDistanceHome() {
             >
               <Search className="h-4 w-4" />
             </button>
-            <button
-              type="button"
-              className="hidden h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] hover:bg-white/10 sm:flex"
-              aria-label="Notifications"
-            >
-              <Bell className="h-4 w-4" />
-            </button>
+            <NotificationCenter teamAbbr={activeTeam?.abbr} />
             <div className="relative">
               <button
                 type="button"
@@ -500,67 +455,45 @@ export default function DownDistanceHome() {
           </div>
         </SiteHeaderShell>
 
-        <PlaybookHero
-          team={activeTeam}
-          frontOfficeHref={getOffseasonManagerRoute('', activeTeam?.abbr)}
-        />
+        {activeTeam && homepageGame ? (
+          <GameDayHomepageHero team={activeTeam} game={homepageGame} />
+        ) : (
+          <PlaybookHero
+            team={activeTeam}
+            frontOfficeHref={getOffseasonManagerRoute('', activeTeam?.abbr)}
+          />
+        )}
 
-        {user && personalization ? (
-          <section className="border-b border-[#00172B]/10 bg-[#00172B] text-white">
-            <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#F4D9B7]">
-                  Your Down &amp; Distance
-                </p>
-                <p className="mt-1 text-sm font-bold text-white/75">
-                  {personalization.primaryTeam?.teamId ?? teamAbbr} ·{' '}
-                  {personalization.savedContent?.length ?? 0} saved
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2 text-xs font-black">
-                <Link
-                  href="/account/content"
-                  className="rounded-full bg-white px-4 py-2 text-[#00172B] hover:bg-[#F4D9B7]"
-                >
-                  Open saved content
-                </Link>
-              </div>
-            </div>
-          </section>
+        {user && activeTeam ? <CatchUpCallout teamId={activeTeam.abbr} /> : null}
+
+        {activeTeam ? (
+          <div className="mx-auto max-w-[1440px] px-4 pt-8 sm:px-6 lg:px-8">
+            <AiSearchPanel
+              teamId={activeTeam.abbr}
+              teamName={activeTeam.name}
+              teamCity={activeTeam.city ?? activeTeam.name}
+              primaryColor={activeTeam.color_primary}
+              nickname={activeTeam.name.split(/\s+/).at(-1) ?? activeTeam.name}
+              query={aiSearchQuery}
+              onQueryChange={setAiSearchQuery}
+            />
+          </div>
         ) : null}
 
         <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
-          <Link
-            href={`/game-day${teamRouteSuffix}`}
-            className="mb-7 grid overflow-hidden rounded-3xl bg-[var(--dark)] text-[var(--team-on-dark)] shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg md:grid-cols-[1fr_auto]"
-          >
-            <div className="p-6 sm:p-8">
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--team-secondary-on-dark)]">
-                Your tailgate is open
-              </p>
-              <h2 className="mt-3 text-3xl font-black">{teamAbbr} Game Day</h2>
-              <p className="mt-2 text-sm text-[var(--team-light-on-dark)]">
-                Watch on the TV. React, predict, and talk trash here.
-              </p>
-            </div>
-            <span className="flex min-h-20 items-center justify-center bg-[var(--primary)] px-8 font-black text-[var(--team-on-primary)]">
-              GET IN HERE <ArrowRight className="ml-3 h-5 w-5" />
-            </span>
-          </Link>
           <section id="huddle" className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
             <div>
-              {user && activeTeam ? <CatchUpCallout teamId={activeTeam.abbr} /> : null}
               <div className="mb-4 flex items-end justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--team-primary-text)]">
-                    <Sparkles className="h-4 w-4" /> The Huddle
+                    <Sparkles className="h-4 w-4" /> The Beat
                   </div>
                   <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
                     What {teamName} fans need to know
                   </h2>
                 </div>
                 <Link
-                  href={`/huddle${teamRouteSuffix}`}
+                  href={`/the-beat${teamRouteSuffix}`}
                   className="hidden text-sm font-bold text-[var(--team-primary-text)] sm:block"
                 >
                   See the whole field →
@@ -579,13 +512,16 @@ export default function DownDistanceHome() {
                     sourceCount={item.briefing.sourceCount}
                     updatedAt={item.briefing.updatedAt}
                     materialUpdateCount={item.briefing.materialUpdateCount}
+                    hotReadUntil={item.briefing.hotReadUntil}
+                    firstReportedBy={item.briefing.firstReportedBy}
+                    sources={item.briefing.sources}
                     lead={index === 0}
                     onOpen={() => openBriefing(item.briefing)}
                   />
                 ))}
                 {!huddleCards.length ? (
                   <div className="rounded-2xl border border-dashed border-[#00172B]/15 bg-white/55 p-8 text-sm font-semibold text-[#40556b] md:col-span-2 xl:col-span-3">
-                    No verified Huddle stories are ready for {teamName} yet.
+                    No verified Beat stories are ready for {teamName} yet.
                   </div>
                 ) : null}
               </div>
@@ -593,7 +529,7 @@ export default function DownDistanceHome() {
             <aside className="space-y-6">
               <Link
                 href={`/three-and-out${teamRouteSuffix}`}
-                className="block overflow-hidden rounded-2xl bg-[var(--primary)] text-[var(--team-on-primary)] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="team-primary-filled block overflow-hidden rounded-2xl shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               >
                 <div className="p-6">
                   <div className="flex items-center justify-between">
@@ -647,7 +583,7 @@ export default function DownDistanceHome() {
             <div className="mb-6 flex items-end justify-between">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--team-secondary-on-dark)]">
-                  Watch
+                  Film Room
                 </p>
                 <h2 className="mt-2 text-2xl font-black">Worth your time today</h2>
               </div>

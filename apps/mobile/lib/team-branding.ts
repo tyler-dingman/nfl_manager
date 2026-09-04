@@ -1,8 +1,10 @@
 import type { ImageSourcePropType } from 'react-native';
 import { getTeamBrandTheme } from '../../../src/lib/team-brand-themes';
+import { getReadableTextColor } from '../../../src/lib/color-utils';
 import { useTeam } from './team-context';
 
-const DEFAULT_LOGO = require('../../../public/images/down_distance_badge.png') as ImageSourcePropType;
+const DEFAULT_LOGO =
+  require('../../../public/images/down_distance_badge.png') as ImageSourcePropType;
 const TEAM_LOGOS: Record<string, ImageSourcePropType> = {
   ARI: require('../../../public/images/team_branded_logos/down-distance-arizona-cardinals.png'),
   ATL: require('../../../public/images/team_branded_logos/down-distance-atlanta-falcons.png'),
@@ -40,7 +42,14 @@ const TEAM_LOGOS: Record<string, ImageSourcePropType> = {
 
 export function useTeamBranding() {
   const { teamId } = useTeam();
-  const theme = getTeamBrandTheme(teamId);
+  const brand = getTeamBrandTheme(teamId);
+  const forceWhiteOnRed = teamId.toUpperCase() === 'KC';
+  const primaryFill = forceWhiteOnRed ? brand.dark : brand.primary;
+  const theme = {
+    ...brand,
+    primaryFill,
+    onPrimary: forceWhiteOnRed ? ('#ffffff' as const) : getReadableTextColor(primaryFill),
+  };
 
   return {
     teamId,

@@ -414,7 +414,7 @@ export default function ThreeAndOutExperience({ teamId }: { teamId: string }) {
               </article>
             ))}
             <Link
-              href={`/huddle?team=${teamId}`}
+              href={`/the-beat?team=${teamId}`}
               className="mt-2 inline-flex items-center gap-2 font-black text-[var(--team-primary-text)]"
             >
               Open The Drive / full team feed <ArrowRight className="h-4 w-4" />

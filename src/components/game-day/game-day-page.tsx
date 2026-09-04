@@ -1,16 +1,34 @@
 'use client';
-import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { FormEvent, useCallback, useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { Send, Share2, Users, Zap } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import {
+  ChevronRight,
+  CloudSun,
+  Flame,
+  Gift,
+  MapPin,
+  Send,
+  Share2,
+  Sparkles,
+  Users,
+} from 'lucide-react';
+import HuddleStoryCard from '@/components/huddle/huddle-story-card';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { useAuthUser } from '@/features/auth/auth-session';
+import type { TeamBriefing } from '@/features/content/types';
 import { readCanonicalFanTeamPreference } from '@/features/team/fan-team-preference';
 import { useTeamStore } from '@/features/team/team-store';
+import { getTeamFlavor } from '@/lib/team-flavor';
 import type { GameDayRoom, SimulationAction } from '../../../packages/game-day';
-const reactions = ['🔥', '😂', '😤', '🤦', '🍺', '👀'];
-const drives = ['TOUCHDOWN', 'FIELD GOAL', 'PUNT', 'TURNOVER'];
-const sims: SimulationAction[] = [
+
+const reactions = ['🔥', '😂', '🤯', '👏', '🏈', '🍻', '❤️', '💩'];
+const drives = ['TOUCHDOWN', 'FIELD_GOAL', 'PUNT', 'TURNOVER'];
+const simulations: SimulationAction[] = [
+  'START_TAILGATE',
   'KICKOFF',
   'START_DRIVE',
   'FIRST_DOWN',
@@ -24,25 +42,114 @@ const sims: SimulationAction[] = [
   'START_3Q',
   'FINAL',
 ];
+const timeline = [
+  ['8 AM', 10, 4 * 60 * 60 * 1000],
+  ['9 AM', 25, 3 * 60 * 60 * 1000],
+  ['10 AM', 40, 2 * 60 * 60 * 1000],
+  ['11 AM', 90, 60 * 60 * 1000],
+  ['11:59 AM', 100, 60 * 1000],
+] as const;
+const fixtures: Record<string, { opponent: string; venue: string; city: string }> = {
+  KC: { opponent: 'LAC', venue: 'GEHA Field at Arrowhead Stadium', city: 'Kansas City, MO' },
+  BAL: { opponent: 'PIT', venue: 'M&T Bank Stadium', city: 'Baltimore, MD' },
+  CHI: { opponent: 'GB', venue: 'Soldier Field', city: 'Chicago, IL' },
+  GB: { opponent: 'CHI', venue: 'Lambeau Field', city: 'Green Bay, WI' },
+};
+const stadiumHeroAssets: Partial<Record<string, string>> = {
+  KC: '/images/gameday/stadium/kc/kc_full.png',
+};
+const nextSundayNoon = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + ((7 - d.getDay()) % 7));
+  d.setHours(12, 0, 0, 0);
+  if (d.getTime() <= Date.now()) d.setDate(d.getDate() + 7);
+  return d;
+};
+const clock = (ms: number) => {
+  const s = Math.max(0, Math.floor(ms / 1000));
+  return [
+    String(Math.floor(s / 3600)).padStart(2, '0'),
+    String(Math.floor(s / 60) % 60).padStart(2, '0'),
+    String(s % 60).padStart(2, '0'),
+  ];
+};
+
+function Stadium({ fill, teamId }: { fill: number; teamId: string }) {
+  const heroAsset = stadiumHeroAssets[teamId];
+  if (heroAsset) {
+    return (
+      <div className="game-day-stadium game-day-stadium-photo" aria-hidden="true">
+        <Image
+          src={heroAsset}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="game-day-stadium-image object-cover"
+        />
+        <div className="game-day-stadium-vignette" />
+      </div>
+    );
+  }
+  return (
+    <div className="game-day-stadium" aria-hidden="true">
+      <div className="game-day-lights" />
+      <div className="game-day-lot-lines" />
+      {Array.from({ length: 12 }).map((_, i) => (
+        <span
+          key={i}
+          className="game-day-car"
+          style={{
+            display: i < Math.max(2, Math.round(fill / 9)) ? 'block' : 'none',
+            left: `${8 + ((i * 17) % 82)}%`,
+            top: `${12 + ((i * 23) % 72)}%`,
+            transform: `rotate(${(i % 4) * 18 - 22}deg)`,
+          }}
+        />
+      ))}
+      <div className="game-day-stadium-bowl">
+        <div className="game-day-field">D&amp;D</div>
+      </div>
+    </div>
+  );
+}
+
 export default function GameDayPage() {
-  const { user, hydrated } = useAuthUser(),
+  const router = useRouter(),
+    params = useSearchParams(),
+    { user, hydrated } = useAuthUser(),
     teams = useTeamStore((s) => s.teams);
   const [teamId, setTeamId] = useState('KC'),
     [room, setRoom] = useState<GameDayRoom | null>(null),
     [code, setCode] = useState(''),
     [message, setMessage] = useState(''),
-    [error, setError] = useState('');
+    [error, setError] = useState(''),
+    [stories, setStories] = useState<TeamBriefing[]>([]),
+    [now, setNow] = useState(Date.now()),
+    [devFill, setDevFill] = useState<number | null>(null),
+    [devKickoffAt, setDevKickoffAt] = useState<number | null>(null);
   useEffect(() => {
-    void readCanonicalFanTeamPreference().then((team) => setTeamId(team || 'KC'));
-  }, []);
-  const team = teams.find((t) => t.abbr === teamId);
+    const requested = params?.get('team')?.toUpperCase();
+    if (requested && teams.some((t) => t.abbr === requested)) {
+      setTeamId(requested);
+      return;
+    }
+    void readCanonicalFanTeamPreference().then((t) => setTeamId(t || 'KC'));
+  }, [params, teams]);
+  const team = teams.find((t) => t.abbr === teamId),
+    fixture = fixtures[teamId] ?? {
+      opponent: 'NFL',
+      venue: `${team?.name ?? teamId} home stadium`,
+      city: 'Stadium location',
+    },
+    flavor = getTeamFlavor(teamId);
   const load = useCallback(
     async (id?: string) => {
       if (!user) return;
       const r = await fetch(
-        id ? `/api/game-day/rooms/${id}` : `/api/game-day/rooms?team=${teamId}`,
-      );
-      const b = await r.json();
+          id ? `/api/game-day/rooms/${id}` : `/api/game-day/rooms?team=${teamId}`,
+        ),
+        b = await r.json();
       if (r.ok) setRoom(b.room || null);
     },
     [teamId, user],
@@ -50,34 +157,51 @@ export default function GameDayPage() {
   useEffect(() => {
     void load();
   }, [load]);
+  const roomId = room?.id;
   useEffect(() => {
-    if (!room) return;
-    const id = setInterval(() => void load(room.id), 2000);
-    return () => clearInterval(id);
-  }, [load, room?.id]);
+    if (!roomId) return;
+    const id = window.setInterval(() => void load(roomId), 4000);
+    return () => window.clearInterval(id);
+  }, [load, roomId]);
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(id);
+  }, []);
+  useEffect(() => {
+    const c = new AbortController();
+    fetch(`/api/content/homepage?team=${teamId}`, { signal: c.signal })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((b: { huddle?: TeamBriefing[] } | null) => setStories(b?.huddle ?? []))
+      .catch((e) => {
+        if (!(e instanceof DOMException && e.name === 'AbortError')) setStories([]);
+      });
+    return () => c.abort('team changed');
+  }, [teamId]);
   const action = async (body: object) => {
+    if (!room) return;
     setError('');
-    const r = await fetch(`/api/game-day/rooms/${room?.id}/actions`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    const b = await r.json().catch(() => null);
+    const r = await fetch(`/api/game-day/rooms/${room.id}/actions`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+      }),
+      b = await r.json().catch(() => null);
     if (!r.ok) {
       setError(b?.error || 'That play did not work.');
       return;
     }
-    await load(room?.id);
+    await load(room.id);
   };
-  const start = async (actionName: 'CREATE' | 'JOIN') => {
+  const start = async (kind: 'CREATE' | 'JOIN') => {
+    setError('');
     const r = await fetch('/api/game-day/rooms', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(
-        actionName === 'CREATE' ? { action: 'CREATE', teamId } : { action: 'JOIN', code },
-      ),
-    });
-    const b = await r.json();
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(
+          kind === 'CREATE' ? { action: 'CREATE', teamId } : { action: 'JOIN', code },
+        ),
+      }),
+      b = await r.json();
     if (!r.ok) {
       setError(b.error);
       return;
@@ -85,291 +209,395 @@ export default function GameDayPage() {
     await load(b.id);
   };
   if (!hydrated) return null;
+  const game = room?.gameState,
+    live = room?.status === 'LIVE' || room?.status === 'HALFTIME',
+    final = room?.status === 'POSTGAME',
+    kickoff = room ? new Date(room.kickoffAt) : nextSundayNoon(),
+    remaining = Math.max(0, (devKickoffAt ?? kickoff.getTime()) - now),
+    countdown = clock(remaining),
+    fill = devFill ?? Math.max(10, Math.min(100, Math.round(100 - remaining / 144000))),
+    opponent = game
+      ? game.homeTeamId === teamId
+        ? game.awayTeamId
+        : game.homeTeamId
+      : fixture.opponent;
   return (
     <TeamThemeProvider team={team}>
-      <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
+      <div className="game-day-page min-h-screen bg-[#080d11] text-[#fff8ed]">
         <MainSiteHeader teamAbbr={teamId} />
-        {!user ? (
-          <main className="mx-auto max-w-2xl px-5 py-20 text-center">
-            <h1 className="text-5xl font-black">Game Day is better with your people.</h1>
-            <p className="mt-4 text-slate-600">
-              Sign in to create or join a private digital tailgate.
-            </p>
-            <Link
-              href="/login?next=/game-day"
-              className="mt-8 inline-flex rounded-full bg-[var(--primary)] px-7 py-4 font-black text-[var(--team-on-primary)]"
-            >
-              Sign in
-            </Link>
-          </main>
-        ) : !room ? (
-          <Lobby
-            teamId={teamId}
-            setTeamId={setTeamId}
-            teams={teams}
-            code={code}
-            setCode={setCode}
-            start={start}
-            error={error}
-          />
-        ) : (
-          <Room
-            room={room}
-            message={message}
-            setMessage={setMessage}
-            action={action}
-            error={error}
-          />
-        )}
+        <main>
+          <section className="game-day-hero relative overflow-hidden border-b border-white/15">
+            <Stadium fill={fill} teamId={teamId} />
+            <div className="relative z-10 mx-auto min-h-[590px] max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
+              <h1 className="mt-8 max-w-[780px] text-[clamp(2.9rem,7vw,6.6rem)] font-black uppercase leading-[0.84] tracking-[-0.055em] text-[#fff8ed] sm:mt-12">
+                Sunday<span className="block text-[var(--secondary)]">Funday</span>
+              </h1>
+              <div className="mx-auto mt-20 max-w-md rounded-3xl border border-white/20 bg-black/80 p-6 text-center shadow-2xl backdrop-blur">
+                <p className="text-xs font-black uppercase tracking-[.22em] text-white/70">
+                  {final ? 'Final' : live ? 'Game status' : 'Kickoff in'}
+                </p>
+                {live || final ? (
+                  <p className="mt-3 text-4xl font-black">
+                    {game?.awayTeamId} {game?.awayScore} · {game?.homeTeamId} {game?.homeScore}
+                  </p>
+                ) : (
+                  <div
+                    className="mt-3 grid grid-cols-3 tabular-nums"
+                    aria-label={`${countdown[0]} hours ${countdown[1]} minutes ${countdown[2]} seconds until kickoff`}
+                  >
+                    {countdown.map((v, i) => (
+                      <div key={i}>
+                        <p className="text-4xl font-black sm:text-5xl">{v}</p>
+                        <p className="text-[10px] font-black text-white/60">
+                          {['HRS', 'MIN', 'SEC'][i]}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <p className="mt-5 border-t border-white/15 pt-4 text-xs font-bold uppercase text-white/80">
+                  {live
+                    ? room?.status === 'HALFTIME'
+                      ? 'Halftime'
+                      : `Q${game?.quarter} · ${game?.clock}`
+                    : `${kickoff.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })} · 12:00 PM CT`}
+                </p>
+              </div>
+              <div className="absolute right-8 top-8 hidden w-64 rounded-3xl border border-white/20 bg-black/80 p-5 lg:block">
+                <p className="text-xs font-black uppercase tracking-wider">Parking atmosphere</p>
+                <p className="mt-3 text-5xl font-black">{fill}%</p>
+                <p className="text-xs text-white/60">Simulated tailgate buildup</p>
+                <div className="mt-5 flex justify-between">
+                  {timeline.map(([label, value]) => (
+                    <span key={label} className="text-center text-[9px] text-white/60">
+                      <i
+                        className={`mx-auto mb-2 block h-2.5 w-2.5 rounded-full ${fill >= value ? 'bg-[var(--secondary)]' : 'bg-white/30'}`}
+                      />
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+          <div className="mx-auto max-w-[1440px] space-y-5 px-4 pb-14 sm:px-6 lg:px-8">
+            <section className="-mt-10 grid gap-3 md:grid-cols-[.8fr_1.4fr_1fr]">
+              <Info icon={CloudSun} label="Weather · preview">
+                <p className="text-4xl font-black">78°</p>
+                <p className="font-bold">Partly cloudy</p>
+                <small>Fixture until a weather provider is connected</small>
+              </Info>
+              <Info icon={Sparkles} label="Odds · preview">
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <Stat l="Moneyline" v={`${teamId} -230`} />
+                  <Stat l="Spread" v={`${teamId} -5.5`} />
+                  <Stat l="O/U" v="47.5" />
+                </div>
+                <small>Fixture data · no sportsbook provider connected</small>
+              </Info>
+              <Info icon={MapPin} label="Location">
+                <p className="text-xl font-black">{fixture.venue}</p>
+                <p className="text-sm text-white/60">{fixture.city}</p>
+              </Info>
+            </section>
+            <section className="rounded-3xl border border-white/15 bg-[#101416] p-4 sm:p-6">
+              <div className="mb-5 flex items-center justify-between">
+                <div>
+                  <h2 className="flex items-center gap-2 text-xl font-black uppercase">
+                    <Flame className="text-[var(--secondary)]" />
+                    Hot Read
+                  </h2>
+                  <p className="text-sm text-white/55">Game Day stories from The Beat</p>
+                </div>
+                <Link
+                  href={`/the-beat?team=${teamId}`}
+                  className="text-sm font-black text-[var(--secondary)]"
+                >
+                  View all <ChevronRight className="inline h-4 w-4" />
+                </Link>
+              </div>
+              {stories.length ? (
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                  {stories.slice(0, 4).map((s) => (
+                    <HuddleStoryCard
+                      key={s.id}
+                      {...s}
+                      teamId={s.teamAbbr}
+                      onOpen={() => router.push(`/the-beat?team=${teamId}&story=${s.id}`)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className="rounded-2xl border border-dashed border-white/20 p-6 text-sm text-white/55">
+                  Hot Reads will appear as The Beat publishes updates.
+                </p>
+              )}
+            </section>
+            <Community
+              {...{
+                user,
+                room,
+                teamId,
+                opponent,
+                code,
+                setCode,
+                message,
+                setMessage,
+                start,
+                action,
+                error,
+                live,
+              }}
+              name={`${flavor.fanbaseName ?? team?.name ?? teamId} Chat`}
+            />
+            {process.env.NODE_ENV !== 'production' ? (
+              <section className="rounded-2xl border border-dashed border-white/25 bg-white/5 p-4">
+                <p className="text-xs font-black uppercase text-white/60">Game Day dev controls</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {timeline.map(([l, v, remainingMs]) => (
+                    <button
+                      key={l}
+                      onClick={() => {
+                        setDevFill(v);
+                        setDevKickoffAt(Date.now() + remainingMs);
+                      }}
+                      className="rounded-full bg-white/10 px-3 py-2 text-xs"
+                    >
+                      Pregame {l}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => {
+                      setDevFill(null);
+                      setDevKickoffAt(null);
+                    }}
+                    className="rounded-full border border-white/20 px-3 py-2 text-xs"
+                  >
+                    Reset to scheduled time
+                  </button>
+                  {room
+                    ? simulations.map((s) => (
+                        <button
+                          key={s}
+                          onClick={() => action({ action: 'SIMULATE', simulation: s })}
+                          className="rounded-full bg-white/10 px-3 py-2 text-xs"
+                        >
+                          {s.replaceAll('_', ' ')}
+                        </button>
+                      ))
+                    : null}
+                </div>
+              </section>
+            ) : null}
+          </div>
+        </main>
       </div>
     </TeamThemeProvider>
   );
 }
-function Lobby({ teamId, setTeamId, teams, code, setCode, start, error }: any) {
+
+function Info({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: typeof CloudSun;
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
-    <main className="mx-auto max-w-5xl px-5 py-14">
-      <p className="text-xs font-black uppercase tracking-[.24em] text-[var(--team-primary-text)]">
-        Game Day
+    <article className="relative z-20 rounded-3xl border border-white/20 bg-[#111517]/95 p-5 shadow-2xl">
+      <p className="mb-4 flex items-center gap-2 text-xs font-black uppercase tracking-wider text-white/70">
+        <Icon className="h-4 w-4 text-[var(--secondary)]" />
+        {label}
       </p>
-      <h1 className="mt-3 text-5xl font-black">Your digital tailgate.</h1>
-      <p className="mt-4 max-w-2xl text-lg text-slate-600">
-        Watch on the TV. React, predict, and talk trash here.
-      </p>
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
-        <section className="rounded-3xl bg-[var(--dark)] p-8 text-[var(--team-on-dark)]">
-          <h2 className="text-2xl font-black">Create a tailgate</h2>
-          <select
-            value={teamId}
-            onChange={(e) => setTeamId(e.target.value)}
-            className="mt-6 h-12 w-full rounded-xl bg-white px-4 font-bold text-[#00172B]"
-          >
-            {teams.map((t: any) => (
-              <option key={t.abbr} value={t.abbr}>
-                {t.name}
-              </option>
-            ))}
-          </select>
-          <button
-            onClick={() => start('CREATE')}
-            className="mt-4 h-14 w-full rounded-xl bg-[var(--secondary)] font-black text-[var(--team-on-secondary)]"
-          >
-            CREATE PRIVATE ROOM
-          </button>
-        </section>
-        <section className="rounded-3xl border bg-white p-8">
-          <h2 className="text-2xl font-black">Join your friends</h2>
-          <input
-            value={code}
-            onChange={(e) => setCode(e.target.value.toUpperCase())}
-            placeholder="ROOM CODE"
-            className="mt-6 h-12 w-full rounded-xl border px-4 font-black tracking-[.2em]"
-          />
-          <button
-            onClick={() => start('JOIN')}
-            className="mt-4 h-14 w-full rounded-xl bg-[var(--primary)] font-black text-[var(--team-on-primary)]"
-          >
-            JOIN THE TAILGATE
-          </button>
-        </section>
-      </div>
-      {error ? <p className="mt-5 font-bold text-red-600">{error}</p> : null}
-    </main>
+      {children}
+    </article>
   );
 }
-function Room({
+function Stat({ l, v }: { l: string; v: string }) {
+  return (
+    <div>
+      <p className="text-[10px] uppercase text-white/50">{l}</p>
+      <p className="mt-2 text-lg font-black">{v}</p>
+    </div>
+  );
+}
+function Community({
+  user,
   room,
+  name,
+  opponent,
+  code,
+  setCode,
   message,
   setMessage,
+  start,
   action,
   error,
-}: {
-  room: GameDayRoom;
-  message: string;
-  setMessage: (v: string) => void;
-  action: (b: object) => Promise<void>;
-  error: string;
-}) {
-  const g = room.gameState,
-    live = room.status === 'LIVE',
-    post = room.status === 'POSTGAME',
-    countdown = useMemo(
-      () => Math.max(0, new Date(room.kickoffAt).getTime() - Date.now()),
-      [room.kickoffAt, room.updatedAt],
-    );
+  live,
+}: any) {
   const send = (e: FormEvent) => {
     e.preventDefault();
     if (message.trim())
       void action({ action: 'MESSAGE', body: message.trim() }).then(() => setMessage(''));
   };
   return (
-    <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-      <section className="overflow-hidden rounded-3xl bg-[var(--dark)] text-[var(--team-on-dark)]">
-        <div className="grid gap-5 p-6 sm:p-8 md:grid-cols-[1fr_auto]">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[.22em] text-[var(--team-secondary-on-dark)]">
-              {post
-                ? 'Postgame Garage'
-                : room.status === 'HALFTIME'
-                  ? 'Halftime'
-                  : live
-                    ? 'Watch Party'
-                    : 'Tailgate Open'}
-            </p>
-            <h1 className="mt-3 text-4xl font-black">
-              {g.awayTeamId}{' '}
-              <span className="text-[var(--team-secondary-on-dark)]">{g.awayScore}</span> ·{' '}
-              {g.homeTeamId}{' '}
-              <span className="text-[var(--team-secondary-on-dark)]">{g.homeScore}</span>
-            </h1>
-            <p className="mt-2 text-[var(--team-on-dark)] opacity-70">
-              {live
-                ? `Q${g.quarter} · ${g.clock}`
-                : post
-                  ? 'Final'
-                  : `Kickoff in ${Math.floor(countdown / 3600000)}:${String(Math.floor(countdown / 60000) % 60).padStart(2, '0')}`}
-            </p>
-          </div>
-          <div className="rounded-2xl bg-white/10 px-5 py-4">
-            <p className="text-[10px] font-black uppercase tracking-wider text-[var(--team-on-dark)] opacity-70">
-              Room code
-            </p>
-            <p className="mt-1 text-xl font-black tracking-[.2em]">{room.joinCode}</p>
-          </div>
+    <section className="grid gap-5 lg:grid-cols-[1.1fr_.9fr]">
+      <div className="rounded-3xl border border-white/15 bg-[#101416] p-5">
+        <div className="flex justify-between border-b border-white/10 pb-4">
+          <h2 className="flex items-center gap-2 text-xl font-black uppercase">
+            <Users />
+            {name}
+          </h2>
+          <span className="text-xs text-emerald-400">● {room?.members.length ?? 0} here</span>
         </div>
-        {live ? (
-          <div className="grid grid-cols-3 border-t border-white/10 px-6 py-4 text-center text-sm font-black">
-            <span>{g.possessionTeamId || '—'} BALL</span>
-            <span>
-              {g.down
-                ? `${g.down}${g.down === 1 ? 'ST' : g.down === 2 ? 'ND' : g.down === 3 ? 'RD' : 'TH'} & ${g.distance}`
-                : '—'}
-            </span>
-            <span>{g.yardLine || '—'}</span>
+        {!user ? (
+          <div className="py-10 text-center">
+            <p>Sign in to join the conversation.</p>
+            <Link
+              href="/login?next=/game-day"
+              className="team-primary-filled mt-5 inline-flex rounded-full px-6 py-3 font-black"
+            >
+              Sign in
+            </Link>
           </div>
-        ) : null}
-      </section>
-      <div className="mt-5 grid gap-5 lg:grid-cols-[320px_1fr]">
-        <aside className="space-y-5">
-          <section className="rounded-3xl bg-white p-5 shadow-sm">
-            <h2 className="flex items-center gap-2 font-black">
-              <Users className="h-5 w-5" /> Who&apos;s here
-            </h2>
-            <div className="mt-4 space-y-3">
-              {room.members.map((m) => (
-                <div key={m.userId} className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--secondary)] font-black text-[var(--team-on-secondary)]">
-                    {m.displayName[0]}
-                  </span>
-                  <div>
-                    <p className="font-black">{m.displayName}</p>
-                    <p className="text-[10px] font-bold text-emerald-600">HERE</p>
+        ) : !room ? (
+          <div className="grid gap-3 py-6 sm:grid-cols-2">
+            <button
+              onClick={() => start('CREATE')}
+              className="team-primary-filled rounded-2xl p-5 font-black"
+            >
+              Open a private tailgate
+            </button>
+            <div className="flex gap-2">
+              <input
+                value={code}
+                onChange={(e) => setCode(e.target.value.toUpperCase())}
+                placeholder="ROOM CODE"
+                className="min-w-0 flex-1 rounded-2xl bg-white/10 px-4 text-white"
+              />
+              <button
+                onClick={() => start('JOIN')}
+                className="rounded-2xl bg-white px-4 font-black text-[#00172b]"
+              >
+                Join
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="max-h-[390px] space-y-3 overflow-y-auto py-4">
+              {room.activity.map((a: any) => (
+                <article key={a.id} className="rounded-2xl bg-white/5 p-4">
+                  <p className="text-[10px] font-black uppercase text-[var(--secondary)]">
+                    {a.kind === 'MOMENT' ? 'Game moment' : a.displayName || 'D&D'}
+                  </p>
+                  <p className="mt-1 font-bold">{a.body}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {reactions.map((r) => (
+                      <button
+                        key={r}
+                        aria-label={`React ${r}`}
+                        onClick={() =>
+                          action({ action: 'REACTION', activityId: a.id, reaction: r })
+                        }
+                        className="rounded-full bg-white/10 px-2 py-1 text-xs"
+                      >
+                        {r} {a.reactions[r] || ''}
+                      </button>
+                    ))}
                   </div>
-                </div>
+                </article>
               ))}
             </div>
-          </section>
-          <section className="rounded-3xl bg-[var(--primary)] p-5 text-[var(--team-on-primary)]">
-            <h2 className="font-black">{live ? 'Call the drive' : 'Pregame picks'}</h2>
-            <p className="mt-1 text-sm text-[var(--team-on-primary)] opacity-75">
-              {live ? 'What happens this drive?' : 'Who wins?'}
-            </p>
+            <form onSubmit={send} className="flex gap-2">
+              <label className="sr-only" htmlFor="game-message">
+                Type a message
+              </label>
+              <input
+                id="game-message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type a message…"
+                className="h-14 min-w-0 flex-1 rounded-full bg-white/10 px-5 text-white"
+              />
+              <button
+                aria-label="Send message"
+                className="team-primary-filled h-14 w-14 rounded-full"
+              >
+                <Send className="mx-auto" />
+              </button>
+            </form>
+          </>
+        )}
+        {error ? <p className="mt-3 text-red-300">{error}</p> : null}
+      </div>
+      <div className="space-y-5">
+        <div className="rounded-3xl border border-white/15 bg-[#101416] p-5">
+          <p className="text-xs font-black uppercase text-[var(--secondary)]">
+            Join the conversation
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {reactions.map((r) => (
+              <button
+                key={r}
+                aria-label={`Insert ${r}`}
+                onClick={() => setMessage(`${message}${r}`)}
+                className="h-12 w-12 rounded-xl bg-white/5 text-xl"
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+          <button
+            disabled
+            className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-white/5 p-4 text-white/45"
+          >
+            <Gift />
+            GIF search · provider not connected
+          </button>
+        </div>
+        {live && room ? (
+          <div className="team-primary-filled rounded-3xl p-5">
+            <p className="font-black uppercase">Call the drive</p>
+            <p className="text-sm opacity-75">What happens next against {opponent}?</p>
             <div className="mt-4 grid grid-cols-2 gap-2">
-              {(live ? drives : [g.awayTeamId, g.homeTeamId]).map((x) => (
+              {drives.map((d) => (
                 <button
-                  key={x}
+                  key={d}
                   onClick={() =>
                     action({
                       action: 'PREDICT',
-                      kind: live ? 'DRIVE' : 'PREGAME',
-                      prompt: live ? 'DRIVE RESULT' : 'WHO WINS?',
-                      selection: x.replace(' ', '_'),
+                      kind: 'DRIVE',
+                      prompt: 'DRIVE RESULT',
+                      selection: d,
                     })
                   }
-                  className="min-h-12 rounded-xl bg-white/15 px-2 text-xs font-black hover:bg-white/25"
+                  className="min-h-12 rounded-xl bg-white/15 text-xs font-black"
                 >
-                  {x}
+                  {d.replace('_', ' ')}
                 </button>
               ))}
             </div>
-          </section>
-          {process.env.NODE_ENV !== 'production' ? (
-            <section className="rounded-3xl border border-dashed border-slate-400 bg-white p-4">
-              <p className="text-xs font-black uppercase">Dev simulator</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {sims.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => action({ action: 'SIMULATE', simulation: s })}
-                    className="rounded-lg bg-slate-100 px-2 py-2 text-[10px] font-black"
-                  >
-                    {s.replaceAll('_', ' ')}
-                  </button>
-                ))}
-              </div>
-            </section>
-          ) : null}
-        </aside>
-        <section className="rounded-3xl bg-white p-4 shadow-sm sm:p-6">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-xl font-black">Room activity</h2>
-            <button
-              onClick={() =>
-                action({
-                  action: 'SHARE',
-                  body: 'A D&D story was thrown in the cooler.',
-                  payload: { type: 'STORY', href: '/huddle' },
-                })
-              }
-              className="flex items-center gap-2 text-xs font-black text-[var(--team-primary-text)]"
-            >
-              <Share2 className="h-4 w-4" /> THE COOLER
-            </button>
           </div>
-          <div className="max-h-[55vh] space-y-3 overflow-y-auto">
-            {room.activity.map((a) => (
-              <article
-                key={a.id}
-                className={
-                  a.kind === 'MOMENT'
-                    ? 'rounded-2xl bg-[var(--dark)] p-5 text-[var(--team-on-dark)]'
-                    : 'rounded-2xl bg-[#f7f4ee] p-4'
-                }
-              >
-                <p className="text-[10px] font-black uppercase tracking-wider opacity-60">
-                  {a.kind === 'MOMENT' ? 'GAME MOMENT' : a.displayName || 'D&D'}
-                </p>
-                <p className="mt-1 font-bold">{a.body}</p>
-                {a.payload.detail ? (
-                  <p className="mt-1 text-sm opacity-70">{String(a.payload.detail)}</p>
-                ) : null}
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {reactions.map((r) => (
-                    <button
-                      key={r}
-                      onClick={() => action({ action: 'REACTION', activityId: a.id, reaction: r })}
-                      className="rounded-full bg-white/10 px-2 py-1 text-xs"
-                    >
-                      {r} {a.reactions[r] || ''}
-                    </button>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-          <form onSubmit={send} className="mt-5 flex gap-2">
-            <input
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Talk trash…"
-              className="h-14 min-w-0 flex-1 rounded-full border px-5"
-            />
-            <button className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--primary)] text-[var(--team-on-primary)]">
-              <Send />
-            </button>
-          </form>
-          {error ? <p className="mt-3 text-sm font-bold text-red-600">{error}</p> : null}
-        </section>
+        ) : null}
+        {room ? (
+          <button
+            onClick={() =>
+              action({
+                action: 'SHARE',
+                body: 'A D&D story was thrown in the cooler.',
+                payload: { type: 'STORY', href: '/the-beat' },
+              })
+            }
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 p-4 text-xs font-black"
+          >
+            <Share2 />
+            Throw The Beat into the cooler
+          </button>
+        ) : null}
       </div>
-    </main>
+    </section>
   );
 }

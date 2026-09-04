@@ -534,16 +534,16 @@ function GameCard({
   return (
     <button
       onClick={onClick}
-      className={`group min-h-40 rounded-2xl border-2 p-5 text-left transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[var(--primary)]/20 motion-reduce:transform-none ${primary ? 'border-[var(--primary)] bg-[var(--primary)] text-[var(--team-on-primary)]' : 'border-slate-200 bg-[#F7F8F9] hover:border-[var(--primary)]'}`}
+      className={`group min-h-40 rounded-2xl border-2 p-5 text-left transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[var(--dark)]/20 motion-reduce:transform-none ${primary ? 'border-[var(--dark)] bg-[var(--dark)] text-[var(--team-on-dark)]' : 'border-slate-200 bg-[#F7F8F9] hover:border-[var(--primary)]'}`}
     >
       <span
-        className={`flex h-11 w-11 items-center justify-center rounded-xl ${primary ? 'bg-white/15 text-[var(--team-secondary-on-primary)]' : 'bg-white text-[var(--team-primary-text)] shadow-sm'}`}
+        className={`flex h-11 w-11 items-center justify-center rounded-xl ${primary ? 'bg-white/15 text-[var(--team-secondary-on-dark)]' : 'bg-white text-[var(--team-primary-text)] shadow-sm'}`}
       >
         {icon}
       </span>
       <span className="mt-5 block text-xl font-black uppercase">{title}</span>
       <span
-        className={`mt-1 block text-sm font-semibold ${primary ? 'text-[var(--team-on-primary)]' : 'text-slate-500'}`}
+        className={`mt-1 block text-sm font-semibold ${primary ? 'text-[var(--team-on-dark)]' : 'text-slate-500'}`}
       >
         {detail}
       </span>

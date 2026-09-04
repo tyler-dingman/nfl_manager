@@ -16,7 +16,7 @@ export default function WatchSection({
   return (
     <section className="rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
       <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-secondary-on-dark)]">
-        Watch
+        Film Room
       </p>
       <h2 className="mt-2 text-3xl font-black">Go deeper without hunting.</h2>
       <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">

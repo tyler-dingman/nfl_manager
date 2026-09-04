@@ -3,21 +3,18 @@
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, Bookmark, Clock3, Play, Radio, Shield, Sparkles, Users } from 'lucide-react';
+import { ArrowRight, Clock3, Radio, Search, Shield, Sparkles, Users } from 'lucide-react';
 
-import LoginButton from '@/components/auth/login-button';
-import EditorialVisual from '@/components/editorial/editorial-visual';
+import BriefingDetailModal from '@/components/huddle/briefing-detail-modal';
+import FilmRoomGrid from '@/components/film-room/film-room-grid';
+import FilmRoomPlayDiagram from '@/components/film-room/film-room-play-diagram';
+import HuddleStoryCard from '@/components/huddle/huddle-story-card';
+import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
-import PrimaryNavigation from '@/components/primary-navigation';
-import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
 import ThreeAndOutExperience from '@/components/three-and-out/three-and-out-experience';
 import type { TeamBriefing } from '@/features/content/types';
 import { recordBriefingConsumed } from '@/features/content/consumption';
-import {
-  clearFanTeamPreference,
-  readCanonicalFanTeamPreference,
-  saveFanTeamPreference,
-} from '@/features/team/fan-team-preference';
+import { readCanonicalFanTeamPreference } from '@/features/team/fan-team-preference';
 import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import { useTeamStore } from '@/features/team/team-store';
 import { useAuthUser } from '@/features/auth/auth-session';
@@ -26,10 +23,10 @@ type HubKind = 'huddle' | 'three-and-out' | 'watch' | 'wire' | 'front-office';
 
 const hubMeta = {
   huddle: {
-    eyebrow: 'The Huddle',
-    title: 'The stories that matter, without the article pileup.',
+    eyebrow: 'The Beat',
+    title: 'Everything happening with your team. As it happens.',
     description:
-      'Important topics gathered across sources, condensed, and linked back to the original coverage.',
+      'One story per development. Updated as trusted reporting comes in, with every source linked back to the people doing the work.',
   },
   'three-and-out': {
     eyebrow: 'Three and Out',
@@ -38,8 +35,8 @@ const hubMeta = {
       'The biggest ongoing football stories, ranked by importance, sourced, and updated as they change.',
   },
   watch: {
-    eyebrow: 'Watch',
-    title: 'Your football video hub.',
+    eyebrow: 'Film Room',
+    title: 'Get into the film room and put on the tape.',
     description:
       'Press conferences, local shows, film study, podcasts, player interviews, and fan creators worth watching.',
   },
@@ -57,15 +54,6 @@ const hubMeta = {
   },
 } satisfies Record<HubKind, { eyebrow: string; title: string; description: string }>;
 
-const videos = [
-  ['Press conference', 'Coach addresses the biggest questions from practice', '8:42'],
-  ['Film room', 'Why this new wrinkle could unlock the offense', '14:18'],
-  ['Local show', 'What reporters are hearing inside the building', '22:06'],
-  ['Player interview', 'A veteran explains what has changed this season', '6:55'],
-  ['Podcast', 'The roster decisions that could shape opening week', '38:21'],
-  ['Fan creator', 'Five plays that explain the latest position battle', '11:47'],
-];
-
 const wireUpdates = [
   ['11:42 AM', 'Team announces a roster move ahead of today’s practice.', 'Official'],
   ['10:18 AM', 'Injury update brings encouraging news at a key position.', 'Injury'],
@@ -75,13 +63,10 @@ const wireUpdates = [
 ];
 
 export default function TeamContentHub({ kind }: { kind: HubKind }) {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const teams = useTeamStore((state) => state.teams);
   const requestedAbbr = searchParams?.get('team')?.toUpperCase();
   const [persistedAbbr, setPersistedAbbr] = useState<string | null>(null);
-  const currentPath = pathname ?? `/${kind}`;
   const effectiveAbbr = requestedAbbr ?? persistedAbbr;
   const activeTeam = useMemo(
     () => teams.find((team) => team.abbr === effectiveAbbr),
@@ -113,50 +98,36 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
   return (
     <TeamThemeProvider team={activeTeam}>
       <div className="min-h-screen bg-[#f4f6f8] text-slate-950">
-        <SiteHeaderShell>
-          <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
-          <PrimaryNavigation teamAbbr={activeTeam?.abbr} active={kind === 'wire' ? null : kind} />
-          <div className="ml-auto flex items-center gap-2">
-            <label className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[var(--team-on-dark)]">
-              <span className="hidden sm:inline">Team</span>
-              <select
-                value={activeTeam?.abbr ?? ''}
-                onChange={(event) => {
-                  if (event.target.value) {
-                    saveFanTeamPreference(event.target.value);
-                    setPersistedAbbr(event.target.value);
-                  } else {
-                    clearFanTeamPreference();
-                    setPersistedAbbr(null);
-                  }
-                  router.push(
-                    event.target.value ? `${currentPath}?team=${event.target.value}` : currentPath,
-                  );
-                }}
-                className="h-10 rounded-full border border-current/20 bg-white/10 px-4 text-sm font-bold leading-none normal-case tracking-normal text-[var(--team-on-dark)] outline-none"
-              >
-                <option value="" className="text-slate-950">
-                  NFL
-                </option>
-                {teams.map((team) => (
-                  <option key={team.id} value={team.abbr} className="text-slate-950">
-                    {team.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <LoginButton />
-          </div>
-        </SiteHeaderShell>
+        <MainSiteHeader
+          teamAbbr={activeTeam?.abbr}
+          active={kind === 'huddle' || kind === 'watch' || kind === 'front-office' ? kind : null}
+        />
 
-        <section className="bg-[var(--dark)] text-[var(--team-on-dark)]">
-          <div className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+        <section className="relative overflow-hidden bg-[var(--dark)] text-[var(--team-on-dark)]">
+          {kind === 'watch' ? <FilmRoomPlayDiagram /> : null}
+          <div className="relative z-[1] mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
             <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--team-secondary-on-dark)]">
               {teamName} · {meta.eyebrow}
             </p>
-            <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
-              {meta.title}
-            </h1>
+            {kind === 'huddle' ? (
+              <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
+                Everything happening with your team.{' '}
+                <span className="text-[var(--secondary)] [text-shadow:0_2px_0_rgba(0,0,0,0.2)]">
+                  As it happens.
+                </span>
+              </h1>
+            ) : kind === 'watch' ? (
+              <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
+                Get into the film room and{' '}
+                <span className="text-[var(--secondary)] [text-shadow:0_2px_0_rgba(0,0,0,0.2)]">
+                  put on the tape.
+                </span>
+              </h1>
+            ) : (
+              <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
+                {meta.title}
+              </h1>
+            )}
             <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--team-light-on-dark)]">
               {meta.description}
             </p>
@@ -164,7 +135,9 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
         </section>
 
         <main className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
-          {kind === 'huddle' ? <HuddleGrid briefings={briefings} teamAbbr={teamAbbr} /> : null}
+          {kind === 'huddle' ? (
+            <HuddleGrid briefings={briefings} teamAbbr={teamAbbr} teamName={teamName} />
+          ) : null}
           {kind === 'three-and-out' ? (
             activeTeam ? (
               <ThreeAndOutExperience teamId={activeTeam.abbr} />
@@ -182,7 +155,7 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
               </section>
             )
           ) : null}
-          {kind === 'watch' ? <WatchGrid /> : null}
+          {kind === 'watch' ? <FilmRoomGrid teamAbbr={teamAbbr} teamName={teamName} /> : null}
           {kind === 'wire' ? <WireTimeline /> : null}
           {kind === 'front-office' ? <FrontOffice teamName={teamName} teamAbbr={teamAbbr} /> : null}
         </main>
@@ -191,9 +164,51 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
   );
 }
 
-function HuddleGrid({ briefings, teamAbbr }: { briefings: TeamBriefing[]; teamAbbr: string }) {
+type BeatFilter = 'ALL' | 'HOT' | 'ROSTER' | 'INJURIES' | 'DRAFT' | 'GAMES';
+
+const beatFilters: Array<{ id: BeatFilter; label: string }> = [
+  { id: 'ALL', label: 'All' },
+  { id: 'HOT', label: 'Hot Reads' },
+  { id: 'ROSTER', label: 'Roster' },
+  { id: 'INJURIES', label: 'Injuries' },
+  { id: 'DRAFT', label: 'Draft' },
+  { id: 'GAMES', label: 'Games' },
+];
+
+function matchesBeatFilter(briefing: TeamBriefing, filter: BeatFilter) {
+  const category = briefing.category.toUpperCase();
+  if (filter === 'ALL') return true;
+  if (filter === 'HOT') {
+    return Boolean(briefing.hotReadUntil && new Date(briefing.hotReadUntil).getTime() > Date.now());
+  }
+  if (filter === 'ROSTER')
+    return ['ROSTER', 'TRANSACTION', 'TRADE', 'CONTRACT', 'SIGNING'].some((value) =>
+      category.includes(value),
+    );
+  if (filter === 'INJURIES') return category.includes('INJUR');
+  if (filter === 'DRAFT') return category.includes('DRAFT');
+  return ['GAME', 'PREVIEW', 'RESULT'].some((value) => category.includes(value));
+}
+
+function HuddleGrid({
+  briefings,
+  teamAbbr,
+  teamName,
+}: {
+  briefings: TeamBriefing[];
+  teamAbbr: string;
+  teamName: string;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { user, hydrated } = useAuthUser();
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  const [query, setQuery] = useState('');
+  const [filter, setFilter] = useState<BeatFilter>('ALL');
+  const [timeRange, setTimeRange] = useState('ALL');
+  const [sort, setSort] = useState<'UPDATED' | 'NEWEST'>('UPDATED');
+  const selectedBriefing = briefings.find((briefing) => briefing.id === searchParams?.get('story'));
 
   useEffect(() => {
     if (!hydrated || !user || !briefings.length) return;
@@ -206,7 +221,7 @@ function HuddleGrid({ briefings, teamAbbr }: { briefings: TeamBriefing[]; teamAb
 
   const toggleSaved = async (briefing: TeamBriefing) => {
     if (!user) {
-      window.location.assign(`/login?next=${encodeURIComponent(`/huddle?team=${teamAbbr}`)}`);
+      window.location.assign(`/login?next=${encodeURIComponent(`/the-beat?team=${teamAbbr}`)}`);
       return;
     }
     const saved = savedIds.has(briefing.id);
@@ -221,7 +236,7 @@ function HuddleGrid({ briefings, teamAbbr }: { briefings: TeamBriefing[]; teamAb
               contentType: 'STORY',
               contentId: briefing.id,
               title: briefing.headline,
-              href: `/huddle?team=${teamAbbr}`,
+              href: `/the-beat?team=${teamAbbr}`,
               metadata: { teamAbbr, category: briefing.category },
             }),
           },
@@ -236,98 +251,182 @@ function HuddleGrid({ briefings, teamAbbr }: { briefings: TeamBriefing[]; teamAb
     }
   };
 
-  return (
-    <div className="grid gap-5 lg:grid-cols-3">
-      {briefings.length ? (
-        briefings.map((briefing) => (
-          <article
-            key={briefing.id}
-            className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
-          >
-            <EditorialVisual
-              story={{
-                teamId: briefing.teamAbbr,
-                category: briefing.category,
-                headline: briefing.headline,
-                summary: briefing.summary,
-              }}
-              variant="card"
-              decorative
-            />
-            <div className="p-7">
-              <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--team-primary-text)]">
-                <Sparkles className="h-4 w-4" /> {briefing.category}
-              </p>
-              <h2 className="mt-4 text-2xl font-black leading-tight">{briefing.headline}</h2>
-              <p className="mt-4 leading-7 text-slate-600">{briefing.summary}</p>
-              <p className="mt-6 text-xs font-bold text-slate-400">
-                {briefing.sourceCount} sources
-              </p>
-              <button
-                type="button"
-                onClick={() => void toggleSaved(briefing)}
-                className="mt-4 inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-xs font-black text-[var(--team-primary-text)] hover:bg-slate-50"
-              >
-                <Bookmark
-                  className={`h-4 w-4 ${savedIds.has(briefing.id) ? 'fill-current' : ''}`}
-                />
-                {savedIds.has(briefing.id) ? 'Saved' : user ? 'Save' : 'Sign in to save'}
-              </button>
-              <div className="mt-4 border-t border-slate-100 pt-4">
-                {briefing.sources.map((source) => (
-                  <a
-                    key={source.id}
-                    href={source.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => {
-                      if (user) void recordBriefingConsumed(briefing);
-                    }}
-                    className="mb-2 flex items-center justify-between gap-4 text-sm font-bold text-[var(--team-primary-text)] hover:underline"
-                  >
-                    <span>
-                      {source.publisher}: {source.title}
-                    </span>
-                    <ArrowRight className="h-4 w-4 shrink-0" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </article>
-        ))
-      ) : (
-        <p className="text-slate-500">Building today’s briefing…</p>
-      )}
-    </div>
-  );
-}
+  const visibleBriefings = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    const now = Date.now();
+    const rangeMs =
+      timeRange === 'TODAY'
+        ? 24 * 60 * 60 * 1000
+        : timeRange === 'WEEK'
+          ? 7 * 24 * 60 * 60 * 1000
+          : timeRange === 'MONTH'
+            ? 30 * 24 * 60 * 60 * 1000
+            : null;
+    return briefings
+      .filter((briefing) => matchesBeatFilter(briefing, filter))
+      .filter((briefing) => !rangeMs || now - new Date(briefing.updatedAt).getTime() <= rangeMs)
+      .filter((briefing) => {
+        if (!normalizedQuery) return true;
+        return [
+          briefing.headline,
+          briefing.summary,
+          briefing.category,
+          ...briefing.sources.map((source) => `${source.publisher} ${source.title}`),
+        ]
+          .join(' ')
+          .toLowerCase()
+          .includes(normalizedQuery);
+      })
+      .sort((left, right) => {
+        const timestamp = (briefing: TeamBriefing) => {
+          if (sort === 'UPDATED' || briefing.sources.length === 0) {
+            return new Date(briefing.updatedAt).getTime();
+          }
+          return Math.min(
+            ...briefing.sources.map((source) => new Date(source.publishedAt).getTime()),
+          );
+        };
+        return timestamp(right) - timestamp(left);
+      });
+  }, [briefings, filter, query, sort, timeRange]);
 
-function WatchGrid() {
+  const openBriefing = (briefing: TeamBriefing) => {
+    if (user) void recordBriefingConsumed(briefing);
+    const params = new URLSearchParams(searchParams?.toString());
+    params.set('team', teamAbbr);
+    params.set('story', briefing.id);
+    router.push(`${pathname ?? '/the-beat'}?${params.toString()}`);
+  };
+
+  const closeBriefing = () => {
+    const params = new URLSearchParams(searchParams?.toString());
+    params.delete('story');
+    const queryString = params.toString();
+    router.push(`${pathname ?? '/the-beat'}${queryString ? `?${queryString}` : ''}`);
+  };
+
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {videos.map(([type, title, time], index) => (
-        <article
-          key={title}
-          className="overflow-hidden rounded-3xl bg-slate-950 text-white shadow-sm"
+    <section aria-labelledby="beat-stories-heading">
+      {selectedBriefing ? (
+        <BriefingDetailModal
+          briefing={selectedBriefing}
+          teamAbbr={teamAbbr}
+          onClose={closeBriefing}
+        />
+      ) : null}
+      <div className="rounded-3xl border border-[#00172B]/10 bg-white p-5 shadow-sm sm:p-7">
+        <label
+          htmlFor="ask-dd"
+          className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]"
         >
-          <div className="relative flex aspect-video items-center justify-center bg-gradient-to-br from-[var(--primary)] to-[var(--dark)]">
-            <Play className="h-12 w-12 rounded-full bg-white p-3 text-slate-950" />
-            <span className="absolute bottom-3 right-3 rounded bg-black/70 px-2 py-1 text-xs font-bold">
-              {time}
-            </span>
-            <span className="absolute left-4 top-3 text-5xl font-black text-white/10">
-              0{index + 1}
-            </span>
+          Ask D&amp;D
+        </label>
+        <div className="relative mt-3">
+          <Search
+            className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#52677c]"
+            aria-hidden="true"
+          />
+          <input
+            id="ask-dd"
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={`Ask anything about the ${teamName}…`}
+            className="h-14 w-full rounded-2xl border border-[#00172B]/15 bg-[#f7f4ee] pl-12 pr-4 font-bold text-[#00172B] outline-none transition placeholder:text-[#6d7f91] focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
+          />
+        </div>
+        <p className="mt-2 text-xs font-semibold text-[#6d7f91]">
+          Searches D&amp;D’s canonical stories and their attributed sources.
+        </p>
+      </div>
+
+      <div className="mt-7 flex flex-col gap-4 border-b border-[#00172B]/10 pb-5 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <h2 id="beat-stories-heading" className="sr-only">
+            The Beat stories
+          </h2>
+          <div className="flex flex-wrap gap-2" aria-label="Filter Beat stories">
+            {beatFilters.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setFilter(item.id)}
+                aria-pressed={filter === item.id}
+                className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30 ${
+                  filter === item.id
+                    ? 'border-[var(--dark)] bg-[var(--dark)] text-[var(--team-on-dark)]'
+                    : 'border-[#00172B]/15 bg-white text-[#40556b] hover:border-[var(--primary)]'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
-          <div className="p-6">
-            <p className="text-xs font-black uppercase tracking-wider text-[var(--team-secondary-on-dark)]">
-              {type}
-            </p>
-            <h2 className="mt-2 text-lg font-black">{title}</h2>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <label className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.1em] text-[#52677c]">
+            Sort
+            <select
+              value={sort}
+              onChange={(event) => setSort(event.target.value as 'UPDATED' | 'NEWEST')}
+              className="h-10 rounded-full border border-[#00172B]/15 bg-white px-4 font-bold normal-case tracking-normal text-[#00172B] outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
+            >
+              <option value="UPDATED">Recently updated</option>
+              <option value="NEWEST">Newest</option>
+            </select>
+          </label>
+          <label className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.1em] text-[#52677c]">
+            Time
+            <select
+              value={timeRange}
+              onChange={(event) => setTimeRange(event.target.value)}
+              className="h-10 rounded-full border border-[#00172B]/15 bg-white px-4 font-bold normal-case tracking-normal text-[#00172B] outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
+            >
+              <option value="TODAY">Today</option>
+              <option value="WEEK">This week</option>
+              <option value="MONTH">This month</option>
+              <option value="ALL">All time</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <p className="mt-5 text-xs font-bold text-[#6d7f91]" role="status" aria-live="polite">
+        {visibleBriefings.length} {visibleBriefings.length === 1 ? 'development' : 'developments'}
+        {query.trim() ? ` matching “${query.trim()}”` : ''}
+      </p>
+
+      <div className="mt-4 grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {visibleBriefings.length ? (
+          visibleBriefings.map((briefing) => (
+            <HuddleStoryCard
+              key={briefing.id}
+              id={briefing.id}
+              teamId={briefing.teamAbbr}
+              headline={briefing.headline}
+              summary={briefing.summary}
+              category={briefing.category}
+              status={briefing.status}
+              sourceCount={briefing.sourceCount}
+              updatedAt={briefing.updatedAt}
+              materialUpdateCount={briefing.materialUpdateCount}
+              hotReadUntil={briefing.hotReadUntil}
+              firstReportedBy={briefing.firstReportedBy}
+              sources={briefing.sources}
+              saved={savedIds.has(briefing.id)}
+              onSave={() => void toggleSaved(briefing)}
+              onOpen={() => openBriefing(briefing)}
+            />
+          ))
+        ) : (
+          <div className="rounded-2xl border border-dashed border-[#00172B]/20 bg-white p-8 text-center text-sm font-semibold text-[#52677c] md:col-span-2 lg:col-span-3">
+            {briefings.length
+              ? 'No developments match those filters. Try a broader search or time range.'
+              : 'Building today’s Beat…'}
           </div>
-        </article>
-      ))}
-    </div>
+        )}
+      </div>
+    </section>
   );
 }
 

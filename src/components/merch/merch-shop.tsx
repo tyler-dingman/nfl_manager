@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, ChevronDown, Menu, Search, Shirt, Tag, X } from 'lucide-react';
 
 import LoginButton from '@/components/auth/login-button';
@@ -12,18 +12,48 @@ import MoveTheChainsIndicator from '@/components/rewards/move-the-chains-indicat
 import PrimaryNavigation from '@/components/primary-navigation';
 import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
 import { MERCH_CATEGORIES, MERCH_PRODUCTS, type MerchCategory } from '@/features/merch/catalog';
+import type { MerchProduct } from '@/features/merch/catalog';
+import { CITY_COLORWAYS } from '@/features/merch/city-colorways';
 
 export default function MerchShop() {
   const [category, setCategory] = useState<MerchCategory | 'All'>('All');
+  const [city, setCity] = useState<string>('ALL');
   const [sort, setSort] = useState('featured');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [catalogProducts, setCatalogProducts] = useState<MerchProduct[]>(MERCH_PRODUCTS);
   const { addItem } = useMerchCart();
 
+  useEffect(() => {
+    void fetch('/api/commerce/catalog')
+      .then((response) => response.json())
+      .then((body) =>
+        setCatalogProducts(
+          body.products.map((product: any) => ({
+            id: product.id,
+            name: product.name,
+            category: product.category,
+            type: product.variants[0]?.cityName ? 'Koozie' : product.category,
+            price: product.basePriceCents / 100,
+            colors: ['#00172B'],
+            sizes: [
+              ...new Set(product.variants.map((variant: any) => variant.size).filter(Boolean)),
+            ],
+            imageUrl: product.variants[0]?.imageUrl,
+            badge: product.featured ? 'New' : undefined,
+            cityCode: product.variants[0]?.cityCode,
+            cityName: product.variants[0]?.cityName,
+          })),
+        ),
+      );
+  }, []);
+
   const products = useMemo(() => {
-    const filtered = MERCH_PRODUCTS.filter(
-      (product) => category === 'All' || product.category === category,
+    const filtered = catalogProducts.filter(
+      (product) =>
+        (category === 'All' || product.category === category) &&
+        (city === 'ALL' || product.cityCode === city),
     );
     return [...filtered].sort((left, right) => {
       if (sort === 'price-low') return left.price - right.price;
@@ -31,15 +61,15 @@ export default function MerchShop() {
       if (sort === 'new') return Number(right.badge === 'New') - Number(left.badge === 'New');
       return Number(Boolean(right.badge)) - Number(Boolean(left.badge));
     });
-  }, [category, sort]);
+  }, [catalogProducts, category, city, sort]);
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
   const searchResults = normalizedSearchQuery
-    ? MERCH_PRODUCTS.filter((product) =>
+    ? catalogProducts.filter((product) =>
         `${product.name} ${product.type} ${product.category}`
           .toLowerCase()
           .includes(normalizedSearchQuery),
       )
-    : MERCH_PRODUCTS.slice(0, 6);
+    : catalogProducts.slice(0, 6);
 
   return (
     <TeamThemeProvider>
@@ -64,7 +94,7 @@ export default function MerchShop() {
         <div className="bg-[#00172B] px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-[#F4D9B7]">
           Free shipping on orders $75+ · Shop preview
         </div>
-        <div className="border-b border-[#00172B]/10 bg-[#FF3D38]">
+        <div className="border-b border-[#00172B]/10 bg-[#FF3D38] text-white">
           <div className="mx-auto flex min-h-12 max-w-[1440px] items-center px-4 sm:px-6 lg:px-8">
             <button
               type="button"
@@ -228,21 +258,23 @@ export default function MerchShop() {
             <div className="mx-auto grid max-w-[1440px] items-center gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1fr_520px] lg:px-8 lg:py-16">
               <div className="py-4 lg:py-8">
                 <p className="inline-flex rounded-full bg-[#FF3D38] px-4 py-2 text-xs font-black uppercase tracking-[0.25em] text-white">
-                  Featured drop · Camo collection
+                  Down &amp; Distance originals
                 </p>
                 <h1 className="mt-5 max-w-3xl text-5xl font-black uppercase leading-[0.9] tracking-[-0.05em] text-[#00172B] sm:text-7xl">
-                  Get your head in the game.
+                  Gear for people who live football.
                 </h1>
                 <p className="mt-6 max-w-xl text-lg font-semibold leading-7 text-[#00172B]/70">
-                  The Down &amp; Distance Camo Rope Hat brings a field-ready finish to every game
-                  day fit.
+                  D&amp;D originals in city-inspired colorways. No logos. Just football.
                 </p>
                 <button
                   type="button"
-                  onClick={() => setCategory('Hats')}
+                  onClick={() => {
+                    setCategory('All');
+                    setCity('ALL');
+                  }}
                   className="mt-8 inline-flex h-14 items-center gap-3 rounded-full bg-[#00172B] px-7 font-black text-white"
                 >
-                  Shop hats <ArrowRight className="h-4 w-4" />
+                  Shop all <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
               <div className="relative aspect-[5/4] overflow-hidden rounded-[2rem] bg-[#ebe9e5] shadow-[0_24px_60px_rgba(0,23,43,0.18)] sm:aspect-[4/3] lg:aspect-square">
@@ -260,6 +292,36 @@ export default function MerchShop() {
               </div>
             </div>
           </section>
+          <section className="mx-auto max-w-[1440px] px-4 pt-10 sm:px-6 lg:px-8">
+            <p className="text-xs font-black uppercase tracking-[.2em] text-[#FF3D38]">
+              Shop by city
+            </p>
+            <div className="mt-4 flex gap-3 overflow-x-auto pb-3">
+              <button
+                onClick={() => setCity('ALL')}
+                className={`min-w-32 rounded-2xl border-4 px-5 py-6 text-left font-black ${city === 'ALL' ? 'border-[#FF3D38] bg-[#00172B] text-white' : 'border-transparent bg-white'}`}
+              >
+                ALL
+              </button>
+              {CITY_COLORWAYS.map((colorway) => (
+                <button
+                  key={colorway.cityCode}
+                  onClick={() => {
+                    setCity(colorway.cityCode);
+                    setCategory('Accessories');
+                  }}
+                  className="relative min-w-40 overflow-hidden rounded-2xl border-4 px-5 py-6 text-left font-black"
+                  style={{
+                    backgroundColor: colorway.primary,
+                    borderColor: city === colorway.cityCode ? '#FF3D38' : colorway.secondary,
+                    color: colorway.textColor,
+                  }}
+                >
+                  <span className="relative z-10">{colorway.cityName.toUpperCase()}</span>
+                </button>
+              ))}
+            </div>
+          </section>
           <section className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
               {MERCH_CATEGORIES.map((item, index) => (
@@ -267,14 +329,14 @@ export default function MerchShop() {
                   type="button"
                   key={item}
                   onClick={() => setCategory(item)}
-                  className={`group rounded-2xl border p-5 text-left transition hover:-translate-y-1 ${category === item ? 'border-[#FF3D38] bg-[#FF3D38] text-[#00172B]' : 'border-[#00172B]/10 bg-white'}`}
+                  className={`group rounded-2xl border p-5 text-left transition hover:-translate-y-1 ${category === item ? 'team-primary-filled border-[var(--team-primary-fill)]' : 'border-[#00172B]/10 bg-white'}`}
                 >
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#00172B] text-[#F4D9B7]">
                     {item === 'Sale' ? <Tag className="h-4 w-4" /> : <Shirt className="h-4 w-4" />}
                   </span>
                   <span className="mt-5 block text-lg font-black">{item}</span>
                   <span className="mt-1 block text-xs font-bold opacity-50">
-                    {MERCH_PRODUCTS.filter((product) => product.category === item).length} products
+                    {catalogProducts.filter((product) => product.category === item).length} products
                   </span>
                 </button>
               ))}
@@ -282,7 +344,11 @@ export default function MerchShop() {
             <div className="mt-12 flex flex-wrap items-end justify-between gap-4 border-b border-[#00172B]/10 pb-5">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-[#FF3D38]">
-                  {category === 'All' ? 'New & trending' : category}
+                  {city !== 'ALL'
+                    ? `${CITY_COLORWAYS.find((item) => item.cityCode === city)?.cityName} colorway`
+                    : category === 'All'
+                      ? 'New & trending'
+                      : category}
                 </p>
                 <h2 className="mt-2 text-3xl font-black">Gear worth putting in the rotation.</h2>
               </div>

@@ -50,10 +50,8 @@ const mixHexColors = (start: string, end: string, amount: number) => {
   return `#${channels.map((value) => value.toString(16).padStart(2, '0')).join('')}`;
 };
 
-export const getReadableTextColor = (hexColor: string): '#ffffff' | '#0f172a' =>
-  getContrastRatio('#ffffff', hexColor) >= getContrastRatio('#0f172a', hexColor)
-    ? '#ffffff'
-    : '#0f172a';
+export const getReadableTextColor = (hexColor: string): '#ffffff' | '#000000' =>
+  getContrastRatio('#ffffff', hexColor) >= 4.5 ? '#ffffff' : '#000000';
 
 export const ensureAccessibleTextColor = (
   preferredColor: string,
@@ -63,9 +61,7 @@ export const ensureAccessibleTextColor = (
   if (getContrastRatio(preferredColor, backgroundColor) >= minimumRatio) return preferredColor;
 
   const target =
-    getContrastRatio('#ffffff', backgroundColor) >= getContrastRatio('#0f172a', backgroundColor)
-      ? '#ffffff'
-      : '#0f172a';
+    getContrastRatio('#ffffff', backgroundColor) >= minimumRatio ? '#ffffff' : '#000000';
   for (let step = 1; step <= 20; step += 1) {
     const candidate = mixHexColors(preferredColor, target, step / 20);
     if (getContrastRatio(candidate, backgroundColor) >= minimumRatio) return candidate;
@@ -98,7 +94,7 @@ if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line no-console
   console.assert(dark === '#ffffff', 'Expected white text for dark colors');
   // eslint-disable-next-line no-console
-  console.assert(light === '#0f172a', 'Expected dark text for light colors');
+  console.assert(light === '#000000', 'Expected dark text for light colors');
   // eslint-disable-next-line no-console
   console.assert(lighterRed !== '#b91c1c', 'Expected lightened color to differ from source');
 }

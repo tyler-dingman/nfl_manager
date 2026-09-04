@@ -9,15 +9,15 @@ const decode = (value: string) =>
     .replace(/&amp;/g, '&')
     .replace(/&quot;/g, '"')
     .replace(/&#39;|&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)))
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>');
 export const stripMarkup = (value: string) =>
-  decode(
-    value
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim(),
-  );
+  decode(value)
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 export const normalizeTitle = (value: string) =>
   stripMarkup(value)
     .toLowerCase()
@@ -66,7 +66,9 @@ const aliases = TEAM_LIST.map((team) => ({
 
 export function matchTeams(text: string, source: RegisteredSource) {
   const matched = new Set<string>();
-  if (source.teamId) matched.add(source.teamId);
+  // Discovery-tier aggregators often cover the entire league despite being registered from a
+  // team catalog. Require an explicit team mention so unrelated league items cannot publish.
+  if (source.teamId && source.pollingTier !== 'C') matched.add(source.teamId);
   const haystack = ` ${text.toLowerCase().replace(/[^a-z0-9]+/g, ' ')} `;
   for (const team of aliases)
     if (

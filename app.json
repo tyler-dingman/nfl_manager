@@ -4,6 +4,9 @@
       "eas": {
         "projectId": "8a667cf5-61c7-45c3-a363-6eae7fe5a386"
       }
+    },
+    "ios": {
+      "bundleIdentifier": "com.tdingman5.nfl-manager"
     }
   }
 }

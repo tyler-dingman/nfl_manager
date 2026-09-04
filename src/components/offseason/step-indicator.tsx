@@ -118,7 +118,7 @@ export function StepIndicator({
                 className={cn(
                   'inline-flex h-4 w-4 items-center justify-center rounded-full border transition-all duration-300',
                   isActive || isCompleted
-                    ? 'border-[var(--team-primary)] bg-[var(--team-primary)] text-[var(--team-primary-foreground)]'
+                    ? 'border-[var(--team-dark)] bg-[var(--team-dark)] text-[var(--team-on-dark)]'
                     : isAvailableFuture
                       ? 'border-slate-400 bg-transparent text-slate-500'
                       : 'border-slate-300 bg-transparent text-slate-400',

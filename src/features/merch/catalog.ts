@@ -11,6 +11,8 @@ export type MerchProduct = {
   sizes: string[];
   imageUrl?: string;
   badge?: 'New' | 'Best Seller' | 'Sale';
+  cityCode?: string;
+  cityName?: string;
 };
 
 export const MERCH_CATEGORIES: MerchCategory[] = [
@@ -21,6 +23,54 @@ export const MERCH_CATEGORIES: MerchCategory[] = [
   'Accessories',
   'Sale',
 ];
+
+const KOOZIE_TEAMS = [
+  ['arizona-cardinals', 'Arizona', 'ARI'],
+  ['atlanta-falcons', 'Atlanta', 'ATL'],
+  ['baltimore-ravens', 'Baltimore', 'BAL'],
+  ['buffalo-bills', 'Buffalo', 'BUF'],
+  ['carolina-panthers', 'Carolina', 'CAR'],
+  ['chicago-bears', 'Chicago', 'CHI'],
+  ['cincinnati-bengals', 'Cincinnati', 'CIN'],
+  ['cleveland-browns', 'Cleveland', 'CLE'],
+  ['dallas-cowboys', 'Dallas', 'DAL'],
+  ['denver-broncos', 'Denver', 'DEN'],
+  ['detroit-lions', 'Detroit', 'DET'],
+  ['green-bay-packers', 'Green Bay', 'GB'],
+  ['houston-texans', 'Houston', 'HOU'],
+  ['indianapolis-colts', 'Indianapolis', 'IND'],
+  ['jacksonville-jaguars', 'Jacksonville', 'JAX'],
+  ['kansas-city-chiefs', 'Kansas City', 'KC'],
+  ['las-vegas-raiders', 'Las Vegas', 'LV'],
+  ['los-angeles-chargers', 'Los Angeles', 'LAC'],
+  ['los-angeles-rams', 'Los Angeles', 'LAR'],
+  ['miami-dolphins', 'Miami', 'MIA'],
+  ['minnesota-vikings', 'Minnesota', 'MIN'],
+  ['new-england-patriots', 'New England', 'NE'],
+  ['new-orleans-saints', 'New Orleans', 'NO'],
+  ['new-york-giants', 'New York', 'NYG'],
+  ['new-york-jets', 'New York', 'NYJ'],
+  ['philadelphia-eagles', 'Philadelphia', 'PHI'],
+  ['pittsburgh-steelers', 'Pittsburgh', 'PIT'],
+  ['san-francisco-49ers', 'San Francisco', 'SF'],
+  ['seattle-seahawks', 'Seattle', 'SEA'],
+  ['tampa-bay-buccaneers', 'Tampa Bay', 'TB'],
+  ['tennessee-titans', 'Tennessee', 'TEN'],
+  ['washington-commanders', 'Washington', 'WAS'],
+] as const;
+
+export const KOOZIE_PRODUCTS: MerchProduct[] = KOOZIE_TEAMS.map(([slug, market, cityCode]) => ({
+  id: `${slug}-koozie`,
+  name: `D&D Koozie — ${market} Colorway`,
+  category: 'Accessories',
+  type: 'Koozie',
+  price: 9.99,
+  colors: ['#00172B'],
+  sizes: ['One Size'],
+  imageUrl: `/images/store/koozies/${slug}-down-and-distance-koozie.png`,
+  cityCode,
+  cityName: market,
+}));
 
 export const MERCH_PRODUCTS: MerchProduct[] = [
   {
@@ -206,6 +256,7 @@ export const MERCH_PRODUCTS: MerchProduct[] = [
     colors: ['#F4D9B7', '#FF3D38'],
     sizes: ['One Size'],
   },
+  ...KOOZIE_PRODUCTS,
   {
     id: 'archive-tee',
     name: 'Archive Yard Marker Tee',

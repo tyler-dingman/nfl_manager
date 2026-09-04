@@ -31,6 +31,8 @@ export type TeamBriefing = {
   sourceCount: number;
   status?: string | null;
   materialUpdateCount?: number;
+  hotReadUntil?: string | null;
+  firstReportedBy?: string | null;
   sources: BriefingSource[];
 };
 

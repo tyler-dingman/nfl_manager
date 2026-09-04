@@ -5,6 +5,7 @@ import { TEAM_LIST } from '@/data/teams';
 export type Team = {
   id: string;
   name: string;
+  city?: string;
   abbr: string;
   logo_url: string;
   color_primary: string;
@@ -32,6 +33,7 @@ type TeamState = {
 const teams: Team[] = TEAM_LIST.map((team) => ({
   id: team.id,
   name: team.name,
+  city: team.city,
   abbr: team.abbr,
   logo_url: team.logoUrl,
   color_primary: team.colors[0],

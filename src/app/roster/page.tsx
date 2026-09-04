@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeftRight, ArrowUpDown, Handshake, MoreHorizontal, Users } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
@@ -79,6 +79,7 @@ const getReadableTextColor = (backgroundColor?: string | null) => {
 };
 
 export default function RosterPage() {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
@@ -140,6 +141,15 @@ export default function RosterPage() {
   const [pendingRenegotiateToast, setPendingRenegotiateToast] = useState<ToastPayload | null>(null);
   const [tradeBlockPlayers, setTradeBlockPlayers] = useState<TradeBlockRow[]>(() => tradeBlockData);
   const [activeTab, setActiveTab] = useState<'expiring' | 'tradeBlock' | 'roster'>('expiring');
+
+  useEffect(() => {
+    const requestedView = searchParams?.get('view');
+    if (requestedView === 'roster' || requestedView === 'depth') {
+      setActiveTab('roster');
+    } else if (requestedView === 'contracts' || requestedView === 'resign') {
+      setActiveTab('expiring');
+    }
+  }, [searchParams]);
   const { push: pushToast } = useToast();
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const mode = useExperienceStore((state) => state.mode);

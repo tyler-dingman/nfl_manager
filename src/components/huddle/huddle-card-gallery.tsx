@@ -34,13 +34,13 @@ export default function HuddleCardGallery() {
             Development only · Fixture content
           </p>
           <h1 className={`mt-2 text-4xl font-black ${background === 'dark' ? 'text-white' : ''}`}>
-            Huddle Card Gallery
+            Beat Card Gallery
           </h1>
           <p
             className={`mt-3 max-w-3xl text-sm leading-6 ${background === 'dark' ? 'text-white/60' : 'text-[#40556b]'}`}
           >
-            This page exercises the production HuddleStoryCard and EditorialVisual components.
-            Nothing shown here is saved to the database or returned by the Story Engine.
+            This page exercises the production Beat story card across team palettes. Nothing shown
+            here is saved to the database or returned by the Story Engine.
           </p>
           <div
             className={`mt-7 grid gap-4 rounded-2xl border p-5 md:grid-cols-3 ${background === 'dark' ? 'border-white/15 bg-black/20 text-white' : 'border-[#00172B]/10 bg-white/65'}`}
@@ -94,7 +94,7 @@ export default function HuddleCardGallery() {
                       <p
                         className={`mb-2 text-xs font-black uppercase tracking-[0.14em] ${background === 'dark' ? 'text-white/50' : 'text-[#7890a8]'}`}
                       >
-                        {lead ? 'Lead Huddle Story' : 'Standard Huddle Story'} · Default variant
+                        {lead ? 'Lead Beat Story' : 'Standard Beat Story'} · Default variant
                       </p>
                       <div className={lead ? 'max-w-4xl' : 'max-w-md'}>
                         <HuddleStoryCard
@@ -108,7 +108,6 @@ export default function HuddleCardGallery() {
                           updatedAt="2026-09-01T14:14:00.000Z"
                           materialUpdateCount={fixture.materialUpdateCount}
                           lead={lead}
-                          visual={{ ...fixture.visual, teamId: teamAbbr }}
                         />
                       </div>
                     </div>

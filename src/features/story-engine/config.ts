@@ -41,9 +41,29 @@ export const STORY_ENGINE_THRESHOLDS = {
   ambiguous: 0.52,
   material: 0.58,
   autoPublishConfidence: 90,
+  tierOnePublishConfidence: 85,
+  corroboratedTierTwoPublishConfidence: 82,
+  tierTwoSinglePublishConfidence: 70,
+  tierThreeSinglePublishConfidence: 60,
   importanceChange: 10,
   breakingImportance: Number(process.env.STORY_BREAKING_IMPORTANCE ?? 85),
 } as const;
+
+export const STORY_CLUSTER_WINDOW_HOURS: Record<string, number> = {
+  TRANSACTION: 72,
+  TRADE: 72,
+  SIGNING: 72,
+  RELEASE: 72,
+  INJURY: 72,
+  ROSTER: 72,
+  PRACTICE: 48,
+  DRAFT: 72,
+  GAME: 18,
+  ANALYSIS: 24,
+};
+
+export const storyClusterWindowHours = (storyType: string) =>
+  STORY_CLUSTER_WINDOW_HOURS[storyType] ?? 48;
 
 export const SOURCE_FETCH_TIMEOUT_MS = Number(process.env.SOURCE_FETCH_TIMEOUT_MS ?? 10_000);
 export const SOURCE_BATCH_SIZE = Number(process.env.SOURCE_BATCH_SIZE ?? 10);

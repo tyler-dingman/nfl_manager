@@ -1,7 +1,5 @@
-import { ArrowRight } from 'lucide-react';
-
-import EditorialVisual from '@/components/editorial/editorial-visual';
-import type { EditorialStoryInput, EditorialVisualData } from '../../../packages/editorial-visual';
+import { ArrowRight, Bookmark, Flame } from 'lucide-react';
+import ShareToCrewButton from '@/components/crew/share-to-crew-button';
 
 type HuddleStoryCardProps = {
   id: string;
@@ -13,16 +11,29 @@ type HuddleStoryCardProps = {
   sourceCount: number;
   updatedAt: string;
   materialUpdateCount?: number;
+  hotReadUntil?: string | null;
+  firstReportedBy?: string | null;
+  sources?: Array<{ id: string; publisher: string; title: string; url: string }>;
   lead?: boolean;
+  saved?: boolean;
+  onSave?: () => void;
   onOpen?: () => void;
-  visual?: EditorialVisualData;
 };
 
-const updateLabel = (value: string) => {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-};
+function relativeTime(value: string) {
+  const timestamp = new Date(value).getTime();
+  if (!Number.isFinite(timestamp)) return null;
+  const minutes = Math.max(0, Math.floor((Date.now() - timestamp) / 60_000));
+  if (minutes < 1) return 'now';
+  if (minutes < 60) return `${minutes}m`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h`;
+  return `${Math.floor(hours / 24)}d`;
+}
+
+export function isHotRead(hotReadUntil?: string | null, now = Date.now()) {
+  return Boolean(hotReadUntil && new Date(hotReadUntil).getTime() > now);
+}
 
 export default function HuddleStoryCard({
   id,
@@ -30,57 +41,130 @@ export default function HuddleStoryCard({
   headline,
   summary,
   category,
-  status,
   sourceCount,
   updatedAt,
   materialUpdateCount,
+  hotReadUntil,
+  firstReportedBy,
+  sources = [],
   lead = false,
+  saved = false,
+  onSave,
   onOpen,
-  visual,
 }: HuddleStoryCardProps) {
-  const story: EditorialStoryInput = {
-    teamId,
-    storyType: category,
-    category,
-    headline,
-    summary,
-    status,
-  };
-  const time = updateLabel(updatedAt);
+  const hotRead = isHotRead(hotReadUntil);
+  const time = relativeTime(updatedAt);
 
   return (
-    <button
-      type="button"
+    <article
       data-story-id={id}
-      onClick={onOpen}
-      disabled={!onOpen}
-      className={`group flex h-full flex-col overflow-hidden rounded-2xl border border-[#00172B]/10 bg-[#fffdf8] text-left shadow-sm transition enabled:hover:-translate-y-0.5 enabled:hover:shadow-lg disabled:cursor-default ${lead ? 'md:col-span-2 xl:row-span-2' : ''}`}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-[#fffdf8] text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg ${
+        hotRead ? 'border-[var(--primary)]' : 'border-[#00172B]/10'
+      } ${lead ? 'md:col-span-2' : ''}`}
     >
-      <EditorialVisual
-        story={visual ? undefined : story}
-        visual={visual}
-        variant={lead ? 'hero' : 'card'}
-        decorative
-        className="w-full shrink-0"
+      <div
+        className={`h-1.5 w-full ${hotRead ? 'bg-[var(--primary)]' : 'bg-[var(--secondary)]'}`}
       />
-      <div className={`flex min-h-0 flex-1 flex-col ${lead ? 'p-6 sm:p-7' : 'p-5'}`}>
-        <h3
-          className={`${lead ? 'text-2xl sm:text-[1.75rem]' : 'text-lg'} font-black leading-tight tracking-[-0.025em] text-[#00172B]`}
+      <div className={`flex flex-1 flex-col ${lead ? 'p-6 sm:p-8' : 'p-5 sm:p-6'}`}>
+        <div className="flex items-center justify-between gap-3 text-[10px] font-black uppercase tracking-[0.16em]">
+          <span
+            className={`inline-flex items-center gap-1.5 ${hotRead ? 'text-[var(--team-primary-text)]' : 'text-[#52677c]'}`}
+          >
+            {hotRead ? <Flame className="h-3.5 w-3.5 fill-current" aria-hidden="true" /> : null}
+            {hotRead ? 'Hot Read' : category.replaceAll('_', ' ')}
+          </span>
+          {time ? <time className="text-[#7890a8]">{time}</time> : null}
+        </div>
+
+        <button
+          type="button"
+          onClick={onOpen}
+          disabled={!onOpen}
+          className="mt-4 text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30 disabled:cursor-default"
+          aria-label={`Open story: ${headline}`}
         >
-          {headline}
-        </h3>
-        <p className={`${lead ? 'text-base leading-7' : 'text-sm leading-6'} mt-2 text-[#40556b]`}>
-          {summary}
-        </p>
-        <div className="mt-auto flex items-end justify-between gap-4 pt-5">
-          <p className="text-[10px] font-black uppercase tracking-[0.08em] text-[#7890a8]">
-            {sourceCount} {sourceCount === 1 ? 'source' : 'sources'}
-            {materialUpdateCount ? ` · ${materialUpdateCount} updates` : ''}
-            {time ? ` · Updated ${time}` : ''}
+          <h3
+            className={`${lead ? 'text-2xl sm:text-3xl' : 'text-xl'} font-black leading-tight tracking-[-0.025em] text-[#00172B]`}
+          >
+            {headline}
+          </h3>
+          <p
+            className={`${lead ? 'text-base leading-7' : 'text-sm leading-6'} mt-3 text-[#40556b]`}
+          >
+            {summary}
           </p>
-          <ArrowRight className="h-5 w-5 shrink-0 text-[var(--team-primary-text)] transition group-enabled:group-hover:translate-x-1" />
+        </button>
+
+        {hotRead && firstReportedBy ? (
+          <p className="mt-4 text-xs font-bold text-[#52677c]">
+            First reported by <span className="text-[#00172B]">{firstReportedBy}</span>
+          </p>
+        ) : null}
+
+        {sources.length ? (
+          <details className="mt-4 border-t border-[#00172B]/10 pt-4 text-xs">
+            <summary className="cursor-pointer font-black text-[var(--team-primary-text)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30">
+              View {sourceCount} {sourceCount === 1 ? 'source' : 'sources'}
+            </summary>
+            <div className="mt-3 space-y-2">
+              {sources.map((source, index) => (
+                <a
+                  key={source.id}
+                  href={source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-start justify-between gap-3 rounded-lg bg-[#f7f4ee] p-3 font-bold text-[#00172B] hover:underline"
+                >
+                  <span>
+                    {index === 0 && firstReportedBy === source.publisher
+                      ? 'First reported by · '
+                      : ''}
+                    {source.publisher}
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          </details>
+        ) : null}
+
+        <div className="mt-auto flex items-end justify-between gap-4 pt-6">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.08em] text-[#7890a8]">
+              {sourceCount} {sourceCount === 1 ? 'source' : 'sources'}
+              {materialUpdateCount ? ` · ${materialUpdateCount} updates` : ''}
+              {time ? ` · Updated ${time}${time === 'now' ? '' : ' ago'}` : ''}
+            </p>
+            {onSave ? (
+              <button
+                type="button"
+                onClick={onSave}
+                className="mt-4 inline-flex items-center gap-1.5 text-xs font-black text-[var(--team-primary-text)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30"
+                aria-label={saved ? `Remove ${headline} from saved stories` : `Save ${headline}`}
+              >
+                <Bookmark className={`h-4 w-4 ${saved ? 'fill-current' : ''}`} aria-hidden="true" />
+                {saved ? 'Saved' : 'Save'}
+              </button>
+            ) : null}
+            <ShareToCrewButton
+              contentId={id}
+              contentType="BEAT_STORY"
+              href={`/the-beat?team=${teamId}&story=${id}`}
+              title={headline}
+              className="mt-4 inline-flex items-center gap-1.5 text-xs font-black text-[var(--team-primary-text)]"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={onOpen}
+            disabled={!onOpen}
+            className="rounded-full p-2 text-[var(--team-primary-text)] transition enabled:group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30 disabled:cursor-default"
+            aria-label={`Open story: ${headline}`}
+          >
+            <ArrowRight className="h-5 w-5" aria-hidden="true" />
+          </button>
         </div>
       </div>
-    </button>
+    </article>
   );
 }

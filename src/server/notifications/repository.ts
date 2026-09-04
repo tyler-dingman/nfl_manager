@@ -47,16 +47,17 @@ export async function upsertPushToken(
   provider: string,
   token: string,
 ) {
-  return authDb().begin(async tx=>{
-    const hash=tokenHash(token),ciphertext=encryptSecret(token);
+  return authDb().begin(async (tx) => {
+    const hash = tokenHash(token),
+      ciphertext = encryptSecret(token);
     await tx`UPDATE user_push_tokens SET invalidated_at=now(),updated_at=now() WHERE user_id=${userId} AND device_id=${deviceId} AND provider=${provider} AND token_hash<>${hash} AND invalidated_at IS NULL`;
-    const rows=await tx<Array<{id:string}>>`
+    const rows = await tx<Array<{ id: string }>>`
       INSERT INTO user_push_tokens (id,user_id,device_id,provider,token_hash,token_ciphertext,created_at,updated_at,last_validated_at)
       SELECT ${randomUUID()},${userId},id,${provider},${hash},${ciphertext},now(),now(),now()
       FROM user_devices WHERE id=${deviceId} AND user_id=${userId} AND disabled_at IS NULL
       ON CONFLICT (user_id,device_id,provider,token_hash) DO UPDATE SET token_ciphertext=EXCLUDED.token_ciphertext,updated_at=now(),last_validated_at=now(),invalidated_at=NULL
       RETURNING id`;
-    return rows[0]??null;
+    return rows[0] ?? null;
   });
 }
 
@@ -73,11 +74,13 @@ export async function listPushTokens(userId: string) {
 }
 
 export async function listDeliverablePushTokens(userId: string) {
-  const rows = await authDb()<Array<{id:string;deviceId:string;provider:string;tokenCiphertext:string}>>`
+  const rows = await authDb()<
+    Array<{ id: string; deviceId: string; provider: string; tokenCiphertext: string }>
+  >`
     SELECT t.id,t.device_id AS "deviceId",t.provider,t.token_ciphertext AS "tokenCiphertext"
     FROM user_push_tokens t JOIN user_devices d ON d.id=t.device_id
     WHERE t.user_id=${userId} AND t.invalidated_at IS NULL AND t.token_ciphertext IS NOT NULL AND d.disabled_at IS NULL`;
-  return rows.map(row=>({...row,token:decryptSecret(row.tokenCiphertext)}));
+  return rows.map((row) => ({ ...row, token: decryptSecret(row.tokenCiphertext) }));
 }
 
 export async function getNotificationPreferences(userId: string) {
@@ -156,7 +159,32 @@ export async function revokeConsent(userId: string, consentType: string, channel
   await authDb()`UPDATE user_consents SET revoked_at = now(), updated_at = now() WHERE user_id = ${userId} AND consent_type = ${consentType} AND channel = ${channel} AND revoked_at IS NULL ORDER BY granted_at DESC LIMIT 1`;
 }
 
-export async function listInbox(userId: string) {
+export type NotificationCategory =
+  | 'BREAKING'
+  | 'HOT_READ'
+  | 'INJURY'
+  | 'TRADE'
+  | 'SIGNING'
+  | 'RELEASE'
+  | 'ROSTER'
+  | 'GAME_DAY'
+  | 'GAME_UPDATE'
+  | 'TRIVIA'
+  | 'FRIENDS'
+  | 'FRONT_OFFICE'
+  | 'CATCH_UP'
+  | 'SYSTEM';
+
+export async function listInbox(
+  userId: string,
+  options: {
+    limit?: number;
+    cursor?: Date | null;
+    unreadOnly?: boolean;
+    teamAbbr?: string | null;
+  } = {},
+) {
+  const limit = Math.min(50, Math.max(1, options.limit ?? 20));
   return authDb()<
     Array<{
       id: string;
@@ -164,13 +192,45 @@ export async function listInbox(userId: string) {
       body: string;
       deepLink: string | null;
       imageUrl: string | null;
+      teamAbbr: string | null;
+      type: string;
+      category: NotificationCategory;
+      contentId: string | null;
+      contentType: string | null;
+      priority: string;
       createdAt: Date;
       readAt: Date | null;
+      seenAt: Date | null;
+      expiresAt: Date | null;
+      deliveryState: string;
+      pushEligible: boolean;
+      metadata: Record<string, unknown>;
       dismissedAt: Date | null;
     }>
   >`
-    SELECT id, title, body, deep_link AS "deepLink", image_url AS "imageUrl", created_at AS "createdAt", read_at AS "readAt", dismissed_at AS "dismissedAt"
-    FROM user_notifications WHERE user_id = ${userId} AND dismissed_at IS NULL ORDER BY created_at DESC`;
+    SELECT id,title,body,deep_link AS "deepLink",image_url AS "imageUrl",team_abbr AS "teamAbbr",
+      type,category,content_id AS "contentId",content_type AS "contentType",priority,
+      created_at AS "createdAt",read_at AS "readAt",seen_at AS "seenAt",expires_at AS "expiresAt",
+      delivery_state AS "deliveryState",push_eligible AS "pushEligible",metadata,dismissed_at AS "dismissedAt"
+    FROM user_notifications
+    WHERE user_id=${userId} AND dismissed_at IS NULL AND (expires_at IS NULL OR expires_at>now())
+      AND (${options.cursor ?? null}::timestamptz IS NULL OR created_at<${options.cursor ?? null})
+      AND (${options.unreadOnly ?? false}=false OR read_at IS NULL)
+    ORDER BY created_at DESC,CASE priority WHEN 'HIGH' THEN 0 WHEN 'NORMAL' THEN 1 ELSE 2 END
+    LIMIT ${limit}`;
+}
+
+export async function unreadNotificationCount(userId: string) {
+  const [row] = await authDb()<Array<{ count: number }>>`
+    SELECT count(*)::int AS count FROM user_notifications
+    WHERE user_id=${userId} AND read_at IS NULL AND dismissed_at IS NULL
+      AND (expires_at IS NULL OR expires_at>now())`;
+  return row?.count ?? 0;
+}
+
+export async function markNotificationsSeen(userId: string) {
+  await authDb()`UPDATE user_notifications SET seen_at=COALESCE(seen_at,now()),updated_at=now()
+    WHERE user_id=${userId} AND dismissed_at IS NULL AND seen_at IS NULL`;
 }
 
 export async function markNotificationRead(userId: string, notificationId: string) {
@@ -193,11 +253,29 @@ export async function createNotification(
     body: string;
     deepLink?: string | null;
     imageUrl?: string | null;
+    teamAbbr?: string | null;
+    type?: NotificationCategory;
+    category?: NotificationCategory;
+    contentId?: string | null;
+    contentType?: string | null;
+    priority?: 'LOW' | 'NORMAL' | 'HIGH';
+    expiresAt?: Date | null;
+    deliveryState?: string;
+    pushEligible?: boolean;
+    metadata?: Record<string, unknown>;
+    dedupeKey?: string | null;
   },
 ) {
+  const sql = authDb();
   const rows = await authDb()<Array<{ id: string }>>`
-    INSERT INTO user_notifications (id, user_id, event_id, title, body, deep_link, image_url, created_at)
-    VALUES (${randomUUID()}, ${userId}, ${input.eventId}, ${input.title}, ${input.body}, ${input.deepLink ?? null}, ${input.imageUrl ?? null}, now())
+    INSERT INTO user_notifications (id,user_id,event_id,title,body,deep_link,image_url,team_abbr,type,category,
+      content_id,content_type,priority,expires_at,delivery_state,push_eligible,metadata,dedupe_key,created_at)
+    VALUES (${randomUUID()},${userId},${input.eventId},${input.title},${input.body},${input.deepLink ?? null},
+      ${input.imageUrl ?? null},${input.teamAbbr ?? null},${input.type ?? 'SYSTEM'},${input.category ?? input.type ?? 'SYSTEM'},
+      ${input.contentId ?? null},${input.contentType ?? null},${input.priority ?? 'NORMAL'},${input.expiresAt ?? null},
+      ${input.deliveryState ?? (input.pushEligible ? 'PUSH_PENDING' : 'PUSH_NOT_ELIGIBLE')},${input.pushEligible ?? false},
+      ${sql.json((input.metadata ?? {}) as any)},${input.dedupeKey ?? input.eventId},now())
+    ON CONFLICT (user_id,dedupe_key) WHERE dedupe_key IS NOT NULL DO NOTHING
     RETURNING id`;
   return rows[0] ?? null;
 }

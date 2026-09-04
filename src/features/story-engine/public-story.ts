@@ -25,6 +25,11 @@ export type StoryView = {
   sources: StorySourceView[];
   primarySource: StorySourceView | null;
   version: number;
+  sourceItemCount?: number;
+  publisherCount?: number;
+  independentSourceCount?: number;
+  hotReadUntil?: string | null;
+  clusterReason?: string | null;
 };
 export type PublishableStory = Pick<
   StoryRecord,
@@ -34,7 +39,6 @@ export type PublishableStory = Pick<
 export function isStoryPublishable(story: PublishableStory) {
   return (
     ['PUBLISHED', 'AUTO_PUBLISHED'].includes(story.publicationState as PublicationState) &&
-    story.confidenceScore >= 80 &&
     story.sourceCount > 0 &&
     story.status !== 'HOLDING'
   );

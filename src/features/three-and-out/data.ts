@@ -80,7 +80,7 @@ const developmentSource = (
   sourceName: 'Down & Distance development desk',
   authorName: null,
   sourceType: 'DEVELOPMENT',
-  sourceUrl: `/huddle?team=${teamId}`,
+  sourceUrl: `/the-beat?team=${teamId}`,
   publishedAt,
   isOriginalReporter: false,
   isOfficialSource: false,

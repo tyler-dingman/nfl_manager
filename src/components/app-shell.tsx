@@ -2,14 +2,28 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { ArrowDownRight, ArrowUp, Lock, Menu, X } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ArrowDownRight,
+  ArrowLeftRight,
+  ArrowUp,
+  ClipboardList,
+  FileText,
+  Handshake,
+  Home,
+  Lock,
+  Menu,
+  Shield,
+  Users,
+  WalletCards,
+  X,
+  type LucideIcon,
+} from 'lucide-react';
 
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { TeamNeeds } from '@/components/team-needs';
-import { OffseasonStepperNav } from '@/components/offseason/offseason-stepper-nav';
 import { PhaseStepper } from '@/components/phase-stepper';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
@@ -36,15 +50,35 @@ import {
 import { cn } from '@/lib/utils';
 
 const navRoutes = {
-  'Re-sign/Cut Players': '/roster',
+  Overview: '/experience',
+  Roster: '/roster?view=roster',
+  Contracts: '/roster?view=contracts',
+  'Cap Space': '/cap-space',
+  'Depth Chart': '/roster?view=depth',
+  'Re-sign/Cut Players': '/roster?view=resign',
   'Trade Hub': '/manage/trades',
   'Free Agency': '/free-agents',
-  Draft: '/draft/room?mode=mock',
+  'Draft Board': '/draft/room?mode=mock',
 } as const;
 
 type NavItem = keyof typeof navRoutes;
 
-const navSections: { title: string; items: NavItem[] }[] = [
+const navIcons: Record<NavItem, LucideIcon> = {
+  Overview: Home,
+  Roster: Users,
+  Contracts: FileText,
+  'Cap Space': WalletCards,
+  'Depth Chart': Shield,
+  'Re-sign/Cut Players': Handshake,
+  'Trade Hub': ArrowLeftRight,
+  'Free Agency': ClipboardList,
+  'Draft Board': Lock,
+};
+
+const navSections: { title?: string; items: NavItem[] }[] = [
+  {
+    items: ['Overview', 'Roster', 'Contracts', 'Cap Space', 'Depth Chart'],
+  },
   {
     title: 'Manage Team',
     items: ['Re-sign/Cut Players', 'Trade Hub'],
@@ -55,7 +89,7 @@ const navSections: { title: string; items: NavItem[] }[] = [
   },
   {
     title: 'Draft',
-    items: ['Draft'],
+    items: ['Draft Board'],
   },
 ];
 
@@ -103,7 +137,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const saveId = useSaveStore((state) => state.saveId);
   const storedTeamAbbr = useSaveStore((state) => state.teamAbbr);
-  const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const capSpace = useSaveStore((state) => state.capSpace);
   const startingCapSpace = useSaveStore((state) => state.startingCapSpace);
   const startingOverall = useSaveStore((state) => state.startingOverall);
@@ -118,13 +151,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const isHydrated = hasHydrated && experienceHasHydrated;
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completedSteps = useExperienceStore((state) => state.completedSteps);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [trajectoryPulse, setTrajectoryPulse] = useState(false);
   const wasNegativeRef = useRef(false);
   const lastSaveIdRef = useRef<string | null>(null);
   const lastTrajectoryStateRef = useRef<string | null>(null);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const routeStep = pathname ? getStepForPath(pathname) : null;
 
@@ -222,7 +255,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       locked.add('Free Agency');
     }
     if (!unlocked.draft) {
-      locked.add('Draft');
+      locked.add('Draft Board');
     }
     return locked;
   }, [phase, unlocked.draft, unlocked.freeAgency]);
@@ -343,10 +376,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   if (!isHydrated) {
     return (
       <TeamThemeProvider team={teams[0]}>
-        <div
-          className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:flex-row"
-          style={{ '--app-header-height': '64px' } as CSSProperties}
-        />
+        <div className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:flex-row" />
       </TeamThemeProvider>
     );
   }
@@ -374,10 +404,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <TeamFavicon teamAbbr={selectedTeam?.abbr ?? null} />
       <MainSiteHeader teamAbbr={selectedTeam?.abbr} active="front-office" />
       <div className="front-office-app min-h-screen overflow-x-hidden bg-[#f7f4ee]">
-        <div
-          className="flex min-h-[calc(100vh-6rem)] flex-col bg-[#f7f4ee] md:flex-row md:items-stretch"
-          style={{ '--app-header-height': '64px' } as CSSProperties}
-        >
+        <div className="front-office-shell flex min-h-[calc(100vh-var(--site-header-height))] flex-col bg-[#f7f4ee] md:flex-row md:items-stretch">
           {isMobileSidebarOpen ? (
             <div
               className="fixed inset-0 z-40 bg-black/50 md:hidden"
@@ -387,7 +414,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           ) : null}
 
           <aside
-            className="fixed bottom-0 left-0 top-24 z-50 w-64 -translate-x-full overflow-y-auto border-r border-border border-t-4 border-t-[var(--primary)] bg-white px-5 pb-6 pt-0 transition-transform md:sticky md:top-0 md:z-auto md:flex md:h-[calc(100vh-6rem)] md:translate-x-0 md:flex-col md:self-start"
+            className="front-office-sidebar fixed bottom-0 left-0 top-[var(--site-header-height)] z-50 w-64 -translate-x-full overflow-y-auto border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:relative md:inset-auto md:z-auto md:flex md:min-h-full md:translate-x-0 md:flex-col md:self-stretch"
             style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
           >
             <div className="mb-[20px] mt-7 flex items-start justify-between gap-3 text-left text-sm">
@@ -409,64 +436,59 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <X className="h-4 w-4 text-muted-foreground" />
               </button>
             </div>
-            {showOffseasonStepper ? (
-              <OffseasonStepperNav
-                seasonLabel={`${franchiseYear} Offseason`}
-                teamName={selectedTeam?.name ?? 'Your Team'}
-                currentStep={currentStep}
-                completedSteps={completedSteps}
-              />
-            ) : (
-              <nav className="flex flex-col gap-6 text-sm">
-                {navSections.map((section) => (
-                  <div key={section.title} className="space-y-2">
+            <nav className="flex flex-col gap-6 text-sm">
+              {navSections.map((section) => (
+                <div key={section.title ?? 'overview'} className="space-y-2">
+                  {section.title ? (
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                       {section.title}
                     </p>
-                    <div className="space-y-1">
-                      {section.items.map((item) => {
-                        const href = navRoutes[item];
-                        const isActive = pathname === href.split('?')[0];
-                        if (lockedRoutes.has(item)) {
-                          return (
-                            <span
-                              key={item}
-                              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground/70 opacity-70"
-                              title="Locked until the next phase"
-                            >
-                              <span className="flex h-6 w-1 rounded-full bg-transparent" />
-                              <Lock className="h-4 w-4 text-muted-foreground/70" />
-                              <span>{item}</span>
-                            </span>
-                          );
-                        }
-
+                  ) : null}
+                  <div className="space-y-1">
+                    {section.items.map((item) => {
+                      const href = navRoutes[item];
+                      const [hrefPath, hrefQuery] = href.split('?');
+                      const isActive =
+                        pathname === hrefPath &&
+                        (!hrefQuery ||
+                          hrefQuery.split('&').every((entry) => {
+                            const [key, value] = entry.split('=');
+                            return searchParams?.get(key) === value;
+                          }));
+                      const Icon = navIcons[item];
+                      if (lockedRoutes.has(item)) {
                         return (
-                          <Link
+                          <span
                             key={item}
-                            href={href}
-                            aria-current={isActive ? 'page' : undefined}
-                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground/70 opacity-70"
+                            title="Locked until the next phase"
                           >
-                            <span
-                              className="h-6 w-1 rounded-full"
-                              style={{
-                                backgroundColor: isActive ? 'var(--team-primary)' : 'transparent',
-                              }}
-                            />
-                            <span className={isActive ? 'text-foreground' : undefined}>{item}</span>
-                          </Link>
+                            <Icon className="h-4 w-4 text-muted-foreground/70" />
+                            <span>{item}</span>
+                          </span>
                         );
-                      })}
-                    </div>
+                      }
+
+                      return (
+                        <Link
+                          key={item}
+                          href={href}
+                          aria-current={isActive ? 'page' : undefined}
+                          className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                        >
+                          <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          <span className={isActive ? 'text-foreground' : undefined}>{item}</span>
+                        </Link>
+                      );
+                    })}
                   </div>
-                ))}
-              </nav>
-            )}
+                </div>
+              ))}
+            </nav>
           </aside>
 
           <div className="flex min-w-0 flex-1 flex-col md:min-h-screen">
-            <header className="border-b border-border bg-[#fffdf9]/90 px-4 py-3 md:sticky md:top-0 md:z-40 md:bg-[#fffdf9]/95 md:px-6 md:backdrop-blur">
+            <header className="front-office-team-summary border-b border-border bg-[#fffdf9]/90 px-4 py-3 md:bg-[#fffdf9]/95 md:px-6">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3 md:hidden">
                   <button
@@ -556,37 +578,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       ) : null}
                     </div>
                   </div>
-                  <div className="relative md:hidden">
-                    <button
-                      type="button"
-                      onClick={() => setIsProfileOpen((open) => !open)}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white"
-                    >
-                      <span className="text-sm font-semibold text-muted-foreground">JD</span>
-                    </button>
-                    {isProfileOpen ? (
-                      <div className="absolute right-0 top-12 z-10 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
-                        <button
-                          type="button"
-                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                        >
-                          Profile
-                        </button>
-                        <button
-                          type="button"
-                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                        >
-                          Settings
-                        </button>
-                        <button
-                          type="button"
-                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                        >
-                          Log out
-                        </button>
-                      </div>
-                    ) : null}
-                  </div>
                 </div>
                 <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
                   <div className="flex min-w-0 items-center gap-3">
@@ -663,40 +654,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                       </span>
                     ) : null}
                   </div>
-
-                  <div className="flex min-w-0 items-center gap-3">
-                    <div className="relative">
-                      <button
-                        type="button"
-                        onClick={() => setIsProfileOpen((open) => !open)}
-                        className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white"
-                      >
-                        <span className="text-sm font-semibold text-muted-foreground">JD</span>
-                      </button>
-                      {isProfileOpen ? (
-                        <div className="absolute right-0 top-12 w-48 rounded-lg border border-border bg-white p-2 text-sm shadow-lg">
-                          <button
-                            type="button"
-                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                          >
-                            Profile
-                          </button>
-                          <button
-                            type="button"
-                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                          >
-                            Settings
-                          </button>
-                          <button
-                            type="button"
-                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-muted-foreground hover:bg-muted hover:text-foreground"
-                          >
-                            Log out
-                          </button>
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
                 </div>
               </div>
             </header>
@@ -719,7 +676,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             ) : null}
 
             <div className="flex min-w-0 flex-1 items-start gap-0">
-              <main className="min-w-0 flex-1 px-4 py-6 pb-24 sm:py-8 md:px-8 md:pb-8">
+              <main className="front-office-workspace min-w-0 flex-1 px-4 py-6 pb-24 sm:py-8 md:px-8 md:pb-8">
                 {children}
               </main>
               {showShellRightRail ? (

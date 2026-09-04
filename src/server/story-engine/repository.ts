@@ -55,11 +55,18 @@ const rowStory = (r: any): StoryRecord =>
     lastMeaningingUpdateAt: r.last_meaningful_update_at,
     lastMeaningfulUpdateAt: r.last_meaningful_update_at,
     version: r.version,
+    sourceItemCount: r.source_item_count,
+    publisherCount: r.publisher_count,
+    independentSourceCount: r.independent_source_count,
+    hotReadQualifiedAt: r.hot_read_qualified_at,
+    hotReadUntil: r.hot_read_until,
+    clusterReason: r.cluster_reason,
   }) as StoryRecord;
 
-export async function dueSources(now = new Date(), limit = 50) {
-  const rows =
-    await authDb()`SELECT * FROM content_sources WHERE enabled=true AND next_check_at<=${now} ORDER BY priority DESC,next_check_at LIMIT ${limit}`;
+export async function dueSources(now = new Date(), limit = 50, teamId?: string) {
+  const rows = teamId
+    ? await authDb()`SELECT * FROM content_sources WHERE enabled=true AND next_check_at<=${now} AND (team_id=${teamId} OR league_wide=true) ORDER BY priority DESC,next_check_at LIMIT ${limit}`
+    : await authDb()`SELECT * FROM content_sources WHERE enabled=true AND next_check_at<=${now} ORDER BY priority DESC,next_check_at LIMIT ${limit}`;
   return rows.map(rowSource);
 }
 export async function sourceById(id: string) {
@@ -96,11 +103,18 @@ export async function markSourceSuccess(
   etag: string | null,
   lastModified: string | null,
   next: Date,
+  latencyMs?: number,
+  lastItemAt?: Date | null,
 ) {
-  await authDb()`UPDATE content_sources SET etag=${etag},last_modified=${lastModified},last_checked_at=now(),last_successful_at=now(),next_check_at=${next},failure_count=0,last_error=NULL,updated_at=now() WHERE id=${source.id}`;
+  await authDb()`UPDATE content_sources SET etag=${etag},last_modified=${lastModified},last_checked_at=now(),last_successful_at=now(),last_item_at=COALESCE(${lastItemAt ?? null},last_item_at),next_check_at=${next},failure_count=0,consecutive_failures=0,average_latency_ms=CASE WHEN ${latencyMs ?? null}::numeric IS NULL THEN average_latency_ms WHEN request_count=0 THEN ${latencyMs ?? null}::numeric ELSE ((COALESCE(average_latency_ms,0)*request_count)+${latencyMs ?? null}::numeric)/(request_count+1) END,request_count=request_count+1,last_error=NULL,updated_at=now() WHERE id=${source.id}`;
 }
-export async function markSourceFailure(source: RegisteredSource, error: string, next: Date) {
-  await authDb()`UPDATE content_sources SET last_checked_at=now(),next_check_at=${next},failure_count=failure_count+1,last_error=${error.slice(0, 1000)},updated_at=now() WHERE id=${source.id}`;
+export async function markSourceFailure(
+  source: RegisteredSource,
+  error: string,
+  next: Date,
+  latencyMs?: number,
+) {
+  await authDb()`UPDATE content_sources SET last_checked_at=now(),next_check_at=${next},failure_count=failure_count+1,consecutive_failures=consecutive_failures+1,average_latency_ms=CASE WHEN ${latencyMs ?? null}::numeric IS NULL THEN average_latency_ms WHEN request_count=0 THEN ${latencyMs ?? null}::numeric ELSE ((COALESCE(average_latency_ms,0)*request_count)+${latencyMs ?? null}::numeric)/(request_count+1) END,request_count=request_count+1,last_error=${error.slice(0, 1000)},updated_at=now() WHERE id=${source.id}`;
 }
 
 export async function saveCandidate(c: ContentCandidate) {
@@ -141,6 +155,15 @@ export async function recentStories(teams: string[], since: Date) {
 export async function storyById(id: string) {
   const [r] = await authDb()`SELECT * FROM canonical_stories WHERE id=${id}`;
   return r ? rowStory(r) : null;
+}
+export async function storyIdsWithEvidenceSince(teamId: string, since: Date) {
+  const rows = await authDb()`SELECT DISTINCT story.id
+    FROM canonical_stories story
+    JOIN story_evidence evidence ON evidence.story_id=story.id
+    JOIN content_candidates candidate ON candidate.id=evidence.content_candidate_id
+    WHERE story.team_id=${teamId} AND candidate.published_at>=${since}
+    ORDER BY story.id`;
+  return rows.map((row: any) => String(row.id));
 }
 export async function evidenceForStory(id: string) {
   const rows =
@@ -183,18 +206,29 @@ export async function createStory(
   publication: string,
   change: MaterialChangeType,
   decision?: PublishingDecision,
+  clusterReason = 'NEW CANONICAL EVENT: no existing same-event cluster matched.',
 ) {
   const sql = authDb();
   return sql.begin(async (tx: any) => {
     const storyId = randomUUID(),
       evidenceId = randomUUID();
-    await tx`INSERT INTO canonical_stories(id,team_id,story_type,headline,summary,what_happened,why_it_matters,whats_next,status,publication_state,importance_score,confidence_score,entities,first_reported_at,last_meaningful_update_at) VALUES(${storyId},${candidate.candidateTeams[0] ?? source.teamId},${candidate.storyType},${synth.headline},${synth.summary},${synth.whatHappened},${synth.whyItMatters},${synth.whatsNext},${synth.status},${publication},${synth.importanceScore},${synth.confidenceScore},${tx.json(candidate.entities)},${candidate.publishedAt},${candidate.publishedAt})`;
+    const hotRead = publication === 'AUTO_PUBLISHED';
+    await tx`INSERT INTO canonical_stories(id,team_id,story_type,headline,summary,what_happened,why_it_matters,whats_next,status,publication_state,importance_score,confidence_score,entities,first_reported_at,last_meaningful_update_at,source_item_count,publisher_count,independent_source_count,hot_read_qualified_at,hot_read_until,cluster_reason) VALUES(${storyId},${candidate.candidateTeams[0] ?? source.teamId},${candidate.storyType},${synth.headline},${synth.summary},${synth.whatHappened},${synth.whyItMatters},${synth.whatsNext},${synth.status},${publication},${synth.importanceScore},${synth.confidenceScore},${tx.json(candidate.entities)},${candidate.publishedAt},${candidate.publishedAt},1,1,${source.pollingTier === 'C' ? 0 : 1},${hotRead ? new Date() : null},${hotRead ? new Date(Date.now() + 2 * 60 * 60 * 1000) : null},${clusterReason})`;
     await tx`INSERT INTO story_evidence(id,story_id,content_candidate_id,source_id,source_url,support_type,confidence) VALUES(${evidenceId},${storyId},${candidate.id},${source.id},${candidate.url},${source.sourceType === 'OFFICIAL_TEAM' || source.sourceType === 'NFL_OFFICIAL' ? 'OFFICIAL_CONFIRMATION' : 'SUPPORTS'},${source.reliabilityScore})`;
     await tx`INSERT INTO story_versions(id,story_id,version,headline,summary,what_happened,why_it_matters,whats_next,status,publication_state,importance_score,confidence_score,evidence_ids,claims,material_change_type) VALUES(${randomUUID()},${storyId},1,${synth.headline},${synth.summary},${synth.whatHappened},${synth.whyItMatters},${synth.whatsNext},${synth.status},${publication},${synth.importanceScore},${synth.confidenceScore},${tx.json([evidenceId])},${tx.json(synth.claims)},${change})`;
     await emit(tx, 'StoryCreated', storyId, candidate.candidateTeams[0] ?? source.teamId, 1, {
       headline: synth.headline,
     });
     if (decision) await recordDecision(tx, storyId, 1, decision);
+    if (hotRead)
+      await createCanonicalNotification(
+        tx,
+        storyId,
+        candidate.candidateTeams[0] ?? source.teamId,
+        1,
+        decision?.reason ?? 'Qualifying Hot Read.',
+        Boolean(decision?.breaking),
+      );
     if (decision?.breaking) {
       await emit(
         tx,
@@ -243,8 +277,58 @@ async function emitBreakingCandidate(
   version: number,
   reason: string,
 ) {
+  if (process.env.OBSERVER_MODE === 'true') {
+    console.info(
+      JSON.stringify({
+        metric: 'observer_notification_suppressed',
+        storyId,
+        teamId,
+        importanceScore,
+        version,
+        reason,
+      }),
+    );
+    return;
+  }
   const key = `BREAKING_STORY:${storyId}:${version}`;
   await sql`INSERT INTO notification_events(id,event_type,team_id,story_id,priority,payload,dedupe_key) VALUES(${randomUUID()},'BREAKING_STORY',${teamId},${storyId},'CRITICAL',${sql.json({ storyId, teamId, importanceScore, reason, occurredAt: new Date().toISOString() })},${key}) ON CONFLICT(dedupe_key) DO NOTHING`;
+}
+async function createCanonicalNotification(
+  sql: any,
+  storyId: string,
+  teamId: string | null,
+  version: number,
+  reason: string,
+  breaking: boolean,
+) {
+  if (!teamId || process.env.OBSERVER_MODE === 'true') return;
+  const eventId = `canonical:${storyId}:${version}`;
+  await sql`
+    INSERT INTO user_notifications(
+      id,user_id,event_id,team_abbr,type,category,title,body,deep_link,content_id,content_type,
+      priority,delivery_state,push_eligible,metadata,dedupe_key,created_at
+    )
+    SELECT gen_random_uuid(),u.id,${eventId},${teamId},
+      CASE WHEN ${breaking} THEN 'BREAKING' ELSE 'HOT_READ' END,
+      CASE WHEN s.story_type IN ('INJURY','TRADE','SIGNING','RELEASE','ROSTER') THEN s.story_type
+           WHEN ${breaking} THEN 'BREAKING' ELSE 'HOT_READ' END,
+      s.headline,s.summary,${`/the-beat?team=${teamId}&story=${storyId}`},s.id,'BEAT_STORY',
+      CASE WHEN ${breaking} OR s.importance_score>=85 THEN 'HIGH' ELSE 'NORMAL' END,
+      CASE WHEN (${breaking} OR s.importance_score>=85) AND COALESCE(p.push_enabled,true)
+           THEN 'PUSH_PENDING' ELSE 'PUSH_NOT_ELIGIBLE' END,
+      ((${breaking} OR s.importance_score>=85) AND COALESCE(p.push_enabled,true)),
+      jsonb_build_object('storyVersion',${version},'reason',${reason}),${eventId},now()
+    FROM users u
+    JOIN canonical_stories s ON s.id=${storyId}
+    LEFT JOIN user_preferences p ON p.user_id=u.id
+    WHERE u.status='ACTIVE' AND p.favorite_team_abbr=${teamId}
+      AND NOT EXISTS (
+        SELECT 1 FROM user_notification_preferences np
+        WHERE np.user_id=u.id AND np.category IN ('BREAKING_NEWS','BREAKING','HOT_READ')
+          AND np.channel='IN_APP' AND np.enabled=false
+      )
+    ON CONFLICT (user_id,dedupe_key) WHERE dedupe_key IS NOT NULL DO NOTHING
+  `;
 }
 export async function activePublishingOverride(storyId: string): Promise<PublishingOverride> {
   const [row] =
@@ -262,19 +346,36 @@ export async function attachEvidence(
   publication: string | null,
   change: MaterialChangeType,
   decision?: PublishingDecision,
+  clusterReason?: string,
 ) {
   const sql = authDb();
   return sql.begin(async (tx: any) => {
     const evidenceId = randomUUID();
     await tx`INSERT INTO story_evidence(id,story_id,content_candidate_id,source_id,source_url,support_type,confidence) VALUES(${evidenceId},${story.id},${candidate.id},${source.id},${candidate.url},${source.sourceType === 'OFFICIAL_TEAM' || source.sourceType === 'NFL_OFFICIAL' ? 'OFFICIAL_CONFIRMATION' : 'SUPPORTS'},${source.reliabilityScore}) ON CONFLICT DO NOTHING`;
     await tx`UPDATE content_candidates SET status='CLUSTERED' WHERE id=${candidate.id}`;
+    const [counts] = await tx`SELECT count(*)::int AS source_items,
+      count(DISTINCT lower(regexp_replace(s.name, '\\s+(rss|web|x|youtube)$', '', 'i')))::int AS publishers,
+      count(DISTINCT lower(regexp_replace(s.name, '\\s+(rss|web|x|youtube)$', '', 'i')))
+        FILTER (WHERE s.polling_tier <> 'C')::int AS independent_sources
+      FROM story_evidence e JOIN content_sources s ON s.id=e.source_id WHERE e.story_id=${story.id}`;
+    await tx`UPDATE canonical_stories SET source_item_count=${counts.source_items},publisher_count=${counts.publishers},independent_source_count=${counts.independent_sources},cluster_reason=${clusterReason ?? story.clusterReason ?? null},updated_at=now() WHERE id=${story.id}`;
     if (!synth) return story.version;
     const version = story.version + 1;
-    await tx`UPDATE canonical_stories SET headline=${synth.headline},summary=${synth.summary},what_happened=${synth.whatHappened},why_it_matters=${synth.whyItMatters},whats_next=${synth.whatsNext},status=${synth.status},publication_state=${publication},importance_score=${synth.importanceScore},confidence_score=${synth.confidenceScore},version=${version},last_meaningful_update_at=${candidate.publishedAt},updated_at=now() WHERE id=${story.id} AND version=${story.version}`;
+    const firstQualification = publication === 'AUTO_PUBLISHED' && !story.hotReadQualifiedAt;
+    await tx`UPDATE canonical_stories SET headline=${synth.headline},summary=${synth.summary},what_happened=${synth.whatHappened},why_it_matters=${synth.whyItMatters},whats_next=${synth.whatsNext},status=${synth.status},publication_state=${publication},importance_score=${synth.importanceScore},confidence_score=${synth.confidenceScore},version=${version},last_meaningful_update_at=${candidate.publishedAt},hot_read_qualified_at=CASE WHEN ${firstQualification} THEN now() ELSE hot_read_qualified_at END,hot_read_until=CASE WHEN ${firstQualification} THEN now()+interval '2 hours' ELSE hot_read_until END,updated_at=now() WHERE id=${story.id} AND version=${story.version}`;
     const evid = await tx`SELECT id FROM story_evidence WHERE story_id=${story.id}`;
     await tx`INSERT INTO story_versions(id,story_id,version,headline,summary,what_happened,why_it_matters,whats_next,status,publication_state,importance_score,confidence_score,evidence_ids,claims,material_change_type) VALUES(${randomUUID()},${story.id},${version},${synth.headline},${synth.summary},${synth.whatHappened},${synth.whyItMatters},${synth.whatsNext},${synth.status},${publication},${synth.importanceScore},${synth.confidenceScore},${tx.json(evid.map((r: any) => r.id))},${tx.json(synth.claims)},${change})`;
     if (decision) await recordDecision(tx, story.id, version, decision);
     await emit(tx, 'StoryUpdated', story.id, story.teamId, version, { change });
+    if (publication === 'AUTO_PUBLISHED' && change !== 'TRIVIAL')
+      await createCanonicalNotification(
+        tx,
+        story.id,
+        story.teamId,
+        version,
+        decision?.reason ?? change,
+        Boolean(decision?.breaking),
+      );
     if (story.status !== 'BREAKING' && synth.status === 'BREAKING') {
       await emit(tx, 'StoryBecameBreaking', story.id, story.teamId, version, {
         reason: decision?.reason,
@@ -299,8 +400,57 @@ export async function attachEvidence(
   });
 }
 
+export async function promoteExistingStory(
+  story: StoryRecord,
+  synth: SynthesizedStory,
+  decision: PublishingDecision,
+) {
+  const sql = authDb();
+  return sql.begin(async (tx: any) => {
+    const version = story.version + 1;
+    const publication = publicationStateForDecision(decision);
+    await tx`UPDATE canonical_stories SET headline=${synth.headline},summary=${synth.summary},what_happened=${synth.whatHappened},why_it_matters=${synth.whyItMatters},whats_next=${synth.whatsNext},status=${synth.status},publication_state=${publication},importance_score=${synth.importanceScore},confidence_score=${synth.confidenceScore},version=${version},hot_read_qualified_at=COALESCE(hot_read_qualified_at,now()),hot_read_until=COALESCE(hot_read_until,now()+interval '2 hours'),updated_at=now() WHERE id=${story.id} AND version=${story.version}`;
+    const evidence = await tx`SELECT id FROM story_evidence WHERE story_id=${story.id}`;
+    await tx`INSERT INTO story_versions(id,story_id,version,headline,summary,what_happened,why_it_matters,whats_next,status,publication_state,importance_score,confidence_score,evidence_ids,claims,material_change_type) VALUES(${randomUUID()},${story.id},${version},${synth.headline},${synth.summary},${synth.whatHappened},${synth.whyItMatters},${synth.whatsNext},${synth.status},${publication},${synth.importanceScore},${synth.confidenceScore},${tx.json(evidence.map((row: any) => row.id))},${tx.json(synth.claims)},'SOURCE_CONFIRMATION')`;
+    await recordDecision(tx, story.id, version, decision);
+    await emit(tx, 'StoryUpdated', story.id, story.teamId, version, {
+      change: 'SOURCE_CONFIRMATION',
+      replayPromotion: true,
+    });
+    await createCanonicalNotification(
+      tx,
+      story.id,
+      story.teamId,
+      version,
+      decision.reason,
+      Boolean(decision.breaking),
+    );
+    if (story.status !== 'BREAKING' && synth.status === 'BREAKING') {
+      await emit(tx, 'StoryBecameBreaking', story.id, story.teamId, version, {
+        reason: decision.reason,
+      });
+      await emitBreakingCandidate(
+        tx,
+        story.id,
+        story.teamId,
+        synth.importanceScore,
+        version,
+        decision.reason,
+      );
+    }
+    return version;
+  });
+}
+
+const publicationStateForDecision = (decision: PublishingDecision) =>
+  decision.action === 'AUTO_PUBLISH'
+    ? 'AUTO_PUBLISHED'
+    : decision.action === 'REVIEW_REQUIRED'
+      ? 'REVIEW_REQUIRED'
+      : 'REJECTED';
+
 export async function sourceHealth() {
-  return authDb()`SELECT id,name,team_id,enabled,last_checked_at,last_successful_at,next_check_at,failure_count,last_error FROM content_sources ORDER BY failure_count DESC,priority DESC`;
+  return authDb()`SELECT id,name,team_id,enabled,fetch_strategy,polling_tier,last_checked_at,last_successful_at,last_item_at,next_check_at,failure_count,consecutive_failures,average_latency_ms,request_count,last_error FROM content_sources ORDER BY consecutive_failures DESC,priority DESC`;
 }
 export async function reviewRequiredStories(limit = 50) {
   return authDb()`SELECT s.id,s.team_id,s.headline,s.summary,s.status,s.confidence_score,s.importance_score,s.version,d.reason,d.created_at,(SELECT jsonb_agg(jsonb_build_object('name',cs.name,'url',e.source_url)) FROM story_evidence e JOIN content_sources cs ON cs.id=e.source_id WHERE e.story_id=s.id) AS sources FROM canonical_stories s LEFT JOIN story_publication_decisions d ON d.story_id=s.id AND d.story_version=s.version WHERE s.publication_state='REVIEW_REQUIRED' ORDER BY s.updated_at DESC LIMIT ${limit}`;

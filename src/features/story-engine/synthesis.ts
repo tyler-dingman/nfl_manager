@@ -6,6 +6,40 @@ import type {
   GeneratedClaim,
 } from './types';
 import { calculateImportanceScore } from '@/features/three-and-out/ranking';
+import { evidenceCounts, isOfficialSource } from './corroboration';
+
+const neutralHeadline = (candidate: ContentCandidate) => {
+  const entity = candidate.entities.find(
+    (value) => !/kansas city|chiefs|andy reid|national football league|nfl/i.test(value),
+  );
+  if (!entity) return candidate.title;
+  switch (candidate.storyType) {
+    case 'TRADE':
+      return `Chiefs acquire ${entity} in trade`;
+    case 'SIGNING':
+      return `Chiefs sign ${entity}`;
+    case 'RELEASE':
+      return `Chiefs release ${entity}`;
+    case 'INJURY':
+      return `${entity} injury status updated`;
+    case 'ROSTER':
+    case 'PRACTICE':
+    case 'DEPTH_CHART':
+      return `Chiefs update ${entity}'s status`;
+    case 'CONTRACT':
+      return `Chiefs update ${entity}'s contract status`;
+    case 'SUSPENSION':
+      return `Chiefs update ${entity}'s availability`;
+    case 'COACHING':
+      return `Chiefs announce coaching update involving ${entity}`;
+    default:
+      return candidate.title;
+  }
+};
+const candidateFact = (candidate: ContentCandidate) =>
+  (candidate.excerpt || candidate.title)
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)));
 
 export interface StorySynthesizer {
   synthesize(input: {
@@ -24,27 +58,30 @@ export class GroundedDeterministicStorySynthesizer implements StorySynthesizer {
       (a, b) => b.source.reliabilityScore - a.source.reliabilityScore,
     )[0];
     const uniqueFacts = [
-      ...new Set(evidence.map(({ candidate }) => candidate.excerpt).filter(Boolean)),
+      ...new Set(evidence.map(({ candidate }) => candidateFact(candidate)).filter(Boolean)),
     ];
     const claims: GeneratedClaim[] = uniqueFacts.map((text) => ({
       text,
       sourceEvidenceIds: evidence
-        .filter(({ candidate }) => candidate.excerpt === text)
+        .filter(({ candidate }) => candidateFact(candidate) === text)
         .map(({ candidate }) => candidate.id ?? candidate.externalId),
       confidence: Math.max(
         ...evidence
-          .filter(({ candidate }) => candidate.excerpt === text)
+          .filter(({ candidate }) => candidateFact(candidate) === text)
           .map(({ source }) => source.reliabilityScore),
       ),
     }));
     if (claims.some((claim) => !claim.sourceEvidenceIds.length))
       throw new Error('Unsupported generated claim.');
-    const official = evidence.some(
-      ({ source }) => source.sourceType === 'OFFICIAL_TEAM' || source.sourceType === 'NFL_OFFICIAL',
-    );
-    const confidenceScore = Math.round(
-      Math.max(...evidence.map(({ source }) => source.reliabilityScore)) * 100,
-    );
+    const official = evidence.some(({ source }) => isOfficialSource(source));
+    const counts = evidenceCounts(evidence);
+    const strongestScore = Math.max(...evidence.map(({ source }) => source.reliabilityScore)) * 100;
+    const confidenceScore = official
+      ? Math.max(90, Math.round(strongestScore))
+      : Math.min(
+          96,
+          Math.round(strongestScore + Math.max(0, counts.independentSourceCount - 1) * 12),
+        );
     const importanceScore = calculateImportanceScore({
       footballImpact: ['TRADE', 'INJURY', 'SIGNING', 'RELEASE'].includes(
         strongest.candidate.storyType,
@@ -58,7 +95,10 @@ export class GroundedDeterministicStorySynthesizer implements StorySynthesizer {
       novelty: existingStory ? 50 : 90,
     });
     return {
-      headline: strongest.candidate.title,
+      headline:
+        strongest.source.metadata.publishAll === true
+          ? strongest.candidate.title
+          : neutralHeadline(strongest.candidate),
       summary: uniqueFacts.slice(0, 3).join(' '),
       whatHappened: uniqueFacts.slice(0, 2).join(' '),
       whyItMatters: existingStory?.whyItMatters ?? '',

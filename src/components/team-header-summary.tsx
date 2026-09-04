@@ -20,11 +20,9 @@ export default function TeamHeaderSummary({
 
   return (
     <section
-      className="mb-6 rounded-2xl border border-transparent bg-white/80 px-6 py-5 shadow-sm"
+      className="team-primary-filled mb-6 rounded-2xl border border-transparent px-6 py-5 shadow-sm"
       style={{
-        backgroundColor: 'var(--team-primary)',
         borderColor: 'var(--team-secondary)',
-        color: 'var(--team-primary-foreground)',
       }}
     >
       <div className="flex flex-wrap items-center justify-between gap-6">

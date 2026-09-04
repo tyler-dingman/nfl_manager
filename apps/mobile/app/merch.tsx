@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
+import { router } from 'expo-router';
 import {
   API_BASE_URL,
   getMerch,
@@ -17,7 +17,9 @@ import {
   type RewardsDashboard,
 } from '../lib/api';
 import { C, Eyebrow, Heading } from '../components/screen';
+import { useCommerceCart } from '../lib/commerce-cart';
 export default function Merch() {
+  const { count } = useCommerceCart();
   const [products, setProducts] = useState<MerchProduct[]>([]),
     [categories, setCategories] = useState<string[]>([]),
     [category, setCategory] = useState('New & Trending'),
@@ -46,6 +48,9 @@ export default function Merch() {
     <ScrollView style={s.page} contentContainerStyle={s.body}>
       <Eyebrow>D&amp;D MERCH</Eyebrow>
       <Heading>Get your head in the game.</Heading>
+      <Pressable onPress={() => router.push('/merch-cart' as never)} style={s.cart}>
+        <Text style={s.cartText}>CART · {count}</Text>
+      </Pressable>
       {rewards ? (
         <View style={s.yards}>
           <View>
@@ -92,7 +97,10 @@ export default function Merch() {
               key={product.id}
               style={s.product}
               onPress={() =>
-                void WebBrowser.openBrowserAsync(`${API_BASE_URL}/merch/${product.id}`)
+                router.push({
+                  pathname: '/merch-product/[productId]',
+                  params: { productId: product.id },
+                } as never)
               }
             >
               {product.imageUrl ? (
@@ -179,4 +187,13 @@ const s = StyleSheet.create({
   price: { color: C.ink, fontWeight: '900' },
   compare: { color: C.muted, textDecorationLine: 'line-through' },
   note: { color: C.muted, fontSize: 13, lineHeight: 19, textAlign: 'center', marginTop: 12 },
+  cart: {
+    alignSelf: 'flex-start',
+    backgroundColor: C.navy,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    marginTop: 14,
+  },
+  cartText: { color: C.white, fontWeight: '900' },
 });
