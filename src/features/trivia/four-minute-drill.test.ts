@@ -24,6 +24,12 @@ test('game clock counts question-open time and formats as a clock', () => {
   assert.equal(getDrillGameSecondsRemaining(240_000), 0);
 });
 
+test('a full first play rolls the game clock from 4:00 to 3:36', () => {
+  const remaining = getDrillGameSecondsRemaining(0, 24_000);
+  assert.equal(remaining, 216);
+  assert.equal(formatDrillClock(remaining), '3:36');
+});
+
 test('standings break ties by correct answers then response time', () => {
   const ranked = rankDrillStandings([
     { userId: 'slow', score: 50, correctAnswers: 5, responseTimeTotalMs: 20_000 },

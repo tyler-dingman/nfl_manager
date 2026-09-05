@@ -142,16 +142,17 @@ export async function answerTriviaGameQuestion(
       ? Date.now() - question.presentedAt.getTime()
       : game.timerSeconds * 1000;
     const timedOut = elapsed >= game.timerSeconds * 1000;
+    const recordedElapsed = Math.min(game.timerSeconds * 1000, Math.max(0, elapsed));
     const choice = timedOut ? null : selectedAnswer;
     const correct = Boolean(choice && choice === question.correctAnswer);
     const points = correct ? DRILL_YARDS_PER_CORRECT_ANSWER : 0;
     const inserted = await tx<
       Array<{ id: string }>
-    >`INSERT INTO trivia_answers(id,user_id,question_id,game_id,selected_answer,correct,response_time_ms,points_awarded) VALUES(${randomUUID()},${userId},${question.id},${gameId},${choice},${correct},${Math.max(0, elapsed)},${points}) ON CONFLICT(user_id,question_id,game_id) DO NOTHING RETURNING id`;
+    >`INSERT INTO trivia_answers(id,user_id,question_id,game_id,selected_answer,correct,response_time_ms,points_awarded) VALUES(${randomUUID()},${userId},${question.id},${gameId},${choice},${correct},${recordedElapsed},${points}) ON CONFLICT(user_id,question_id,game_id) DO NOTHING RETURNING id`;
     if (!inserted[0]) throw new Error('Question was already answered.');
-    await tx`UPDATE trivia_game_participants SET score=score+${points},correct_answers=correct_answers+${correct ? 1 : 0},wrong_answers=wrong_answers+${!correct && !timedOut ? 1 : 0},timeouts=timeouts+${timedOut ? 1 : 0},response_time_total_ms=response_time_total_ms+${Math.max(0, elapsed)},best_question_score=greatest(best_question_score,${points}) WHERE game_id=${gameId} AND user_id=${userId}`;
+    await tx`UPDATE trivia_game_participants SET score=score+${points},correct_answers=correct_answers+${correct ? 1 : 0},wrong_answers=wrong_answers+${!correct && !timedOut ? 1 : 0},timeouts=timeouts+${timedOut ? 1 : 0},response_time_total_ms=response_time_total_ms+${recordedElapsed},best_question_score=greatest(best_question_score,${points}) WHERE game_id=${gameId} AND user_id=${userId}`;
     await tx`INSERT INTO trivia_rank_snapshots(game_id,user_id,question_position,rank,score) SELECT ${gameId},ranked.user_id,${position},ranked.rank,ranked.score FROM (SELECT p.user_id,p.score,row_number() OVER(ORDER BY p.score DESC,p.correct_answers DESC,u.display_name,u.id)::int AS rank FROM trivia_game_participants p JOIN users u ON u.id=p.user_id WHERE p.game_id=${gameId} AND p.participant_status='JOINED') ranked ON CONFLICT(game_id,user_id,question_position) DO UPDATE SET rank=EXCLUDED.rank,score=EXCLUDED.score,created_at=now()`;
-    await tx`INSERT INTO trivia_stats(user_id,lifetime_points,weekly_points,questions_answered,correct_answers,current_streak,best_streak,response_time_total_ms) VALUES(${userId},${points},${points},1,${correct ? 1 : 0},${correct ? 1 : 0},${correct ? 1 : 0},${Math.max(0, elapsed)}) ON CONFLICT(user_id) DO UPDATE SET lifetime_points=trivia_stats.lifetime_points+${points},weekly_points=trivia_stats.weekly_points+${points},questions_answered=trivia_stats.questions_answered+1,correct_answers=trivia_stats.correct_answers+${correct ? 1 : 0},current_streak=CASE WHEN ${correct} THEN trivia_stats.current_streak+1 ELSE 0 END,best_streak=greatest(trivia_stats.best_streak,CASE WHEN ${correct} THEN trivia_stats.current_streak+1 ELSE trivia_stats.best_streak END),response_time_total_ms=trivia_stats.response_time_total_ms+${Math.max(0, elapsed)},updated_at=now()`;
+    await tx`INSERT INTO trivia_stats(user_id,lifetime_points,weekly_points,questions_answered,correct_answers,current_streak,best_streak,response_time_total_ms) VALUES(${userId},${points},${points},1,${correct ? 1 : 0},${correct ? 1 : 0},${correct ? 1 : 0},${recordedElapsed}) ON CONFLICT(user_id) DO UPDATE SET lifetime_points=trivia_stats.lifetime_points+${points},weekly_points=trivia_stats.weekly_points+${points},questions_answered=trivia_stats.questions_answered+1,correct_answers=trivia_stats.correct_answers+${correct ? 1 : 0},current_streak=CASE WHEN ${correct} THEN trivia_stats.current_streak+1 ELSE 0 END,best_streak=greatest(trivia_stats.best_streak,CASE WHEN ${correct} THEN trivia_stats.current_streak+1 ELSE trivia_stats.best_streak END),response_time_total_ms=trivia_stats.response_time_total_ms+${recordedElapsed},updated_at=now()`;
     let yardAwarded = 0;
     let touchdownsEarned = 0;
     let unlockedRewards: Array<{ id: string; title: string; thresholdYards: number }> = [];
@@ -214,7 +215,7 @@ export async function answerTriviaGameQuestion(
       selectedAnswer: choice,
       correctAnswer: question.correctAnswer,
       explanation: question.explanation,
-      responseTimeMs: Math.max(0, elapsed),
+      responseTimeMs: recordedElapsed,
       timedOut,
       yardAwarded,
       touchdownsEarned,

@@ -290,10 +290,9 @@ export default function TriviaGame({
     return <FinalRecap game={game} onPlayAgain={() => void runItBack()} onClose={onClose} />;
   const totalScore = game.score + (result?.points ?? 0),
     totalCorrect = game.correctAnswers + (result?.correct ? 1 : 0),
-    elapsed =
-      phase === 'QUESTION'
-        ? Math.max(0, game.timerSeconds - seconds) * 1000
-        : (result?.responseTimeMs ?? 0),
+    // The play clock runs while the question is open. Once the play ends, the
+    // game clock rapidly rolls down by the actual recorded response time.
+    elapsed = phase === 'QUESTION' ? 0 : (result?.responseTimeMs ?? 0),
     base = game.standings.find((r) => r.userId === game.currentUserId)?.responseTimeTotalMs ?? 0;
   const standings = rankDrillStandings(
     (game.standings.length
@@ -390,6 +389,30 @@ function DrillHeader({
   position: number;
   count: number;
 }) {
+  const [displaySeconds, setDisplaySeconds] = useState(seconds);
+  const displaySecondsRef = useRef(seconds);
+
+  useEffect(() => {
+    if (seconds >= displaySecondsRef.current) {
+      displaySecondsRef.current = seconds;
+      setDisplaySeconds(seconds);
+      return;
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      displaySecondsRef.current = seconds;
+      setDisplaySeconds(seconds);
+      return;
+    }
+    const timer = window.setInterval(() => {
+      if (displaySecondsRef.current <= seconds + 1) {
+        window.clearInterval(timer);
+        displaySecondsRef.current = seconds;
+      } else displaySecondsRef.current -= 1;
+      setDisplaySeconds(displaySecondsRef.current);
+    }, 28);
+    return () => window.clearInterval(timer);
+  }, [seconds]);
+
   return (
     <header className="drill-texture relative grid items-center gap-4 border-b border-white/30 px-4 py-4 md:grid-cols-[1fr_auto_1fr] md:px-8">
       <div>
@@ -407,7 +430,7 @@ function DrillHeader({
         className="hidden h-20 w-44 opacity-80 md:block"
       />
       <div className="grid grid-cols-2 divide-x divide-white/25 rounded-lg border border-white/25 bg-black/20 text-center">
-        <Metric label="Game clock" value={formatDrillClock(seconds)} />
+        <Metric label="Game clock" value={formatDrillClock(displaySeconds)} />
         <Metric label="Play" value={`${position} of ${count}`} />
       </div>
     </header>
