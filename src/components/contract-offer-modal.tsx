@@ -151,7 +151,7 @@ export default function ContractOfferModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="contract-offer-modal-title"
-        className="flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-2xl bg-white shadow-lg"
+        className="front-office-transaction-modal flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-lg"
       >
         <div className="flex items-start justify-between gap-3 border-b border-border px-4 py-4 sm:px-6">
           <div className="min-w-0">
@@ -171,17 +171,11 @@ export default function ContractOfferModal({
         <div className="overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
           <div className="grid gap-4 sm:grid-cols-[88px_1fr] sm:items-center">
             <div className="w-fit">
-              <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-xl font-semibold text-slate-600 sm:h-24 sm:w-24">
-                {player.headshotUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={player.headshotUrl}
-                    alt={player.firstName}
-                    className="h-full w-full object-cover object-center"
-                  />
-                ) : (
-                  `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`.toUpperCase()
-                )}
+              <div
+                className="front-office-player-tile flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl text-2xl font-black sm:h-24 sm:w-24"
+                aria-hidden="true"
+              >
+                <span>{player.position}</span>
               </div>
             </div>
             <div className="space-y-1 text-sm">

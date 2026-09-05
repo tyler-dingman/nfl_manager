@@ -560,3 +560,209 @@ body {
     }
   }
 }
+
+.front-office-secondary-nav {
+  position: relative;
+  z-index: 30;
+  background: color-mix(in srgb, var(--team-primary) 82%, white);
+  color: var(--team-primary-foreground, white);
+  border-bottom: 1px solid rgb(255 255 255 / 18%);
+}
+
+.front-office-secondary-nav-inner {
+  min-height: 62px;
+  display: flex;
+  align-items: stretch;
+  gap: 2rem;
+  padding: 0 1.5rem;
+}
+
+.front-office-wordmark {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.front-office-wordmark strong {
+  color: var(--team-secondary);
+  margin-left: 0.35rem;
+}
+.front-office-desktop-nav {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+  overflow-x: auto;
+}
+.front-office-top-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 0.7rem;
+  color: white;
+  white-space: nowrap;
+  font-size: 0.77rem;
+  font-weight: 750;
+}
+.front-office-top-link:hover {
+  background: rgb(255 255 255 / 9%);
+  color: white;
+}
+.front-office-top-link[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  height: 4px;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 0;
+  background: var(--team-secondary);
+}
+.front-office-top-link.is-locked {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+.front-office-mobile-menu {
+  display: none;
+  margin-left: auto;
+  align-items: center;
+  color: white;
+}
+
+.front-office-team-summary {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.front-office-command-status {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+.front-office-command-status > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 88px;
+}
+.front-office-command-status span {
+  color: var(--muted-foreground);
+  font-size: 0.61rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.front-office-command-status strong {
+  color: var(--foreground);
+  font-size: 0.82rem;
+}
+.front-office-advance-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 0.55rem;
+  background: var(--team-primary);
+  color: var(--team-primary-foreground, white);
+  padding: 0.68rem 0.9rem;
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+.front-office-advance-button:hover {
+  color: var(--team-primary-foreground, white);
+  filter: brightness(0.94);
+}
+
+@media (max-width: 1023px) {
+  .front-office-desktop-nav {
+    display: none;
+  }
+  .front-office-mobile-menu {
+    display: flex;
+  }
+  .front-office-secondary-nav-inner {
+    min-height: 54px;
+    padding: 0 1rem;
+  }
+}
+
+.front-office-decision-card {
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--team-primary);
+  border-radius: 0.8rem;
+  background: white;
+  padding: 1.35rem;
+  box-shadow: 0 9px 28px rgb(15 23 42 / 6%);
+  color: var(--foreground);
+}
+.front-office-decision-card:hover {
+  color: var(--foreground);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgb(15 23 42 / 10%);
+}
+.front-office-decision-kicker {
+  color: var(--team-primary);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.front-office-decision-card strong {
+  margin-top: 0.8rem;
+  font-size: 1.2rem;
+}
+.front-office-decision-card p {
+  margin-top: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.87rem;
+  line-height: 1.55;
+}
+.front-office-decision-action {
+  margin-top: auto;
+  padding-top: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--team-primary);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+.front-office-building-feed {
+  display: grid;
+  gap: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  background: #fffdf9;
+  padding: 1.4rem;
+}
+.front-office-building-feed h2 {
+  margin-top: 0.25rem;
+  font-size: 1.35rem;
+  font-weight: 750;
+}
+.front-office-building-items {
+  display: grid;
+  gap: 0.65rem;
+  color: var(--muted-foreground);
+  font-size: 0.88rem;
+}
+.front-office-building-items strong {
+  color: var(--foreground);
+}
+@media (min-width: 768px) {
+  .front-office-building-feed {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+.front-office-transaction-modal {
+  border: 1px solid color-mix(in srgb, var(--team-primary) 28%, var(--border));
+}
+.front-office-player-tile {
+  background: var(--team-dark);
+  color: var(--team-on-dark, white);
+  box-shadow: inset 0 -5px 0 var(--team-primary);
+}

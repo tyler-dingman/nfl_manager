@@ -7,6 +7,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowDownRight,
   ArrowLeftRight,
+  ArrowRight,
   ArrowUp,
   ClipboardList,
   FileText,
@@ -152,6 +153,8 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   const roster = useSaveStore((state) => state.roster);
   const isUserOnClock = useSaveStore((state) => state.isUserOnClock);
   const phase = useSaveStore((state) => state.phase);
+  const franchiseYear = useSaveStore((state) => state.franchiseYear);
+  const freeAgencyWave = useSaveStore((state) => state.freeAgencyWave);
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const mode = useExperienceStore((state) => state.mode);
@@ -407,12 +410,76 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
     pathname === '/season-recap' ||
     pathname?.startsWith('/season-recap/');
 
+  const phaseLabel =
+    phase === 'resign_cut'
+      ? 'Re-signing period'
+      : phase === 'free_agency'
+        ? `Free agency · Wave ${freeAgencyWave}`
+        : phase === 'draft'
+          ? 'NFL Draft'
+          : 'Preseason';
+
+  const isNavItemActive = (href: string) => {
+    const [hrefPath, hrefQuery] = href.split('?');
+    return (
+      pathname === hrefPath &&
+      (!hrefQuery ||
+        hrefQuery.split('&').every((entry) => {
+          const [key, value] = entry.split('=');
+          return searchParams?.get(key) === value;
+        }))
+    );
+  };
+
   return (
     <TeamThemeProvider team={selectedTeam}>
       <TeamFavicon teamAbbr={selectedTeam?.abbr ?? null} />
       <MainSiteHeader teamAbbr={selectedTeam?.abbr} active="front-office" />
       <div className="front-office-app min-h-screen overflow-x-hidden bg-[#f7f4ee]">
-        <div className="front-office-shell flex min-h-[calc(100vh-var(--site-header-height))] flex-col bg-[#f7f4ee] md:flex-row md:items-stretch">
+        <div className="front-office-secondary-nav">
+          <div className="front-office-secondary-nav-inner">
+            <Link
+              href="/experience"
+              className="front-office-wordmark"
+              aria-label="Front Office overview"
+            >
+              <span>Front</span> <strong>Office</strong>
+            </Link>
+            <nav className="front-office-desktop-nav" aria-label="Front Office">
+              {(Object.keys(navRoutes) as NavItem[]).map((item) => {
+                const href = navRoutes[item];
+                const active = isNavItemActive(href);
+                return lockedRoutes.has(item) ? (
+                  <span
+                    key={item}
+                    className="front-office-top-link is-locked"
+                    title="Locked until the next phase"
+                  >
+                    {item}
+                  </span>
+                ) : (
+                  <Link
+                    key={item}
+                    href={href}
+                    aria-current={active ? 'page' : undefined}
+                    className="front-office-top-link"
+                  >
+                    {item}
+                  </Link>
+                );
+              })}
+            </nav>
+            <button
+              type="button"
+              className="front-office-mobile-menu"
+              onClick={() => setIsMobileSidebarOpen(true)}
+              aria-label="Open Front Office menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+        <div className="front-office-shell flex min-h-[calc(100vh-var(--site-header-height))] flex-col bg-[#f7f4ee]">
           {isMobileSidebarOpen ? (
             <div
               className="fixed inset-0 z-40 bg-black/50 md:hidden"
@@ -422,7 +489,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
           ) : null}
 
           <aside
-            className="front-office-sidebar fixed bottom-0 left-0 top-[var(--site-header-height)] z-50 w-64 -translate-x-full overflow-y-auto border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:relative md:inset-auto md:z-auto md:flex md:min-h-full md:translate-x-0 md:flex-col md:self-stretch"
+            className="front-office-sidebar fixed bottom-0 left-0 top-0 z-50 w-72 -translate-x-full overflow-y-auto border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:hidden"
             style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
           >
             <div className="mb-[20px] mt-7 flex items-start justify-between gap-3 text-left text-sm">
@@ -455,14 +522,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
                   <div className="space-y-1">
                     {section.items.map((item) => {
                       const href = navRoutes[item];
-                      const [hrefPath, hrefQuery] = href.split('?');
-                      const isActive =
-                        pathname === hrefPath &&
-                        (!hrefQuery ||
-                          hrefQuery.split('&').every((entry) => {
-                            const [key, value] = entry.split('=');
-                            return searchParams?.get(key) === value;
-                          }));
+                      const isActive = isNavItemActive(href);
                       const Icon = navIcons[item];
                       if (lockedRoutes.has(item)) {
                         return (
@@ -495,7 +555,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
             </nav>
           </aside>
 
-          <div className="flex min-w-0 flex-1 flex-col md:min-h-screen">
+          <div className="flex min-w-0 flex-1 flex-col">
             <header className="front-office-team-summary border-b border-border bg-[#fffdf9]/90 px-4 py-3 md:bg-[#fffdf9]/95 md:px-6">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3 md:hidden">
@@ -661,6 +721,30 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
                         ON THE CLOCK
                       </span>
                     ) : null}
+                  </div>
+                  <div className="front-office-command-status">
+                    <div>
+                      <span>Season</span>
+                      <strong>{franchiseYear}</strong>
+                    </div>
+                    <div>
+                      <span>Current phase</span>
+                      <strong>{phaseLabel}</strong>
+                    </div>
+                    <Link
+                      href={
+                        phase === 'resign_cut'
+                          ? '/roster?view=resign'
+                          : phase === 'free_agency'
+                            ? '/free-agents'
+                            : phase === 'draft'
+                              ? '/draft/room?mode=mock'
+                              : '/experience'
+                      }
+                      className="front-office-advance-button"
+                    >
+                      Continue phase <ArrowRight className="h-4 w-4" />
+                    </Link>
                   </div>
                 </div>
               </div>
