@@ -1,11 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, Clock3, Radio, Search, Shield, Sparkles, Users } from 'lucide-react';
 
-import BriefingDetailModal from '@/components/huddle/briefing-detail-modal';
 import FilmRoomGrid from '@/components/film-room/film-room-grid';
 import FilmRoomPlayDiagram from '@/components/film-room/film-room-play-diagram';
 import HuddleStoryCard from '@/components/huddle/huddle-story-card';
@@ -199,8 +198,6 @@ function HuddleGrid({
   teamAbbr: string;
   teamName: string;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const { user, hydrated } = useAuthUser();
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
@@ -208,7 +205,6 @@ function HuddleGrid({
   const [filter, setFilter] = useState<BeatFilter>('ALL');
   const [timeRange, setTimeRange] = useState('ALL');
   const [sort, setSort] = useState<'UPDATED' | 'NEWEST'>('UPDATED');
-  const selectedBriefing = briefings.find((briefing) => briefing.id === searchParams?.get('story'));
 
   useEffect(() => {
     if (!hydrated || !user || !briefings.length) return;
@@ -292,28 +288,10 @@ function HuddleGrid({
 
   const openBriefing = (briefing: TeamBriefing) => {
     if (user) void recordBriefingConsumed(briefing);
-    const params = new URLSearchParams(searchParams?.toString());
-    params.set('team', teamAbbr);
-    params.set('story', briefing.id);
-    router.push(`${pathname ?? '/the-beat'}?${params.toString()}`);
-  };
-
-  const closeBriefing = () => {
-    const params = new URLSearchParams(searchParams?.toString());
-    params.delete('story');
-    const queryString = params.toString();
-    router.push(`${pathname ?? '/the-beat'}${queryString ? `?${queryString}` : ''}`);
   };
 
   return (
     <section aria-labelledby="beat-stories-heading">
-      {selectedBriefing ? (
-        <BriefingDetailModal
-          briefing={selectedBriefing}
-          teamAbbr={teamAbbr}
-          onClose={closeBriefing}
-        />
-      ) : null}
       <div className="rounded-3xl border border-[#00172B]/10 bg-white p-5 shadow-sm sm:p-7">
         <label
           htmlFor="ask-dd"

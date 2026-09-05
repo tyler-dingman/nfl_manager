@@ -23,10 +23,10 @@ export function PreviewForm() {
     setLoading(false);
   }
   return (
-    <form onSubmit={submit} className="mt-8">
+    <form onSubmit={submit} className="mt-8 w-full min-w-0">
       <label
         htmlFor="preview-password"
-        className="block text-left text-xs font-black uppercase tracking-[.18em] text-white/70"
+        className="block text-left text-xs font-black uppercase tracking-[.18em] text-[#00172B]/70"
       >
         Password
       </label>
@@ -37,16 +37,16 @@ export function PreviewForm() {
         required
         value={password}
         onChange={(event) => setPassword(event.target.value)}
-        className="mt-2 h-13 w-full rounded-xl border border-white/20 bg-white px-4 text-[#00172B] outline-none focus:ring-2 focus:ring-[#FF3D38]"
+        className="mt-2 h-14 w-full min-w-0 rounded-xl border border-[#00172B]/20 bg-white px-4 text-base text-[#00172B] outline-none transition focus:border-[#FF3D38] focus:ring-2 focus:ring-[#FF3D38]/40"
       />
       {error ? (
-        <p role="alert" className="mt-3 text-sm font-bold text-[#FF827E]">
+        <p role="alert" className="mt-3 text-sm font-bold text-[#b91c1c]">
           {error}
         </p>
       ) : null}
       <button
         disabled={loading}
-        className="mt-5 h-13 w-full rounded-xl bg-[#FF3D38] font-black text-white transition hover:bg-[#e9322e] disabled:opacity-60"
+        className="mt-5 h-14 w-full rounded-xl bg-[#FF3D38] font-black text-white transition hover:bg-[#e9322e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00172B] disabled:opacity-60"
       >
         {loading ? 'CHECKING…' : 'ENTER'}
       </button>

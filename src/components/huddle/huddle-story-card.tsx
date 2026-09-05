@@ -1,4 +1,5 @@
 import { ArrowRight, Bookmark, Flame } from 'lucide-react';
+import Link from 'next/link';
 import ShareToCrewButton from '@/components/crew/share-to-crew-button';
 
 type HuddleStoryCardProps = {
@@ -76,11 +77,10 @@ export default function HuddleStoryCard({
           {time ? <time className="text-[#7890a8]">{time}</time> : null}
         </div>
 
-        <button
-          type="button"
+        <Link
+          href={`/content/${encodeURIComponent(id)}`}
           onClick={onOpen}
-          disabled={!onOpen}
-          className="mt-4 text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30 disabled:cursor-default"
+          className="mt-4 text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30"
           aria-label={`Open story: ${headline}`}
         >
           <h3
@@ -93,7 +93,7 @@ export default function HuddleStoryCard({
           >
             {summary}
           </p>
-        </button>
+        </Link>
 
         {hotRead && firstReportedBy ? (
           <p className="mt-4 text-xs font-bold text-[#52677c]">
@@ -149,20 +149,19 @@ export default function HuddleStoryCard({
             <ShareToCrewButton
               contentId={id}
               contentType="BEAT_STORY"
-              href={`/the-beat?team=${teamId}&story=${id}`}
+              href={`/content/${encodeURIComponent(id)}`}
               title={headline}
               className="mt-4 inline-flex items-center gap-1.5 text-xs font-black text-[var(--team-primary-text)]"
             />
           </div>
-          <button
-            type="button"
+          <Link
+            href={`/content/${encodeURIComponent(id)}`}
             onClick={onOpen}
-            disabled={!onOpen}
-            className="rounded-full p-2 text-[var(--team-primary-text)] transition enabled:group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30 disabled:cursor-default"
+            className="rounded-full p-2 text-[var(--team-primary-text)] transition group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30"
             aria-label={`Open story: ${headline}`}
           >
             <ArrowRight className="h-5 w-5" aria-hidden="true" />
-          </button>
+          </Link>
         </div>
       </div>
     </article>

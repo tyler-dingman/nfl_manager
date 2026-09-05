@@ -28,7 +28,6 @@ import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fa
 import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import { useTeamStore, type Team } from '@/features/team/team-store';
 import { useAuthUser } from '@/features/auth/auth-session';
-import BriefingDetailModal from '@/components/huddle/briefing-detail-modal';
 import DailyTriviaWidget from '@/components/trivia/daily-trivia-widget';
 import CatchUpCallout from '@/components/catch-up/catch-up-callout';
 import PlaybookHero from '@/components/home/playbook-hero';
@@ -139,7 +138,6 @@ export default function DownDistanceHome() {
   const [wireEntries, setWireEntries] = useState<
     Array<{ id: string; headline: string; occurredAt: string }>
   >([]);
-  const [selectedBriefing, setSelectedBriefing] = useState<TeamBriefing | null>(null);
   const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);
   const { user } = useAuthUser();
   const [personalization, setPersonalization] = useState<{
@@ -149,7 +147,6 @@ export default function DownDistanceHome() {
 
   const openBriefing = useCallback(
     (briefing: TeamBriefing) => {
-      setSelectedBriefing(briefing);
       if (user) void recordBriefingConsumed(briefing);
     },
     [user],
@@ -182,7 +179,6 @@ export default function DownDistanceHome() {
   useEffect(() => {
     const controller = new AbortController();
     setBriefings([]);
-    setSelectedBriefing(null);
     const loadBriefings = async () => {
       try {
         if (teamAbbr === 'NFL') return;
@@ -410,13 +406,6 @@ export default function DownDistanceHome() {
               </div>
             </div>
           </div>
-        ) : null}
-        {selectedBriefing ? (
-          <BriefingDetailModal
-            briefing={selectedBriefing}
-            teamAbbr={teamAbbr}
-            onClose={() => setSelectedBriefing(null)}
-          />
         ) : null}
         <SiteHeaderShell>
           <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />

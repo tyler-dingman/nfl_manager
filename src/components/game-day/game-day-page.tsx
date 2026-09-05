@@ -323,7 +323,7 @@ export default function GameDayPage() {
                       key={s.id}
                       {...s}
                       teamId={s.teamAbbr}
-                      onOpen={() => router.push(`/the-beat?team=${teamId}&story=${s.id}`)}
+                      onOpen={() => router.push(`/content/${encodeURIComponent(s.id)}`)}
                     />
                   ))}
                 </div>

@@ -94,7 +94,7 @@ export default function MerchShop() {
         <div className="bg-[#00172B] px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-[#F4D9B7]">
           Free shipping on orders $75+ · Shop preview
         </div>
-        <div className="border-b border-[#00172B]/10 bg-[#FF3D38] text-white">
+        <div className="border-b border-[#00172B]/10 bg-[#F4D9B7] text-[#00172B]">
           <div className="mx-auto flex min-h-12 max-w-[1440px] items-center px-4 sm:px-6 lg:px-8">
             <button
               type="button"

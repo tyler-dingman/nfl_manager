@@ -84,6 +84,47 @@ export async function listPublicStories(teamId: string, limit = 30): Promise<Sto
   });
 }
 
+export async function getPublicStoryById(id: string): Promise<StoryView | null> {
+  const sql = authDb();
+  const [row] =
+    await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.id=${id} AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING' GROUP BY s.id`;
+  if (!row || !isStoryPublishable({ ...storyRecord(row), sourceCount: row.source_count }))
+    return null;
+  const evidence =
+    await sql`SELECT e.id,e.source_url,c.published_at,s.name,s.source_type FROM story_evidence e JOIN content_candidates c ON c.id=e.content_candidate_id JOIN content_sources s ON s.id=e.source_id WHERE e.story_id=${id} ORDER BY e.first_seen_at`;
+  const sources: StorySourceView[] = evidence.map((item: any, index: number) => ({
+    id: item.id,
+    name: item.name,
+    url: item.source_url,
+    publishedAt: item.published_at.toISOString(),
+    official: item.source_type === 'OFFICIAL_TEAM' || item.source_type === 'NFL_OFFICIAL',
+    original: index === 0,
+  }));
+  return {
+    id: row.id,
+    teamId: row.team_id,
+    storyType: row.story_type,
+    headline: row.headline,
+    shortSummary: row.summary,
+    whatHappened: row.what_happened,
+    whyItMatters: row.why_it_matters,
+    whatsNext: row.whats_next,
+    status: row.status,
+    importanceScore: row.importance_score,
+    confidenceScore: row.confidence_score,
+    firstReportedAt: row.first_reported_at.toISOString(),
+    lastMeaningfulUpdateAt: row.last_meaningful_update_at.toISOString(),
+    sources,
+    primarySource: selectPrimarySource(sources),
+    version: row.version,
+    sourceItemCount: row.source_item_count,
+    publisherCount: row.publisher_count,
+    independentSourceCount: row.independent_source_count,
+    hotReadUntil: row.hot_read_until?.toISOString() ?? null,
+    clusterReason: row.cluster_reason,
+  };
+}
+
 export type WireEntry = {
   id: string;
   storyId: string;

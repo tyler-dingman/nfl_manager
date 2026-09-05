@@ -36,7 +36,7 @@ export const getCreativeForPlacement = (placement: AdPlacement, route: string) =
 };
 
 export const AD_PLACEMENT_ROUTES: Record<AdPlacement, string[]> = {
-  HEADER: ['/experience'],
+  HEADER: ['/experience', '/content'],
   RIGHT_RAIL: [
     '/experience',
     '/manage-team',
@@ -44,6 +44,7 @@ export const AD_PLACEMENT_ROUTES: Record<AdPlacement, string[]> = {
     '/manage/trades',
     '/cap-space',
     '/draft/room',
+    '/content',
   ],
   ANCHOR: ['/experience', '/draft/room'],
   TRANSITION: ['/draft/room'],

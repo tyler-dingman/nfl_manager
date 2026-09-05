@@ -34,7 +34,7 @@ export default function GameDayHomepageHero({
   const isGameDay = Boolean(game);
 
   return (
-    <section className="relative isolate min-h-[570px] overflow-hidden bg-[#070a0d] text-[#fff8ed] sm:min-h-[620px] lg:min-h-[650px]">
+    <section className="relative isolate min-h-[430px] overflow-hidden bg-[#070a0d] text-[#fff8ed] sm:min-h-[460px] lg:min-h-[500px]">
       {asset ? (
         <Image
           src={asset}
@@ -54,7 +54,7 @@ export default function GameDayHomepageHero({
         className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/55 to-transparent"
       />
 
-      <div className="relative mx-auto flex min-h-[570px] max-w-[1440px] items-center px-5 py-10 sm:min-h-[620px] sm:px-8 lg:min-h-[650px] lg:px-12 xl:px-16">
+      <div className="relative mx-auto flex min-h-[430px] max-w-[1440px] items-center px-5 py-8 sm:min-h-[460px] sm:px-8 lg:min-h-[500px] lg:px-12 xl:px-16">
         <div className="w-full max-w-3xl">
           <div className="flex flex-wrap items-center gap-3">
             <p className="text-[11px] font-black uppercase tracking-[0.28em] text-white/75 sm:text-xs">
@@ -73,7 +73,7 @@ export default function GameDayHomepageHero({
             ) : null}
           </div>
 
-          <h1 className="mt-7 text-[clamp(4rem,10vw,8.5rem)] font-black uppercase leading-[0.78] tracking-[-0.065em]">
+          <h1 className="mt-7 text-[clamp(2.8rem,7vw,5.5rem)] font-black uppercase leading-[0.78] tracking-[-0.065em]">
             {isGameDay ? (
               <>
                 IT&apos;S

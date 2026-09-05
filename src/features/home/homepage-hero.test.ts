@@ -30,7 +30,7 @@ test('standard copy and dynamic team metadata are preserved', () => {
 
 test('both states share the configured image, dimensions, crop, and headline typography', () => {
   assert.match(hero, /gameDayHeroAsset\(team\.abbr\)/);
-  assert.equal((hero.match(/min-h-\[570px\]/g) ?? []).length, 2);
+  assert.equal((hero.match(/min-h-\[430px\]/g) ?? []).length, 2);
   assert.match(hero, /object-\[58%_center\]/);
-  assert.equal((hero.match(/text-\[clamp\(4rem,10vw,8\.5rem\)\]/g) ?? []).length, 1);
+  assert.equal((hero.match(/text-\[clamp\(2\.8rem,7vw,5\.5rem\)\]/g) ?? []).length, 1);
 });
