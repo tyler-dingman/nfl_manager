@@ -20,8 +20,12 @@ import type { RegisteredSource } from '@/features/story-engine/types';
 import { RssSourceFetcher, type SourceFetcher } from './fetcher';
 import * as repo from './repository';
 
-export async function scheduleDueSources(now = new Date(), teamId?: string) {
-  const sources = await repo.dueSources(now, SOURCE_BATCH_SIZE, teamId);
+export async function scheduleDueSources(
+  now = new Date(),
+  teamId?: string,
+  group?: 'standard' | 'video',
+) {
+  const sources = await repo.dueSources(now, SOURCE_BATCH_SIZE, teamId, group);
   let queued = 0;
   for (const source of sources) {
     const intervalSeconds = registeredSourceIntervalSeconds(source);

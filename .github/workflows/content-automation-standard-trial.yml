@@ -1,0 +1,70 @@
+name: Content automation trial - standard sources
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+    inputs:
+      temporary_override:
+        description: Authorized one-run expiration override
+        type: boolean
+        default: false
+
+concurrency:
+  group: content-automation-three-day-trial
+  cancel-in-progress: false
+
+permissions:
+  actions: write
+
+jobs:
+  poll-standard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce fixed three-day window before contacting Vercel
+        id: window
+        env:
+          STARTS_AT: ${{ vars.CONTENT_AUTOMATION_STARTS_AT }}
+          EXPIRES_AT: ${{ vars.CONTENT_AUTOMATION_EXPIRES_AT }}
+          TEMPORARY_OVERRIDE: ${{ inputs.temporary_override || 'false' }}
+          OVERRIDE_SECRET: ${{ secrets.CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [[ "$TEMPORARY_OVERRIDE" == "true" && -n "$OVERRIDE_SECRET" ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "override=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          start_epoch=$(date -u -d "$STARTS_AT" +%s 2>/dev/null || true)
+          expires_epoch=$(date -u -d "$EXPIRES_AT" +%s 2>/dev/null || true)
+          now_epoch=$(date -u +%s)
+          if [[ -z "$start_epoch" || -z "$expires_epoch" || $((expires_epoch-start_epoch)) -ne 259200 || "$now_epoch" -ge "$expires_epoch" ]]; then
+            echo "Three-day content automation test has expired"
+            gh api --method PUT "repos/$GITHUB_REPOSITORY/actions/workflows/content-automation-standard-trial.yml/disable" || true
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ "$now_epoch" -lt "$start_epoch" ]]; then
+            echo "Three-day content automation test has not started"
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "run=true" >> "$GITHUB_OUTPUT"
+          echo "override=false" >> "$GITHUB_OUTPUT"
+
+      - name: Poll standard sources
+        if: steps.window.outputs.run == 'true'
+        env:
+          BASE_URL: ${{ vars.CONTENT_AUTOMATION_BASE_URL }}
+          AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}
+          OVERRIDE_SECRET: ${{ secrets.CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET }}
+          USE_OVERRIDE: ${{ steps.window.outputs.override }}
+        run: |
+          set -euo pipefail
+          test -n "$BASE_URL" && test -n "$AUTOMATION_SECRET"
+          args=(-fsS -X POST -H "Authorization: Bearer $AUTOMATION_SECRET")
+          if [[ "$USE_OVERRIDE" == "true" ]]; then
+            args+=(-H "x-content-automation-manual: true" -H "x-content-automation-override: $OVERRIDE_SECRET")
+          fi
+          curl "${args[@]}" "$BASE_URL/api/automation/content?group=standard"

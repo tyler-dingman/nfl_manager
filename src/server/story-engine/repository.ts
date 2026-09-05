@@ -63,10 +63,15 @@ const rowStory = (r: any): StoryRecord =>
     clusterReason: r.cluster_reason,
   }) as StoryRecord;
 
-export async function dueSources(now = new Date(), limit = 50, teamId?: string) {
+export async function dueSources(
+  now = new Date(),
+  limit = 50,
+  teamId?: string,
+  group?: 'standard' | 'video',
+) {
   const rows = teamId
-    ? await authDb()`SELECT * FROM content_sources WHERE enabled=true AND next_check_at<=${now} AND (team_id=${teamId} OR league_wide=true) ORDER BY priority DESC,next_check_at LIMIT ${limit}`
-    : await authDb()`SELECT * FROM content_sources WHERE enabled=true AND next_check_at<=${now} ORDER BY priority DESC,next_check_at LIMIT ${limit}`;
+    ? await authDb()`SELECT * FROM content_sources WHERE enabled=true AND next_check_at<=${now} AND (team_id=${teamId} OR league_wide=true) AND (${group ?? null}::text IS NULL OR CASE WHEN ${group ?? null}='video' THEN (source_type='YOUTUBE' OR metadata->>'platform'='YOUTUBE') ELSE NOT (source_type='YOUTUBE' OR metadata->>'platform'='YOUTUBE') END) ORDER BY priority DESC,next_check_at LIMIT ${limit}`
+    : await authDb()`SELECT * FROM content_sources WHERE enabled=true AND next_check_at<=${now} AND (${group ?? null}::text IS NULL OR CASE WHEN ${group ?? null}='video' THEN (source_type='YOUTUBE' OR metadata->>'platform'='YOUTUBE') ELSE NOT (source_type='YOUTUBE' OR metadata->>'platform'='YOUTUBE') END) ORDER BY priority DESC,next_check_at LIMIT ${limit}`;
   return rows.map(rowSource);
 }
 export async function sourceById(id: string) {

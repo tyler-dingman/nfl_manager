@@ -40,6 +40,7 @@ async function main() {
       '024_stripe_webhooks.sql',
       '025_stripe_checkout_attempts.sql',
       '026_commerce_payment_hardening.sql',
+      '027_content_automation_trial.sql',
     ]) {
       if (file === '017_search_documents.sql') {
         const [extension] = await sql<{ available: boolean }[]>`
