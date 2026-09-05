@@ -7,8 +7,10 @@ import {
 import type { TriviaAnswerChoice } from '@/features/trivia/types';
 import { authDb } from '@/server/auth/database';
 import { awardYardsInTransaction } from '@/server/rewards/repository';
+import { ensureTriviaQuestionPool } from '@/server/trivia/question-pool';
 
 export async function createTriviaGame(userId: string, teamId: string) {
+  await ensureTriviaQuestionPool(teamId, DRILL_QUESTION_COUNT);
   const sql = authDb();
   return sql.begin(async (tx) => {
     const gameId = randomUUID();

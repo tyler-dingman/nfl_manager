@@ -2,12 +2,14 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { authDb } from '@/server/auth/database';
 import { MAX_BUDDY_PLAYERS } from '@/features/trivia/experience';
 import { DRILL_PLAY_CLOCK_SECONDS } from '@/features/trivia/four-minute-drill';
+import { ensureTriviaQuestionPool } from '@/server/trivia/question-pool';
 async function createSharedGame(
   userId: string,
   mode: 'FRIEND_CHALLENGE' | 'GROUP',
   teamId: string,
   count: 10 = 10,
 ) {
+  await ensureTriviaQuestionPool(teamId, count);
   const sql = authDb();
   return sql.begin(async (tx) => {
     const gameId = randomUUID();
