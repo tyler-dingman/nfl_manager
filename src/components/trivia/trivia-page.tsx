@@ -178,14 +178,16 @@ function Lobby({
               onClick={onPlay}
               primary
             />
-            {user ? (
-              <GameCard
-                icon={<UsersRound />}
-                title="Play with buddies"
-                detail="Host up to four buddies"
-                onClick={() => onPanel('GROUP')}
-              />
-            ) : null}
+            <GameCard
+              icon={<UsersRound />}
+              title="Play with buddies"
+              detail={user ? 'Host up to four buddies' : 'Sign in to host up to four buddies'}
+              onClick={() =>
+                user
+                  ? onPanel('GROUP')
+                  : window.location.assign(`/login?next=${encodeURIComponent('/trivia')}`)
+              }
+            />
           </div>
         </section>
         <MoveTheChains chains={chains} />
@@ -398,7 +400,7 @@ function GroupPanel({
     <div className="mt-7">
       {!room ? (
         <button onClick={() => void create()} className="trivia-primary-button w-full">
-          Create Trivia room
+          Create 4 Minute Drill room
         </button>
       ) : (
         <div className="grid gap-5 lg:grid-cols-2">
@@ -483,7 +485,7 @@ function GroupPanel({
               disabled={participants.filter((player) => player.status === 'JOINED').length < 2}
               className="trivia-primary-button mt-5 w-full"
             >
-              Start Trivia
+              Start 4 Minute Drill
             </button>
           ) : (
             <p className="mt-5 text-center text-sm font-black text-white/50">
