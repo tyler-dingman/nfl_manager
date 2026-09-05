@@ -5,6 +5,7 @@ import * as React from 'react';
 import PlayerDetailsModal from '@/components/player-details-modal';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
+import TransactionModal from '@/components/transaction-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { Button } from '@/components/ui/button';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
@@ -908,151 +909,144 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-        <div className="flex max-h-[92dvh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-xl">
-          <div className="flex items-start justify-between gap-4 border-b border-border px-4 py-4 sm:px-6">
-            <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Incoming Trade Offer
-              </p>
-              <h3 className="mt-1 text-lg font-semibold text-foreground">{offer.headline}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{offer.summary}</p>
+      <TransactionModal
+        open={open}
+        variant="trade-received"
+        title={offer.headline}
+        description={offer.summary}
+        onClose={onClose}
+      >
+        <div className="overflow-y-auto px-4 py-4 sm:px-6">
+          <div className="rounded-2xl border border-border bg-slate-50 px-4 py-4">
+            <div className="flex flex-wrap items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={offer.proposingTeamLogoUrl}
+                alt={offer.proposingTeamName}
+                className="h-10 w-10 shrink-0 object-contain"
+              />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-foreground">{offer.proposingTeamName}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{offer.reason}</p>
+              </div>
+              <span
+                className={cn('text-sm font-semibold', interestToneClass(currentAiInterest.score))}
+              >
+                {currentAiInterest.label}
+              </span>
             </div>
-            <Button type="button" variant="ghost" size="icon" onClick={onClose}>
-              ✕
-            </Button>
-          </div>
 
-          <div className="overflow-y-auto px-4 py-4 sm:px-6">
-            <div className="rounded-2xl border border-border bg-slate-50 px-4 py-4">
-              <div className="flex flex-wrap items-center gap-3">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={offer.proposingTeamLogoUrl}
-                  alt={offer.proposingTeamName}
-                  className="h-10 w-10 shrink-0 object-contain"
-                />
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-foreground">{offer.proposingTeamName}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{offer.reason}</p>
-                </div>
-                <span
-                  className={cn(
-                    'text-sm font-semibold',
-                    interestToneClass(currentAiInterest.score),
-                  )}
-                >
+            <div className="mt-4 rounded-xl bg-white/80 px-4 py-3">
+              <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+                <span>Acceptance Meter</span>
+                <span className={cn('font-semibold', interestToneClass(currentAiInterest.score))}>
                   {currentAiInterest.label}
                 </span>
               </div>
-
-              <div className="mt-4 rounded-xl bg-white/80 px-4 py-3">
-                <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
-                  <span>Acceptance Meter</span>
-                  <span className={cn('font-semibold', interestToneClass(currentAiInterest.score))}>
-                    {currentAiInterest.label}
-                  </span>
-                </div>
-                <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
-                  <div
-                    className={cn(
-                      'h-2 rounded-full transition-all',
-                      interestBarClass(currentAiInterest.score),
-                    )}
-                    style={{ width: `${meterWidth}%` }}
-                  />
-                </div>
-                <p className="mt-3 text-sm text-muted-foreground">{currentExplanation}</p>
-              </div>
-            </div>
-
-            <div className="mt-5 grid gap-4 lg:grid-cols-2">
-              <div className="rounded-2xl border border-border bg-white">
-                <div className="border-b border-border px-4 py-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    Your Offer
-                  </p>
-                  <p className="mt-1 text-base font-semibold text-foreground">
-                    {offer.outgoing.teamName}
-                  </p>
-                </div>
-                <div className="space-y-3 px-4 py-4">
-                  {offer.outgoing.assets.map((asset) =>
-                    renderAssetCard(asset, openPlayerDetailsFromAsset),
+              <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
+                <div
+                  className={cn(
+                    'h-2 rounded-full transition-all',
+                    interestBarClass(currentAiInterest.score),
                   )}
-                  <TradeAssetSlots
-                    slots={outgoingSlotAssets}
-                    onAdd={(slotIndex) => {
-                      void openAssetPicker('outgoing', slotIndex);
-                    }}
-                    onReplace={(slotIndex) => {
-                      void openAssetPicker('outgoing', slotIndex);
-                    }}
-                    onRemove={(slotIndex) => {
-                      setActionMessage(null);
-                      setExtraOutgoingSelections((current) =>
-                        current.map((selection, index) => (index === slotIndex ? null : selection)),
-                      );
-                    }}
-                  />
-                </div>
+                  style={{ width: `${meterWidth}%` }}
+                />
               </div>
-
-              <div className="rounded-2xl border border-border bg-white">
-                <div className="border-b border-border px-4 py-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    CPU Offer
-                  </p>
-                  <p className="mt-1 text-base font-semibold text-foreground">
-                    {offer.incoming.teamName}
-                  </p>
-                </div>
-                <div className="space-y-3 px-4 py-4">
-                  {offer.incoming.assets.map((asset) =>
-                    renderAssetCard(asset, openPlayerDetailsFromAsset),
-                  )}
-                  <TradeAssetSlots
-                    slots={incomingSlotAssets}
-                    onAdd={(slotIndex) => {
-                      void openAssetPicker('incoming', slotIndex);
-                    }}
-                    onReplace={(slotIndex) => {
-                      void openAssetPicker('incoming', slotIndex);
-                    }}
-                    onRemove={(slotIndex) => {
-                      setActionMessage(null);
-                      setExtraIncomingSelections((current) =>
-                        current.map((selection, index) => (index === slotIndex ? null : selection)),
-                      );
-                    }}
-                  />
-                </div>
-              </div>
+              <p className="mt-3 text-sm text-muted-foreground">{currentExplanation}</p>
             </div>
           </div>
 
-          <div className="border-t border-border px-4 py-4 sm:px-6">
-            <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-h-[20px] text-sm text-muted-foreground">
-                {actionMessage ? <span>{actionMessage}</span> : null}
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <div className="rounded-2xl border border-border bg-white">
+              <div className="border-b border-border px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  Your Offer
+                </p>
+                <p className="mt-1 text-base font-semibold text-foreground">
+                  {offer.outgoing.teamName}
+                </p>
               </div>
-              <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-                <Button
-                  type="button"
-                  onClick={handleAcceptTrade}
-                  disabled={isSubmitting}
-                  className="h-8 px-2.5 text-xs"
-                >
-                  {isSubmitting ? 'Accepting...' : 'Accept Trade'}
-                </Button>
-                <Button type="button" variant="outline" onClick={onClose} className="h-8 px-2.5 text-xs">
-                  Close
-                </Button>
+              <div className="space-y-3 px-4 py-4">
+                {offer.outgoing.assets.map((asset) =>
+                  renderAssetCard(asset, openPlayerDetailsFromAsset),
+                )}
+                <TradeAssetSlots
+                  slots={outgoingSlotAssets}
+                  onAdd={(slotIndex) => {
+                    void openAssetPicker('outgoing', slotIndex);
+                  }}
+                  onReplace={(slotIndex) => {
+                    void openAssetPicker('outgoing', slotIndex);
+                  }}
+                  onRemove={(slotIndex) => {
+                    setActionMessage(null);
+                    setExtraOutgoingSelections((current) =>
+                      current.map((selection, index) => (index === slotIndex ? null : selection)),
+                    );
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-white">
+              <div className="border-b border-border px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  CPU Offer
+                </p>
+                <p className="mt-1 text-base font-semibold text-foreground">
+                  {offer.incoming.teamName}
+                </p>
+              </div>
+              <div className="space-y-3 px-4 py-4">
+                {offer.incoming.assets.map((asset) =>
+                  renderAssetCard(asset, openPlayerDetailsFromAsset),
+                )}
+                <TradeAssetSlots
+                  slots={incomingSlotAssets}
+                  onAdd={(slotIndex) => {
+                    void openAssetPicker('incoming', slotIndex);
+                  }}
+                  onReplace={(slotIndex) => {
+                    void openAssetPicker('incoming', slotIndex);
+                  }}
+                  onRemove={(slotIndex) => {
+                    setActionMessage(null);
+                    setExtraIncomingSelections((current) =>
+                      current.map((selection, index) => (index === slotIndex ? null : selection)),
+                    );
+                  }}
+                />
               </div>
             </div>
           </div>
         </div>
-      </div>
+
+        <div className="border-t border-border px-4 py-4 sm:px-6">
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-h-[20px] text-sm text-muted-foreground">
+              {actionMessage ? <span>{actionMessage}</span> : null}
+            </div>
+            <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+              <Button
+                type="button"
+                onClick={handleAcceptTrade}
+                disabled={isSubmitting}
+                className="h-8 px-2.5 text-xs"
+              >
+                {isSubmitting ? 'Accepting...' : 'Accept Trade'}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onClose}
+                className="h-8 px-2.5 text-xs"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      </TransactionModal>
 
       <TradeAssetPickerModal
         isOpen={isPickerOpen}

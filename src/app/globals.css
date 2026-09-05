@@ -766,3 +766,192 @@ body {
   color: var(--team-on-dark, white);
   box-shadow: inset 0 -5px 0 var(--team-primary);
 }
+
+.txn-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  padding: 1.5rem 1rem;
+  background: rgb(0 0 0 / 68%);
+}
+.txn-modal {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 720px);
+  max-height: 92dvh;
+  overflow: hidden auto;
+  border-radius: 1rem;
+  border: 1px solid rgb(255 255 255 / 15%);
+  background: #111214 url('/assets/transaction-modal/backgrounds/distressed-charcoal-2048.png')
+    center/cover;
+  color: white;
+  box-shadow: 0 28px 80px rgb(0 0 0 / 45%);
+}
+.txn-modal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(
+    125deg,
+    color-mix(in srgb, var(--team-primary) 34%, transparent),
+    transparent 58%,
+    color-mix(in srgb, var(--team-secondary) 18%, transparent)
+  );
+}
+.txn-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: currentColor center/cover no-repeat;
+}
+.txn-layer--field {
+  color: var(--team-secondary);
+  opacity: 0.07;
+  -webkit-mask: url('/assets/transaction-modal/overlays/field-grid-1600.png') center/cover;
+  mask: url('/assets/transaction-modal/overlays/field-grid-1600.png') center/cover;
+}
+.txn-layer--playbook {
+  color: white;
+  opacity: 0.11;
+  -webkit-mask: url('/assets/transaction-modal/overlays/playbook-xo-arrows-1920x1280.png')
+    center/cover;
+  mask: url('/assets/transaction-modal/overlays/playbook-xo-arrows-1920x1280.png') center/cover;
+}
+.txn-layer--grain {
+  background: url('/assets/transaction-modal/overlays/grain-halftone-1024.png') repeat;
+  opacity: 0.08;
+  mix-blend-mode: soft-light;
+}
+.txn-layer--stroke {
+  inset: auto 0 0 34%;
+  height: 38%;
+  color: var(--team-secondary);
+  opacity: 0.2;
+  -webkit-mask: url('/assets/transaction-modal/strokes/brush-stroke-01.png') center/cover;
+  mask: url('/assets/transaction-modal/strokes/brush-stroke-01.png') center/cover;
+}
+.txn-hero {
+  position: relative;
+  min-height: 172px;
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.6rem 4.5rem 1.2rem 1.6rem;
+}
+.txn-team-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+.txn-icon {
+  position: absolute;
+  left: 1.7rem;
+  bottom: 0.8rem;
+  width: 34px;
+  aspect-ratio: 1;
+  background: var(--team-secondary);
+  -webkit-mask: var(--txn-icon) center/contain no-repeat;
+  mask: var(--txn-icon) center/contain no-repeat;
+}
+.txn-phrase {
+  width: min(420px, 80%);
+  height: 92px;
+  background: var(--team-secondary);
+  -webkit-mask: var(--txn-phrase) center/contain no-repeat;
+  mask: var(--txn-phrase) center/contain no-repeat;
+}
+.txn-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  width: 42px;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--team-primary);
+  color: var(--team-primary-foreground, white);
+}
+.txn-close:focus-visible {
+  outline: 3px solid var(--team-secondary);
+  outline-offset: 3px;
+}
+.txn-content {
+  position: relative;
+  margin: 0 1.15rem;
+  border-radius: 0.8rem 0.8rem 0 0;
+  background: rgb(255 255 255 / 97%);
+  padding: 1.4rem;
+  color: var(--foreground);
+}
+.txn-content > h2 {
+  padding-right: 2rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+.txn-description {
+  margin-top: 0.3rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+.txn-footer {
+  margin: 0 1.15rem 1.15rem;
+  border-radius: 0 0 0.8rem 0.8rem;
+  border-top: 1px solid var(--border);
+  background: rgb(255 255 255 / 97%);
+  padding: 1rem 1.4rem;
+  color: var(--foreground);
+}
+.txn-modal--cut::before {
+  filter: saturate(0.55);
+  opacity: 0.75;
+}
+@media (max-width: 639px) {
+  .txn-backdrop {
+    align-items: end;
+    padding: 0.5rem;
+  }
+  .txn-modal {
+    width: 100%;
+    max-height: 94dvh;
+    border-radius: 1rem 1rem 0.4rem 0.4rem;
+  }
+  .txn-hero {
+    min-height: 130px;
+    grid-template-columns: 44px 1fr;
+    padding: 1rem 3.6rem 0.8rem 1rem;
+  }
+  .txn-team-logo {
+    width: 42px;
+    height: 42px;
+  }
+  .txn-layer--field {
+    display: none;
+  }
+  .txn-phrase {
+    width: 80%;
+    height: 68px;
+  }
+  .txn-icon {
+    left: 1rem;
+    width: 27px;
+  }
+  .txn-content,
+  .txn-footer {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .txn-layer,
+  .txn-modal {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import PlayerTypeIcon from '@/components/player-type-icon';
+import TransactionModal from '@/components/transaction-modal';
 import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 import { estimateResignInterest } from '@/lib/resign-scoring';
@@ -146,180 +147,164 @@ export default function ContractOfferModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="contract-offer-modal-title"
-        className="front-office-transaction-modal flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-lg"
-      >
-        <div className="flex items-start justify-between gap-3 border-b border-border px-4 py-4 sm:px-6">
-          <div className="min-w-0">
-            <h3
-              id="contract-offer-modal-title"
-              className="text-base font-semibold text-foreground sm:text-lg"
+    <TransactionModal
+      open={isOpen}
+      variant={scoreVariant === 'freeAgency' ? 'sign-free-agent' : 're-sign'}
+      title={title}
+      description={subtitle}
+      onClose={onClose}
+    >
+      <div className="overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
+        <div className="grid gap-4 sm:grid-cols-[88px_1fr] sm:items-center">
+          <div className="w-fit">
+            <div
+              className="front-office-player-tile flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl text-2xl font-black sm:h-24 sm:w-24"
+              aria-hidden="true"
             >
-              {title}
-            </h3>
-            {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
+              <span>{player.position}</span>
+            </div>
           </div>
-          <Button type="button" variant="ghost" size="icon" onClick={onClose}>
-            ✕
+          <div className="space-y-1 text-sm">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Player Details
+            </p>
+            <p className="font-semibold text-foreground">
+              <span className="inline-flex items-center gap-1.5">
+                <span>
+                  {player.firstName} {player.lastName}
+                </span>
+                <PlayerTypeIcon player={player} />
+              </span>
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {player.position}
+              {player.college ? ` · ${player.college}` : ''}
+              {' · '}Age {age}
+            </p>
+            {!response ? (
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Preferred Years: {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]}
+                {' · '}Expected APY: ${estimate.expectedApy.toFixed(1)}M
+              </p>
+            ) : null}
+          </div>
+        </div>
+
+        {!response ? (
+          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
+            <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+              <span>Interest: {interestLabel}</span>
+              <span>{score.toFixed(0)}%</span>
+            </div>
+            <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
+              <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
+            </div>
+          </div>
+        ) : null}
+
+        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Years
+            </label>
+            <select
+              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+              value={years}
+              onChange={(event) => {
+                setYears(Number(event.target.value));
+                setResponse(null);
+              }}
+            >
+              {allowedYears.map((value) => (
+                <option key={value} value={value}>
+                  {value} years
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              APY (M)
+            </label>
+            <input
+              type="number"
+              inputMode="decimal"
+              step={0.5}
+              min={0}
+              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+              value={apyInput}
+              onChange={(event) => {
+                if (!allowNumericInput(event.target.value)) return;
+                setApyInput(event.target.value);
+                setResponse(null);
+              }}
+              onBlur={() => {
+                if (apyInput.trim() === '') return;
+                const clamped = clampNumber(parseNumericInput(apyInput), 0, 99);
+                setApyInput(clamped.toFixed(1));
+              }}
+            />
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Guaranteed (M)
+            </label>
+            <input
+              type="number"
+              inputMode="decimal"
+              step={0.1}
+              min={0}
+              max={60}
+              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+              value={guaranteedInput}
+              onChange={(event) => {
+                if (!allowNumericInput(event.target.value)) return;
+                setGuaranteedInput(event.target.value);
+                setResponse(null);
+              }}
+              onBlur={() => {
+                if (guaranteedInput.trim() === '') return;
+                const clamped = clampNumber(parseNumericInput(guaranteedInput), 0, 60);
+                setGuaranteedInput(clamped.toFixed(1));
+              }}
+            />
+          </div>
+        </div>
+
+        <p className="mt-5 text-sm text-muted-foreground">
+          <span className="font-semibold text-foreground">
+            {CURRENT_MODELED_LEAGUE_YEAR} Cap Number:
+          </span>{' '}
+          {formatMoneyMillions(currentLeagueYearCapHit)}
+        </p>
+
+        {response ? (
+          <div
+            className={cn(
+              'mt-4 rounded-lg border px-4 py-3 text-sm',
+              response.tone === 'positive' && 'border-emerald-200 bg-emerald-50 text-emerald-700',
+              response.tone === 'neutral' && 'border-amber-200 bg-amber-50 text-amber-700',
+              response.tone === 'negative' && 'border-red-200 bg-red-50 text-red-700',
+            )}
+          >
+            <p className="font-semibold italic">“{response.message}”</p>
+            <p className="mt-1 text-xs text-muted-foreground">{response.notice}</p>
+          </div>
+        ) : null}
+
+        {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
+      </div>
+
+      <div className="border-t border-border px-4 py-4 sm:px-6">
+        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <Button type="button" variant="outline" className="h-10" onClick={onClose}>
+            {response ? 'Continue' : 'Cancel'}
+          </Button>
+          <Button type="button" className="h-10" disabled={isSubmitting} onClick={handleSubmit}>
+            {isSubmitting ? 'Sending...' : submitLabel}
           </Button>
         </div>
-
-        <div className="overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
-          <div className="grid gap-4 sm:grid-cols-[88px_1fr] sm:items-center">
-            <div className="w-fit">
-              <div
-                className="front-office-player-tile flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl text-2xl font-black sm:h-24 sm:w-24"
-                aria-hidden="true"
-              >
-                <span>{player.position}</span>
-              </div>
-            </div>
-            <div className="space-y-1 text-sm">
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Player Details
-              </p>
-              <p className="font-semibold text-foreground">
-                <span className="inline-flex items-center gap-1.5">
-                  <span>
-                    {player.firstName} {player.lastName}
-                  </span>
-                  <PlayerTypeIcon player={player} />
-                </span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {player.position}
-                {player.college ? ` · ${player.college}` : ''}
-                {' · '}Age {age}
-              </p>
-              {!response ? (
-                <p className="text-xs leading-relaxed text-muted-foreground">
-                  Preferred Years: {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]}
-                  {' · '}Expected APY: ${estimate.expectedApy.toFixed(1)}M
-                </p>
-              ) : null}
-            </div>
-          </div>
-
-          {!response ? (
-            <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
-              <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
-                <span>Interest: {interestLabel}</span>
-                <span>{score.toFixed(0)}%</span>
-              </div>
-              <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
-                <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
-              </div>
-            </div>
-          ) : null}
-
-          <div className="mt-5 grid gap-4 sm:grid-cols-3">
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Years
-              </label>
-              <select
-                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-                value={years}
-                onChange={(event) => {
-                  setYears(Number(event.target.value));
-                  setResponse(null);
-                }}
-              >
-                {allowedYears.map((value) => (
-                  <option key={value} value={value}>
-                    {value} years
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                APY (M)
-              </label>
-              <input
-                type="number"
-                inputMode="decimal"
-                step={0.5}
-                min={0}
-                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-                value={apyInput}
-                onChange={(event) => {
-                  if (!allowNumericInput(event.target.value)) return;
-                  setApyInput(event.target.value);
-                  setResponse(null);
-                }}
-                onBlur={() => {
-                  if (apyInput.trim() === '') return;
-                  const clamped = clampNumber(parseNumericInput(apyInput), 0, 99);
-                  setApyInput(clamped.toFixed(1));
-                }}
-              />
-            </div>
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Guaranteed (M)
-              </label>
-              <input
-                type="number"
-                inputMode="decimal"
-                step={0.1}
-                min={0}
-                max={60}
-                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-                value={guaranteedInput}
-                onChange={(event) => {
-                  if (!allowNumericInput(event.target.value)) return;
-                  setGuaranteedInput(event.target.value);
-                  setResponse(null);
-                }}
-                onBlur={() => {
-                  if (guaranteedInput.trim() === '') return;
-                  const clamped = clampNumber(parseNumericInput(guaranteedInput), 0, 60);
-                  setGuaranteedInput(clamped.toFixed(1));
-                }}
-              />
-            </div>
-          </div>
-
-          <p className="mt-5 text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">
-              {CURRENT_MODELED_LEAGUE_YEAR} Cap Number:
-            </span>{' '}
-            {formatMoneyMillions(currentLeagueYearCapHit)}
-          </p>
-
-          {response ? (
-            <div
-              className={cn(
-                'mt-4 rounded-lg border px-4 py-3 text-sm',
-                response.tone === 'positive' && 'border-emerald-200 bg-emerald-50 text-emerald-700',
-                response.tone === 'neutral' && 'border-amber-200 bg-amber-50 text-amber-700',
-                response.tone === 'negative' && 'border-red-200 bg-red-50 text-red-700',
-              )}
-            >
-              <p className="font-semibold italic">“{response.message}”</p>
-              <p className="mt-1 text-xs text-muted-foreground">{response.notice}</p>
-            </div>
-          ) : null}
-
-          {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
-        </div>
-
-        <div className="border-t border-border px-4 py-4 sm:px-6">
-          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <Button type="button" variant="outline" className="h-10" onClick={onClose}>
-              {response ? 'Continue' : 'Cancel'}
-            </Button>
-            <Button type="button" className="h-10" disabled={isSubmitting} onClick={handleSubmit}>
-              {isSubmitting ? 'Sending...' : submitLabel}
-            </Button>
-          </div>
-        </div>
       </div>
-    </div>
+    </TransactionModal>
   );
 }

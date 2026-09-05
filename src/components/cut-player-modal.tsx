@@ -4,6 +4,7 @@ import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 
 import { Button } from '@/components/ui/button';
+import TransactionModal from '@/components/transaction-modal';
 import { createRng } from '@/lib/deterministic-rng';
 import type { PlayerRowDTO } from '@/types/player';
 
@@ -128,90 +129,73 @@ export default function CutPlayerModal({
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/40 px-4 py-6"
-      onClick={onClose}
+    <TransactionModal
+      open={isOpen}
+      variant="cut"
+      title={`Cut ${playerName}?`}
+      description={`${player.position} · Age ${player.age ?? '—'}`}
+      onClose={onClose}
     >
-      <div
-        className="w-full max-w-md max-h-[90dvh] overflow-y-auto overscroll-contain rounded-2xl bg-white p-5 shadow-lg sm:p-6"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h3 className="text-lg font-semibold text-foreground">Cut Player?</h3>
+      <div className="mt-4 space-y-4">
+        <p className="text-sm italic text-slate-600">&ldquo;{falcoQuote}&rdquo;</p>
+
+        <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+              Cap Savings
+            </span>
+            <span
+              className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                savings > 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'
+              }`}
+            >
+              {formatMoneyMillions(savings)}
+            </span>
           </div>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            disabled={isSubmitting}
-          >
-            ✕
-          </Button>
-        </div>
-
-        <div className="mt-4 space-y-4">
-          <p className="text-sm italic text-slate-600">&ldquo;{falcoQuote}&rdquo;</p>
-
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-                Cap Savings
+          <div className="mt-3 space-y-2">
+            <div className="flex items-center justify-between text-sm text-slate-600">
+              <span>Current Cap Space</span>
+              <span className="text-lg font-semibold text-slate-900">
+                {formatMoneyMillions(currentCapSpace)}
               </span>
+            </div>
+            <div className="flex items-center justify-between text-sm text-slate-600">
+              <span>Future Cap Space</span>
               <span
-                className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                  savings > 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'
+                className={`flex items-center gap-1 text-lg font-semibold ${
+                  isImproved ? 'text-emerald-600' : isWorsened ? 'text-red-600' : 'text-slate-600'
                 }`}
               >
-                {formatMoneyMillions(savings)}
+                {isImproved ? (
+                  <ArrowUpRight className="h-4 w-4" />
+                ) : isWorsened ? (
+                  <ArrowDownRight className="h-4 w-4" />
+                ) : null}
+                {formatMoneyMillions(futureCapSpace)}
+                <span className="sr-only">
+                  {isImproved
+                    ? 'Improves cap space'
+                    : isWorsened
+                      ? 'Worsens cap space'
+                      : 'No change'}
+                </span>
               </span>
-            </div>
-            <div className="mt-3 space-y-2">
-              <div className="flex items-center justify-between text-sm text-slate-600">
-                <span>Current Cap Space</span>
-                <span className="text-lg font-semibold text-slate-900">
-                  {formatMoneyMillions(currentCapSpace)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-sm text-slate-600">
-                <span>Future Cap Space</span>
-                <span
-                  className={`flex items-center gap-1 text-lg font-semibold ${
-                    isImproved ? 'text-emerald-600' : isWorsened ? 'text-red-600' : 'text-slate-600'
-                  }`}
-                >
-                  {isImproved ? (
-                    <ArrowUpRight className="h-4 w-4" />
-                  ) : isWorsened ? (
-                    <ArrowDownRight className="h-4 w-4" />
-                  ) : null}
-                  {formatMoneyMillions(futureCapSpace)}
-                  <span className="sr-only">
-                    {isImproved
-                      ? 'Improves cap space'
-                      : isWorsened
-                        ? 'Worsens cap space'
-                        : 'No change'}
-                  </span>
-                </span>
-              </div>
             </div>
           </div>
         </div>
-
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-          {error ? <p className="text-sm text-red-500">{error}</p> : null}
-          <div className="flex items-center justify-end gap-2">
-            <Button type="button" variant="ghost" onClick={onClose} disabled={isSubmitting}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Cutting...' : 'Cut Player'}
-            </Button>
-          </div>
-        </form>
       </div>
-    </div>
+
+      <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+        {error ? <p className="text-sm text-red-500">{error}</p> : null}
+        <div className="flex items-center justify-end gap-2">
+          <Button type="button" variant="ghost" onClick={onClose} disabled={isSubmitting}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Cutting...' : 'Cut Player'}
+          </Button>
+        </div>
+      </form>
+    </TransactionModal>
   );
 }

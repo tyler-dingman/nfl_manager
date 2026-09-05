@@ -1,0 +1,7 @@
+# Codex implementation prompt
+
+Implement the universal Down & Distance Front Office transaction-modal visual system using the assets in `public/assets/transaction-modal/` (copy the contents of this asset kit there if needed). Read `public/assets/transaction-modal/README.md` first and follow its layer order, opacity ranges, CSS-mask tinting, accessibility, responsive, and reduced-motion guidance.
+
+Build one reusable component driven by the app’s existing team-theme tokens (`primary`, `secondary`) and existing runtime team logo—not 32 team-specific components or baked graphics. Support transaction variants: re-sign, sign free agent, trade outgoing, trade received, counteroffer, cut, waiver claim, and depth replacement. Map each variant to the supplied icon and exact phrase per the README. Keep player name, number, position, age, interest, compensation, and actions as semantic HTML/CSS content. Decorative PNGs must be `aria-hidden`; preserve keyboard focus, modal focus trapping, escape/close behavior, and sufficient text contrast.
+
+Integrate with the repo’s current modal primitives and styling conventions rather than introducing a parallel framework. Add tests for variant-to-asset mapping, team color variables, accessible dialog labeling, and a representative mobile layout. Verify with at least two visually different team themes and ensure no NFL/team logo is bundled in these neutral assets.
