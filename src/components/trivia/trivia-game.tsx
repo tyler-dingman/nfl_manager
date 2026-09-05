@@ -11,7 +11,7 @@ import {
   DRILL_PLAY_CLOCK_SECONDS,
   DRILL_YARDS_PER_CORRECT_ANSWER,
   formatDrillClock,
-  getDrillGameSecondsRemaining,
+  getDrillGameSeconds,
   rankDrillStandings,
 } from '@/features/trivia/four-minute-drill';
 import { useTeamStore } from '@/features/team/team-store';
@@ -20,6 +20,7 @@ type Choice = 'A' | 'B' | 'C' | 'D';
 type Standing = {
   userId: string;
   name: string;
+  teamId?: string | null;
   score: number;
   correctAnswers: number;
   wrongAnswers?: number;
@@ -290,10 +291,7 @@ export default function TriviaGame({
     return <FinalRecap game={game} onPlayAgain={() => void runItBack()} onClose={onClose} />;
   const totalScore = game.score + (result?.points ?? 0),
     totalCorrect = game.correctAnswers + (result?.correct ? 1 : 0),
-    // The play clock runs while the question is open. Once the play ends, the
-    // game clock rapidly rolls down by the actual recorded response time.
-    elapsed = phase === 'QUESTION' ? 0 : (result?.responseTimeMs ?? 0),
-    base = game.standings.find((r) => r.userId === game.currentUserId)?.responseTimeTotalMs ?? 0;
+    playComplete = phase !== 'QUESTION' || Boolean(game.waitingForPlayers);
   const standings = rankDrillStandings(
     (game.standings.length
       ? game.standings
@@ -314,12 +312,13 @@ export default function TriviaGame({
   return (
     <Shell>
       <DrillHeader
-        seconds={getDrillGameSecondsRemaining(base, elapsed)}
+        seconds={getDrillGameSeconds(game.position, seconds, playComplete)}
+        fastForward={playComplete}
         position={game.position}
         count={game.questionCount}
       />
-      <RaceField rows={standings} currentUserId={game.currentUserId} teamLogo={team?.logo_url} />
-      <div className="grid gap-3 p-3 lg:grid-cols-[1.35fr_.65fr]">
+      <RaceField rows={standings} currentUserId={game.currentUserId} fallbackTeamId={teamId} />
+      <div className="grid gap-3 p-3 lg:grid-cols-[minmax(0,1.65fr)_minmax(210px,.5fr)_minmax(250px,.7fr)]">
         <QuestionPanel
           game={game}
           answers={answers}
@@ -332,12 +331,14 @@ export default function TriviaGame({
           teamLogo={team?.logo_url}
           teamName={teamName}
         />
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-          <GameInfo />
-          <LiveStandings rows={standings} currentUserId={game.currentUserId} />
-        </div>
-        <RecentPlays plays={plays} />
-        <CurrentDrive position={game.position} score={totalScore} />
+        <GameInfo />
+        <LiveStandings
+          rows={standings}
+          currentUserId={game.currentUserId}
+          fallbackTeamId={teamId}
+        />
+        <RecentPlays plays={plays} className="lg:col-span-2" />
+        <CurrentDrive position={game.position} score={totalScore} plays={plays} />
       </div>
       {game.waitingForPlayers ? (
         <div className="border-t border-white/15 p-4 text-center font-black uppercase">
@@ -382,10 +383,12 @@ function Centered({
 }
 function DrillHeader({
   seconds,
+  fastForward,
   position,
   count,
 }: {
   seconds: number;
+  fastForward: boolean;
   position: number;
   count: number;
 }) {
@@ -393,6 +396,11 @@ function DrillHeader({
   const displaySecondsRef = useRef(seconds);
 
   useEffect(() => {
+    if (!fastForward) {
+      displaySecondsRef.current = seconds;
+      setDisplaySeconds(seconds);
+      return;
+    }
     if (seconds >= displaySecondsRef.current) {
       displaySecondsRef.current = seconds;
       setDisplaySeconds(seconds);
@@ -411,10 +419,10 @@ function DrillHeader({
       setDisplaySeconds(displaySecondsRef.current);
     }, 28);
     return () => window.clearInterval(timer);
-  }, [seconds]);
+  }, [fastForward, seconds]);
 
   return (
-    <header className="drill-texture relative grid items-center gap-4 border-b border-white/30 px-4 py-4 md:grid-cols-[1fr_auto_1fr] md:px-8">
+    <header className="drill-texture relative grid items-center gap-4 border-b border-white/30 px-4 py-4 lg:grid-cols-[minmax(360px,1.25fr)_180px_minmax(330px,.8fr)_150px] lg:px-8">
       <div>
         <h1 className="text-5xl font-black uppercase italic leading-none tracking-[-.07em] sm:text-7xl">
           4 Minute Drill
@@ -427,12 +435,18 @@ function DrillHeader({
         src="/assets/4-minute-drill/svg/phrase-know-football-go-distance.svg"
         alt=""
         aria-hidden
-        className="hidden h-20 w-44 opacity-80 md:block"
+        className="hidden h-20 w-44 opacity-80 lg:block"
       />
       <div className="grid grid-cols-2 divide-x divide-white/25 rounded-lg border border-white/25 bg-black/20 text-center">
         <Metric label="Game clock" value={formatDrillClock(displaySeconds)} />
         <Metric label="Play" value={`${position} of ${count}`} />
       </div>
+      <img
+        src="/assets/4-minute-drill/svg/phrase-same-game-smarter-fans.svg"
+        alt=""
+        aria-hidden
+        className="hidden h-16 w-36 opacity-75 lg:block"
+      />
     </header>
   );
 }
@@ -449,58 +463,89 @@ function Metric({ label, value }: { label: string; value: string }) {
 function RaceField({
   rows,
   currentUserId,
-  teamLogo,
+  fallbackTeamId,
 }: {
   rows: Standing[];
   currentUserId: string;
-  teamLogo?: string;
+  fallbackTeamId: string;
 }) {
+  const teams = useTeamStore((state) => state.teams);
   const ticks = ['0', '10', '20', '30', '40', '50', '40', '30', '20', '10'];
   return (
-    <section className="drill-field relative m-3 rounded-xl border border-white/60 px-4 py-5 sm:px-7">
-      <div className="mb-3 ml-36 hidden grid-cols-10 text-center text-xs font-black text-white/55 sm:grid">
-        {ticks.map((t, i) => (
-          <span key={`${t}-${i}`}>{t}</span>
-        ))}
-      </div>
-      <div className="space-y-3">
-        {rows.slice(0, 5).map((r) => {
-          const progress = Math.min(100, r.score);
-          return (
-            <div key={r.userId} className="grid grid-cols-[112px_1fr_64px] items-center gap-3">
-              <div className="flex min-w-0 items-center gap-2">
-                <span
-                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 text-xs font-black ${r.userId === currentUserId ? 'team-primary-filled' : 'bg-[#26333a] text-white'}`}
-                >
-                  {r.name.slice(0, 2).toUpperCase()}
-                </span>
-                <span className="truncate text-sm font-black uppercase">{r.name}</span>
+    <section className="drill-field relative m-3 min-h-[260px] overflow-hidden rounded-xl border border-white/60 pr-16 sm:min-h-[300px] sm:pr-20">
+      <img
+        src="/assets/4-minute-drill/svg/playbook-xo-arrows.svg"
+        alt=""
+        aria-hidden
+        className="absolute bottom-5 right-24 hidden h-32 w-40 opacity-20 md:block"
+      />
+      <div className="relative flex min-h-[260px] flex-col justify-center px-4 py-8 sm:min-h-[300px] sm:px-7">
+        <div className="mb-5 ml-36 hidden grid-cols-10 text-center text-xs font-black text-white/55 sm:grid">
+          {ticks.map((tick, index) => (
+            <span key={`${tick}-${index}`}>{tick}</span>
+          ))}
+        </div>
+        <div className={rows.length === 1 ? '' : 'space-y-4'}>
+          {rows.slice(0, 5).map((r) => {
+            const rowTeam = teams.find(
+              (candidate) => candidate.abbr === (r.teamId ?? fallbackTeamId),
+            );
+            const progress = Math.min(100, r.score);
+            return (
+              <div
+                key={r.userId}
+                data-current-player={r.userId === currentUserId || undefined}
+                className="grid grid-cols-[112px_minmax(0,1fr)_68px] items-center gap-3 sm:grid-cols-[140px_minmax(0,1fr)_82px]"
+                style={
+                  {
+                    '--lane-color': rowTeam?.color_primary ?? 'var(--primary)',
+                  } as React.CSSProperties
+                }
+              >
+                <div className="flex min-w-0 items-center gap-2">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[var(--lane-color)] text-xs font-black text-white shadow-lg">
+                    {r.name.slice(0, 2).toUpperCase()}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate text-sm font-black uppercase">{r.name}</span>
+                    {rowTeam?.logo_url ? (
+                      <img
+                        src={rowTeam.logo_url}
+                        alt={`${rowTeam.name} logo`}
+                        className="mt-1 h-6 w-10 object-contain"
+                      />
+                    ) : null}
+                  </span>
+                </div>
+                <div className="relative h-2 bg-white/15 before:absolute before:inset-x-0 before:-inset-y-8 before:border-y before:border-white/10">
+                  <div
+                    className="h-full bg-[var(--lane-color)] transition-[width] duration-500"
+                    style={{ width: `${progress}%` }}
+                  />
+                  <span
+                    className="absolute top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full border-[3px] border-white bg-[var(--lane-color)] shadow-[0_0_18px_var(--lane-color)]"
+                    style={{ left: `${progress}%` }}
+                  >
+                    {rowTeam?.logo_url ? (
+                      <img
+                        src={rowTeam.logo_url}
+                        alt=""
+                        aria-hidden
+                        className="h-full w-full object-contain"
+                      />
+                    ) : null}
+                  </span>
+                </div>
+                <span className="text-sm font-black tabular-nums">{r.score} YDS</span>
               </div>
-              <div className="relative h-2 bg-white/15">
-                <div
-                  className="h-full bg-[var(--primary)] transition-[width]"
-                  style={{ width: `${progress}%` }}
-                />
-                <span
-                  className="absolute top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-[var(--primary)]"
-                  style={{ left: `${progress}%` }}
-                >
-                  {r.userId === currentUserId && teamLogo ? (
-                    <img
-                      src={teamLogo}
-                      alt=""
-                      aria-hidden
-                      className="h-full w-full object-contain"
-                    />
-                  ) : null}
-                </span>
-              </div>
-              <span className="text-sm font-black tabular-nums">{r.score} YDS</span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-      <div className="absolute bottom-0 right-[23%] top-0 hidden w-16 items-center justify-center bg-[var(--primary)]/75 bg-[url('/assets/4-minute-drill/png/end-zone-distress-mask.png')] bg-cover text-sm font-black uppercase tracking-[.18em] text-[var(--team-primary-foreground)] lg:flex [writing-mode:vertical-rl]">
+      <div
+        data-testid="drill-end-zone"
+        className="absolute bottom-0 right-0 top-0 flex w-16 items-center justify-center border-l border-white/60 bg-[var(--primary)]/80 bg-[url('/assets/4-minute-drill/png/end-zone-distress-mask.png')] bg-cover text-xs font-black uppercase tracking-[.16em] text-[var(--team-primary-foreground)] sm:w-20 sm:text-sm [writing-mode:vertical-rl]"
+      >
         End zone
       </div>
     </section>
@@ -531,7 +576,7 @@ function QuestionPanel({
 }) {
   return (
     <section className="overflow-hidden rounded-xl bg-[#F8F6F1] text-[#00172B]">
-      <div className="team-primary-filled flex items-center gap-3 px-5 py-3 text-xs font-black uppercase tracking-[.15em]">
+      <div className="drill-category-strip team-primary-filled flex max-w-[76%] items-center gap-3 px-5 py-3 pr-12 text-xs font-black uppercase tracking-[.15em]">
         {teamLogo ? (
           <img src={teamLogo} alt={`${teamName} logo`} className="h-7 w-10 object-contain" />
         ) : null}
@@ -621,37 +666,75 @@ function GameInfo() {
         </li>
         <li>
           ✕ <b>NO GAIN</b>
-          <span className="block pl-6 text-white/55">Incorrect or timeout</span>
+          <span className="block pl-6 text-white/55">For an incorrect answer</span>
+        </li>
+        <li>
+          🏆 <b>HIGHEST YARDAGE WINS</b>
+          <span className="block pl-6 text-white/55">Response time breaks ties</span>
         </li>
       </ul>
     </Panel>
   );
 }
-function LiveStandings({ rows, currentUserId }: { rows: Standing[]; currentUserId: string }) {
+function LiveStandings({
+  rows,
+  currentUserId,
+  fallbackTeamId,
+}: {
+  rows: Standing[];
+  currentUserId: string;
+  fallbackTeamId: string;
+}) {
+  const teams = useTeamStore((state) => state.teams);
   return (
     <Panel title="Live standings">
       <div className="mt-3 space-y-1">
-        {rows.slice(0, 5).map((r, i) => (
-          <div
-            key={r.userId}
-            className={`grid grid-cols-[20px_1fr_auto_auto] gap-2 rounded-md px-2 py-2 text-xs font-black ${r.userId === currentUserId ? 'team-primary-filled' : 'bg-white/[.04]'}`}
-          >
-            <span>{i + 1}</span>
-            <span className="truncate uppercase">{r.name}</span>
-            <span>{r.score}</span>
-            <span className="text-[10px] opacity-70">
-              {r.correctAnswers}/
-              {Math.max(1, r.correctAnswers + (r.wrongAnswers ?? 0) + (r.timeouts ?? 0))}
-            </span>
-          </div>
-        ))}
+        {rows.slice(0, 5).map((r, i) => {
+          const rowTeam = teams.find(
+            (candidate) => candidate.abbr === (r.teamId ?? fallbackTeamId),
+          );
+          const answered = r.correctAnswers + (r.wrongAnswers ?? 0) + (r.timeouts ?? 0);
+          return (
+            <div
+              key={r.userId}
+              className={`grid grid-cols-[20px_minmax(0,1fr)_28px_auto_auto] items-center gap-2 rounded-md px-2 py-2 text-xs font-black ${r.userId === currentUserId ? 'team-primary-filled' : 'bg-white/[.04]'}`}
+            >
+              <span>{i + 1}</span>
+              <span className="truncate uppercase">{r.name}</span>
+              {rowTeam?.logo_url ? (
+                <img
+                  src={rowTeam.logo_url}
+                  alt={`${rowTeam.name} logo`}
+                  className="h-5 w-7 object-contain"
+                />
+              ) : (
+                <span />
+              )}
+              <span>{r.score}</span>
+              <span className="text-[10px] opacity-70">
+                {r.correctAnswers}/{answered || 0} ·{' '}
+                {formatResponseTime(r.responseTimeTotalMs ?? 0)}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </Panel>
   );
 }
-function RecentPlays({ plays }: { plays: Play[] }) {
+function formatResponseTime(milliseconds: number) {
+  const seconds = Math.max(0, Math.round(milliseconds / 1000));
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+}
+function RecentPlays({ plays, className = '' }: { plays: Play[]; className?: string }) {
   return (
-    <Panel title="Recent plays">
+    <Panel title="Recent plays" className={`relative overflow-hidden ${className}`}>
+      <img
+        src="/assets/4-minute-drill/svg/phrase-next-question-bigger-possibilities.svg"
+        alt=""
+        aria-hidden
+        className="absolute bottom-2 right-3 hidden h-24 w-40 opacity-20 sm:block"
+      />
       {plays.length ? (
         <div className="mt-3 space-y-2">
           {plays.map((p) => (
@@ -676,18 +759,34 @@ function RecentPlays({ plays }: { plays: Play[] }) {
     </Panel>
   );
 }
-function CurrentDrive({ position, score }: { position: number; score: number }) {
+function CurrentDrive({
+  position,
+  score,
+  plays,
+}: {
+  position: number;
+  score: number;
+  plays: Play[];
+}) {
+  const outcomes = new Map(
+    plays.map((play) => [Number(play.id.split('-')[0]), play.correct ? 'correct' : 'no-gain']),
+  );
   return (
     <Panel title="Current drive" className="bg-[#F8F6F1] !text-[#00172B]">
       <div className="mt-4 flex justify-between gap-1">
-        {Array.from({ length: 10 }, (_, i) => (
-          <span
-            key={i}
-            className={`flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-black ${i < position - 1 ? 'bg-emerald-600 text-white' : i === position - 1 ? 'team-primary-filled' : 'bg-slate-300'}`}
-          >
-            {i < position - 1 ? '✓' : i + 1}
-          </span>
-        ))}
+        {Array.from({ length: 10 }, (_, i) => {
+          const question = i + 1,
+            outcome = outcomes.get(question),
+            isCurrent = question === position && !outcome;
+          return (
+            <span
+              key={i}
+              className={`flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-black ${outcome === 'correct' ? 'bg-emerald-600 text-white' : outcome === 'no-gain' ? 'bg-red-600 text-white' : isCurrent ? 'team-primary-filled' : 'bg-slate-300'}`}
+            >
+              {outcome === 'correct' ? '✓' : outcome === 'no-gain' ? '✕' : question}
+            </span>
+          );
+        })}
       </div>
       <p className="mt-4 text-xs font-black uppercase">
         {Math.max(0, 100 - score)} yards to the end zone
@@ -719,15 +818,20 @@ function FinalRecap({
         ],
     { ranked, winner } = buildTriviaRecap(players);
   if (!winner) return null;
+  const answered = winner.correctAnswers + (winner.wrongAnswers ?? 0) + (winner.timeouts ?? 0),
+    responseTime = formatResponseTime(winner.responseTimeTotalMs ?? 0);
   return (
     <Shell>
       <div className="drill-texture min-h-[700px] px-5 py-16 text-center">
         <Trophy className="mx-auto h-14 w-14 text-[var(--secondary)]" />
         <p className="mt-5 text-sm font-black uppercase tracking-[.3em] text-[var(--team-secondary-on-dark)]">
-          Final · 4 Minute Drill
+          Final drive · 4 Minute Drill
         </p>
         <h2 className="mt-3 text-5xl font-black uppercase sm:text-7xl">{winner.name} wins</h2>
-        <p className="mt-3 text-xl font-black">{winner.score} YDS</p>
+        <p className="mt-3 text-xl font-black">
+          {winner.score} YDS · {winner.correctAnswers}/{answered || game.questionCount} ·{' '}
+          {responseTime} response time
+        </p>
         <div className="mx-auto mt-8 max-w-2xl overflow-hidden rounded-xl border border-white/20 text-left">
           {rankDrillStandings(ranked).map((p, i) => (
             <div
@@ -743,10 +847,10 @@ function FinalRecap({
         <div className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-3">
           <button onClick={onPlayAgain} className="trivia-primary-button">
             <RotateCcw className="h-4 w-4" />
-            Run it back
+            Play again
           </button>
           <button onClick={onClose} className="trivia-secondary-button">
-            New game
+            Back to trivia
           </button>
           <button
             onClick={() =>
@@ -757,7 +861,7 @@ function FinalRecap({
             className="trivia-secondary-button"
           >
             <Share2 className="h-4 w-4" />
-            Share results
+            Share score
           </button>
         </div>
       </div>

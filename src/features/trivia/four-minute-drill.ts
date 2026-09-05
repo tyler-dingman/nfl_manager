@@ -3,6 +3,10 @@ export const DRILL_PLAY_CLOCK_SECONDS = 24;
 export const DRILL_GAME_CLOCK_SECONDS = 4 * 60;
 export const DRILL_YARDS_PER_CORRECT_ANSWER = 10;
 
+export function getDrillYards(correct: boolean) {
+  return correct ? DRILL_YARDS_PER_CORRECT_ANSWER : 0;
+}
+
 export type DrillStanding = {
   userId: string;
   score: number;
@@ -10,15 +14,20 @@ export type DrillStanding = {
   responseTimeTotalMs?: number;
 };
 
-export function getDrillGameSecondsRemaining(
-  responseTimeTotalMs: number,
-  currentQuestionElapsedMs = 0,
+export function getQuestionStartSeconds(questionNumber: number) {
+  const position = Math.min(DRILL_QUESTION_COUNT, Math.max(1, Math.floor(questionNumber)));
+  return DRILL_GAME_CLOCK_SECONDS - (position - 1) * DRILL_PLAY_CLOCK_SECONDS;
+}
+
+export function getDrillGameSeconds(
+  questionNumber: number,
+  playClockSeconds: number,
+  playComplete = false,
 ) {
-  return Math.max(
-    0,
-    DRILL_GAME_CLOCK_SECONDS -
-      Math.floor((Math.max(0, responseTimeTotalMs) + Math.max(0, currentQuestionElapsedMs)) / 1000),
-  );
+  const start = getQuestionStartSeconds(questionNumber);
+  if (playComplete) return Math.max(0, start - DRILL_PLAY_CLOCK_SECONDS);
+  const playClock = Math.min(DRILL_PLAY_CLOCK_SECONDS, Math.max(0, Math.floor(playClockSeconds)));
+  return Math.max(0, start - (DRILL_PLAY_CLOCK_SECONDS - playClock));
 }
 
 export function rankDrillStandings<T extends DrillStanding>(rows: T[]) {

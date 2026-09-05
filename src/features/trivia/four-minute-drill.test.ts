@@ -7,7 +7,9 @@ import {
   DRILL_QUESTION_COUNT,
   DRILL_YARDS_PER_CORRECT_ANSWER,
   formatDrillClock,
-  getDrillGameSecondsRemaining,
+  getDrillYards,
+  getDrillGameSeconds,
+  getQuestionStartSeconds,
   rankDrillStandings,
 } from './four-minute-drill';
 
@@ -18,16 +20,31 @@ test('uses the approved four minute drill rules', () => {
   assert.equal(DRILL_YARDS_PER_CORRECT_ANSWER, 10);
 });
 
-test('game clock counts question-open time and formats as a clock', () => {
-  assert.equal(getDrillGameSecondsRemaining(30_500, 5_500), 204);
-  assert.equal(formatDrillClock(204), '3:24');
-  assert.equal(getDrillGameSecondsRemaining(240_000), 0);
+test('correct answers move ten yards and incorrect answers produce no gain', () => {
+  assert.equal(getDrillYards(true), 10);
+  assert.equal(getDrillYards(false), 0);
 });
 
-test('a full first play rolls the game clock from 4:00 to 3:36', () => {
-  const remaining = getDrillGameSecondsRemaining(0, 24_000);
-  assert.equal(remaining, 216);
-  assert.equal(formatDrillClock(remaining), '3:36');
+test('each question starts on its fixed 24-second boundary', () => {
+  assert.deepEqual(
+    Array.from({ length: 10 }, (_, index) => getQuestionStartSeconds(index + 1)),
+    [240, 216, 192, 168, 144, 120, 96, 72, 48, 24],
+  );
+});
+
+test('game and play clocks stay coordinated without cumulative drift', () => {
+  assert.equal(formatDrillClock(getDrillGameSeconds(1, 24)), '4:00');
+  assert.equal(formatDrillClock(getDrillGameSeconds(2, 24)), '3:36');
+  assert.equal(formatDrillClock(getDrillGameSeconds(2, 14)), '3:26');
+  assert.equal(formatDrillClock(getDrillGameSeconds(2, 0)), '3:12');
+  assert.equal(formatDrillClock(getDrillGameSeconds(10, 24)), '0:24');
+  assert.equal(formatDrillClock(getDrillGameSeconds(10, 0)), '0:00');
+});
+
+test('an early answer fast-forwards to the exact next boundary', () => {
+  assert.equal(getDrillGameSeconds(1, 15), 231);
+  assert.equal(getDrillGameSeconds(1, 15, true), 216);
+  assert.equal(formatDrillClock(getDrillGameSeconds(1, 15, true)), '3:36');
 });
 
 test('standings break ties by correct answers then response time', () => {

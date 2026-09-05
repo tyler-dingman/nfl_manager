@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import {
   DRILL_PLAY_CLOCK_SECONDS,
   DRILL_QUESTION_COUNT,
-  DRILL_YARDS_PER_CORRECT_ANSWER,
+  getDrillYards,
 } from '@/features/trivia/four-minute-drill';
 import type { TriviaAnswerChoice } from '@/features/trivia/types';
 import { authDb } from '@/server/auth/database';
@@ -28,7 +28,7 @@ export async function createTriviaGame(userId: string, teamId: string) {
 }
 
 export const getGameStandings = (gameId: string) =>
-  authDb()`SELECT p.user_id AS "userId",coalesce(u.display_name,'Football Fan') AS name,p.score,p.correct_answers AS "correctAnswers",p.wrong_answers AS "wrongAnswers",p.timeouts,p.response_time_total_ms AS "responseTimeTotalMs",p.best_question_score AS "bestQuestionScore",p.completed_at AS "completedAt",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC LIMIT 1) AS "currentRank",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC OFFSET 1 LIMIT 1) AS "previousRank" FROM trivia_game_participants p JOIN users u ON u.id=p.user_id WHERE p.game_id=${gameId} AND p.participant_status='JOINED' ORDER BY p.score DESC,p.correct_answers DESC,u.display_name,u.id`;
+  authDb()`SELECT p.user_id AS "userId",coalesce(u.display_name,'Football Fan') AS name,f.team_id AS "teamId",p.score,p.correct_answers AS "correctAnswers",p.wrong_answers AS "wrongAnswers",p.timeouts,p.response_time_total_ms AS "responseTimeTotalMs",p.best_question_score AS "bestQuestionScore",p.completed_at AS "completedAt",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC LIMIT 1) AS "currentRank",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC OFFSET 1 LIMIT 1) AS "previousRank" FROM trivia_game_participants p JOIN users u ON u.id=p.user_id LEFT JOIN user_team_follows f ON f.user_id=u.id AND f.is_primary=true WHERE p.game_id=${gameId} AND p.participant_status='JOINED' ORDER BY p.score DESC,p.correct_answers DESC,p.response_time_total_ms ASC,u.display_name,u.id`;
 
 export async function getTriviaGame(userId: string, gameId: string) {
   const sql = authDb();
@@ -145,7 +145,7 @@ export async function answerTriviaGameQuestion(
     const recordedElapsed = Math.min(game.timerSeconds * 1000, Math.max(0, elapsed));
     const choice = timedOut ? null : selectedAnswer;
     const correct = Boolean(choice && choice === question.correctAnswer);
-    const points = correct ? DRILL_YARDS_PER_CORRECT_ANSWER : 0;
+    const points = getDrillYards(correct);
     const inserted = await tx<
       Array<{ id: string }>
     >`INSERT INTO trivia_answers(id,user_id,question_id,game_id,selected_answer,correct,response_time_ms,points_awarded) VALUES(${randomUUID()},${userId},${question.id},${gameId},${choice},${correct},${recordedElapsed},${points}) ON CONFLICT(user_id,question_id,game_id) DO NOTHING RETURNING id`;

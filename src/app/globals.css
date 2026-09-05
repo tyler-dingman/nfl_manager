@@ -73,6 +73,10 @@
     720px auto;
 }
 
+.drill-category-strip {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
+}
+
 @media (max-width: 639px) {
   .four-minute-drill .drill-field {
     margin-inline: 0;
