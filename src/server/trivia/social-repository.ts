@@ -1,6 +1,7 @@
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { authDb } from '@/server/auth/database';
 import { MAX_BUDDY_PLAYERS } from '@/features/trivia/experience';
+import { DRILL_PLAY_CLOCK_SECONDS } from '@/features/trivia/four-minute-drill';
 async function createSharedGame(
   userId: string,
   mode: 'FRIEND_CHALLENGE' | 'GROUP',
@@ -14,7 +15,7 @@ async function createSharedGame(
       Array<{ id: string }>
     >`SELECT id FROM trivia_questions WHERE team_id=${teamId} AND active=true AND (verified=true OR ${process.env.NODE_ENV !== 'production'}) ORDER BY md5(id||${gameId}) LIMIT ${count}`;
     if (questions.length < count) throw new Error('Not enough active questions.');
-    await tx`INSERT INTO trivia_games(id,mode,team_id,status,created_by_user_id,question_count,timer_seconds)VALUES(${gameId},${mode},${teamId},${mode === 'GROUP' ? 'WAITING' : 'ACTIVE'},${userId},${count},20)`;
+    await tx`INSERT INTO trivia_games(id,mode,team_id,status,created_by_user_id,question_count,timer_seconds)VALUES(${gameId},${mode},${teamId},${mode === 'GROUP' ? 'WAITING' : 'ACTIVE'},${userId},${count},${DRILL_PLAY_CLOCK_SECONDS})`;
     for (const [i, q] of questions.entries())
       await tx`INSERT INTO trivia_game_questions(game_id,question_id,position)VALUES(${gameId},${q.id},${i + 1})`;
     await tx`INSERT INTO trivia_game_participants(game_id,user_id)VALUES(${gameId},${userId})`;

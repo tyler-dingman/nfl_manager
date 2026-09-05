@@ -1,5 +1,9 @@
 import { randomUUID } from 'node:crypto';
-import { calculateTriviaPoints } from '@/features/trivia/engine';
+import {
+  DRILL_PLAY_CLOCK_SECONDS,
+  DRILL_QUESTION_COUNT,
+  DRILL_YARDS_PER_CORRECT_ANSWER,
+} from '@/features/trivia/four-minute-drill';
 import type { TriviaAnswerChoice } from '@/features/trivia/types';
 import { authDb } from '@/server/auth/database';
 import { awardYardsInTransaction } from '@/server/rewards/repository';
@@ -8,12 +12,12 @@ export async function createTriviaGame(userId: string, teamId: string) {
   const sql = authDb();
   return sql.begin(async (tx) => {
     const gameId = randomUUID();
-    const count = 10;
+    const count = DRILL_QUESTION_COUNT;
     const questions = await tx<
       Array<{ id: string }>
     >`SELECT id FROM trivia_questions WHERE team_id=${teamId} AND active=true AND (verified=true OR ${process.env.NODE_ENV !== 'production'}) ORDER BY md5(id||${gameId}) LIMIT ${count}`;
     if (questions.length < count) throw new Error('Not enough active questions for this team.');
-    await tx`INSERT INTO trivia_games(id,mode,team_id,created_by_user_id,question_count,timer_seconds) VALUES(${gameId},'FULL',${teamId},${userId},${count},20)`;
+    await tx`INSERT INTO trivia_games(id,mode,team_id,created_by_user_id,question_count,timer_seconds) VALUES(${gameId},'FULL',${teamId},${userId},${count},${DRILL_PLAY_CLOCK_SECONDS})`;
     for (const [index, q] of questions.entries())
       await tx`INSERT INTO trivia_game_questions(game_id,question_id,position) VALUES(${gameId},${q.id},${index + 1})`;
     await tx`INSERT INTO trivia_game_participants(game_id,user_id) VALUES(${gameId},${userId})`;
@@ -138,7 +142,7 @@ export async function answerTriviaGameQuestion(
     const timedOut = elapsed >= game.timerSeconds * 1000;
     const choice = timedOut ? null : selectedAnswer;
     const correct = Boolean(choice && choice === question.correctAnswer);
-    const points = calculateTriviaPoints(correct, elapsed, game.timerSeconds * 1000);
+    const points = correct ? DRILL_YARDS_PER_CORRECT_ANSWER : 0;
     const inserted = await tx<
       Array<{ id: string }>
     >`INSERT INTO trivia_answers(id,user_id,question_id,game_id,selected_answer,correct,response_time_ms,points_awarded) VALUES(${randomUUID()},${userId},${question.id},${gameId},${choice},${correct},${Math.max(0, elapsed)},${points}) ON CONFLICT(user_id,question_id,game_id) DO NOTHING RETURNING id`;

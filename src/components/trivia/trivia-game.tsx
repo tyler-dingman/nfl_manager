@@ -1,13 +1,20 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Check, Clock3, RotateCcw, Share2, Trophy, X } from 'lucide-react';
-
+import { RotateCcw, Share2, Trophy, X } from 'lucide-react';
 import {
   buildTriviaRecap,
   canSubmitTriviaAnswer,
   type TriviaExperiencePhase,
 } from '@/features/trivia/experience';
+import {
+  DRILL_PLAY_CLOCK_SECONDS,
+  DRILL_YARDS_PER_CORRECT_ANSWER,
+  formatDrillClock,
+  getDrillGameSecondsRemaining,
+  rankDrillStandings,
+} from '@/features/trivia/four-minute-drill';
+import { useTeamStore } from '@/features/team/team-store';
 
 type Choice = 'A' | 'B' | 'C' | 'D';
 type Standing = {
@@ -52,12 +59,12 @@ type Result = {
   selectedAnswer: Choice | null;
   correctAnswer: Choice;
   explanation: string;
+  responseTimeMs?: number;
   timedOut: boolean;
   yardAwarded: number;
-  touchdownsEarned?: number;
-  unlockedRewards?: Array<{ id: string; title: string }>;
   completed: boolean;
 };
+type Play = { id: string; at: string; name: string; correct: boolean; timedOut: boolean };
 
 export default function TriviaGame({
   teamId,
@@ -70,18 +77,20 @@ export default function TriviaGame({
   initialGameId?: string;
   onClose: () => void;
 }) {
-  const [game, setGame] = useState<Game | null>(null);
-  const [result, setResult] = useState<Result | null>(null);
-  const [phase, setPhase] = useState<TriviaExperiencePhase>('QUESTION');
-  const [seconds, setSeconds] = useState(20);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [selected, setSelected] = useState<Choice | null>(null);
-  const [kickoff, setKickoff] = useState<number | null>(null);
-  const timeoutSent = useRef(false);
-  const started = useRef(false);
-  const kickoffShown = useRef(false);
-
+  const teams = useTeamStore((s) => s.teams),
+    team = teams.find((t) => t.abbr === teamId);
+  const [game, setGame] = useState<Game | null>(null),
+    [result, setResult] = useState<Result | null>(null),
+    [phase, setPhase] = useState<TriviaExperiencePhase>('QUESTION');
+  const [seconds, setSeconds] = useState(DRILL_PLAY_CLOCK_SECONDS),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState<string | null>(null),
+    [selected, setSelected] = useState<Choice | null>(null),
+    [kickoff, setKickoff] = useState<number | null>(null),
+    [plays, setPlays] = useState<Play[]>([]);
+  const timeoutSent = useRef(false),
+    started = useRef(false),
+    kickoffShown = useRef(false);
   const load = useCallback(async (id: string) => {
     const response = await fetch(`/api/trivia/games/${id}`, { cache: 'no-store' });
     if (!response.ok) throw new Error('Unable to load game.');
@@ -90,6 +99,7 @@ export default function TriviaGame({
     setResult(null);
     setSelected(null);
     setPhase(body.game.completed ? 'COMPLETE' : 'QUESTION');
+    setSeconds(body.game.timerSeconds);
     if (
       body.game.mode === 'GROUP' &&
       body.game.position === 1 &&
@@ -101,7 +111,6 @@ export default function TriviaGame({
     }
     timeoutSent.current = false;
   }, []);
-
   const start = useCallback(async () => {
     setBusy(true);
     setError(null);
@@ -121,14 +130,12 @@ export default function TriviaGame({
       setBusy(false);
     }
   }, [load, teamId]);
-
   useEffect(() => {
     if (started.current) return;
     started.current = true;
     if (initialGameId) void load(initialGameId);
     else void start();
   }, [initialGameId, load, start]);
-
   const answer = useCallback(
     async (choice: Choice | null) => {
       if (!game || !canSubmitTriviaAnswer(phase) || busy) return;
@@ -144,7 +151,20 @@ export default function TriviaGame({
         const body = (await response.json()) as { result?: Result; error?: string };
         if (!response.ok || !body.result) throw new Error(body.error ?? 'Unable to submit answer.');
         setResult(body.result);
-        const revealDelay =
+        const name = game.standings.find((r) => r.userId === game.currentUserId)?.name ?? 'You';
+        setPlays((p) =>
+          [
+            {
+              id: `${game.position}-${Date.now()}`,
+              at: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+              name,
+              correct: body.result!.correct,
+              timedOut: body.result!.timedOut,
+            },
+            ...p,
+          ].slice(0, 5),
+        );
+        const delay =
           game.mode === 'GROUP' && game.question
             ? Math.max(
                 450,
@@ -153,7 +173,7 @@ export default function TriviaGame({
                   Date.now(),
               )
             : 450;
-        window.setTimeout(() => setPhase('REVEAL'), revealDelay);
+        window.setTimeout(() => setPhase('REVEAL'), delay);
       } catch (cause) {
         setError((cause as Error).message);
         setSelected(null);
@@ -164,7 +184,6 @@ export default function TriviaGame({
     },
     [busy, game, phase],
   );
-
   useEffect(() => {
     if (!game?.question || phase !== 'QUESTION' || game.completed || kickoff !== null) return;
     const tick = () => {
@@ -186,23 +205,20 @@ export default function TriviaGame({
     const timer = window.setInterval(tick, 200);
     return () => window.clearInterval(timer);
   }, [answer, game, kickoff, phase]);
-
   useEffect(() => {
     if (kickoff === null) return;
     const timer = window.setTimeout(
-      () => setKickoff((value) => (value !== null && value > 1 ? value - 1 : null)),
+      () => setKickoff((v) => (v !== null && v > 1 ? v - 1 : null)),
       850,
     );
     return () => window.clearTimeout(timer);
   }, [kickoff]);
-
   useEffect(() => {
-    if (phase !== 'REVEAL') return;
-    const timer = window.setTimeout(() => setPhase('STANDINGS'), 3000);
-    return () => window.clearTimeout(timer);
-  }, [phase]);
-
-  const next = async () => {
+    if (!game?.waitingForPlayers) return;
+    const timer = window.setInterval(() => void load(game.gameId), 1000);
+    return () => window.clearInterval(timer);
+  }, [game, load]);
+  const next = useCallback(async () => {
     if (!game) return;
     setBusy(true);
     try {
@@ -212,308 +228,453 @@ export default function TriviaGame({
     } finally {
       setBusy(false);
     }
-  };
-
-  const answers = useMemo(() => {
-    if (!game?.question) return [];
-    return [
-      { choice: 'A' as const, text: game.question.answerA },
-      { choice: 'B' as const, text: game.question.answerB },
-      { choice: 'C' as const, text: game.question.answerC },
-      { choice: 'D' as const, text: game.question.answerD },
-    ];
-  }, [game]);
-
-  useEffect(() => {
-    if (!game?.waitingForPlayers) return;
-    const timer = window.setInterval(() => void load(game.gameId), 1000);
-    return () => window.clearInterval(timer);
   }, [game, load]);
-
+  useEffect(() => {
+    if (phase !== 'REVEAL') return;
+    const timer = window.setTimeout(() => setPhase('STANDINGS'), 2500);
+    return () => window.clearTimeout(timer);
+  }, [phase]);
+  useEffect(() => {
+    if (phase !== 'STANDINGS') return;
+    const timer = window.setTimeout(() => void next(), 1600);
+    return () => window.clearTimeout(timer);
+  }, [next, phase]);
+  const answers = useMemo(
+    () =>
+      game?.question
+        ? ([
+            ['A', game.question.answerA],
+            ['B', game.question.answerB],
+            ['C', game.question.answerC],
+            ['D', game.question.answerD],
+          ] as Array<[Choice, string]>)
+        : [],
+    [game],
+  );
   if (error)
     return (
-      <GameFrame>
-        <div className="mx-auto max-w-xl px-6 py-20 text-center">
-          <X className="mx-auto h-12 w-12 text-[#FF625D]" />
-          <h2 className="mt-5 text-3xl font-black uppercase">Couldn&apos;t start the game</h2>
-          <p className="mt-3 font-semibold text-white/65">{error}</p>
-          <div className="mt-7 flex justify-center gap-3">
-            <button onClick={() => void start()} className="trivia-primary-button">
-              Try again
-            </button>
-            <button onClick={onClose} className="trivia-secondary-button">
-              Back to lobby
-            </button>
-          </div>
-        </div>
-      </GameFrame>
+      <Shell>
+        <Centered icon={<X />} title="Couldn't start the drill" detail={error}>
+          <button onClick={() => void start()} className="trivia-primary-button">
+            Try again
+          </button>
+          <button onClick={onClose} className="trivia-secondary-button">
+            Back to lobby
+          </button>
+        </Centered>
+      </Shell>
     );
-
   if (!game)
     return (
-      <GameFrame>
-        <div className="flex min-h-[520px] items-center justify-center text-center">
-          <div>
-            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-white/20 border-t-[var(--secondary)] motion-reduce:animate-none" />
-            <p className="mt-5 text-sm font-black uppercase tracking-[.24em] text-white/60">
-              Setting the board
-            </p>
-          </div>
-        </div>
-      </GameFrame>
+      <Shell>
+        <Centered title="Setting the field" detail="Loading your 4 Minute Drill…" />
+      </Shell>
     );
-
-  const totalScore = game.score + (result?.points ?? 0);
-  const totalCorrect = game.correctAnswers + (result?.correct ? 1 : 0);
+  if (kickoff !== null)
+    return (
+      <Shell>
+        <Centered title={String(kickoff)} detail="The crew is ready. Let's go." />
+      </Shell>
+    );
   const runItBack = async () => {
     if (game.mode !== 'GROUP') return start();
     const response = await fetch(`/api/trivia/games/${game.gameId}/rematch`, { method: 'POST' });
-    const body = await response.json();
-    if (!response.ok) return setError(body.error ?? 'Unable to run it back.');
+    const body = (await response.json()) as { joinCode?: string; error?: string };
+    if (!response.ok || !body.joinCode) {
+      setError(body.error ?? 'Unable to run it back.');
+      return;
+    }
     window.location.assign(`/trivia?team=${game.teamId}&room=${body.joinCode}`);
   };
-
-  if (kickoff !== null)
-    return (
-      <GameFrame>
-        <div className="flex min-h-[560px] items-center justify-center text-center">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[.3em] text-[var(--team-secondary-on-dark)]">
-              The crew is ready
-            </p>
-            <p className="mt-4 text-9xl font-black tabular-nums">{kickoff}</p>
-            <p className="mt-3 text-2xl font-black uppercase">Let&apos;s go</p>
-          </div>
-        </div>
-      </GameFrame>
-    );
-
-  if (game.waitingForPlayers)
-    return (
-      <GameFrame>
-        <GameHeader
-          teamName={teamName}
-          position={game.position}
-          count={game.questionCount}
-          score={game.score}
-        />
-        <CompactStandings rows={game.standings} currentUserId={game.currentUserId} />
-        <div className="px-5 py-20 text-center">
-          <p className="text-xs font-black uppercase tracking-[.28em] text-[var(--team-secondary-on-dark)]">
-            Answer locked
-          </p>
-          <h2 className="mt-3 text-4xl font-black uppercase">Waiting on the crew</h2>
-          <p className="mt-3 font-semibold text-white/55">
-            The next question starts when everyone answers or the clock expires.
-          </p>
-        </div>
-      </GameFrame>
-    );
-
   if (phase === 'COMPLETE' || game.completed)
     return <FinalRecap game={game} onPlayAgain={() => void runItBack()} onClose={onClose} />;
-
-  if (phase === 'STANDINGS') {
-    const standings = game.standings.length
-      ? game.standings.map((row) =>
-          row.userId === game.currentUserId
-            ? { ...row, score: totalScore, correctAnswers: totalCorrect }
-            : row,
-        )
-      : [{ userId: 'current', name: 'You', score: totalScore, correctAnswers: totalCorrect }];
-    return (
-      <GameFrame>
-        <GameHeader
-          teamName={teamName}
-          position={game.position}
-          count={game.questionCount}
-          score={totalScore}
-        />
-        <div className="mx-auto max-w-2xl px-5 py-10 sm:px-8 sm:py-14">
-          <p className="text-center text-xs font-black uppercase tracking-[.3em] text-[var(--team-secondary-on-dark)]">
-            Live standings
-          </p>
-          <h2 className="mt-3 text-center text-4xl font-black uppercase sm:text-5xl">
-            After {game.position}
-          </h2>
-          <div className="mt-8 overflow-hidden rounded-2xl border border-white/15">
-            {[...standings]
-              .sort((a, b) => b.score - a.score)
-              .map((row, index) => (
-                <div
-                  key={row.userId}
-                  className={`grid grid-cols-[42px_1fr_auto] items-center gap-3 border-b border-white/10 px-4 py-4 last:border-0 ${row.userId === game.currentUserId ? 'team-primary-filled' : 'bg-white/[.06]'}`}
-                >
-                  <span className="text-xl font-black">{index + 1}</span>
-                  <span className="truncate font-black">{row.name}</span>
-                  <span className="font-black tabular-nums">
-                    {row.score.toLocaleString()}{' '}
-                    <RankMovement current={row.currentRank} previous={row.previousRank} />
-                  </span>
-                </div>
-              ))}
-          </div>
-          <button
-            onClick={() => void next()}
-            disabled={busy}
-            className="trivia-primary-button mt-7 w-full"
-          >
-            {result?.completed ? 'See final' : 'Next question'} <ArrowRight className="h-4 w-4" />
-          </button>
-        </div>
-      </GameFrame>
-    );
-  }
-
-  const progress = Math.min(100, (game.position / game.questionCount) * 100);
+  const totalScore = game.score + (result?.points ?? 0),
+    totalCorrect = game.correctAnswers + (result?.correct ? 1 : 0),
+    elapsed =
+      phase === 'QUESTION'
+        ? Math.max(0, game.timerSeconds - seconds) * 1000
+        : (result?.responseTimeMs ?? 0),
+    base = game.standings.find((r) => r.userId === game.currentUserId)?.responseTimeTotalMs ?? 0;
+  const standings = rankDrillStandings(
+    (game.standings.length
+      ? game.standings
+      : [
+          {
+            userId: game.currentUserId,
+            name: 'You',
+            score: game.score,
+            correctAnswers: game.correctAnswers,
+          },
+        ]
+    ).map((r) =>
+      r.userId === game.currentUserId
+        ? { ...r, score: totalScore, correctAnswers: totalCorrect }
+        : r,
+    ),
+  );
   return (
-    <GameFrame>
-      <GameHeader
-        teamName={teamName}
+    <Shell>
+      <DrillHeader
+        seconds={getDrillGameSecondsRemaining(base, elapsed)}
         position={game.position}
         count={game.questionCount}
-        score={totalScore}
       />
-      <div className="h-1 bg-white/10">
-        <div
-          className="h-full bg-[var(--secondary)] transition-[width] duration-500 motion-reduce:transition-none"
-          style={{ width: `${progress}%` }}
+      <RaceField rows={standings} currentUserId={game.currentUserId} teamLogo={team?.logo_url} />
+      <div className="grid gap-3 p-3 lg:grid-cols-[1.35fr_.65fr]">
+        <QuestionPanel
+          game={game}
+          answers={answers}
+          seconds={seconds}
+          phase={phase}
+          result={result}
+          selected={selected}
+          busy={busy}
+          onAnswer={answer}
+          teamLogo={team?.logo_url}
+          teamName={teamName}
         />
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          <GameInfo />
+          <LiveStandings rows={standings} currentUserId={game.currentUserId} />
+        </div>
+        <RecentPlays plays={plays} />
+        <CurrentDrive position={game.position} score={totalScore} />
       </div>
-      {game.mode === 'GROUP' && game.standings.length > 1 ? (
-        <CompactStandings rows={game.standings} currentUserId={game.currentUserId} />
+      {game.waitingForPlayers ? (
+        <div className="border-t border-white/15 p-4 text-center font-black uppercase">
+          Answer locked · Waiting on the crew
+        </div>
       ) : null}
-      <div className="mx-auto flex min-h-[600px] max-w-5xl flex-col px-4 py-6 sm:px-8 sm:py-10">
-        <div className="flex items-center justify-between gap-4">
-          <p className="text-xs font-black uppercase tracking-[.22em] text-white/50">
-            {game.question?.category.replaceAll('_', ' ')} · Max 40 pts
-          </p>
-          <Countdown seconds={seconds} total={game.timerSeconds} />
-        </div>
-        <h2 className="mx-auto mt-6 max-w-4xl text-center text-3xl font-black uppercase leading-[1.04] tracking-[-.035em] sm:mt-10 sm:text-5xl lg:text-6xl">
-          {game.question?.question}
-        </h2>
-        <div className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2">
-          {answers.map(({ choice, text }) => {
-            const correct = phase === 'REVEAL' && result?.correctAnswer === choice;
-            const picked = selected === choice;
-            const wrong = phase === 'REVEAL' && picked && !correct;
-            const style = correct
-              ? 'border-emerald-400 bg-emerald-500/20'
-              : wrong
-                ? 'border-[#FF625D] bg-[#FF625D]/20'
-                : picked
-                  ? 'border-[var(--secondary)] bg-[var(--secondary)]/15'
-                  : 'border-white/15 bg-white/[.07] hover:border-[var(--secondary)] hover:bg-white/[.11]';
-            return (
-              <button
-                type="button"
-                disabled={phase !== 'QUESTION' || busy}
-                key={choice}
-                onClick={() => void answer(choice)}
-                className={`min-h-[76px] rounded-xl border-2 px-4 py-4 text-left text-base font-black transition focus:outline-none focus:ring-4 focus:ring-[var(--secondary)]/50 sm:min-h-[94px] sm:px-6 sm:text-xl ${style}`}
-              >
-                <span className="mr-3 inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/10 text-[var(--team-secondary-on-dark)]">
-                  {choice}
-                </span>
-                {text}
-                {phase === 'LOCKED' && picked ? (
-                  <Status>Locked in</Status>
-                ) : correct ? (
-                  <Status>✓ Correct answer</Status>
-                ) : wrong ? (
-                  <Status>✕ Your pick</Status>
-                ) : null}
-              </button>
-            );
-          })}
-        </div>
-        {phase === 'LOCKED' ? (
-          <p className="mt-7 text-center text-sm font-black uppercase tracking-[.24em] text-[var(--team-secondary-on-dark)]">
-            Answer locked in
-          </p>
-        ) : null}
-        {phase === 'REVEAL' && result ? (
-          <div className="mt-7 rounded-2xl border border-white/15 bg-white/[.07] p-5 text-center sm:p-6">
-            <p className="flex items-center justify-center gap-2 text-3xl font-black uppercase">
-              {result.correct ? (
-                <Check className="h-8 w-8 text-emerald-400" />
-              ) : (
-                <X className="h-8 w-8 text-[#FF625D]" />
-              )}
-              {result.timedOut ? "Time's up" : result.correct ? 'Correct' : 'Incorrect'}
-            </p>
-            <p className="mt-2 text-2xl font-black text-[var(--team-secondary-on-dark)]">
-              +{result.points.toLocaleString()} PTS
-            </p>
-            {result.yardAwarded ? (
-              <p className="mt-2 text-xs font-black uppercase tracking-[.2em] text-emerald-300">
-                Move the Chains · +{result.yardAwarded}{' '}
-                {result.yardAwarded === 1 ? 'yard' : 'yards'}
-              </p>
-            ) : null}
-            {result.touchdownsEarned ? (
-              <p className="mt-2 text-sm font-black uppercase tracking-[.2em] text-[#F4D9B7]">
-                Touchdown! Drive reset with the extra yards carried forward.
-              </p>
-            ) : null}
-            {result.unlockedRewards?.map((reward) => (
-              <p key={reward.id} className="mt-2 text-sm font-black text-[#F4D9B7]">
-                Reward unlocked · {reward.title}
-              </p>
-            ))}
-            {result.explanation ? (
-              <p className="mx-auto mt-4 max-w-2xl font-semibold leading-6 text-white/65">
-                {result.explanation}
-              </p>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
-    </GameFrame>
+    </Shell>
   );
 }
 
-function CompactStandings({ rows, currentUserId }: { rows: Standing[]; currentUserId: string }) {
+function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="border-b border-white/10 bg-white/[.04] px-4 py-3 sm:px-6">
-      <p className="mb-2 text-[9px] font-black uppercase tracking-[.2em] text-[var(--team-secondary-on-dark)]">
-        Live standings entering this question
-      </p>
-      <div className="grid gap-1 sm:grid-cols-5">
-        {rows.slice(0, 5).map((row, index) => (
-          <div
-            key={row.userId}
-            className={`grid grid-cols-[20px_1fr_auto] items-center gap-2 rounded-md px-2 py-1.5 text-xs font-black ${row.userId === currentUserId ? 'team-primary-filled' : 'bg-white/[.06]'}`}
-          >
-            <span>{index + 1}</span>
-            <span className="truncate">{row.name}</span>
-            <span>{row.score}</span>
-          </div>
-        ))}
+    <section
+      className="four-minute-drill min-h-[calc(100vh-76px)] overflow-hidden bg-[#091418] text-white"
+      aria-live="polite"
+    >
+      {children}
+    </section>
+  );
+}
+function Centered({
+  icon,
+  title,
+  detail,
+  children,
+}: {
+  icon?: React.ReactNode;
+  title: string;
+  detail: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className="flex min-h-[620px] items-center justify-center px-6 text-center">
+      <div>
+        {icon ? <div className="mx-auto h-12 w-12 text-[var(--primary)]">{icon}</div> : null}
+        <h2 className="text-5xl font-black uppercase">{title}</h2>
+        <p className="mt-3 font-semibold text-white/60">{detail}</p>
+        {children ? <div className="mt-7 flex justify-center gap-3">{children}</div> : null}
       </div>
     </div>
   );
 }
-
-function RankMovement({
-  current,
-  previous,
+function DrillHeader({
+  seconds,
+  position,
+  count,
 }: {
-  current?: number | null;
-  previous?: number | null;
+  seconds: number;
+  position: number;
+  count: number;
 }) {
-  if (!current || !previous || current === previous)
-    return <span className="ml-1 text-white/35">—</span>;
-  const movement = previous - current;
   return (
-    <span className={`ml-1 ${movement > 0 ? 'text-emerald-300' : 'text-[#FF9A96]'}`}>
-      {movement > 0 ? '↑' : '↓'}
-      {Math.abs(movement)}
-    </span>
+    <header className="drill-texture relative grid items-center gap-4 border-b border-white/30 px-4 py-4 md:grid-cols-[1fr_auto_1fr] md:px-8">
+      <div>
+        <h1 className="text-5xl font-black uppercase italic leading-none tracking-[-.07em] sm:text-7xl">
+          4 Minute Drill
+        </h1>
+        <p className="mt-1 text-xs font-black uppercase tracking-[.2em] text-white/80">
+          NFL Trivia · 10 Questions · 24 Seconds Each
+        </p>
+      </div>
+      <img
+        src="/assets/4-minute-drill/svg/phrase-know-football-go-distance.svg"
+        alt=""
+        aria-hidden
+        className="hidden h-20 w-44 opacity-80 md:block"
+      />
+      <div className="grid grid-cols-2 divide-x divide-white/25 rounded-lg border border-white/25 bg-black/20 text-center">
+        <Metric label="Game clock" value={formatDrillClock(seconds)} />
+        <Metric label="Play" value={`${position} of ${count}`} />
+      </div>
+    </header>
   );
 }
-
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="px-5 py-3">
+      <span className="block text-xs font-black uppercase tracking-[.14em] text-white/70">
+        {label}
+      </span>
+      <span className="block text-3xl font-black tabular-nums sm:text-5xl">{value}</span>
+    </div>
+  );
+}
+function RaceField({
+  rows,
+  currentUserId,
+  teamLogo,
+}: {
+  rows: Standing[];
+  currentUserId: string;
+  teamLogo?: string;
+}) {
+  const ticks = ['0', '10', '20', '30', '40', '50', '40', '30', '20', '10'];
+  return (
+    <section className="drill-field relative m-3 rounded-xl border border-white/60 px-4 py-5 sm:px-7">
+      <div className="mb-3 ml-36 hidden grid-cols-10 text-center text-xs font-black text-white/55 sm:grid">
+        {ticks.map((t, i) => (
+          <span key={`${t}-${i}`}>{t}</span>
+        ))}
+      </div>
+      <div className="space-y-3">
+        {rows.slice(0, 5).map((r) => {
+          const progress = Math.min(100, r.score);
+          return (
+            <div key={r.userId} className="grid grid-cols-[112px_1fr_64px] items-center gap-3">
+              <div className="flex min-w-0 items-center gap-2">
+                <span
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 text-xs font-black ${r.userId === currentUserId ? 'team-primary-filled' : 'bg-[#26333a] text-white'}`}
+                >
+                  {r.name.slice(0, 2).toUpperCase()}
+                </span>
+                <span className="truncate text-sm font-black uppercase">{r.name}</span>
+              </div>
+              <div className="relative h-2 bg-white/15">
+                <div
+                  className="h-full bg-[var(--primary)] transition-[width]"
+                  style={{ width: `${progress}%` }}
+                />
+                <span
+                  className="absolute top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-[var(--primary)]"
+                  style={{ left: `${progress}%` }}
+                >
+                  {r.userId === currentUserId && teamLogo ? (
+                    <img
+                      src={teamLogo}
+                      alt=""
+                      aria-hidden
+                      className="h-full w-full object-contain"
+                    />
+                  ) : null}
+                </span>
+              </div>
+              <span className="text-sm font-black tabular-nums">{r.score} YDS</span>
+            </div>
+          );
+        })}
+      </div>
+      <div className="absolute bottom-0 right-[23%] top-0 hidden w-16 items-center justify-center bg-[var(--primary)]/75 bg-[url('/assets/4-minute-drill/png/end-zone-distress-mask.png')] bg-cover text-sm font-black uppercase tracking-[.18em] text-[var(--team-primary-foreground)] lg:flex [writing-mode:vertical-rl]">
+        End zone
+      </div>
+    </section>
+  );
+}
+function QuestionPanel({
+  game,
+  answers,
+  seconds,
+  phase,
+  result,
+  selected,
+  busy,
+  onAnswer,
+  teamLogo,
+  teamName,
+}: {
+  game: Game;
+  answers: Array<[Choice, string]>;
+  seconds: number;
+  phase: TriviaExperiencePhase;
+  result: Result | null;
+  selected: Choice | null;
+  busy: boolean;
+  onAnswer: (c: Choice | null) => void;
+  teamLogo?: string;
+  teamName: string;
+}) {
+  return (
+    <section className="overflow-hidden rounded-xl bg-[#F8F6F1] text-[#00172B]">
+      <div className="team-primary-filled flex items-center gap-3 px-5 py-3 text-xs font-black uppercase tracking-[.15em]">
+        {teamLogo ? (
+          <img src={teamLogo} alt={`${teamName} logo`} className="h-7 w-10 object-contain" />
+        ) : null}
+        {game.question?.category.replaceAll('_', ' ')}
+      </div>
+      <div className="relative p-5 pr-24 sm:pr-28">
+        <Countdown seconds={seconds} total={game.timerSeconds} />
+        <h2 className="text-xl font-black sm:text-2xl">{game.question?.question}</h2>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          {answers.map(([choice, text]) => {
+            const correct = phase === 'REVEAL' && result?.correctAnswer === choice,
+              wrong = phase === 'REVEAL' && selected === choice && !correct;
+            return (
+              <button
+                key={choice}
+                disabled={phase !== 'QUESTION' || busy}
+                onClick={() => void onAnswer(choice)}
+                className={`flex min-h-12 items-center gap-3 rounded-lg border px-3 py-2 text-left font-semibold focus:outline-none focus:ring-4 focus:ring-[var(--primary)]/30 ${correct ? 'border-emerald-600 bg-emerald-50' : wrong ? 'border-red-600 bg-red-50' : selected === choice ? 'border-[var(--primary)] bg-[var(--primary)]/10' : 'border-slate-300 bg-white hover:border-[var(--primary)]'}`}
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-slate-300 bg-slate-50 font-black">
+                  {choice}
+                </span>
+                {text}
+              </button>
+            );
+          })}
+        </div>
+        {phase === 'REVEAL' && result ? (
+          <p className={`mt-4 font-black ${result.correct ? 'text-emerald-700' : 'text-red-700'}`}>
+            {result.correct
+              ? `Correct — ${DRILL_YARDS_PER_CORRECT_ANSWER} yards`
+              : result.timedOut
+                ? 'No gain — Time expired'
+                : 'No gain — Incorrect answer'}
+          </p>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+function Countdown({ seconds, total }: { seconds: number; total: number }) {
+  const progress = Math.max(0, Math.min(100, (seconds / total) * 100));
+  return (
+    <div
+      className="absolute right-4 top-3 flex h-20 w-20 items-center justify-center rounded-full text-white"
+      role="timer"
+      aria-label={`${seconds} seconds remaining`}
+      style={{
+        background: `radial-gradient(circle at center,#071625 57%,transparent 59%),conic-gradient(var(--secondary) ${progress}%,var(--primary) ${progress}%)`,
+      }}
+    >
+      <span className="text-2xl font-black tabular-nums">:{String(seconds).padStart(2, '0')}</span>
+    </div>
+  );
+}
+function Panel({
+  title,
+  children,
+  className = '',
+}: {
+  title: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section className={`drill-panel rounded-xl border border-white/25 p-4 ${className}`}>
+      <h3 className="text-sm font-black uppercase tracking-[.08em]">{title}</h3>
+      {children}
+    </section>
+  );
+}
+function GameInfo() {
+  return (
+    <Panel title="Game info">
+      <ul className="mt-4 space-y-3 text-xs font-bold">
+        <li>
+          🏈 <b>10 QUESTIONS</b>
+          <span className="block pl-6 text-white/55">Reach 100 yards</span>
+        </li>
+        <li>
+          ⏱ <b>24 SECONDS</b>
+          <span className="block pl-6 text-white/55">Per question</span>
+        </li>
+        <li>
+          📺 <b>+10 YARDS</b>
+          <span className="block pl-6 text-white/55">For a correct answer</span>
+        </li>
+        <li>
+          ✕ <b>NO GAIN</b>
+          <span className="block pl-6 text-white/55">Incorrect or timeout</span>
+        </li>
+      </ul>
+    </Panel>
+  );
+}
+function LiveStandings({ rows, currentUserId }: { rows: Standing[]; currentUserId: string }) {
+  return (
+    <Panel title="Live standings">
+      <div className="mt-3 space-y-1">
+        {rows.slice(0, 5).map((r, i) => (
+          <div
+            key={r.userId}
+            className={`grid grid-cols-[20px_1fr_auto_auto] gap-2 rounded-md px-2 py-2 text-xs font-black ${r.userId === currentUserId ? 'team-primary-filled' : 'bg-white/[.04]'}`}
+          >
+            <span>{i + 1}</span>
+            <span className="truncate uppercase">{r.name}</span>
+            <span>{r.score}</span>
+            <span className="text-[10px] opacity-70">
+              {r.correctAnswers}/
+              {Math.max(1, r.correctAnswers + (r.wrongAnswers ?? 0) + (r.timeouts ?? 0))}
+            </span>
+          </div>
+        ))}
+      </div>
+    </Panel>
+  );
+}
+function RecentPlays({ plays }: { plays: Play[] }) {
+  return (
+    <Panel title="Recent plays">
+      {plays.length ? (
+        <div className="mt-3 space-y-2">
+          {plays.map((p) => (
+            <div key={p.id} className="grid grid-cols-[64px_20px_1fr] text-xs">
+              <span className="text-white/55">{p.at}</span>
+              <span className={p.correct ? 'text-emerald-400' : 'text-red-500'}>
+                {p.correct ? '✓' : '✕'}
+              </span>
+              <span className={p.correct ? 'text-emerald-400' : 'text-red-400'}>
+                {p.correct
+                  ? `Correct — ${p.name} moves 10 yards`
+                  : `No gain — ${p.timedOut ? 'Time expired' : 'Incorrect answer'}`}
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="mt-4 text-sm text-white/45">
+          Your plays will appear here as the drive unfolds.
+        </p>
+      )}
+    </Panel>
+  );
+}
+function CurrentDrive({ position, score }: { position: number; score: number }) {
+  return (
+    <Panel title="Current drive" className="bg-[#F8F6F1] !text-[#00172B]">
+      <div className="mt-4 flex justify-between gap-1">
+        {Array.from({ length: 10 }, (_, i) => (
+          <span
+            key={i}
+            className={`flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-black ${i < position - 1 ? 'bg-emerald-600 text-white' : i === position - 1 ? 'team-primary-filled' : 'bg-slate-300'}`}
+          >
+            {i < position - 1 ? '✓' : i + 1}
+          </span>
+        ))}
+      </div>
+      <p className="mt-4 text-xs font-black uppercase">
+        {Math.max(0, 100 - score)} yards to the end zone
+      </p>
+      <div className="mt-2 h-3 overflow-hidden rounded-full bg-slate-300">
+        <div className="h-full bg-[var(--primary)]" style={{ width: `${Math.min(100, score)}%` }} />
+      </div>
+    </Panel>
+  );
+}
 function FinalRecap({
   game,
   onPlayAgain,
@@ -524,65 +685,42 @@ function FinalRecap({
   onClose: () => void;
 }) {
   const players = game.standings.length
-    ? game.standings
-    : [
-        {
-          userId: 'current',
-          name: 'You',
-          score: game.score,
-          correctAnswers: game.correctAnswers,
-        },
-      ];
-  const { ranked, winner, biggestLoser } = buildTriviaRecap(players);
-  if (!winner || !biggestLoser) return null;
+      ? game.standings
+      : [
+          {
+            userId: game.currentUserId,
+            name: 'You',
+            score: game.score,
+            correctAnswers: game.correctAnswers,
+          },
+        ],
+    { ranked, winner } = buildTriviaRecap(players);
+  if (!winner) return null;
   return (
-    <GameFrame>
-      <div className="mx-auto max-w-4xl px-5 py-12 sm:px-10 sm:py-16">
-        <div className="text-center">
-          <p className="text-sm font-black uppercase tracking-[.32em] text-[var(--team-secondary-on-dark)]">
-            Final · Game recap
-          </p>
-          <Trophy className="mx-auto mt-5 h-12 w-12 text-[var(--team-secondary-on-dark)]" />
-          <h2 className="mt-4 text-5xl font-black uppercase tracking-[-.05em] sm:text-7xl">
-            {winner.name}
-          </h2>
-          <p className="mt-2 text-sm font-black uppercase tracking-[.2em] text-white/50">
-            Trivia champ · {winner.score} points
-          </p>
+    <Shell>
+      <div className="drill-texture min-h-[700px] px-5 py-16 text-center">
+        <Trophy className="mx-auto h-14 w-14 text-[var(--secondary)]" />
+        <p className="mt-5 text-sm font-black uppercase tracking-[.3em] text-[var(--team-secondary-on-dark)]">
+          Final · 4 Minute Drill
+        </p>
+        <h2 className="mt-3 text-5xl font-black uppercase sm:text-7xl">{winner.name} wins</h2>
+        <p className="mt-3 text-xl font-black">{winner.score} YDS</p>
+        <div className="mx-auto mt-8 max-w-2xl overflow-hidden rounded-xl border border-white/20 text-left">
+          {rankDrillStandings(ranked).map((p, i) => (
+            <div
+              key={p.userId}
+              className="grid grid-cols-[40px_1fr_auto] border-b border-white/10 bg-white/[.05] p-4 last:border-0"
+            >
+              <b>{i + 1}</b>
+              <b>{p.name}</b>
+              <b>{p.score} YDS</b>
+            </div>
+          ))}
         </div>
-        <div className="mt-8 grid gap-3 sm:grid-cols-2">
-          <RecapAward title="Winner" player={winner} detail="Took care of business." />
-          <RecapAward
-            title="Biggest Loser"
-            player={biggestLoser}
-            detail="Rough day at the office. Run it back."
-          />
-        </div>
-        <div className="mt-8 overflow-hidden rounded-2xl border border-white/15">
-          {ranked.map((player, index) => {
-            const answered =
-              player.correctAnswers + (player.wrongAnswers ?? 0) + (player.timeouts ?? 0);
-            const average = answered
-              ? ((player.responseTimeTotalMs ?? 0) / answered / 1000).toFixed(1)
-              : '—';
-            return (
-              <div
-                key={player.userId}
-                className="grid grid-cols-[36px_1fr_auto] gap-3 border-b border-white/10 bg-white/[.05] p-4 last:border-0 sm:grid-cols-[36px_1fr_repeat(4,auto)] sm:items-center"
-              >
-                <span className="text-xl font-black">{index + 1}</span>
-                <span className="font-black">{player.name}</span>
-                <PlayerMetric label="Final" value={String(player.score)} />
-                <PlayerMetric label="Correct" value={`${player.correctAnswers}/10`} />
-                <PlayerMetric label="Avg time" value={`${average}s`} />
-                <PlayerMetric label="Best" value={`+${player.bestQuestionScore ?? 0}`} />
-              </div>
-            );
-          })}
-        </div>
-        <div className="mt-8 grid gap-3 sm:grid-cols-3">
+        <div className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-3">
           <button onClick={onPlayAgain} className="trivia-primary-button">
-            <RotateCcw className="h-4 w-4" /> Run it back
+            <RotateCcw className="h-4 w-4" />
+            Run it back
           </button>
           <button onClick={onClose} className="trivia-secondary-button">
             New game
@@ -590,128 +728,16 @@ function FinalRecap({
           <button
             onClick={() =>
               void navigator.clipboard?.writeText(
-                `${winner.name} won Down & Distance Trivia with ${winner.score} points.`,
+                `${winner.name} won the Down & Distance 4 Minute Drill with ${winner.score} yards.`,
               )
             }
             className="trivia-secondary-button"
           >
-            <Share2 className="h-4 w-4" /> Share results
+            <Share2 className="h-4 w-4" />
+            Share results
           </button>
         </div>
       </div>
-    </GameFrame>
-  );
-}
-
-function RecapAward({
-  title,
-  player,
-  detail,
-}: {
-  title: string;
-  player: Standing;
-  detail: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/15 bg-white/[.07] p-5">
-      <p className="text-[10px] font-black uppercase tracking-[.22em] text-[var(--team-secondary-on-dark)]">
-        {title}
-      </p>
-      <p className="mt-2 text-2xl font-black uppercase">{player.name}</p>
-      <p className="mt-1 text-lg font-black">{player.score} PTS</p>
-      <p className="mt-2 text-sm font-semibold text-white/50">{detail}</p>
-    </div>
-  );
-}
-
-function PlayerMetric({ label, value }: { label: string; value: string }) {
-  return (
-    <span className="text-right">
-      <span className="block text-sm font-black">{value}</span>
-      <span className="block text-[8px] font-black uppercase tracking-wider text-white/35">
-        {label}
-      </span>
-    </span>
-  );
-}
-
-function GameFrame({ children }: { children: React.ReactNode }) {
-  return (
-    <section
-      className="overflow-hidden rounded-[28px] border border-white/10 bg-[#071625] text-white shadow-2xl shadow-[#00172B]/25"
-      aria-live="polite"
-    >
-      {children}
-    </section>
-  );
-}
-function GameHeader({
-  teamName,
-  position,
-  count,
-  score,
-}: {
-  teamName: string;
-  position: number;
-  count: number;
-  score: number;
-}) {
-  return (
-    <header className="grid grid-cols-[1fr_auto] items-center gap-3 bg-[var(--dark)] px-4 py-3 text-[var(--team-on-dark)] sm:grid-cols-3 sm:px-6">
-      <p className="truncate text-xs font-black uppercase tracking-[.15em] sm:text-sm">
-        {teamName} Trivia
-      </p>
-      <p className="hidden text-center text-xs font-black uppercase tracking-[.2em] text-white/60 sm:block">
-        Q{position}/{count}
-      </p>
-      <p className="text-right text-sm font-black tabular-nums sm:text-base">
-        {score.toLocaleString()} PTS
-      </p>
-    </header>
-  );
-}
-function Countdown({ seconds, total }: { seconds: number; total: number }) {
-  const progress = Math.max(0, Math.min(100, (seconds / total) * 100));
-  return (
-    <div
-      className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full ${seconds <= 5 ? 'text-[#FF625D]' : 'text-white'}`}
-      role="timer"
-      aria-label={`${seconds} seconds remaining`}
-    >
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background: `conic-gradient(currentColor ${progress}%, rgba(255,255,255,.14) ${progress}%)`,
-        }}
-      />
-      <div className="absolute inset-[4px] rounded-full bg-[#071625]" />
-      <span className="relative text-xl font-black tabular-nums">{seconds}</span>
-      <Clock3 className="sr-only" />
-    </div>
-  );
-}
-function Status({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="ml-3 text-xs uppercase tracking-wider text-[var(--team-secondary-on-dark)]">
-      {children}
-    </span>
-  );
-}
-function FinalStat({
-  label,
-  value,
-  className = '',
-}: {
-  label: string;
-  value: string;
-  className?: string;
-}) {
-  return (
-    <div className={`bg-white/[.06] p-5 ${className}`}>
-      <p className="text-2xl font-black">{value}</p>
-      <p className="mt-1 text-[10px] font-black uppercase tracking-[.18em] text-white/45">
-        {label}
-      </p>
-    </div>
+    </Shell>
   );
 }

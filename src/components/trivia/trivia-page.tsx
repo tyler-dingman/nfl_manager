@@ -75,35 +75,39 @@ export default function TriviaPage() {
     <TeamThemeProvider team={team}>
       <div className="min-h-screen bg-[#E9EDF0] text-[#00172B]">
         <MainSiteHeader teamAbbr={team?.abbr} active="trivia" />
-        <section className="relative overflow-hidden bg-[#071625] text-white">
-          <div
-            className="absolute inset-y-0 right-0 w-1/2 opacity-15"
-            style={{ background: 'linear-gradient(120deg, transparent 5%, var(--primary) 100%)' }}
-          />
-          <div className="relative mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8 lg:py-14">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[.3em] text-[var(--team-secondary-on-dark)]">
-                {team?.name ?? 'NFL'} · Live competition
-              </p>
-              <h1 className="mt-3 text-6xl font-black uppercase tracking-[-.065em] sm:text-8xl">
-                Trivia
-              </h1>
-              <p className="mt-3 max-w-xl text-lg font-semibold text-white/65">
-                One question at a time. Fifteen seconds on the clock. Every point counts.
-              </p>
+        {!launch ? (
+          <section className="relative overflow-hidden bg-[#071625] text-white">
+            <div
+              className="absolute inset-y-0 right-0 w-1/2 opacity-15"
+              style={{ background: 'linear-gradient(120deg, transparent 5%, var(--primary) 100%)' }}
+            />
+            <div className="relative mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8 lg:py-14">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[.3em] text-[var(--team-secondary-on-dark)]">
+                  {team?.name ?? 'NFL'} · Live competition
+                </p>
+                <h1 className="mt-3 text-6xl font-black uppercase tracking-[-.065em] sm:text-8xl">
+                  4 Minute Drill
+                </h1>
+                <p className="mt-3 max-w-xl text-lg font-semibold text-white/65">
+                  Ten questions. Twenty-four seconds each. Go the distance.
+                </p>
+              </div>
+              <div className="grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/15 bg-white/15">
+                <HeroStat
+                  label="Trivia points"
+                  value={(stats?.lifetimePoints ?? 0).toLocaleString()}
+                />
+                <HeroStat label="This week" value={(stats?.weeklyPoints ?? 0).toLocaleString()} />
+                <HeroStat label="Team rank" value={teamRank ? `#${teamRank}` : '—'} />
+              </div>
             </div>
-            <div className="grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/15 bg-white/15">
-              <HeroStat
-                label="Trivia points"
-                value={(stats?.lifetimePoints ?? 0).toLocaleString()}
-              />
-              <HeroStat label="This week" value={(stats?.weeklyPoints ?? 0).toLocaleString()} />
-              <HeroStat label="Team rank" value={teamRank ? `#${teamRank}` : '—'} />
-            </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
 
-        <main className="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10">
+        <main
+          className={launch ? 'w-full' : 'mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10'}
+        >
           {launch ? (
             <TriviaGame
               teamId={teamId}
@@ -170,7 +174,7 @@ function Lobby({
             <GameCard
               icon={<Bolt />}
               title="Play with myself"
-              detail="10 questions · 20 seconds each"
+              detail="10 questions · 24 seconds each"
               onClick={onPlay}
               primary
             />

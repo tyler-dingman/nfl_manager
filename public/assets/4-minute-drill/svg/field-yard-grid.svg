@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc" fill="none">
+  <title id="title">Field Yard Grid</title><desc id="desc">Transparent football yard-line, hash, and lane grid.</desc>
+  <g stroke="white" stroke-linecap="round"><path d="M48 30V330M144 30V330M240 30V330M336 30V330M432 30V330M528 30V330M624 30V330M720 30V330M816 30V330M912 30V330" opacity=".44" stroke-width="2"/><path d="M0 78H960M0 180H960M0 282H960" opacity=".18"/><path d="M0 42H960M0 54H960M0 66H960M0 294H960M0 306H960M0 318H960" stroke-dasharray="2 10" opacity=".38" stroke-width="2"/></g>
+</svg>

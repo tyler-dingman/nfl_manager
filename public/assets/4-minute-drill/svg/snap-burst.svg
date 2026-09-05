@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc" fill="none">
+  <title id="title">Snap Burst</title><desc id="desc">Chalk snap/impact burst motif.</desc>
+  <g stroke="white" stroke-width="10" stroke-linecap="round"><path d="M120 12v42M120 186v42M12 120h42M186 120h42M43 43l30 30M167 167l30 30M197 43l-30 30M73 167l-30 30"/></g><circle cx="120" cy="120" r="44" stroke="white" stroke-width="8" stroke-dasharray="8 8"/>
+</svg>

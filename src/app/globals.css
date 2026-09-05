@@ -38,6 +38,60 @@
   --site-logo-height: 4rem;
 }
 
+.four-minute-drill {
+  background-color: #091418;
+  background-image:
+    linear-gradient(rgba(5, 16, 21, 0.88), rgba(5, 16, 21, 0.88)),
+    url('/assets/4-minute-drill/png/field-texture-dark.png');
+  background-size:
+    auto,
+    720px auto;
+}
+
+.drill-texture,
+.drill-panel {
+  position: relative;
+  background-color: rgba(5, 18, 24, 0.94);
+  background-image:
+    linear-gradient(rgba(5, 18, 24, 0.82), rgba(5, 18, 24, 0.82)),
+    url('/assets/4-minute-drill/png/grain-halftone-overlay.png');
+  background-size:
+    auto,
+    620px auto;
+}
+
+.drill-field {
+  background-color: #0a191d;
+  background-image:
+    linear-gradient(rgba(4, 18, 22, 0.28), rgba(4, 18, 22, 0.28)),
+    url('/assets/4-minute-drill/png/field-yard-grid.png'),
+    url('/assets/4-minute-drill/png/field-texture-dark.png');
+  background-position: center;
+  background-size:
+    cover,
+    cover,
+    720px auto;
+}
+
+@media (max-width: 639px) {
+  .four-minute-drill .drill-field {
+    margin-inline: 0;
+    border-radius: 0;
+    border-inline: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .four-minute-drill *,
+  .four-minute-drill *::before,
+  .four-minute-drill *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 /* Apple supplies the browser-rendered Pay artwork; children remain the fallback elsewhere. */
 @supports (-webkit-appearance: -apple-pay-button) {
   .apple-pay-demo-button {

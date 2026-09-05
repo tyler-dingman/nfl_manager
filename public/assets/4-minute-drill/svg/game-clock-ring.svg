@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc" fill="none">
+  <title id="title">Game Clock Ring</title><desc id="desc">Segmented circular play/game clock motif intended as a tintable mask.</desc>
+  <circle cx="128" cy="128" r="104" stroke="white" stroke-width="18" opacity=".26"/><path d="M128 24a104 104 0 0 1 90 156" stroke="white" stroke-width="18" stroke-linecap="round"/><g stroke="white" stroke-width="5"><path d="M128 2v24M128 230v24M2 128h24M230 128h24"/></g>
+</svg>

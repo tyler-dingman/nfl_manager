@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 64" role="img" aria-labelledby="title desc" fill="none">
+  <title id="title">Yardage Trail Mask</title><desc id="desc">Wide horizontal distressed trail mask designed for CSS tinting.</desc>
+  <defs><linearGradient id="fade"><stop stop-color="white" stop-opacity=".18"/><stop offset=".16" stop-color="white"/><stop offset=".9" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient><filter id="rough"><feTurbulence baseFrequency=".06 .25" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="7"/></filter></defs><path d="M8 22C210 4 430 34 892 15L884 48C480 35 220 61 12 42Z" fill="url(#fade)" filter="url(#rough)"/>
+</svg>
