@@ -459,13 +459,14 @@ export default function DownDistanceHome() {
           </div>
         </SiteHeaderShell>
 
-        {activeTeam && homepageGame ? (
-          <GameDayHomepageHero team={activeTeam} game={homepageGame} />
-        ) : (
-          <PlaybookHero
+        {activeTeam ? (
+          <GameDayHomepageHero
             team={activeTeam}
-            frontOfficeHref={getOffseasonManagerRoute('', activeTeam?.abbr)}
+            game={homepageGame}
+            frontOfficeHref={getOffseasonManagerRoute('', activeTeam.abbr)}
           />
+        ) : (
+          <PlaybookHero frontOfficeHref={getOffseasonManagerRoute('')} />
         )}
 
         {user && activeTeam ? <CatchUpCallout teamId={activeTeam.abbr} /> : null}
