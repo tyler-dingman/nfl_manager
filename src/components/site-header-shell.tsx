@@ -20,7 +20,7 @@ export function SiteHeaderShell({
           : 'border-[#00172B]/10 bg-[#FF3D38] text-[#00172B]',
       )}
     >
-      <div className="mx-auto flex h-[var(--site-header-height)] max-w-[1440px] items-center gap-5 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-[var(--site-header-height)] max-w-[1440px] min-w-0 items-center gap-2 px-3 sm:gap-5 sm:px-6 lg:px-8">
         {children}
       </div>
     </header>
@@ -37,15 +37,15 @@ export function SiteHeaderLogo({
   return (
     <Link
       href="/"
-      className="flex h-full w-[var(--site-logo-width)] shrink-0 items-center"
+      className="flex h-full w-28 shrink-0 items-center sm:w-[var(--site-logo-width)]"
       aria-label="Down & Distance home"
     >
       <FiveWideLogo
         size={62}
         teamAbbr={teamAbbr}
         generic={generic}
-        imageClassName="max-h-[var(--site-logo-height)]"
-        containerClassName="h-[var(--site-logo-height)] w-[var(--site-logo-width)] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0"
+        imageClassName="max-h-14 sm:max-h-[var(--site-logo-height)]"
+        containerClassName="h-14 w-28 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:h-[var(--site-logo-height)] sm:w-[var(--site-logo-width)]"
         priority
       />
     </Link>

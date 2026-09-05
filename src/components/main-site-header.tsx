@@ -9,6 +9,7 @@ import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell'
 import type { PrimaryNavItemId } from '@/config/primary-navigation';
 import { useTeamStore } from '@/features/team/team-store';
 import NotificationCenter from '@/components/notifications/notification-center';
+import MobileSiteMenu from '@/components/mobile-site-menu';
 
 export default function MainSiteHeader({
   teamAbbr,
@@ -25,8 +26,8 @@ export default function MainSiteHeader({
   return (
     <SiteHeaderShell>
       <SiteHeaderLogo teamAbbr={teamAbbr} generic={!teamAbbr} />
-      <PrimaryNavigation teamAbbr={teamAbbr} active={active} />
-      <div className="ml-auto flex items-center gap-2">
+      <PrimaryNavigation teamAbbr={teamAbbr} active={active} showMobile={false} />
+      <div className="ml-auto flex min-w-0 items-center gap-2">
         <Link
           href={`/?search=1${teamSuffix}`}
           className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] transition hover:bg-white/10"
@@ -37,7 +38,7 @@ export default function MainSiteHeader({
         <NotificationCenter teamAbbr={teamAbbr} />
         <Link
           href={`/?team-select=1${teamSuffix}`}
-          className="flex h-10 items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 pr-4 text-sm font-bold leading-none transition hover:bg-white/15"
+          className="hidden h-10 items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 pr-4 text-sm font-bold leading-none transition hover:bg-white/15 xl:flex"
           aria-label="Return to site and change team"
         >
           {team?.logo_url ? (
@@ -53,7 +54,10 @@ export default function MainSiteHeader({
           </span>
           <Menu className="h-4 w-4" />
         </Link>
-        <LoginButton />
+        <span className="hidden xl:block">
+          <LoginButton />
+        </span>
+        <MobileSiteMenu teamAbbr={teamAbbr} active={active} />
       </div>
     </SiteHeaderShell>
   );

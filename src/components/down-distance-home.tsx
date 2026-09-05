@@ -35,6 +35,7 @@ import PlaybookHero from '@/components/home/playbook-hero';
 import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';
 import HuddleStoryCard from '@/components/huddle/huddle-story-card';
 import PrimaryNavigation from '@/components/primary-navigation';
+import MobileSiteMenu from '@/components/mobile-site-menu';
 import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
 import AiSearchPanel from '@/components/search/ai-search-panel';
 import { gameDayHeroAsset } from '@/config/game-day-hero';
@@ -419,8 +420,8 @@ export default function DownDistanceHome() {
         ) : null}
         <SiteHeaderShell>
           <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
-          <PrimaryNavigation teamAbbr={activeTeam?.abbr} active="huddle" />
-          <div className="ml-auto flex items-center gap-2">
+          <PrimaryNavigation teamAbbr={activeTeam?.abbr} active="huddle" showMobile={false} />
+          <div className="ml-auto flex min-w-0 items-center gap-2">
             <button
               type="button"
               onClick={() => setIsSearchOpen(true)}
@@ -430,7 +431,7 @@ export default function DownDistanceHome() {
               <Search className="h-4 w-4" />
             </button>
             <NotificationCenter teamAbbr={activeTeam?.abbr} />
-            <div className="relative">
+            <div className="relative hidden xl:block">
               <button
                 type="button"
                 onClick={() => setIsTeamMenuOpen((open) => !open)}
@@ -451,7 +452,10 @@ export default function DownDistanceHome() {
                 <Menu className="h-4 w-4" />
               </button>
             </div>
-            <LoginButton />
+            <span className="hidden xl:block">
+              <LoginButton />
+            </span>
+            <MobileSiteMenu teamAbbr={activeTeam?.abbr} active="huddle" />
           </div>
         </SiteHeaderShell>
 
