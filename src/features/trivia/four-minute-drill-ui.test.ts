@@ -46,4 +46,17 @@ test('end zone is the final fixed strip after the complete field track', () => {
   assert.ok(finalTick >= 0);
   assert.ok(endZone > finalTick);
   assert.match(source, /absolute bottom-0 right-0 top-0/);
+  assert.match(source, /drill-end-zone/);
+});
+
+test('field renders the complete yard sequence above and below the lanes', () => {
+  assert.match(source, /data-yard-numbers={position}/);
+  assert.match(source, /position="bottom"/);
+  assert.match(source, /\['0', '10', '20', '30', '40', '50', '40', '30', '20', '10'\]/);
+  assert.match(source, /drill-yard-number/);
+});
+
+test('current drive uses a dedicated light panel while recent plays stays dark', () => {
+  assert.match(source, /title="Current drive" className="drill-panel-light"/);
+  assert.doesNotMatch(source, /title="Recent plays" className="drill-panel-light"/);
 });

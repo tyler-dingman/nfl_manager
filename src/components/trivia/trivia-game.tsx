@@ -479,12 +479,8 @@ function RaceField({
         aria-hidden
         className="absolute bottom-5 right-24 hidden h-32 w-40 opacity-20 md:block"
       />
-      <div className="relative flex min-h-[260px] flex-col justify-center px-4 py-8 sm:min-h-[300px] sm:px-7">
-        <div className="mb-5 ml-36 hidden grid-cols-10 text-center text-xs font-black text-white/55 sm:grid">
-          {ticks.map((tick, index) => (
-            <span key={`${tick}-${index}`}>{tick}</span>
-          ))}
-        </div>
+      <div className="relative flex min-h-[260px] flex-col justify-center px-2 py-5 sm:min-h-[300px] sm:px-7 sm:py-7">
+        <YardNumbers ticks={ticks} />
         <div className={rows.length === 1 ? '' : 'space-y-4'}>
           {rows.slice(0, 5).map((r) => {
             const rowTeam = teams.find(
@@ -495,7 +491,7 @@ function RaceField({
               <div
                 key={r.userId}
                 data-current-player={r.userId === currentUserId || undefined}
-                className="grid grid-cols-[112px_minmax(0,1fr)_68px] items-center gap-3 sm:grid-cols-[140px_minmax(0,1fr)_82px]"
+                className="grid grid-cols-[72px_minmax(0,1fr)_42px] items-center gap-1 sm:grid-cols-[140px_minmax(0,1fr)_82px] sm:gap-3"
                 style={
                   {
                     '--lane-color': rowTeam?.color_primary ?? 'var(--primary)',
@@ -503,16 +499,18 @@ function RaceField({
                 }
               >
                 <div className="flex min-w-0 items-center gap-2">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[var(--lane-color)] text-xs font-black text-white shadow-lg">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[var(--lane-color)] text-[10px] font-black text-white shadow-lg sm:h-10 sm:w-10 sm:text-xs">
                     {r.name.slice(0, 2).toUpperCase()}
                   </span>
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-black uppercase">{r.name}</span>
+                    <span className="block truncate text-[10px] font-black uppercase sm:text-sm">
+                      {r.name}
+                    </span>
                     {rowTeam?.logo_url ? (
                       <img
                         src={rowTeam.logo_url}
                         alt={`${rowTeam.name} logo`}
-                        className="mt-1 h-6 w-10 object-contain"
+                        className="mt-1 h-5 w-8 object-contain sm:h-6 sm:w-10"
                       />
                     ) : null}
                   </span>
@@ -536,19 +534,47 @@ function RaceField({
                     ) : null}
                   </span>
                 </div>
-                <span className="text-sm font-black tabular-nums">{r.score} YDS</span>
+                <span className="text-[10px] font-black tabular-nums sm:text-sm">
+                  {r.score} YDS
+                </span>
               </div>
             );
           })}
         </div>
+        <YardNumbers ticks={ticks} position="bottom" />
       </div>
       <div
         data-testid="drill-end-zone"
-        className="absolute bottom-0 right-0 top-0 flex w-16 items-center justify-center border-l border-white/60 bg-[var(--primary)]/80 bg-[url('/assets/4-minute-drill/png/end-zone-distress-mask.png')] bg-cover text-xs font-black uppercase tracking-[.16em] text-[var(--team-primary-foreground)] sm:w-20 sm:text-sm [writing-mode:vertical-rl]"
+        className="drill-end-zone absolute bottom-0 right-0 top-0 flex w-16 items-center justify-center border-l border-white/60 text-xs font-black uppercase tracking-[.16em] sm:w-20 sm:text-sm [writing-mode:vertical-rl]"
       >
-        End zone
+        <span className="relative z-10">End zone</span>
       </div>
     </section>
+  );
+}
+function YardNumbers({
+  ticks,
+  position = 'top',
+}: {
+  ticks: string[];
+  position?: 'top' | 'bottom';
+}) {
+  return (
+    <div
+      data-yard-numbers={position}
+      aria-hidden
+      className={`grid grid-cols-[72px_minmax(0,1fr)_42px] items-center gap-1 sm:grid-cols-[140px_minmax(0,1fr)_82px] sm:gap-3 ${position === 'top' ? 'mb-5' : 'mt-5'}`}
+    >
+      <span />
+      <div className="grid grid-cols-10 text-center">
+        {ticks.map((tick, index) => (
+          <span key={`${position}-${tick}-${index}`} className="drill-yard-number">
+            {tick}
+          </span>
+        ))}
+      </div>
+      <span />
+    </div>
   );
 }
 function QuestionPanel({
@@ -772,7 +798,7 @@ function CurrentDrive({
     plays.map((play) => [Number(play.id.split('-')[0]), play.correct ? 'correct' : 'no-gain']),
   );
   return (
-    <Panel title="Current drive" className="bg-[#F8F6F1] !text-[#00172B]">
+    <Panel title="Current drive" className="drill-panel-light">
       <div className="mt-4 flex justify-between gap-1">
         {Array.from({ length: 10 }, (_, i) => {
           const question = i + 1,

@@ -73,6 +73,51 @@
     720px auto;
 }
 
+.drill-yard-number {
+  color: rgba(232, 235, 232, 0.62);
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 0.7rem;
+  font-stretch: condensed;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.025em;
+  line-height: 1;
+  transform: scaleX(0.82);
+}
+
+.drill-end-zone {
+  background-color: var(--team-primary-fill);
+  color: var(--team-primary-foreground);
+  isolation: isolate;
+}
+
+.drill-end-zone::before {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    42deg,
+    color-mix(in srgb, var(--team-primary-foreground) 32%, transparent) 0 10px,
+    transparent 10px 22px
+  );
+  content: '';
+  -webkit-mask: url('/assets/4-minute-drill/png/end-zone-distress-mask.png') center / cover;
+  mask: url('/assets/4-minute-drill/png/end-zone-distress-mask.png') center / cover;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.drill-panel-light {
+  border-color: rgba(0, 23, 43, 0.14);
+  background-color: #f8f6f1;
+  background-image: none;
+  color: #00172b;
+}
+
+@media (min-width: 640px) {
+  .drill-yard-number {
+    font-size: 0.85rem;
+  }
+}
+
 .drill-category-strip {
   clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
 }
