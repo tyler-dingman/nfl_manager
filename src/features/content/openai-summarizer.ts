@@ -3,12 +3,22 @@ import type { ContentSource, SummarizedTopic, TopicSummarizer } from './types';
 const outputSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['category', 'headline', 'summary', 'whyItMatters', 'sourceIds'],
+  required: [
+    'category',
+    'headline',
+    'summary',
+    'whatHappened',
+    'whyItMatters',
+    'whatsNext',
+    'sourceIds',
+  ],
   properties: {
     category: { type: 'string' },
     headline: { type: 'string' },
     summary: { type: 'string' },
+    whatHappened: { type: 'string' },
     whyItMatters: { type: ['string', 'null'] },
+    whatsNext: { type: ['string', 'null'] },
     sourceIds: { type: 'array', items: { type: 'string' } },
   },
 } as const;

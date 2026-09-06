@@ -7,6 +7,8 @@ import type {
 } from './types';
 import { calculateImportanceScore } from '@/features/three-and-out/ranking';
 import { evidenceCounts, isOfficialSource } from './corroboration';
+import { getContentAiConfig } from '@/features/content/ai-provider';
+import { OllamaStorySynthesizer } from './ollama-synthesis';
 
 const neutralHeadline = (candidate: ContentCandidate) => {
   const entity = candidate.entities.find(
@@ -46,6 +48,14 @@ export interface StorySynthesizer {
     existingStory: StoryRecord | null;
     evidence: Array<{ candidate: ContentCandidate; source: RegisteredSource }>;
   }): Promise<SynthesizedStory>;
+}
+
+export function configuredStorySynthesizer(): StorySynthesizer {
+  const provider = getContentAiConfig().provider;
+  if (provider === 'ollama') return new OllamaStorySynthesizer();
+  if (provider === 'openai')
+    throw new Error('Paid story synthesis is not enabled for this local evaluation.');
+  return new GroundedDeterministicStorySynthesizer();
 }
 
 export class GroundedDeterministicStorySynthesizer implements StorySynthesizer {

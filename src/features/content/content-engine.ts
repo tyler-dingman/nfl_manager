@@ -3,6 +3,7 @@ import { DeterministicTopicSummarizer } from './deterministic-summarizer';
 import { MockContentSourceAdapter } from './mock-source-adapter';
 import { OpenAITopicSummarizer } from './openai-summarizer';
 import { OllamaTopicSummarizer } from './ollama-summarizer';
+import { getContentAiConfig } from './ai-provider';
 import type { ContentSource, ContentSourceAdapter, TeamBriefing, TopicSummarizer } from './types';
 
 type CacheEntry = { expiresAt: number; briefings: TeamBriefing[] };
@@ -30,12 +31,16 @@ const scoreTopic = (sources: ContentSource[]) => {
 };
 
 const selectSummarizer = (): TopicSummarizer => {
-  if (process.env.CONTENT_SUMMARIZER === 'ollama') return new OllamaTopicSummarizer();
-  const apiKey = process.env.OPENAI_API_KEY;
-  const model = process.env.OPENAI_CONTENT_MODEL;
-  return apiKey && model
-    ? new OpenAITopicSummarizer(apiKey, model)
-    : new DeterministicTopicSummarizer();
+  const config = getContentAiConfig();
+  if (config.provider === 'ollama') return new OllamaTopicSummarizer();
+  if (config.provider === 'openai') {
+    if (!process.env.OPENAI_API_KEY || !process.env.OPENAI_CONTENT_MODEL)
+      throw new Error(
+        'CONTENT_AI_PROVIDER=openai requires OPENAI_API_KEY and OPENAI_CONTENT_MODEL.',
+      );
+    return new OpenAITopicSummarizer(process.env.OPENAI_API_KEY, process.env.OPENAI_CONTENT_MODEL);
+  }
+  return new DeterministicTopicSummarizer();
 };
 
 export class TeamContentEngine {
@@ -68,6 +73,7 @@ export class TeamContentEngine {
             generated = await this.summarizer.summarize(summaryInput);
           } catch (error) {
             console.error(`[content-engine] summarizer failed for ${cacheKey}/${topicKey}`, error);
+            if (getContentAiConfig().provider === 'ollama') throw error;
             generated = await this.fallbackSummarizer.summarize(summaryInput);
           }
           const selectedIds = new Set(generated.sourceIds);

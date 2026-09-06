@@ -172,6 +172,12 @@ export async function recentStories(teams: string[], since: Date) {
     await authDb()`SELECT * FROM canonical_stories WHERE last_meaningful_update_at>=${since} AND (team_id IS NULL OR team_id=ANY(${teams}))`;
   return rows.map(rowStory);
 }
+export async function publishedStoryCountToday(teamId: string) {
+  const [row] = await authDb()`SELECT count(*)::int AS count FROM canonical_stories
+    WHERE team_id=${teamId} AND created_at>=date_trunc('day',now())
+      AND publication_state IN ('AUTO_PUBLISHED','PUBLISHED')`;
+  return Number(row?.count ?? 0);
+}
 export async function storyById(id: string) {
   const [r] = await authDb()`SELECT * FROM canonical_stories WHERE id=${id}`;
   return r ? rowStory(r) : null;

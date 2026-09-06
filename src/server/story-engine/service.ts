@@ -10,6 +10,7 @@ import { evaluateMaterialChange } from '@/features/story-engine/material-change'
 import { normalizeRawItem } from '@/features/story-engine/normalization';
 import {
   GroundedDeterministicStorySynthesizer,
+  configuredStorySynthesizer,
   type StorySynthesizer,
 } from '@/features/story-engine/synthesis';
 import {
@@ -19,6 +20,11 @@ import {
 import type { RegisteredSource } from '@/features/story-engine/types';
 import { RssSourceFetcher, type SourceFetcher } from './fetcher';
 import * as repo from './repository';
+import { getContentAiConfig } from '@/features/content/ai-provider';
+import {
+  maxNewAiStoriesPerTeamPerDay,
+  mayGenerateNewStory,
+} from '@/features/story-engine/generation-policy';
 
 export async function scheduleDueSources(
   now = new Date(),
@@ -38,10 +44,8 @@ export async function scheduleDueSources(
   return { due: sources.length, queued };
 }
 
-export async function processCandidate(
-  candidateId: string,
-  synthesizer: StorySynthesizer = new GroundedDeterministicStorySynthesizer(),
-) {
+export async function processCandidate(candidateId: string, synthesizer?: StorySynthesizer) {
+  synthesizer ??= configuredStorySynthesizer();
   const candidate = await repo.candidateById(candidateId);
   if (!candidate || candidate.status !== 'NEW') return { action: 'ignored' };
   const source = await repo.sourceById(candidate.sourceId);
@@ -60,6 +64,17 @@ export async function processCandidate(
     return { action: 'review', match };
   }
   if (!match.storyId || match.ambiguous) {
+    const config = getContentAiConfig();
+    const teamId = candidate.candidateTeams[0] ?? source.teamId;
+    if (config.provider === 'ollama' && teamId) {
+      const publishedToday = await repo.publishedStoryCountToday(teamId);
+      const maximum = maxNewAiStoriesPerTeamPerDay();
+      if (!mayGenerateNewStory({ provider: config.provider, publishedToday, maximum })) {
+        const reason = `Daily local-AI story cap reached for ${teamId}: ${publishedToday}/${maximum}. Candidate and evidence remain stored.`;
+        await repo.setCandidateStatus(candidateId, 'REVIEW_REQUIRED', reason);
+        return { action: 'daily-cap', reason };
+      }
+    }
     const synth = await synthesizer.synthesize({
       existingStory: null,
       evidence: [{ candidate, source }],

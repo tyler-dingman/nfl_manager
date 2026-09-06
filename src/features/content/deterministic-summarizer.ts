@@ -51,7 +51,9 @@ export class DeterministicTopicSummarizer implements TopicSummarizer {
       category: copy.category,
       headline: copy.headline(teamName),
       summary,
+      whatHappened: summary,
       whyItMatters: copy.whyItMatters,
+      whatsNext: null,
       sourceIds: sources.map((source) => source.id),
     };
   }

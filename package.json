@@ -17,6 +17,7 @@
     "data:sync": "tsx src/scripts/sync-nfl-data.ts",
     "content:sync": "tsx src/scripts/sync-team-content.ts",
     "content:backfill": "tsx scripts/backfill-team-content.ts",
+    "content:ollama-eval": "tsx scripts/content-ollama-eval.ts",
     "search:index": "tsx scripts/search-index.ts",
     "search:reindex": "tsx scripts/search-index.ts --full",
     "auth:migrate": "tsx scripts/migrate-auth.ts",

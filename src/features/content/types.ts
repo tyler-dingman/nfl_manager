@@ -25,7 +25,9 @@ export type TeamBriefing = {
   category: string;
   headline: string;
   summary: string;
+  whatHappened?: string;
   whyItMatters?: string | null;
+  whatsNext?: string | null;
   imageUrl?: string | null;
   updatedAt: string;
   sourceCount: number;
@@ -40,7 +42,7 @@ export type BriefingListItem = Omit<TeamBriefing, 'sources'>;
 
 export type SummarizedTopic = Pick<
   TeamBriefing,
-  'category' | 'headline' | 'summary' | 'whyItMatters'
+  'category' | 'headline' | 'summary' | 'whatHappened' | 'whyItMatters' | 'whatsNext'
 > & {
   sourceIds: string[];
 };

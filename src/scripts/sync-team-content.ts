@@ -6,6 +6,7 @@ import { loadEnvConfig } from '@next/env';
 import { TEAM_LIST } from '@/data/teams';
 import { OllamaTopicSummarizer } from '@/features/content/ollama-summarizer';
 import type { ContentSource, TeamBriefing } from '@/features/content/types';
+import { getContentAiConfig } from '@/features/content/ai-provider';
 
 loadEnvConfig(process.cwd());
 
@@ -165,7 +166,7 @@ const syncTeam = async (team: (typeof TEAM_LIST)[number], limit: number) => {
   if (!response.ok) throw new Error(`${team.abbr} RSS failed: ${response.status}`);
   const articles = selectTopArticles(parseFeed(await response.text()), limit);
   if (!articles.length) throw new Error(`${team.abbr} RSS contained no usable articles`);
-  const model = process.env.OLLAMA_CONTENT_MODEL ?? 'qwen3:4b';
+  const model = getContentAiConfig().ollamaModel;
   const useExtractiveSafety = model.includes('0.6b');
   const briefings: TeamBriefing[] = [];
   for (const [index, article] of articles.entries()) {
@@ -229,9 +230,7 @@ const main = async () => {
   const existing = JSON.parse(await readFile(outputPath, 'utf8')) as Record<string, TeamBriefing[]>;
   const output: Record<string, TeamBriefing[]> = requestedTeam ? existing : {};
   const failures: string[] = [];
-  const teams = requestedTeam
-    ? TEAM_LIST.filter((team) => team.abbr === requestedTeam)
-    : TEAM_LIST;
+  const teams = requestedTeam ? TEAM_LIST.filter((team) => team.abbr === requestedTeam) : TEAM_LIST;
   if (!teams.length) throw new Error(`Unknown team: ${requestedTeam}`);
 
   for (const [index, team] of teams.entries()) {
@@ -239,7 +238,9 @@ const main = async () => {
     try {
       const briefings = await syncTeam(team, limit);
       output[team.abbr] = briefings;
-      console.log(`${briefings.length} briefings: ${briefings.map((item) => item.headline).join(' | ')}`);
+      console.log(
+        `${briefings.length} briefings: ${briefings.map((item) => item.headline).join(' | ')}`,
+      );
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       failures.push(`${team.abbr}: ${message}`);

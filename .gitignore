@@ -4,6 +4,7 @@ out
 .env.local
 .env
 tsconfig.tsbuildinfo
+tmp/ollama-eval/
 private/tts/*.wav
 private/tts/cache/
 apps/web/private/tts/*.wav
