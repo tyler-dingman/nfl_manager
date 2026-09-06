@@ -26,6 +26,7 @@ jobs:
         env:
           STARTS_AT: ${{ vars.CONTENT_AUTOMATION_STARTS_AT }}
           EXPIRES_AT: ${{ vars.CONTENT_AUTOMATION_EXPIRES_AT }}
+          TEAM_ID: ${{ vars.CONTENT_AUTOMATION_TEAM_ID }}
           TEMPORARY_OVERRIDE: ${{ inputs.temporary_override || 'false' }}
           OVERRIDE_SECRET: ${{ secrets.CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET }}
           GH_TOKEN: ${{ github.token }}
@@ -45,6 +46,11 @@ jobs:
             echo "run=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          if [[ "$TEAM_ID" != "KC" ]]; then
+            echo "Kansas City-only content automation scope is missing or invalid"
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           if [[ "$now_epoch" -lt "$start_epoch" ]]; then
             echo "Three-day content automation test has not started"
             echo "run=false" >> "$GITHUB_OUTPUT"
@@ -57,6 +63,7 @@ jobs:
         if: steps.window.outputs.run == 'true'
         env:
           BASE_URL: ${{ vars.CONTENT_AUTOMATION_BASE_URL }}
+          TEAM_ID: ${{ vars.CONTENT_AUTOMATION_TEAM_ID }}
           AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}
           OVERRIDE_SECRET: ${{ secrets.CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET }}
           USE_OVERRIDE: ${{ steps.window.outputs.override }}
@@ -67,4 +74,4 @@ jobs:
           if [[ "$USE_OVERRIDE" == "true" ]]; then
             args+=(-H "x-content-automation-manual: true" -H "x-content-automation-override: $OVERRIDE_SECRET")
           fi
-          curl "${args[@]}" "$BASE_URL/api/automation/content?group=standard"
+          curl "${args[@]}" "$BASE_URL/api/automation/content?group=standard&team=$TEAM_ID"

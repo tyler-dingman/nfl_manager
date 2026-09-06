@@ -50,6 +50,21 @@ test('expiration guard occurs before database, source, AI, or generation work', 
   assert.ok(route.indexOf('drainJobs', guard) > guard);
 });
 
+test('Vercel endpoint fails closed unless the trial is scoped to Kansas City', () => {
+  const route = readFileSync('src/app/api/automation/content/route.ts', 'utf8');
+  const service = readFileSync('src/server/story-engine/service.ts', 'utf8');
+  const repository = readFileSync('src/server/story-engine/repository.ts', 'utf8');
+  assert.match(route, /CONTENT_AUTOMATION_TEAM_ID/);
+  assert.match(route, /teamId !== 'KC'/);
+  assert.match(route, /requestedTeam !== teamId/);
+  assert.match(route, /scheduleDueSources\(new Date\(\), teamId, group\)/);
+  assert.match(route, /drainJobs\(Math\.max\(1, remaining\), teamId\)/);
+  assert.doesNotMatch(route, /scheduleDueSources\(new Date\(\), undefined, group\)/);
+  assert.match(service, /!candidate\.candidateTeams\.includes\(options\.teamId\)/);
+  assert.match(service, /repo\.claimJob\(workerId, teamId\)/);
+  assert.match(repository, /candidate\.candidate_teams @>/);
+});
+
 test('hard generation and expenditure budgets stop work', () => {
   assert.equal(
     generationStopReason({
@@ -84,6 +99,10 @@ test('workflows use isolated schedules and guard curl behind the window result',
   assert.doesNotMatch(standard, /group=video/);
   assert.match(video, /cron: ['"]0 \*\/2 \* \* \*['"]/);
   assert.doesNotMatch(video, /group=standard/);
+  assert.match(standard, /CONTENT_AUTOMATION_TEAM_ID/);
+  assert.match(video, /CONTENT_AUTOMATION_TEAM_ID/);
+  assert.match(standard, /group=standard&team=\$TEAM_ID/);
+  assert.match(video, /group=video&team=\$TEAM_ID/);
   assert.match(standard, /if: steps\.window\.outputs\.run == 'true'/);
   assert.match(video, /if: steps\.window\.outputs\.run == 'true'/);
   assert.match(standard, /content-automation-standard-trial\.yml\/disable/);

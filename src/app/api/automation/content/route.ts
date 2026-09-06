@@ -45,6 +45,21 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  const teamId = (process.env.CONTENT_AUTOMATION_TEAM_ID ?? '').trim().toUpperCase();
+  if (teamId !== 'KC') {
+    console.log('Content automation team scope is missing or is not KC');
+    return NextResponse.json({
+      ok: true,
+      skipped: true,
+      reason: 'invalid-team-scope',
+      message: 'Content automation team scope is missing or is not KC',
+    });
+  }
+
+  const requestedTeam = request.nextUrl.searchParams.get('team')?.trim().toUpperCase();
+  if (requestedTeam !== teamId)
+    return NextResponse.json({ ok: false, error: `team must be ${teamId}` }, { status: 400 });
+
   const group = request.nextUrl.searchParams.get('group');
   if (group !== 'standard' && group !== 'video')
     return NextResponse.json(
@@ -67,7 +82,7 @@ export async function POST(request: NextRequest) {
   }
 
   const remaining = Math.min(10 - usage.generatedToday, 30 - usage.generatedTotal);
-  const scheduled = await scheduleDueSources(new Date(), undefined, group);
+  const scheduled = await scheduleDueSources(new Date(), teamId, group);
   if (scheduled.queued === 0) {
     await recordTrialRun({
       startsAt: window.startsAt,
@@ -76,10 +91,18 @@ export async function POST(request: NextRequest) {
       status: 'UNCHANGED',
       detail: { scheduled },
     });
-    return NextResponse.json({ ok: true, group, scheduled, jobs: 0, generated: 0, aiSpendUsd: 0 });
+    return NextResponse.json({
+      ok: true,
+      team: teamId,
+      group,
+      scheduled,
+      jobs: 0,
+      generated: 0,
+      aiSpendUsd: 0,
+    });
   }
 
-  const jobs = await drainJobs(Math.max(1, remaining));
+  const jobs = await drainJobs(Math.max(1, remaining), teamId);
   const generated = jobs.filter((job) =>
     ['created', 'updated', 'published'].includes(String((job as any).result?.action)),
   ).length;
@@ -94,6 +117,7 @@ export async function POST(request: NextRequest) {
   });
   return NextResponse.json({
     ok: true,
+    team: teamId,
     group,
     scheduled,
     jobs: jobs.length,

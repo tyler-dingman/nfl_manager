@@ -146,7 +146,7 @@ export async function processCandidate(
 export async function processSource(
   source: RegisteredSource,
   fetcher: SourceFetcher = new RssSourceFetcher(),
-  options: { publishedSince?: Date } = {},
+  options: { publishedSince?: Date; teamId?: string } = {},
 ) {
   const started = Date.now();
   try {
@@ -159,6 +159,7 @@ export async function processSource(
       : result.items;
     for (const raw of eligibleItems) {
       const candidate = normalizeRawItem(raw, source);
+      if (options.teamId && !candidate.candidateTeams.includes(options.teamId)) continue;
       const id = await repo.saveCandidate(candidate);
       if (id) {
         inserted++;
@@ -192,15 +193,15 @@ export async function processSource(
   }
 }
 
-export async function workOne(workerId = `${hostname()}:${process.pid}`) {
-  const job = await repo.claimJob(workerId);
+export async function workOne(workerId = `${hostname()}:${process.pid}`, teamId?: string) {
+  const job = await repo.claimJob(workerId, teamId);
   if (!job) return null;
   try {
     let result;
     if (job.job_type === 'SOURCE_FETCH') {
       const source = await repo.sourceById(job.payload.sourceId);
       if (!source) throw new Error('Source not found.');
-      result = await processSource(source);
+      result = await processSource(source, new RssSourceFetcher(), { teamId });
     } else result = await processCandidate(job.payload.candidateId);
     await repo.finishJob(job.id);
     return { jobId: job.id, type: job.job_type, result };
@@ -214,10 +215,10 @@ export async function workOne(workerId = `${hostname()}:${process.pid}`) {
   }
 }
 
-export async function drainJobs(max = 100) {
+export async function drainJobs(max = 100, teamId?: string) {
   const results = [];
   for (let i = 0; i < max; i++) {
-    const result = await workOne();
+    const result = await workOne(undefined, teamId);
     if (!result) break;
     results.push(result);
   }

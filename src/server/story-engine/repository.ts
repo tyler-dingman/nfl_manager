@@ -87,10 +87,25 @@ export async function enqueueJob(
     await authDb()`INSERT INTO ingestion_jobs(id,job_type,idempotency_key,payload) VALUES(${randomUUID()},${type},${key},${authDb().json(payload as any)}) ON CONFLICT(idempotency_key) DO NOTHING RETURNING id`;
   return Boolean(rows.length);
 }
-export async function claimJob(workerId: string) {
+export async function claimJob(workerId: string, teamId?: string) {
   return authDb().begin(async (sql) => {
-    const [job] =
-      await sql`SELECT * FROM ingestion_jobs WHERE status IN ('PENDING','FAILED') AND available_at<=now() AND attempts<max_attempts ORDER BY available_at,created_at FOR UPDATE SKIP LOCKED LIMIT 1`;
+    const [job] = await sql`SELECT job.* FROM ingestion_jobs job
+        WHERE job.status IN ('PENDING','FAILED')
+          AND job.available_at<=now()
+          AND job.attempts<job.max_attempts
+          AND (${teamId ?? null}::text IS NULL OR
+            (job.job_type='SOURCE_FETCH' AND EXISTS (
+              SELECT 1 FROM content_sources source
+              WHERE source.id=job.payload->>'sourceId'
+                AND (source.team_id=${teamId ?? null} OR source.league_wide=true)
+            )) OR
+            (job.job_type='CANDIDATE_PROCESS' AND EXISTS (
+              SELECT 1 FROM content_candidates candidate
+              WHERE candidate.id=job.payload->>'candidateId'
+                AND candidate.candidate_teams @> ${sql.json(teamId ? [teamId] : [])}
+            )))
+        ORDER BY job.available_at,job.created_at
+        FOR UPDATE OF job SKIP LOCKED LIMIT 1`;
     if (!job) return null;
     const [claimed] =
       await sql`UPDATE ingestion_jobs SET status='RUNNING',attempts=attempts+1,locked_at=now(),locked_by=${workerId},updated_at=now() WHERE id=${job.id} RETURNING *`;
