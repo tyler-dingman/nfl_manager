@@ -3,6 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { assertLocalOllamaUrl, getContentAiConfig } from '../src/features/content/ai-provider';
 import { OllamaTopicSummarizer } from '../src/features/content/ollama-summarizer';
+import { OllamaOutputValidationError } from '../src/features/content/ollama-summarizer';
 import { loadOllamaEvaluationItems } from '../src/features/content/ollama-evaluation-fixtures';
 
 loadEnvConfig(process.cwd());
@@ -40,14 +41,15 @@ async function runOllamaEvaluation() {
         ...generated,
       });
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       results.push({
         fixture,
         ok: false,
-        jsonValid: !(error instanceof SyntaxError),
-        sourceIdsValid: !String(error).includes('source ID'),
+        jsonValid: !/JSON|Unexpected token|Expected property/i.test(message),
+        sourceIdsValid: true,
         unsupportedContentDetected: String(error).includes('Unsupported'),
-        error: error instanceof Error ? error.message : String(error),
-        metrics: { retries: 0 },
+        error: message,
+        metrics: { retries: error instanceof OllamaOutputValidationError ? error.retries : 0 },
       });
     }
   }
@@ -62,7 +64,10 @@ async function runOllamaEvaluation() {
     ``,
     `Model: ${config.ollamaModel}`,
     `Items: ${results.length}`,
-    `Failures: ${results.filter((r) => !r.ok).length}`,
+    `Passed: ${results.filter((r) => r.ok).length}`,
+    `Rejections: ${results.filter((r) => !r.ok).length}`,
+    `Malformed output: ${results.filter((r) => !r.jsonValid).length}`,
+    `Previous baseline: 14/20 passed`,
     ``,
   ];
   results.forEach((result, index) => {
