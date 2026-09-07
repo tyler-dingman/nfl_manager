@@ -1,0 +1,56 @@
+:root {
+  --dd-red-500: #ef1838;
+  --dd-red-600: #e7072f;
+  --dd-red-700: #c80027;
+  --dd-red-gradient: linear-gradient(110deg, #f00a38 0%, #d90831 58%, #ef3650 100%);
+  --dd-yellow-400: #ffcc18;
+  --dd-navy-950: #071329;
+  --dd-navy-800: #152b49;
+  --dd-blue-600: #087ee5;
+  --dd-green-600: #17aa70;
+  --dd-amber-500: #f5aa26;
+  --dd-surface: #ffffff;
+  --dd-canvas: #f5f8fb;
+  --dd-panel-tint: #eef4f8;
+  --dd-border: #d9e3ec;
+  --dd-muted: #536b88;
+  --dd-focus: #0b75d1;
+  --dd-danger-bg: #fde4e7;
+  --dd-warning-bg: #fff0bd;
+  --dd-success-bg: #cff4e3;
+  --dd-neutral-bg: #e7edf3;
+  --dd-radius-sm: 4px;
+  --dd-radius-md: 7px;
+  --dd-radius-lg: 10px;
+  --dd-shadow-card: 0 6px 18px rgb(7 19 41 / 6%);
+  --dd-space-1: 4px;
+  --dd-space-2: 8px;
+  --dd-space-3: 12px;
+  --dd-space-4: 16px;
+  --dd-space-5: 24px;
+  --dd-space-6: 32px;
+  --dd-space-7: 48px;
+  --dd-global-nav-h: 72px;
+  --dd-front-office-nav-h: 46px;
+  --dd-content-max: 1536px;
+  --dd-font-display: "Roboto Condensed", "Arial Narrow", Impact, sans-serif;
+  --dd-font-ui: Inter, "Roboto Condensed", Arial, sans-serif;
+}
+
+.dd-page-title {
+  color: var(--dd-navy-950);
+  font: italic 900 clamp(2.75rem, 5vw, 4rem)/.9 var(--dd-font-display);
+  letter-spacing: -.035em;
+  text-transform: uppercase;
+}
+
+.dd-card {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-md);
+  box-shadow: var(--dd-shadow-card);
+}
+
+.dd-active-underline { box-shadow: inset 0 -4px 0 var(--dd-yellow-400); }
+.dd-focusable:focus-visible { outline: 3px solid var(--dd-focus); outline-offset: 2px; }
+

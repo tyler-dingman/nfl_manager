@@ -1,0 +1,23 @@
+{
+  "color": {
+    "brandRed": "#e7072f",
+    "brandRedDark": "#c80027",
+    "brandYellow": "#ffcc18",
+    "navy": "#071329",
+    "bodyBlue": "#152b49",
+    "canvas": "#f5f8fb",
+    "panelTint": "#eef4f8",
+    "border": "#d9e3ec",
+    "success": "#17aa70",
+    "warning": "#f5aa26",
+    "info": "#087ee5"
+  },
+  "radius": { "small": 4, "medium": 7, "large": 10 },
+  "navigation": { "globalDesktopHeight": 72, "frontOfficeDesktopHeight": 46, "activeUnderline": 4 },
+  "layout": { "contentMaxWidth": 1536, "minimumTouchTarget": 44 },
+  "typography": {
+    "display": "Roboto Condensed, Arial Narrow, Impact, sans-serif",
+    "ui": "Inter, Roboto Condensed, Arial, sans-serif"
+  }
+}
+

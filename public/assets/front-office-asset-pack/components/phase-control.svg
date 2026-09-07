@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="92" viewBox="0 0 1400 92" role="img" aria-labelledby="t d">
+  <title id="t">Front Office phase control anatomy</title><desc id="d">Team, record, cap, needs, season, current phase, and split progression button.</desc>
+  <defs><linearGradient id="bg" x2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#f5f8fb"/></linearGradient></defs>
+  <rect x="1" y="1" width="1398" height="90" rx="7" fill="url(#bg)" stroke="#d9e3ec"/>
+  <g fill="#071329" font-family="Arial,sans-serif"><text x="28" y="36" font-size="18" font-weight="700">KANSAS CITY CHIEFS</text><text x="28" y="62" font-size="15">OVR 87 · 0–0</text></g>
+  <path d="M275 18v56M455 18v56M680 18v56M865 18v56M1040 18v56" stroke="#d9e3ec"/>
+  <g font-family="Arial,sans-serif"><g fill="#536b88" font-size="11" font-weight="700" letter-spacing="2"><text x="302" y="32">CAP SPACE</text><text x="482" y="32">NEEDS</text><text x="707" y="32">SEASON</text><text x="892" y="32">CURRENT PHASE</text></g><g fill="#071329" font-size="19" font-weight="700"><text x="302" y="58">$11.2M</text><text x="482" y="58">CB · EDGE · WR</text><text x="707" y="58">2026</text><text x="892" y="58">Week 1</text></g></g>
+  <rect x="1066" y="17" width="270" height="58" rx="7" fill="#e7072f"/><path d="M1282 17v58" stroke="#ff7287"/><g fill="#fff" font-family="Arial,sans-serif" font-weight="700"><text x="1092" y="52" font-size="17">Continue to Week 2</text><text x="1302" y="53" text-anchor="middle" font-size="20">⌄</text></g>
+</svg>
+
