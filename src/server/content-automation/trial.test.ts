@@ -65,6 +65,13 @@ test('Vercel endpoint fails closed unless the trial is scoped to Kansas City', (
   assert.match(repository, /candidate\.candidate_teams @>/);
 });
 
+test('trial repository initializes its isolated run ledger before reading or recording usage', () => {
+  const repository = readFileSync('src/server/content-automation/repository.ts', 'utf8');
+  assert.match(repository, /CREATE TABLE IF NOT EXISTS content_automation_trial_runs/);
+  assert.match(repository, /CREATE INDEX IF NOT EXISTS content_automation_trial_window_idx/);
+  assert.equal(repository.match(/await ensureTrialSchema\(\)/g)?.length, 2);
+});
+
 test('hard generation and expenditure budgets stop work', () => {
   assert.equal(
     generationStopReason({
