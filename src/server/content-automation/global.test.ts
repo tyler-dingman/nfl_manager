@@ -68,13 +68,13 @@ test('global endpoint checks authorization and kill switch before database and s
   assert.match(route, /aiSpendUsd: 0/);
 });
 
-test('Cloudflare Worker authenticates one global call and ships without an active cron', () => {
+test('Cloudflare Worker authenticates one global call on the five-minute cron', () => {
   const worker = readFileSync('workers/content-scheduler/src/index.js', 'utf8');
   const config = readFileSync('workers/content-scheduler/wrangler.toml', 'utf8');
   assert.match(worker, /\/api\/automation\/content\/global/);
   assert.match(worker, /Authorization: `Bearer \$\{env\.DND_AUTOMATION_SECRET\}`/);
   assert.match(worker, /async scheduled/);
-  assert.doesNotMatch(config, /^\s*crons\s*=/m);
+  assert.match(config, /^\s*crons\s*=\s*\["\*\/5 \* \* \* \*"\]/m);
 });
 
 test('migration runner includes the permanent automation ledger', () => {
