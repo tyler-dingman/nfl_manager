@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { TEAM_LIST } from '@/data/teams';
 import { loadTeamBriefings } from '@/server/content/team-briefings';
-import { canonicalHuddle, canonicalThreeAndOut } from '@/server/content/canonical-surfaces';
+import { canonicalHuddle } from '@/server/content/canonical-surfaces';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,8 +13,9 @@ export async function GET(request: Request) {
   const teamName = team?.name ?? 'NFL';
 
   try {
-    const threeAndOut = await canonicalThreeAndOut(teamAbbr);
-    const canonical = await canonicalHuddle(teamAbbr, threeAndOut?.current.storyIds ?? [], 100);
+    // The Beat is the complete chronological team feed. Three & Out may feature
+    // the same story, but featuring it must not remove it from The Beat.
+    const canonical = await canonicalHuddle(teamAbbr, [], 100, 'LATEST');
     const briefings = canonical.length ? canonical : await loadTeamBriefings(teamAbbr);
     return NextResponse.json({ teamAbbr, teamName, briefings });
   } catch (error) {
