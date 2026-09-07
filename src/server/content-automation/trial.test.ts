@@ -65,6 +65,7 @@ test('Vercel endpoint fails closed unless the trial is scoped to Kansas City', (
   assert.doesNotMatch(route, /scheduleDueSources\(new Date\(\), undefined, group\)/);
   assert.match(service, /!candidate\.candidateTeams\.includes\(options\.teamId\)/);
   assert.match(service, /repo\.claimJob\(workerId, teamId\)/);
+  assert.match(repository, /candidate\.id=\(job\.payload->>'candidateId'\)::uuid/);
   assert.match(repository, /candidate\.candidate_teams @>/);
 });
 

@@ -101,7 +101,7 @@ export async function claimJob(workerId: string, teamId?: string) {
             )) OR
             (job.job_type='CANDIDATE_PROCESS' AND EXISTS (
               SELECT 1 FROM content_candidates candidate
-              WHERE candidate.id=job.payload->>'candidateId'
+              WHERE candidate.id=(job.payload->>'candidateId')::uuid
                 AND candidate.candidate_teams @> ${sql.json(teamId ? [teamId] : [])}
             )))
         ORDER BY job.available_at,job.created_at
@@ -335,15 +335,15 @@ async function createCanonicalNotification(
       priority,delivery_state,push_eligible,metadata,dedupe_key,created_at
     )
     SELECT gen_random_uuid(),u.id,${eventId},${teamId},
-      CASE WHEN ${breaking} THEN 'BREAKING' ELSE 'HOT_READ' END,
+      CASE WHEN ${breaking}::boolean THEN 'BREAKING' ELSE 'HOT_READ' END,
       CASE WHEN s.story_type IN ('INJURY','TRADE','SIGNING','RELEASE','ROSTER') THEN s.story_type
-           WHEN ${breaking} THEN 'BREAKING' ELSE 'HOT_READ' END,
+           WHEN ${breaking}::boolean THEN 'BREAKING' ELSE 'HOT_READ' END,
       s.headline,s.summary,${`/the-beat?team=${teamId}&story=${storyId}`},s.id,'BEAT_STORY',
-      CASE WHEN ${breaking} OR s.importance_score>=85 THEN 'HIGH' ELSE 'NORMAL' END,
-      CASE WHEN (${breaking} OR s.importance_score>=85) AND COALESCE(p.push_enabled,true)
+      CASE WHEN ${breaking}::boolean OR s.importance_score>=85 THEN 'HIGH' ELSE 'NORMAL' END,
+      CASE WHEN (${breaking}::boolean OR s.importance_score>=85) AND COALESCE(p.push_enabled,true)
            THEN 'PUSH_PENDING' ELSE 'PUSH_NOT_ELIGIBLE' END,
-      ((${breaking} OR s.importance_score>=85) AND COALESCE(p.push_enabled,true)),
-      jsonb_build_object('storyVersion',${version},'reason',${reason}),${eventId},now()
+      ((${breaking}::boolean OR s.importance_score>=85) AND COALESCE(p.push_enabled,true)),
+      jsonb_build_object('storyVersion',${version}::integer,'reason',${reason}::text),${eventId},now()
     FROM users u
     JOIN canonical_stories s ON s.id=${storyId}
     LEFT JOIN user_preferences p ON p.user_id=u.id
