@@ -121,7 +121,7 @@ export function ProspectDetailsModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 sm:items-center"
+      className="app-modal-layer fixed inset-0 flex items-end justify-center bg-black/45 sm:items-center"
       onClick={onClose}
     >
       <div

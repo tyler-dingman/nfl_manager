@@ -26,7 +26,7 @@ export default function TradePlayerModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/40 px-4 py-6"
+      className="app-modal-layer fixed inset-0 flex items-center justify-center overflow-y-auto bg-black/40 px-4 py-6"
       onClick={onClose}
     >
       <div

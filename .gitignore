@@ -5,6 +5,7 @@ out
 .env
 tsconfig.tsbuildinfo
 tmp/ollama-eval/
+tmp/ollama-stress-test/
 private/tts/*.wav
 private/tts/cache/
 apps/web/private/tts/*.wav

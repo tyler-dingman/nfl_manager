@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { TEAM_LIST } from '@/data/teams';
 import { assertLocalOllamaUrl, getContentAiConfig } from './ai-provider';
 import type { ContentSource, SummarizedTopic, TopicSummarizer } from './types';
 
@@ -29,9 +30,12 @@ const parsedSchema = z
 
 export type OllamaMetrics = {
   latencyMs: number;
+  firstPassLatencyMs: number;
+  retryLatencyMs: number | null;
   promptTokens: number | null;
   outputTokens: number | null;
   retries: number;
+  firstPassFailure: string | null;
 };
 const sourceInput = (sources: ContentSource[]) =>
   sources.map(({ publisher, title, url, publishedAt, excerpt }) => ({
@@ -52,10 +56,20 @@ export function parseAndValidateOllamaOutput(
   sources: ContentSource[],
 ): SummarizedTopic {
   const parsed = parsedSchema.parse(JSON.parse(content));
-  const evidence = sources
+  const rawEvidence = sources
     .map((source) => `${source.title} ${source.excerpt} ${source.publisher}`)
     .join(' ')
-    .toLowerCase();
+    .replace(/&#8217;|&#x2019;|&rsquo;/gi, "'")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)));
+  const teamAliases = TEAM_LIST.filter((team) => {
+    const nickname = team.name.split(' ').at(-1) ?? team.name;
+    return [team.name, team.city, nickname].some((value) =>
+      new RegExp(`\\b${value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(rawEvidence),
+    );
+  })
+    .map((team) => `${team.name} ${team.city}`)
+    .join(' ');
+  const evidence = `${rawEvidence} ${teamAliases}`.toLowerCase();
   const editorialWords = new Set([
     'a',
     'an',
@@ -93,6 +107,16 @@ export function parseAndValidateOllamaOutput(
     );
   });
   if (unsupported) throw new Error(`Unsupported named fact detected: ${unsupported}`);
+  const evidenceRaw = rawEvidence;
+  const generatedRaw = generatedText(parsed);
+  const unsupportedNumber = (generatedRaw.match(/\b\d+(?:[.,:]\d+)?\b/g) ?? []).find(
+    (value) => !evidenceRaw.includes(value),
+  );
+  if (unsupportedNumber) throw new Error(`Unsupported number detected: ${unsupportedNumber}`);
+  const unsupportedQuote = (generatedRaw.match(/[“"]([^”"]+)[”"]/g) ?? []).find(
+    (quote) => !evidenceRaw.includes(quote.replace(/[“”]/g, '"')),
+  );
+  if (unsupportedQuote) throw new Error(`Unsupported quote detected: ${unsupportedQuote}`);
   assertNoUnsupportedTransformations(parsed, sources);
   assertOriginalWriting(parsed, sources);
   return { ...parsed, sourceIds: sources.map((source) => source.id) };
@@ -103,6 +127,15 @@ const normalizeCopy = (value: string) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
+export function sourceSimilarity(summary: string, sources: ContentSource[]) {
+  const outputWords = new Set(normalizeCopy(summary).split(' ').filter(Boolean));
+  const sourceWords = new Set(
+    sources.flatMap((source) => normalizeCopy(source.excerpt).split(' ')).filter(Boolean),
+  );
+  const intersection = [...outputWords].filter((word) => sourceWords.has(word)).length;
+  const union = new Set([...outputWords, ...sourceWords]).size;
+  return union ? intersection / union : 0;
+}
 export function assertOriginalWriting(output: OllamaGeneratedTopic, sources: ContentSource[]) {
   const sourceTitles = sources.map((source) => normalizeCopy(source.title));
   if (sourceTitles.includes(normalizeCopy(output.headline)))
@@ -116,13 +149,7 @@ export function assertOriginalWriting(output: OllamaGeneratedTopic, sources: Con
     .map(normalizeCopy)
     .find((sentence) => sourceSentences.includes(sentence));
   if (copied) throw new Error('Originality validation failed: summary copies a source sentence.');
-  const outputWords = new Set(normalizeCopy(output.summary).split(' ').filter(Boolean));
-  const sourceWords = new Set(
-    sources.flatMap((source) => normalizeCopy(source.excerpt).split(' ')).filter(Boolean),
-  );
-  const intersection = [...outputWords].filter((word) => sourceWords.has(word)).length;
-  const union = new Set([...outputWords, ...sourceWords]).size;
-  if (union && intersection / union > 0.72)
+  if (sourceSimilarity(output.summary, sources) > 0.72)
     throw new Error('Originality validation failed: summary is too similar to source wording.');
 }
 
@@ -223,7 +250,11 @@ export class OllamaTopicSummarizer implements TopicSummarizer {
     let promptTokens = 0;
     let outputTokens = 0;
     let validationFailure = '';
+    let firstPassFailure: string | null = null;
+    let firstPassLatencyMs = 0;
+    let retryLatencyMs: number | null = null;
     for (let attempt = 0; attempt < 2; attempt++) {
+      const attemptStarted = performance.now();
       let response: Response;
       try {
         response = await fetch(`${this.baseUrl}/api/chat`, {
@@ -276,6 +307,9 @@ export class OllamaTopicSummarizer implements TopicSummarizer {
       };
       promptTokens += payload.prompt_eval_count ?? 0;
       outputTokens += payload.eval_count ?? 0;
+      const attemptLatencyMs = Math.round(performance.now() - attemptStarted);
+      if (attempt === 0) firstPassLatencyMs = attemptLatencyMs;
+      else retryLatencyMs = attemptLatencyMs;
       if (!payload.message?.content) validationFailure = 'Local Ollama returned no content.';
       else {
         try {
@@ -283,13 +317,17 @@ export class OllamaTopicSummarizer implements TopicSummarizer {
             output: parseAndValidateOllamaOutput(payload.message.content, sources),
             metrics: {
               latencyMs: Math.round(performance.now() - started),
+              firstPassLatencyMs,
+              retryLatencyMs,
               promptTokens: promptTokens || null,
               outputTokens: outputTokens || null,
               retries: attempt,
+              firstPassFailure,
             },
           };
         } catch (error) {
           validationFailure = error instanceof Error ? error.message : String(error);
+          if (attempt === 0) firstPassFailure = validationFailure;
         }
       }
     }

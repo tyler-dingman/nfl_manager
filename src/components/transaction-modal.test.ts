@@ -48,3 +48,16 @@ test('neutral kit contains no bundled NFL or team logo file', () => {
   assert.doesNotMatch(component, /assets\/transaction-modal\/(?:logos|teams|nfl)/i);
   assert.match(component, /team\.logo_url/);
 });
+
+test('shared player and transaction dialogs render above the sticky site header', () => {
+  const css = readFileSync('src/app/globals.css', 'utf8');
+  const header = readFileSync('src/components/site-header-shell.tsx', 'utf8');
+  const playerDialog = readFileSync('src/components/player-details-modal.tsx', 'utf8');
+  const transactionDialog = readFileSync('src/components/transaction-modal.tsx', 'utf8');
+
+  assert.match(header, /z-\[70\]/);
+  assert.match(css, /\.app-modal-layer\s*\{\s*z-index:\s*200;/);
+  assert.match(css, /\.txn-backdrop\s*\{[^}]*z-index:\s*200;/s);
+  assert.match(playerDialog, /className="app-modal-layer fixed inset-0/);
+  assert.match(transactionDialog, /className="txn-backdrop"/);
+});

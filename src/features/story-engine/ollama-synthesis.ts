@@ -1,5 +1,6 @@
 import { OllamaTopicSummarizer } from '@/features/content/ollama-summarizer';
 import type { ContentSource, ContentSourceKind } from '@/features/content/types';
+import { TEAM_LIST } from '@/data/teams';
 import type { StorySynthesizer } from './synthesis';
 import type { SynthesizedStory } from './types';
 
@@ -27,9 +28,11 @@ export class OllamaStorySynthesizer implements StorySynthesizer {
     const strongest = [...evidence].sort(
       (a, b) => b.source.reliabilityScore - a.source.reliabilityScore,
     )[0];
+    const teamName =
+      TEAM_LIST.find((team) => team.abbr === sources[0].teamAbbr)?.name ?? sources[0].teamAbbr;
     const output = await this.summarizer.summarize({
       teamAbbr: sources[0].teamAbbr,
-      teamName: sources[0].teamAbbr,
+      teamName,
       topicKey: strongest.candidate.fingerprint,
       sources,
     });

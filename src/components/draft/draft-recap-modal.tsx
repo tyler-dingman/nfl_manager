@@ -41,7 +41,7 @@ export function DraftRecapModal({
   const remainingNeeds = teamNeeds.filter((need) => !addressedNeeds.includes(need));
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/45">
+    <div className="app-modal-layer fixed inset-0 bg-black/45">
       <div className="h-full overflow-y-auto">
         <div className="mx-auto min-h-full w-full max-w-4xl px-0 py-0 md:px-6 md:py-8">
           <div className="min-h-screen rounded-none bg-slate-50 shadow-2xl md:min-h-0 md:rounded-3xl">

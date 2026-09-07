@@ -807,7 +807,7 @@ export function DraftTradeOfferReviewModal({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4 py-6">
+      <div className="app-modal-layer fixed inset-0 flex items-center justify-center bg-black/45 px-4 py-6">
         <div className="flex max-h-[92dvh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-white shadow-xl">
           <div className="flex items-start justify-between gap-4 border-b border-border px-4 py-4 sm:px-6">
             <div className="min-w-0">

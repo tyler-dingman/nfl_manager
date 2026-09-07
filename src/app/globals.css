@@ -870,10 +870,15 @@ body {
   box-shadow: inset 0 -5px 0 var(--team-primary);
 }
 
+/* Dialogs must always clear sticky desktop navigation and mobile menu layers. */
+.app-modal-layer {
+  z-index: 200;
+}
+
 .txn-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: 200;
   display: grid;
   place-items: center;
   overflow-y: auto;

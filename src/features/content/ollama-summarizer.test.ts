@@ -104,6 +104,36 @@ test('title and excerpt both support team, opponent, organization, and outcome f
   assert.doesNotThrow(() => parseAndValidateOllamaOutput(JSON.stringify(output), [supported]));
 });
 
+test('NFL city and nickname evidence supports the corresponding full team name', () => {
+  const chiefsSource = {
+    ...source,
+    title: 'Chiefs add Joe Example',
+    excerpt: 'Kansas City added Joe Example to the roster.',
+  };
+  const output = {
+    ...valid,
+    headline: 'Joe Example joins the Kansas City Chiefs',
+    summary: 'The Kansas City Chiefs added Joe Example.',
+    whatHappened: 'Joe Example joined Kansas City.',
+  };
+  assert.doesNotThrow(() => parseAndValidateOllamaOutput(JSON.stringify(output), [chiefsSource]));
+});
+
+test('HTML-encoded apostrophes in evidence remain valid factual support', () => {
+  const encoded = {
+    ...source,
+    title: 'Aaron Donald&#8217;s impact remains visible',
+    excerpt: 'Aaron Donald shaped the defensive front.',
+  };
+  const output = {
+    ...valid,
+    headline: "Defensive front still reflects Aaron Donald's influence",
+    summary: "The front continues to carry Aaron Donald's influence.",
+    whatHappened: 'Aaron Donald influenced the defense.',
+  };
+  assert.doesNotThrow(() => parseAndValidateOllamaOutput(JSON.stringify(output), [encoded]));
+});
+
 test('originality validation rejects copied headlines and full excerpt sentences', () => {
   assert.throws(
     () => assertOriginalWriting({ ...valid, headline: source.title }, [source]),
