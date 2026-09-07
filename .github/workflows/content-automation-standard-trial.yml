@@ -75,14 +75,16 @@ jobs:
           if [[ "$USE_OVERRIDE" == "true" ]]; then
             args+=(-H "x-content-automation-manual: true" -H "x-content-automation-override: $OVERRIDE_SECRET")
           fi
-          response=$(curl --fail-with-body "${args[@]}" "$BASE_URL/api/automation/content?group=standard&team=$TEAM_ID")
+          response=$(curl "${args[@]}" "$BASE_URL/api/automation/content?group=standard&team=$TEAM_ID")
           echo "$response"
           echo '### Content automation result' >> "$GITHUB_STEP_SUMMARY"
           echo '```json' >> "$GITHUB_STEP_SUMMARY"
           echo "$response" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
-          description=$(echo "$response" | jq -r '"due=\(.scheduled.due // 0) queued=\(.scheduled.queued // 0) jobs=\(.jobs // 0) generated=\(.generated // 0) failed=\(.failedJobs // 0) stop=\(.stoppedBy // \"none\")"')
+          description=$(echo "$response" | jq -r 'if .ok == true then "due=\(.scheduled.due // 0) queued=\(.scheduled.queued // 0) jobs=\(.jobs // 0) generated=\(.generated // 0) failed=\(.failedJobs // 0) stop=\(.stoppedBy // \"none\")" else "error=\(.error // \"unknown application error\")" end')
+          state=$(echo "$response" | jq -r 'if .ok == true then "success" else "failure" end')
           gh api --method POST "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA" \
-            -f state=success \
+            -f state="$state" \
             -f context=content-automation-result \
             -f description="${description:0:140}" >/dev/null
+          test "$state" = success

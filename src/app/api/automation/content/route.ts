@@ -86,8 +86,25 @@ export async function POST(request: NextRequest) {
   // Production databases are intentionally not seeded during deployment. Keep the
   // code-defined registry authoritative so a fresh database cannot silently report
   // zero due sources while publishers have new items.
-  await syncMonitoringRegistry(teamId);
-  const scheduled = await scheduleDueSources(new Date(), teamId, group);
+  try {
+    await syncMonitoringRegistry(teamId);
+  } catch (error) {
+    console.error('[content-automation] source registry sync failed', error);
+    return NextResponse.json(
+      { ok: false, error: 'source-registry-sync-failed' },
+      { status: 500 },
+    );
+  }
+  let scheduled;
+  try {
+    scheduled = await scheduleDueSources(new Date(), teamId, group);
+  } catch (error) {
+    console.error('[content-automation] source scheduling failed', error);
+    return NextResponse.json(
+      { ok: false, error: 'source-scheduling-failed' },
+      { status: 500 },
+    );
+  }
   // A single unavailable publisher must not prevent the remaining registered
   // sources from being checked during this scheduled batch. Drain previously
   // queued candidates even when no feed is due on this particular invocation.
