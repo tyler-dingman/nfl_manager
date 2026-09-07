@@ -522,25 +522,52 @@ export default function DownDistanceHome() {
             </div>
             <aside className="space-y-6">
               <Link
-                href={`/three-and-out${teamRouteSuffix}`}
-                className="team-primary-filled block overflow-hidden rounded-2xl shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                href={`/catch-up${teamRouteSuffix}`}
+                className="group block overflow-hidden rounded-2xl border border-[#00172B]/10 bg-white text-[#00172B] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                aria-label={`Open the ${teamName} Three and Out audio rundown`}
               >
-                <div className="p-6">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase tracking-[0.24em] text-[var(--team-on-primary)]">
-                      What matters right now
-                    </span>
-                    <span className="rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold">
-                      3 stories
-                    </span>
-                  </div>
-                  <h3 className="mt-8 text-3xl font-black leading-none">Three and Out</h3>
-                  <p className="mt-3 text-sm leading-6 text-[var(--team-on-primary)]">
-                    The three biggest {teamAbbr} stories, ranked, sourced, and explained.
+                <div className="relative overflow-hidden bg-[#00172B] px-6 py-6 text-white">
+                  <div
+                    aria-hidden="true"
+                    className="absolute -right-8 -top-12 h-40 w-40 rounded-full border-[16px] border-white/[.035]"
+                  />
+                  <h3 className="relative text-3xl font-black italic leading-none tracking-[-0.05em]">
+                    THREE <span className="text-[var(--primary)]">&amp;</span> OUT
+                  </h3>
+                  <p className="relative mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-[var(--team-secondary-on-dark)]">
+                    The 3 things you need to know
                   </p>
-                  <span className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--secondary)] font-black text-[var(--team-on-secondary)]">
-                    Open Three and Out <ArrowRight className="h-4 w-4" />
-                  </span>
+                </div>
+                <div className="p-5">
+                  <ol className="space-y-2">
+                    {huddleCards.slice(0, 3).map((item, index) => (
+                      <li
+                        key={item.id}
+                        className="grid grid-cols-[2.5rem_1fr] items-center gap-3 rounded-xl py-1.5"
+                      >
+                        <span
+                          className={`grid h-9 w-9 place-items-center rounded-full text-xs font-black ${
+                            index === 0 ? 'team-primary-filled' : 'bg-slate-200 text-[#00172B]'
+                          }`}
+                        >
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="line-clamp-2 text-sm font-bold leading-5">
+                          {item.title}
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                  <div className="team-primary-filled mt-5 flex min-h-12 w-full items-center justify-between rounded-xl px-4 text-sm font-black uppercase tracking-[0.04em]">
+                    <span className="flex items-center gap-2">
+                      <Play className="h-4 w-4 fill-current" aria-hidden="true" /> Play Three &amp;
+                      Out
+                    </span>
+                    <ArrowRight
+                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </div>
                 </div>
               </Link>
               <section

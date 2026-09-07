@@ -25,3 +25,5 @@ tools/avatar-studio/**/*.pyc
 !tools/avatar-studio/input/.gitkeep
 !tools/avatar-studio/output/**/.gitkeep
 !tools/avatar-studio/cache/.gitkeep
+.vercel
+.env*
