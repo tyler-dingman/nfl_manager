@@ -212,6 +212,7 @@ export async function workOne(
   workerId = `${hostname()}:${process.pid}`,
   teamId?: string,
   synthesizer?: StorySynthesizer,
+  publishedSince?: Date,
 ) {
   const job = await repo.claimJob(workerId, teamId);
   if (!job) return null;
@@ -220,7 +221,7 @@ export async function workOne(
     if (job.job_type === 'SOURCE_FETCH') {
       const source = await repo.sourceById(job.payload.sourceId);
       if (!source) throw new Error('Source not found.');
-      result = await processSource(source, new RssSourceFetcher(), { teamId });
+      result = await processSource(source, new RssSourceFetcher(), { teamId, publishedSince });
     } else result = await processCandidate(job.payload.candidateId, synthesizer);
     await repo.finishJob(job.id);
     return { jobId: job.id, type: job.job_type, result };
@@ -239,13 +240,22 @@ export async function drainJobs(
   teamId?: string,
   continueOnError = false,
   synthesizer?: StorySynthesizer,
+  publishedSince?: Date,
+  maxGenerated?: number,
 ) {
   const results: any[] = [];
+  let generated = 0;
   for (let i = 0; i < max; i++) {
     try {
-      const result = await workOne(undefined, teamId, synthesizer);
+      const result = await workOne(undefined, teamId, synthesizer, publishedSince);
       if (!result) break;
       results.push(result);
+      if (
+        ['created', 'updated', 'published'].includes(String((result as any).result?.action))
+      ) {
+        generated++;
+        if (maxGenerated && generated >= maxGenerated) break;
+      }
     } catch (error) {
       if (!continueOnError) throw error;
       results.push({

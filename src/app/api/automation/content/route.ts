@@ -125,10 +125,12 @@ export async function POST(request: NextRequest) {
   // sources from being checked during this scheduled batch. Drain previously
   // queued candidates even when no feed is due on this particular invocation.
   const jobs = await drainJobs(
-    Math.max(1, remaining),
+    50,
     teamId,
     true,
     new GroundedDeterministicStorySynthesizer(),
+    new Date(Date.now() - 24 * 60 * 60 * 1000),
+    remaining,
   );
   const generated = jobs.filter((job) =>
     ['created', 'updated', 'published'].includes(String((job as any).result?.action)),

@@ -104,7 +104,13 @@ export async function claimJob(workerId: string, teamId?: string) {
               WHERE candidate.id=(job.payload->>'candidateId')::uuid
                 AND candidate.candidate_teams @> ${sql.json(teamId ? [teamId] : [])}
             )))
-        ORDER BY job.available_at,job.created_at
+        ORDER BY
+          CASE WHEN job.job_type='SOURCE_FETCH' THEN 0 ELSE 1 END,
+          CASE WHEN job.job_type='CANDIDATE_PROCESS' THEN (
+            SELECT candidate.published_at FROM content_candidates candidate
+            WHERE candidate.id=(job.payload->>'candidateId')::uuid
+          ) END DESC NULLS LAST,
+          job.available_at,job.created_at
         FOR UPDATE OF job SKIP LOCKED LIMIT 1`;
     if (!job) return null;
     const [claimed] =
