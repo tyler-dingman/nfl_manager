@@ -17,6 +17,21 @@ const equalSecret = (actual: string | null, expected?: string) => {
   return left.length === right.length && timingSafeEqual(left, right);
 };
 
+const safeJobFailure = (value: unknown) => {
+  const message = String(value ?? '');
+  const column = message.match(/column ["']?([a-z0-9_]+)["']? .*does not exist/i)?.[1];
+  if (column) return `missing-column:${column}`;
+  const relation = message.match(/relation ["']?([a-z0-9_]+)["']? does not exist/i)?.[1];
+  if (relation) return `missing-relation:${relation}`;
+  const constraint = message.match(/constraint ["']?([a-z0-9_]+)["']?/i)?.[1];
+  if (constraint) return `database-constraint:${constraint}`;
+  const http = message.match(/Source fetch failed with HTTP (\d+)/i)?.[1];
+  if (http) return `source-http:${http}`;
+  if (/abort|timed? out/i.test(message)) return 'source-timeout';
+  if (/ollama|ECONNREFUSED|fetch failed/i.test(message)) return 'provider-unavailable';
+  return 'job-processing-error';
+};
+
 export async function POST(request: NextRequest) {
   if (
     !equalSecret(
@@ -118,6 +133,11 @@ export async function POST(request: NextRequest) {
   const generated = jobs.filter((job) =>
     ['created', 'updated', 'published'].includes(String((job as any).result?.action)),
   ).length;
+  const failedJobReasons = [
+    ...new Set(
+      jobs.filter((job) => job.type === 'error').map((job) => safeJobFailure(job.error)),
+    ),
+  ];
   if (scheduled.queued === 0 && jobs.length === 0) {
     await recordTrialRun({
       startsAt: window.startsAt,
@@ -152,6 +172,7 @@ export async function POST(request: NextRequest) {
     scheduled,
     jobs: jobs.length,
     failedJobs: jobs.filter((job) => job.type === 'error').length,
+    failedJobReasons,
     generated,
     aiSpendUsd: 0,
   });
