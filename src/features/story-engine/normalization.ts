@@ -68,7 +68,8 @@ export function matchTeams(text: string, source: RegisteredSource) {
   const matched = new Set<string>();
   // Discovery-tier aggregators often cover the entire league despite being registered from a
   // team catalog. Require an explicit team mention so unrelated league items cannot publish.
-  if (source.teamId && source.pollingTier !== 'C') matched.add(source.teamId);
+  if (source.teamId && source.pollingTier !== 'C' && source.metadata.multiTeam !== true)
+    matched.add(source.teamId);
   const haystack = ` ${text.toLowerCase().replace(/[^a-z0-9]+/g, ' ')} `;
   for (const team of aliases)
     if (

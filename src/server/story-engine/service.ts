@@ -18,7 +18,7 @@ import {
   publicationStateFor,
 } from '@/features/story-engine/publishing-policy';
 import type { RegisteredSource } from '@/features/story-engine/types';
-import { RssSourceFetcher, type SourceFetcher } from './fetcher';
+import { RssSourceFetcher, YouTubeSourceFetcher, type SourceFetcher } from './fetcher';
 import * as repo from './repository';
 import { getContentAiConfig } from '@/features/content/ai-provider';
 import {
@@ -160,7 +160,9 @@ export async function processCandidate(candidateId: string, synthesizer?: StoryS
 
 export async function processSource(
   source: RegisteredSource,
-  fetcher: SourceFetcher = new RssSourceFetcher(),
+  fetcher: SourceFetcher = source.metadata.platform === 'YOUTUBE'
+    ? new YouTubeSourceFetcher()
+    : new RssSourceFetcher(),
   options: { publishedSince?: Date; teamId?: string } = {},
 ) {
   const started = Date.now();
@@ -221,7 +223,7 @@ export async function workOne(
     if (job.job_type === 'SOURCE_FETCH') {
       const source = await repo.sourceById(job.payload.sourceId);
       if (!source) throw new Error('Source not found.');
-      result = await processSource(source, new RssSourceFetcher(), { teamId, publishedSince });
+      result = await processSource(source, undefined, { teamId, publishedSince });
     } else result = await processCandidate(job.payload.candidateId, synthesizer);
     await repo.finishJob(job.id);
     return { jobId: job.id, type: job.job_type, result };
@@ -250,9 +252,7 @@ export async function drainJobs(
       const result = await workOne(undefined, teamId, synthesizer, publishedSince);
       if (!result) break;
       results.push(result);
-      if (
-        ['created', 'updated', 'published'].includes(String((result as any).result?.action))
-      ) {
+      if (['created', 'updated', 'published'].includes(String((result as any).result?.action))) {
         generated++;
         if (maxGenerated && generated >= maxGenerated) break;
       }

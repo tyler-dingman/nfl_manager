@@ -72,3 +72,43 @@ export class RssSourceFetcher implements SourceFetcher {
     }
   }
 }
+
+export class YouTubeSourceFetcher implements SourceFetcher {
+  async fetch(source: RegisteredSource): Promise<FetchResult> {
+    const channelId = String(source.metadata.youtubeChannelId ?? '');
+    const apiKey = process.env.YOUTUBE_API_KEY;
+    if (source.metadata.platform !== 'YOUTUBE' || !channelId)
+      throw new Error(`Source ${source.id} is not configured with a canonical YouTube channel ID.`);
+    if (!apiKey) throw new Error('YOUTUBE_API_KEY is not configured.');
+    const endpoint = new URL('https://www.googleapis.com/youtube/v3/search');
+    endpoint.search = new URLSearchParams({
+      part: 'snippet',
+      channelId,
+      maxResults: '25',
+      order: 'date',
+      type: 'video',
+      key: apiKey,
+    }).toString();
+    const response = await fetch(endpoint, {
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(SOURCE_FETCH_TIMEOUT_MS),
+    });
+    if (!response.ok) throw new Error(`YouTube source fetch failed with HTTP ${response.status}.`);
+    const payload = (await response.json()) as any;
+    const fetchedAt = new Date().toISOString();
+    const items: RawSourceItem[] = (payload.items ?? []).map((item: any) => ({
+      sourceId: source.id,
+      externalId: item.id.videoId,
+      url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+      title: item.snippet.title,
+      author: item.snippet.channelTitle ?? null,
+      publishedAt: item.snippet.publishedAt,
+      updatedAt: null,
+      rawText: item.snippet.description ?? '',
+      excerpt: item.snippet.description ?? '',
+      media: [{ type: 'video', url: `https://www.youtube.com/watch?v=${item.id.videoId}` }],
+      fetchedAt,
+    }));
+    return { items, notModified: false, etag: response.headers.get('etag'), lastModified: null };
+  }
+}

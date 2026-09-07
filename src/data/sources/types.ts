@@ -10,6 +10,17 @@ export type SourceCategory =
 
 export type SourcePlatform = 'WEB' | 'RSS' | 'X' | 'YOUTUBE' | 'REDDIT' | 'INSTAGRAM';
 
+export type VideoSourceCategory =
+  | 'official'
+  | 'independent_media'
+  | 'creator'
+  | 'podcast'
+  | 'film'
+  | 'local_media'
+  | 'league_media';
+
+export type VideoSourceStatus = 'ACTIVE' | 'INACTIVE' | 'REVIEW_REQUIRED' | 'ERROR';
+
 export type SourceDefinition = {
   id: string;
   name: string;
@@ -31,6 +42,15 @@ export type SourceDefinition = {
   url?: string;
   rssUrl?: string;
   youtubeChannelId?: string;
+  youtubeHandle?: string;
+  youtubeUrl?: string;
+  videoCategory?: VideoSourceCategory;
+  tags?: VideoSourceCategory[];
+  sourceWeight?: number;
+  sourceStatus?: VideoSourceStatus;
+  reviewReason?: string | null;
+  scope?: 'team' | 'league';
+  multiTeam?: boolean;
   enabled: boolean;
   priority: number;
   isAggregator?: boolean;
