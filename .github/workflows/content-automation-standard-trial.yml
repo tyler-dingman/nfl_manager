@@ -1,6 +1,8 @@
 name: Content automation trial - standard sources
 
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
@@ -83,6 +85,7 @@ jobs:
           echo '```' >> "$GITHUB_STEP_SUMMARY"
           description=$(echo "$response" | jq -r 'if .ok == true then ["due=" + ((.scheduled.due // 0)|tostring), "queued=" + ((.scheduled.queued // 0)|tostring), "jobs=" + ((.jobs // 0)|tostring), "generated=" + ((.generated // 0)|tostring), "failed=" + ((.failedJobs // 0)|tostring), "stop=" + (.stoppedBy // "none")] | join(" ") else "error=" + (.error // "unknown application error") end')
           state=$(echo "$response" | jq -r 'if .ok == true then "success" else "failure" end')
+          echo "::notice title=Content automation result::$description"
           gh api --method POST "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA" \
             -f state="$state" \
             -f context=content-automation-result \
