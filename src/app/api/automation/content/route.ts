@@ -88,7 +88,14 @@ export async function POST(request: NextRequest) {
   // zero due sources while publishers have new items.
   await syncMonitoringRegistry(teamId);
   const scheduled = await scheduleDueSources(new Date(), teamId, group);
-  if (scheduled.queued === 0) {
+  // A single unavailable publisher must not prevent the remaining registered
+  // sources from being checked during this scheduled batch. Drain previously
+  // queued candidates even when no feed is due on this particular invocation.
+  const jobs = await drainJobs(Math.max(1, remaining), teamId, true);
+  const generated = jobs.filter((job) =>
+    ['created', 'updated', 'published'].includes(String((job as any).result?.action)),
+  ).length;
+  if (scheduled.queued === 0 && jobs.length === 0) {
     await recordTrialRun({
       startsAt: window.startsAt,
       expiresAt: window.expiresAt,
@@ -106,13 +113,6 @@ export async function POST(request: NextRequest) {
       aiSpendUsd: 0,
     });
   }
-
-  // A single unavailable publisher must not prevent the remaining registered
-  // sources from being checked during this scheduled batch.
-  const jobs = await drainJobs(Math.max(1, remaining), teamId, true);
-  const generated = jobs.filter((job) =>
-    ['created', 'updated', 'published'].includes(String((job as any).result?.action)),
-  ).length;
   await recordTrialRun({
     startsAt: window.startsAt,
     expiresAt: window.expiresAt,
