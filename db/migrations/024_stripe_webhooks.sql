@@ -2,7 +2,15 @@ BEGIN;
 
 ALTER TABLE commerce_orders DROP CONSTRAINT IF EXISTS commerce_orders_payment_status_check;
 ALTER TABLE commerce_orders ADD CONSTRAINT commerce_orders_payment_status_check
-  CHECK (payment_status IN ('PENDING','PAID','DECLINED','FAILED','CANCELED','REFUNDED'));
+  CHECK (payment_status IN (
+    'PENDING',
+    'PAID',
+    'DECLINED',
+    'FAILED',
+    'CANCELED',
+    'REFUNDED',
+    'PARTIALLY_REFUNDED'
+  ));
 ALTER TABLE commerce_orders ADD COLUMN IF NOT EXISTS stripe_payment_intent_id text;
 ALTER TABLE commerce_orders ADD COLUMN IF NOT EXISTS currency text NOT NULL DEFAULT 'usd';
 ALTER TABLE commerce_orders ADD COLUMN IF NOT EXISTS paid_at timestamptz;
