@@ -1,8 +1,6 @@
 name: Content automation trial - video sources
 
 on:
-  schedule:
-    - cron: '0 */2 * * *'
   workflow_dispatch:
     inputs:
       temporary_override:

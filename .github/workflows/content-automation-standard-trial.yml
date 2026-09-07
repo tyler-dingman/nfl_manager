@@ -1,8 +1,6 @@
 name: Content automation trial - standard sources
 
 on:
-  schedule:
-    - cron: '*/30 * * * *'
   workflow_dispatch:
     inputs:
       temporary_override:
