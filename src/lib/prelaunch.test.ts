@@ -32,12 +32,17 @@ test('prelaunch middleware hides pages and does not broadly expose APIs', async 
   assert.equal(api.status, 401);
 });
 
-test('Stripe webhook bypasses the gate but protected admin still needs preview access', async () => {
+test('protected machine endpoints bypass the gate but protected admin still needs preview access', async () => {
   configure(true);
   const webhook = await middleware(
     new NextRequest('https://downdistance.com/api/commerce/stripe/webhook', { method: 'POST' }),
   );
   assert.equal(webhook.headers.get('x-middleware-next'), '1');
+
+  const contentAutomation = await middleware(
+    new NextRequest('https://downdistance.com/api/automation/content', { method: 'POST' }),
+  );
+  assert.equal(contentAutomation.headers.get('x-middleware-next'), '1');
 
   const admin = await middleware(new NextRequest('https://downdistance.com/admin/commerce'));
   assert.equal(admin.status, 307);
