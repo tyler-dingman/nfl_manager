@@ -147,10 +147,6 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
               </div>
             </header>
 
-            <div className="mx-auto max-w-[1240px] px-4 pt-8 sm:px-6 lg:px-8">
-              <AdSlot placement="HEADER" />
-            </div>
-
             <div className="mx-auto grid max-w-[1240px] gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,820px)_280px] lg:px-8">
               <div className="min-w-0 rounded-3xl bg-white px-5 py-7 shadow-sm sm:px-9 sm:py-10">
                 <p className="text-xs font-black uppercase tracking-[.2em] text-[var(--team-primary-text)]">
