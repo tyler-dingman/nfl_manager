@@ -1,6 +1,8 @@
 name: Content automation trial - standard sources
 
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
@@ -70,7 +72,7 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$BASE_URL" && test -n "$AUTOMATION_SECRET"
-          args=(-fsS -X POST -H "Authorization: Bearer $AUTOMATION_SECRET")
+          args=(-sS -X POST -H "Authorization: Bearer $AUTOMATION_SECRET")
           if [[ "$USE_OVERRIDE" == "true" ]]; then
             args+=(-H "x-content-automation-manual: true" -H "x-content-automation-override: $OVERRIDE_SECRET")
           fi
