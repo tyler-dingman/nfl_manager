@@ -230,12 +230,20 @@ export async function workOne(workerId = `${hostname()}:${process.pid}`, teamId?
   }
 }
 
-export async function drainJobs(max = 100, teamId?: string) {
-  const results = [];
+export async function drainJobs(max = 100, teamId?: string, continueOnError = false) {
+  const results: any[] = [];
   for (let i = 0; i < max; i++) {
-    const result = await workOne(undefined, teamId);
-    if (!result) break;
-    results.push(result);
+    try {
+      const result = await workOne(undefined, teamId);
+      if (!result) break;
+      results.push(result);
+    } catch (error) {
+      if (!continueOnError) throw error;
+      results.push({
+        type: 'error',
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
   }
   return results;
 }

@@ -107,7 +107,9 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const jobs = await drainJobs(Math.max(1, remaining), teamId);
+  // A single unavailable publisher must not prevent the remaining registered
+  // sources from being checked during this scheduled batch.
+  const jobs = await drainJobs(Math.max(1, remaining), teamId, true);
   const generated = jobs.filter((job) =>
     ['created', 'updated', 'published'].includes(String((job as any).result?.action)),
   ).length;
@@ -126,6 +128,7 @@ export async function POST(request: NextRequest) {
     group,
     scheduled,
     jobs: jobs.length,
+    failedJobs: jobs.filter((job) => job.type === 'error').length,
     generated,
     aiSpendUsd: 0,
   });
