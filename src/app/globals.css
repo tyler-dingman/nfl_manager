@@ -898,6 +898,14 @@ body {
 }
 
 /* Front Office asset-pack system: shared internal title, metrics, and tool tiles. */
+.dd-three-out-display {
+  font-family: inherit;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
 .fo-page-header {
   display: grid;
   grid-template-columns: minmax(260px, 0.8fr) minmax(520px, 1.2fr);
@@ -951,13 +959,10 @@ body {
 .fo-overview-copy h1 {
   margin-top: 0.4rem;
   color: white;
-  font-family: var(--font-display), 'Arial Narrow', Impact, sans-serif;
   font-size: clamp(3rem, 6vw, 5rem) !important;
-  font-style: italic;
-  font-weight: 950 !important;
-  line-height: 0.86 !important;
-  letter-spacing: -0.055em;
-  text-transform: uppercase;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.05em;
 }
 .fo-overview-copy h1 em {
   color: #ffcc18;
@@ -1009,13 +1014,10 @@ body {
 .fo-page-heading h1 {
   margin-top: 0.25rem;
   color: #071329;
-  font-family: var(--font-display), 'Roboto Condensed', 'Arial Narrow', Impact, sans-serif;
   font-size: clamp(2.8rem, 4.5vw, 4rem) !important;
-  font-style: italic;
-  font-weight: 950 !important;
-  line-height: 0.9 !important;
-  letter-spacing: -0.045em;
-  text-transform: uppercase;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.05em;
 }
 .fo-strapline {
   margin-top: 0.65rem;

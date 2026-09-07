@@ -21,7 +21,7 @@ export function FrontOfficeOverviewHero() {
         <p>
           Down <span>&amp;</span> Distance
         </p>
-        <h1>
+        <h1 className="dd-three-out-display">
           Front <em>Office</em>
         </h1>
         <h2>
