@@ -43,6 +43,7 @@ async function main() {
         const channel = channelData.items?.[0];
         if (!channel?.id) throw new Error('YouTube did not resolve this handle');
         const uploads = channel.contentDetails?.relatedPlaylists?.uploads;
+        if (!uploads) throw new Error('YouTube did not return the channel uploads playlist');
         const videos = uploads
           ? await api(
               `playlistItems?part=snippet&playlistId=${encodeURIComponent(uploads)}&maxResults=20`,
@@ -80,8 +81,8 @@ async function main() {
           await tx`UPDATE video_source_registry SET youtube_channel_id=${channel.id},youtube_handle=${handle},youtube_url=${canonicalUrl},status=${status},review_reason=${reason},last_verified_at=now(),last_upload_at=${lastUpload},updated_at=now() WHERE id=${candidate.id}`;
           if (status === 'ACTIVE')
             await tx`INSERT INTO content_sources(id,name,source_type,team_id,league_wide,url,fetch_strategy,polling_tier,priority,reliability_score,check_interval_seconds,enabled,metadata)
-      VALUES(${candidate.id},${candidate.name},${candidate.category === 'official' ? 'OFFICIAL_TEAM' : candidate.category === 'league_media' ? 'NFL_OFFICIAL' : 'YOUTUBE'},${candidate.teamId},${candidate.scope === 'league'},${canonicalUrl},'STRUCTURED_API',${candidate.priority === 1 ? 'A' : 'B'},${Math.round(candidate.sourceWeight * 100)},${candidate.sourceWeight},7200,true,${tx.json({ platform: 'YOUTUBE', youtubeChannelId: channel.id, youtubeHandle: handle, category: candidate.category, tags: candidate.tags, scope: candidate.scope, multiTeam: candidate.multiTeam, sourceWeight: candidate.sourceWeight } as any)})
-      ON CONFLICT(id) DO UPDATE SET name=excluded.name,url=excluded.url,priority=excluded.priority,reliability_score=excluded.reliability_score,enabled=true,metadata=excluded.metadata,updated_at=now()`;
+          VALUES(${candidate.id},${candidate.name},${candidate.category === 'official' ? 'OFFICIAL_TEAM' : candidate.category === 'league_media' ? 'NFL_OFFICIAL' : 'YOUTUBE'},${candidate.teamId},${candidate.scope === 'league'},${canonicalUrl},'STRUCTURED_API',${candidate.priority === 1 ? 'A' : 'B'},${Math.round(candidate.sourceWeight * 100)},${candidate.sourceWeight},14400,true,${tx.json({ platform: 'YOUTUBE', youtubeChannelId: channel.id, youtubeUploadsPlaylistId: uploads, youtubeHandle: handle, category: candidate.category, tags: candidate.tags, scope: candidate.scope, multiTeam: candidate.multiTeam, sourceWeight: candidate.sourceWeight } as any)})
+          ON CONFLICT(id) DO UPDATE SET name=excluded.name,url=excluded.url,priority=excluded.priority,reliability_score=excluded.reliability_score,check_interval_seconds=excluded.check_interval_seconds,enabled=true,metadata=excluded.metadata,updated_at=now()`;
         });
       } catch (error) {
         await sql`UPDATE video_source_registry SET status='ERROR',review_reason=${error instanceof Error ? error.message : String(error)},updated_at=now() WHERE id=${candidate.id}`;

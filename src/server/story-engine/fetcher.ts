@@ -76,17 +76,20 @@ export class RssSourceFetcher implements SourceFetcher {
 export class YouTubeSourceFetcher implements SourceFetcher {
   async fetch(source: RegisteredSource): Promise<FetchResult> {
     const channelId = String(source.metadata.youtubeChannelId ?? '');
+    const uploadsPlaylistId = String(source.metadata.youtubeUploadsPlaylistId ?? '');
     const apiKey = process.env.YOUTUBE_API_KEY;
-    if (source.metadata.platform !== 'YOUTUBE' || !channelId)
-      throw new Error(`Source ${source.id} is not configured with a canonical YouTube channel ID.`);
+    if (source.metadata.platform !== 'YOUTUBE' || !channelId || !uploadsPlaylistId)
+      throw new Error(
+        `Source ${source.id} is not configured with a canonical YouTube channel and uploads playlist ID.`,
+      );
     if (!apiKey) throw new Error('YOUTUBE_API_KEY is not configured.');
-    const endpoint = new URL('https://www.googleapis.com/youtube/v3/search');
+    // playlistItems.list costs one quota unit; search.list costs 100. Resolve the
+    // immutable uploads playlist once and use this low-cost endpoint for polling.
+    const endpoint = new URL('https://www.googleapis.com/youtube/v3/playlistItems');
     endpoint.search = new URLSearchParams({
-      part: 'snippet',
-      channelId,
+      part: 'snippet,contentDetails',
+      playlistId: uploadsPlaylistId,
       maxResults: '25',
-      order: 'date',
-      type: 'video',
       key: apiKey,
     }).toString();
     const response = await fetch(endpoint, {
@@ -98,15 +101,17 @@ export class YouTubeSourceFetcher implements SourceFetcher {
     const fetchedAt = new Date().toISOString();
     const items: RawSourceItem[] = (payload.items ?? []).map((item: any) => ({
       sourceId: source.id,
-      externalId: item.id.videoId,
-      url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+      externalId: item.contentDetails.videoId,
+      url: `https://www.youtube.com/watch?v=${item.contentDetails.videoId}`,
       title: item.snippet.title,
       author: item.snippet.channelTitle ?? null,
       publishedAt: item.snippet.publishedAt,
       updatedAt: null,
       rawText: item.snippet.description ?? '',
       excerpt: item.snippet.description ?? '',
-      media: [{ type: 'video', url: `https://www.youtube.com/watch?v=${item.id.videoId}` }],
+      media: [
+        { type: 'video', url: `https://www.youtube.com/watch?v=${item.contentDetails.videoId}` },
+      ],
       fetchedAt,
     }));
     return { items, notModified: false, etag: response.headers.get('etag'), lastModified: null };
