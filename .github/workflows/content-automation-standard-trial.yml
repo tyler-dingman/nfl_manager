@@ -1,6 +1,8 @@
 name: Content automation trial - standard sources
 
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
@@ -74,4 +76,9 @@ jobs:
           if [[ "$USE_OVERRIDE" == "true" ]]; then
             args+=(-H "x-content-automation-manual: true" -H "x-content-automation-override: $OVERRIDE_SECRET")
           fi
-          curl "${args[@]}" "$BASE_URL/api/automation/content?group=standard&team=$TEAM_ID"
+          response=$(curl --fail-with-body "${args[@]}" "$BASE_URL/api/automation/content?group=standard&team=$TEAM_ID")
+          echo "$response"
+          echo '### Content automation result' >> "$GITHUB_STEP_SUMMARY"
+          echo '```json' >> "$GITHUB_STEP_SUMMARY"
+          echo "$response" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
