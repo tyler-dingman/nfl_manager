@@ -1,6 +1,8 @@
 name: Content automation trial - standard sources
 
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
