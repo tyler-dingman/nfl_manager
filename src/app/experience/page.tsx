@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { ArrowRight, DraftingCompass, Handshake, Trophy } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
+import { FrontOfficeOverviewHero } from '@/components/front-office/front-office-overview-hero';
 import { AdSlot } from '@/components/ads/AdSlot';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -139,17 +140,7 @@ export default function ExperiencePage() {
     <AppShell>
       <div className="mx-auto w-full max-w-6xl pb-40 md:pb-0">
         <div className="flex w-full flex-col gap-7">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[var(--team-primary)]">
-              Front Office Overview
-            </p>
-            <h1 className="mt-2 text-3xl font-semibold text-foreground md:text-4xl">
-              Decisions on your desk
-            </h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              The moves that need your attention before the franchise advances.
-            </p>
-          </div>
+          <FrontOfficeOverviewHero />
 
           <section className="grid gap-4 md:grid-cols-3" aria-label="Decisions on your desk">
             <Link href="/roster?view=resign" className="front-office-decision-card">

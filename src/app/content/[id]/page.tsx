@@ -7,6 +7,7 @@ import { AdSlot } from '@/components/ads/AdSlot';
 import ContentPageAnalytics from '@/components/content/content-page-analytics';
 import ShareToCrewButton from '@/components/crew/share-to-crew-button';
 import EditorialVisual from '@/components/editorial/editorial-visual';
+import { FanPulse } from '@/components/fan-pulse/fan-pulse';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { TEAM_LIST } from '@/data/teams';
@@ -239,6 +240,11 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
                     ))}
                   </div>
                 </section>
+                <FanPulse
+                  contentId={item.id}
+                  teamId={item.teamAbbr}
+                  teamName={team?.name ?? item.teamAbbr}
+                />
                 {related.length ? (
                   <section className="mt-10">
                     <h2 className="text-2xl font-black">More from {team?.name ?? item.teamAbbr}</h2>

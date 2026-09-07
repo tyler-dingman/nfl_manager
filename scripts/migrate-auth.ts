@@ -42,6 +42,7 @@ async function main() {
       '026_commerce_payment_hardening.sql',
       '027_content_automation_trial.sql',
       '028_content_automation_global.sql',
+      '029_fan_pulse.sql',
     ]) {
       if (file === '017_search_documents.sql') {
         const [extension] = await sql<{ available: boolean }[]>`

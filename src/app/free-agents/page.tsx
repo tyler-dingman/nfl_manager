@@ -2,8 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Calculator, Search, Target, WalletCards } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
+import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
+import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
 import ContractOfferModal, { type OfferResponse } from '@/components/contract-offer-modal';
 import PlayerDetailsModal from '@/components/player-details-modal';
 import { PlayerTable } from '@/components/player-table';
@@ -15,7 +18,7 @@ import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orc
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
-import { getRouteForStep, isStepUnlocked } from '@/features/experience/experience-utils';
+import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
@@ -129,12 +132,6 @@ export default function FreeAgentsPage() {
       ms: Number((performance.now() - tableStartedAtRef.current).toFixed(1)),
     });
   }, [players]);
-
-  useEffect(() => {
-    if (mode === 'full' && !isStepUnlocked('free-agency', currentStep)) {
-      router.replace(getRouteForStep(currentStep));
-    }
-  }, [mode, currentStep, router]);
 
   useEffect(() => {
     if (phase !== 'free_agency' || !saveId || !teamAbbr) return;
@@ -371,7 +368,6 @@ export default function FreeAgentsPage() {
           leagueBuzz: toastPayload,
         });
       }
-
     } catch (error) {
       console.error('Failed to advance wave:', error);
       // Could add error toast here
@@ -416,6 +412,21 @@ export default function FreeAgentsPage() {
 
   return (
     <AppShell>
+      <FrontOfficePageHeader
+        title="Free Agency"
+        strapline="Find talent. Create opportunity."
+        description={
+          phase === 'free_agency'
+            ? 'Build your target list and negotiate with the full offseason market.'
+            : 'Scout the available in-season player pool and prepare future targets.'
+        }
+        tools={[
+          { label: 'Advanced Search', icon: Search },
+          { label: 'My Targets', icon: Target, onClick: () => setActiveTab('userSigned') },
+          { label: 'Cap Space Manager', href: '/cap-space', icon: WalletCards },
+          { label: 'Compensation Calculator', icon: Calculator, disabled: true },
+        ]}
+      />
       <PlayerTable
         data={players}
         variant="freeAgent"
@@ -467,9 +478,7 @@ export default function FreeAgentsPage() {
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-                <span className="font-semibold text-slate-700">
-                  Wave {freeAgencyWave}
-                </span>
+                <span className="font-semibold text-slate-700">Wave {freeAgencyWave}</span>
                 <span>
                   {freeAgencyWave === 1
                     ? 'Tampering Window'
@@ -492,6 +501,7 @@ export default function FreeAgentsPage() {
         onOfferPlayer={handleOfferPlayer}
         onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'freeAgent', player })}
       />
+      <FrontOfficeSupportingPanels mode="free-agency" />
       <PlayerDetailsModal
         isOpen={Boolean(activePlayerDetails)}
         source={activePlayerDetails}

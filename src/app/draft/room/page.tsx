@@ -3,8 +3,11 @@
 import * as React from 'react';
 import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { ArrowDownUp, Search, Settings, Target } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
+import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
+import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
 import { DraftTrackerRibbon } from '@/components/draft/draft-tracker-ribbon';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftRecapModal } from '@/components/draft/draft-recap-modal';
@@ -17,7 +20,6 @@ import { useToast } from '@/components/ui/toast';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
 import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
-import { getRouteForStep, isStepUnlocked } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { rankDraftBoard } from '@/lib/draft-board';
@@ -29,6 +31,7 @@ import {
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildFalcoBoard } from '@/lib/falco';
 import { apiFetch } from '@/lib/api';
+import { isDraftWorkflowAvailable } from '@/lib/front-office-phase';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
 import type { DraftMode, DraftSessionDTO } from '@/types/draft';
@@ -172,12 +175,6 @@ function DraftRoomContent() {
   React.useEffect(() => {
     return () => setIsUserOnClock(false);
   }, [setIsUserOnClock]);
-
-  React.useEffect(() => {
-    if (modeExperience === 'full' && !isStepUnlocked('draft', currentStep)) {
-      router.replace(getRouteForStep(currentStep));
-    }
-  }, [modeExperience, currentStep, router]);
 
   React.useEffect(() => {
     if (modeExperience !== 'full') return;
@@ -852,6 +849,21 @@ function DraftRoomContent() {
 
   return (
     <AppShell>
+      <FrontOfficePageHeader
+        title="Draft"
+        strapline="Build today. A stronger tomorrow."
+        description={
+          phase === 'draft'
+            ? 'The Draft Room is active. Work your board and make the picks that shape the franchise.'
+            : 'Scout prospects, build your big board, and prepare for the next NFL Draft.'
+        }
+        tools={[
+          { label: 'Advanced Search', icon: Search },
+          { label: 'My Big Board', href: '/draft/big-board', icon: Target },
+          { label: 'Trade Up / Down', icon: ArrowDownUp, disabled: phase !== 'draft' },
+          { label: 'Draft Settings', icon: Settings, onClick: () => setShowSettings(true) },
+        ]}
+      />
       <PickAnnouncement
         open={pickAnnouncementOpen}
         team={userTeam}
@@ -895,7 +907,7 @@ function DraftRoomContent() {
                   showSettings,
                   hasStarted: false,
                   isBusy: draftControlBusy,
-                  canStartDraft: !isDraftSetupOpen,
+                  canStartDraft: isDraftWorkflowAvailable(phase) && !isDraftSetupOpen,
                   onSpeedChange: setSpeedLevel,
                   onTogglePause: togglePause,
                   onStartDraft: () => {
@@ -978,6 +990,7 @@ function DraftRoomContent() {
         </div>
       </div>
 
+      <FrontOfficeSupportingPanels mode="draft" />
       <ProspectDetailsModal
         open={isLobbyProspectModalOpen}
         player={selectedLobbyPlayer}
@@ -990,7 +1003,7 @@ function DraftRoomContent() {
         onSelectPlayer={setSelectedLobbyPlayerId}
         onClose={() => setIsLobbyProspectModalOpen(false)}
       />
-      {!session && isDraftSetupOpen ? (
+      {!session && isDraftWorkflowAvailable(phase) && isDraftSetupOpen ? (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 px-4 py-6 sm:items-center">
           <div className="w-full max-w-xl rounded-3xl bg-white p-5 shadow-2xl sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
@@ -1034,8 +1047,6 @@ function DraftRoomContent() {
                     .join(' · ')}
                 </p>
               </div>
-
-
             </div>
 
             <div className="mt-6 flex justify-end">

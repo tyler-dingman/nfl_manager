@@ -7,7 +7,6 @@ import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowDownRight,
   ArrowLeftRight,
-  ArrowRight,
   ArrowUp,
   ClipboardList,
   FileText,
@@ -25,19 +24,21 @@ import {
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { TeamNeeds } from '@/components/team-needs';
+import { FrontOfficePhaseControl } from '@/components/front-office/front-office-phase-control';
 import { PhaseStepper } from '@/components/phase-stepper';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
 import { AdSlot } from '@/components/ads/AdSlot';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
-import {
-  getRouteForStep,
-  getStepForPath,
-  isStepUnlocked,
-} from '@/features/experience/experience-utils';
+import { getStepForPath } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
+import {
+  FRONT_OFFICE_ROUTES,
+  isFrontOfficeRouteActive,
+  type FrontOfficeNavItem,
+} from '@/lib/front-office-navigation';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
 import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
@@ -50,19 +51,8 @@ import {
 } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
 
-const navRoutes = {
-  Overview: '/experience',
-  Roster: '/roster?view=roster',
-  Contracts: '/roster?view=contracts',
-  'Cap Space': '/cap-space',
-  'Depth Chart': '/roster?view=depth',
-  'Re-sign/Cut Players': '/roster?view=resign',
-  'Trade Hub': '/manage/trades',
-  'Free Agency': '/free-agents',
-  'Draft Board': '/draft/room?mode=mock',
-} as const;
-
-type NavItem = keyof typeof navRoutes;
+const navRoutes = FRONT_OFFICE_ROUTES;
+type NavItem = FrontOfficeNavItem;
 
 const navIcons: Record<NavItem, LucideIcon> = {
   Overview: Home,
@@ -155,7 +145,6 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   const phase = useSaveStore((state) => state.phase);
   const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const freeAgencyWave = useSaveStore((state) => state.freeAgencyWave);
-  const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const mode = useExperienceStore((state) => state.mode);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
@@ -260,17 +249,6 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
 
   const showOnTheClock = Boolean(isUserOnClock && pathname?.startsWith('/draft'));
 
-  const lockedRoutes = useMemo(() => {
-    const locked = new Set<NavItem>();
-    if (!unlocked.freeAgency || phase === 'draft' || phase === 'season') {
-      locked.add('Free Agency');
-    }
-    if (!unlocked.draft) {
-      locked.add('Draft Board');
-    }
-    return locked;
-  }, [phase, unlocked.draft, unlocked.freeAgency]);
-
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
 
   useEffect(() => {
@@ -325,31 +303,6 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
         : liveTrajectory.state === 'Declining'
           ? 'text-orange-600'
           : 'text-red-600';
-  useEffect(() => {
-    if (!pathname) return;
-    if (mode === 'full') {
-      const requestedStep = getStepForPath(pathname);
-      if (!requestedStep) return;
-      if (!isStepUnlocked(requestedStep, currentStep)) {
-        router.replace(getRouteForStep(currentStep));
-      }
-      return;
-    }
-
-    if (currentStep === 'manage') {
-      if (pathname.startsWith('/free-agents') || pathname.startsWith('/draft')) {
-        router.replace('/roster');
-      }
-      return;
-    }
-    if (currentStep === 'free-agency') {
-      if (pathname.startsWith('/draft')) {
-        router.replace('/free-agents');
-      }
-      return;
-    }
-  }, [pathname, router, mode, currentStep]);
-
   useEffect(() => {
     if (storedTeamAbbr) {
       const matchingTeam = teams.find((team) => team.abbr === storedTeamAbbr);
@@ -410,25 +363,8 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
     pathname === '/season-recap' ||
     pathname?.startsWith('/season-recap/');
 
-  const phaseLabel =
-    phase === 'resign_cut'
-      ? 'Re-signing period'
-      : phase === 'free_agency'
-        ? `Free agency · Wave ${freeAgencyWave}`
-        : phase === 'draft'
-          ? 'NFL Draft'
-          : 'Preseason';
-
   const isNavItemActive = (href: string) => {
-    const [hrefPath, hrefQuery] = href.split('?');
-    return (
-      pathname === hrefPath &&
-      (!hrefQuery ||
-        hrefQuery.split('&').every((entry) => {
-          const [key, value] = entry.split('=');
-          return searchParams?.get(key) === value;
-        }))
-    );
+    return isFrontOfficeRouteActive(href, pathname ?? '', searchParams ?? new URLSearchParams());
   };
 
   return (
@@ -449,15 +385,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
               {(Object.keys(navRoutes) as NavItem[]).map((item) => {
                 const href = navRoutes[item];
                 const active = isNavItemActive(href);
-                return lockedRoutes.has(item) ? (
-                  <span
-                    key={item}
-                    className="front-office-top-link is-locked"
-                    title="Locked until the next phase"
-                  >
-                    {item}
-                  </span>
-                ) : (
+                return (
                   <Link
                     key={item}
                     href={href}
@@ -524,19 +452,6 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
                       const href = navRoutes[item];
                       const isActive = isNavItemActive(href);
                       const Icon = navIcons[item];
-                      if (lockedRoutes.has(item)) {
-                        return (
-                          <span
-                            key={item}
-                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground/70 opacity-70"
-                            title="Locked until the next phase"
-                          >
-                            <Icon className="h-4 w-4 text-muted-foreground/70" />
-                            <span>{item}</span>
-                          </span>
-                        );
-                      }
-
                       return (
                         <Link
                           key={item}
@@ -647,6 +562,13 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
                 </div>
+                <div className="md:hidden">
+                  <FrontOfficePhaseControl
+                    season={franchiseYear}
+                    phase={phase}
+                    freeAgencyWave={freeAgencyWave}
+                  />
+                </div>
                 <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
                   <div className="flex min-w-0 items-center gap-3">
                     <Link
@@ -722,30 +644,11 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
                       </span>
                     ) : null}
                   </div>
-                  <div className="front-office-command-status">
-                    <div>
-                      <span>Season</span>
-                      <strong>{franchiseYear}</strong>
-                    </div>
-                    <div>
-                      <span>Current phase</span>
-                      <strong>{phaseLabel}</strong>
-                    </div>
-                    <Link
-                      href={
-                        phase === 'resign_cut'
-                          ? '/roster?view=resign'
-                          : phase === 'free_agency'
-                            ? '/free-agents'
-                            : phase === 'draft'
-                              ? '/draft/room?mode=mock'
-                              : '/experience'
-                      }
-                      className="front-office-advance-button"
-                    >
-                      Continue phase <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
+                  <FrontOfficePhaseControl
+                    season={franchiseYear}
+                    phase={phase}
+                    freeAgencyWave={freeAgencyWave}
+                  />
                 </div>
               </div>
             </header>

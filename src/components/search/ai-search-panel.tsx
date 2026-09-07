@@ -47,13 +47,12 @@ export default function AiSearchPanel({
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const stopTimerRef = useRef<number | null>(null);
-  const nicknamePhrase = teamId === 'KC' ? 'Mahomes' : `the ${nickname}`;
   const suggestions = [
     'Catch me up today',
-    `What did ${nicknamePhrase} say?`,
-    'Best film this week',
     'Injury updates',
+    'Latest roster moves',
     'Rookie impact',
+    'Playoff outlook',
   ];
   const placeholders = [
     `When do the ${nickname} play next?`,

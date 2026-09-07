@@ -2,9 +2,19 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowLeftRight, ArrowUpDown, Handshake, MoreHorizontal, Users } from 'lucide-react';
+import {
+  ArrowLeftRight,
+  ArrowUpDown,
+  Handshake,
+  MoreHorizontal,
+  Scissors,
+  UserPlus,
+  Users,
+} from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
+import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
+import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
 import CutPlayerModal from '@/components/cut-player-modal';
 import OnboardingModal from '@/components/onboarding/OnboardingModal';
 import PlayerDetailsModal from '@/components/player-details-modal';
@@ -933,6 +943,18 @@ function RosterPageContent() {
 
   return (
     <AppShell>
+      <FrontOfficePageHeader
+        title="Roster"
+        strapline="Every player. Every position. Every possibility."
+        description="Review personnel, contracts, depth, and the decisions shaping your team."
+        tools={[
+          { label: 'Re-sign Players', href: '/roster?view=resign', icon: Handshake },
+          { label: 'Add Free Agent', href: '/free-agents', icon: UserPlus },
+          { label: 'Trade Finder', href: '/manage/trades', icon: ArrowLeftRight },
+          { label: 'Cut Players', href: '/roster?view=roster', icon: Scissors },
+          { label: 'Manage Practice Squad', icon: Users, disabled: true },
+        ]}
+      />
       {phase === 'resign_cut' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -1287,6 +1309,7 @@ function RosterPageContent() {
           onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'roster', player })}
         />
       )}
+      <FrontOfficeSupportingPanels mode="roster" />
       <PlayerDetailsModal
         isOpen={Boolean(activePlayerDetails)}
         source={activePlayerDetails}

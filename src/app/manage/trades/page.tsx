@@ -5,9 +5,11 @@ import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
-import { ArrowLeft, ChevronDown } from 'lucide-react';
+import { ArrowLeft, ArrowLeftRight, ChevronDown, Search, Users } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
+import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
+import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { StepHeader } from '@/components/offseason/step-header';
@@ -942,6 +944,16 @@ function TradeBuilderContent() {
           onSkip={handleSkip}
         />
       ) : null}
+      <FrontOfficePageHeader
+        title="Trade Hub"
+        strapline="Find value. Make a move."
+        description="Explore trade opportunities, build offers, and measure roster and cap impact."
+        tools={[
+          { label: 'Your Team', href: '/roster?view=roster', icon: Users },
+          { label: 'Trade Finder', icon: Search, onClick: () => setActiveModalSide('receive') },
+          { label: 'Clear Trade', icon: ArrowLeftRight, disabled: true },
+        ]}
+      />
       <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -1147,6 +1159,7 @@ function TradeBuilderContent() {
         </div>
       </div>
 
+      <FrontOfficeSupportingPanels mode="trade" />
       <TradeAssetPickerModal
         isOpen={activeModalSide !== null && activeSlotIndex !== null}
         title={activeModalSide === 'send' ? 'Add to Your Offer' : 'Add to Their Offer'}
