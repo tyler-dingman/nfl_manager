@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import AppProviders from '@/components/app-providers';
+import SiteFooter from '@/components/site-footer';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -41,7 +42,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#FF3D38" />
       </head>
       <body className="min-h-screen overflow-x-hidden bg-background text-foreground antialiased">
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          {children}
+          <SiteFooter />
+        </AppProviders>
       </body>
     </html>
   );

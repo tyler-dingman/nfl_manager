@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ExternalLink, Play, SlidersHorizontal } from 'lucide-react';
 
 import { FILM_ROOM_CATEGORIES } from '@/config/film-room';
@@ -40,7 +40,7 @@ function relativeDate(value: string | null) {
   );
 }
 
-function FilmRoomCard({
+export function FilmRoomCard({
   video,
   sequence,
   onPlay,
@@ -124,7 +124,7 @@ function FilmRoomCard({
           <ShareToCrewButton
             contentId={video.id}
             contentType="FILM_ROOM"
-            href={`/film-room?video=${video.id}`}
+            href={`/watch?video=${encodeURIComponent(video.id)}`}
             title={video.title}
             className="flex min-h-10 items-center justify-center px-2 text-center text-[10px] font-black"
           />
@@ -155,6 +155,7 @@ export default function FilmRoomGrid({
   const [sort, setSort] = useState<Sort>('newest');
   const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);
   const [playTrigger, setPlayTrigger] = useState<HTMLButtonElement | null>(null);
+  const routeVideoOpened = useRef(false);
 
   const openVideo = useCallback((video: FilmRoomVideo, trigger: HTMLButtonElement) => {
     setPlayTrigger(trigger);
@@ -162,6 +163,16 @@ export default function FilmRoomGrid({
   }, []);
 
   const closeVideo = useCallback(() => setSelectedVideo(null), []);
+
+  useEffect(() => {
+    const requestedVideoId = new URLSearchParams(window.location.search).get('video');
+    if (!requestedVideoId || routeVideoOpened.current || !data?.videos.length) return;
+    const requestedVideo = data.videos.find((video) => video.id === requestedVideoId);
+    if (requestedVideo) {
+      routeVideoOpened.current = true;
+      setSelectedVideo(requestedVideo);
+    }
+  }, [data?.videos]);
 
   useEffect(() => {
     const controller = new AbortController();

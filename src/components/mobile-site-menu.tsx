@@ -131,7 +131,7 @@ export default function MobileSiteMenu({
                 ))}
               </nav>
             </section>
-            <div className="mt-auto">
+            <div className={user ? 'mt-auto' : ''}>
               <section className="border-t border-white/10 py-5">
                 <h2 className="text-[10px] font-black uppercase tracking-[.24em] text-white/45">
                   Your team

@@ -1,4 +1,8 @@
 export const GAME_DAY_HERO_ASSETS: Partial<Record<string, string>> = {
+  ATL: '/images/gameday/stadium/atl/gameday.png',
+  BAL: '/images/gameday/stadium/bal/gameday.png',
+  CAR: '/images/gameday/stadium/car/gameday.png',
+  CHI: '/images/gameday/stadium/chi/gameday.png',
   KC: '/images/gameday/stadium/kc/gameday.png',
 };
 

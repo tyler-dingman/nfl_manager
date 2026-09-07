@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, Pause, Play, RotateCcw } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import type { CatchUpResponse } from '@/features/catch-up/types';
 import {
@@ -15,7 +15,13 @@ import {
   type ThreeOutTtsProvider,
 } from '@/features/three-and-out/tts-provider';
 
-export default function ThreeOutAudioCard({ data }: { data: CatchUpResponse }) {
+export default function ThreeOutAudioCard({
+  data,
+  autoPlay = false,
+}: {
+  data: CatchUpResponse;
+  autoPlay?: boolean;
+}) {
   const narration = useMemo(
     () => buildThreeOutNarration(data.teamId, data.teamName, data.items),
     [data.currentSnapshotId, data.items, data.teamId, data.teamName],
@@ -34,6 +40,7 @@ export default function ThreeOutAudioCard({ data }: { data: CatchUpResponse }) {
     [audioSegments],
   );
   const [playback, setPlayback] = useState<ThreeOutPlayback>({ status: 'IDLE', activeIndex: 0 });
+  const autoPlayStarted = useRef(false);
 
   useEffect(() => {
     if (!narration) {
@@ -74,39 +81,52 @@ export default function ThreeOutAudioCard({ data }: { data: CatchUpResponse }) {
     return () => controller.abort();
   }, [narration]);
 
-  const speak = (index: 0 | 1 | 2) => {
-    if (!narration || !provider.available) {
-      setPlayback({ status: 'ERROR', activeIndex: null });
-      return;
-    }
-    setPlayback({ status: 'PLAYING', activeIndex: index });
-    provider.speak(
-      {
-        text: narration.segments[index].script,
-        audioUrl: recordedPoc ? audioSegments?.[0]?.audioUrl : audioSegments?.[index]?.audioUrl,
-        sectionStartTimes: recordedPoc ? audioSegments?.[0]?.sectionStartTimes : undefined,
-      },
-      {
-        onEnd: () => {
-          if (recordedPoc) {
-            setPlayback({ status: 'COMPLETE', activeIndex: null });
-            return;
-          }
-          const next = nextThreeOutPlayback(index);
-          setPlayback(next);
-          if (next.status === 'PLAYING') speak(next.activeIndex);
-        },
-        onError: () => setPlayback({ status: 'ERROR', activeIndex: null }),
-        onProgressIndex: recordedPoc
-          ? (activeIndex) =>
-              setPlayback((current) => ({
-                status: current.status === 'PAUSED' ? 'PAUSED' : 'PLAYING',
-                activeIndex,
-              }))
-          : undefined,
-      },
-    );
-  };
+  const speak = useCallback(
+    (startIndex: 0 | 1 | 2) => {
+      if (!narration || !provider.available) {
+        setPlayback({ status: 'ERROR', activeIndex: null });
+        return;
+      }
+      const playIndex = (index: 0 | 1 | 2) => {
+        setPlayback({ status: 'PLAYING', activeIndex: index });
+        provider.speak(
+          {
+            text: narration.segments[index].script,
+            audioUrl: recordedPoc ? audioSegments?.[0]?.audioUrl : audioSegments?.[index]?.audioUrl,
+            sectionStartTimes: recordedPoc ? audioSegments?.[0]?.sectionStartTimes : undefined,
+          },
+          {
+            onEnd: () => {
+              if (recordedPoc) {
+                setPlayback({ status: 'COMPLETE', activeIndex: null });
+                return;
+              }
+              const next = nextThreeOutPlayback(index);
+              setPlayback(next);
+              if (next.status === 'PLAYING') playIndex(next.activeIndex);
+            },
+            onError: () => setPlayback({ status: 'ERROR', activeIndex: null }),
+            onProgressIndex: recordedPoc
+              ? (activeIndex) =>
+                  setPlayback((current) => ({
+                    status: current.status === 'PAUSED' ? 'PAUSED' : 'PLAYING',
+                    activeIndex,
+                  }))
+              : undefined,
+          },
+        );
+      };
+      playIndex(startIndex);
+    },
+    [audioSegments, narration, provider, recordedPoc],
+  );
+
+  useEffect(() => {
+    if (!autoPlay || building || !narration || autoPlayStarted.current) return;
+    autoPlayStarted.current = true;
+    provider.cancel();
+    speak(0);
+  }, [autoPlay, building, narration, provider, speak]);
 
   useEffect(() => () => provider.cancel(), [provider]);
   if (!narration) return null;

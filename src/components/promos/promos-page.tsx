@@ -119,15 +119,9 @@ export default function PromosPage() {
             </div>
           </section>
         </main>
-        <footer className="bg-[#00172B] px-4 py-12 text-white sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1200px]">
-            <p className="max-w-4xl text-xs leading-5 text-white/45">{disclaimer}</p>
-            <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-6 text-sm font-bold text-white/60 sm:flex-row sm:items-center sm:justify-between">
-              <span>Down &amp; Distance · Partnership Concepts</span>
-              <span>Confidential demonstration · 2026</span>
-            </div>
-          </div>
-        </footer>
+        <aside className="bg-[#00172B] px-4 py-8 text-white sm:px-6 lg:px-8">
+          <p className="mx-auto max-w-[1200px] text-xs leading-5 text-white/45">{disclaimer}</p>
+        </aside>
       </div>
     </TeamThemeProvider>
   );

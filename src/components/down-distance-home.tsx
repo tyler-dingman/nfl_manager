@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
@@ -28,8 +29,9 @@ import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fa
 import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import { useTeamStore, type Team } from '@/features/team/team-store';
 import { useAuthUser } from '@/features/auth/auth-session';
-import DailyTriviaWidget from '@/components/trivia/daily-trivia-widget';
 import CatchUpCallout from '@/components/catch-up/catch-up-callout';
+import { FilmRoomCard } from '@/components/film-room/film-room-grid';
+import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';
 import PlaybookHero from '@/components/home/playbook-hero';
 import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';
 import HuddleStoryCard from '@/components/huddle/huddle-story-card';
@@ -40,16 +42,7 @@ import AiSearchPanel from '@/components/search/ai-search-panel';
 import { gameDayHeroAsset } from '@/config/game-day-hero';
 import type { HomepageGame } from '@/features/game-day/homepage-game';
 import NotificationCenter from '@/components/notifications/notification-center';
-
-const watchItems = [
-  {
-    type: 'Press conference',
-    title: 'Coach addresses the biggest questions from practice',
-    time: '8:42',
-  },
-  { type: 'Film room', title: 'Why this new wrinkle could unlock the offense', time: '14:18' },
-  { type: 'Local podcast', title: 'What reporters are hearing inside the building', time: '32:05' },
-];
+import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';
 
 const fallbackWireItems = [
   { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },
@@ -126,6 +119,7 @@ function TeamGateway({
 }
 
 export default function DownDistanceHome() {
+  const router = useRouter();
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
@@ -139,6 +133,10 @@ export default function DownDistanceHome() {
     Array<{ id: string; headline: string; occurredAt: string }>
   >([]);
   const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);
+  const [filmRoomData, setFilmRoomData] = useState<FilmRoomResponse | null>(null);
+  const [filmRoomLoading, setFilmRoomLoading] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);
+  const [videoTrigger, setVideoTrigger] = useState<HTMLButtonElement | null>(null);
   const { user } = useAuthUser();
   const [personalization, setPersonalization] = useState<{
     primaryTeam?: { teamId?: string } | null;
@@ -204,6 +202,35 @@ export default function DownDistanceHome() {
 
   useEffect(() => {
     const controller = new AbortController();
+    setFilmRoomData(null);
+    setFilmRoomLoading(teamAbbr !== 'NFL');
+    if (teamAbbr === 'NFL') return () => controller.abort();
+    void fetch(`/api/film-room?team=${encodeURIComponent(teamAbbr)}`, {
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`Film Room request failed: ${response.status}`);
+        setFilmRoomData((await response.json()) as FilmRoomResponse);
+      })
+      .catch((error: unknown) => {
+        if (!(error instanceof DOMException && error.name === 'AbortError')) {
+          setFilmRoomData({
+            teamId: teamAbbr,
+            videos: [],
+            unavailableVideoIds: [],
+            configured: true,
+            message: 'Film Room is temporarily unavailable. Please try again soon.',
+          });
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setFilmRoomLoading(false);
+      });
+    return () => controller.abort();
+  }, [teamAbbr]);
+
+  useEffect(() => {
+    const controller = new AbortController();
     setHomepageGame(null);
     if (!activeTeam || !gameDayHeroAsset(activeTeam.abbr)) return () => controller.abort();
     const params = new URLSearchParams({ team: activeTeam.abbr });
@@ -262,32 +289,44 @@ export default function DownDistanceHome() {
   );
   const displayedWireItems = wireEntries.length
     ? wireEntries.map((entry) => ({
+        id: entry.id,
         time: new Date(entry.occurredAt).toLocaleTimeString([], {
           hour: 'numeric',
           minute: '2-digit',
         }),
         text: entry.headline,
       }))
-    : fallbackWireItems;
+    : fallbackWireItems.map((item) => ({ ...item, id: null }));
+  const latestFilmRoomVideos = useMemo(
+    () =>
+      [...(filmRoomData?.videos ?? [])]
+        .sort(
+          (left, right) =>
+            new Date(right.publishedAt ?? right.addedAt).getTime() -
+            new Date(left.publishedAt ?? left.addedAt).getTime(),
+        )
+        .slice(0, 3),
+    [filmRoomData?.videos],
+  );
   const searchItems = useMemo(
     () => [
       ...huddleCards.map((item) => ({
         category: 'The Beat',
         title: item.title,
         description: item.summary,
-        href: '#huddle',
+        href: `/content/${encodeURIComponent(item.id)}`,
       })),
-      ...watchItems.map((item) => ({
+      ...latestFilmRoomVideos.map((item) => ({
         category: 'Film Room',
         title: item.title,
-        description: `${item.type} · ${item.time}`,
-        href: '#watch',
+        description: `${item.channel.name} · ${item.duration}`,
+        href: `/watch?team=${encodeURIComponent(teamAbbr)}&video=${encodeURIComponent(item.id)}`,
       })),
       ...displayedWireItems.map((item) => ({
         category: 'The Wire',
         title: item.text,
         description: item.time,
-        href: '#wire',
+        href: item.id ? `/content/${encodeURIComponent(item.id)}` : '/wire',
       })),
       {
         category: 'Fan Discussion',
@@ -302,7 +341,7 @@ export default function DownDistanceHome() {
         href: getOffseasonManagerRoute('', activeTeam?.abbr),
       },
     ],
-    [activeTeam?.abbr, displayedWireItems, huddleCards, teamName],
+    [activeTeam?.abbr, displayedWireItems, huddleCards, latestFilmRoomVideos, teamAbbr, teamName],
   );
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
   const searchResults = normalizedSearchQuery
@@ -349,6 +388,12 @@ export default function DownDistanceHome() {
                   onChange={(event) => setSearchQuery(event.target.value)}
                   onKeyDown={(event) => {
                     if (event.key === 'Escape') setIsSearchOpen(false);
+                    if (event.key === 'Enter' && searchResults[0]) {
+                      event.preventDefault();
+                      setIsSearchOpen(false);
+                      setSearchQuery('');
+                      router.push(searchResults[0].href);
+                    }
                   }}
                   placeholder={`Search ${teamName} stories, videos, roster info...`}
                   className="h-16 min-w-0 flex-1 bg-transparent text-base font-semibold outline-none placeholder:text-slate-400"
@@ -522,7 +567,7 @@ export default function DownDistanceHome() {
             </div>
             <aside className="space-y-6">
               <Link
-                href={`/catch-up${teamRouteSuffix}`}
+                href={`/catch-up?team=${encodeURIComponent(teamAbbr)}&autoplay=1`}
                 className="group block overflow-hidden rounded-2xl border border-[#00172B]/10 bg-white text-[#00172B] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 aria-label={`Open the ${teamName} Three and Out audio rundown`}
               >
@@ -596,10 +641,6 @@ export default function DownDistanceHome() {
             </aside>
           </section>
 
-          <section className="mt-10">
-            <DailyTriviaWidget teamId={teamAbbr} />
-          </section>
-
           <section id="watch" className="mt-10 rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
             <div className="mb-6 flex items-end justify-between">
               <div>
@@ -613,27 +654,33 @@ export default function DownDistanceHome() {
               </Link>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              {watchItems.map((item, index) => (
-                <article key={item.title} className="group overflow-hidden rounded-2xl bg-white/5">
-                  <div className="relative flex aspect-video items-center justify-center overflow-hidden bg-gradient-to-br from-[var(--primary)] to-[var(--dark)]">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-slate-950 shadow-lg transition group-hover:scale-105">
-                      <Play className="ml-0.5 h-5 w-5 fill-current" />
-                    </span>
-                    <span className="absolute bottom-3 right-3 rounded bg-black/75 px-2 py-1 text-xs font-bold">
-                      {item.time}
-                    </span>
-                    <span className="absolute left-3 top-3 text-6xl font-black text-white/5">
-                      0{index + 1}
-                    </span>
-                  </div>
-                  <div className="p-5">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--team-secondary-on-dark)]">
-                      {item.type}
-                    </p>
-                    <h3 className="mt-2 font-bold leading-6">{item.title}</h3>
-                  </div>
-                </article>
+              {latestFilmRoomVideos.map((video, index) => (
+                <FilmRoomCard
+                  key={video.id}
+                  video={video}
+                  sequence={index + 1}
+                  onPlay={(nextVideo, trigger) => {
+                    setVideoTrigger(trigger);
+                    setSelectedVideo(nextVideo);
+                  }}
+                />
               ))}
+              {filmRoomLoading
+                ? Array.from({ length: 3 }, (_, index) => (
+                    <div key={index} className="overflow-hidden rounded-xl bg-white">
+                      <div className="aspect-video animate-pulse bg-slate-700" />
+                      <div className="space-y-3 p-5">
+                        <div className="h-5 animate-pulse rounded bg-slate-200" />
+                        <div className="h-5 w-3/4 animate-pulse rounded bg-slate-200" />
+                      </div>
+                    </div>
+                  ))
+                : null}
+              {!filmRoomLoading && !latestFilmRoomVideos.length ? (
+                <p className="rounded-2xl border border-dashed border-white/20 p-6 text-sm font-semibold text-white/70 md:col-span-3">
+                  {filmRoomData?.message ?? `No curated ${teamName} videos are available yet.`}
+                </p>
+              ) : null}
             </div>
           </section>
 
@@ -710,17 +757,14 @@ export default function DownDistanceHome() {
           </section>
         </main>
 
-        <footer className="mt-12 border-t border-slate-200 bg-white">
-          <div className="mx-auto flex max-w-[1440px] flex-col gap-4 px-4 py-8 text-sm text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-            <p className="font-semibold">Down & Distance · Keep it high and tight.</p>
-            <div className="flex gap-5 font-semibold">
-              <span>About</span>
-              <span>Sources</span>
-              <span>Privacy</span>
-              <span>Terms</span>
-            </div>
-          </div>
-        </footer>
+        {selectedVideo ? (
+          <FilmRoomVideoModal
+            video={selectedVideo}
+            teamAbbr={teamAbbr}
+            onClose={() => setSelectedVideo(null)}
+            returnFocusTo={videoTrigger}
+          />
+        ) : null}
       </div>
     </TeamThemeProvider>
   );

@@ -17,6 +17,7 @@ export default function CatchUpExperience() {
   const teams = useTeamStore((state) => state.teams);
   const requestedTeam = searchParams?.get('team')?.toUpperCase();
   const demoMode = searchParams?.get('demo');
+  const autoplayThreeOut = searchParams?.get('autoplay') === '1';
   const [persistedTeam, setPersistedTeam] = useState<string | null>(null);
   const [data, setData] = useState<CatchUpResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -134,7 +135,7 @@ export default function CatchUpExperience() {
           {!loading && data?.items.length ? (
             <div className="mt-8 space-y-5">
               {process.env.NEXT_PUBLIC_THREE_OUT_AUDIO_ENABLED !== 'false' ? (
-                <ThreeOutAudioCard data={data} />
+                <ThreeOutAudioCard data={data} autoPlay={autoplayThreeOut} />
               ) : null}
               {data.items.map((item) => (
                 <article key={item.id} className="overflow-hidden rounded-3xl bg-white shadow-sm">

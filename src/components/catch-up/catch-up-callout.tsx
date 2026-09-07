@@ -74,7 +74,7 @@ export default function CatchUpCallout({ teamId }: { teamId: string }) {
         </div>
         <Link
           href={href}
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[var(--secondary)] px-6 text-sm font-black text-[var(--team-on-secondary)] transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-full border-2 border-[var(--secondary)] bg-transparent px-6 text-sm font-black text-[var(--team-secondary-on-dark)] transition hover:-translate-y-0.5 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:border-0 sm:bg-[var(--secondary)] sm:text-[var(--team-on-secondary)] sm:hover:bg-[var(--secondary)]"
         >
           Catch me up <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>

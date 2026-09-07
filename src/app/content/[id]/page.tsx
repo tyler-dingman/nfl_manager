@@ -263,9 +263,6 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
             </div>
           </article>
         </main>
-        <footer className="border-t bg-white px-4 py-8 text-center text-sm text-slate-500">
-          Down &amp; Distance curates reporting with clear attribution to original sources.
-        </footer>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structured).replace(/</g, '\\u003c') }}
