@@ -4,7 +4,7 @@ import { MONITORING_THRESHOLDS } from '@/features/monitoring/config';
 import { evaluateObserverNotification } from '@/features/monitoring/notification-policy';
 import type { MonitoringTier, NotificationThresholds } from '@/features/monitoring/types';
 import { authDb } from '@/server/auth/database';
-import { getMonitoringSources } from '@/data/sources/monitoring';
+import { getAllMonitoringSources, getMonitoringSources } from '@/data/sources/monitoring';
 
 const tierFor = (pollingTier: string): MonitoringTier =>
   pollingTier === 'A' ? 1 : pollingTier === 'B' ? 2 : 3;
@@ -14,9 +14,8 @@ const observerPublisherKey = (source: { name: string }) =>
     .replace(/\s+(rss|web|x|youtube)$/i, '')
     .trim();
 
-export async function syncMonitoringRegistry(teamId: string) {
+async function syncSources(sources: ReturnType<typeof getMonitoringSources>) {
   const sql = authDb();
-  const sources = getMonitoringSources(teamId);
   for (const source of sources) {
     const rss = source.ingestionMethod === 'RSS_ATOM';
     const enabled = source.active && source.availability === 'LIVE' && rss;
@@ -25,6 +24,14 @@ export async function syncMonitoringRegistry(teamId: string) {
       ON CONFLICT(id) DO UPDATE SET name=excluded.name,url=excluded.url,feed_url=excluded.feed_url,polling_tier=excluded.polling_tier,priority=excluded.priority,reliability_score=excluded.reliability_score,check_interval_seconds=excluded.check_interval_seconds,enabled=excluded.enabled,metadata=excluded.metadata,updated_at=now()`;
   }
   return sources;
+}
+
+export async function syncMonitoringRegistry(teamId: string) {
+  return syncSources(getMonitoringSources(teamId));
+}
+
+export async function syncAllMonitoringRegistries() {
+  return syncSources(getAllMonitoringSources());
 }
 
 export async function startObserverRun(

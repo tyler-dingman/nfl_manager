@@ -40,6 +40,7 @@ const PUBLIC_PRELAUNCH_ROUTES = new Set([
   '/robots.txt',
   '/api/preview/access',
   '/api/automation/content',
+  '/api/automation/content/global',
   '/api/commerce/stripe/webhook',
 ]);
 
