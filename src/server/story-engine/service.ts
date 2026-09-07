@@ -208,7 +208,11 @@ export async function processSource(
   }
 }
 
-export async function workOne(workerId = `${hostname()}:${process.pid}`, teamId?: string) {
+export async function workOne(
+  workerId = `${hostname()}:${process.pid}`,
+  teamId?: string,
+  synthesizer?: StorySynthesizer,
+) {
   const job = await repo.claimJob(workerId, teamId);
   if (!job) return null;
   try {
@@ -217,7 +221,7 @@ export async function workOne(workerId = `${hostname()}:${process.pid}`, teamId?
       const source = await repo.sourceById(job.payload.sourceId);
       if (!source) throw new Error('Source not found.');
       result = await processSource(source, new RssSourceFetcher(), { teamId });
-    } else result = await processCandidate(job.payload.candidateId);
+    } else result = await processCandidate(job.payload.candidateId, synthesizer);
     await repo.finishJob(job.id);
     return { jobId: job.id, type: job.job_type, result };
   } catch (error) {
@@ -230,11 +234,16 @@ export async function workOne(workerId = `${hostname()}:${process.pid}`, teamId?
   }
 }
 
-export async function drainJobs(max = 100, teamId?: string, continueOnError = false) {
+export async function drainJobs(
+  max = 100,
+  teamId?: string,
+  continueOnError = false,
+  synthesizer?: StorySynthesizer,
+) {
   const results: any[] = [];
   for (let i = 0; i < max; i++) {
     try {
-      const result = await workOne(undefined, teamId);
+      const result = await workOne(undefined, teamId, synthesizer);
       if (!result) break;
       results.push(result);
     } catch (error) {

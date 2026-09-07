@@ -5,6 +5,7 @@ import { drainJobs, scheduleDueSources } from '@/server/story-engine/service';
 import { generationStopReason, evaluateTrialWindow } from '@/server/content-automation/trial';
 import { readTrialUsage, recordTrialRun } from '@/server/content-automation/repository';
 import { syncMonitoringRegistry } from '@/server/monitoring/observer';
+import { GroundedDeterministicStorySynthesizer } from '@/features/story-engine/synthesis';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -108,7 +109,12 @@ export async function POST(request: NextRequest) {
   // A single unavailable publisher must not prevent the remaining registered
   // sources from being checked during this scheduled batch. Drain previously
   // queued candidates even when no feed is due on this particular invocation.
-  const jobs = await drainJobs(Math.max(1, remaining), teamId, true);
+  const jobs = await drainJobs(
+    Math.max(1, remaining),
+    teamId,
+    true,
+    new GroundedDeterministicStorySynthesizer(),
+  );
   const generated = jobs.filter((job) =>
     ['created', 'updated', 'published'].includes(String((job as any).result?.action)),
   ).length;

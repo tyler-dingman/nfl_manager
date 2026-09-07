@@ -60,7 +60,7 @@ test('Vercel endpoint fails closed unless the trial is scoped to Kansas City', (
   assert.match(route, /requestedTeam !== teamId/);
   assert.match(route, /await syncMonitoringRegistry\(teamId\)/);
   assert.match(route, /scheduleDueSources\(new Date\(\), teamId, group\)/);
-  assert.match(route, /drainJobs\(Math\.max\(1, remaining\), teamId, true\)/);
+  assert.match(route, /new GroundedDeterministicStorySynthesizer\(\)/);
   assert.match(route, /scheduled\.queued === 0 && jobs\.length === 0/);
   assert.doesNotMatch(route, /scheduleDueSources\(new Date\(\), undefined, group\)/);
   assert.match(service, /!candidate\.candidateTeams\.includes\(options\.teamId\)/);
