@@ -899,12 +899,12 @@ body {
 
 /* Front Office asset-pack system: shared internal title, metrics, and tool tiles. */
 .dd-three-out-display {
-  font-family: inherit;
-  font-style: italic;
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
+  font-family: inherit !important;
+  font-style: italic !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.05em !important;
+  text-transform: uppercase !important;
 }
 .fo-page-header {
   display: grid;
