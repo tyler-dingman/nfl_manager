@@ -46,6 +46,7 @@ test('expiration guard occurs before database, source, AI, or generation work', 
   const guard = route.indexOf('if (!window.active)');
   assert.ok(guard > 0);
   assert.ok(route.indexOf('readTrialUsage', guard) > guard);
+  assert.ok(route.indexOf('syncMonitoringRegistry', guard) > guard);
   assert.ok(route.indexOf('scheduleDueSources', guard) > guard);
   assert.ok(route.indexOf('drainJobs', guard) > guard);
 });
@@ -57,6 +58,7 @@ test('Vercel endpoint fails closed unless the trial is scoped to Kansas City', (
   assert.match(route, /CONTENT_AUTOMATION_TEAM_ID/);
   assert.match(route, /teamId !== 'KC'/);
   assert.match(route, /requestedTeam !== teamId/);
+  assert.match(route, /await syncMonitoringRegistry\(teamId\)/);
   assert.match(route, /scheduleDueSources\(new Date\(\), teamId, group\)/);
   assert.match(route, /drainJobs\(Math\.max\(1, remaining\), teamId\)/);
   assert.doesNotMatch(route, /scheduleDueSources\(new Date\(\), undefined, group\)/);
