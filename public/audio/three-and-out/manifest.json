@@ -72,10 +72,14 @@
     "generatedAt": "2026-09-08T19:23:38.405Z"
   },
   "HOU": {
-    "cacheKey": "cba61c42723eb095f5643eb1c0f7afec",
-    "storyIds": ["hou-official-top-story", "hou-development-2", "hou-development-3"],
-    "durationsMs": [25200, 17320, 20280],
-    "generatedAt": "2026-09-08T19:26:04.711Z"
+    "cacheKey": "0ff618b40d683d5c6ce8c2ce1733a39a",
+    "storyIds": [
+      "168b5a36-d8e6-4d0c-beb7-db66f16dac1d",
+      "efd567f3-5c6d-477d-ab54-3a34c360be71",
+      "2ae8cf1b-ff08-47dd-9661-5ec8842b1228"
+    ],
+    "durationsMs": [16200, 40000, 18200],
+    "generatedAt": "2026-09-08T20:59:07.758Z"
   },
   "IND": {
     "cacheKey": "f5fb81f547a94d7bfab15861fab31c9a",

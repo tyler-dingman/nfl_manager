@@ -4,11 +4,6 @@ import path from 'node:path';
 
 import { TEAM_LIST } from '@/data/teams';
 import { buildThreeOutNarration } from '@/features/three-and-out/catch-up-audio';
-import { getThreeAndOutPackage } from '@/features/three-and-out/data';
-import {
-  generateChatterboxSegments,
-  threeOutAudioCacheKey,
-} from '@/server/three-and-out/chatterbox';
 
 type Manifest = Record<
   string,
@@ -27,10 +22,23 @@ const teams = TEAM_LIST.filter(
 );
 
 async function main() {
+  if (process.env.PRODUCTION_DATABASE_URL) {
+    process.env.DATABASE_URL = process.env.PRODUCTION_DATABASE_URL;
+    console.log('Using PRODUCTION_DATABASE_URL for canonical Three & Out stories.');
+  }
+  const [{ canonicalThreeAndOut }, { getThreeAndOutPackage }, chatterbox] = await Promise.all([
+    import('@/server/content/canonical-surfaces'),
+    import('@/features/three-and-out/data'),
+    import('@/server/three-and-out/chatterbox'),
+  ]);
+  const { generateChatterboxSegments, threeOutAudioCacheKey } = chatterbox;
   await mkdir(publicRoot, { recursive: true });
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8')) as Manifest;
   for (const [index, team] of teams.entries()) {
-    const snapshot = getThreeAndOutPackage(team.abbr).current;
+    const canonical = await canonicalThreeAndOut(team.abbr);
+    if (process.env.PRODUCTION_DATABASE_URL && !canonical)
+      throw new Error(`${team.abbr} does not have three canonical production stories.`);
+    const snapshot = canonical?.current ?? getThreeAndOutPackage(team.abbr).current;
     const items = snapshot.stories.map((story) => ({
       id: story.id,
       storyId: story.id,
