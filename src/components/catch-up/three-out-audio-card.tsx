@@ -14,17 +14,41 @@ import {
   CachedAudioThreeOutProvider,
   type ThreeOutTtsProvider,
 } from '@/features/three-and-out/tts-provider';
+import type { ThreeAndOutSnapshot } from '@/features/three-and-out/types';
 
 export default function ThreeOutAudioCard({
   data,
+  snapshot,
   autoPlay = false,
 }: {
   data: CatchUpResponse;
+  snapshot?: ThreeAndOutSnapshot | null;
   autoPlay?: boolean;
 }) {
+  const narrationItems = useMemo(
+    () =>
+      snapshot
+        ? snapshot.stories.map((story) => ({
+            id: story.id,
+            storyId: story.id,
+            teamId: snapshot.teamId,
+            type: 'NEW' as const,
+            headline: story.title,
+            summary: story.summary,
+            whatChanged: null,
+            whyItMatters: story.whyItMatters,
+            occurredAt: story.lastMaterialUpdateAt,
+            importanceScore: story.importanceScore,
+            sourceCount: story.sourceCount,
+            sources: story.sources,
+            currentStoryStatus: story.status,
+          }))
+        : data.items,
+    [data.items, snapshot],
+  );
   const narration = useMemo(
-    () => buildThreeOutNarration(data.teamId, data.teamName, data.items),
-    [data.currentSnapshotId, data.items, data.teamId, data.teamName],
+    () => buildThreeOutNarration(data.teamId, data.teamName, narrationItems),
+    [data.currentSnapshotId, data.teamId, data.teamName, narrationItems],
   );
   const [audioSegments, setAudioSegments] = useState<Array<{
     audioUrl: string;

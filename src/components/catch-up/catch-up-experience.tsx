@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from 'react';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import type { CatchUpResponse } from '@/features/catch-up/types';
+import type { ThreeAndOutPackage } from '@/features/three-and-out/types';
 import { readCanonicalFanTeamPreference } from '@/features/team/fan-team-preference';
 import { useTeamStore } from '@/features/team/team-store';
 import ThreeOutAudioCard from '@/components/catch-up/three-out-audio-card';
@@ -20,6 +21,9 @@ export default function CatchUpExperience() {
   const autoplayThreeOut = searchParams?.get('autoplay') === '1';
   const [persistedTeam, setPersistedTeam] = useState<string | null>(null);
   const [data, setData] = useState<CatchUpResponse | null>(null);
+  const [threeOutSnapshot, setThreeOutSnapshot] = useState<ThreeAndOutPackage['current'] | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [completing, setCompleting] = useState(false);
   const [completedAt, setCompletedAt] = useState<string | null>(null);
@@ -43,11 +47,29 @@ export default function CatchUpExperience() {
     setLoading(true);
     const query = new URLSearchParams({ team: teamId });
     if (demoMode) query.set('demo', demoMode);
-    void fetch(`/api/catch-up?${query}`, { cache: 'no-store', signal: controller.signal })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((body: { catchUp?: CatchUpResponse } | null) => setData(body?.catchUp ?? null))
+    void Promise.all([
+      fetch(`/api/catch-up?${query}`, { cache: 'no-store', signal: controller.signal }).then(
+        (response) => (response.ok ? response.json() : null),
+      ),
+      fetch(`/api/three-and-out?team=${encodeURIComponent(teamId)}`, {
+        cache: 'no-store',
+        signal: controller.signal,
+      }).then((response) => (response.ok ? response.json() : null)),
+    ])
+      .then(
+        ([catchUpBody, threeOutBody]: [
+          { catchUp?: CatchUpResponse } | null,
+          ThreeAndOutPackage | null,
+        ]) => {
+          setData(catchUpBody?.catchUp ?? null);
+          setThreeOutSnapshot(threeOutBody?.current ?? null);
+        },
+      )
       .catch((error: unknown) => {
-        if (!(error instanceof DOMException && error.name === 'AbortError')) setData(null);
+        if (!(error instanceof DOMException && error.name === 'AbortError')) {
+          setData(null);
+          setThreeOutSnapshot(null);
+        }
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
@@ -135,7 +157,11 @@ export default function CatchUpExperience() {
           {!loading && data?.items.length ? (
             <div className="mt-8 space-y-5">
               {process.env.NEXT_PUBLIC_THREE_OUT_AUDIO_ENABLED !== 'false' ? (
-                <ThreeOutAudioCard data={data} autoPlay={autoplayThreeOut} />
+                <ThreeOutAudioCard
+                  data={data}
+                  snapshot={threeOutSnapshot}
+                  autoPlay={autoplayThreeOut}
+                />
               ) : null}
               {data.items.map((item) => (
                 <article key={item.id} className="overflow-hidden rounded-3xl bg-white shadow-sm">
