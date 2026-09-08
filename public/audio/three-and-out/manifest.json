@@ -36,10 +36,14 @@
     "generatedAt": "2026-09-08T19:08:35.490Z"
   },
   "CIN": {
-    "cacheKey": "0e3e8d3d46ece668a5ca4edd12c0e9d3",
-    "storyIds": ["cin-official-top-story", "cin-development-2", "cin-development-3"],
-    "durationsMs": [25160, 19600, 22080],
-    "generatedAt": "2026-09-08T19:10:48.000Z"
+    "cacheKey": "a2b9d7f8f01c6580425e6b5850009b83",
+    "storyIds": [
+      "7fa4a792-6456-4648-83f1-296a87d9878f",
+      "2baabcf4-868b-4825-9903-c01fc5dd01fc",
+      "b9329dad-344e-4701-a0e3-a229c810343f"
+    ],
+    "durationsMs": [14120, 14920, 24160],
+    "generatedAt": "2026-09-08T21:10:45.525Z"
   },
   "CLE": {
     "cacheKey": "e8179415104f7d569f8668ddf35e4f9b",
