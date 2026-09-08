@@ -51,3 +51,10 @@ test('committed team audio is checked before the live Chatterbox provider gate',
   assert.notEqual(providerGate, -1);
   assert.ok(recordedAudioLookup < providerGate);
 });
+
+test('blocked autoplay falls back to an enabled manual play state', () => {
+  const component = readFileSync('src/components/catch-up/three-out-audio-card.tsx', 'utf8');
+
+  assert.match(component, /speak\(0, true\)/);
+  assert.match(component, /recoverFromBlockedAutoplay[\s\S]*status: 'IDLE'/);
+});

@@ -106,7 +106,7 @@ export default function ThreeOutAudioCard({
   }, [narration]);
 
   const speak = useCallback(
-    (startIndex: 0 | 1 | 2) => {
+    (startIndex: 0 | 1 | 2, recoverFromBlockedAutoplay = false) => {
       if (!narration || !provider.available) {
         setPlayback({ status: 'ERROR', activeIndex: null });
         return;
@@ -129,7 +129,12 @@ export default function ThreeOutAudioCard({
               setPlayback(next);
               if (next.status === 'PLAYING') playIndex(next.activeIndex);
             },
-            onError: () => setPlayback({ status: 'ERROR', activeIndex: null }),
+            onError: () =>
+              setPlayback(
+                recoverFromBlockedAutoplay
+                  ? { status: 'IDLE', activeIndex: 0 }
+                  : { status: 'ERROR', activeIndex: null },
+              ),
             onProgressIndex: recordedPoc
               ? (activeIndex) =>
                   setPlayback((current) => ({
@@ -149,7 +154,7 @@ export default function ThreeOutAudioCard({
     if (!autoPlay || building || !narration || autoPlayStarted.current) return;
     autoPlayStarted.current = true;
     provider.cancel();
-    speak(0);
+    speak(0, true);
   }, [autoPlay, building, narration, provider, speak]);
 
   useEffect(() => () => provider.cancel(), [provider]);
