@@ -1000,7 +1000,7 @@ body {
   width: 3.2rem;
   height: 3px;
   margin-top: 0.8rem;
-  background: #ef1838;
+  background: var(--team-secondary-on-dark);
 }
 .fo-overview-description {
   max-width: 42rem;

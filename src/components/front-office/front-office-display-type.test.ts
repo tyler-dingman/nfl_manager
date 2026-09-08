@@ -100,8 +100,11 @@ test('Office title accents use the brightest accessible team color', async () =>
   const css = await readFile('src/app/globals.css', 'utf8');
   const heroAccent = css.match(/\.fo-overview-copy h1 em\s*\{([^}]+)\}/)?.[1] ?? '';
   const navAccent = css.match(/\.front-office-wordmark strong\s*\{([^}]+)\}/)?.[1] ?? '';
+  const dividerAccent = css.match(/\.fo-overview-copy > div\s*\{([^}]+)\}/)?.[1] ?? '';
 
   assert.match(heroAccent, /color:\s*var\(--team-secondary-on-dark\)/);
   assert.match(navAccent, /color:\s*var\(--team-secondary-on-dark\)/);
+  assert.match(dividerAccent, /background:\s*var\(--team-secondary-on-dark\)/);
   assert.doesNotMatch(heroAccent, /#ffcc18/i);
+  assert.doesNotMatch(dividerAccent, /#ef1838/i);
 });
