@@ -424,9 +424,7 @@ function DrillHeader({
   return (
     <header className="drill-texture relative grid items-center gap-4 border-b border-white/30 px-4 py-4 lg:grid-cols-[minmax(360px,1.25fr)_180px_minmax(330px,.8fr)_150px] lg:px-8">
       <div>
-        <h1 className="text-5xl font-black uppercase italic leading-none tracking-[-.01em] sm:text-7xl">
-          4 Minute Drill
-        </h1>
+        <h1 className="four-minute-drill-title">4 Minute Drill</h1>
         <p className="mt-1 text-xs font-black uppercase tracking-[.2em] text-white/80">
           NFL Trivia · 10 Questions · 24 Seconds Each
         </p>
@@ -479,7 +477,7 @@ function RaceField({
         aria-hidden
         className="absolute bottom-5 right-24 hidden h-32 w-40 opacity-20 md:block"
       />
-      <div className="relative flex min-h-[260px] flex-col justify-center px-2 py-5 sm:min-h-[300px] sm:px-7 sm:py-7">
+      <div className="relative flex min-h-[260px] flex-col justify-between px-2 py-2 sm:min-h-[300px] sm:px-7 sm:py-2">
         <YardNumbers ticks={ticks} />
         <div className={rows.length === 1 ? '' : 'space-y-4'}>
           {rows.slice(0, 5).map((r) => {
@@ -563,7 +561,7 @@ function YardNumbers({
     <div
       data-yard-numbers={position}
       aria-hidden
-      className={`grid grid-cols-[72px_minmax(0,1fr)_42px] items-center gap-1 sm:grid-cols-[140px_minmax(0,1fr)_82px] sm:gap-3 ${position === 'top' ? 'mb-5' : 'mt-5'}`}
+      className="grid grid-cols-[72px_minmax(0,1fr)_42px] items-center gap-1 sm:grid-cols-[140px_minmax(0,1fr)_82px] sm:gap-3"
     >
       <span />
       <div className="grid grid-cols-10 text-center">

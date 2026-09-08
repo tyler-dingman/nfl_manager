@@ -86,7 +86,7 @@ export default function TriviaPage() {
                 <p className="text-xs font-black uppercase tracking-[.3em] text-[var(--team-secondary-on-dark)]">
                   {team?.name ?? 'NFL'} · Live competition
                 </p>
-                <h1 className="mt-3 text-6xl font-black uppercase tracking-[-.065em] sm:text-8xl">
+                <h1 className="four-minute-drill-title mt-3">
                   4 Minute Drill
                 </h1>
                 <p className="mt-3 max-w-xl text-lg font-semibold text-white/65">

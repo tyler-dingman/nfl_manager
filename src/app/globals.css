@@ -84,6 +84,16 @@
   transform: scaleX(0.82);
 }
 
+.four-minute-drill-title {
+  font-family: inherit;
+  font-size: 3rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
 .drill-end-zone {
   background-color: var(--team-primary-fill);
   color: var(--team-primary-foreground);
@@ -113,6 +123,10 @@
 }
 
 @media (min-width: 640px) {
+  .four-minute-drill-title {
+    font-size: 4.5rem;
+  }
+
   .drill-yard-number {
     font-size: 0.85rem;
   }
@@ -689,7 +703,7 @@ body {
 }
 
 .front-office-wordmark strong {
-  color: var(--team-secondary);
+  color: var(--team-secondary-on-dark);
   margin-left: 0.2rem;
 }
 .front-office-desktop-nav {
@@ -977,7 +991,7 @@ body {
   font-size: clamp(3rem, 6vw, 5rem) !important;
 }
 .fo-overview-copy h1 em {
-  color: #ffcc18;
+  color: var(--team-secondary-on-dark);
   font-style: inherit;
 }
 .fo-overview-copy > div {
