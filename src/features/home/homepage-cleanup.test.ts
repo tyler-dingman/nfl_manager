@@ -36,6 +36,11 @@ test('homepage Three and Out CTA requests CTA-only autoplay', () => {
   assert.match(audioCard, /autoPlayStarted\.current = true/);
 });
 
+test('homepage Three and Out stays in the desktop right rail', () => {
+  assert.match(homepage, /lg:grid-cols-\[minmax\(0,1fr\)_360px\]/);
+  assert.match(homepage, /<aside className="space-y-6 lg:sticky/);
+});
+
 test('Three and Out ampersands use the accessible bright team accent on dark panels', () => {
   assert.match(homepage, /<span className="dd-three-out-ampersand">&amp;<\/span>/);
   assert.match(audioCard, /<span className="dd-three-out-ampersand">&amp;<\/span>/);

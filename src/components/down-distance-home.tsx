@@ -520,7 +520,7 @@ export default function DownDistanceHome() {
         ) : null}
 
         <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
-          <section id="huddle" className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <section id="huddle" className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
             <div>
               <div className="mb-4 flex items-end justify-between gap-4">
                 <div>
@@ -565,7 +565,7 @@ export default function DownDistanceHome() {
                 ) : null}
               </div>
             </div>
-            <aside className="space-y-6">
+            <aside className="space-y-6 lg:sticky lg:top-[calc(var(--site-header-height)+1.5rem)] lg:self-start">
               <Link
                 href={`/catch-up?team=${encodeURIComponent(teamAbbr)}&autoplay=1`}
                 className="group block overflow-hidden rounded-2xl border border-[#00172B]/10 bg-white text-[#00172B] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
