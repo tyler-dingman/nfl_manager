@@ -441,7 +441,7 @@ body {
     font-size: 0.9375rem;
   }
 
-  .front-office-app h1,
+  .front-office-app h1:not(.dd-display-title),
   .front-office-app h2,
   .front-office-app h3 {
     color: #00172b;
@@ -449,7 +449,7 @@ body {
     letter-spacing: -0.035em;
   }
 
-  .front-office-app h1 {
+  .front-office-app h1:not(.dd-display-title) {
     line-height: 0.98;
   }
 
@@ -686,9 +686,6 @@ body {
   flex: 0 0 auto;
   color: white;
   font-size: 1.05rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .front-office-wordmark strong {
@@ -897,14 +894,17 @@ body {
   border: 1px solid color-mix(in srgb, var(--team-primary) 28%, var(--border));
 }
 
-/* Front Office asset-pack system: shared internal title, metrics, and tool tiles. */
-.dd-three-out-display {
-  font-family: inherit !important;
-  font-style: italic !important;
-  font-weight: 900 !important;
-  line-height: 1 !important;
-  letter-spacing: -0.05em !important;
-  text-transform: uppercase !important;
+/* Canonical display typography shared by Three & Out and Front Office titles. */
+.dd-display-title {
+  font-family: inherit;
+  font-feature-settings: normal;
+  font-stretch: normal;
+  font-style: italic;
+  font-variation-settings: normal;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 .fo-page-header {
   display: grid;
@@ -960,9 +960,6 @@ body {
   margin-top: 0.4rem;
   color: white;
   font-size: clamp(3rem, 6vw, 5rem) !important;
-  font-weight: 900 !important;
-  line-height: 1 !important;
-  letter-spacing: -0.05em;
 }
 .fo-overview-copy h1 em {
   color: #ffcc18;
@@ -1015,9 +1012,6 @@ body {
   margin-top: 0.25rem;
   color: #071329;
   font-size: clamp(2.8rem, 4.5vw, 4rem) !important;
-  font-weight: 900 !important;
-  line-height: 1 !important;
-  letter-spacing: -0.05em;
 }
 .fo-strapline {
   margin-top: 0.65rem;

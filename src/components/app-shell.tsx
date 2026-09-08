@@ -376,7 +376,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
           <div className="front-office-secondary-nav-inner">
             <Link
               href="/experience"
-              className="front-office-wordmark dd-three-out-display"
+              className="front-office-wordmark dd-display-title"
               aria-label="Front Office overview"
             >
               <span>Front</span> <strong>Office</strong>
