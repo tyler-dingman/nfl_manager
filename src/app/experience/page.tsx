@@ -138,10 +138,11 @@ export default function ExperiencePage() {
 
   return (
     <AppShell>
+      <div className="-mx-4 -mt-6 mb-7 sm:-mt-8 md:-mx-8">
+        <FrontOfficeOverviewHero />
+      </div>
       <div className="mx-auto w-full max-w-6xl pb-40 md:pb-0">
         <div className="flex w-full flex-col gap-7">
-          <FrontOfficeOverviewHero />
-
           <section className="grid gap-4 md:grid-cols-3" aria-label="Decisions on your desk">
             <Link href="/roster?view=resign" className="front-office-decision-card">
               <span className="front-office-decision-kicker">Contracts</span>

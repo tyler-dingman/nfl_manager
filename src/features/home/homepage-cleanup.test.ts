@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const homepage = readFileSync(
@@ -58,11 +58,45 @@ test('mobile menu removes the logged-out spacer and shared footer reserves botto
   assert.doesNotMatch(footer, /Keep it high and tight/);
 });
 
-test('every available stadium asset is configured through the reusable hero map', () => {
-  for (const team of ['ATL', 'BAL', 'CAR', 'CHI', 'KC']) {
-    assert.match(
-      gameDayConfig,
-      new RegExp(`${team}: '/images/gameday/stadium/${team.toLowerCase()}/gameday\\.png'`),
-    );
+test('all 32 team homepages map to an existing gameday stadium image', () => {
+  const teams = [
+    'ARI',
+    'ATL',
+    'BAL',
+    'BUF',
+    'CAR',
+    'CHI',
+    'CIN',
+    'CLE',
+    'DAL',
+    'DEN',
+    'DET',
+    'GB',
+    'HOU',
+    'IND',
+    'JAX',
+    'KC',
+    'LAC',
+    'LAR',
+    'LV',
+    'MIA',
+    'MIN',
+    'NE',
+    'NO',
+    'NYG',
+    'NYJ',
+    'PHI',
+    'PIT',
+    'SEA',
+    'SF',
+    'TB',
+    'TEN',
+    'WAS',
+  ];
+
+  for (const team of teams) {
+    const match = gameDayConfig.match(new RegExp(`${team}: '([^']+gameday\\.png)'`));
+    assert.ok(match, `${team} is missing from GAME_DAY_HERO_ASSETS`);
+    assert.ok(existsSync(`public${match[1]}`), `${team} hero asset does not exist: ${match[1]}`);
   }
 });

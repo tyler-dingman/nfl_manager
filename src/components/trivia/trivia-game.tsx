@@ -424,7 +424,7 @@ function DrillHeader({
   return (
     <header className="drill-texture relative grid items-center gap-4 border-b border-white/30 px-4 py-4 lg:grid-cols-[minmax(360px,1.25fr)_180px_minmax(330px,.8fr)_150px] lg:px-8">
       <div>
-        <h1 className="text-5xl font-black uppercase italic leading-none tracking-[-.07em] sm:text-7xl">
+        <h1 className="text-5xl font-black uppercase italic leading-none tracking-[-.01em] sm:text-7xl">
           4 Minute Drill
         </h1>
         <p className="mt-1 text-xs font-black uppercase tracking-[.2em] text-white/80">

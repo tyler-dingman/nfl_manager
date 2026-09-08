@@ -902,7 +902,7 @@ body {
   font-style: italic;
   font-variation-settings: normal;
   font-weight: 900;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
   line-height: 1;
   text-transform: uppercase;
 }
@@ -917,7 +917,7 @@ body {
   font-style: normal;
   font-variation-settings: normal;
   font-weight: 900;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.015em;
   line-height: 0.86;
   text-transform: uppercase;
 }
