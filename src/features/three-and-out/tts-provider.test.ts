@@ -41,3 +41,13 @@ test('active bubble uses the shared semantic team-primary fill contract', () => 
   assert.match(component, /active\s*\?\s*'team-primary-filled'/);
   assert.match(component, /'bg-slate-200 text-\[#00172B\]'/);
 });
+
+test('committed team audio is checked before the live Chatterbox provider gate', () => {
+  const route = readFileSync('src/app/api/three-and-out/audio/route.ts', 'utf8');
+  const recordedAudioLookup = route.indexOf('const recorded =');
+  const providerGate = route.indexOf('process.env.THREE_OUT_TTS_PROVIDER');
+
+  assert.notEqual(recordedAudioLookup, -1);
+  assert.notEqual(providerGate, -1);
+  assert.ok(recordedAudioLookup < providerGate);
+});

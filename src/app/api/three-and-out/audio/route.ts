@@ -27,8 +27,6 @@ export async function POST(request: NextRequest) {
     assertSameOrigin(request);
     const user = await currentUser(request);
     if (!user) return authError('Unauthorized.', 401);
-    if ((process.env.THREE_OUT_TTS_PROVIDER ?? 'browser') !== 'chatterbox')
-      return NextResponse.json({ provider: 'browser', segments: [] });
     const input = schema.parse(await request.json());
     const team = TEAM_LIST.find((candidate) => candidate.abbr === input.teamId);
     if (!team) return NextResponse.json({ error: 'Invalid team.' }, { status: 400 });
@@ -64,6 +62,8 @@ export async function POST(request: NextRequest) {
         })),
       });
     }
+    if ((process.env.THREE_OUT_TTS_PROVIDER ?? 'browser') !== 'chatterbox')
+      return NextResponse.json({ provider: 'browser', segments: [] });
 
     const [briefings, canonical] = await Promise.all([
       loadTeamBriefings(input.teamId),
