@@ -315,7 +315,7 @@ export default function CapSpacePage() {
   return (
     <AppShell>
       <div className="mb-6">
-        <h1 className="dd-display-title text-2xl text-foreground">NFL Cap Space Leaderboard</h1>
+        <h1 className="dd-home-hero-display text-2xl text-foreground">NFL Cap Space Leaderboard</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Effective cap space includes top-51 rule adjustments.
         </p>

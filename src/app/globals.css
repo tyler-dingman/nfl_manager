@@ -441,7 +441,7 @@ body {
     font-size: 0.9375rem;
   }
 
-  .front-office-app h1:not(.dd-display-title),
+  .front-office-app h1:not(.dd-home-hero-display),
   .front-office-app h2,
   .front-office-app h3 {
     color: #00172b;
@@ -449,7 +449,7 @@ body {
     letter-spacing: -0.035em;
   }
 
-  .front-office-app h1:not(.dd-display-title) {
+  .front-office-app h1:not(.dd-home-hero-display) {
     line-height: 0.98;
   }
 
@@ -894,8 +894,8 @@ body {
   border: 1px solid color-mix(in srgb, var(--team-primary) 28%, var(--border));
 }
 
-/* Canonical display typography shared by Three & Out and Front Office titles. */
-.dd-display-title {
+/* Three & Out display treatment. */
+.dd-three-out-display {
   font-family: inherit;
   font-feature-settings: normal;
   font-stretch: normal;
@@ -904,6 +904,21 @@ body {
   font-weight: 900;
   letter-spacing: -0.05em;
   line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Canonical homepage-hero typography shared by the hero and Front Office titles. */
+.dd-home-hero-display {
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  font-feature-settings: normal;
+  font-stretch: normal;
+  font-style: normal;
+  font-variation-settings: normal;
+  font-weight: 900;
+  letter-spacing: -0.065em;
+  line-height: 0.86;
   text-transform: uppercase;
 }
 .fo-page-header {

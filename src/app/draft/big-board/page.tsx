@@ -25,7 +25,7 @@ export default function DraftBigBoardPage() {
       <div className="mb-6 flex flex-col gap-2">
         <div className="flex items-center gap-3">
           <FalcoAvatar size={28} />
-          <h1 className="dd-display-title text-2xl text-foreground">
+          <h1 className="dd-home-hero-display text-2xl text-foreground">
             Down &amp; Distance Big Board
           </h1>
         </div>

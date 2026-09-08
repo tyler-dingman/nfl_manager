@@ -261,7 +261,7 @@ export default function MerchShop() {
                   Down &amp; Distance originals
                 </p>
                 <h1 className="mt-5 max-w-3xl text-5xl font-black uppercase leading-[0.9] tracking-[-0.05em] text-[#00172B] sm:text-7xl">
-                  Gear for people who live football.
+                  Get you&apos;re head in the game.
                 </h1>
                 <p className="mt-6 max-w-xl text-lg font-semibold leading-7 text-[#00172B]/70">
                   D&amp;D originals in city-inspired colorways. No logos. Just football.

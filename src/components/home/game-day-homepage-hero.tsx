@@ -73,7 +73,7 @@ export default function GameDayHomepageHero({
             ) : null}
           </div>
 
-          <h1 className="mt-7 text-[clamp(2.8rem,7vw,5.5rem)] font-black uppercase leading-[0.86] tracking-[-0.065em]">
+          <h1 className="dd-home-hero-display mt-7 text-[clamp(2.8rem,7vw,5.5rem)]">
             {isGameDay ? (
               <>
                 IT&apos;S
