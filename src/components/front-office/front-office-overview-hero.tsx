@@ -2,20 +2,16 @@
 
 import Image from 'next/image';
 
-import { gameDayHeroAsset } from '@/config/game-day-hero';
-import { useTeamStore } from '@/features/team/team-store';
-
 export function FrontOfficeOverviewHero() {
-  const teams = useTeamStore((state) => state.teams);
-  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
-  const team = teams.find((entry) => entry.id === selectedTeamId) ?? teams[0];
-  const asset = team ? gameDayHeroAsset(team.abbr) : null;
-
   return (
     <section className="fo-overview-hero">
-      {asset ? (
-        <Image src={asset} fill priority sizes="(min-width: 768px) 75vw, 100vw" alt="" />
-      ) : null}
+      <Image
+        src="/images/fo_hero.png"
+        fill
+        priority
+        sizes="(min-width: 768px) 75vw, 100vw"
+        alt=""
+      />
       <div aria-hidden="true" className="fo-overview-shade" />
       <div className="fo-overview-copy">
         <p className="fo-title-eyebrow text-[var(--team-secondary-on-dark)]">

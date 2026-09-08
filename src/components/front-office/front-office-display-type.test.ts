@@ -72,6 +72,16 @@ test('Front Office eyebrows reuse the Beat hierarchy and redundant straplines ar
   assert.doesNotMatch(css, /\.fo-(?:eyebrow|strapline)\s*\{/);
 });
 
+test('Front Office uses the shared hero artwork for every team', async () => {
+  const overviewHero = await readFile(
+    'src/components/front-office/front-office-overview-hero.tsx',
+    'utf8',
+  );
+
+  assert.match(overviewHero, /src="\/images\/fo_hero\.png"/);
+  assert.doesNotMatch(overviewHero, /gameDayHeroAsset|selectedTeamId/);
+});
+
 test('Office title accents use the brightest accessible team color', async () => {
   const css = await readFile('src/app/globals.css', 'utf8');
   const heroAccent = css.match(/\.fo-overview-copy h1 em\s*\{([^}]+)\}/)?.[1] ?? '';
