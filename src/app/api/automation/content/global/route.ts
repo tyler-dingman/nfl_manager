@@ -11,10 +11,7 @@ import {
   readGlobalGeneratedToday,
   recordGlobalRun,
 } from '@/server/content-automation/global-repository';
-import {
-  syncAllMonitoringRegistries,
-  syncMonitoringRegistry,
-} from '@/server/monitoring/observer';
+import { syncAllMonitoringRegistries, syncMonitoringRegistry } from '@/server/monitoring/observer';
 import { drainJobs, scheduleDueSources } from '@/server/story-engine/service';
 import { syncVerifiedVideoSources } from '@/server/film-room/video-source-sync';
 
@@ -85,9 +82,7 @@ export async function POST(request: NextRequest) {
   const registered = requestedTeam
     ? await syncMonitoringRegistry(requestedTeam)
     : await syncAllMonitoringRegistries();
-  const verifiedVideoSources = requestedTeam
-    ? await syncVerifiedVideoSources(requestedTeam, forceRequested)
-    : 0;
+  const verifiedVideoSources = await syncVerifiedVideoSources(requestedTeam, forceRequested);
   const scheduled = requestedTeam
     ? await scheduleDueSources(
         new Date(),
