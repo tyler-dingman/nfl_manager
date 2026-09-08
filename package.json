@@ -40,6 +40,7 @@
     "three-out:voice:test": "scripts/three-out-tts/run.sh --test script",
     "three-out:voice:names": "scripts/three-out-tts/run.sh --test names",
     "three-out:voice:phase2": "scripts/three-out-tts/run.sh --test phase2",
+    "three-out:voice:teams": "tsx scripts/generate-three-out-team-audio.ts",
     "surfaces:demo": "node --import tsx scripts/story-surfaces-demo.ts",
     "mobile:start": "npm --prefix apps/mobile start",
     "mobile:ios": "npm --prefix apps/mobile run ios",

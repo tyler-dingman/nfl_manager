@@ -4,10 +4,11 @@ import path from 'node:path';
 
 import type { ThreeOutNarration } from '@/features/three-and-out/catch-up-audio';
 
-export const THREE_OUT_VOICE_VERSION = process.env.CHATTERBOX_VOICE_VERSION ?? 'chiefs-three-out-v2';
+export const THREE_OUT_VOICE_VERSION =
+  process.env.CHATTERBOX_VOICE_VERSION ?? 'chiefs-three-out-v2';
 const cacheRoot = path.join(process.cwd(), 'private', 'tts', 'cache');
 
-const cacheIdentity = (narration: ThreeOutNarration) =>
+export const threeOutAudioCacheKey = (narration: ThreeOutNarration) =>
   createHash('sha256')
     .update(
       JSON.stringify({
@@ -32,7 +33,7 @@ export async function generateChatterboxSegments(narration: ThreeOutNarration) {
   const baseUrl = process.env.CHATTERBOX_BASE_URL?.replace(/\/$/, '');
   const token = process.env.CHATTERBOX_SERVICE_TOKEN;
   if (!baseUrl || !token) throw new Error('Chatterbox is not configured.');
-  const key = cacheIdentity(narration);
+  const key = threeOutAudioCacheKey(narration);
   const directory = path.join(cacheRoot, key);
   await mkdir(directory, { recursive: true });
   const startedAt = Date.now();

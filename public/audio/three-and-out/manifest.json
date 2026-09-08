@@ -1,0 +1,146 @@
+{
+  "ARI": {
+    "cacheKey": "4f9e7dd38542f8aa104101a5d2706ba0",
+    "storyIds": ["ari-official-top-story", "ari-development-2", "ari-development-3"],
+    "durationsMs": [26080, 18520, 20840],
+    "generatedAt": "2026-09-08T19:02:44.827Z"
+  },
+  "ATL": {
+    "cacheKey": "8c7f3706442a660f693c42f0ea092128",
+    "storyIds": ["atl-official-top-story", "atl-development-2", "atl-development-3"],
+    "durationsMs": [25360, 18240, 20360],
+    "generatedAt": "2026-09-08T19:04:41.881Z"
+  },
+  "BAL": {
+    "cacheKey": "0a088d127fec10decbd76a2d1c15ffac",
+    "storyIds": ["bal-official-top-story", "bal-development-2", "bal-development-3"],
+    "durationsMs": [23120, 19360, 21120],
+    "generatedAt": "2026-09-08T19:04:41.891Z"
+  },
+  "BUF": {
+    "cacheKey": "0dd8e3d3469a278152c64f07509ccf1b",
+    "storyIds": ["buf-official-top-story", "buf-development-2", "buf-development-3"],
+    "durationsMs": [24600, 18680, 20440],
+    "generatedAt": "2026-09-08T19:06:39.177Z"
+  },
+  "CAR": {
+    "cacheKey": "dacd0f9804536056c7eb60287acefed6",
+    "storyIds": ["car-official-top-story", "car-development-2", "car-development-3"],
+    "durationsMs": [22080, 18440, 20760],
+    "generatedAt": "2026-09-08T19:08:35.478Z"
+  },
+  "CHI": {
+    "cacheKey": "697ce28263fb04b4f016eb2e7bb8c35b",
+    "storyIds": ["chi-official-top-story", "chi-development-2", "chi-development-3"],
+    "durationsMs": [23680, 18680, 20920],
+    "generatedAt": "2026-09-08T19:08:35.490Z"
+  },
+  "CIN": {
+    "cacheKey": "0e3e8d3d46ece668a5ca4edd12c0e9d3",
+    "storyIds": ["cin-official-top-story", "cin-development-2", "cin-development-3"],
+    "durationsMs": [25160, 19600, 22080],
+    "generatedAt": "2026-09-08T19:10:48.000Z"
+  },
+  "CLE": {
+    "cacheKey": "e8179415104f7d569f8668ddf35e4f9b",
+    "storyIds": ["cle-official-top-story", "cle-development-2", "cle-development-3"],
+    "durationsMs": [26960, 17960, 21600],
+    "generatedAt": "2026-09-08T19:13:05.452Z"
+  },
+  "DAL": {
+    "cacheKey": "304635739d09ba81a110a92e9e7b48b1",
+    "storyIds": ["dal-official-top-story", "dal-development-2", "dal-development-3"],
+    "durationsMs": [21000, 18000, 40000],
+    "generatedAt": "2026-09-08T19:16:26.952Z"
+  },
+  "DEN": {
+    "cacheKey": "f8a1b1e2e714461fffedd8e4fcda7255",
+    "storyIds": ["den-official-top-story", "den-development-2", "den-development-3"],
+    "durationsMs": [22760, 19280, 20360],
+    "generatedAt": "2026-09-08T19:18:48.837Z"
+  },
+  "DET": {
+    "cacheKey": "9d0a1a5ba6df1f4c74dc20431387d2f5",
+    "storyIds": ["det-official-top-story", "det-development-2", "det-development-3"],
+    "durationsMs": [24240, 17720, 19400],
+    "generatedAt": "2026-09-08T19:21:14.915Z"
+  },
+  "GB": {
+    "cacheKey": "9e574f5592a2ff20a3d187c29d92823e",
+    "storyIds": ["gb-official-top-story", "gb-development-2", "gb-development-3"],
+    "durationsMs": [22960, 19360, 21200],
+    "generatedAt": "2026-09-08T19:23:38.405Z"
+  },
+  "HOU": {
+    "cacheKey": "cba61c42723eb095f5643eb1c0f7afec",
+    "storyIds": ["hou-official-top-story", "hou-development-2", "hou-development-3"],
+    "durationsMs": [25200, 17320, 20280],
+    "generatedAt": "2026-09-08T19:26:04.711Z"
+  },
+  "IND": {
+    "cacheKey": "f5fb81f547a94d7bfab15861fab31c9a",
+    "storyIds": ["ind-official-top-story", "ind-development-2", "ind-development-3"],
+    "durationsMs": [22280, 19120, 23560],
+    "generatedAt": "2026-09-08T19:28:35.119Z"
+  },
+  "JAX": {
+    "cacheKey": "14c1f90a1a8b1a0cd8fd21a963b1e7b1",
+    "storyIds": ["jax-official-top-story", "jax-development-2", "jax-development-3"],
+    "durationsMs": [25360, 21040, 25160],
+    "generatedAt": "2026-09-08T19:31:13.650Z"
+  },
+  "LV": {
+    "cacheKey": "8da3b8161d61dc5312af0dda5c145e31",
+    "storyIds": ["lv-official-top-story", "lv-development-2", "lv-development-3"],
+    "durationsMs": [24000, 18800, 21320],
+    "generatedAt": "2026-09-08T19:35:51.884Z"
+  },
+  "LAC": {
+    "cacheKey": "6bd6f2b91f3108bc00690153aab7359f",
+    "storyIds": ["lac-official-top-story", "lac-development-2", "lac-development-3"],
+    "durationsMs": [27360, 20240, 20840],
+    "generatedAt": "2026-09-08T19:40:47.303Z"
+  },
+  "LAR": {
+    "cacheKey": "a15abfc4497095558d0c56f8a2e57d01",
+    "storyIds": ["lar-official-top-story", "lar-development-2", "lar-development-3"],
+    "durationsMs": [26920, 18520, 22080],
+    "generatedAt": "2026-09-08T19:45:19.031Z"
+  },
+  "MIA": {
+    "cacheKey": "39bd69870cd79ec3f2fdf9b2c24de8c9",
+    "storyIds": ["mia-official-top-story", "mia-development-2", "mia-development-3"],
+    "durationsMs": [22680, 19120, 21360],
+    "generatedAt": "2026-09-08T19:49:38.885Z"
+  },
+  "MIN": {
+    "cacheKey": "e41d0c9f7eacd28492eb259fe12dc8ca",
+    "storyIds": ["min-official-top-story", "min-development-2", "min-development-3"],
+    "durationsMs": [26840, 21440, 21160],
+    "generatedAt": "2026-09-08T19:54:44.031Z"
+  },
+  "NE": {
+    "cacheKey": "381320ac930d9d951bc6b4347ceb7a81",
+    "storyIds": ["ne-official-top-story", "ne-development-2", "ne-development-3"],
+    "durationsMs": [24320, 18640, 21360],
+    "generatedAt": "2026-09-08T19:59:31.165Z"
+  },
+  "NO": {
+    "cacheKey": "f433d3fe25e73605b32dda6a52b70efa",
+    "storyIds": ["no-official-top-story", "no-development-2", "no-development-3"],
+    "durationsMs": [21800, 18960, 20280],
+    "generatedAt": "2026-09-08T20:04:14.733Z"
+  },
+  "NYG": {
+    "cacheKey": "d7ca4e1bd968bb1b7986eb19561b320f",
+    "storyIds": ["nyg-official-top-story", "nyg-development-2", "nyg-development-3"],
+    "durationsMs": [20200, 19560, 22280],
+    "generatedAt": "2026-09-08T20:08:47.336Z"
+  },
+  "NYJ": {
+    "cacheKey": "2d025329b7b7ca4d2b40441ae5e1d96e",
+    "storyIds": ["nyj-official-top-story", "nyj-development-2", "nyj-development-3"],
+    "durationsMs": [38560, 18600, 20920],
+    "generatedAt": "2026-09-08T20:14:46.185Z"
+  }
+}

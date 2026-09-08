@@ -10,6 +10,7 @@ import { currentUser } from '@/server/auth/request';
 import { canonicalThreeAndOut } from '@/server/content/canonical-surfaces';
 import { loadTeamBriefings } from '@/server/content/team-briefings';
 import { generateChatterboxSegments } from '@/server/three-and-out/chatterbox';
+import recordedAudio from '../../../../../public/audio/three-and-out/manifest.json';
 
 const schema = z.object({
   teamId: z
@@ -40,6 +41,27 @@ export async function POST(request: NextRequest) {
             sectionStartTimes: [0, 11.45, 23.1],
           },
         ],
+      });
+    }
+    const recorded = (
+      recordedAudio as Record<
+        string,
+        { cacheKey: string; storyIds: string[]; durationsMs: number[] }
+      >
+    )[input.teamId];
+    if (
+      recorded &&
+      recorded.storyIds.length === input.storyIds.length &&
+      recorded.storyIds.every((storyId, index) => storyId === input.storyIds[index])
+    ) {
+      return NextResponse.json({
+        provider: 'chatterbox',
+        voiceVersion: process.env.CHATTERBOX_VOICE_VERSION ?? 'chiefs-three-out-v2',
+        segments: recorded.storyIds.map((storyId, index) => ({
+          storyId,
+          audioUrl: `/audio/three-and-out/${input.teamId.toLowerCase()}/${recorded.cacheKey}/segment-${index + 1}.wav`,
+          durationMs: recorded.durationsMs[index],
+        })),
       });
     }
 
