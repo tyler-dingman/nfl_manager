@@ -376,5 +376,61 @@
       19080
     ],
     "generatedAt": "2026-09-08T22:41:21.669Z"
+  },
+  "SEA": {
+    "cacheKey": "9e5a7c6035b3d60a85b06660094fcc6f",
+    "storyIds": [
+      "452f24e6-81fd-45dc-a238-40ce427b9071",
+      "5e5e49ef-5692-4b55-b411-01bc1906524f",
+      "989d7fd9-9905-45af-916a-7d0e0c2d0064"
+    ],
+    "durationsMs": [
+      18360,
+      40000,
+      40000
+    ],
+    "generatedAt": "2026-09-08T22:45:12.674Z"
+  },
+  "TB": {
+    "cacheKey": "899a62ee0c6ba5fbb32960c90e0688dc",
+    "storyIds": [
+      "a2eb92f8-f482-4eab-87e7-7af906db9f49",
+      "2f084d7f-6839-4db7-ad9c-078f1e1de9b2",
+      "729fd2cd-ce14-4ea5-9be2-982e58f21fba"
+    ],
+    "durationsMs": [
+      16880,
+      13760,
+      19160
+    ],
+    "generatedAt": "2026-09-08T22:47:26.586Z"
+  },
+  "TEN": {
+    "cacheKey": "101517b9c5d4899704ed30024c35b04a",
+    "storyIds": [
+      "6a3101fc-5906-491a-acb6-77ba92396a68",
+      "4455fb00-bef2-4dad-84f7-de2b7c26ba9c",
+      "9a0be71d-5f15-49f2-957f-8f7c91742b31"
+    ],
+    "durationsMs": [
+      19240,
+      12520,
+      14200
+    ],
+    "generatedAt": "2026-09-08T22:49:16.627Z"
+  },
+  "WAS": {
+    "cacheKey": "3cf5c8baaf5b896dd3ee9fad790492a6",
+    "storyIds": [
+      "4fe2674a-4542-41a4-8204-edf14a911dab",
+      "d9759d8b-4a01-4398-a056-9e46d2cff3c0",
+      "fba32b57-78bf-479a-bbfa-d9fd874e52c3"
+    ],
+    "durationsMs": [
+      21560,
+      13440,
+      24040
+    ],
+    "generatedAt": "2026-09-08T22:51:45.923Z"
   }
 }
