@@ -25,7 +25,6 @@ export function FrontOfficeOverviewHero() {
           Manage your roster, explore trades, sign talent, and build for the future. All in one
           place.
         </p>
-        <small>Champions are built, not bought.</small>
       </div>
     </section>
   );

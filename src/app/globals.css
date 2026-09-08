@@ -953,6 +953,8 @@ body {
 .fo-overview-hero {
   position: relative;
   isolation: isolate;
+  display: flex;
+  align-items: center;
   min-height: 300px;
   overflow: hidden;
   background: #071329;
@@ -1001,19 +1003,11 @@ body {
   background: #ef1838;
 }
 .fo-overview-description {
+  max-width: 42rem;
   margin-top: 0.8rem;
   color: rgb(255 255 255 / 82%);
-  font-size: 0.8rem;
-  line-height: 1.5;
-}
-.fo-overview-copy small {
-  display: block;
-  margin-top: 1.2rem;
-  color: white;
-  font-size: 0.58rem;
-  font-weight: 900;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
+  line-height: 1.45;
 }
 .fo-page-heading {
   align-self: center;
