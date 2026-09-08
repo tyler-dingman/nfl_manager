@@ -44,11 +44,8 @@ export function FrontOfficePageHeader({
   return (
     <header className="fo-page-header">
       <div className="fo-page-heading">
-        <p className="fo-eyebrow">
-          DOWN <span>&amp;</span> DISTANCE
-        </p>
+        <p className="fo-title-eyebrow text-[var(--team-primary-text)]">{strapline}</p>
         <h1 className="dd-home-hero-display">{title}</h1>
-        <p className="fo-strapline">{strapline}</p>
         {description ? <p className="fo-description">{description}</p> : null}
       </div>
       <div className="fo-page-header-side">

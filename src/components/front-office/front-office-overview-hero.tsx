@@ -18,16 +18,12 @@ export function FrontOfficeOverviewHero() {
       ) : null}
       <div aria-hidden="true" className="fo-overview-shade" />
       <div className="fo-overview-copy">
-        <p>
-          Down <span>&amp;</span> Distance
+        <p className="fo-title-eyebrow text-[var(--team-secondary-on-dark)]">
+          Your team. Your moves.
         </p>
         <h1 className="dd-home-hero-display">
           Front <em>Office</em>
         </h1>
-        <h2>
-          Your team. Your moves.
-          <br />A bigger tomorrow.
-        </h2>
         <div aria-hidden="true" />
         <p className="fo-overview-description">
           Manage your roster, explore trades, sign talent, and build for the future. All in one

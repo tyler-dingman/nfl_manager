@@ -577,7 +577,7 @@ export default function DownDistanceHome() {
                     className="absolute -right-8 -top-12 h-40 w-40 rounded-full border-[16px] border-white/[.035]"
                   />
                   <h3 className="dd-three-out-display relative text-3xl">
-                    THREE <span className="text-[var(--primary)]">&amp;</span> OUT
+                    THREE <span className="dd-three-out-ampersand">&amp;</span> OUT
                   </h3>
                   <p className="relative mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-[var(--team-secondary-on-dark)]">
                     The 3 things you need to know

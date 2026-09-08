@@ -12,7 +12,7 @@ test('canonical Front Office title owns the complete homepage hero typography', 
   assert.match(rule, /font-style:\s*normal/);
   assert.match(rule, /font-variation-settings:\s*normal/);
   assert.match(rule, /font-weight:\s*900/);
-  assert.match(rule, /letter-spacing:\s*-0\.065em/);
+  assert.match(rule, /letter-spacing:\s*-0\.015em/);
   assert.match(rule, /line-height:\s*0\.86/);
   assert.match(rule, /text-transform:\s*uppercase/);
 });
@@ -50,4 +50,24 @@ test('legacy title utility and conflicting title overrides are removed', async (
     );
     assert.doesNotMatch(rule, /letter-spacing|line-height|text-transform/);
   }
+});
+
+test('Front Office eyebrows reuse the Beat hierarchy and redundant straplines are removed', async () => {
+  const [pageHeader, overviewHero, css] = await Promise.all([
+    readFile('src/components/front-office/front-office-page-header.tsx', 'utf8'),
+    readFile('src/components/front-office/front-office-overview-hero.tsx', 'utf8'),
+    readFile('src/app/globals.css', 'utf8'),
+  ]);
+
+  assert.match(overviewHero, /fo-title-eyebrow[^>]+>\s*Your team\. Your moves\./);
+  assert.doesNotMatch(overviewHero, /A bigger tomorrow|Your tomorrow/);
+  assert.match(pageHeader, /fo-title-eyebrow[^>]+>\{strapline\}<\/p>/);
+  assert.doesNotMatch(pageHeader, /fo-strapline/);
+
+  const eyebrowRule = css.match(/\.fo-title-eyebrow\s*\{([^}]+)\}/)?.[1] ?? '';
+  assert.match(eyebrowRule, /font-size:\s*0\.75rem/);
+  assert.match(eyebrowRule, /font-weight:\s*900/);
+  assert.match(eyebrowRule, /letter-spacing:\s*0\.25em/);
+  assert.match(eyebrowRule, /text-transform:\s*uppercase/);
+  assert.doesNotMatch(css, /\.fo-(?:eyebrow|strapline)\s*\{/);
 });

@@ -36,6 +36,15 @@ test('homepage Three and Out CTA requests CTA-only autoplay', () => {
   assert.match(audioCard, /autoPlayStarted\.current = true/);
 });
 
+test('Three and Out ampersands use the accessible bright team accent on dark panels', () => {
+  assert.match(homepage, /<span className="dd-three-out-ampersand">&amp;<\/span>/);
+  assert.match(audioCard, /<span className="dd-three-out-ampersand">&amp;<\/span>/);
+  assert.match(
+    readFileSync(new URL('../../app/globals.css', import.meta.url), 'utf8'),
+    /\.dd-three-out-ampersand\s*\{\s*color:\s*var\(--team-secondary-on-dark\);\s*\}/,
+  );
+});
+
 test('homepage uses the current Film Room feed and no longer renders its trivia widget', () => {
   assert.match(homepage, /fetch\(`\/api\/film-room\?team=/);
   assert.match(homepage, /latestFilmRoomVideos/);

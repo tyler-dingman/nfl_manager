@@ -907,6 +907,10 @@ body {
   text-transform: uppercase;
 }
 
+.dd-three-out-ampersand {
+  color: var(--team-secondary-on-dark);
+}
+
 /* Canonical homepage-hero typography shared by the hero and Front Office titles. */
 .dd-home-hero-display {
   font-family:
@@ -960,15 +964,12 @@ body {
   width: min(50rem, 100%);
   padding: 2rem;
 }
-.fo-overview-copy > p:first-child {
-  color: #ffcc18;
-  font-size: 0.72rem;
+.fo-title-eyebrow {
+  font-size: 0.75rem;
   font-weight: 900;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.25em;
+  line-height: 1rem;
   text-transform: uppercase;
-}
-.fo-overview-copy > p:first-child span {
-  color: #ef1838;
 }
 .fo-overview-copy h1 {
   margin-top: 0.4rem;
@@ -978,15 +979,6 @@ body {
 .fo-overview-copy h1 em {
   color: #ffcc18;
   font-style: inherit;
-}
-.fo-overview-copy h2 {
-  margin-top: 0.7rem;
-  color: white;
-  font-size: 1rem;
-  font-style: italic;
-  font-weight: 900;
-  line-height: 1.25;
-  text-transform: uppercase;
 }
 .fo-overview-copy > div {
   width: 3.2rem;
@@ -1013,27 +1005,10 @@ body {
   align-self: center;
   min-width: 0;
 }
-.fo-eyebrow {
-  color: #071329;
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0.04em;
-}
-.fo-eyebrow span {
-  color: #c80027;
-}
 .fo-page-heading h1 {
   margin-top: 0.25rem;
   color: #071329;
   font-size: clamp(2.8rem, 4.5vw, 4rem) !important;
-}
-.fo-strapline {
-  margin-top: 0.65rem;
-  color: #152b49;
-  font-size: 0.85rem;
-  font-weight: 900;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
 }
 .fo-description {
   max-width: 58ch;

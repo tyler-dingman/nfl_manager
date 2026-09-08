@@ -164,7 +164,7 @@ export default function ThreeOutAudioCard({
           className="absolute -right-8 -top-12 h-48 w-48 rounded-full border-[18px] border-white/[.035]"
         />
         <h2 className="dd-three-out-display relative text-4xl sm:text-5xl">
-          THREE <span className="text-[var(--primary)]">&amp;</span> OUT
+          THREE <span className="dd-three-out-ampersand">&amp;</span> OUT
         </h2>
         <p className="relative mt-2 text-xs font-black uppercase tracking-[.2em] text-[var(--team-secondary-on-dark)]">
           The 3 things you need to know
