@@ -11,7 +11,10 @@ import {
   readGlobalGeneratedToday,
   recordGlobalRun,
 } from '@/server/content-automation/global-repository';
-import { syncAllMonitoringRegistries } from '@/server/monitoring/observer';
+import {
+  syncAllMonitoringRegistries,
+  syncMonitoringRegistry,
+} from '@/server/monitoring/observer';
 import { drainJobs, scheduleDueSources } from '@/server/story-engine/service';
 
 export const dynamic = 'force-dynamic';
@@ -53,6 +56,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true, stoppedBy: disabled });
   }
 
+  const requestedTeam = request.nextUrl.searchParams.get('team')?.trim().toUpperCase();
+  const requestedGroup = request.nextUrl.searchParams.get('group')?.trim().toLowerCase();
+  const configuredTeamIds = getMonitoringTeamIds();
+  if (requestedTeam && !configuredTeamIds.includes(requestedTeam))
+    return NextResponse.json({ ok: false, error: 'Unknown team' }, { status: 400 });
+  if (requestedGroup && requestedGroup !== 'standard' && requestedGroup !== 'video')
+    return NextResponse.json(
+      { ok: false, error: 'group must be standard or video' },
+      { status: 400 },
+    );
+
   const generatedToday = await readGlobalGeneratedToday();
   const stoppedBy = globalGenerationStopReason({
     enabled: config.enabled,
@@ -66,11 +80,19 @@ export async function POST(request: NextRequest) {
   }
 
   const remaining = Math.min(config.maxGeneratedPerRun, config.maxGeneratedPerDay - generatedToday);
-  const registered = await syncAllMonitoringRegistries();
-  const scheduled = await scheduleDueSources(new Date());
+  const registered = requestedTeam
+    ? await syncMonitoringRegistry(requestedTeam)
+    : await syncAllMonitoringRegistries();
+  const scheduled = requestedTeam
+    ? await scheduleDueSources(
+        new Date(),
+        requestedTeam,
+        requestedGroup as 'standard' | 'video' | undefined,
+      )
+    : await scheduleDueSources(new Date());
   const jobs = await drainJobs(
     50,
-    undefined,
+    requestedTeam,
     true,
     new GroundedDeterministicStorySynthesizer(),
     new Date(Date.now() - 24 * 60 * 60 * 1000),
@@ -92,7 +114,7 @@ export async function POST(request: NextRequest) {
     failedJobs: failedJobs.length,
     detail: {
       registeredSources: registered.length,
-      configuredTeams: getMonitoringTeamIds(),
+      configuredTeams: requestedTeam ? [requestedTeam] : configuredTeamIds,
       failedJobReasons,
     },
   });
@@ -100,7 +122,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     ok: true,
     status,
-    configuredTeams: getMonitoringTeamIds(),
+    configuredTeams: requestedTeam ? [requestedTeam] : configuredTeamIds,
     registeredSources: registered.length,
     scheduled,
     jobs: jobs.length,
