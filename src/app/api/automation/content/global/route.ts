@@ -16,6 +16,7 @@ import {
   syncMonitoringRegistry,
 } from '@/server/monitoring/observer';
 import { drainJobs, scheduleDueSources } from '@/server/story-engine/service';
+import { syncVerifiedVideoSources } from '@/server/film-room/video-source-sync';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -58,6 +59,7 @@ export async function POST(request: NextRequest) {
 
   const requestedTeam = request.nextUrl.searchParams.get('team')?.trim().toUpperCase();
   const requestedGroup = request.nextUrl.searchParams.get('group')?.trim().toLowerCase();
+  const forceRequested = request.nextUrl.searchParams.get('force') === 'true';
   const configuredTeamIds = getMonitoringTeamIds();
   if (requestedTeam && !configuredTeamIds.includes(requestedTeam))
     return NextResponse.json({ ok: false, error: 'Unknown team' }, { status: 400 });
@@ -83,6 +85,9 @@ export async function POST(request: NextRequest) {
   const registered = requestedTeam
     ? await syncMonitoringRegistry(requestedTeam)
     : await syncAllMonitoringRegistries();
+  const verifiedVideoSources = requestedTeam
+    ? await syncVerifiedVideoSources(requestedTeam, forceRequested)
+    : 0;
   const scheduled = requestedTeam
     ? await scheduleDueSources(
         new Date(),
@@ -114,6 +119,7 @@ export async function POST(request: NextRequest) {
     failedJobs: failedJobs.length,
     detail: {
       registeredSources: registered.length,
+      verifiedVideoSources,
       configuredTeams: requestedTeam ? [requestedTeam] : configuredTeamIds,
       failedJobReasons,
     },
@@ -124,6 +130,7 @@ export async function POST(request: NextRequest) {
     status,
     configuredTeams: requestedTeam ? [requestedTeam] : configuredTeamIds,
     registeredSources: registered.length,
+    verifiedVideoSources,
     scheduled,
     jobs: jobs.length,
     failedJobs: failedJobs.length,
