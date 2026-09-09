@@ -12,6 +12,8 @@ test('profile menu exposes the existing team selector as Favorite Team', () => {
   const source = readFileSync('src/components/auth/login-button.tsx', 'utf8');
   assert.match(source, /team-select=1/);
   assert.match(source, /Favorite Team/);
+  assert.ok(source.indexOf("'/account', 'Account'") < source.indexOf("'/rewards', 'Rewards'"));
+  assert.ok(source.indexOf("'/rewards', 'Rewards'") < source.indexOf("'/crew', 'My Crew'"));
 });
 
 test('homepage desktop header has no standalone team-switching pill', () => {

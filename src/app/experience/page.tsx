@@ -65,8 +65,8 @@ function FrontOfficePathGate({
   onContinue: () => void;
 }) {
   return (
-    <AppShell>
-      <section className="mx-auto flex min-h-[calc(100vh-13rem)] w-full max-w-6xl flex-col justify-center py-10">
+    <AppShell showTeamSummary={false}>
+      <section className="mx-auto flex min-h-[calc(100vh-13rem)] w-full max-w-6xl flex-col pb-10 pt-3 sm:pt-4">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
           Choose your path
         </p>

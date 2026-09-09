@@ -123,15 +123,27 @@ function HeaderDelta({ delta, suffix = '' }: { delta: number | null; suffix?: st
   );
 }
 
-export default function AppShell({ children }: { children: React.ReactNode }) {
+export default function AppShell({
+  children,
+  showTeamSummary = true,
+}: {
+  children: React.ReactNode;
+  showTeamSummary?: boolean;
+}) {
   return (
     <Suspense fallback={null}>
-      <AppShellContent>{children}</AppShellContent>
+      <AppShellContent showTeamSummary={showTeamSummary}>{children}</AppShellContent>
     </Suspense>
   );
 }
 
-function AppShellContent({ children }: { children: React.ReactNode }) {
+function AppShellContent({
+  children,
+  showTeamSummary,
+}: {
+  children: React.ReactNode;
+  showTeamSummary: boolean;
+}) {
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
@@ -472,187 +484,189 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
           </aside>
 
           <div className="flex min-w-0 flex-1 flex-col">
-            <header className="front-office-team-summary border-b border-border bg-[#fffdf9]/90 px-4 py-3 md:bg-[#fffdf9]/95 md:px-6">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-3 md:hidden">
-                  <button
-                    type="button"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
-                    onClick={() => setIsMobileSidebarOpen((open) => !open)}
-                    aria-label={isMobileSidebarOpen ? 'Close menu' : 'Open menu'}
-                  >
-                    {isMobileSidebarOpen ? (
-                      <X className="h-4 w-4 text-muted-foreground" />
-                    ) : (
-                      <Menu className="h-4 w-4 text-muted-foreground" />
-                    )}
-                  </button>
-                  <Link
-                    href="/teams?switch=1"
-                    aria-label="Change team"
-                    className="group flex h-9 w-9 items-center justify-center bg-white transition hover:ring-2 hover:ring-ring md:overflow-hidden md:rounded-full md:border md:border-border"
-                  >
-                    {selectedTeam?.logo_url ? (
-                      <>
-                        <Image
-                          src={selectedTeam.logo_url}
-                          alt={`${selectedTeam.name} logo`}
-                          width={36}
-                          height={36}
-                          className="block h-8 w-8 object-contain md:hidden"
-                        />
-                        <Image
-                          src={selectedTeam.logo_url}
-                          alt={`${selectedTeam.name} logo`}
-                          width={36}
-                          height={36}
-                          className="hidden h-full w-full object-cover md:block"
-                        />
-                      </>
-                    ) : (
-                      <span className="text-xs font-semibold text-muted-foreground">
-                        {selectedTeam?.abbr ?? '--'}
-                      </span>
-                    )}
-                  </Link>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex min-w-0 items-center gap-3">
-                      <div className="min-w-0">
-                        <span className="block truncate text-sm font-semibold text-foreground">
-                          {selectedTeam?.name ?? 'Select a team'}
-                        </span>
-                        <span
-                          className={cn(
-                            'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
-                            trajectoryAccentClass,
-                            trajectoryPulse ? 'animate-pulse' : null,
-                          )}
-                        >
-                          <span className="inline-flex items-start gap-1 text-foreground">
-                            <span>
-                              OVR{' '}
-                              <span className="text-sm font-semibold">
-                                {liveTeamSummary.overall ?? '—'}
-                              </span>
-                            </span>
-                            <HeaderDelta delta={liveOverallDelta} />
-                          </span>
-                          <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
-                        </span>
-                      </div>
-                      <div className="h-9 w-px shrink-0 bg-border" />
-                      <div className="shrink-0">
-                        <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                          Cap Space
-                        </span>
-                        <span
-                          className={cn(
-                            'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
-                            capSpace < 0 ? 'text-destructive' : 'text-foreground',
-                          )}
-                        >
-                          <span>{formatMoneyMillions(capSpace)}</span>
-                          <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
-                        </span>
-                      </div>
-                      {showTeamNeeds ? (
-                        <div className="hidden md:flex items-center border-l border-border pl-3">
-                          <TeamNeeds teamNeeds={liveTeamSummary.needs as TeamNeed[]} />
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-                <div className="md:hidden">
-                  <FrontOfficePhaseControl
-                    season={franchiseYear}
-                    phase={phase}
-                    freeAgencyWave={freeAgencyWave}
-                  />
-                </div>
-                <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
-                  <div className="flex min-w-0 items-center gap-3">
+            {showTeamSummary ? (
+              <header className="front-office-team-summary border-b border-border bg-[#fffdf9]/90 px-4 py-3 md:bg-[#fffdf9]/95 md:px-6">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3 md:hidden">
+                    <button
+                      type="button"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
+                      onClick={() => setIsMobileSidebarOpen((open) => !open)}
+                      aria-label={isMobileSidebarOpen ? 'Close menu' : 'Open menu'}
+                    >
+                      {isMobileSidebarOpen ? (
+                        <X className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <Menu className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </button>
                     <Link
                       href="/teams?switch=1"
                       aria-label="Change team"
-                      className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring"
+                      className="group flex h-9 w-9 items-center justify-center bg-white transition hover:ring-2 hover:ring-ring md:overflow-hidden md:rounded-full md:border md:border-border"
                     >
                       {selectedTeam?.logo_url ? (
-                        <Image
-                          src={selectedTeam.logo_url}
-                          alt={`${selectedTeam.name} logo`}
-                          width={40}
-                          height={40}
-                          className="h-full w-full object-cover"
-                        />
+                        <>
+                          <Image
+                            src={selectedTeam.logo_url}
+                            alt={`${selectedTeam.name} logo`}
+                            width={36}
+                            height={36}
+                            className="block h-8 w-8 object-contain md:hidden"
+                          />
+                          <Image
+                            src={selectedTeam.logo_url}
+                            alt={`${selectedTeam.name} logo`}
+                            width={36}
+                            height={36}
+                            className="hidden h-full w-full object-cover md:block"
+                          />
+                        </>
                       ) : (
                         <span className="text-xs font-semibold text-muted-foreground">
                           {selectedTeam?.abbr ?? '--'}
                         </span>
                       )}
                     </Link>
-                    <div className="flex min-w-0 items-center gap-4">
-                      <div className="min-w-0">
-                        <span className="block truncate text-sm font-semibold text-foreground">
-                          {selectedTeam?.name ?? 'Select a team'}
-                        </span>
-                        <span
-                          className={cn(
-                            'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
-                            trajectoryAccentClass,
-                            trajectoryPulse ? 'animate-pulse' : null,
-                          )}
-                        >
-                          <span className="inline-flex items-start gap-1 text-foreground">
-                            <span>
-                              OVR{' '}
-                              <span className="text-sm font-semibold">
-                                {liveTeamSummary.overall ?? '—'}
-                              </span>
-                            </span>
-                            <HeaderDelta delta={liveOverallDelta} />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="min-w-0">
+                          <span className="block truncate text-sm font-semibold text-foreground">
+                            {selectedTeam?.name ?? 'Select a team'}
                           </span>
-                          <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
-                        </span>
-                      </div>
-                      <div className="h-10 w-px shrink-0 bg-border" />
-                      <div className="shrink-0">
-                        <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                          Cap Space
-                        </span>
-                        <span
-                          className={cn(
-                            'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
-                            capSpace < 0 ? 'text-destructive' : 'text-foreground',
-                          )}
-                        >
-                          <span>{formatMoneyMillions(capSpace)}</span>
-                          <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
-                        </span>
-                      </div>
-                      {showTeamNeeds ? (
-                        <div className="hidden lg:flex items-center border-l border-border pl-3">
-                          <TeamNeeds teamNeeds={liveTeamSummary.needs as TeamNeed[]} />
+                          <span
+                            className={cn(
+                              'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
+                              trajectoryAccentClass,
+                              trajectoryPulse ? 'animate-pulse' : null,
+                            )}
+                          >
+                            <span className="inline-flex items-start gap-1 text-foreground">
+                              <span>
+                                OVR{' '}
+                                <span className="text-sm font-semibold">
+                                  {liveTeamSummary.overall ?? '—'}
+                                </span>
+                              </span>
+                              <HeaderDelta delta={liveOverallDelta} />
+                            </span>
+                            <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
+                          </span>
                         </div>
+                        <div className="h-9 w-px shrink-0 bg-border" />
+                        <div className="shrink-0">
+                          <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                            Cap Space
+                          </span>
+                          <span
+                            className={cn(
+                              'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
+                              capSpace < 0 ? 'text-destructive' : 'text-foreground',
+                            )}
+                          >
+                            <span>{formatMoneyMillions(capSpace)}</span>
+                            <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
+                          </span>
+                        </div>
+                        {showTeamNeeds ? (
+                          <div className="hidden md:flex items-center border-l border-border pl-3">
+                            <TeamNeeds teamNeeds={liveTeamSummary.needs as TeamNeed[]} />
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="md:hidden">
+                    <FrontOfficePhaseControl
+                      season={franchiseYear}
+                      phase={phase}
+                      freeAgencyWave={freeAgencyWave}
+                    />
+                  </div>
+                  <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <Link
+                        href="/teams?switch=1"
+                        aria-label="Change team"
+                        className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring"
+                      >
+                        {selectedTeam?.logo_url ? (
+                          <Image
+                            src={selectedTeam.logo_url}
+                            alt={`${selectedTeam.name} logo`}
+                            width={40}
+                            height={40}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-xs font-semibold text-muted-foreground">
+                            {selectedTeam?.abbr ?? '--'}
+                          </span>
+                        )}
+                      </Link>
+                      <div className="flex min-w-0 items-center gap-4">
+                        <div className="min-w-0">
+                          <span className="block truncate text-sm font-semibold text-foreground">
+                            {selectedTeam?.name ?? 'Select a team'}
+                          </span>
+                          <span
+                            className={cn(
+                              'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
+                              trajectoryAccentClass,
+                              trajectoryPulse ? 'animate-pulse' : null,
+                            )}
+                          >
+                            <span className="inline-flex items-start gap-1 text-foreground">
+                              <span>
+                                OVR{' '}
+                                <span className="text-sm font-semibold">
+                                  {liveTeamSummary.overall ?? '—'}
+                                </span>
+                              </span>
+                              <HeaderDelta delta={liveOverallDelta} />
+                            </span>
+                            <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
+                          </span>
+                        </div>
+                        <div className="h-10 w-px shrink-0 bg-border" />
+                        <div className="shrink-0">
+                          <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                            Cap Space
+                          </span>
+                          <span
+                            className={cn(
+                              'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
+                              capSpace < 0 ? 'text-destructive' : 'text-foreground',
+                            )}
+                          >
+                            <span>{formatMoneyMillions(capSpace)}</span>
+                            <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
+                          </span>
+                        </div>
+                        {showTeamNeeds ? (
+                          <div className="hidden lg:flex items-center border-l border-border pl-3">
+                            <TeamNeeds teamNeeds={liveTeamSummary.needs as TeamNeed[]} />
+                          </div>
+                        ) : null}
+                      </div>
+                      {showOnTheClock ? (
+                        <span
+                          className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] lg:inline"
+                          style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
+                        >
+                          ON THE CLOCK
+                        </span>
                       ) : null}
                     </div>
-                    {showOnTheClock ? (
-                      <span
-                        className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] lg:inline"
-                        style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
-                      >
-                        ON THE CLOCK
-                      </span>
-                    ) : null}
+                    <FrontOfficePhaseControl
+                      season={franchiseYear}
+                      phase={phase}
+                      freeAgencyWave={freeAgencyWave}
+                    />
                   </div>
-                  <FrontOfficePhaseControl
-                    season={franchiseYear}
-                    phase={phase}
-                    freeAgencyWave={freeAgencyWave}
-                  />
                 </div>
-              </div>
-            </header>
+              </header>
+            ) : null}
 
             {showOffseasonStepper && mode === 'full' ? (
               <PhaseStepper currentStep={currentStep} completedSteps={completedSteps} />

@@ -57,16 +57,16 @@ export default function LoginButton({
   }
 
   const links = [
+    ['/account', 'Account', BriefcaseBusiness],
+    ['/rewards', 'Rewards', Trophy],
     ['/crew', 'My Crew', Users],
     [
       `/?team-select=1${teamAbbr ? `&team=${encodeURIComponent(teamAbbr)}` : ''}`,
       'Favorite Team',
       Shield,
     ],
-    ['/rewards', 'Rewards', Trophy],
     ['/account/notifications', 'Notifications', Bell],
     ['/account/content', 'Content', Bookmark],
-    ['/account', 'Account', BriefcaseBusiness],
     ['/account/devices', 'Devices', ShieldCheck],
     ['/account/privacy-security', 'Privacy & Security', ShieldCheck],
   ] as const;

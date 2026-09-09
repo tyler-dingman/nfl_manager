@@ -11,6 +11,7 @@ test('path onboarding is save-scoped, persisted, and hidden after selection', ()
   assert.match(page, /selectedPath: selectedMode/);
   assert.match(page, /shouldShowFrontOfficeOnboarding\(savedPath\)/);
   assert.match(page, /return \(\s*<FrontOfficePathGate/);
+  assert.match(page, /<AppShell showTeamSummary=\{false\}>/);
   assert.match(migration, /PRIMARY KEY \(user_id, save_id\)/);
   assert.match(migration, /'full', 'free_agency', 'draft'/);
 });
