@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   inferFrontOfficePath,
   initializeFrontOfficeSimulationPhase,
+  shouldShowFrontOfficeOnboarding,
 } from './front-office-onboarding';
 
 test('new and returning unselected saves stay in onboarding', () => {
@@ -47,4 +48,20 @@ test('calendar phase initializes a new full save once and never resets progress 
   const weekFive = `week-${Number(initialized.split('-')[1]) + 1}`;
   const weekSix = `week-${Number(weekFive.split('-')[1]) + 1}`;
   assert.equal(initializeFrontOfficeSimulationPhase(weekSix, 'week-4'), 'week-6');
+});
+
+test('a legacy Week 1 save hides onboarding without resetting progression the save', () => {
+  const inferred = inferFrontOfficePath({
+    selectedPath: null,
+    phase: 'resign_cut',
+    simulationPhase: 'week-1',
+    experienceMode: 'sandbox',
+    completedStepCount: 0,
+  });
+  assert.equal(inferred, 'full');
+  assert.equal(shouldShowFrontOfficeOnboarding(inferred), false);
+});
+
+test('visiting alone does not complete onboarding', () => {
+  assert.equal(shouldShowFrontOfficeOnboarding(null), true);
 });

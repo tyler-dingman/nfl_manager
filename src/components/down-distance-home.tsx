@@ -8,7 +8,6 @@ import {
   BarChart3,
   Clock3,
   Flame,
-  Menu,
   MessageCircle,
   Play,
   Radio,
@@ -465,29 +464,8 @@ export default function DownDistanceHome() {
               <Search className="h-4 w-4" />
             </button>
             <NotificationCenter teamAbbr={activeTeam?.abbr} />
-            <div className="relative hidden xl:block">
-              <button
-                type="button"
-                onClick={() => setIsTeamMenuOpen((open) => !open)}
-                className="flex h-10 items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 pr-4 text-sm font-bold leading-none transition hover:bg-white/15"
-                aria-expanded={isTeamMenuOpen}
-              >
-                {activeTeam ? (
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={activeTeam.logo_url} alt="" className="h-6 w-6 object-contain" />
-                  </span>
-                ) : (
-                  <Shield className="h-5 w-5 text-[var(--team-secondary-on-dark)]" />
-                )}
-                <span className="hidden sm:inline">
-                  {activeTeam ? `${activeTeam.abbr} · Team Select` : 'Team Select'}
-                </span>
-                <Menu className="h-4 w-4" />
-              </button>
-            </div>
             <span className="hidden xl:block">
-              <LoginButton />
+              <LoginButton teamAbbr={activeTeam?.abbr} />
             </span>
             <MobileSiteMenu teamAbbr={activeTeam?.abbr} active="huddle" />
           </div>

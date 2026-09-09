@@ -18,9 +18,10 @@ import { apiFetch } from '@/lib/api';
 import {
   inferFrontOfficePath,
   initializeFrontOfficeSimulationPhase,
+  shouldShowFrontOfficeOnboarding,
 } from '@/lib/front-office-onboarding';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
-import type { FrontOfficePath } from '@/types/front-office';
+import type { FranchiseSimulationState, FrontOfficePath } from '@/types/front-office';
 
 type ExperienceMode = FrontOfficePath;
 
@@ -53,6 +54,81 @@ const EXPERIENCE_ICONS = {
   free_agency: Handshake,
   draft: DraftingCompass,
 } as const;
+
+function FrontOfficePathGate({
+  selectedMode,
+  onSelect,
+  onContinue,
+}: {
+  selectedMode: ExperienceMode;
+  onSelect: (mode: ExperienceMode) => void;
+  onContinue: () => void;
+}) {
+  return (
+    <AppShell>
+      <section className="mx-auto flex min-h-[calc(100vh-13rem)] w-full max-w-6xl flex-col justify-center py-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+          Choose your path
+        </p>
+        <h1 className="mt-2 text-3xl font-black text-foreground">Choose your experience</h1>
+        <div className="mt-7 grid gap-4 md:grid-cols-3">
+          {EXPERIENCE_OPTIONS.map((option) => {
+            const isSelected = selectedMode === option.key;
+            const Icon = EXPERIENCE_ICONS[option.key];
+            return (
+              <button
+                key={option.key}
+                type="button"
+                className={`front-office-experience-card group relative flex min-h-64 h-full flex-col overflow-hidden rounded-2xl border p-6 text-left transition ${
+                  isSelected
+                    ? 'is-selected border-transparent bg-[var(--team-dark)] text-[var(--team-on-dark)] shadow-xl'
+                    : 'border-border bg-white hover:-translate-y-0.5 hover:shadow-lg'
+                }`}
+                onClick={() => onSelect(option.key)}
+              >
+                {option.isDefault ? (
+                  <div className="absolute right-0 top-[-2px] z-10">
+                    <Badge
+                      variant="secondary"
+                      className="rounded-bl-sm rounded-br-none rounded-tl-none rounded-tr-none border-transparent bg-[var(--team-dark)] px-3.5 text-[var(--team-on-dark)]"
+                    >
+                      Default
+                    </Badge>
+                  </div>
+                ) : null}
+                <Icon className="mb-auto h-9 w-9" aria-hidden="true" />
+                <p
+                  className={`mt-8 text-xl font-semibold ${isSelected ? 'text-inherit' : 'text-foreground'}`}
+                >
+                  {option.title}
+                </p>
+                <p
+                  className={`mt-1 text-sm ${isSelected ? 'text-inherit opacity-80' : 'text-muted-foreground'}`}
+                >
+                  {option.description}
+                </p>
+                <span
+                  className={`mt-6 inline-flex h-10 w-10 items-center justify-center rounded-full border ${isSelected ? 'border-current' : 'border-border bg-[#f7f4ee]'}`}
+                >
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="mt-6 flex justify-end">
+          <Button
+            type="button"
+            onClick={onContinue}
+            className="w-full bg-[var(--team-dark)] text-[var(--team-on-dark)] hover:bg-[var(--team-dark)] hover:opacity-95 md:w-auto"
+          >
+            Continue
+          </Button>
+        </div>
+      </section>
+    </AppShell>
+  );
+}
 
 export default function ExperiencePage() {
   const router = useRouter();
@@ -99,6 +175,12 @@ export default function ExperiencePage() {
     const load = async () => {
       let resolvedPath = localStorage.getItem(localKey) as FrontOfficePath | null;
       let resolvedPhase = phase;
+      let persistedState: {
+        selectedPath?: FrontOfficePath | null;
+        simulationPhase?: string | null;
+        initializedAt?: string | null;
+        simulation?: FranchiseSimulationState | null;
+      } | null = null;
       try {
         const response = await apiFetch(
           `/api/front-office/state?saveId=${encodeURIComponent(saveId)}`,
@@ -108,11 +190,14 @@ export default function ExperiencePage() {
             state?: {
               selectedPath?: FrontOfficePath | null;
               simulationPhase?: string | null;
+              initializedAt?: string | null;
+              simulation?: FranchiseSimulationState | null;
             } | null;
           };
-          resolvedPath = payload.state?.selectedPath ?? resolvedPath;
-          if (payload.state?.simulationPhase && payload.state.simulationPhase !== phase) {
-            resolvedPhase = payload.state.simulationPhase;
+          persistedState = payload.state ?? null;
+          resolvedPath = persistedState?.selectedPath ?? resolvedPath;
+          if (persistedState?.simulationPhase && persistedState.simulationPhase !== phase) {
+            resolvedPhase = persistedState.simulationPhase;
             await setPhase(resolvedPhase);
           }
         }
@@ -125,6 +210,9 @@ export default function ExperiencePage() {
         phase: resolvedPhase,
         experienceMode,
         completedStepCount: completedSteps.length,
+        simulationPhase: persistedState?.simulationPhase ?? null,
+        initializedAt: persistedState?.initializedAt ?? null,
+        simulation: persistedState?.simulation ?? null,
       });
       if (!resolvedPath && inferredPath) {
         resolvedPath = inferredPath;
@@ -254,6 +342,16 @@ export default function ExperiencePage() {
     router.push('/draft/room?mode=mock');
   };
 
+  if (shouldShowFrontOfficeOnboarding(savedPath)) {
+    return (
+      <FrontOfficePathGate
+        selectedMode={selectedMode}
+        onSelect={setSelectedMode}
+        onContinue={() => void handleContinue()}
+      />
+    );
+  }
+
   return (
     <AppShell>
       <div className="-mx-4 -mt-6 mb-7 sm:-mt-8 md:-mx-8">
@@ -319,79 +417,6 @@ export default function ExperiencePage() {
               </p>
             </div>
           </section>
-
-          {!savedPath ? (
-            <div className="border-t border-border pt-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-                Choose your path
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold text-foreground">
-                Choose your experience
-              </h2>
-            </div>
-          ) : null}
-
-          {!savedPath ? (
-            <div className="grid gap-4 md:grid-cols-3">
-              {EXPERIENCE_OPTIONS.map((option) => {
-                const isSelected = selectedMode === option.key;
-                const Icon = EXPERIENCE_ICONS[option.key];
-                return (
-                  <button
-                    key={option.key}
-                    type="button"
-                    className={`front-office-experience-card group relative flex min-h-64 h-full flex-col overflow-hidden rounded-2xl border p-6 text-left transition ${
-                      isSelected
-                        ? 'is-selected border-transparent bg-[var(--team-dark)] text-[var(--team-on-dark)] shadow-xl'
-                        : 'border-border bg-white hover:-translate-y-0.5 hover:shadow-lg'
-                    }`}
-                    onClick={() => setSelectedMode(option.key)}
-                  >
-                    {option.isDefault ? (
-                      <div className="absolute right-0 top-[-2px] z-10">
-                        <Badge
-                          variant="secondary"
-                          className="overflow-hidden rounded-bl-sm rounded-br-none rounded-tl-none rounded-tr-none border-transparent bg-[var(--team-dark)] px-3.5 text-[var(--team-on-dark)]"
-                        >
-                          Default
-                        </Badge>
-                      </div>
-                    ) : null}
-                    <Icon className="mb-auto h-9 w-9" aria-hidden="true" />
-                    <div className="mt-8 pr-20">
-                      <p
-                        className={`text-xl font-semibold ${isSelected ? 'text-inherit' : 'text-foreground'}`}
-                      >
-                        {option.title}
-                      </p>
-                    </div>
-                    <p
-                      className={`mt-1 text-sm ${isSelected ? 'text-inherit opacity-80' : 'text-muted-foreground'}`}
-                    >
-                      {option.description}
-                    </p>
-                    <span
-                      className={`mt-6 inline-flex h-10 w-10 items-center justify-center rounded-full border ${isSelected ? 'border-current' : 'border-border bg-[#f7f4ee]'}`}
-                    >
-                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          ) : null}
-
-          {!savedPath ? (
-            <div className="flex justify-end">
-              <Button
-                type="button"
-                onClick={handleContinue}
-                className="w-full bg-[var(--team-dark)] text-[var(--team-on-dark)] hover:bg-[var(--team-dark)] hover:opacity-95 focus-visible:ring-[var(--team-dark)] md:w-auto"
-              >
-                Continue
-              </Button>
-            </div>
-          ) : null}
         </div>
       </div>
       <AdSlot placement="ANCHOR" responsive={{ hideOnDesktop: true }} />

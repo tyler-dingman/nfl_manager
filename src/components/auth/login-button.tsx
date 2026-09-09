@@ -14,12 +14,19 @@ import {
   ShieldCheck,
   Trophy,
   Users,
+  Shield,
 } from 'lucide-react';
 
 import { clearPreviewSession, useAuthUser } from '@/features/auth/auth-session';
 import UserAvatar from '@/components/auth/user-avatar';
 
-export default function LoginButton({ dark = true }: { dark?: boolean }) {
+export default function LoginButton({
+  dark = true,
+  teamAbbr,
+}: {
+  dark?: boolean;
+  teamAbbr?: string | null;
+}) {
   const router = useRouter();
   const { user, hydrated } = useAuthUser();
   const [open, setOpen] = useState(false);
@@ -51,7 +58,11 @@ export default function LoginButton({ dark = true }: { dark?: boolean }) {
 
   const links = [
     ['/crew', 'My Crew', Users],
-    ['/account/my-team', 'My Team', Settings2],
+    [
+      `/?team-select=1${teamAbbr ? `&team=${encodeURIComponent(teamAbbr)}` : ''}`,
+      'Favorite Team',
+      Shield,
+    ],
     ['/rewards', 'Rewards', Trophy],
     ['/account/notifications', 'Notifications', Bell],
     ['/account/content', 'Content', Bookmark],
