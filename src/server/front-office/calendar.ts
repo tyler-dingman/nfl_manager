@@ -19,6 +19,32 @@ type EspnEvent = {
 const calendarCache = new Map<number, { expiresAt: number; games: NFLScheduleGame[] }>();
 const CALENDAR_CACHE_TTL = 6 * 60 * 60 * 1000;
 
+export function createFallbackRegularSeasonSchedule(teamAbbrs: string[], season: number) {
+  const teams = [...new Set(teamAbbrs.map((abbr) => abbr.toUpperCase()))].sort();
+  if (teams.length % 2 !== 0) throw new Error('An even number of teams is required.');
+  const rotation = [...teams];
+  const games: NFLScheduleGame[] = [];
+  for (let week = 1; week <= 17; week += 1) {
+    for (let index = 0; index < rotation.length / 2; index += 1) {
+      const left = rotation[index];
+      const right = rotation[rotation.length - 1 - index];
+      const homeTeam = (week + index) % 2 === 0 ? left : right;
+      const awayTeam = homeTeam === left ? right : left;
+      games.push({
+        id: `${season}-fallback-${week}-${awayTeam}-${homeTeam}`,
+        season,
+        seasonType: 'REG',
+        week,
+        startsAt: `${season}-09-01T00:00:00.000Z`,
+        homeTeam,
+        awayTeam,
+      });
+    }
+    rotation.splice(1, 0, rotation.pop()!);
+  }
+  return games;
+}
+
 async function fetchCalendarYear(calendarYear: number) {
   const cached = calendarCache.get(calendarYear);
   if (cached && cached.expiresAt > Date.now()) return cached.games;

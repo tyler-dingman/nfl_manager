@@ -6,7 +6,10 @@ import { authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { getSaveStateResult } from '@/server/api/store';
-import { getNFLRegularSeasonSchedule } from '@/server/front-office/calendar';
+import {
+  createFallbackRegularSeasonSchedule,
+  getNFLRegularSeasonSchedule,
+} from '@/server/front-office/calendar';
 import { generateFrontOfficeEvents } from '@/server/front-office/event-engine';
 import {
   expireFrontOfficeTradeOffers,
@@ -37,8 +40,13 @@ async function initializeSimulation(input: {
   const metadata = await getFrontOfficeSaveMetadata(input.userId, input.saveId);
   if (!metadata) return null;
   if (metadata.simulation) return metadata;
-  const schedule = await getNFLRegularSeasonSchedule(metadata.season);
-  if (schedule.length < 250) throw new Error(`The ${metadata.season} schedule is incomplete.`);
+  let schedule = await getNFLRegularSeasonSchedule(metadata.season).catch(() => []);
+  if (schedule.length < 272) {
+    schedule = createFallbackRegularSeasonSchedule(
+      NFL_LEAGUE_DATA.teams.map((team) => team.abbr),
+      metadata.season,
+    );
+  }
   const simulation = createFranchiseSimulation({
     seed: `${input.userId}:${input.saveId}:${metadata.season}`,
     season: metadata.season,

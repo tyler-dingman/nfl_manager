@@ -16,6 +16,15 @@ test('regular-season action advances one week without confirmation', () => {
   });
 });
 
+test('Week 1 offers Week 2 first, then Trade Deadline and Playoffs in that order', () => {
+  const actions = getFrontOfficePhaseActions('week-1');
+  assert.equal(actions.primary.label, 'Continue to Week 2');
+  assert.deepEqual(
+    actions.jumps.map((action) => action.label),
+    ['Continue to Trade Deadline', 'Continue to Playoffs'],
+  );
+});
+
 test('trade deadline jump disappears after the deadline', () => {
   assert.equal(
     getFrontOfficePhaseActions('week-6').jumps.some((action) =>

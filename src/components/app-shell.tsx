@@ -126,13 +126,17 @@ function HeaderDelta({ delta, suffix = '' }: { delta: number | null; suffix?: st
 export default function AppShell({
   children,
   showTeamSummary = true,
+  showLeagueWire = true,
 }: {
   children: React.ReactNode;
   showTeamSummary?: boolean;
+  showLeagueWire?: boolean;
 }) {
   return (
     <Suspense fallback={null}>
-      <AppShellContent showTeamSummary={showTeamSummary}>{children}</AppShellContent>
+      <AppShellContent showTeamSummary={showTeamSummary} showLeagueWire={showLeagueWire}>
+        {children}
+      </AppShellContent>
     </Suspense>
   );
 }
@@ -140,9 +144,11 @@ export default function AppShell({
 function AppShellContent({
   children,
   showTeamSummary,
+  showLeagueWire,
 }: {
   children: React.ReactNode;
   showTeamSummary: boolean;
+  showLeagueWire: boolean;
 }) {
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
@@ -668,11 +674,11 @@ function AppShellContent({
               </header>
             ) : null}
 
-            {showOffseasonStepper && mode === 'full' ? (
+            {showTeamSummary && showOffseasonStepper && mode === 'full' ? (
               <PhaseStepper currentStep={currentStep} completedSteps={completedSteps} />
             ) : null}
 
-            {showOnTheClock ? (
+            {showTeamSummary && showOnTheClock ? (
               <div className="mt-3 w-full px-4 md:hidden">
                 <div className="rounded-xl bg-gradient-to-r from-[#0A2A66] via-[#1453B8] to-[#0A2A66] px-4 py-2 text-center">
                   <span
@@ -697,7 +703,7 @@ function AppShellContent({
             </div>
           </div>
           <TradeOfferToast scopeKey={tradeOfferScopeKey} />
-          {saveId ? <FrontOfficeEventCenter saveId={saveId} /> : null}
+          {showLeagueWire && saveId ? <FrontOfficeEventCenter saveId={saveId} /> : null}
         </div>
       </div>
     </TeamThemeProvider>

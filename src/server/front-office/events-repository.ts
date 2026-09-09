@@ -18,6 +18,15 @@ const selectColumns = `
   created_at AS "createdAt", expires_at AS "expiresAt", read_at AS "readAt",
   dismissed_at AS "dismissedAt", surfaced_at AS "surfacedAt"`;
 
+const surfacedSelectColumns = `
+  e.id, e.save_id AS "saveId", e.type, e.priority, e.headline, e.summary,
+  e.team_abbr AS "teamAbbr", e.related_team_abbr AS "relatedTeamAbbr",
+  e.player_id AS "playerId", e.prospect_id AS "prospectId", e.trade_offer_id AS "tradeOfferId",
+  e.simulation_season AS "simulationSeason", e.simulation_week AS "simulationWeek",
+  e.simulation_phase AS "simulationPhase", e.action_url AS "actionUrl", e.metadata,
+  e.created_at AS "createdAt", e.expires_at AS "expiresAt", e.read_at AS "readAt",
+  e.dismissed_at AS "dismissedAt", e.surfaced_at AS "surfacedAt"`;
+
 const iso = (value: unknown) => (value ? new Date(value as string).toISOString() : null);
 const mapEvent = (row: EventRow): FrontOfficeEvent => ({
   ...row,
@@ -88,7 +97,7 @@ export async function surfaceNextFrontOfficeEvent(userId: string, saveId: string
      )
      UPDATE front_office_events e SET surfaced_at = now()
      FROM candidate c WHERE e.user_id = $1 AND e.id = c.id
-     RETURNING ${selectColumns}`,
+     RETURNING ${surfacedSelectColumns}`,
     [userId, saveId],
   );
   return rows[0] ? mapEvent(rows[0]) : null;

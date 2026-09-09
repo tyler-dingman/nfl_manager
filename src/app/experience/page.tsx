@@ -17,7 +17,6 @@ import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
 import {
   inferFrontOfficePath,
-  initializeFrontOfficeSimulationPhase,
   shouldShowFrontOfficeOnboarding,
 } from '@/lib/front-office-onboarding';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
@@ -65,7 +64,7 @@ function FrontOfficePathGate({
   onContinue: () => void;
 }) {
   return (
-    <AppShell showTeamSummary={false}>
+    <AppShell showTeamSummary={false} showLeagueWire={false}>
       <section className="mx-auto flex min-h-[calc(100vh-13rem)] w-full max-w-6xl flex-col pb-10 pt-3 sm:pt-4">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
           Choose your path
@@ -205,6 +204,28 @@ export default function ExperiencePage() {
         // Anonymous and offline sessions intentionally fall back to this save's local preference.
       }
 
+      // Full Experience starts at the opening of the season. Repair saves created by the
+      // earlier onboarding flow only when they have not initialized simulation progress yet.
+      if (
+        resolvedPath === 'full' &&
+        resolvedPhase === 'resign_cut' &&
+        !persistedState?.simulation
+      ) {
+        resolvedPhase = 'week-1';
+        await setPhase(resolvedPhase);
+        void apiFetch('/api/front-office/state', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            saveId,
+            teamAbbr,
+            season: franchiseYear,
+            selectedPath: resolvedPath,
+            simulationPhase: resolvedPhase,
+          }),
+        }).catch(() => undefined);
+      }
+
       const inferredPath = inferFrontOfficePath({
         selectedPath: resolvedPath,
         phase: resolvedPhase,
@@ -258,7 +279,7 @@ export default function ExperiencePage() {
 
   if (!isHydrated || !saveId || !frontOfficeReady) {
     return (
-      <AppShell>
+      <AppShell showTeamSummary={false} showLeagueWire={false}>
         <div className="min-h-[1px]" />
       </AppShell>
     );
@@ -286,17 +307,8 @@ export default function ExperiencePage() {
     }
 
     let initialPhase = phase;
-    if (selectedMode === 'full' && phase === 'resign_cut') {
-      const calendarResponse = await apiFetch('/api/front-office/calendar');
-      if (calendarResponse.ok) {
-        const payload = (await calendarResponse.json()) as {
-          calendar?: { frontOfficePhase?: string };
-        };
-        initialPhase = initializeFrontOfficeSimulationPhase(
-          phase,
-          payload.calendar?.frontOfficePhase ?? phase,
-        );
-      }
+    if (selectedMode === 'full') {
+      initialPhase = 'week-1';
     } else if (selectedMode === 'free_agency') {
       initialPhase = 'free_agency';
     } else if (selectedMode === 'draft') {
