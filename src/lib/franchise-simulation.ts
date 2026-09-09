@@ -65,11 +65,27 @@ export function simulateGame(
   const homeBonus = game.neutralSite ? 0 : 1.7;
   let homeScore = scoreFor(`${seed}:${game.id}:home`, home.overall, away.overall, homeBonus);
   let awayScore = scoreFor(`${seed}:${game.id}:away`, away.overall, home.overall, 0);
-  if (game.seasonType === 'POST' && homeScore === awayScore) {
-    if (randomUnit(`${seed}:${game.id}:ot`) >= 0.5) homeScore += 3;
-    else awayScore += 3;
+  const ratingEdge = home.overall - away.overall;
+  const homeWinChance = clamp(0.5 + ratingEdge * 0.025 + (game.neutralSite ? 0 : 0.05), 0.1, 0.9);
+  let homeWins = randomUnit(`${seed}:${game.id}:outcome`) < homeWinChance;
+
+  // No team can finish 17-0. A club that reaches 16 wins takes a loss in its
+  // next regular-season game while postseason results remain unconstrained.
+  if (game.seasonType === 'REG') {
+    const homeAtWinCeiling = home.record.wins >= 16;
+    const awayAtWinCeiling = away.record.wins >= 16;
+    if (homeAtWinCeiling !== awayAtWinCeiling) homeWins = awayAtWinCeiling;
   }
-  const winner = homeScore === awayScore ? null : homeScore > awayScore ? home.abbr : away.abbr;
+
+  const margin = 1 + Math.floor(randomUnit(`${seed}:${game.id}:margin`) * 10);
+  if (homeWins && homeScore <= awayScore) {
+    homeScore = Math.min(49, awayScore + margin);
+    if (homeScore <= awayScore) awayScore = Math.max(3, homeScore - margin);
+  } else if (!homeWins && awayScore <= homeScore) {
+    awayScore = Math.min(49, homeScore + margin);
+    if (awayScore <= homeScore) homeScore = Math.max(3, awayScore - margin);
+  }
+  const winner = homeWins ? home.abbr : away.abbr;
   home.pointsFor += homeScore;
   home.pointsAgainst += awayScore;
   away.pointsFor += awayScore;

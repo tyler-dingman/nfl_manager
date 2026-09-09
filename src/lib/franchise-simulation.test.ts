@@ -99,6 +99,41 @@ test('a 90 OVR team wins materially more seeded games than a 70 OVR team', () =>
   assert.ok(strongWins < 200);
 });
 
+test('a team at 16 wins cannot finish the regular season 17-0', () => {
+  const teams: Record<string, FranchiseTeamState> = {
+    AAA: {
+      ...team('AAA', 99),
+      record: { wins: 16, losses: 0, ties: 0 },
+      pointsFor: 500,
+      pointsAgainst: 100,
+    },
+    BBB: {
+      ...team('BBB', 60),
+      record: { wins: 0, losses: 16, ties: 0 },
+      pointsFor: 100,
+      pointsAgainst: 500,
+    },
+  };
+  const result = simulateGame(
+    {
+      id: 'regular-season-finale',
+      week: 18,
+      seasonType: 'REG',
+      homeTeam: 'AAA',
+      awayTeam: 'BBB',
+      played: false,
+      homeScore: null,
+      awayScore: null,
+      winner: null,
+    },
+    teams,
+    'win-ceiling',
+  );
+
+  assert.equal(result.winner, 'BBB');
+  assert.deepEqual(teams.AAA.record, { wins: 16, losses: 1, ties: 0 });
+});
+
 test('weekly progression leaves a bye-week team unchanged', () => {
   const state = createFranchiseSimulation({
     seed: 'bye-save',
