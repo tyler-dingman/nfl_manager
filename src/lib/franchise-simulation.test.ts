@@ -4,10 +4,33 @@ import test from 'node:test';
 import {
   advanceSimulation,
   createFranchiseSimulation,
+  normalizeFranchiseSimulationState,
   seedPlayoffs,
   simulateGame,
 } from '@/lib/franchise-simulation';
-import type { FranchiseGameState, FranchiseTeamState } from '@/types/front-office';
+import type {
+  FranchiseGameState,
+  FranchiseSimulationState,
+  FranchiseTeamState,
+} from '@/types/front-office';
+
+test('normalizes repeatedly encoded simulation state at the simulation boundary', () => {
+  const encoded = JSON.stringify(
+    JSON.stringify(
+      JSON.stringify({
+        currentWeek: 0,
+        phase: 'preseason',
+        teams: {},
+        games: [],
+      }),
+    ),
+  );
+  assert.equal(normalizeFranchiseSimulationState(encoded)?.phase, 'preseason');
+  assert.equal(
+    advanceSimulation(encoded as unknown as FranchiseSimulationState, 'week-1').phase,
+    'week-1',
+  );
+});
 
 const team = (abbr: string, overall: number, conference = 'AFC', division = 'East') => ({
   abbr,

@@ -13,6 +13,28 @@ export type SimulationGameInput = Pick<FranchiseGameState, 'id' | 'week' | 'home
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
+export function normalizeFranchiseSimulationState(value: unknown): FranchiseSimulationState | null {
+  let simulation = value;
+  for (let pass = 0; pass < 8 && typeof simulation === 'string'; pass += 1) {
+    try {
+      simulation = JSON.parse(simulation);
+    } catch {
+      return null;
+    }
+  }
+  if (!simulation || typeof simulation !== 'object' || Array.isArray(simulation)) return null;
+  const candidate = simulation as Partial<FranchiseSimulationState>;
+  if (
+    typeof candidate.currentWeek !== 'number' ||
+    !candidate.teams ||
+    typeof candidate.teams !== 'object' ||
+    !Array.isArray(candidate.games)
+  ) {
+    return null;
+  }
+  return candidate as FranchiseSimulationState;
+}
+
 export const hashSeed = (value: string) => {
   let hash = 2166136261;
   for (let index = 0; index < value.length; index += 1) {
@@ -197,7 +219,9 @@ export function createFranchiseSimulation(input: {
 }
 
 export function advanceSimulation(state: FranchiseSimulationState, target: string) {
-  const next = structuredClone(state);
+  const normalized = normalizeFranchiseSimulationState(state);
+  if (!normalized) throw new Error('The saved franchise simulation state is invalid.');
+  const next = structuredClone(normalized);
   const targetWeek = target.startsWith('week-')
     ? clamp(Number(target.slice(5)) || 1, 1, 18)
     : target === 'wild-card'

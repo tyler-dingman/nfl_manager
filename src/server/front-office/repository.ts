@@ -1,4 +1,5 @@
 import { authDb } from '@/server/auth/database';
+import { normalizeFranchiseSimulationState } from '@/lib/franchise-simulation';
 import type {
   FranchiseSimulationState,
   FrontOfficePath,
@@ -17,16 +18,7 @@ type FrontOfficeSaveRow = {
 };
 
 export function normalizeFranchiseSimulation(value: unknown): FranchiseSimulationState | null {
-  let simulation = value;
-  for (let pass = 0; pass < 2 && typeof simulation === 'string'; pass += 1) {
-    try {
-      simulation = JSON.parse(simulation);
-    } catch {
-      return null;
-    }
-  }
-  if (!simulation || typeof simulation !== 'object' || Array.isArray(simulation)) return null;
-  return simulation as FranchiseSimulationState;
+  return normalizeFranchiseSimulationState(value);
 }
 
 const mapRow = (row: FrontOfficeSaveRow): FrontOfficeSaveMetadata => ({
