@@ -38,6 +38,7 @@ const web = (
   authorityWeight: number,
   feedUrl?: string,
   publishAll = false,
+  multiTeam = false,
 ): MonitoringSource =>
   configured({
     id,
@@ -56,6 +57,7 @@ const web = (
       feedUrl: feedUrl ?? null,
       requiresRobotsAndTermsReview: !feedUrl,
       publishAll,
+      multiTeam,
     },
   });
 const youtube = (
@@ -160,6 +162,8 @@ export const KC_MONITORING_SOURCES: MonitoringSource[] = [
     3,
     60,
     'https://www.profootballrumors.com/feed',
+    false,
+    true,
   ),
   configured({
     id: 'CHIEFS_REDDIT_API',

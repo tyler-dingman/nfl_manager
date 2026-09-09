@@ -46,6 +46,33 @@ test('RSS parser and normalizer produce stable candidates', () => {
   assert.equal(candidate.url, 'https://chiefs.example/a');
   assert.equal(canonicalizeUrl('https://x.test/a?ref=y'), 'https://x.test/a');
 });
+test('aggregator headlines outrank unrelated team mentions in feed descriptions', () => {
+  const aggregator: RegisteredSource = {
+    ...source,
+    id: 'PRO_FOOTBALL_RUMORS',
+    name: 'Pro Football Rumors',
+    sourceType: 'OTHER',
+    pollingTier: 'C',
+    metadata: { multiTeam: true },
+  };
+  const candidate = normalizeRawItem(
+    {
+      sourceId: aggregator.id,
+      externalId: 'patriots-1',
+      url: 'https://example.test/patriots-gonzalez',
+      title: 'Patriots Facing Week 1 Deadline To Extend Christian Gonzalez?',
+      author: null,
+      publishedAt: '2026-09-08T12:00:00Z',
+      updatedAt: null,
+      rawText: 'Patriots contract report. Around the league: Kansas City Chiefs headlines.',
+      excerpt: 'Patriots contract report. Around the league: Kansas City Chiefs headlines.',
+      media: [],
+      fetchedAt: '2026-09-08T12:01:00Z',
+    },
+    aggregator,
+  );
+  assert.deepEqual(candidate.candidateTeams, ['NE']);
+});
 test('Atom parser preserves CDATA titles and summaries', () => {
   const xml = `<feed><entry><title type="html"><![CDATA[Chiefs’ practice update]]></title><link rel="alternate" href="https://chiefs.example/practice"/><id>atom-1</id><published>2026-09-03T15:00:00-04:00</published><summary type="html"><![CDATA[<p>R Mason Thomas missed practice.</p>]]></summary></entry></feed>`;
   const [item] = parseRssOrAtom(xml, source);

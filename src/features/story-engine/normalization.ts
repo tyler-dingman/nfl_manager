@@ -89,6 +89,7 @@ export function extractEntities(text: string) {
 export function normalizeRawItem(raw: RawSourceItem, source: RegisteredSource): ContentCandidate {
   const text = stripMarkup(raw.rawText || raw.excerpt);
   const combined = `${raw.title} ${text}`;
+  const titleTeams = matchTeams(raw.title, source);
   return {
     sourceId: source.id,
     externalId: raw.externalId,
@@ -101,7 +102,9 @@ export function normalizeRawItem(raw: RawSourceItem, source: RegisteredSource): 
     text,
     excerpt: stripMarkup(raw.excerpt).slice(0, 1200),
     entities: extractEntities(combined),
-    candidateTeams: matchTeams(combined, source),
+    // Headlines are the strongest scope signal for league aggregators. Their RSS descriptions
+    // commonly include navigation/sidebar links for unrelated clubs.
+    candidateTeams: titleTeams.length ? titleTeams : matchTeams(combined, source),
     fingerprint: contentFingerprint(raw),
     status: 'NEW',
     storyType: classifyStoryType(combined),

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 import { useAuthUser } from '@/features/auth/auth-session';
+import { notificationMatchesTeamScope } from '@/lib/notification-scope';
 
 type InboxItem = {
   id: string;
@@ -62,9 +63,13 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
   const [loading, setLoading] = useState(false);
 
   const refreshCount = useCallback(async () => {
-    const response = await fetch('/api/user/notifications/unread-count', { cache: 'no-store' });
+    const params = new URLSearchParams();
+    if (teamAbbr) params.set('team', teamAbbr);
+    const response = await fetch(`/api/user/notifications/unread-count?${params}`, {
+      cache: 'no-store',
+    });
     if (response.ok) setCount(((await response.json()) as { count: number }).count);
-  }, []);
+  }, [teamAbbr]);
   const load = useCallback(
     async (nextCursor?: string | null) => {
       setLoading(true);
@@ -77,8 +82,11 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
           notifications: InboxItem[];
           nextCursor: string | null;
         };
+        const scopedNotifications = body.notifications.filter((item) =>
+          notificationMatchesTeamScope(item.teamAbbr, teamAbbr),
+        );
         setItems((current) =>
-          nextCursor ? [...current, ...body.notifications] : body.notifications,
+          nextCursor ? [...current, ...scopedNotifications] : scopedNotifications,
         );
         setCursor(body.nextCursor);
       }

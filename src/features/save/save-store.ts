@@ -281,14 +281,23 @@ export const useSaveStore = create<SaveStoreState>()(
           };
         }),
       setPhase: async (nextPhase) => {
-        const { saveId, teamAbbr, franchiseYear } = get();
+        const { saveId, teamAbbr, franchiseYear, capSpace, capLimit, roster, unlocked } = get();
         if (!saveId) {
           return;
         }
         const response = await apiFetch('/api/saves/phase', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ saveId, phase: nextPhase, teamAbbr, year: franchiseYear }),
+          body: JSON.stringify({
+            saveId,
+            phase: nextPhase,
+            teamAbbr,
+            year: franchiseYear,
+            capSpace,
+            capLimit,
+            roster,
+            unlocked,
+          }),
         });
         if (!response.ok) {
           get().setSaveLoadError('Unable to update save phase.');
@@ -301,6 +310,7 @@ export const useSaveStore = create<SaveStoreState>()(
         }
         set((state) => ({
           ...state,
+          saveId: data.saveId,
           franchiseYear: data.year,
           phase: data.phase,
           unlocked: resolveUnlocks(data.phase, data.unlocked),

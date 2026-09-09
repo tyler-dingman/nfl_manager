@@ -25,6 +25,7 @@ import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { TeamNeeds } from '@/components/team-needs';
 import { FrontOfficePhaseControl } from '@/components/front-office/front-office-phase-control';
+import { FrontOfficeEventCenter } from '@/components/front-office/front-office-event-center';
 import { PhaseStepper } from '@/components/phase-stepper';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
@@ -682,6 +683,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <TradeOfferToast scopeKey={tradeOfferScopeKey} />
+          {saveId ? <FrontOfficeEventCenter saveId={saveId} /> : null}
         </div>
       </div>
     </TeamThemeProvider>

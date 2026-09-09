@@ -1,10 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { restoreSaveState, setSavePhase } from '@/server/api/store';
+import { currentUser } from '@/server/auth/request';
+import { upsertFrontOfficeSaveMetadata } from '@/server/front-office/repository';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveUnlocksDTO } from '@/types/save';
 
-export const POST = async (request: Request) => {
+export const POST = async (request: NextRequest) => {
   let body:
     | {
         saveId?: string;
@@ -57,6 +59,20 @@ export const POST = async (request: Request) => {
   }
 
   const header = result.data;
+  const user = await currentUser(request);
+  if (user) {
+    try {
+      await upsertFrontOfficeSaveMetadata({
+        userId: user.id,
+        saveId: header.id,
+        teamAbbr: header.teamAbbr,
+        season: header.year,
+        simulationPhase: header.phase,
+      });
+    } catch (error) {
+      console.error('[FRONT OFFICE] Unable to persist simulation phase.', error);
+    }
+  }
   return NextResponse.json({
     ok: true,
     saveId: header.id,

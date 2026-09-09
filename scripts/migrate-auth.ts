@@ -44,6 +44,9 @@ async function main() {
       '028_content_automation_global.sql',
       '029_fan_pulse.sql',
       '030_video_source_registry.sql',
+      '031_front_office_save_state.sql',
+      '032_front_office_events.sql',
+      '032_front_office_events.sql',
     ]) {
       if (file === '017_search_documents.sql') {
         const [extension] = await sql<{ available: boolean }[]>`

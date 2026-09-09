@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -137,6 +138,29 @@ export default function CutPlayerModal({
       onClose={onClose}
     >
       <div className="mt-4 space-y-4">
+        <div className="flex items-center gap-3 rounded-lg border border-white/15 bg-white/5 p-3">
+          <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-200 text-sm font-black text-slate-700">
+            {player.headshotUrl ? (
+              <Image
+                src={player.headshotUrl}
+                alt=""
+                width={56}
+                height={56}
+                className="h-full w-full object-cover"
+                unoptimized
+              />
+            ) : (
+              `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`
+            )}
+          </div>
+          <div>
+            <strong className="block text-base">{playerName}</strong>
+            <span className="text-sm text-slate-500">
+              {player.position} · {player.rating ?? player.maddenRating ?? '—'} OVR · Age{' '}
+              {player.age ?? '—'}
+            </span>
+          </div>
+        </div>
         <p className="text-sm italic text-slate-600">&ldquo;{falcoQuote}&rdquo;</p>
 
         <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
@@ -153,6 +177,12 @@ export default function CutPlayerModal({
             </span>
           </div>
           <div className="mt-3 space-y-2">
+            <div className="flex items-center justify-between text-sm text-slate-600">
+              <span>Dead Cap</span>
+              <span className="text-lg font-semibold text-rose-600">
+                {formatMoneyMillions(player.deadCap ?? 0)}
+              </span>
+            </div>
             <div className="flex items-center justify-between text-sm text-slate-600">
               <span>Current Cap Space</span>
               <span className="text-lg font-semibold text-slate-900">
@@ -183,12 +213,22 @@ export default function CutPlayerModal({
             </div>
           </div>
         </div>
+        <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-900">
+          This permanently removes {playerName} from the active roster and depth chart and adds the
+          player to free agency. This decision cannot be undone.
+        </p>
       </div>
 
       <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
         {error ? <p className="text-sm text-red-500">{error}</p> : null}
         <div className="flex items-center justify-end gap-2">
-          <Button type="button" variant="ghost" onClick={onClose} disabled={isSubmitting}>
+          <Button
+            type="button"
+            variant="outline"
+            className="border-slate-400 bg-white text-slate-950 hover:bg-slate-100"
+            onClick={onClose}
+            disabled={isSubmitting}
+          >
             Cancel
           </Button>
           <Button type="submit" disabled={isSubmitting}>

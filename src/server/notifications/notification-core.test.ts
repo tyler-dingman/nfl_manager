@@ -9,6 +9,13 @@ import {
   type NotificationEvent,
   type NotificationPriority,
 } from './index';
+import { notificationMatchesTeamScope } from '@/lib/notification-scope';
+
+test('team-scoped notifications exclude other clubs while allowing global notices', () => {
+  assert.equal(notificationMatchesTeamScope('NE', 'NE'), true);
+  assert.equal(notificationMatchesTeamScope('NE', 'CHI'), false);
+  assert.equal(notificationMatchesTeamScope(null, 'CHI'), true);
+});
 
 test('team audience resolution includes matching team followers and intensity rules', () => {
   const event: NotificationEvent = {
@@ -30,16 +37,37 @@ test('team audience resolution includes matching team followers and intensity ru
 
   const result = resolveAudienceForEvent(event, targets);
   assert.deepEqual(result.map((item) => item.userId).sort(), ['u1', 'u3']);
-  assert.equal(result.every((item) => item.priority === 'HIGH'), true);
+  assert.equal(
+    result.every((item) => item.priority === 'HIGH'),
+    true,
+  );
 });
 
 test('quiet hours respect the user timezone and allow breaking overrides', () => {
   assert.equal(
-    isQuietHour({ enabled: true, startLocalTime: '22:00', endLocalTime: '06:00', timezone: 'America/Chicago', allowBreakingOverride: true }, '2026-08-30T03:30:00-05:00'),
+    isQuietHour(
+      {
+        enabled: true,
+        startLocalTime: '22:00',
+        endLocalTime: '06:00',
+        timezone: 'America/Chicago',
+        allowBreakingOverride: true,
+      },
+      '2026-08-30T03:30:00-05:00',
+    ),
     true,
   );
   assert.equal(
-    isQuietHour({ enabled: true, startLocalTime: '22:00', endLocalTime: '06:00', timezone: 'America/Chicago', allowBreakingOverride: true }, '2026-08-30T12:00:00-05:00'),
+    isQuietHour(
+      {
+        enabled: true,
+        startLocalTime: '22:00',
+        endLocalTime: '06:00',
+        timezone: 'America/Chicago',
+        allowBreakingOverride: true,
+      },
+      '2026-08-30T12:00:00-05:00',
+    ),
     false,
   );
 });

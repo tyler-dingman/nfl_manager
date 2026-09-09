@@ -19,7 +19,7 @@ async function syncSources(sources: ReturnType<typeof getMonitoringSources>) {
   const syncOne = async (source: (typeof sources)[number]) => {
     const rss = source.ingestionMethod === 'RSS_ATOM';
     const enabled = source.active && source.availability === 'LIVE' && rss;
-    const leagueWide = source.teamId === 'NFL';
+    const leagueWide = source.teamId === 'NFL' || source.metadata.multiTeam === true;
     await sql`INSERT INTO content_sources(id,name,source_type,team_id,league_wide,url,feed_url,fetch_strategy,polling_tier,priority,reliability_score,check_interval_seconds,enabled,metadata)
       VALUES(${source.id},${source.name},${source.tier === 3 ? 'OTHER' : 'LOCAL_OUTLET'},${leagueWide ? null : source.teamId},${leagueWide},${source.canonicalUrl},${rss ? String(source.metadata.feedUrl) : null},${rss ? 'RSS' : 'STRUCTURED_API'},${source.tier === 1 ? 'A' : source.tier === 2 ? 'B' : 'C'},${source.authorityWeight},${source.authorityWeight / 100},${source.cadenceSeconds ?? 300},${enabled},${sql.json({ ...source.metadata, monitoringTier: source.tier, platform: source.platform, ingestionMethod: source.ingestionMethod, availability: source.availability, publishAll: true } as any)})
       ON CONFLICT(id) DO UPDATE SET name=excluded.name,team_id=excluded.team_id,league_wide=excluded.league_wide,url=excluded.url,feed_url=excluded.feed_url,polling_tier=excluded.polling_tier,priority=excluded.priority,reliability_score=excluded.reliability_score,check_interval_seconds=excluded.check_interval_seconds,enabled=excluded.enabled,metadata=excluded.metadata,updated_at=now()`;

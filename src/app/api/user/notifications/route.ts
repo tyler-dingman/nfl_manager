@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     limit: Number.isFinite(limit) ? limit : 20,
     cursor,
     unreadOnly: request.nextUrl.searchParams.get('filter') === 'unread',
-    teamAbbr: request.nextUrl.searchParams.get('team'),
+    teamAbbr: request.nextUrl.searchParams.get('team')?.toUpperCase() ?? null,
   });
   return NextResponse.json({
     ok: true,

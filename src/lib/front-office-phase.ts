@@ -49,7 +49,7 @@ export function phaseDisplayName(phase: string, freeAgencyWave = 1) {
       preseason: 'Preseason',
       'wild-card': 'Wild Card',
       divisional: 'Divisional Round',
-      conference: 'Conference Championship',
+      conference: 'Conference Championships',
       'super-bowl': 'Super Bowl',
       resign_cut: 'Re-signing period',
       free_agency: `Free agency · Wave ${freeAgencyWave}`,
@@ -95,12 +95,12 @@ export function getFrontOfficePhaseActions(phase: string): {
   const progression: Record<string, FrontOfficePhaseAction> = {
     preseason: { label: 'Continue to Week 1', target: 'week-1', requiresConfirmation: false },
     'wild-card': {
-      label: 'Continue to Next Round',
+      label: 'Continue to Divisional Round',
       target: 'divisional',
       requiresConfirmation: false,
     },
     divisional: {
-      label: 'Continue to Next Round',
+      label: 'Continue to Conference Championships',
       target: 'conference',
       requiresConfirmation: false,
     },

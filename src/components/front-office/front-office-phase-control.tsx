@@ -10,11 +10,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useSaveStore } from '@/features/save/save-store';
+import { apiFetch } from '@/lib/api';
+import { computeTeamOverviewRaw } from '@/lib/team-overview';
 import {
   getFrontOfficePhaseActions,
   phaseDisplayName,
   type FrontOfficePhaseAction,
 } from '@/lib/front-office-phase';
+import type { FranchiseSimulationState } from '@/types/front-office';
 
 export function FrontOfficePhaseControl({
   season,
@@ -26,12 +29,34 @@ export function FrontOfficePhaseControl({
   freeAgencyWave: number;
 }) {
   const setPhase = useSaveStore((state) => state.setPhase);
+  const saveId = useSaveStore((state) => state.saveId);
+  const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const roster = useSaveStore((state) => state.roster);
+  const [simulation, setSimulation] = useState<FranchiseSimulationState | null>(null);
+  const [progress, setProgress] = useState('');
   const [pending, setPending] = useState<FrontOfficePhaseAction | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const cancelRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
   const actions = getFrontOfficePhaseActions(phase);
+
+  useEffect(() => {
+    if (!saveId) return;
+    const controller = new AbortController();
+    void apiFetch(`/api/front-office/simulate?saveId=${encodeURIComponent(saveId)}`, {
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) return null;
+        return response.json() as Promise<{ state?: FranchiseSimulationState | null }>;
+      })
+      .then((payload) => {
+        if (payload?.state) setSimulation(payload.state);
+      })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, [saveId]);
 
   useEffect(() => {
     if (!pending) return;
@@ -66,12 +91,38 @@ export function FrontOfficePhaseControl({
     }
     setBusy(true);
     setError('');
+    setProgress(
+      action.target.startsWith('week-')
+        ? `Simulating ${action.target.replace('-', ' ')}…`
+        : `Simulating to ${action.label.replace(/^Continue to /, '')}…`,
+    );
     try {
+      if (!saveId) throw new Error('Create or restore a franchise save first.');
+      const activeRoster = roster.filter((player) => player.status?.toLowerCase() !== 'cut');
+      const rawOverall = activeRoster.length ? computeTeamOverviewRaw(activeRoster).overall : 75;
+      const response = await apiFetch('/api/front-office/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId,
+          action: 'advance',
+          target: action.target,
+          userTeamOverall: Math.max(50, Math.min(99, Math.round(rawOverall))),
+        }),
+      });
+      const payload = (await response.json()) as {
+        state?: FranchiseSimulationState;
+        error?: string;
+      };
+      if (!response.ok || !payload.state) throw new Error(payload.error || 'Simulation failed.');
+      setSimulation(payload.state);
       await setPhase(action.target);
+      window.dispatchEvent(new CustomEvent('front-office-simulation-advanced'));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Unable to advance the franchise phase.');
     } finally {
       setBusy(false);
+      setProgress('');
     }
   };
 
@@ -84,7 +135,11 @@ export function FrontOfficePhaseControl({
         </div>
         <div>
           <span>Record</span>
-          <strong aria-label="Record unavailable">—</strong>
+          <strong>
+            {simulation?.teams[teamAbbr]?.record
+              ? `${simulation.teams[teamAbbr].record.wins}-${simulation.teams[teamAbbr].record.losses}${simulation.teams[teamAbbr].record.ties ? `-${simulation.teams[teamAbbr].record.ties}` : ''}`
+              : '0-0'}
+          </strong>
         </div>
         <div>
           <span>Current phase</span>
@@ -120,6 +175,11 @@ export function FrontOfficePhaseControl({
         {error ? (
           <p role="alert" className="fo-phase-error">
             {error}
+          </p>
+        ) : null}
+        {progress ? (
+          <p className="fo-phase-progress" role="status" aria-live="polite">
+            <Loader2 className="h-4 w-4 animate-spin" /> {progress}
           </p>
         ) : null}
       </div>

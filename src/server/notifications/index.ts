@@ -55,7 +55,9 @@ export type NotificationAudienceResult = {
   quietHours?: QuietHours;
 };
 
-export function normalizePriority(priority: NotificationPriority | string = 'NORMAL'): NotificationPriority {
+export function normalizePriority(
+  priority: NotificationPriority | string = 'NORMAL',
+): NotificationPriority {
   switch (priority) {
     case 'LOW':
     case 'NORMAL':
@@ -106,10 +108,7 @@ export function isQuietHour(
 ) {
   if (!quietHours.enabled) return false;
   const normalizedPriority = priority ? normalizePriority(priority) : 'NORMAL';
-  if (
-    quietHours.allowBreakingOverride &&
-    ['HIGH', 'CRITICAL'].includes(normalizedPriority)
-  ) {
+  if (quietHours.allowBreakingOverride && ['HIGH', 'CRITICAL'].includes(normalizedPriority)) {
     return false;
   }
 
@@ -138,8 +137,16 @@ export function isQuietHour(
 }
 
 export interface PushProviderAdapter {
-  send(input: { userId: string; token: string; title: string; body: string; deepLink?: string }): Promise<{ ok: boolean; id?: string }>; 
-  sendBatch(input: Array<{ userId: string; token: string; title: string; body: string; deepLink?: string }>): Promise<{ ok: boolean; delivered: number; failed: number }>;
+  send(input: {
+    userId: string;
+    token: string;
+    title: string;
+    body: string;
+    deepLink?: string;
+  }): Promise<{ ok: boolean; id?: string }>;
+  sendBatch(
+    input: Array<{ userId: string; token: string; title: string; body: string; deepLink?: string }>,
+  ): Promise<{ ok: boolean; delivered: number; failed: number }>;
 }
 
 export class PushProvider implements PushProviderAdapter {
@@ -147,7 +154,9 @@ export class PushProvider implements PushProviderAdapter {
     return { ok: true, id: 'mock-push-id' };
   }
 
-  async sendBatch(items: Array<{ userId: string; token: string; title: string; body: string; deepLink?: string }>) {
+  async sendBatch(
+    items: Array<{ userId: string; token: string; title: string; body: string; deepLink?: string }>,
+  ) {
     return {
       ok: true,
       delivered: items.length,

@@ -214,17 +214,19 @@ export async function listInbox(
       delivery_state AS "deliveryState",push_eligible AS "pushEligible",metadata,dismissed_at AS "dismissedAt"
     FROM user_notifications
     WHERE user_id=${userId} AND dismissed_at IS NULL AND (expires_at IS NULL OR expires_at>now())
+      AND (${options.teamAbbr ?? null}::text IS NULL OR team_abbr IS NULL OR team_abbr=${options.teamAbbr ?? null})
       AND (${options.cursor ?? null}::timestamptz IS NULL OR created_at<${options.cursor ?? null})
       AND (${options.unreadOnly ?? false}=false OR read_at IS NULL)
     ORDER BY created_at DESC,CASE priority WHEN 'HIGH' THEN 0 WHEN 'NORMAL' THEN 1 ELSE 2 END
     LIMIT ${limit}`;
 }
 
-export async function unreadNotificationCount(userId: string) {
+export async function unreadNotificationCount(userId: string, teamAbbr?: string | null) {
   const [row] = await authDb()<Array<{ count: number }>>`
     SELECT count(*)::int AS count FROM user_notifications
     WHERE user_id=${userId} AND read_at IS NULL AND dismissed_at IS NULL
-      AND (expires_at IS NULL OR expires_at>now())`;
+      AND (expires_at IS NULL OR expires_at>now())
+      AND (${teamAbbr ?? null}::text IS NULL OR team_abbr IS NULL OR team_abbr=${teamAbbr ?? null})`;
   return row?.count ?? 0;
 }
 

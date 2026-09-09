@@ -47,7 +47,7 @@ export type SaveState = {
   draftPickAssets: TradePickAssetDTO[];
   transactions: Array<{
     id: string;
-    type: 'signing' | 'trade';
+    type: 'cut' | 're-sign' | 'signing' | 'trade' | 'draft';
     playerId: string;
     fromTeamAbbr?: string;
     toTeamAbbr?: string;
@@ -1650,6 +1650,14 @@ export const cutPlayerInState = (
     name: `${cutPlayer.firstName} ${cutPlayer.lastName}`,
     capSavings,
     timestamp: new Date().toISOString(),
+  });
+  state.transactions.push({
+    id: `tx_cut_${state.header.id}_${playerId}`,
+    type: 'cut',
+    playerId,
+    fromTeamAbbr: state.header.teamAbbr,
+    capHit: -capSavings,
+    createdAt: new Date().toISOString(),
   });
   state.header.rosterCount = state.roster.filter(
     (rosterPlayer) => rosterPlayer.status !== 'Cut',

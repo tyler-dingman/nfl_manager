@@ -14,9 +14,15 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
+import { apiFetch } from '@/lib/api';
+import {
+  inferFrontOfficePath,
+  initializeFrontOfficeSimulationPhase,
+} from '@/lib/front-office-onboarding';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
+import type { FrontOfficePath } from '@/types/front-office';
 
-type ExperienceMode = 'full' | 'freeAgency' | 'draft';
+type ExperienceMode = FrontOfficePath;
 
 const EXPERIENCE_OPTIONS: Array<{
   key: ExperienceMode;
@@ -31,7 +37,7 @@ const EXPERIENCE_OPTIONS: Array<{
     isDefault: true,
   },
   {
-    key: 'freeAgency',
+    key: 'free_agency',
     title: 'Free Agency',
     description: 'Sign free agents to improve your team.',
   },
@@ -44,7 +50,7 @@ const EXPERIENCE_OPTIONS: Array<{
 
 const EXPERIENCE_ICONS = {
   full: Trophy,
-  freeAgency: Handshake,
+  free_agency: Handshake,
   draft: DraftingCompass,
 } as const;
 
@@ -63,11 +69,15 @@ export default function ExperiencePage() {
   const setPhase = useSaveStore((state) => state.setPhase);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
+  const experienceMode = useExperienceStore((state) => state.mode);
+  const completedSteps = useExperienceStore((state) => state.completedSteps);
   const setFullExperience = useExperienceStore((state) => state.setFullExperience);
   const enterSandboxStep = useExperienceStore((state) => state.enterSandboxStep);
 
   const defaultMode = useMemo(() => 'full' as const, []);
   const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
+  const [savedPath, setSavedPath] = useState<FrontOfficePath | null>(null);
+  const [frontOfficeReady, setFrontOfficeReady] = useState(false);
 
   const isHydrated = hasHydrated && experienceHasHydrated;
   const expiringContracts = roster.filter(
@@ -82,7 +92,83 @@ export default function ExperiencePage() {
     }
   }, [isHydrated, router, saveId]);
 
-  if (!isHydrated || !saveId) {
+  useEffect(() => {
+    if (!isHydrated || !saveId) return;
+    let active = true;
+    const localKey = `dnd-front-office-path:${saveId}`;
+    const load = async () => {
+      let resolvedPath = localStorage.getItem(localKey) as FrontOfficePath | null;
+      let resolvedPhase = phase;
+      try {
+        const response = await apiFetch(
+          `/api/front-office/state?saveId=${encodeURIComponent(saveId)}`,
+        );
+        if (response.ok) {
+          const payload = (await response.json()) as {
+            state?: {
+              selectedPath?: FrontOfficePath | null;
+              simulationPhase?: string | null;
+            } | null;
+          };
+          resolvedPath = payload.state?.selectedPath ?? resolvedPath;
+          if (payload.state?.simulationPhase && payload.state.simulationPhase !== phase) {
+            resolvedPhase = payload.state.simulationPhase;
+            await setPhase(resolvedPhase);
+          }
+        }
+      } catch {
+        // Anonymous and offline sessions intentionally fall back to this save's local preference.
+      }
+
+      const inferredPath = inferFrontOfficePath({
+        selectedPath: resolvedPath,
+        phase: resolvedPhase,
+        experienceMode,
+        completedStepCount: completedSteps.length,
+      });
+      if (!resolvedPath && inferredPath) {
+        resolvedPath = inferredPath;
+        localStorage.setItem(localKey, resolvedPath);
+        void apiFetch('/api/front-office/state', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            saveId,
+            teamAbbr,
+            season: franchiseYear,
+            selectedPath: resolvedPath,
+            simulationPhase: resolvedPhase,
+          }),
+        }).catch(() => undefined);
+      }
+      if (!active) return;
+      setSavedPath(resolvedPath);
+      if (resolvedPath === 'full') setFullExperience();
+      if (resolvedPath === 'free_agency') enterSandboxStep('free-agency');
+      if (resolvedPath === 'draft') enterSandboxStep('draft');
+      setFrontOfficeReady(true);
+      if (resolvedPath === 'free_agency') router.replace('/free-agents');
+      if (resolvedPath === 'draft') router.replace('/draft/room?mode=mock');
+    };
+    void load();
+    return () => {
+      active = false;
+    };
+  }, [
+    completedSteps.length,
+    enterSandboxStep,
+    experienceMode,
+    franchiseYear,
+    isHydrated,
+    phase,
+    router,
+    saveId,
+    setFullExperience,
+    setPhase,
+    teamAbbr,
+  ]);
+
+  if (!isHydrated || !saveId || !frontOfficeReady) {
     return (
       <AppShell>
         <div className="min-h-[1px]" />
@@ -111,16 +197,48 @@ export default function ExperiencePage() {
       return;
     }
 
+    let initialPhase = phase;
+    if (selectedMode === 'full' && phase === 'resign_cut') {
+      const calendarResponse = await apiFetch('/api/front-office/calendar');
+      if (calendarResponse.ok) {
+        const payload = (await calendarResponse.json()) as {
+          calendar?: { frontOfficePhase?: string };
+        };
+        initialPhase = initializeFrontOfficeSimulationPhase(
+          phase,
+          payload.calendar?.frontOfficePhase ?? phase,
+        );
+      }
+    } else if (selectedMode === 'free_agency') {
+      initialPhase = 'free_agency';
+    } else if (selectedMode === 'draft') {
+      initialPhase = 'draft';
+    }
+
+    localStorage.setItem(`dnd-front-office-path:${actionableSaveId}`, selectedMode);
+    await apiFetch('/api/front-office/state', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        saveId: actionableSaveId,
+        teamAbbr,
+        season: franchiseYear,
+        selectedPath: selectedMode,
+        simulationPhase: initialPhase,
+      }),
+    }).catch(() => undefined);
+    setSavedPath(selectedMode);
+
     if (selectedMode === 'full') {
       setFullExperience();
-      if (phase !== 'resign_cut') {
-        await setPhase('resign_cut');
+      if (phase !== initialPhase) {
+        await setPhase(initialPhase);
       }
       router.push('/manage-team');
       return;
     }
 
-    if (selectedMode === 'freeAgency') {
+    if (selectedMode === 'free_agency') {
       enterSandboxStep('free-agency');
       if (phase !== 'free_agency') {
         await setPhase('free_agency');
@@ -202,70 +320,78 @@ export default function ExperiencePage() {
             </div>
           </section>
 
-          <div className="border-t border-border pt-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-              Change simulation path
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-foreground">Choose your experience</h2>
-          </div>
+          {!savedPath ? (
+            <div className="border-t border-border pt-7">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+                Choose your path
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold text-foreground">
+                Choose your experience
+              </h2>
+            </div>
+          ) : null}
 
-          <div className="grid gap-4 md:grid-cols-3">
-            {EXPERIENCE_OPTIONS.map((option) => {
-              const isSelected = selectedMode === option.key;
-              const Icon = EXPERIENCE_ICONS[option.key];
-              return (
-                <button
-                  key={option.key}
-                  type="button"
-                  className={`front-office-experience-card group relative flex min-h-64 h-full flex-col overflow-hidden rounded-2xl border p-6 text-left transition ${
-                    isSelected
-                      ? 'is-selected border-transparent bg-[var(--team-dark)] text-[var(--team-on-dark)] shadow-xl'
-                      : 'border-border bg-white hover:-translate-y-0.5 hover:shadow-lg'
-                  }`}
-                  onClick={() => setSelectedMode(option.key)}
-                >
-                  {option.isDefault ? (
-                    <div className="absolute right-0 top-[-2px] z-10">
-                      <Badge
-                        variant="secondary"
-                        className="overflow-hidden rounded-bl-sm rounded-br-none rounded-tl-none rounded-tr-none border-transparent bg-[var(--team-dark)] px-3.5 text-[var(--team-on-dark)]"
+          {!savedPath ? (
+            <div className="grid gap-4 md:grid-cols-3">
+              {EXPERIENCE_OPTIONS.map((option) => {
+                const isSelected = selectedMode === option.key;
+                const Icon = EXPERIENCE_ICONS[option.key];
+                return (
+                  <button
+                    key={option.key}
+                    type="button"
+                    className={`front-office-experience-card group relative flex min-h-64 h-full flex-col overflow-hidden rounded-2xl border p-6 text-left transition ${
+                      isSelected
+                        ? 'is-selected border-transparent bg-[var(--team-dark)] text-[var(--team-on-dark)] shadow-xl'
+                        : 'border-border bg-white hover:-translate-y-0.5 hover:shadow-lg'
+                    }`}
+                    onClick={() => setSelectedMode(option.key)}
+                  >
+                    {option.isDefault ? (
+                      <div className="absolute right-0 top-[-2px] z-10">
+                        <Badge
+                          variant="secondary"
+                          className="overflow-hidden rounded-bl-sm rounded-br-none rounded-tl-none rounded-tr-none border-transparent bg-[var(--team-dark)] px-3.5 text-[var(--team-on-dark)]"
+                        >
+                          Default
+                        </Badge>
+                      </div>
+                    ) : null}
+                    <Icon className="mb-auto h-9 w-9" aria-hidden="true" />
+                    <div className="mt-8 pr-20">
+                      <p
+                        className={`text-xl font-semibold ${isSelected ? 'text-inherit' : 'text-foreground'}`}
                       >
-                        Default
-                      </Badge>
+                        {option.title}
+                      </p>
                     </div>
-                  ) : null}
-                  <Icon className="mb-auto h-9 w-9" aria-hidden="true" />
-                  <div className="mt-8 pr-20">
                     <p
-                      className={`text-xl font-semibold ${isSelected ? 'text-inherit' : 'text-foreground'}`}
+                      className={`mt-1 text-sm ${isSelected ? 'text-inherit opacity-80' : 'text-muted-foreground'}`}
                     >
-                      {option.title}
+                      {option.description}
                     </p>
-                  </div>
-                  <p
-                    className={`mt-1 text-sm ${isSelected ? 'text-inherit opacity-80' : 'text-muted-foreground'}`}
-                  >
-                    {option.description}
-                  </p>
-                  <span
-                    className={`mt-6 inline-flex h-10 w-10 items-center justify-center rounded-full border ${isSelected ? 'border-current' : 'border-border bg-[#f7f4ee]'}`}
-                  >
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+                    <span
+                      className={`mt-6 inline-flex h-10 w-10 items-center justify-center rounded-full border ${isSelected ? 'border-current' : 'border-border bg-[#f7f4ee]'}`}
+                    >
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
 
-          <div className="flex justify-end">
-            <Button
-              type="button"
-              onClick={handleContinue}
-              className="w-full bg-[var(--team-dark)] text-[var(--team-on-dark)] hover:bg-[var(--team-dark)] hover:opacity-95 focus-visible:ring-[var(--team-dark)] md:w-auto"
-            >
-              Continue
-            </Button>
-          </div>
+          {!savedPath ? (
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                onClick={handleContinue}
+                className="w-full bg-[var(--team-dark)] text-[var(--team-on-dark)] hover:bg-[var(--team-dark)] hover:opacity-95 focus-visible:ring-[var(--team-dark)] md:w-auto"
+              >
+                Continue
+              </Button>
+            </div>
+          ) : null}
         </div>
       </div>
       <AdSlot placement="ANCHOR" responsive={{ hideOnDesktop: true }} />
