@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import {
   TRADE_ACCEPT_MARK_SCORE,
@@ -20,10 +20,17 @@ import { toPlayerDTO } from '@/server/api/trades';
 import { buildEvaluationContext, buildTeamContexts } from '@/server/logic/trade-offer-generator';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TradeOfferDTO } from '@/types/trade-offers';
+import { currentUser } from '@/server/auth/request';
+import { getFrontOfficeSaveMetadata } from '@/server/front-office/repository';
+import {
+  getFrontOfficeTradeOffer,
+  updateFrontOfficeTradeOfferStatus,
+} from '@/server/front-office/events-repository';
 
 type AcceptTradeOfferBody = {
   saveId?: string;
   offer?: TradeOfferDTO;
+  persistedOfferId?: string;
   extraIncomingPlayerIds?: string[];
   extraIncomingPickIds?: string[];
   extraOutgoingPlayerIds?: string[];
@@ -71,13 +78,34 @@ const buildCapFailureMessage = ({
   return 'One team would exceed the cap after this trade.';
 };
 
-export const POST = async (request: Request) => {
+export const POST = async (request: NextRequest) => {
   const body = (await request.json()) as AcceptTradeOfferBody;
-  if (!body.saveId || !body.offer) {
+  let persistedUserId: string | null = null;
+  if (!body.saveId || (!body.offer && !body.persistedOfferId)) {
     return NextResponse.json(
       { ok: false, error: 'Missing trade offer acceptance inputs.' },
       { status: 400 },
     );
+  }
+
+  if (body.persistedOfferId) {
+    const user = await currentUser(request);
+    if (!user) return NextResponse.json({ ok: false, error: 'Unauthorized.' }, { status: 401 });
+    const persisted = await getFrontOfficeTradeOffer(user.id, body.persistedOfferId);
+    const metadata = await getFrontOfficeSaveMetadata(user.id, body.saveId);
+    if (!persisted || !metadata?.simulation) {
+      return NextResponse.json({ ok: false, error: 'Trade offer not found.' }, { status: 404 });
+    }
+    if (persisted.status !== 'pending' || persisted.expiresWeek < metadata.simulation.currentWeek) {
+      if (persisted.status === 'pending')
+        await updateFrontOfficeTradeOfferStatus(user.id, body.persistedOfferId, 'expired');
+      return NextResponse.json(
+        { ok: false, error: 'This trade offer has expired.' },
+        { status: 409 },
+      );
+    }
+    body.offer = persisted.offer;
+    persistedUserId = user.id;
   }
 
   const saveResult = getSaveStateResult(body.saveId);
@@ -86,9 +114,10 @@ export const POST = async (request: Request) => {
   }
 
   const state = saveResult.data;
+  const offer = body.offer!;
   const contexts = buildTeamContexts(state);
   const userTeam = contexts.get(state.header.teamAbbr.toUpperCase());
-  const aiTeam = contexts.get(body.offer.proposingTeamAbbr.toUpperCase());
+  const aiTeam = contexts.get(offer.proposingTeamAbbr.toUpperCase());
   if (!userTeam || !aiTeam) {
     return NextResponse.json(
       { ok: false, error: 'Unable to resolve trade offer teams.' },
@@ -137,16 +166,8 @@ export const POST = async (request: Request) => {
     .filter((pick): pick is NonNullable<typeof pick> => Boolean(pick))
     .filter((pick) => pick.owningTeamAbbr === userTeam.team.abbr);
 
-  const incomingAssets = [
-    ...body.offer.incoming.assets,
-    ...extraIncomingPlayers,
-    ...extraIncomingPicks,
-  ];
-  const outgoingAssets = [
-    ...body.offer.outgoing.assets,
-    ...extraOutgoingPlayers,
-    ...extraOutgoingPicks,
-  ];
+  const incomingAssets = [...offer.incoming.assets, ...extraIncomingPlayers, ...extraIncomingPicks];
+  const outgoingAssets = [...offer.outgoing.assets, ...extraOutgoingPlayers, ...extraOutgoingPicks];
 
   const graded = gradeTradeOffer(
     {
@@ -157,7 +178,7 @@ export const POST = async (request: Request) => {
       assets: outgoingAssets,
       totalValue: outgoingAssets.reduce((sum, asset) => sum + asset.projectedValuePoints, 0),
     },
-    buildEvaluationContext(body.offer.phase, userTeam.team.abbr, userTeam),
+    buildEvaluationContext(offer.phase, userTeam.team.abbr, userTeam),
     userTeam.profile,
     {
       assets: outgoingAssets,
@@ -167,7 +188,7 @@ export const POST = async (request: Request) => {
       assets: incomingAssets,
       totalValue: incomingAssets.reduce((sum, asset) => sum + asset.projectedValuePoints, 0),
     },
-    buildEvaluationContext(body.offer.phase, aiTeam.team.abbr, aiTeam),
+    buildEvaluationContext(offer.phase, aiTeam.team.abbr, aiTeam),
     aiTeam.profile,
   );
 
@@ -304,6 +325,10 @@ export const POST = async (request: Request) => {
     details: `${userTeam.team.abbr} accepted a trade offer from ${aiTeam.team.abbr}.`,
     severity: 'info',
   });
+
+  if (persistedUserId && body.persistedOfferId) {
+    await updateFrontOfficeTradeOfferStatus(persistedUserId, body.persistedOfferId, 'accepted');
+  }
 
   return NextResponse.json({
     ok: true,

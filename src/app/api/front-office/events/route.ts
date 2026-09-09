@@ -10,5 +10,9 @@ export async function GET(request: NextRequest) {
   if (!saveId) return NextResponse.json({ error: 'saveId is required.' }, { status: 400 });
   const unreadOnly = request.nextUrl.searchParams.get('unread') === '1';
   const events = await listFrontOfficeEvents(user.id, saveId, unreadOnly);
-  return NextResponse.json({ ok: true, events, unreadCount: events.filter((event) => !event.readAt).length });
+  return NextResponse.json({
+    ok: true,
+    events,
+    unreadCount: events.filter((event) => !event.readAt).length,
+  });
 }

@@ -21,7 +21,10 @@ function makeEvent(
   state: FranchiseSimulationState,
   saveId: string,
   week: number,
-  input: Omit<NewFrontOfficeEvent, 'id' | 'saveId' | 'simulationSeason' | 'simulationWeek' | 'simulationPhase' | 'expiresAt'>,
+  input: Omit<
+    NewFrontOfficeEvent,
+    'id' | 'saveId' | 'simulationSeason' | 'simulationWeek' | 'simulationPhase' | 'expiresAt'
+  >,
 ): NewFrontOfficeEvent {
   return {
     ...input,
@@ -49,65 +52,149 @@ export function generateFrontOfficeEvents(input: {
     const weekly: NewFrontOfficeEvent[] = [];
     const team = current.teams[teamAbbr];
     const game = current.games.find(
-      (item) => item.week === week && item.played && [item.homeTeam, item.awayTeam].includes(teamAbbr),
+      (item) =>
+        item.week === week && item.played && [item.homeTeam, item.awayTeam].includes(teamAbbr),
     );
 
     if (week === FRONT_OFFICE_EVENT_CONFIG.deadlineWeek) {
-      weekly.push(makeEvent(current, saveId, week, {
-        dedupeKey: 'trade-deadline', type: 'deadline_alert', priority: 'urgent',
-        headline: 'The trade deadline is here',
-        summary: 'Pending offers expire after this week. Make your final roster moves now.',
-        teamAbbr, relatedTeamAbbr: null, playerId: null, prospectId: null, tradeOfferId: null,
-        actionUrl: '/manage/trades', metadata: { deadlineWeek: week },
-      }));
+      weekly.push(
+        makeEvent(current, saveId, week, {
+          dedupeKey: 'trade-deadline',
+          type: 'deadline_alert',
+          priority: 'urgent',
+          headline: 'The trade deadline is here',
+          summary: 'Pending offers expire after this week. Make your final roster moves now.',
+          teamAbbr,
+          relatedTeamAbbr: null,
+          playerId: null,
+          prospectId: null,
+          tradeOfferId: null,
+          actionUrl: '/manage/trades',
+          metadata: { deadlineWeek: week },
+        }),
+      );
     }
 
     if (game && team) {
       const won = game.winner === teamAbbr;
       const record = `${team.record.wins}-${team.record.losses}${team.record.ties ? `-${team.record.ties}` : ''}`;
-      weekly.push(makeEvent(current, saveId, week, {
-        dedupeKey: `game:${game.id}`, type: 'breaking_news', priority: won ? 'normal' : 'low',
-        headline: won ? `${teamAbbr} keeps building momentum` : `${teamAbbr} turns the page`,
-        summary: `${game.awayTeam} ${game.awayScore} — ${game.homeTeam} ${game.homeScore}. Your club is now ${record}.`,
-        teamAbbr, relatedTeamAbbr: game.homeTeam === teamAbbr ? game.awayTeam : game.homeTeam,
-        playerId: null, prospectId: null, tradeOfferId: null, actionUrl: '/experience',
-        metadata: { gameId: game.id, result: won ? 'win' : 'loss' },
-      }));
+      weekly.push(
+        makeEvent(current, saveId, week, {
+          dedupeKey: `game:${game.id}`,
+          type: 'breaking_news',
+          priority: won ? 'normal' : 'low',
+          headline: won ? `${teamAbbr} keeps building momentum` : `${teamAbbr} turns the page`,
+          summary: `${game.awayTeam} ${game.awayScore} — ${game.homeTeam} ${game.homeScore}. Your club is now ${record}.`,
+          teamAbbr,
+          relatedTeamAbbr: game.homeTeam === teamAbbr ? game.awayTeam : game.homeTeam,
+          playerId: null,
+          prospectId: null,
+          tradeOfferId: null,
+          actionUrl: '/experience',
+          metadata: { gameId: game.id, result: won ? 'win' : 'loss' },
+        }),
+      );
     }
 
-    if (week >= 3 && week <= FRONT_OFFICE_EVENT_CONFIG.deadlineWeek &&
-        hash(`${current.seed}:interest:${week}`) / 0xffffffff < FRONT_OFFICE_EVENT_CONFIG.tradeInterestChance) {
-      const partner = Object.keys(current.teams).filter((abbr) => abbr !== teamAbbr)
+    if (
+      week >= 3 &&
+      week <= FRONT_OFFICE_EVENT_CONFIG.deadlineWeek &&
+      hash(`${current.seed}:interest:${week}`) / 0xffffffff <
+        FRONT_OFFICE_EVENT_CONFIG.tradeInterestChance
+    ) {
+      const partner = Object.keys(current.teams)
+        .filter((abbr) => abbr !== teamAbbr)
         .sort()[hash(`${current.seed}:partner:${week}`) % 31];
-      weekly.push(makeEvent(current, saveId, week, {
-        dedupeKey: `trade-interest:${partner}`, type: 'trade_interest', priority: 'high',
-        headline: `${partner} has called your front office`,
-        summary: 'A rival general manager is exploring a deal. Open the Trade Hub to review your market.',
-        teamAbbr, relatedTeamAbbr: partner, playerId: null, prospectId: null, tradeOfferId: null,
-        actionUrl: '/manage/trades', metadata: { partnerTeamAbbr: partner },
-      }));
+      weekly.push(
+        makeEvent(current, saveId, week, {
+          dedupeKey: `trade-interest:${partner}`,
+          type: 'trade_interest',
+          priority: 'high',
+          headline: `${partner} has called your front office`,
+          summary:
+            'A rival general manager is exploring a deal. Open the Trade Hub to review your market.',
+          teamAbbr,
+          relatedTeamAbbr: partner,
+          playerId: null,
+          prospectId: null,
+          tradeOfferId: null,
+          actionUrl: '/manage/trades',
+          metadata: { partnerTeamAbbr: partner },
+        }),
+      );
     }
     generated.push(...weekly.slice(0, FRONT_OFFICE_EVENT_CONFIG.maxEventsPerAdvancedWeek));
   }
 
+  const priorTransactions = new Set(previous.transactions.map((transaction) => transaction.id));
+  for (const transaction of current.transactions
+    .filter((entry) => !priorTransactions.has(entry.id))
+    .slice(-8)) {
+    const type =
+      transaction.type === 'signing'
+        ? 'free_agent_signing'
+        : transaction.type === 'cut'
+          ? 'player_release'
+          : transaction.type === 're-sign'
+            ? 'contract_extension'
+            : 'league_transaction';
+    generated.push(
+      makeEvent(current, saveId, current.currentWeek, {
+        dedupeKey: `transaction:${transaction.id}`,
+        type,
+        priority: transaction.teamAbbr === teamAbbr ? 'high' : 'normal',
+        headline: transaction.playerName
+          ? `${transaction.teamAbbr} makes a move with ${transaction.playerName}`
+          : `${transaction.teamAbbr} updates its roster`,
+        summary: transaction.summary,
+        teamAbbr: transaction.teamAbbr,
+        relatedTeamAbbr: null,
+        playerId: transaction.playerId ?? null,
+        prospectId: null,
+        tradeOfferId: null,
+        actionUrl: transaction.teamAbbr === teamAbbr ? '/roster' : '/experience',
+        metadata: { transactionId: transaction.id, transactionType: transaction.type },
+      }),
+    );
+  }
+
   if (current.phase.includes('draft')) {
-    generated.push(makeEvent(current, saveId, current.currentWeek, {
-      dedupeKey: `draft-buzz:${current.phase}`, type: 'draft_buzz', priority: 'high',
-      headline: 'Draft boards are moving',
-      summary: 'League scouts are reshuffling the top tier. Review your board before you are on the clock.',
-      teamAbbr, relatedTeamAbbr: null, playerId: null, prospectId: null, tradeOfferId: null,
-      actionUrl: '/draft/big-board', metadata: { draftOrder: current.draftOrder.slice(0, 10) },
-    }));
+    generated.push(
+      makeEvent(current, saveId, current.currentWeek, {
+        dedupeKey: `draft-buzz:${current.phase}`,
+        type: 'draft_buzz',
+        priority: 'high',
+        headline: 'Draft boards are moving',
+        summary:
+          'League scouts are reshuffling the top tier. Review your board before you are on the clock.',
+        teamAbbr,
+        relatedTeamAbbr: null,
+        playerId: null,
+        prospectId: null,
+        tradeOfferId: null,
+        actionUrl: '/draft/big-board',
+        metadata: { draftOrder: current.draftOrder.slice(0, 10) },
+      }),
+    );
   }
 
   if (current.playoffs?.champion) {
-    generated.push(makeEvent(current, saveId, current.currentWeek, {
-      dedupeKey: `champion:${current.playoffs.champion}`, type: 'playoff_update', priority: 'high',
-      headline: `${current.playoffs.champion} wins the championship`,
-      summary: 'The season is complete. The offseason and a new roster-building cycle are next.',
-      teamAbbr: current.playoffs.champion, relatedTeamAbbr: null, playerId: null,
-      prospectId: null, tradeOfferId: null, actionUrl: '/experience', metadata: {},
-    }));
+    generated.push(
+      makeEvent(current, saveId, current.currentWeek, {
+        dedupeKey: `champion:${current.playoffs.champion}`,
+        type: 'playoff_update',
+        priority: 'high',
+        headline: `${current.playoffs.champion} wins the championship`,
+        summary: 'The season is complete. The offseason and a new roster-building cycle are next.',
+        teamAbbr: current.playoffs.champion,
+        relatedTeamAbbr: null,
+        playerId: null,
+        prospectId: null,
+        tradeOfferId: null,
+        actionUrl: '/experience',
+        metadata: {},
+      }),
+    );
   }
   return generated;
 }

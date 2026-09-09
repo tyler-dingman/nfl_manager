@@ -40,10 +40,27 @@ export async function persistFrontOfficeEvents(userId: string, events: NewFrontO
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18::jsonb,$19)
        ON CONFLICT (user_id, save_id, dedupe_key, simulation_season, simulation_week) DO NOTHING
        RETURNING ${selectColumns}`,
-      [userId, event.id, event.saveId, event.dedupeKey, event.type, event.priority,
-       event.headline, event.summary, event.teamAbbr, event.relatedTeamAbbr, event.playerId,
-       event.prospectId, event.tradeOfferId, event.simulationSeason, event.simulationWeek,
-       event.simulationPhase, event.actionUrl, JSON.stringify(event.metadata), event.expiresAt],
+      [
+        userId,
+        event.id,
+        event.saveId,
+        event.dedupeKey,
+        event.type,
+        event.priority,
+        event.headline,
+        event.summary,
+        event.teamAbbr,
+        event.relatedTeamAbbr,
+        event.playerId,
+        event.prospectId,
+        event.tradeOfferId,
+        event.simulationSeason,
+        event.simulationWeek,
+        event.simulationPhase,
+        event.actionUrl,
+        JSON.stringify(event.metadata),
+        event.expiresAt,
+      ],
     );
     if (rows[0]) persisted.push(mapEvent(rows[0]));
   }
@@ -77,7 +94,11 @@ export async function surfaceNextFrontOfficeEvent(userId: string, saveId: string
   return rows[0] ? mapEvent(rows[0]) : null;
 }
 
-export async function updateFrontOfficeEvent(userId: string, id: string, action: 'read' | 'dismiss') {
+export async function updateFrontOfficeEvent(
+  userId: string,
+  id: string,
+  action: 'read' | 'dismiss',
+) {
   const column = action === 'read' ? 'read_at' : 'dismissed_at';
   const rows = await authDb().unsafe<EventRow[]>(
     `UPDATE front_office_events SET ${column} = COALESCE(${column}, now())
@@ -88,7 +109,11 @@ export async function updateFrontOfficeEvent(userId: string, id: string, action:
 }
 
 export async function persistFrontOfficeTradeOffer(input: {
-  userId: string; saveId: string; offer: TradeOfferDTO; createdWeek: number; expiresWeek: number;
+  userId: string;
+  saveId: string;
+  offer: TradeOfferDTO;
+  createdWeek: number;
+  expiresWeek: number;
 }) {
   await authDb()`INSERT INTO front_office_trade_offers
     (user_id,id,save_id,proposing_team_abbr,receiving_team_abbr,offer_data,created_week,expires_week)
@@ -98,14 +123,18 @@ export async function persistFrontOfficeTradeOffer(input: {
 }
 
 export async function getFrontOfficeTradeOffer(userId: string, id: string) {
-  const rows = await authDb()<Array<{ offer: TradeOfferDTO; status: FrontOfficeTradeOfferStatus; expiresWeek: number }>>`
+  const rows = await authDb()<
+    Array<{ offer: TradeOfferDTO; status: FrontOfficeTradeOfferStatus; expiresWeek: number }>
+  >`
     SELECT offer_data AS offer, status, expires_week AS "expiresWeek"
     FROM front_office_trade_offers WHERE user_id=${userId} AND id=${id}`;
   return rows[0] ?? null;
 }
 
 export async function updateFrontOfficeTradeOfferStatus(
-  userId: string, id: string, status: Exclude<FrontOfficeTradeOfferStatus, 'pending'>,
+  userId: string,
+  id: string,
+  status: Exclude<FrontOfficeTradeOfferStatus, 'pending'>,
 ) {
   const rows = await authDb()<Array<{ id: string; status: FrontOfficeTradeOfferStatus }>>`
     UPDATE front_office_trade_offers SET status=${status}, responded_at=now(), updated_at=now()
@@ -113,7 +142,11 @@ export async function updateFrontOfficeTradeOfferStatus(
   return rows[0] ?? null;
 }
 
-export async function expireFrontOfficeTradeOffers(userId: string, saveId: string, currentWeek: number) {
+export async function expireFrontOfficeTradeOffers(
+  userId: string,
+  saveId: string,
+  currentWeek: number,
+) {
   await authDb()`UPDATE front_office_trade_offers SET status='expired',updated_at=now()
     WHERE user_id=${userId} AND save_id=${saveId} AND status='pending' AND expires_week < ${currentWeek}`;
 }

@@ -8,7 +8,11 @@ import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { getSaveStateResult } from '@/server/api/store';
 import { getNFLRegularSeasonSchedule } from '@/server/front-office/calendar';
 import { generateFrontOfficeEvents } from '@/server/front-office/event-engine';
-import { expireFrontOfficeTradeOffers, persistFrontOfficeEvents, persistFrontOfficeTradeOffer } from '@/server/front-office/events-repository';
+import {
+  expireFrontOfficeTradeOffers,
+  persistFrontOfficeEvents,
+  persistFrontOfficeTradeOffer,
+} from '@/server/front-office/events-repository';
 import { generateTradeOffers } from '@/server/logic/trade-offer-generator';
 import {
   getFrontOfficeSaveMetadata,
@@ -104,25 +108,38 @@ export async function POST(request: NextRequest) {
     }
     await expireFrontOfficeTradeOffers(user.id, input.saveId, simulation.currentWeek);
     const generatedEvents = generateFrontOfficeEvents({
-        saveId: input.saveId,
-        teamAbbr: metadata.teamAbbr.toUpperCase(),
-        previous: previousSimulation,
-        current: simulation,
-      });
+      saveId: input.saveId,
+      teamAbbr: metadata.teamAbbr.toUpperCase(),
+      previous: previousSimulation,
+      current: simulation,
+    });
     const tradeInterest = generatedEvents.find((event) => event.type === 'trade_interest');
     const saveState = getSaveStateResult(input.saveId);
     if (tradeInterest && saveState.ok) {
-      const phase = simulation.phase.includes('draft') ? 'draft' : simulation.phase.includes('free') ? 'freeAgency' : 'manage';
+      const phase = simulation.phase.includes('draft')
+        ? 'draft'
+        : simulation.phase.includes('free')
+          ? 'freeAgency'
+          : 'manage';
       const result = generateTradeOffers(saveState.data, {
         saveId: input.saveId,
         userTeamAbbr: metadata.teamAbbr.toUpperCase(),
         phase,
         trigger: `simulation-week-${simulation.currentWeek}`,
       });
-      const offer = result.offers.find((candidate) => candidate.proposingTeamAbbr === tradeInterest.relatedTeamAbbr) ?? result.offers[0];
+      const offer =
+        result.offers.find(
+          (candidate) => candidate.proposingTeamAbbr === tradeInterest.relatedTeamAbbr,
+        ) ?? result.offers[0];
       if (offer) {
         const expiresWeek = Math.min(8, simulation.currentWeek + 2);
-        await persistFrontOfficeTradeOffer({ userId: user.id, saveId: input.saveId, offer, createdWeek: simulation.currentWeek, expiresWeek });
+        await persistFrontOfficeTradeOffer({
+          userId: user.id,
+          saveId: input.saveId,
+          offer,
+          createdWeek: simulation.currentWeek,
+          expiresWeek,
+        });
         generatedEvents.push({
           ...tradeInterest,
           id: `foe_offer_${offer.id}`,
@@ -138,7 +155,12 @@ export async function POST(request: NextRequest) {
       }
     }
     const events = await persistFrontOfficeEvents(user.id, generatedEvents);
-    return NextResponse.json({ ok: true, state: saved.simulation, version: saved.version, eventCount: events.length });
+    return NextResponse.json({
+      ok: true,
+      state: saved.simulation,
+      version: saved.version,
+      eventCount: events.length,
+    });
   } catch (error) {
     console.error('[front-office:simulate]', error);
     return NextResponse.json(

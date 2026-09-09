@@ -35,6 +35,7 @@ type TradeOfferReviewModalProps = {
   offer: TradeOfferDTO | null;
   open: boolean;
   onClose: () => void;
+  persistedOfferId?: string | null;
 };
 
 type ExtraSelection = { type: 'player'; id: string } | { type: 'pick'; id: string } | null;
@@ -248,7 +249,12 @@ const buildSlotAssets = ({
     return pick ? buildFallbackPickSlotAsset(pick) : null;
   });
 
-export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReviewModalProps) {
+export function TradeOfferReviewModal({
+  offer,
+  open,
+  onClose,
+  persistedOfferId,
+}: TradeOfferReviewModalProps) {
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
@@ -744,6 +750,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
       body: JSON.stringify({
         saveId: actionableSaveId,
         offer,
+        persistedOfferId,
         extraIncomingPlayerIds,
         extraIncomingPickIds,
         extraOutgoingPlayerIds,
@@ -774,6 +781,7 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
           body: JSON.stringify({
             saveId: recoveredSaveId,
             offer,
+            persistedOfferId,
             extraIncomingPlayerIds,
             extraIncomingPickIds,
             extraOutgoingPlayerIds,
@@ -907,6 +915,29 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
     setIsSubmitting(false);
   };
 
+  const handleRejectTrade = async () => {
+    if (!persistedOfferId) {
+      onClose();
+      return;
+    }
+    setIsSubmitting(true);
+    const response = await apiFetch(
+      `/api/front-office/trade-offers/${encodeURIComponent(persistedOfferId)}`,
+      {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'reject' }),
+      },
+    );
+    setIsSubmitting(false);
+    if (!response.ok) {
+      setActionMessage('This offer is no longer available.');
+      return;
+    }
+    clearActive();
+    onClose();
+  };
+
   return (
     <>
       <TransactionModal
@@ -1038,10 +1069,11 @@ export function TradeOfferReviewModal({ offer, open, onClose }: TradeOfferReview
               <Button
                 type="button"
                 variant="outline"
-                onClick={onClose}
+                onClick={persistedOfferId ? handleRejectTrade : onClose}
+                disabled={isSubmitting}
                 className="h-8 px-2.5 text-xs"
               >
-                Close
+                {persistedOfferId ? 'Reject Offer' : 'Close'}
               </Button>
             </div>
           </div>

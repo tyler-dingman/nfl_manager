@@ -11,6 +11,7 @@ import AppShell from '@/components/app-shell';
 import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
 import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
+import { TradeOfferReviewModal } from '@/components/trade-offer-review-modal';
 import TradeAssetSlots, { type TradeSlotAsset } from '@/components/trade-asset-slots';
 import { StepHeader } from '@/components/offseason/step-header';
 import { Button } from '@/components/ui/button';
@@ -43,6 +44,7 @@ export const dynamic = 'force-dynamic';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
+import type { TradeOfferDTO } from '@/types/trade-offers';
 import type { TeamTradeAssetSourceDTO, TradePickAssetDTO } from '@/types/trade-offers';
 
 type TradeAsset = {
@@ -130,6 +132,7 @@ function TradeBuilderContent() {
   );
   const selectedPlayerId = searchParams?.get('playerId') ?? undefined;
   const requestedPartnerTeamAbbr = searchParams?.get('partnerTeamAbbr') ?? '';
+  const persistedOfferId = searchParams?.get('offer') ?? '';
 
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
@@ -175,6 +178,7 @@ function TradeBuilderContent() {
   const [tradeInsights, setTradeInsights] = useState<TradeInsights | null>(null);
   const [assetPickerLoadingMessage, setAssetPickerLoadingMessage] = useState<string | null>(null);
   const [resolvedSaveId, setResolvedSaveId] = useState<string>(saveId);
+  const [persistedOffer, setPersistedOffer] = useState<TradeOfferDTO | null>(null);
   const [sendSlotIds, setSendSlotIds] = useState<Array<string | null>>(
     Array.from({ length: 5 }, () => null),
   );
@@ -215,6 +219,22 @@ function TradeBuilderContent() {
 
     return getAcceptance(trade.sendAssets, trade.receiveAssets);
   }, [trade]);
+
+  useEffect(() => {
+    if (!persistedOfferId) return;
+    const controller = new AbortController();
+    void apiFetch(`/api/front-office/trade-offers/${encodeURIComponent(persistedOfferId)}`, {
+      signal: controller.signal,
+    })
+      .then(async (response) =>
+        response.ok ? (response.json() as Promise<{ offer: TradeOfferDTO; status: string }>) : null,
+      )
+      .then((payload) => {
+        if (payload?.offer && payload.status === 'pending') setPersistedOffer(payload.offer);
+      })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, [persistedOfferId]);
 
   useEffect(() => {
     if (saveId) {
@@ -1239,6 +1259,13 @@ function TradeBuilderContent() {
           }
           handleAddAsset({ side: activeModalSide, type: 'pick', pickId });
         }}
+      />
+
+      <TradeOfferReviewModal
+        offer={persistedOffer}
+        open={Boolean(persistedOffer)}
+        persistedOfferId={persistedOfferId || null}
+        onClose={() => setPersistedOffer(null)}
       />
 
       {slotAction ? (
