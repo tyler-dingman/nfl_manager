@@ -124,10 +124,11 @@ export async function persistFrontOfficeTradeOffer(input: {
   createdWeek: number;
   expiresWeek: number;
 }) {
-  await authDb()`INSERT INTO front_office_trade_offers
+  const db = authDb();
+  await db`INSERT INTO front_office_trade_offers
     (user_id,id,save_id,proposing_team_abbr,receiving_team_abbr,offer_data,created_week,expires_week)
     VALUES (${input.userId},${input.offer.id},${input.saveId},${input.offer.proposingTeamAbbr},
-      ${input.offer.outgoing.teamAbbr},${JSON.stringify(input.offer)}::jsonb,${input.createdWeek},${input.expiresWeek})
+      ${input.offer.outgoing.teamAbbr},${db.json(input.offer as any)},${input.createdWeek},${input.expiresWeek})
     ON CONFLICT (user_id,id) DO NOTHING`;
 }
 

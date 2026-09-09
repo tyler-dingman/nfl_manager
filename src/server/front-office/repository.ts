@@ -12,12 +12,26 @@ type FrontOfficeSaveRow = {
   selectedPath: FrontOfficePath | null;
   simulationPhase: string | null;
   initializedAt: Date | string | null;
-  simulation: FranchiseSimulationState | null;
+  simulation: unknown;
   version: number;
 };
 
+export function normalizeFranchiseSimulation(value: unknown): FranchiseSimulationState | null {
+  let simulation = value;
+  for (let pass = 0; pass < 2 && typeof simulation === 'string'; pass += 1) {
+    try {
+      simulation = JSON.parse(simulation);
+    } catch {
+      return null;
+    }
+  }
+  if (!simulation || typeof simulation !== 'object' || Array.isArray(simulation)) return null;
+  return simulation as FranchiseSimulationState;
+}
+
 const mapRow = (row: FrontOfficeSaveRow): FrontOfficeSaveMetadata => ({
   ...row,
+  simulation: normalizeFranchiseSimulation(row.simulation),
   initializedAt: row.initializedAt ? new Date(row.initializedAt).toISOString() : null,
 });
 
@@ -65,9 +79,10 @@ export async function saveFranchiseSimulation(input: {
   expectedVersion: number;
   simulation: FranchiseSimulationState;
 }) {
-  const rows = await authDb()<FrontOfficeSaveRow[]>`
+  const db = authDb();
+  const rows = await db<FrontOfficeSaveRow[]>`
     UPDATE user_front_office_saves
-    SET simulation_state = ${JSON.stringify(input.simulation)}::jsonb,
+    SET simulation_state = ${db.json(input.simulation as any)},
       simulation_phase = ${input.simulation.phase},
       version = version + 1,
       updated_at = now()
