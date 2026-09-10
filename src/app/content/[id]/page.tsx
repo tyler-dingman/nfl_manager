@@ -132,18 +132,20 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
         <main>
           <article>
             <header className="relative isolate min-h-[360px] overflow-hidden bg-[var(--dark)] text-white sm:min-h-[400px]">
-              <EditorialVisual
-                story={{
-                  teamId: item.teamAbbr,
-                  category: item.category,
-                  headline: item.headline,
-                  summary: item.summary,
-                }}
-                variant="hero"
-                decorative
-                backgroundOnly
-                className="absolute inset-0 min-h-full opacity-80"
-              />
+              <div className="absolute inset-0" aria-hidden="true">
+                <EditorialVisual
+                  story={{
+                    teamId: item.teamAbbr,
+                    category: item.category,
+                    headline: item.headline,
+                    summary: item.summary,
+                  }}
+                  variant="hero"
+                  decorative
+                  backgroundOnly
+                  className="h-full min-h-full opacity-80"
+                />
+              </div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/15" />
               <div className="relative z-10 mx-auto flex min-h-[360px] max-w-[1240px] items-center px-4 py-10 sm:min-h-[400px] sm:px-6 lg:px-8">
                 <div className="max-w-3xl">
@@ -153,7 +155,7 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
                   <p className="mt-5 text-xs font-black uppercase tracking-[.22em] text-[var(--team-secondary-on-dark)]">
                     {config.label} · {item.teamAbbr}
                   </p>
-                  <h1 className="mt-3 text-4xl font-black leading-[.98] tracking-[-.045em] text-white sm:text-6xl lg:max-w-[900px]">
+                  <h1 className="mt-3 text-4xl font-black leading-[.98] tracking-[-.015em] text-white sm:text-6xl lg:max-w-[900px]">
                     {displayHeadline}
                   </h1>
                   <p className="mt-5 text-xs font-black uppercase tracking-[.18em] text-white/75">
