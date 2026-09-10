@@ -16,6 +16,7 @@ type Props = {
   variant?: EditorialVisualVariant;
   className?: string;
   decorative?: boolean;
+  backgroundOnly?: boolean;
 };
 
 const cx = (...values: Array<string | false | undefined>) => values.filter(Boolean).join(' ');
@@ -38,6 +39,7 @@ export default function EditorialVisual({
   variant = 'card',
   className,
   decorative = false,
+  backgroundOnly = false,
 }: Props) {
   const data = visual ?? getEditorialVisualForStory({ ...story, teamId: teamId ?? story?.teamId });
   const palette = getHeroPalette(data.teamId);
@@ -61,24 +63,26 @@ export default function EditorialVisual({
       )}
     >
       <VisualTexture />
-      <div className="relative z-10 flex min-w-0 flex-1 flex-col">
-        <div className="flex items-start justify-between gap-4">
-          <span className="inline-flex w-fit border-l-4 border-[var(--ev-primary)] pl-2 text-[9px] font-black uppercase tracking-[0.2em] text-white sm:text-[10px]">
-            {data.eyebrow}
-          </span>
-          <span className="shrink-0 text-[9px] font-black tracking-[0.16em] text-white/65 sm:text-[10px]">
-            {data.teamId} · D&amp;D
-          </span>
+      {backgroundOnly ? null : (
+        <div className="relative z-10 flex min-w-0 flex-1 flex-col">
+          <div className="flex items-start justify-between gap-4">
+            <span className="inline-flex w-fit border-l-4 border-[var(--ev-primary)] pl-2 text-[9px] font-black uppercase tracking-[0.2em] text-white sm:text-[10px]">
+              {data.eyebrow}
+            </span>
+            <span className="shrink-0 text-[9px] font-black tracking-[0.16em] text-white/65 sm:text-[10px]">
+              {data.teamId} · D&amp;D
+            </span>
+          </div>
+          <Template
+            data={{
+              ...data,
+              visualType: modernType(data.visualType) as EditorialVisualData['visualType'],
+            }}
+            compact={compact}
+            hero={hero}
+          />
         </div>
-        <Template
-          data={{
-            ...data,
-            visualType: modernType(data.visualType) as EditorialVisualData['visualType'],
-          }}
-          compact={compact}
-          hero={hero}
-        />
-      </div>
+      )}
     </div>
   );
 }
