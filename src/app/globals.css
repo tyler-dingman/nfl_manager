@@ -1952,9 +1952,13 @@ body {
 .fo-week-strip {
   width: 100%;
   margin: 0;
-  background: #071b31;
+  background: #001b2e;
   color: white;
   box-shadow: 0 7px 20px rgba(3, 16, 30, 0.12);
+  font-family: inherit;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  letter-spacing: -0.008em;
 }
 .fo-week-strip-inner {
   display: flex;

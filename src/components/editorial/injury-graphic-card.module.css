@@ -26,6 +26,14 @@
   background-image: url('/assets/down-distance-contract-card-pack/shared/background-neutral.webp');
 }
 
+.card[data-template='trade-talk'] {
+  background-image: url('/assets/down-distance-trade-talk-card-pack/shared/background-neutral.webp');
+}
+
+.card[data-template='rookie-blueprint'] {
+  background-image: url('/assets/down-distance-rookie-blueprint-card-pack/shared/background-neutral.webp');
+}
+
 .layer,
 .accentLayer {
   position: absolute;
@@ -49,6 +57,22 @@
   opacity: 0.3;
 }
 
+.tradePlaybook {
+  inset: 0;
+  z-index: -1;
+  background: url('/assets/down-distance-trade-talk-card-pack/shared/playbook-overlay.svg') center /
+    cover no-repeat;
+  opacity: 0.18;
+}
+
+.rookiePlaybook {
+  inset: 0;
+  z-index: -1;
+  background: url('/assets/down-distance-rookie-blueprint-card-pack/shared/playbook-overlay.svg')
+    center / cover no-repeat;
+  opacity: 0.18;
+}
+
 .halftone {
   right: -5%;
   bottom: -12%;
@@ -67,6 +91,22 @@
   opacity: 0.12;
 }
 
+.tradeHalftone {
+  inset: 0;
+  z-index: -1;
+  background: url('/assets/down-distance-trade-talk-card-pack/shared/halftone-dots.svg') center /
+    cover no-repeat;
+  opacity: 0.12;
+}
+
+.rookieHalftone {
+  inset: 0;
+  z-index: -1;
+  background: url('/assets/down-distance-rookie-blueprint-card-pack/shared/halftone-dots.svg')
+    center / cover no-repeat;
+  opacity: 0.12;
+}
+
 .accentLayer {
   background-color: var(--card-accent);
   mask-position: center;
@@ -80,14 +120,6 @@
   width: clamp(0.65rem, 1.9cqw, 1rem);
   height: 13.5%;
   mask-image: url('/assets/down-distance-injury-card-pack/injury/accent-bar.svg');
-}
-
-.contractBar {
-  top: 6.5%;
-  left: 5%;
-  width: clamp(0.65rem, 1.9cqw, 1rem);
-  height: 13.5%;
-  mask-image: url('/assets/down-distance-contract-card-pack/contract/accent-bar.svg');
 }
 
 .cross {
@@ -106,39 +138,65 @@
   mask-image: url('/assets/down-distance-injury-card-pack/injury/heartbeat.svg');
 }
 
-.document {
-  top: 17%;
+.contractOverlay {
+  inset: 0;
+  mask-image: url('/assets/down-distance-contract-card-pack/contract/contract-template-overlay.svg');
+  mask-position: center;
+  mask-size: 100% 100%;
+}
+
+.tradeBar {
+  top: 7%;
+  left: 4.5%;
+  width: 2.5%;
+  aspect-ratio: 40 / 180;
+  mask-image: url('/assets/down-distance-trade-talk-card-pack/trade/accent-bar.svg');
+}
+
+.tradeArrowRight,
+.tradeArrowLeft {
   right: 5%;
-  width: 32%;
-  aspect-ratio: 560 / 620;
-  mask-image: url('/assets/down-distance-contract-card-pack/contract/contract-document.svg');
+  width: 42%;
+  aspect-ratio: 720 / 260;
 }
 
-.pen {
-  top: 42%;
-  right: 2.5%;
-  width: 14%;
-  aspect-ratio: 260 / 500;
-  mask-image: url('/assets/down-distance-contract-card-pack/contract/pen.svg');
-  transform: rotate(8deg);
+.tradeArrowRight {
+  top: 21%;
+  mask-image: url('/assets/down-distance-trade-talk-card-pack/trade/arrow-right.svg');
 }
 
-.signature {
-  bottom: 13%;
-  left: 11%;
-  width: 48%;
-  aspect-ratio: 920 / 180;
-  mask-image: url('/assets/down-distance-contract-card-pack/contract/signature-flourish.svg');
+.tradeArrowLeft {
+  top: 47%;
+  mask-image: url('/assets/down-distance-trade-talk-card-pack/trade/arrow-left.svg');
 }
 
-.ruler {
+.tradeStreaks {
+  top: 23%;
+  right: 4%;
+  width: 44%;
+  aspect-ratio: 820 / 420;
+  opacity: 0.62;
+  mask-image: url('/assets/down-distance-trade-talk-card-pack/trade/motion-streaks.svg');
+}
+
+.tradeRuler {
   right: 0;
-  bottom: 1.5%;
+  bottom: 1.4%;
   left: 0;
-  height: 14%;
-  background: url('/assets/down-distance-contract-card-pack/contract/ruler-overlay.svg') bottom
-    center / 100% 100% no-repeat;
-  opacity: 0.72;
+  height: 7.5%;
+  background: url('/assets/down-distance-trade-talk-card-pack/trade/ruler-overlay.svg') center bottom /
+    100% 100% no-repeat;
+  opacity: 0.75;
+}
+
+.rookieRuler {
+  right: 0;
+  bottom: 1.4%;
+  left: 0;
+  height: 7.5%;
+  background: url('/assets/down-distance-rookie-blueprint-card-pack/rookie/ruler-overlay.svg')
+    center bottom / 100% 100% no-repeat;
+  opacity: 0.75;
 }
 
 .divider {
@@ -167,6 +225,19 @@
 .contractCopy {
   top: 10%;
   right: 33%;
+}
+
+.tradeCopy {
+  top: 8.5%;
+  right: 43%;
+}
+
+.rookieCopy {
+  /* Position intentionally inherits the Injury card's base .copy geometry. */
+}
+
+.rookieCopy .headline {
+  font-size: clamp(1.7rem, 9.3cqw, 4.65rem);
 }
 
 .contractCopy .headline {
@@ -207,7 +278,9 @@
 }
 
 .card:hover .cross,
-.card:hover .heartbeat {
+.card:hover .heartbeat,
+.card:hover .tradeArrowRight,
+.card:hover .tradeArrowLeft {
   transform: scale(1.015);
   transition: transform 240ms ease-out;
 }
@@ -224,7 +297,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card:hover .cross,
-  .card:hover .heartbeat {
+  .card:hover .heartbeat,
+  .card:hover .tradeArrowRight,
+  .card:hover .tradeArrowLeft {
     transform: none;
     transition: none;
   }

@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import EditorialVisual from '@/components/editorial/editorial-visual';
 import ContractGraphicCard from '@/components/editorial/contract-graphic-card';
 import InjuryGraphicCard from '@/components/editorial/injury-graphic-card';
+import RookieBlueprintGraphicCard from '@/components/editorial/rookie-blueprint-graphic-card';
+import TradeTalkGraphicCard from '@/components/editorial/trade-talk-graphic-card';
 import { EDITORIAL_VISUAL_FIXTURES } from '@/features/content/editorial-visual-fixtures';
 
 export default function EditorialVisualsPage() {
@@ -38,10 +40,43 @@ export default function EditorialVisualsPage() {
             </div>
           ))}
         </section>
+        <h2 className="mt-10 text-2xl font-black">Trade Talk team-accent proof</h2>
+        <section className="mt-5 grid gap-5 md:grid-cols-2">
+          {['KC', 'CIN', 'BAL', 'CAR'].map((teamAbbr) => (
+            <div key={teamAbbr}>
+              <p className="mb-2 text-xs font-black">{teamAbbr}</p>
+              <TradeTalkGraphicCard teamAbbr={teamAbbr} />
+            </div>
+          ))}
+        </section>
+        <h2 className="mt-10 text-2xl font-black">Rookie Blueprint team-accent proof</h2>
+        <section className="mt-5 grid gap-5 md:grid-cols-2">
+          {['KC', 'CIN', 'BAL', 'CAR'].map((teamAbbr) => (
+            <div key={teamAbbr}>
+              <p className="mb-2 text-xs font-black">{teamAbbr}</p>
+              <RookieBlueprintGraphicCard teamAbbr={teamAbbr} />
+            </div>
+          ))}
+        </section>
+        <h2 className="mt-10 text-2xl font-black">Injury and corrected Rookie comparison</h2>
+        <section className="mt-5 grid gap-5 md:grid-cols-2">
+          <InjuryGraphicCard
+            teamAbbr="KC"
+            eyebrow="INJURY REPORT"
+            primaryText="STATUS"
+            accentText="WATCH"
+          />
+          <RookieBlueprintGraphicCard teamAbbr="KC" />
+        </section>
         <h2 className="mt-10 text-2xl font-black">Shared-system comparison</h2>
         <section className="mt-5 grid gap-5 md:grid-cols-2">
           <InjuryGraphicCard teamAbbr="KC" />
           <ContractGraphicCard teamAbbr="KC" />
+          <TradeTalkGraphicCard teamAbbr="KC" />
+          <RookieBlueprintGraphicCard teamAbbr="KC" />
+          <EditorialVisual
+            visual={EDITORIAL_VISUAL_FIXTURES.find((visual) => visual.visualType === 'DEVELOPING')!}
+          />
         </section>
         <section className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {EDITORIAL_VISUAL_FIXTURES.map((visual) => (

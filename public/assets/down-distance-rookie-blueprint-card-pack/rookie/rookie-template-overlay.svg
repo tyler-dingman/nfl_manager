@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none">
+  <g color="currentColor">
+    <rect x="74" y="74" width="26" height="128" rx="2" fill="currentColor"/>
+    <g transform="translate(1010 160) scale(.78)">
+      <path d="M310 38L492 104V272C492 394 421 496 310 574C199 496 128 394 128 272V104L310 38Z"
+            stroke="currentColor" stroke-width="20" stroke-linejoin="round"/>
+      <path d="M180 182H440M180 350H440" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+      <path d="M224 243H396V317H224Z" stroke="currentColor" stroke-width="16"/>
+      <path d="M250 145L310 102L370 145" stroke="currentColor" stroke-width="16" stroke-linejoin="round"/>
+    </g>
+    <path d="M175 675C350 655 525 634 700 610C815 594 888 584 942 575"
+          stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+    <rect x="0" y="872" width="1600" height="28" fill="currentColor"/>
+  </g>
+</svg>

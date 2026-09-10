@@ -12,15 +12,15 @@ const config: ExpoConfig = {
   android: {
     package: 'com.downdistance.mobile', googleServicesFile: './google-services.json',
     edgeToEdgeEnabled: true, predictiveBackGestureEnabled: false,
+    permissions: ['android.permission.POST_NOTIFICATIONS'],
     adaptiveIcon: {
       backgroundColor: '#081824', foregroundImage: './assets/images/android-icon-foreground.png',
-      backgroundImage: './assets/images/android-icon-background.png',
-      monochromeImage: './assets/images/android-icon-monochrome.png',
     },
   },
   web: { output: 'static', favicon: './assets/images/favicon.png' },
   plugins: [
-    'expo-router', 'expo-apple-authentication', 'expo-notifications',
+    'expo-router', 'expo-apple-authentication',
+    ['expo-notifications', { defaultChannel: 'down_distance_updates' }],
     ['expo-splash-screen', {
       image: './assets/images/splash-icon.png', imageWidth: 200, resizeMode: 'contain',
       backgroundColor: '#081824', dark: { backgroundColor: '#000000' },

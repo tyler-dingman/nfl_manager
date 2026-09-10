@@ -7,8 +7,11 @@ import { Platform } from 'react-native';
 import { authenticatedFetch } from './auth';
 
 const INSTALLATION = 'dd.mobile.installation',
-  DEVICE_ID = 'dd.mobile.push.device';
+  DEVICE_ID = 'dd.mobile.push.device',
+  ANDROID_CHANNEL_ID = 'down_distance_updates';
 export type PushState = 'enabled' | 'disabled' | 'denied' | 'unavailable';
+export type DevelopmentPushToken = { type: string; data: string };
+export const isFcmTestBuild = __DEV__ || process.env.EXPO_PUBLIC_SHOW_FCM_TEST_TOKEN === 'true';
 async function secureId(key: string) {
   const existing = await SecureStore.getItemAsync(key);
   if (existing) return existing;
@@ -21,6 +24,41 @@ async function jsonRequest(path: string, init?: RequestInit) {
   const body = await response.json().catch(() => null);
   if (!response.ok) throw new Error(body?.error ?? 'Push setup failed.');
   return body;
+}
+export async function initializeAndroidNotifications() {
+  if (Platform.OS !== 'android') return;
+  await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
+    name: 'Down & Distance Updates',
+    description: 'News and updates from Down & Distance',
+    importance: Notifications.AndroidImportance.HIGH,
+    vibrationPattern: [0, 250, 250, 250],
+    lightColor: '#ED1B2F',
+  });
+}
+function logDevelopmentToken(token: DevelopmentPushToken) {
+  if (!isFcmTestBuild) return;
+  console.log(
+    `====================================\nDOWN & DISTANCE FCM TOKEN\n${token.data}\n====================================`,
+  );
+}
+async function getFcmToken(): Promise<DevelopmentPushToken | null> {
+  if (Platform.OS !== 'android' || !Device.isDevice) return null;
+  await initializeAndroidNotifications();
+  const token = await Notifications.getDevicePushTokenAsync();
+  const result = { type: String(token.type), data: token.data };
+  logDevelopmentToken(result);
+  return result;
+}
+export async function getDevelopmentFcmToken(): Promise<DevelopmentPushToken | null> {
+  if (!isFcmTestBuild) return null;
+  return getFcmToken();
+}
+async function registerToken(provider: 'EXPO' | 'FCM', token: string, deviceId: string) {
+  await jsonRequest('/api/user/devices/tokens', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ deviceId, provider, token }),
+  });
 }
 export async function getPushState(): Promise<PushState> {
   if (Platform.OS === 'web' || !Device.isDevice) return 'unavailable';
@@ -41,6 +79,7 @@ export async function enablePush({
 }: { requestPermission?: boolean } = {}) {
   if (Platform.OS === 'web' || !Device.isDevice)
     throw new Error('Push notifications require a physical device.');
+  await initializeAndroidNotifications();
   let permission = await Notifications.getPermissionsAsync();
   if (permission.status !== 'granted' && requestPermission && permission.canAskAgain)
     permission = await Notifications.requestPermissionsAsync();
@@ -48,7 +87,7 @@ export async function enablePush({
     throw new Error(
       permission.canAskAgain
         ? 'Notification permission was not granted.'
-        : 'Permission denied. Re-enable notifications in iPhone Settings.',
+        : `Permission denied. Re-enable notifications in ${Platform.OS === 'android' ? 'Android' : 'iPhone'} Settings.`,
     );
   const projectId =
     process.env.EXPO_PUBLIC_EAS_PROJECT_ID ??
@@ -67,11 +106,11 @@ export async function enablePush({
       osVersion: Device.osVersion,
     }),
   });
-  await jsonRequest('/api/user/devices/tokens', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ deviceId: device.device.id, provider: 'EXPO', token }),
-  });
+  await registerToken('EXPO', token, device.device.id);
+  if (Platform.OS === 'android') {
+    const fcmToken = await getFcmToken();
+    if (fcmToken) await registerToken('FCM', fcmToken.data, device.device.id);
+  }
   await jsonRequest('/api/user/preferences', {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
@@ -79,6 +118,16 @@ export async function enablePush({
   });
   await SecureStore.setItemAsync(DEVICE_ID, device.device.id);
   return 'enabled' as const;
+}
+export function subscribeToFcmTokenRefresh() {
+  if (Platform.OS !== 'android') return null;
+  return Notifications.addPushTokenListener((token) => {
+    const refreshed = { type: String(token.type), data: token.data };
+    logDevelopmentToken(refreshed);
+    void SecureStore.getItemAsync(DEVICE_ID).then((deviceId) => {
+      if (deviceId) return registerToken('FCM', refreshed.data, deviceId);
+    }).catch(() => undefined);
+  });
 }
 export async function disablePush() {
   const deviceId = await SecureStore.getItemAsync(DEVICE_ID);

@@ -1,0 +1,93 @@
+
+.dd-rookie-card-art {
+  --card-accent: var(--team-secondary, #ffb81c);
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.04), rgba(0,0,0,.32)),
+    url("/assets/down-distance-rookie-blueprint-card-pack/shared/background-neutral.webp");
+  background-size: cover;
+  background-position: center;
+  color: #f6f1e8;
+  isolation: isolate;
+}
+
+.dd-rookie-card-art__playbook,
+.dd-rookie-card-art__halftone,
+.dd-rookie-card-art__ruler,
+.dd-rookie-card-art__badge,
+.dd-rookie-card-art__underline,
+.dd-rookie-card-art__bar {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dd-rookie-card-art__playbook { inset: 0; opacity: .18; }
+.dd-rookie-card-art__halftone { inset: 0; opacity: .12; }
+
+.dd-rookie-card-art__bar {
+  color: var(--card-accent);
+  width: 2.5%;
+  left: 4.5%;
+  top: 7%;
+}
+
+.dd-rookie-card-art__badge {
+  color: #f7f2e8;
+  width: 34%;
+  right: 5%;
+  top: 18%;
+}
+
+.dd-rookie-card-art__underline {
+  color: var(--card-accent);
+  width: 49%;
+  left: 10%;
+  bottom: 17%;
+}
+
+.dd-rookie-card-art__ruler {
+  left: 0;
+  right: 0;
+  bottom: 2.8%;
+  width: 100%;
+  opacity: .75;
+}
+
+.dd-rookie-card-art__copy {
+  position: absolute;
+  z-index: 2;
+  left: 8%;
+  top: 8.5%;
+  width: 60%;
+}
+
+.dd-rookie-card-art__eyebrow {
+  margin-left: 4%;
+  font-size: clamp(.68rem, 1.3vw, 1.15rem);
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.dd-rookie-card-art__headline {
+  margin-top: 14%;
+  font-family: var(--font-display-condensed, Impact, "Arial Narrow", sans-serif);
+  font-size: clamp(2rem, 6.3vw, 5rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -.04em;
+  line-height: .82;
+  text-transform: uppercase;
+  text-shadow: 0 5px 0 rgba(0,0,0,.28);
+}
+
+.dd-rookie-card-art__headline-primary { display:block; color:#f7f2e8; }
+.dd-rookie-card-art__headline-accent { display:block; color:var(--card-accent); }
+
+@media (max-width: 640px) {
+  .dd-rookie-card-art__copy { left: 7%; width: 62%; }
+  .dd-rookie-card-art__badge { width: 36%; right: 2%; }
+}

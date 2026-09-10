@@ -4,7 +4,7 @@ import { getHeroPalette } from '@/lib/playbook-hero';
 
 import styles from './injury-graphic-card.module.css';
 
-export type ContentGraphicTemplate = 'injury' | 'contract';
+export type ContentGraphicTemplate = 'injury' | 'contract' | 'trade-talk' | 'rookie-blueprint';
 
 export function getContentGraphicAccent(teamAbbr: string) {
   const palette = getHeroPalette(teamAbbr);
@@ -30,6 +30,8 @@ export default function ContentGraphicCard({
 }) {
   const style = { '--card-accent': getContentGraphicAccent(teamAbbr) } as CSSProperties;
   const contract = template === 'contract';
+  const tradeTalk = template === 'trade-talk';
+  const rookieBlueprint = template === 'rookie-blueprint';
 
   return (
     <div
@@ -40,24 +42,38 @@ export default function ContentGraphicCard({
       data-testid={`${template}-graphic-card`}
       aria-hidden="true"
     >
-      <span className={`${styles.layer} ${contract ? styles.contractPlaybook : styles.playbook}`} />
-      <span className={`${styles.layer} ${contract ? styles.contractHalftone : styles.halftone}`} />
-      <span className={`${styles.accentLayer} ${contract ? styles.contractBar : styles.bar}`} />
+      <span
+        className={`${styles.layer} ${contract ? styles.contractPlaybook : tradeTalk ? styles.tradePlaybook : rookieBlueprint ? styles.rookiePlaybook : styles.playbook}`}
+      />
+      <span
+        className={`${styles.layer} ${contract ? styles.contractHalftone : tradeTalk ? styles.tradeHalftone : rookieBlueprint ? styles.rookieHalftone : styles.halftone}`}
+      />
       {contract ? (
+        <span className={`${styles.accentLayer} ${styles.contractOverlay}`} />
+      ) : tradeTalk ? (
         <>
-          <span className={`${styles.accentLayer} ${styles.document}`} />
-          <span className={`${styles.accentLayer} ${styles.pen}`} />
-          <span className={`${styles.accentLayer} ${styles.signature}`} />
-          <span className={`${styles.layer} ${styles.ruler}`} />
+          <span className={`${styles.accentLayer} ${styles.tradeBar}`} />
+          <span className={`${styles.accentLayer} ${styles.tradeArrowRight}`} />
+          <span className={`${styles.accentLayer} ${styles.tradeArrowLeft}`} />
+          <span className={`${styles.accentLayer} ${styles.tradeStreaks}`} />
+          <span className={`${styles.layer} ${styles.tradeRuler}`} />
+        </>
+      ) : rookieBlueprint ? (
+        <>
+          <span className={`${styles.accentLayer} ${styles.bar}`} />
+          <span className={`${styles.layer} ${styles.rookieRuler}`} />
         </>
       ) : (
         <>
+          <span className={`${styles.accentLayer} ${styles.bar}`} />
           <span className={`${styles.accentLayer} ${styles.cross}`} />
           <span className={`${styles.accentLayer} ${styles.heartbeat}`} />
         </>
       )}
-      <span className={styles.divider} />
-      <span className={`${styles.copy} ${contract ? styles.contractCopy : ''}`}>
+      {!contract ? <span className={styles.divider} /> : null}
+      <span
+        className={`${styles.copy} ${contract ? styles.contractCopy : tradeTalk ? styles.tradeCopy : rookieBlueprint ? styles.rookieCopy : ''}`}
+      >
         <span className={styles.eyebrow}>{eyebrow}</span>
         <span className={styles.headline}>
           <span>{primaryText}</span>

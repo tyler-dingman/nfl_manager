@@ -5,6 +5,10 @@ import ShareToCrewButton from '@/components/crew/share-to-crew-button';
 import ContractGraphicCard from '@/components/editorial/contract-graphic-card';
 import InjuryGraphicCard from '@/components/editorial/injury-graphic-card';
 import { getInjuryGraphicCopy } from '@/components/editorial/injury-graphic-copy';
+import RookieBlueprintGraphicCard from '@/components/editorial/rookie-blueprint-graphic-card';
+import { shouldUseRookieBlueprintGraphic } from '@/components/editorial/rookie-blueprint-category';
+import TradeTalkGraphicCard from '@/components/editorial/trade-talk-graphic-card';
+import { shouldUseTradeTalkGraphic } from '@/components/editorial/trade-talk-category';
 
 type HuddleStoryCardProps = {
   id: string;
@@ -65,7 +69,9 @@ export default function HuddleStoryCard({
   const normalizedCategory = category.trim().toUpperCase().replaceAll('_', ' ');
   const isInjury = normalizedCategory.includes('INJUR');
   const isContract = ['CONTRACT', 'CONTRACT NEWS', 'CONTRACT UPDATE'].includes(normalizedCategory);
-  const hasGraphic = isInjury || isContract;
+  const isTradeTalk = shouldUseTradeTalkGraphic({ category, headline, summary, status });
+  const isRookieBlueprint = shouldUseRookieBlueprintGraphic({ category, headline, summary });
+  const hasGraphic = isInjury || isContract || isTradeTalk || isRookieBlueprint;
   const injuryCopy = getInjuryGraphicCopy({ headline, summary, status });
 
   return (
@@ -84,6 +90,10 @@ export default function HuddleStoryCard({
         />
       ) : isContract ? (
         <ContractGraphicCard teamAbbr={teamId} />
+      ) : isTradeTalk ? (
+        <TradeTalkGraphicCard teamAbbr={teamId} />
+      ) : isRookieBlueprint ? (
+        <RookieBlueprintGraphicCard teamAbbr={teamId} />
       ) : null}
       {hasGraphic ? null : (
         <div

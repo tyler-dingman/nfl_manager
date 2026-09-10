@@ -6,7 +6,12 @@ import * as Notifications from 'expo-notifications';
 import { AuthProvider, useAuth } from '../lib/auth-context';
 import { TeamProvider } from '../lib/team-context';
 import { useTeamBranding } from '../lib/team-branding';
-import { notificationDestination, syncPushRegistration } from '../lib/push';
+import {
+  initializeAndroidNotifications,
+  notificationDestination,
+  subscribeToFcmTokenRefresh,
+  syncPushRegistration,
+} from '../lib/push';
 import { CommerceCartProvider } from '../lib/commerce-cart';
 
 Notifications.setNotificationHandler({
@@ -90,14 +95,19 @@ function AuthenticatedStack({ authenticated }: { authenticated: boolean }) {
 function PushBootstrap() {
   const router = useRouter();
   useEffect(() => {
+    void initializeAndroidNotifications().catch(() => undefined);
     void syncPushRegistration().catch(() => undefined);
+    const tokenSubscription = subscribeToFcmTokenRefresh();
     const open = (response: Notifications.NotificationResponse | null) => {
       const destination = notificationDestination(response);
       if (destination) router.push(destination as Href);
     };
     void Notifications.getLastNotificationResponseAsync().then(open);
     const subscription = Notifications.addNotificationResponseReceivedListener(open);
-    return () => subscription.remove();
+    return () => {
+      subscription.remove();
+      tokenSubscription?.remove();
+    };
   }, [router]);
   return null;
 }

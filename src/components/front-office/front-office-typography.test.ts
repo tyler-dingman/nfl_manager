@@ -11,4 +11,9 @@ test('Front Office uses the same system sans typography as the public site', () 
   assert.match(css, /\.front-office-app button,[\s\S]*?font-family: inherit/);
   assert.match(css, /\.fo-team-metrics dd \{[\s\S]*?font-family: inherit/);
   assert.match(css, /\.fo-section-card-heading h2 \{[\s\S]*?font-family: inherit/);
+  const weekStripRule = css.match(/\.fo-week-strip \{[\s\S]*?\n\}/)?.[0] ?? '';
+  assert.match(weekStripRule, /font-family: inherit/);
+  assert.match(weekStripRule, /font-feature-settings: normal/);
+  assert.match(weekStripRule, /font-variation-settings: normal/);
+  assert.match(weekStripRule, /letter-spacing: -0\.008em/);
 });
