@@ -1,5 +1,6 @@
 import type { FranchiseSimulationState } from '@/types/front-office';
 import type { NewFrontOfficeEvent } from './events-repository';
+import { selectReSignReadyCandidate, type ReSignReadyCandidate } from './re-sign-ready';
 
 export const FRONT_OFFICE_EVENT_CONFIG = {
   maxEventsPerAdvancedWeek: 3,
@@ -42,20 +43,15 @@ export function generateFrontOfficeEvents(input: {
   teamAbbr: string;
   previous: FranchiseSimulationState;
   current: FranchiseSimulationState;
+  reSignCandidates?: ReSignReadyCandidate[];
 }) {
-  const { current, previous, saveId, teamAbbr } = input;
+  const { current, previous, reSignCandidates = [], saveId, teamAbbr } = input;
   const generated: NewFrontOfficeEvent[] = [];
   const start = Math.max(1, previous.currentWeek + 1);
   const end = Math.max(start, current.currentWeek);
 
   for (let week = start; week <= end; week += 1) {
     const weekly: NewFrontOfficeEvent[] = [];
-    const team = current.teams[teamAbbr];
-    const game = current.games.find(
-      (item) =>
-        item.week === week && item.played && [item.homeTeam, item.awayTeam].includes(teamAbbr),
-    );
-
     if (week === FRONT_OFFICE_EVENT_CONFIG.deadlineWeek) {
       weekly.push(
         makeEvent(current, saveId, week, {
@@ -71,27 +67,6 @@ export function generateFrontOfficeEvents(input: {
           tradeOfferId: null,
           actionUrl: '/manage/trades',
           metadata: { deadlineWeek: week },
-        }),
-      );
-    }
-
-    if (game && team) {
-      const won = game.winner === teamAbbr;
-      const record = `${team.record.wins}-${team.record.losses}${team.record.ties ? `-${team.record.ties}` : ''}`;
-      weekly.push(
-        makeEvent(current, saveId, week, {
-          dedupeKey: `game:${game.id}`,
-          type: 'breaking_news',
-          priority: won ? 'normal' : 'low',
-          headline: won ? `${teamAbbr} keeps building momentum` : `${teamAbbr} turns the page`,
-          summary: `${game.awayTeam} ${game.awayScore} — ${game.homeTeam} ${game.homeScore}. Your club is now ${record}.`,
-          teamAbbr,
-          relatedTeamAbbr: game.homeTeam === teamAbbr ? game.awayTeam : game.homeTeam,
-          playerId: null,
-          prospectId: null,
-          tradeOfferId: null,
-          actionUrl: '/experience',
-          metadata: { gameId: game.id, result: won ? 'win' : 'loss' },
         }),
       );
     }
@@ -120,6 +95,49 @@ export function generateFrontOfficeEvents(input: {
           tradeOfferId: null,
           actionUrl: '/manage/trades',
           metadata: { partnerTeamAbbr: partner },
+        }),
+      );
+    }
+
+    const readyPlayer = selectReSignReadyCandidate({
+      seed: current.seed,
+      week,
+      candidates: reSignCandidates.filter(
+        (candidate) => !current.contractNegotiations?.[candidate.playerId],
+      ),
+      simulation: current,
+    });
+    if (readyPlayer) {
+      current.contractNegotiations = {
+        ...current.contractNegotiations,
+        [readyPlayer.playerId]: {
+          contractId: readyPlayer.contractId,
+          state: 'ready',
+          readyWeek: week,
+          updatedAt: new Date(0).toISOString(),
+        },
+      };
+      weekly.push(
+        makeEvent(current, saveId, week, {
+          dedupeKey: `re-sign-ready:${readyPlayer.playerId}:${current.season}`,
+          type: 're_sign_ready',
+          priority: 'high',
+          headline: `${readyPlayer.name} is ready to start negotiations`,
+          summary: `His contract expires at the end of the ${current.season} season.`,
+          teamAbbr,
+          relatedTeamAbbr: null,
+          playerId: readyPlayer.playerId,
+          prospectId: null,
+          tradeOfferId: null,
+          actionUrl: `/roster?view=resign&playerId=${encodeURIComponent(readyPlayer.playerId)}&openNegotiation=1`,
+          metadata: {
+            contractId: readyPlayer.contractId,
+            position: readyPlayer.position,
+            rating: readyPlayer.rating,
+            contractYear: current.season,
+            headshotUrl: readyPlayer.headshotUrl,
+            negotiationState: 'ready',
+          },
         }),
       );
     }

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, Clock3, Radio, Search, Shield, Sparkles, Users } from 'lucide-react';
 
@@ -12,6 +12,8 @@ import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import ThreeAndOutExperience from '@/components/three-and-out/three-and-out-experience';
 import type { TeamBriefing } from '@/features/content/types';
+import type { BeatPagination } from '@/features/content/pagination';
+import { parseBeatPage, visiblePageNumbers } from '@/features/content/pagination';
 import { recordBriefingConsumed } from '@/features/content/consumption';
 import { readCanonicalFanTeamPreference } from '@/features/team/fan-team-preference';
 import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
@@ -75,6 +77,13 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
   const teamName = activeTeam?.name ?? 'NFL';
   const meta = hubMeta[kind];
   const [briefings, setBriefings] = useState<TeamBriefing[]>([]);
+  const [beatPagination, setBeatPagination] = useState<BeatPagination>({
+    page: 1,
+    pageSize: 20,
+    totalItems: 0,
+    totalPages: 0,
+  });
+  const [beatLoading, setBeatLoading] = useState(false);
 
   useEffect(() => {
     void readCanonicalFanTeamPreference().then(setPersistedAbbr);
@@ -83,16 +92,26 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
   useEffect(() => {
     if (kind !== 'huddle') return;
     const controller = new AbortController();
-    void fetch(`/api/content/huddle?team=${teamAbbr}`, { signal: controller.signal })
+    const query = new URLSearchParams({ team: teamAbbr });
+    for (const key of ['page', 'type', 'range', 'sort', 'q']) {
+      const value = searchParams?.get(key);
+      if (value) query.set(key, value);
+    }
+    setBeatLoading(true);
+    void fetch(`/api/content/huddle?${query}`, { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : null))
-      .then((payload: { briefings?: TeamBriefing[] } | null) =>
-        setBriefings(payload?.briefings ?? []),
-      )
+      .then((payload: { briefings?: TeamBriefing[]; pagination?: BeatPagination } | null) => {
+        setBriefings(payload?.briefings ?? []);
+        if (payload?.pagination) setBeatPagination(payload.pagination);
+      })
       .catch((error: unknown) => {
         if (!(error instanceof DOMException && error.name === 'AbortError')) setBriefings([]);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setBeatLoading(false);
       });
     return () => controller.abort();
-  }, [kind, teamAbbr]);
+  }, [kind, searchParams, teamAbbr]);
 
   return (
     <TeamThemeProvider team={activeTeam}>
@@ -135,7 +154,13 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
 
         <main className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
           {kind === 'huddle' ? (
-            <HuddleGrid briefings={briefings} teamAbbr={teamAbbr} teamName={teamName} />
+            <HuddleGrid
+              briefings={briefings}
+              teamAbbr={teamAbbr}
+              teamName={teamName}
+              pagination={beatPagination}
+              loading={beatLoading}
+            />
           ) : null}
           {kind === 'three-and-out' ? (
             activeTeam ? (
@@ -174,37 +199,58 @@ const beatFilters: Array<{ id: BeatFilter; label: string }> = [
   { id: 'GAMES', label: 'Games' },
 ];
 
-function matchesBeatFilter(briefing: TeamBriefing, filter: BeatFilter) {
-  const category = briefing.category.toUpperCase();
-  if (filter === 'ALL') return true;
-  if (filter === 'HOT') {
-    return Boolean(briefing.hotReadUntil && new Date(briefing.hotReadUntil).getTime() > Date.now());
-  }
-  if (filter === 'ROSTER')
-    return ['ROSTER', 'TRANSACTION', 'TRADE', 'CONTRACT', 'SIGNING'].some((value) =>
-      category.includes(value),
-    );
-  if (filter === 'INJURIES') return category.includes('INJUR');
-  if (filter === 'DRAFT') return category.includes('DRAFT');
-  return ['GAME', 'PREVIEW', 'RESULT'].some((value) => category.includes(value));
-}
-
 function HuddleGrid({
   briefings,
   teamAbbr,
   teamName,
+  pagination,
+  loading,
 }: {
   briefings: TeamBriefing[];
   teamAbbr: string;
   teamName: string;
+  pagination: BeatPagination;
+  loading: boolean;
 }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const { user, hydrated } = useAuthUser();
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
-  const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState<BeatFilter>('ALL');
-  const [timeRange, setTimeRange] = useState('ALL');
-  const [sort, setSort] = useState<'UPDATED' | 'NEWEST'>('UPDATED');
+  const urlQuery = searchParams?.get('q') ?? '';
+  const [query, setQuery] = useState(urlQuery);
+  const filter = (searchParams?.get('type') ?? 'ALL').toUpperCase() as BeatFilter;
+  const timeRange = (searchParams?.get('range') ?? 'ALL').toUpperCase();
+  const sort = (searchParams?.get('sort') ?? 'UPDATED').toUpperCase() as 'UPDATED' | 'NEWEST';
+  const teamNickname = teamName.split(' ').at(-1) ?? teamName;
+
+  const updateUrl = (changes: Record<string, string | null>, resetPage = true) => {
+    const params = new URLSearchParams(searchParams?.toString() ?? '');
+    Object.entries(changes).forEach(([key, value]) => {
+      if (!value || value === 'ALL' || (key === 'sort' && value === 'UPDATED')) params.delete(key);
+      else params.set(key, value);
+    });
+    if (resetPage) params.set('page', '1');
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  useEffect(() => setQuery(urlQuery), [urlQuery]);
+  useEffect(() => {
+    const requestedPage = parseBeatPage(searchParams?.get('page'));
+    if (!loading && pagination.totalPages > 0 && requestedPage !== pagination.page) {
+      const params = new URLSearchParams(searchParams?.toString() ?? '');
+      params.set('page', String(pagination.page));
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    }
+  }, [loading, pagination.page, pagination.totalPages, pathname, router, searchParams]);
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      if (query.trim() !== urlQuery) updateUrl({ q: query.trim() || null });
+    }, 350);
+    return () => window.clearTimeout(timeout);
+    // URL replacement is intentionally debounced from the controlled input.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, urlQuery]);
 
   useEffect(() => {
     if (!hydrated || !user || !briefings.length) return;
@@ -247,45 +293,6 @@ function HuddleGrid({
     }
   };
 
-  const visibleBriefings = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-    const now = Date.now();
-    const rangeMs =
-      timeRange === 'TODAY'
-        ? 24 * 60 * 60 * 1000
-        : timeRange === 'WEEK'
-          ? 7 * 24 * 60 * 60 * 1000
-          : timeRange === 'MONTH'
-            ? 30 * 24 * 60 * 60 * 1000
-            : null;
-    return briefings
-      .filter((briefing) => matchesBeatFilter(briefing, filter))
-      .filter((briefing) => !rangeMs || now - new Date(briefing.updatedAt).getTime() <= rangeMs)
-      .filter((briefing) => {
-        if (!normalizedQuery) return true;
-        return [
-          briefing.headline,
-          briefing.summary,
-          briefing.category,
-          ...briefing.sources.map((source) => `${source.publisher} ${source.title}`),
-        ]
-          .join(' ')
-          .toLowerCase()
-          .includes(normalizedQuery);
-      })
-      .sort((left, right) => {
-        const timestamp = (briefing: TeamBriefing) => {
-          if (sort === 'UPDATED' || briefing.sources.length === 0) {
-            return new Date(briefing.updatedAt).getTime();
-          }
-          return Math.min(
-            ...briefing.sources.map((source) => new Date(source.publishedAt).getTime()),
-          );
-        };
-        return timestamp(right) - timestamp(left);
-      });
-  }, [briefings, filter, query, sort, timeRange]);
-
   const openBriefing = (briefing: TeamBriefing) => {
     if (user) void recordBriefingConsumed(briefing);
   };
@@ -309,7 +316,7 @@ function HuddleGrid({
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder={`Ask anything about the ${teamName}…`}
+            placeholder={`Search ${teamNickname} news, players, injuries, trades and more...`}
             className="h-14 w-full rounded-2xl border border-[#00172B]/15 bg-[#f7f4ee] pl-12 pr-4 font-bold text-[#00172B] outline-none transition placeholder:text-[#6d7f91] focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
           />
         </div>
@@ -328,7 +335,7 @@ function HuddleGrid({
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setFilter(item.id)}
+                onClick={() => updateUrl({ type: item.id })}
                 aria-pressed={filter === item.id}
                 className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30 ${
                   filter === item.id
@@ -346,7 +353,7 @@ function HuddleGrid({
             Sort
             <select
               value={sort}
-              onChange={(event) => setSort(event.target.value as 'UPDATED' | 'NEWEST')}
+              onChange={(event) => updateUrl({ sort: event.target.value })}
               className="h-10 rounded-full border border-[#00172B]/15 bg-white px-4 font-bold normal-case tracking-normal text-[#00172B] outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
             >
               <option value="UPDATED">Recently updated</option>
@@ -357,7 +364,7 @@ function HuddleGrid({
             Time
             <select
               value={timeRange}
-              onChange={(event) => setTimeRange(event.target.value)}
+              onChange={(event) => updateUrl({ range: event.target.value })}
               className="h-10 rounded-full border border-[#00172B]/15 bg-white px-4 font-bold normal-case tracking-normal text-[#00172B] outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
             >
               <option value="TODAY">Today</option>
@@ -370,13 +377,21 @@ function HuddleGrid({
       </div>
 
       <p className="mt-5 text-xs font-bold text-[#6d7f91]" role="status" aria-live="polite">
-        {visibleBriefings.length} {visibleBriefings.length === 1 ? 'development' : 'developments'}
+        {pagination.totalItems} {pagination.totalItems === 1 ? 'development' : 'developments'}
         {query.trim() ? ` matching “${query.trim()}”` : ''}
       </p>
 
-      <div className="mt-4 grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {visibleBriefings.length ? (
-          visibleBriefings.map((briefing) => (
+      <div
+        id="beat-feed-start"
+        className="mt-4 grid min-h-[30rem] items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3"
+        aria-busy={loading}
+      >
+        {loading ? (
+          Array.from({ length: 6 }, (_, index) => (
+            <div key={index} className="h-80 animate-pulse rounded-2xl bg-white" />
+          ))
+        ) : briefings.length ? (
+          briefings.map((briefing) => (
             <HuddleStoryCard
               key={briefing.id}
               id={briefing.id}
@@ -398,13 +413,100 @@ function HuddleGrid({
           ))
         ) : (
           <div className="rounded-2xl border border-dashed border-[#00172B]/20 bg-white p-8 text-center text-sm font-semibold text-[#52677c] md:col-span-2 lg:col-span-3">
-            {briefings.length
-              ? 'No developments match those filters. Try a broader search or time range.'
-              : 'Building today’s Beat…'}
+            No developments match those filters. Try a broader search or time range.
           </div>
         )}
       </div>
+      {!loading && pagination.totalPages > 1 ? (
+        <BeatPaginationNav
+          pagination={pagination}
+          onNavigate={(page) => {
+            updateUrl({ page: String(page) }, false);
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            window.requestAnimationFrame(() =>
+              document
+                .getElementById('beat-feed-start')
+                ?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' }),
+            );
+          }}
+        />
+      ) : null}
     </section>
+  );
+}
+
+function BeatPaginationNav({
+  pagination,
+  onNavigate,
+}: {
+  pagination: BeatPagination;
+  onNavigate: (page: number) => void;
+}) {
+  const pages = visiblePageNumbers(pagination.page, pagination.totalPages);
+  return (
+    <nav aria-label="The Beat pagination" className="mt-10 border-t border-[#00172B]/10 pt-6">
+      <div className="hidden items-center justify-center gap-2 sm:flex">
+        <button
+          type="button"
+          disabled={pagination.page === 1}
+          onClick={() => onNavigate(pagination.page - 1)}
+          aria-label="Previous page"
+          className="rounded-full border border-[#00172B]/15 bg-white px-4 py-2 text-sm font-black disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          ← Previous
+        </button>
+        {pages.map((page, index) => (
+          <span key={page} className="contents">
+            {index > 0 && page - pages[index - 1] > 1 ? (
+              <span aria-hidden="true" className="px-1">
+                …
+              </span>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => onNavigate(page)}
+              aria-current={page === pagination.page ? 'page' : undefined}
+              aria-label={`Page ${page}`}
+              className={`h-10 min-w-10 rounded-full px-3 text-sm font-black ${page === pagination.page ? 'bg-[var(--dark)] text-[var(--team-on-dark)] ring-2 ring-[var(--secondary)]' : 'border border-[#00172B]/15 bg-white text-[#00172B]'}`}
+            >
+              {page}
+            </button>
+          </span>
+        ))}
+        <button
+          type="button"
+          disabled={pagination.page === pagination.totalPages}
+          onClick={() => onNavigate(pagination.page + 1)}
+          aria-label="Next page"
+          className="rounded-full border border-[#00172B]/15 bg-white px-4 py-2 text-sm font-black disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Next →
+        </button>
+      </div>
+      <div className="flex items-center justify-between gap-3 sm:hidden">
+        <button
+          type="button"
+          disabled={pagination.page === 1}
+          onClick={() => onNavigate(pagination.page - 1)}
+          aria-label="Previous page"
+          className="rounded-full border border-[#00172B]/15 bg-white px-4 py-2 text-sm font-black disabled:opacity-40"
+        >
+          ← Previous
+        </button>
+        <span className="text-sm font-black text-[#52677c]">
+          Page {pagination.page} of {pagination.totalPages}
+        </span>
+        <button
+          type="button"
+          disabled={pagination.page === pagination.totalPages}
+          onClick={() => onNavigate(pagination.page + 1)}
+          aria-label="Next page"
+          className="rounded-full border border-[#00172B]/15 bg-white px-4 py-2 text-sm font-black disabled:opacity-40"
+        >
+          Next →
+        </button>
+      </div>
+    </nav>
   );
 }
 

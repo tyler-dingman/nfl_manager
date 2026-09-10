@@ -78,10 +78,11 @@ export const rankDraftBoard = ({
         sleeperBoost,
       };
     })
-    .sort((left, right) => {
-      if (right.boardScore !== left.boardScore) return right.boardScore - left.boardScore;
-      return (left.player.rank ?? 999) - (right.player.rank ?? 999);
-    });
+    .sort(
+      (left, right) =>
+        (left.player.rank ?? Number.MAX_SAFE_INTEGER) -
+          (right.player.rank ?? Number.MAX_SAFE_INTEGER) || right.boardScore - left.boardScore,
+    );
 
   return ranked.slice(0, limit).map((entry, index) => {
     const tags: DraftBoardTag[] = [];
@@ -116,3 +117,22 @@ export const getDraftAutopick = ({
   teamNeeds: string[];
   currentPickOverall: number;
 }) => rankDraftBoard({ prospects, teamNeeds, currentPickOverall, limit: 1 })[0]?.player ?? null;
+
+export const filterDraftBoardEntries = (
+  entries: DraftBoardEntry[],
+  query: string,
+  position = 'All',
+) => {
+  const normalizedQuery = query.trim().toLowerCase();
+  const normalizedPosition = position === 'All' ? null : normalizeDraftPosition(position);
+  return entries.filter((entry) => {
+    const playerPosition = normalizeDraftPosition(entry.player.position);
+    const searchable =
+      `${entry.player.firstName} ${entry.player.lastName} ${entry.player.college ?? entry.player.school ?? ''}`.toLowerCase();
+    return (
+      !entry.player.isDrafted &&
+      (!normalizedQuery || searchable.includes(normalizedQuery)) &&
+      (!normalizedPosition || playerPosition === normalizedPosition)
+    );
+  });
+};

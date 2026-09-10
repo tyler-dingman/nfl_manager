@@ -24,8 +24,10 @@ type ProspectDetailsModalProps = {
   onClose: () => void;
 };
 
-const renderProspectAvatar = (player: PlayerRowDTO, name: string) => {
-  if (player.headshotUrl) {
+const ProspectDetailAvatar = ({ player, name }: { player: PlayerRowDTO; name: string }) => {
+  const [imageFailed, setImageFailed] = React.useState(false);
+  React.useEffect(() => setImageFailed(false), [player.headshotUrl]);
+  if (player.headshotUrl && !imageFailed) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
@@ -34,6 +36,7 @@ const renderProspectAvatar = (player: PlayerRowDTO, name: string) => {
         className="h-24 w-24 rounded-2xl object-cover object-top shadow-sm sm:h-28 sm:w-28"
         loading="lazy"
         decoding="async"
+        onError={() => setImageFailed(true)}
       />
     );
   }
@@ -173,7 +176,9 @@ export function ProspectDetailsModal({
           <section className="rounded-3xl border border-border bg-slate-50/70 p-4 sm:p-5">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex min-w-0 items-start gap-4">
-                <div className="shrink-0">{renderProspectAvatar(player, model.name)}</div>
+                <div className="shrink-0">
+                  <ProspectDetailAvatar player={player} name={model.name} />
+                </div>
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="text-2xl font-semibold text-foreground sm:text-3xl">

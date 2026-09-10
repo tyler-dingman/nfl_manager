@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowDownRight,
   ArrowLeftRight,
@@ -26,6 +26,7 @@ import TeamThemeProvider from '@/components/team-theme-provider';
 import { TeamNeeds } from '@/components/team-needs';
 import { FrontOfficePhaseControl } from '@/components/front-office/front-office-phase-control';
 import { FrontOfficeEventCenter } from '@/components/front-office/front-office-event-center';
+import { WeekCompletePanel } from '@/components/front-office/week-complete-panel';
 import { PhaseStepper } from '@/components/phase-stepper';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
@@ -172,6 +173,8 @@ function AppShellContent({
   const completedSteps = useExperienceStore((state) => state.completedSteps);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [trajectoryPulse, setTrajectoryPulse] = useState(false);
+  const [weekRecapPaused, setWeekRecapPaused] = useState(Boolean(showTeamSummary && saveId));
+  const setRecapExpanded = useCallback((expanded: boolean) => setWeekRecapPaused(expanded), []);
   const wasNegativeRef = useRef(false);
   const lastSaveIdRef = useRef<string | null>(null);
   const lastTrajectoryStateRef = useRef<string | null>(null);
@@ -678,6 +681,14 @@ function AppShellContent({
               <PhaseStepper currentStep={currentStep} completedSteps={completedSteps} />
             ) : null}
 
+            {showTeamSummary && saveId && storedTeamAbbr ? (
+              <WeekCompletePanel
+                saveId={saveId}
+                teamAbbr={storedTeamAbbr}
+                onExpandedChange={setRecapExpanded}
+              />
+            ) : null}
+
             {showTeamSummary && showOnTheClock ? (
               <div className="mt-3 w-full px-4 md:hidden">
                 <div className="rounded-xl bg-gradient-to-r from-[#0A2A66] via-[#1453B8] to-[#0A2A66] px-4 py-2 text-center">
@@ -702,8 +713,10 @@ function AppShellContent({
               ) : null}
             </div>
           </div>
-          <TradeOfferToast scopeKey={tradeOfferScopeKey} />
-          {showLeagueWire && saveId ? <FrontOfficeEventCenter saveId={saveId} /> : null}
+          {!weekRecapPaused ? <TradeOfferToast scopeKey={tradeOfferScopeKey} /> : null}
+          {showLeagueWire && saveId ? (
+            <FrontOfficeEventCenter saveId={saveId} paused={weekRecapPaused} />
+          ) : null}
         </div>
       </div>
     </TeamThemeProvider>

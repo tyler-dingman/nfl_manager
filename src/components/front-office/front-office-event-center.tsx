@@ -4,6 +4,10 @@ import Link from 'next/link';
 import { Bell, Radio, X } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiFetch } from '@/lib/api';
+import {
+  getFrontOfficeEventActionLabel,
+  getFrontOfficeEventActionUrl,
+} from '@/lib/front-office-event-actions';
 import type { FrontOfficeEvent } from '@/types/front-office';
 
 const labels: Record<FrontOfficeEvent['type'], string> = {
@@ -14,13 +18,20 @@ const labels: Record<FrontOfficeEvent['type'], string> = {
   free_agent_signing: 'Free Agency',
   player_release: 'League Wire',
   contract_extension: 'League Wire',
+  re_sign_ready: 'Re-sign Ready',
   draft_buzz: 'Draft Buzz',
   deadline_alert: 'Deadline Alert',
   league_transaction: 'League Wire',
   playoff_update: 'Playoff Update',
 };
 
-export function FrontOfficeEventCenter({ saveId }: { saveId: string }) {
+export function FrontOfficeEventCenter({
+  saveId,
+  paused = false,
+}: {
+  saveId: string;
+  paused?: boolean;
+}) {
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
   const [toast, setToast] = useState<FrontOfficeEvent | null>(null);
   const [open, setOpen] = useState(false);
@@ -48,11 +59,15 @@ export function FrontOfficeEventCenter({ saveId }: { saveId: string }) {
   }, [load, saveId]);
 
   useEffect(() => {
+    if (paused) {
+      void load();
+      return;
+    }
     void load().then(surface);
     const onAdvanced = () => void surface();
     window.addEventListener('front-office-simulation-advanced', onAdvanced);
     return () => window.removeEventListener('front-office-simulation-advanced', onAdvanced);
-  }, [load, surface]);
+  }, [load, paused, surface]);
 
   useEffect(() => {
     if (!toast || toast.type === 'trade_offer' || toast.type === 'deadline_alert') return;
@@ -106,14 +121,29 @@ export function FrontOfficeEventCenter({ saveId }: { saveId: string }) {
           </button>
           <h2>{toast.headline}</h2>
           <p>{toast.summary}</p>
+          {toast.type === 're_sign_ready' ? (
+            <div className="fo-event-player">
+              {typeof toast.metadata.headshotUrl === 'string' ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={toast.metadata.headshotUrl} alt="" />
+              ) : null}
+              <span>
+                {String(toast.metadata.position ?? 'Player')} · OVR{' '}
+                {String(toast.metadata.rating ?? '—')}
+              </span>
+            </div>
+          ) : null}
           <div className="fo-event-actions">
-            {toast.actionUrl ? (
-              <Link href={toast.actionUrl} onClick={() => void update(toast, 'read')}>
-                {toast.type === 'trade_offer' ? 'View offer' : 'Open update'}
+            {getFrontOfficeEventActionUrl(toast) ? (
+              <Link
+                href={getFrontOfficeEventActionUrl(toast)!}
+                onClick={() => void update(toast, 'read')}
+              >
+                {getFrontOfficeEventActionLabel(toast)}
               </Link>
             ) : null}
             <button type="button" onClick={() => void dismiss(toast)}>
-              Dismiss
+              {toast.type === 're_sign_ready' ? 'Maybe Later' : 'Dismiss'}
             </button>
           </div>
         </aside>
@@ -149,15 +179,20 @@ export function FrontOfficeEventCenter({ saveId }: { saveId: string }) {
                     </span>
                     <h3>{event.headline}</h3>
                     <p>{event.summary}</p>
-                    {event.actionUrl ? (
+                    {event.metadata.resolution ? (
+                      <strong className="fo-wire-resolution">
+                        {event.metadata.resolution === 'signed' ? 'Signed' : 'Resolved'}
+                      </strong>
+                    ) : null}
+                    {getFrontOfficeEventActionUrl(event) ? (
                       <Link
-                        href={event.actionUrl}
+                        href={getFrontOfficeEventActionUrl(event)!}
                         onClick={() => {
                           void update(event, 'read');
                           setOpen(false);
                         }}
                       >
-                        View details
+                        {getFrontOfficeEventActionLabel(event)}
                       </Link>
                     ) : (
                       <button onClick={() => void update(event, 'read')}>Mark read</button>

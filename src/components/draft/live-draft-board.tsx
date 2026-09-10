@@ -12,7 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import type { DraftBoardEntry } from '@/lib/draft-board';
+import { filterDraftBoardEntries, type DraftBoardEntry } from '@/lib/draft-board';
 import type { DraftRun } from '@/lib/draft-intelligence';
 import { buildProspectIndicators, buildProspectDetailsModel } from '@/lib/draft-prospect-details';
 import { getCollegeLogoUrl } from '@/server/collegeLogos';
@@ -66,7 +66,13 @@ const getCollegeBadgeText = (collegeName?: string | null) => {
     .slice(0, 3)
     .map((word) => word.charAt(0).toUpperCase())
     .join('');
-  return initials || words.slice(0, 2).map((word) => word.charAt(0).toUpperCase()).join('');
+  return (
+    initials ||
+    words
+      .slice(0, 2)
+      .map((word) => word.charAt(0).toUpperCase())
+      .join('')
+  );
 };
 
 const ProspectAvatar = ({
@@ -84,11 +90,14 @@ const ProspectAvatar = ({
   collegeLogoUrl?: string | null;
   collegeName?: string | null;
 }) => {
+  const [imageFailed, setImageFailed] = React.useState(false);
   const collegeBadgeText = getCollegeBadgeText(collegeName);
+
+  React.useEffect(() => setImageFailed(false), [headshotUrl]);
 
   return (
     <div className="relative h-10 w-10 shrink-0">
-      {headshotUrl ? (
+      {headshotUrl && !imageFailed ? (
         <Image
           src={headshotUrl}
           alt={name}
@@ -96,6 +105,7 @@ const ProspectAvatar = ({
           height={40}
           className="h-10 w-10 rounded-full object-cover object-top"
           unoptimized
+          onError={() => setImageFailed(true)}
         />
       ) : (
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-slate-200 to-slate-100 text-xs font-semibold text-slate-600">
@@ -138,17 +148,7 @@ export function LiveDraftBoard({
     React.useState<(typeof positionOptions)[number]>('All');
 
   const filteredEntries = React.useMemo(() => {
-    const lowerQuery = query.trim().toLowerCase();
-    const next = entries.filter((entry) => {
-      const fullName = `${entry.player.firstName} ${entry.player.lastName}`.toLowerCase();
-      const matchesQuery =
-        lowerQuery.length === 0 ||
-        fullName.includes(lowerQuery) ||
-        entry.player.college?.toLowerCase().includes(lowerQuery);
-      const matchesPosition =
-        positionFilter === 'All' || normalizePosition(entry.player.position) === positionFilter;
-      return matchesQuery && matchesPosition;
-    });
+    const next = filterDraftBoardEntries(entries, query, positionFilter);
 
     return next.slice().sort((left, right) => {
       const leftRank = left.player.rank ?? Number.MAX_SAFE_INTEGER;
@@ -226,7 +226,9 @@ export function LiveDraftBoard({
           const topRightIndicators = visibleIndicators.slice(0, 2);
           const rowIndicators = visibleIndicators.slice(topRightIndicators.length);
           const collegeLogoUrl = getCollegeLogoUrl(detailsModel.school);
-          const summaryLine = `A ${detailsModel.fitScore >= 75 ? 'top-tier' : 'developmental'} ${entry.player.position} prospect from ${detailsModel.school}, ${detailsModel.archetype.toLowerCase()} offers ${detailsModel.fitScore >= 75 ? 'premium draft value' : 'intriguing traits and room to grow'} in a ${entry.player.height ?? 'pro-ready'}${entry.player.weight ? `, ${entry.player.weight} lbs` : ''} build.`;
+          const summaryLine =
+            entry.player.summary ??
+            `${entry.player.position} from ${detailsModel.school}, ranked No. ${entry.player.rank ?? index + 1} on the current board.`;
 
           return (
             <div

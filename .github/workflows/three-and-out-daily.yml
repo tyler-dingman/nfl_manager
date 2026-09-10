@@ -1,0 +1,42 @@
+name: Three & Out daily briefing
+
+on:
+  schedule:
+    # Generate before the earliest US 5 PM delivery; delivery decides each user's local time.
+    # Both UTC times are safe across US daylight-saving changes; the API accepts only 4:30–4:50 CT.
+    - cron: '40 21 * * *'
+    - cron: '40 22 * * *'
+    - cron: '*/15 21-23,0-2 * * *'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: generate or deliver
+        required: true
+        default: generate
+
+concurrency:
+  group: three-and-out-daily
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate or deliver daily briefings
+        env:
+          BASE_URL: ${{ secrets.CONTENT_AUTOMATION_BASE_URL }}
+          AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}
+          MANUAL_ACTION: ${{ inputs.action }}
+          EVENT_NAME: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            action="$MANUAL_ACTION"
+          elif [ "$SCHEDULE" = "40 21 * * *" ] || [ "$SCHEDULE" = "40 22 * * *" ]; then
+            action="generate"
+          else
+            action="deliver"
+          fi
+          curl --fail-with-body --retry 2 --request POST \
+            --header "Authorization: Bearer $AUTOMATION_SECRET" \
+            "$BASE_URL/api/automation/three-and-out?action=$action"

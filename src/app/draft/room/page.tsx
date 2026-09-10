@@ -109,6 +109,7 @@ function DraftRoomContent() {
   const setIsUserOnClock = useSaveStore((state) => state.setIsUserOnClock);
   const selectedDraftRounds = useSaveStore((state) => state.selectedDraftRounds);
   const franchiseYear = useSaveStore((state) => state.franchiseYear);
+  const draftYear = franchiseYear + 1;
   const setSelectedDraftRounds = useSaveStore((state) => state.setSelectedDraftRounds);
   const setLatestDraftRecap = useSaveStore((state) => state.setLatestDraftRecap);
   const modeExperience = useExperienceStore((state) => state.mode);
@@ -127,8 +128,8 @@ function DraftRoomContent() {
   const [isDraftRecapOpen, setIsDraftRecapOpen] = React.useState(false);
   const falcoSeed = `${saveId ?? 'global'}-${session?.id ?? 'lobby'}`;
   const falcoBoard = React.useMemo(
-    () => buildFalcoBoard(session?.prospects ?? buildTop32Prospects(franchiseYear), falcoSeed),
-    [falcoSeed, franchiseYear, session?.prospects],
+    () => buildFalcoBoard(session?.prospects ?? buildTop32Prospects(draftYear), falcoSeed),
+    [draftYear, falcoSeed, session?.prospects],
   );
   const trackProgress = React.useCallback(
     (eventKey: string, points: number, message: string, detail = 'Draft') => {
@@ -341,7 +342,7 @@ function DraftRoomContent() {
   }, [session, teams]);
 
   const roundOneOrder = React.useMemo(() => buildRoundOneOrder(teams), [teams]);
-  const lobbyProspects = React.useMemo(() => buildTop32Prospects(franchiseYear), [franchiseYear]);
+  const lobbyProspects = React.useMemo(() => buildTop32Prospects(draftYear), [draftYear]);
 
   const selectedPick = React.useMemo(
     () =>
@@ -763,7 +764,7 @@ function DraftRoomContent() {
     return (
       <AppShell>
         <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-          <p className="text-sm text-muted-foreground">Let the {franchiseYear} Draft begin!</p>
+          <p className="text-sm text-muted-foreground">Let the {draftYear} Draft begin!</p>
         </div>
       </AppShell>
     );
@@ -888,7 +889,7 @@ function DraftRoomContent() {
           {!session ? (
             <div className="space-y-5">
               <DraftTrackerRibbon
-                year={franchiseYear}
+                year={draftYear}
                 picks={roundOneOrder.map((pick) => ({
                   id: `lobby-${pick.pickNumber}`,
                   overall: pick.pickNumber,
@@ -963,7 +964,7 @@ function DraftRoomContent() {
           ) : (
             <ActiveDraftRoom
               saveId={resolvedSaveId || saveId}
-              year={franchiseYear}
+              year={session.draftYear ?? draftYear}
               session={session}
               draftSessionId={session.id}
               saveSnapshot={buildDraftSaveSnapshot(resolvedSaveId || saveId)}

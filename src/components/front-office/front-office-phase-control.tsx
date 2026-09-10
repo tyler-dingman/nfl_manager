@@ -112,12 +112,23 @@ export function FrontOfficePhaseControl({
       });
       const payload = (await response.json()) as {
         state?: FranchiseSimulationState;
+        events?: import('@/types/front-office').FrontOfficeEvent[];
+        previousWeek?: number;
         error?: string;
       };
       if (!response.ok || !payload.state) throw new Error(payload.error || 'Simulation failed.');
       setSimulation(payload.state);
       await setPhase(action.target);
-      window.dispatchEvent(new CustomEvent('front-office-simulation-advanced'));
+      const advancedOneWeek =
+        action.target.startsWith('week-') &&
+        typeof payload.previousWeek === 'number' &&
+        payload.state.currentWeek === payload.previousWeek + 1;
+      window.dispatchEvent(
+        new CustomEvent(
+          advancedOneWeek ? 'front-office-week-complete' : 'front-office-simulation-advanced',
+          { detail: { state: payload.state, events: payload.events ?? [] } },
+        ),
+      );
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Unable to advance the franchise phase.');
     } finally {

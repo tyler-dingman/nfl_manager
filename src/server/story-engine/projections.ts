@@ -7,6 +7,7 @@ import {
 } from '@/features/story-engine/public-story';
 import type { StoryRecord } from '@/features/story-engine/types';
 import { selectWireEvents } from '@/features/story-engine/surface-selectors';
+import { DEFAULT_BEAT_PAGE_SIZE } from '@/features/content/pagination';
 
 const storyRecord = (r: any): StoryRecord => ({
   id: r.id,
@@ -82,6 +83,112 @@ export async function listPublicStories(teamId: string, limit = 30): Promise<Sto
       clusterReason: r.cluster_reason,
     };
   });
+}
+
+export type PublicStoryPageOptions = {
+  page: number;
+  pageSize?: number;
+  query?: string;
+  filter?: 'ALL' | 'HOT' | 'ROSTER' | 'INJURIES' | 'DRAFT' | 'GAMES';
+  timeRange?: 'TODAY' | 'WEEK' | 'MONTH' | 'ALL';
+  sort?: 'UPDATED' | 'NEWEST';
+};
+
+export async function listPublicStoryPage(teamId: string, options: PublicStoryPageOptions) {
+  const sql = authDb();
+  const pageSize = options.pageSize ?? DEFAULT_BEAT_PAGE_SIZE;
+  const requestedPage = Math.max(1, Math.floor(options.page));
+  const query = options.query?.trim() ?? '';
+  const filter = options.filter ?? 'ALL';
+  const timeRange = options.timeRange ?? 'ALL';
+  const sort = options.sort ?? 'UPDATED';
+  const category =
+    filter === 'ROSTER'
+      ? sql`AND (s.story_type ILIKE ANY(ARRAY['%ROSTER%','%TRANSACTION%','%TRADE%','%CONTRACT%','%SIGNING%']))`
+      : filter === 'INJURIES'
+        ? sql`AND s.story_type ILIKE '%INJUR%'`
+        : filter === 'DRAFT'
+          ? sql`AND s.story_type ILIKE '%DRAFT%'`
+          : filter === 'GAMES'
+            ? sql`AND (s.story_type ILIKE ANY(ARRAY['%GAME%','%PREVIEW%','%RESULT%']))`
+            : filter === 'HOT'
+              ? sql`AND s.hot_read_until > now()`
+              : sql``;
+  const range =
+    timeRange === 'TODAY'
+      ? sql`AND s.last_meaningful_update_at >= now() - interval '1 day'`
+      : timeRange === 'WEEK'
+        ? sql`AND s.last_meaningful_update_at >= now() - interval '7 days'`
+        : timeRange === 'MONTH'
+          ? sql`AND s.last_meaningful_update_at >= now() - interval '30 days'`
+          : sql``;
+  const search = query
+    ? sql`AND (s.headline ILIKE ${`%${query}%`} OR s.summary ILIKE ${`%${query}%`} OR s.what_happened ILIKE ${`%${query}%`} OR EXISTS (
+        SELECT 1 FROM story_evidence se JOIN content_sources cs ON cs.id=se.source_id
+        WHERE se.story_id=s.id AND cs.name ILIKE ${`%${query}%`}
+      ))`
+    : sql``;
+  const where = sql`WHERE s.team_id=${teamId}
+    AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING'
+    AND EXISTS (SELECT 1 FROM story_evidence evidence WHERE evidence.story_id=s.id)
+    ${category} ${range} ${search}`;
+  const countRows = await sql<{ total: number }[]>`
+    SELECT count(*)::int AS total FROM canonical_stories s ${where}`;
+  const totalItems = countRows[0]?.total ?? 0;
+  const totalPages = totalItems ? Math.ceil(totalItems / pageSize) : 0;
+  const page = totalPages ? Math.min(requestedPage, totalPages) : 1;
+  const offset = (page - 1) * pageSize;
+  const rows = await sql`
+    SELECT s.*,(SELECT count(*)::int FROM story_evidence evidence WHERE evidence.story_id=s.id) AS source_count
+    FROM canonical_stories s ${where}
+    ORDER BY ${sort === 'NEWEST' ? sql`s.first_reported_at` : sql`s.last_meaningful_update_at`} DESC,s.id DESC
+    LIMIT ${pageSize} OFFSET ${offset}`;
+  if (!rows.length) return { stories: [] as StoryView[], page, pageSize, totalItems, totalPages };
+  const ids = rows.map((row: any) => row.id);
+  const evidence =
+    await sql`SELECT e.story_id,e.id,e.source_url,e.first_seen_at,c.published_at,s.name,s.source_type
+    FROM story_evidence e JOIN content_candidates c ON c.id=e.content_candidate_id
+    JOIN content_sources s ON s.id=e.source_id WHERE e.story_id=ANY(${ids}) ORDER BY e.first_seen_at`;
+  const byStory = new Map<string, StorySourceView[]>();
+  for (const item of evidence) {
+    const list = byStory.get(item.story_id) ?? [];
+    list.push({
+      id: item.id,
+      name: item.name,
+      url: item.source_url,
+      publishedAt: item.published_at.toISOString(),
+      official: item.source_type === 'OFFICIAL_TEAM' || item.source_type === 'NFL_OFFICIAL',
+      original: list.length === 0,
+    });
+    byStory.set(item.story_id, list);
+  }
+  const stories = rows.map((row: any) => {
+    const storySources = byStory.get(row.id) ?? [];
+    return {
+      id: row.id,
+      teamId: row.team_id,
+      storyType: row.story_type,
+      headline: row.headline,
+      shortSummary: row.summary,
+      whatHappened: row.what_happened,
+      whyItMatters: row.why_it_matters,
+      whatsNext: row.whats_next,
+      status: row.status,
+      importanceScore: row.importance_score,
+      confidenceScore: row.confidence_score,
+      firstReportedAt: row.first_reported_at.toISOString(),
+      lastMeaningfulUpdateAt: row.last_meaningful_update_at.toISOString(),
+      sources: storySources,
+      primarySource: selectPrimarySource(storySources),
+      version: row.version,
+      sourceItemCount: row.source_item_count,
+      publisherCount: row.publisher_count,
+      independentSourceCount: row.independent_source_count,
+      hotReadUntil: row.hot_read_until?.toISOString() ?? null,
+      clusterReason: row.cluster_reason,
+    } satisfies StoryView;
+  });
+  return { stories, page, pageSize, totalItems, totalPages };
 }
 
 export async function getPublicStoryById(id: string): Promise<StoryView | null> {

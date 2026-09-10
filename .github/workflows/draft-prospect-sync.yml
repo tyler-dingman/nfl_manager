@@ -1,0 +1,29 @@
+name: 2027 Draft Prospect Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 8 * * *'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run sync:draft-prospects
+      - name: Commit a validated reference-data version
+        run: |
+          if [[ -n "$(git status --porcelain src/server/data/draft-prospects-2027.json src/server/data/draft-prospects-2027.meta.json)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/server/data/draft-prospects-2027.json src/server/data/draft-prospects-2027.meta.json
+            git commit -m "chore: refresh 2027 draft prospects"
+            git push
+          fi

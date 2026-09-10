@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSaveStore } from '@/features/save/save-store';
 import { computeTeamNeeds } from '@/lib/team-overview';
 import type { DraftProspectRecord } from '@/server/data/draft-prospects';
+import { DRAFT_PROSPECTS_2027_META } from '@/server/data/draft-prospects';
 
 const positionGroup = (position: string | null) => position?.toUpperCase() || 'OTHER';
 
@@ -16,6 +17,7 @@ export function ProspectBoard({ prospects }: { prospects: DraftProspectRecord[] 
   const [position, setPosition] = useState('ALL');
   const [watched, setWatched] = useState<string[]>([]);
   const [active, setActive] = useState<DraftProspectRecord | null>(null);
+  const [failedImages, setFailedImages] = useState<string[]>([]);
   const needs = useMemo(() => computeTeamNeeds(roster), [roster]);
   const positions = useMemo(
     () => [...new Set(prospects.map((prospect) => positionGroup(prospect.position)))].sort(),
@@ -53,7 +55,10 @@ export function ProspectBoard({ prospects }: { prospects: DraftProspectRecord[] 
         <div className="fo-page-heading">
           <p className="fo-title-eyebrow text-[var(--team-primary-text)]">2027 NFL Draft</p>
           <h1 className="dd-home-hero-display">Draft Board</h1>
-          <p className="fo-description">{prospects.length} ranked consensus prospects</p>
+          <p className="fo-description">
+            {prospects.length} prospects ranked by Tankathon · Updated{' '}
+            {new Date(DRAFT_PROSPECTS_2027_META.sourceUpdatedAt).toLocaleDateString()}
+          </p>
         </div>
       </header>
       <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-border bg-white p-4 shadow-sm md:flex-row">
@@ -94,7 +99,7 @@ export function ProspectBoard({ prospects }: { prospects: DraftProspectRecord[] 
                 onClick={() => setActive(prospect)}
               >
                 <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-100 font-black text-slate-500">
-                  {prospect.headshotUrl ? (
+                  {prospect.headshotUrl && !failedImages.includes(prospect.id) ? (
                     <Image
                       src={prospect.headshotUrl}
                       alt=""
@@ -102,6 +107,11 @@ export function ProspectBoard({ prospects }: { prospects: DraftProspectRecord[] 
                       height={48}
                       className="h-full w-full object-cover"
                       unoptimized
+                      onError={() =>
+                        setFailedImages((current) =>
+                          current.includes(prospect.id) ? current : [...current, prospect.id],
+                        )
+                      }
                     />
                   ) : (
                     prospect.name

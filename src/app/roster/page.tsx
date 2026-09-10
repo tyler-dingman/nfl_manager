@@ -98,6 +98,10 @@ export default function RosterPage() {
 
 function RosterPageContent() {
   const searchParams = useSearchParams();
+  const requestedView = searchParams?.get('view');
+  const requestedPlayerId = searchParams?.get('playerId');
+  const requestedEventId = searchParams?.get('eventId');
+  const shouldOpenNegotiation = searchParams?.get('openNegotiation') === '1';
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
@@ -118,8 +122,8 @@ function RosterPageContent() {
     isLoading: isExpiringLoading,
     error: expiringError,
   } = useExpiringContractsQuery(
-    phase === 'resign_cut' ? saveId : null,
-    phase === 'resign_cut' ? teamAbbr : null,
+    phase === 'resign_cut' || requestedView === 'resign' ? saveId : null,
+    phase === 'resign_cut' || requestedView === 'resign' ? teamAbbr : null,
   );
   const {
     data: tradeBlockData,
@@ -159,15 +163,31 @@ function RosterPageContent() {
   const [pendingRenegotiateToast, setPendingRenegotiateToast] = useState<ToastPayload | null>(null);
   const [tradeBlockPlayers, setTradeBlockPlayers] = useState<TradeBlockRow[]>(() => tradeBlockData);
   const [activeTab, setActiveTab] = useState<'expiring' | 'tradeBlock' | 'roster'>('expiring');
+  const openedNegotiationRef = useRef<string | null>(null);
 
   useEffect(() => {
-    const requestedView = searchParams?.get('view');
     if (requestedView === 'roster' || requestedView === 'depth') {
       setActiveTab('roster');
     } else if (requestedView === 'contracts' || requestedView === 'resign') {
       setActiveTab('expiring');
     }
-  }, [searchParams]);
+  }, [requestedView]);
+
+  useEffect(() => {
+    if (
+      !shouldOpenNegotiation ||
+      !requestedPlayerId ||
+      activeExpiringContract ||
+      openedNegotiationRef.current === requestedPlayerId
+    )
+      return;
+    const contract = expiringContracts.find((entry) => entry.id === requestedPlayerId);
+    if (contract) {
+      openedNegotiationRef.current = requestedPlayerId;
+      setActiveTab('expiring');
+      setActiveExpiringContract(contract);
+    }
+  }, [activeExpiringContract, expiringContracts, requestedPlayerId, shouldOpenNegotiation]);
   const { push: pushToast } = useToast();
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const mode = useExperienceStore((state) => state.mode);
@@ -431,6 +451,15 @@ function RosterPageContent() {
         unlocked: data.header.unlocked ?? { freeAgency: false, draft: false },
       });
     }
+    await apiFetch('/api/front-office/events/resolve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        saveId: actionableSaveId,
+        playerId: activeCutPlayer.id,
+        resolution: 'invalidated',
+      }),
+    });
     trackProgress(
       `cut:${activeCutPlayer.id}`,
       OFFSEASON_PROGRESS_POINTS.manage.cut,
@@ -671,6 +700,16 @@ function RosterPageContent() {
     if (data.accepted) {
       pushAlert(buildChantAlert(teamAbbr, 'BIG_SIGNING'));
     }
+    await apiFetch('/api/front-office/events/resolve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        saveId: actionableSaveId,
+        playerId,
+        resolution: data.accepted ? 'signed' : 'invalidated',
+        eventId: requestedEventId,
+      }),
+    });
 
     if (data.accepted) {
       const wasExpiringResign = Boolean(activeExpiringContract);
@@ -955,7 +994,7 @@ function RosterPageContent() {
           { label: 'Manage Practice Squad', icon: Users, disabled: true },
         ]}
       />
-      {phase === 'resign_cut' ? (
+      {phase === 'resign_cut' || requestedView === 'resign' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">

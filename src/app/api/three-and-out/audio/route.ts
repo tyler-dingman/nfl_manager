@@ -11,6 +11,7 @@ import { canonicalThreeAndOut } from '@/server/content/canonical-surfaces';
 import { loadTeamBriefings } from '@/server/content/team-briefings';
 import { generateChatterboxSegments } from '@/server/three-and-out/chatterbox';
 import recordedAudio from '../../../../../public/audio/three-and-out/manifest.json';
+import { THREE_AND_OUT_AUDIO_ENABLED } from '@/features/three-and-out/config';
 
 const schema = z.object({
   teamId: z
@@ -24,6 +25,12 @@ const schema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    if (!THREE_AND_OUT_AUDIO_ENABLED) {
+      return NextResponse.json(
+        { error: 'Three & Out audio is currently paused.' },
+        { status: 503 },
+      );
+    }
     assertSameOrigin(request);
     const user = await currentUser(request);
     if (!user) return authError('Unauthorized.', 401);

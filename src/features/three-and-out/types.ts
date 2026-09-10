@@ -5,7 +5,14 @@ export type ThreeAndOutStoryStatus =
   | 'HOLDING'
   | 'RESOLVED';
 
-export type MediaStatus = 'NONE' | 'QUEUED' | 'GENERATING' | 'READY' | 'FAILED' | 'STALE';
+export type MediaStatus =
+  | 'DISABLED'
+  | 'NONE'
+  | 'QUEUED'
+  | 'GENERATING'
+  | 'READY'
+  | 'FAILED'
+  | 'STALE';
 
 export type ThreeAndOutTeam = {
   id: string;
@@ -62,6 +69,9 @@ export type ThreeAndOutStory = {
   newSinceLastVisit?: string | null;
   videoStatus: MediaStatus;
   audioStatus: MediaStatus;
+  category?: string;
+  imageUrl?: string | null;
+  destinationUrl?: string;
 };
 
 export type FourthDownOption = { id: string; label: string; votes: number };
@@ -79,6 +89,11 @@ export type ThreeAndOutSnapshot = {
   teamId: string;
   teamName: string;
   generatedAt: string;
+  briefingDate?: string;
+  publishedAt?: string;
+  sourceWindowStart?: string;
+  sourceWindowEnd?: string;
+  summaryVersion?: string;
   storyIds: [string, string, string];
   stories: [ThreeAndOutStory, ThreeAndOutStory, ThreeAndOutStory];
   puntStories: ThreeAndOutStory[];
@@ -98,7 +113,7 @@ export type ThreeAndOutSnapshot = {
 
 export type HistoricalThreeAndOut = Pick<
   ThreeAndOutSnapshot,
-  'id' | 'teamId' | 'teamName' | 'generatedAt' | 'storyIds'
+  'id' | 'teamId' | 'teamName' | 'generatedAt' | 'briefingDate' | 'storyIds'
 > & { storyTitles: [string, string, string] };
 
 export type ThreeAndOutPackage = {

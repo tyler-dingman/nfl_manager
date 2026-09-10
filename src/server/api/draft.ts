@@ -13,6 +13,7 @@ import {
   transferStoredPlayerToTeam,
 } from './store';
 import { buildTop32Prospects } from '@/server/data/prospects-top32';
+import { DRAFT_PROSPECTS_2027_META } from '@/server/data/draft-prospects';
 import { createRng } from '@/lib/deterministic-rng';
 import { getRandomCpuGrade } from '@/lib/draft-grading';
 import { getSaveHeaderSnapshot, getProjectedCapSpaceForTeam } from './store';
@@ -405,7 +406,12 @@ export const createDraftSession = (
     isPaused: false,
     currentPickIndex: 0,
     picks: buildDraftPicks(),
-    prospects: cloneProspects(state.header.year ?? 2026),
+    draftYear: (state.header.year ?? 2026) + 1,
+    draftClassVersion:
+      (state.header.year ?? 2026) + 1 === 2027
+        ? DRAFT_PROSPECTS_2027_META.version
+        : `legacy-${(state.header.year ?? 2026) + 1}`,
+    prospects: cloneProspects((state.header.year ?? 2026) + 1),
     status: 'in_progress',
   };
 
@@ -662,7 +668,7 @@ export const acceptDraftTradeOffer = (
     throw new Error('Unable to resolve one or more player assets in the offer');
   }
 
-  const activeDraftYear = state.header.year ?? 2026;
+  const activeDraftYear = session.draftYear ?? (state.header.year ?? 2026) + 1;
   const outgoingSessionPicks = outgoingPickAssets
     .filter((asset) => asset.year === activeDraftYear)
     .map((asset) =>

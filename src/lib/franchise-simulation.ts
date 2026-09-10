@@ -3,7 +3,9 @@ import type {
   FranchisePlayoffState,
   FranchiseSimulationState,
   FranchiseTeamState,
+  SimulatedPlayer,
 } from '@/types/front-office';
+import { createGameSimulationResult } from '@/lib/front-office-game-recap';
 
 export type SimulationTeamInput = Omit<
   FranchiseTeamState,
@@ -234,7 +236,11 @@ export function createFranchiseSimulation(input: {
   };
 }
 
-export function advanceSimulation(state: FranchiseSimulationState, target: string) {
+export function advanceSimulation(
+  state: FranchiseSimulationState,
+  target: string,
+  options: { players?: SimulatedPlayer[]; recapTeamAbbr?: string } = {},
+) {
   const normalized = normalizeFranchiseSimulationState(state);
   if (!normalized) throw new Error('The saved franchise simulation state is invalid.');
   const next = structuredClone(normalized);
@@ -244,9 +250,24 @@ export function advanceSimulation(state: FranchiseSimulationState, target: strin
       ? 18
       : next.currentWeek;
   for (let week = next.currentWeek + 1; week <= targetWeek; week += 1) {
-    next.games = next.games.map((game) =>
-      game.week === week ? simulateGame(game, next.teams, next.seed) : game,
-    );
+    next.games = next.games.map((game) => {
+      if (game.week !== week) return game;
+      const simulated = simulateGame(game, next.teams, next.seed);
+      if (
+        !simulated.result &&
+        options.players &&
+        (!options.recapTeamAbbr ||
+          [simulated.homeTeam, simulated.awayTeam].includes(options.recapTeamAbbr))
+      ) {
+        simulated.result = createGameSimulationResult({
+          game: simulated,
+          teams: next.teams,
+          players: options.players,
+          seed: next.seed,
+        });
+      }
+      return simulated;
+    });
     next.currentWeek = week;
   }
   if (target.startsWith('week-')) next.phase = target;

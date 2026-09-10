@@ -91,6 +91,7 @@ export async function surfaceNextFrontOfficeEvent(userId: string, saveId: string
     `WITH candidate AS (
        SELECT id FROM front_office_events
        WHERE user_id = $1 AND save_id = $2 AND surfaced_at IS NULL
+         AND metadata->>'resolution' IS NULL
          AND (expires_at IS NULL OR expires_at > now())
        ORDER BY CASE priority WHEN 'urgent' THEN 4 WHEN 'high' THEN 3 WHEN 'normal' THEN 2 ELSE 1 END DESC,
          created_at ASC LIMIT 1 FOR UPDATE SKIP LOCKED
@@ -115,6 +116,25 @@ export async function updateFrontOfficeEvent(
     [userId, id],
   );
   return rows[0] ? mapEvent(rows[0]) : null;
+}
+
+export async function resolveFrontOfficeEventsForPlayer(
+  userId: string,
+  saveId: string,
+  playerId: string,
+  resolution: 'signed' | 'invalidated',
+) {
+  const rows = await authDb().unsafe<EventRow[]>(
+    `UPDATE front_office_events
+     SET metadata = metadata || jsonb_build_object('resolution', $4::text, 'resolvedAt', now()::text),
+       action_url = NULL,
+       read_at = COALESCE(read_at, now())
+     WHERE user_id = $1 AND save_id = $2 AND player_id = $3
+       AND type = 're_sign_ready' AND metadata->>'resolution' IS NULL
+     RETURNING ${selectColumns}`,
+    [userId, saveId, playerId, resolution],
+  );
+  return rows.map(mapEvent);
 }
 
 export async function persistFrontOfficeTradeOffer(input: {

@@ -18,6 +18,8 @@ export type DraftSessionStatus = 'in_progress' | 'completed';
 
 export type DraftSessionDTO = {
   id: string;
+  draftYear?: number;
+  draftClassVersion?: string;
   rngSeed: number;
   rngState?: number;
   mode: DraftMode;

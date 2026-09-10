@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import EditorialVisual from '@/components/editorial/editorial-visual';
 import { useAuthUser } from '@/features/auth/auth-session';
 import {
@@ -26,10 +27,6 @@ import type {
   ThreeAndOutSource,
   ThreeAndOutStory,
 } from '@/features/three-and-out/types';
-
-import ThreeAndOutAudioPlayer from './three-and-out-audio-player';
-
-const DOWN_LABELS = ['1st down', '2nd down', '3rd down'];
 
 function StoryStatus({ story }: { story: ThreeAndOutStory }) {
   const isBreaking = story.status === 'BREAKING';
@@ -109,19 +106,25 @@ function ThreeAndOutStoryCard({
     <article className="overflow-hidden rounded-3xl border border-[#00172B]/10 bg-white shadow-sm">
       <div className="grid md:grid-cols-[180px_1fr]">
         <div className="relative min-h-40 md:min-h-full">
-          <EditorialVisual
-            story={{
-              teamId: story.teamId,
-              headline: story.shortTitle || story.title,
-              summary: story.summary,
-              status: story.status,
-            }}
-            variant="compact"
-            decorative
-            className="h-full min-h-40 !aspect-auto"
-          />
+          {story.imageUrl ? (
+            // Source thumbnails are persisted with the edition; the editorial visual is the fallback.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={story.imageUrl} alt="" className="h-full min-h-40 w-full object-cover" />
+          ) : (
+            <EditorialVisual
+              story={{
+                teamId: story.teamId,
+                headline: story.shortTitle || story.title,
+                summary: story.summary,
+                status: story.status,
+              }}
+              variant="compact"
+              decorative
+              className="h-full min-h-40 !aspect-auto"
+            />
+          )}
           <p className="absolute left-4 top-12 z-20 text-[10px] font-black uppercase tracking-[0.22em] text-white/80">
-            {DOWN_LABELS[index]}
+            0{index + 1} · {story.category ?? 'Team news'}
           </p>
           <div className="absolute bottom-4 left-4 z-20 flex flex-wrap items-center gap-2">
             <StoryStatus story={story} />
@@ -163,6 +166,22 @@ function ThreeAndOutStoryCard({
           <div className="mt-6">
             <StorySources sources={story.sources} />
           </div>
+          <a
+            href={
+              story.destinationUrl ??
+              story.sources[0]?.sourceUrl ??
+              `/the-beat?team=${story.teamId}`
+            }
+            target={
+              (story.destinationUrl ?? story.sources[0]?.sourceUrl)?.startsWith('http')
+                ? '_blank'
+                : undefined
+            }
+            rel="noreferrer"
+            className="mt-5 inline-flex items-center gap-2 text-sm font-black uppercase tracking-wide text-[var(--team-primary-text)]"
+          >
+            Read full story <ArrowRight className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </article>
@@ -241,7 +260,13 @@ function FourthDownPoll({ teamId, initial }: { teamId: string; initial: FourthDo
   );
 }
 
-function PreviousThreeAndOut({ snapshots }: { snapshots: HistoricalThreeAndOut[] }) {
+function PreviousThreeAndOut({
+  snapshots,
+  teamId,
+}: {
+  snapshots: HistoricalThreeAndOut[];
+  teamId: string;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <section className="rounded-3xl border border-[#00172B]/10 bg-white">
@@ -259,7 +284,11 @@ function PreviousThreeAndOut({ snapshots }: { snapshots: HistoricalThreeAndOut[]
       {open ? (
         <div className="grid gap-3 border-t border-slate-100 p-5 sm:grid-cols-2 sm:p-6">
           {snapshots.map((snapshot) => (
-            <article key={snapshot.id} className="rounded-2xl bg-[#f7f4ee] p-4">
+            <Link
+              key={snapshot.id}
+              href={`/three-and-out?team=${teamId}&date=${snapshot.briefingDate}`}
+              className="rounded-2xl bg-[#f7f4ee] p-4 transition hover:-translate-y-0.5 hover:shadow-md"
+            >
               <p className="text-xs font-black text-[var(--team-primary-text)]">
                 {new Date(snapshot.generatedAt).toLocaleString([], {
                   month: 'short',
@@ -275,7 +304,7 @@ function PreviousThreeAndOut({ snapshots }: { snapshots: HistoricalThreeAndOut[]
                   </li>
                 ))}
               </ol>
-            </article>
+            </Link>
           ))}
         </div>
       ) : null}
@@ -285,13 +314,17 @@ function PreviousThreeAndOut({ snapshots }: { snapshots: HistoricalThreeAndOut[]
 
 export default function ThreeAndOutExperience({ teamId }: { teamId: string }) {
   const [data, setData] = useState<ThreeAndOutPackage | null>(null);
-  const [puntOpen, setPuntOpen] = useState(false);
   const [showUpdates, setShowUpdates] = useState<Record<string, boolean>>({});
   const { user } = useAuthUser();
+  const searchParams = useSearchParams();
+  const briefingDate = searchParams?.get('date') ?? null;
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch(`/api/three-and-out?team=${encodeURIComponent(teamId)}`, { signal: controller.signal })
+    const dateQuery = briefingDate ? `&date=${encodeURIComponent(briefingDate)}` : '';
+    fetch(`/api/three-and-out?team=${encodeURIComponent(teamId)}${dateQuery}`, {
+      signal: controller.signal,
+    })
       .then((response) => (response.ok ? response.json() : null))
       .then((payload: ThreeAndOutPackage | null) => {
         if (!payload) return;
@@ -329,7 +362,7 @@ export default function ThreeAndOutExperience({ teamId }: { teamId: string }) {
         }
       });
     return () => controller.abort();
-  }, [teamId, user]);
+  }, [briefingDate, teamId, user]);
 
   const updated = useMemo(
     () =>
@@ -350,21 +383,26 @@ export default function ThreeAndOutExperience({ teamId }: { teamId: string }) {
 
   return (
     <section id="three-and-out" className="space-y-5">
-      <header className="flex flex-col gap-5 border-b-4 border-[#00172B] pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <header className="overflow-hidden rounded-[2rem] bg-[#00172B] px-6 py-8 text-white sm:px-10 sm:py-10">
         <div>
-          <p className="text-5xl font-black leading-none tracking-[-0.06em] text-[#00172B] sm:text-7xl">
-            Three <span className="text-[var(--team-primary-text)]">and</span> Out
+          <p className="dd-three-out-display text-5xl sm:text-7xl">
+            Three <span className="text-[var(--secondary)]">&amp;</span> Out
           </p>
-          <p className="mt-2 text-sm font-black uppercase tracking-[0.24em] text-slate-500">
-            What matters right now.
+          <p className="mt-4 text-sm font-black uppercase tracking-[0.28em] text-[var(--secondary)]">
+            The 3 things you need to know
+          </p>
+          <p className="mt-6 flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-white/55">
+            <Clock3 className="h-4 w-4" /> {data.current.teamName} ·{' '}
+            {data.current.briefingDate
+              ? new Date(`${data.current.briefingDate}T12:00:00`).toLocaleDateString([], {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })
+              : `Updated ${updated}`}
           </p>
         </div>
-        <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-slate-400">
-          <Clock3 className="h-4 w-4" /> Updated {updated}
-        </p>
       </header>
-
-      <ThreeAndOutAudioPlayer snapshot={data.current} />
 
       <div className="space-y-4">
         {data.current.stories.map((story, index) => (
@@ -378,52 +416,7 @@ export default function ThreeAndOutExperience({ teamId }: { teamId: string }) {
         ))}
       </div>
 
-      <FourthDownPoll teamId={teamId} initial={data.current.fourthDown} />
-
-      <section className="overflow-hidden rounded-3xl border border-[#00172B]/10 bg-white">
-        <button
-          type="button"
-          onClick={() => setPuntOpen((value) => !value)}
-          className="flex w-full items-center justify-between gap-4 p-6 text-left sm:p-7"
-          aria-expanded={puntOpen}
-        >
-          <span>
-            <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
-              <Flag className="h-4 w-4" /> Punt · Everything else
-            </span>
-            <span className="mt-2 block text-2xl font-black text-[#00172B]">
-              {data.current.puntStories.length} more updates
-            </span>
-          </span>
-          <ArrowRight className={`h-5 w-5 transition ${puntOpen ? 'rotate-90' : ''}`} />
-        </button>
-        {puntOpen ? (
-          <div className="border-t border-slate-100 px-6 pb-6 sm:px-7">
-            {data.current.puntStories.map((story) => (
-              <article key={story.id} className="border-b border-slate-100 py-5 last:border-0">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <StoryStatus story={story} />
-                    <h3 className="mt-2 text-lg font-black text-[#00172B]">{story.title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-500">{story.summary}</p>
-                  </div>
-                  <span className="shrink-0 text-xs font-black text-slate-300">
-                    #{story.currentRank}
-                  </span>
-                </div>
-              </article>
-            ))}
-            <Link
-              href={`/the-beat?team=${teamId}`}
-              className="mt-2 inline-flex items-center gap-2 font-black text-[var(--team-primary-text)]"
-            >
-              Open The Drive / full team feed <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        ) : null}
-      </section>
-
-      <PreviousThreeAndOut snapshots={data.previous} />
+      <PreviousThreeAndOut snapshots={data.previous} teamId={teamId} />
     </section>
   );
 }

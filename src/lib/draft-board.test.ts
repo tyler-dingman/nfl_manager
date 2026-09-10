@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { getDraftAutopick, rankDraftBoard } from '@/lib/draft-board';
+import { filterDraftBoardEntries, getDraftAutopick, rankDraftBoard } from '@/lib/draft-board';
 import type { PlayerRowDTO } from '@/types/player';
 
 const makeProspect = (
@@ -10,7 +10,6 @@ const makeProspect = (
 ): PlayerRowDTO => {
   const { id, firstName, lastName, position, ...rest } = overrides;
   return {
-    ...rest,
     id,
     firstName,
     lastName,
@@ -22,10 +21,11 @@ const makeProspect = (
     contractYearsRemaining: 4,
     capHit: '$0.0M',
     status: 'Available',
+    ...rest,
   };
 };
 
-test('rankDraftBoard prioritizes best available and team need', () => {
+test('rankDraftBoard preserves source rank while deriving team-need badges', () => {
   const board = rankDraftBoard({
     prospects: [
       makeProspect({
@@ -61,12 +61,59 @@ test('rankDraftBoard prioritizes best available and team need', () => {
     limit: 3,
   });
 
-  assert.equal(board[0]?.player.id, 'ot-1');
+  assert.equal(board[0]?.player.id, 'wr-1');
   assert.ok(board[0]?.tags.includes('Best Available'));
-  assert.ok(board[0]?.tags.includes('Team Need'));
+  assert.ok(board.find((entry) => entry.player.id === 'ot-1')?.tags.includes('Team Need'));
 });
 
-test('getDraftAutopick returns a steal when value and need align', () => {
+test('search, position filters, and drafted-state exclusions use the current board', () => {
+  const prospects = [
+    makeProspect({
+      id: 'wr',
+      firstName: 'Jeremiah',
+      lastName: 'Smith',
+      position: 'WR',
+      college: 'Ohio State',
+      rank: 1,
+    }),
+    makeProspect({
+      id: 'qb',
+      firstName: 'Arch',
+      lastName: 'Manning',
+      position: 'QB',
+      college: 'Texas',
+      rank: 2,
+    }),
+    makeProspect({
+      id: 'gone',
+      firstName: 'Drafted',
+      lastName: 'Player',
+      position: 'WR',
+      rank: 3,
+      isDrafted: true,
+    }),
+  ];
+  const entries = rankDraftBoard({
+    prospects,
+    teamNeeds: ['WR'],
+    currentPickOverall: 1,
+    limit: 10,
+  });
+  assert.deepEqual(
+    filterDraftBoardEntries(entries, 'Ohio', 'All').map((entry) => entry.player.id),
+    ['wr'],
+  );
+  assert.deepEqual(
+    filterDraftBoardEntries(entries, '', 'QB').map((entry) => entry.player.id),
+    ['qb'],
+  );
+  assert.equal(
+    entries.some((entry) => entry.player.id === 'gone'),
+    false,
+  );
+});
+
+test('getDraftAutopick returns the highest-ranked remaining prospect', () => {
   const player = getDraftAutopick({
     prospects: [
       makeProspect({
@@ -92,5 +139,5 @@ test('getDraftAutopick returns a steal when value and need align', () => {
     currentPickOverall: 21,
   });
 
-  assert.equal(player?.id, 'dl-1');
+  assert.equal(player?.id, 'edge-1');
 });
