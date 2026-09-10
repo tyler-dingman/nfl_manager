@@ -179,41 +179,40 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
             </header>
 
             <div className="mx-auto max-w-[1240px] px-4 py-6 sm:px-6 lg:px-8">
-              <Link
-                href={`/the-beat?team=${item.teamAbbr}`}
-                className="mb-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[var(--team-primary-text)]"
-              >
-                <ArrowLeft className="h-4 w-4" /> Back to The Beat
-              </Link>
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                <Link
+                  href={`/the-beat?team=${item.teamAbbr}`}
+                  className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[var(--team-primary-text)]"
+                >
+                  <ArrowLeft className="h-4 w-4" /> Back to The Beat
+                </Link>
+                <nav aria-label="Share this story" className="flex flex-wrap items-center gap-2">
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-slate-200 bg-white px-4 text-sm font-bold shadow-sm"
+                  >
+                    <Share2 className="h-4 w-4" /> Share
+                  </a>
+                  <ShareToCrewButton
+                    contentId={item.id}
+                    contentType="BEAT_STORY"
+                    href={`/content/${encodeURIComponent(item.id)}`}
+                    title={displayHeadline}
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-slate-200 bg-white px-4 text-sm font-bold shadow-sm"
+                  />
+                  <button
+                    type="button"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-slate-200 bg-white px-4 text-sm font-bold shadow-sm"
+                  >
+                    <Bookmark className="h-4 w-4" /> Save
+                  </button>
+                </nav>
+              </div>
               <div className="grid gap-7 lg:grid-cols-[minmax(0,2.2fr)_minmax(280px,1fr)]">
                 <div className="min-w-0 rounded-3xl bg-white px-5 py-7 shadow-sm sm:px-9 sm:py-10">
-                  <nav
-                    aria-label="Share this story"
-                    className="mt-6 flex flex-wrap items-center gap-3 border-y border-slate-200 py-4"
-                  >
-                    <a
-                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-sm font-bold"
-                    >
-                      <Share2 className="h-4 w-4" /> Share
-                    </a>
-                    <ShareToCrewButton
-                      contentId={item.id}
-                      contentType="BEAT_STORY"
-                      href={`/content/${encodeURIComponent(item.id)}`}
-                      title={displayHeadline}
-                      className="inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-sm font-bold"
-                    />
-                    <button
-                      type="button"
-                      className="inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-sm font-bold"
-                    >
-                      <Bookmark className="h-4 w-4" /> Save
-                    </button>
-                  </nav>
-                  <section className="mt-8">
+                  <section>
                     <h2 className="text-xs font-black uppercase tracking-[.22em] text-[var(--team-primary-text)]">
                       The short version
                     </h2>

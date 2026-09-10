@@ -121,7 +121,7 @@ export default function AiSearchPanel({
       const result = await fetch('/api/search', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ query: normalized, teamId, limit: 12 }),
+        body: JSON.stringify({ query: normalized, teamId, limit: 12, includeAnswer: true }),
       });
       const payload = (await result.json()) as SearchResponse & { error?: string };
       if (!result.ok) throw new Error(payload.error ?? 'Search failed');
@@ -288,7 +288,7 @@ export default function AiSearchPanel({
             {response.results.length} results for “{response.query}”
           </p>
           {response.answer ? (
-            <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-5 text-[#00172b]">
+            <div className="mt-3 whitespace-pre-line rounded-2xl border border-slate-200 bg-white p-5 text-[#00172b]">
               {response.answer}
             </div>
           ) : null}

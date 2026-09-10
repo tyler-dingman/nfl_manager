@@ -62,7 +62,9 @@ export class BgeHttpEmbeddingProvider implements EmbeddingProvider {
 }
 
 export class OllamaAnswerProvider implements AnswerProvider {
-  private readonly baseUrl = process.env.SEARCH_LLM_BASE_URL ?? 'http://127.0.0.1:11434';
+  private readonly baseUrl = assertLocalOllamaUrl(
+    process.env.SEARCH_LLM_BASE_URL ?? 'http://127.0.0.1:11434',
+  );
   private readonly model = process.env.SEARCH_LLM_MODEL ?? 'qwen2.5:3b-instruct';
 
   async answer(query: string, context: Array<{ id: string; title: string; content: string }>) {
@@ -105,3 +107,4 @@ export class WhisperHttpProvider implements SpeechToTextProvider {
     return payload.text.trim();
   }
 }
+import { assertLocalOllamaUrl } from '@/features/content/ai-provider';

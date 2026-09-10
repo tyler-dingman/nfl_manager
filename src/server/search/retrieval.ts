@@ -1,6 +1,7 @@
 import type { SearchResponse, SearchResult } from '@/features/search/types';
 import { reciprocalRankFusion } from '@/server/search/core';
 import { searchDb } from '@/server/search/database';
+import { buildDeterministicSearchAnswer } from '@/server/search/deterministic-answer';
 import { BgeHttpEmbeddingProvider, OllamaAnswerProvider } from '@/server/search/providers';
 
 const asResult = (row: any, score: number): SearchResult => ({
@@ -44,19 +45,21 @@ export async function hybridSearch({
   const lexicalMs = Date.now() - lexicalStarted;
   let vector: any[] = [];
   let vectorMs: number | null = null;
-  try {
-    const vectorStarted = Date.now();
-    const embedding = await new BgeHttpEmbeddingProvider().embedQuery(query);
-    const serialized = JSON.stringify(embedding);
-    vector = await sql`SELECT * FROM (
-      SELECT DISTINCT ON (source_type,source_id)
-        source_type || ':' || source_id AS parent_id,*,embedding <=> ${serialized}::vector AS distance
-      FROM search_documents WHERE active=true AND embedding IS NOT NULL AND (team_id=${teamId} OR team_id IS NULL)
-      ORDER BY source_type,source_id,distance
-    ) ranked ORDER BY distance LIMIT 50`;
-    vectorMs = Date.now() - vectorStarted;
-  } catch (error) {
-    console.warn('[search] semantic retrieval unavailable; using lexical results', error);
+  if (process.env.SEARCH_EMBEDDING_ENABLED === 'true') {
+    try {
+      const vectorStarted = Date.now();
+      const embedding = await new BgeHttpEmbeddingProvider().embedQuery(query);
+      const serialized = JSON.stringify(embedding);
+      vector = await sql`SELECT * FROM (
+        SELECT DISTINCT ON (source_type,source_id)
+          source_type || ':' || source_id AS parent_id,*,embedding <=> ${serialized}::vector AS distance
+        FROM search_documents WHERE active=true AND embedding IS NOT NULL AND (team_id=${teamId} OR team_id IS NULL)
+        ORDER BY source_type,source_id,distance
+      ) ranked ORDER BY distance LIMIT 50`;
+      vectorMs = Date.now() - vectorStarted;
+    } catch (error) {
+      console.warn('[search] semantic retrieval unavailable; using lexical results', error);
+    }
   }
 
   const fused = reciprocalRankFusion([
@@ -70,14 +73,18 @@ export async function hybridSearch({
   if (includeAnswer && results.length) {
     try {
       const answerStarted = Date.now();
-      answer = await new OllamaAnswerProvider().answer(
-        query,
-        results.slice(0, 6).map((result) => ({
-          id: result.id,
-          title: result.title,
-          content: `${result.summary}\n${byId.get(result.id)?.content ?? ''}`,
-        })),
-      );
+      if ((process.env.SEARCH_ANSWER_PROVIDER ?? 'deterministic') === 'ollama') {
+        answer = await new OllamaAnswerProvider().answer(
+          query,
+          results.slice(0, 6).map((result) => ({
+            id: result.id,
+            title: result.title,
+            content: `${result.summary}\n${byId.get(result.id)?.content ?? ''}`,
+          })),
+        );
+      } else {
+        answer = buildDeterministicSearchAnswer(query, results);
+      }
       answerMs = Date.now() - answerStarted;
     } catch (error) {
       console.warn('[search] grounded answer unavailable; returning results only', error);

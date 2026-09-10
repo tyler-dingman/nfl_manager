@@ -38,6 +38,20 @@
   --site-logo-height: 4rem;
 }
 
+/*
+ * Desktop density baseline
+ *
+ * The approved desktop composition matches the browser's 90% zoom density. Applying the
+ * scale at the document level keeps type, spacing, media, fixed UI, and responsive containers
+ * proportional instead of maintaining a fragile list of smaller component overrides.
+ * Mobile and tablet layouts retain their native sizing and touch targets.
+ */
+@media (min-width: 1024px) {
+  html {
+    zoom: 0.9;
+  }
+}
+
 /* Persistent Front Office league events */
 .fo-wire-trigger {
   position: fixed;

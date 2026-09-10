@@ -187,7 +187,7 @@ export default function DownDistanceHome() {
           huddle?: TeamBriefing[];
           wire?: Array<{ id: string; headline: string; occurredAt: string }>;
         };
-        setBriefings(payload.huddle ?? []);
+        setBriefings((payload.huddle ?? []).slice(0, 4));
         setWireEntries(payload.wire ?? []);
       } catch (error) {
         if (!(error instanceof DOMException && error.name === 'AbortError')) {

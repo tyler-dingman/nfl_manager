@@ -60,9 +60,22 @@ export async function canonicalHuddle(
   return result;
 }
 export async function getTeamHomepageData(teamId: string) {
-  const threeAndOut = await canonicalThreeAndOut(teamId);
-  const canonical = await canonicalHuddle(teamId, [], 6, 'LATEST');
-  const huddle = canonical.length ? canonical : (await loadTeamBriefings(teamId)).slice(0, 6);
-  const wire = await listWireEntries(teamId, 6);
+  // Homepage surfaces must fail independently. A missing daily briefing or Wire query should
+  // never blank the primary Beat feed.
+  const [canonicalResult, fallbackResult, threeAndOutResult, wireResult] = await Promise.allSettled(
+    [
+      canonicalHuddle(teamId, [], 4, 'LATEST'),
+      loadTeamBriefings(teamId),
+      canonicalThreeAndOut(teamId),
+      listWireEntries(teamId, 6),
+    ],
+  );
+  const canonical = canonicalResult.status === 'fulfilled' ? canonicalResult.value : [];
+  const fallback = fallbackResult.status === 'fulfilled' ? fallbackResult.value : [];
+  const huddle = (canonical.length ? canonical : fallback)
+    .sort((left, right) => new Date(right.updatedAt).getTime() - new Date(left.updatedAt).getTime())
+    .slice(0, 4);
+  const threeAndOut = threeAndOutResult.status === 'fulfilled' ? threeAndOutResult.value : null;
+  const wire = wireResult.status === 'fulfilled' ? wireResult.value : [];
   return { teamId, huddle, threeAndOut, wire };
 }
