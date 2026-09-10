@@ -21,11 +21,17 @@ export function normalizeFranchiseSimulation(value: unknown): FranchiseSimulatio
   return normalizeFranchiseSimulationState(value);
 }
 
-const mapRow = (row: FrontOfficeSaveRow): FrontOfficeSaveMetadata => ({
-  ...row,
-  simulation: normalizeFranchiseSimulation(row.simulation),
-  initializedAt: row.initializedAt ? new Date(row.initializedAt).toISOString() : null,
-});
+const mapRow = (row: FrontOfficeSaveRow): FrontOfficeSaveMetadata => {
+  const simulation = normalizeFranchiseSimulation(row.simulation);
+  return {
+    ...row,
+    // A committed simulation snapshot owns progression. simulation_phase is retained as an
+    // index/fallback for pre-simulation saves, but must never override the snapshot on restore.
+    simulationPhase: simulation?.phase ?? row.simulationPhase,
+    simulation,
+    initializedAt: row.initializedAt ? new Date(row.initializedAt).toISOString() : null,
+  };
+};
 
 export async function getFrontOfficeSaveMetadata(userId: string, saveId: string) {
   const rows = await authDb()<FrontOfficeSaveRow[]>`

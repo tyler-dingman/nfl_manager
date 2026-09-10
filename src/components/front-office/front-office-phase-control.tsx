@@ -28,10 +28,12 @@ export function FrontOfficePhaseControl({
   phase: string;
   freeAgencyWave: number;
 }) {
-  const setPhase = useSaveStore((state) => state.setPhase);
   const saveId = useSaveStore((state) => state.saveId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const roster = useSaveStore((state) => state.roster);
+  const applyAuthoritativeFranchiseState = useSaveStore(
+    (state) => state.applyAuthoritativeFranchiseState,
+  );
   const [simulation, setSimulation] = useState<FranchiseSimulationState | null>(null);
   const [progress, setProgress] = useState('');
   const [pending, setPending] = useState<FrontOfficePhaseAction | null>(null);
@@ -52,11 +54,14 @@ export function FrontOfficePhaseControl({
         return response.json() as Promise<{ state?: FranchiseSimulationState | null }>;
       })
       .then((payload) => {
-        if (payload?.state) setSimulation(payload.state);
+        if (payload?.state) {
+          setSimulation(payload.state);
+          applyAuthoritativeFranchiseState(payload.state);
+        }
       })
       .catch(() => undefined);
     return () => controller.abort();
-  }, [saveId]);
+  }, [applyAuthoritativeFranchiseState, saveId]);
 
   useEffect(() => {
     if (!pending) return;
@@ -118,7 +123,10 @@ export function FrontOfficePhaseControl({
       };
       if (!response.ok || !payload.state) throw new Error(payload.error || 'Simulation failed.');
       setSimulation(payload.state);
-      await setPhase(action.target);
+      // The simulation endpoint commits the game results, record, week, and phase together.
+      // Do not follow it with a separate phase write: that used to let refreshes observe a
+      // half-updated franchise and could move a save back into the offseason.
+      applyAuthoritativeFranchiseState(payload.state);
       const advancedOneWeek =
         action.target.startsWith('week-') &&
         typeof payload.previousWeek === 'number' &&

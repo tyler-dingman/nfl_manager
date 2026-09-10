@@ -142,6 +142,9 @@ export default function ExperiencePage() {
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
   const setPhase = useSaveStore((state) => state.setPhase);
+  const applyAuthoritativeFranchiseState = useSaveStore(
+    (state) => state.applyAuthoritativeFranchiseState,
+  );
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const experienceMode = useExperienceStore((state) => state.mode);
@@ -195,9 +198,11 @@ export default function ExperiencePage() {
           };
           persistedState = payload.state ?? null;
           resolvedPath = persistedState?.selectedPath ?? resolvedPath;
-          if (persistedState?.simulationPhase && persistedState.simulationPhase !== phase) {
+          if (persistedState?.simulation) {
+            resolvedPhase = persistedState.simulation.phase;
+            applyAuthoritativeFranchiseState(persistedState.simulation);
+          } else if (persistedState?.simulationPhase) {
             resolvedPhase = persistedState.simulationPhase;
-            await setPhase(resolvedPhase);
           }
         }
       } catch {
@@ -269,7 +274,7 @@ export default function ExperiencePage() {
     experienceMode,
     franchiseYear,
     isHydrated,
-    phase,
+    applyAuthoritativeFranchiseState,
     router,
     saveId,
     setFullExperience,

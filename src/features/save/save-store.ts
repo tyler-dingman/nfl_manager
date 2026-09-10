@@ -66,6 +66,7 @@ type SaveStoreState = {
   setIsUserOnClock: (value: boolean) => void;
   setSelectedDraftRounds: (rounds: number) => void;
   setFreeAgencyWave: (wave: 1 | 2 | 3) => void;
+  applyAuthoritativeFranchiseState: (state: { season: number; phase: string }) => void;
   setLatestDraftRecap: (recap: SaveStoreState['latestDraftRecap']) => void;
   setLatestSeasonRecap: (recap: SeasonRecapSnapshot | null) => void;
   appendSeasonHistory: (recap: SeasonRecapSnapshot) => void;
@@ -88,6 +89,7 @@ const DEFAULT_STATE: Omit<
   | 'setIsUserOnClock'
   | 'setSelectedDraftRounds'
   | 'setFreeAgencyWave'
+  | 'applyAuthoritativeFranchiseState'
   | 'setLatestDraftRecap'
   | 'setLatestSeasonRecap'
   | 'appendSeasonHistory'
@@ -234,6 +236,17 @@ export const useSaveStore = create<SaveStoreState>()(
         set((state) => ({
           ...state,
           freeAgencyWave: Math.max(1, Math.min(3, Math.round(wave))) as 1 | 2 | 3,
+        })),
+      // Neon is the source of truth for franchise progression. This setter is deliberately
+      // local-only: hydrating an existing save must never issue a second write or reconstruct
+      // progression from the browser cache.
+      applyAuthoritativeFranchiseState: (simulation) =>
+        set((state) => ({
+          ...state,
+          franchiseYear: simulation.season,
+          phase: simulation.phase,
+          unlocked: resolveUnlocks(simulation.phase, state.unlocked),
+          saveLoadError: null,
         })),
       setLatestDraftRecap: (recap) => set((state) => ({ ...state, latestDraftRecap: recap })),
       setLatestSeasonRecap: (recap) => set((state) => ({ ...state, latestSeasonRecap: recap })),
