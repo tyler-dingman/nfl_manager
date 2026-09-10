@@ -71,6 +71,8 @@ function TeamSelectScreenInner() {
   const setTeams = useTeamStore((state) => state.setTeams);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const activeSaveId = useSaveStore((state) => state.saveId);
+  const activeSaveTeam = useSaveStore((state) => state.teamAbbr);
   const setRunBaseline = useSaveStore((state) => state.setRunBaseline);
   const setActiveTeam = useSaveStore((state) => state.setActiveTeam);
   const clearSave = useSaveStore((state) => state.clearSave);
@@ -136,6 +138,13 @@ function TeamSelectScreenInner() {
 
   const handleSelectTeam = useCallback(
     async (team: (typeof teams)[number]) => {
+      if (activeSaveId && activeSaveTeam === team.abbr) {
+        setSelectedTeamId(team.id);
+        setActiveTeam(team.id, team.abbr);
+        saveFanTeamPreference(team.abbr);
+        router.push(getOffseasonManagerRoute('/experience', team.abbr));
+        return;
+      }
       clearSave();
       resetForNewRun();
       setSelectedTeamId(team.id);
@@ -172,6 +181,8 @@ function TeamSelectScreenInner() {
     },
     [
       clearSave,
+      activeSaveId,
+      activeSaveTeam,
       resetForNewRun,
       router,
       setActiveTeam,

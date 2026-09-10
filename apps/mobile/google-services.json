@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "953719724874",
+    "project_id": "down-and-distance-8526c",
+    "storage_bucket": "down-and-distance-8526c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953719724874:android:904d990469a2bca56b7fb3",
+        "android_client_info": {
+          "package_name": "Down.And.Distance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAkrB2aIQyP1xM5gjVp2PXJRPln5IQSmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953719724874:android:6694ffe0afd16b4f6b7fb3",
+        "android_client_info": {
+          "package_name": "com.downdistance.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAkrB2aIQyP1xM5gjVp2PXJRPln5IQSmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

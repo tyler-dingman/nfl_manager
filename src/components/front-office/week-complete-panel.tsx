@@ -254,25 +254,27 @@ export function WeekCompletePanel({
   if (!expanded)
     return (
       <section className="fo-week-strip" aria-label={`Week ${data.simulation.currentWeek} result`}>
-        <b>Week {data.simulation.currentWeek}</b>
-        <span className={`status-${status.toLowerCase()}`}>{status}</span>
-        {result ? (
-          <span>
-            {result.awayTeam} {result.awayScore} — {result.homeTeam} {result.homeScore}
-          </span>
-        ) : (
-          <span>Bye week</span>
-        )}
-        <span>Record {record}</span>
-        <button
-          type="button"
-          onClick={() => {
-            setExpanded(true);
-            onExpandedChange(true);
-          }}
-        >
-          <ChevronUp /> View recap
-        </button>
+        <div className="fo-week-strip-inner">
+          <b>Week {data.simulation.currentWeek}</b>
+          <span className={`status-${status.toLowerCase()}`}>{status}</span>
+          {result ? (
+            <span>
+              {result.awayTeam} {result.awayScore} — {result.homeTeam} {result.homeScore}
+            </span>
+          ) : (
+            <span>Bye week</span>
+          )}
+          <span>Record {record}</span>
+          <button
+            type="button"
+            onClick={() => {
+              setExpanded(true);
+              onExpandedChange(true);
+            }}
+          >
+            <ChevronUp /> View recap
+          </button>
+        </div>
       </section>
     );
 
@@ -282,77 +284,82 @@ export function WeekCompletePanel({
       aria-labelledby="fo-week-complete-title"
       aria-live="polite"
     >
-      <button
-        className="fo-week-collapse"
-        type="button"
-        onClick={() => void collapse()}
-        aria-label="Collapse week result"
-      >
-        <X />
-      </button>
-      <div className="fo-week-result">
-        <span>
-          Week {data.simulation.currentWeek}{' '}
-          {result ? `Final${result.overtime ? ' / OT' : ''}` : 'Complete'}
-        </span>
-        {result ? <ResultScore result={result} /> : <div className="fo-week-bye">Bye week</div>}
-        <h2 id="fo-week-complete-title">
-          {result ? result.recapHeadline[teamAbbr] : 'Your team did not play'}
-        </h2>
-        <p>
-          {result
-            ? result.recapSummary[teamAbbr]
-            : 'The week is complete. No player statistics were generated.'}
-        </p>
-        <strong className="fo-week-record">Record: {record}</strong>
-      </div>
-      <div className="fo-week-performers">
-        <h3>Key performers</h3>
-        {performers.length ? (
-          performers.map((stat) => (
-            <article key={stat.playerId}>
-              {stat.headshotUrl ? (
-                <Image src={stat.headshotUrl} alt="" width={58} height={58} />
-              ) : (
-                <span aria-hidden="true">
-                  {stat.playerName
-                    .split(' ')
-                    .map((part) => part[0])
-                    .slice(0, 2)
-                    .join('')}
-                </span>
-              )}
-              <div>
-                <strong>{stat.playerName}</strong>
-                <small>{playerLine(stat)}</small>
-              </div>
-            </article>
-          ))
-        ) : (
-          <p>No player stats for a bye week.</p>
-        )}
-      </div>
-      <div className="fo-week-updates">
-        <h3>Front Office updates</h3>
-        {weekEvents.length ? (
-          weekEvents.slice(0, 3).map((event) => (
-            <article key={event.id}>
-              <strong>{event.headline}</strong>
-              <small>{event.summary}</small>
-            </article>
-          ))
-        ) : (
-          <p>The League Wire was quiet this week.</p>
-        )}
-        {result ? (
-          <button className="fo-week-recap-button" type="button" onClick={() => setRecapOpen(true)}>
-            View full recap <ArrowRight />
-          </button>
-        ) : (
-          <button className="fo-week-recap-button" type="button" onClick={() => void collapse()}>
-            Continue <ArrowRight />
-          </button>
-        )}
+      <div className="fo-week-complete-inner">
+        <button
+          className="fo-week-collapse"
+          type="button"
+          onClick={() => void collapse()}
+          aria-label="Collapse week result"
+        >
+          <X />
+        </button>
+        <div className="fo-week-result">
+          <span>
+            Week {data.simulation.currentWeek}{' '}
+            {result ? `Final${result.overtime ? ' / OT' : ''}` : 'Complete'}
+          </span>
+          {result ? <ResultScore result={result} /> : <div className="fo-week-bye">Bye week</div>}
+          <h2 id="fo-week-complete-title">
+            {result ? result.recapHeadline[teamAbbr] : 'Your team did not play'}
+          </h2>
+          <p>
+            {result
+              ? result.recapSummary[teamAbbr]
+              : 'The week is complete. No player statistics were generated.'}
+          </p>
+        </div>
+        <div className="fo-week-performers">
+          <h3>Key performers</h3>
+          {performers.length ? (
+            performers.map((stat) => (
+              <article key={stat.playerId}>
+                {stat.headshotUrl ? (
+                  <Image src={stat.headshotUrl} alt="" width={58} height={58} />
+                ) : (
+                  <span aria-hidden="true">
+                    {stat.playerName
+                      .split(' ')
+                      .map((part) => part[0])
+                      .slice(0, 2)
+                      .join('')}
+                  </span>
+                )}
+                <div>
+                  <strong>{stat.playerName}</strong>
+                  <small>{playerLine(stat)}</small>
+                </div>
+              </article>
+            ))
+          ) : (
+            <p>No player stats for a bye week.</p>
+          )}
+        </div>
+        <div className="fo-week-updates">
+          <h3>Front Office updates</h3>
+          {weekEvents.length ? (
+            weekEvents.slice(0, 3).map((event) => (
+              <article key={event.id}>
+                <strong>{event.headline}</strong>
+                <small>{event.summary}</small>
+              </article>
+            ))
+          ) : (
+            <p>The League Wire was quiet this week.</p>
+          )}
+          {result ? (
+            <button
+              className="fo-week-recap-button"
+              type="button"
+              onClick={() => setRecapOpen(true)}
+            >
+              View full recap <ArrowRight />
+            </button>
+          ) : (
+            <button className="fo-week-recap-button" type="button" onClick={() => void collapse()}>
+              Continue <ArrowRight />
+            </button>
+          )}
+        </div>
       </div>
       {result && recapOpen ? (
         <FullRecap result={result} teamAbbr={teamAbbr} onClose={() => setRecapOpen(false)} />

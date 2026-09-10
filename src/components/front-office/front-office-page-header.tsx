@@ -43,68 +43,70 @@ export function FrontOfficePageHeader({
 
   return (
     <header className="fo-page-header">
-      <div className="fo-page-heading">
-        <p className="fo-title-eyebrow text-[var(--team-primary-text)]">{strapline}</p>
-        <h1 className="dd-home-hero-display">{title}</h1>
-        {description ? <p className="fo-description">{description}</p> : null}
-      </div>
-      <div className="fo-page-header-side">
-        <section className="fo-team-metrics" aria-label="Team summary">
-          <div className="fo-team-picker">
-            {team?.logo_url ? (
-              <Image src={team.logo_url} alt="" width={30} height={30} aria-hidden="true" />
-            ) : null}
-            <span>{team?.name ?? 'Selected team'}</span>
-          </div>
-          <dl>
-            <div>
-              <dt>Total players</dt>
-              <dd>{activeRoster.length}</dd>
+      <div className="fo-page-header-inner">
+        <div className="fo-page-heading">
+          <p className="fo-title-eyebrow text-[var(--team-primary-text)]">{strapline}</p>
+          <h1 className="dd-home-hero-display">{title}</h1>
+          {description ? <p className="fo-description">{description}</p> : null}
+        </div>
+        <div className="fo-page-header-side">
+          <section className="fo-team-metrics" aria-label="Team summary">
+            <div className="fo-team-picker">
+              {team?.logo_url ? (
+                <Image src={team.logo_url} alt="" width={30} height={30} aria-hidden="true" />
+              ) : null}
+              <span>{team?.name ?? 'Selected team'}</span>
             </div>
-            <div>
-              <dt>Avg age</dt>
-              <dd>{averageAge ? averageAge.toFixed(1) : '—'}</dd>
-            </div>
-            <div>
-              <dt>Cap space</dt>
-              <dd>{formatMoneyMillions(capSpace)}</dd>
-            </div>
-            <div className="fo-ovr">
-              <dt>Team OVR</dt>
-              <dd>{overall || '—'}</dd>
-            </div>
-          </dl>
-        </section>
-        {tools.length ? (
-          <section className="fo-tools" aria-label={`${title} tools`}>
-            <h2>{title} tools</h2>
-            <div>
-              {tools.map(({ label, href, icon: Icon, onClick, disabled }) => {
-                const content = (
-                  <>
-                    <Icon aria-hidden="true" />
-                    <span>{label}</span>
-                  </>
-                );
-                return href && !disabled ? (
-                  <Link key={label} href={href} className="fo-tool">
-                    {content}
-                  </Link>
-                ) : (
-                  <button
-                    key={label}
-                    type="button"
-                    className="fo-tool"
-                    onClick={onClick}
-                    disabled={disabled}
-                  >
-                    {content}
-                  </button>
-                );
-              })}
-            </div>
+            <dl>
+              <div>
+                <dt>Total players</dt>
+                <dd>{activeRoster.length}</dd>
+              </div>
+              <div>
+                <dt>Avg age</dt>
+                <dd>{averageAge ? averageAge.toFixed(1) : '—'}</dd>
+              </div>
+              <div>
+                <dt>Cap space</dt>
+                <dd>{formatMoneyMillions(capSpace)}</dd>
+              </div>
+              <div className="fo-ovr">
+                <dt>Team OVR</dt>
+                <dd>{overall || '—'}</dd>
+              </div>
+            </dl>
           </section>
-        ) : null}
+          {tools.length ? (
+            <section className="fo-tools" aria-label={`${title} tools`}>
+              <h2>{title} tools</h2>
+              <div>
+                {tools.map(({ label, href, icon: Icon, onClick, disabled }) => {
+                  const content = (
+                    <>
+                      <Icon aria-hidden="true" />
+                      <span>{label}</span>
+                    </>
+                  );
+                  return href && !disabled ? (
+                    <Link key={label} href={href} className="fo-tool">
+                      {content}
+                    </Link>
+                  ) : (
+                    <button
+                      key={label}
+                      type="button"
+                      className="fo-tool"
+                      onClick={onClick}
+                      disabled={disabled}
+                    >
+                      {content}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          ) : null}
+        </div>
       </div>
     </header>
   );

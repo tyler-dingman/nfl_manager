@@ -494,8 +494,8 @@ function AppShellContent({
 
           <div className="flex min-w-0 flex-1 flex-col">
             {showTeamSummary ? (
-              <header className="front-office-team-summary border-b border-border bg-[#fffdf9]/90 px-4 py-3 md:bg-[#fffdf9]/95 md:px-6">
-                <div className="flex flex-col gap-3">
+              <header className="front-office-team-summary border-b border-border bg-[#fffdf9]/90 md:bg-[#fffdf9]/95">
+                <div className="front-office-team-summary-inner flex flex-col gap-3">
                   <div className="flex items-center gap-3 md:hidden">
                     <button
                       type="button"

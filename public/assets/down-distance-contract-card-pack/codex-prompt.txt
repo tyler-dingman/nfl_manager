@@ -1,0 +1,40 @@
+TASK: Implement the Contract Update content graphic from `/public/assets/down-distance-contract-card-pack` using the EXACT SAME content-card architecture, sizing, placement, responsive behavior, and team-color resolver as the already-working Injury Report card.
+
+FIRST inspect the working Injury Report implementation. Reuse its wrapper, aspect ratio, team theme source, SVG recoloring method, The Beat integration, fallback behavior, and mobile behavior. Do not build a parallel card system.
+
+Use `reference.png` only as the approved visual target; never render it as production art. Production composition must be neutral background + recolorable SVGs + editable HTML text.
+
+Default graphic copy:
+FRONT OFFICE
+CONTRACT
+UPDATE
+
+`CONTRACT` = off-white. `UPDATE` = `var(--card-accent)`. All accent SVGs must use the same runtime team accent. Expected: KC gold, CIN orange, BAL purple, CAR blue, BUF red.
+
+Use these assets:
+- shared/background-neutral.webp
+- shared/playbook-overlay.svg
+- shared/halftone-dots.svg
+- contract/accent-bar.svg
+- contract/contract-document.svg
+- contract/pen.svg
+- contract/signature-flourish.svg
+- contract/ruler-overlay.svg
+- contract/bottom-accent-strip.svg
+- contract/contract-template-overlay.svg
+
+The signature flourish is intentionally the more signature-like approved version. Preserve its look.
+
+IMPORTANT SVG RULE: if `<img src="...svg">` prevents `currentColor` from propagating, use the SAME working technique as Injury Report: inline React SVG/component import, CSS mask, or existing SVG loader. Do not hardcode yellow.
+
+Map this visual to canonical content categories equivalent to CONTRACT / CONTRACT NEWS / CONTRACT UPDATE only. Do not alter other categories. The actual article headline and metadata remain normal semantic text below the graphic; this thumbnail is only the visual hook.
+
+Do not use player images, player likenesses, or team logos.
+
+Preferred reusable architecture is one shared `ContentGraphicCard` framework with template configs such as `injury` and `contract`, not separate one-off components. If extracting shared code, verify the existing Injury Report card remains visually unchanged.
+
+Match the Injury Report card placement exactly: same dimensions, graphic height, radius, overflow, spacing, hover behavior and mobile layout. Only template art/copy differs.
+
+Tests must verify: neutral background loads; document, pen, signature, accent bar render; visible copy is HTML; accent changes for KC/CIN/BAL/CAR; no player image/logo; contract stories choose contract template; Injury Report remains unchanged; responsive behavior matches Injury.
+
+Finish with screenshots of the SAME Contract Update card rendered for KC, CIN, BAL and CAR and report how `currentColor`/team accent resolution works.

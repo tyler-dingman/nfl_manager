@@ -10,7 +10,8 @@ const config: ExpoConfig = {
     config: { usesNonExemptEncryption: false },
   },
   android: {
-    package: 'com.downdistance.mobile', edgeToEdgeEnabled: true, predictiveBackGestureEnabled: false,
+    package: 'com.downdistance.mobile', googleServicesFile: './google-services.json',
+    edgeToEdgeEnabled: true, predictiveBackGestureEnabled: false,
     adaptiveIcon: {
       backgroundColor: '#081824', foregroundImage: './assets/images/android-icon-foreground.png',
       backgroundImage: './assets/images/android-icon-background.png',

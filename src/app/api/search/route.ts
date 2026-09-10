@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { TEAM_LIST } from '@/data/teams';
 import { checkRateLimit } from '@/server/auth/rate-limit';
 import { hybridSearch } from '@/server/search/retrieval';
+import { fallbackTeamSearch } from '@/server/search/fallback';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,9 +28,28 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid search request.' }, { status: 400 });
   }
   try {
-    return NextResponse.json(await hybridSearch(parsed.data));
+    const result = await hybridSearch(parsed.data);
+    if (result.results.length) return NextResponse.json(result);
+    return NextResponse.json(
+      await fallbackTeamSearch({
+        ...parsed.data,
+        limit: parsed.data.limit ?? 12,
+        includeAnswer: parsed.data.includeAnswer ?? false,
+      }),
+    );
   } catch (error) {
-    console.error('[search] request failed', error);
-    return NextResponse.json({ error: 'Search is temporarily unavailable.' }, { status: 503 });
+    console.warn('[search] indexed retrieval unavailable; using direct team search', error);
+    try {
+      return NextResponse.json(
+        await fallbackTeamSearch({
+          ...parsed.data,
+          limit: parsed.data.limit ?? 12,
+          includeAnswer: parsed.data.includeAnswer ?? false,
+        }),
+      );
+    } catch (fallbackError) {
+      console.error('[search] fallback request failed', fallbackError);
+      return NextResponse.json({ error: 'Search is temporarily unavailable.' }, { status: 503 });
+    }
   }
 }

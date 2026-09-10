@@ -236,6 +236,14 @@ export function createFranchiseSimulation(input: {
   };
 }
 
+/** Starts a new save at the Week 1 decision point without playing its opening game. */
+export function startFranchiseAtWeekOne(state: FranchiseSimulationState): FranchiseSimulationState {
+  const next = structuredClone(state);
+  next.currentWeek = 0;
+  next.phase = 'week-1';
+  return next;
+}
+
 export function advanceSimulation(
   state: FranchiseSimulationState,
   target: string,

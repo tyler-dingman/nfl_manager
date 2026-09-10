@@ -1,0 +1,160 @@
+TASK: Implement the Down & Distance dynamic Injury Alert content-card graphic using the uploaded element pack.
+
+ASSET PACK
+Copy/use the uploaded asset pack under public/content-card-elements (or adapt paths to the existing asset architecture).
+
+IMPORTANT DESIGN PRINCIPLE
+The uploaded reference.png is a VISUAL REFERENCE ONLY. Do NOT use reference.png as the production background because the yellow accent is baked into the raster image.
+
+Production composition must be:
+1. neutral background-neutral.webp
+2. recolorable SVG overlays using currentColor
+3. editable HTML/CSS text
+4. team accent supplied by the existing team-theme configuration
+
+GOAL
+Create one reusable Injury content-card graphic that looks like the reference but can instantly render in every team's accent color.
+
+Example:
+KC -> gold accent
+CIN -> orange accent
+BUF -> red accent
+BAL -> purple/gold according to our chosen card-accent mapping
+CAR -> blue accent
+etc.
+
+DO NOT create 32 image files.
+DO NOT use CSS hue-rotate/filter hacks on a PNG.
+DO NOT bake card text into raster images.
+
+AUDIT FIRST
+Before coding, inspect the existing team theme/color map. If a canonical team-theme object already contains an appropriate secondary/accent color, reuse it instead of duplicating team colors. Only use team-accent-map.css as a fallback/reference.
+
+CREATE A REUSABLE COMPONENT
+Suggested API:
+
+<ContentGraphicCard
+  template="injury"
+  team="KC"
+  eyebrow="INJURY REPORT"
+  graphicLine1="INJURY"
+  graphicLine2="ALERT"
+/>
+
+or the closest equivalent in the current architecture.
+
+ASSET LAYERS
+Background:
+/content-card-elements/shared/background-neutral.webp
+
+Optional neutral overlay:
+/content-card-elements/shared/playbook-overlay.svg
+
+Accent layers:
+/content-card-elements/injury/accent-bar.svg
+/content-card-elements/injury/medical-cross.svg
+/content-card-elements/injury/heartbeat.svg
+/content-card-elements/injury/underline.svg
+
+There is also a combined injury-template-overlay.svg if a single overlay is more convenient.
+
+SVG COLORING
+The SVG files already use currentColor. Color them from CSS:
+
+.injuryGraphic {
+  --accent: var(--team-card-accent);
+}
+
+.injuryGraphic .accentGraphic {
+  color: var(--accent);
+}
+
+TEAM COLOR SOURCE
+Create/use ONE semantic variable:
+--team-card-accent
+
+Do not assume every team's literal secondary color is ideal against black. Prefer an existing curated thumbnail/card accent if the application already has one. Otherwise map a readable accent per team.
+
+TEXT
+Render all card words as HTML, not image pixels.
+
+Default injury template:
+Eyebrow: INJURY REPORT
+Line 1: INJURY
+Line 2: ALERT
+
+Line 2 should use --team-card-accent.
+
+The system must also allow future dynamic variants such as:
+STATUS WATCH
+QUESTIONABLE
+OUT 4 WEEKS
+GAME STATUS
+INJURY UPDATE
+
+TYPOGRAPHY
+Use the existing D&D condensed display font if available. Match the reference as closely as possible:
+- extremely bold/condensed
+- slight italic/slant
+- uppercase graphic display
+- tight line-height
+- cream/white primary text
+- team accent secondary line
+
+Do not import a random font if D&D already has a suitable display font.
+
+COMPOSITION
+Maintain a 16:9 art area.
+- text left ~55%
+- medical cross right
+- heartbeat through lower middle/right
+- vertical accent marker upper-left
+- subtle playbook/chalk texture
+- neutral black/charcoal background
+
+The outer content card beneath the graphic can continue using the existing The Beat card design.
+
+RESPONSIVE
+The graphic must scale from desktop cards to mobile without raster text blur.
+Use clamp() for typography and percentages/aspect-ratio for placement rather than fixed pixel coordinates.
+
+ACCESSIBILITY
+Decorative SVGs should have alt=""/aria-hidden=true.
+The meaningful card headline exists as real text and should remain accessible.
+Do not duplicate the decorative graphic text to screen readers if the story headline below already communicates the same content; choose one accessible representation deliberately.
+
+PERFORMANCE
+The neutral background can be cached globally.
+SVG assets should be static/cacheable.
+Do not render a canvas screenshot on every request.
+No AI/image-generation call should be required at runtime.
+
+INTEGRATION
+When the content engine categorizes a canonical story as INJURY, use this graphic template instead of requiring a source/player image.
+The story title below the graphic remains the actual canonical headline.
+The graphic hook can remain constant (INJURY ALERT) initially.
+
+TESTS
+1. KC renders gold accents.
+2. CIN renders orange accents.
+3. BUF renders red accents.
+4. changing team changes accent without changing asset URL.
+5. no yellow is baked into production background.
+6. SVG accents inherit CSS currentColor.
+7. text remains editable/live HTML.
+8. mobile layout does not clip text/cross.
+9. neutral background is reused across teams.
+10. no player images/logos are required.
+
+ACCEPTANCE CRITERIA
+- Visual result closely matches reference.png.
+- One template works for all teams.
+- Background remains neutral.
+- Accent changes via CSS/theme variables.
+- Medical cross, heartbeat, underline and accent marker recolor together.
+- Text is editable HTML/CSS.
+- Runtime requires no generated images.
+- Existing team color source of truth is reused where possible.
+
+FINAL REPORT
+Provide screenshots for KC, CIN, BUF and BAL using the exact same assets, plus the component/CSS files changed.

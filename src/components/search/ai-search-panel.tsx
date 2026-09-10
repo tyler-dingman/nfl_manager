@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import {
   CirclePlus,
   ExternalLink,
+  Loader2,
   Mic,
   Newspaper,
   Search,
@@ -13,6 +14,7 @@ import {
 } from 'lucide-react';
 
 import type { SearchResponse } from '@/features/search/types';
+import { parseSearchAnswerCitations } from '@/features/search/citations';
 import { lightenHexColor } from '@/lib/color-utils';
 
 type Props = {
@@ -116,6 +118,7 @@ export default function AiSearchPanel({
     stopAnimation();
     onQueryChange(normalized);
     setStatus('searching');
+    setResponse(null);
     setError('');
     try {
       const result = await fetch('/api/search', {
@@ -248,6 +251,43 @@ export default function AiSearchPanel({
               </button>
             </div>
           </form>
+          <div
+            className={`grid transition-[grid-template-rows,opacity,margin] duration-500 ease-out motion-reduce:transition-none ${
+              status === 'searching' || response?.answer
+                ? 'mt-4 grid-rows-[1fr] opacity-100'
+                : 'mt-0 grid-rows-[0fr] opacity-0'
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="rounded-2xl border border-white/35 bg-white/95 px-5 py-4 text-[#00172b] shadow-lg backdrop-blur-sm sm:px-6 sm:py-5">
+                {status === 'searching' ? (
+                  <div
+                    className="flex min-h-14 items-center gap-3"
+                    role="status"
+                    aria-live="polite"
+                  >
+                    <Loader2
+                      className="h-5 w-5 animate-spin text-[var(--primary)] motion-reduce:animate-none"
+                      aria-hidden="true"
+                    />
+                    <div>
+                      <p className="text-sm font-black">Searching Down &amp; Distance</p>
+                      <p className="mt-0.5 text-sm font-medium text-[#52677c]">
+                        Checking the latest {nickname} coverage…
+                      </p>
+                    </div>
+                  </div>
+                ) : response?.answer ? (
+                  <div className="animate-[search-answer-in_.35s_ease-out_both] whitespace-pre-line font-sans text-[15px] font-medium leading-7 sm:text-base">
+                    <div className="mb-3 flex items-center gap-2 text-xs font-black uppercase tracking-[.16em] text-[var(--team-primary-text)]">
+                      <Sparkles className="h-4 w-4" aria-hidden="true" /> Down &amp; Distance Answer
+                    </div>
+                    <LinkedSearchAnswer response={response} />
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </div>
           <div className="mt-6 flex items-center gap-3 overflow-x-auto pb-1 sm:flex-wrap">
             <span className="shrink-0 text-lg font-black text-white">Try:</span>
             {suggestions.map((suggestion, index) => {
@@ -287,11 +327,6 @@ export default function AiSearchPanel({
           <p className="text-sm font-bold text-[#52677c]">
             {response.results.length} results for “{response.query}”
           </p>
-          {response.answer ? (
-            <div className="mt-3 whitespace-pre-line rounded-2xl border border-slate-200 bg-white p-5 text-[#00172b]">
-              {response.answer}
-            </div>
-          ) : null}
           <div className="mt-3 grid gap-3 md:grid-cols-2">
             {response.results.map((result) => (
               <a
@@ -317,6 +352,29 @@ export default function AiSearchPanel({
         </section>
       ) : null}
     </div>
+  );
+}
+
+function LinkedSearchAnswer({ response }: { response: SearchResponse }) {
+  if (!response.answer) return null;
+  return parseSearchAnswerCitations(response.answer, response.sources.length).map(
+    (segment, index) => {
+      if (segment.type === 'text') return segment.value;
+      const source = response.sources[segment.sourceIndex];
+      const external = source.url.startsWith('http');
+      return (
+        <a
+          key={`${segment.sourceIndex}-${index}`}
+          href={source.url}
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer' : undefined}
+          aria-label={`Open source ${segment.sourceIndex + 1}: ${source.title}`}
+          className="mx-0.5 inline-flex rounded-sm font-black text-[var(--team-primary-text)] underline decoration-2 underline-offset-2 transition hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+        >
+          {segment.value}
+        </a>
+      );
+    },
   );
 }
 

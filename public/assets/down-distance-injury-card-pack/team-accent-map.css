@@ -1,0 +1,34 @@
+/* D&D content-card accent map. Adjust any value in your existing team theme source of truth. */
+:root { --card-accent: #ffb81c; --card-accent-contrast: #081426; }
+[data-team="ARI"] { --card-accent:#ffb612; --card-accent-contrast:#081426; }
+[data-team="ATL"] { --card-accent:#a71930; --card-accent-contrast:#ffffff; }
+[data-team="BAL"] { --card-accent:#9e7c0c; --card-accent-contrast:#081426; }
+[data-team="BUF"] { --card-accent:#c60c30; --card-accent-contrast:#ffffff; }
+[data-team="CAR"] { --card-accent:#0085ca; --card-accent-contrast:#ffffff; }
+[data-team="CHI"] { --card-accent:#c83803; --card-accent-contrast:#ffffff; }
+[data-team="CIN"] { --card-accent:#fb4f14; --card-accent-contrast:#081426; }
+[data-team="CLE"] { --card-accent:#ff3c00; --card-accent-contrast:#081426; }
+[data-team="DAL"] { --card-accent:#869397; --card-accent-contrast:#081426; }
+[data-team="DEN"] { --card-accent:#fb4f14; --card-accent-contrast:#081426; }
+[data-team="DET"] { --card-accent:#0076b6; --card-accent-contrast:#ffffff; }
+[data-team="GB"] { --card-accent:#ffb612; --card-accent-contrast:#081426; }
+[data-team="HOU"] { --card-accent:#a71930; --card-accent-contrast:#ffffff; }
+[data-team="IND"] { --card-accent:#002c5f; --card-accent-contrast:#ffffff; }
+[data-team="JAX"] { --card-accent:#00a5b5; --card-accent-contrast:#081426; }
+[data-team="KC"] { --card-accent:#ffb81c; --card-accent-contrast:#081426; }
+[data-team="LV"] { --card-accent:#a5acaf; --card-accent-contrast:#081426; }
+[data-team="LAC"] { --card-accent:#ffc20e; --card-accent-contrast:#081426; }
+[data-team="LAR"] { --card-accent:#ffd100; --card-accent-contrast:#081426; }
+[data-team="MIA"] { --card-accent:#fc4c02; --card-accent-contrast:#081426; }
+[data-team="MIN"] { --card-accent:#ffc62f; --card-accent-contrast:#081426; }
+[data-team="NE"] { --card-accent:#c60c30; --card-accent-contrast:#ffffff; }
+[data-team="NO"] { --card-accent:#d3bc8d; --card-accent-contrast:#081426; }
+[data-team="NYG"] { --card-accent:#a71930; --card-accent-contrast:#ffffff; }
+[data-team="NYJ"] { --card-accent:#125740; --card-accent-contrast:#ffffff; }
+[data-team="PHI"] { --card-accent:#004c54; --card-accent-contrast:#ffffff; }
+[data-team="PIT"] { --card-accent:#ffb612; --card-accent-contrast:#081426; }
+[data-team="SF"] { --card-accent:#b3995d; --card-accent-contrast:#081426; }
+[data-team="SEA"] { --card-accent:#69be28; --card-accent-contrast:#081426; }
+[data-team="TB"] { --card-accent:#ff7900; --card-accent-contrast:#081426; }
+[data-team="TEN"] { --card-accent:#4b92db; --card-accent-contrast:#081426; }
+[data-team="WAS"] { --card-accent:#ffb612; --card-accent-contrast:#081426; }

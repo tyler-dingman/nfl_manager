@@ -7,6 +7,7 @@ import {
   normalizeFranchiseSimulationState,
   seedPlayoffs,
   simulateGame,
+  startFranchiseAtWeekOne,
 } from '@/lib/franchise-simulation';
 import type {
   FranchiseGameState,
@@ -37,6 +38,25 @@ const team = (abbr: string, overall: number, conference = 'AFC', division = 'Eas
   overall,
   conference,
   division,
+});
+
+test('a new Week 1 save starts 0-0 before the opening game is played', () => {
+  const state = startFranchiseAtWeekOne(
+    createFranchiseSimulation({
+      seed: 'new-save',
+      season: 2026,
+      teams: [team('AAA', 82), team('BBB', 79)],
+      games: [{ id: 'week-one', week: 1, homeTeam: 'AAA', awayTeam: 'BBB' }],
+    }),
+  );
+
+  assert.equal(state.phase, 'week-1');
+  assert.equal(state.currentWeek, 0);
+  assert.deepEqual(state.teams.AAA.record, { wins: 0, losses: 0, ties: 0 });
+  assert.deepEqual(state.teams.BBB.record, { wins: 0, losses: 0, ties: 0 });
+  assert.equal(state.games[0].played, false);
+  assert.equal(state.games[0].homeScore, null);
+  assert.equal(state.games[0].awayScore, null);
 });
 
 test('a completed game is deterministic and cannot reroll', () => {

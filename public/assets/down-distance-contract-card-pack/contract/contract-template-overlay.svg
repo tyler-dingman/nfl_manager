@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none"><g color="currentColor">
+<rect x="74" y="74" width="26" height="128" rx="2" fill="currentColor"/>
+<path d="M1140 190H1365L1475 300V690C1475 706 1463 718 1448 718H1140C1125 718 1113 706 1113 691V217C1113 202 1125 190 1140 190Z" stroke="currentColor" stroke-width="18" stroke-linejoin="round"/>
+<path d="M1365 190V300H1475" stroke="currentColor" stroke-width="18" stroke-linejoin="round"/>
+<path d="M1190 370H1390M1190 440H1410M1190 510H1380" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+<path d="M1160 620C1200 575 1230 575 1250 606C1268 634 1288 630 1312 602C1330 581 1350 587 1368 608C1382 624 1400 624 1425 606" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
+<path d="M1325 650L1460 350L1500 388L1380 670L1325 710Z" stroke="currentColor" stroke-width="16" stroke-linejoin="round"/>
+<path d="M205 704C280 610 309 608 327 646C341 675 302 691 290 671C273 643 318 617 355 658C381 687 405 693 434 667C456 647 475 656 491 675C508 695 531 696 568 671C607 645 639 659 657 680C679 705 711 704 741 682C766 664 793 668 815 687C834 702 859 702 891 683" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M300 711H980" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+<rect x="0" y="872" width="1600" height="28" fill="currentColor"/>
+</g></svg>

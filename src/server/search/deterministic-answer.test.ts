@@ -31,6 +31,22 @@ test('builds a grounded answer with source markers and at most three records', (
   assert.match(answer ?? '', /First update\. \[1\]/);
   assert.match(answer ?? '', /Third update\. \[3\]/);
   assert.doesNotMatch(answer ?? '', /Fourth update/);
+  assert.doesNotMatch(answer ?? '', /•/);
+  assert.doesNotMatch(answer ?? '', /strongest Down & Distance matches/);
+});
+
+test('answers a schedule question with the relevant source sentence instead of a result dump', () => {
+  const answer = buildDeterministicSearchAnswer('When do the Chiefs play?', [
+    result(
+      '1',
+      'The season is almost here. The Kansas City Chiefs open against the Denver Broncos on Monday Night Football, September 14, 2026, at 7:15 PM CDT.',
+    ),
+  ]);
+
+  assert.equal(
+    answer,
+    'The Kansas City Chiefs open against the Denver Broncos on Monday Night Football, September 14, 2026, at 7:15 PM CDT. [1]',
+  );
 });
 
 test('removes raw links and hashtag dumps from excerpts', () => {

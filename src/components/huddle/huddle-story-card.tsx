@@ -1,6 +1,10 @@
 import { ArrowRight, Bookmark, Flame } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import ShareToCrewButton from '@/components/crew/share-to-crew-button';
+import ContractGraphicCard from '@/components/editorial/contract-graphic-card';
+import InjuryGraphicCard from '@/components/editorial/injury-graphic-card';
+import { getInjuryGraphicCopy } from '@/components/editorial/injury-graphic-copy';
 
 type HuddleStoryCardProps = {
   id: string;
@@ -21,10 +25,10 @@ type HuddleStoryCardProps = {
   onOpen?: () => void;
 };
 
-function relativeTime(value: string) {
+function relativeTime(value: string, now: number) {
   const timestamp = new Date(value).getTime();
   if (!Number.isFinite(timestamp)) return null;
-  const minutes = Math.max(0, Math.floor((Date.now() - timestamp) / 60_000));
+  const minutes = Math.max(0, Math.floor((now - timestamp) / 60_000));
   if (minutes < 1) return 'now';
   if (minutes < 60) return `${minutes}m`;
   const hours = Math.floor(minutes / 60);
@@ -42,6 +46,7 @@ export default function HuddleStoryCard({
   headline,
   summary,
   category,
+  status,
   sourceCount,
   updatedAt,
   materialUpdateCount,
@@ -53,8 +58,15 @@ export default function HuddleStoryCard({
   onSave,
   onOpen,
 }: HuddleStoryCardProps) {
-  const hotRead = isHotRead(hotReadUntil);
-  const time = relativeTime(updatedAt);
+  const [clientNow, setClientNow] = useState<number | null>(null);
+  useEffect(() => setClientNow(Date.now()), []);
+  const hotRead = clientNow === null ? false : isHotRead(hotReadUntil, clientNow);
+  const time = clientNow === null ? null : relativeTime(updatedAt, clientNow);
+  const normalizedCategory = category.trim().toUpperCase().replaceAll('_', ' ');
+  const isInjury = normalizedCategory.includes('INJUR');
+  const isContract = ['CONTRACT', 'CONTRACT NEWS', 'CONTRACT UPDATE'].includes(normalizedCategory);
+  const hasGraphic = isInjury || isContract;
+  const injuryCopy = getInjuryGraphicCopy({ headline, summary, status });
 
   return (
     <article
@@ -63,9 +75,21 @@ export default function HuddleStoryCard({
         hotRead ? 'border-[var(--primary)]' : 'border-[#00172B]/10'
       } ${lead ? 'md:col-span-2' : ''}`}
     >
-      <div
-        className={`h-1.5 w-full ${hotRead ? 'bg-[var(--primary)]' : 'bg-[var(--secondary)]'}`}
-      />
+      {isInjury ? (
+        <InjuryGraphicCard
+          teamAbbr={teamId}
+          eyebrow={injuryCopy.eyebrow}
+          primaryText={injuryCopy.primaryText}
+          accentText={injuryCopy.accentText}
+        />
+      ) : isContract ? (
+        <ContractGraphicCard teamAbbr={teamId} />
+      ) : null}
+      {hasGraphic ? null : (
+        <div
+          className={`h-1.5 w-full ${hotRead ? 'bg-[var(--primary)]' : 'bg-[var(--secondary)]'}`}
+        />
+      )}
       <div className={`flex flex-1 flex-col ${lead ? 'p-6 sm:p-8' : 'p-5 sm:p-6'}`}>
         <div className="flex items-center justify-between gap-3 text-[10px] font-black uppercase tracking-[0.16em]">
           <span

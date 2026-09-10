@@ -141,7 +141,6 @@ export default function ExperiencePage() {
   const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const unlocked = useSaveStore((state) => state.unlocked);
   const hasHydrated = useSaveStore((state) => state.hasHydrated);
-  const setPhase = useSaveStore((state) => state.setPhase);
   const applyAuthoritativeFranchiseState = useSaveStore(
     (state) => state.applyAuthoritativeFranchiseState,
   );
@@ -217,8 +216,7 @@ export default function ExperiencePage() {
         !persistedState?.simulation
       ) {
         resolvedPhase = 'week-1';
-        await setPhase(resolvedPhase);
-        void apiFetch('/api/front-office/state', {
+        await apiFetch('/api/front-office/state', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -229,6 +227,20 @@ export default function ExperiencePage() {
             simulationPhase: resolvedPhase,
           }),
         }).catch(() => undefined);
+        const initializeResponse = await apiFetch('/api/front-office/simulate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ saveId, action: 'initialize', target: resolvedPhase }),
+        }).catch(() => null);
+        if (initializeResponse?.ok) {
+          const initialized = (await initializeResponse.json()) as {
+            state?: FranchiseSimulationState;
+          };
+          if (initialized.state) {
+            persistedState = { ...persistedState, simulation: initialized.state };
+            applyAuthoritativeFranchiseState(initialized.state);
+          }
+        }
       }
 
       const inferredPath = inferFrontOfficePath({
@@ -278,7 +290,6 @@ export default function ExperiencePage() {
     router,
     saveId,
     setFullExperience,
-    setPhase,
     teamAbbr,
   ]);
 
@@ -320,8 +331,7 @@ export default function ExperiencePage() {
       initialPhase = 'draft';
     }
 
-    localStorage.setItem(`dnd-front-office-path:${actionableSaveId}`, selectedMode);
-    await apiFetch('/api/front-office/state', {
+    const metadataResponse = await apiFetch('/api/front-office/state', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -331,31 +341,38 @@ export default function ExperiencePage() {
         selectedPath: selectedMode,
         simulationPhase: initialPhase,
       }),
-    }).catch(() => undefined);
+    }).catch(() => null);
+    if (!metadataResponse?.ok) return;
+    const simulationResponse = await apiFetch('/api/front-office/simulate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        saveId: actionableSaveId,
+        action: 'initialize',
+        target: initialPhase,
+      }),
+    });
+    const simulationPayload = (await simulationResponse.json().catch(() => null)) as {
+      state?: FranchiseSimulationState;
+    } | null;
+    if (!simulationResponse.ok || !simulationPayload?.state) return;
+    applyAuthoritativeFranchiseState(simulationPayload.state);
+    localStorage.setItem(`dnd-front-office-path:${actionableSaveId}`, selectedMode);
     setSavedPath(selectedMode);
 
     if (selectedMode === 'full') {
       setFullExperience();
-      if (phase !== initialPhase) {
-        await setPhase(initialPhase);
-      }
-      router.push('/manage-team');
+      router.replace('/experience');
       return;
     }
 
     if (selectedMode === 'free_agency') {
       enterSandboxStep('free-agency');
-      if (phase !== 'free_agency') {
-        await setPhase('free_agency');
-      }
       router.push('/free-agents');
       return;
     }
 
     enterSandboxStep('draft');
-    if (phase !== 'draft') {
-      await setPhase('draft');
-    }
     router.push('/draft/room?mode=mock');
   };
 

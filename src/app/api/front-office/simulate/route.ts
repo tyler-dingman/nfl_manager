@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { advanceSimulation, createFranchiseSimulation } from '@/lib/franchise-simulation';
+import {
+  advanceSimulation,
+  createFranchiseSimulation,
+  startFranchiseAtWeekOne,
+} from '@/lib/franchise-simulation';
 import { authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
@@ -39,6 +43,7 @@ async function initializeSimulation(input: {
   userId: string;
   saveId: string;
   userTeamOverall?: number;
+  initialPhase?: string;
 }) {
   const metadata = await getFrontOfficeSaveMetadata(input.userId, input.saveId);
   if (!metadata) return null;
@@ -50,7 +55,7 @@ async function initializeSimulation(input: {
       metadata.season,
     );
   }
-  const simulation = createFranchiseSimulation({
+  let simulation = createFranchiseSimulation({
     seed: `${input.userId}:${input.saveId}:${metadata.season}`,
     season: metadata.season,
     teams: NFL_LEAGUE_DATA.teams.map((team) => ({
@@ -69,6 +74,11 @@ async function initializeSimulation(input: {
       awayTeam: normalizeScheduleTeam(game.awayTeam!),
     })),
   });
+  if (input.initialPhase === 'week-1') {
+    simulation = startFranchiseAtWeekOne(simulation);
+  } else if (input.initialPhase) {
+    simulation.phase = input.initialPhase;
+  }
   return saveFranchiseSimulation({
     userId: input.userId,
     saveId: input.saveId,
@@ -95,6 +105,7 @@ export async function POST(request: NextRequest) {
       userId: user.id,
       saveId: input.saveId,
       userTeamOverall: input.userTeamOverall,
+      initialPhase: input.action === 'initialize' ? input.target : undefined,
     });
     if (!metadata) return NextResponse.json({ error: 'Save not found.' }, { status: 404 });
     if (input.action === 'initialize') {

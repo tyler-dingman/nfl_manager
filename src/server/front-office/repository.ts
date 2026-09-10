@@ -43,6 +43,18 @@ export async function getFrontOfficeSaveMetadata(userId: string, saveId: string)
   return rows[0] ? mapRow(rows[0]) : null;
 }
 
+export async function getLatestFrontOfficeSaveForTeam(userId: string, teamAbbr: string) {
+  const rows = await authDb()<FrontOfficeSaveRow[]>`
+    SELECT save_id AS "saveId", team_abbr AS "teamAbbr", season,
+      selected_path AS "selectedPath", simulation_phase AS "simulationPhase",
+      initialized_at AS "initializedAt", simulation_state AS simulation, version
+    FROM user_front_office_saves
+    WHERE user_id = ${userId} AND team_abbr = ${teamAbbr.toUpperCase()}
+    ORDER BY updated_at DESC
+    LIMIT 1`;
+  return rows[0] ? mapRow(rows[0]) : null;
+}
+
 export async function upsertFrontOfficeSaveMetadata(input: {
   userId: string;
   saveId: string;

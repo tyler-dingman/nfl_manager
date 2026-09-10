@@ -3,6 +3,8 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const page = readFileSync('src/app/experience/page.tsx', 'utf8');
+const teamSelect = readFileSync('src/components/team-select-screen.tsx', 'utf8');
+const createRoute = readFileSync('src/app/api/saves/create/route.ts', 'utf8');
 const migration = readFileSync('db/migrations/031_front_office_save_state.sql', 'utf8');
 
 test('path onboarding is save-scoped, persisted, and hidden after selection', () => {
@@ -22,4 +24,18 @@ test('new Full Experience starts at Week 1 and repairs only uninitialized legacy
   assert.match(page, /resolvedPhase === 'resign_cut'/);
   assert.match(page, /!persistedState\?\.simulation/);
   assert.match(page, /simulationPhase: initialPhase/);
+  assert.match(page, /action: 'initialize'/);
+  assert.match(page, /target: initialPhase/);
+  assert.match(page, /router\.replace\('\/experience'\)/);
+  assert.doesNotMatch(page, /router\.(?:push|replace)\('\/manage-team'\)/);
+});
+
+test('returning to the same team resumes its durable save without clearing progress', () => {
+  assert.match(teamSelect, /activeSaveId && activeSaveTeam === team\.abbr/);
+  assert.match(
+    teamSelect,
+    /activeSaveId && activeSaveTeam === team\.abbr[\s\S]*?router\.push\([\s\S]*?return;/,
+  );
+  assert.match(createRoute, /getLatestFrontOfficeSaveForTeam/);
+  assert.match(createRoute, /ensureSaveState\(durable\.saveId, durable\.teamAbbr\)/);
 });

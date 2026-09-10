@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none">
+  <rect x="62" y="52" width="38" height="110" rx="3" fill="currentColor"/>
+  <path d="M1235 205h145v173h173v145h-173v173h-145V523h-173V378h173V205Z"
+        stroke="currentColor" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M680 592H995L1030 592L1064 548L1097 610L1138 452L1180 652L1216 542L1246 592H1535"
+        stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M92 742C330 710 540 704 800 674"
+        stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+</svg>
