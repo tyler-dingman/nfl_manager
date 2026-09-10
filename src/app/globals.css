@@ -697,7 +697,11 @@ body {
     --fo-line: color-mix(in srgb, var(--fo-navy) 12%, transparent);
     --fo-shadow: 0 10px 30px rgba(0, 23, 43, 0.07);
     color: #00172b;
-    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    font-family:
+      ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+      'Segoe UI Symbol', 'Noto Color Emoji';
+    font-feature-settings: normal;
+    font-variation-settings: normal;
     letter-spacing: -0.008em;
     font-size: 16px;
     line-height: 1.55;
@@ -722,6 +726,7 @@ body {
   .front-office-app input,
   .front-office-app select,
   .front-office-app textarea {
+    font-family: inherit;
     font-size: 0.9375rem;
   }
 
@@ -739,6 +744,7 @@ body {
 
   .front-office-app button,
   .front-office-app [role='button'] {
+    font-family: inherit;
     font-weight: 800;
   }
 
@@ -1357,7 +1363,7 @@ body {
 }
 .fo-team-metrics dd {
   color: #071329;
-  font-family: var(--font-display), 'Arial Narrow', sans-serif;
+  font-family: inherit;
   font-size: 1.2rem;
   font-weight: 900;
 }
@@ -1443,7 +1449,7 @@ body {
 }
 .fo-section-card-heading h2 {
   color: #0b1f35;
-  font-family: var(--font-heading), sans-serif;
+  font-family: inherit;
   font-size: 0.84rem;
   font-weight: 800;
   letter-spacing: 0.09em;

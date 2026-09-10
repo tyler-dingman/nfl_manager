@@ -50,6 +50,11 @@ export async function processCandidate(candidateId: string, synthesizer?: StoryS
   if (!candidate || candidate.status !== 'NEW') return { action: 'ignored' };
   const source = await repo.sourceById(candidate.sourceId);
   if (!source) throw new Error(`Unknown source ${candidate.sourceId}`);
+  if (source.sourceType === 'YOUTUBE' || source.metadata.platform === 'YOUTUBE') {
+    // Keep the candidate available to Film Room. Completing the processing job without
+    // creating or updating a canonical story isolates video ingestion from The Beat.
+    return { action: 'film-room-only' };
+  }
   if (!candidate.title || (!candidate.candidateTeams.length && !source.leagueWide)) {
     await repo.setCandidateStatus(candidateId, 'REJECTED', 'No usable title or team match.');
     return { action: 'rejected' };
@@ -180,7 +185,10 @@ export async function processSource(
       const id = await repo.saveCandidate(candidate);
       if (id) {
         inserted++;
-        await repo.enqueueJob('CANDIDATE_PROCESS', `candidate:${id}`, { candidateId: id });
+        const videoOnly = source.sourceType === 'YOUTUBE' || source.metadata.platform === 'YOUTUBE';
+        if (!videoOnly) {
+          await repo.enqueueJob('CANDIDATE_PROCESS', `candidate:${id}`, { candidateId: id });
+        }
       }
     }
     await repo.markSourceSuccess(

@@ -36,7 +36,10 @@ const storyRecord = (r: any): StoryRecord => ({
 export async function listPublicStories(teamId: string, limit = 30): Promise<StoryView[]> {
   const sql = authDb();
   const rows =
-    await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.team_id=${teamId} AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING' GROUP BY s.id ORDER BY s.importance_score DESC,s.last_meaningful_update_at DESC LIMIT ${limit}`;
+    await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.team_id=${teamId} AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING'
+      AND EXISTS (SELECT 1 FROM story_evidence beat_evidence JOIN content_sources beat_source ON beat_source.id=beat_evidence.source_id
+        WHERE beat_evidence.story_id=s.id AND beat_source.source_type<>'YOUTUBE' AND coalesce(beat_source.metadata->>'platform','')<>'YOUTUBE')
+      GROUP BY s.id ORDER BY s.importance_score DESC,s.last_meaningful_update_at DESC,s.id DESC LIMIT ${limit}`;
   const published = rows.filter((r: any) =>
     isStoryPublishable({ ...storyRecord(r), sourceCount: r.source_count }),
   );
@@ -130,7 +133,9 @@ export async function listPublicStoryPage(teamId: string, options: PublicStoryPa
     : sql``;
   const where = sql`WHERE s.team_id=${teamId}
     AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING'
-    AND EXISTS (SELECT 1 FROM story_evidence evidence WHERE evidence.story_id=s.id)
+    AND EXISTS (SELECT 1 FROM story_evidence evidence JOIN content_sources beat_source ON beat_source.id=evidence.source_id
+      WHERE evidence.story_id=s.id AND beat_source.source_type<>'YOUTUBE'
+        AND coalesce(beat_source.metadata->>'platform','')<>'YOUTUBE')
     ${category} ${range} ${search}`;
   const countRows = await sql<{ total: number }[]>`
     SELECT count(*)::int AS total FROM canonical_stories s ${where}`;
@@ -194,7 +199,10 @@ export async function listPublicStoryPage(teamId: string, options: PublicStoryPa
 export async function getPublicStoryById(id: string): Promise<StoryView | null> {
   const sql = authDb();
   const [row] =
-    await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.id=${id} AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING' GROUP BY s.id`;
+    await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.id=${id} AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING'
+      AND EXISTS (SELECT 1 FROM story_evidence beat_evidence JOIN content_sources beat_source ON beat_source.id=beat_evidence.source_id
+        WHERE beat_evidence.story_id=s.id AND beat_source.source_type<>'YOUTUBE' AND coalesce(beat_source.metadata->>'platform','')<>'YOUTUBE')
+      GROUP BY s.id`;
   if (!row || !isStoryPublishable({ ...storyRecord(row), sourceCount: row.source_count }))
     return null;
   const evidence =
