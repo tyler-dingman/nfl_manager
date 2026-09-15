@@ -381,7 +381,7 @@ export default function FreeAgentsPage() {
     }
 
     await setPhase('draft');
-    router.push('/draft/room?mode=mock');
+    router.push('/front-office/draft/room?mode=mock');
   };
 
   const handleSkip = () => {

@@ -77,7 +77,7 @@ export default function MobileSiteMenu({
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
-        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-[var(--team-on-dark)] hover:bg-white/10 xl:hidden"
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-[var(--team-on-dark)] hover:bg-white/10 lg:hidden"
         aria-label="Open menu"
         aria-expanded={open}
         aria-controls="mobile-site-menu"
@@ -85,7 +85,7 @@ export default function MobileSiteMenu({
         <Menu className="h-5 w-5" />
       </button>
       {open ? (
-        <div className="fixed inset-0 z-[140] xl:hidden">
+        <div className="fixed inset-0 z-[140] lg:hidden">
           <button
             type="button"
             className="absolute inset-0 bg-black/55"

@@ -4,12 +4,10 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { ArrowRight, DraftingCompass, Handshake, Trophy } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
-import { FrontOfficeOverviewHero } from '@/components/front-office/front-office-overview-hero';
-import { AdSlot } from '@/components/ads/AdSlot';
+import { FrontOfficeHome } from '@/components/front-office/front-office-home';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useExperienceStore } from '@/features/experience/experience-store';
@@ -157,10 +155,6 @@ export default function ExperiencePage() {
   const [frontOfficeReady, setFrontOfficeReady] = useState(false);
 
   const isHydrated = hasHydrated && experienceHasHydrated;
-  const expiringContracts = roster.filter(
-    (player) => (player.contract?.yearsRemaining ?? player.contractYearsRemaining ?? 0) <= 1,
-  ).length;
-  const rosterCount = roster.filter((player) => player.status?.toLowerCase() !== 'cut').length;
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -274,7 +268,7 @@ export default function ExperiencePage() {
       if (resolvedPath === 'draft') enterSandboxStep('draft');
       setFrontOfficeReady(true);
       if (resolvedPath === 'free_agency') router.replace('/free-agents');
-      if (resolvedPath === 'draft') router.replace('/draft/room?mode=mock');
+      if (resolvedPath === 'draft') router.replace('/front-office/draft');
     };
     void load();
     return () => {
@@ -373,7 +367,7 @@ export default function ExperiencePage() {
     }
 
     enterSandboxStep('draft');
-    router.push('/draft/room?mode=mock');
+    router.push('/front-office/draft');
   };
 
   if (shouldShowFrontOfficeOnboarding(savedPath)) {
@@ -387,73 +381,8 @@ export default function ExperiencePage() {
   }
 
   return (
-    <AppShell>
-      <div className="-mx-4 -mt-6 mb-7 sm:-mt-8 md:-mx-8">
-        <FrontOfficeOverviewHero />
-      </div>
-      <div className="mx-auto w-full max-w-6xl pb-40 md:pb-0">
-        <div className="flex w-full flex-col gap-7">
-          <section className="grid gap-4 md:grid-cols-3" aria-label="Decisions on your desk">
-            <Link href="/roster?view=resign" className="front-office-decision-card">
-              <span className="front-office-decision-kicker">Contracts</span>
-              <strong>
-                {expiringContracts} expiring contract{expiringContracts === 1 ? '' : 's'}
-              </strong>
-              <p>Review upcoming free agents and choose who belongs in the plan.</p>
-              <span className="front-office-decision-action">
-                Review contracts <ArrowRight className="h-4 w-4" />
-              </span>
-            </Link>
-            <Link href="/cap-space" className="front-office-decision-card">
-              <span className="front-office-decision-kicker">Team finances</span>
-              <strong>${capSpace.toFixed(1)}M in cap room</strong>
-              <p>See commitments, positional spending, and the flexibility behind every move.</p>
-              <span className="front-office-decision-action">
-                Open cap table <ArrowRight className="h-4 w-4" />
-              </span>
-            </Link>
-            <Link href="/roster?view=depth" className="front-office-decision-card">
-              <span className="front-office-decision-kicker">Roster plan</span>
-              <strong>{rosterCount} active players</strong>
-              <p>Inspect the depth chart before targeting trades, signings, or the draft.</p>
-              <span className="front-office-decision-action">
-                Review depth <ArrowRight className="h-4 w-4" />
-              </span>
-            </Link>
-          </section>
-
-          <section className="front-office-building-feed">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[.25em] text-muted-foreground">
-                Around the building
-              </p>
-              <h2>Franchise briefing</h2>
-            </div>
-            <div className="front-office-building-items">
-              <p>
-                <strong>Personnel:</strong> Your current roster has {rosterCount} active players.
-              </p>
-              <p>
-                <strong>Finance:</strong>{' '}
-                {capSpace < 0
-                  ? 'The club must clear cap space before making additional commitments.'
-                  : `The club has $${capSpace.toFixed(1)}M available against the cap.`}
-              </p>
-              <p>
-                <strong>Next desk:</strong>{' '}
-                {phase === 'resign_cut'
-                  ? 'Resolve expiring contracts and roster cuts.'
-                  : phase === 'free_agency'
-                    ? 'Evaluate the active free-agent market.'
-                    : phase === 'draft'
-                      ? 'Prepare the draft board.'
-                      : 'Review the completed offseason.'}
-              </p>
-            </div>
-          </section>
-        </div>
-      </div>
-      <AdSlot placement="ANCHOR" responsive={{ hideOnDesktop: true }} />
+    <AppShell showLeagueWire={false}>
+      <FrontOfficeHome saveId={saveId} teamAbbr={teamAbbr} roster={roster} />
     </AppShell>
   );
 }

@@ -1,0 +1,52 @@
+{
+  "TRADE_RUMOR": {
+    "background": "grunge.svg",
+    "overlay": "trade-arrows.svg",
+    "accent": "team-primary"
+  },
+  "INJURY": {
+    "background": "field.svg",
+    "overlay": "injury-cross.svg",
+    "accent": "team-primary"
+  },
+  "GAME_RECAP": {
+    "background": "stadium.svg",
+    "overlay": "standings-bars.svg",
+    "accent": "team-primary"
+  },
+  "CONTRACT": {
+    "background": "locker-room.svg",
+    "overlay": "signature.svg",
+    "accent": "team-primary"
+  },
+  "SIGNING": {
+    "background": "tunnel.svg",
+    "overlay": "signed-stamp.svg",
+    "accent": "team-primary"
+  },
+  "PLAYER_PERFORMANCE": {
+    "background": "playbook.svg",
+    "overlay": "number-frame.svg",
+    "accent": "team-primary"
+  },
+  "DRAFT": {
+    "background": "tunnel.svg",
+    "overlay": "draft-frame.svg",
+    "accent": "team-primary"
+  },
+  "STANDINGS": {
+    "background": "stadium.svg",
+    "overlay": "standings-bars.svg",
+    "accent": "team-primary"
+  },
+  "COACH": {
+    "background": "locker-room.svg",
+    "overlay": "quote-mark.svg",
+    "accent": "team-primary"
+  },
+  "RUMOR": {
+    "background": "playbook.svg",
+    "overlay": "rumor-xo.svg",
+    "accent": "team-primary"
+  }
+}

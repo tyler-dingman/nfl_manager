@@ -2,6 +2,7 @@ export const PRIMARY_NAV_ITEMS = [
   { id: 'huddle', label: 'The Beat', href: '/the-beat' },
   { id: 'watch', label: 'Film Room', href: '/watch' },
   { id: 'front-office', label: 'Front Office', href: '/offseasonmanager' },
+  { id: 'parlay-lab', label: 'Parlay Lab', href: '/parlay-lab' },
   { id: 'trivia', label: 'Trivia', href: '/trivia' },
   { id: 'merch', label: 'Merch', href: '/merch' },
 ] as const;
@@ -36,6 +37,7 @@ export function getPrimaryNavActive(pathname: string | null): PrimaryNavItemId |
     return 'huddle';
   if (matchesPath(pathname, '/watch')) return 'watch';
   if (FRONT_OFFICE_PATHS.some((path) => matchesPath(pathname, path))) return 'front-office';
+  if (matchesPath(pathname, '/parlay-lab')) return 'parlay-lab';
   if (matchesPath(pathname, '/trivia')) return 'trivia';
   if (matchesPath(pathname, '/merch')) return 'merch';
   return null;

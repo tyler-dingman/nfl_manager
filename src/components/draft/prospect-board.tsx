@@ -1,23 +1,30 @@
 'use client';
 
-import Image from 'next/image';
 import { Search, Star, X } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useSaveStore } from '@/features/save/save-store';
+import { apiFetch } from '@/lib/api';
 import { computeTeamNeeds } from '@/lib/team-overview';
 import type { DraftProspectRecord } from '@/server/data/draft-prospects';
 import { DRAFT_PROSPECTS_2027_META } from '@/server/data/draft-prospects';
 
 const positionGroup = (position: string | null) => position?.toUpperCase() || 'OTHER';
 
-export function ProspectBoard({ prospects }: { prospects: DraftProspectRecord[] }) {
+export function ProspectBoard({
+  prospects,
+  title = 'Big Board',
+}: {
+  prospects: DraftProspectRecord[];
+  title?: string;
+}) {
   const roster = useSaveStore((state) => state.roster);
+  const saveId = useSaveStore((state) => state.saveId);
   const [query, setQuery] = useState('');
   const [position, setPosition] = useState('ALL');
   const [watched, setWatched] = useState<string[]>([]);
   const [active, setActive] = useState<DraftProspectRecord | null>(null);
-  const [failedImages, setFailedImages] = useState<string[]>([]);
+  const [rankedProspects, setRankedProspects] = useState<DraftProspectRecord[]>(prospects);
   const needs = useMemo(() => computeTeamNeeds(roster), [roster]);
   const positions = useMemo(
     () => [...new Set(prospects.map((prospect) => positionGroup(prospect.position)))].sort(),
@@ -26,22 +33,57 @@ export function ProspectBoard({ prospects }: { prospects: DraftProspectRecord[] 
 
   useEffect(() => {
     try {
-      setWatched(JSON.parse(localStorage.getItem('dd-2027-draft-watchlist') || '[]'));
+      setWatched(JSON.parse(localStorage.getItem(`dd-draft-big-board:${saveId}`) || '[]'));
     } catch {
       setWatched([]);
     }
-  }, []);
+  }, [saveId]);
+
+  useEffect(() => {
+    if (!saveId) {
+      setRankedProspects(prospects);
+      return;
+    }
+    let activeRequest = true;
+    const loadRankings = async () => {
+      try {
+        const response = await apiFetch(
+          `/api/front-office/draft-central?saveId=${encodeURIComponent(saveId)}`,
+        );
+        const payload = await response.json();
+        if (!response.ok || !Array.isArray(payload.prospects)) return;
+        if (activeRequest) {
+          setRankedProspects(
+            payload.prospects.map(
+              (prospect: DraftProspectRecord & { currentRank?: number }) => ({
+                ...prospect,
+                ranking: prospect.currentRank ?? prospect.ranking,
+              }),
+            ),
+          );
+        }
+      } catch {
+        // Keep the source rankings as a fallback if weekly intelligence is unavailable.
+      }
+    };
+    void loadRankings();
+    window.addEventListener('front-office-simulation-advanced', loadRankings);
+    return () => {
+      activeRequest = false;
+      window.removeEventListener('front-office-simulation-advanced', loadRankings);
+    };
+  }, [prospects, saveId]);
 
   const toggleWatch = (id: string) => {
     setWatched((current) => {
       const next = current.includes(id)
         ? current.filter((entry) => entry !== id)
         : [...current, id];
-      localStorage.setItem('dd-2027-draft-watchlist', JSON.stringify(next));
+      localStorage.setItem(`dd-draft-big-board:${saveId}`, JSON.stringify(next));
       return next;
     });
   };
-  const visible = prospects.filter((prospect) => {
+  const visible = rankedProspects.filter((prospect) => {
     const haystack = `${prospect.name} ${prospect.school} ${prospect.position}`.toLowerCase();
     return (
       (position === 'ALL' || positionGroup(prospect.position) === position) &&
@@ -54,9 +96,9 @@ export function ProspectBoard({ prospects }: { prospects: DraftProspectRecord[] 
       <header className="fo-page-header">
         <div className="fo-page-heading">
           <p className="fo-title-eyebrow text-[var(--team-primary-text)]">2027 NFL Draft</p>
-          <h1 className="dd-home-hero-display">Draft Board</h1>
+          <h1 className="dd-home-hero-display">{title}</h1>
           <p className="fo-description">
-            {prospects.length} prospects ranked by Tankathon · Updated{' '}
+            {rankedProspects.length} prospects ranked by weekly draft intelligence · Updated{' '}
             {new Date(DRAFT_PROSPECTS_2027_META.sourceUpdatedAt).toLocaleDateString()}
           </p>
         </div>
@@ -99,27 +141,11 @@ export function ProspectBoard({ prospects }: { prospects: DraftProspectRecord[] 
                 onClick={() => setActive(prospect)}
               >
                 <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-100 font-black text-slate-500">
-                  {prospect.headshotUrl && !failedImages.includes(prospect.id) ? (
-                    <Image
-                      src={prospect.headshotUrl}
-                      alt=""
-                      width={48}
-                      height={48}
-                      className="h-full w-full object-cover"
-                      unoptimized
-                      onError={() =>
-                        setFailedImages((current) =>
-                          current.includes(prospect.id) ? current : [...current, prospect.id],
-                        )
-                      }
-                    />
-                  ) : (
-                    prospect.name
-                      .split(/\s+/)
-                      .slice(0, 2)
-                      .map((part) => part[0])
-                      .join('')
-                  )}
+                  {prospect.name
+                    .split(/\s+/)
+                    .slice(0, 2)
+                    .map((part) => part[0])
+                    .join('')}
                 </span>
                 <span className="min-w-0">
                   <strong className="block truncate">{prospect.name}</strong>

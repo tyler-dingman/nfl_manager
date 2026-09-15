@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { currentUser } from '@/server/auth/request';
 import { authError } from '@/server/auth/http';
 import {
+  getFrontOfficeEvent,
   resolveFrontOfficeEventsForPlayer,
   updateFrontOfficeEvent,
 } from '@/server/front-office/events-repository';
@@ -10,6 +11,16 @@ import {
   getFrontOfficeSaveMetadata,
   saveFranchiseSimulation,
 } from '@/server/front-office/repository';
+
+export async function GET(request: NextRequest, context: { params: Promise<{ eventId: string }> }) {
+  const user = await currentUser(request);
+  if (!user) return authError('Unauthorized.', 401);
+  const { eventId } = await context.params;
+  const event = await getFrontOfficeEvent(user.id, eventId);
+  return event
+    ? NextResponse.json({ ok: true, event })
+    : NextResponse.json({ error: 'Story not found.' }, { status: 404 });
+}
 
 const schema = z.object({
   action: z.enum(['read', 'dismiss', 'resolve']),

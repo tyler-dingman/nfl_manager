@@ -1,0 +1,42 @@
+name: Content and video ingestion
+
+on:
+  schedule:
+    # Source-specific intervals determine which sources are due each run.
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      group:
+        description: Pipeline to run
+        type: choice
+        options: [both, standard, video]
+        default: both
+
+concurrency:
+  group: content-ingestion
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [standard, video]
+    steps:
+      - name: Run ${{ matrix.group }} ingestion
+        if: github.event_name == 'schedule' || inputs.group == 'both' || inputs.group == matrix.group
+        env:
+          BASE_URL: ${{ secrets.CONTENT_AUTOMATION_BASE_URL }}
+          AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}
+          GROUP: ${{ matrix.group }}
+        run: |
+          set -euo pipefail
+          test -n "$BASE_URL"
+          test -n "$AUTOMATION_SECRET"
+          response=$(curl --fail-with-body --retry 2 --retry-all-errors --request POST \
+            --header "Authorization: Bearer $AUTOMATION_SECRET" \
+            "$BASE_URL/api/automation/content/global?group=$GROUP")
+          echo "$response"
+          echo "$response" | jq -e '.ok == true and (.skipped != true)' >/dev/null
+

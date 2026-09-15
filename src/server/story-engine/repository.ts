@@ -87,7 +87,11 @@ export async function enqueueJob(
     await authDb()`INSERT INTO ingestion_jobs(id,job_type,idempotency_key,payload) VALUES(${randomUUID()},${type},${key},${authDb().json(payload as any)}) ON CONFLICT(idempotency_key) DO NOTHING RETURNING id`;
   return Boolean(rows.length);
 }
-export async function claimJob(workerId: string, teamId?: string) {
+export async function claimJob(
+  workerId: string,
+  teamId?: string,
+  group?: 'standard' | 'video',
+) {
   return authDb().begin(async (sql) => {
     const [job] = await sql`SELECT job.* FROM ingestion_jobs job
         WHERE job.status IN ('PENDING','FAILED')
@@ -103,6 +107,24 @@ export async function claimJob(workerId: string, teamId?: string) {
               SELECT 1 FROM content_candidates candidate
               WHERE candidate.id=(job.payload->>'candidateId')::uuid
                 AND candidate.candidate_teams @> ${sql.json(teamId ? [teamId] : [])}
+            )))
+          AND (${group ?? null}::text IS NULL OR
+            (job.job_type='SOURCE_FETCH' AND EXISTS (
+              SELECT 1 FROM content_sources source
+              WHERE source.id=job.payload->>'sourceId'
+                AND CASE WHEN ${group ?? null}='video'
+                  THEN (source.source_type='YOUTUBE' OR source.metadata->>'platform'='YOUTUBE')
+                  ELSE NOT (source.source_type='YOUTUBE' OR source.metadata->>'platform'='YOUTUBE')
+                END
+            )) OR
+            (job.job_type='CANDIDATE_PROCESS' AND EXISTS (
+              SELECT 1 FROM content_candidates candidate
+              JOIN content_sources source ON source.id=candidate.source_id
+              WHERE candidate.id=(job.payload->>'candidateId')::uuid
+                AND CASE WHEN ${group ?? null}='video'
+                  THEN (source.source_type='YOUTUBE' OR source.metadata->>'platform'='YOUTUBE')
+                  ELSE NOT (source.source_type='YOUTUBE' OR source.metadata->>'platform'='YOUTUBE')
+                END
             )))
         ORDER BY
           CASE WHEN job.job_type='SOURCE_FETCH' THEN 0 ELSE 1 END,

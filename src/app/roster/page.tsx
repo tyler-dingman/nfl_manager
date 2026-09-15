@@ -989,7 +989,11 @@ function RosterPageContent() {
         tools={[
           { label: 'Re-sign Players', href: '/roster?view=resign', icon: Handshake },
           { label: 'Add Free Agent', href: '/free-agents', icon: UserPlus },
-          { label: 'Trade Finder', href: '/manage/trades', icon: ArrowLeftRight },
+          {
+            label: 'Trade Finder',
+            href: '/front-office/trade-hub/finder',
+            icon: ArrowLeftRight,
+          },
           { label: 'Cut Players', href: '/roster?view=roster', icon: Scissors },
           { label: 'Manage Practice Squad', icon: Users, disabled: true },
         ]}
@@ -1050,7 +1054,7 @@ function RosterPageContent() {
                 type="button"
                 className="h-8 w-full rounded-full px-2.5 text-xs font-semibold sm:w-auto"
                 style={{ backgroundColor: selectedTeam?.color_primary }}
-                onClick={() => router.push('/manage/trades')}
+                onClick={() => router.push('/front-office/trade-hub/new')}
               >
                 Propose Trade
               </Button>

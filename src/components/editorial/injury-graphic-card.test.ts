@@ -140,7 +140,7 @@ test('The Beat inserts Trade Talk without replacing canonical story metadata and
   assert.match(source, /ShareToCrewButton/);
 });
 
-test('rookie blueprint mirrors Injury geometry without the badge or underline', async () => {
+test('rookie watch mirrors Injury geometry without the badge or underline', async () => {
   const [component, shared, css] = await Promise.all([
     readFile('src/components/editorial/rookie-blueprint-graphic-card.tsx', 'utf8'),
     readFile('src/components/editorial/content-graphic-card.tsx', 'utf8'),
@@ -149,7 +149,7 @@ test('rookie blueprint mirrors Injury geometry without the badge or underline', 
   assert.match(component, /template="rookie-blueprint"/);
   assert.match(component, /eyebrow = 'DRAFT'/);
   assert.match(component, /primaryText = 'ROOKIE'/);
-  assert.match(component, /accentText = 'BLUEPRINT'/);
+  assert.match(component, /accentText = 'WATCH'/);
   assert.match(shared, /rookieBlueprint[\s\S]*styles\.bar/);
   assert.match(css, /down-distance-rookie-blueprint-card-pack\/shared\/background-neutral\.webp/);
   assert.doesNotMatch(`${shared}${css}`, /rookie\/draft-badge\.svg|styles\.rookieBadge/);
@@ -160,7 +160,7 @@ test('rookie blueprint mirrors Injury geometry without the badge or underline', 
   assert.doesNotMatch(`${component}${shared}`, /nfl|logo_url|headshot|player.*image/i);
 });
 
-test('rookie blueprint uses the unchanged canonical proof-team accent resolver', () => {
+test('rookie watch uses the unchanged canonical proof-team accent resolver', () => {
   const expectedRoute = (team: string) =>
     new Set(['BAL', 'CAR']).has(team)
       ? getHeroPalette(team).primaryRoute

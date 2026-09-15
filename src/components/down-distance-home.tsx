@@ -9,7 +9,6 @@ import {
   Clock3,
   Flame,
   MessageCircle,
-  Play,
   Radio,
   Search,
   Shield,
@@ -42,6 +41,7 @@ import { gameDayHeroAsset } from '@/config/game-day-hero';
 import type { HomepageGame } from '@/features/game-day/homepage-game';
 import NotificationCenter from '@/components/notifications/notification-center';
 import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';
+import ThreeOutDeliveryPreferences from '@/components/three-and-out/three-out-delivery-preferences';
 
 const fallbackWireItems = [
   { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },
@@ -544,11 +544,7 @@ export default function DownDistanceHome() {
               </div>
             </div>
             <aside className="space-y-6 lg:sticky lg:top-[calc(var(--site-header-height)+1.5rem)] lg:self-start">
-              <Link
-                href={`/catch-up?team=${encodeURIComponent(teamAbbr)}&autoplay=1`}
-                className="group block overflow-hidden rounded-2xl border border-[#00172B]/10 bg-white text-[#00172B] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                aria-label={`Open the ${teamName} Three and Out audio rundown`}
-              >
+              <div className="block overflow-hidden rounded-2xl border border-[#00172B]/10 bg-white text-[#00172B] shadow-sm">
                 <div className="relative overflow-hidden bg-[#00172B] px-6 py-6 text-white">
                   <div
                     aria-hidden="true"
@@ -581,18 +577,9 @@ export default function DownDistanceHome() {
                       </li>
                     ))}
                   </ol>
-                  <div className="team-primary-filled mt-5 flex min-h-12 w-full items-center justify-between rounded-xl px-4 text-sm font-black uppercase tracking-[0.04em]">
-                    <span className="flex items-center gap-2">
-                      <Play className="h-4 w-4 fill-current" aria-hidden="true" /> Play Three &amp;
-                      Out
-                    </span>
-                    <ArrowRight
-                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                      aria-hidden="true"
-                    />
-                  </div>
+                  <ThreeOutDeliveryPreferences />
                 </div>
-              </Link>
+              </div>
               <section
                 id="wire"
                 className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"

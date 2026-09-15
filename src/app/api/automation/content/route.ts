@@ -106,20 +106,14 @@ export async function POST(request: NextRequest) {
     await syncMonitoringRegistry(teamId);
   } catch (error) {
     console.error('[content-automation] source registry sync failed', error);
-    return NextResponse.json(
-      { ok: false, error: 'source-registry-sync-failed' },
-      { status: 500 },
-    );
+    return NextResponse.json({ ok: false, error: 'source-registry-sync-failed' }, { status: 500 });
   }
   let scheduled;
   try {
     scheduled = await scheduleDueSources(new Date(), teamId, group);
   } catch (error) {
     console.error('[content-automation] source scheduling failed', error);
-    return NextResponse.json(
-      { ok: false, error: 'source-scheduling-failed' },
-      { status: 500 },
-    );
+    return NextResponse.json({ ok: false, error: 'source-scheduling-failed' }, { status: 500 });
   }
   // A single unavailable publisher must not prevent the remaining registered
   // sources from being checked during this scheduled batch. Drain previously
@@ -131,14 +125,13 @@ export async function POST(request: NextRequest) {
     new GroundedDeterministicStorySynthesizer(),
     new Date(Date.now() - 24 * 60 * 60 * 1000),
     remaining,
+    group,
   );
   const generated = jobs.filter((job) =>
     ['created', 'updated', 'published'].includes(String((job as any).result?.action)),
   ).length;
   const failedJobReasons = [
-    ...new Set(
-      jobs.filter((job) => job.type === 'error').map((job) => safeJobFailure(job.error)),
-    ),
+    ...new Set(jobs.filter((job) => job.type === 'error').map((job) => safeJobFailure(job.error))),
   ];
   if (scheduled.queued === 0 && jobs.length === 0) {
     await recordTrialRun({

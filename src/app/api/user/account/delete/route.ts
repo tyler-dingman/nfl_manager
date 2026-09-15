@@ -10,7 +10,11 @@ export async function POST(request: NextRequest) {
   try {
     assertSameOrigin(request);
     const body = (await request.json()) as { confirmation?: string };
-    if (body.confirmation !== 'DELETE') return NextResponse.json({ error: 'Type DELETE to confirm account deletion.' }, { status: 400 });
+    if (body.confirmation !== 'DELETE')
+      return NextResponse.json(
+        { error: 'Type DELETE to confirm account deletion.' },
+        { status: 400 },
+      );
     await deleteUserAccount(user.id);
     const response = NextResponse.json({ ok: true });
     clearSessionCookie(response);

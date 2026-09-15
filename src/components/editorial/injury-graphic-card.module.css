@@ -237,7 +237,7 @@
 }
 
 .rookieCopy .headline {
-  font-size: clamp(1.7rem, 9.3cqw, 4.65rem);
+  font-size: clamp(1.8rem, 10cqw, 5rem);
 }
 
 .contractCopy .headline {

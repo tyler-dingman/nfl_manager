@@ -79,7 +79,6 @@ const asStory = (story: any, rank: number): ThreeAndOutStory => ({
   sourceCount: story.sources.length,
   sources: sources(story),
   videoStatus: 'NONE',
-  audioStatus: 'DISABLED',
   category: story.storyType,
   imageUrl: story.imageUrl ?? null,
   destinationUrl: story.sources[0]?.url ?? `/the-beat?team=${story.teamId}`,
@@ -129,11 +128,6 @@ const rowPackage = (
         options: [],
         associatedStoryIds: [],
       },
-      audioStatus: 'DISABLED',
-      audioUrl: null,
-      audioDuration: null,
-      audioGeneratedAt: null,
-      audioScriptVersion: row.summaryVersion,
       videoStatus: 'NONE',
       videoUrl: null,
       videoThumbnail: null,
@@ -222,14 +216,14 @@ export async function generateDailyThreeAndOut(
   const id = `daily:${teamId}:${briefingDate}`;
   await authDb()`INSERT INTO three_and_out_snapshots
     (id,team_id,story_ids,story_versions,generated_at,briefing_date,status,source_window_start,
-      source_window_end,published_at,items,summary_version,audio_status,updated_at)
+      source_window_end,published_at,items,summary_version,updated_at)
     VALUES(${id},${teamId},${authDb().json(selected.map((story) => story.id))},${authDb().json(selected.map(() => 1))},
       ${now},${briefingDate},'PUBLISHED',${windowStart},${now},${now},${authDb().json(selected)},
-      ${THREE_AND_OUT_SUMMARY_VERSION},'DISABLED',now())
+      ${THREE_AND_OUT_SUMMARY_VERSION},now())
     ON CONFLICT(id) DO UPDATE SET story_ids=excluded.story_ids, generated_at=excluded.generated_at,
       source_window_start=excluded.source_window_start,source_window_end=excluded.source_window_end,
       published_at=excluded.published_at,items=excluded.items,summary_version=excluded.summary_version,
-      audio_status='DISABLED',updated_at=now()`;
+      updated_at=now()`;
   console.info(
     JSON.stringify({
       metric: 'three_and_out_generated',
@@ -274,10 +268,15 @@ export async function deliverDueDailyThreeAndOut(now = new Date()) {
     JOIN users u ON u.id=pref.user_id
     JOIN user_profiles p ON p.user_id=u.id
     WHERE s.status='PUBLISHED' AND s.items IS NOT NULL AND s.briefing_date >= current_date - 1
-      AND NOT EXISTS (
+      AND EXISTS (
         SELECT 1 FROM user_notification_preferences np
         WHERE np.user_id=u.id AND np.category='THREE_AND_OUT_DAILY'
-          AND np.channel='PUSH' AND np.enabled=false
+          AND np.channel='IN_APP' AND np.enabled=true
+      )
+      AND EXISTS (
+        SELECT 1 FROM user_notification_preferences np
+        WHERE np.user_id=u.id AND np.category='THREE_AND_OUT_DAILY'
+          AND np.channel='PUSH' AND np.enabled=true
       )`;
   let sent = 0;
   let skipped = 0;

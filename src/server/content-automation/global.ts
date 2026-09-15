@@ -8,7 +8,7 @@ const positiveInteger = (value: string | undefined, fallback: number) => {
 
 export function globalAutomationConfig(env: Record<string, string | undefined> = process.env) {
   return {
-    enabled: env.CONTENT_AUTOMATION_GLOBAL_ENABLED === 'true',
+    enabled: env.CONTENT_AUTOMATION_GLOBAL_ENABLED !== 'false',
     maxGeneratedPerRun: positiveInteger(
       env.CONTENT_AUTOMATION_MAX_GENERATED_PER_RUN,
       DEFAULT_GLOBAL_GENERATION_LIMIT_PER_RUN,

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs><filter id="n"><feTurbulence baseFrequency=".45" numOctaves="5" seed="8"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues=".04 .25"/></feComponentTransfer></filter></defs>
+  <rect width="1600" height="900" fill="#101010"/>
+  <rect width="1600" height="900" filter="url(#n)" opacity=".8"/>
+  <g stroke="#fff" opacity=".06"><path d="M0 180h1600"/><path d="M0 430h1600"/><path d="M0 700h1600"/></g>
+</svg>

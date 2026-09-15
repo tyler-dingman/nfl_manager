@@ -1,0 +1,291 @@
+.page {
+  color: #071b30;
+  font-family: var(--font-sans), sans-serif;
+}
+.heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.2rem;
+}
+.heading nav {
+  display: flex;
+  gap: 0.45rem;
+  color: #69788b;
+  font-size: 0.78rem;
+}
+.heading nav a:hover {
+  color: #ed1535;
+}
+.heading h1 {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-headline), sans-serif;
+  font-size: 2.45rem;
+  font-weight: 950;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.heading p {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+}
+.filters {
+  display: flex;
+  gap: 1rem;
+}
+.filters label {
+  display: grid;
+  gap: 0.25rem;
+  color: #607086;
+  font-size: 0.72rem;
+}
+.filters select {
+  min-width: 10rem;
+  height: 2.5rem;
+  border: 1px solid #d9dee4;
+  border-radius: 0.35rem;
+  background: #fff;
+  padding: 0 0.7rem;
+  color: #071b30;
+  font-weight: 700;
+}
+.tabs {
+  display: flex;
+  gap: 0.2rem;
+  margin-bottom: 1rem;
+}
+.tabs button {
+  min-width: 6.8rem;
+  min-height: 2.55rem;
+  border-radius: 0.3rem;
+  background: #e9ebee;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.tabs button:hover {
+  background: #dfe3e8;
+}
+.tabs .activeTab {
+  background: #ed1535;
+  color: #fff;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(22rem, 0.95fr);
+  gap: 1rem;
+  align-items: start;
+}
+.conferences {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.singleConference {
+  grid-template-columns: minmax(0, 1fr);
+}
+.conferenceCard,
+.sideCard {
+  border: 1px solid #e3e5e8;
+  border-radius: 0.38rem;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(7, 27, 48, 0.045);
+  padding: 0.8rem;
+}
+.conferenceCard > h2,
+.sideCard h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.7rem;
+  font-family: var(--font-headline), sans-serif;
+  font-size: 1.35rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+.conferenceCard > h2 b {
+  display: grid;
+  width: 1.7rem;
+  height: 1.7rem;
+  place-items: center;
+  background: #102c5b;
+  color: #fff;
+  font-size: 1.2rem;
+  clip-path: polygon(10% 0, 90% 0, 100% 35%, 80% 50%, 100% 100%, 0 100%, 20% 50%, 0 35%);
+}
+.division {
+  overflow: hidden;
+  margin-top: 0.65rem;
+  border: 1px solid #edf0f2;
+  border-radius: 0.25rem;
+}
+.division header,
+.division > div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 1fr) repeat(3, 2.2rem) 3.4rem 2.8rem;
+  align-items: center;
+  min-height: 1.72rem;
+  padding: 0 0.45rem;
+  font-size: 0.68rem;
+}
+.division header {
+  background: #f0f2f4;
+  color: #607086;
+  font-size: 0.61rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.division header strong {
+  color: #071b30;
+  font-size: 0.66rem;
+  text-transform: none;
+}
+.division header span,
+.division > div > span:not(.teamName) {
+  text-align: center;
+}
+.division > div {
+  border-top: 1px solid #eef0f2;
+}
+.division .selectedTeam,
+.selectedSeed,
+.selectedResult {
+  background: #ffe9e9;
+  color: #a20d24;
+}
+.teamName {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.45rem;
+  overflow: hidden;
+  color: #071b30;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.teamMark {
+  display: inline-block;
+  width: 0.23rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+}
+.layout > aside {
+  display: grid;
+  gap: 1rem;
+}
+.sideCard > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.sideCard > header a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #ed1535;
+  font-size: 0.65rem;
+  font-weight: 850;
+}
+.sideCard > header svg {
+  width: 0.8rem;
+}
+.playoffColumns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+.playoffColumns > div + div {
+  border-left: 1px solid #edf0f2;
+  padding-left: 0.8rem;
+}
+.playoffColumns h3 {
+  margin: 0 0 0.35rem;
+  color: #153a76;
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+.playoffColumns > div > div {
+  display: grid;
+  grid-template-columns: 1rem 0.25rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 1.75rem;
+  padding: 0 0.25rem;
+  border-bottom: 1px solid #eef0f2;
+  font-size: 0.68rem;
+}
+.playoffColumns small {
+  color: #40516a;
+}
+.results > div {
+  display: grid;
+  grid-template-columns:
+    0.23rem minmax(4.5rem, 1fr) 1.5rem 0.23rem minmax(4.5rem, 1fr)
+    1.5rem 2.4rem;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2rem;
+  padding: 0 0.3rem;
+  border-bottom: 1px solid #eef0f2;
+  font-size: 0.67rem;
+}
+.results small {
+  color: #6b788b;
+  text-align: right;
+}
+.results > p {
+  margin: 0.6rem 0;
+  color: #6a788b;
+  font-size: 0.75rem;
+}
+.status {
+  min-height: 22rem;
+  display: grid;
+  place-items-items: center;
+  place-items: center;
+  color: #66768a;
+  font-weight: 700;
+}
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .layout > aside {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 800px) {
+  .heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .filters {
+    width: 100%;
+  }
+  .filters label {
+    flex: 1;
+  }
+  .filters select {
+    width: 100%;
+    min-width: 0;
+  }
+  .tabs {
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+  .tabs button {
+    min-width: max-content;
+  }
+  .conferences,
+  .layout > aside {
+    grid-template-columns: 1fr;
+  }
+  .division header,
+  .division > div {
+    grid-template-columns: minmax(6.5rem, 1fr) repeat(3, 1.8rem) 3rem 2.4rem;
+  }
+}

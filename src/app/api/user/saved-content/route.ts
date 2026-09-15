@@ -25,7 +25,10 @@ export async function POST(request: NextRequest) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   try {
-    return NextResponse.json({ ok: true, item: await saveContent(user.id, saveSchema.parse(await request.json())) }, { status: 201 });
+    return NextResponse.json(
+      { ok: true, item: await saveContent(user.id, saveSchema.parse(await request.json())) },
+      { status: 201 },
+    );
   } catch {
     return NextResponse.json({ error: 'Invalid saved content.' }, { status: 400 });
   }
@@ -36,7 +39,8 @@ export async function DELETE(request: NextRequest) {
   if (!user) return authError('Unauthorized.', 401);
   const type = contentType.safeParse(request.nextUrl.searchParams.get('contentType'));
   const id = request.nextUrl.searchParams.get('contentId');
-  if (!type.success || !id) return NextResponse.json({ error: 'contentType and contentId are required.' }, { status: 400 });
+  if (!type.success || !id)
+    return NextResponse.json({ error: 'contentType and contentId are required.' }, { status: 400 });
   await unsaveContent(user.id, type.data, id);
   return NextResponse.json({ ok: true });
 }

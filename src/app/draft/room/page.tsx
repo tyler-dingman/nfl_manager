@@ -860,7 +860,7 @@ function DraftRoomContent() {
         }
         tools={[
           { label: 'Advanced Search', icon: Search },
-          { label: 'My Big Board', href: '/draft/big-board', icon: Target },
+          { label: 'My Big Board', href: '/front-office/draft/big-board', icon: Target },
           { label: 'Trade Up / Down', icon: ArrowDownUp, disabled: phase !== 'draft' },
           { label: 'Draft Settings', icon: Settings, onClick: () => setShowSettings(true) },
         ]}

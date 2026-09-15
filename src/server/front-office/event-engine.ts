@@ -6,7 +6,7 @@ export const FRONT_OFFICE_EVENT_CONFIG = {
   maxEventsPerAdvancedWeek: 3,
   maxToastEventsPerAdvance: 1,
   tradeInterestChance: 0.2,
-  deadlineWeek: 8,
+  deadlineWeek: 9,
 } as const;
 
 const hash = (value: string) => {
@@ -59,13 +59,14 @@ export function generateFrontOfficeEvents(input: {
           type: 'deadline_alert',
           priority: 'urgent',
           headline: 'The trade deadline is here',
-          summary: 'Pending offers expire after this week. Make your final roster moves now.',
+          summary:
+            'The deadline is Tuesday after Week 9 at 4:00 p.m. ET. Make your final roster moves now.',
           teamAbbr,
           relatedTeamAbbr: null,
           playerId: null,
           prospectId: null,
           tradeOfferId: null,
-          actionUrl: '/manage/trades',
+          actionUrl: '/front-office/trade-hub',
           metadata: { deadlineWeek: week },
         }),
       );
@@ -93,7 +94,7 @@ export function generateFrontOfficeEvents(input: {
           playerId: null,
           prospectId: null,
           tradeOfferId: null,
-          actionUrl: '/manage/trades',
+          actionUrl: '/front-office/trade-hub',
           metadata: { partnerTeamAbbr: partner },
         }),
       );
@@ -145,6 +146,49 @@ export function generateFrontOfficeEvents(input: {
   }
 
   const priorTransactions = new Set(previous.transactions.map((transaction) => transaction.id));
+
+  const previouslyPlayedGames = new Set(
+    previous.games.filter((game) => game.played).map((game) => game.id),
+  );
+  for (const game of current.games.filter(
+    (entry) => entry.played && !previouslyPlayedGames.has(entry.id),
+  )) {
+    const winner = game.winner;
+    const headline = winner
+      ? `${winner} defeats ${winner === game.homeTeam ? game.awayTeam : game.homeTeam} ${winner === game.homeTeam ? game.homeScore : game.awayScore}-${winner === game.homeTeam ? game.awayScore : game.homeScore}`
+      : `${game.awayTeam} and ${game.homeTeam} finish tied`;
+    generated.push(
+      makeEvent(current, saveId, game.week, {
+        dedupeKey: `game-result:${game.id}`,
+        type: 'breaking_news',
+        priority: [game.homeTeam, game.awayTeam].includes(teamAbbr) ? 'high' : 'normal',
+        headline,
+        summary:
+          game.result?.recapSummary[winner ?? game.homeTeam] ??
+          `${game.awayTeam} ${game.awayScore}, ${game.homeTeam} ${game.homeScore}. Final from Week ${game.week}.`,
+        teamAbbr: winner,
+        relatedTeamAbbr: winner === game.homeTeam ? game.awayTeam : game.homeTeam,
+        playerId: null,
+        prospectId: null,
+        tradeOfferId: null,
+        actionUrl: null,
+        metadata: {
+          newsCategory: 'GAME_RECAP',
+          sourceEventId: game.id,
+          homeTeam: game.homeTeam,
+          awayTeam: game.awayTeam,
+          homeScore: game.homeScore,
+          awayScore: game.awayScore,
+          status: 'FINAL',
+          importanceScore: [game.homeTeam, game.awayTeam].includes(teamAbbr) ? 88 : 62,
+          likes: hash(`${current.seed}:${game.id}:likes`) % 950,
+          replies: hash(`${current.seed}:${game.id}:replies`) % 180,
+          reposts: hash(`${current.seed}:${game.id}:reposts`) % 320,
+        },
+      }),
+    );
+  }
+
   for (const transaction of current.transactions
     .filter((entry) => !priorTransactions.has(entry.id))
     .slice(-8)) {
@@ -190,7 +234,7 @@ export function generateFrontOfficeEvents(input: {
         playerId: null,
         prospectId: null,
         tradeOfferId: null,
-        actionUrl: '/draft/big-board',
+        actionUrl: '/front-office/draft/big-board',
         metadata: { draftOrder: current.draftOrder.slice(0, 10) },
       }),
     );

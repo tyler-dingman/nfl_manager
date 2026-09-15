@@ -86,6 +86,14 @@ export async function listFrontOfficeEvents(userId: string, saveId: string, unre
   return rows.map(mapEvent);
 }
 
+export async function getFrontOfficeEvent(userId: string, id: string) {
+  const rows = await authDb().unsafe<EventRow[]>(
+    `SELECT ${selectColumns} FROM front_office_events WHERE user_id = $1 AND id = $2 LIMIT 1`,
+    [userId, id],
+  );
+  return rows[0] ? mapEvent(rows[0]) : null;
+}
+
 export async function surfaceNextFrontOfficeEvent(userId: string, saveId: string) {
   const rows = await authDb().unsafe<EventRow[]>(
     `WITH candidate AS (

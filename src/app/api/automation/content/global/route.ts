@@ -82,14 +82,21 @@ export async function POST(request: NextRequest) {
   const registered = requestedTeam
     ? await syncMonitoringRegistry(requestedTeam)
     : await syncAllMonitoringRegistries();
-  const verifiedVideoSources = await syncVerifiedVideoSources(requestedTeam, forceRequested);
+  const verifiedVideoSources =
+    requestedGroup === 'standard'
+      ? { skipped: true, reason: 'standard-only run' }
+      : await syncVerifiedVideoSources(requestedTeam, forceRequested);
   const scheduled = requestedTeam
     ? await scheduleDueSources(
         new Date(),
         requestedTeam,
         requestedGroup as 'standard' | 'video' | undefined,
       )
-    : await scheduleDueSources(new Date());
+    : await scheduleDueSources(
+        new Date(),
+        undefined,
+        requestedGroup as 'standard' | 'video' | undefined,
+      );
   const jobs = await drainJobs(
     50,
     requestedTeam,
@@ -97,6 +104,7 @@ export async function POST(request: NextRequest) {
     new GroundedDeterministicStorySynthesizer(),
     new Date(Date.now() - 24 * 60 * 60 * 1000),
     remaining,
+    requestedGroup as 'standard' | 'video' | undefined,
   );
   const generated = jobs.filter((job) =>
     ['created', 'updated', 'published'].includes(String((job as any).result?.action)),

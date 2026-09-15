@@ -12,7 +12,7 @@ export function RookieBlueprintGraphicCard({
   teamAbbr,
   eyebrow = "DRAFT",
   primaryText = "ROOKIE",
-  accentText = "BLUEPRINT",
+  accentText = "WATCH",
   className = "",
 }: RookieBlueprintGraphicCardProps) {
   const root = "/assets/down-distance-rookie-blueprint-card-pack";

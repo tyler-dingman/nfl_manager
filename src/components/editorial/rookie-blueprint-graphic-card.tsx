@@ -4,7 +4,7 @@ export default function RookieBlueprintGraphicCard({
   teamAbbr,
   eyebrow = 'DRAFT',
   primaryText = 'ROOKIE',
-  accentText = 'BLUEPRINT',
+  accentText = 'WATCH',
   className,
 }: {
   teamAbbr: string;

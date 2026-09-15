@@ -99,6 +99,17 @@ export async function getNotificationPreferences(userId: string) {
     FROM user_notification_preferences WHERE user_id = ${userId} ORDER BY created_at DESC`;
 }
 
+export async function getDeliveryReadiness(userId: string) {
+  const rows = await authDb()<Array<{ hasVerifiedPhone: boolean; hasPushDevice: boolean }>>`
+    SELECT
+      EXISTS(SELECT 1 FROM user_phone_numbers WHERE user_id=${userId} AND is_verified=true AND removed_at IS NULL) AS "hasVerifiedPhone",
+      EXISTS(
+        SELECT 1 FROM user_push_tokens t JOIN user_devices d ON d.id=t.device_id
+        WHERE t.user_id=${userId} AND t.invalidated_at IS NULL AND d.disabled_at IS NULL
+      ) AS "hasPushDevice"`;
+  return rows[0] ?? { hasVerifiedPhone: false, hasPushDevice: false };
+}
+
 export async function updateNotificationPreferences(
   userId: string,
   input: {

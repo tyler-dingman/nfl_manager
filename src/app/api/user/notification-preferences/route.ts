@@ -3,7 +3,10 @@ import { z } from 'zod';
 
 import { authError, assertSameOrigin } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
-import { getNotificationPreferences, updateNotificationPreferences } from '@/server/notifications/repository';
+import {
+  getNotificationPreferences,
+  updateNotificationPreferences,
+} from '@/server/notifications/repository';
 
 const preferencesSchema = z.object({
   topicType: z.string().max(32).nullable().optional(),

@@ -20,7 +20,7 @@ export const OFFSEASON_STEPS: Array<{
   {
     id: 'draft',
     label: 'Draft',
-    route: '/draft/room?mode=mock',
+    route: '/front-office/draft/room?mode=mock',
   },
 ];
 

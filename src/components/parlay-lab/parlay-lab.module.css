@@ -1,0 +1,974 @@
+.shell {
+  min-height: 100vh;
+  background: #f6f8fa;
+  color: #071b30;
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.shell h1,
+.shell h2,
+.shell h3 {
+  font-family: inherit;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+}
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+  width: min(1440px, calc(100% - 56px));
+  margin: auto;
+  padding: 32px 0 70px;
+  align-items: start;
+}
+.content {
+  min-width: 0;
+}
+.pageHeader {
+  margin-bottom: 22px;
+}
+.pageHeader p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: #344a62;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.pageHeader p svg {
+  width: 17px;
+}
+.pageHeader h1 {
+  margin: 0;
+  font-size: 3.7rem;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+.pageHeader span {
+  display: block;
+  margin-top: 14px;
+  color: #52667a;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.matchupCard,
+.filters,
+.accordion,
+.slip,
+.status {
+  border: 1px solid #d9e1e8;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 8px 26px rgb(7 27 48/0.045);
+}
+.matchupCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.matchupCard > label {
+  display: grid;
+  gap: 8px;
+  min-width: min(410px, 48%);
+  color: #52667a;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.matchupCard select {
+  height: 46px;
+  padding: 0 38px 0 13px;
+  border: 1px solid #ccd6df;
+  border-radius: 8px;
+  background: #fff;
+  color: #071b30;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.matchup {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.matchup > div {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+}
+.teamBadge {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 42px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--badge-color) 12%, white);
+  border: 2px solid var(--badge-color);
+  color: var(--badge-color);
+  font-size: 0.78rem;
+  font-weight: 950;
+}
+.matchup time {
+  display: grid;
+  gap: 4px;
+  text-align: center;
+}
+.matchup time span {
+  color: #61758a;
+  font-size: 0.82rem;
+}
+.filters {
+  padding: 10px;
+  margin-bottom: 18px;
+}
+.filters > nav {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 7px;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.filters > nav::-webkit-scrollbar {
+  display: none;
+}
+.filters > nav.tabsFadeRight {
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 42px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 42px), transparent 100%);
+}
+.filters > nav.tabsFadeLeft {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 42px, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 42px, #000 100%);
+}
+.filters > nav.tabsFadeBoth {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 42px,
+    #000 calc(100% - 42px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 42px,
+    #000 calc(100% - 42px),
+    transparent 100%
+  );
+}
+.filters button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid #d5dde5;
+  border-radius: 8px;
+  background: #fff;
+  color: #42566b;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+.filters > nav button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  scroll-snap-align: start;
+}
+.filters button svg {
+  width: 15px;
+  height: 15px;
+}
+.filters .activeTab,
+.secondaryFilters .activeBook {
+  border-color: #071b30;
+  background: #071b30;
+  color: #fff;
+}
+.secondaryFilters {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e9ed;
+}
+.secondaryFilters > label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 250px;
+  padding: 0 10px;
+  border: 1px solid #d5dde5;
+  border-radius: 8px;
+}
+.secondaryFilters svg {
+  width: 15px;
+  color: #718397;
+}
+.secondaryFilters input {
+  width: 100%;
+  height: 36px;
+  border: 0;
+  outline: 0;
+  color: #071b30;
+  font: inherit;
+  font-size: 0.78rem;
+}
+.secondaryFilters > div {
+  display: flex;
+  gap: 6px;
+}
+.accordions {
+  display: grid;
+  gap: 12px;
+}
+.accordion {
+  overflow-x: auto;
+}
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 58px;
+  padding: 0 20px;
+  border: 0;
+  background: #fff;
+  color: #071b30;
+  font: inherit;
+  font-size: 1.125rem;
+  font-weight: 900;
+  cursor: pointer;
+  text-align: left;
+}
+.accordionHeader svg {
+  width: 18px;
+  color: #0964ba;
+}
+.accordionTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.accordionLabFind {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  border: 1px solid #2aa872;
+  border-radius: 50%;
+  background: #eaf8f1;
+  color: #137a4d;
+}
+.accordionHeader .accordionLabFind svg {
+  width: 14px;
+  height: 14px;
+  color: currentColor;
+}
+.marketTable {
+  border-top: 1px solid #e1e7ec;
+}
+.tableHeader,
+.marketRow {
+  display: grid;
+  grid-template-columns: minmax(250px, 1fr) 130px 130px 50px;
+  gap: 12px;
+  align-items: center;
+}
+.tableHeader {
+  min-height: 38px;
+  padding: 0 18px;
+  background: #f7f9fa;
+  color: #5f7388;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.marketRow {
+  min-height: 82px;
+  padding: 12px 18px;
+  border-top: 1px solid #e8ecef;
+}
+.marketRow:hover {
+  background: #fbfcfd;
+}
+.marketName {
+  display: grid;
+  gap: 3px;
+}
+.marketIdentity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.marketName strong {
+  font-size: 0.9rem;
+}
+.marketName span {
+  color: #42586e;
+  font-size: 0.8rem;
+}
+.marketName small {
+  color: #73869a;
+  font-size: 0.7rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+}
+.priceBox,
+.selectedPrice {
+  display: grid;
+  gap: 3px;
+  min-height: 54px;
+  padding: 6px;
+  border: 1px solid #d5dde5;
+  border-radius: 8px;
+  background: #f8fafb;
+  color: #071b30;
+  cursor: pointer;
+}
+.priceBox strong,
+.selectedPrice strong {
+  font-size: 0.84rem;
+}
+.priceBox small,
+.selectedPrice small {
+  color: #687c90;
+  font-size: 0.67rem;
+}
+.priceBox small,
+.selectedPrice small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.labFindIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #2aa872;
+  border-radius: 50%;
+  background: #eaf8f1;
+  color: #137a4d;
+}
+.labFindIcon svg {
+  width: 12px;
+  height: 12px;
+}
+.labCheckBackdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(4, 19, 35, 0.52);
+}
+.labCheck {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: min(720px, calc(100vh - 40px));
+  overflow: auto;
+  padding: 28px;
+  border: 1px solid #b9e4cf;
+  border-top: 5px solid #168553;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(4, 19, 35, 0.24);
+  color: #071b30;
+}
+.labCheck > p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  color: #137a4d;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.labCheck > p svg,
+.labFound svg {
+  width: 17px;
+}
+.labCheck h2 {
+  margin: 0;
+  font-size: 1.55rem;
+}
+.labCheckPlayer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.labCheck h3 {
+  margin: 5px 0 18px;
+  color: #52687e;
+  font-size: 1rem;
+}
+.labCheck h4 {
+  margin: 22px 0 10px;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.labCheckClose {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #6f8294;
+  cursor: pointer;
+}
+.labCheckClose svg {
+  width: 20px;
+}
+.labFound {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 9px;
+  border: 1px solid #b9e4cf;
+  background: #eaf8f1;
+  color: #116c45;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+}
+.labSignals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+.labSignals div {
+  display: grid;
+  gap: 2px;
+  padding: 12px;
+  border: 1px solid #cce9da;
+  border-radius: 9px;
+  background: #f6fcf9;
+}
+.labSignals b {
+  color: #137a4d;
+  font-size: 1rem;
+}
+.labSignals span {
+  color: #65798d;
+  font-size: 0.73rem;
+}
+.labConcern {
+  display: grid;
+  gap: 4px;
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 9px;
+  background: #f5f7f9;
+}
+.labConcern b {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+.labConcern span {
+  color: #52687e;
+  font-size: 0.8rem;
+}
+.labAdd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 20px;
+  border: 0;
+  border-radius: 9px;
+  background: #168553;
+  color: #fff;
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+.labAdd:hover {
+  background: #116c45;
+}
+.labAdd svg {
+  width: 18px;
+}
+.priceBox:disabled {
+  color: #9aa7b4;
+  cursor: not-allowed;
+}
+.selectedPrice {
+  border-color: #071b30;
+  background: #071b30;
+  color: #fff;
+}
+.selectedPrice small {
+  color: #d8e0e8;
+}
+.rowAdd,
+.rowAdded {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: #edf2f5;
+  color: #445a70;
+  cursor: pointer;
+}
+.rowAdd svg,
+.rowAdded svg {
+  width: 17px;
+}
+.rowAdded {
+  background: #071b30;
+  color: #fff;
+}
+.status {
+  padding: 50px 22px;
+  text-align: center;
+  color: #63778b;
+}
+.marketRow {
+  min-height: 72px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.marketName {
+  gap: 2px;
+}
+.priceBox,
+.selectedPrice {
+  min-height: 48px;
+  padding: 5px 6px;
+  gap: 2px;
+}
+.singleBook .tableHeader,
+.singleBook .marketRow {
+  grid-template-columns: minmax(250px, 1fr) 140px 50px;
+}
+.slip {
+  position: sticky;
+  top: calc(var(--site-header-height) + 16px);
+  max-height: calc(100vh - var(--site-header-height) - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.slipHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  padding: 0 17px;
+  border-bottom: 1px solid #e1e7ec;
+}
+.slipHeading h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.slipHeading h2 span {
+  display: inline-grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: #071b30;
+  color: #fff;
+  font-size: 0.67rem;
+}
+.slipHeading button {
+  display: flex;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: #0964ba;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.slipHeading button:disabled {
+  color: #9ba8b5;
+}
+.slipEmpty {
+  display: grid;
+  justify-items: center;
+  padding: 95px 24px;
+  text-align: center;
+}
+.slipEmpty > svg {
+  display: block;
+  width: 38px;
+  height: 38px;
+  padding: 9px;
+  border-radius: 50%;
+  background: #edf2f5;
+  color: #51677d;
+}
+.slipEmpty h2 {
+  margin: 12px 0 5px;
+  font-size: 1rem;
+}
+.slipEmpty p {
+  margin: 0;
+  color: #6b7f93;
+  font-size: 0.74rem;
+}
+.slipBody {
+  padding: 6px 16px 16px;
+}
+.selection {
+  display: grid;
+  grid-template-columns: 24px 30px 1fr 28px;
+  gap: 9px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid #e4e9ed;
+}
+.legNumber {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #edf2f5;
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+.selection > div {
+  display: grid;
+  gap: 5px;
+}
+.selection strong {
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+.selection small {
+  color: #65798d;
+  font-size: 0.64rem;
+}
+.selection .bestPrice {
+  margin-top: 4px;
+  color: #16824b;
+  font-weight: 800;
+}
+.selection button {
+  border: 0;
+  background: transparent;
+  color: #8796a5;
+  cursor: pointer;
+}
+.selection svg {
+  width: 16px;
+}
+.slipFooter {
+  display: grid;
+  gap: 10px;
+  padding-top: 16px;
+}
+.slipFooter > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 46px;
+  border: 0;
+  border-radius: 8px;
+  background: #071b30;
+  color: #fff;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+.slipFooter svg {
+  width: 16px;
+}
+.slipFooter p {
+  margin: 0;
+  color: #087a55;
+  font-size: 0.72rem;
+  text-align: center;
+}
+.bookStatus {
+  display: grid;
+  gap: 9px;
+  padding: 16px 18px;
+  border-top: 1px solid #e1e7ec;
+}
+.planningActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.bookStatus .planningActions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 8px;
+  border: 1px solid #ccd7e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #071b30;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+.bookStatus .planningActions button:first-child {
+  grid-column: 1 / -1;
+  border-color: #071b30;
+  background: #071b30;
+  color: #fff;
+}
+.planningActions svg {
+  width: 15px;
+  height: 15px;
+}
+.bookStatus button {
+  display: grid;
+  gap: 3px;
+  min-height: 50px;
+  border: 0;
+  border-radius: 8px;
+  background: #e9edf1;
+  color: #8a99a8;
+  font: inherit;
+  font-weight: 850;
+}
+.bookStatus button small {
+  font-size: 0.66rem;
+}
+.bookStatus p {
+  margin: 4px 0 0;
+  color: #728499;
+  font-size: 0.7rem;
+  line-height: 1.45;
+  text-align: center;
+}
+.slipTotal {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.slipTotal > div {
+  display: grid;
+  gap: 4px;
+  text-align: right;
+}
+.slipTotal span {
+  color: #60758a;
+  font-size: 0.68rem;
+  font-weight: 750;
+}
+.slipTotal b {
+  margin-left: 3px;
+  color: #071b30;
+  font-size: 0.8rem;
+}
+.slipFooter .estimateNotice {
+  color: #76899c;
+  font-size: 0.61rem;
+  line-height: 1.35;
+}
+.bookStatus {
+  gap: 12px;
+}
+.bookAction {
+  display: grid;
+  gap: 5px;
+}
+.bookStatus .bookAction button {
+  border: 1px solid #ccd7e1;
+  background: #fff;
+  color: #071b30;
+  cursor: pointer;
+}
+.bookStatus .bookAction button:hover:not(:disabled) {
+  border-color: #071b30;
+  background: #f7f9fb;
+}
+.bookStatus .bookAction button:disabled {
+  border: 0;
+  background: #e9edf1;
+  color: #8a99a8;
+  cursor: not-allowed;
+}
+.bookStatus .bookAction button span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.bookStatus .bookAction button svg {
+  width: 14px;
+  height: 14px;
+}
+.bookStatus .bookAction button small {
+  color: #687c90;
+}
+.bookStatus .bookAction p {
+  margin: 0;
+  color: #788a9d;
+  font-size: 0.61rem;
+  line-height: 1.35;
+  text-align: center;
+}
+.bookStatus .oddsNotice {
+  margin: 0;
+  color: #728499;
+  font-size: 0.65rem;
+  line-height: 1.4;
+  text-align: center;
+}
+.bookStatus .bookAction button {
+  border-color: #071b30;
+  background: #071b30;
+  color: #fff;
+}
+.bookStatus .bookAction button:hover:not(:disabled) {
+  background: #132b43;
+  color: #fff;
+}
+.bookStatus .bookAction button small {
+  color: #d5e0ea;
+}
+.bookStatus .saveSecondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  border: 1px solid #cbd6df;
+  background: #fff;
+  color: #071b30;
+}
+.bookStatus .saveSecondary:hover {
+  border-color: #071b30;
+  background: #f7f9fb;
+  color: #071b30;
+}
+.bookStatus .saveSecondary svg {
+  width: 15px;
+  height: 15px;
+}
+.bookStatus .saveStatus {
+  margin: -4px 0 0;
+  color: #087a55;
+  font-size: 0.68rem;
+  text-align: center;
+}
+@media (max-width: 1050px) {
+  .page {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+  .tableHeader,
+  .marketRow {
+    grid-template-columns: minmax(190px, 1fr) 110px 110px 42px;
+  }
+}
+@media (max-width: 850px) {
+  .page {
+    display: block;
+  }
+  .slip {
+    position: sticky;
+    bottom: 10px;
+    top: auto;
+    z-index: 10;
+    margin-top: 18px;
+    max-height: 55vh;
+    overflow: auto;
+  }
+  .matchupCard {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .matchupCard > label {
+    min-width: 0;
+  }
+  .matchup {
+    justify-content: center;
+  }
+  .tableHeader,
+  .marketRow {
+    grid-template-columns: minmax(160px, 1fr) 96px 96px 38px;
+  }
+  .secondaryFilters {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+@media (max-width: 600px) {
+  .page {
+    width: calc(100% - 24px);
+    padding-top: 24px;
+  }
+  .pageHeader h1 {
+    font-size: 3rem;
+  }
+  .filters > nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 3px;
+  }
+  .filters > nav button {
+    white-space: nowrap;
+  }
+  .secondaryFilters > div {
+    overflow-x: auto;
+  }
+  .matchup {
+    gap: 16px;
+  }
+  .tableHeader,
+  .marketRow {
+    grid-template-columns: minmax(130px, 1fr) 88px 88px 34px;
+    gap: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .priceBox,
+  .selectedPrice {
+    font-size: 0.72rem;
+  }
+  .marketName strong {
+    font-size: 0.78rem;
+  }
+}

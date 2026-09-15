@@ -68,7 +68,6 @@ export type ThreeAndOutStory = {
   sources: ThreeAndOutSource[];
   newSinceLastVisit?: string | null;
   videoStatus: MediaStatus;
-  audioStatus: MediaStatus;
   category?: string;
   imageUrl?: string | null;
   destinationUrl?: string;
@@ -98,11 +97,6 @@ export type ThreeAndOutSnapshot = {
   stories: [ThreeAndOutStory, ThreeAndOutStory, ThreeAndOutStory];
   puntStories: ThreeAndOutStory[];
   fourthDown: FourthDownQuestion;
-  audioStatus: MediaStatus;
-  audioUrl: string | null;
-  audioDuration: number | null;
-  audioGeneratedAt: string | null;
-  audioScriptVersion: string;
   videoStatus: MediaStatus;
   videoUrl: string | null;
   videoThumbnail: string | null;

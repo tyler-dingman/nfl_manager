@@ -18,7 +18,8 @@ export async function POST(request: NextRequest) {
     assertSameOrigin(request);
     const input = schema.parse(await request.json());
     const token = await upsertPushToken(user.id, input.deviceId, input.provider, input.token);
-    if (!token) return NextResponse.json({ error: 'Device was not found or is disabled.' }, { status: 404 });
+    if (!token)
+      return NextResponse.json({ error: 'Device was not found or is disabled.' }, { status: 404 });
     return NextResponse.json({ ok: true, tokenId: token.id }, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Unable to register push token.' }, { status: 400 });

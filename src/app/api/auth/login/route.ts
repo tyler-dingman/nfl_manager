@@ -36,7 +36,9 @@ export async function POST(request: NextRequest) {
     if (!input.mobile) setSessionCookie(response, session.refreshToken, session.expiresAt);
     return response;
   } catch {
-    logSecurityEvent('SIGN_IN_FAILED', { ip: request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null });
+    logSecurityEvent('SIGN_IN_FAILED', {
+      ip: request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null,
+    });
     return authError('The email or password is incorrect.', 401);
   }
 }

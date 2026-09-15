@@ -17,7 +17,7 @@ Important: the included draft badge is generic and intentionally avoids the NFL 
 Default copy:
 - eyebrow: DRAFT
 - primary: ROOKIE
-- accent: BLUEPRINT
+- accent: WATCH
 
 Recolorable:
 - accent-bar.svg

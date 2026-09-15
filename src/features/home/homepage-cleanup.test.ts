@@ -6,12 +6,8 @@ const homepage = readFileSync(
   new URL('../../components/down-distance-home.tsx', import.meta.url),
   'utf8',
 );
-const catchUp = readFileSync(
-  new URL('../../components/catch-up/catch-up-experience.tsx', import.meta.url),
-  'utf8',
-);
-const audioCard = readFileSync(
-  new URL('../../components/catch-up/three-out-audio-card.tsx', import.meta.url),
+const deliveryPreferences = readFileSync(
+  new URL('../../components/three-and-out/three-out-delivery-preferences.tsx', import.meta.url),
   'utf8',
 );
 const filmRoom = readFileSync(
@@ -28,12 +24,11 @@ const gameDayConfig = readFileSync(
   'utf8',
 );
 
-test('homepage Three and Out CTA requests CTA-only autoplay', () => {
-  assert.match(homepage, /\/catch-up\?team=\$\{encodeURIComponent\(teamAbbr\)\}&autoplay=1/);
-  assert.match(catchUp, /searchParams\?\.get\('autoplay'\) === '1'/);
-  assert.match(catchUp, /autoPlay={autoplayThreeOut}/);
-  assert.match(audioCard, /if \(!autoPlay \|\| building \|\| !narration/);
-  assert.match(audioCard, /autoPlayStarted\.current = true/);
+test('homepage Three and Out uses daily delivery preferences instead of audio', () => {
+  assert.match(homepage, /<ThreeOutDeliveryPreferences \/>/);
+  assert.doesNotMatch(homepage, /Play Three/);
+  assert.match(deliveryPreferences, /Subscribe to Three & Out/);
+  assert.match(deliveryPreferences, /Push Notifications/);
 });
 
 test('homepage Three and Out stays in the desktop right rail', () => {
@@ -43,7 +38,6 @@ test('homepage Three and Out stays in the desktop right rail', () => {
 
 test('Three and Out ampersands use the accessible bright team accent on dark panels', () => {
   assert.match(homepage, /<span className="dd-three-out-ampersand">&amp;<\/span>/);
-  assert.match(audioCard, /<span className="dd-three-out-ampersand">&amp;<\/span>/);
   assert.match(
     readFileSync(new URL('../../app/globals.css', import.meta.url), 'utf8'),
     /\.dd-three-out-ampersand\s*\{\s*color:\s*var\(--team-secondary-on-dark\);\s*\}/,

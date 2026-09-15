@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <filter id="noise"><feTurbulence baseFrequency=".65" numOctaves="3"/><feComponentTransfer><feFuncA type="table" tableValues="0 .12"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="1600" height="900" fill="#111"/>
+  <g stroke="#ddd" stroke-opacity=".45" fill="none" stroke-width="7" stroke-linecap="round">
+    <circle cx="340" cy="515" r="26"/><circle cx="520" cy="515" r="26"/><circle cx="700" cy="515" r="26"/>
+    <path d="M980 510l32 32m0-32l-32 32M1160 510l32 32m0-32l-32 32M1340 510l32 32m0-32l-32 32"/>
+    <path d="M350 475C420 315 650 335 735 190"/>
+    <path d="M705 475C790 325 1010 330 1168 215"/>
+    <path d="M530 475C540 350 500 265 420 180"/>
+    <path d="M720 195l15-45 35 32M1160 218l18-44 34 35"/>
+  </g>
+  <rect width="1600" height="900" filter="url(#noise)" opacity=".6"/>
+</svg>

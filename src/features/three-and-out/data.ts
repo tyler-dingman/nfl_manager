@@ -2,7 +2,6 @@ import { TEAM_LIST } from '@/data/teams';
 import { getGeneratedTeamBriefings } from '@/features/content/generated-briefings';
 import type { TeamBriefing } from '@/features/content/types';
 
-import { estimateAudioDuration, generateThreeAndOutAudioScript } from './audio';
 import { applyEditorialOverrides } from './editorial-store';
 import { calculateImportanceScore, rankThreeAndOutStories } from './ranking';
 import type {
@@ -146,7 +145,6 @@ const makeStory = ({
     newSinceLastVisit:
       rank === 1 ? 'This story has received a material update since your previous visit.' : null,
     videoStatus: 'NONE',
-    audioStatus: 'READY',
   };
 };
 
@@ -194,11 +192,6 @@ export function getThreeAndOutPackage(
       ],
       associatedStoryIds: [stories[0].id, stories[1].id],
     },
-    audioStatus: 'READY',
-    audioUrl: null,
-    audioDuration: null,
-    audioGeneratedAt: generatedAt,
-    audioScriptVersion: snapshotId,
     videoStatus: 'NONE',
     videoUrl: null,
     videoThumbnail: null,
@@ -206,8 +199,6 @@ export function getThreeAndOutPackage(
     videoGeneratedAt: null,
     videoSnapshotId: snapshotId,
   };
-  const script = generateThreeAndOutAudioScript(current);
-  current.audioDuration = estimateAudioDuration(script);
   const historyTimes = [2, 8].map((hours) =>
     new Date(new Date(generatedAt).getTime() - hours * 3_600_000).toISOString(),
   );

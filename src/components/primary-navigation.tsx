@@ -38,7 +38,7 @@ export default function PrimaryNavigation({
     <>
       <nav
         aria-label="Primary navigation"
-        className="hidden items-center gap-6 text-sm font-semibold xl:flex"
+        className="hidden items-center gap-6 text-sm font-semibold lg:flex"
       >
         {PRIMARY_NAV_ITEMS.map((item) => (
           <Link
@@ -56,14 +56,14 @@ export default function PrimaryNavigation({
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border xl:hidden ${tone === 'light' ? 'border-white/15 text-[var(--light)] hover:bg-white/10' : 'border-white/30 text-white hover:bg-white/20'}`}
+            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border lg:hidden ${tone === 'light' ? 'border-white/15 text-[var(--light)] hover:bg-white/10' : 'border-white/30 text-white hover:bg-white/20'}`}
             aria-label="Open primary navigation"
             aria-expanded={mobileOpen}
           >
             <Menu className="h-5 w-5" />
           </button>
           {mobileOpen ? (
-            <div className="fixed inset-0 z-[120] overflow-y-auto bg-[var(--dark)] px-5 py-6 text-[var(--team-on-dark)] xl:hidden">
+            <div className="fixed inset-0 z-[120] overflow-y-auto bg-[var(--dark)] px-5 py-6 text-[var(--team-on-dark)] lg:hidden">
               <div className="mx-auto max-w-lg">
                 <div className="flex items-center justify-between border-b border-white/10 pb-5">
                   <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-secondary-on-dark)]">

@@ -49,7 +49,7 @@ export default function EditorialVisualsPage() {
             </div>
           ))}
         </section>
-        <h2 className="mt-10 text-2xl font-black">Rookie Blueprint team-accent proof</h2>
+        <h2 className="mt-10 text-2xl font-black">Rookie Watch team-accent proof</h2>
         <section className="mt-5 grid gap-5 md:grid-cols-2">
           {['KC', 'CIN', 'BAL', 'CAR'].map((teamAbbr) => (
             <div key={teamAbbr}>

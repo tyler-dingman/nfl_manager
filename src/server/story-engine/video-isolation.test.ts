@@ -22,3 +22,20 @@ test('Film Room continues reading YouTube candidates directly', () => {
   assert.match(filmRoom, /FROM content_candidates candidate/);
   assert.match(filmRoom, /platform' = 'YOUTUBE'/);
 });
+
+test('scheduled workers keep standard and video queues isolated', () => {
+  const service = readFileSync('src/server/story-engine/service.ts', 'utf8');
+  const repository = readFileSync('src/server/story-engine/repository.ts', 'utf8');
+  const globalRoute = readFileSync('src/app/api/automation/content/global/route.ts', 'utf8');
+  assert.match(service, /claimJob\(workerId, teamId, group\)/);
+  assert.match(repository, /group\?: 'standard' \| 'video'/);
+  assert.match(repository, /job\.job_type='CANDIDATE_PROCESS'/);
+  assert.match(globalRoute, /requestedGroup as 'standard' \| 'video' \| undefined/);
+});
+
+test('recurring ingestion workflow runs both isolated pipelines', () => {
+  const workflow = readFileSync('.github/workflows/content-ingestion.yml', 'utf8');
+  assert.match(workflow, /cron: '\*\/15 \* \* \* \*'/);
+  assert.match(workflow, /group: \[standard, video\]/);
+  assert.match(workflow, /\/api\/automation\/content\/global\?group=\$GROUP/);
+});

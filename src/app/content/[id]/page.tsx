@@ -6,7 +6,8 @@ import { notFound } from 'next/navigation';
 
 import ContentPageAnalytics from '@/components/content/content-page-analytics';
 import ShareToCrewButton from '@/components/crew/share-to-crew-button';
-import EditorialVisual from '@/components/editorial/editorial-visual';
+import { NewsGraphic } from '@/components/front-office/news-graphics/NewsGraphic';
+import { resolveNewsGraphicVariant } from '@/components/front-office/news-graphics/news-graphic-variant';
 import { FanPulse } from '@/components/fan-pulse/fan-pulse';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -131,50 +132,37 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
         <MainSiteHeader teamAbbr={item.teamAbbr} active="huddle" />
         <main>
           <article>
-            <header className="relative isolate min-h-[360px] overflow-hidden bg-[var(--dark)] text-white sm:min-h-[400px]">
-              <div className="absolute inset-0" aria-hidden="true">
-                <EditorialVisual
-                  story={{
-                    teamId: item.teamAbbr,
-                    category: item.category,
-                    headline: item.headline,
-                    summary: item.summary,
-                  }}
-                  variant="hero"
-                  decorative
-                  backgroundOnly
-                  className="h-full min-h-full opacity-80"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/15" />
-              <div className="relative z-10 mx-auto flex min-h-[360px] max-w-[1240px] items-center px-4 py-10 sm:min-h-[400px] sm:px-6 lg:px-8">
-                <div className="max-w-3xl">
-                  <p className="border-l-4 border-[var(--primary)] pl-3 text-xs font-black uppercase tracking-[.2em] text-white">
-                    The Huddle
-                  </p>
-                  <p className="mt-5 text-xs font-black uppercase tracking-[.22em] text-[var(--team-secondary-on-dark)]">
-                    {config.label} · {item.teamAbbr}
-                  </p>
-                  <h1 className="mt-3 text-4xl font-black leading-[.98] tracking-[-.015em] text-white sm:text-6xl lg:max-w-[900px]">
-                    {displayHeadline}
-                  </h1>
-                  <p className="mt-5 text-xs font-black uppercase tracking-[.18em] text-white/75">
-                    {item.category}
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs font-semibold text-white/80">
-                    <time dateTime={publishedAt}>
-                      Published {new Date(publishedAt).toLocaleString()}
-                    </time>
-                    <span aria-hidden="true">·</span>
-                    <time dateTime={item.updatedAt}>
-                      Updated {new Date(item.updatedAt).toLocaleString()}
-                    </time>
-                    <span aria-hidden="true">·</span>
-                    <span>
-                      {item.sourceCount} {item.sourceCount === 1 ? 'source' : 'sources'}
-                    </span>
-                  </div>
-                </div>
+            <header className="bg-[var(--dark)] text-white">
+              <NewsGraphic
+                variant={resolveNewsGraphicVariant(item.category, item.headline)}
+                size="hero"
+                team={
+                  team
+                    ? {
+                        id: team.id,
+                        abbreviation: team.abbr,
+                        displayName: `${team.city} ${team.name}`,
+                        primaryColor: team.color_primary,
+                        secondaryColor: team.color_secondary,
+                      }
+                    : undefined
+                }
+                label={`${config.label} · ${item.teamAbbr}`}
+                headline={displayHeadline}
+                description={item.summary}
+              />
+              <div className="mx-auto flex max-w-[1240px] flex-wrap gap-x-3 gap-y-1 px-4 py-3 text-xs font-semibold text-white/80 sm:px-6 lg:px-8">
+                <time dateTime={publishedAt}>
+                  Published {new Date(publishedAt).toLocaleString()}
+                </time>
+                <span aria-hidden="true">·</span>
+                <time dateTime={item.updatedAt}>
+                  Updated {new Date(item.updatedAt).toLocaleString()}
+                </time>
+                <span aria-hidden="true">·</span>
+                <span>
+                  {item.sourceCount} {item.sourceCount === 1 ? 'source' : 'sources'}
+                </span>
               </div>
             </header>
 

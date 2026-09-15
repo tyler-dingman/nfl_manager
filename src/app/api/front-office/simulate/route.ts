@@ -93,7 +93,34 @@ export async function GET(request: NextRequest) {
   const saveId = request.nextUrl.searchParams.get('saveId');
   if (!saveId) return NextResponse.json({ error: 'saveId is required.' }, { status: 400 });
   const state = await getFrontOfficeSaveMetadata(user.id, saveId);
-  return NextResponse.json({ ok: true, state: state?.simulation ?? null, version: state?.version });
+  const userTeam = state?.teamAbbr.toUpperCase();
+  const nextGame = state?.simulation?.games.find(
+    (game) =>
+      !game.played && Boolean(userTeam) && [game.homeTeam, game.awayTeam].includes(userTeam!),
+  );
+  const opponent = nextGame
+    ? nextGame.homeTeam === userTeam
+      ? nextGame.awayTeam
+      : nextGame.homeTeam
+    : null;
+  const matchupPlayers = opponent
+    ? NFL_LEAGUE_DATA.players
+        .filter((player) => normalizeScheduleTeam(player.teamAbbr) === opponent)
+        .map((player) => ({
+          id: player.id,
+          name: player.name,
+          position: player.position,
+          teamAbbr: opponent,
+          rating: player.rating,
+          headshotUrl: player.headshotUrl,
+        }))
+    : [];
+  return NextResponse.json({
+    ok: true,
+    state: state?.simulation ?? null,
+    version: state?.version,
+    matchupPlayers,
+  });
 }
 
 export async function POST(request: NextRequest) {

@@ -29,7 +29,10 @@ export async function POST(request: NextRequest) {
     if (input.lockedAt && new Date(input.lockedAt).getTime() <= Date.now()) {
       return NextResponse.json({ error: 'This prediction is locked.' }, { status: 409 });
     }
-    return NextResponse.json({ ok: true, prediction: await createPrediction(user.id, input) }, { status: 201 });
+    return NextResponse.json(
+      { ok: true, prediction: await createPrediction(user.id, input) },
+      { status: 201 },
+    );
   } catch {
     return NextResponse.json({ error: 'Invalid prediction.' }, { status: 400 });
   }

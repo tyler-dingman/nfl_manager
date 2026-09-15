@@ -678,12 +678,12 @@ export const setSavePhase = (saveId: string, phase: string): SaveResult<SaveHead
 
 export const getSaveState = (saveId: string): SaveState | undefined => saveStore.get(saveId);
 
-export const ensureSaveState = (saveId: string, teamAbbr: string): SaveState => {
+export const ensureSaveState = (saveId: string, teamAbbr: string, year?: number): SaveState => {
   const existing = getSaveState(saveId);
   if (existing) {
     return existing;
   }
-  return createSaveState(saveId, teamAbbr);
+  return createSaveState(saveId, teamAbbr, year);
 };
 
 export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): SaveState => {

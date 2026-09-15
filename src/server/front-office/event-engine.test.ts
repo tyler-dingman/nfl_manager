@@ -29,13 +29,14 @@ test('front office event engine creates stable, state-backed events', () => {
     current: advanced,
   });
   assert.deepEqual(first, second);
+  assert.equal(first.filter((event) => event.dedupeKey === 'game-result:g1').length, 1);
   assert.equal(
-    first.some((event) => event.dedupeKey.startsWith('game:')),
-    false,
+    first.find((event) => event.dedupeKey === 'game-result:g1')?.metadata.newsCategory,
+    'GAME_RECAP',
   );
 });
 
-test('front office event engine caps generated events per simulated week', () => {
+test('front office event engine caps non-game alerts while preserving game news', () => {
   const initial = createFranchiseSimulation({
     seed: 'bulk',
     season: 2026,
@@ -49,7 +50,7 @@ test('front office event engine caps generated events per simulated week', () =>
     previous: initial,
     current: advanced,
   });
-  assert.ok(events.length <= 3);
+  assert.ok(events.filter((event) => !event.dedupeKey.startsWith('game-result:')).length <= 3);
 });
 
 test('weekly progression persists re-sign readiness on the referenced player', () => {
@@ -82,4 +83,19 @@ test('weekly progression persists re-sign readiness on the referenced player', (
   const ready = events.find((event) => event.type === 're_sign_ready');
   assert.equal(ready?.playerId, 'player-1');
   assert.equal(advanced.contractNegotiations?.['player-1']?.state, 'ready');
+});
+
+test('trade deadline alert is anchored to Tuesday after Week 9', () => {
+  const initial = createFranchiseSimulation({ seed: 'deadline', season: 2026, teams, games: [] });
+  const previous = { ...initial, currentWeek: 8 };
+  const current = { ...initial, currentWeek: 9, phase: 'week-9' };
+  const events = generateFrontOfficeEvents({
+    saveId: 'save',
+    teamAbbr: 'CHI',
+    previous,
+    current,
+  });
+  const deadline = events.find((event) => event.type === 'deadline_alert');
+  assert.match(deadline?.summary ?? '', /Tuesday after Week 9 at 4:00 p\.m\. ET/);
+  assert.equal(deadline?.metadata.deadlineWeek, 9);
 });

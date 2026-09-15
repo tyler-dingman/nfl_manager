@@ -1,0 +1,229 @@
+.graphic {
+  --team-primary: #d71920;
+  --team-secondary: #f2c400;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #090b0d;
+  color: #f8f5ed;
+  border-radius: 0.85rem;
+  font-family: var(--font-sans), Arial, sans-serif;
+}
+.card {
+  aspect-ratio: 4/3;
+}
+.hero {
+  min-height: 360px;
+  aspect-ratio: 16/7;
+  border-radius: 0;
+}
+.compact {
+  min-height: 190px;
+  aspect-ratio: 16/7;
+}
+.texture {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background-image: var(--graphic-background);
+  background-position: center;
+  background-size: cover;
+}
+.graphic:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--team-primary) 28%, transparent),
+      transparent 48%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.9));
+}
+.tradeSplit {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--team-primary) 38%, transparent),
+    transparent 48%,
+    color-mix(in srgb, var(--opponent-primary) 34%, transparent)
+  );
+}
+.overlay {
+  position: absolute;
+  z-index: -1;
+  right: 2%;
+  top: 11%;
+  width: 44%;
+  height: 68%;
+  object-fit: contain;
+  opacity: 0.56;
+  filter: brightness(0) invert(1);
+}
+.content {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: clamp(1.1rem, 3.4vw, 3rem);
+}
+.eyebrow {
+  position: absolute;
+  left: clamp(1.1rem, 3.4vw, 3rem);
+  top: clamp(1rem, 3vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: clamp(0.65rem, 1.1vw, 0.9rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.eyebrow i {
+  display: block;
+  width: 5px;
+  height: 2.6rem;
+  border-radius: 3px;
+  background: var(--team-primary);
+}
+.content h2 {
+  max-width: min(78%, 880px);
+  margin: 0;
+  font-family: var(--font-headline), var(--font-sans), sans-serif;
+  font-size: clamp(1.45rem, 4.2vw, 4.5rem);
+  font-weight: 950;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+.card .content h2 {
+  font-size: clamp(1.3rem, 2.5vw, 2.35rem);
+}
+.description {
+  max-width: 680px;
+  margin: 0.75rem 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(0.72rem, 1.25vw, 1.05rem);
+  line-height: 1.45;
+}
+.teamName {
+  position: absolute;
+  right: clamp(1rem, 2.5vw, 2rem);
+  top: clamp(1rem, 3vw, 2.5rem);
+  font-size: clamp(0.6rem, 1vw, 0.8rem);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.number {
+  position: absolute;
+  right: 8%;
+  bottom: 5%;
+  z-index: -1;
+  color: rgba(255, 255, 255, 0.16);
+  font-family: var(--font-headline), sans-serif;
+  font-size: clamp(7rem, 20vw, 18rem);
+  font-weight: 950;
+  letter-spacing: -0.08em;
+  line-height: 0.75;
+}
+.player {
+  margin: 0 0 0.65rem;
+  color: var(--team-secondary);
+  font-size: clamp(0.72rem, 1.25vw, 1rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.stats {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+.stats span {
+  display: flex;
+  min-width: 4.5rem;
+  flex-direction: column;
+  border-left: 2px solid var(--team-primary);
+  padding-left: 0.55rem;
+}
+.stats strong {
+  font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+}
+.stats small {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.score {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 1.5vw, 1.2rem);
+  margin-bottom: 1rem;
+  font-family: var(--font-headline), sans-serif;
+  font-size: clamp(1.4rem, 4vw, 3.5rem);
+  font-weight: 950;
+}
+.score em {
+  color: rgba(255, 255, 255, 0.68);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.7rem;
+  font-style: normal;
+  letter-spacing: 0.15em;
+}
+.abbreviations {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.7rem;
+  font-family: var(--font-headline), sans-serif;
+  font-size: clamp(2.4rem, 7vw, 6rem);
+  font-weight: 950;
+  line-height: 0.8;
+}
+.abbreviations span {
+  color: var(--team-secondary);
+  font-size: 0.6em;
+}
+.injury .overlay,
+.contract .overlay,
+.signing .overlay,
+.draft .overlay {
+  color: var(--team-primary);
+}
+@media (max-width: 640px) {
+  .hero {
+    min-height: 320px;
+    aspect-ratio: 4/3;
+  }
+  .content h2 {
+    max-width: 96%;
+    font-size: clamp(1.7rem, 8vw, 3rem);
+  }
+  .description {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  .overlay {
+    right: -6%;
+    width: 58%;
+    opacity: 0.35;
+  }
+  .teamName {
+    max-width: 40%;
+    text-align: right;
+  }
+  .card {
+    aspect-ratio: 4/3;
+  }
+}

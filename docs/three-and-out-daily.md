@@ -6,8 +6,6 @@ Required production setup:
 
 - Apply `db/migrations/033_three_and_out_daily.sql`.
 - Configure GitHub Actions secrets `CONTENT_AUTOMATION_BASE_URL` and `CONTENT_AUTOMATION_SECRET`.
-- Keep `THREE_AND_OUT_AUDIO_ENABLED=false` (or unset). The page has no audio control and the audio endpoint rejects work while disabled.
-
-To restore Chatterbox later, first review provider cost/capacity, set `THREE_AND_OUT_AUDIO_ENABLED=true`, restore the audio player import/render, and configure the existing Chatterbox provider variables. The Chatterbox implementation and recorded assets remain in the repository.
+- Users opt into Email, SMS, Push, or any combination through the existing notification-preference system. Push uses the existing device infrastructure. Email and SMS delivery adapters are intentionally not added until a no-cost or approved provider is available.
 
 Use the workflow's manual dispatch with `generate` to regenerate all teams, or call the automation endpoint with `team=KC&force=true` for an explicit team/date regeneration. All generation, skipped-edition, and push delivery runs emit structured logs.

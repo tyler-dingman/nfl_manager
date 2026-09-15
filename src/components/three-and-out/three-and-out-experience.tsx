@@ -27,6 +27,7 @@ import type {
   ThreeAndOutSource,
   ThreeAndOutStory,
 } from '@/features/three-and-out/types';
+import ThreeOutDeliveryPreferences from './three-out-delivery-preferences';
 
 function StoryStatus({ story }: { story: ThreeAndOutStory }) {
   const isBreaking = story.status === 'BREAKING';
@@ -414,6 +415,10 @@ export default function ThreeAndOutExperience({ teamId }: { teamId: string }) {
             dismissUpdate={() => setShowUpdates((current) => ({ ...current, [story.id]: false }))}
           />
         ))}
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <ThreeOutDeliveryPreferences />
       </div>
 
       <PreviousThreeAndOut snapshots={data.previous} teamId={teamId} />

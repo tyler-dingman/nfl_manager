@@ -223,8 +223,9 @@ export async function workOne(
   teamId?: string,
   synthesizer?: StorySynthesizer,
   publishedSince?: Date,
+  group?: 'standard' | 'video',
 ) {
-  const job = await repo.claimJob(workerId, teamId);
+  const job = await repo.claimJob(workerId, teamId, group);
   if (!job) return null;
   try {
     let result;
@@ -252,12 +253,13 @@ export async function drainJobs(
   synthesizer?: StorySynthesizer,
   publishedSince?: Date,
   maxGenerated?: number,
+  group?: 'standard' | 'video',
 ) {
   const results: any[] = [];
   let generated = 0;
   for (let i = 0; i < max; i++) {
     try {
-      const result = await workOne(undefined, teamId, synthesizer, publishedSince);
+      const result = await workOne(undefined, teamId, synthesizer, publishedSince, group);
       if (!result) break;
       results.push(result);
       if (['created', 'updated', 'published'].includes(String((result as any).result?.action))) {

@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "installPath": "public/assets/front-office/news-graphics",
+  "backgrounds": [
+    "city.svg",
+    "field.svg",
+    "grunge.svg",
+    "locker-room.svg",
+    "playbook.svg",
+    "stadium.svg",
+    "tunnel.svg"
+  ],
+  "overlays": [
+    "breaking-bars.svg",
+    "draft-frame.svg",
+    "injury-cross.svg",
+    "number-frame.svg",
+    "quote-mark.svg",
+    "rumor-xo.svg",
+    "signature.svg",
+    "signed-stamp.svg",
+    "standings-bars.svg",
+    "trade-arrows.svg"
+  ],
+  "docs": [
+    "README.md",
+    "CODEX_PROMPT.md",
+    "news-graphics.css",
+    "story-graphic-map.json"
+  ]
+}

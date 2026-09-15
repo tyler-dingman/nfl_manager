@@ -944,7 +944,7 @@ function TradeBuilderContent() {
     }
 
     if (phase === 'draft') {
-      router.push('/draft/room?mode=mock');
+      router.push('/front-office/draft/room?mode=mock');
       return;
     }
 

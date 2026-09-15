@@ -65,7 +65,8 @@ test('page includes canonical SEO, structured data, attribution, ads, and mobile
   assert.match(page, /openGraph:/);
   assert.match(page, /application\/ld\+json/);
   assert.match(page, /Sources and attribution/);
-  assert.match(page, /AdSlot placement="RIGHT_RAIL"/);
+  assert.match(page, /fanduel_ad\.png\.jpg/);
+  assert.match(page, /<NewsGraphic/);
   assert.match(page, /aspect-video overflow-hidden/);
   assert.doesNotMatch(page, /role="dialog"|aria-modal="true"|onKeyDown.*Escape/);
 });

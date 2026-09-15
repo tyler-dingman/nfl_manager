@@ -9,20 +9,17 @@ import {
   globalGenerationStopReason,
 } from './global';
 
-test('global automation fails closed and uses bounded defaults', () => {
+test('global automation is enabled by default and uses bounded defaults', () => {
   assert.deepEqual(globalAutomationConfig({}), {
-    enabled: false,
+    enabled: true,
     maxGeneratedPerRun: DEFAULT_GLOBAL_GENERATION_LIMIT_PER_RUN,
     maxGeneratedPerDay: DEFAULT_GLOBAL_GENERATION_LIMIT_PER_DAY,
   });
   assert.equal(
-    globalGenerationStopReason({
-      enabled: false,
-      generatedToday: 0,
-      maxGeneratedPerDay: 320,
-    }),
-    'Global content automation is disabled',
+    globalGenerationStopReason({ enabled: true, generatedToday: 0, maxGeneratedPerDay: 320 }),
+    null,
   );
+  assert.equal(globalAutomationConfig({ CONTENT_AUTOMATION_GLOBAL_ENABLED: 'false' }).enabled, false);
 });
 
 test('invalid limits cannot remove global generation bounds', () => {
@@ -63,7 +60,9 @@ test('global endpoint checks authorization and kill switch before database and s
   assert.ok(disabled > config);
   assert.ok(database > disabled);
   assert.ok(sources > database);
-  assert.match(route, /scheduleDueSources\(new Date\(\)\)/);
+  assert.match(route, /requestedGroup as 'standard' \| 'video' \| undefined/);
+  assert.match(route, /await scheduleDueSources\(/);
+  assert.match(route, /await drainJobs\(/);
   assert.match(route, /new GroundedDeterministicStorySynthesizer\(\)/);
   assert.match(route, /aiSpendUsd: 0/);
 });

@@ -8,13 +8,17 @@ import {
   ArrowDownRight,
   ArrowLeftRight,
   ArrowUp,
+  BarChart3,
+  ChevronDown,
   ClipboardList,
-  FileText,
   Handshake,
-  Home,
   Lock,
   Menu,
+  Newspaper,
+  Search,
+  Settings2,
   Shield,
+  Trophy,
   Users,
   WalletCards,
   X,
@@ -38,8 +42,14 @@ import { useSaveStore } from '@/features/save/save-store';
 import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import {
   FRONT_OFFICE_ROUTES,
+  FRONT_OFFICE_DRAFT_ROUTES,
+  FRONT_OFFICE_LEAGUE_ROUTES,
+  FRONT_OFFICE_ROSTER_ROUTES,
   isFrontOfficeRouteActive,
   type FrontOfficeNavItem,
+  type FrontOfficeDraftNavItem,
+  type FrontOfficeLeagueNavItem,
+  type FrontOfficeRosterNavItem,
 } from '@/lib/front-office-navigation';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
@@ -54,37 +64,49 @@ import {
 import { cn } from '@/lib/utils';
 
 const navRoutes = FRONT_OFFICE_ROUTES;
+const rosterNavRoutes = FRONT_OFFICE_ROSTER_ROUTES;
+const draftNavRoutes = FRONT_OFFICE_DRAFT_ROUTES;
+const leagueNavRoutes = FRONT_OFFICE_LEAGUE_ROUTES;
 type NavItem = FrontOfficeNavItem;
+type RosterNavItem = FrontOfficeRosterNavItem;
+type DraftNavItem = FrontOfficeDraftNavItem;
+type LeagueNavItem = FrontOfficeLeagueNavItem;
 
 const navIcons: Record<NavItem, LucideIcon> = {
-  Overview: Home,
   Roster: Users,
-  Contracts: FileText,
-  'Cap Space': WalletCards,
-  'Depth Chart': Shield,
-  'Re-sign/Cut Players': Handshake,
-  'Trade Hub': ArrowLeftRight,
-  'Free Agency': ClipboardList,
-  'Draft Board': Lock,
+  Draft: Lock,
+  League: Shield,
+  Settings: Settings2,
 };
 
-const navSections: { title?: string; items: NavItem[] }[] = [
-  {
-    items: ['Overview', 'Roster', 'Contracts', 'Cap Space', 'Depth Chart'],
-  },
-  {
-    title: 'Manage Team',
-    items: ['Re-sign/Cut Players', 'Trade Hub'],
-  },
-  {
-    title: 'Free Agency',
-    items: ['Free Agency'],
-  },
-  {
-    title: 'Draft',
-    items: ['Draft Board'],
-  },
-];
+const rosterNavIcons: Record<RosterNavItem, LucideIcon> = {
+  Roster: Users,
+  'Free Agents': ClipboardList,
+  'Depth Chart': Shield,
+  'Cap Space': WalletCards,
+  'Re-sign/Cut Players': Handshake,
+  'Trade Hub': ArrowLeftRight,
+};
+
+const draftNavIcons: Record<DraftNavItem, LucideIcon> = {
+  'Draft Central': Lock,
+  Prospects: Search,
+  'My Big Board': ClipboardList,
+  'Team Needs': Shield,
+  'Mock Drafts': BarChart3,
+  'Draft History': Trophy,
+  'Scouting Reports': Newspaper,
+  'Draft Room': Lock,
+};
+
+const leagueNavIcons: Record<LeagueNavItem, LucideIcon> = {
+  News: Newspaper,
+  Standings: Trophy,
+  Schedule: ClipboardList,
+  Transactions: ArrowLeftRight,
+  Injuries: Shield,
+  'League Leaders': BarChart3,
+};
 
 const shellRightRailRoutes = [
   '/experience',
@@ -182,6 +204,13 @@ function AppShellContent({
   const searchParams = useSearchParams();
   const router = useRouter();
   const routeStep = pathname ? getStepForPath(pathname) : null;
+
+  const closeOtherDesktopDropdowns = useCallback((current: HTMLDetailsElement) => {
+    if (!current.open) return;
+    current.parentElement?.querySelectorAll<HTMLDetailsElement>('details[open]').forEach((menu) => {
+      if (menu !== current) menu.removeAttribute('open');
+    });
+  }, []);
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -388,6 +417,16 @@ function AppShellContent({
   const isNavItemActive = (href: string) => {
     return isFrontOfficeRouteActive(href, pathname ?? '', searchParams ?? new URLSearchParams());
   };
+  const rosterSectionActive =
+    pathname === '/roster' ||
+    pathname === '/free-agents' ||
+    pathname === '/cap-space' ||
+    pathname?.startsWith('/manage/trades') ||
+    pathname?.startsWith('/front-office/trade-hub');
+  const draftSectionActive =
+    pathname?.startsWith('/draft/') || pathname?.startsWith('/front-office/draft');
+  const leagueSectionActive =
+    pathname === '/league' || pathname?.startsWith('/front-office/league');
 
   return (
     <TeamThemeProvider team={selectedTeam}>
@@ -404,7 +443,100 @@ function AppShellContent({
               <span>Front</span> <strong>Office</strong>
             </Link>
             <nav className="front-office-desktop-nav" aria-label="Front Office">
-              {(Object.keys(navRoutes) as NavItem[]).map((item) => {
+              <details
+                className="front-office-nav-dropdown"
+                onToggle={(event) => closeOtherDesktopDropdowns(event.currentTarget)}
+              >
+                <summary
+                  className="front-office-top-link"
+                  aria-current={rosterSectionActive ? 'page' : undefined}
+                >
+                  Roster
+                  <ChevronDown aria-hidden="true" />
+                </summary>
+                <div className="front-office-nav-dropdown-menu">
+                  {(Object.keys(rosterNavRoutes) as RosterNavItem[]).map((item) => {
+                    const href = rosterNavRoutes[item];
+                    const Icon = rosterNavIcons[item];
+                    const active = isNavItemActive(href);
+                    return (
+                      <Link
+                        key={item}
+                        href={href}
+                        onClick={(event) => event.currentTarget.closest('details')?.removeAttribute('open')}
+                        aria-current={active ? 'page' : undefined}
+                        className="front-office-nav-dropdown-link"
+                      >
+                        <Icon aria-hidden="true" />
+                        {item}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </details>
+              <details
+                className="front-office-nav-dropdown"
+                onToggle={(event) => closeOtherDesktopDropdowns(event.currentTarget)}
+              >
+                <summary
+                  className="front-office-top-link"
+                  aria-current={draftSectionActive ? 'page' : undefined}
+                >
+                  Draft
+                  <ChevronDown aria-hidden="true" />
+                </summary>
+                <div className="front-office-nav-dropdown-menu">
+                  {(Object.keys(draftNavRoutes) as DraftNavItem[]).map((item) => {
+                    const href = draftNavRoutes[item];
+                    const Icon = draftNavIcons[item];
+                    const active = isNavItemActive(href);
+                    return (
+                      <Link
+                        key={item}
+                        href={href}
+                        onClick={(event) => event.currentTarget.closest('details')?.removeAttribute('open')}
+                        aria-current={active ? 'page' : undefined}
+                        className="front-office-nav-dropdown-link"
+                      >
+                        <Icon aria-hidden="true" />
+                        {item}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </details>
+              <details
+                className="front-office-nav-dropdown"
+                onToggle={(event) => closeOtherDesktopDropdowns(event.currentTarget)}
+              >
+                <summary
+                  className="front-office-top-link"
+                  aria-current={leagueSectionActive ? 'page' : undefined}
+                >
+                  League
+                  <ChevronDown aria-hidden="true" />
+                </summary>
+                <div className="front-office-nav-dropdown-menu">
+                  {(Object.keys(leagueNavRoutes) as LeagueNavItem[]).map((item) => {
+                    const href = leagueNavRoutes[item];
+                    const Icon = leagueNavIcons[item];
+                    const active = isNavItemActive(href);
+                    return (
+                      <Link
+                        key={item}
+                        href={href}
+                        onClick={(event) => event.currentTarget.closest('details')?.removeAttribute('open')}
+                        aria-current={active ? 'page' : undefined}
+                        className="front-office-nav-dropdown-link"
+                      >
+                        <Icon aria-hidden="true" />
+                        {item}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </details>
+              {(['Settings'] as NavItem[]).map((item) => {
                 const href = navRoutes[item];
                 const active = isNavItemActive(href);
                 return (
@@ -461,34 +593,88 @@ function AppShellContent({
                 <X className="h-4 w-4 text-muted-foreground" />
               </button>
             </div>
-            <nav className="flex flex-col gap-6 text-sm">
-              {navSections.map((section) => (
-                <div key={section.title ?? 'overview'} className="space-y-2">
-                  {section.title ? (
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      {section.title}
-                    </p>
-                  ) : null}
-                  <div className="space-y-1">
-                    {section.items.map((item) => {
-                      const href = navRoutes[item];
-                      const isActive = isNavItemActive(href);
-                      const Icon = navIcons[item];
-                      return (
-                        <Link
-                          key={item}
-                          href={href}
-                          aria-current={isActive ? 'page' : undefined}
-                          className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                        >
-                          <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                          <span className={isActive ? 'text-foreground' : undefined}>{item}</span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
+            <nav className="flex flex-col gap-5 text-sm" aria-label="Front Office mobile">
+              <div className="space-y-1">
+                <p className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  Roster
+                </p>
+                {(Object.keys(rosterNavRoutes) as RosterNavItem[]).map((item) => {
+                  const href = rosterNavRoutes[item];
+                  const active = isNavItemActive(href);
+                  const Icon = rosterNavIcons[item];
+                  return (
+                    <Link
+                      key={item}
+                      href={href}
+                      aria-current={active ? 'page' : undefined}
+                      className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                    >
+                      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span className={active ? 'text-foreground' : undefined}>{item}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+              <div className="space-y-1 border-t border-border pt-4">
+                <p className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  Draft
+                </p>
+                {(Object.keys(draftNavRoutes) as DraftNavItem[]).map((item) => {
+                  const href = draftNavRoutes[item];
+                  const active = isNavItemActive(href);
+                  const Icon = draftNavIcons[item];
+                  return (
+                    <Link
+                      key={item}
+                      href={href}
+                      aria-current={active ? 'page' : undefined}
+                      className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                    >
+                      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span className={active ? 'text-foreground' : undefined}>{item}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+              <div className="space-y-1 border-t border-border pt-4">
+                <p className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  League
+                </p>
+                {(Object.keys(leagueNavRoutes) as LeagueNavItem[]).map((item) => {
+                  const href = leagueNavRoutes[item];
+                  const active = isNavItemActive(href);
+                  const Icon = leagueNavIcons[item];
+                  return (
+                    <Link
+                      key={item}
+                      href={href}
+                      aria-current={active ? 'page' : undefined}
+                      className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                    >
+                      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span className={active ? 'text-foreground' : undefined}>{item}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+              <div className="space-y-1 border-t border-border pt-4">
+                {(['Settings'] as NavItem[]).map((item) => {
+                  const href = navRoutes[item];
+                  const active = isNavItemActive(href);
+                  const Icon = navIcons[item];
+                  return (
+                    <Link
+                      key={item}
+                      href={href}
+                      aria-current={active ? 'page' : undefined}
+                      className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                    >
+                      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span className={active ? 'text-foreground' : undefined}>{item}</span>
+                    </Link>
+                  );
+                })}
+              </div>
             </nav>
           </aside>
 

@@ -18,7 +18,7 @@ Set these for both **Production** and **Preview** while both deployments must re
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...`
 - `STRIPE_WEBHOOK_SECRET=whsec_...`
 
-Add enabled social-login, notification, content, and YouTube provider variables from `.env.example`. Keep `OBSERVER_MODE=true` for private observation unless real push delivery is intentionally being tested. Self-hosted localhost services such as Ollama, Chatterbox, Whisper, and the embedding service are not reachable from Vercel; give them deployed authenticated URLs or disable the associated features.
+Add enabled social-login, notification, content, and YouTube provider variables from `.env.example`. Keep `OBSERVER_MODE=true` for private observation unless real push delivery is intentionally being tested. Self-hosted localhost services such as Ollama, Whisper, and the embedding service are not reachable from Vercel; give them deployed authenticated URLs or disable the associated features.
 
 For **Development**, keep `PRELAUNCH_MODE=false` unless testing the gate locally. Never commit `.env.local`.
 

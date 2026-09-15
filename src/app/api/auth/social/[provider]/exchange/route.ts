@@ -7,18 +7,20 @@ import { requestMetadata } from '@/server/auth/request';
 import { checkRateLimit } from '@/server/auth/rate-limit';
 import { issueSession } from '@/server/auth/service';
 import { requiresPkce } from '@/server/auth/pkce';
-const schema = z.object({
-  idToken: z.string().optional(),
-  accessToken: z.string().optional(),
-  authorizationCode: z.string().optional(),
-  nonce: z.string().min(16).optional(),
-  codeVerifier: z.string().min(43).max(128).optional(),
-  redirectUri: z.string().url(),
-  user: z.string().max(4000).optional(),
-  deviceId: z.string().uuid().optional(),
-}).refine((input) => requiresPkce(input.authorizationCode, input.codeVerifier), {
-  message: 'codeVerifier is required when exchanging an authorization code.',
-});
+const schema = z
+  .object({
+    idToken: z.string().optional(),
+    accessToken: z.string().optional(),
+    authorizationCode: z.string().optional(),
+    nonce: z.string().min(16).optional(),
+    codeVerifier: z.string().min(43).max(128).optional(),
+    redirectUri: z.string().url(),
+    user: z.string().max(4000).optional(),
+    deviceId: z.string().uuid().optional(),
+  })
+  .refine((input) => requiresPkce(input.authorizationCode, input.codeVerifier), {
+    message: 'codeVerifier is required when exchanging an authorization code.',
+  });
 export async function POST(request: NextRequest, { params }: { params: { provider: string } }) {
   try {
     const ip = requestMetadata(request).ip ?? 'unknown';

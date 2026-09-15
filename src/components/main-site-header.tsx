@@ -32,7 +32,7 @@ export default function MainSiteHeader({
           <Search className="h-4 w-4" />
         </Link>
         <NotificationCenter teamAbbr={teamAbbr} />
-        <span className="hidden xl:block">
+        <span className="hidden lg:block">
           <LoginButton teamAbbr={teamAbbr} />
         </span>
         <MobileSiteMenu teamAbbr={teamAbbr} active={active} />

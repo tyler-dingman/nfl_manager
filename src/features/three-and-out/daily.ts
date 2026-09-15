@@ -77,7 +77,6 @@ export function selectDailyBriefingStories(
     currentRank: index + 1,
     destinationUrl:
       story.destinationUrl ?? story.sources[0]?.sourceUrl ?? `/the-beat?team=${teamId}`,
-    audioStatus: 'DISABLED' as const,
   }));
 }
 
@@ -113,12 +112,36 @@ export function buildDailyBriefingPush(input: {
   briefingDate: string;
   stories: ThreeAndOutStory[];
 }) {
-  const categories = [...new Set(input.stories.map(categoryFor))].slice(0, 3);
   return {
-    title: `Three & Out: ${input.teamName}`,
-    body: categories.length
-      ? `Your 5 PM briefing: ${categories.join(' · ')}`
-      : 'Your daily team briefing is ready.',
+    title: 'THREE & OUT',
+    body: `The 3 things ${input.teamName} fans need to know today.`,
     destination: `/three-and-out?team=${encodeURIComponent(input.teamId)}&date=${input.briefingDate}`,
   };
+}
+
+export function buildDailyBriefingEmail(input: {
+  teamName: string;
+  stories: ThreeAndOutStory[];
+  destination: string;
+}) {
+  return {
+    subject: `Three & Out — ${input.teamName}`,
+    heading: 'THREE & OUT',
+    intro: `The 3 things you need to know about the ${input.teamName} today.`,
+    items: input.stories
+      .slice(0, 3)
+      .map((story) => ({ title: story.title, summary: story.summary })),
+    destination: input.destination,
+  };
+}
+
+export function buildDailyBriefingSms(input: {
+  teamId: string;
+  stories: ThreeAndOutStory[];
+  destination: string;
+}) {
+  const headlines = input.stories
+    .slice(0, 3)
+    .map((story, index) => `${index + 1}. ${story.shortTitle || story.title}`);
+  return `THREE & OUT — ${input.teamId}\n${headlines.join('\n')}\nMore: ${input.destination}`;
 }

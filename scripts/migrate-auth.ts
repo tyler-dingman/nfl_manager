@@ -47,6 +47,10 @@ async function main() {
       '031_front_office_save_state.sql',
       '032_front_office_events.sql',
       '033_three_and_out_daily.sql',
+      '034_isolate_video_from_beat.sql',
+      '035_parlay_lab_odds.sql',
+      '036_nflverse_historical_stats.sql',
+      '037_historical_team_season_strength.sql',
     ]) {
       if (file === '017_search_documents.sql') {
         const [extension] = await sql<{ available: boolean }[]>`
