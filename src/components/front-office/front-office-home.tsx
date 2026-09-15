@@ -28,6 +28,9 @@ const teamByAbbr = new Map(TEAM_LIST.map((team) => [team.abbr, team]));
 const recordText = (record?: { wins: number; losses: number; ties: number }) =>
   record ? `${record.wins}-${record.losses}${record.ties ? `-${record.ties}` : ''}` : '0-0';
 
+const playerLookupKey = (player: Pick<DisplayPlayer, 'name'>) =>
+  player.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
 function pickTopPlayers(players: DisplayPlayer[], teamAbbr: string) {
   const active = players.filter((player) => player.teamAbbr === teamAbbr);
   const rating = (player: DisplayPlayer) => player.rating;
@@ -91,7 +94,27 @@ function MatchupCard({
   const opponent = game.homeTeam === teamAbbr ? game.awayTeam : game.homeTeam;
   const ours = teamByAbbr.get(teamAbbr);
   const theirs = teamByAbbr.get(opponent);
-  const ourPlayers = pickTopPlayers(roster, teamAbbr);
+  const currentTeamPool = matchupPlayers.filter((player) => player.teamAbbr === teamAbbr);
+  const currentTeamById = new Map(currentTeamPool.map((player) => [player.id, player]));
+  const currentTeamByName = new Map(
+    currentTeamPool.map((player) => [playerLookupKey(player), player]),
+  );
+  const enrichedRoster = roster.map((player) => {
+    const canonical =
+      currentTeamById.get(player.id) ?? currentTeamByName.get(playerLookupKey(player));
+    return {
+      ...player,
+      // The saved roster is the source of truth for team membership. A player's
+      // original NFL team may remain on older saves after a trade or import.
+      teamAbbr,
+      headshotUrl: player.headshotUrl || canonical?.headshotUrl,
+      rating: player.rating || canonical?.rating || 0,
+    };
+  });
+  const ourPlayers = pickTopPlayers(
+    enrichedRoster.length ? enrichedRoster : currentTeamPool,
+    teamAbbr,
+  );
   const opponentPlayers = pickTopPlayers(matchupPlayers, opponent);
   return (
     <section className="fo-home-matchup" aria-label={`Week ${game.week} matchup`}>
@@ -115,9 +138,11 @@ function MatchupCard({
         <div className="fo-home-matchup-details">
           <div className="fo-home-watch">
             <h3>Top players to watch</h3>
-            {ourPlayers.map((player) => (
-              <PlayerChip key={player.id} player={player} />
-            ))}
+            {ourPlayers.length ? (
+              ourPlayers.map((player) => <PlayerChip key={player.id} player={player} />)
+            ) : (
+              <p className="fo-home-muted">Team leaders will be announced.</p>
+            )}
           </div>
           <div className="fo-home-game-info">
             <p>

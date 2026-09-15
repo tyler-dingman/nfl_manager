@@ -30,6 +30,24 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           SCHEDULE: ${{ github.event.schedule }}
         run: |
+          set -euo pipefail
+
+          if [ -z "$BASE_URL" ]; then
+            echo "::error::CONTENT_AUTOMATION_BASE_URL is not configured in repository Actions secrets."
+            exit 1
+          fi
+          if [ -z "$AUTOMATION_SECRET" ]; then
+            echo "::error::CONTENT_AUTOMATION_SECRET is not configured in repository Actions secrets."
+            exit 1
+          fi
+          case "$BASE_URL" in
+            http://*|https://*) ;;
+            *)
+              echo "::error::CONTENT_AUTOMATION_BASE_URL must be a complete http:// or https:// URL."
+              exit 1
+              ;;
+          esac
+
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             action="$MANUAL_ACTION"
           elif [ "$SCHEDULE" = "40 21 * * *" ] || [ "$SCHEDULE" = "40 22 * * *" ]; then
@@ -39,4 +57,4 @@ jobs:
           fi
           curl --fail-with-body --retry 2 --request POST \
             --header "Authorization: Bearer $AUTOMATION_SECRET" \
-            "$BASE_URL/api/automation/three-and-out?action=$action"
+            "${BASE_URL%/}/api/automation/three-and-out?action=$action"

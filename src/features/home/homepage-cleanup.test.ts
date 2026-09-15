@@ -28,7 +28,8 @@ test('homepage Three and Out uses daily delivery preferences instead of audio', 
   assert.match(homepage, /<ThreeOutDeliveryPreferences \/>/);
   assert.doesNotMatch(homepage, /Play Three/);
   assert.match(deliveryPreferences, /Subscribe to Three & Out/);
-  assert.match(deliveryPreferences, /Push Notifications/);
+  assert.match(deliveryPreferences, /label: 'Push'/);
+  assert.match(deliveryPreferences, /Icon: BellRing/);
 });
 
 test('homepage Three and Out stays in the desktop right rail', () => {

@@ -103,14 +103,15 @@ export async function GET(request: NextRequest) {
       ? nextGame.awayTeam
       : nextGame.homeTeam
     : null;
-  const matchupPlayers = opponent
+  const matchupTeams = opponent && userTeam ? new Set([userTeam, opponent]) : null;
+  const matchupPlayers = matchupTeams
     ? NFL_LEAGUE_DATA.players
-        .filter((player) => normalizeScheduleTeam(player.teamAbbr) === opponent)
+        .filter((player) => matchupTeams.has(normalizeScheduleTeam(player.teamAbbr)))
         .map((player) => ({
           id: player.id,
           name: player.name,
           position: player.position,
-          teamAbbr: opponent,
+          teamAbbr: normalizeScheduleTeam(player.teamAbbr),
           rating: player.rating,
           headshotUrl: player.headshotUrl,
         }))

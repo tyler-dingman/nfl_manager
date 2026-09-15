@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, Check, Mail, MessageCircle } from 'lucide-react';
+import { BellRing, Check, Mail, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -18,7 +18,7 @@ const empty: Preferences = { enabled: false, email: false, sms: false, push: fal
 const options = [
   { id: 'email' as const, label: 'Email', Icon: Mail },
   { id: 'sms' as const, label: 'SMS', Icon: MessageCircle },
-  { id: 'push' as const, label: 'Push Notifications', Icon: Bell },
+  { id: 'push' as const, label: 'Push', Icon: BellRing },
 ];
 
 export default function ThreeOutDeliveryPreferences({ settings = false }: { settings?: boolean }) {
@@ -73,9 +73,10 @@ export default function ThreeOutDeliveryPreferences({ settings = false }: { sett
             type="button"
             onClick={() => void toggle(id)}
             aria-pressed={active}
-            className={`relative flex min-h-12 items-center justify-center gap-2 rounded-xl border px-3 text-xs font-black uppercase tracking-[.04em] transition ${active ? 'border-[#f04b32] bg-[#fff2ed] text-[#9f2d1d]' : 'border-[#00172B]/15 bg-white text-[#00172B]'}`}
+            className={`relative flex min-h-16 flex-col items-center justify-center gap-1 rounded-xl border px-2 py-2.5 text-[10px] font-black uppercase tracking-[.04em] transition ${active ? 'border-[#f04b32] bg-[#fff2ed] text-[#9f2d1d]' : 'border-[#00172B]/15 bg-white text-[#00172B]'}`}
           >
-            <Icon className="h-4 w-4" /> {label}
+            <Icon className="h-5 w-5" />
+            <span>{label}</span>
             {active ? <Check className="absolute right-2 top-2 h-3.5 w-3.5" /> : null}
           </button>
         );

@@ -24,7 +24,7 @@
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(22rem, 2fr);
   gap: 1rem;
-  align-items: stretch;
+  align-items: start;
 }
 .fo-home-bottom {
   display: grid;
@@ -78,7 +78,7 @@
 }
 .fo-home-matchup {
   position: relative;
-  min-height: 31rem;
+  min-height: 28rem;
   overflow: hidden;
   border-radius: 0.75rem;
   color: #fff;
@@ -101,7 +101,7 @@
   display: flex;
   height: 100%;
   flex-direction: column;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
 }
 .fo-home-next {
   border-left: 5px solid var(--team-secondary);
@@ -125,7 +125,7 @@
   grid-template-columns: 1fr auto 1fr;
   gap: 1.2rem;
   align-items: center;
-  margin: 1.35rem auto;
+  margin: 1.35rem auto 0.35rem;
   width: min(100%, 34rem);
   text-align: center;
   text-transform: uppercase;
@@ -151,14 +151,14 @@
   display: grid;
   grid-template-columns: 1fr 1.15fr 1fr;
   gap: 1.2rem;
-  margin-top: auto;
-  align-items: end;
+  margin-top: 0.5rem;
+  align-items: start;
 }
 .fo-home-watch h3 {
   margin-bottom: 0.6rem;
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  color: #fff;
+  font-size: 1rem;
+  letter-spacing: -0.015em;
 }
 .fo-home-player {
   display: flex;
@@ -1214,8 +1214,10 @@ table td {
   .front-office-app h2,
   .front-office-app h3 {
     color: #00172b;
+    font-family: var(--font-headline), var(--font-sans), sans-serif;
     font-weight: 900;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.015em;
+    text-transform: none !important;
   }
 
   .front-office-app h1:not(.dd-home-hero-display) {
