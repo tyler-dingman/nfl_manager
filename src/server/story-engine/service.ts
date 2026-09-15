@@ -286,14 +286,15 @@ export async function replayRecentStories(teamId: string, hours: number) {
     if (!story || ['AUTO_PUBLISHED', 'PUBLISHED'].includes(story.publicationState)) continue;
     const evidence = await repo.evidenceForStory(storyId);
     const tierThreeOnly = evidence.every(({ source }) => source.pollingTier === 'C');
-    const explicitlyTeamRelevant = evidence.some(({ candidate }) =>
-      /\b(?:chiefs|kansas city|kc)\b/i.test(`${candidate.title} ${candidate.excerpt}`),
+    const explicitlyTeamRelevant = evidence.some(
+      ({ candidate, source }) =>
+        candidate.candidateTeams.includes(teamId) || source.teamId === teamId,
     );
     if (tierThreeOnly && !explicitlyTeamRelevant) {
       results.push({
         storyId,
         action: 'held',
-        reason: 'Tier 3 item is not explicitly Chiefs-relevant.',
+        reason: `Tier 3 item is not explicitly ${teamId}-relevant.`,
       });
       continue;
     }

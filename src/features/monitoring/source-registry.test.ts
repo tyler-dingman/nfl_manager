@@ -5,11 +5,13 @@ import {
   getAllMonitoringSources,
   getMonitoringSources,
   getMonitoringTeamIds,
+  assertNFLTeamCoverage,
 } from '@/data/sources/monitoring';
 import { TEAM_SOURCE_PROFILES } from '@/data/sources/monitoring/team-baselines';
 import { TEAM_LIST } from '@/data/teams';
 
 test('monitoring registry covers all 32 NFL teams with unique source ids', () => {
+  assert.deepEqual(assertNFLTeamCoverage(), { teams: 32, configured: 32 });
   assert.deepEqual(new Set(getMonitoringTeamIds()), new Set(TEAM_LIST.map((team) => team.abbr)));
   assert.equal(Object.keys(TEAM_SOURCE_PROFILES).length, 32);
   const allSources = getAllMonitoringSources();

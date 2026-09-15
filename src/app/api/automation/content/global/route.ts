@@ -14,6 +14,8 @@ import {
 import { syncAllMonitoringRegistries, syncMonitoringRegistry } from '@/server/monitoring/observer';
 import { drainJobs, scheduleDueSources } from '@/server/story-engine/service';
 import { syncVerifiedVideoSources } from '@/server/film-room/video-source-sync';
+import { storyById } from '@/server/story-engine/repository';
+import { generateDailyThreeAndOut } from '@/server/three-and-out/daily-service';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -109,6 +111,31 @@ export async function POST(request: NextRequest) {
   const generated = jobs.filter((job) =>
     ['created', 'updated', 'published'].includes(String((job as any).result?.action)),
   ).length;
+  const changedStoryIds = jobs.flatMap((job) => {
+    const action = String((job as any).result?.action);
+    const storyId = (job as any).result?.storyId;
+    return storyId && ['created', 'updated', 'published'].includes(action) ? [String(storyId)] : [];
+  });
+  const changedTeams = new Set<string>();
+  for (const storyId of changedStoryIds) {
+    const story = await storyById(storyId);
+    if (story?.teamId) changedTeams.add(story.teamId);
+  }
+  const regeneratedThreeAndOut = [];
+  for (const teamId of changedTeams) {
+    try {
+      regeneratedThreeAndOut.push({
+        teamId,
+        generated: Boolean(await generateDailyThreeAndOut(teamId, { force: true })),
+      });
+    } catch (error) {
+      regeneratedThreeAndOut.push({
+        teamId,
+        generated: false,
+        error: error instanceof Error ? error.message : 'generation failed',
+      });
+    }
+  }
   const failedJobs = jobs.filter((job) => job.type === 'error');
   const failedJobReasons = [...new Set(failedJobs.map((job) => safeJobFailure(job.error)))];
   const status = scheduled.queued === 0 && jobs.length === 0 ? 'UNCHANGED' : 'COMPLETED';
@@ -125,6 +152,7 @@ export async function POST(request: NextRequest) {
       verifiedVideoSources,
       configuredTeams: requestedTeam ? [requestedTeam] : configuredTeamIds,
       failedJobReasons,
+      regeneratedThreeAndOut,
     },
   });
 
@@ -139,6 +167,7 @@ export async function POST(request: NextRequest) {
     failedJobs: failedJobs.length,
     failedJobReasons,
     generated,
+    regeneratedThreeAndOut,
     generatedToday: generatedToday + generated,
     aiSpendUsd: 0,
   });

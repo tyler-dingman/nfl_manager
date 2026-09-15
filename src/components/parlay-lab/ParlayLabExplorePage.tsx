@@ -93,7 +93,14 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
     })
       .then((response) => response.json())
       .then((body) => setMarkets(body.markets ?? []))
-      .finally(() => setLoading(false));
+      .catch((error: unknown) => {
+        if ((error as { name?: string } | null)?.name === 'AbortError') return;
+        console.error('[parlay-lab] failed to load research markets', error);
+        setMarkets([]);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
     return () => controller.abort();
   }, [gameId, mode]);
   useEffect(() => setPage(1), [gameId, mode]);

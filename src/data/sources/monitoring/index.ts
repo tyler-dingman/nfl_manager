@@ -16,6 +16,26 @@ const sourcesByTeam: Record<string, MonitoringSource[]> = Object.fromEntries(
 
 export const getMonitoringTeamIds = () => Object.keys(sourcesByTeam);
 
+export function assertNFLTeamCoverage() {
+  const expected = TEAM_LIST.map((team) => team.abbr).sort();
+  const configured = getMonitoringTeamIds().sort();
+  const missing = expected.filter((teamId) => !configured.includes(teamId));
+  const unknown = configured.filter((teamId) => !expected.includes(teamId));
+  const sourceGaps = expected.filter((teamId) => !sourcesByTeam[teamId]?.length);
+  if (
+    expected.length !== 32 ||
+    configured.length !== 32 ||
+    missing.length ||
+    unknown.length ||
+    sourceGaps.length
+  ) {
+    throw new Error(
+      `NFL monitoring coverage is invalid: expected=${expected.length}, configured=${configured.length}, missing=${missing.join(',') || 'none'}, unknown=${unknown.join(',') || 'none'}, sourceGaps=${sourceGaps.join(',') || 'none'}`,
+    );
+  }
+  return { teams: expected.length, configured: configured.length };
+}
+
 export const getMonitoringSources = (teamId: string) => [
   ...(sourcesByTeam[teamId.toUpperCase()] ?? []),
   ...NATIONAL_TIER_ONE_SOURCES,

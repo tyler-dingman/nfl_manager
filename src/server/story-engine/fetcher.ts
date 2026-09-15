@@ -4,6 +4,7 @@ import { parseRssOrAtom } from '@/features/story-engine/rss';
 import type { RawSourceItem, RegisteredSource } from '@/features/story-engine/types';
 
 const blockedHosts = new Set(['localhost', 'localhost.localdomain']);
+const canonicalHost = (hostname: string) => hostname.toLowerCase().replace(/^www\./, '');
 export function assertSafeRegisteredUrl(value: string, source: RegisteredSource) {
   const url = new URL(value);
   if (!['http:', 'https:'].includes(url.protocol))
@@ -20,7 +21,9 @@ export function assertSafeRegisteredUrl(value: string, source: RegisteredSource)
     throw new Error('Private source addresses are not allowed.');
   const allowed = [source.url, source.feedUrl]
     .filter(Boolean)
-    .some((registered) => new URL(registered!).hostname === url.hostname);
+    .some(
+      (registered) => canonicalHost(new URL(registered!).hostname) === canonicalHost(url.hostname),
+    );
   if (!allowed) throw new Error('URL is not allowlisted for this source.');
   return url;
 }
