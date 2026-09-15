@@ -70,7 +70,7 @@ test('Huddle excludes Three and Out and favors topic diversity', () => {
   ];
   assert.deepEqual(
     selectHuddleStories(all, ['A', 'B', 'C'], 4).map((s) => s.id),
-    ['D', 'E', 'F', 'G'],
+    ['D', 'G', 'E', 'F'],
   );
 });
 test('Wire emits one entry per meaningful story version', () => {

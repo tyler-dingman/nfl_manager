@@ -34,6 +34,8 @@ import { estimateParlayOdds } from './parlay-odds';
 import { rowName, sportsbookLineLabel } from './market-display';
 import PlayerAvatar from './PlayerAvatar';
 import MyParlayPanel from './MyParlayPanel';
+import ParlayLabSecondaryNav from './ParlayLabSecondaryNav';
+import { compareAmericanOdds, matchesOddsFilter, type OddsFilter } from './parlay-table';
 import styles from './parlay-lab.module.css';
 
 type OddsEvent = {
@@ -174,6 +176,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
     [eventId, setEventId] = useState('');
   const [markets, setMarkets] = useState<Market[]>([]),
     [book, setBook] = useState<'ALL' | Sportsbook>('ALL');
+  const [oddsFilter, setOddsFilter] = useState<OddsFilter>('ALL');
   const [category, setCategory] = useState<ParlayCategory>('popular'),
     [openSection, setOpenSection] = useState(''),
     [search, setSearch] = useState('');
@@ -329,6 +332,20 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
         let values = [...rows.values()].filter(
           (row) => book === 'ALL' || Boolean(row.prices[book]?.available),
         );
+        values = values.filter((row) => {
+          const prices =
+            book === 'ALL'
+              ? Object.values(row.prices).filter((market): market is Market =>
+                  Boolean(market?.available),
+                )
+              : row.prices[book]
+                ? [row.prices[book] as Market]
+                : [];
+          const best = prices
+            .filter((market) => market.odds != null)
+            .sort((left, right) => compareAmericanOdds(right.odds!, left.odds!))[0];
+          return matchesOddsFilter(best?.odds, oddsFilter);
+        });
         if (query)
           values = values.filter((row) => titleFor(row.market).toLowerCase().includes(query));
         values.sort(
@@ -342,7 +359,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
         return [name, values] as const;
       })
       .filter(([, rows]) => rows.length);
-  }, [activeCategory, book, categorySections, search]);
+  }, [activeCategory, book, categorySections, oddsFilter, search]);
   useEffect(() => {
     setOpenSection(sections[0]?.[0] ?? '');
   }, [activeCategory, eventId]);
@@ -379,15 +396,12 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
     }
   };
   const parlayText = () => {
-    const matchup = event ? `${event.awayTeamId} @ ${event.homeTeamId}` : 'NFL';
     return [
-      '🧪 PARLAY LAB',
-      '',
-      matchup,
+      "I've been cooking up parlays in the lab",
       '',
       ...slip.map((market, index) => `${index + 1}. ${titleFor(market)}`),
       '',
-      'Built with Down & Distance Parlay Lab',
+      'Built with the Down & Distance Parlay Lab — https://downdistance.com/parlay-lab',
     ].join('\n');
   };
   const copyParlay = async () => {
@@ -439,7 +453,8 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
   return (
     <TeamThemeProvider>
       <div className={styles.shell}>
-        <MainSiteHeader active="parlay-lab" />
+        <MainSiteHeader active="parlay-lab" tone="brand" />
+        <ParlayLabSecondaryNav />
         <main className={styles.page}>
           <section className={styles.content}>
             <header className={styles.pageHeader}>
@@ -552,6 +567,21 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                       {value === 'ALL' ? 'All Books' : sportsbookName(value)}
                     </button>
                   ))}
+                  <select
+                    className={styles.oddsFilter}
+                    value={oddsFilter}
+                    onChange={(event) => setOddsFilter(event.target.value as OddsFilter)}
+                    title="Filters by sportsbook price only. It does not measure the likelihood of the bet winning."
+                    aria-label="Filter by odds"
+                  >
+                    <option value="ALL">All Odds</option>
+                    <option value="-500">-500 or Better</option>
+                    <option value="-300">-300 or Better</option>
+                    <option value="-200">-200 or Better</option>
+                    <option value="-150">-150 or Better</option>
+                    <option value="-120">-120 or Better</option>
+                    <option value="PLUS">Plus Money</option>
+                  </select>
                 </div>
               </div>
             </div>

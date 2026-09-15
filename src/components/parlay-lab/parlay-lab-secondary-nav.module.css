@@ -1,0 +1,68 @@
+.bar {
+  border-bottom: 1px solid #071b3020;
+  background: #f4d9b7;
+  color: #071b30;
+}
+.inner {
+  display: flex;
+  width: 100%;
+  max-width: 1440px;
+  min-height: 48px;
+  margin: 0 auto;
+  align-items: stretch;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 0 32px;
+  scrollbar-width: none;
+}
+.inner::-webkit-scrollbar {
+  display: none;
+}
+.inner a {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+.inner a::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: transparent;
+  content: '';
+}
+.inner a:hover,
+.inner a.active {
+  color: #071b30;
+}
+.inner a.active::after {
+  background: #ff3d38;
+}
+.inner svg {
+  width: 17px;
+  height: 17px;
+}
+.inner a[href*='lab-finds'] svg {
+  width: 14px;
+  height: 14px;
+  color: #071b30;
+}
+@media (max-width: 640px) {
+  .inner {
+    min-height: 48px;
+    gap: 24px;
+    padding: 0 16px;
+  }
+  .inner a {
+    padding: 0;
+  }
+}

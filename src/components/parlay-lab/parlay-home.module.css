@@ -229,12 +229,23 @@
   border: 2px solid #f05a35;
   padding: 13px;
 }
+.trendingControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 16px 12px;
+}
 .chips {
   display: flex;
   gap: 7px;
-  padding: 0 16px 12px;
+  padding: 0;
 }
 .chips button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 7px 14px;
   border: 1px solid #d6e0e8;
   border-radius: 7px;
@@ -247,6 +258,55 @@
 .chips .activeChip {
   background: #071b30;
   color: #fff;
+}
+.chips .labPickChip svg {
+  width: 14px;
+  height: 14px;
+  color: #168354;
+}
+.chips .labPickChip.activeChip {
+  border-color: #168354;
+  background: #168354;
+}
+.chips .labPickChip.activeChip svg {
+  color: #fff;
+}
+.gameFilter {
+  display: flex;
+  min-width: 190px;
+  align-items: center;
+  gap: 8px;
+  color: #60748a;
+  font-size: 0.67rem;
+  font-weight: 900;
+}
+.customOdds {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #60748a;
+  font-size: 0.67rem;
+  font-weight: 900;
+}
+.customOdds input {
+  width: 66px;
+  min-height: 34px;
+  border: 1px solid #d6e0e8;
+  border-radius: 7px;
+  padding: 0 8px;
+  color: #071b30;
+  font: inherit;
+}
+.gameFilter select {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid #d6e0e8;
+  border-radius: 7px;
+  background: #fff;
+  padding: 0 30px 0 10px;
+  color: #071b30;
+  font: inherit;
+  cursor: pointer;
 }
 .table {
   border-top: 1px solid #e1e8ed;
@@ -304,6 +364,51 @@
   padding: 17px;
   color: #6d8194;
   font-size: 0.7rem;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid #e5ebef;
+  color: #60748a;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.pagination div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.pagination div > b {
+  min-width: 88px;
+  color: #071b30;
+  text-align: center;
+}
+.pagination button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid #d6e0e8;
+  border-radius: 7px;
+  background: #fff;
+  color: #526a80;
+  font: inherit;
+  cursor: pointer;
+}
+.pagination button:hover:not(:disabled) {
+  border-color: #071b30;
+  color: #071b30;
+}
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.pagination svg {
+  width: 15px;
+  height: 15px;
 }
 .note {
   padding: 10px 16px;
@@ -1090,6 +1195,19 @@
   }
 }
 @media (max-width: 700px) {
+  .trendingControls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .chips {
+    overflow-x: auto;
+  }
+  .chips button {
+    flex: 0 0 auto;
+  }
+  .gameFilter {
+    min-width: 0;
+  }
   .upcomingMatchup {
     grid-template-columns: 1fr;
   }

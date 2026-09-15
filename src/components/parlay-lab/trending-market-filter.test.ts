@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { matchesTrendingMarketFilter } from './trending-market-filter';
+import { isLabPickMarket, matchesTrendingMarketFilter } from './trending-market-filter';
 
 test('matches the main trending prop categories regardless of stored casing', () => {
   assert.equal(matchesTrendingMarketFilter({ marketType: 'passing_yards' }, 'PASSING'), true);
@@ -29,4 +29,10 @@ test('places combined passing and rushing yards in Passing only', () => {
   };
   assert.equal(matchesTrendingMarketFilter(market, 'PASSING'), true);
   assert.equal(matchesTrendingMarketFilter(market, 'RUSHING'), false);
+});
+
+test('identifies only the researched side as a Lab Find', () => {
+  assert.equal(isLabPickMarket({ side: 'OVER', labResearch: { labFindSide: 'OVER' } }), true);
+  assert.equal(isLabPickMarket({ side: 'UNDER', labResearch: { labFindSide: 'OVER' } }), false);
+  assert.equal(isLabPickMarket({ side: 'OVER', labResearch: null }), false);
 });

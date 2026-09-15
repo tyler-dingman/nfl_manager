@@ -7,6 +7,10 @@ import {
   generateDailyThreeAndOut,
   getDailyThreeAndOut,
 } from '@/server/three-and-out/daily-service';
+import {
+  buildRankingDiagnostics,
+  rankTeamStories,
+} from '@/features/content/team-story-importance-service';
 
 export async function canonicalThreeAndOut(
   teamId: string,
@@ -31,6 +35,25 @@ export async function canonicalHuddle(
           )
           .slice(0, limit)
       : selectHuddleStories(all, excludedIds, limit);
+  if (process.env.NODE_ENV === 'development') {
+    console.debug(
+      '[team-story-ranking]',
+      buildRankingDiagnostics(
+        all.map((story) => ({
+          id: story.id,
+          headline: story.headline,
+          summary: story.shortSummary,
+          category: story.storyType,
+          updatedAt: story.lastMeaningfulUpdateAt,
+          publishedAt: story.firstReportedAt,
+          sourceCount: story.sources.length,
+          officialSource: story.sources.some((source) => source.official),
+          importanceScore: story.importanceScore,
+          status: story.status,
+        })),
+      ),
+    );
+  }
   const result = [];
   for (const s of selected) {
     if (result.length >= limit) break;
@@ -64,7 +87,7 @@ export async function getTeamHomepageData(teamId: string) {
   // never blank the primary Beat feed.
   const [canonicalResult, fallbackResult, threeAndOutResult, wireResult] = await Promise.allSettled(
     [
-      canonicalHuddle(teamId, [], 4, 'LATEST'),
+      canonicalHuddle(teamId, [], 4, 'RANKED'),
       loadTeamBriefings(teamId),
       canonicalThreeAndOut(teamId),
       listWireEntries(teamId, 6),
@@ -72,9 +95,18 @@ export async function getTeamHomepageData(teamId: string) {
   );
   const canonical = canonicalResult.status === 'fulfilled' ? canonicalResult.value : [];
   const fallback = fallbackResult.status === 'fulfilled' ? fallbackResult.value : [];
-  const huddle = (canonical.length ? canonical : fallback)
-    .sort((left, right) => new Date(right.updatedAt).getTime() - new Date(left.updatedAt).getTime())
-    .slice(0, 4);
+  const huddle = canonical.length
+    ? canonical.slice(0, 4)
+    : rankTeamStories(
+        fallback.map((story) => ({
+          ...story,
+          headline: story.headline,
+          category: story.category,
+          updatedAt: story.updatedAt,
+          publishedAt: story.sources[0]?.publishedAt,
+          officialSource: story.sources.some((source) => source.kind === 'official'),
+        })),
+      ).slice(0, 4);
   const threeAndOut = threeAndOutResult.status === 'fulfilled' ? threeAndOutResult.value : null;
   const wire = wireResult.status === 'fulfilled' ? wireResult.value : [];
   return { teamId, huddle, threeAndOut, wire };

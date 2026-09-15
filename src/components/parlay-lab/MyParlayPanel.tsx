@@ -162,9 +162,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
     ? (props.buildBookLink(bookMarkets, best.sportsbook.id) ?? best.sportsbook.url)
     : null;
   const text = [
-    'PARLAY LAB',
-    '',
-    props.matchup,
+    "I've been cooking up parlays in the lab",
     '',
     ...props.legs.map(
       (leg, index) =>
@@ -175,58 +173,127 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
       ? `Best sportsbook fit: ${best.sportsbook.name} (${best.matchedLegs}/${best.totalLegs})`
       : 'No single sportsbook match found.',
     '',
-    'Built with Down & Distance Parlay Lab',
+    'Built with the Down & Distance Parlay Lab — https://downdistance.com/parlay-lab',
   ].join('\n');
-  const saveImage = () => {
+  const saveImage = async () => {
     const canvas = document.createElement('canvas');
     canvas.width = 1080;
     canvas.height = 1080;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    ctx.fillStyle = '#071b30';
+
+    const roundedRect = (x: number, y: number, width: number, height: number, radius: number) => {
+      ctx.beginPath();
+      ctx.roundRect(x, y, width, height, radius);
+    };
+    const fitText = (value: string, maxWidth: number) => {
+      if (ctx.measureText(value).width <= maxWidth) return value;
+      let shortened = value;
+      while (shortened.length && ctx.measureText(`${shortened}…`).width > maxWidth)
+        shortened = shortened.slice(0, -1);
+      return `${shortened}…`;
+    };
+    const logo = await new Promise<HTMLImageElement | null>((resolve) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => resolve(null);
+      image.src = '/assets/front-office-asset-pack/brand/down-distance-logo.png';
+    });
+
+    ctx.fillStyle = '#f3f6f8';
     ctx.fillRect(0, 0, 1080, 1080);
-    ctx.fillStyle = '#f16832';
-    ctx.fillRect(0, 0, 1080, 18);
+
+    if (logo) {
+      const logoWidth = 184;
+      const logoHeight = (logo.height / logo.width) * logoWidth;
+      ctx.drawImage(logo, 58, 42, logoWidth, logoHeight);
+    }
+    ctx.fillStyle = '#071b30';
+    ctx.font = '900 48px Arial';
+    ctx.fillText('PARLAY LAB', 270, 94);
+    ctx.fillStyle = '#60758a';
+    ctx.font = '700 22px Arial';
+    ctx.fillText('DOWN & DISTANCE', 272, 126);
+
+    roundedRect(42, 168, 996, 820, 36);
+    ctx.fillStyle = '#171a1d';
+    ctx.fill();
+
     ctx.fillStyle = '#fff';
-    ctx.font = '800 38px Arial';
-    ctx.fillText('DOWN & DISTANCE', 70, 92);
-    ctx.font = '900 64px Arial';
-    ctx.fillText('PARLAY LAB', 70, 172);
-    ctx.fillStyle = '#f16832';
-    ctx.font = '800 28px Arial';
-    ctx.fillText('MY PARLAY', 70, 230);
-    ctx.fillStyle = '#fff';
-    ctx.font = '700 27px Arial';
-    props.legs
-      .slice(0, 8)
-      .forEach((leg, index) =>
-        ctx.fillText(
-          `${index + 1}. ${leg.playerName ?? leg.teamId} — ${props.marketLabel(leg)} ${props.pickLabel(leg)}`.slice(
-            0,
-            62,
-          ),
-          70,
-          300 + index * 58,
-        ),
-      );
-    ctx.fillStyle = '#f16832';
-    ctx.font = '800 28px Arial';
+    ctx.font = '800 42px Arial';
+    ctx.fillText(`${props.legs.length} Pick Parlay`, 82, 230);
+    ctx.fillStyle = '#aeb5bc';
+    ctx.font = '500 24px Arial';
     ctx.fillText(
-      `LAB CHECK · ${labFinds} LAB FINDS${average === null ? '' : ` · ${average}% AVG L10`}`,
-      70,
-      835,
+      fitText(props.legs.map((leg) => leg.playerName ?? leg.teamId ?? 'Game').join(', '), 900),
+      82,
+      272,
     );
-    ctx.fillStyle = '#fff';
+
+    const shownLegs = props.legs.slice(0, 7);
+    shownLegs.forEach((leg, index) => {
+      const top = 314 + index * 82;
+      if (index) {
+        ctx.strokeStyle = '#34383c';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(82, top - 20);
+        ctx.lineTo(998, top - 20);
+        ctx.stroke();
+      }
+      ctx.fillStyle = '#282c30';
+      ctx.beginPath();
+      ctx.arc(104, top + 18, 23, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#f8c900';
+      ctx.font = '800 21px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(String(index + 1), 104, top + 26);
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#fff';
+      ctx.font = '800 27px Arial';
+      ctx.fillText(fitText(leg.playerName ?? leg.teamId ?? 'Game', 500), 148, top + 10);
+      ctx.fillStyle = '#aeb5bc';
+      ctx.font = '600 21px Arial';
+      ctx.fillText(
+        fitText(`${props.marketLabel(leg)} · ${props.pickLabel(leg)}`, 650),
+        148,
+        top + 42,
+      );
+      ctx.fillStyle = '#fff';
+      ctx.font = '800 25px Arial';
+      ctx.textAlign = 'right';
+      ctx.fillText(odds(leg.odds), 984, top + 24);
+      ctx.textAlign = 'left';
+    });
+
+    if (props.legs.length > shownLegs.length) {
+      ctx.fillStyle = '#aeb5bc';
+      ctx.font = '700 20px Arial';
+      ctx.fillText(`+${props.legs.length - shownLegs.length} more legs`, 148, 902);
+    }
+    ctx.strokeStyle = '#34383c';
+    ctx.beginPath();
+    ctx.moveTo(82, 914);
+    ctx.lineTo(998, 914);
+    ctx.stroke();
+    ctx.fillStyle = '#43c786';
+    ctx.font = '800 22px Arial';
+    ctx.fillText(`LAB CHECK · ${labFinds} LAB FINDS`, 82, 952);
+    ctx.fillStyle = '#aeb5bc';
+    ctx.textAlign = 'right';
     ctx.fillText(
       best?.matchedLegs
-        ? `BEST SPORTSBOOK FIT · ${best.sportsbook.name} · ${best.matchedLegs}/${best.totalLegs}`
-        : 'NO SINGLE SPORTSBOOK MATCH',
-      70,
-      895,
+        ? `${best.sportsbook.name} · ${best.matchedLegs}/${best.totalLegs} legs`
+        : 'Research before you bet',
+      998,
+      952,
     );
-    ctx.fillStyle = '#9eb0c1';
-    ctx.font = '500 23px Arial';
-    ctx.fillText('Odds and availability can change.', 70, 1010);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#60758a';
+    ctx.font = '600 20px Arial';
+    ctx.fillText('downdistance.com/parlay-lab', 540, 1032);
+
     const link = document.createElement('a');
     link.download = `parlay-lab-${Date.now()}.png`;
     link.href = canvas.toDataURL('image/png');

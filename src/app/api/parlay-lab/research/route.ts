@@ -64,6 +64,19 @@ export async function GET(request: NextRequest) {
     kickoffAt: string;
     season: number;
   }>;
+  if (eventId === 'ALL') {
+    const marketGroups = await Promise.all(
+      events.map(async (candidate) => {
+        const opponents: Record<string, string> = {
+          [candidate.homeTeamId]: candidate.awayTeamId,
+          [candidate.awayTeamId]: candidate.homeTeamId,
+        };
+        const markets = await getTrendingProps(candidate.id, opponents);
+        return markets.map((market) => ({ ...market, eventId: candidate.id }));
+      }),
+    );
+    return NextResponse.json({ markets: marketGroups.flat() });
+  }
   const event = events.find((item) => item.id === eventId);
   if (!event) return NextResponse.json({ error: 'Event not found' }, { status: 404 });
   const opponents: Record<string, string> = {
@@ -76,7 +89,12 @@ export async function GET(request: NextRequest) {
     side =
       request.nextUrl.searchParams.get('side') === 'UNDER' ? ('UNDER' as const) : ('OVER' as const);
   if (!playerId || !marketType || !Number.isFinite(line))
-    return NextResponse.json({ markets: await getTrendingProps(eventId, opponents) });
+    return NextResponse.json({
+      markets: (await getTrendingProps(eventId, opponents)).map((market) => ({
+        ...market,
+        eventId,
+      })),
+    });
   const statType = normalizeHistoricalStatType(marketType);
   if (!statType)
     return NextResponse.json({ error: 'Historical stat type is unsupported' }, { status: 400 });

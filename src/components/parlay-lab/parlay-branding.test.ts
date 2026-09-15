@@ -9,13 +9,13 @@ const trends = readFileSync(
   'utf8',
 );
 
-test('all Parlay Lab surfaces use generic Down & Distance branding', () => {
+test('all Parlay Lab surfaces use generic Down & Distance branding with white header controls', () => {
   for (const source of [home, game]) {
     assert.match(source, /<TeamThemeProvider>/);
-    assert.match(source, /<MainSiteHeader active="parlay-lab" \/>/);
+    assert.match(source, /<MainSiteHeader active="parlay-lab" tone="brand" \/>/);
     assert.doesNotMatch(source, /<TeamThemeProvider team=/);
     assert.doesNotMatch(source, /<MainSiteHeader teamAbbr=/);
   }
-  assert.match(trends, /<MainSiteHeader active="parlay-lab" \/>/);
+  assert.match(trends, /<MainSiteHeader active="parlay-lab" tone="brand" \/>/);
   assert.doesNotMatch(trends, /teamAbbr=/);
 });

@@ -2,7 +2,18 @@
 
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { BarChart3, ExternalLink, FlaskConical, Plus, Sparkles, TrendingUp, X } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import {
+  BarChart3,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  FlaskConical,
+  Plus,
+  Sparkles,
+  TrendingUp,
+  X,
+} from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -12,8 +23,19 @@ import { generateResearchSlip, parseResearchPrompt } from '@/lib/parlay-lab/rese
 import { ladderDescriptionUnit, marketDisplayName } from '@/lib/parlay-lab/market-display';
 import { buildSportsbookLink, type Market } from './ParlayLabPage';
 import PlayerAvatar from './PlayerAvatar';
-import { matchesTrendingMarketFilter } from './trending-market-filter';
+import { isLabPickMarket, matchesTrendingMarketFilter } from './trending-market-filter';
 import MyParlayPanel from './MyParlayPanel';
+import ParlayLabSecondaryNav from './ParlayLabSecondaryNav';
+import ParlaySortHeader from './ParlaySortHeader';
+import {
+  americanOddsToDecimal,
+  hitRateSortValue,
+  matchesOddsFilter,
+  nextSort,
+  sortTableRows,
+  type OddsFilter,
+  type SortState,
+} from './parlay-table';
 import styles from './parlay-home.module.css';
 
 const GameByGameTrendChart = dynamic(() => import('./charts/GameByGameTrendChart'), { ssr: false });
@@ -51,7 +73,7 @@ type Trend = {
     result: string;
   }>;
 };
-type HomeMarket = Market & { trend?: Trend | null };
+type HomeMarket = Market & { trend?: Trend | null; eventId?: string };
 type EnvironmentSplit = {
   games: number;
   hits: number;
@@ -253,18 +275,41 @@ const pickLabel = (m: Market) =>
   `${m.side === 'OVER' ? 'O' : m.side === 'UNDER' ? 'U' : m.side} ${m.line ?? ''}`.trim();
 const playerTeamColor = (market: Pick<HomeMarket, 'teamId'>) =>
   TEAM_LIST.find((team) => team.abbr === market.teamId)?.colors[0] ?? null;
+const TRENDING_PAGE_SIZE = 12;
+type TrendingSortKey =
+  | 'player'
+  | 'market'
+  | 'last10'
+  | 'hitRate'
+  | 'average'
+  | 'opponent'
+  | 'odds'
+  | 'score';
 
 export function ParlayLabHome() {
+  const searchParams = useSearchParams();
   const [events, setEvents] = useState<OddsEvent[]>([]),
     [eventId, setEventId] = useState(''),
     [markets, setMarkets] = useState<HomeMarket[]>([]),
+    [trendingGameId, setTrendingGameId] = useState('ALL'),
+    [trendingMarkets, setTrendingMarkets] = useState<HomeMarket[]>([]),
     [slip, setSlip] = useState<HomeMarket[]>([]),
     [prompt, setPrompt] = useState(''),
     [filter, setFilter] = useState('ALL'),
+    [oddsFilter, setOddsFilter] = useState<OddsFilter>('ALL'),
+    [oddsMinimum, setOddsMinimum] = useState<number | null>(null),
+    [oddsMaximum, setOddsMaximum] = useState<number | null>(null),
+    [trendingSort, setTrendingSort] = useState<SortState<TrendingSortKey>>(null),
+    [trendingPage, setTrendingPage] = useState(1),
     [message, setMessage] = useState(''),
     [detail, setDetail] = useState<HomeMarket | null>(null),
     [detailData, setDetailData] = useState<ResearchDetail | null>(null),
     [chartWindow, setChartWindow] = useState<'L5' | 'L10' | 'SEASON' | '2 YEARS'>('L10');
+  useEffect(() => {
+    const view = searchParams?.get('view');
+    if (view === 'lab-finds') setFilter('LAB_FINDS');
+    else if (view === 'trends') setFilter('ALL');
+  }, [searchParams]);
   useEffect(() => {
     fetch('/api/parlay-lab/events')
       .then((r) => r.json())
@@ -277,19 +322,91 @@ export function ParlayLabHome() {
   }, []);
   useEffect(() => {
     if (!eventId) return;
+    setMarkets([]);
     fetch(`/api/parlay-lab/research?eventId=${encodeURIComponent(eventId)}`)
       .then((r) => r.json())
       .then((b) => setMarkets((b.markets ?? []).filter((m: HomeMarket) => m.available)))
       .catch(() => setMessage('Markets for this game could not be loaded.'));
   }, [eventId]);
-  const rows = useMemo(() => {
+  useEffect(() => {
+    if (!events.length) return;
+    const controller = new AbortController();
+    setTrendingMarkets([]);
+    fetch(`/api/parlay-lab/research?eventId=${encodeURIComponent(trendingGameId)}`, {
+      signal: controller.signal,
+    })
+      .then((response) => response.json())
+      .then((body) =>
+        setTrendingMarkets((body.markets ?? []).filter((market: HomeMarket) => market.available)),
+      )
+      .catch((error) => {
+        if (error.name !== 'AbortError') setMessage('Trending markets could not be loaded.');
+      });
+    return () => controller.abort();
+  }, [events.length, trendingGameId]);
+  useEffect(
+    () => setTrendingPage(1),
+    [filter, oddsFilter, oddsMinimum, oddsMaximum, trendingGameId, trendingSort],
+  );
+  const allRows = useMemo(() => {
     const unique = new Map<string, HomeMarket>();
-    for (const m of markets) {
-      const old = unique.get(m.normalizedKey);
-      if (!old || (m.odds ?? -9999) > (old.odds ?? -9999)) unique.set(m.normalizedKey, m);
+    for (const m of trendingMarkets) {
+      const key = `${m.eventId ?? trendingGameId}:${m.normalizedKey}`;
+      const old = unique.get(key);
+      if (!old || (m.odds ?? -9999) > (old.odds ?? -9999)) unique.set(key, m);
     }
-    return [...unique.values()].filter((m) => matchesTrendingMarketFilter(m, filter)).slice(0, 8);
-  }, [markets, filter]);
+    const filtered = [...unique.values()]
+      .filter((m) =>
+        filter === 'LAB_FINDS' ? isLabPickMarket(m) : matchesTrendingMarketFilter(m, filter),
+      )
+      .filter((market) => matchesOddsFilter(market.odds, oddsFilter, oddsMinimum, oddsMaximum))
+      .sort((a, b) => (b.trend?.trendScore ?? -1) - (a.trend?.trendScore ?? -1));
+    if (trendingSort)
+      return sortTableRows(filtered, trendingSort, {
+        player: (market) => (market.playerName ?? market.teamId ?? '').toLowerCase(),
+        market: (market) => marketLabel(market).toLowerCase(),
+        last10: (market) =>
+          market.trend
+            ? hitRateSortValue(market.trend.last10.hits, market.trend.last10.games)
+            : null,
+        hitRate: (market) =>
+          market.trend
+            ? hitRateSortValue(market.trend.last10.hits, market.trend.last10.games)
+            : null,
+        average: (market) => market.trend?.average,
+        opponent: (market) =>
+          market.trend
+            ? hitRateSortValue(market.trend.vsOpponent.hits, market.trend.vsOpponent.games)
+            : null,
+        odds: (market) => (market.odds == null ? null : americanOddsToDecimal(market.odds)),
+        score: (market) => market.trend?.trendScore,
+      });
+    if (trendingGameId !== 'ALL' || filter !== 'ALL') return filtered;
+
+    const selected: HomeMarket[] = [];
+    const addOnce = (market: HomeMarket | undefined) => {
+      if (market && !selected.some((item) => item.id === market.id)) selected.push(market);
+    };
+    for (const category of ['PASSING', 'RUSHING', 'RECEIVING', 'TOUCHDOWN'])
+      addOnce(filtered.find((market) => matchesTrendingMarketFilter(market, category)));
+    for (const market of filtered) {
+      const sameGame = selected.filter((item) => item.eventId === market.eventId).length;
+      if (sameGame < 2) addOnce(market);
+    }
+    for (const market of filtered) {
+      addOnce(market);
+    }
+    return selected;
+  }, [trendingMarkets, filter, trendingGameId, oddsFilter, oddsMinimum, oddsMaximum, trendingSort]);
+  const trendingPageCount = Math.max(1, Math.ceil(allRows.length / TRENDING_PAGE_SIZE));
+  useEffect(
+    () => setTrendingPage((page) => Math.min(page, trendingPageCount)),
+    [trendingPageCount],
+  );
+  const rows = allRows.slice(
+    (trendingPage - 1) * TRENDING_PAGE_SIZE,
+    trendingPage * TRENDING_PAGE_SIZE,
+  );
   const add = (m: HomeMarket) =>
     setSlip((s) => (s.some((x) => x.id === m.id && x.sportsbook === m.sportsbook) ? s : [...s, m]));
   const openResearch = (market: HomeMarket) => {
@@ -297,7 +414,7 @@ export function ParlayLabHome() {
     setDetailData(null);
     setChartWindow('L10');
     const query = new URLSearchParams({
-      eventId,
+      eventId: market.eventId ?? eventId,
       playerId: market.playerId ?? '',
       marketType: market.marketType,
       line: String(market.line),
@@ -329,7 +446,8 @@ export function ParlayLabHome() {
   return (
     <TeamThemeProvider>
       <div className={styles.shell}>
-        <MainSiteHeader active="parlay-lab" />
+        <MainSiteHeader active="parlay-lab" tone="brand" />
+        <ParlayLabSecondaryNav />
         <main className={styles.page}>
           <section className={styles.main}>
             <header className={styles.hero}>
@@ -380,7 +498,7 @@ export function ParlayLabHome() {
                 money.”
               </p>
             </section>
-            <section className={styles.panel}>
+            <section className={styles.panel} id="trending-props">
               <header>
                 <h2>🏈 Featured Games</h2>
                 <Link href={eventId ? `/parlay-lab/game/${eventId}/markets` : '/parlay-lab'}>
@@ -412,7 +530,7 @@ export function ParlayLabHome() {
                 ))}
               </div>
             </section>
-            <section className={styles.panel}>
+            <section className={styles.panel} id="featured-games">
               <header>
                 <div>
                   <h2>🔥 Trending Props</h2>
@@ -420,27 +538,133 @@ export function ParlayLabHome() {
                 </div>
                 <Link href="/parlay-lab/trends">Research notes →</Link>
               </header>
-              <nav className={styles.chips}>
-                {['ALL', 'PASSING', 'RUSHING', 'RECEIVING', 'TOUCHDOWN'].map((x) => (
-                  <button
-                    key={x}
-                    className={filter === x ? styles.activeChip : ''}
-                    onClick={() => setFilter(x)}
+              <div className={styles.trendingControls}>
+                <nav className={styles.chips} aria-label="Trending prop category">
+                  {['ALL', 'PASSING', 'RUSHING', 'RECEIVING', 'TOUCHDOWN', 'LAB_FINDS'].map((x) => (
+                    <button
+                      key={x}
+                      className={`${x === 'LAB_FINDS' ? styles.labPickChip : ''} ${filter === x ? styles.activeChip : ''}`}
+                      onClick={() => setFilter(x)}
+                    >
+                      {x === 'LAB_FINDS' && <FlaskConical />}
+                      {x === 'ALL'
+                        ? 'All'
+                        : x === 'LAB_FINDS'
+                          ? 'Lab Finds'
+                          : x[0] + x.slice(1).toLowerCase()}
+                    </button>
+                  ))}
+                </nav>
+                <label className={styles.gameFilter}>
+                  <span>Game</span>
+                  <select
+                    value={trendingGameId}
+                    onChange={(event) => setTrendingGameId(event.target.value)}
                   >
-                    {x === 'ALL' ? 'All' : x[0] + x.slice(1).toLowerCase()}
-                  </button>
-                ))}
-              </nav>
+                    <option value="ALL">All Games</option>
+                    {events.map((game) => (
+                      <option key={game.id} value={game.id}>
+                        {game.awayTeamId} @ {game.homeTeamId} ·{' '}
+                        {new Date(game.kickoffAt).toLocaleDateString([], {
+                          weekday: 'short',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className={styles.gameFilter}>
+                  <span>Odds</span>
+                  <select
+                    value={oddsFilter}
+                    onChange={(event) => setOddsFilter(event.target.value as OddsFilter)}
+                    title="Filters by sportsbook price only. It does not measure the likelihood of the bet winning."
+                  >
+                    <option value="ALL">All Odds</option>
+                    <option value="-500">-500 or Better</option>
+                    <option value="-300">-300 or Better</option>
+                    <option value="-200">-200 or Better</option>
+                    <option value="-150">-150 or Better</option>
+                    <option value="-120">-120 or Better</option>
+                    <option value="PLUS">Plus Money</option>
+                    <option value="CUSTOM">Custom</option>
+                  </select>
+                </label>
+                {oddsFilter === 'CUSTOM' ? (
+                  <div className={styles.customOdds}>
+                    <input
+                      aria-label="Minimum odds"
+                      inputMode="numeric"
+                      placeholder="Min"
+                      onChange={(event) =>
+                        setOddsMinimum(event.target.value ? Number(event.target.value) : null)
+                      }
+                    />
+                    <span>to</span>
+                    <input
+                      aria-label="Maximum odds"
+                      inputMode="numeric"
+                      placeholder="Max"
+                      onChange={(event) =>
+                        setOddsMaximum(event.target.value ? Number(event.target.value) : null)
+                      }
+                    />
+                  </div>
+                ) : null}
+              </div>
               <div className={styles.table}>
                 <div className={styles.head}>
-                  <span>Player / team</span>
-                  <span>Market</span>
-                  <span>Last 10</span>
-                  <span>Hit rate</span>
-                  <span>Average</span>
-                  <span>Vs. Opponent</span>
-                  <span>Odds</span>
-                  <span>Trend</span>
+                  <ParlaySortHeader
+                    label="Player / team"
+                    sortKey="player"
+                    sort={trendingSort}
+                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Market"
+                    sortKey="market"
+                    sort={trendingSort}
+                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Last 10"
+                    sortKey="last10"
+                    sort={trendingSort}
+                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Hit rate"
+                    sortKey="hitRate"
+                    sort={trendingSort}
+                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Average"
+                    sortKey="average"
+                    sort={trendingSort}
+                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Vs. Opponent"
+                    sortKey="opponent"
+                    sort={trendingSort}
+                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Odds"
+                    sortKey="odds"
+                    sort={trendingSort}
+                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
+                    title="Best currently stored price across selected sportsbooks."
+                  />
+                  <ParlaySortHeader
+                    label="Score"
+                    sortKey="score"
+                    sort={trendingSort}
+                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
+                    title="Parlay Lab research score. This is not a predicted win probability."
+                  />
                   <span />
                 </div>
                 {rows.map((m) => (
@@ -457,7 +681,9 @@ export function ParlayLabHome() {
                       />
                       <span>{m.playerName ?? m.teamId ?? 'Game'}</span>
                     </strong>
-                    <span>{marketLabel(m)}</span>
+                    <span>
+                      <b>{pickLabel(m)}</b> {marketLabel(m)}
+                    </span>
                     <span>{m.trend ? `${m.trend.last10.hits}/${m.trend.last10.games}` : '—'}</span>
                     <span>
                       {m.trend?.last10.hitRate == null
@@ -486,7 +712,37 @@ export function ParlayLabHome() {
                   </div>
                 ))}
               </div>
-              {!rows.length && <p className={styles.empty}>No markets match this filter.</p>}
+              {!allRows.length && <p className={styles.empty}>No markets match this filter.</p>}
+              {allRows.length > TRENDING_PAGE_SIZE && (
+                <nav className={styles.pagination} aria-label="Trending Props pages">
+                  <span>
+                    {(trendingPage - 1) * TRENDING_PAGE_SIZE + 1}–
+                    {Math.min(trendingPage * TRENDING_PAGE_SIZE, allRows.length)} of{' '}
+                    {allRows.length}
+                  </span>
+                  <div>
+                    <button
+                      aria-label="Previous page"
+                      disabled={trendingPage === 1}
+                      onClick={() => setTrendingPage((page) => Math.max(1, page - 1))}
+                    >
+                      <ChevronLeft />
+                    </button>
+                    <b>
+                      Page {trendingPage} of {trendingPageCount}
+                    </b>
+                    <button
+                      aria-label="Next page"
+                      disabled={trendingPage === trendingPageCount}
+                      onClick={() =>
+                        setTrendingPage((page) => Math.min(trendingPageCount, page + 1))
+                      }
+                    >
+                      <ChevronRight />
+                    </button>
+                  </div>
+                </nav>
+              )}
               <p className={styles.note}>
                 Markets without at least five qualifying historical games are labeled Insufficient
                 history instead of receiving an estimated trend.
@@ -531,7 +787,7 @@ export function ParlayLabHome() {
           </section>
           <MyParlayPanel
             legs={slip}
-            markets={markets}
+            markets={[...markets, ...trendingMarkets]}
             matchup={
               events.find((item) => item.id === eventId)
                 ? `${events.find((item) => item.id === eventId)!.awayTeamId} @ ${events.find((item) => item.id === eventId)!.homeTeamId}`
@@ -541,9 +797,23 @@ export function ParlayLabHome() {
             pickLabel={pickLabel}
             onRemove={(id) => setSlip((rows) => rows.filter((market) => market.id !== id))}
             onClear={() => setSlip([])}
-            onSave={() =>
-              localStorage.setItem('down-distance-parlay-lab-current', JSON.stringify(slip))
-            }
+            onSave={() => {
+              localStorage.setItem('down-distance-parlay-lab-current', JSON.stringify(slip));
+              const stored = JSON.parse(
+                localStorage.getItem('down-distance-parlay-lab-slips') ?? '[]',
+              );
+              const saved = Array.isArray(stored) ? stored : [];
+              saved.unshift({
+                id: `slip-${Date.now()}`,
+                createdAt: new Date().toISOString(),
+                event: events.find((item) => item.id === eventId) ?? null,
+                selections: slip,
+              });
+              localStorage.setItem(
+                'down-distance-parlay-lab-slips',
+                JSON.stringify(saved.slice(0, 20)),
+              );
+            }}
             onResearch={openResearch}
             buildBookLink={buildSportsbookLink}
             avatarColor={playerTeamColor}

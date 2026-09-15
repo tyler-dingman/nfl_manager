@@ -1,0 +1,21 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.button:hover {
+  color: #071b30;
+}
+.button svg {
+  width: 12px;
+  height: 12px;
+  flex: 0 0 auto;
+}

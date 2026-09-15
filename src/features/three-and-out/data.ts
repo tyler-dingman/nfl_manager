@@ -1,6 +1,7 @@
 import { TEAM_LIST } from '@/data/teams';
 import { getGeneratedTeamBriefings } from '@/features/content/generated-briefings';
 import type { TeamBriefing } from '@/features/content/types';
+import { selectDailyBriefingStories } from './daily';
 
 import { applyEditorialOverrides } from './editorial-store';
 import { calculateImportanceScore, rankThreeAndOutStories } from './ranking';
@@ -156,9 +157,18 @@ export function getThreeAndOutPackage(
   const team = TEAM_LIST.find((candidate) => candidate.abbr === normalized) ?? TEAM_LIST[0];
   const now = new Date().toISOString();
   const seed = TEAM_DEVELOPMENT_SEEDS[team.abbr] ?? defaultSeed(team.name);
-  const briefing = getGeneratedTeamBriefings(team.abbr)[0];
-  const candidates = [
-    makeStory({ teamId: team.abbr, teamName: team.name, rank: 1, title: seed[0], now, briefing }),
+  const briefings = getGeneratedTeamBriefings(team.abbr);
+  const realCandidates = briefings.map((briefing, index) =>
+    makeStory({
+      teamId: team.abbr,
+      teamName: team.name,
+      rank: index + 1,
+      title: briefing.headline,
+      now,
+      briefing,
+    }),
+  );
+  const fallbackCandidates = [
     makeStory({ teamId: team.abbr, teamName: team.name, rank: 2, title: seed[1], now }),
     makeStory({ teamId: team.abbr, teamName: team.name, rank: 3, title: seed[2], now }),
     makeStory({ teamId: team.abbr, teamName: team.name, rank: 4, title: seed[4], now }),
@@ -170,9 +180,17 @@ export function getThreeAndOutPackage(
       now,
     }),
   ];
-  const ranked = rankThreeAndOutStories(applyEditorialOverrides(candidates, editorialOverrides));
-  const stories = ranked.slice(0, 3) as ThreeAndOutPackage['current']['stories'];
-  const generatedAt = briefing?.updatedAt ?? now;
+  const candidates = applyEditorialOverrides(
+    [...realCandidates, ...fallbackCandidates],
+    editorialOverrides,
+  );
+  const selected = selectDailyBriefingStories(candidates, team.abbr, new Date(now));
+  const ranked = rankThreeAndOutStories(candidates);
+  const stories = [
+    ...selected,
+    ...ranked.filter((item) => !selected.some((selectedItem) => selectedItem.id === item.id)),
+  ].slice(0, 3) as ThreeAndOutPackage['current']['stories'];
+  const generatedAt = briefings[0]?.updatedAt ?? now;
   const snapshotId = `${team.abbr.toLowerCase()}-${generatedAt.replace(/\D/g, '').slice(0, 12)}`;
   const current: ThreeAndOutPackage['current'] = {
     id: snapshotId,

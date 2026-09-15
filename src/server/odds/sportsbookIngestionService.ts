@@ -102,8 +102,15 @@ export class SportsbookIngestionService {
   }
 
   async importEvent(providerEventId: string) {
+    const existing = (
+      (await listLocalOddsEvents()) as unknown as Array<{
+        providerEventId: string;
+        season: number;
+        week: number;
+      }>
+    ).find((event) => event.providerEventId === providerEventId);
     const events = await this.client.getEvent(providerEventId);
-    return this.importEvents(events);
+    return this.importEvents(events, existing?.season, existing?.week);
   }
 
   private async importEvents(

@@ -146,7 +146,9 @@ export async function listPublicStoryPage(teamId: string, options: PublicStoryPa
   const rows = await sql`
     SELECT s.*,(SELECT count(*)::int FROM story_evidence evidence WHERE evidence.story_id=s.id) AS source_count
     FROM canonical_stories s ${where}
-    ORDER BY ${sort === 'NEWEST' ? sql`s.first_reported_at` : sql`s.last_meaningful_update_at`} DESC,s.id DESC
+    ORDER BY ${sort === 'NEWEST' ? sql`s.first_reported_at` : sql`s.last_meaningful_update_at`} DESC,
+      (SELECT max(evidence.first_seen_at) FROM story_evidence evidence WHERE evidence.story_id=s.id) DESC NULLS LAST,
+      s.id DESC
     LIMIT ${pageSize} OFFSET ${offset}`;
   if (!rows.length) return { stories: [] as StoryView[], page, pageSize, totalItems, totalPages };
   const ids = rows.map((row: any) => row.id);

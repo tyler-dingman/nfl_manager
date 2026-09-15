@@ -1,4 +1,9 @@
 import type { ThreeAndOutStory } from './types';
+import {
+  classifyTeamStory,
+  rankTeamStories,
+  scoreTeamStory,
+} from '@/features/content/team-story-importance-service';
 
 export const THREE_AND_OUT_COUNT = 3;
 export const THREE_AND_OUT_PUBLISH_HOUR = 17;
@@ -31,15 +36,21 @@ const overlap = (left: string, right: string) => {
 };
 
 export const briefingStoryScore = (story: ThreeAndOutStory, now = new Date()) => {
-  const ageHours = Math.max(
-    0,
-    (now.getTime() - new Date(story.lastMaterialUpdateAt).getTime()) / 3_600_000,
-  );
-  const freshness = Math.max(0, 30 - ageHours * 1.25);
-  const authority = story.sources.some((source) => source.isOfficialSource) ? 12 : 0;
-  const corroboration = Math.min(15, Math.max(0, story.sourceCount - 1) * 5);
-  const breaking = story.status === 'BREAKING' ? 18 : story.status === 'DEVELOPING' ? 8 : 0;
-  return story.importanceScore + freshness + authority + corroboration + breaking;
+  return scoreTeamStory(
+    {
+      id: story.id,
+      headline: story.title,
+      summary: story.summary,
+      category: story.category,
+      updatedAt: story.lastMaterialUpdateAt,
+      publishedAt: story.firstPublishedAt,
+      sourceCount: story.sourceCount,
+      officialSource: story.sources.some((source) => source.isOfficialSource),
+      importanceScore: story.importanceScore,
+      status: story.status,
+    },
+    now,
+  ).score;
 };
 
 /** Deterministic top-three selection with duplicate suppression and category diversity. */
@@ -48,13 +59,20 @@ export function selectDailyBriefingStories(
   teamId: string,
   now = new Date(),
 ) {
-  const ranked = candidates
+  const eligible = candidates
     .filter((story) => story.teamId === teamId)
-    .filter((story) => Number.isFinite(new Date(story.lastMaterialUpdateAt).getTime()))
-    .sort((left, right) => {
-      const difference = briefingStoryScore(right, now) - briefingStoryScore(left, now);
-      return difference || left.id.localeCompare(right.id);
-    });
+    .filter((story) => Number.isFinite(new Date(story.lastMaterialUpdateAt).getTime()));
+  const ranked = rankTeamStories(
+    eligible.map((story) => ({
+      ...story,
+      headline: story.title,
+      summary: story.summary,
+      updatedAt: story.lastMaterialUpdateAt,
+      publishedAt: story.firstPublishedAt,
+      officialSource: story.sources.some((source) => source.isOfficialSource),
+    })),
+    now,
+  );
   const deduped = ranked.filter(
     (story, index, all) =>
       all.findIndex(
@@ -62,6 +80,21 @@ export function selectDailyBriefingStories(
       ) === index,
   );
   const selected: ThreeAndOutStory[] = [];
+  const recentGame = deduped.find((story) => {
+    const age = now.getTime() - new Date(story.lastMaterialUpdateAt).getTime();
+    return (
+      classifyTeamStory({
+        id: story.id,
+        headline: story.title,
+        summary: story.summary,
+        category: story.category,
+        updatedAt: story.lastMaterialUpdateAt,
+      }) === 'GAME_RESULT' &&
+      age >= 0 &&
+      age <= 24 * 3_600_000
+    );
+  });
+  if (recentGame) selected.push(recentGame);
   for (const story of deduped) {
     if (selected.length >= THREE_AND_OUT_COUNT) break;
     if (selected.some((item) => categoryFor(item) === categoryFor(story))) continue;

@@ -3,12 +3,12 @@ type TrendingMarket = {
   statId?: string | null;
 };
 
-export type TrendingMarketFilter =
-  | 'ALL'
-  | 'PASSING'
-  | 'RUSHING'
-  | 'RECEIVING'
-  | 'TOUCHDOWN';
+type LabPickMarket = {
+  side: string;
+  labResearch?: { labFindSide: 'OVER' | 'UNDER' | null } | null;
+};
+
+export type TrendingMarketFilter = 'ALL' | 'PASSING' | 'RUSHING' | 'RECEIVING' | 'TOUCHDOWN';
 
 const searchableMarketName = (market: TrendingMarket) =>
   `${market.marketType} ${market.statId ?? ''}`.replaceAll('-', '_').toUpperCase();
@@ -33,4 +33,8 @@ export function matchesTrendingMarketFilter(
     default:
       return false;
   }
+}
+
+export function isLabPickMarket(market: LabPickMarket) {
+  return market.labResearch?.labFindSide === market.side;
 }

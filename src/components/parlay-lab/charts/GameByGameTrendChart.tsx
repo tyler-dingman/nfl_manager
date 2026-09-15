@@ -46,8 +46,7 @@ export default function GameByGameTrendChart({
     tooltip: {
       trigger: 'item',
       formatter: (raw: unknown) => {
-        const p = raw as { dataIndex: number };
-        const game = points[p.dataIndex]!;
+        const game = (raw as { data: { game: GamePoint } }).data.game;
         return [
           `<b>Week ${game.week} ${game.homeAway === 'HOME' ? 'vs' : '@'} ${game.opponent}</b>`,
           `${marketLabel}: <b>${game.value}</b>`,
@@ -95,8 +94,21 @@ export default function GameByGameTrendChart({
       {
         type: 'bar',
         barMaxWidth: 34,
+        label: {
+          show: true,
+          position: 'top',
+          distance: 6,
+          color: chartColors.navy,
+          fontSize: 12,
+          fontWeight: 700,
+          formatter: (raw: unknown) => {
+            const value = (raw as { value?: number }).value;
+            return value == null ? '' : String(value);
+          },
+        },
         data: points.map((p) => ({
           value: p.value,
+          game: p,
           itemStyle: {
             color: p.result === 'HIT' ? chartColors.green : chartColors.muted,
             borderRadius: [4, 4, 0, 0],

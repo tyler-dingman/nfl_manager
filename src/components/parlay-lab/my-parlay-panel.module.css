@@ -2,7 +2,11 @@
   position: sticky;
   top: calc(var(--site-header-height) + 20px);
   align-self: start;
-  overflow: hidden;
+  max-height: calc(100dvh - var(--site-header-height) - 40px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
   border: 1px solid #d9e2ea;
   border-radius: 18px;
   background: #fff;
@@ -10,11 +14,15 @@
   box-shadow: 0 14px 34px #071b3012;
 }
 .panel > header {
+  position: sticky;
+  z-index: 2;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid #e2e8ee;
+  background: #fff;
 }
 .panel h2 {
   margin: 0;
@@ -368,6 +376,9 @@
 @media (max-width: 980px) {
   .panel {
     position: static;
+    max-height: none;
+    overflow: hidden;
+    scrollbar-gutter: auto;
   }
   .metrics {
     grid-template-columns: repeat(2, 1fr);

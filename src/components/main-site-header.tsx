@@ -13,16 +13,23 @@ import MobileSiteMenu from '@/components/mobile-site-menu';
 export default function MainSiteHeader({
   teamAbbr,
   active,
+  tone = 'team',
 }: {
   teamAbbr?: string | null;
   active?: PrimaryNavItemId | null;
+  tone?: 'team' | 'merch' | 'brand';
 }) {
   const teamSuffix = teamAbbr ? `&team=${encodeURIComponent(teamAbbr)}` : '';
 
   return (
-    <SiteHeaderShell>
+    <SiteHeaderShell tone={tone}>
       <SiteHeaderLogo teamAbbr={teamAbbr} generic={!teamAbbr} />
-      <PrimaryNavigation teamAbbr={teamAbbr} active={active} showMobile={false} />
+      <PrimaryNavigation
+        teamAbbr={teamAbbr}
+        active={active}
+        tone={tone === 'brand' ? 'dark' : 'light'}
+        showMobile={false}
+      />
       <div className="ml-auto flex min-w-0 items-center gap-2">
         <Link
           href={`/?search=1${teamSuffix}`}

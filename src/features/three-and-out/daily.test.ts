@@ -107,3 +107,20 @@ test('builds a stable archived deep link and respects local 5 PM delivery', () =
     false,
   );
 });
+
+test('reserves first down for a completed game inside the postgame window', () => {
+  const game = story('game-result', 'Chiefs defeat Broncos 31-10 in final score', 'game', 20);
+  game.lastMaterialUpdateAt = '2026-09-09T12:00:00.000Z';
+  const selected = selectDailyBriefingStories(
+    [
+      story('trade', 'Chiefs complete major roster trade', 'transaction', 99),
+      story('injury', 'Starting tackle suffers season-ending injury', 'injury', 95),
+      game,
+      story('practice', 'Wednesday practice notes', 'practice', 90),
+    ],
+    'KC',
+    NOW,
+  );
+  assert.equal(selected[0].id, 'game-result');
+  assert.equal(selected.length, 3);
+});

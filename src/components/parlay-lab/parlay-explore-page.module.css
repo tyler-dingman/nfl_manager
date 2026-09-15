@@ -1,0 +1,317 @@
+.shell {
+  min-height: 100vh;
+  background: #f4f7f9;
+  color: #071b30;
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.shell h1,
+.shell h2,
+.shell h3 {
+  font-family: inherit;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+}
+.page {
+  width: min(1440px, calc(100% - 56px));
+  margin: 0 auto;
+  padding: 32px 0 70px;
+}
+.hero > span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #168354;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.hero svg {
+  width: 17px;
+}
+.hero h1 {
+  margin: 7px 0 5px;
+  font-size: 3.7rem;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+.hero p {
+  max-width: 760px;
+  margin: 0;
+  color: #60758a;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.gameGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 30px;
+}
+.gameGrid a {
+  display: grid;
+  gap: 24px;
+  min-height: 210px;
+  padding: 24px;
+  border: 1px solid #d9e2ea;
+  border-radius: 16px;
+  background: #fff;
+  color: #071b30;
+  text-decoration: none;
+  box-shadow: 0 12px 30px #071b300d;
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
+}
+.gameGrid a:hover {
+  transform: translateY(-2px);
+  border-color: #ff3d38;
+}
+.gameGrid div {
+  display: flex;
+  justify-content: space-between;
+  color: #60758a;
+}
+.gameGrid div small {
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.gameGrid strong {
+  font-size: 1.8rem;
+  letter-spacing: -0.015em;
+}
+.gameGrid strong i {
+  margin: 0 10px;
+  color: #71869a;
+  font-style: normal;
+}
+.gameGrid > a > span {
+  align-self: end;
+  color: #0871c9;
+  font-weight: 900;
+}
+.research {
+  overflow: hidden;
+  margin-top: 30px;
+  border: 1px solid #d9e2ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 12px 30px #071b300d;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 22px;
+}
+.controls h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: -0.015em;
+}
+.controls p {
+  margin: 3px 0 0;
+  color: #60758a;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #60758a;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+.filterFields {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.controls select {
+  min-width: 150px;
+  min-height: 40px;
+  border: 1px solid #d6e0e8;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0 12px;
+  color: #071b30;
+  font: inherit;
+}
+.range {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #60758a;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+.range input {
+  width: 66px;
+  min-height: 40px;
+  border: 1px solid #d6e0e8;
+  border-radius: 8px;
+  padding: 0 8px;
+  color: #071b30;
+  font: inherit;
+}
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 0 22px 16px;
+}
+.activeFilters button {
+  border: 1px solid #cdd9e2;
+  border-radius: 999px;
+  background: #f7f9fb;
+  padding: 6px 10px;
+  color: #526a80;
+  font-size: 0.7rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.activeFilters button:last-child {
+  border-color: transparent;
+  background: none;
+  color: #0871c9;
+}
+.mobileSort {
+  display: none;
+}
+.table {
+  overflow-x: auto;
+}
+.tableHead,
+.tableRow {
+  display: grid;
+  grid-template-columns: 1.25fr 0.8fr 1.3fr 0.55fr 0.65fr 0.55fr 0.75fr 0.75fr 0.45fr 0.55fr;
+  gap: 12px;
+  min-width: 1180px;
+  align-items: center;
+  padding: 0 22px;
+}
+.tableHead {
+  min-height: 42px;
+  border-top: 1px solid #e2e8ee;
+  background: #f7f9fb;
+  color: #60748a;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.tableRow {
+  min-height: 70px;
+  border-top: 1px solid #e6ebef;
+  color: #526a80;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+.tableRow:hover {
+  background: #fbfcfd;
+}
+.tableRow > strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #071b30;
+}
+.tableRow > span:nth-child(3) b {
+  color: #071b30;
+}
+.tableRow > b {
+  color: #071b30;
+}
+.empty {
+  margin: 0;
+  padding: 24px;
+  border-top: 1px solid #e5ebef;
+  color: #60758a;
+  text-align: center;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  border-top: 1px solid #e5ebef;
+  color: #60758a;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.pagination div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pagination div > b {
+  min-width: 90px;
+  color: #071b30;
+  text-align: center;
+}
+.pagination button {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid #d6e0e8;
+  border-radius: 7px;
+  background: #fff;
+  color: #071b30;
+  cursor: pointer;
+}
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.pagination svg {
+  width: 15px;
+}
+@media (max-width: 900px) {
+  .gameGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .page {
+    width: calc(100% - 24px);
+    padding-top: 28px;
+  }
+  .hero h1 {
+    font-size: 2.75rem;
+  }
+  .gameGrid {
+    grid-template-columns: 1fr;
+  }
+  .controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .controls label {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .filterFields {
+    justify-content: stretch;
+  }
+  .filterFields label,
+  .filterFields select {
+    width: 100%;
+  }
+  .mobileSort {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .pagination {
+    gap: 10px;
+    flex-direction: column;
+  }
+}
