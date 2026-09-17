@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
+import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
+import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
 import styles from './trade-hub.module.css';
@@ -58,6 +60,12 @@ export function TradeTargetDetail({ playerId }: { playerId: string }) {
   }, [playerId, saveId]);
   return (
     <AppShell>
+      <FrontOfficeStrategicHero
+        section="Trade Hub"
+        title="Trade Hub"
+        description="Explore the market, build offers, and reshape your roster through trades."
+      />
+      <FrontOfficeSectionNav section="roster" />
       <div className={styles.detailPage}>
         <Link href="/front-office/trade-hub" className={styles.back}>
           <ArrowLeft /> Back to Trade Hub
@@ -75,9 +83,9 @@ export function TradeTargetDetail({ playerId }: { playerId: string }) {
                 <span>
                   {target.position} · {target.teamAbbr}
                 </span>
-                <h1>
+                <h2>
                   {target.firstName} {target.lastName}
-                </h1>
+                </h2>
                 <p>
                   {target.age ?? '–'} years old · {target.rating ?? '–'} OVR
                 </p>

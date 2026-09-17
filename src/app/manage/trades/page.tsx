@@ -5,10 +5,11 @@ import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
-import { ArrowLeft, ArrowLeftRight, ChevronDown, Search, Users } from 'lucide-react';
+import { ArrowLeft, ArrowLeftRight, ChevronDown } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
+import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
 import TradeAssetPickerModal from '@/components/trade-asset-picker-modal';
 import { TradeOfferReviewModal } from '@/components/trade-offer-review-modal';
@@ -967,13 +968,9 @@ function TradeBuilderContent() {
       <FrontOfficePageHeader
         title="Trade Hub"
         strapline="Find value. Make a move."
-        description="Explore trade opportunities, build offers, and measure roster and cap impact."
-        tools={[
-          { label: 'Your Team', href: '/roster?view=roster', icon: Users },
-          { label: 'Trade Finder', icon: Search, onClick: () => setActiveModalSide('receive') },
-          { label: 'Clear Trade', icon: ArrowLeftRight, disabled: true },
-        ]}
+        description="Explore the market, build offers, and reshape your roster through trades."
       />
+      <FrontOfficeSectionNav section="roster" />
       <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -989,7 +986,7 @@ function TradeBuilderContent() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Trade Builder
             </p>
-            <h1 className="text-2xl font-semibold text-foreground">Build a roster trade</h1>
+            <h2 className="text-2xl font-semibold text-foreground">Build a roster trade</h2>
             <p className="text-sm text-muted-foreground">
               Add players and picks to balance the deal.
             </p>

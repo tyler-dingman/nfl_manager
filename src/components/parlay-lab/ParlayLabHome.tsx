@@ -7,15 +7,16 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
+  Crosshair,
   ExternalLink,
   FlaskConical,
   Plus,
   Sparkles,
-  TrendingUp,
   X,
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import MainSiteHeader from '@/components/main-site-header';
+import FilmRoomPlayDiagram from '@/components/film-room/film-room-play-diagram';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { TEAM_LIST } from '@/data/teams';
 import { sportsbookName } from '@/server/odds/sportsbooks';
@@ -27,6 +28,7 @@ import { isLabPickMarket, matchesTrendingMarketFilter } from './trending-market-
 import MyParlayPanel from './MyParlayPanel';
 import ParlayLabSecondaryNav from './ParlayLabSecondaryNav';
 import ParlaySortHeader from './ParlaySortHeader';
+import { snapshotSavedPlay } from './saved-plays';
 import {
   americanOddsToDecimal,
   hitRateSortValue,
@@ -260,6 +262,7 @@ type ResearchDetail = {
 
 type OddsEvent = {
   id: string;
+  season?: number;
   week: number;
   homeTeamId: string;
   awayTeamId: string;
@@ -448,39 +451,37 @@ export function ParlayLabHome() {
       <div className={styles.shell}>
         <MainSiteHeader active="parlay-lab" tone="brand" />
         <ParlayLabSecondaryNav />
+        <header className={styles.hero}>
+          <FilmRoomPlayDiagram />
+          <div className={styles.heroInner}>
+            <div className={styles.heroCopy}>
+              <p>Advanced Analytics</p>
+              <h1>
+                Parlay <span>Lab</span>
+              </h1>
+              <h2>Research. Analyze. Build smarter parlays.</h2>
+            </div>
+            <div className={styles.values}>
+              <article>
+                <BarChart3 />
+                <b>Real Data</b>
+                <span>League stats &amp; trends</span>
+              </article>
+              <article>
+                <Crosshair />
+                <b>Better Insights</b>
+                <span>Find value, faster</span>
+              </article>
+              <article>
+                <FlaskConical />
+                <b>Smarter Bets</b>
+                <span>Make informed picks</span>
+              </article>
+            </div>
+          </div>
+        </header>
         <main className={styles.page}>
           <section className={styles.main}>
-            <header className={styles.hero}>
-              <div>
-                <p>
-                  <FlaskConical /> Down &amp; Distance Labs
-                </p>
-                <h1>
-                  Parlay Lab <span>Beta</span>
-                </h1>
-                <h2>
-                  Research. <b>Analyze. Build smarter parlays.</b>
-                </h2>
-                <small>Use imported odds and transparent local analysis before you bet.</small>
-              </div>
-              <div className={styles.values}>
-                <article>
-                  <Sparkles />
-                  <b>Guided research</b>
-                  <span>Describe the slip you want.</span>
-                </article>
-                <article>
-                  <TrendingUp />
-                  <b>Real markets</b>
-                  <span>Browse actionable prices.</span>
-                </article>
-                <article>
-                  <BarChart3 />
-                  <b>Clear signals</b>
-                  <span>Know what data supports.</span>
-                </article>
-              </div>
-            </header>
             <section className={styles.ask}>
               <div>
                 <Sparkles />
@@ -536,7 +537,7 @@ export function ParlayLabHome() {
                   <h2>🔥 Trending Props</h2>
                   <p>Researchable props and stored prices from your latest local import.</p>
                 </div>
-                <Link href="/parlay-lab/trends">Research notes →</Link>
+                <Link href="/parlay-lab/trends">See all trends →</Link>
               </header>
               <div className={styles.trendingControls}>
                 <nav className={styles.chips} aria-label="Trending prop category">
@@ -803,12 +804,12 @@ export function ParlayLabHome() {
                 localStorage.getItem('down-distance-parlay-lab-slips') ?? '[]',
               );
               const saved = Array.isArray(stored) ? stored : [];
-              saved.unshift({
-                id: `slip-${Date.now()}`,
-                createdAt: new Date().toISOString(),
-                event: events.find((item) => item.id === eventId) ?? null,
-                selections: slip,
-              });
+              saved.unshift(
+                snapshotSavedPlay({
+                  event: events.find((item) => item.id === eventId) ?? null,
+                  selections: slip,
+                }),
+              );
               localStorage.setItem(
                 'down-distance-parlay-lab-slips',
                 JSON.stringify(saved.slice(0, 20)),

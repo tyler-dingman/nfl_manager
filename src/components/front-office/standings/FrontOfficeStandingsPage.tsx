@@ -255,17 +255,7 @@ export function FrontOfficeStandingsPage() {
   return (
     <div className={styles.page}>
       <div className={styles.heading}>
-        <div>
-          <nav>
-            <Link href="/experience">Front Office</Link>
-            <span>›</span>
-            <Link href="/front-office/league/news">League</Link>
-            <span>›</span>
-            <strong>Standings</strong>
-          </nav>
-          <h1>Standings</h1>
-          <p>See how your team stacks up around the league.</p>
-        </div>
+        <div />
         <div className={styles.filters}>
           <label>
             Season

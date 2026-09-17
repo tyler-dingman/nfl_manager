@@ -1,0 +1,798 @@
+{
+  "name": "Down & Distance Front Office Story Graphics",
+  "version": "2.0.0",
+  "basePath": "/assets/front-office-widget-story-graphics/",
+  "design": {
+    "background": "#0b0d10",
+    "surface": "#171b21",
+    "primaryFallback": "#b8c1cc",
+    "secondaryFallback": "#f4f6f8",
+    "coloring": "Layered full-color inline SVG. currentColor supplies school color; neutral steel and shading remain independent. DO NOT use CSS masks.",
+    "containsLogos": false,
+    "containsPlayerPhotography": false,
+    "dataPolicy": "All supplied charts/gauges are decorative symbols, not datasets."
+  },
+  "assets": [
+    {
+      "id": "arrow-up",
+      "file": "svg/arrow-up.svg",
+      "label": "Rising arrow",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "rising-prospect"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "arrow-down",
+      "file": "svg/arrow-down.svg",
+      "label": "Falling arrow",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "falling-prospect"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "bars-ascending",
+      "file": "svg/bars-ascending.svg",
+      "label": "Bars Ascending",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "rising-prospect"
+      ],
+      "usage": "Symbolic bars only. Three steel bars and one school-colored bar; not a historical chart.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "bars-descending",
+      "file": "svg/bars-descending.svg",
+      "label": "Bars Descending",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "falling-prospect"
+      ],
+      "usage": "Symbolic bars only. Three steel bars and one school-colored bar; not a historical chart.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "trend-up",
+      "file": "svg/trend-up.svg",
+      "label": "Trend up",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "draft-stock"
+      ],
+      "usage": "Decorative directional motif; never substitute for actual history.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "trend-down",
+      "file": "svg/trend-down.svg",
+      "label": "Trend down",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "draft-stock"
+      ],
+      "usage": "Decorative directional motif; never substitute for actual history.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "stopwatch",
+      "file": "svg/stopwatch.svg",
+      "label": "Combine / pro day",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "combine-pro-day"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "medical-cross",
+      "file": "svg/medical-cross.svg",
+      "label": "Injury update",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "injury-update"
+      ],
+      "usage": "Generic beveled medical plus. Render neutral/school-toned, never as a Red Cross emblem.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "return-arrow",
+      "file": "svg/return-arrow.svg",
+      "label": "Return to action",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "injury-update"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "map-pin",
+      "file": "svg/map-pin.svg",
+      "label": "Destination pin",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "team-visit"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "visit-route",
+      "file": "svg/visit-route.svg",
+      "label": "Travel / visit route",
+      "category": "connector",
+      "viewBox": "0 0 300 110",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "team-visit",
+        "transfer"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "clipboard",
+      "file": "svg/clipboard.svg",
+      "label": "Scouting report",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "scouting-report"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "versus",
+      "file": "svg/versus.svg",
+      "label": "Position battle",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "position-battle"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "declaration-card",
+      "file": "svg/declaration-card.svg",
+      "label": "Draft declaration",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "draft-declaration"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "transfer-arrows",
+      "file": "svg/transfer-arrows.svg",
+      "label": "Transfer",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "transfer"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "trophy",
+      "file": "svg/trophy.svg",
+      "label": "Award trophy",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "award-recognition"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "milestone-marker",
+      "file": "svg/milestone-marker.svg",
+      "label": "Record / milestone",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "record-milestone"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "draft-card",
+      "file": "svg/draft-card.svg",
+      "label": "Generic draft card",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "mock-draft-projection"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "draft-shield",
+      "file": "svg/draft-shield.svg",
+      "label": "Generic draft shield",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "mock-draft-projection"
+      ],
+      "usage": "Original plain shield: no league logo, lettering, stars or copied NFL crest.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "puzzle",
+      "file": "svg/puzzle.svg",
+      "label": "Best fit puzzle",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "best-fit"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "signal",
+      "file": "svg/signal.svg",
+      "label": "Draft buzz signal",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "draft-buzz"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "target",
+      "file": "svg/target.svg",
+      "label": "Best fit target",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "top-prospect",
+        "best-fit"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "radar",
+      "file": "svg/radar.svg",
+      "label": "Sleeper / value radar",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "draft-buzz"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "football",
+      "file": "svg/football.svg",
+      "label": "Generic football",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "playbook-marks",
+      "file": "svg/playbook-marks.svg",
+      "label": "Playbook marks",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "playbook-pattern",
+      "file": "svg/playbook-pattern.svg",
+      "label": "Playbook texture",
+      "category": "texture",
+      "viewBox": "0 0 320 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "diagonal-slashes",
+      "file": "svg/diagonal-slashes.svg",
+      "label": "Diagonal accent slashes",
+      "category": "accent",
+      "viewBox": "0 0 320 300",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "rising-prospect",
+        "falling-prospect",
+        "position-battle"
+      ],
+      "usage": "Full-height offset editorial ribbon; place behind content along the right edge, never centered over the primary symbol.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "accent-rule",
+      "file": "svg/accent-rule.svg",
+      "label": "Angled accent rule",
+      "category": "accent",
+      "viewBox": "0 0 300 34",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "scouting-report"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "measurement-grid",
+      "file": "svg/measurement-grid.svg",
+      "label": "Measurement grid",
+      "category": "texture",
+      "viewBox": "0 0 320 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "combine-pro-day"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "calendar",
+      "file": "svg/calendar.svg",
+      "label": "Event calendar",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "team-visit"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "star",
+      "file": "svg/star.svg",
+      "label": "Recognition star",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "award-recognition"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "checkmark",
+      "file": "svg/checkmark.svg",
+      "label": "Confirmed / complete",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "draft-declaration"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 24
+    },
+    {
+      "id": "chevron-right",
+      "file": "svg/chevron-right.svg",
+      "label": "Navigation chevron",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 24
+    },
+    {
+      "id": "arrow-right",
+      "file": "svg/arrow-right.svg",
+      "label": "Forward arrow",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 24
+    },
+    {
+      "id": "minus",
+      "file": "svg/minus.svg",
+      "label": "Holding steady",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "draft-stock"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 24
+    },
+    {
+      "id": "plus",
+      "file": "svg/plus.svg",
+      "label": "Add / expand",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 24
+    },
+    {
+      "id": "status-dot",
+      "file": "svg/status-dot.svg",
+      "label": "Status dot",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 24
+    },
+    {
+      "id": "bookmark",
+      "file": "svg/bookmark.svg",
+      "label": "Watchlist bookmark",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "clock",
+      "file": "svg/clock.svg",
+      "label": "Timestamp clock",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "gauge",
+      "file": "svg/gauge.svg",
+      "label": "Stock watch gauge",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [],
+      "usage": "Decorative gauge only; no computed score.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "corner-brackets",
+      "file": "svg/corner-brackets.svg",
+      "label": "Focus brackets",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "top-prospect"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "burst",
+      "file": "svg/burst.svg",
+      "label": "Breakout burst",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "record-milestone"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "handshake",
+      "file": "svg/handshake.svg",
+      "label": "Visit / meeting",
+      "category": "icon",
+      "viewBox": "0 0 240 240",
+      "colorMode": "layered-currentColor",
+      "templates": [
+        "team-visit"
+      ],
+      "usage": "Layered decorative editorial symbol; no data values.",
+      "renderMode": "inline-svg",
+      "minimumRecommendedSize": 64
+    },
+    {
+      "id": "etched-texture",
+      "file": "svg/etched-texture.svg",
+      "label": "Etched grain",
+      "category": "texture",
+      "viewBox": "0 0 320 240",
+      "colorMode": "neutral",
+      "renderMode": "inline-svg",
+      "templates": [
+        "rising-prospect",
+        "falling-prospect",
+        "top-prospect",
+        "draft-stock",
+        "combine-pro-day",
+        "injury-update",
+        "team-visit",
+        "scouting-report",
+        "position-battle",
+        "draft-declaration",
+        "transfer",
+        "award-recognition",
+        "record-milestone",
+        "mock-draft-projection",
+        "best-fit",
+        "draft-buzz"
+      ],
+      "usage": "Very subtle etched diagonal grain, clipped by the card boundary."
+    }
+  ],
+  "templates": [
+    {
+      "id": "rising-prospect",
+      "label": "Rising Prospect",
+      "assets": [
+        "arrow-up",
+        "bars-ascending",
+        "diagonal-slashes"
+      ],
+      "dataRequirements": "Comparable previous/current ranks; improvement = previousRank - currentRank > 0.",
+      "composition": "Hero arrow at right; optional real rank pair at left; final symbolic bar accented."
+    },
+    {
+      "id": "falling-prospect",
+      "label": "Falling Prospect",
+      "assets": [
+        "arrow-down",
+        "bars-descending",
+        "diagonal-slashes"
+      ],
+      "dataRequirements": "Comparable ranks; improvement < 0.",
+      "composition": "Down arrow and descending motif; use school color, not automatic red."
+    },
+    {
+      "id": "top-prospect",
+      "label": "Top Prospect",
+      "assets": [
+        "target",
+        "corner-brackets"
+      ],
+      "dataRequirements": "Existing rank and optionally position rank/grade.",
+      "composition": "Oversized real rank; target in right field."
+    },
+    {
+      "id": "draft-stock",
+      "label": "Draft Stock",
+      "assets": [
+        "trend-up",
+        "trend-down",
+        "minus"
+      ],
+      "dataRequirements": "Comparable ranks or actual historical series.",
+      "composition": "Choose direction from data; neutral steady state; chart only with real series."
+    },
+    {
+      "id": "combine-pro-day",
+      "label": "Combine / Pro Day",
+      "assets": [
+        "stopwatch",
+        "measurement-grid"
+      ],
+      "dataRequirements": "Verified event, measurement value, unit, source/date.",
+      "composition": "Stopwatch on right; up to three actual measurements."
+    },
+    {
+      "id": "injury-update",
+      "label": "Injury Update",
+      "assets": [
+        "medical-cross",
+        "return-arrow"
+      ],
+      "dataRequirements": "Existing injury/availability report.",
+      "composition": "Restrained outline and status; return arrow only for reported return."
+    },
+    {
+      "id": "team-visit",
+      "label": "Team Visit",
+      "assets": [
+        "map-pin",
+        "visit-route",
+        "calendar",
+        "handshake"
+      ],
+      "dataRequirements": "Reported visit, destination team, status/date when known.",
+      "composition": "College identity dominant; destination team secondary; dashed connector."
+    },
+    {
+      "id": "scouting-report",
+      "label": "Scouting Report",
+      "assets": [
+        "clipboard",
+        "accent-rule"
+      ],
+      "dataRequirements": "Existing report; grade only if actual.",
+      "composition": "Clipboard outline with short report metadata."
+    },
+    {
+      "id": "position-battle",
+      "label": "Position Battle",
+      "assets": [
+        "versus",
+        "diagonal-slashes"
+      ],
+      "dataRequirements": "Two actual participants and supported battle context.",
+      "composition": "Balanced two-column identities; centered VS; no invented winner."
+    },
+    {
+      "id": "draft-declaration",
+      "label": "Draft Declaration",
+      "assets": [
+        "declaration-card",
+        "checkmark"
+      ],
+      "dataRequirements": "Verified declaration and class/year if present.",
+      "composition": "Draft card/check symbol; player and declaration text in HTML."
+    },
+    {
+      "id": "transfer",
+      "label": "Transfer",
+      "assets": [
+        "transfer-arrows",
+        "visit-route"
+      ],
+      "dataRequirements": "Known origin/destination and actual reported status.",
+      "composition": "Origin and destination identity slots; do not imply completed move for rumors."
+    },
+    {
+      "id": "award-recognition",
+      "label": "Award / Recognition",
+      "assets": [
+        "trophy",
+        "star"
+      ],
+      "dataRequirements": "Actual award/honor title and season.",
+      "composition": "Trophy focal symbol, award name as live text."
+    },
+    {
+      "id": "record-milestone",
+      "label": "Record / Milestone",
+      "assets": [
+        "milestone-marker",
+        "burst"
+      ],
+      "dataRequirements": "Supported milestone, value/unit and scope.",
+      "composition": "Large real value only when available; otherwise named milestone."
+    },
+    {
+      "id": "mock-draft-projection",
+      "label": "Mock Draft Projection",
+      "assets": [
+        "draft-card",
+        "draft-shield"
+      ],
+      "dataRequirements": "Existing mock pick, team, source and date.",
+      "composition": "Projection label explicit; distinguish overall and round pick; generic card."
+    },
+    {
+      "id": "best-fit",
+      "label": "Best Fit",
+      "assets": [
+        "puzzle",
+        "target"
+      ],
+      "dataRequirements": "Existing fit/need model output and reason.",
+      "composition": "Puzzle/target with destination identity; no invented fit percentage."
+    },
+    {
+      "id": "draft-buzz",
+      "label": "Draft Buzz",
+      "assets": [
+        "signal",
+        "radar"
+      ],
+      "dataRequirements": "Existing sourced news/rumor topic and confidence/status if supplied.",
+      "composition": "Signal motif; explicit Report/Rumor label from actual source metadata."
+    }
+  ]
+}

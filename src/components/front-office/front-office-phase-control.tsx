@@ -223,7 +223,7 @@ export function FrontOfficePhaseControl({
             >
               <X className="h-4 w-4" />
             </button>
-            <p className="text-xs font-black uppercase tracking-[.18em] text-[#c80027]">
+            <p className="text-xs font-black uppercase tracking-[.18em] text-[var(--fo-interactive-text)]">
               Skip ahead
             </p>
             <h2 id="fo-skip-title" className="mt-2 pr-10 text-xl font-black text-[#071329]">

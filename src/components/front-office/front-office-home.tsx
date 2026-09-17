@@ -121,7 +121,7 @@ function MatchupCard({
       <div className="fo-home-matchup-shade" />
       <div className="fo-home-matchup-content">
         <div className="fo-home-next">
-          <span>Next game</span>
+          <span>{ours?.name ?? teamAbbr} · Next Game</span>
           <strong>Week {game.week}</strong>
         </div>
         <div className="fo-home-versus">
@@ -178,8 +178,19 @@ function MatchupCard({
 function Messages({ events }: { events: FrontOfficeEvent[] }) {
   const messages = events
     .filter((event) =>
-      ['re_sign_ready', 'trade_interest', 'deadline_alert', 'trade_offer'].includes(event.type),
+      [
+        'welcome_message',
+        're_sign_ready',
+        'trade_interest',
+        'deadline_alert',
+        'trade_offer',
+      ].includes(event.type),
     )
+    .sort((a, b) => {
+      const aOrder = Number(a.metadata.messageOrder ?? 99);
+      const bOrder = Number(b.metadata.messageOrder ?? 99);
+      return a.type === 'welcome_message' && b.type === 'welcome_message' ? aOrder - bOrder : 0;
+    })
     .slice(0, 4);
   return (
     <section className="fo-home-panel">
@@ -193,9 +204,26 @@ function Messages({ events }: { events: FrontOfficeEvent[] }) {
         {messages.length ? (
           messages.map((event) => (
             <article key={event.id}>
-              <span className="fo-home-avatar">{event.type === 're_sign_ready' ? 'A' : 'FO'}</span>
+              {typeof event.metadata.headshotUrl === 'string' ? (
+                <img
+                  className="fo-home-avatar fo-home-avatar-image"
+                  src={event.metadata.headshotUrl}
+                  alt=""
+                />
+              ) : (
+                <span className="fo-home-avatar">
+                  {event.type === 'welcome_message'
+                    ? String(event.metadata.senderName ?? event.headline).slice(0, 1)
+                    : event.type === 're_sign_ready'
+                      ? 'A'
+                      : 'FO'}
+                </span>
+              )}
               <div>
                 <strong>{event.headline}</strong>
+                {event.type === 'welcome_message' ? (
+                  <small>{String(event.metadata.senderRole ?? '')}</small>
+                ) : null}
                 <p>{event.summary}</p>
               </div>
               {event.actionUrl ? (
@@ -387,6 +415,8 @@ export function FrontOfficeHome({
   const [state, setState] = useState<FranchiseSimulationState | null>(null);
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
   const [matchupPlayers, setMatchupPlayers] = useState<DisplayPlayer[]>([]);
+  const [loadError, setLoadError] = useState('');
+  const [reloadKey, setReloadKey] = useState(0);
   const displayRoster = useMemo<DisplayPlayer[]>(
     () =>
       roster.map((player) => ({
@@ -402,16 +432,26 @@ export function FrontOfficeHome({
   useEffect(() => {
     let active = true;
     const load = async () => {
-      const [sim, feed] = await Promise.all([
-        apiFetch(`/api/front-office/simulate?saveId=${encodeURIComponent(saveId)}`),
-        apiFetch(`/api/front-office/events?saveId=${encodeURIComponent(saveId)}`),
-      ]);
-      const simJson = await sim.json();
-      const feedJson = await feed.json();
-      if (active) {
-        setState(simJson.state ?? null);
-        setEvents(feedJson.events ?? []);
-        setMatchupPlayers(simJson.matchupPlayers ?? []);
+      try {
+        if (active) setLoadError('');
+        const [sim, feed] = await Promise.all([
+          apiFetch(`/api/front-office/simulate?saveId=${encodeURIComponent(saveId)}`),
+          apiFetch(`/api/front-office/events?saveId=${encodeURIComponent(saveId)}`),
+        ]);
+        const [simJson, feedJson] = await Promise.all([sim.json(), feed.json()]);
+        if (!sim.ok || !simJson.state) {
+          throw new Error(simJson.error ?? 'Unable to load the franchise simulation.');
+        }
+        if (!feed.ok) throw new Error(feedJson.error ?? 'Unable to load Front Office news.');
+        if (active) {
+          setState(simJson.state);
+          setEvents(feedJson.events ?? []);
+          setMatchupPlayers(simJson.matchupPlayers ?? []);
+        }
+      } catch (error) {
+        if (active) {
+          setLoadError(error instanceof Error ? error.message : 'Unable to load Front Office.');
+        }
       }
     };
     void load();
@@ -420,7 +460,7 @@ export function FrontOfficeHome({
       active = false;
       window.removeEventListener('front-office-simulation-advanced', load);
     };
-  }, [saveId]);
+  }, [reloadKey, saveId]);
   const content = useMemo(
     () =>
       state ? (
@@ -450,10 +490,18 @@ export function FrontOfficeHome({
             </aside>
           </div>
         </>
+      ) : loadError ? (
+        <div className="fo-home-loading" role="alert">
+          <strong>Front Office could not load.</strong>
+          <span>{loadError}</span>
+          <button type="button" onClick={() => setReloadKey((key) => key + 1)}>
+            Try again
+          </button>
+        </div>
       ) : (
         <div className="fo-home-loading">Loading your front office…</div>
       ),
-    [displayRoster, events, matchupPlayers, state, teamAbbr],
+    [displayRoster, events, loadError, matchupPlayers, state, teamAbbr],
   );
   return <main className="fo-home">{content}</main>;
 }

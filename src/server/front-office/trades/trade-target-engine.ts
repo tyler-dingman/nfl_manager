@@ -127,7 +127,7 @@ export function buildTradeTeamOutlooks(
   state: SaveState,
   simulation: FranchiseSimulationState | null,
 ): TradeTeamOutlook[] {
-  const week = simulation?.currentWeek ?? 1;
+  const week = Math.max(1, simulation?.currentWeek ?? 1);
   return TEAM_LIST.map((team) => {
     const record = recordFor(simulation, team.abbr);
     const games = record.wins + record.losses + record.ties;

@@ -2,18 +2,11 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import {
-  ArrowLeftRight,
-  ArrowUpDown,
-  Handshake,
-  MoreHorizontal,
-  Scissors,
-  UserPlus,
-  Users,
-} from 'lucide-react';
+import { ArrowLeftRight, ArrowUpDown, Handshake, MoreHorizontal, Users } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
+import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
 import CutPlayerModal from '@/components/cut-player-modal';
 import OnboardingModal from '@/components/onboarding/OnboardingModal';
@@ -980,24 +973,43 @@ function RosterPageContent() {
     return [...cut, ...active];
   }, [expiringContracts, players]);
 
+  const rosterHero =
+    requestedView === 'depth'
+      ? {
+          title: 'Depth Chart',
+          description:
+            'Set your starters, organize your rotations, and understand where your roster stands.',
+        }
+      : requestedView === 'cap'
+        ? {
+            title: 'Roster Breakdown',
+            description: 'See how talent, depth, age, and contracts shape your roster.',
+          }
+        : requestedView === 'resign' || requestedView === 'contracts'
+          ? {
+              title: 'Contracts',
+              description: 'Manage commitments, evaluate value, and plan for the future.',
+            }
+          : requestedView === 'practice-squad'
+            ? {
+                title: 'Practice Squad',
+                description:
+                  'Develop depth, protect young talent, and manage the bottom of your roster.',
+              }
+            : {
+                title: 'Roster Central',
+                description:
+                  'Build your depth chart, evaluate your personnel, and manage the foundation of your team.',
+              };
+
   return (
     <AppShell>
       <FrontOfficePageHeader
-        title="Roster"
+        title={rosterHero.title}
         strapline="Every player. Every position. Every possibility."
-        description="Review personnel, contracts, depth, and the decisions shaping your team."
-        tools={[
-          { label: 'Re-sign Players', href: '/roster?view=resign', icon: Handshake },
-          { label: 'Add Free Agent', href: '/free-agents', icon: UserPlus },
-          {
-            label: 'Trade Finder',
-            href: '/front-office/trade-hub/finder',
-            icon: ArrowLeftRight,
-          },
-          { label: 'Cut Players', href: '/roster?view=roster', icon: Scissors },
-          { label: 'Manage Practice Squad', icon: Users, disabled: true },
-        ]}
+        description={rosterHero.description}
       />
+      <FrontOfficeSectionNav section="roster" />
       {phase === 'resign_cut' || requestedView === 'resign' ? (
         <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">

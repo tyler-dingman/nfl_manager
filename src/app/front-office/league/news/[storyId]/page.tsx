@@ -2,13 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 import AppShell from '@/components/app-shell';
-import { NewsGraphic } from '@/components/front-office/news-graphics/NewsGraphic';
+import { FrontOfficeStoryGraphic } from '@/components/front-office/story-graphics/FrontOfficeStoryGraphic';
+import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
+import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
 import {
   eventToLeagueNewsStory,
+  leagueStoryGraphicModel,
   relativeNewsTime,
   type LeagueNewsStory,
 } from '@/lib/front-office-league-news';
@@ -29,6 +32,12 @@ export default function LeagueNewsStoryPage({ params }: { params: { storyId: str
   }, [params.storyId, teamAbbr]);
   return (
     <AppShell>
+      <FrontOfficeStrategicHero
+        section="League News"
+        title="League News"
+        description="Follow the latest moves, injuries, rumors, and storylines from around your league."
+      />
+      <FrontOfficeSectionNav section="league" />
       {story ? (
         <article className="mx-auto w-full max-w-[1240px] pb-16">
           <nav className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
@@ -38,39 +47,45 @@ export default function LeagueNewsStoryPage({ params }: { params: { storyId: str
             <span>›</span>
             <span>Story</span>
           </nav>
-          <NewsGraphic
-            variant={story.graphicVariant}
-            size="hero"
-            team={story.team}
-            opponent={story.opponent}
-            label={story.categoryLabel}
-            headline={story.headline}
-            description={story.summary}
-          />
+          <FrontOfficeStoryGraphic story={leagueStoryGraphicModel(story)} size="hero" />
           <div className="mx-auto max-w-4xl rounded-b-2xl bg-white p-6 shadow-sm sm:p-10">
-            <p className="text-xs font-black uppercase tracking-[.18em] text-[var(--team-primary)]">
+            <p className="text-xs font-black uppercase tracking-[.18em] text-[var(--fo-interactive-text)]">
               {story.categoryLabel}
             </p>
             <h1 className="mt-3 text-3xl font-black leading-tight sm:text-5xl">{story.headline}</h1>
             <div className="mt-4 flex flex-wrap gap-2 text-sm text-muted-foreground">
-              <span>
-                {story.authorName} · {story.authorHandle}
-              </span>
-              <span>·</span>
+              {typeof story.event.metadata.sourcePublisher === 'string' ? (
+                <>
+                  <span>{story.event.metadata.sourcePublisher}</span>
+                  <span>·</span>
+                </>
+              ) : null}
               <time>{relativeNewsTime(story.publishedAt)}</time>
             </div>
             <p className="mt-7 text-xl leading-8 text-slate-700">{story.summary}</p>
             <section className="mt-8 border-t pt-7">
               <h2 className="text-xl font-black">What happened</h2>
               <p className="mt-3 leading-7 text-slate-600">{story.summary}</p>
-              <p className="mt-4 leading-7 text-slate-600">
-                This report comes directly from the events recorded in your Front Office season.
-                Continue the season to follow subsequent developments.
-              </p>
+              {typeof story.event.metadata.sourceUrl === 'string' ? (
+                <a
+                  href={story.event.metadata.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 font-bold text-[var(--fo-interactive-text)]"
+                >
+                  Read the source at{' '}
+                  {String(story.event.metadata.sourcePublisher ?? 'the publisher')}
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              ) : (
+                <p className="mt-4 leading-7 text-slate-600">
+                  This report comes from the events recorded in your Front Office season.
+                </p>
+              )}
             </section>
             <Link
               href="/front-office/league/news"
-              className="mt-8 inline-flex items-center gap-2 font-bold text-[var(--team-primary)]"
+              className="mt-8 inline-flex items-center gap-2 font-bold text-[var(--fo-interactive-text)]"
             >
               <ArrowLeft className="h-4 w-4" /> Back to League News
             </Link>

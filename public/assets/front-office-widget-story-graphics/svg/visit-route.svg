@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 110" fill="none" aria-hidden="true" focusable="false"><defs>
+ <linearGradient id="fo-visit-route-metal" x1="0" y1="0" x2=".28" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="currentColor"/><stop offset=".48" stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity=".38"/></linearGradient>
+ <linearGradient id="fo-visit-route-sheen" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#fff" stop-opacity=".52"/><stop offset=".28" stop-color="#fff" stop-opacity=".08"/><stop offset=".52" stop-color="#000" stop-opacity=".08"/><stop offset="1" stop-color="#000" stop-opacity=".52"/></linearGradient>
+ <linearGradient id="fo-visit-route-steel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#aebbc7"/><stop offset=".48" stop-color="#627482"/><stop offset="1" stop-color="#15222d"/></linearGradient>
+ <linearGradient id="fo-visit-route-dark" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#20323b"/><stop offset="1" stop-color="#080e13"/></linearGradient>
+ <linearGradient id="fo-visit-route-glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4d4df" stop-opacity=".15"/><stop offset=".5" stop-color="#b0cad7" stop-opacity=".02"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></linearGradient>
+ <radialGradient id="fo-visit-route-halo"><stop stop-color="currentColor" stop-opacity=".15"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient>
+ </defs><path d="M12 75C65 10 96 113 150 64S219 23 274 45" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="10 12" stroke-linecap="round"/><circle cx="12" cy="75" r="5" fill="#b8cad6" /><circle cx="278" cy="46" r="5" fill="currentColor" /></svg>

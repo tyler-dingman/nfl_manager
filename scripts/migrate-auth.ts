@@ -51,6 +51,9 @@ async function main() {
       '035_parlay_lab_odds.sql',
       '036_nflverse_historical_stats.sql',
       '037_historical_team_season_strength.sql',
+      '038_expand_parlay_lab_sportsbooks.sql',
+      '039_parlay_lab_research_first.sql',
+      '040_fix_passing_rushing_yards.sql',
     ]) {
       if (file === '017_search_documents.sql') {
         const [extension] = await sql<{ available: boolean }[]>`

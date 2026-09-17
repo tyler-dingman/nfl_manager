@@ -80,32 +80,31 @@ const navIcons: Record<NavItem, LucideIcon> = {
 };
 
 const rosterNavIcons: Record<RosterNavItem, LucideIcon> = {
-  Roster: Users,
-  'Free Agents': ClipboardList,
+  'Roster Central': Users,
   'Depth Chart': Shield,
-  'Cap Space': WalletCards,
-  'Re-sign/Cut Players': Handshake,
+  Contracts: Handshake,
+  'Free Agency': ClipboardList,
   'Trade Hub': ArrowLeftRight,
+  'Practice Squad': Users,
 };
 
 const draftNavIcons: Record<DraftNavItem, LucideIcon> = {
   'Draft Central': Lock,
-  Prospects: Search,
-  'My Big Board': ClipboardList,
+  'Mock Draft': BarChart3,
+  'Big Board': ClipboardList,
+  'Draft Guide': Newspaper,
+  'Position Rankings': Search,
   'Team Needs': Shield,
-  'Mock Drafts': BarChart3,
-  'Draft History': Trophy,
-  'Scouting Reports': Newspaper,
-  'Draft Room': Lock,
+  'Trade Machine': ArrowLeftRight,
+  'My Drafts': Trophy,
 };
 
 const leagueNavIcons: Record<LeagueNavItem, LucideIcon> = {
+  'League Central': Shield,
   News: Newspaper,
   Standings: Trophy,
   Schedule: ClipboardList,
   Transactions: ArrowLeftRight,
-  Injuries: Shield,
-  'League Leaders': BarChart3,
 };
 
 const shellRightRailRoutes = [
@@ -259,7 +258,7 @@ function AppShellContent({
 
     return {
       overall,
-      needs: selectedTeam?.teamNeeds ?? computeTeamNeeds(liveRosterPlayers),
+      needs: computeTeamNeeds(liveRosterPlayers),
     };
   }, [liveRosterPlayers, selectedTeam?.teamNeeds, selectedTeam?.teamOverview, teams]);
   const liveOverallDelta = useMemo(() => {
@@ -422,9 +421,12 @@ function AppShellContent({
     pathname === '/free-agents' ||
     pathname === '/cap-space' ||
     pathname?.startsWith('/manage/trades') ||
-    pathname?.startsWith('/front-office/trade-hub');
+    (pathname?.startsWith('/front-office/trade-hub') &&
+      (pathname !== '/front-office/trade-hub' || searchParams?.get('context') === 'roster'));
   const draftSectionActive =
-    pathname?.startsWith('/draft/') || pathname?.startsWith('/front-office/draft');
+    pathname?.startsWith('/draft/') ||
+    pathname?.startsWith('/front-office/draft') ||
+    (pathname === '/front-office/trade-hub' && searchParams?.get('context') !== 'roster');
   const leagueSectionActive =
     pathname === '/league' || pathname?.startsWith('/front-office/league');
 
@@ -463,7 +465,9 @@ function AppShellContent({
                       <Link
                         key={item}
                         href={href}
-                        onClick={(event) => event.currentTarget.closest('details')?.removeAttribute('open')}
+                        onClick={(event) =>
+                          event.currentTarget.closest('details')?.removeAttribute('open')
+                        }
                         aria-current={active ? 'page' : undefined}
                         className="front-office-nav-dropdown-link"
                       >
@@ -494,7 +498,9 @@ function AppShellContent({
                       <Link
                         key={item}
                         href={href}
-                        onClick={(event) => event.currentTarget.closest('details')?.removeAttribute('open')}
+                        onClick={(event) =>
+                          event.currentTarget.closest('details')?.removeAttribute('open')
+                        }
                         aria-current={active ? 'page' : undefined}
                         className="front-office-nav-dropdown-link"
                       >
@@ -525,7 +531,9 @@ function AppShellContent({
                       <Link
                         key={item}
                         href={href}
-                        onClick={(event) => event.currentTarget.closest('details')?.removeAttribute('open')}
+                        onClick={(event) =>
+                          event.currentTarget.closest('details')?.removeAttribute('open')
+                        }
                         aria-current={active ? 'page' : undefined}
                         className="front-office-nav-dropdown-link"
                       >
@@ -901,7 +909,11 @@ function AppShellContent({
           </div>
           {!weekRecapPaused ? <TradeOfferToast scopeKey={tradeOfferScopeKey} /> : null}
           {showLeagueWire && saveId ? (
-            <FrontOfficeEventCenter saveId={saveId} paused={weekRecapPaused} />
+            <FrontOfficeEventCenter
+              saveId={saveId}
+              teamAbbr={storedTeamAbbr ?? ''}
+              paused={weekRecapPaused}
+            />
           ) : null}
         </div>
       </div>

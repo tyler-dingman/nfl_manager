@@ -262,7 +262,6 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                     <option value="DRAFTKINGS">DraftKings</option>
                     <option value="BETMGM">BetMGM</option>
                     <option value="CAESARS">Caesars</option>
-                    <option value="BET365">Bet365</option>
                   </select>
                 </label>
                 <label title="Filters by sportsbook price only. It does not measure the likelihood of the bet winning.">

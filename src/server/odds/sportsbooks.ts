@@ -18,7 +18,6 @@ export const SPORTSBOOKS = [
     name: 'Caesars',
     url: 'https://www.caesars.com/sportsbook-and-casino',
   },
-  { id: 'BET365', providerId: 'bet365', name: 'Bet365', url: 'https://www.bet365.com/' },
 ] as const;
 
 export type Sportsbook = (typeof SPORTSBOOKS)[number]['id'];

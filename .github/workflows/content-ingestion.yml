@@ -11,6 +11,13 @@ on:
         type: choice
         options: [both, standard, video]
         default: both
+      check_only:
+        description: Verify deployment authentication without ingesting
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
 
 concurrency:
   group: content-ingestion
@@ -19,57 +26,23 @@ concurrency:
 jobs:
   ingest:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
         group: [standard, video]
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test ingestion authentication safeguards
+        run: node --test scripts/content-ingestion-request.test.mjs
       - name: Run ${{ matrix.group }} ingestion
         if: github.event_name == 'schedule' || inputs.group == 'both' || inputs.group == matrix.group
         env:
           BASE_URL: ${{ secrets.CONTENT_AUTOMATION_BASE_URL }}
           AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}
           GROUP: ${{ matrix.group }}
-        run: |
-          set -euo pipefail
-          if [[ -z "$BASE_URL" ]]; then
-            echo "::error::CONTENT_AUTOMATION_BASE_URL is not configured"
-            exit 1
-          fi
-          if [[ -z "$AUTOMATION_SECRET" ]]; then
-            echo "::error::CONTENT_AUTOMATION_SECRET is not configured"
-            exit 1
-          fi
-
-          BASE_URL="${BASE_URL%/}"
-          # Vercel redirects the apex domain to www. Use the canonical host before
-          # sending the bearer token so curl never has to forward credentials across hosts.
-          if [[ "$BASE_URL" == "https://downdistance.com" ]]; then
-            BASE_URL="https://www.downdistance.com"
-          fi
-          if [[ "$BASE_URL" != https://* ]]; then
-            echo "::error::CONTENT_AUTOMATION_BASE_URL must be an https URL"
-            exit 1
-          fi
-
-          response_file=$(mktemp)
-          trap 'rm -f "$response_file"' EXIT
-          status=$(curl --silent --show-error --location --max-redirs 3 \
-            --retry 2 --retry-all-errors --connect-timeout 15 --max-time 240 \
-            --output "$response_file" --write-out '%{http_code}' --request POST \
-            --header "Authorization: Bearer $AUTOMATION_SECRET" \
-            "$BASE_URL/api/automation/content/global?group=$GROUP")
-          response=$(cat "$response_file")
-          echo "$response"
-
-          if [[ "$status" -lt 200 || "$status" -ge 300 ]]; then
-            echo "::error::Ingestion endpoint returned HTTP $status"
-            exit 1
-          fi
-          if ! jq -e '.ok == true and ((.failedJobs // 0) == 0)' <<<"$response" >/dev/null; then
-            echo "::error::Ingestion endpoint returned an invalid or unsuccessful response"
-            exit 1
-          fi
-          if jq -e '.skipped == true' <<<"$response" >/dev/null; then
-            echo "::notice::Ingestion was skipped by the server's configured safety limit"
-          fi
+          CHECK_ONLY: ${{ inputs.check_only }}
+        run: node scripts/content-ingestion-request.mjs

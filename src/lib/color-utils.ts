@@ -41,7 +41,7 @@ export const getContrastRatio = (first: string, second: string) => {
   return (lighter + 0.05) / (darker + 0.05);
 };
 
-const mixHexColors = (start: string, end: string, amount: number) => {
+export const mixHexColors = (start: string, end: string, amount: number) => {
   const from = hexToRgb(start);
   const to = hexToRgb(end);
   if (!from || !to) return start;

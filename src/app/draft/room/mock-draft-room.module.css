@@ -1,0 +1,753 @@
+.teamSelector,
+.settingsButton,
+.startButton {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 7px;
+  padding: 0 18px;
+  color: white;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.teamSelector,
+.settingsButton {
+  border: 1px solid #8aa0b5;
+  background: #08223b99;
+}
+.teamSelector img {
+  object-fit: contain;
+}
+.teamSelector svg,
+.settingsButton svg,
+.startButton svg {
+  width: 17px;
+}
+.settingsButton,
+.startButton {
+  cursor: pointer;
+}
+.startButton {
+  border: 1px solid #0878ff;
+  background: #0878ff;
+  box-shadow: 0 12px 30px #006ff538;
+}
+.startButton:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+.draftNav {
+  display: flex;
+  margin: 0 -32px;
+  overflow-x: auto;
+  border-bottom: 1px solid #dce5ec;
+  background: white;
+  padding: 0 clamp(24px, 3vw, 48px);
+  scrollbar-width: none;
+}
+.draftNav a {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 14px 18px;
+  color: #294b6c;
+  font-size: 0.72rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+.draftNav a[aria-current='page'] {
+  color: #0878e8;
+}
+.draftNav a[aria-current='page']::after {
+  position: absolute;
+  right: 12px;
+  bottom: -1px;
+  left: 12px;
+  height: 2px;
+  background: #0878ff;
+  content: '';
+}
+.simulatorBody {
+  padding-top: 14px;
+}
+.draftWorkspace {
+  display: grid;
+  grid-template-columns: minmax(210px, 24fr) minmax(440px, 42fr) minmax(300px, 34fr);
+  gap: 12px;
+  align-items: start;
+}
+.workspacePanel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dbe4ec;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 5px 20px rgb(12 38 64 / 5%);
+}
+.panelTabs,
+.boardTabs,
+.profileTabs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 44px;
+  border-bottom: 1px solid #dbe4ec;
+  padding: 0 16px;
+  color: #45627d;
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+.panelTabs strong,
+.boardTabs strong,
+.profileTabs strong {
+  position: relative;
+  color: #071c31;
+}
+.panelTabs button,
+.profileTabs button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+.panelTabs .activeTab,
+.boardTabs .activeTab,
+.profileTabs .activeTab {
+  color: #071c31;
+  font-weight: 800;
+}
+.panelTabs .activeTab::after,
+.boardTabs .activeTab::after,
+.profileTabs .activeTab::after {
+  position: absolute;
+  right: 0;
+  bottom: -15px;
+  left: 0;
+  height: 2px;
+  background: #0878ff;
+  content: '';
+}
+.panelTabs strong::after,
+.boardTabs strong::after,
+.profileTabs strong::after {
+  position: absolute;
+  right: 0;
+  bottom: -15px;
+  left: 0;
+  height: 2px;
+  background: #0878ff;
+  content: '';
+}
+.pickList {
+  max-height: 590px;
+  overflow-y: auto;
+  padding: 4px 8px 10px;
+}
+.pickRow,
+.currentPick {
+  display: grid;
+  grid-template-columns: 22px 28px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 48px;
+  border-bottom: 1px solid #edf1f5;
+  padding: 5px 6px;
+}
+.currentPick {
+  border-left: 3px solid #0878ff;
+  border-radius: 4px;
+  background: #eef7ff;
+}
+.pickRow img,
+.currentPick img,
+.onClockTeam img {
+  object-fit: contain;
+}
+.pickNumber {
+  color: #45627d;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-align: center;
+}
+.pickRow div,
+.currentPick div {
+  min-width: 0;
+}
+.pickRow strong,
+.currentPick strong {
+  display: block;
+  overflow: hidden;
+  color: #071c31;
+  font-size: 0.7rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pickRow small,
+.currentPick small {
+  display: block;
+  overflow: hidden;
+  margin-top: 2px;
+  color: #68819a;
+  font-size: 0.58rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.clockBadge {
+  border-radius: 5px;
+  background: #071c31;
+  padding: 5px 6px;
+  color: white;
+  font-size: 0.58rem;
+  font-weight: 800;
+}
+.onClockHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 14px;
+  align-items: center;
+  min-height: 78px;
+  padding: 12px 16px;
+}
+.onClockTeam {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+.onClockTeam strong,
+.prospectHeader strong {
+  display: block;
+  color: #071c31;
+  font-size: 0.9rem;
+}
+.onClockTeam span,
+.prospectHeader span {
+  display: block;
+  margin-top: 3px;
+  color: #54718e;
+  font-size: 0.66rem;
+}
+.needChips {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.needChips span,
+.headerClock span {
+  color: #617b94;
+  font-size: 0.57rem;
+  font-weight: 700;
+}
+.needChips b {
+  border-radius: 5px;
+  background: #edf4fa;
+  padding: 5px 7px;
+  color: #173b5c;
+  font-size: 0.56rem;
+}
+.headerClock {
+  display: grid;
+  grid-template-columns: auto 16px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.headerClock span {
+  grid-column: 1 / -1;
+}
+.headerClock strong {
+  color: #0878e8;
+  font-size: 0.9rem;
+}
+.headerClock svg {
+  width: 14px;
+  color: #607a91;
+}
+.headerClock .criticalClock {
+  color: #dc2626;
+}
+.boardTabs {
+  justify-content: space-between;
+  overflow-x: auto;
+}
+.boardTabs button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+.teamNeedsView,
+.analysisView,
+.profileEmptyState {
+  min-height: 240px;
+  padding: 22px;
+}
+.teamNeedsView h3,
+.analysisView h3 {
+  margin: 0 0 14px;
+  color: #071c31;
+  font-size: 0.9rem;
+}
+.teamNeedsView p {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  border-bottom: 1px solid #e7edf2;
+  padding: 10px 0;
+  color: #294b6c;
+  font-size: 0.72rem;
+}
+.teamNeedsView p strong {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: #edf4fa;
+  font-size: 0.62rem;
+}
+.analysisView p,
+.profileEmptyState {
+  color: #54718e;
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+.settingsTray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  border-bottom: 1px solid #dbe4ec;
+  background: #f6f9fc;
+  padding: 9px 14px;
+  color: #294b6c;
+  font-size: 0.64rem;
+}
+.settingsTray button {
+  border: 1px solid #cad7e2;
+  border-radius: 5px;
+  background: white;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+.settingsTray button[aria-pressed='true'] {
+  border-color: #0878ff;
+  color: #0878e8;
+}
+.boardTable {
+  max-height: 510px;
+  overflow-y: auto;
+}
+.boardTable > section {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.boardTable > section > div:first-child {
+  display: none;
+}
+.prospectFilters {
+  display: grid;
+  grid-template-columns: minmax(150px, 1.5fr) repeat(3, minmax(100px, 1fr));
+  gap: 7px;
+  border-bottom: 1px solid #dbe4ec;
+  padding: 9px 10px;
+}
+.prospectFilters label {
+  position: relative;
+}
+.prospectFilters svg {
+  position: absolute;
+  top: 50%;
+  left: 9px;
+  width: 14px;
+  transform: translateY(-50%);
+  color: #648099;
+}
+.prospectFilters input,
+.prospectFilters select {
+  width: 100%;
+  height: 34px;
+  border: 1px solid #d5e0e9;
+  border-radius: 5px;
+  background: white;
+  padding: 0 8px;
+  color: #294b6c;
+  font-size: 0.6rem;
+}
+.prospectFilters input {
+  padding-left: 29px;
+}
+.prospectTableHeader,
+.prospectRow,
+.selectedProspectRow {
+  display: grid;
+  grid-template-columns: 42px minmax(145px, 1.6fr) 42px minmax(80px, 0.85fr) minmax(90px, 1fr) 74px;
+  gap: 8px;
+  align-items: center;
+}
+.prospectTableHeader {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  min-height: 31px;
+  border-bottom: 1px solid #dbe4ec;
+  background: #f7f9fb;
+  padding: 0 10px;
+  color: #617b94;
+  font-size: 0.52rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.prospectRow,
+.selectedProspectRow {
+  width: 100%;
+  min-height: 51px;
+  border: 0;
+  border-bottom: 1px solid #e8edf2;
+  background: white;
+  padding: 5px 10px;
+  color: #45627d;
+  cursor: pointer;
+  font-size: 0.61rem;
+  text-align: left;
+}
+.prospectRow:hover {
+  background: #f7fbff;
+}
+.selectedProspectRow {
+  border-left: 3px solid #0878ff;
+  background: #eef7ff;
+}
+.prospectIdentity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+.prospectIdentity img,
+.prospectIdentity i {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  border-radius: 5px;
+  background: #e8eef3;
+  object-fit: cover;
+  object-position: top;
+}
+.prospectIdentity i {
+  display: grid;
+  place-items: center;
+  color: #45627d;
+  font-size: 0.58rem;
+  font-style: normal;
+  font-weight: 800;
+}
+.prospectIdentity strong {
+  overflow: hidden;
+  color: #071c31;
+  font-size: 0.66rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.prospectRow small,
+.selectedProspectRow small {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.53rem;
+}
+.tableGrade {
+  border-radius: 5px;
+  background: #edf9f0;
+  padding: 6px;
+  color: #15803d;
+  font-size: 0.75rem;
+  text-align: center;
+}
+.noProspects {
+  margin: 0;
+  padding: 24px;
+  color: #617b94;
+  font-size: 0.7rem;
+  text-align: center;
+}
+.draftActions {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 8px;
+  border-top: 1px solid #dbe4ec;
+  padding: 10px;
+}
+.draftActions button {
+  border-radius: 5px;
+  font-size: 0.72rem;
+}
+.draftActions svg {
+  width: 15px;
+}
+.prospectPanel {
+  padding-bottom: 12px;
+}
+.prospectHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+.prospectHeader img,
+.prospectFallback {
+  width: 64px;
+  height: 64px;
+  border-radius: 7px;
+  background: #e8eef3;
+  object-fit: cover;
+  object-position: top;
+}
+.prospectFallback {
+  display: grid;
+  place-items: center;
+  color: #45627d;
+  font-weight: 850;
+}
+.gradeCard {
+  display: grid;
+  grid-template-columns: 105px minmax(0, 1fr);
+  gap: 10px;
+  margin: 10px;
+}
+.gradeCard > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #edf9f0;
+  padding: 10px;
+  text-align: center;
+}
+.gradeCard span,
+.gradeCard small,
+.measurements span {
+  color: #617b94;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+}
+.gradeCard strong {
+  color: #15803d;
+  font-size: 1.65rem;
+}
+.gradeCard p {
+  margin: 0;
+  border-radius: 6px;
+  background: #f5f8fb;
+  padding: 11px;
+  color: #294b6c;
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+.measurements {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  padding: 0 10px 10px;
+}
+.measurements div {
+  border: 1px solid #e0e7ee;
+  border-radius: 6px;
+  padding: 8px;
+}
+.measurements span,
+.measurements strong {
+  display: block;
+}
+.measurements strong {
+  margin-top: 3px;
+  color: #071c31;
+  font-size: 0.72rem;
+}
+.proConGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  border-top: 1px solid #e2e8ef;
+  padding: 12px 14px;
+}
+.proConGrid > div > strong {
+  color: #071c31;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+.proConGrid p {
+  display: flex;
+  gap: 5px;
+  margin: 8px 0 0;
+  color: #375570;
+  font-size: 0.59rem;
+  line-height: 1.35;
+}
+.proConGrid svg {
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
+  color: #159447;
+}
+.proConGrid > div:last-child svg {
+  color: #dc2626;
+}
+.profileButton,
+.tradeOfferButton {
+  display: block;
+  width: calc(100% - 28px);
+  margin: 4px 14px 0;
+  border: 1px solid #d3dee8;
+  border-radius: 6px;
+  background: white;
+  padding: 10px;
+  color: #0d2d4a;
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+.tradeOfferButton {
+  border-color: #9dc9ff;
+  background: #edf7ff;
+  color: #066bc8;
+}
+.emptyProspect {
+  padding: 24px;
+  color: #617b94;
+  font-size: 0.75rem;
+}
+.draftFeed {
+  margin-top: 14px;
+}
+
+/* Keep the draft room dense while making its working text easier to scan. */
+.panelTabs,
+.boardTabs {
+  font-size: 0.85rem;
+}
+.profileTabs {
+  font-size: 0.82rem;
+}
+.pickNumber {
+  font-size: 0.85rem;
+}
+.pickRow strong,
+.currentPick strong,
+.prospectIdentity strong {
+  font-size: 0.76rem;
+}
+.pickRow small,
+.currentPick small,
+.clockBadge {
+  font-size: 0.71rem;
+}
+.onClockTeam strong,
+.prospectHeader strong {
+  font-size: 1.06rem;
+}
+.onClockTeam span,
+.prospectHeader span,
+.draftActions button,
+.analysisView p,
+.profileEmptyState {
+  font-size: 0.85rem;
+}
+.needChips span,
+.headerClock span,
+.needChips b,
+.settingsTray,
+.prospectFilters input,
+.prospectFilters select {
+  font-size: 0.74rem;
+}
+.prospectTableHeader {
+  font-size: 0.65rem;
+}
+.prospectRow,
+.selectedProspectRow {
+  font-size: 0.76rem;
+}
+.prospectRow small,
+.selectedProspectRow small {
+  font-size: 0.66rem;
+}
+.gradeCard p,
+.proConGrid > div > strong,
+.profileButton,
+.tradeOfferButton {
+  font-size: 0.8rem;
+}
+.proConGrid p {
+  font-size: 0.69rem;
+}
+.measurements strong,
+.teamNeedsView p {
+  font-size: 0.86rem;
+}
+.gradeCard span,
+.gradeCard small,
+.measurements span {
+  font-size: 0.59rem;
+}
+.gradeCard strong {
+  font-size: 1.78rem;
+}
+.headerClock strong,
+.teamNeedsView h3,
+.analysisView h3 {
+  font-size: 0.97rem;
+}
+.tableGrade,
+.emptyProspect {
+  font-size: 0.81rem;
+}
+.noProspects {
+  font-size: 0.76rem;
+}
+@media (max-width: 1100px) {
+  .draftWorkspace {
+    grid-template-columns: minmax(190px, 1fr) minmax(430px, 2fr);
+  }
+  .prospectPanel {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 760px) {
+  .teamSelector,
+  .startButton {
+    grid-column: 1 / -1;
+  }
+  .settingsButton {
+    grid-column: 1 / -1;
+  }
+  .draftNav {
+    margin: 0 -16px;
+    padding-inline: 8px;
+  }
+  .draftWorkspace {
+    grid-template-columns: 1fr;
+  }
+  .draftOrderPanel,
+  .prospectPanel {
+    grid-column: auto;
+  }
+  .onClockHeader {
+    grid-template-columns: 1fr auto;
+  }
+  .needChips {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    flex-wrap: wrap;
+  }
+}

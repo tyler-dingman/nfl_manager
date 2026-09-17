@@ -603,6 +603,68 @@ export const removeTradeAsset = (
 const sumValues = (assets: TradeAssetDTO[]) =>
   assets.reduce((total, asset) => total + asset.value, 0);
 
+export const analyzeTrade = (
+  tradeId: string,
+  saveId?: string,
+): SaveResult<{
+  trade: TradeDTO;
+  acceptance: number;
+  likelyAccepted: boolean;
+  caps: {
+    userTeamAbbr: string;
+    userCapSpace: number;
+    partnerTeamAbbr: string;
+    partnerCapSpace: number;
+  };
+  simulation: TradeSimulationResult;
+  tradeBalance: TradeBalanceResult;
+  proposal: TradeProposal;
+  packageValues: { outgoing: number; incoming: number; difference: number };
+}> => {
+  const storedTrade = tradeStore.get(tradeId);
+  if (!storedTrade) throw new Error('Trade not found');
+  const trade = storedTrade.trade;
+  if (saveId && trade.saveId !== saveId) return { ok: false, error: 'Save not found' };
+
+  const saveStateResult = getSaveStateResult(trade.saveId);
+  if (!saveStateResult.ok) return saveStateResult;
+  const userTeamAbbr = saveStateResult.data.header.teamAbbr.toUpperCase();
+  const partnerTeamAbbr = trade.partnerTeamAbbr.toUpperCase();
+  const userRoster = getProjectedRosterForTeam(saveStateResult.data, userTeamAbbr);
+  const partnerRoster = getPartnerRoster(saveStateResult.data, partnerTeamAbbr);
+  const userCap = getProjectedCapSpaceForTeam(saveStateResult.data, userTeamAbbr);
+  const partnerCap = getProjectedCapSpaceForTeam(saveStateResult.data, partnerTeamAbbr);
+  const { proposal, value } = buildTradeProposal(
+    trade,
+    userTeamAbbr,
+    userRoster,
+    partnerRoster,
+    userCap,
+    partnerCap,
+  );
+  const outgoing = sumValues(trade.sendAssets);
+  const incoming = sumValues(trade.receiveAssets);
+  const acceptance = outgoing === 0 ? 0 : Math.min(100, Math.round((incoming / outgoing) * 100));
+
+  return {
+    ok: true,
+    data: {
+      trade: cloneTrade(trade),
+      acceptance,
+      likelyAccepted: acceptance >= 70 && proposal.isValid,
+      caps: { userTeamAbbr, userCapSpace: userCap, partnerTeamAbbr, partnerCapSpace: partnerCap },
+      simulation: proposal.capImpact,
+      tradeBalance: value,
+      proposal,
+      packageValues: {
+        outgoing,
+        incoming,
+        difference: Number((incoming - outgoing).toFixed(1)),
+      },
+    },
+  };
+};
+
 export const proposeTrade = (
   tradeId: string,
   saveId?: string,

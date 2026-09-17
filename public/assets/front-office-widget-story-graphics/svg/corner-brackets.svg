@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none" aria-hidden="true" focusable="false"><defs>
+ <linearGradient id="fo-corner-brackets-metal" x1="0" y1="0" x2=".28" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="currentColor"/><stop offset=".48" stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity=".38"/></linearGradient>
+ <linearGradient id="fo-corner-brackets-sheen" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#fff" stop-opacity=".52"/><stop offset=".28" stop-color="#fff" stop-opacity=".08"/><stop offset=".52" stop-color="#000" stop-opacity=".08"/><stop offset="1" stop-color="#000" stop-opacity=".52"/></linearGradient>
+ <linearGradient id="fo-corner-brackets-steel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#aebbc7"/><stop offset=".48" stop-color="#627482"/><stop offset="1" stop-color="#15222d"/></linearGradient>
+ <linearGradient id="fo-corner-brackets-dark" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#20323b"/><stop offset="1" stop-color="#080e13"/></linearGradient>
+ <linearGradient id="fo-corner-brackets-glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4d4df" stop-opacity=".15"/><stop offset=".5" stop-color="#b0cad7" stop-opacity=".02"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></linearGradient>
+ <radialGradient id="fo-corner-brackets-halo"><stop stop-color="currentColor" stop-opacity=".15"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient>
+ </defs><path d="M21 77V21h56M163 21h56v56M219 163v56h-56M77 219H21v-56" fill="none" stroke="url(#fo-corner-brackets-steel)" stroke-width="5"/></svg>

@@ -1,41 +1,128 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
-import { Bell, Radio, X } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { Bell, ChevronRight, Radio, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { TEAM_LIST } from '@/data/teams';
 import { apiFetch } from '@/lib/api';
-import {
-  getFrontOfficeEventActionLabel,
-  getFrontOfficeEventActionUrl,
-} from '@/lib/front-office-event-actions';
+import { frontOfficeEventIncludesTeam, relativeNewsTime } from '@/lib/front-office-league-news';
 import type { FrontOfficeEvent } from '@/types/front-office';
 
-const labels: Record<FrontOfficeEvent['type'], string> = {
-  breaking_news: 'Breaking News',
-  trade_rumor: 'Rumor Mill',
-  trade_interest: 'Trade Desk',
-  trade_offer: 'Trade Offer',
-  free_agent_signing: 'Free Agency',
-  player_release: 'League Wire',
-  contract_extension: 'League Wire',
-  re_sign_ready: 'Re-sign Ready',
-  draft_buzz: 'Draft Buzz',
-  deadline_alert: 'Deadline Alert',
-  league_transaction: 'League Wire',
-  playoff_update: 'Playoff Update',
+type NewsFilter = 'all' | 'team' | 'breaking';
+
+const categoryFromText = (event: FrontOfficeEvent) => {
+  const text =
+    `${event.headline} ${event.summary} ${String(event.metadata.topic ?? '')}`.toLowerCase();
+  if (/injur|questionable|doubtful|ruled out|availability/.test(text)) return 'INJURY';
+  if (/coach|coordinator|play-caller|fired|hired/.test(text)) return 'COACHING';
+  if (/draft|prospect|pick\b|combine/.test(text)) return 'DRAFT';
+  if (/contract|extension|re-sign|salary|cap hit/.test(text)) return 'CONTRACT';
+  if (/trade|acquire|deal\b/.test(text)) return 'TRADE';
+  if (/signing|signs\b|signed\b/.test(text)) return 'SIGNING';
+  if (/release|released|waiv|cut\b/.test(text)) return 'RELEASE';
+  if (/roster|depth chart|starter|practice squad/.test(text)) return 'ROSTER';
+  if (/week \d+|matchup|game\b|victory|defeat/.test(text)) return 'GAME';
+  return null;
 };
+
+const categoryFor = (event: FrontOfficeEvent) => {
+  const explicit = String(event.metadata.newsCategory ?? '').toUpperCase();
+  if (explicit === 'GAME_RECAP') return 'GAME';
+  if (explicit === 'TRANSACTION') return 'ROSTER';
+  if (
+    [
+      'BREAKING',
+      'TRADE',
+      'INJURY',
+      'SIGNING',
+      'RELEASE',
+      'CONTRACT',
+      'RUMOR',
+      'GAME',
+      'DRAFT',
+      'ROSTER',
+      'COACHING',
+    ].includes(explicit)
+  )
+    return explicit;
+  if (event.type === 'breaking_news' || event.type === 'deadline_alert') return 'BREAKING';
+  if (['trade_rumor', 'trade_interest', 'trade_offer'].includes(event.type))
+    return event.type === 'trade_rumor' ? 'RUMOR' : 'TRADE';
+  if (event.type === 'free_agent_signing') return 'SIGNING';
+  if (event.type === 'player_release') return 'RELEASE';
+  if (['contract_extension', 're_sign_ready'].includes(event.type)) return 'CONTRACT';
+  if (event.type === 'draft_buzz') return 'DRAFT';
+  if (event.type === 'league_transaction') return 'ROSTER';
+  return categoryFromText(event) ?? 'ROSTER';
+};
+
+const isBreaking = (event: FrontOfficeEvent) =>
+  event.type === 'breaking_news' ||
+  String(event.metadata.newsCategory ?? '').toUpperCase() === 'BREAKING' ||
+  (event.priority === 'urgent' && Number(event.metadata.importanceScore ?? 0) >= 90);
+
+const isNewsEvent = (event: FrontOfficeEvent) =>
+  event.type !== 'welcome_message' &&
+  String(event.metadata.channel ?? '').toUpperCase() !== 'MESSAGE';
+
+const teamFor = (event: FrontOfficeEvent) =>
+  TEAM_LIST.find((team) => team.abbr === (event.teamAbbr ?? event.relatedTeamAbbr));
+
+function EventTeamLogo({ event }: { event: FrontOfficeEvent }) {
+  const primary = teamFor(event);
+  const secondary = TEAM_LIST.find(
+    (team) => team.abbr === event.relatedTeamAbbr && team.abbr !== primary?.abbr,
+  );
+  return (
+    <span className={`fo-news-team-logo${secondary ? ' multi-team' : ''}`}>
+      {primary ? (
+        <Image
+          src={primary.logoUrl}
+          alt={`${primary.city} ${primary.name}`}
+          width={36}
+          height={36}
+        />
+      ) : (
+        <Bell aria-hidden="true" />
+      )}
+      {secondary ? (
+        <Image
+          className="fo-news-secondary-logo"
+          src={secondary.logoUrl}
+          alt={`${secondary.city} ${secondary.name}`}
+          width={22}
+          height={22}
+        />
+      ) : null}
+    </span>
+  );
+}
 
 export function FrontOfficeEventCenter({
   saveId,
+  teamAbbr,
   paused = false,
 }: {
   saveId: string;
+  teamAbbr: string;
   paused?: boolean;
 }) {
+  const pathname = usePathname();
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
-  const [toast, setToast] = useState<FrontOfficeEvent | null>(null);
+  const [notification, setNotification] = useState<FrontOfficeEvent | null>(null);
   const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState<NewsFilter>('all');
+  const [mounted, setMounted] = useState(false);
+  const [focusedStoryId, setFocusedStoryId] = useState<string | null>(null);
+  const [visibleLimit, setVisibleLimit] = useState(60);
   const panelRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const storyRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+  const storageKey = `fo-news-notifications:${saveId}`;
 
   const load = useCallback(async () => {
     const response = await apiFetch(
@@ -50,164 +137,274 @@ export function FrontOfficeEventCenter({
     const response = await apiFetch('/api/front-office/events/next', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ saveId }),
+      body: JSON.stringify({ saveId, teamAbbr }),
     });
-    if (!response.ok) return;
+    if (!response.ok) return false;
     const payload = (await response.json()) as { event: FrontOfficeEvent | null };
-    if (payload.event) setToast(payload.event);
+    if (!payload.event) return false;
+    setNotification(payload.event);
     await load();
-  }, [load, saveId]);
+    return true;
+  }, [load, saveId, teamAbbr]);
+
+  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    void load();
+  }, [load]);
 
   useEffect(() => {
-    if (paused) {
-      void load();
-      return;
-    }
-    void load().then(surface);
-    const onAdvanced = () => void surface();
+    if (!mounted || paused || open || !pathname) return;
+    const state = JSON.parse(sessionStorage.getItem(storageKey) ?? '{}') as {
+      count?: number;
+      lastPath?: string;
+    };
+    if (state.lastPath === pathname) return;
+    const next = { count: (state.count ?? 0) + 1, lastPath: pathname };
+    sessionStorage.setItem(storageKey, JSON.stringify(next));
+    if (next.count < 5) return;
+    void surface().then((didSurface) => {
+      if (didSurface)
+        sessionStorage.setItem(storageKey, JSON.stringify({ count: 0, lastPath: pathname }));
+    });
+  }, [mounted, open, pathname, paused, storageKey, surface]);
+
+  useEffect(() => {
+    const onAdvanced = () => void load();
     window.addEventListener('front-office-simulation-advanced', onAdvanced);
     return () => window.removeEventListener('front-office-simulation-advanced', onAdvanced);
-  }, [load, paused, surface]);
+  }, [load]);
 
   useEffect(() => {
-    if (!toast || toast.type === 'trade_offer' || toast.type === 'deadline_alert') return;
-    const timer = window.setTimeout(() => void dismiss(toast), 8500);
+    if (!notification || open) return;
+    const timer = window.setTimeout(() => setNotification(null), 6500);
     return () => window.clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [toast?.id]);
+  }, [notification, open]);
 
-  const update = async (event: FrontOfficeEvent, action: 'read' | 'dismiss') => {
-    await apiFetch(`/api/front-office/events/${encodeURIComponent(event.id)}`, {
+  const closeDrawer = useCallback(() => {
+    setOpen(false);
+    setFocusedStoryId(null);
+    window.setTimeout(() => triggerRef.current?.focus(), 0);
+  }, []);
+
+  const openDrawer = useCallback((storyId?: string) => {
+    setNotification(null);
+    setFocusedStoryId(storyId ?? null);
+    setOpen(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusTimer = window.setTimeout(() => {
+      if (focusedStoryId && storyRefs.current[focusedStoryId])
+        storyRefs.current[focusedStoryId]?.focus();
+      else closeRef.current?.focus();
+    }, 0);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') return closeDrawer();
+      if (event.key !== 'Tab' || !panelRef.current) return;
+      const focusable = Array.from(
+        panelRef.current.querySelectorAll<HTMLElement>(
+          'button, a[href], [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.clearTimeout(focusTimer);
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [closeDrawer, focusedStoryId, open]);
+
+  const update = useCallback(
+    async (event: FrontOfficeEvent, action: 'read' | 'dismiss') => {
+      await apiFetch(`/api/front-office/events/${encodeURIComponent(event.id)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action }),
+      });
+      await load();
+    },
+    [load],
+  );
+
+  const newsEvents = useMemo(() => events.filter(isNewsEvent), [events]);
+  const unread = newsEvents.filter((event) => !event.readAt).length;
+  const myTeamEvents = useMemo(
+    () => newsEvents.filter((event) => frontOfficeEventIncludesTeam(event, teamAbbr)),
+    [newsEvents, teamAbbr],
+  );
+  const breakingEvents = useMemo(() => newsEvents.filter(isBreaking), [newsEvents]);
+  const visibleEvents =
+    filter === 'team' ? myTeamEvents : filter === 'breaking' ? breakingEvents : newsEvents;
+
+  useEffect(() => setVisibleLimit(60), [filter]);
+
+  const markAllRead = async () => {
+    await apiFetch('/api/front-office/events', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action }),
+      body: JSON.stringify({ saveId, action: 'read-all' }),
     });
     await load();
   };
-  const dismiss = async (event: FrontOfficeEvent) => {
-    setToast(null);
-    await update(event, 'dismiss');
-  };
-  const unread = events.filter((event) => !event.readAt).length;
+
+  const drawer = open ? (
+    <div
+      className="fo-wire-backdrop"
+      role="presentation"
+      onMouseDown={(event) => event.target === event.currentTarget && closeDrawer()}
+    >
+      <div
+        ref={panelRef}
+        className="fo-wire-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="fo-news-title"
+      >
+        <header>
+          <h2 id="fo-news-title">
+            <Radio aria-hidden="true" /> News
+          </h2>
+          <button ref={closeRef} type="button" onClick={closeDrawer} aria-label="Close news">
+            <X />
+          </button>
+        </header>
+        <div className="fo-news-filters" role="tablist" aria-label="News filters">
+          {(
+            [
+              ['all', 'All', newsEvents.length],
+              ['team', 'My Team', myTeamEvents.length],
+              ['breaking', 'Breaking', breakingEvents.length],
+            ] as const
+          ).map(([value, label, count]) => (
+            <button
+              key={value}
+              type="button"
+              role="tab"
+              aria-selected={filter === value}
+              onClick={() => setFilter(value)}
+            >
+              {label} <span>{count}</span>
+            </button>
+          ))}
+        </div>
+        <div className="fo-wire-list">
+          {visibleEvents.length ? (
+            visibleEvents.slice(0, visibleLimit).map((event) => {
+              const category = categoryFor(event);
+              return (
+                <Link
+                  key={event.id}
+                  ref={(node) => {
+                    storyRefs.current[event.id] = node;
+                  }}
+                  href={`/front-office/league/news/${encodeURIComponent(event.id)}`}
+                  className={`fo-news-row${event.readAt ? ' read' : ' unread'}${focusedStoryId === event.id ? ' focused-story' : ''}`}
+                  onClick={() => {
+                    void update(event, 'read');
+                    closeDrawer();
+                  }}
+                >
+                  <EventTeamLogo event={event} />
+                  <span className="fo-news-row-copy">
+                    <span className="fo-news-meta">
+                      <b data-category={category}>{category}</b>
+                      <time>
+                        {relativeNewsTime(
+                          String(event.metadata.sourcePublishedAt ?? event.createdAt),
+                        )}
+                      </time>
+                    </span>
+                    <strong>{event.headline}</strong>
+                  </span>
+                  <ChevronRight aria-hidden="true" />
+                </Link>
+              );
+            })
+          ) : (
+            <p className="fo-wire-empty">No news matches this filter.</p>
+          )}
+          {visibleEvents.length > visibleLimit ? (
+            <button
+              className="fo-news-load-more"
+              type="button"
+              onClick={() => setVisibleLimit((limit) => limit + 60)}
+            >
+              Load more news
+            </button>
+          ) : null}
+        </div>
+        <footer>
+          <button type="button" onClick={() => void markAllRead()} disabled={!unread}>
+            Mark all as read
+          </button>
+        </footer>
+      </div>
+    </div>
+  ) : null;
 
   return (
     <>
-      <button
-        className="fo-wire-trigger"
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label={`League Wire, ${unread} unread events`}
-      >
-        <Bell aria-hidden="true" /> <span>League Wire</span>
-        {unread ? <strong>{unread > 9 ? '9+' : unread}</strong> : null}
-      </button>
-      {toast ? (
-        <aside
-          className={`fo-event-toast priority-${toast.priority}`}
-          role={toast.priority === 'urgent' ? 'alert' : 'status'}
-          aria-live={toast.priority === 'urgent' ? 'assertive' : 'polite'}
+      {!open ? (
+        <button
+          ref={triggerRef}
+          className="fo-wire-trigger"
+          type="button"
+          onClick={() => openDrawer()}
+          aria-label={`News, ${unread} unread stories`}
         >
-          <div className="fo-event-kicker">
-            <Radio aria-hidden="true" /> {labels[toast.type]}{' '}
-            <span>Week {toast.simulationWeek}</span>
-          </div>
+          <Bell aria-hidden="true" />
+          {unread ? <strong>{unread > 99 ? '99+' : unread}</strong> : null}
+        </button>
+      ) : null}
+      {notification && !open ? (
+        <aside
+          className={`fo-event-toast priority-${notification.priority}`}
+          role={notification.priority === 'urgent' ? 'alert' : 'status'}
+        >
+          <button
+            className="fo-event-toast-main"
+            type="button"
+            onClick={() => openDrawer(notification.id)}
+          >
+            <EventTeamLogo event={notification} />
+            <span className="fo-event-toast-copy">
+              <span className="fo-news-meta">
+                <b data-category={categoryFor(notification)}>{categoryFor(notification)}</b>
+                <time>
+                  {relativeNewsTime(
+                    String(notification.metadata.sourcePublishedAt ?? notification.createdAt),
+                  )}
+                </time>
+              </span>
+              <strong>{notification.headline}</strong>
+            </span>
+            <ChevronRight aria-hidden="true" />
+          </button>
           <button
             className="fo-event-close"
             type="button"
-            onClick={() => void dismiss(toast)}
+            onClick={() => setNotification(null)}
             aria-label="Dismiss notification"
           >
             <X />
           </button>
-          <h2>{toast.headline}</h2>
-          <p>{toast.summary}</p>
-          {toast.type === 're_sign_ready' ? (
-            <div className="fo-event-player">
-              {typeof toast.metadata.headshotUrl === 'string' ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={toast.metadata.headshotUrl} alt="" />
-              ) : null}
-              <span>
-                {String(toast.metadata.position ?? 'Player')} · OVR{' '}
-                {String(toast.metadata.rating ?? '—')}
-              </span>
-            </div>
-          ) : null}
-          <div className="fo-event-actions">
-            {getFrontOfficeEventActionUrl(toast) ? (
-              <Link
-                href={getFrontOfficeEventActionUrl(toast)!}
-                onClick={() => void update(toast, 'read')}
-              >
-                {getFrontOfficeEventActionLabel(toast)}
-              </Link>
-            ) : null}
-            <button type="button" onClick={() => void dismiss(toast)}>
-              {toast.type === 're_sign_ready' ? 'Maybe Later' : 'Dismiss'}
-            </button>
-          </div>
         </aside>
       ) : null}
-      {open ? (
-        <div
-          className="fo-wire-backdrop"
-          role="presentation"
-          onMouseDown={(event) => event.target === event.currentTarget && setOpen(false)}
-        >
-          <div
-            ref={panelRef}
-            className="fo-wire-panel"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="fo-wire-title"
-          >
-            <header>
-              <div>
-                <span>Front Office</span>
-                <h2 id="fo-wire-title">League Wire</h2>
-              </div>
-              <button type="button" onClick={() => setOpen(false)} aria-label="Close League Wire">
-                <X />
-              </button>
-            </header>
-            <div className="fo-wire-list">
-              {events.length ? (
-                events.map((event) => (
-                  <article key={event.id} className={!event.readAt ? 'unread' : undefined}>
-                    <span>
-                      {labels[event.type]} · Week {event.simulationWeek}
-                    </span>
-                    <h3>{event.headline}</h3>
-                    <p>{event.summary}</p>
-                    {event.metadata.resolution ? (
-                      <strong className="fo-wire-resolution">
-                        {event.metadata.resolution === 'signed' ? 'Signed' : 'Resolved'}
-                      </strong>
-                    ) : null}
-                    {getFrontOfficeEventActionUrl(event) ? (
-                      <Link
-                        href={getFrontOfficeEventActionUrl(event)!}
-                        onClick={() => {
-                          void update(event, 'read');
-                          setOpen(false);
-                        }}
-                      >
-                        {getFrontOfficeEventActionLabel(event)}
-                      </Link>
-                    ) : (
-                      <button onClick={() => void update(event, 'read')}>Mark read</button>
-                    )}
-                  </article>
-                ))
-              ) : (
-                <p className="fo-wire-empty">
-                  The wire is quiet. Advance the franchise to generate league events.
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : null}
+      {mounted && drawer ? createPortal(drawer, document.body) : null}
     </>
   );
 }

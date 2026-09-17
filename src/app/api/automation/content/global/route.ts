@@ -1,4 +1,4 @@
-import { timingSafeEqual } from 'node:crypto';
+import { automationAuthError } from '@/server/content-automation/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getMonitoringTeamIds } from '@/data/sources/monitoring';
@@ -20,13 +20,6 @@ import { generateDailyThreeAndOut } from '@/server/three-and-out/daily-service';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-const equalSecret = (actual: string | null, expected?: string) => {
-  if (!actual || !expected) return false;
-  const left = Buffer.from(actual);
-  const right = Buffer.from(expected);
-  return left.length === right.length && timingSafeEqual(left, right);
-};
-
 const safeJobFailure = (value: unknown) => {
   const message = String(value ?? '');
   const http = message.match(/Source fetch failed with HTTP (\d+)/i)?.[1];
@@ -37,13 +30,9 @@ const safeJobFailure = (value: unknown) => {
 };
 
 export async function POST(request: NextRequest) {
-  if (
-    !equalSecret(
-      request.headers.get('authorization'),
-      `Bearer ${process.env.CONTENT_AUTOMATION_SECRET ?? ''}`,
-    )
-  )
-    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
+  const authError = automationAuthError(request.headers.get('authorization'));
+  if (authError)
+    return NextResponse.json({ ok: false, ...authError }, { status: authError.status });
 
   const config = globalAutomationConfig();
   const disabled = globalGenerationStopReason({
@@ -171,4 +160,18 @@ export async function POST(request: NextRequest) {
     generatedToday: generatedToday + generated,
     aiSpendUsd: 0,
   });
+}
+
+// Read-only authentication check: no database access or ingestion side effects.
+export async function GET(request: NextRequest) {
+  const authError = automationAuthError(request.headers.get('authorization'));
+  if (authError)
+    return NextResponse.json(
+      { ok: false, ...authError },
+      { status: authError.status, headers: { 'Cache-Control': 'no-store' } },
+    );
+  return NextResponse.json(
+    { ok: true, service: 'content-automation', authenticated: true },
+    { headers: { 'Cache-Control': 'no-store' } },
+  );
 }

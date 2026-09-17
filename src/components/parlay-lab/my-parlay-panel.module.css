@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 15px 18px;
   border-bottom: 1px solid #e2e8ee;
   background: #fff;
 }
@@ -74,10 +74,10 @@
 }
 .legs article {
   display: grid;
-  grid-template-columns: 26px 34px 1fr 24px;
-  gap: 9px;
+  grid-template-columns: 24px 30px 1fr 20px;
+  gap: 8px;
   align-items: start;
-  padding: 16px 18px;
+  padding: 11px 14px;
   border-bottom: 1px solid #e5ebf0;
 }
 .legs i {
@@ -105,7 +105,7 @@
   font-size: 0.78rem;
 }
 .legs small {
-  margin-top: 4px;
+  margin-top: 2px;
   color: #73879a;
   font-size: 0.72rem;
 }
@@ -122,7 +122,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-top: 7px;
+  margin-top: 5px;
   border: 0;
   background: none;
   padding: 0;
@@ -143,9 +143,39 @@
 .neutral {
   color: #60758a;
 }
+.totalOdds {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #dbe5ec;
+  background: #f7fafc;
+}
+.totalOdds small,
+.totalOdds span {
+  display: block;
+}
+.totalOdds small {
+  color: #536b81;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.totalOdds span {
+  margin-top: 2px;
+  color: #73879a;
+  font-size: 0.7rem;
+}
+.totalOdds strong {
+  color: #071b30;
+  font-size: 1rem;
+  font-weight: 900;
+}
 .lab,
 .fit {
-  padding: 18px;
+  padding: 14px;
   border-bottom: 1px solid #e3e9ee;
 }
 .lab {
@@ -153,10 +183,10 @@
 }
 .sectionTitle {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 .sectionTitle > svg {
-  width: 22px;
+  width: 19px;
   color: #188756;
 }
 .sectionTitle small,
@@ -168,7 +198,7 @@
 }
 .sectionTitle h3 {
   margin: 2px 0;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   text-transform: uppercase;
 }
 .sectionTitle p {
@@ -180,13 +210,13 @@
 .metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 5px;
-  margin-top: 14px;
+  gap: 4px;
+  margin-top: 10px;
 }
 .metrics span {
   display: grid;
   justify-items: center;
-  padding: 8px 2px;
+  padding: 6px 2px;
   border-radius: 9px;
   background: #fff;
   text-align: center;
@@ -204,7 +234,7 @@
   text-transform: uppercase;
 }
 .reviewWeakest {
-  margin-top: 12px;
+  margin-top: 8px;
   border: 0;
   background: none;
   padding: 0;
@@ -221,7 +251,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 7px;
+  margin-top: 5px;
 }
 .bookLogo,
 .bookLogoFallback {
@@ -262,8 +292,8 @@
 .open {
   display: flex;
   width: 100%;
-  min-height: 50px;
-  margin-top: 14px;
+  min-height: 42px;
+  margin-top: 10px;
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -281,14 +311,14 @@
   width: 16px;
 }
 .fit h4 {
-  margin: 18px 0 8px;
+  margin: 13px 0 6px;
 }
 .other {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 9px 0;
+  padding: 7px 0;
   border-top: 1px solid #e8edf1;
   font-size: 0.72rem;
 }
@@ -314,12 +344,12 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 7px;
-  padding: 16px;
+  padding: 12px 14px;
 }
 .utilities button,
 .utilities a {
   display: flex;
-  min-height: 66px;
+  min-height: 56px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -342,7 +372,7 @@
 .save {
   display: flex;
   width: calc(100% - 32px);
-  min-height: 42px;
+  min-height: 38px;
   margin: 0 16px;
   align-items: center;
   justify-content: center;

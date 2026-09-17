@@ -6,11 +6,24 @@ const csvCell = (value: unknown) => `"${String(value ?? '').replaceAll('"', '""'
 
 async function main() {
   loadEnvConfig(process.cwd());
-  const { SportsbookIngestionService } =
-    await import('../src/server/odds/sportsbookIngestionService');
   const args = Object.fromEntries(
     process.argv.slice(2).map((arg) => arg.replace(/^--/, '').split('=')),
   );
+  const production = args.database === 'production';
+  if (production) {
+    if (!Object.prototype.hasOwnProperty.call(args, 'confirm-production')) {
+      throw new Error(
+        'Production import refused. Add --database=production --confirm-production after reviewing the audit.',
+      );
+    }
+    if (!process.env.PRODUCTION_DATABASE_URL) {
+      throw new Error('PRODUCTION_DATABASE_URL is required');
+    }
+    process.env.DATABASE_URL = process.env.PRODUCTION_DATABASE_URL;
+  }
+  console.log(`Environment: ${production ? 'production' : 'local'}`);
+  const { SportsbookIngestionService } =
+    await import('../src/server/odds/sportsbookIngestionService');
   const season = Number(args.season);
   const week = Number(args.week);
   if (!Number.isInteger(season) || !Number.isInteger(week)) {

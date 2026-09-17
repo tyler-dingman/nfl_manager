@@ -32,7 +32,7 @@ function makeEvent(
     id: `foe_${hash(`${state.seed}:${week}:${input.dedupeKey}`).toString(36)}`,
     saveId,
     simulationSeason: state.season,
-    simulationWeek: week,
+    simulationWeek: Math.max(1, week),
     simulationPhase: state.phase,
     expiresAt: null,
   };

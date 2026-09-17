@@ -138,15 +138,7 @@ export function FrontOfficeSettings() {
   return (
     <div className={styles.page}>
       <header className={styles.heading}>
-        <div>
-          <nav>
-            <Link href="/experience">Front Office</Link>
-            <span>›</span>
-            <strong>Settings</strong>
-          </nav>
-          <h1>Settings</h1>
-          <p>Control your Front Office experience, notifications, and saved-game preferences.</p>
-        </div>
+        <div />
         <div className={styles.saveState}>
           <Cloud />
           <span>
@@ -290,7 +282,8 @@ export function FrontOfficeSettings() {
                   {team?.city} {team?.name}
                 </strong>
                 <span>
-                  {simulation?.season ?? '—'} season · Week {simulation?.currentWeek ?? 1}
+                  {simulation?.season ?? '—'} season · Week{' '}
+                  {Math.max(1, simulation?.currentWeek ?? 1)}
                 </span>
               </div>
               <dl>

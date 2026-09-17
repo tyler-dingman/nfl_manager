@@ -14,6 +14,7 @@ import {
   Share2,
   X,
 } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -35,11 +36,13 @@ import { rowName, sportsbookLineLabel } from './market-display';
 import PlayerAvatar from './PlayerAvatar';
 import MyParlayPanel from './MyParlayPanel';
 import ParlayLabSecondaryNav from './ParlayLabSecondaryNav';
+import { snapshotSavedPlay } from './saved-plays';
 import { compareAmericanOdds, matchesOddsFilter, type OddsFilter } from './parlay-table';
 import styles from './parlay-lab.module.css';
 
 type OddsEvent = {
   id: string;
+  season?: number;
   week: number;
   homeTeamId: string;
   awayTeamId: string;
@@ -172,6 +175,8 @@ function TeamBadge({ abbr }: { abbr: string }) {
 }
 
 export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [events, setEvents] = useState<OddsEvent[]>([]),
     [eventId, setEventId] = useState('');
   const [markets, setMarkets] = useState<Market[]>([]),
@@ -205,6 +210,15 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
       .catch((error) => setNotice(error.message))
       .finally(() => setLoading(false));
   }, []);
+  useEffect(() => {
+    if (searchParams?.get('reopen') !== '1') return;
+    try {
+      const saved = JSON.parse(localStorage.getItem('down-distance-parlay-lab-current') ?? '[]');
+      if (Array.isArray(saved)) setSlip(saved as Market[]);
+    } catch {
+      setSaveMessage('The saved play could not be reopened in this browser.');
+    }
+  }, [searchParams]);
   useEffect(() => {
     if (!eventId) return;
     setLoading(true);
@@ -383,12 +397,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
       const key = 'down-distance-parlay-lab-slips',
         existing = JSON.parse(localStorage.getItem(key) ?? '[]'),
         saved = Array.isArray(existing) ? existing : [];
-      saved.unshift({
-        id: `slip-${Date.now()}`,
-        createdAt: new Date().toISOString(),
-        event,
-        selections: slip,
-      });
+      saved.unshift(snapshotSavedPlay({ event, selections: slip }));
       localStorage.setItem(key, JSON.stringify(saved.slice(0, 20)));
       setSaveMessage('Saved to My Plays.');
     } catch {
@@ -472,9 +481,16 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                 Matchup
                 <select
                   value={eventId}
-                  onChange={(changeEvent) => setEventId(changeEvent.target.value)}
+                  onChange={(changeEvent) => {
+                    if (changeEvent.target.value === 'ALL') {
+                      router.push('/parlay-lab/games');
+                      return;
+                    }
+                    setEventId(changeEvent.target.value);
+                  }}
                   disabled={!events.length}
                 >
+                  <option value="ALL">All</option>
                   {!events.length && <option>No games available</option>}
                   {events.map((item) => (
                     <option key={item.id} value={item.id}>

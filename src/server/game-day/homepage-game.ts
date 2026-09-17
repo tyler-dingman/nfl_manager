@@ -55,7 +55,7 @@ function normalizeGame(event: EspnEvent, teamAbbr: string): HomepageGame | null 
   const weather = competition.weather;
   return {
     id: event.id,
-    weekNumber: event.week?.number ?? 0,
+    weekNumber: Math.max(1, event.week?.number ?? 1),
     startsAt,
     timeZone: teamTimeZone(teamAbbr),
     teamAbbr,

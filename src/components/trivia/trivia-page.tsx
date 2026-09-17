@@ -4,18 +4,21 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   ArrowRight,
-  Bolt,
-  Check,
+  CalendarDays,
   Copy,
+  Crosshair,
+  Flame,
   Gamepad2,
-  LogIn,
+  Globe2,
+  Lightbulb,
   Search,
+  Star,
   Trophy,
-  UserRound,
   UsersRound,
 } from 'lucide-react';
 
 import MainSiteHeader from '@/components/main-site-header';
+import FilmRoomPlayDiagram from '@/components/film-room/film-room-play-diagram';
 import TriviaGame from '@/components/trivia/trivia-game';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { useAuthUser } from '@/features/auth/auth-session';
@@ -29,7 +32,6 @@ type Stats = {
   gamesPlayed: number;
   currentStreak: number;
 };
-type Chains = { currentDriveYards: number; touchdowns: number; lifetimeYards: number };
 type Leader = { rank: number; userId?: string; name: string; score: number; accuracy?: number };
 type UserResult = { id: string; displayName: string; avatarUrl: string | null };
 type Panel = null | 'GROUP';
@@ -41,8 +43,7 @@ export default function TriviaPage() {
   const team = teams.find((candidate) => candidate.abbr === teamId);
   const { user } = useAuthUser();
   const [stats, setStats] = useState<Stats | null>(null);
-  const [chains, setChains] = useState<Chains | null>(null);
-  const [teamRank, setTeamRank] = useState<number | null>(null);
+  const [teamLeaders, setTeamLeaders] = useState<Leader[] | null>(null);
   const [launch, setLaunch] = useState<{ gameId?: string } | null>(
     params?.get('game') ? { gameId: params.get('game') ?? undefined } : null,
   );
@@ -53,9 +54,8 @@ export default function TriviaPage() {
     if (!user) return;
     void fetch('/api/trivia/stats')
       .then((response) => (response.ok ? response.json() : null))
-      .then((body: { stats?: Stats; moveTheChains?: Chains } | null) => {
+      .then((body: { stats?: Stats } | null) => {
         setStats(body?.stats ?? null);
-        setChains(body?.moveTheChains ?? null);
       });
   }, [user, launch, panel]);
 
@@ -64,10 +64,7 @@ export default function TriviaPage() {
     void fetch(`/api/trivia/leaderboard?scope=TEAM&period=WEEK&team=${teamId}`)
       .then((response) => (response.ok ? response.json() : null))
       .then((body) => {
-        const row = (body?.rows as Leader[] | undefined)?.find(
-          (leader) => leader.userId === user.id,
-        );
-        setTeamRank(row?.rank ?? null);
+        setTeamLeaders((body?.rows as Leader[] | undefined) ?? []);
       });
   }, [teamId, user]);
 
@@ -76,20 +73,20 @@ export default function TriviaPage() {
       <div className="min-h-screen bg-[#E9EDF0] text-[#00172B]">
         <MainSiteHeader teamAbbr={team?.abbr} active="trivia" />
         {!launch ? (
-          <section className="relative overflow-hidden bg-[#071625] text-white">
-            <div
-              className="absolute inset-y-0 right-0 w-1/2 opacity-15"
-              style={{ background: 'linear-gradient(120deg, transparent 5%, var(--primary) 100%)' }}
-            />
-            <div className="relative mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8 lg:py-14">
+          <section className="relative overflow-hidden bg-[var(--dark)] text-[var(--team-on-dark)]">
+            <FilmRoomPlayDiagram />
+            <div className="relative z-[1] mx-auto flex max-w-[1440px] flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8 lg:py-12">
               <div>
-                <p className="text-xs font-black uppercase tracking-[.3em] text-[var(--team-secondary-on-dark)]">
-                  {team?.name ?? 'NFL'} · Live competition
+                <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--team-secondary-on-dark)]">
+                  {team?.name ?? 'NFL'} · Trivia
                 </p>
-                <h1 className="four-minute-drill-title mt-3">
-                  4 Minute Drill
+                <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
+                  Four Minute{' '}
+                  <span className="text-[var(--secondary)] [text-shadow:0_2px_0_rgba(0,0,0,0.2)]">
+                    Drill
+                  </span>
                 </h1>
-                <p className="mt-3 max-w-xl text-lg font-semibold text-white/65">
+                <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--team-light-on-dark)]">
                   Ten questions. Twenty-four seconds each. Go the distance.
                 </p>
               </div>
@@ -99,7 +96,14 @@ export default function TriviaPage() {
                   value={(stats?.lifetimePoints ?? 0).toLocaleString()}
                 />
                 <HeroStat label="This week" value={(stats?.weeklyPoints ?? 0).toLocaleString()} />
-                <HeroStat label="Team rank" value={teamRank ? `#${teamRank}` : '—'} />
+                <HeroStat
+                  label="Team rank"
+                  value={
+                    teamLeaders?.find((leader) => leader.userId === user?.id)?.rank
+                      ? `#${teamLeaders.find((leader) => leader.userId === user?.id)?.rank}`
+                      : '—'
+                  }
+                />
               </div>
             </div>
           </section>
@@ -130,11 +134,13 @@ export default function TriviaPage() {
           ) : (
             <Lobby
               user={Boolean(user)}
+              userId={user?.id}
               stats={stats}
-              chains={chains}
               onPlay={() => setLaunch({})}
               onPanel={setPanel}
               teamId={teamId}
+              teamName={team?.name ?? 'NFL'}
+              teamLeaders={teamLeaders}
             />
           )}
         </main>
@@ -145,165 +151,204 @@ export default function TriviaPage() {
 
 function Lobby({
   user,
+  userId,
   stats,
-  chains,
   onPlay,
   onPanel,
   teamId,
+  teamName,
+  teamLeaders,
 }: {
   user: boolean;
+  userId?: string;
   stats: Stats | null;
-  chains: Chains | null;
   onPlay: () => void;
   onPanel: (panel: Panel) => void;
   teamId: string;
+  teamName: string;
+  teamLeaders: Leader[] | null;
 }) {
+  const [leaderboardScope, setLeaderboardScope] = useState<'TEAM' | 'GLOBAL'>('TEAM');
+  const teamNickname = teamName.split(' ').at(-1) ?? teamName;
+  const week = getTriviaWeek();
+  const openGlobal = () => {
+    setLeaderboardScope('GLOBAL');
+    window.setTimeout(
+      () => document.getElementById('trivia-leaderboard')?.scrollIntoView({ behavior: 'smooth' }),
+      0,
+    );
+  };
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-      <div className="space-y-6">
-        <section className="overflow-hidden rounded-[28px] bg-white shadow-sm">
-          <div className="border-b border-slate-200 px-6 py-5 sm:px-8">
-            <p className="text-xs font-black uppercase tracking-[.24em] text-[var(--team-primary-text)]">
-              Trivia
-            </p>
-            <h2 className="mt-2 text-3xl font-black tracking-[-.04em] sm:text-4xl">
-              Who are you playing with?
-            </h2>
+    <div className="trivia-dashboard">
+      <section className="trivia-dashboard-card trivia-modes">
+        <p className="trivia-card-eyebrow">Get started</p>
+        <h2>Choose Your Mode</h2>
+        <div className="trivia-mode-list">
+          <TriviaModeCard
+            icon={<Crosshair />}
+            title="Play Solo"
+            meta="10 questions · 24 seconds each"
+            description="Test your NFL knowledge and climb the leaderboard."
+            onClick={onPlay}
+            primary
+          />
+          <TriviaModeCard
+            icon={<UsersRound />}
+            title="Play With Buddies"
+            meta={user ? 'Host up to 4 friends' : 'Sign in to host up to 4 friends'}
+            description="Create a private game and compete together."
+            onClick={() =>
+              user
+                ? onPanel('GROUP')
+                : window.location.assign(`/login?next=${encodeURIComponent('/trivia')}`)
+            }
+          />
+          <TriviaModeCard
+            icon={<Globe2 />}
+            title="Global Challenge"
+            meta="Play against the world"
+            description="See how you stack up against all fans."
+            onClick={openGlobal}
+          />
+        </div>
+      </section>
+
+      <div className="trivia-dashboard-center">
+        <section className="trivia-dashboard-card trivia-weekly">
+          <header>
+            <div>
+              <CalendarDays />
+              <h2>This Week&apos;s Challenge</h2>
+            </div>
+            <span>
+              <strong>Week {week.number}</strong>
+              {week.range}
+            </span>
+          </header>
+          <div className="trivia-team-focus">
+            <span aria-hidden="true">{teamId}</span>
+            <div>
+              <h3>{teamName} Focus</h3>
+              <p>
+                Questions this week feature {teamNickname} history, players, and 2026 storylines.
+              </p>
+            </div>
           </div>
-          <div className="grid gap-4 p-6 sm:grid-cols-2 sm:p-8">
-            <GameCard
-              icon={<Bolt />}
-              title="Play with myself"
-              detail="10 questions · 24 seconds each"
-              onClick={onPlay}
-              primary
-            />
-            <GameCard
-              icon={<UsersRound />}
-              title="Play with buddies"
-              detail={user ? 'Host up to four buddies' : 'Sign in to host up to four buddies'}
-              onClick={() =>
-                user
-                  ? onPanel('GROUP')
-                  : window.location.assign(`/login?next=${encodeURIComponent('/trivia')}`)
-              }
-            />
+          <button className="trivia-start-button" onClick={onPlay}>
+            Start Playing <ArrowRight />
+          </button>
+        </section>
+        <section className="trivia-dashboard-card trivia-how">
+          <header>
+            <Lightbulb />
+            <h2>How It Works</h2>
+          </header>
+          <div>
+            <HowStep number="1" title="Get 10 questions">
+              Covering players, history, stats, and more.
+            </HowStep>
+            <HowStep number="2" title="You have 24 seconds each">
+              Think fast. No second chances.
+            </HowStep>
+            <HowStep number="3" title="Score points">
+              Climb the weekly and all-time leaderboards.
+            </HowStep>
           </div>
         </section>
-        <MoveTheChains chains={chains} />
       </div>
-      <aside className="space-y-6">
-        <TriviaLeaderboard teamId={teamId} />
-        <div className="grid grid-cols-3 gap-2">
-          <MiniStat label="Accuracy" value={`${stats?.accuracy ?? 0}%`} />
-          <MiniStat label="Games" value={String(stats?.gamesPlayed ?? 0)} />
-          <MiniStat label="Streak" value={String(stats?.currentStreak ?? 0)} />
-        </div>
-      </aside>
+
+      <TriviaLeaderboard
+        teamId={teamId}
+        teamNickname={teamNickname}
+        userId={userId}
+        initialTeamLeaders={teamLeaders}
+        scope={leaderboardScope}
+        onScopeChange={setLeaderboardScope}
+      />
+      <TriviaStats stats={stats} />
     </div>
   );
 }
 
-function MoveTheChains({ chains }: { chains: Chains | null }) {
-  const yards = chains?.currentDriveYards ?? 0;
-  const ticks = ['OWN', '10', '20', '30', '40', '50', '40', '30', '20', '10', 'END ZONE'];
-  return (
-    <section className="rounded-[28px] bg-[#071625] p-6 text-white shadow-sm sm:p-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="text-xs font-black uppercase tracking-[.24em] text-[var(--team-secondary-on-dark)]">
-            Move the Chains
-          </p>
-          <h2 className="mt-2 text-3xl font-black">CURRENT DRIVE</h2>
-        </div>
-        <p className="text-3xl font-black tabular-nums">
-          {yards} <span className="text-base text-white/45">/ 100 YDS</span>
-        </p>
-      </div>
-      <div className="relative mt-8 pb-7 pt-3">
-        <div className="h-2 rounded-full bg-white/15">
-          <div
-            className="h-2 rounded-full bg-[var(--secondary)] transition-[width] duration-700 motion-reduce:transition-none"
-            style={{ width: `${yards}%` }}
-          />
-        </div>
-        <div
-          className="absolute top-0 h-8 w-1 rounded-full bg-white shadow-[0_0_0_4px_var(--primary)] transition-[left] duration-700 motion-reduce:transition-none"
-          style={{ left: `calc(${yards}% - 2px)` }}
-          aria-label={`Ball at ${yards} yards`}
-        />
-        <div className="mt-3 grid grid-cols-11 text-center text-[8px] font-black uppercase tracking-wider text-white/35 sm:text-[10px]">
-          {ticks.map((tick, index) => (
-            <span key={`${tick}-${index}`}>{tick}</span>
-          ))}
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/15 sm:grid-cols-3">
-        <DarkStat label="Current drive" value={`${yards} YDS`} />
-        <DarkStat label="Touchdowns" value={String(chains?.touchdowns ?? 0)} />
-        <DarkStat
-          label="Lifetime yards"
-          value={(chains?.lifetimeYards ?? 0).toLocaleString()}
-          className="col-span-2 sm:col-span-1"
-        />
-      </div>
-    </section>
-  );
-}
-
-function TriviaLeaderboard({ teamId }: { teamId: string }) {
-  const [scope, setScope] = useState<'TEAM' | 'GLOBAL'>('TEAM');
+function TriviaLeaderboard({
+  teamId,
+  teamNickname,
+  userId,
+  initialTeamLeaders,
+  scope,
+  onScopeChange,
+}: {
+  teamId: string;
+  teamNickname: string;
+  userId?: string;
+  initialTeamLeaders: Leader[] | null;
+  scope: 'TEAM' | 'GLOBAL';
+  onScopeChange: (scope: 'TEAM' | 'GLOBAL') => void;
+}) {
   const [period, setPeriod] = useState<'WEEK' | 'ALL_TIME'>('WEEK');
-  const [leaders, setLeaders] = useState<Leader[]>([]);
+  const [leaders, setLeaders] = useState<Leader[]>(initialTeamLeaders ?? []);
+  const [loading, setLoading] = useState(initialTeamLeaders === null);
   useEffect(() => {
+    if (scope === 'TEAM' && period === 'WEEK' && initialTeamLeaders !== null) {
+      setLeaders(initialTeamLeaders);
+      setLoading(false);
+      return;
+    }
+    let active = true;
+    setLoading(true);
     void fetch(`/api/trivia/leaderboard?scope=${scope}&period=${period}&team=${teamId}`)
       .then((response) => (response.ok ? response.json() : null))
-      .then((body) => setLeaders(body?.rows ?? []));
-  }, [period, scope, teamId]);
+      .then((body) => {
+        if (active) setLeaders(body?.rows ?? []);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [initialTeamLeaders, period, scope, teamId]);
   return (
-    <section className="rounded-[28px] bg-white p-5 shadow-sm">
-      <div className="flex items-center justify-between">
+    <section id="trivia-leaderboard" className="trivia-dashboard-card trivia-leaderboard">
+      <header>
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[.22em] text-[var(--team-primary-text)]">
-            Leaderboard
-          </p>
-          <h2 className="mt-1 text-2xl font-black">This week</h2>
+          <Trophy />
+          <h2>Leaderboard</h2>
         </div>
-        <Trophy className="h-6 w-6 text-[var(--team-primary-text)]" />
-      </div>
-      <div className="mt-4 flex gap-1 rounded-lg bg-slate-100 p-1">
+        <Trophy />
+      </header>
+      <div className="trivia-leaderboard-tabs">
         {(['TEAM', 'GLOBAL'] as const).map((item) => (
-          <button
-            key={item}
-            onClick={() => setScope(item)}
-            className={`flex-1 rounded-md px-2 py-2 text-[10px] font-black ${scope === item ? 'bg-white shadow-sm' : 'text-slate-500'}`}
-          >
-            {item}
+          <button key={item} aria-pressed={scope === item} onClick={() => onScopeChange(item)}>
+            {item === 'TEAM' ? `Team (${teamNickname})` : 'Global'}
           </button>
         ))}
       </div>
-      <div className="mt-4 grid gap-1">
+      <div className="trivia-leaderboard-head">
+        <span>#</span>
+        <span>Name</span>
+        <span>Points</span>
+      </div>
+      <div className="trivia-leaderboard-rows" aria-busy={loading}>
         {leaders.slice(0, 5).map((row) => (
-          <div
-            key={`${row.rank}-${row.name}`}
-            className="grid grid-cols-[28px_1fr_auto] items-center gap-2 rounded-lg px-2 py-2.5 first:bg-[#FFF4E6]"
-          >
-            <span className="font-black">{row.rank}</span>
-            <span className="truncate text-sm font-black">{row.name}</span>
-            <span className="text-sm font-black tabular-nums">{row.score.toLocaleString()}</span>
+          <div key={`${row.rank}-${row.name}`} className={row.userId === userId ? 'current' : ''}>
+            <span>{row.rank}</span>
+            <strong>{row.name}</strong>
+            <b>{row.score.toLocaleString()}</b>
           </div>
         ))}
-        {!leaders.length ? (
-          <p className="py-4 text-center text-sm font-semibold text-slate-500">
-            Be the first on the board.
+        {!loading && !leaders.length ? (
+          <p className="trivia-leaderboard-empty">
+            No scores yet this week. Be the first on the board.
           </p>
         ) : null}
+        {loading ? <p className="trivia-leaderboard-empty">Loading leaderboard…</p> : null}
       </div>
       <button
         onClick={() => setPeriod((value) => (value === 'WEEK' ? 'ALL_TIME' : 'WEEK'))}
-        className="mt-3 w-full border-t pt-4 text-xs font-black uppercase tracking-wider text-[var(--team-primary-text)]"
+        className="trivia-leaderboard-more"
       >
-        {period === 'WEEK' ? 'View all time' : 'View this week'}
+        {period === 'WEEK' ? 'View Full Leaderboard' : 'View This Week'} <ArrowRight />
       </button>
     </section>
   );
@@ -524,37 +569,94 @@ function SocialPanel({
     </section>
   );
 }
-function GameCard({
+function getTriviaWeek(now = new Date()) {
+  const start = new Date(now.getFullYear(), 8, 7);
+  const number = Math.max(1, Math.floor((now.getTime() - start.getTime()) / 604800000) + 1);
+  const rangeStart = new Date(start.getTime() + (number - 1) * 604800000);
+  const rangeEnd = new Date(rangeStart.getTime() + 6 * 86400000);
+  const format = (date: Date) =>
+    date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  return { number, range: `${format(rangeStart)} – ${format(rangeEnd)}` };
+}
+
+function TriviaModeCard({
   icon,
   title,
-  detail,
+  meta,
+  description,
   onClick,
   primary = false,
 }: {
   icon: React.ReactNode;
   title: string;
-  detail: string;
+  meta: string;
+  description: string;
   onClick: () => void;
   primary?: boolean;
 }) {
   return (
-    <button
-      onClick={onClick}
-      className={`group min-h-40 rounded-2xl border-2 p-5 text-left transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[var(--dark)]/20 motion-reduce:transform-none ${primary ? 'border-[var(--dark)] bg-[var(--dark)] text-[var(--team-on-dark)]' : 'border-slate-200 bg-[#F7F8F9] hover:border-[var(--primary)]'}`}
-    >
-      <span
-        className={`flex h-11 w-11 items-center justify-center rounded-xl ${primary ? 'bg-white/15 text-[var(--team-secondary-on-dark)]' : 'bg-white text-[var(--team-primary-text)] shadow-sm'}`}
-      >
-        {icon}
+    <button onClick={onClick} className={`trivia-mode ${primary ? 'primary' : ''}`}>
+      <span className="trivia-mode-icon">{icon}</span>
+      <span>
+        <strong>{title}</strong>
+        <b>{meta}</b>
+        <small>{description}</small>
       </span>
-      <span className="mt-5 block text-xl font-black uppercase">{title}</span>
-      <span
-        className={`mt-1 block text-sm font-semibold ${primary ? 'text-[var(--team-on-dark)]' : 'text-slate-500'}`}
-      >
-        {detail}
-      </span>
-      <ArrowRight className="ml-auto mt-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
+      <ArrowRight />
     </button>
+  );
+}
+
+function HowStep({
+  number,
+  title,
+  children,
+}: {
+  number: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <article>
+      <span>{number}</span>
+      <div>
+        <strong>{title}</strong>
+        <p>{children}</p>
+      </div>
+    </article>
+  );
+}
+
+function TriviaStats({ stats }: { stats: Stats | null }) {
+  const values = [
+    {
+      icon: <Crosshair />,
+      label: 'Total Points',
+      value: (stats?.lifetimePoints ?? 0).toLocaleString(),
+    },
+    {
+      icon: <Star />,
+      label: 'Accuracy',
+      value: stats?.questionsAnswered ? `${stats.accuracy.toFixed(1)}%` : '—',
+    },
+    { icon: <Gamepad2 />, label: 'Games Played', value: String(stats?.gamesPlayed ?? 0) },
+    { icon: <Flame />, label: 'Current Streak', value: String(stats?.currentStreak ?? 0) },
+  ];
+  return (
+    <section className="trivia-dashboard-card trivia-stats">
+      <header>
+        <h2>Your Stats</h2>
+      </header>
+      <div>
+        {values.map((item) => (
+          <article key={item.label}>
+            <span>{item.icon}</span>
+            <strong>{item.value}</strong>
+            <small>{item.label}</small>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 function BackButton({ onClick, dark = false }: { onClick: () => void; dark?: boolean }) {
@@ -572,30 +674,6 @@ function HeroStat({ label, value }: { label: string; value: string }) {
     <div className="min-w-[105px] bg-white/[.07] px-4 py-4 text-center sm:min-w-[135px]">
       <p className="text-xl font-black sm:text-2xl">{value}</p>
       <p className="mt-1 text-[9px] font-black uppercase tracking-[.15em] text-white/45">{label}</p>
-    </div>
-  );
-}
-function DarkStat({
-  label,
-  value,
-  className = '',
-}: {
-  label: string;
-  value: string;
-  className?: string;
-}) {
-  return (
-    <div className={`bg-white/[.06] p-4 ${className}`}>
-      <p className="text-xl font-black">{value}</p>
-      <p className="mt-1 text-[9px] font-black uppercase tracking-[.16em] text-white/40">{label}</p>
-    </div>
-  );
-}
-function MiniStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl bg-white p-3 text-center shadow-sm">
-      <p className="text-lg font-black">{value}</p>
-      <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">{label}</p>
     </div>
   );
 }

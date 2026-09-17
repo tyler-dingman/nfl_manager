@@ -62,13 +62,27 @@
   font-weight: 750;
 }
 .tabs .activeTab {
-  background: #ed1535;
-  color: #fff;
+  background: var(--fo-interactive);
+  color: var(--fo-interactive-fg);
+}
+.tabs button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--fo-interactive) 45%, transparent);
+  outline-offset: 2px;
 }
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 2.15fr) minmax(18rem, 0.92fr);
   gap: 1.2rem;
+}
+.topGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
+  gap: 1.2rem;
+  align-items: stretch;
+}
+.topGrid .sideCard,
+.topGrid .featured {
+  height: 100%;
 }
 .main {
   min-width: 0;
@@ -90,6 +104,7 @@
   gap: 1.4rem;
   background: #0a1724;
   padding: 0.8rem 1rem;
+  color: #fff;
 }
 .featureMeta > span {
   display: inline-flex;
@@ -138,7 +153,12 @@
   font-size: 0.64rem;
 }
 .featured .author small {
-  color: #cbd3dc;
+  color: #fff;
+}
+.featured .author strong,
+.featured .featureMeta > span,
+.featured .featureMeta time {
+  color: #fff;
 }
 .latest {
   margin-top: 1rem;
@@ -171,7 +191,7 @@
 }
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
 }
 .storyCard {
@@ -183,6 +203,11 @@
   box-shadow: 0 5px 18px rgba(8, 27, 48, 0.05);
 }
 .storyCard > section {
+  border-radius: 0;
+}
+.storyCard > article {
+  min-height: 13.5rem;
+  border: 0;
   border-radius: 0;
 }
 .storyCopy {
@@ -210,6 +235,12 @@
   font-size: 0.88rem;
   font-weight: 900;
   line-height: 1.17;
+}
+.cardMeta {
+  margin-top: 0.5rem;
+  color: #718095;
+  font-size: 0.64rem;
+  font-weight: 700;
 }
 .storyCopy p {
   display: -webkit-box;
@@ -275,14 +306,14 @@
 }
 .sideCard h2 svg {
   width: 1rem;
-  color: #ed1535;
+  color: var(--fo-interactive-text);
 }
 .sideCard header button,
 .around > button {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  color: #ed1535;
+  color: var(--fo-interactive-text);
   font-size: 0.65rem;
   font-weight: 850;
 }
@@ -304,7 +335,7 @@
   font-size: 0.7rem;
 }
 .trending li b {
-  color: #ed1535;
+  color: var(--fo-interactive-text);
   font-size: 1rem;
 }
 .trending li time {
@@ -404,6 +435,9 @@
   .layout {
     display: flex;
     flex-direction: column;
+  }
+  .topGrid {
+    grid-template-columns: 1fr;
   }
   .featured {
     order: 1;

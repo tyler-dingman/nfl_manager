@@ -30,6 +30,7 @@ const surfacedSelectColumns = `
 const iso = (value: unknown) => (value ? new Date(value as string).toISOString() : null);
 const mapEvent = (row: EventRow): FrontOfficeEvent => ({
   ...row,
+  simulationWeek: Math.max(1, row.simulationWeek),
   createdAt: new Date(row.createdAt).toISOString(),
   expiresAt: iso(row.expiresAt),
   readAt: iso(row.readAt),
@@ -80,7 +81,7 @@ export async function listFrontOfficeEvents(userId: string, saveId: string, unre
   const rows = await authDb().unsafe<EventRow[]>(
     `SELECT ${selectColumns} FROM front_office_events
      WHERE user_id = $1 AND save_id = $2 ${unreadOnly ? 'AND read_at IS NULL' : ''}
-     ORDER BY created_at DESC LIMIT 100`,
+     ORDER BY COALESCE(metadata->>'sourcePublishedAt', created_at::text) DESC LIMIT 500`,
     [userId, saveId],
   );
   return rows.map(mapEvent);
@@ -94,22 +95,43 @@ export async function getFrontOfficeEvent(userId: string, id: string) {
   return rows[0] ? mapEvent(rows[0]) : null;
 }
 
-export async function surfaceNextFrontOfficeEvent(userId: string, saveId: string) {
+export async function surfaceNextFrontOfficeEvent(
+  userId: string,
+  saveId: string,
+  teamAbbr?: string,
+) {
   const rows = await authDb().unsafe<EventRow[]>(
     `WITH candidate AS (
        SELECT id FROM front_office_events
        WHERE user_id = $1 AND save_id = $2 AND surfaced_at IS NULL
+         AND read_at IS NULL
          AND metadata->>'resolution' IS NULL
+         AND COALESCE(metadata->>'channel', '') <> 'MESSAGE'
+         AND priority IN ('urgent', 'high')
          AND (expires_at IS NULL OR expires_at > now())
-       ORDER BY CASE priority WHEN 'urgent' THEN 4 WHEN 'high' THEN 3 WHEN 'normal' THEN 2 ELSE 1 END DESC,
+       ORDER BY CASE
+         WHEN priority = 'urgent' AND ($3::text IS NOT NULL) AND
+           (team_abbr = $3 OR related_team_abbr = $3 OR metadata->'teamIds' ? $3) THEN 4
+         WHEN priority = 'urgent' THEN 3
+         WHEN ($3::text IS NOT NULL) AND
+           (team_abbr = $3 OR related_team_abbr = $3 OR metadata->'teamIds' ? $3) THEN 2
+         ELSE 1 END DESC,
          created_at ASC LIMIT 1 FOR UPDATE SKIP LOCKED
      )
      UPDATE front_office_events e SET surfaced_at = now()
      FROM candidate c WHERE e.user_id = $1 AND e.id = c.id
      RETURNING ${surfacedSelectColumns}`,
-    [userId, saveId],
+    [userId, saveId, teamAbbr ?? null],
   );
   return rows[0] ? mapEvent(rows[0]) : null;
+}
+
+export async function markAllFrontOfficeEventsRead(userId: string, saveId: string) {
+  await authDb().unsafe(
+    `UPDATE front_office_events SET read_at = COALESCE(read_at, now())
+     WHERE user_id = $1 AND save_id = $2`,
+    [userId, saveId],
+  );
 }
 
 export async function updateFrontOfficeEvent(

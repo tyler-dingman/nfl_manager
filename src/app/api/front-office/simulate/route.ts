@@ -27,6 +27,7 @@ import {
   getFrontOfficeSaveMetadata,
   saveFranchiseSimulation,
 } from '@/server/front-office/repository';
+import { buildWeekOneWelcomeEvents } from '@/server/front-office/welcome-messages';
 
 const bodySchema = z.object({
   saveId: z.string().min(1).max(160),
@@ -137,6 +138,11 @@ export async function POST(request: NextRequest) {
     });
     if (!metadata) return NextResponse.json({ error: 'Save not found.' }, { status: 404 });
     if (input.action === 'initialize') {
+      const saveState = getSaveStateResult(input.saveId);
+      await persistFrontOfficeEvents(
+        user.id,
+        buildWeekOneWelcomeEvents(metadata, saveState.ok ? saveState.data.roster : []),
+      );
       return NextResponse.json({ ok: true, state: metadata.simulation, version: metadata.version });
     }
     if (input.action === 'acknowledge') {

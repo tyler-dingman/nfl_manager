@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowRight, BarChart3, Trophy } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
+import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import {
   NewsGraphic,
   type NewsGraphicTeam,
@@ -45,6 +47,8 @@ const newsTeam = (abbr: string | null): NewsGraphicTeam | undefined => {
 };
 
 export default function LeaguePage() {
+  const searchParams = useSearchParams();
+  const view = searchParams?.get('view');
   const saveId = useSaveStore((state) => state.saveId);
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
 
@@ -62,10 +66,15 @@ export default function LeaguePage() {
   return (
     <AppShell>
       <FrontOfficePageHeader
-        title="League"
+        title={view === 'transactions' ? 'Transactions' : 'League Central'}
         strapline="Every team. Every race. One league."
-        description="Track the news, statistics, and standings shaping your Front Office world."
+        description={
+          view === 'transactions'
+            ? 'Track trades, signings, releases, and roster movement from around the league.'
+            : 'Follow the season, track the standings, and stay ahead of what is happening around the league.'
+        }
       />
+      <FrontOfficeSectionNav section="league" />
       <div className="space-y-6">
         <section aria-labelledby="league-news-heading">
           <div className="mb-4">

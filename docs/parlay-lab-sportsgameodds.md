@@ -37,9 +37,9 @@ The importer then preserves raw metadata for known and unmapped markets and writ
 the broad sportsbook set in `SPORTSGAMEODDS_BOOKMAKER_IDS`; no provider request occurs while users
 browse Parlay Lab.
 
-Bet365 is supported by the schema/UI but remains opt-in because it is not included in the current
-free SportsGameOdds tier. Add it to `SPORTSGAMEODDS_BOOKMAKER_IDS` only after intentionally changing
-the provider plan.
+Parlay Lab supports FanDuel, DraftKings, BetMGM, and Caesars. Provider requests are restricted to
+those four books, including when a stale `SPORTSGAMEODDS_BOOKMAKER_IDS` environment value contains
+an unsupported bookmaker.
 
 ## Import policy
 

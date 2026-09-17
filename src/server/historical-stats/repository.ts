@@ -1,7 +1,9 @@
 import { authDb } from '@/server/auth/database';
 import type { HistoricalPlayerGame, TeamSeasonStrength } from './types';
 
-export async function getPlayerGameLogs(playerIds: string[], seasons = [2024, 2025]) {
+const DEFAULT_HISTORICAL_SEASONS = [2024, 2025, 2026];
+
+export async function getPlayerGameLogs(playerIds: string[], seasons = DEFAULT_HISTORICAL_SEASONS) {
   if (!playerIds.length) return [];
   return authDb()<HistoricalPlayerGame[]>`
     WITH team_schedule AS (
@@ -50,7 +52,7 @@ export async function getTeamSeasonStrength(teamId: string, season: number) {
 export async function getOpponentPositionGameLogs(
   opponentTeamId: string,
   position: 'QB' | 'RB' | 'WR' | 'TE',
-  seasons = [2024, 2025],
+  seasons = DEFAULT_HISTORICAL_SEASONS,
 ) {
   return authDb()<HistoricalPlayerGame[]>`
     SELECT pg.game_id AS "gameId", g.game_date::text AS date, pg.season, pg.week,

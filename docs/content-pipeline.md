@@ -78,3 +78,32 @@ Refresh is idempotent through source/external-ID constraints, stable job keys, c
 - `FAILED`: repeated source failures and no recent successful fetch.
 - `MISCONFIGURED`: no team-specific source definition.
 - `FRESH`, `QUIET`, and `NO_CONTENT` describe published-story recency separately, so a quiet news day alone does not mark ingestion as broken.
+
+### Authentication checks and credential rotation
+
+The ingestion workflow performs an authenticated, read-only GET on
+`/api/automation/content/global` before POSTing. Deploy the updated API before
+merging/enabling the updated workflow. Use the workflow's `check_only` input to
+verify the deployment and GitHub credential without ingesting. The check confirms
+authentication, not database/source health. Both methods use the same verifier.
+
+Use the canonical production origin (`https://www.downdistance.com`) for
+`CONTENT_AUTOMATION_BASE_URL`. Redirects are rejected without forwarding the token.
+401/403 responses distinguish API credential rejection from likely deployment
+protection; a missing/malformed server credential returns 503. Authentication
+failures are not retried, and POSTs are not automatically retried because a timed-out
+request may already have executed. Response bodies and credentials are not logged.
+
+For rotation without interrupting content schedulers:
+1. Set the deployed `CONTENT_AUTOMATION_PREVIOUS_SECRET` to the old token and
+   `CONTENT_AUTOMATION_SECRET` to the new token, then deploy.
+2. Update GitHub's `CONTENT_AUTOMATION_SECRET` and the Cloudflare content worker's
+   `DND_AUTOMATION_SECRET` to the new token. Update any other callers of the content
+   endpoints. Three & Out uses the primary secret only, so coordinate its callers too.
+3. Run ingestion with `check_only: true`, then verify both ingestion groups.
+4. Remove `CONTENT_AUTOMATION_PREVIOUS_SECRET` and redeploy after all content
+   callers have migrated. Keep overlap short; both tokens grant access during it.
+
+A previous token cannot enable access when the primary token is absent or malformed.
+No workflow can guarantee credentials will never drift; run the check after every
+production deployment or secret update, before relying on the next scheduled run.

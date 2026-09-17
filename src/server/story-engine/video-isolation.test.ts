@@ -38,4 +38,9 @@ test('recurring ingestion workflow runs both isolated pipelines', () => {
   assert.match(workflow, /cron: '\*\/15 \* \* \* \*'/);
   assert.match(workflow, /group: \[standard, video\]/);
   assert.match(workflow, /\/api\/automation\/content\/global\?group=\$GROUP/);
+  assert.match(workflow, /https:\/\/downdistance\.com/);
+  assert.match(workflow, /https:\/\/www\.downdistance\.com/);
+  assert.match(workflow, /--location --max-redirs 3/);
+  assert.match(workflow, /CONTENT_AUTOMATION_BASE_URL is not configured/);
+  assert.match(workflow, /\(\.failedJobs \/\/ 0\) == 0/);
 });

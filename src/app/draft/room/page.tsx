@@ -1,17 +1,18 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowDownUp, Search, Settings, Target } from 'lucide-react';
+import { ArrowLeftRight, ArrowRight, CheckCircle2, ChevronDown, Settings } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
-import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
 import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
-import { DraftTrackerRibbon } from '@/components/draft/draft-tracker-ribbon';
+import { DraftSimulatorProspectTable } from '@/components/draft/draft-simulator-prospect-table';
+import { DraftExperienceHero } from '@/components/draft/draft-experience-hero';
 import { ActiveDraftRoom, type DraftSpeedLevel } from '@/components/draft/active-draft-room';
 import { DraftRecapModal } from '@/components/draft/draft-recap-modal';
-import { LiveDraftBoard } from '@/components/draft/live-draft-board';
 import { PickAnnouncement } from '@/components/draft/pick-announcement';
 import { ProspectDetailsModal } from '@/components/draft/prospect-details-modal';
 import { buildRoundOneOrder, getTeamNeeds } from '@/components/draft/draft-utils';
@@ -23,12 +24,14 @@ import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { rankDraftBoard } from '@/lib/draft-board';
+import type { DraftBoardEntry } from '@/lib/draft-board';
 import {
   detectActiveDraftRuns,
   evaluateDraftPick,
   summarizeDraftClass,
 } from '@/lib/draft-intelligence';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
+import { buildProspectDetailsModel } from '@/lib/draft-prospect-details';
 import { buildFalcoBoard } from '@/lib/falco';
 import { apiFetch } from '@/lib/api';
 import { isDraftWorkflowAvailable } from '@/lib/front-office-phase';
@@ -38,6 +41,7 @@ import type { DraftMode, DraftSessionDTO } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveBootstrapDTO } from '@/types/save';
 import type { TeamDTO } from '@/types/team';
+import styles from './mock-draft-room.module.css';
 
 export const dynamic = 'force-dynamic';
 
@@ -67,11 +71,309 @@ type TeamsResponse = {
 const parseDraftSessionStartResponse = (text: string): DraftSessionStartResponse =>
   text ? (JSON.parse(text) as DraftSessionStartResponse) : { ok: false, error: 'Empty response' };
 
+function PreDraftWorkspace({
+  entries,
+  teams,
+  teamAbbr,
+  draftYear,
+  selectedPlayerId,
+  onSelectPlayer,
+  onOpenPlayer,
+}: {
+  entries: DraftBoardEntry[];
+  teams: TeamDTO[];
+  teamAbbr: string;
+  draftYear: number;
+  selectedPlayerId: string | null;
+  onSelectPlayer: (playerId: string) => void;
+  onOpenPlayer: () => void;
+}) {
+  const boardSaveId = useSaveStore((state) => state.saveId);
+  const [personalBoardIds, setPersonalBoardIds] = React.useState<string[]>([]);
+  const [orderTab, setOrderTab] = React.useState<'order' | 'needs'>('order');
+  const [boardTab, setBoardTab] = React.useState<
+    'available' | 'my-board' | 'needs' | 'trade' | 'analysis'
+  >('available');
+  const [profileTab, setProfileTab] = React.useState<'overview' | 'stats' | 'film' | 'comparisons'>(
+    'overview',
+  );
+  React.useEffect(() => {
+    const load = () => {
+      try {
+        const stored =
+          localStorage.getItem(`dd-draft-big-board:${boardSaveId}:${draftYear}`) ??
+          localStorage.getItem(`dd-draft-big-board:${boardSaveId}`);
+        setPersonalBoardIds(stored ? JSON.parse(stored) : []);
+      } catch {
+        setPersonalBoardIds([]);
+      }
+    };
+    const handleUpdate = (event: Event) => {
+      const detail = (event as CustomEvent<string[]>).detail;
+      if (Array.isArray(detail)) setPersonalBoardIds(detail);
+      else load();
+    };
+    load();
+    window.addEventListener('dd-big-board-updated', handleUpdate);
+    return () => window.removeEventListener('dd-big-board-updated', handleUpdate);
+  }, [boardSaveId, draftYear]);
+  const needs = getTeamNeeds(teamAbbr, teams);
+  const selectedEntry =
+    entries.find((entry) => entry.player.id === selectedPlayerId) ?? entries[0] ?? null;
+  const details = selectedEntry
+    ? buildProspectDetailsModel({
+        player: selectedEntry.player,
+        boardEntry: selectedEntry,
+        teamNeeds: needs,
+        activeRuns: [],
+      })
+    : null;
+  const teamLookup = new Map(teams.map((team) => [team.abbr, team]));
+  const order = buildRoundOneOrder(teams).slice(0, 12);
+  const controlledTeam = teamLookup.get(teamAbbr);
+  const personalEntries = personalBoardIds
+    .map((id) => entries.find((entry) => entry.player.id === id))
+    .filter((entry): entry is DraftBoardEntry => Boolean(entry));
+
+  return (
+    <div className={styles.draftWorkspace}>
+      <aside className={`${styles.workspacePanel} ${styles.draftOrderPanel}`}>
+        <div className={styles.panelTabs}>
+          <button
+            type="button"
+            className={orderTab === 'order' ? styles.activeTab : undefined}
+            onClick={() => setOrderTab('order')}
+          >
+            Draft Order
+          </button>
+          <button
+            type="button"
+            className={orderTab === 'needs' ? styles.activeTab : undefined}
+            onClick={() => setOrderTab('needs')}
+          >
+            Team Needs
+          </button>
+        </div>
+        <div className={styles.pickList}>
+          {order.map((pick) => {
+            const team = teamLookup.get(pick.abbr);
+            return (
+              <div
+                key={pick.pickNumber}
+                className={pick.pickNumber === 1 ? styles.currentPick : styles.pickRow}
+              >
+                <span className={styles.pickNumber}>{pick.pickNumber}</span>
+                {team?.logoUrl ? (
+                  <Image src={team.logoUrl} alt="" width={28} height={28} unoptimized />
+                ) : null}
+                <div>
+                  <strong>{team?.name ?? pick.abbr}</strong>
+                  <small>{getTeamNeeds(pick.abbr, teams).slice(0, 3).join(', ')}</small>
+                </div>
+                {pick.pickNumber === 1 && orderTab === 'order' ? (
+                  <span className={styles.clockBadge}>First pick</span>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+      </aside>
+      <section className={`${styles.workspacePanel} ${styles.boardPanel}`}>
+        <div className={styles.onClockHeader}>
+          <div className={styles.onClockTeam}>
+            {controlledTeam?.logoUrl ? (
+              <Image src={controlledTeam.logoUrl} alt="" width={48} height={48} unoptimized />
+            ) : null}
+            <div>
+              <strong>{controlledTeam?.name ?? teamAbbr}</strong>
+              <span>Draft room ready</span>
+            </div>
+          </div>
+          <div className={styles.needChips}>
+            <span>Team Needs</span>
+            {needs.slice(0, 4).map((need) => (
+              <b key={need}>{need}</b>
+            ))}
+          </div>
+          <div className={styles.headerClock}>
+            <span>Draft Clock</span>
+            <strong>Ready</strong>
+          </div>
+        </div>
+        <div className={styles.boardTabs}>
+          <button
+            type="button"
+            className={boardTab === 'available' ? styles.activeTab : undefined}
+            onClick={() => setBoardTab('available')}
+          >
+            Best Available
+          </button>
+          <button
+            type="button"
+            className={boardTab === 'my-board' ? styles.activeTab : undefined}
+            onClick={() => setBoardTab('my-board')}
+          >
+            My Board
+          </button>
+          <button
+            type="button"
+            className={boardTab === 'needs' ? styles.activeTab : undefined}
+            onClick={() => setBoardTab('needs')}
+          >
+            Team Needs
+          </button>
+          <button
+            type="button"
+            className={boardTab === 'trade' ? styles.activeTab : undefined}
+            onClick={() => setBoardTab('trade')}
+          >
+            Trade
+          </button>
+          <button
+            type="button"
+            className={boardTab === 'analysis' ? styles.activeTab : undefined}
+            onClick={() => setBoardTab('analysis')}
+          >
+            Analysis
+          </button>
+        </div>
+        <div className={styles.boardTable}>
+          {boardTab === 'needs' ? (
+            <div className={styles.teamNeedsView}>
+              <h3>{controlledTeam?.name ?? teamAbbr} team needs</h3>
+              {needs.map((need, index) => (
+                <p key={need}>
+                  <strong>{index + 1}</strong>
+                  {need}
+                </p>
+              ))}
+            </div>
+          ) : boardTab === 'trade' ? (
+            <div className={styles.analysisView}>
+              <h3>Draft trades</h3>
+              <p>Start the mock draft to propose and review live trade offers.</p>
+            </div>
+          ) : boardTab === 'analysis' ? (
+            <div className={styles.analysisView}>
+              <h3>Pre-draft analysis</h3>
+              <p>
+                Select a prospect to compare the current board with the controlled team’s roster
+                needs.
+              </p>
+            </div>
+          ) : (
+            <DraftSimulatorProspectTable
+              entries={boardTab === 'my-board' ? personalEntries : entries}
+              teamNeeds={needs}
+              selectedPlayerId={selectedEntry?.player.id ?? null}
+              onSelectPlayer={onSelectPlayer}
+              boardOrder={boardTab === 'my-board'}
+            />
+          )}
+        </div>
+        <div className={styles.draftActions}>
+          <Button variant="outline" disabled>
+            <ArrowLeftRight /> Propose Trade
+          </Button>
+          <Button disabled>
+            <CheckCircle2 /> Make Pick
+          </Button>
+        </div>
+      </section>
+      <aside className={`${styles.workspacePanel} ${styles.prospectPanel}`}>
+        {details && selectedEntry ? (
+          <>
+            <div className={styles.prospectHeader}>
+              {details.headshotUrl ? (
+                <Image src={details.headshotUrl} alt="" width={72} height={72} unoptimized />
+              ) : (
+                <div className={styles.prospectFallback}>
+                  {selectedEntry.player.firstName[0]}
+                  {selectedEntry.player.lastName[0]}
+                </div>
+              )}
+              <div>
+                <strong>{details.name}</strong>
+                <span>
+                  {details.position} · {details.school}
+                </span>
+              </div>
+            </div>
+            <div className={styles.profileTabs}>
+              {(['overview', 'stats', 'film', 'comparisons'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  className={profileTab === tab ? styles.activeTab : undefined}
+                  onClick={() => setProfileTab(tab)}
+                >
+                  {tab === 'film' ? 'Film Room' : `${tab[0].toUpperCase()}${tab.slice(1)}`}
+                </button>
+              ))}
+            </div>
+            {profileTab === 'overview' ? (
+              <>
+                <div className={styles.gradeCard}>
+                  <div>
+                    <span>D&amp;D Grade</span>
+                    <strong>{details.ratingDisplay}</strong>
+                    <small>{details.projectedRange}</small>
+                  </div>
+                  <p>{selectedEntry.player.summary ?? 'No scouting summary added yet.'}</p>
+                </div>
+                <div className={styles.measurements}>
+                  {details.height ? (
+                    <div>
+                      <span>Height</span>
+                      <strong>{details.height}</strong>
+                    </div>
+                  ) : null}
+                  {details.weight ? (
+                    <div>
+                      <span>Weight</span>
+                      <strong>{details.weight} lbs</strong>
+                    </div>
+                  ) : null}
+                  {details.age ? (
+                    <div>
+                      <span>Age</span>
+                      <strong>{details.age}</strong>
+                    </div>
+                  ) : null}
+                </div>
+              </>
+            ) : profileTab === 'stats' ? (
+              <div className={styles.profileEmptyState}>
+                {selectedEntry.player.stats
+                  ? 'Available college statistics are included in the full player profile.'
+                  : 'No college stats added yet.'}
+              </div>
+            ) : profileTab === 'film' ? (
+              <div className={styles.profileEmptyState}>No film added yet.</div>
+            ) : (
+              <div className={styles.profileEmptyState}>No player comparisons added yet.</div>
+            )}
+            <button type="button" className={styles.profileButton} onClick={onOpenPlayer}>
+              View Full Player Profile →
+            </button>
+          </>
+        ) : (
+          <p className={styles.emptyProspect}>No prospects are available.</p>
+        )}
+      </aside>
+    </div>
+  );
+}
+
 function DraftRoomContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const modeParam = searchParams?.get('mode');
   const mode: DraftMode = modeParam === 'real' ? 'real' : 'mock';
+  React.useEffect(() => {
+    document.body.classList.add('mock-draft-room-active');
+    return () => document.body.classList.remove('mock-draft-room-active');
+  }, []);
   const [session, setSession] = React.useState<DraftSessionDTO | null>(null);
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
@@ -89,7 +391,7 @@ function DraftRoomContent() {
   const [selectedLobbyPlayerId, setSelectedLobbyPlayerId] = React.useState<string | null>(null);
   const [isLobbyProspectModalOpen, setIsLobbyProspectModalOpen] = React.useState(false);
   const [draftControlBusy, setDraftControlBusy] = React.useState(false);
-  const [isDraftSetupOpen, setIsDraftSetupOpen] = React.useState(true);
+  const [isDraftSetupOpen, setIsDraftSetupOpen] = React.useState(false);
   const [pendingDraftRounds, setPendingDraftRounds] = React.useState<number | null>(null);
 
   const saveId = useSaveStore((state) => state.saveId);
@@ -472,98 +774,101 @@ function DraftRoomContent() {
     [buildDraftSaveSnapshot, setSaveHeader, teamId],
   );
 
-  const startDraft = React.useCallback(async () => {
-    if (draftControlBusy) {
-      return false;
-    }
-
-    setDraftControlBusy(true);
-    setLoading(true);
-    setError('');
-    setLobbyMessage('');
-    setDraftView('board');
-
-    try {
-      const activeSaveId = await ensureSaveExists('draft');
-      if (!activeSaveId) {
-        setError('Select a team to start a save.');
+  const startDraft = React.useCallback(
+    async (roundsOverride?: number) => {
+      if (draftControlBusy) {
         return false;
       }
 
-      const phaseSynced = await syncDraftPhase(activeSaveId);
-      if (!phaseSynced) {
-        setLobbyMessage('Unable to prepare draft session.');
-        return false;
-      }
+      setDraftControlBusy(true);
+      setLoading(true);
+      setError('');
+      setLobbyMessage('');
+      setDraftView('board');
 
-      const startWithSave = async (targetSaveId: string) => {
-        const response = await apiFetch(
-          '/api/draft/session',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              ...buildDraftSaveSnapshot(targetSaveId),
-              mode,
-              maxRounds: selectedDraftRounds,
-            }),
-          },
-          { skipSaveGuard: true },
-        );
-        const text = await response.text();
-        return {
-          response,
-          payload: parseDraftSessionStartResponse(text),
-        };
-      };
-
-      let activeStartSaveId = activeSaveId;
-      let { response, payload } = await startWithSave(activeStartSaveId);
-
-      if (!response.ok || !payload.ok) {
-        if (!payload.ok && payload.error === 'Save not found') {
-          const freshSaveId = await ensureSaveExists('draft');
-          if (!freshSaveId) {
-            setLobbyMessage(payload.error);
-            return false;
-          }
-          const freshPhaseSynced = await syncDraftPhase(freshSaveId);
-          if (!freshPhaseSynced) {
-            setLobbyMessage('Unable to restore draft session.');
-            return false;
-          }
-          activeStartSaveId = freshSaveId;
-          ({ response, payload } = await startWithSave(activeStartSaveId));
+      try {
+        const activeSaveId = await ensureSaveExists('draft');
+        if (!activeSaveId) {
+          setError('Select a team to start a save.');
+          return false;
         }
-      }
 
-      if (!response.ok || !payload.ok) {
-        setLobbyMessage(payload.ok ? 'Unable to start draft.' : payload.error);
-        return false;
-      }
+        const phaseSynced = await syncDraftPhase(activeSaveId);
+        if (!phaseSynced) {
+          setLobbyMessage('Unable to prepare draft session.');
+          return false;
+        }
 
-      setResolvedSaveId(activeStartSaveId);
-      setActiveDraftSessionId(payload.draftSessionId, activeStartSaveId);
-      if (payload.session) {
-        setSession(payload.session);
-      } else {
-        await fetchSession(payload.draftSessionId, activeStartSaveId);
+        const startWithSave = async (targetSaveId: string) => {
+          const response = await apiFetch(
+            '/api/draft/session',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...buildDraftSaveSnapshot(targetSaveId),
+                mode,
+                maxRounds: roundsOverride ?? selectedDraftRounds,
+              }),
+            },
+            { skipSaveGuard: true },
+          );
+          const text = await response.text();
+          return {
+            response,
+            payload: parseDraftSessionStartResponse(text),
+          };
+        };
+
+        let activeStartSaveId = activeSaveId;
+        let { response, payload } = await startWithSave(activeStartSaveId);
+
+        if (!response.ok || !payload.ok) {
+          if (!payload.ok && payload.error === 'Save not found') {
+            const freshSaveId = await ensureSaveExists('draft');
+            if (!freshSaveId) {
+              setLobbyMessage(payload.error);
+              return false;
+            }
+            const freshPhaseSynced = await syncDraftPhase(freshSaveId);
+            if (!freshPhaseSynced) {
+              setLobbyMessage('Unable to restore draft session.');
+              return false;
+            }
+            activeStartSaveId = freshSaveId;
+            ({ response, payload } = await startWithSave(activeStartSaveId));
+          }
+        }
+
+        if (!response.ok || !payload.ok) {
+          setLobbyMessage(payload.ok ? 'Unable to start draft.' : payload.error);
+          return false;
+        }
+
+        setResolvedSaveId(activeStartSaveId);
+        setActiveDraftSessionId(payload.draftSessionId, activeStartSaveId);
+        if (payload.session) {
+          setSession(payload.session);
+        } else {
+          await fetchSession(payload.draftSessionId, activeStartSaveId);
+        }
+        return true;
+      } finally {
+        setLoading(false);
+        setDraftControlBusy(false);
       }
-      return true;
-    } finally {
-      setLoading(false);
-      setDraftControlBusy(false);
-    }
-  }, [
-    draftControlBusy,
-    ensureSaveExists,
-    fetchSession,
-    mode,
-    selectedDraftRounds,
-    setActiveDraftSessionId,
-    buildDraftSaveSnapshot,
-    syncDraftPhase,
-  ]);
+    },
+    [
+      draftControlBusy,
+      ensureSaveExists,
+      fetchSession,
+      mode,
+      selectedDraftRounds,
+      setActiveDraftSessionId,
+      buildDraftSaveSnapshot,
+      syncDraftPhase,
+    ],
+  );
 
   const togglePause = React.useCallback(async () => {
     if (draftControlBusy) {
@@ -850,20 +1155,47 @@ function DraftRoomContent() {
 
   return (
     <AppShell>
-      <FrontOfficePageHeader
-        title="Draft"
-        strapline="Build today. A stronger tomorrow."
-        description={
-          phase === 'draft'
-            ? 'The Draft Room is active. Work your board and make the picks that shape the franchise.'
-            : 'Scout prospects, build your big board, and prepare for the next NFL Draft.'
+      <DraftExperienceHero
+        title="Mock Draft Simulator"
+        description="Make picks, explore trades, and build your team with real analysis."
+        active="mock-draft"
+        actions={
+          <>
+            <Link href="/teams?switch=1" className={styles.teamSelector}>
+              {selectedTeam?.logo_url ? (
+                <Image src={selectedTeam.logo_url} alt="" width={34} height={34} />
+              ) : null}
+              <span>{selectedTeam?.name ?? 'Select team'}</span>
+              <ChevronDown aria-hidden="true" />
+            </Link>
+            <button
+              type="button"
+              className={styles.settingsButton}
+              onClick={() => setShowSettings((current) => !current)}
+            >
+              <Settings aria-hidden="true" /> Settings
+            </button>
+            <button
+              type="button"
+              className={styles.startButton}
+              disabled={draftControlBusy}
+              onClick={() => {
+                if (session) {
+                  if (session.isPaused) void togglePause();
+                  return;
+                }
+                setIsDraftSetupOpen(true);
+              }}
+            >
+              {session
+                ? session.isPaused
+                  ? 'Resume Mock Draft'
+                  : 'Draft In Progress'
+                : 'Start Mock Draft'}
+              <ArrowRight aria-hidden="true" />
+            </button>
+          </>
         }
-        tools={[
-          { label: 'Advanced Search', icon: Search },
-          { label: 'My Big Board', href: '/front-office/draft/big-board', icon: Target },
-          { label: 'Trade Up / Down', icon: ArrowDownUp, disabled: phase !== 'draft' },
-          { label: 'Draft Settings', icon: Settings, onClick: () => setShowSettings(true) },
-        ]}
       />
       <PickAnnouncement
         open={pickAnnouncementOpen}
@@ -882,58 +1214,24 @@ function DraftRoomContent() {
           onContinue={handleContinueFromDraftRecap}
         />
       ) : null}
-      <div className="space-y-6">
+      <div className={styles.simulatorBody}>
         <div className="min-w-0">
           {error ? <p className="mb-4 text-sm text-destructive">{error}</p> : null}
 
           {!session ? (
-            <div className="space-y-5">
-              <DraftTrackerRibbon
-                year={draftYear}
-                picks={roundOneOrder.map((pick) => ({
-                  id: `lobby-${pick.pickNumber}`,
-                  overall: pick.pickNumber,
-                  round: 1,
-                  ownerTeamAbbr: pick.abbr,
-                  originalTeamAbbr: pick.abbr,
-                  selectedPlayerId: null,
-                  selectedByTeamAbbr: null,
-                }))}
-                currentPickIndex={0}
-                prospects={lobbyProspects}
-                teams={teams}
-                userTeamAbbr={teamAbbr || selectedTeam?.abbr || 'KC'}
-                controls={{
-                  speedLevel,
-                  showSettings,
-                  hasStarted: false,
-                  isBusy: draftControlBusy,
-                  canStartDraft: isDraftWorkflowAvailable(phase) && !isDraftSetupOpen,
-                  onSpeedChange: setSpeedLevel,
-                  onTogglePause: togglePause,
-                  onStartDraft: () => {
-                    void startDraft();
-                  },
-                  onToggleSettings: () => setShowSettings((current) => !current),
-                }}
-              />
-
+            <div>
               {lobbyMessage ? (
                 <p className="text-sm text-muted-foreground">{lobbyMessage}</p>
               ) : null}
-
-              <div className="min-w-0">
-                <LiveDraftBoard
-                  entries={lobbyBoardEntries}
-                  teamNeeds={getTeamNeeds(teamAbbr || selectedTeam?.abbr || 'KC', teams)}
-                  activeRuns={[]}
-                  onInspectPlayer={(playerId) => {
-                    setSelectedLobbyPlayerId(playerId);
-                    setIsLobbyProspectModalOpen(true);
-                  }}
-                  canDraft={false}
-                />
-              </div>
+              <PreDraftWorkspace
+                entries={lobbyBoardEntries}
+                teams={teams}
+                teamAbbr={teamAbbr || selectedTeam?.abbr || 'KC'}
+                draftYear={draftYear}
+                selectedPlayerId={selectedLobbyPlayerId}
+                onSelectPlayer={setSelectedLobbyPlayerId}
+                onOpenPlayer={() => setIsLobbyProspectModalOpen(true)}
+              />
             </div>
           ) : session.status === 'completed' ? (
             <div className="space-y-5">
@@ -1057,6 +1355,7 @@ function DraftRoomContent() {
                   if (!pendingDraftRounds) return;
                   setSelectedDraftRounds(pendingDraftRounds);
                   setIsDraftSetupOpen(false);
+                  void startDraft(pendingDraftRounds);
                 }}
                 disabled={!pendingDraftRounds}
               >

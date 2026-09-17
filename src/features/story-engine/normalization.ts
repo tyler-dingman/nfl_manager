@@ -39,6 +39,74 @@ export const contentFingerprint = (item: Pick<RawSourceItem, 'title' | 'rawText'
     )
     .digest('hex');
 
+const SPANISH_MARKERS = new Set([
+  'al',
+  'como',
+  'con',
+  'del',
+  'desde',
+  'el',
+  'en',
+  'este',
+  'esta',
+  'los',
+  'para',
+  'por',
+  'que',
+  'se',
+  'sin',
+  'son',
+  'su',
+  'sus',
+  'también',
+  'una',
+  'uno',
+  'y',
+]);
+const STRONG_SPANISH_WORDS = new Set([
+  'adquieren',
+  'aquí',
+  'anuncian',
+  'caen',
+  'cierre',
+  'claves',
+  'contra',
+  'defensivos',
+  'dejan',
+  'dos',
+  'empatan',
+  'equipo',
+  'intercambio',
+  'incorporan',
+  'inicio',
+  'juego',
+  'jugadores',
+  'movimientos',
+  'plantilla',
+  'pretemporada',
+  'prácticas',
+  'resumen',
+  'semana',
+  'sensaciones',
+  'vía',
+]);
+
+/** Reject clearly Spanish copy while leaving names, places, and short ambiguous headlines alone. */
+export function isLikelyEnglishContent(value: string) {
+  const normalized = stripMarkup(value).toLowerCase();
+  const words = normalized.match(/[a-záéíóúüñ]+/g) ?? [];
+  if (words.length < 5) return true;
+  const spanishMarkers = words.filter((word) => SPANISH_MARKERS.has(word)).length;
+  const strongSpanishWords = words.filter((word) => STRONG_SPANISH_WORDS.has(word)).length;
+  const accentedCharacters = (normalized.match(/[áéíóúüñ¿¡]/g) ?? []).length;
+  // "Las Vegas" and accented player names (for example Jevón) are common English NFL copy.
+  return (
+    strongSpanishWords < 2 &&
+    spanishMarkers < 3 &&
+    !(accentedCharacters >= 3 && spanishMarkers >= 1)
+  );
+}
+
 const eventPatterns: Array<[EventType, RegExp]> = [
   ['TRADE', /\btrade[ds]?|acquir(?:e|es|ed)\b/i],
   ['SIGNING', /\bsign(?:s|ed|ing)?\b/i],

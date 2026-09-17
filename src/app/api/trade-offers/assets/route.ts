@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 
-import { getTeamTradeAssets, getSaveStateResult } from '@/server/api/store';
+import {
+  getProjectedCapSpaceForTeam,
+  getTeamTradeAssets,
+  getSaveStateResult,
+} from '@/server/api/store';
 import { toPlayerDTO } from '@/server/api/trades';
+import { computeTeamNeeds } from '@/lib/team-overview';
 import type { TeamTradeAssetSourceDTO } from '@/types/trade-offers';
 
 type TradeOfferAssetsBody = {
@@ -38,5 +43,13 @@ export const POST = async (request: Request) => {
     ok: true,
     user: buildAssetSource(userTeamAbbr),
     partner: buildAssetSource(partnerTeamAbbr),
+    caps: {
+      user: getProjectedCapSpaceForTeam(saveResult.data, userTeamAbbr),
+      partner: getProjectedCapSpaceForTeam(saveResult.data, partnerTeamAbbr),
+    },
+    needs: {
+      user: computeTeamNeeds(getTeamTradeAssets(saveResult.data, userTeamAbbr).players, 5),
+      partner: computeTeamNeeds(getTeamTradeAssets(saveResult.data, partnerTeamAbbr).players, 5),
+    },
   });
 };

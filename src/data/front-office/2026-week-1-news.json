@@ -1,0 +1,4705 @@
+{
+  "season": 2026,
+  "cutoff": "2026-09-09T23:59:59.999Z",
+  "researchedTeamIds": [
+    "ARI",
+    "ATL",
+    "BAL",
+    "BUF",
+    "CAR",
+    "CHI",
+    "CIN",
+    "CLE",
+    "DAL",
+    "DEN",
+    "DET",
+    "GB",
+    "HOU",
+    "IND",
+    "JAX",
+    "KC",
+    "LAC",
+    "LAR",
+    "LV",
+    "MIA",
+    "MIN",
+    "NE",
+    "NO",
+    "NYG",
+    "NYJ",
+    "PHI",
+    "PIT",
+    "SEA",
+    "SF",
+    "TB",
+    "TEN",
+    "WAS"
+  ],
+  "stories": [
+    {
+      "id": "2026-w1-dal-reserve-list",
+      "teamIds": [
+        "DAL"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cowboys finalize pre–Week 1 reserve-list moves",
+      "summary": "Cowboys recorded 4 reserve-list moves before the 2026 opener. The official NFL ledger includes Tyler Smith, DJ Rogers.",
+      "publishedAt": "2026-09-09T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-min-reserve-list",
+      "teamIds": [
+        "MIN"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Vikings finalize pre–Week 1 reserve-list moves",
+      "summary": "Vikings recorded 2 reserve-list moves before the 2026 opener. The official NFL ledger includes Ben Yurosek.",
+      "publishedAt": "2026-09-08T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyg-terminations",
+      "teamIds": [
+        "NYG"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Giants finalize pre–Week 1 releases",
+      "summary": "Giants recorded 11 releases before the 2026 opener. The official NFL ledger includes Darius Slayton, Ugo Amadi, Josiah Deguara, Leki Fotu, Isaiah Hodgins, and additional moves.",
+      "publishedAt": "2026-09-07T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-kc-other",
+      "teamIds": [
+        "KC"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "ROSTER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chiefs finalize pre–Week 1 roster designations",
+      "summary": "Chiefs recorded 1 roster designations before the 2026 opener. The official NFL ledger includes Thomas Odukoya.",
+      "publishedAt": "2026-09-05T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL roster designations by month",
+        "url": "https://www.nfl.com/transactions/league/other/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sf-reserve-list",
+      "teamIds": [
+        "SF"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "49ers finalize pre–Week 1 reserve-list moves",
+      "summary": "49ers recorded 6 reserve-list moves before the 2026 opener. The official NFL ledger includes Sam Okuayinonu, Nate Hobbs, Nick Martin.",
+      "publishedAt": "2026-09-05T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ari-practice-squad",
+      "teamIds": [
+        "ARI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cardinals assemble their initial 2026 practice squad",
+      "summary": "Cardinals added 16 players to the initial practice squad, including RB Evan Hull, WR Ihmir Smith-Marsette, WR Harrison Wallace III, TE Shawn Bowman, TE Teagan Quitoriano, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-atl-practice-squad",
+      "teamIds": [
+        "ATL"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Falcons assemble their initial 2026 practice squad",
+      "summary": "Falcons added 14 players to the initial practice squad, including RB Tyler Goodson, RB Cash Jones, WR Vinny Anthony II, WR Antwane Wells Jr., TE Nick Muse, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-bal-practice-squad",
+      "teamIds": [
+        "BAL"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Ravens assemble their initial 2026 practice squad",
+      "summary": "Ravens added 15 players to the initial practice squad, including RB Jonathan Ward, WR Xavier Guillory, WR Chris Moore, TE Ty Pezza, OT Gerad Lichtenhan, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-buf-practice-squad",
+      "teamIds": [
+        "BUF"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bills assemble their initial 2026 practice squad",
+      "summary": "Bills added 18 players to the initial practice squad, including QB Shane Buechele, QB Bailey Zappe, RB Frank Gore Jr., WR Greg Dortch, WR Stephen Gosnell, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-car-practice-squad",
+      "teamIds": [
+        "CAR"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Panthers assemble their initial 2026 practice squad",
+      "summary": "Panthers added 16 players to the initial practice squad, including RB Tre Tyus, WR David Moore, WR Ja'Seem Reed, WR Casey Washington, G Jake Curhan, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-chi-practice-squad",
+      "teamIds": [
+        "CHI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bears assemble their initial 2026 practice squad",
+      "summary": "Bears added 14 players to the initial practice squad, including RB Salvon Ahmed, RB Zavier Scott, WR Kaden Davis, WR Scott Miller, WR J.P. Richardson, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cin-practice-squad",
+      "teamIds": [
+        "CIN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bengals assemble their initial 2026 practice squad",
+      "summary": "Bengals added 15 players to the initial practice squad, including QB Sean Clifford, QB Josh Johnson, RB Kentrel Bullock, RB Kendall Milton, WR Jordan Moore, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cle-practice-squad",
+      "teamIds": [
+        "CLE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Browns assemble their initial 2026 practice squad",
+      "summary": "Browns added 15 players to the initial practice squad, including RB Jaleel McLaughlin, WR Bub Means, WR Kole Wilson, TE Messiah Swinson, OT KT Leveston, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-dal-practice-squad",
+      "teamIds": [
+        "DAL"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cowboys assemble their initial 2026 practice squad",
+      "summary": "Cowboys added 16 players to the initial practice squad, including RB Israel Abanikanda, WR Jordan Hudson, WR Anthony Smith, TE Michael Trigg, TE Mitchell Van Vooren, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-den-practice-squad",
+      "teamIds": [
+        "DEN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Broncos assemble their initial 2026 practice squad",
+      "summary": "Broncos added 17 players to the initial practice squad, including RB Cody Schrader, FB Adam Prentice, WR Michael Bandy, WR Kolbe Katsis, WR Dane Key, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-det-practice-squad",
+      "teamIds": [
+        "DET"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Lions assemble their initial 2026 practice squad",
+      "summary": "Lions added 16 players to the initial practice squad, including QB Luke Altmyer, WR Lucky Jackson, WR Tom Kennedy, WR Dominic Lovett, TE Thomas Gordon, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-gb-practice-squad",
+      "teamIds": [
+        "GB"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Packers assemble their initial 2026 practice squad",
+      "summary": "Packers added 13 players to the initial practice squad, including QB Kedon Slovis, RB Pierre Strong, WR Chris Hilton Jr., WR Isaiah Neyor, TE Drake Dabney, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-hou-practice-squad",
+      "teamIds": [
+        "HOU"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Texans assemble their initial 2026 practice squad",
+      "summary": "Texans added 15 players to the initial practice squad, including RB Jawhar Jordan, RB Noah Whittington, WR Lewis Bond, WR Josh Kelly, WR Daniel Sobkowicz, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ind-practice-squad",
+      "teamIds": [
+        "IND"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Colts assemble their initial 2026 practice squad",
+      "summary": "Colts added 15 players to the initial practice squad, including RB Davon Booth, RB Anderson Castle, WR Anthony Gould, WR Nick Westbrook-Ikhine, TE Pharaoh Brown, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-jax-practice-squad",
+      "teamIds": [
+        "JAX"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jaguars assemble their initial 2026 practice squad",
+      "summary": "Jaguars added 17 players to the initial practice squad, including QB Joey Aguilar, QB Nick Mullens, RB J'Mari Taylor, WR Tim Jones, WR Trebor Pena, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-kc-practice-squad",
+      "teamIds": [
+        "KC"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chiefs assemble their initial 2026 practice squad",
+      "summary": "Chiefs added 15 players to the initial practice squad, including RB Nate Carter, RB Jaydn Ott, FB Ben VanSumeren, WR Andrew Armstrong, WR Omari Evans, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lac-practice-squad",
+      "teamIds": [
+        "LAC"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chargers assemble their initial 2026 practice squad",
+      "summary": "Chargers added 17 players to the initial practice squad, including QB DJ Uiagalelei, RB Gregory Desrosiers, RB Amar Johnson, WR Gary Jennings, WR Devonte Ross, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lar-practice-squad",
+      "teamIds": [
+        "LAR"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Rams assemble their initial 2026 practice squad",
+      "summary": "Rams added 18 players to the initial practice squad, including RB Dean Connors, RB Jordan Waters, WR Alex Bachman, WR Brennan Presley, TE Dan Villari, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lv-practice-squad",
+      "teamIds": [
+        "LV"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Raiders assemble their initial 2026 practice squad",
+      "summary": "Raiders added 17 players to the initial practice squad, including RB Roman Hemby, RB Dare Ogunbowale, WR Deven Thompkins, WR Cody White, TE Chris Myarick, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-mia-practice-squad",
+      "teamIds": [
+        "MIA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Dolphins assemble their initial 2026 practice squad",
+      "summary": "Dolphins added 17 players to the initial practice squad, including RB Jarquez Hunter, RB Carlos Washington, WR Jalen Reagor, WR Will Sheppard, TE Tre Watson, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-min-practice-squad",
+      "teamIds": [
+        "MIN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Vikings assemble their initial 2026 practice squad",
+      "summary": "Vikings added 15 players to the initial practice squad, including WR Michael Briscoe, WR Trayvon Rudolph, TE Cam Grandy, OT Jack Nelson, G Henry Byrd, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ne-practice-squad",
+      "teamIds": [
+        "NE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Patriots assemble their initial 2026 practice squad",
+      "summary": "Patriots added 16 players to the initial practice squad, including RB Hassan Haskins, RB Lan Larison, WR Kyle Dixon, WR Cameron Dorner l, OL Jake Kubas, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-no-practice-squad",
+      "teamIds": [
+        "NO"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Saints assemble their initial 2026 practice squad",
+      "summary": "Saints added 14 players to the initial practice squad, including RB CJ Donaldson, RB Zamir White, WR Jalen Moreno-Cropper, WR Trey Palmer, WR Cedric Tillman, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyg-practice-squad",
+      "teamIds": [
+        "NYG"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Giants assemble their initial 2026 practice squad",
+      "summary": "Giants added 16 players to the initial practice squad, including QB Jake Haener, RB Grant Finley, WR Braxton Berrios, WR Jalin Hyatt, WR Charlie Jones, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyj-practice-squad",
+      "teamIds": [
+        "NYJ"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jets assemble their initial 2026 practice squad",
+      "summary": "Jets added 15 players to the initial practice squad, including RB Al-Jay Henderson, WR Malik McClain, WR Jamaal Pritchett, OL Marquis Hayes, OL Kohl Levao, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-phi-practice-squad",
+      "teamIds": [
+        "PHI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Eagles assemble their initial 2026 practice squad",
+      "summary": "Eagles added 17 players to the initial practice squad, including RB Jaydon Blue, RB Dameon Pierce, RB Carson Steele, WR Britain Covey, WR Danny Gray, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-pit-practice-squad",
+      "teamIds": [
+        "PIT"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Steelers assemble their initial 2026 practice squad",
+      "summary": "Steelers added 16 players to the initial practice squad, including RB Travis Homer, RB Lew Nichols III, WR Max Hurleman, WR Brandon Johnson, WR Braden Smith, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sea-practice-squad",
+      "teamIds": [
+        "SEA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Seahawks assemble their initial 2026 practice squad",
+      "summary": "Seahawks added 17 players to the initial practice squad, including RB Velus Jones, RB Jacardia Wright, WR Emmanuel Henderson Jr., WR Julian Hicks, WR Ricky White III, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sf-practice-squad",
+      "teamIds": [
+        "SF"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "49ers assemble their initial 2026 practice squad",
+      "summary": "49ers added 17 players to the initial practice squad, including RB Sincere McCormick, WR Wesley Grimes, WR KhaDarel Hodge, WR Will Pauling, TE Khalil Dinkins, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-tb-practice-squad",
+      "teamIds": [
+        "TB"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Buccaneers assemble their initial 2026 practice squad",
+      "summary": "Buccaneers added 16 players to the initial practice squad, including QB Easton Stick, RB Josh Williams, WR Garrett Greene, WR Dean Patterson, WR Eric Rivers, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ten-practice-squad",
+      "teamIds": [
+        "TEN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Titans assemble their initial 2026 practice squad",
+      "summary": "Titans added 16 players to the initial practice squad, including QB Hendon Hooker, RB Michael Carter, RB Kalel Mullings, WR Hank Beatty, WR Tyren Montgomery, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-was-practice-squad",
+      "teamIds": [
+        "WAS"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "PRACTICE_SQUAD",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Commanders assemble their initial 2026 practice squad",
+      "summary": "Commanders added 17 players to the initial practice squad, including QB Sam Hartman, RB Robert Henry Jr., RB Craig Reynolds, WR Jaden Bradley, TE Joshua Simon, and others.",
+      "publishedAt": "2026-09-01T21:31:00.000Z",
+      "importanceScore": 58,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL practice squad tracker",
+        "url": "https://www.nfl.com/news/2026-nfl-practice-squad-tracker-team-by-team-roster-signings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-car-reserve-list",
+      "teamIds": [
+        "CAR"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Panthers finalize pre–Week 1 reserve-list moves",
+      "summary": "Panthers recorded 6 reserve-list moves before the 2026 opener. The official NFL ledger includes Brady Christensen, Tyrek Funderburk, Ryan Hayes.",
+      "publishedAt": "2026-09-01T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-chi-reserve-list",
+      "teamIds": [
+        "CHI"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bears finalize pre–Week 1 reserve-list moves",
+      "summary": "Bears recorded 10 reserve-list moves before the 2026 opener. The official NFL ledger includes Coby Bryant, Hayden Large, Beanie Bishop Jr., Ruben Hyppolite II, Dontae Manning.",
+      "publishedAt": "2026-09-01T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lac-reserve-list",
+      "teamIds": [
+        "LAC"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chargers finalize pre–Week 1 reserve-list moves",
+      "summary": "Chargers recorded 4 reserve-list moves before the 2026 opener. The official NFL ledger includes Denzel Perryman, Sincere Brown.",
+      "publishedAt": "2026-09-01T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-mia-reserve-list",
+      "teamIds": [
+        "MIA"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Dolphins finalize pre–Week 1 reserve-list moves",
+      "summary": "Dolphins recorded 2 reserve-list moves before the 2026 opener. The official NFL ledger includes Ben Sims.",
+      "publishedAt": "2026-09-01T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ne-reserve-list",
+      "teamIds": [
+        "NE"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Patriots finalize pre–Week 1 reserve-list moves",
+      "summary": "Patriots recorded 2 reserve-list moves before the 2026 opener. The official NFL ledger includes Khalil Jacobs.",
+      "publishedAt": "2026-09-01T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-was-reserve-list",
+      "teamIds": [
+        "WAS"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Commanders finalize pre–Week 1 reserve-list moves",
+      "summary": "Commanders recorded 4 reserve-list moves before the 2026 opener. The official NFL ledger includes Jer'Zhan Newton, Laremy Tunsil.",
+      "publishedAt": "2026-09-01T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ari-reserve-list",
+      "teamIds": [
+        "ARI"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cardinals finalize pre–Week 1 reserve-list moves",
+      "summary": "Cardinals recorded 2 reserve-list moves before the 2026 opener. The official NFL ledger includes Josh Minkins.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ari-waivers",
+      "teamIds": [
+        "ARI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cardinals finalize pre–Week 1 waiver moves",
+      "summary": "Cardinals recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Owen Pappoe.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-atl-reserve-list",
+      "teamIds": [
+        "ATL"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Falcons finalize pre–Week 1 reserve-list moves",
+      "summary": "Falcons recorded 2 reserve-list moves before the 2026 opener. The official NFL ledger includes Keshawn Banks.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-atl-waivers",
+      "teamIds": [
+        "ATL"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Falcons finalize pre–Week 1 waiver moves",
+      "summary": "Falcons recorded 6 waiver moves before the 2026 opener. The official NFL ledger includes Yasir Abdullah, Cameron Williams, Jared Ivey.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-bal-waivers",
+      "teamIds": [
+        "BAL"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Ravens finalize pre–Week 1 waiver moves",
+      "summary": "Ravens recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Corey Bullock.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-car-signings",
+      "teamIds": [
+        "CAR"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Panthers finalize pre–Week 1 signings",
+      "summary": "Panthers recorded 16 signings before the 2026 opener. The official NFL ledger includes Jake Curhan, Cam Gill, Isaia Glass, David Moore, Parker Petersen, and additional moves.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL signings by month",
+        "url": "https://www.nfl.com/transactions/league/signings/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-car-waivers",
+      "teamIds": [
+        "CAR"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Panthers finalize pre–Week 1 waiver moves",
+      "summary": "Panthers recorded 6 waiver moves before the 2026 opener. The official NFL ledger includes Trevin Wallace, Nick Samac, Corey Bullock.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cin-terminations",
+      "teamIds": [
+        "CIN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bengals finalize pre–Week 1 releases",
+      "summary": "Bengals recorded 2 releases before the 2026 opener. The official NFL ledger includes Tanner Hudson.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cin-waivers",
+      "teamIds": [
+        "CIN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bengals finalize pre–Week 1 waiver moves",
+      "summary": "Bengals recorded 4 waiver moves before the 2026 opener. The official NFL ledger includes Shaka Heyward, Myles Hinton.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cle-reserve-list",
+      "teamIds": [
+        "CLE"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Browns finalize pre–Week 1 reserve-list moves",
+      "summary": "Browns recorded 6 reserve-list moves before the 2026 opener. The official NFL ledger includes Travis Bell, Elijah Chatman, Edefuan Ulofoshio.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cle-terminations",
+      "teamIds": [
+        "CLE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Browns finalize pre–Week 1 releases",
+      "summary": "Browns recorded 2 releases before the 2026 opener. The official NFL ledger includes Julian Okwara.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-dal-waivers",
+      "teamIds": [
+        "DAL"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cowboys finalize pre–Week 1 waiver moves",
+      "summary": "Cowboys recorded 6 waiver moves before the 2026 opener. The official NFL ledger includes Emari Demercado, Trevor Keegan, Julius Wood.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-den-reserve-list",
+      "teamIds": [
+        "DEN"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Broncos finalize pre–Week 1 reserve-list moves",
+      "summary": "Broncos recorded 2 reserve-list moves before the 2026 opener. The official NFL ledger includes Drew Sanders.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-den-waivers",
+      "teamIds": [
+        "DEN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Broncos finalize pre–Week 1 waiver moves",
+      "summary": "Broncos recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Reese Taylor.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-det-reserve-list",
+      "teamIds": [
+        "DET"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Lions finalize pre–Week 1 reserve-list moves",
+      "summary": "Lions recorded 2 reserve-list moves before the 2026 opener. The official NFL ledger includes Michael Niese.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-gb-reserve-list",
+      "teamIds": [
+        "GB"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Packers finalize pre–Week 1 reserve-list moves",
+      "summary": "Packers recorded 6 reserve-list moves before the 2026 opener. The official NFL ledger includes McCallan Castles, Trey Dean III, Thomas Yassmin.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-gb-waivers",
+      "teamIds": [
+        "GB"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Packers finalize pre–Week 1 waiver moves",
+      "summary": "Packers recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Nazir Stackhouse.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-hou-reserve-list",
+      "teamIds": [
+        "HOU"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Texans finalize pre–Week 1 reserve-list moves",
+      "summary": "Texans recorded 4 reserve-list moves before the 2026 opener. The official NFL ledger includes Solomon Byrd, Kyonte Hamilton.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-hou-waivers",
+      "teamIds": [
+        "HOU"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Texans finalize pre–Week 1 waiver moves",
+      "summary": "Texans recorded 4 waiver moves before the 2026 opener. The official NFL ledger includes Jamal Hill, Jarrett Kingston.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ind-terminations",
+      "teamIds": [
+        "IND"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Colts finalize pre–Week 1 releases",
+      "summary": "Colts recorded 2 releases before the 2026 opener. The official NFL ledger includes Luke Tenuta.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ind-waivers",
+      "teamIds": [
+        "IND"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Colts finalize pre–Week 1 waiver moves",
+      "summary": "Colts recorded 4 waiver moves before the 2026 opener. The official NFL ledger includes Colby Wooden, Blake Grupe.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-jax-reserve-list",
+      "teamIds": [
+        "JAX"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jaguars finalize pre–Week 1 reserve-list moves",
+      "summary": "Jaguars recorded 4 reserve-list moves before the 2026 opener. The official NFL ledger includes Carter Bradley, Keivie Rose.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-jax-waivers",
+      "teamIds": [
+        "JAX"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jaguars finalize pre–Week 1 waiver moves",
+      "summary": "Jaguars recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Yasir Abdullah.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-kc-reserve-list",
+      "teamIds": [
+        "KC"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chiefs finalize pre–Week 1 reserve-list moves",
+      "summary": "Chiefs recorded 6 reserve-list moves before the 2026 opener. The official NFL ledger includes C.J. Hanson, Chris Oladokun, EJ Smith.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-kc-waivers",
+      "teamIds": [
+        "KC"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chiefs finalize pre–Week 1 waiver moves",
+      "summary": "Chiefs recorded 6 waiver moves before the 2026 opener. The official NFL ledger includes Chukwuebuka Godrick, Emari Demercado, Melvin Smith Jr..",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lar-reserve-list",
+      "teamIds": [
+        "LAR"
+      ],
+      "storyType": "INJURY",
+      "tags": [
+        "ROSTER_DESIGNATION",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Rams finalize pre–Week 1 reserve-list moves",
+      "summary": "Rams recorded 2 reserve-list moves before the 2026 opener. The official NFL ledger includes Alex Johnson.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 78,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL reserve-list moves by month",
+        "url": "https://www.nfl.com/transactions/league/reserve-list/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lar-signings",
+      "teamIds": [
+        "LAR"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Rams finalize pre–Week 1 signings",
+      "summary": "Rams recorded 30 signings before the 2026 opener. The official NFL ledger includes Nick Andersen, Alex Bachman, Austin Blaske, Dean Connors, Nyzier Fourqurean, and additional moves.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL signings by month",
+        "url": "https://www.nfl.com/transactions/league/signings/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lv-waivers",
+      "teamIds": [
+        "LV"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Raiders finalize pre–Week 1 waiver moves",
+      "summary": "Raiders recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Darrell Luter Jr..",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-mia-signings",
+      "teamIds": [
+        "MIA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Dolphins finalize pre–Week 1 signings",
+      "summary": "Dolphins recorded 2 signings before the 2026 opener. The official NFL ledger includes Malik Herring.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL signings by month",
+        "url": "https://www.nfl.com/transactions/league/signings/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-mia-terminations",
+      "teamIds": [
+        "MIA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Dolphins finalize pre–Week 1 releases",
+      "summary": "Dolphins recorded 4 releases before the 2026 opener. The official NFL ledger includes A.J. Green, Clelin Ferrell.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-mia-waivers",
+      "teamIds": [
+        "MIA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Dolphins finalize pre–Week 1 waiver moves",
+      "summary": "Dolphins recorded 10 waiver moves before the 2026 opener. The official NFL ledger includes Reese Taylor, Chukwuebuka Godrick, Marcellas Dial Jr., Jarrett Kingston, Julius Wood.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-min-waivers",
+      "teamIds": [
+        "MIN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Vikings finalize pre–Week 1 waiver moves",
+      "summary": "Vikings recorded 4 waiver moves before the 2026 opener. The official NFL ledger includes Trevor Keegan, Nick Samac.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ne-terminations",
+      "teamIds": [
+        "NE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Patriots finalize pre–Week 1 releases",
+      "summary": "Patriots recorded 4 releases before the 2026 opener. The official NFL ledger includes K.J. Britt, Ben Brown.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ne-waivers",
+      "teamIds": [
+        "NE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Patriots finalize pre–Week 1 waiver moves",
+      "summary": "Patriots recorded 6 waiver moves before the 2026 opener. The official NFL ledger includes Cameron Latu, Marcellas Dial Jr., Darius Muasau.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-no-waivers",
+      "teamIds": [
+        "NO"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Saints finalize pre–Week 1 waiver moves",
+      "summary": "Saints recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Colby Wooden.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyg-waivers",
+      "teamIds": [
+        "NYG"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Giants finalize pre–Week 1 waiver moves",
+      "summary": "Giants recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Darius Muasau.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyj-terminations",
+      "teamIds": [
+        "NYJ"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jets finalize pre–Week 1 releases",
+      "summary": "Jets recorded 2 releases before the 2026 opener. The official NFL ledger includes Jason Sanders.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyj-waivers",
+      "teamIds": [
+        "NYJ"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jets finalize pre–Week 1 waiver moves",
+      "summary": "Jets recorded 4 waiver moves before the 2026 opener. The official NFL ledger includes Blake Grupe, Trevin Wallace.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-phi-waivers",
+      "teamIds": [
+        "PHI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Eagles finalize pre–Week 1 waiver moves",
+      "summary": "Eagles recorded 6 waiver moves before the 2026 opener. The official NFL ledger includes Cameron Latu, Myles Hinton, Cameron Williams.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sea-waivers",
+      "teamIds": [
+        "SEA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Seahawks finalize pre–Week 1 waiver moves",
+      "summary": "Seahawks recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Jared Ivey.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sf-waivers",
+      "teamIds": [
+        "SF"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "49ers finalize pre–Week 1 waiver moves",
+      "summary": "49ers recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Darrell Luter Jr..",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-tb-waivers",
+      "teamIds": [
+        "TB"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Buccaneers finalize pre–Week 1 waiver moves",
+      "summary": "Buccaneers recorded 2 waiver moves before the 2026 opener. The official NFL ledger includes Elijah Klein.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ten-terminations",
+      "teamIds": [
+        "TEN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Titans finalize pre–Week 1 releases",
+      "summary": "Titans recorded 2 releases before the 2026 opener. The official NFL ledger includes Austin Deculus.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ten-waivers",
+      "teamIds": [
+        "TEN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "WAIVER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Titans finalize pre–Week 1 waiver moves",
+      "summary": "Titans recorded 6 waiver moves before the 2026 opener. The official NFL ledger includes Owen Pappoe, Nazir Stackhouse, Melvin Smith Jr..",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL waiver moves by month",
+        "url": "https://www.nfl.com/transactions/league/waivers/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-was-signings",
+      "teamIds": [
+        "WAS"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "SIGNING",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Commanders finalize pre–Week 1 signings",
+      "summary": "Commanders recorded 2 signings before the 2026 opener. The official NFL ledger includes Jaden Bradley.",
+      "publishedAt": "2026-08-31T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL signings by month",
+        "url": "https://www.nfl.com/transactions/league/signings/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ari-final-cuts",
+      "teamIds": [
+        "ARI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cardinals complete their initial 53-man roster cutdown",
+      "summary": "Cardinals released or waived 35 players while setting the initial roster. The NFL tracker includes QB Kedon Slovis, RB Evan Hull, RB Tre Stewart, WR Ihmir Smith-Marsette, WR Harrison Wallace III, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-atl-final-cuts",
+      "teamIds": [
+        "ATL"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Falcons complete their initial 53-man roster cutdown",
+      "summary": "Falcons released or waived 33 players while setting the initial roster. The NFL tracker includes RB Nate Carter, RB Tyler Goodson, RB Cash Jones, WR Vinny Anthony, WR Dylan Drummond, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-bal-final-cuts",
+      "teamIds": [
+        "BAL"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Ravens complete their initial 53-man roster cutdown",
+      "summary": "Ravens released or waived 34 players while setting the initial roster. The NFL tracker includes QB Austin Reed, RB Dontae McMillan, RB Elijah Tau-Tolliver, RB Jonathan Ward, FB Lucas Scott, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-buf-final-cuts",
+      "teamIds": [
+        "BUF"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bills complete their initial 53-man roster cutdown",
+      "summary": "Bills released or waived 34 players while setting the initial roster. The NFL tracker includes QB Shane Buechele, RB Frank Gore Jr., RB Ian Wheeler, FB Ben VanSumeren, WR Mac Dalena, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-car-final-cuts",
+      "teamIds": [
+        "CAR"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Panthers complete their initial 53-man roster cutdown",
+      "summary": "Panthers released or waived 35 players while setting the initial roster. The NFL tracker includes QB Kyle Trask, RB Miles Davis, RB Anthony Tyus III, WR Dan Chisena, WR Elijah Cooks, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-chi-final-cuts",
+      "teamIds": [
+        "CHI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bears complete their initial 53-man roster cutdown",
+      "summary": "Bears released or waived 31 players while setting the initial roster. The NFL tracker includes QB Miller Moss, RB Salvon Ahmed, WR Maurice Alexander, WR Kaden Davis, WR Omari Kelly, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cin-final-cuts",
+      "teamIds": [
+        "CIN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bengals complete their initial 53-man roster cutdown",
+      "summary": "Bengals released or waived 34 players while setting the initial roster. The NFL tracker includes QB Sean Clifford, QB Josh Johnson, HB Gary Brightwell, HB Kentrel Bullock, HB Jamal Haynes, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cle-final-cuts",
+      "teamIds": [
+        "CLE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Browns complete their initial 53-man roster cutdown",
+      "summary": "Browns released or waived 39 players while setting the initial roster. The NFL tracker includes RB Davon Booth, RB Ahmani Marshall, WR Luke Floriea, WR Gage Larvadain, WR Ben Patterson, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-dal-final-cuts",
+      "teamIds": [
+        "DAL"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cowboys complete their initial 53-man roster cutdown",
+      "summary": "Cowboys released or waived 36 players while setting the initial roster. The NFL tracker includes RB Israel Abanikanda, RB Jaydon Blue, RB Jashaun Corbin, RB Phil Mafah, WR Denzel Mims, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-den-final-cuts",
+      "teamIds": [
+        "DEN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Broncos complete their initial 53-man roster cutdown",
+      "summary": "Broncos released or waived 34 players while setting the initial roster. The NFL tracker includes RB Jaleel McLaughlin, RB Cody Schrader, FB Adam Prentice, WR Michael Bandy, WR Kolbe Katsis, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-det-final-cuts",
+      "teamIds": [
+        "DET"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Lions complete their initial 53-man roster cutdown",
+      "summary": "Lions released or waived 37 players while setting the initial roster. The NFL tracker includes QB Luke Altmyer, RB Raheem Blackshear, RB Kye Robichaux, RB Roydell Williams, RB Trayveon Williams, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-gb-final-cuts",
+      "teamIds": [
+        "GB"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Packers complete their initial 53-man roster cutdown",
+      "summary": "Packers released or waived 33 players while setting the initial roster. The NFL tracker includes RB Pierre Strong Jr., RB Damien Martinez,, RB Jaden Nixon, WR Isaiah Neyor, WR Will Sheppard, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-hou-final-cuts",
+      "teamIds": [
+        "HOU"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Texans complete their initial 53-man roster cutdown",
+      "summary": "Texans released or waived 32 players while setting the initial roster. The NFL tracker includes QB Brett Rypien, RB Jawhar Jordan, RB Deuce Vaughn, RB Noah Whittington, RB Owen Wright, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ind-final-cuts",
+      "teamIds": [
+        "IND"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Colts complete their initial 53-man roster cutdown",
+      "summary": "Colts released or waived 35 players while setting the initial roster. The NFL tracker includes QB Easton Stick, RB Ulysses Bentley IV, RB Anderson Castle, WR Anthony Gould, WR Sahmir Hagans, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-jax-final-cuts",
+      "teamIds": [
+        "JAX"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jaguars complete their initial 53-man roster cutdown",
+      "summary": "Jaguars released or waived 35 players while setting the initial roster. The NFL tracker includes QB Joey Aguilar, QB Carter Bradley*, QB Nick Mullens, RB DeeJay Dallas, RB J'Mari Taylor, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-kc-final-cuts",
+      "teamIds": [
+        "KC"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chiefs complete their initial 53-man roster cutdown",
+      "summary": "Chiefs released or waived 39 players while setting the initial roster. The NFL tracker includes QB Chris Oladokun*, RB Emari Demercado, RB Jaydn Ott, RB EJ Smith*, WR Andrew Armstrong, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lac-final-cuts",
+      "teamIds": [
+        "LAC"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chargers complete their initial 53-man roster cutdown",
+      "summary": "Chargers released or waived 34 players while setting the initial roster. The NFL tracker includes QB DJ Uiagalelei, RB Gregory Desrosiers, RB Amar Johnson, RB Jaret Patterson, WR Sincere Brown*, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lar-final-cuts",
+      "teamIds": [
+        "LAR"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Rams complete their initial 53-man roster cutdown",
+      "summary": "Rams released or waived 36 players while setting the initial roster. The NFL tracker includes RB Dean Connors, RB Jordan Waters, WR Alex Bachman, WR Tru Edwards, WR Brennan Presley, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lv-final-cuts",
+      "teamIds": [
+        "LV"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Raiders complete their initial 53-man roster cutdown",
+      "summary": "Raiders released or waived 33 players while setting the initial roster. The NFL tracker includes QB Jacob Clark, RB Roman Hemby, RB Dare Ogunbowale, WR Phillip Dorsett II, WR Shedrick Jackson, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-mia-final-cuts",
+      "teamIds": [
+        "MIA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Dolphins complete their initial 53-man roster cutdown",
+      "summary": "Dolphins released or waived 41 players while setting the initial roster. The NFL tracker includes QB Mark Gronowski, QB Cam Miller, RB Coleman Bennett, RB Donovan Edwards, RB Jarquez Hunter, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-min-final-cuts",
+      "teamIds": [
+        "MIN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Vikings complete their initial 53-man roster cutdown",
+      "summary": "Vikings released or waived 34 players while setting the initial roster. The NFL tracker includes RB Jermar Jefferson*, RB Zavier Scott, WR Michael Briscoe, WR Terrill Davis, WR Dontae Fleming*, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ne-final-cuts",
+      "teamIds": [
+        "NE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Patriots complete their initial 53-man roster cutdown",
+      "summary": "Patriots released or waived 37 players while setting the initial roster. The NFL tracker includes RB Hassan Haskins, RB JaMycal Hasty, RB Lan Larison, RB Jam Miller, WR Nick DeGennaro, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-no-final-cuts",
+      "teamIds": [
+        "NO"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Saints complete their initial 53-man roster cutdown",
+      "summary": "Saints released or waived 28 players while setting the initial roster. The NFL tracker includes QB Hunter Dekkers, RB CJ Donaldson, RB Zamir White, WR Ronnie Bell, WR Jalen Cropper, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyg-final-cuts",
+      "teamIds": [
+        "NYG"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Giants complete their initial 53-man roster cutdown",
+      "summary": "Giants released or waived 38 players while setting the initial roster. The NFL tracker includes QB Brandon Allen, QB Jake Haener, RB Damon Bankston, RB Dante Miller, RB Eric Gray, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyj-final-cuts",
+      "teamIds": [
+        "NYJ"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jets complete their initial 53-man roster cutdown",
+      "summary": "Jets released or waived 37 players while setting the initial roster. The NFL tracker includes QB Brady Cook, QB Bailey Zappe, RB Dominic Richardson*, RB Sam Scott, WR Junior Bergen, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-phi-final-cuts",
+      "teamIds": [
+        "PHI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Eagles complete their initial 53-man roster cutdown",
+      "summary": "Eagles released or waived 36 players while setting the initial roster. The NFL tracker includes RB Dameon Pierce, RB Jordan Mims, RB Carson Steele, WR Britain Covey, WR Erik Ezukanma, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-pit-final-cuts",
+      "teamIds": [
+        "PIT"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Steelers complete their initial 53-man roster cutdown",
+      "summary": "Steelers released or waived 35 players while setting the initial roster. The NFL tracker includes RB Travis Homer, RB Lew Nichols, RB Alex Tecza, WR Joaquin Davis, WR Max Hurleman, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sea-final-cuts",
+      "teamIds": [
+        "SEA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Seahawks complete their initial 53-man roster cutdown",
+      "summary": "Seahawks released or waived 41 players while setting the initial roster. The NFL tracker includes RB Anthony Hankerson, RB Justin Jones, RB Velus Jones Jr., RB Jacardia Wright, FB Brock Lampe*, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sf-final-cuts",
+      "teamIds": [
+        "SF"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "49ers complete their initial 53-man roster cutdown",
+      "summary": "49ers released or waived 33 players while setting the initial roster. The NFL tracker includes QB Adrian Martinez, RB Khalil Herbert, RB Sincere McCormick, WR Wesley Grimes, WR KhaDarel Hodge, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-tb-final-cuts",
+      "teamIds": [
+        "TB"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Buccaneers complete their initial 53-man roster cutdown",
+      "summary": "Buccaneers released or waived 38 players while setting the initial roster. The NFL tracker includes QB Connor Bazelak, QB Jake Browning, RB Kadarius Calloway, RB Barika Kpeenu, RB Josh Williams, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ten-final-cuts",
+      "teamIds": [
+        "TEN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Titans complete their initial 53-man roster cutdown",
+      "summary": "Titans released or waived 34 players while setting the initial roster. The NFL tracker includes QB Hendon Hooker, QB Will Levis, RB Michael Carter, RB D'Ernest Johnson, RB Kalel Mullings, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-was-final-cuts",
+      "teamIds": [
+        "WAS"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "ROSTER",
+        "53_MAN_CUTDOWN",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Commanders complete their initial 53-man roster cutdown",
+      "summary": "Commanders released or waived 34 players while setting the initial roster. The NFL tracker includes QB Sam Hartman, RB Robert Henry Jr., RB Craig Reynolds, WR Jaden Bradley, WR Van Jefferson, and additional moves.",
+      "publishedAt": "2026-08-30T22:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFL roster cuts tracker: Team-by-team player moves ahead of 2026 season",
+        "url": "https://www.nfl.com/news/nfl-roster-cuts-tracker-team-by-team-player-moves-ahead-of-2026-season",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-den-other",
+      "teamIds": [
+        "DEN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "ROSTER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Broncos finalize pre–Week 1 roster designations",
+      "summary": "Broncos recorded 1 roster designations before the 2026 opener. The official NFL ledger includes Jonathon Cooper.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL roster designations by month",
+        "url": "https://www.nfl.com/transactions/league/other/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-den-terminations",
+      "teamIds": [
+        "DEN"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Broncos finalize pre–Week 1 releases",
+      "summary": "Broncos recorded 4 releases before the 2026 opener. The official NFL ledger includes Foster Sarell, Lecitus Smith.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-gb-other",
+      "teamIds": [
+        "GB"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "ROSTER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Packers finalize pre–Week 1 roster designations",
+      "summary": "Packers recorded 1 roster designations before the 2026 opener. The official NFL ledger includes Josh Jacobs.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL roster designations by month",
+        "url": "https://www.nfl.com/transactions/league/other/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lar-other",
+      "teamIds": [
+        "LAR"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "ROSTER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Rams finalize pre–Week 1 roster designations",
+      "summary": "Rams recorded 1 roster designations before the 2026 opener. The official NFL ledger includes Aaron Donald.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL roster designations by month",
+        "url": "https://www.nfl.com/transactions/league/other/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sea-other",
+      "teamIds": [
+        "SEA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "ROSTER",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Seahawks finalize pre–Week 1 roster designations",
+      "summary": "Seahawks recorded 1 roster designations before the 2026 opener. The official NFL ledger includes Terrion Arnold.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL roster designations by month",
+        "url": "https://www.nfl.com/transactions/league/other/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sf-terminations",
+      "teamIds": [
+        "SF"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "49ers finalize pre–Week 1 releases",
+      "summary": "49ers recorded 6 releases before the 2026 opener. The official NFL ledger includes Trenton Irwin, Corliss Waitman, Jon Weeks.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-tb-terminations",
+      "teamIds": [
+        "TB"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Buccaneers finalize pre–Week 1 releases",
+      "summary": "Buccaneers recorded 2 releases before the 2026 opener. The official NFL ledger includes Jake Browning.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-avery-smith-lac-sea",
+      "teamIds": [
+        "LAC",
+        "SEA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chargers trade Avery Smith to Seahawks",
+      "summary": "The official NFL transaction ledger records Avery Smith moving from Chargers to Seahawks before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-broderick-jones-dal-pit",
+      "teamIds": [
+        "DAL",
+        "PIT"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Steelers trade Broderick Jones to Cowboys",
+      "summary": "The official NFL transaction ledger records Broderick Jones moving from Steelers to Cowboys before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-clark-phillips-iii-atl-chi",
+      "teamIds": [
+        "ATL",
+        "CHI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Falcons trade Clark Phillips III to Bears",
+      "summary": "The official NFL transaction ledger records Clark Phillips III moving from Falcons to Bears before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-diego-pounds-bal-kc",
+      "teamIds": [
+        "BAL",
+        "KC"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Ravens trade Diego Pounds to Chiefs",
+      "summary": "The official NFL transaction ledger records Diego Pounds moving from Ravens to Chiefs before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-gervon-dexter-sr-atl-chi",
+      "teamIds": [
+        "ATL",
+        "CHI"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bears trade Gervon Dexter Sr. to Falcons",
+      "summary": "The official NFL transaction ledger records Gervon Dexter Sr. moving from Bears to Falcons before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-hunter-long-ari-jax",
+      "teamIds": [
+        "ARI",
+        "JAX"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jaguars trade Hunter Long to Cardinals",
+      "summary": "The official NFL transaction ledger records Hunter Long moving from Jaguars to Cardinals before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-jarrett-patterson-hou-sf",
+      "teamIds": [
+        "HOU",
+        "SF"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Texans trade Jarrett Patterson to 49ers",
+      "summary": "The official NFL transaction ledger records Jarrett Patterson moving from Texans to 49ers before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-jordan-meredith-lv-nyj",
+      "teamIds": [
+        "LV",
+        "NYJ"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Raiders trade Jordan Meredith to Jets",
+      "summary": "The official NFL transaction ledger records Jordan Meredith moving from Raiders to Jets before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-kaleb-johnson-gb-pit",
+      "teamIds": [
+        "GB",
+        "PIT"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Steelers trade Kaleb Johnson to Packers",
+      "summary": "The official NFL transaction ledger records Kaleb Johnson moving from Steelers to Packers before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-kyle-mccord-gb-mia",
+      "teamIds": [
+        "GB",
+        "MIA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Packers trade Kyle McCord to Dolphins",
+      "summary": "The official NFL transaction ledger records Kyle McCord moving from Packers to Dolphins before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-mark-redman-gb-lar",
+      "teamIds": [
+        "GB",
+        "LAR"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Rams trade Mark Redman to Packers",
+      "summary": "The official NFL transaction ledger records Mark Redman moving from Rams to Packers before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-nathan-thomas-dal-hou",
+      "teamIds": [
+        "DAL",
+        "HOU"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cowboys trade Nathan Thomas to Texans",
+      "summary": "The official NFL transaction ledger records Nathan Thomas moving from Cowboys to Texans before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-quinn-ewers-jax-mia",
+      "teamIds": [
+        "JAX",
+        "MIA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Dolphins trade Quinn Ewers to Jaguars",
+      "summary": "The official NFL transaction ledger records Quinn Ewers moving from Dolphins to Jaguars before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-sedrick-van-pran-granger-buf-ind",
+      "teamIds": [
+        "BUF",
+        "IND"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bills trade Sedrick Van Pran-Granger to Colts",
+      "summary": "The official NFL transaction ledger records Sedrick Van Pran-Granger moving from Bills to Colts before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-terah-edwards-car-lac",
+      "teamIds": [
+        "CAR",
+        "LAC"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chargers trade TeRah Edwards to Panthers",
+      "summary": "The official NFL transaction ledger records TeRah Edwards moving from Chargers to Panthers before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-30t17-00-00-000z-walter-rouse-min-ne",
+      "teamIds": [
+        "MIN",
+        "NE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Vikings trade Walter Rouse to Patriots",
+      "summary": "The official NFL transaction ledger records Walter Rouse moving from Vikings to Patriots before Week 1.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-was-terminations",
+      "teamIds": [
+        "WAS"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "RELEASE",
+        "TRANSACTION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Commanders finalize pre–Week 1 releases",
+      "summary": "Commanders recorded 10 releases before the 2026 opener. The official NFL ledger includes Krys Barnes, Carlos Basham, Trey Hill, Maurice Hurst, Max Scharping.",
+      "publishedAt": "2026-08-30T17:00:00.000Z",
+      "importanceScore": 68,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL releases by month",
+        "url": "https://www.nfl.com/transactions/league/terminations/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-29t17-00-00-000z-basil-okoye-bal-nyg",
+      "teamIds": [
+        "BAL",
+        "NYG"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Ravens trade Basil Okoye to Giants",
+      "summary": "The official NFL transaction ledger records Basil Okoye moving from Ravens to Giants before Week 1.",
+      "publishedAt": "2026-08-29T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-29t17-00-00-000z-corey-kiner-ari-ne",
+      "teamIds": [
+        "ARI",
+        "NE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cardinals trade Corey Kiner to Patriots",
+      "summary": "The official NFL transaction ledger records Corey Kiner moving from Cardinals to Patriots before Week 1.",
+      "publishedAt": "2026-08-29T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-27t17-00-00-000z-jarquez-hunter-lar-mia",
+      "teamIds": [
+        "LAR",
+        "MIA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Rams trade Jarquez Hunter to Dolphins",
+      "summary": "The official NFL transaction ledger records Jarquez Hunter moving from Rams to Dolphins before Week 1.",
+      "publishedAt": "2026-08-27T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-27t17-00-00-000z-tutu-atwell-lar-mia",
+      "teamIds": [
+        "LAR",
+        "MIA"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Dolphins trade Tutu Atwell to Rams",
+      "summary": "The official NFL transaction ledger records Tutu Atwell moving from Dolphins to Rams before Week 1.",
+      "publishedAt": "2026-08-27T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-26t17-00-00-000z-joshua-ezeudu-kc-nyg",
+      "teamIds": [
+        "KC",
+        "NYG"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Giants trade Joshua Ezeudu to Chiefs",
+      "summary": "The official NFL transaction ledger records Joshua Ezeudu moving from Giants to Chiefs before Week 1.",
+      "publishedAt": "2026-08-26T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-24t17-00-00-000z-deion-jones-no-sf",
+      "teamIds": [
+        "NO",
+        "SF"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Saints trade Deion Jones to 49ers",
+      "summary": "The official NFL transaction ledger records Deion Jones moving from Saints to 49ers before Week 1.",
+      "publishedAt": "2026-08-24T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-24t17-00-00-000z-jaylen-reed-hou-ne",
+      "teamIds": [
+        "HOU",
+        "NE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Texans trade Jaylen Reed to Patriots",
+      "summary": "The official NFL transaction ledger records Jaylen Reed moving from Texans to Patriots before Week 1.",
+      "publishedAt": "2026-08-24T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-24t17-00-00-000z-kayshon-boutte-hou-ne",
+      "teamIds": [
+        "HOU",
+        "NE"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Patriots trade Kayshon Boutte to Texans",
+      "summary": "The official NFL transaction ledger records Kayshon Boutte moving from Patriots to Texans before Week 1.",
+      "publishedAt": "2026-08-24T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-trade-2026-08-24t17-00-00-000z-zamir-white-no-sf",
+      "teamIds": [
+        "NO",
+        "SF"
+      ],
+      "storyType": "TRANSACTION",
+      "tags": [
+        "TRADE",
+        "ROSTER",
+        "PRE_WEEK_1"
+      ],
+      "headline": "49ers trade Zamir White to Saints",
+      "summary": "The official NFL transaction ledger records Zamir White moving from 49ers to Saints before Week 1.",
+      "publishedAt": "2026-08-24T17:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL trades by month",
+        "url": "https://www.nfl.com/transactions/league/trades/2026/8",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-det-jahmyr-gibbs-extension",
+      "teamIds": [
+        "DET"
+      ],
+      "storyType": "CONTRACT",
+      "tags": [
+        "CONTRACT_EXTENSION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Lions extend Jahmyr Gibbs before Week 1",
+      "summary": "Detroit reached a contract extension with Jahmyr Gibbs before the 2026 opener, securing a centerpiece of its offense.",
+      "publishedAt": "2026-08-06T18:00:00.000Z",
+      "importanceScore": 92,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "Jahmyr Gibbs, Lions agree to contract extension",
+        "url": "https://www.nfl.com/news/jahmyr-gibbs-lions-contract-extension",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ind-jonathan-taylor-extension",
+      "teamIds": [
+        "IND"
+      ],
+      "storyType": "CONTRACT",
+      "tags": [
+        "CONTRACT_EXTENSION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Colts extend Jonathan Taylor before the 2026 season",
+      "summary": "Indianapolis and Jonathan Taylor agreed to a new contract extension before Week 1, keeping the running back at the center of the Colts offense.",
+      "publishedAt": "2026-08-06T18:00:00.000Z",
+      "importanceScore": 92,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "Jonathan Taylor, Colts agree to contract extension",
+        "url": "https://www.nfl.com/news/jonathan-taylor-colts-contract-extension",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-league-training-camp-early-takeaways",
+      "teamIds": [
+        "ARI",
+        "ATL",
+        "BAL",
+        "BUF",
+        "CAR",
+        "CHI",
+        "CIN",
+        "CLE",
+        "DAL",
+        "DEN",
+        "DET",
+        "GB",
+        "HOU",
+        "IND",
+        "JAX",
+        "KC",
+        "LAC",
+        "LAR",
+        "LV",
+        "MIA",
+        "MIN",
+        "NE",
+        "NO",
+        "NYG",
+        "NYJ",
+        "PHI",
+        "PIT",
+        "SEA",
+        "SF",
+        "TB",
+        "TEN",
+        "WAS"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Early training-camp takeaways identify developments across all 32 teams",
+      "summary": "NFL.com surveyed all 32 training camps, highlighting position battles, injury context, emerging players, and unresolved roster questions before the preseason schedule concluded.",
+      "publishedAt": "2026-08-06T16:00:00.000Z",
+      "importanceScore": 86,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "2026 NFL training camp: Early takeaways for all 32 teams",
+        "url": "https://www.nfl.com/news/2026-nfl-training-camp-early-takeaways-for-all-32-teams",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-tb-baker-mayfield-extension",
+      "teamIds": [
+        "TB"
+      ],
+      "storyType": "CONTRACT",
+      "tags": [
+        "CONTRACT_EXTENSION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Buccaneers and Baker Mayfield agree to three-year extension",
+      "summary": "Tampa Bay and Baker Mayfield finalized a three-year extension before the regular season, resolving one of the club's major contract questions.",
+      "publishedAt": "2026-07-28T18:00:00.000Z",
+      "importanceScore": 94,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "Buccaneers QB Baker Mayfield agrees to three-year contract extension",
+        "url": "https://www.nfl.com/news/nfl-network-buccaneers-qb-baker-mayfield-agree-to-three-year-contract-extension",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-hou-cj-stroud-extension-outlook",
+      "teamIds": [
+        "HOU"
+      ],
+      "storyType": "RUMOR",
+      "tags": [
+        "CONTRACT_NEGOTIATION",
+        "UNRESOLVED",
+        "PRE_WEEK_1"
+      ],
+      "headline": "C.J. Stroud enters camp with an extension still looming",
+      "summary": "C.J. Stroud publicly addressed his contract outlook while Houston entered the preseason without a completed extension. The item remains negotiation context, not a completed deal.",
+      "publishedAt": "2026-07-27T18:00:00.000Z",
+      "importanceScore": 82,
+      "confidenceScore": 90,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "C.J. Stroud on looming contract extension entering 2026",
+        "url": "https://www.nfl.com/news/texans-qb-c-j-stroud-on-looming-contract-extension-entering-2026-i-think-i-ve-held-my-bargain-up",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-jax-brenton-strange-extension",
+      "teamIds": [
+        "JAX"
+      ],
+      "storyType": "CONTRACT",
+      "tags": [
+        "CONTRACT_EXTENSION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jaguars extend tight end Brenton Strange",
+      "summary": "Jacksonville agreed to a three-year extension with Brenton Strange before the season, retaining a key part of its passing-game personnel.",
+      "publishedAt": "2026-07-22T18:00:00.000Z",
+      "importanceScore": 84,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "Jaguars, Brenton Strange agree to three-year extension",
+        "url": "https://www.nfl.com/news/jaguars-brenton-strange-three-year-extension",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ari-michael-wilson-extension",
+      "teamIds": [
+        "ARI"
+      ],
+      "storyType": "CONTRACT",
+      "tags": [
+        "CONTRACT_EXTENSION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cardinals extend wide receiver Michael Wilson",
+      "summary": "Arizona agreed to a three-year extension with Michael Wilson before the 2026 season, retaining the receiver beyond his rookie deal.",
+      "publishedAt": "2026-07-20T18:00:00.000Z",
+      "importanceScore": 84,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "Cardinals, Michael Wilson agree to three-year extension",
+        "url": "https://www.nfl.com/news/cardinals-michael-wilson-three-year-extension",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ari-training-camp-preview",
+      "teamIds": [
+        "ARI"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cardinals enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC West training-camp preview examines the Cardinals' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-16T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC West training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-west-training-camp-2026-preview-cardinals-rams-49ers-seahawks",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lar-training-camp-preview",
+      "teamIds": [
+        "LAR"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Rams enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC West training-camp preview examines the Rams' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-16T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC West training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-west-training-camp-2026-preview-cardinals-rams-49ers-seahawks",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sea-training-camp-preview",
+      "teamIds": [
+        "SEA"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Seahawks enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC West training-camp preview examines the Seahawks' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-16T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC West training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-west-training-camp-2026-preview-cardinals-rams-49ers-seahawks",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-sf-training-camp-preview",
+      "teamIds": [
+        "SF"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "49ers enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC West training-camp preview examines the 49ers' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-16T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC West training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-west-training-camp-2026-preview-cardinals-rams-49ers-seahawks",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-atl-training-camp-preview",
+      "teamIds": [
+        "ATL"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Falcons enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC South training-camp preview examines the Falcons' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-15T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC South training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-south-training-camp-2026-preview-falcons-panthers-saints-buccaneers",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-car-training-camp-preview",
+      "teamIds": [
+        "CAR"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Panthers enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC South training-camp preview examines the Panthers' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-15T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC South training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-south-training-camp-2026-preview-falcons-panthers-saints-buccaneers",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-no-training-camp-preview",
+      "teamIds": [
+        "NO"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Saints enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC South training-camp preview examines the Saints' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-15T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC South training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-south-training-camp-2026-preview-falcons-panthers-saints-buccaneers",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-tb-training-camp-preview",
+      "teamIds": [
+        "TB"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Buccaneers enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC South training-camp preview examines the Buccaneers' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-15T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC South training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-south-training-camp-2026-preview-falcons-panthers-saints-buccaneers",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-chi-training-camp-preview",
+      "teamIds": [
+        "CHI"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bears enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC North training-camp preview examines the Bears' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-14T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC North training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-north-training-camp-2026-preview-bears-lions-packers-vikings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-det-training-camp-preview",
+      "teamIds": [
+        "DET"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Lions enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC North training-camp preview examines the Lions' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-14T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC North training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-north-training-camp-2026-preview-bears-lions-packers-vikings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-gb-training-camp-preview",
+      "teamIds": [
+        "GB"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Packers enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC North training-camp preview examines the Packers' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-14T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC North training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-north-training-camp-2026-preview-bears-lions-packers-vikings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-min-training-camp-preview",
+      "teamIds": [
+        "MIN"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Vikings enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC North training-camp preview examines the Vikings' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-14T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC North training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-north-training-camp-2026-preview-bears-lions-packers-vikings",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-dal-training-camp-preview",
+      "teamIds": [
+        "DAL"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Cowboys enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC East training-camp preview examines the Cowboys' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-13T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC East training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-east-training-camp-2026-preview-cowboys-giants-eagles-commanders",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyg-training-camp-preview",
+      "teamIds": [
+        "NYG"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Giants enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC East training-camp preview examines the Giants' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-13T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC East training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-east-training-camp-2026-preview-cowboys-giants-eagles-commanders",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-phi-training-camp-preview",
+      "teamIds": [
+        "PHI"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Eagles enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC East training-camp preview examines the Eagles' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-13T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC East training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-east-training-camp-2026-preview-cowboys-giants-eagles-commanders",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-was-training-camp-preview",
+      "teamIds": [
+        "WAS"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Commanders enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's NFC East training-camp preview examines the Commanders' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-13T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "NFC East training camp 2026 preview",
+        "url": "https://www.nfl.com/news/nfc-east-training-camp-2026-preview-cowboys-giants-eagles-commanders",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-den-training-camp-preview",
+      "teamIds": [
+        "DEN"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Broncos enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC West training-camp preview examines the Broncos' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-09T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC West training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-west-training-camp-2026-preview-broncos-raiders-chargers-chiefs",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-kc-training-camp-preview",
+      "teamIds": [
+        "KC"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chiefs enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC West training-camp preview examines the Chiefs' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-09T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC West training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-west-training-camp-2026-preview-broncos-raiders-chargers-chiefs",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lac-training-camp-preview",
+      "teamIds": [
+        "LAC"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Chargers enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC West training-camp preview examines the Chargers' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-09T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC West training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-west-training-camp-2026-preview-broncos-raiders-chargers-chiefs",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lv-training-camp-preview",
+      "teamIds": [
+        "LV"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Raiders enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC West training-camp preview examines the Raiders' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-09T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC West training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-west-training-camp-2026-preview-broncos-raiders-chargers-chiefs",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-hou-training-camp-preview",
+      "teamIds": [
+        "HOU"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Texans enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC South training-camp preview examines the Texans' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-08T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC South training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-south-training-camp-2026-preview-texans-colts-jaguars-titans",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ind-training-camp-preview",
+      "teamIds": [
+        "IND"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Colts enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC South training-camp preview examines the Colts' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-08T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC South training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-south-training-camp-2026-preview-texans-colts-jaguars-titans",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-jax-training-camp-preview",
+      "teamIds": [
+        "JAX"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jaguars enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC South training-camp preview examines the Jaguars' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-08T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC South training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-south-training-camp-2026-preview-texans-colts-jaguars-titans",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ten-training-camp-preview",
+      "teamIds": [
+        "TEN"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Titans enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC South training-camp preview examines the Titans' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-08T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC South training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-south-training-camp-2026-preview-texans-colts-jaguars-titans",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-bal-training-camp-preview",
+      "teamIds": [
+        "BAL"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Ravens enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC North training-camp preview examines the Ravens' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-07T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC North training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-north-training-camp-2026-preview-ravens-bengals-browns-steelers",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cin-training-camp-preview",
+      "teamIds": [
+        "CIN"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bengals enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC North training-camp preview examines the Bengals' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-07T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC North training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-north-training-camp-2026-preview-ravens-bengals-browns-steelers",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-cle-training-camp-preview",
+      "teamIds": [
+        "CLE"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Browns enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC North training-camp preview examines the Browns' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-07T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC North training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-north-training-camp-2026-preview-ravens-bengals-browns-steelers",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-pit-training-camp-preview",
+      "teamIds": [
+        "PIT"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Steelers enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC North training-camp preview examines the Steelers' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-07T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC North training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-north-training-camp-2026-preview-ravens-bengals-browns-steelers",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-tb-extension-talks-unresolved",
+      "teamIds": [
+        "TB"
+      ],
+      "storyType": "RUMOR",
+      "tags": [
+        "CONTRACT_NEGOTIATION",
+        "UNRESOLVED",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Buccaneers entered July in no rush on major extensions",
+      "summary": "NFL Network reported Tampa Bay was not rushing extension talks involving Baker Mayfield and Vita Vea. This captures the unresolved status at publication and is superseded where a later completed deal appears.",
+      "publishedAt": "2026-07-06T18:00:00.000Z",
+      "importanceScore": 72,
+      "confidenceScore": 88,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "Buccaneers in no rush to work out Baker Mayfield, Vita Vea extensions",
+        "url": "https://www.nfl.com/news/nfl-network-buccaneers-in-no-rush-to-work-out-baker-mayfield-vita-vea-extensions",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-buf-training-camp-preview",
+      "teamIds": [
+        "BUF"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Bills enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC East training-camp preview examines the Bills' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-06T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC East training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-east-training-camp-2026-preview-bills-dolphins-patriots-jets",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-mia-training-camp-preview",
+      "teamIds": [
+        "MIA"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Dolphins enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC East training-camp preview examines the Dolphins' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-06T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC East training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-east-training-camp-2026-preview-bills-dolphins-patriots-jets",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-ne-training-camp-preview",
+      "teamIds": [
+        "NE"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Patriots enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC East training-camp preview examines the Patriots' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-06T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC East training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-east-training-camp-2026-preview-bills-dolphins-patriots-jets",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-nyj-training-camp-preview",
+      "teamIds": [
+        "NYJ"
+      ],
+      "storyType": "ANALYSIS",
+      "tags": [
+        "PRESEASON",
+        "DEPTH_CHART",
+        "ROSTER",
+        "TRAINING_CAMP",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Jets enter camp with position battles and roster questions to resolve",
+      "summary": "NFL.com's AFC East training-camp preview examines the Jets' offseason developments, key position battles, and primary roster storylines before the 2026 season.",
+      "publishedAt": "2026-07-06T16:00:00.000Z",
+      "importanceScore": 70,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "AFC East training camp 2026 preview",
+        "url": "https://www.nfl.com/news/afc-east-training-camp-2026-preview-bills-dolphins-patriots-jets",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-lar-trent-mcduffie-extension",
+      "teamIds": [
+        "LAR"
+      ],
+      "storyType": "CONTRACT",
+      "tags": [
+        "CONTRACT_EXTENSION",
+        "TRADE",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Rams extend Trent McDuffie after trade",
+      "summary": "Los Angeles followed its acquisition of Trent McDuffie with a four-year extension, making the cornerback a long-term part of the Rams defense.",
+      "publishedAt": "2026-06-30T18:00:00.000Z",
+      "importanceScore": 92,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "Trent McDuffie, Rams agree to four-year extension",
+        "url": "https://www.nfl.com/news/trent-mcduffie-rams-agree-to-four-year-124-million-extension",
+        "tier": "OFFICIAL_NFL"
+      }
+    },
+    {
+      "id": "2026-w1-atl-kyle-pitts-extension",
+      "teamIds": [
+        "ATL"
+      ],
+      "storyType": "CONTRACT",
+      "tags": [
+        "CONTRACT_EXTENSION",
+        "PRE_WEEK_1"
+      ],
+      "headline": "Falcons and Kyle Pitts agree to three-year extension",
+      "summary": "Atlanta retained Kyle Pitts on a three-year extension ahead of training camp, settling the tight end's long-term status.",
+      "publishedAt": "2026-06-23T18:00:00.000Z",
+      "importanceScore": 88,
+      "confidenceScore": 100,
+      "source": {
+        "publisher": "NFL.com",
+        "title": "Falcons TE Kyle Pitts agrees to three-year contract",
+        "url": "https://www.nfl.com/news/nfl-network-falcons-te-kyle-pitts-agrees-to-three-year-54m-contract",
+        "tier": "OFFICIAL_NFL"
+      }
+    }
+  ]
+}

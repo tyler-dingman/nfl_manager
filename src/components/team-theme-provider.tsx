@@ -5,7 +5,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import type { Team } from '@/features/team/team-store';
 import { ensureAccessibleTextColor, getReadableTextColor } from '@/lib/color-utils';
 import { getTeamBrandTheme } from '@/lib/team-brand-themes';
-import { getTeamThemeTokens } from '@/lib/team-theme-tokens';
+import { getFrontOfficeTeamTheme, getTeamThemeTokens } from '@/lib/team-theme-tokens';
 
 const SITE_SURFACE = '#f7f4ee';
 
@@ -13,6 +13,7 @@ const toTeamStyle = (team?: Team): CSSProperties => {
   const theme = getTeamBrandTheme(team?.abbr);
   const { primary, secondary, dark, light } = theme;
   const { primaryFill, onPrimary: primaryForeground } = getTeamThemeTokens(team?.abbr);
+  const frontOffice = getFrontOfficeTeamTheme(team?.abbr);
   const secondaryForeground = getReadableTextColor(secondary);
   const darkForeground = getReadableTextColor(dark);
   const lightForeground = getReadableTextColor(light);
@@ -43,6 +44,16 @@ const toTeamStyle = (team?: Team): CSSProperties => {
     '--team-primary-on-dark': ensureAccessibleTextColor(primary, dark),
     '--team-secondary-on-dark': ensureAccessibleTextColor(secondary, dark),
     '--team-light-on-dark': ensureAccessibleTextColor(light, dark),
+    '--fo-nav-bg': frontOffice.navBackground,
+    '--fo-nav-fg': frontOffice.navForeground,
+    '--fo-nav-muted': frontOffice.navMutedForeground,
+    '--fo-nav-active': frontOffice.navActiveIndicator,
+    '--fo-interactive': frontOffice.interactive,
+    '--fo-interactive-fg': frontOffice.interactiveForeground,
+    '--fo-interactive-text': frontOffice.interactiveText,
+    '--fo-interactive-hover': frontOffice.interactiveHover,
+    '--fo-accent': frontOffice.accent,
+    '--fo-border-accent': frontOffice.borderAccent,
   } as CSSProperties;
 };
 

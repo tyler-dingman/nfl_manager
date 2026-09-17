@@ -1,0 +1,484 @@
+.page {
+  display: grid;
+  grid-template-columns: minmax(170px, 0.85fr) minmax(560px, 3.2fr) minmax(260px, 1.35fr);
+  gap: 14px;
+  align-items: start;
+  padding: 16px 0 48px;
+  color: #071c31;
+}
+.left,
+.right {
+  display: grid;
+  gap: 12px;
+}
+.left nav,
+.filters,
+.right > section,
+.prospectPanel,
+.groupView,
+.strategy,
+.emptyState,
+.insightDetail {
+  overflow: hidden;
+  border: 1px solid #dbe4ec;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 4px 18px rgb(10 35 58/5%);
+}
+.left nav {
+  display: grid;
+  padding: 7px;
+}
+.left nav button {
+  min-height: 36px;
+  border: 0;
+  border-left: 3px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  padding: 0 12px;
+  color: #294b6c;
+  cursor: pointer;
+  font-size: 0.72rem;
+  text-align: left;
+}
+.left nav button[aria-pressed='true'] {
+  border-left-color: #0878ff;
+  background: #edf6ff;
+  color: #071c31;
+  font-weight: 800;
+}
+.filters {
+  padding: 14px;
+}
+.filters h2,
+.right h2 {
+  margin: 0 0 10px;
+  font-size: 0.92rem;
+}
+.filters label {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+  color: #294b6c;
+  font-size: 0.62rem;
+}
+.filters select,
+.filters input {
+  width: 100%;
+  height: 36px;
+  border: 1px solid #d8e1e9;
+  border-radius: 5px;
+  background: #fff;
+  padding: 0 9px;
+  color: #163b5c;
+  font-size: 0.66rem;
+}
+.search {
+  position: relative;
+}
+.search svg {
+  position: absolute;
+  bottom: 9px;
+  left: 9px;
+  width: 14px;
+}
+.search input {
+  padding-left: 29px;
+}
+.filters > button {
+  display: flex;
+  margin-top: 12px;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #d8e1e9;
+  border-radius: 5px;
+  background: #fff;
+  padding: 8px 10px;
+  color: #294b6c;
+  cursor: pointer;
+  font-size: 0.64rem;
+  font-weight: 750;
+}
+.filters > button svg {
+  width: 13px;
+}
+.prospectPanel > header {
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #dbe4ec;
+  padding: 10px 16px;
+}
+.prospectPanel h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+.prospectPanel header p {
+  margin: 4px 0 0;
+  color: #5e7690;
+  font-size: 0.67rem;
+}
+.prospectPanel header a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #0878e8;
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.prospectPanel header svg {
+  width: 14px;
+}
+.tableHeader,
+.prospectRow {
+  display: grid;
+  grid-template-columns: 38px minmax(130px, 1.25fr) 44px minmax(82px, 0.7fr) minmax(
+      80px,
+      0.75fr
+    ) 70px minmax(135px, 1.3fr) 18px;
+  gap: 7px;
+  align-items: center;
+}
+.tableHeader {
+  min-height: 34px;
+  background: #f6f8fa;
+  padding: 0 12px;
+  color: #607890;
+  font-size: 0.5rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+.prospectRow {
+  min-height: 57px;
+  border-top: 1px solid #e8edf2;
+  padding: 5px 12px;
+  color: #375671;
+  font-size: 0.61rem;
+  text-decoration: none;
+}
+.prospectRow > strong {
+  color: #071c31;
+  text-align: center;
+}
+.prospectRow > svg {
+  width: 13px;
+}
+.player {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+.player img,
+.player i {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #e8eef3;
+  object-fit: cover;
+  object-position: top;
+  font-style: normal;
+  font-weight: 850;
+}
+.player b {
+  overflow: hidden;
+  color: #071c31;
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.school {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 5px;
+}
+.school img {
+  object-fit: contain;
+}
+.prospectRow small {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.53rem;
+}
+.grade {
+  width: fit-content;
+  min-width: 39px;
+  border-radius: 5px;
+  background: #e8f8ed;
+  padding: 6px;
+  color: #117a36;
+  text-align: center;
+}
+.grade[data-grade='B'] {
+  background: #fff3cd;
+  color: #765500;
+}
+.summary {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 1.35;
+}
+.empty {
+  padding: 30px;
+  color: #607890;
+  text-align: center;
+}
+.right > section {
+  padding: 13px;
+}
+.insightButton {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 31px 1fr 14px;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid #e1e8ee;
+  border-radius: 6px;
+  background: #fff;
+  padding: 8px;
+  color: #071c31;
+  cursor: pointer;
+  text-align: left;
+}
+.insightButton + .insightButton {
+  margin-top: 6px;
+}
+.insightButton > svg:first-child {
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  background: #eaf4ff;
+  padding: 6px;
+  color: #0878e8;
+}
+.insightButton > svg:last-child {
+  width: 13px;
+}
+.insightButton b,
+.insightButton small {
+  display: block;
+}
+.insightButton b {
+  font-size: 0.66rem;
+}
+.insightButton small {
+  margin-top: 2px;
+  color: #607890;
+  font-size: 0.55rem;
+}
+.analysisEmpty {
+  border-radius: 6px;
+  background: #f5f7f9;
+  padding: 18px;
+  color: #607890;
+  font-size: 0.64rem;
+  line-height: 1.5;
+}
+.boardCta {
+  display: flex !important;
+  gap: 12px;
+  background: #edf7ff !important;
+  padding: 18px !important;
+}
+.boardCta > svg {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border-radius: 7px;
+  background: #fff;
+  padding: 8px;
+  color: #0878e8;
+}
+.boardCta p {
+  color: #4f6d88;
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+.boardCta a {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 5px;
+  border-radius: 5px;
+  background: #0878ff;
+  padding: 9px 13px;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.boardCta a svg {
+  width: 13px;
+}
+.groupView,
+.strategy,
+.emptyState,
+.insightDetail {
+  padding: 20px;
+}
+.groupView > h2,
+.strategy > h2,
+.emptyState h2,
+.insightDetail h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.groupView > p,
+.strategy > p,
+.emptyState p,
+.insightDetail > p {
+  color: #607890;
+  font-size: 0.72rem;
+}
+.groupView article {
+  display: inline-block;
+  width: calc(50% - 6px);
+  margin: 6px 6px 6px 0;
+  vertical-align: top;
+  border: 1px solid #e1e8ee;
+  border-radius: 7px;
+  padding: 11px;
+}
+.groupView article h3 {
+  display: flex;
+  margin: 0 0 7px;
+  justify-content: space-between;
+  font-size: 0.78rem;
+}
+.groupView article h3 span {
+  color: #607890;
+  font-size: 0.58rem;
+}
+.groupView article a,
+.insightDetail > div > a,
+.insightDetail > div > span {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #edf1f4;
+  padding: 7px 0;
+  color: #294b6c;
+  font-size: 0.65rem;
+  text-decoration: none;
+}
+.groupView article a b,
+.insightDetail > div b {
+  color: #071c31;
+}
+.strategy article {
+  display: flex;
+  gap: 12px;
+  border-top: 1px solid #e2e8ee;
+  padding: 13px 0;
+}
+.strategy article > svg {
+  width: 22px;
+  color: #0878e8;
+}
+.strategy h3 {
+  margin: 0;
+  font-size: 0.8rem;
+}
+.strategy article p {
+  margin: 4px 0 0;
+  color: #526f89;
+  font-size: 0.68rem;
+}
+.emptyState {
+  min-height: 300px;
+  text-align: center;
+}
+.emptyState > svg {
+  width: 44px;
+  height: 44px;
+  margin: 50px auto 12px;
+  color: #7790a6;
+}
+.insightDetail > button {
+  border: 0;
+  background: transparent;
+  color: #0878e8;
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+.insightDetail h2 {
+  margin-top: 18px;
+}
+@media (max-width: 1100px) {
+  .page {
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+  .right {
+    grid-column: 1/-1;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .tableHeader,
+  .prospectRow {
+    grid-template-columns: 36px minmax(130px, 1.2fr) 42px minmax(78px, 0.7fr) 65px minmax(
+        120px,
+        1.1fr
+      ) 16px;
+  }
+  .tableHeader > :nth-child(5),
+  .prospectRow > :nth-child(5) {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .left nav {
+    display: flex;
+    overflow-x: auto;
+  }
+  .left nav button {
+    flex: 0 0 auto;
+    border-bottom: 2px solid transparent;
+    border-left: 0;
+  }
+  .left nav button[aria-pressed='true'] {
+    border-bottom-color: #0878ff;
+  }
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .filters h2,
+  .filters .search,
+  .filters > button {
+    grid-column: 1/-1;
+  }
+  .filters label {
+    margin: 0;
+  }
+  .right {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+  }
+  .tableHeader {
+    display: none;
+  }
+  .prospectRow {
+    grid-template-columns: 34px minmax(125px, 1fr) 42px 58px 16px;
+  }
+  .prospectRow > :nth-child(4),
+  .prospectRow > :nth-child(5),
+  .prospectRow > :nth-child(7) {
+    display: none;
+  }
+  .groupView article {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+  }
+}

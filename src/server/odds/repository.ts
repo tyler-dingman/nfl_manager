@@ -1,5 +1,8 @@
 import { authDb } from '@/server/auth/database';
 import type { NormalizedOddsMarket } from './normalization';
+import { SPORTSBOOK_IDS } from './sportsbooks';
+
+const visibleSportsbooks = new Set<string>(SPORTSBOOK_IDS);
 
 export type OddsEventInput = {
   providerEventId: string;
@@ -29,17 +32,35 @@ export async function upsertMarket(
   market: NormalizedOddsMarket,
 ) {
   const db = authDb();
-  const rows = await db<Array<{ id: string }>>`
-    INSERT INTO bet_markets (event_id, provider_market_id, market_type, stat_id, entity_id, player_id, team_id, period, side, line, normalized_key, is_alt_line, provider_market_name, normalization_status, raw_provider_metadata)
-    VALUES (${eventId}, ${market.providerMarketId}, ${market.marketType}, ${market.statId}, ${market.entityId}, ${market.playerId}, ${market.teamId}, ${market.period}, ${market.side}, ${market.line}, ${market.normalizedKey}, ${market.isAltLine}, ${market.providerMarketName}, ${market.normalizationStatus}, ${db.json(JSON.parse(JSON.stringify(market.rawProviderMetadata)))})
-    ON CONFLICT (event_id, provider_market_id, side, line_key) DO UPDATE SET
-      market_type=EXCLUDED.market_type, player_id=EXCLUDED.player_id, team_id=EXCLUDED.team_id,
-      normalized_key=EXCLUDED.normalized_key, is_alt_line=EXCLUDED.is_alt_line,
-      provider_market_name=EXCLUDED.provider_market_name,
-      normalization_status=EXCLUDED.normalization_status,
-      raw_provider_metadata=EXCLUDED.raw_provider_metadata, updated_at=now()
-    RETURNING id`;
-  const marketId = rows[0].id;
+  const existing = await db<Array<{ id: string }>>`
+    SELECT id FROM bet_markets
+    WHERE event_id=${eventId} AND (
+      normalized_key=${market.normalizedKey}
+      OR (
+        provider_market_id=${market.providerMarketId}
+        AND side=${market.side}
+        AND line_key=coalesce(${market.line}::numeric, -999999::numeric)
+      )
+    )
+    LIMIT 1`;
+  let marketId = existing[0]?.id;
+  if (marketId) {
+    await db`
+      UPDATE bet_markets SET market_type=${market.marketType}, stat_id=${market.statId},
+        entity_id=${market.entityId}, player_id=${market.playerId}, team_id=${market.teamId},
+        period=${market.period}, is_alt_line=${market.isAltLine},
+        provider_market_name=${market.providerMarketName},
+        normalization_status=${market.normalizationStatus},
+        raw_provider_metadata=${db.json(JSON.parse(JSON.stringify(market.rawProviderMetadata)))},
+        updated_at=now()
+      WHERE id=${marketId}`;
+  } else {
+    const rows = await db<Array<{ id: string }>>`
+      INSERT INTO bet_markets (event_id, provider_market_id, market_type, stat_id, entity_id, player_id, team_id, period, side, line, normalized_key, is_alt_line, provider_market_name, normalization_status, raw_provider_metadata)
+      VALUES (${eventId}, ${market.providerMarketId}, ${market.marketType}, ${market.statId}, ${market.entityId}, ${market.playerId}, ${market.teamId}, ${market.period}, ${market.side}, ${market.line}, ${market.normalizedKey}, ${market.isAltLine}, ${market.providerMarketName}, ${market.normalizationStatus}, ${db.json(JSON.parse(JSON.stringify(market.rawProviderMetadata)))})
+      RETURNING id`;
+    marketId = rows[0].id;
+  }
   for (const price of market.prices) {
     await db`
       INSERT INTO sportsbook_prices (market_id, sportsbook, provider_selection_id, provider_market_id, provider_event_id, odds, line, available, deeplink, updated_at)
@@ -95,7 +116,7 @@ export async function getLocalEventMarkets(
   } = {},
 ) {
   const db = authDb();
-  return db`
+  const rows = await db`
     SELECT m.id, m.market_type AS "marketType", m.stat_id AS "statId", m.entity_id AS "entityId",
       m.player_id AS "playerId", pm.provider_name AS "playerName", m.team_id AS "teamId", m.period, m.side, m.line,
       m.normalized_key AS "normalizedKey", m.is_alt_line AS "isAltLine",
@@ -111,6 +132,7 @@ export async function getLocalEventMarkets(
       AND (${filters.minLine ?? null}::numeric IS NULL OR m.line >= ${filters.minLine ?? null})
       AND (${filters.maxLine ?? null}::numeric IS NULL OR m.line <= ${filters.maxLine ?? null})
     ORDER BY m.market_type, m.line, p.sportsbook`;
+  return rows.filter((row) => visibleSportsbooks.has(String(row.sportsbook)));
 }
 
 export async function findLocalOddsEvent(homeTeamId: string, awayTeamId: string, season: number) {

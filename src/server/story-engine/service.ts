@@ -7,7 +7,7 @@ import {
   registeredSourceIntervalSeconds,
 } from '@/features/story-engine/config';
 import { evaluateMaterialChange } from '@/features/story-engine/material-change';
-import { normalizeRawItem } from '@/features/story-engine/normalization';
+import { isLikelyEnglishContent, normalizeRawItem } from '@/features/story-engine/normalization';
 import {
   GroundedDeterministicStorySynthesizer,
   configuredStorySynthesizer,
@@ -180,6 +180,9 @@ export async function processSource(
         )
       : result.items;
     for (const raw of eligibleItems) {
+      // Full-page text can contain bilingual navigation or unrelated modules. The headline and
+      // feed excerpt are the authored story copy and are the reliable language signal.
+      if (!isLikelyEnglishContent(`${raw.title} ${raw.excerpt}`)) continue;
       const candidate = normalizeRawItem(raw, source);
       if (options.teamId && !candidate.candidateTeams.includes(options.teamId)) continue;
       const id = await repo.saveCandidate(candidate);

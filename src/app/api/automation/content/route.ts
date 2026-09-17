@@ -1,4 +1,4 @@
-import { timingSafeEqual } from 'node:crypto';
+import { automationAuthError, equalSecret } from '@/server/content-automation/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { drainJobs, scheduleDueSources } from '@/server/story-engine/service';
@@ -9,13 +9,6 @@ import { GroundedDeterministicStorySynthesizer } from '@/features/story-engine/s
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
-
-const equalSecret = (actual: string | null, expected?: string) => {
-  if (!actual || !expected) return false;
-  const left = Buffer.from(actual);
-  const right = Buffer.from(expected);
-  return left.length === right.length && timingSafeEqual(left, right);
-};
 
 const safeJobFailure = (value: unknown) => {
   const message = String(value ?? '');
@@ -33,13 +26,9 @@ const safeJobFailure = (value: unknown) => {
 };
 
 export async function POST(request: NextRequest) {
-  if (
-    !equalSecret(
-      request.headers.get('authorization'),
-      `Bearer ${process.env.CONTENT_AUTOMATION_SECRET ?? ''}`,
-    )
-  )
-    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
+  const authError = automationAuthError(request.headers.get('authorization'));
+  if (authError)
+    return NextResponse.json({ ok: false, ...authError }, { status: authError.status });
 
   const manualOverride =
     request.headers.get('x-content-automation-manual') === 'true' &&

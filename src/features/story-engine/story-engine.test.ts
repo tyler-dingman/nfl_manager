@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { nextCheckAfterFailure, nextCheckAfterSuccess } from './config';
 import { parseRssOrAtom } from './rss';
-import { canonicalizeUrl, normalizeRawItem } from './normalization';
+import { canonicalizeUrl, isLikelyEnglishContent, normalizeRawItem } from './normalization';
 import { findCandidateStory } from './clustering';
 import { evaluateMaterialChange } from './material-change';
 import type { RegisteredSource, StoryRecord } from './types';
@@ -45,6 +45,30 @@ test('RSS parser and normalizer produce stable candidates', () => {
   assert.deepEqual(candidate.candidateTeams, ['KC']);
   assert.equal(candidate.url, 'https://chiefs.example/a');
   assert.equal(canonicalizeUrl('https://x.test/a?ref=y'), 'https://x.test/a');
+});
+test('language guard rejects Spanish stories before candidate creation', () => {
+  assert.equal(
+    isLikelyEnglishContent(
+      'Chicago Bears dan inicio al Mes de la Herencia Latina reconociendo a líderes juveniles. Los Bears se enorgullecen de celebrar la cultura y las contribuciones de las comunidades latinas.',
+    ),
+    false,
+  );
+  assert.equal(
+    isLikelyEnglishContent(
+      'Chicago Bears begin Week 1 preparations with a full practice and updates from the coaching staff.',
+    ),
+    true,
+  );
+  assert.equal(
+    isLikelyEnglishContent(
+      'Klint Kubiak, Las Vegas Raiders new coaching staff produces immediate results in Week 1.',
+    ),
+    true,
+  );
+  assert.equal(
+    isLikelyEnglishContent('Safety Jevón Holland makes a sliding interception in Week 1.'),
+    true,
+  );
 });
 test('aggregator headlines outrank unrelated team mentions in feed descriptions', () => {
   const aggregator: RegisteredSource = {

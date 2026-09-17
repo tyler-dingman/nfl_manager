@@ -17,6 +17,7 @@ import {
 import { useMemo, useState } from 'react';
 import type { Sportsbook } from '@/server/odds/sportsbooks';
 import PlayerAvatar from './PlayerAvatar';
+import { estimateParlayOdds } from './parlay-odds';
 import { rankSportsbookFits } from './sportsbook-fit';
 import styles from './my-parlay-panel.module.css';
 
@@ -80,7 +81,7 @@ const SportsbookLogo = ({ id, featured = false }: { id: Sportsbook; featured?: b
       className={`${styles.bookLogoFallback} ${featured ? styles.bookLogoFeatured : ''}`}
       aria-hidden="true"
     >
-      {id === 'BET365' ? '365' : id.slice(0, 2)}
+      {id.slice(0, 2)}
     </span>
   );
 };
@@ -161,6 +162,13 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
   const bookLink = best
     ? (props.buildBookLink(bookMarkets, best.sportsbook.id) ?? best.sportsbook.url)
     : null;
+  const displayedLegOdds = props.legs.map(
+    (leg) =>
+      props.markets.find(
+        (market) => market.id === leg.id && market.sportsbook === best?.sportsbook.id,
+      )?.odds ?? leg.odds,
+  );
+  const estimatedTotalOdds = estimateParlayOdds(displayedLegOdds);
   const text = [
     "I've been cooking up parlays in the lab",
     '',
@@ -337,7 +345,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
               name={leg.playerName}
               headshotUrl={leg.headshotUrl}
               teamColor={props.avatarColor?.(leg)}
-              size={34}
+              size={30}
             />
             <div>
               <strong>{leg.playerName ?? leg.teamId}</strong>
@@ -366,6 +374,13 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
           </article>
         ))}
       </div>
+      <section className={styles.totalOdds} aria-label="Estimated total parlay odds">
+        <div>
+          <small>Estimated Total Odds</small>
+          <span>{props.legs.length} leg parlay</span>
+        </div>
+        <strong>{odds(estimatedTotalOdds)}</strong>
+      </section>
       <section className={styles.lab}>
         <div className={styles.sectionTitle}>
           <FlaskConical />

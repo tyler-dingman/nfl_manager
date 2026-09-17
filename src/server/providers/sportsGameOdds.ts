@@ -2,8 +2,17 @@ const BASE_URL = 'https://api.sportsgameodds.com/v2';
 const DEFAULT_MONTHLY_OBJECT_CEILING = 1_000;
 const DEFAULT_RUN_REQUEST_CEILING = 2;
 // This only affects the next explicitly run import; loading Parlay Lab never calls the provider.
-const BOOKMAKER_IDS =
-  process.env.SPORTSGAMEODDS_BOOKMAKER_IDS ?? 'fanduel,draftkings,betmgm,caesars';
+const SUPPORTED_BOOKMAKER_IDS = ['fanduel', 'draftkings', 'betmgm', 'caesars'] as const;
+const requestedBookmakers = (
+  process.env.SPORTSGAMEODDS_BOOKMAKER_IDS ?? SUPPORTED_BOOKMAKER_IDS.join(',')
+)
+  .split(',')
+  .map((id) => id.trim().toLowerCase());
+// Keep provider requests aligned with the books presented in Parlay Lab, even
+// if a stale environment value still contains a previously supported book.
+const BOOKMAKER_IDS = SUPPORTED_BOOKMAKER_IDS.filter((id) => requestedBookmakers.includes(id)).join(
+  ',',
+);
 
 export type SportsGameOddsBookLine = {
   odds?: string | number;

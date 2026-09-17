@@ -20,6 +20,24 @@ export type OverviewPlayer = {
   rating?: number | null;
   maddenRating?: number | null;
   baselineRating?: number | null;
+  age?: number | null;
+  contractYearsRemaining?: number | null;
+};
+
+export type TeamNeedLevel = 'High' | 'Moderate' | 'Low';
+
+export type TeamNeedAnalysis = {
+  position: TeamNeed;
+  score: number;
+  level: TeamNeedLevel;
+  rank: number;
+  starters: number;
+  requiredStarters: number;
+  keyDepth: number;
+  averageAge: number | null;
+  expiringContracts: number;
+  starterAverage: number | null;
+  factors: Array<'starter quality' | 'depth' | 'age' | 'contract outlook'>;
 };
 
 type OverviewBucket =
@@ -51,6 +69,7 @@ type NeedGroup = {
   label: TeamNeed;
   buckets: OverviewBucket[];
   starterCount: number;
+  depthCount: number;
 };
 
 const STARTER_SLOTS: WeightedSlot[] = [
@@ -86,17 +105,17 @@ const OFFENSE_BUCKETS = new Set<OverviewBucket>([
 const DEFENSE_BUCKETS = new Set<OverviewBucket>(['EDGE', 'DL', 'LB', 'CB', 'S']);
 const SPECIAL_TEAMS_BUCKETS = new Set<OverviewBucket>(['K', 'P']);
 const NEED_GROUPS: NeedGroup[] = [
-  { label: 'QB', buckets: ['QB'], starterCount: 1 },
-  { label: 'RB', buckets: ['RB'], starterCount: 2 },
-  { label: 'WR', buckets: ['WR'], starterCount: 3 },
-  { label: 'TE', buckets: ['TE'], starterCount: 1 },
-  { label: 'OT', buckets: ['LT', 'RT'], starterCount: 2 },
-  { label: 'IOL', buckets: ['LG', 'C', 'RG'], starterCount: 3 },
-  { label: 'EDGE', buckets: ['EDGE'], starterCount: 2 },
-  { label: 'DL', buckets: ['DL'], starterCount: 2 },
-  { label: 'LB', buckets: ['LB'], starterCount: 3 },
-  { label: 'CB', buckets: ['CB'], starterCount: 3 },
-  { label: 'S', buckets: ['S'], starterCount: 2 },
+  { label: 'QB', buckets: ['QB'], starterCount: 1, depthCount: 1 },
+  { label: 'RB', buckets: ['RB'], starterCount: 2, depthCount: 2 },
+  { label: 'WR', buckets: ['WR'], starterCount: 3, depthCount: 2 },
+  { label: 'TE', buckets: ['TE'], starterCount: 1, depthCount: 2 },
+  { label: 'OT', buckets: ['LT', 'RT'], starterCount: 2, depthCount: 2 },
+  { label: 'IOL', buckets: ['LG', 'C', 'RG'], starterCount: 3, depthCount: 2 },
+  { label: 'EDGE', buckets: ['EDGE'], starterCount: 2, depthCount: 2 },
+  { label: 'DL', buckets: ['DL'], starterCount: 2, depthCount: 2 },
+  { label: 'LB', buckets: ['LB'], starterCount: 3, depthCount: 2 },
+  { label: 'CB', buckets: ['CB'], starterCount: 3, depthCount: 2 },
+  { label: 'S', buckets: ['S'], starterCount: 2, depthCount: 2 },
 ];
 const MISSING_STARTER_RATING = 55;
 
@@ -282,39 +301,80 @@ export const computeTeamOverview = (players: OverviewPlayer[]): TeamOverview => 
   };
 };
 
-export const computeTeamNeeds = (players: OverviewPlayer[], count = 3): TeamNeed[] => {
-  const { groupedRatings } = buildGroupedRatings(players);
+const needLevel = (score: number): TeamNeedLevel =>
+  score >= 75 ? 'High' : score >= 50 ? 'Moderate' : 'Low';
 
-  return NEED_GROUPS.map((group) => {
-    const starterRatings = group.buckets
-      .flatMap((bucket) => groupedRatings.get(bucket) ?? [])
-      .sort((a, b) => b - a)
-      .slice(0, group.starterCount);
+/**
+ * Shared, deterministic roster-needs model.
+ * Score weights: starter quality/coverage 47%, playable depth 25%, contracts 15%, age 13%.
+ * Unknown ratings use a neutral replacement value; they are not treated as zero-quality players.
+ */
+export const analyzeTeamNeeds = (players: OverviewPlayer[]): TeamNeedAnalysis[] => {
+  const results = NEED_GROUPS.map((group) => {
+    const groupPlayers = players
+      .filter((player) => group.buckets.includes(normalizeOverviewPosition(player.position)))
+      .map((player) => ({ ...player, resolvedRating: resolvePlayerRating(player) }))
+      .sort((left, right) => (right.resolvedRating ?? 72) - (left.resolvedRating ?? 72));
+    const starters = groupPlayers.slice(0, group.starterCount);
+    const starterRatings = starters.map((player) => player.resolvedRating ?? 72);
+    const missingStarters = Math.max(0, group.starterCount - starters.length);
+    const starterAverage = average(starterRatings);
+    const qualityGap = Math.max(0, (78 - (starterAverage ?? MISSING_STARTER_RATING)) / 23);
+    const coverageGap = missingStarters / group.starterCount;
+    const starterPressure = Math.min(1, qualityGap + coverageGap * 0.65);
 
-    const paddedRatings = [
-      ...starterRatings,
-      ...Array.from(
-        { length: Math.max(0, group.starterCount - starterRatings.length) },
-        () => MISSING_STARTER_RATING,
+    const depth = groupPlayers.slice(group.starterCount);
+    const playableDepth = depth.filter((player) => (player.resolvedRating ?? 72) >= 68).length;
+    const depthPressure = Math.max(0, group.depthCount - playableDepth) / group.depthCount;
+    const expiringContracts = groupPlayers.filter(
+      (player) =>
+        typeof player.contractYearsRemaining === 'number' && player.contractYearsRemaining <= 1,
+    ).length;
+    const contractPressure = groupPlayers.length
+      ? Math.min(1, expiringContracts / Math.max(1, group.starterCount))
+      : 1;
+    const validAges = groupPlayers
+      .map((player) => player.age)
+      .filter((age): age is number => typeof age === 'number' && Number.isFinite(age));
+    const averageAge = average(validAges);
+    const starterAges = starters
+      .map((player) => player.age)
+      .filter((age): age is number => typeof age === 'number' && Number.isFinite(age));
+    const starterAge = average(starterAges);
+    const agePressure = starterAge === null ? 0 : Math.max(0, Math.min(1, (starterAge - 27) / 7));
+    const score = Math.round(
+      Math.max(
+        0,
+        Math.min(
+          100,
+          starterPressure * 47 + depthPressure * 25 + contractPressure * 15 + agePressure * 13,
+        ),
       ),
-    ];
-
-    const needScore = average(paddedRatings) ?? MISSING_STARTER_RATING;
-    const weakestStarter = paddedRatings[paddedRatings.length - 1] ?? MISSING_STARTER_RATING;
-
+    );
+    const factors: TeamNeedAnalysis['factors'] = [];
+    if (starterPressure >= 0.3) factors.push('starter quality');
+    if (depthPressure >= 0.5) factors.push('depth');
+    if (agePressure >= 0.35) factors.push('age');
+    if (contractPressure >= 0.34) factors.push('contract outlook');
     return {
-      label: group.label,
-      needScore,
-      weakestStarter,
-      filledStarters: starterRatings.length,
-    };
-  })
-    .sort((a, b) => {
-      if (a.needScore !== b.needScore) return a.needScore - b.needScore;
-      if (a.weakestStarter !== b.weakestStarter) return a.weakestStarter - b.weakestStarter;
-      if (a.filledStarters !== b.filledStarters) return a.filledStarters - b.filledStarters;
-      return a.label.localeCompare(b.label);
-    })
-    .slice(0, count)
-    .map((entry) => entry.label);
+      position: group.label,
+      score,
+      level: needLevel(score),
+      rank: 0,
+      starters: starters.length,
+      requiredStarters: group.starterCount,
+      keyDepth: playableDepth,
+      averageAge: averageAge === null ? null : Number(averageAge.toFixed(1)),
+      expiringContracts,
+      starterAverage: starterAverage === null ? null : Number(starterAverage.toFixed(1)),
+      factors,
+    } satisfies TeamNeedAnalysis;
+  }).sort((left, right) => right.score - left.score || left.position.localeCompare(right.position));
+
+  return results.map((result, index) => ({ ...result, rank: index + 1 }));
 };
+
+export const computeTeamNeeds = (players: OverviewPlayer[], count = 3): TeamNeed[] =>
+  analyzeTeamNeeds(players)
+    .slice(0, count)
+    .map((entry) => entry.position);

@@ -8,6 +8,19 @@ async function main() {
       return [key, value ?? 'true'];
     }),
   );
+  const production = args.database === 'production';
+  if (production) {
+    if (args['confirm-production'] !== 'true') {
+      throw new Error(
+        'Production import refused. Add --database=production --confirm-production after reviewing the audit.',
+      );
+    }
+    if (!process.env.PRODUCTION_DATABASE_URL) {
+      throw new Error('PRODUCTION_DATABASE_URL is required');
+    }
+    process.env.DATABASE_URL = process.env.PRODUCTION_DATABASE_URL;
+  }
+  console.log(`Environment: ${production ? 'production' : 'local'}`);
   const seasons = String(args.seasons ?? args.season ?? '2024,2025')
     .split(',')
     .map(Number)

@@ -16,7 +16,7 @@
   font-size: 0.78rem;
 }
 .heading nav a:hover {
-  color: #ed1535;
+  color: var(--fo-interactive-text);
 }
 .heading h1 {
   margin: 0.25rem 0 0;
@@ -69,8 +69,8 @@
   background: #dfe3e8;
 }
 .tabs .activeTab {
-  background: #ed1535;
-  color: #fff;
+  background: var(--fo-interactive);
+  color: var(--fo-interactive-fg);
 }
 .layout {
   display: grid;
@@ -186,7 +186,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  color: #ed1535;
+  color: var(--fo-interactive-text);
   font-size: 0.65rem;
   font-weight: 850;
 }

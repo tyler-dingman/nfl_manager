@@ -1,4 +1,5 @@
 import AppShell from '@/components/app-shell';
+import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
 import { CapSpaceTable, type CapSpaceRow } from '@/components/cap-space-table';
 import { TEAM_LIST } from '@/data/teams';
 
@@ -314,14 +315,13 @@ export default function CapSpacePage() {
 
   return (
     <AppShell>
-      <div className="mb-6">
-        <h1 className="dd-home-hero-display text-2xl text-foreground">NFL Cap Space Leaderboard</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Effective cap space includes top-51 rule adjustments.
-        </p>
-      </div>
+      <FrontOfficeStrategicHero
+        section="Cap Space"
+        title="Cap Space"
+        description="Manage commitments, compare flexibility, and plan your next roster move."
+      />
 
-      <div className="space-y-8">
+      <div className="space-y-8 pt-6">
         <section>
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground">Cap Space Available</h2>

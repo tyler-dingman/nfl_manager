@@ -26,5 +26,5 @@ test('coverage wins first and stored price quality breaks ties', () => {
 test('returns configured books even when none match', () => {
   const fits = rankSportsbookFits([market('a', 'FANDUEL', -110)], []);
   assert.equal(fits[0].matchedLegs, 0);
-  assert.ok(fits.length >= 5);
+  assert.equal(fits.length, 4);
 });

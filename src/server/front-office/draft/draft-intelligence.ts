@@ -1,4 +1,4 @@
-import { computeTeamNeeds, normalizeOverviewPosition } from '@/lib/team-overview';
+import { analyzeTeamNeeds, normalizeOverviewPosition } from '@/lib/team-overview';
 import { getTradableDraftPicksForTeam, type SaveState } from '@/server/api/store';
 import type { DraftProspectRecord } from '@/server/data/draft-prospects';
 import type { FranchiseSimulationState } from '@/types/front-office';
@@ -29,6 +29,17 @@ const gradeFor = (prospect: DraftProspectRecord) => {
   return Number.isFinite(parsed)
     ? clamp(parsed, 55, 99)
     : clamp(96 - ((prospect.ranking ?? 150) - 1) * 0.27, 60, 96);
+};
+const toNeedPosition = (position: string) => {
+  const raw = position.trim().toUpperCase();
+  if (['OT', 'T', 'LT', 'RT'].includes(raw)) return 'OT';
+  if (['IOL', 'G', 'LG', 'RG', 'C'].includes(raw)) return 'IOL';
+  const normalized = normalizeOverviewPosition(raw);
+  return normalized === 'LT' || normalized === 'RT'
+    ? 'OT'
+    : normalized === 'LG' || normalized === 'RG' || normalized === 'C'
+      ? 'IOL'
+      : normalized;
 };
 
 export function buildWeeklyProspectRankings(input: {
@@ -79,12 +90,13 @@ export function buildDraftCentralIntelligence(input: {
   prospects: DraftProspectRecord[];
   teamAbbr: string;
 }) {
-  const week = input.simulation?.currentWeek ?? 1;
+  const week = Math.max(1, input.simulation?.currentWeek ?? 1);
   const season = input.simulation?.season ?? input.state.header.year;
   const draftYear = season + 1;
   const seed = input.simulation?.seed ?? `${input.state.header.id}:${draftYear}`;
   const prospects = buildWeeklyProspectRankings({ prospects: input.prospects, seed, week });
-  const needs = computeTeamNeeds(input.state.roster, 6);
+  const needAnalysis = analyzeTeamNeeds(input.state.roster);
+  const needs = needAnalysis.slice(0, 6).map((need) => need.position);
   const draftOrder = input.simulation?.draftOrder ?? [];
   const projectedSlot = Math.max(1, draftOrder.indexOf(input.teamAbbr) + 1 || 16);
   const picks = getTradableDraftPicksForTeam(input.state, input.teamAbbr).map((pick) => ({
@@ -93,27 +105,21 @@ export function buildDraftCentralIntelligence(input: {
   }));
   const fits = prospects
     .map((prospect) => {
-      const position = normalizeOverviewPosition(prospect.position ?? '');
+      const position = toNeedPosition(prospect.position ?? '');
       const needIndex = needs.indexOf(position as (typeof needs)[number]);
       const needFitScore = needIndex < 0 ? 28 : 95 - needIndex * 9;
       const availabilityDistance = Math.min(Math.abs(prospect.currentRank - projectedSlot), 35);
       const availabilityScore = clamp(100 - availabilityDistance * 3, 10, 100);
-      const schemeFitScore = 58 + (hash(`${seed}:${prospect.id}:scheme`) % 38);
       const overallFitScore =
-        needFitScore * 0.4 +
-        prospect.scoutGrade * 0.25 +
-        schemeFitScore * 0.2 +
-        availabilityScore * 0.15;
-      return { ...prospect, needFitScore, availabilityScore, schemeFitScore, overallFitScore };
+        needFitScore * 0.4 + prospect.scoutGrade * 0.35 + availabilityScore * 0.25;
+      return { ...prospect, needFitScore, availabilityScore, overallFitScore };
     })
     .sort((a, b) => b.overallFitScore - a.overallFitScore);
   const news = prospects
-    .filter(
-      (prospect) => Math.abs(prospect.rankingTrend) >= 2 || Math.abs(prospect.momentumScore) >= 18,
-    )
+    .filter((prospect) => Math.abs(prospect.rankingTrend) >= 2)
     .slice(0, 8)
     .map((prospect, index) => {
-      const rising = prospect.rankingTrend >= 0;
+      const rising = prospect.rankingTrend > 0;
       return {
         id: `draft-${season}-${week}-${prospect.id}-${rising ? 'rise' : 'fall'}`,
         prospectId: prospect.id,
@@ -126,5 +132,44 @@ export function buildDraftCentralIntelligence(input: {
           : `${prospect.name} has slipped ${Math.abs(prospect.rankingTrend)} spots as the scouting picture develops.`,
       };
     });
-  return { week, season, draftYear, projectedSlot, needs, picks, prospects, fits, news };
+  const recommendations = needAnalysis.slice(0, 5).map((need, index) => {
+    const positionProspects = prospects.filter(
+      (prospect) => toNeedPosition(prospect.position ?? '') === need.position,
+    );
+    const nearestProspect = positionProspects.sort(
+      (left, right) =>
+        Math.abs(left.currentRank - projectedSlot) - Math.abs(right.currentRank - projectedSlot),
+    )[0];
+    const weakDepth = need.keyDepth < Math.max(1, need.requiredStarters - 1);
+    const round = nearestProspect
+      ? Math.max(1, Math.min(7, Math.ceil(nearestProspect.currentRank / 32)))
+      : 1;
+    const title =
+      need.level === 'High' && index === 0
+        ? `Address ${need.position} Early`
+        : weakDepth
+          ? `Add ${need.position} Depth`
+          : need.level === 'Low'
+            ? `Monitor ${need.position} Value`
+            : `Look for ${need.position} Value in Round ${round}`;
+    const detail = weakDepth
+      ? `The current ${need.position} group needs more playable depth behind its projected starters.`
+      : nearestProspect
+        ? `${nearestProspect.name} is the nearest-ranked ${need.position} prospect to your projected selection range.`
+        : `${need.position} remains a roster priority based on current quality and contract outlook.`;
+    return { position: need.position, title, detail, round };
+  });
+  return {
+    week,
+    season,
+    draftYear,
+    projectedSlot,
+    needs,
+    needAnalysis,
+    recommendations,
+    picks,
+    prospects,
+    fits,
+    news,
+  };
 }

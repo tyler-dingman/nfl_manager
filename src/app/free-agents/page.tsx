@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calculator, Search, Target, WalletCards } from 'lucide-react';
 
 import AppShell from '@/components/app-shell';
 import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
+import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
 import ContractOfferModal, { type OfferResponse } from '@/components/contract-offer-modal';
 import PlayerDetailsModal from '@/components/player-details-modal';
@@ -415,18 +415,9 @@ export default function FreeAgentsPage() {
       <FrontOfficePageHeader
         title="Free Agency"
         strapline="Find talent. Create opportunity."
-        description={
-          phase === 'free_agency'
-            ? 'Build your target list and negotiate with the full offseason market.'
-            : 'Scout the available in-season player pool and prepare future targets.'
-        }
-        tools={[
-          { label: 'Advanced Search', icon: Search },
-          { label: 'My Targets', icon: Target, onClick: () => setActiveTab('userSigned') },
-          { label: 'Cap Space Manager', href: '/cap-space', icon: WalletCards },
-          { label: 'Compensation Calculator', icon: Calculator, disabled: true },
-        ]}
+        description="Find available talent, compare value, and strengthen your roster."
       />
+      <FrontOfficeSectionNav section="roster" />
       <PlayerTable
         data={players}
         variant="freeAgent"

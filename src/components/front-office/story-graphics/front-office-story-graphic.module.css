@@ -1,0 +1,421 @@
+.root {
+  --school-primary: #b8c1cc;
+  --school-secondary: #f4f6f8;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #ffffff16;
+  border-radius: 0.4rem;
+  background: radial-gradient(ellipse at top right, #10181d 0%, #050b0e 70%);
+  color: var(--fo-text, #f4f6f8);
+  font-family: var(--font-sans), sans-serif;
+}
+.hero,
+.article {
+  grid-template-columns: minmax(0, 1.6fr) minmax(7rem, 0.8fr);
+  padding: 1rem;
+  min-height: 0;
+}
+.card {
+  grid-template-columns: minmax(0, 1.5fr) minmax(5rem, 0.7fr);
+  padding: 0.95rem;
+  min-height: 0;
+}
+.compact {
+  grid-template-columns: minmax(0, 1fr) 3.5rem;
+  padding: 0.8rem;
+  min-height: 7.5rem;
+}
+.article {
+  min-height: 22rem;
+  padding: 1.5rem;
+}
+.copy {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+  color: #f4f6f8;
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+.eyebrow span {
+  padding: 0.38rem 0.55rem;
+  border-radius: 0.2rem;
+  border: 1px solid color-mix(in srgb, var(--school-primary) 60%, #ffffff35);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--school-primary) 72%, #071015),
+    color-mix(in srgb, var(--school-primary) 54%, #05080b)
+  );
+}
+.eyebrow img {
+  width: 1.8rem;
+  height: 1.8rem;
+  object-fit: contain;
+}
+.root h3 {
+  max-width: 35rem;
+  margin: 0.55rem 0 0.28rem;
+  font-family: var(--font-headline), sans-serif;
+  font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+  font-weight: 950;
+  letter-spacing: -0.025em;
+  line-height: 1.07;
+  color: var(--fo-text, #f4f6f8);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+.root p {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--fo-muted, #b8c1cc);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+.rank {
+  display: grid;
+  gap: 0.1rem;
+  margin-top: 0.28rem;
+}
+.movement {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--school-primary);
+}
+.movement .asset {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+}
+.movement strong {
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 950;
+  color: color-mix(in srgb, var(--school-primary) 75%, #fff);
+}
+.rankLabel {
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #dce4e9;
+}
+.rankPair {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.rankPair > div {
+  display: grid;
+  min-width: 4.8rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #ffffff20;
+  border-radius: 0.2rem;
+  background: linear-gradient(150deg, #24303970, #050a0e60);
+}
+.rankPair strong {
+  font-size: 0.95rem;
+  color: #fff;
+  line-height: 1.1;
+}
+.rankPair span {
+  color: #c3cdd5;
+  font-size: 0.43rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.rankPair > span {
+  font-size: 1.4rem;
+}
+.metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.7rem 0 0;
+}
+.metrics > div {
+  display: flex;
+  flex-direction: column-reverse;
+  border: 1px solid #ffffff24;
+  border-radius: 0.2rem;
+  background: #0a141a80;
+  padding: 0.4rem 0.55rem;
+}
+.metrics dt {
+  color: #c8d2dc;
+  font-size: 0.48rem;
+  text-transform: uppercase;
+}
+.metrics dd {
+  margin: 0 0 0.15rem;
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+.copy footer {
+  margin-top: 0.7rem;
+  color: #a5b2bf;
+  font-size: 0.55rem;
+}
+.art {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.1rem 0 1.2rem;
+  color: var(--school-primary);
+  pointer-events: none;
+}
+.asset {
+  display: block;
+  width: 100%;
+  height: auto;
+  flex-shrink: 0;
+  color: var(--school-primary);
+  pointer-events: none;
+}
+.primaryArtwork {
+  width: min(100%, 14rem);
+  margin: auto;
+}
+.storyIdentityLogo {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  z-index: 2;
+  width: min(54%, 6.5rem);
+  height: 4.5rem;
+  object-fit: contain;
+  opacity: 0.98;
+  filter: drop-shadow(0 4px 8px #000a);
+}
+.root[data-breaking='true']::before {
+  content: 'BREAKING';
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 5;
+  background: #d71920;
+  padding: 0.28rem 0.55rem;
+  color: #fff;
+  font-size: 0.48rem;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+}
+.heroIdentity {
+  width: min(90%, 11rem);
+  height: 6rem;
+  object-fit: contain;
+  --fo-logo-edge: 1px;
+}
+.identityText {
+  color: #d4dde4;
+  font-size: 1rem;
+  font-weight: 900;
+  text-align: center;
+  padding: 1rem 0;
+}
+.bars {
+  align-self: flex-end;
+  width: min(100%, 10rem);
+  max-height: 9rem;
+  opacity: 0.9;
+}
+.grain,
+.playbook,
+.ribbon {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+.grain {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.13;
+}
+.playbook {
+  top: 0;
+  right: 0;
+  width: 58%;
+  height: 100%;
+  opacity: 0.16;
+}
+.ribbon {
+  top: 0;
+  right: -7%;
+  width: 58%;
+  height: 100%;
+  opacity: 0.7;
+}
+.secondaryIdentity {
+  position: relative;
+  z-index: 3;
+  grid-column: 1 / -1;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ffffff22;
+  border-radius: 0.2rem;
+  background: #0b0d10cc;
+  padding: 0.25rem 0.45rem;
+  color: #d2dce5;
+  font-size: 0.6rem;
+}
+.secondaryIdentity img {
+  object-fit: contain;
+}
+.compact h3 {
+  margin: 0.35rem 0;
+  font-size: 1rem;
+}
+.compact p,
+.compact .rank,
+.compact .metrics,
+.compact footer {
+  display: none;
+}
+.compact .copy {
+  justify-content: center;
+}
+.compact .eyebrow {
+  font-size: 0.45rem;
+  gap: 0.3rem;
+}
+.compact .eyebrow span {
+  padding: 0.25rem 0.3rem;
+}
+.compact .eyebrow img {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.compact .art {
+  justify-content: center;
+}
+.compact .heroIdentity,
+.compact .identityText {
+  display: none;
+}
+.compact .bars {
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .hero,
+  .article {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 28%);
+    padding: 0.9rem;
+  }
+  .card {
+    grid-template-columns: minmax(0, 1fr) 4.5rem;
+  }
+  .root h3 {
+    font-size: 1.2rem;
+  }
+  .compact h3 {
+    font-size: 1rem;
+  }
+  .root p {
+    font-size: 0.68rem;
+  }
+  .heroIdentity {
+    height: 4.5rem;
+  }
+  .rankPair {
+    gap: 0.35rem;
+  }
+  .rankPair > div {
+    min-width: 3.5rem;
+    padding: 0.3rem;
+  }
+  .movement strong {
+    font-size: 1.65rem;
+  }
+  .movement .asset {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
+@media (forced-colors: active) {
+  .root,
+  .rankPair > div {
+    border: 1px solid CanvasText;
+  }
+  .art,
+  .grain,
+  .playbook,
+  .ribbon {
+    display: none;
+  }
+}
+
+/* Reference composition: compact copy at left, a single identity and bars at right. */
+.identityLine {
+  margin: 0.1rem 0 0.4rem;
+  color: #e0e7ed;
+  font-size: 0.59rem;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.storyAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.15rem;
+  padding: 0.36rem 0.6rem;
+  border: 1px solid #c0cbd180;
+  border-radius: 0.2rem;
+  background: linear-gradient(135deg, #23303944, #03070a55);
+  color: #f4f6f8;
+  font-size: 0.65rem;
+  font-weight: 750;
+  line-height: 1.15;
+}
+.compact .identityLine,
+.compact .storyAction {
+  display: none;
+}
+.hero .copy footer,
+.card .copy footer {
+  margin-top: 0.4rem;
+  font-size: 0.48rem;
+}
+.root::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, #03090d55, transparent 70%);
+}
+
+/* Preserve the source logo colors; outline the alpha silhouette for dark cards. */
+.heroIdentity,
+.eyebrow img,
+.secondaryIdentity img {
+  filter: drop-shadow(var(--fo-logo-edge, 0.5px) 0 0 #edf3f7e6)
+    drop-shadow(calc(-1 * var(--fo-logo-edge, 0.5px)) 0 0 #edf3f7e6)
+    drop-shadow(0 var(--fo-logo-edge, 0.5px) 0 #edf3f7e6)
+    drop-shadow(0 calc(-1 * var(--fo-logo-edge, 0.5px)) 0 #edf3f7e6) drop-shadow(0 2px 3px #0009);
+}

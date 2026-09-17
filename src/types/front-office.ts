@@ -12,7 +12,8 @@ export type FrontOfficeEventType =
   | 'draft_buzz'
   | 'deadline_alert'
   | 'league_transaction'
-  | 'playoff_update';
+  | 'playoff_update'
+  | 'welcome_message';
 
 export type FrontOfficeEventPriority = 'low' | 'normal' | 'high' | 'urgent';
 

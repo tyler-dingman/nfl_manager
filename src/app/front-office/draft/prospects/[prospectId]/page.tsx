@@ -1,14 +1,20 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import AppShell from '@/components/app-shell';
+import { DraftExperienceHero } from '@/components/draft/draft-experience-hero';
 import { getDraftProspectsForYear } from '@/server/data/draft-prospects';
 export default function ProspectDetail({ params }: { params: { prospectId: string } }) {
   const prospect = getDraftProspectsForYear(2027).find((entry) => entry.id === params.prospectId);
   return (
     <AppShell>
-      <div className="mx-auto max-w-5xl">
+      <DraftExperienceHero
+        title="Position Rankings"
+        description="Compare the draft class by position, grade, and projected value."
+        active="position-rankings"
+      />
+      <div className="mx-auto max-w-5xl pt-4">
         <Link
-          className="mb-5 inline-flex items-center gap-2 text-sm font-bold text-red-600"
+          className="mb-5 inline-flex items-center gap-2 text-sm font-bold text-[var(--fo-interactive-text)]"
           href="/front-office/draft/prospects"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -17,12 +23,12 @@ export default function ProspectDetail({ params }: { params: { prospectId: strin
         {prospect ? (
           <>
             <header className="rounded-lg border bg-white p-6">
-              <p className="text-xs font-black uppercase tracking-[.2em] text-red-600">
+              <p className="text-xs font-black uppercase tracking-[.2em] text-[var(--fo-interactive-text)]">
                 Rank #{prospect.ranking} · {prospect.projectedRange}
               </p>
-              <h1 className="mt-2 font-[var(--font-headline)] text-5xl font-black uppercase">
+              <h2 className="mt-2 font-[var(--font-headline)] text-5xl font-black uppercase">
                 {prospect.name}
-              </h1>
+              </h2>
               <p className="mt-2 text-slate-600">
                 {prospect.position} · {prospect.school} · {prospect.height ?? '—'} ·{' '}
                 {prospect.weight ? `${prospect.weight} lbs` : '—'} · Age {prospect.age ?? '—'}

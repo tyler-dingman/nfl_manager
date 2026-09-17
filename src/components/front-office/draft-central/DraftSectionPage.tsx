@@ -1,16 +1,24 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import AppShell from '@/components/app-shell';
+import {
+  DraftExperienceHero,
+  type DraftExperienceNavKey,
+} from '@/components/draft/draft-experience-hero';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
+import type { TeamNeedAnalysis } from '@/lib/team-overview';
+import { TeamNeedsPage } from './TeamNeedsPage';
 import styles from './draft-central.module.css';
 
 type Data = {
   draftYear: number;
   week: number;
   needs: string[];
+  needAnalysis: TeamNeedAnalysis[];
+  recommendations: Array<{ position: string; title: string; detail: string; round: number }>;
   prospects: Array<{
     id: string;
     name: string;
@@ -42,15 +50,13 @@ type Data = {
 };
 const copy: Record<string, [string, string]> = {
   'team-needs': ['Team Needs', 'Understand the roster gaps that should shape your draft strategy.'],
-  'mock-drafts': [
-    'Mock Drafts',
-    'See how prospect rankings, team needs, and projected availability could shape the board.',
-  ],
-  history: ['Draft History', 'Review the players and picks made in prior franchise drafts.'],
-  scouting: [
-    'Scouting Reports',
-    'Generated scout intelligence without repetitive scouting chores.',
-  ],
+  history: ['My Drafts', 'Review the players and picks made in prior franchise drafts.'],
+  scouting: ['Draft Guide', 'Generated scout intelligence without repetitive scouting chores.'],
+};
+const activeKeys: Record<string, DraftExperienceNavKey> = {
+  'team-needs': 'team-needs',
+  history: 'my-drafts',
+  scouting: 'draft-guide',
 };
 export function DraftSectionPage({ section }: { section: string }) {
   const saveId = useSaveStore((state) => state.saveId);
@@ -65,53 +71,16 @@ export function DraftSectionPage({ section }: { section: string }) {
   const heading = copy[section] ?? copy.scouting;
   return (
     <AppShell>
+      <DraftExperienceHero
+        title={heading[0]}
+        description={heading[1]}
+        active={activeKeys[section] ?? 'draft-guide'}
+      />
       <div className={styles.sectionPage}>
-        <Link href="/front-office/draft">
-          <ArrowLeft /> Back to Draft Central
-        </Link>
-        <header>
-          <h1>{heading[0]}</h1>
-          <p>{heading[1]}</p>
-        </header>
         {!data ? (
           <div className={styles.status}>Loading draft intelligence…</div>
         ) : section === 'team-needs' ? (
-          <div className={styles.sectionCards}>
-            {data.needs.map((need, index) => (
-              <section key={need}>
-                <b>{index < 2 ? 'High' : index < 4 ? 'Moderate' : 'Low'} need</b>
-                <h2>{need}</h2>
-                <p>
-                  Current roster strength, depth, age, and contract outlook place {need} at No.{' '}
-                  {index + 1} on your priority list.
-                </p>
-                <Link href={`/front-office/draft/prospects?position=${need}`}>
-                  View {need} prospects <ArrowRight />
-                </Link>
-              </section>
-            ))}
-          </div>
-        ) : section === 'mock-drafts' ? (
-          <section className={styles.mockBoard}>
-            <header>
-              <h2>Current team projection</h2>
-              <span>
-                {data.draftYear} · Week {data.week}
-              </span>
-            </header>
-            {data.fits.slice(0, 10).map((prospect, index) => (
-              <div key={prospect.id}>
-                <b>#{index + 1}</b>
-                <span>
-                  <strong>{prospect.name}</strong>
-                  <small>
-                    {prospect.position} · {prospect.school}
-                  </small>
-                </span>
-                <em>{Math.round(prospect.availabilityScore)}% available</em>
-              </div>
-            ))}
-          </section>
+          <TeamNeedsPage data={data} />
         ) : section === 'history' ? (
           <section className={styles.sectionEmpty}>
             <h2>No completed drafts yet</h2>

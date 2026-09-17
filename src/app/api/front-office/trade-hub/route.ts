@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
     .filter((transaction) => transaction.type === 'trade')
     .slice(-8)
     .reverse();
-  const simulationWeek = metadata.simulation?.currentWeek ?? 1;
+  const simulationWeek = Math.max(1, metadata.simulation?.currentWeek ?? 1);
   return NextResponse.json({
     ok: true,
     season: metadata.season,

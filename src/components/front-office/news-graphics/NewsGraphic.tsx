@@ -22,6 +22,7 @@ export type NewsGraphicTeam = {
   displayName: string;
   primaryColor: string;
   secondaryColor: string;
+  logoUrl?: string;
 };
 
 export type NewsGraphicProps = {

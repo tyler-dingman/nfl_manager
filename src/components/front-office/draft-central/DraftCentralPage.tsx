@@ -1,9 +1,11 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, BarChart3, Search, Target } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowRight, BarChart3, ClipboardList, Sparkles, Target } from 'lucide-react';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
+import { DraftNewsGraphic } from '@/components/front-office/story-graphics/FrontOfficeStoryGraphic';
+import { adaptDraftNewsGraphic } from '@/components/front-office/story-graphics/story-graphic-model';
 import styles from './draft-central.module.css';
 
 type Prospect = {
@@ -13,80 +15,94 @@ type Prospect = {
   school: string | null;
   height: string | null;
   weight: number | null;
-  age: number | null;
+  headshotUrl?: string | null;
+  schoolLogo?: string | null;
   currentRank: number;
+  priorRank: number;
   rankingTrend: number;
   scoutGrade: number;
   projectedPickLow: number;
   projectedPickHigh: number;
   needFitScore?: number;
-  schemeFitScore?: number;
+  availabilityScore?: number;
 };
-type DraftNews = {
-  id: string;
-  prospectId: string;
-  category: string;
-  headline: string;
-  summary: string;
-};
+type Pick = { id: string; year: number; round: number; displayOverall: number };
+type Need = { position: string; score: number; level: 'High' | 'Moderate' | 'Low' };
 type Data = {
   week: number;
-  season: number;
   draftYear: number;
   projectedSlot: number;
   needs: string[];
-  picks: Array<{ id: string; year: number; round: number; displayOverall: number }>;
+  needAnalysis: Need[];
+  recommendations: Array<{ position: string; title: string; detail: string }>;
+  picks: Pick[];
   prospects: Prospect[];
   fits: Prospect[];
-  news: DraftNews[];
+  news: Array<{
+    id: string;
+    prospectId: string;
+    category: string;
+    headline: string;
+    summary: string;
+  }>;
 };
-const tabs = [
-  ['Overview', '/front-office/draft'],
-  ['Prospects', '/front-office/draft/prospects'],
-  ['My Big Board', '/front-office/draft/big-board'],
-  ['Team Needs', '/front-office/draft/team-needs'],
-  ['Mock Drafts', '/front-office/draft/mock-drafts'],
-  ['Draft History', '/front-office/draft/history'],
-  ['Scouting Reports', '/front-office/draft/scouting'],
-] as const;
-const trend = (value: number) => (value > 0 ? `↑ +${value}` : value < 0 ? `↓ ${value}` : '—');
-function Avatar({ name }: { name: string }) {
+const Trend = ({ n }: { n: number }) => (
+  <i className={n > 0 ? styles.up : n < 0 ? styles.down : ''}>
+    {n > 0 ? `↑ ${n}` : n < 0 ? `↓ ${Math.abs(n)}` : '—'}
+  </i>
+);
+function Avatar({ p }: { p: Prospect }) {
   return (
-    <span className={styles.avatar}>
-      {name
-        .split(' ')
-        .map((word) => word[0])
-        .slice(0, 2)
-        .join('')}
+    <span
+      className={styles.avatar}
+      style={p.headshotUrl ? { backgroundImage: `url(${p.headshotUrl})` } : undefined}
+    >
+      {!p.headshotUrl &&
+        p.name
+          .split(' ')
+          .map((x) => x[0])
+          .slice(0, 2)
+          .join('')}
     </span>
   );
 }
-function Grade({ value }: { value: number }) {
-  return <b className={styles.grade}>{value}</b>;
+const Grade = ({ n }: { n: number }) => <b className={styles.grade}>{n}</b>;
+function Player({ p, note }: { p: Prospect; note?: string }) {
+  return (
+    <Link className={styles.playerRow} href={`/front-office/draft/prospects/${p.id}`}>
+      <Avatar p={p} />
+      <span>
+        <strong>{p.name}</strong>
+        <small>
+          {p.position} · {p.school}
+        </small>
+      </span>
+      {note ? <em>{note}</em> : <Grade n={p.scoutGrade} />}
+    </Link>
+  );
 }
+
 export function DraftCentralPage() {
-  const saveId = useSaveStore((state) => state.saveId);
-  const [data, setData] = useState<Data | null>(null);
-  const [query, setQuery] = useState('');
-  const [board, setBoard] = useState<string[]>([]);
-  const [error, setError] = useState('');
+  const saveId = useSaveStore((s) => s.saveId),
+    [data, setData] = useState<Data | null>(null),
+    [board, setBoard] = useState<string[]>([]),
+    [error, setError] = useState('');
   useEffect(() => {
     if (!saveId) return;
     let active = true;
     const load = async () => {
       try {
-        const response = await apiFetch(
-          `/api/front-office/draft-central?saveId=${encodeURIComponent(saveId)}`,
-        );
-        const payload = await response.json();
-        if (!response.ok) throw new Error(payload.error ?? 'Unable to load Draft Central.');
+        const r = await apiFetch(
+            `/api/front-office/draft-central?saveId=${encodeURIComponent(saveId)}`,
+          ),
+          p = await r.json();
+        if (!r.ok) throw new Error(p.error ?? 'Unable to load Draft Central.');
         if (active) {
-          setData(payload);
+          setData(p);
           setError('');
         }
-      } catch (reason) {
-        if (active)
-          setError(reason instanceof Error ? reason.message : 'Unable to load Draft Central.');
+      } catch (e) {
+        if (active) setError(e instanceof Error ? e.message : 'Unable to load Draft Central.');
       }
     };
     void load();
@@ -101,294 +117,444 @@ export function DraftCentralPage() {
       window.removeEventListener('front-office-simulation-advanced', load);
     };
   }, [saveId]);
-  const visible = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    if (!needle) return data;
-    return data
-      ? {
-          ...data,
-          prospects: data.prospects.filter((item) =>
-            `${item.name} ${item.position} ${item.school}`.toLowerCase().includes(needle),
-          ),
-          fits: data.fits.filter((item) =>
-            `${item.name} ${item.position} ${item.school}`.toLowerCase().includes(needle),
-          ),
-          news: data.news.filter((item) =>
-            `${item.headline} ${item.summary} ${item.category}`.toLowerCase().includes(needle),
-          ),
-        }
-      : null;
-  }, [data, query]);
   if (error) return <div className={styles.status}>{error}</div>;
-  if (!visible) return <div className={styles.status}>Loading Draft Central…</div>;
-  const boardProspects = board
-    .map((id) => visible.prospects.find((prospect) => prospect.id === id))
-    .filter((entry): entry is Prospect => Boolean(entry))
-    .slice(0, 5);
-  const featured = visible.news[0];
+  if (!data) return <div className={styles.status}>Loading Draft Central…</div>;
+  const visible = data;
+  const boardRank = new Map(board.map((id, i) => [id, i + 1])),
+    picks = visible.picks.filter((p) => p.year === visible.draftYear).slice(0, 5),
+    first = picks[0],
+    featured = visible.news[0],
+    featuredProspect = featured
+      ? visible.prospects.find((prospect) => prospect.id === featured.prospectId)
+      : undefined;
+  const targets = (pick: Pick) =>
+    [...visible.fits]
+      .sort((a, b) => {
+        const aa =
+            a.projectedPickLow <= pick.displayOverall + 8 &&
+            a.projectedPickHigh >= pick.displayOverall - 8,
+          ba =
+            b.projectedPickLow <= pick.displayOverall + 8 &&
+            b.projectedPickHigh >= pick.displayOverall - 8;
+        return (
+          Number(ba) - Number(aa) ||
+          (boardRank.get(a.id) ?? 999) - (boardRank.get(b.id) ?? 999) ||
+          (b.needFitScore ?? 0) - (a.needFitScore ?? 0)
+        );
+      })
+      .slice(0, 3);
+  const radar = [...visible.fits]
+      .sort(
+        (a, b) =>
+          (boardRank.get(a.id) ?? 999) - (boardRank.get(b.id) ?? 999) ||
+          (b.needFitScore ?? 0) - (a.needFitScore ?? 0),
+      )
+      .slice(0, 6),
+    movers = visible.prospects.filter((p) => p.rankingTrend !== 0),
+    risers = [...movers].sort((a, b) => b.rankingTrend - a.rankingTrend).slice(0, 3),
+    fallers = [...movers].sort((a, b) => a.rankingTrend - b.rankingTrend).slice(0, 3);
+  const groups = (
+      [...new Set(visible.prospects.map((p) => p.position).filter(Boolean))] as string[]
+    )
+      .map((position) => {
+        const g = visible.prospects.filter((p) => p.position === position),
+          score =
+            g.filter((p) => p.currentRank <= 50).length * 3 +
+            g.filter((p) => p.currentRank <= 100).length;
+        return { position, score };
+      })
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8),
+    max = Math.max(...groups.map((g) => g.score), 1);
   return (
     <div className={styles.page}>
-      <div className={styles.pageHead}>
-        <div>
-          <nav>
-            <Link href="/experience">Front Office</Link>
-            <span>›</span>
-            <strong>Draft</strong>
-          </nav>
-          <h1>Draft Central</h1>
-          <p>Scouting. Analysis. Projections. Everything you need to prepare for the next draft.</p>
-        </div>
-        <label>
-          <Search />
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search prospects, positions, schools, or topics..."
-          />
-        </label>
-      </div>
-      <nav className={styles.tabs}>
-        {tabs.map(([label, href], index) => (
-          <Link className={index === 0 ? styles.activeTab : undefined} href={href} key={label}>
-            {label}
+      <div className={styles.firstRow}>
+        <section className={styles.card}>
+          <header>
+            <h2>Top Draft News</h2>
+            <Link href="/front-office/draft/scouting">
+              Draft Guide <ArrowRight />
+            </Link>
+          </header>
+          {featured ? (
+            <div className={styles.newsGrid}>
+              <Link
+                className={styles.storyFeature}
+                href={`/front-office/draft/prospects/${featured.prospectId}`}
+              >
+                <DraftNewsGraphic
+                  size="hero"
+                  identityLine={[featuredProspect?.position, featuredProspect?.school]
+                    .filter(Boolean)
+                    .join(' · ')}
+                  actionLabel="View prospect"
+                  story={adaptDraftNewsGraphic({
+                    id: featured.id,
+                    headline: featured.headline,
+                    summary: featured.summary,
+                    category: featured.category,
+                    prospectName: featuredProspect?.name,
+                    school: featuredProspect?.school,
+                    schoolLogo: featuredProspect?.schoolLogo,
+                    previousRank: featuredProspect?.priorRank,
+                    currentRank: featuredProspect?.currentRank,
+                    dateLabel: `Week ${visible.week}`,
+                  })}
+                />
+              </Link>
+              <div className={styles.newsList}>
+                {visible.news.slice(1, 6).map((x) => (
+                  <Link key={x.id} href={`/front-office/draft/prospects/${x.prospectId}`}>
+                    <b>{x.category}</b>
+                    <span>{x.headline}</span>
+                    <small>Week {visible.week}</small>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className={styles.empty}>No major draft developments yet.</div>
+          )}
+        </section>
+        <section className={styles.card}>
+          <header>
+            <h2>
+              <BarChart3 /> Draft Insights
+            </h2>
+          </header>
+          <dl className={styles.insights}>
+            <div>
+              <dt>Your Pick</dt>
+              <dd>
+                #{first?.displayOverall ?? visible.projectedSlot}
+                <small>Overall · Round {first?.round ?? 1}</small>
+              </dd>
+            </div>
+            <div>
+              <dt>Next Pick</dt>
+              <dd>
+                {picks[1] ? `#${picks[1].displayOverall}` : '—'}
+                <small>{picks[1] ? `Overall · Round ${picks[1].round}` : 'No later pick'}</small>
+              </dd>
+            </div>
+            <div>
+              <dt>Total Picks</dt>
+              <dd>
+                {visible.picks.length}
+                <small>{visible.draftYear} and future</small>
+              </dd>
+            </div>
+          </dl>
+          <Link className={styles.insightLink} href="/front-office/draft/team-needs">
+            <Target />
+            <span>
+              Team Needs<strong>{visible.needs.slice(0, 3).join(' · ')}</strong>
+            </span>
+            <ArrowRight />
           </Link>
-        ))}
-      </nav>
-      <div className={styles.layout}>
-        <main>
-          <div className={styles.topGrid}>
-            <section className={styles.card}>
-              <header>
-                <h2>Top Draft News</h2>
-                <Link href="/front-office/draft/scouting">
-                  View all <ArrowRight />
-                </Link>
-              </header>
-              <div className={styles.newsGrid}>
-                {featured ? (
-                  <Link
-                    className={styles.feature}
-                    href={`/front-office/draft/prospects/${featured.prospectId}`}
-                  >
-                    <small>{featured.category}</small>
-                    <h3>{featured.headline}</h3>
-                    <p>{featured.summary}</p>
-                    <span>
-                      Read full story <ArrowRight />
-                    </span>
-                  </Link>
-                ) : (
-                  <div className={styles.empty}>
-                    Draft intelligence will update as the season advances.
-                  </div>
-                )}
-                <div className={styles.newsList}>
-                  {visible.news.slice(1, 5).map((story) => (
-                    <Link href={`/front-office/draft/prospects/${story.prospectId}`} key={story.id}>
-                      <b>{story.category}</b>
-                      <span>{story.headline}</span>
-                      <small>Week {visible.week}</small>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </section>
-            <section className={styles.card}>
-              <header>
-                <h2>Top 5 on My Big Board</h2>
-                <Link href="/front-office/draft/big-board">
-                  View / edit <ArrowRight />
-                </Link>
-              </header>
-              {boardProspects.length ? (
-                <div className={styles.board}>
-                  {boardProspects.map((prospect, index) => (
-                    <Link href={`/front-office/draft/prospects/${prospect.id}`} key={prospect.id}>
-                      <em>{index + 1}</em>
-                      <Avatar name={prospect.name} />
-                      <span>
-                        <strong>{prospect.name}</strong>
-                        <small>
-                          {prospect.position} | {prospect.school}
-                        </small>
-                      </span>
-                      <Grade value={prospect.scoutGrade} />
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <div className={styles.boardEmpty}>
-                  <p>You haven’t ranked any prospects yet.</p>
-                  <Link href="/front-office/draft/big-board">
-                    Build my Big Board <ArrowRight />
-                  </Link>
-                </div>
-              )}
-              <Link className={styles.fullButton} href="/front-office/draft/big-board">
-                Go to My Big Board <ArrowRight />
-              </Link>
-            </section>
-          </div>
-          <div className={styles.bottomGrid}>
-            <section className={styles.card}>
-              <header>
-                <div>
-                  <h2>Top Prospects</h2>
-                  <p>The highest-rated prospects in the {visible.draftYear} draft class.</p>
-                </div>
-                <Link href="/front-office/draft/prospects">
-                  View all prospects <ArrowRight />
-                </Link>
-              </header>
-              <div className={styles.prospectHead}>
-                <span>Rank</span>
-                <span>Player</span>
-                <span>Pos</span>
-                <span>School</span>
-                <span>HT</span>
-                <span>WT</span>
-                <span>Age</span>
-                <span>Grade</span>
-                <span>Trend</span>
-                <span />
-              </div>
-              <div className={styles.prospects}>
-                {visible.prospects.slice(0, 10).map((prospect) => (
-                  <div key={prospect.id}>
-                    <b>{prospect.currentRank}</b>
-                    <span>
-                      <Avatar name={prospect.name} />
-                      <strong>{prospect.name}</strong>
-                    </span>
-                    <span>{prospect.position}</span>
-                    <span>{prospect.school}</span>
-                    <span>{prospect.height ?? '—'}</span>
-                    <span>{prospect.weight ?? '—'}</span>
-                    <span>{prospect.age ?? '—'}</span>
-                    <Grade value={prospect.scoutGrade} />
-                    <i className={prospect.rankingTrend >= 0 ? styles.up : styles.down}>
-                      {trend(prospect.rankingTrend)}
-                    </i>
-                    <Link href={`/front-office/draft/prospects/${prospect.id}`}>View</Link>
-                  </div>
-                ))}
-              </div>
-            </section>
-            <section className={styles.card}>
-              <header>
-                <div>
-                  <h2>Best Fits for Your Team</h2>
-                  <p>Prospects who fit your team’s biggest needs.</p>
-                </div>
-                <Link href="/front-office/draft/prospects?fit=my-team">
-                  View all <ArrowRight />
-                </Link>
-              </header>
-              <div className={styles.fits}>
-                {visible.fits.slice(0, 5).map((prospect) => (
-                  <div key={prospect.id}>
-                    <Avatar name={prospect.name} />
-                    <span>
-                      <strong>{prospect.name}</strong>
-                      <small>
-                        {prospect.position} | {prospect.school}
-                      </small>
-                      <Grade value={prospect.scoutGrade} />
-                    </span>
-                    <label>
-                      Scheme fit<b>{(prospect.schemeFitScore ?? 0) >= 75 ? 'High' : 'Medium'}</b>
-                    </label>
-                    <label>
-                      Need fit<b>{(prospect.needFitScore ?? 0) >= 70 ? 'High' : 'Medium'}</b>
-                    </label>
-                    <Link href={`/front-office/draft/prospects/${prospect.id}`}>View profile</Link>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-        </main>
-        <aside>
-          <section className={styles.card}>
-            <header>
+          <Link className={styles.insightLink} href="/front-office/trade-hub">
+            <BarChart3 />
+            <span>
+              Draft Capital
+              <strong>
+                {picks
+                  .slice(0, 3)
+                  .map((p) => `#${p.displayOverall}`)
+                  .join(' · ') || 'No owned picks'}
+              </strong>
+            </span>
+            <ArrowRight />
+          </Link>
+        </section>
+      </div>
+      <div className={styles.secondRow}>
+        <section className={`${styles.card} ${styles.planCard}`}>
+          <header>
+            <div>
               <h2>
-                <BarChart3 /> Draft Insights
+                <ClipboardList /> Your Draft Plan
               </h2>
-            </header>
-            <dl className={styles.insights}>
-              <div>
-                <dt>Your Pick</dt>
-                <dd>
-                  #{visible.picks[0]?.displayOverall ?? visible.projectedSlot}
-                  <small>
-                    Round {visible.picks[0]?.round ?? 1}, Pick {visible.projectedSlot}
-                  </small>
-                </dd>
-              </div>
-              <div>
-                <dt>Next Pick</dt>
-                <dd>
-                  #{visible.picks[1]?.displayOverall ?? visible.projectedSlot + 32}
-                  <small>Round {visible.picks[1]?.round ?? 2}</small>
-                </dd>
-              </div>
-              <div>
-                <dt>Total Picks</dt>
-                <dd>
-                  {visible.picks.length}
-                  <small>{visible.draftYear} Draft</small>
-                </dd>
-              </div>
-            </dl>
-            <Link className={styles.insightLink} href="/front-office/draft/team-needs">
-              <Target />
-              <span>
-                Team Needs<strong>{visible.needs.slice(0, 3).join(' · ')}</strong>
-              </span>
-              <ArrowRight />
+              <p>Need-weighted targets near each owned selection.</p>
+            </div>
+            <Link href="/front-office/draft/room?mode=mock">
+              Open Mock Draft <ArrowRight />
             </Link>
-            <Link className={styles.insightLink} href="/front-office/draft/team-needs">
-              <BarChart3 />
-              <span>
-                Draft Capital
-                <strong>
-                  {visible.picks
-                    .slice(0, 3)
-                    .map((pick) => `${pick.year} Rd ${pick.round}`)
-                    .join(' · ') || 'No owned picks'}
-                </strong>
-              </span>
-              <ArrowRight />
-            </Link>
-          </section>
-          <section className={styles.promo}>
-            <strong>
-              The future
-              <br />
-              is yours.
-            </strong>
-            <span>Scout. Rank. Build.</span>
-            <Link href="/front-office/draft/big-board">
-              Go to Big Board <ArrowRight />
-            </Link>
-          </section>
-          <section className={styles.card}>
-            <header>
-              <h2>Around the Draft</h2>
-              <Link href="/front-office/draft/scouting">
-                View all <ArrowRight />
-              </Link>
-            </header>
-            <div className={styles.around}>
-              {visible.news.slice(2, 7).map((story) => (
-                <Link href={`/front-office/draft/prospects/${story.prospectId}`} key={story.id}>
-                  {story.headline}
-                  <small>Week {visible.week}</small>
-                </Link>
+          </header>
+          {picks.length ? (
+            <div className={styles.planList}>
+              {picks.slice(0, 4).map((pick) => (
+                <div key={pick.id} className={styles.planPick}>
+                  <div>
+                    <b>Pick #{pick.displayOverall}</b>
+                    <small>Round {pick.round}</small>
+                  </div>
+                  <p>
+                    <span>Priority</span>
+                    {visible.needs.slice(0, 3).join(' · ')}
+                  </p>
+                  <div className={styles.targetChips}>
+                    {targets(pick).map((p) => (
+                      <Link key={p.id} href={`/front-office/draft/prospects/${p.id}`}>
+                        {p.name}
+                        <small>
+                          {p.position} · Grade {p.scoutGrade}
+                        </small>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
-          </section>
-        </aside>
+          ) : (
+            <div className={styles.empty}>No owned selections are available for this draft.</div>
+          )}
+        </section>
+        <section className={styles.card}>
+          <header>
+            <h2>
+              <Target /> On Your Radar
+            </h2>
+            <Link href="/front-office/draft/prospects">
+              All prospects <ArrowRight />
+            </Link>
+          </header>
+          <div className={styles.radar}>
+            {radar.map((p) => (
+              <Player
+                key={p.id}
+                p={p}
+                note={
+                  boardRank.has(p.id)
+                    ? `Big Board #${boardRank.get(p.id)}`
+                    : (p.needFitScore ?? 0) >= 70
+                      ? `High need: ${p.position}`
+                      : `Near Pick #${first?.displayOverall ?? visible.projectedSlot}`
+                }
+              />
+            ))}
+          </div>
+        </section>
+      </div>
+      <div className={styles.thirdRow}>
+        <section className={`${styles.card} ${styles.prospectCard}`}>
+          <header>
+            <div>
+              <h2>Top Prospects</h2>
+              <p>Shared rankings used across the draft experience.</p>
+            </div>
+            <Link href="/front-office/draft/prospects">
+              View all <ArrowRight />
+            </Link>
+          </header>
+          <div className={styles.prospectHead}>
+            <span>Rank</span>
+            <span>Player</span>
+            <span>Pos</span>
+            <span>School</span>
+            <span>HT</span>
+            <span>WT</span>
+            <span>Grade</span>
+            <span>Trend</span>
+          </div>
+          <div className={styles.prospects}>
+            {visible.prospects.slice(0, 8).map((p) => (
+              <Link key={p.id} href={`/front-office/draft/prospects/${p.id}`}>
+                <b>{p.currentRank}</b>
+                <span>
+                  <Avatar p={p} />
+                  <strong>{p.name}</strong>
+                </span>
+                <span>{p.position}</span>
+                <span>{p.school}</span>
+                <span>{p.height ?? '—'}</span>
+                <span>{p.weight ?? '—'}</span>
+                <Grade n={p.scoutGrade} />
+                <Trend n={p.rankingTrend} />
+              </Link>
+            ))}
+          </div>
+        </section>
+        <section className={styles.card}>
+          <header>
+            <h2>Best Fits for Your Team</h2>
+            <Link href="/front-office/draft/prospects?fit=my-team">
+              View all <ArrowRight />
+            </Link>
+          </header>
+          <div className={styles.fits}>
+            {visible.fits.slice(0, 6).map((p) => (
+              <div key={p.id}>
+                <Avatar p={p} />
+                <span>
+                  <strong>{p.name}</strong>
+                  <small>
+                    {p.position} · {p.school}
+                  </small>
+                </span>
+                <Grade n={p.scoutGrade} />
+                <label>
+                  Need<b>{Math.round(p.needFitScore ?? 0)}</b>
+                </label>
+                <label>
+                  Available<b>{Math.round(p.availabilityScore ?? 0)}</b>
+                </label>
+                <Link href={`/front-office/draft/prospects/${p.id}`}>View</Link>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section className={styles.card}>
+          <header>
+            <h2>Draft Stock</h2>
+          </header>
+          {movers.length ? (
+            <div className={styles.stock}>
+              <div>
+                <h3>Risers</h3>
+                {risers.map((p) => (
+                  <Player key={p.id} p={p} note={`↑ ${p.rankingTrend}`} />
+                ))}
+              </div>
+              <div>
+                <h3>Fallers</h3>
+                {fallers.map((p) => (
+                  <Player key={p.id} p={p} note={`↓ ${Math.abs(p.rankingTrend)}`} />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className={styles.empty}>No major movement this week.</div>
+          )}
+        </section>
+      </div>
+      <div className={styles.fourthRow}>
+        <section className={styles.card}>
+          <header>
+            <h2>Position Strength</h2>
+            <Link href="/front-office/draft/position-rankings">
+              Rankings <ArrowRight />
+            </Link>
+          </header>
+          <div className={styles.strength}>
+            {groups.map((g) => {
+              const need = visible.needAnalysis.find((n) => n.position === g.position),
+                label =
+                  g.score >= max * 0.72
+                    ? 'Deep'
+                    : g.score >= max * 0.42
+                      ? 'Strong'
+                      : g.score >= max * 0.2
+                        ? 'Average'
+                        : 'Thin';
+              return (
+                <div key={g.position}>
+                  <b>{g.position}</b>
+                  <span>
+                    <i style={{ width: `${Math.max(12, (g.score / max) * 100)}%` }} />
+                  </span>
+                  <strong>{label}</strong>
+                  <small>{need ? `${need.level} need · ${need.score}` : 'Class depth'}</small>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+        <section className={styles.card}>
+          <header>
+            <h2>
+              <Sparkles /> Draft Strategy
+            </h2>
+            <Link href="/front-office/draft/team-needs">
+              Team needs <ArrowRight />
+            </Link>
+          </header>
+          <div className={styles.strategy}>
+            {visible.recommendations.slice(0, 4).map((x, i) => (
+              <div key={`${x.position}-${i}`}>
+                <em>{i + 1}</em>
+                <span>
+                  <strong>{x.title}</strong>
+                  <small>{x.detail}</small>
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section className={styles.card}>
+          <header>
+            <h2>What If?</h2>
+          </header>
+          <div className={styles.whatIf}>
+            <Link href="/front-office/draft/room?mode=mock">
+              Stay at #{first?.displayOverall ?? visible.projectedSlot}
+              <ArrowRight />
+            </Link>
+            <Link href="/front-office/trade-hub">
+              Explore a trade back
+              <ArrowRight />
+            </Link>
+            <Link href="/front-office/draft/room?mode=mock">
+              Address {visible.needs[0] ?? 'value'} first
+              <ArrowRight />
+            </Link>
+          </div>
+        </section>
+      </div>
+      <div className={styles.finalRow}>
+        <section className={styles.card}>
+          <header>
+            <h2>Latest Mock Draft</h2>
+          </header>
+          <div className={styles.calloutEmpty}>
+            <span>No saved mock draft yet.</span>
+            <p>Run a mock draft to see your latest results here.</p>
+            <Link href="/front-office/draft/room?mode=mock">
+              Start Mock Draft <ArrowRight />
+            </Link>
+          </div>
+        </section>
+        <section className={styles.card}>
+          <header>
+            <h2>Recent Draft Activity</h2>
+          </header>
+          <div className={styles.activity}>
+            {board.length ? (
+              <div>
+                <span>Big Board</span>
+                <strong>
+                  {board.length} prospect{board.length === 1 ? '' : 's'} ranked
+                </strong>
+                <Link href="/front-office/draft/big-board">
+                  Review <ArrowRight />
+                </Link>
+              </div>
+            ) : (
+              <div className={styles.calloutEmpty}>
+                <span>No recent draft activity.</span>
+                <p>Board and saved mock activity will appear here.</p>
+              </div>
+            )}
+          </div>
+        </section>
+        <section className={styles.card}>
+          <header>
+            <h2>Draft Capital</h2>
+            <Link href="/front-office/trade-hub">
+              Trade Machine <ArrowRight />
+            </Link>
+          </header>
+          <div className={styles.capital}>
+            {visible.picks.slice(0, 8).map((p) => (
+              <div key={p.id}>
+                <b>#{p.displayOverall}</b>
+                <span>
+                  {p.year}
+                  <small>Round {p.round}</small>
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );

@@ -36,9 +36,13 @@ test('drill UI includes the required game surfaces and responsive layouts', () =
   assert.match(source, /role="timer"/);
 });
 
-test('4 Minute Drill titles share the smaller italic in-game treatment', () => {
+test('the game title keeps its compact treatment while the landing hero matches Film Room', () => {
   assert.match(source, /<h1 className="four-minute-drill-title">4 Minute Drill<\/h1>/);
-  assert.match(landingSource, /<h1 className="four-minute-drill-title mt-3">/);
+  assert.match(landingSource, /FilmRoomPlayDiagram/);
+  assert.match(landingSource, /\{team\?\.name \?\? 'NFL'\} · Trivia/);
+  assert.match(landingSource, /Four Minute\{' '\}/);
+  assert.match(landingSource, />\s*Drill\s*<\/span>/);
+  assert.match(landingSource, /text-\[var\(--secondary\)\]/);
   const titleRule = css.match(/\.four-minute-drill-title\s*\{([^}]+)\}/)?.[1] ?? '';
   assert.match(titleRule, /font-size:\s*3rem/);
   assert.match(titleRule, /font-style:\s*italic/);

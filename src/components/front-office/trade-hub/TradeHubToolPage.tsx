@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import AppShell from '@/components/app-shell';
+import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
+import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
 import styles from './trade-hub.module.css';
@@ -70,12 +72,18 @@ export function TradeHubToolPage({ tool }: { tool: string }) {
     .slice(0, 20);
   return (
     <AppShell>
+      <FrontOfficeStrategicHero
+        section="Trade Hub"
+        title="Trade Hub"
+        description="Explore the market, build offers, and reshape your roster through trades."
+      />
+      <FrontOfficeSectionNav section="roster" />
       <div className={styles.toolPage}>
         <Link className={styles.back} href="/front-office/trade-hub">
           <ArrowLeft /> Back to Trade Hub
         </Link>
         <header>
-          <h1>{copy[0]}</h1>
+          <h2>{copy[0]}</h2>
           <p>{copy[1]}</p>
         </header>
         {!data ? (

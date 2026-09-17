@@ -17,6 +17,21 @@
   aspect-ratio: 16/7;
   border-radius: 0;
 }
+.hero .content,
+.hero .eyebrow,
+.hero .content h2,
+.hero .description,
+.hero .player,
+.hero .teamName,
+.hero .score,
+.hero .stats strong,
+.hero .stats small {
+  color: #fff;
+}
+.hero .content h2,
+.hero .description {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.72);
+}
 .compact {
   min-height: 190px;
   aspect-ratio: 16/7;
