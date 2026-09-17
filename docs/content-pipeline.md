@@ -47,7 +47,7 @@ These routes do not use ISR. Client fetches use `cache: no-store` where appropri
 
 ## Production scheduling
 
-- `workers/content-scheduler` owns scheduled ingestion every 30 minutes. `.github/workflows/content-ingestion.yml` is a manual backup for standard and video groups; deploy the Worker schedule change before disabling the existing GitHub timer.
+- `workers/content-scheduler` owns scheduled ingestion every two hours from 6 a.m. through 8 p.m. fixed CST (UTC-6), eight runs daily. `.github/workflows/content-ingestion.yml` is a manual backup for standard and video groups; deploy the Worker schedule change before disabling the existing GitHub timer.
 - `.github/workflows/three-and-out-daily.yml` generates the daily edition around 4:40 PM Central and checks due deliveries through the US evening.
 - Both endpoints require `Authorization: Bearer $CONTENT_AUTOMATION_SECRET`.
 - GitHub must define `CONTENT_AUTOMATION_BASE_URL` and `CONTENT_AUTOMATION_SECRET`; the deployed application must contain the same secret.

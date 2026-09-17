@@ -146,3 +146,21 @@ scope, and local crontab access was denied. Therefore current provider billing
 meters, exact paid/free plan status (except SportsGameOdds), and off-repository
 schedulers remain unverified. Free-plan limits can pause services rather than bill;
 absence of a charge is not evidence that jobs will continue working.
+
+## Follow-up: user-approved daytime schedule
+
+The user requested every two hours from 6 a.m. CST through 8 p.m. CST. The Worker
+configuration now uses `0 0,2,12,14,16,18,20,22 * * *` in UTC: eight calls per day
+(240 per 30 days), versus the previously observed 288/day. CST is fixed UTC-6;
+it does not follow Chicago daylight saving time. At 0.25 CU and six active-plus-idle
+minutes per batch, the ingestion-only estimate becomes 6 CU-hours per 30 days.
+This excludes site traffic, briefings, search, manual imports and other branches,
+and is not a spending guarantee. Deploy the Worker to apply this schedule.
+
+Live rollout completed on 2026-09-17: the existing authenticated Wrangler session
+successfully ran `wrangler triggers deploy` for `dnd-content-scheduler` and reported
+`0 0,2,12,14,16,18,20,22 * * *` as the deployed schedule. This replaces the prior
+trigger without deploying application code. Six content-automation tests passed,
+including an assertion mapping every UTC trigger to the eight requested CST hours.
+Provider-wide compute/transfer totals still need dashboard verification. The
+schedule and documentation edits remain local until committed and pushed.

@@ -8,18 +8,20 @@ Required bindings:
 - `DND_AUTOMATION_BASE_URL`: plain-text variable containing `https://www.downdistance.com`
 - `DND_AUTOMATION_SECRET`: encrypted secret matching Vercel's `CONTENT_AUTOMATION_SECRET`
 
-The Worker is deployed with this cron trigger:
+The configured schedule runs at 6 a.m., 8 a.m., 10 a.m., noon, 2 p.m., 4 p.m.,
+6 p.m., and 8 p.m. **fixed CST (UTC-6)** daily. This is eight ingestion calls/day.
+It does not shift with daylight saving time (during CDT these are 7 a.m.–9 p.m.
+on a Chicago clock). Cloudflare evaluates the following cron in UTC:
 
 ```cron
-*/30 * * * *
+0 0,2,12,14,16,18,20,22 * * *
 ```
 
 Manage the trigger through `wrangler.toml` so the scheduled handler and trigger are deployed as
-one version. The Vercel kill switch is `CONTENT_AUTOMATION_GLOBAL_ENABLED`. It must equal `true` before any
-database or source work occurs. Removing it or setting it to any other value stops processing while
-leaving the Worker healthy.
+one version. The Vercel kill switch is `CONTENT_AUTOMATION_GLOBAL_ENABLED`. Set it to `false` to stop processing before database or source work. The application
+defaults to enabled when the variable is absent.
 
 Use this as the sole scheduled ingestion caller. GitHub ingestion is a manual backup.
-The 30-minute interval gives Neon time to scale to zero; it is not a guarantee
+The two-hour daytime interval and overnight pause give Neon time to scale to zero; it is not a guarantee
 against compute usage from site traffic or other jobs. Deploy this change to update
 the existing live trigger, and check the Cloudflare dashboard afterward.

@@ -19,7 +19,10 @@ test('global automation is enabled by default and uses bounded defaults', () => 
     globalGenerationStopReason({ enabled: true, generatedToday: 0, maxGeneratedPerDay: 320 }),
     null,
   );
-  assert.equal(globalAutomationConfig({ CONTENT_AUTOMATION_GLOBAL_ENABLED: 'false' }).enabled, false);
+  assert.equal(
+    globalAutomationConfig({ CONTENT_AUTOMATION_GLOBAL_ENABLED: 'false' }).enabled,
+    false,
+  );
 });
 
 test('invalid limits cannot remove global generation bounds', () => {
@@ -67,13 +70,22 @@ test('global endpoint checks authorization and kill switch before database and s
   assert.match(route, /aiSpendUsd: 0/);
 });
 
-test('Cloudflare Worker authenticates one global call on the thirty-minute cron', () => {
+test('Cloudflare Worker authenticates one global call on the fixed-CST daytime cron', () => {
   const worker = readFileSync('workers/content-scheduler/src/index.js', 'utf8');
   const config = readFileSync('workers/content-scheduler/wrangler.toml', 'utf8');
   assert.match(worker, /\/api\/automation\/content\/global/);
   assert.match(worker, /Authorization: `Bearer \$\{env\.DND_AUTOMATION_SECRET\}`/);
   assert.match(worker, /async scheduled/);
-  assert.match(config, /^\s*crons\s*=\s*\["\*\/30 \* \* \* \*"\]/m);
+  const cron = config.match(/^\s*crons\s*=\s*\["([^"]+)"\]/m)?.[1];
+  assert.ok(cron);
+  const [minute, hours, day, month, weekday] = cron.split(' ');
+  assert.deepEqual([minute, day, month, weekday], ['0', '*', '*', '*']);
+  const centralHours = hours
+    .split(',')
+    .map(Number)
+    .map((hour) => (hour + 18) % 24)
+    .sort((a, b) => a - b);
+  assert.deepEqual(centralHours, [6, 8, 10, 12, 14, 16, 18, 20]);
 });
 
 test('migration runner includes the permanent automation ledger', () => {
