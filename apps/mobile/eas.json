@@ -1,6 +1,16 @@
 {
   "cli": { "version": ">= 16.0.0" },
   "build": {
+    "firebase": {
+      "developmentClient": false,
+      "distribution": "internal",
+      "android": { "buildType": "apk" },
+      "env": {
+        "APP_VARIANT": "firebase",
+        "EXPO_PUBLIC_API_BASE_URL": "https://www.downdistance.com",
+        "EXPO_PUBLIC_USE_FIXTURES": "false"
+      }
+    },
     "development": {
       "developmentClient": true,
       "distribution": "internal",

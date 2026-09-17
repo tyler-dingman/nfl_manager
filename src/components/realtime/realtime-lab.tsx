@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowLeft, Bell, ChevronDown, Shield } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Shield } from 'lucide-react';
+import { DdNotificationsIcon as Bell } from '@/components/ui/football-icons';
 
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
 import TeamThemeProvider from '@/components/team-theme-provider';

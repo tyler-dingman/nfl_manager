@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Plus, Save, Search } from 'lucide-react';
+import { Plus, Save } from 'lucide-react';
+import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 
 import type { SourceCategory, SourceDefinition } from '@/data/sources';
 

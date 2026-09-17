@@ -148,3 +148,30 @@ Expo Go can run the JavaScript app and email sign-in, but native Google Sign-In 
 ## Account-linking behavior
 
 Provider identities resolve only by `(provider, provider_subject)`. A verified provider email that already belongs to another D&D user is not silently merged; the user must sign into that existing account and link the provider through the established Security flow. This also protects Apple private-relay addresses.
+
+## Firebase Android testing (standalone APK)
+
+Run from `apps/mobile`:
+
+```bash
+npm run android:firebase:build
+```
+
+This command requires at least 10 GB free, Android SDK/JDK configuration, and the deployed mobile login backend. It explicitly selects `https://www.downdistance.com`, disables fixtures, refreshes Android launcher resources from `assets/app-icons`, increments the Android version code, and builds `android/app/build/outputs/apk/release/app-release.apk`. It preserves the generated Android project's signing key. Verify that the APK signer matches the previous Firebase build before distributing an update; generated Expo projects default to a development signing key. This APK includes its JavaScript and does not need Metro.
+
+Deploy the backend changes before distributing. Android Apple/Google login opens the provider in the system browser, uses the existing HTTPS provider callback, and returns to `downdistance://sign-in` with a two-minute, single-use code protected by PKCE. Session credentials are exchanged over HTTPS and stored in SecureStore. The existing `auth_tokens` table's `OAUTH_STATE` type stores the handoff; no schema migration is needed. The preview gate allows authentication bootstrap routes and signed API access tokens, while website pages still require preview access. Protected APIs continue to validate account/session authorization.
+
+Apple requires the web Service ID and `APPLE_CLIENT_ID`, `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY` on the server, with its existing HTTPS callback registered in Apple Developer. Google requires the existing web OAuth client and callback. No provider secret belongs in the APK. Missing providers produce an actionable message; they cannot be enabled by adding a button alone.
+
+After inspecting the APK's launcher icon, version, signer, and login on a device:
+
+```bash
+npx firebase-tools login
+npx firebase-tools appdistribution:groups:list --project down-and-distance-8526c
+npx firebase-tools appdistribution:distribute android/app/build/outputs/apk/release/app-release.apk \
+  --app 1:953719724874:android:6694ffe0afd16b4f6b7fb3 \
+  --groups YOUR_EXISTING_GROUP_ALIAS \
+  --release-notes "Standalone Android test build with D&D icon and production login."
+```
+
+Use the Firebase app for `com.downdistance.mobile`, not the legacy `Down.And.Distance` registration. Confirm the only existing tester group's alias before distribution. An alternative `firebase` EAS profile also builds an APK, but local builds avoid consuming EAS cloud build quota.

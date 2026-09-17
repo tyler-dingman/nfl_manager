@@ -1,4 +1,5 @@
-import { ArrowRight, Bookmark, Flame } from 'lucide-react';
+import { ArrowRight, Flame } from 'lucide-react';
+import { DdSaveIcon as Bookmark } from '@/components/ui/football-icons';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ShareToCrewButton from '@/components/crew/share-to-crew-button';
@@ -169,24 +170,29 @@ export default function HuddleStoryCard({
               {materialUpdateCount ? ` · ${materialUpdateCount} updates` : ''}
               {time ? ` · Updated ${time}${time === 'now' ? '' : ' ago'}` : ''}
             </p>
-            {onSave ? (
-              <button
-                type="button"
-                onClick={onSave}
-                className="mt-4 inline-flex items-center gap-1.5 text-xs font-black text-[var(--team-primary-text)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30"
-                aria-label={saved ? `Remove ${headline} from saved stories` : `Save ${headline}`}
-              >
-                <Bookmark className={`h-4 w-4 ${saved ? 'fill-current' : ''}`} aria-hidden="true" />
-                {saved ? 'Saved' : 'Save'}
-              </button>
-            ) : null}
-            <ShareToCrewButton
-              contentId={id}
-              contentType="BEAT_STORY"
-              href={`/content/${encodeURIComponent(id)}`}
-              title={headline}
-              className="mt-4 inline-flex items-center gap-1.5 text-xs font-black text-[var(--team-primary-text)]"
-            />
+            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+              {onSave ? (
+                <button
+                  type="button"
+                  onClick={onSave}
+                  className="inline-flex items-center gap-1.5 text-xs font-black text-[var(--team-primary-text)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30"
+                  aria-label={saved ? `Remove ${headline} from saved stories` : `Save ${headline}`}
+                >
+                  <Bookmark
+                    className={`h-4 w-4 ${saved ? 'fill-current' : ''}`}
+                    aria-hidden="true"
+                  />
+                  {saved ? 'Saved' : 'Save'}
+                </button>
+              ) : null}
+              <ShareToCrewButton
+                contentId={id}
+                contentType="BEAT_STORY"
+                href={`/content/${encodeURIComponent(id)}`}
+                title={headline}
+                className="inline-flex items-center gap-1.5 text-xs font-black text-[var(--team-primary-text)]"
+              />
+            </div>
           </div>
           <Link
             href={`/content/${encodeURIComponent(id)}`}

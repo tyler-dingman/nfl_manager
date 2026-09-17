@@ -1,7 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, Bell, Check, MessageSquare } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
+import {
+  DdNotificationsIcon as Bell,
+  DdMessagesIcon as MessageSquare,
+} from '@/components/ui/football-icons';
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
 import { TEAM_LIST } from '@/data/teams';
 import { useAuthUser } from '@/features/auth/auth-session';

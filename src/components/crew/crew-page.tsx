@@ -2,7 +2,9 @@
 
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Copy, Flame, Settings, Share2, UserPlus, Users } from 'lucide-react';
+import { Flame, UserPlus, Users } from 'lucide-react';
+import { DdSettingsIcon as Settings } from '@/components/ui/football-icons';
+import { DdCopyIcon as Copy, DdShareIcon as Share2 } from '@/components/ui/football-icons';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { useAuthUser } from '@/features/auth/auth-session';

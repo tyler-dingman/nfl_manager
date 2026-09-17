@@ -2,18 +2,20 @@
 
 import {
   BarChart3,
-  Download,
   ExternalLink,
   FlaskConical,
-  MessageCircle,
   Plus,
   Save as SaveIcon,
-  Share2,
   Target,
   TriangleAlert,
   Trophy,
   X,
 } from 'lucide-react';
+import {
+  DdDownloadIcon as Download,
+  DdMessagesIcon as MessageCircle,
+  DdShareIcon as Share2,
+} from '@/components/ui/football-icons';
 import { useMemo, useState } from 'react';
 import type { Sportsbook } from '@/server/odds/sportsbooks';
 import PlayerAvatar from './PlayerAvatar';

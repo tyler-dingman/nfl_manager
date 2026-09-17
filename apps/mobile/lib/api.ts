@@ -14,13 +14,11 @@ import type {
   GameDayRoom,
 } from './types';
 import { authenticatedFetch } from './auth';
-export const API_BASE_URL = (
-  process.env.EXPO_PUBLIC_API_BASE_URL ?? 'http://localhost:3000'
-).replace(/\/$/, '');
+export { API_BASE_URL } from './network';
 export const TEAM_ID = process.env.EXPO_PUBLIC_TEAM_ID ?? 'KC';
 export const USE_FIXTURES = process.env.EXPO_PUBLIC_USE_FIXTURES === 'true';
 async function request<T>(path: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await authenticatedFetch(path, {
     headers: { Accept: 'application/json' },
   });
   if (!response.ok) throw new Error(`D&D API ${response.status}`);

@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ExternalLink, Play, SlidersHorizontal } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import { DdVideosIcon as Play } from '@/components/ui/football-icons';
+import { DdFiltersIcon as SlidersHorizontal } from '@/components/ui/football-icons';
 
 import { FILM_ROOM_CATEGORIES } from '@/config/film-room';
 import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';

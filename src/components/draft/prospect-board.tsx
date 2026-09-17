@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { ChevronDown, ChevronUp, GripVertical, Search, Star, Trash2, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, GripVertical, Star, Trash2, X } from 'lucide-react';
+import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useSaveStore } from '@/features/save/save-store';

@@ -38,11 +38,15 @@ const categoryClass: Record<LeagueNewsStory['category'], string> = {
   ANALYSIS: styles.analysis,
 };
 
-export function LeagueNewsPage() {
+export function LeagueNewsPage({
+  initialCategory = 'ALL',
+}: {
+  initialCategory?: LeagueNewsCategory;
+}) {
   const saveId = useSaveStore((state) => state.saveId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
-  const [tab, setTab] = useState<LeagueNewsCategory>('ALL');
+  const [tab, setTab] = useState<LeagueNewsCategory>(initialCategory);
   const [sort, setSort] = useState<'recent' | 'trending' | 'relevant'>('recent');
 
   useEffect(() => {
@@ -56,6 +60,8 @@ export function LeagueNewsPage() {
     window.addEventListener('front-office-simulation-advanced', load);
     return () => window.removeEventListener('front-office-simulation-advanced', load);
   }, [saveId]);
+
+  useEffect(() => setTab(initialCategory), [initialCategory]);
 
   const stories = useMemo(
     () =>

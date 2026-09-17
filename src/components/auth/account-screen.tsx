@@ -3,18 +3,14 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { BriefcaseBusiness, Check, LogOut, ShieldCheck, Trash2 } from 'lucide-react';
 import {
-  Bell,
-  Bookmark,
-  BriefcaseBusiness,
-  Check,
-  Download,
-  LogOut,
-  Settings2,
-  ShieldCheck,
-  Trash2,
-  UserRound,
-} from 'lucide-react';
+  DdNotificationsIcon as Bell,
+  DdSaveIcon as Bookmark,
+  DdDownloadIcon as Download,
+  DdSettingsIcon as Settings2,
+  DdProfileIcon as UserRound,
+} from '@/components/ui/football-icons';
 
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';

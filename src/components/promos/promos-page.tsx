@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { ArrowLeft, CalendarDays, Globe2, Layers3, MapPin, PackageOpen, Radio } from 'lucide-react';
+import { ArrowLeft, Globe2, Layers3, MapPin, PackageOpen, Radio } from 'lucide-react';
+import { DdScheduleIcon as CalendarDays } from '@/components/ui/football-icons';
 
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
 import LoginButton from '@/components/auth/login-button';

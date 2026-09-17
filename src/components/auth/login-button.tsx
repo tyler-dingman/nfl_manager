@@ -4,18 +4,20 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  Bell,
-  Bookmark,
   BriefcaseBusiness,
   ChevronDown,
   LogIn,
   LogOut,
-  Settings2,
   ShieldCheck,
   Trophy,
   Users,
   Shield,
 } from 'lucide-react';
+import {
+  DdNotificationsIcon as Bell,
+  DdSaveIcon as Bookmark,
+  DdSettingsIcon as Settings2,
+} from '@/components/ui/football-icons';
 
 import { clearPreviewSession, useAuthUser } from '@/features/auth/auth-session';
 import UserAvatar from '@/components/auth/user-avatar';

@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import { ChevronDown, Pencil, Search } from 'lucide-react';
+import { ChevronDown, Pencil } from 'lucide-react';
+import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 
 import { ProspectIndicators } from '@/components/draft/prospect-indicators';
 import { Button } from '@/components/ui/button';

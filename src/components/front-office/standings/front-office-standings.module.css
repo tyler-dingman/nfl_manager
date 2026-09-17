@@ -4,6 +4,7 @@
 }
 .heading {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: 2rem;
@@ -43,7 +44,7 @@
 }
 .filters select {
   min-width: 10rem;
-  height: 2.5rem;
+  height: 2.55rem;
   border: 1px solid #d9dee4;
   border-radius: 0.35rem;
   background: #fff;
@@ -54,7 +55,7 @@
 .tabs {
   display: flex;
   gap: 0.2rem;
-  margin-bottom: 1rem;
+  max-width: 100%;
 }
 .tabs button {
   min-width: 6.8rem;
@@ -274,6 +275,7 @@
     min-width: 0;
   }
   .tabs {
+    width: 100%;
     overflow-x: auto;
     padding-bottom: 0.25rem;
   }

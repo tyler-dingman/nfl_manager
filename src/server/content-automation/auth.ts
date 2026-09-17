@@ -9,7 +9,7 @@ export function equalSecret(actual: string | null, expected?: string) {
 
 export function automationAuthError(
   authorization: string | null,
-  env: NodeJS.ProcessEnv = process.env,
+  env: Record<string, string | undefined> = process.env,
 ): { status: 401 | 503; code: string; error: string } | null {
   const current = env.CONTENT_AUTOMATION_SECRET;
   // A missing or malformed primary credential must never enable access.

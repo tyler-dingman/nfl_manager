@@ -1,6 +1,16 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { marketPlacements } from './market-category-map';
+import { marketPlacements, withMarketPeriod } from './market-category-map';
+
+test('Lab Finds labels distinguish quarter and half props from full-game markets', () => {
+  assert.equal(withMarketPeriod('Passing Yards', 'game'), 'Passing Yards');
+  for (const period of ['1q', '2q', '3q', '4q', '1h', '2h']) {
+    assert.equal(
+      withMarketPeriod('Passing Yards', period),
+      `${period.toUpperCase()} Passing Yards`,
+    );
+  }
+});
 
 const market = (overrides: Partial<Parameters<typeof marketPlacements>[0]> = {}) => ({
   marketType: 'PASSING_YARDS',
@@ -33,18 +43,15 @@ test('period markets map to period-specific navigation', () => {
     marketPlacements(market({ marketType: 'TOTAL', period: '1h', playerId: null })),
     [{ primaryCategory: 'first-half', subcategory: '1H Total' }],
   );
-  assert.deepEqual(
-    marketPlacements(market({ marketType: 'RECEIVING_YARDS', period: '2q' })),
-    [{ primaryCategory: 'first-half', subcategory: '2Q Receiving Yards' }],
-  );
-  assert.deepEqual(
-    marketPlacements(market({ marketType: 'RUSHING_YARDS', period: '3q' })),
-    [{ primaryCategory: 'second-half', subcategory: '3Q Rushing Yards' }],
-  );
-  assert.deepEqual(
-    marketPlacements(market({ marketType: 'RECEPTIONS', period: '4q' })),
-    [{ primaryCategory: 'second-half', subcategory: '4Q Receptions' }],
-  );
+  assert.deepEqual(marketPlacements(market({ marketType: 'RECEIVING_YARDS', period: '2q' })), [
+    { primaryCategory: 'first-half', subcategory: '2Q Receiving Yards' },
+  ]);
+  assert.deepEqual(marketPlacements(market({ marketType: 'RUSHING_YARDS', period: '3q' })), [
+    { primaryCategory: 'second-half', subcategory: '3Q Rushing Yards' },
+  ]);
+  assert.deepEqual(marketPlacements(market({ marketType: 'RECEPTIONS', period: '4q' })), [
+    { primaryCategory: 'second-half', subcategory: '4Q Receptions' },
+  ]);
 });
 
 test('defensive and kicker props map to D/ST', () => {

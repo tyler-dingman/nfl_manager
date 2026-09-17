@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { RotateCcw, Share2, Trophy, X } from 'lucide-react';
+import { RotateCcw, Trophy, X } from 'lucide-react';
+import { DdShareIcon as Share2 } from '@/components/ui/football-icons';
 import {
   buildTriviaRecap,
   canSubmitTriviaAnswer,

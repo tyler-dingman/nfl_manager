@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Search } from 'lucide-react';
+import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 
 import LoginButton from '@/components/auth/login-button';
 import PrimaryNavigation from '@/components/primary-navigation';

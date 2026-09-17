@@ -255,7 +255,18 @@ export function FrontOfficeStandingsPage() {
   return (
     <div className={styles.page}>
       <div className={styles.heading}>
-        <div />
+        <div className={styles.tabs}>
+          {views.map((item) => (
+            <button
+              key={item}
+              type="button"
+              className={view === item ? styles.activeTab : undefined}
+              onClick={() => setView(item)}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
         <div className={styles.filters}>
           <label>
             Season
@@ -276,18 +287,6 @@ export function FrontOfficeStandingsPage() {
             </select>
           </label>
         </div>
-      </div>
-      <div className={styles.tabs}>
-        {views.map((item) => (
-          <button
-            key={item}
-            type="button"
-            className={view === item ? styles.activeTab : undefined}
-            onClick={() => setView(item)}
-          >
-            {item}
-          </button>
-        ))}
       </div>
       <div className={styles.layout}>
         <div

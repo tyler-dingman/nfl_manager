@@ -4,18 +4,20 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   ArrowRight,
-  CalendarDays,
-  Copy,
   Crosshair,
   Flame,
   Gamepad2,
   Globe2,
   Lightbulb,
-  Search,
   Star,
   Trophy,
   UsersRound,
 } from 'lucide-react';
+import {
+  DdScheduleIcon as CalendarDays,
+  DdCopyIcon as Copy,
+  DdSearchIcon as Search,
+} from '@/components/ui/football-icons';
 
 import MainSiteHeader from '@/components/main-site-header';
 import FilmRoomPlayDiagram from '@/components/film-room/film-room-play-diagram';

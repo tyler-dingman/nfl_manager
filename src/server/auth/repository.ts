@@ -310,7 +310,7 @@ export async function listIdentities(userId: string) {
 
 export async function createOneTimeToken(
   userId: string,
-  type: 'EMAIL_VERIFICATION' | 'PASSWORD_RESET',
+  type: 'EMAIL_VERIFICATION' | 'PASSWORD_RESET' | 'OAUTH_STATE',
   token: string,
   minutes: number,
 ) {
@@ -321,7 +321,7 @@ export async function createOneTimeToken(
 
 export async function consumeOneTimeToken(
   token: string,
-  type: 'EMAIL_VERIFICATION' | 'PASSWORD_RESET',
+  type: 'EMAIL_VERIFICATION' | 'PASSWORD_RESET' | 'OAUTH_STATE',
 ) {
   const rows = await authDb()<Array<{ id: string; user_id: string }>>`
     UPDATE auth_tokens SET consumed_at = now() WHERE token_hash = ${tokenHash(token)} AND type = ${type}

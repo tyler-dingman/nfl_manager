@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Share2, Users, X } from 'lucide-react';
+import { Users, X } from 'lucide-react';
+import { DdSearchIcon as Search, DdShareIcon as Share2 } from '@/components/ui/football-icons';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   allRecipientsSelected,

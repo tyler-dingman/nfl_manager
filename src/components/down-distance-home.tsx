@@ -8,15 +8,17 @@ import {
   BarChart3,
   Clock3,
   Flame,
-  MessageCircle,
   Radio,
-  Search,
   Shield,
   Sparkles,
   Users,
   X,
   Zap,
 } from 'lucide-react';
+import {
+  DdMessagesIcon as MessageCircle,
+  DdSearchIcon as Search,
+} from '@/components/ui/football-icons';
 
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
 import LoginButton from '@/components/auth/login-button';

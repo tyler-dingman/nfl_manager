@@ -64,6 +64,9 @@ export const periodLabel = (period: string) => {
 const gameLineName = (marketType: string) =>
   marketType === 'MONEYLINE' ? 'Moneyline' : marketType === 'SPREAD' ? 'Spread' : 'Total';
 
+export const withMarketPeriod = (label: string, period: string) =>
+  period.toLowerCase() === 'game' ? label : `${periodLabel(period)} ${label}`;
+
 const inferredTypeFromStat = (statId: string) => {
   const stat = statId.replace(/[^a-z0-9]/gi, '').toLowerCase();
   const aliases: Record<string, string> = {

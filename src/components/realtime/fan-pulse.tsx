@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { BarChart3, ChevronDown, MessageCircle } from 'lucide-react';
+import { BarChart3, ChevronDown } from 'lucide-react';
+import { DdMessagesIcon as MessageCircle } from '@/components/ui/football-icons';
 
 import type { FanPulseData } from '@/features/realtime/types';
 

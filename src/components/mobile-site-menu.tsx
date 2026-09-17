@@ -1,7 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { LogIn, LogOut, Menu, Settings2, Shield, UserRound, X } from 'lucide-react';
+import { LogIn, LogOut, Shield, X } from 'lucide-react';
+import {
+  DdMenuIcon as Menu,
+  DdSettingsIcon as Settings2,
+  DdProfileIcon as UserRound,
+} from '@/components/ui/football-icons';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 

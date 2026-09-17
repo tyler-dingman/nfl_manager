@@ -1,4 +1,9 @@
-import { ChevronRight, ClipboardList, Handshake, PlayCircle, Users } from 'lucide-react';
+import { ChevronRight, PlayCircle } from 'lucide-react';
+import {
+  DdBigBoardIcon as ClipboardList,
+  DdFreeAgencyIcon as Handshake,
+  DdRosterIcon as Users,
+} from '@/components/ui/football-icons';
 
 import { cn } from '@/lib/utils';
 

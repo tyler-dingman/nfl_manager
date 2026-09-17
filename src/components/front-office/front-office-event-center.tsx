@@ -3,7 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bell, ChevronRight, Radio, X } from 'lucide-react';
+import { ChevronRight, X } from 'lucide-react';
+import { DdLiveIcon as Radio } from '@/components/ui/football-icons';
+import { DdNotificationsIcon as Bell } from '@/components/ui/football-icons';
 import { createPortal } from 'react-dom';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TEAM_LIST } from '@/data/teams';

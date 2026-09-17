@@ -89,40 +89,48 @@ async function initializeSimulation(input: {
 }
 
 export async function GET(request: NextRequest) {
-  const user = await currentUser(request);
-  if (!user) return authError('Unauthorized.', 401);
-  const saveId = request.nextUrl.searchParams.get('saveId');
-  if (!saveId) return NextResponse.json({ error: 'saveId is required.' }, { status: 400 });
-  const state = await getFrontOfficeSaveMetadata(user.id, saveId);
-  const userTeam = state?.teamAbbr.toUpperCase();
-  const nextGame = state?.simulation?.games.find(
-    (game) =>
-      !game.played && Boolean(userTeam) && [game.homeTeam, game.awayTeam].includes(userTeam!),
-  );
-  const opponent = nextGame
-    ? nextGame.homeTeam === userTeam
-      ? nextGame.awayTeam
-      : nextGame.homeTeam
-    : null;
-  const matchupTeams = opponent && userTeam ? new Set([userTeam, opponent]) : null;
-  const matchupPlayers = matchupTeams
-    ? NFL_LEAGUE_DATA.players
-        .filter((player) => matchupTeams.has(normalizeScheduleTeam(player.teamAbbr)))
-        .map((player) => ({
-          id: player.id,
-          name: player.name,
-          position: player.position,
-          teamAbbr: normalizeScheduleTeam(player.teamAbbr),
-          rating: player.rating,
-          headshotUrl: player.headshotUrl,
-        }))
-    : [];
-  return NextResponse.json({
-    ok: true,
-    state: state?.simulation ?? null,
-    version: state?.version,
-    matchupPlayers,
-  });
+  try {
+    const user = await currentUser(request);
+    if (!user) return authError('Unauthorized.', 401);
+    const saveId = request.nextUrl.searchParams.get('saveId');
+    if (!saveId) return NextResponse.json({ error: 'saveId is required.' }, { status: 400 });
+    const state = await getFrontOfficeSaveMetadata(user.id, saveId);
+    const userTeam = state?.teamAbbr.toUpperCase();
+    const nextGame = state?.simulation?.games.find(
+      (game) =>
+        !game.played && Boolean(userTeam) && [game.homeTeam, game.awayTeam].includes(userTeam!),
+    );
+    const opponent = nextGame
+      ? nextGame.homeTeam === userTeam
+        ? nextGame.awayTeam
+        : nextGame.homeTeam
+      : null;
+    const matchupTeams = opponent && userTeam ? new Set([userTeam, opponent]) : null;
+    const matchupPlayers = matchupTeams
+      ? NFL_LEAGUE_DATA.players
+          .filter((player) => matchupTeams.has(normalizeScheduleTeam(player.teamAbbr)))
+          .map((player) => ({
+            id: player.id,
+            name: player.name,
+            position: player.position,
+            teamAbbr: normalizeScheduleTeam(player.teamAbbr),
+            rating: player.rating,
+            headshotUrl: player.headshotUrl,
+          }))
+      : [];
+    return NextResponse.json({
+      ok: true,
+      state: state?.simulation ?? null,
+      version: state?.version,
+      matchupPlayers,
+    });
+  } catch (error) {
+    console.error('[front-office:simulate:GET]', error);
+    return NextResponse.json(
+      { error: 'Unable to load Front Office simulation. Please try again.' },
+      { status: 500 },
+    );
+  }
 }
 
 export async function POST(request: NextRequest) {

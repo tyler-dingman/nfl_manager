@@ -1,16 +1,20 @@
 'use client';
 
 import * as React from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-
+import Link from 'next/link';
+import { ChevronLeft, ChevronRight, ChevronDown, Star, X } from 'lucide-react';
 import PlayerTypeIcon from '@/components/player-type-icon';
-import { Button } from '@/components/ui/button';
 import type { Team as StoreTeam } from '@/features/team/team-store';
+import { useSaveStore } from '@/features/save/save-store';
 import { buildPlayerDetailsModel, type PlayerDetailsSource } from '@/lib/player-details';
-import { cn } from '@/lib/utils';
+import { getTeamBrandTheme } from '@/lib/team-brand-themes';
+import { apiFetch } from '@/lib/api';
+import type { FrontOfficeEvent } from '@/types/front-office';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TeamDTO } from '@/types/team';
+import styles from './player-details-modal.module.css';
 
+type Action = { label: string; onSelect: () => void; destructive?: boolean };
 type PlayerDetailsModalProps = {
   isOpen: boolean;
   source: PlayerDetailsSource | null;
@@ -22,64 +26,62 @@ type PlayerDetailsModalProps = {
   capLimit: number;
   onClose: () => void;
   onSelectSource?: (source: PlayerDetailsSource) => void;
+  actions?: Action[];
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
 };
-
-const tierTextClass: Record<'Low' | 'Medium' | 'High', string> = {
-  Low: 'text-rose-600',
-  Medium: 'text-amber-600',
-  High: 'text-emerald-600',
-};
-
-const meterBarClass = (index: number, value: number) => {
-  const filledSegments = value >= 72 ? 3 : value >= 40 ? 2 : 1;
-  return index < filledSegments ? 'bg-slate-900' : 'bg-slate-200';
-};
-
-const contractTagClass = (tag: string | null) => {
-  switch (tag) {
-    case 'Steal':
-      return 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200';
-    case 'Team Friendly':
-    case 'Rookie Value':
-      return 'bg-sky-50 text-sky-700 ring-1 ring-sky-200';
-    case 'Expensive':
-      return 'bg-rose-50 text-rose-700 ring-1 ring-rose-200';
-    default:
-      return 'bg-slate-100 text-slate-700 ring-1 ring-slate-200';
-  }
-};
-
-const initialsFor = (name: string) =>
-  name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part.charAt(0))
-    .join('')
-    .toUpperCase();
-
-const renderHeroAvatar = (name: string, headshotUrl: string | null) => {
-  if (headshotUrl) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={headshotUrl}
-        alt={name}
-        className="h-24 w-24 rounded-2xl object-cover object-top shadow-sm sm:h-28 sm:w-28"
-        loading="lazy"
-        decoding="async"
-      />
-    );
-  }
-
+const tabs = ['Overview', 'Stats', 'Contract', 'Analysis', 'News'] as const;
+type Tab = (typeof tabs)[number];
+function Card({ title, children }: React.PropsWithChildren<{ title: string }>) {
   return (
-    <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-slate-100 text-2xl font-semibold text-slate-500 shadow-sm sm:h-28 sm:w-28">
-      {initialsFor(name)}
-    </div>
+    <section className={styles.card}>
+      <h3>{title}</h3>
+      {children}
+    </section>
   );
+}
+function Facts({ items }: { items: Array<{ label: string; value: string }> }) {
+  return (
+    <dl className={styles.facts}>
+      {items.map(({ label, value }) => (
+        <div key={label}>
+          <dt>{label}</dt>
+          <dd>{value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+const positionNames: Record<string, string> = {
+  QB: 'Quarterback',
+  RB: 'Running back',
+  FB: 'Fullback',
+  WR: 'Wide receiver',
+  TE: 'Tight end',
+  OT: 'Offensive tackle',
+  LT: 'Left tackle',
+  RT: 'Right tackle',
+  OG: 'Offensive guard',
+  LG: 'Left guard',
+  RG: 'Right guard',
+  C: 'Center',
+  OL: 'Offensive line',
+  EDGE: 'Edge rusher',
+  ED: 'Edge rusher',
+  DE: 'Defensive end',
+  DT: 'Defensive tackle',
+  DL: 'Defensive line',
+  LB: 'Linebacker',
+  MLB: 'Middle linebacker',
+  OLB: 'Outside linebacker',
+  CB: 'Cornerback',
+  S: 'Safety',
+  FS: 'Free safety',
+  SS: 'Strong safety',
+  K: 'Kicker',
+  P: 'Punter',
+  LS: 'Long snapper',
 };
-
-const getSourceId = (source: PlayerDetailsSource | null) => source?.player.id ?? null;
 
 export default function PlayerDetailsModal({
   isOpen,
@@ -92,294 +94,469 @@ export default function PlayerDetailsModal({
   capLimit,
   onClose,
   onSelectSource,
+  actions = [],
+  isFavorite,
+  onToggleFavorite,
 }: PlayerDetailsModalProps) {
-  const closeButtonRef = React.useRef<HTMLButtonElement>(null);
-  const currentSourceId = React.useMemo(() => getSourceId(source), [source]);
-  const currentIndex = React.useMemo(
-    () => sources.findIndex((entry) => getSourceId(entry) === currentSourceId),
-    [currentSourceId, sources],
+  const closeRef = React.useRef<HTMLButtonElement>(null);
+  const dialogRef = React.useRef<HTMLDivElement>(null);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const id = React.useId();
+  const [tab, setTab] = React.useState<Tab>('Overview');
+  const [failedPhoto, setFailedPhoto] = React.useState<string | null>(null);
+  const [events, setEvents] = React.useState<FrontOfficeEvent[]>([]);
+  const [newsState, setNewsState] = React.useState<'loading' | 'ready' | 'error'>('loading');
+  const saveId = useSaveStore((state) => state.saveId);
+  const season = useSaveStore((state) => state.franchiseYear);
+  const index = sources.findIndex((entry) => entry.player.id === source?.player.id);
+  const previous = index > 0 ? sources[index - 1] : null;
+  const next = index >= 0 ? sources[index + 1] : null;
+  const model = React.useMemo(
+    () =>
+      isOpen && source
+        ? buildPlayerDetailsModel({
+            source,
+            roster,
+            teams,
+            userTeamAbbr,
+            capSpace,
+            capLimit,
+            season: season || undefined,
+          })
+        : null,
+    [isOpen, source, roster, teams, userTeamAbbr, capSpace, capLimit, season],
   );
-  const previousSource = currentIndex > 0 ? sources[currentIndex - 1] : null;
-  const nextSource =
-    currentIndex >= 0 && currentIndex < sources.length - 1 ? sources[currentIndex + 1] : null;
 
   React.useEffect(() => {
+    setTab('Overview');
+    setFailedPhoto(null);
+    scrollRef.current?.scrollTo(0, 0);
+  }, [source?.player.id, isOpen]);
+  React.useEffect(() => {
     if (!isOpen) return;
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-        return;
-      }
-      if (event.key === 'ArrowLeft' && previousSource && onSelectSource) {
-        onSelectSource(previousSource);
-        return;
-      }
-      if (event.key === 'ArrowRight' && nextSource && onSelectSource) {
-        onSelectSource(nextSource);
-      }
-    };
-
-    const previousOverflow = document.body.style.overflow;
+    const focused = document.activeElement as HTMLElement | null;
+    const overflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', handleEscape);
-    closeButtonRef.current?.focus();
-
+    closeRef.current?.focus();
     return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = overflow;
+      focused?.focus();
     };
-  }, [isOpen, nextSource, onClose, onSelectSource, previousSource]);
-
-  const model = React.useMemo(() => {
-    if (!isOpen || !source) return null;
-    return buildPlayerDetailsModel({
-      source,
-      roster,
-      teams,
-      userTeamAbbr,
-      capSpace,
-      capLimit,
-    });
-  }, [capLimit, capSpace, isOpen, roster, source, teams, userTeamAbbr]);
-
-  if (!isOpen || !source || !model) {
-    return null;
-  }
-
+  }, [isOpen]);
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+      }
+      const target = event.target as HTMLElement;
+      const interactive = target.closest(
+        'input,textarea,select,[role="tablist"],details,[contenteditable="true"]',
+      );
+      if (!interactive && event.key === 'ArrowLeft' && previous && onSelectSource) {
+        event.preventDefault();
+        onSelectSource(previous);
+      }
+      if (!interactive && event.key === 'ArrowRight' && next && onSelectSource) {
+        event.preventDefault();
+        onSelectSource(next);
+      }
+      if (event.key === 'Tab') {
+        const elements = Array.from(
+          dialogRef.current?.querySelectorAll<HTMLElement>(
+            'button:not(:disabled),a[href],summary,[tabindex="0"]',
+          ) ?? [],
+        ).filter((el) => el.getClientRects().length);
+        const first = elements[0],
+          last = elements.at(-1);
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        }
+        if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [isOpen, onClose, onSelectSource, previous, next]);
+  React.useEffect(() => {
+    if (!isOpen || tab !== 'News' || !saveId) return;
+    let cancelled = false;
+    setEvents([]);
+    setNewsState('loading');
+    void apiFetch(`/api/front-office/events?saveId=${encodeURIComponent(saveId)}`)
+      .then(async (response) => {
+        if (!response.ok) throw new Error();
+        return response.json();
+      })
+      .then((body) => {
+        if (!cancelled) {
+          setEvents(body.events ?? []);
+          setNewsState('ready');
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setNewsState('error');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, tab, saveId]);
+  if (!isOpen || !source || !model) return null;
+  const theme = getTeamBrandTheme(model.teamAbbr);
+  const accent = ['CHI', 'GB', 'LAR', 'BAL', 'CLE', 'SEA', 'LV'].includes(model.teamAbbr ?? '')
+    ? theme.secondary
+    : theme.primary;
+  const parts = model.name.trim().split(/\s+/);
+  const surname = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
+  const info = [
+    { label: 'Position', value: positionNames[model.position] ?? model.position },
+    ...(model.age != null ? [{ label: 'Age', value: String(model.age) }] : []),
+    ...(model.height ? [{ label: 'Height', value: model.height }] : []),
+    ...(model.weight ? [{ label: 'Weight', value: `${model.weight} lbs` }] : []),
+    ...(source.kind !== 'expiring' && (source.player.college || source.player.school)
+      ? [{ label: 'College', value: (source.player.college || source.player.school)! }]
+      : []),
+    {
+      label: 'Status',
+      value: !model.isFreeAgent
+        ? source.kind === 'expiring'
+          ? 'Expiring contract'
+          : source.player.status
+        : 'Free Agent',
+    },
+  ];
+  const stories = events.filter(
+    (event) =>
+      !event.dismissedAt &&
+      (event.playerId === model.id ||
+        (Array.isArray(event.metadata.playerIds) && event.metadata.playerIds.includes(model.id))),
+  );
+  const value =
+    model.contractValueTag && !model.isFreeAgent ? (
+      <div className={styles.value} data-value={model.contractValueTag}>
+        <strong>{model.contractValueTag}</strong>
+        <span>Contract value assessment</span>
+      </div>
+    ) : null;
+  const contract = (
+    <>
+      <Facts items={model.contract} />
+      {!model.contract.length && <p>Contract details are not available.</p>}
+      {value}
+    </>
+  );
+  const performance = model.stats.length ? (
+    <div className={styles.stats}>
+      {model.stats.map((stat) => (
+        <div key={stat.label}>
+          <strong>{stat.value}</strong>
+          <span>{stat.label}</span>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className={styles.empty}>No meaningful stat snapshot is available for this player yet.</p>
+  );
   return (
-    <div
-      className="app-modal-layer fixed inset-0 flex items-end justify-center bg-black/45 sm:items-center"
-      onClick={onClose}
-    >
+    <div className={`app-modal-layer ${styles.backdrop}`} onClick={onClose}>
       <div
-        className="flex h-[100dvh] w-full flex-col overflow-hidden bg-white shadow-2xl sm:h-auto sm:max-h-[92dvh] sm:max-w-4xl sm:rounded-3xl"
+        ref={dialogRef}
+        className={styles.dialog}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`${id}-name`}
+        style={{ '--player-accent': accent } as React.CSSProperties}
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex items-start justify-between border-b border-border px-5 py-4 sm:px-6">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-              Player Details
-            </p>
-            <h2 className="mt-1 text-lg font-semibold text-foreground sm:text-xl">{model.name}</h2>
-          </div>
-          <div className="flex items-center gap-1">
-            {onSelectSource ? (
-              <>
-                <Button
+        <div className={styles.scroll} ref={scrollRef}>
+          <section className={styles.hero}>
+            <div className={styles.utility} role="group" aria-label="Player details controls">
+              <span>Player Details</span>
+              <div>
+                {onSelectSource && (
+                  <>
+                    <button
+                      type="button"
+                      disabled={!previous}
+                      aria-label="Previous player"
+                      onClick={() => previous && onSelectSource(previous)}
+                    >
+                      <ChevronLeft />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={!next}
+                      aria-label="Next player"
+                      onClick={() => next && onSelectSource(next)}
+                    >
+                      <ChevronRight />
+                    </button>
+                  </>
+                )}
+                <button
+                  ref={closeRef}
                   type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => previousSource && onSelectSource(previousSource)}
-                  disabled={!previousSource}
-                  aria-label="Previous player"
+                  aria-label="Close player details"
+                  onClick={onClose}
                 >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => nextSource && onSelectSource(nextSource)}
-                  disabled={!nextSource}
-                  aria-label="Next player"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </>
-            ) : null}
-            <Button
-              ref={closeButtonRef}
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              aria-label="Close player details"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
-          <section className="rounded-3xl border border-border bg-slate-50/70 p-4 sm:p-5">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div className="flex min-w-0 items-start gap-4">
-                <div className="shrink-0">{renderHeroAvatar(model.name, model.headshotUrl)}</div>
-                <div className="min-w-0">
-                  <div className="flex min-w-0 flex-wrap items-center gap-2">
-                    <h3 className="truncate text-2xl font-semibold text-foreground sm:text-3xl">
-                      {model.name}
-                    </h3>
-                    <PlayerTypeIcon
-                      indicator={model.playerTypeIndicator}
-                      className="translate-y-[1px]"
-                    />
-                    {model.contractValueTag ? (
-                      <span
-                        className={cn(
-                          'inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold',
-                          contractTagClass(model.contractValueTag),
-                        )}
-                      >
-                        {model.contractValueTag}
-                      </span>
-                    ) : null}
-                  </div>
-                  <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">{model.position}</span>
-                    <span>Age {model.age ?? '—'}</span>
-                    <span>{model.height ?? '—'}</span>
-                    <span>{model.weight ? `${model.weight} lbs` : '—'}</span>
-                  </div>
-                  <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                    {model.teamLogoUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={model.teamLogoUrl}
-                        alt={`${model.teamName ?? model.teamAbbr ?? 'Team'} logo`}
-                        className="h-5 w-5 shrink-0 object-contain"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    ) : null}
-                    <span>{model.teamName ?? model.teamAbbr ?? 'Free Agent'}</span>
-                    <span className="text-slate-300">•</span>
-                    <span>{model.contractStatusLine}</span>
-                    {model.bestRole ? (
-                      <>
-                        <span className="text-slate-300">•</span>
-                        <span>{model.bestRole}</span>
-                      </>
-                    ) : null}
-                  </div>
-                </div>
-              </div>
-
-              <div className="shrink-0 rounded-2xl border border-border bg-white px-4 py-3 text-center shadow-sm">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                  OVR
-                </div>
-                <div className="mt-1 text-4xl font-semibold leading-none text-foreground">
-                  {model.ratingDisplay}
-                </div>
+                  <X />
+                </button>
               </div>
             </div>
-          </section>
-
-          <section className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            {model.meters.map((meter) => (
-              <div
-                key={meter.key}
-                className="rounded-2xl border border-border bg-white p-3 shadow-sm"
-                title={meter.helper}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    {meter.label}
-                  </p>
-                  <span
-                    className={cn('text-xs font-semibold uppercase', tierTextClass[meter.tier])}
+            {model.teamLogoUrl && (
+              <img
+                className={styles.watermarkLogo}
+                src={model.teamLogoUrl}
+                alt=""
+                onError={(event) => {
+                  event.currentTarget.style.visibility = 'hidden';
+                }}
+              />
+            )}
+            <div className={styles.portrait}>
+              <span className={styles.positionWatermark} aria-hidden="true">
+                {model.position}
+              </span>
+              {model.headshotUrl && failedPhoto !== model.headshotUrl ? (
+                <img
+                  src={model.headshotUrl}
+                  alt={model.name}
+                  onError={() => setFailedPhoto(model.headshotUrl)}
+                />
+              ) : (
+                <div className={styles.initials} aria-label="Player photo unavailable">
+                  {parts
+                    .map((part) => part[0])
+                    .slice(0, 2)
+                    .join('')}
+                </div>
+              )}
+            </div>
+            <div className={styles.identity}>
+              <h2 id={`${id}-name`}>
+                {parts.length > 1 && <span>{parts[0]}</span>}
+                <strong>{surname}</strong>
+              </h2>
+              <div className={styles.distinctions}>
+                <PlayerTypeIcon indicator={model.playerTypeIndicator} />
+                {onToggleFavorite && (
+                  <button
+                    type="button"
+                    onClick={onToggleFavorite}
+                    aria-label={`Favorite ${model.name}`}
+                    aria-pressed={Boolean(isFavorite)}
                   >
-                    {meter.tier}
-                  </span>
-                </div>
-                <div className="mt-3 flex gap-1.5">
-                  {[0, 1, 2].map((index) => (
-                    <div
-                      key={`${meter.key}-${index}`}
-                      className={cn(
-                        'h-2 flex-1 rounded-full transition-colors',
-                        meterBarClass(index, meter.value),
-                      )}
-                    />
-                  ))}
-                </div>
+                    <Star fill={isFavorite ? 'currentColor' : 'none'} />
+                  </button>
+                )}
               </div>
-            ))}
+              <div className={styles.metadata}>
+                {[
+                  model.position,
+                  model.age != null ? `Age ${model.age}` : null,
+                  model.height,
+                  model.weight ? `${model.weight} lbs` : null,
+                ]
+                  .filter(Boolean)
+                  .map((item) => (
+                    <span key={item}>{item}</span>
+                  ))}
+              </div>
+              <div className={styles.teamline}>
+                {model.teamLogoUrl && <img src={model.teamLogoUrl} alt="" />}
+                <span>
+                  {model.teamName ??
+                    model.teamAbbr ??
+                    (model.isFreeAgent ? 'Free Agent' : 'Team unavailable')}
+                </span>
+                {model.teamAbbr && <span>{model.contractStatusLine}</span>}
+                {model.bestRole && <span>{model.bestRole}</span>}
+              </div>
+              <div className={styles.heroControls}>
+                {model.contractValueTag && !model.isFreeAgent && (
+                  <span className={styles.badge}>{model.contractValueTag}</span>
+                )}
+                {actions.length > 0 && (
+                  <details className={styles.actions}>
+                    <summary>
+                      Actions <ChevronDown size={14} />
+                    </summary>
+                    <div>
+                      {actions.map((action) => (
+                        <button
+                          type="button"
+                          key={action.label}
+                          data-destructive={action.destructive}
+                          onClick={action.onSelect}
+                        >
+                          {action.label}
+                        </button>
+                      ))}
+                    </div>
+                  </details>
+                )}
+              </div>
+            </div>
+            <div className={styles.overall}>
+              <span>OVR</span>
+              <strong>{model.ratingDisplay}</strong>
+            </div>
           </section>
-
-          <div className="mt-5 grid gap-5 xl:grid-cols-[1.3fr_0.9fr]">
-            <div className="space-y-5">
-              <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Player Summary
-                </p>
-                <p className="mt-3 text-sm leading-7 text-slate-700">{model.summary}</p>
-              </section>
-
-              <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    Performance Snapshot
-                  </p>
+          <nav className={styles.tabs} role="tablist" aria-label="Player information">
+            {tabs.map((label, i) => (
+              <button
+                key={label}
+                type="button"
+                role="tab"
+                id={`${id}-tab-${label}`}
+                aria-controls={`${id}-panel`}
+                aria-selected={tab === label}
+                tabIndex={tab === label ? 0 : -1}
+                onClick={() => setTab(label)}
+                onKeyDown={(event) => {
+                  const target =
+                    event.key === 'ArrowRight'
+                      ? (i + 1) % tabs.length
+                      : event.key === 'ArrowLeft'
+                        ? (i + tabs.length - 1) % tabs.length
+                        : event.key === 'Home'
+                          ? 0
+                          : event.key === 'End'
+                            ? tabs.length - 1
+                            : null;
+                  if (target !== null) {
+                    event.preventDefault();
+                    setTab(tabs[target]);
+                    document.getElementById(`${id}-tab-${tabs[target]}`)?.focus();
+                  }
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+          <div
+            className={styles.content}
+            role="tabpanel"
+            id={`${id}-panel`}
+            aria-labelledby={`${id}-tab-${tab}`}
+            tabIndex={0}
+          >
+            {tab === 'Overview' && (
+              <>
+                <div className={styles.grid}>
+                  <Card title="Player Summary">
+                    <p>{model.summary}</p>
+                  </Card>
+                  <Card title="Key Ratings">
+                    <div className={styles.ratings}>
+                      <div>
+                        <strong data-elite={(model.rating ?? 0) >= 90}>
+                          {model.ratingDisplay}
+                        </strong>
+                        <span>OVR</span>
+                      </div>
+                      <p>
+                        Individual {model.position} attribute ratings are not available for this
+                        player.
+                      </p>
+                    </div>
+                  </Card>
+                  <Card title="Player Info">
+                    <Facts items={info} />
+                  </Card>
+                  <Card title="Contract + Value">{contract}</Card>
                 </div>
-                {model.stats.length > 0 ? (
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    {model.stats.map((stat) => (
-                      <div
-                        key={stat.label}
-                        className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3"
-                      >
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                          {stat.label}
-                        </p>
-                        <p className="mt-1 text-lg font-semibold text-foreground">{stat.value}</p>
+                <Card title="Player Mindset">
+                  <div className={styles.mindset}>
+                    {model.meters.map((meter) => (
+                      <div key={meter.key} title={meter.helper}>
+                        <div>
+                          <span>{meter.label}</span>
+                          <strong>{meter.tier}</strong>
+                        </div>
+                        <meter
+                          min={0}
+                          max={100}
+                          value={meter.value}
+                          aria-label={`${meter.label}: ${meter.tier}`}
+                        />
                       </div>
                     ))}
                   </div>
-                ) : (
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    No meaningful stat snapshot is available for this player yet.
+                </Card>
+                <Card title="Performance Snapshot">{performance}</Card>
+              </>
+            )}
+            {tab === 'Stats' && (
+              <Card title="Performance Snapshot">
+                {performance}
+                {model.stats.length > 0 && (
+                  <p className={styles.empty}>
+                    Available player snapshot. Season-by-season and playoff splits are not available
+                    in this save.
                   </p>
                 )}
-              </section>
-            </div>
-
-            <div className="space-y-5">
-              <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Contract + Value
-                </p>
-                <div className="mt-4 space-y-3">
-                  {model.contract.map((item) => (
-                    <div
-                      key={item.label}
-                      className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3 last:border-b-0 last:pb-0"
-                    >
-                      <span className="text-sm text-muted-foreground">{item.label}</span>
-                      <span className="text-sm font-semibold text-foreground">{item.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Scouting Labels
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {model.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  {model.tags.length === 0 ? (
-                    <span className="text-sm text-muted-foreground">No standout labels yet.</span>
-                  ) : null}
-                </div>
-              </section>
-
-              <section className="rounded-2xl border border-border bg-white p-4 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Future Outlook
-                </p>
-                <p className="mt-3 text-sm leading-7 text-slate-700">{model.outlook}</p>
-              </section>
-            </div>
+              </Card>
+            )}
+            {tab === 'Contract' && (
+              <Card title="Current Contract">
+                {contract}
+                {source.kind !== 'expiring' &&
+                  !model.isFreeAgent &&
+                  (source.player.contract?.guaranteed ?? 0) > 0 && (
+                    <Facts
+                      items={[
+                        {
+                          label: 'Guaranteed',
+                          value: `$${source.player.contract!.guaranteed.toFixed(1)}M`,
+                        },
+                      ]}
+                    />
+                  )}
+              </Card>
+            )}
+            {tab === 'Analysis' && (
+              <div className={styles.grid}>
+                <Card title="Roster Role">
+                  <p>{model.bestRole ?? 'No current depth-chart role is available.'}</p>
+                  <div className={styles.tags}>
+                    {model.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                </Card>
+                <Card title="Long-Term Outlook">
+                  <p>{model.outlook}</p>
+                </Card>
+                <Card title="Contract Outlook">{contract}</Card>
+              </div>
+            )}
+            {tab === 'News' && (
+              <Card title="Player News">
+                {saveId && newsState === 'loading' ? (
+                  <p role="status">Loading player stories…</p>
+                ) : newsState === 'error' && saveId ? (
+                  <p role="status">Player stories could not be loaded. Please try again.</p>
+                ) : stories.length ? (
+                  stories.map((story) => (
+                    <article className={styles.story} key={story.id}>
+                      <Link href={`/front-office/league/news/${story.id}`}>
+                        <h4>{story.headline}</h4>
+                      </Link>
+                      <p>{story.summary}</p>
+                    </article>
+                  ))
+                ) : (
+                  <p>No recent stories involving this player.</p>
+                )}
+              </Card>
+            )}
           </div>
         </div>
       </div>

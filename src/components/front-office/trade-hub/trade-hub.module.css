@@ -136,7 +136,7 @@
   height: 22rem;
   overflow: auto;
 }
-.assetList > button {
+.assetRow > button:first-child {
   width: 100%;
   display: grid;
   grid-template-columns: 1.2rem minmax(0, 1fr) 2.15rem 2.35rem 3.6rem;
@@ -147,7 +147,7 @@
   text-align: left;
   font-size: 0.67rem;
 }
-.assetList > button:hover,
+.assetRow > button:first-child:hover,
 .pickList > button:hover,
 .selectedAsset {
   background: #edf6ff !important;
@@ -639,4 +639,20 @@
   .needs i {
     display: none;
   }
+}
+
+.assetRow {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.assetRow > button:first-child {
+  flex: 1;
+  min-width: 0;
+}
+.viewPlayer {
+  padding: 8px;
+  font-size: 11px;
+  text-decoration: underline;
+  color: #40536b;
 }

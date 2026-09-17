@@ -1,0 +1,519 @@
+{
+  "name": "Down & Distance Football Icons",
+  "version": "1.0.0",
+  "count": 102,
+  "viewBox": "0 0 24 24",
+  "strokeWidth": 2,
+  "icons": [
+    {
+      "name": "Draft Central",
+      "category": "draft",
+      "path": "draft/draft-central.svg"
+    },
+    {
+      "name": "Mock Draft",
+      "category": "draft",
+      "path": "draft/mock-draft.svg"
+    },
+    {
+      "name": "Big Board",
+      "category": "draft",
+      "path": "draft/big-board.svg"
+    },
+    {
+      "name": "Draft Guide",
+      "category": "draft",
+      "path": "draft/draft-guide.svg"
+    },
+    {
+      "name": "Prospects",
+      "category": "draft",
+      "path": "draft/prospects.svg"
+    },
+    {
+      "name": "Combine",
+      "category": "draft",
+      "path": "draft/combine.svg"
+    },
+    {
+      "name": "Draft Classes",
+      "category": "draft",
+      "path": "draft/draft-classes.svg"
+    },
+    {
+      "name": "My Drafts",
+      "category": "draft",
+      "path": "draft/my-drafts.svg"
+    },
+    {
+      "name": "Trade Machine",
+      "category": "draft",
+      "path": "draft/trade-machine.svg"
+    },
+    {
+      "name": "Roster",
+      "category": "roster-team-management",
+      "path": "roster-team-management/roster.svg"
+    },
+    {
+      "name": "Depth Chart",
+      "category": "roster-team-management",
+      "path": "roster-team-management/depth-chart.svg"
+    },
+    {
+      "name": "Contracts",
+      "category": "roster-team-management",
+      "path": "roster-team-management/contracts.svg"
+    },
+    {
+      "name": "Free Agency",
+      "category": "roster-team-management",
+      "path": "roster-team-management/free-agency.svg"
+    },
+    {
+      "name": "Trade Hub",
+      "category": "roster-team-management",
+      "path": "roster-team-management/trade-hub.svg"
+    },
+    {
+      "name": "Practice Squad",
+      "category": "roster-team-management",
+      "path": "roster-team-management/practice-squad.svg"
+    },
+    {
+      "name": "Cap Space",
+      "category": "roster-team-management",
+      "path": "roster-team-management/cap-space.svg"
+    },
+    {
+      "name": "Settings",
+      "category": "roster-team-management",
+      "path": "roster-team-management/settings.svg"
+    },
+    {
+      "name": "Staff",
+      "category": "roster-team-management",
+      "path": "roster-team-management/staff.svg"
+    },
+    {
+      "name": "Quarterback",
+      "category": "players-positions",
+      "path": "players-positions/quarterback.svg"
+    },
+    {
+      "name": "Running Back",
+      "category": "players-positions",
+      "path": "players-positions/running-back.svg"
+    },
+    {
+      "name": "Wide Receiver",
+      "category": "players-positions",
+      "path": "players-positions/wide-receiver.svg"
+    },
+    {
+      "name": "Tight End",
+      "category": "players-positions",
+      "path": "players-positions/tight-end.svg"
+    },
+    {
+      "name": "Offensive Line",
+      "category": "players-positions",
+      "path": "players-positions/offensive-line.svg"
+    },
+    {
+      "name": "Defensive Line",
+      "category": "players-positions",
+      "path": "players-positions/defensive-line.svg"
+    },
+    {
+      "name": "Edge Rusher",
+      "category": "players-positions",
+      "path": "players-positions/edge-rusher.svg"
+    },
+    {
+      "name": "Linebacker",
+      "category": "players-positions",
+      "path": "players-positions/linebacker.svg"
+    },
+    {
+      "name": "Cornerback",
+      "category": "players-positions",
+      "path": "players-positions/cornerback.svg"
+    },
+    {
+      "name": "Safety",
+      "category": "players-positions",
+      "path": "players-positions/safety.svg"
+    },
+    {
+      "name": "Kicker",
+      "category": "players-positions",
+      "path": "players-positions/kicker.svg"
+    },
+    {
+      "name": "Punter",
+      "category": "players-positions",
+      "path": "players-positions/punter.svg"
+    },
+    {
+      "name": "All News",
+      "category": "news",
+      "path": "news/all-news.svg"
+    },
+    {
+      "name": "Rumors",
+      "category": "news",
+      "path": "news/rumors.svg"
+    },
+    {
+      "name": "Injuries",
+      "category": "news",
+      "path": "news/injuries.svg"
+    },
+    {
+      "name": "Transactions",
+      "category": "news",
+      "path": "news/transactions.svg"
+    },
+    {
+      "name": "Contracts News",
+      "category": "news",
+      "path": "news/contracts-news.svg"
+    },
+    {
+      "name": "Game Recaps",
+      "category": "news",
+      "path": "news/game-recaps.svg"
+    },
+    {
+      "name": "Analysis",
+      "category": "news",
+      "path": "news/analysis.svg"
+    },
+    {
+      "name": "My Team",
+      "category": "news",
+      "path": "news/my-team.svg"
+    },
+    {
+      "name": "Schedule",
+      "category": "game-season",
+      "path": "game-season/schedule.svg"
+    },
+    {
+      "name": "Standings",
+      "category": "game-season",
+      "path": "game-season/standings.svg"
+    },
+    {
+      "name": "Playoffs",
+      "category": "game-season",
+      "path": "game-season/playoffs.svg"
+    },
+    {
+      "name": "Stadiums",
+      "category": "game-season",
+      "path": "game-season/stadiums.svg"
+    },
+    {
+      "name": "Tickets",
+      "category": "game-season",
+      "path": "game-season/tickets.svg"
+    },
+    {
+      "name": "Scores",
+      "category": "game-season",
+      "path": "game-season/scores.svg"
+    },
+    {
+      "name": "Game Center",
+      "category": "game-season",
+      "path": "game-season/game-center.svg"
+    },
+    {
+      "name": "Rivalries",
+      "category": "game-season",
+      "path": "game-season/rivalries.svg"
+    },
+    {
+      "name": "League Leaders",
+      "category": "game-season",
+      "path": "game-season/league-leaders.svg"
+    },
+    {
+      "name": "Awards",
+      "category": "game-season",
+      "path": "game-season/awards.svg"
+    },
+    {
+      "name": "Videos",
+      "category": "media-content",
+      "path": "media-content/videos.svg"
+    },
+    {
+      "name": "Highlights",
+      "category": "media-content",
+      "path": "media-content/highlights.svg"
+    },
+    {
+      "name": "Podcasts",
+      "category": "media-content",
+      "path": "media-content/podcasts.svg"
+    },
+    {
+      "name": "Articles",
+      "category": "media-content",
+      "path": "media-content/articles.svg"
+    },
+    {
+      "name": "Photo Gallery",
+      "category": "media-content",
+      "path": "media-content/photo-gallery.svg"
+    },
+    {
+      "name": "Live",
+      "category": "media-content",
+      "path": "media-content/live.svg"
+    },
+    {
+      "name": "Shows",
+      "category": "media-content",
+      "path": "media-content/shows.svg"
+    },
+    {
+      "name": "Featured",
+      "category": "media-content",
+      "path": "media-content/featured.svg"
+    },
+    {
+      "name": "Stats",
+      "category": "analysis-tools",
+      "path": "analysis-tools/stats.svg"
+    },
+    {
+      "name": "Trends",
+      "category": "analysis-tools",
+      "path": "analysis-tools/trends.svg"
+    },
+    {
+      "name": "Team Analytics",
+      "category": "analysis-tools",
+      "path": "analysis-tools/team-analytics.svg"
+    },
+    {
+      "name": "Player Comparison",
+      "category": "analysis-tools",
+      "path": "analysis-tools/player-comparison.svg"
+    },
+    {
+      "name": "Filters",
+      "category": "analysis-tools",
+      "path": "analysis-tools/filters.svg"
+    },
+    {
+      "name": "Scouting",
+      "category": "analysis-tools",
+      "path": "analysis-tools/scouting.svg"
+    },
+    {
+      "name": "Cap Space Tool",
+      "category": "analysis-tools",
+      "path": "analysis-tools/cap-space-tool.svg"
+    },
+    {
+      "name": "Trade Finder",
+      "category": "analysis-tools",
+      "path": "analysis-tools/trade-finder.svg"
+    },
+    {
+      "name": "Data",
+      "category": "analysis-tools",
+      "path": "analysis-tools/data.svg"
+    },
+    {
+      "name": "Projections",
+      "category": "analysis-tools",
+      "path": "analysis-tools/projections.svg"
+    },
+    {
+      "name": "Football",
+      "category": "football-concepts",
+      "path": "football-concepts/football.svg"
+    },
+    {
+      "name": "Playbook",
+      "category": "football-concepts",
+      "path": "football-concepts/playbook.svg"
+    },
+    {
+      "name": "Coach",
+      "category": "football-concepts",
+      "path": "football-concepts/coach.svg"
+    },
+    {
+      "name": "Coordinator",
+      "category": "football-concepts",
+      "path": "football-concepts/coordinator.svg"
+    },
+    {
+      "name": "Game Clock",
+      "category": "football-concepts",
+      "path": "football-concepts/game-clock.svg"
+    },
+    {
+      "name": "Yard Marker",
+      "category": "football-concepts",
+      "path": "football-concepts/yard-marker.svg"
+    },
+    {
+      "name": "First Down",
+      "category": "football-concepts",
+      "path": "football-concepts/first-down.svg"
+    },
+    {
+      "name": "Referee",
+      "category": "football-concepts",
+      "path": "football-concepts/referee.svg"
+    },
+    {
+      "name": "Field",
+      "category": "football-concepts",
+      "path": "football-concepts/field.svg"
+    },
+    {
+      "name": "Touchdown",
+      "category": "football-concepts",
+      "path": "football-concepts/touchdown.svg"
+    },
+    {
+      "name": "Add",
+      "category": "actions",
+      "path": "actions/add.svg"
+    },
+    {
+      "name": "Edit",
+      "category": "actions",
+      "path": "actions/edit.svg"
+    },
+    {
+      "name": "Delete",
+      "category": "actions",
+      "path": "actions/delete.svg"
+    },
+    {
+      "name": "Copy",
+      "category": "actions",
+      "path": "actions/copy.svg"
+    },
+    {
+      "name": "Share",
+      "category": "actions",
+      "path": "actions/share.svg"
+    },
+    {
+      "name": "View",
+      "category": "actions",
+      "path": "actions/view.svg"
+    },
+    {
+      "name": "Download",
+      "category": "actions",
+      "path": "actions/download.svg"
+    },
+    {
+      "name": "Print",
+      "category": "actions",
+      "path": "actions/print.svg"
+    },
+    {
+      "name": "Favorite",
+      "category": "status-indicators",
+      "path": "status-indicators/favorite.svg"
+    },
+    {
+      "name": "Save",
+      "category": "status-indicators",
+      "path": "status-indicators/save.svg"
+    },
+    {
+      "name": "Hide",
+      "category": "status-indicators",
+      "path": "status-indicators/hide.svg"
+    },
+    {
+      "name": "Active",
+      "category": "status-indicators",
+      "path": "status-indicators/active.svg"
+    },
+    {
+      "name": "Pending",
+      "category": "status-indicators",
+      "path": "status-indicators/pending.svg"
+    },
+    {
+      "name": "Inactive",
+      "category": "status-indicators",
+      "path": "status-indicators/inactive.svg"
+    },
+    {
+      "name": "Rising",
+      "category": "status-indicators",
+      "path": "status-indicators/rising.svg"
+    },
+    {
+      "name": "Falling",
+      "category": "status-indicators",
+      "path": "status-indicators/falling.svg"
+    },
+    {
+      "name": "Out",
+      "category": "status-indicators",
+      "path": "status-indicators/out.svg"
+    },
+    {
+      "name": "Home",
+      "category": "ui-navigation",
+      "path": "ui-navigation/home.svg"
+    },
+    {
+      "name": "Menu",
+      "category": "ui-navigation",
+      "path": "ui-navigation/menu.svg"
+    },
+    {
+      "name": "Search",
+      "category": "ui-navigation",
+      "path": "ui-navigation/search.svg"
+    },
+    {
+      "name": "Notifications",
+      "category": "ui-navigation",
+      "path": "ui-navigation/notifications.svg"
+    },
+    {
+      "name": "Messages",
+      "category": "ui-navigation",
+      "path": "ui-navigation/messages.svg"
+    },
+    {
+      "name": "Profile",
+      "category": "ui-navigation",
+      "path": "ui-navigation/profile.svg"
+    },
+    {
+      "name": "Info",
+      "category": "ui-navigation",
+      "path": "ui-navigation/info.svg"
+    },
+    {
+      "name": "Help",
+      "category": "ui-navigation",
+      "path": "ui-navigation/help.svg"
+    },
+    {
+      "name": "More",
+      "category": "ui-navigation",
+      "path": "ui-navigation/more.svg"
+    }
+  ]
+}

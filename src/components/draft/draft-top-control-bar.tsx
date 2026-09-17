@@ -1,6 +1,7 @@
 'use client';
 
-import { Pause, Play, Settings2 } from 'lucide-react';
+import { Pause, Play } from 'lucide-react';
+import { DdSettingsIcon as Settings2 } from '@/components/ui/football-icons';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

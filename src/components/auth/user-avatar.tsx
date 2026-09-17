@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { UserRound } from 'lucide-react';
+import { DdProfileIcon as UserRound } from '@/components/ui/football-icons';
 
 type UserAvatarProps = {
   src?: string | null;

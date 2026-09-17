@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Bookmark, ExternalLink, Share2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { DdSaveIcon as Bookmark, DdShareIcon as Share2 } from '@/components/ui/football-icons';
 import { notFound } from 'next/navigation';
 
 import ContentPageAnalytics from '@/components/content/content-page-analytics';

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import { Search } from 'lucide-react';
+import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 
 import type { DraftBoardEntry } from '@/lib/draft-board';
 import type { DraftRun } from '@/lib/draft-intelligence';

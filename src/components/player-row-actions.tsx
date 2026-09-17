@@ -2,15 +2,13 @@
 
 import * as React from 'react';
 import type { LucideIcon } from 'lucide-react';
+import { ClipboardCheck, Plus, UserX } from 'lucide-react';
 import {
-  ArrowLeftRight,
-  BadgeDollarSign,
-  ClipboardCheck,
-  Handshake,
-  MoreHorizontal,
-  Plus,
-  UserX,
-} from 'lucide-react';
+  DdTradeHubIcon as ArrowLeftRight,
+  DdContractsIcon as BadgeDollarSign,
+  DdContractsIcon as Handshake,
+  DdMoreIcon as MoreHorizontal,
+} from '@/components/ui/football-icons';
 
 import { Button } from '@/components/ui/button';
 import {

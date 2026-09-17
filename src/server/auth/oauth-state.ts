@@ -3,10 +3,16 @@ import { requireAuthConfig } from './config';
 import { secureToken } from './crypto';
 
 const key = () => new TextEncoder().encode(requireAuthConfig().AUTH_JWT_SECRET);
-export async function createOAuthState(provider: string, next: string, linkUserId?: string) {
+export type MobileOAuthState = { challenge: string; state: string };
+export async function createOAuthState(
+  provider: string,
+  next: string,
+  linkUserId?: string,
+  mobile?: MobileOAuthState,
+) {
   const state = secureToken();
   const nonce = secureToken();
-  const token = await new SignJWT({ provider, state, nonce, next, linkUserId })
+  const token = await new SignJWT({ provider, state, nonce, next, linkUserId, mobile })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuer('down-distance')
     .setAudience('down-distance-oauth')
@@ -26,5 +32,6 @@ export async function readOAuthState(token: string) {
     nonce: String(payload.nonce),
     next: String(payload.next ?? '/'),
     linkUserId: typeof payload.linkUserId === 'string' ? payload.linkUserId : undefined,
+    mobile: payload.mobile as MobileOAuthState | undefined,
   };
 }

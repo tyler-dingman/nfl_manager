@@ -86,15 +86,6 @@ export function FrontOfficeSchedulePage() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.heading}>
-        <div />
-        <label>
-          Season
-          <select value={state.season} disabled>
-            <option>{state.season}</option>
-          </select>
-        </label>
-      </header>
       <div className={styles.tabs}>
         {(['My Schedule', 'League Week'] as View[]).map((item) => (
           <button

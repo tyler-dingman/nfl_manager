@@ -1,4 +1,7 @@
+import { periodLabel } from './market-category-map';
+
 type DisplayMarket = {
+  period?: string;
   marketType: string;
   playerName: string | null;
   teamId: string | null;
@@ -23,9 +26,12 @@ const lineLabel = (market: DisplayMarket) =>
 
 export const rowName = (market: DisplayMarket) => {
   const thresholdYes = market.side === 'YES' && market.marketType.includes('TD');
-  return [subjectLabel(market), thresholdYes ? '' : market.side ? humanize(market.side) : '']
+  const name = [subjectLabel(market), thresholdYes ? '' : market.side ? humanize(market.side) : '']
     .filter(Boolean)
     .join(' ');
+  return market.period && market.period.toLowerCase() !== 'game'
+    ? `${name} · ${periodLabel(market.period)}`
+    : name;
 };
 
 export const sportsbookLineLabel = (market: DisplayMarket) => {

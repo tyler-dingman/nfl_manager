@@ -1,7 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, BarChart3, ChevronRight, ShieldCheck, Star, Users } from 'lucide-react';
+import { ArrowRight, ChevronRight, ShieldCheck, Star } from 'lucide-react';
+import {
+  DdTeamAnalyticsIcon as BarChart3,
+  DdRosterIcon as Users,
+} from '@/components/ui/football-icons';
 
 import type { TeamNeedAnalysis } from '@/lib/team-overview';
 import styles from './team-needs-page.module.css';

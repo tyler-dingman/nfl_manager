@@ -9,9 +9,9 @@ import {
   ClipboardList,
   Lightbulb,
   RotateCcw,
-  Search,
   Target,
 } from 'lucide-react';
+import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 import { useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useSaveStore } from '@/features/save/save-store';

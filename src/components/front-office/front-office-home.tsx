@@ -3,7 +3,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CalendarDays, CloudSun, MapPin, MessageCircle, Repeat2 } from 'lucide-react';
+import { ArrowRight, CloudSun, MapPin, Repeat2 } from 'lucide-react';
+import {
+  DdScheduleIcon as CalendarDays,
+  DdMessagesIcon as MessageCircle,
+  DdAllNewsIcon,
+  DdStandingsIcon,
+  DdScoresIcon,
+} from '@/components/ui/football-icons';
 
 import { TEAM_LIST } from '@/data/teams';
 import { apiFetch } from '@/lib/api';
@@ -175,6 +182,12 @@ function MatchupCard({
   );
 }
 
+function senderInitials(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return 'FO';
+  return `${parts[0][0]}${parts.length > 1 ? parts[parts.length - 1][0] : ''}`.toUpperCase();
+}
+
 function Messages({ events }: { events: FrontOfficeEvent[] }) {
   const messages = events
     .filter((event) =>
@@ -195,7 +208,13 @@ function Messages({ events }: { events: FrontOfficeEvent[] }) {
   return (
     <section className="fo-home-panel">
       <header>
-        <h2>Messages {messages.length ? <em>{messages.length}</em> : null}</h2>
+        <h2>
+          <MessageCircle aria-hidden="true" />
+          Messages{' '}
+          {messages.length ? (
+            <span className="fo-home-message-count">{messages.length}</span>
+          ) : null}
+        </h2>
         <Link href="/front-office/messages">
           View all <ArrowRight />
         </Link>
@@ -213,7 +232,7 @@ function Messages({ events }: { events: FrontOfficeEvent[] }) {
               ) : (
                 <span className="fo-home-avatar">
                   {event.type === 'welcome_message'
-                    ? String(event.metadata.senderName ?? event.headline).slice(0, 1)
+                    ? senderInitials(String(event.metadata.senderName ?? event.headline))
                     : event.type === 're_sign_ready'
                       ? 'A'
                       : 'FO'}
@@ -264,7 +283,10 @@ function Wire({
     <section className="fo-home-wire fo-home-panel">
       <header>
         <div>
-          <h2>The Wire</h2>
+          <h2>
+            <DdAllNewsIcon aria-hidden="true" />
+            The Wire
+          </h2>
           <span>Latest from around the league.</span>
         </div>
         <Link href="/front-office/league/news">
@@ -331,7 +353,10 @@ function Standings({ state, teamAbbr }: { state: FranchiseSimulationState; teamA
     <section className="fo-home-panel">
       <header>
         <div>
-          <h2>Standings</h2>
+          <h2>
+            <DdStandingsIcon aria-hidden="true" />
+            Standings
+          </h2>
           <span>
             {team?.conference} {team?.division}
           </span>
@@ -377,7 +402,10 @@ function Results({ state, teamAbbr }: { state: FranchiseSimulationState; teamAbb
   return (
     <section className="fo-home-panel">
       <header>
-        <h2>Recent results</h2>
+        <h2>
+          <DdScoresIcon aria-hidden="true" />
+          Recent results
+        </h2>
         <span>Week {state.currentWeek || 1}</span>
       </header>
       <div className="fo-home-results">

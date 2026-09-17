@@ -4,26 +4,30 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowDownRight, ArrowUp, ChevronDown, X, type LucideIcon } from 'lucide-react';
+import { DdMenuIcon as Menu, DdSettingsIcon as Settings2 } from '@/components/ui/football-icons';
+
 import {
-  ArrowDownRight,
-  ArrowLeftRight,
-  ArrowUp,
-  BarChart3,
-  ChevronDown,
-  ClipboardList,
-  Handshake,
-  Lock,
-  Menu,
-  Newspaper,
-  Search,
-  Settings2,
-  Shield,
-  Trophy,
-  Users,
-  WalletCards,
-  X,
-  type LucideIcon,
-} from 'lucide-react';
+  DdRosterIcon,
+  DdDraftCentralIcon,
+  DdFootballIcon,
+  DdDepthChartIcon,
+  DdContractsIcon,
+  DdFreeAgencyIcon,
+  DdTradeHubIcon,
+  DdPracticeSquadIcon,
+  DdMockDraftIcon,
+  DdBigBoardIcon,
+  DdDraftGuideIcon,
+  DdScoutingIcon,
+  DdTeamAnalyticsIcon,
+  DdTradeMachineIcon,
+  DdMyDraftsIcon,
+  DdAllNewsIcon,
+  DdStandingsIcon,
+  DdScheduleIcon,
+  DdTransactionsIcon,
+} from '@/components/ui/football-icons';
 
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -73,38 +77,35 @@ type DraftNavItem = FrontOfficeDraftNavItem;
 type LeagueNavItem = FrontOfficeLeagueNavItem;
 
 const navIcons: Record<NavItem, LucideIcon> = {
-  Roster: Users,
-  Draft: Lock,
-  League: Shield,
+  Roster: DdRosterIcon,
+  Draft: DdDraftCentralIcon,
+  League: DdFootballIcon,
   Settings: Settings2,
 };
-
 const rosterNavIcons: Record<RosterNavItem, LucideIcon> = {
-  'Roster Central': Users,
-  'Depth Chart': Shield,
-  Contracts: Handshake,
-  'Free Agency': ClipboardList,
-  'Trade Hub': ArrowLeftRight,
-  'Practice Squad': Users,
+  'Roster Central': DdRosterIcon,
+  'Depth Chart': DdDepthChartIcon,
+  Contracts: DdContractsIcon,
+  'Free Agency': DdFreeAgencyIcon,
+  'Trade Hub': DdTradeHubIcon,
+  'Practice Squad': DdPracticeSquadIcon,
 };
-
 const draftNavIcons: Record<DraftNavItem, LucideIcon> = {
-  'Draft Central': Lock,
-  'Mock Draft': BarChart3,
-  'Big Board': ClipboardList,
-  'Draft Guide': Newspaper,
-  'Position Rankings': Search,
-  'Team Needs': Shield,
-  'Trade Machine': ArrowLeftRight,
-  'My Drafts': Trophy,
+  'Draft Central': DdDraftCentralIcon,
+  'Mock Draft': DdMockDraftIcon,
+  'Big Board': DdBigBoardIcon,
+  'Draft Guide': DdDraftGuideIcon,
+  'Position Rankings': DdScoutingIcon,
+  'Team Needs': DdTeamAnalyticsIcon,
+  'Trade Machine': DdTradeMachineIcon,
+  'My Drafts': DdMyDraftsIcon,
 };
-
 const leagueNavIcons: Record<LeagueNavItem, LucideIcon> = {
-  'League Central': Shield,
-  News: Newspaper,
-  Standings: Trophy,
-  Schedule: ClipboardList,
-  Transactions: ArrowLeftRight,
+  'League Central': DdFootballIcon,
+  News: DdAllNewsIcon,
+  Standings: DdStandingsIcon,
+  Schedule: DdScheduleIcon,
+  Transactions: DdTransactionsIcon,
 };
 
 const shellRightRailRoutes = [

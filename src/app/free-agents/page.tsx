@@ -502,6 +502,23 @@ export default function FreeAgentsPage() {
         capSpace={capSpace}
         capLimit={capLimit}
         onClose={() => setActivePlayerDetails(null)}
+        actions={
+          activePlayerDetails &&
+          activePlayerDetails.kind !== 'expiring' &&
+          activePlayerDetails.player.marketStatus !== 'signed' &&
+          activePlayerDetails.player.status.toLowerCase() !== 'signed'
+            ? [
+                {
+                  label: 'Make Offer',
+                  onSelect: () => {
+                    const player = activePlayerDetails.player;
+                    setActivePlayerDetails(null);
+                    handleOfferPlayer(player);
+                  },
+                },
+              ]
+            : []
+        }
       />
       {activeOfferPlayer ? (
         <ContractOfferModal

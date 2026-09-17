@@ -1,17 +1,12 @@
 'use client';
 
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { CirclePlus, ExternalLink, Loader2, Mic, Sparkles, Video } from 'lucide-react';
 import {
-  CirclePlus,
-  ExternalLink,
-  Loader2,
-  Mic,
-  Newspaper,
-  Search,
-  Sparkles,
-  UserRound,
-  Video,
-} from 'lucide-react';
+  DdArticlesIcon as Newspaper,
+  DdSearchIcon as Search,
+  DdProfileIcon as UserRound,
+} from '@/components/ui/football-icons';
 
 import type { SearchResponse } from '@/features/search/types';
 import { parseSearchAnswerCitations } from '@/features/search/citations';

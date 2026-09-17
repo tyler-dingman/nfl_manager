@@ -28,3 +28,4 @@ tools/avatar-studio/**/*.pyc
 !tools/avatar-studio/cache/.gitkeep
 .vercel
 .env*
+firebase-debug*.log

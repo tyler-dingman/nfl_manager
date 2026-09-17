@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { TrendingUp } from 'lucide-react';
+import { DdTrendsIcon as TrendingUp } from '@/components/ui/football-icons';
 
 import {
   EMPTY_FAN_PULSE_COUNTS,

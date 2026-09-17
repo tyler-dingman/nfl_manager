@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
+import PlayerDetailsModal from '@/components/player-details-modal';
+import { useTeamStore } from '@/features/team/team-store';
+import type { PlayerRowDTO } from '@/types/player';
 import AppShell from '@/components/app-shell';
 import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
 import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
@@ -32,6 +35,32 @@ export function TradeTargetDetail({ playerId }: { playerId: string }) {
   const saveId = useSaveStore((store) => store.saveId);
   const [target, setTarget] = useState<Target | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const save = useSaveStore();
+  const teams = useTeamStore((state) => state.teams);
+  const [detailPlayer, setDetailPlayer] = useState<PlayerRowDTO | null>(null);
+  const [detailRoster, setDetailRoster] = useState<PlayerRowDTO[]>([]);
+  const [detailStatus, setDetailStatus] = useState('');
+  const openDetails = async () => {
+    if (!target?.teamAbbr || !saveId) return;
+    setDetailStatus('Loading player details…');
+    try {
+      const response = await apiFetch('/api/trade-offers/assets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ saveId, partnerTeamAbbr: target.teamAbbr }),
+      });
+      if (!response.ok) throw new Error();
+      const data = await response.json();
+      const roster: PlayerRowDTO[] = data.partner?.players ?? [];
+      const player = roster.find((entry) => entry.id === target.id);
+      if (!player) throw new Error();
+      setDetailRoster(roster);
+      setDetailPlayer(player);
+      setDetailStatus('');
+    } catch {
+      setDetailStatus('Player details are unavailable in this save. Please try again.');
+    }
+  };
   useEffect(() => {
     if (!saveId) return;
     void apiFetch(`/api/front-office/trade-hub?saveId=${encodeURIComponent(saveId)}`)
@@ -60,6 +89,20 @@ export function TradeTargetDetail({ playerId }: { playerId: string }) {
   }, [playerId, saveId]);
   return (
     <AppShell>
+      <PlayerDetailsModal
+        isOpen={Boolean(detailPlayer)}
+        source={detailPlayer ? { kind: 'tradeAsset', player: detailPlayer } : null}
+        sources={detailRoster.map((player) => ({ kind: 'tradeAsset', player }))}
+        roster={detailRoster}
+        teams={teams}
+        userTeamAbbr={save.teamAbbr}
+        capSpace={save.capSpace}
+        capLimit={save.capLimit}
+        onClose={() => setDetailPlayer(null)}
+        onSelectSource={(entry) => {
+          if (entry.kind !== 'expiring') setDetailPlayer(entry.player);
+        }}
+      />
       <FrontOfficeStrategicHero
         section="Trade Hub"
         title="Trade Hub"
@@ -96,6 +139,14 @@ export function TradeTargetDetail({ playerId }: { playerId: string }) {
                 Start trade <ArrowRight />
               </Link>
             </header>
+            <button
+              type="button"
+              className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold"
+              onClick={() => void openDetails()}
+            >
+              Player Details
+            </button>
+            {detailStatus && <p role="status">{detailStatus}</p>}
             <div className={styles.detailGrid}>
               <section>
                 <h2>Market snapshot</h2>

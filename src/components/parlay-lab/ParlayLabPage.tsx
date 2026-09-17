@@ -5,15 +5,17 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
-  Copy,
-  Download,
   ExternalLink,
   FlaskConical,
   Plus,
-  Search,
-  Share2,
   X,
 } from 'lucide-react';
+import {
+  DdCopyIcon as Copy,
+  DdDownloadIcon as Download,
+  DdSearchIcon as Search,
+  DdShareIcon as Share2,
+} from '@/components/ui/football-icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import MainSiteHeader from '@/components/main-site-header';
@@ -29,6 +31,7 @@ import {
   marketPlacements,
   PARLAY_CATEGORIES,
   resolvedMarketType,
+  withMarketPeriod,
   type ParlayCategory,
 } from './market-category-map';
 import { estimateParlayOdds } from './parlay-odds';
@@ -105,8 +108,11 @@ const humanize = (value: string) =>
     .toLowerCase()
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 const marketLabel = (market: Market) =>
-  STAT_LABELS[market.statId] ??
-  (market.marketType === 'OTHER' ? humanize(market.statId) : humanize(market.marketType));
+  withMarketPeriod(
+    STAT_LABELS[market.statId] ??
+      (market.marketType === 'OTHER' ? humanize(market.statId) : humanize(market.marketType)),
+    market.period,
+  );
 const subjectLabel = (market: Market) => market.playerName ?? market.teamId ?? 'Game';
 const lineLabel = (market: Market) =>
   market.line === null

@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Shield } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { DdPlaybookIcon as Shield } from '@/components/ui/football-icons';
 import { useMemo } from 'react';
 
 import type { Team } from '@/features/team/team-store';

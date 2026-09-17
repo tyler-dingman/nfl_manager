@@ -1,0 +1,160 @@
+action,reason,url,state,target,created,commit
+KEEP,current production,nfl-manager-6cgq82bog-tyler-dingmans-projects.vercel.app,READY,production,2026-09-17T16:19:03.367000+00:00,02a25715e1b381362e9a55b2a1f810f20a445fa7
+DELETED,,nfl-manager-fipb42np2-tyler-dingmans-projects.vercel.app,ERROR,production,2026-09-17T16:06:52.122000+00:00,8deb1bca0b687b9a79cd92cd7864b023397f0383
+DELETED,,nfl-manager-mt64r4mro-tyler-dingmans-projects.vercel.app,ERROR,production,2026-09-17T15:56:50.013000+00:00,78e6050ab3ea87809babef137d22aa27d892dfc3
+DELETED,,nfl-manager-drur40qmb-tyler-dingmans-projects.vercel.app,ERROR,production,2026-09-17T15:45:42.592000+00:00,ceda74787f68c660e4ebeb0046232b9e76622ae4
+KEEP,production backup,nfl-manager-bmvmbvdte-tyler-dingmans-projects.vercel.app,READY,production,2026-09-17T15:25:56.518000+00:00,bbcd01d570991b5f2ea391cfc87b24e0f7aaffb1
+DELETED,,nfl-manager-gywk15kn7-tyler-dingmans-projects.vercel.app,READY,production,2026-09-15T23:45:51.524000+00:00,7d602bbd2fdbd5bbe418d59f48939daf53b1e570
+DELETED,,nfl-manager-nrurxcfi0-tyler-dingmans-projects.vercel.app,READY,production,2026-09-15T23:19:14.704000+00:00,70d0702ef9af8218e3ff929b6d333954121b7a20
+DELETED,,nfl-manager-jatbnn78n-tyler-dingmans-projects.vercel.app,READY,production,2026-09-15T22:21:37.530000+00:00,b511de6c6a2bca63b2aea66f1b84c2e22396af84
+DELETED,,nfl-manager-jo55rtwnq-tyler-dingmans-projects.vercel.app,READY,production,2026-09-15T15:13:03.298000+00:00,8119c7bef92d4ab23552b915a4cfa2baf4386804
+DELETED,,nfl-manager-76caweiz6-tyler-dingmans-projects.vercel.app,READY,production,2026-09-10T23:55:14.533000+00:00,0abf31ebdd498ef6fb75f83d384396d7f59ea677
+DELETED,,nfl-manager-4ss2xgshu-tyler-dingmans-projects.vercel.app,READY,production,2026-09-10T20:12:40.962000+00:00,b959ba79940c5f32bc924772b45c8c3aedc705ba
+DELETED,,nfl-manager-cvox5vooe-tyler-dingmans-projects.vercel.app,READY,production,2026-09-10T11:25:46.098000+00:00,2994ee1d475f661c6e6e7ae436499ba80b31ad1e
+DELETED,,nfl-manager-7zivd21i9-tyler-dingmans-projects.vercel.app,READY,production,2026-09-10T01:57:24.239000+00:00,7d7024bec13da0c7d300244e06036d059bdd5697
+DELETED,,nfl-manager-isl3taq7o-tyler-dingmans-projects.vercel.app,READY,production,2026-09-10T01:51:36.493000+00:00,2eb205c46387dfe86257f19307d7e2eb197d9b82
+DELETED,,nfl-manager-k200efqsv-tyler-dingmans-projects.vercel.app,READY,production,2026-09-10T01:44:56.573000+00:00,ce017293bd9ab442a17223ad4b39b351861d7aad
+DELETED,,nfl-manager-75qo00u5r-tyler-dingmans-projects.vercel.app,READY,production,2026-09-10T01:28:15.886000+00:00,e7a66e6cabf51c4c321d41bbcfbf53f35530f56e
+DELETED,,nfl-manager-rertb46rr-tyler-dingmans-projects.vercel.app,READY,production,2026-09-10T00:40:16.149000+00:00,9da73993195ba756ced6b474e9628487a8b7a316
+DELETED,,nfl-manager-i6f3ubgyg-tyler-dingmans-projects.vercel.app,READY,production,2026-09-09T22:05:59.262000+00:00,0e7baffccb8d77cd163383d709657b66567318bc
+DELETED,,nfl-manager-3vgqiwklc-tyler-dingmans-projects.vercel.app,READY,production,2026-09-09T18:50:39.432000+00:00,ab361ed6db6e360d3546639a7379593bd02ca017
+DELETED,,nfl-manager-ir8lknwth-tyler-dingmans-projects.vercel.app,READY,production,2026-09-09T18:43:38.937000+00:00,cf673f35a4605c070624e104ce2f2066eecd2a86
+DELETED,,nfl-manager-qvy1xhriq-tyler-dingmans-projects.vercel.app,READY,production,2026-09-09T18:33:47.049000+00:00,f77c0a854c49f69ae13e9d022c0ca880f9838083
+DELETED,,nfl-manager-ay5naq34e-tyler-dingmans-projects.vercel.app,READY,production,2026-09-09T15:42:10.623000+00:00,691f4cbf5204ebd4a3a9ae71763d1d3aa45c93c8
+DELETED,,nfl-manager-f0it3z8y6-tyler-dingmans-projects.vercel.app,READY,production,2026-09-09T15:09:47.636000+00:00,c1cd8928213acda30c122e85fb6ab8785640a5f3
+DELETED,,nfl-manager-1obfcfwp0-tyler-dingmans-projects.vercel.app,READY,production,2026-09-09T14:48:12.130000+00:00,427363880295b484d996e66965aa328f5c0b517f
+DELETED,,nfl-manager-a2bdyhnpj-tyler-dingmans-projects.vercel.app,READY,production,2026-09-09T03:39:10.858000+00:00,9382991ddb9e7385e63fd4dd9b2d77a407835179
+DELETED,,nfl-manager-f0q8r83uq-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T22:53:50.389000+00:00,97916842a809f05a4ed978f28c80281a91d958a7
+DELETED,,nfl-manager-4jvu5h0xj-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T22:44:39.493000+00:00,e616aa3a48ed1765fd4b8a66254613002235eb19
+DELETED,,nfl-manager-fvpxvqqsl-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T22:42:35.730000+00:00,6dec39008dfa7f7e9c9d9fda056f4b8f27b1da34
+DELETED,,nfl-manager-nviruqh4s-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T22:38:04.736000+00:00,8b36c752eeab6ae92c6e366075dc8e78f80f8206
+DELETED,,nfl-manager-p7uohq5et-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T22:31:27.351000+00:00,561985cc4f038bcd4f09df773e709a7c1ccb9673
+DELETED,,nfl-manager-l4e5k7f5j-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T22:24:45.614000+00:00,c80c108c97026978274a0cbba9ab848d318d3eac
+DELETED,,nfl-manager-q2e2xw0lw-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T21:22:46.254000+00:00,966e1dc2c03f22004a579c35a076518caf5281aa
+DELETED,,nfl-manager-xr3o4zodf-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T21:12:50.291000+00:00,1dcb98dba42ad7763e48dae1087b9b0f6ebae728
+DELETED,,nfl-manager-pu7o23vsd-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T21:00:41.305000+00:00,19f54aecbff057192e29ff6fb2a49e53e2492894
+DELETED,,nfl-manager-m1qxxqlh3-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T20:40:44.622000+00:00,9d4cd46681faad3d14b1530bff24e2fbeb0477b5
+DELETED,,nfl-manager-4uoiwiir7-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T20:30:01.030000+00:00,2cfc5bc29f14c95628dd2862fdaa82713e592042
+DELETED,,nfl-manager-nsoju85dp-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T20:22:22.657000+00:00,f3dd614c32f0513341eb29568e5a5f45ce873ffd
+DELETED,,nfl-manager-1ilq7ei3l-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T18:38:17.234000+00:00,5739e573ef327fd1c87880d95cfc9764d58566dd
+DELETED,,nfl-manager-749vu8jhf-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T18:25:39.645000+00:00,19989c671c62e9108d19b603288215871a884904
+DELETED,,nfl-manager-nfc8qg5fz-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T18:20:01.866000+00:00,8edef6ffc0c41bd35f0fbef3e21dce6de35417bd
+DELETED,,nfl-manager-ajvm39ptl-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T17:57:26.186000+00:00,dfdff018cc9998a7f3cb1759274cf49eb6800649
+DELETED,,nfl-manager-na7y7j7h0-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T12:31:26.810000+00:00,194e56015ed97d0622d2f8848843285f2f065396
+DELETED,,nfl-manager-emyzrbam5-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T02:32:53.177000+00:00,fefb42ec0c7461fc162f7dccd77c66e1a57a50fa
+DELETED,,nfl-manager-ikyy3mxmf-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T01:45:01.780000+00:00,69d3ac217793793d11a3d8b215495bcdaa27e809
+DELETED,,nfl-manager-ikbu9f8ls-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T01:14:49.354000+00:00,1ee8da0524996b3a869382c79023f19f832473f7
+DELETED,,nfl-manager-86r4dilyy-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T01:09:11.972000+00:00,e5a613e5d31edfcddbd45c8aa636f69a25956213
+DELETED,,nfl-manager-arpcv2kyo-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T01:00:20.473000+00:00,c25404f1a9776d7eda2787ebdfa1705f642faa8b
+DELETED,,nfl-manager-bzvmabwnz-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T00:25:58.903000+00:00,c8b0392b6e0a2b788dc6795f12caa6998d40f7ff
+DELETED,,nfl-manager-qtgd9zmpi-tyler-dingmans-projects.vercel.app,READY,production,2026-09-08T00:14:39.109000+00:00,d1b72d6895914cccbdb5a0eb70458ba6901e5f23
+DELETED,,nfl-manager-66hddxk7r-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T23:55:49.471000+00:00,6ea9d8f505c1d26e67d1eefd34d8f19367d9c841
+DELETED,,nfl-manager-6cwnc236y-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T23:24:55.137000+00:00,d7b0a64ada4eddf4cf63a45d9f650ccd7c854632
+DELETED,,nfl-manager-h7z087kdw-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T23:22:40.923000+00:00,b7c779292187b7112f4dfda3d5843e7696bf9e01
+DELETED,,nfl-manager-lrrcbyhx3-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T23:15:31.912000+00:00,1f39a48ca286c53a378907a0c127db769d7263b0
+DELETED,,nfl-manager-13l0hq5y3-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T23:09:07.401000+00:00,5c812917184324b6fba629e992a9af659af5a239
+DELETED,,nfl-manager-lsfcodyg5-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T22:22:55.220000+00:00,5c812917184324b6fba629e992a9af659af5a239
+DELETED,,nfl-manager-e70u684to-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T22:08:33.379000+00:00,e79369934befd7674b9b56092fe7b2f3f773ad49
+DELETED,,nfl-manager-5hkh1lj3x-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T21:17:56.155000+00:00,dd593adf8a9186d8e06a5fd7ccb52f57d7970f02
+DELETED,,nfl-manager-18tg53cg4-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T20:55:26.999000+00:00,14c3752a4f3341df8c72179e08a5b9e8d922a9cb
+DELETED,,nfl-manager-cfoxuoptk-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T20:25:21.785000+00:00,bcda892ea1a3292c81752d6bc3793ccabfa97a3d
+DELETED,,nfl-manager-pii71pf29-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T20:04:55.331000+00:00,14da7eeeff96015b6b27727ad8e32a92438e0817
+DELETED,,nfl-manager-8p0s9pjjv-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T19:57:51.448000+00:00,14da7eeeff96015b6b27727ad8e32a92438e0817
+DELETED,,nfl-manager-qlbr7s1yw-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T19:32:43.841000+00:00,45510e078c4bd9b5671e04ca5b2f02bc1862bf86
+DELETED,,nfl-manager-k65e3ib9m-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T18:42:06.198000+00:00,5bd654851023c1ae5c3746fda7dd16748631df1c
+DELETED,,nfl-manager-8ziz3pr70-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T18:22:00.038000+00:00,5bd654851023c1ae5c3746fda7dd16748631df1c
+DELETED,,nfl-manager-fzso07duh-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T18:13:17.995000+00:00,5bd654851023c1ae5c3746fda7dd16748631df1c
+DELETED,,nfl-manager-2ki530e69-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T17:25:48.937000+00:00,a64e45e86a412f2b1c6788581de1054b22f32a8c
+DELETED,,nfl-manager-cql2uz166-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T17:02:50.344000+00:00,8740dcb1f894e158248046f05f6e685d91c01282
+DELETED,,nfl-manager-dquxi1d89-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:49:59.802000+00:00,a9d2cecec828a4469901e64ba06e2a3c4b59a731
+DELETED,,nfl-manager-3xhd90ywi-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:42:20.244000+00:00,ce2e2836ea00defa510b074e9697b67ee50f0d2f
+DELETED,,nfl-manager-4c1bhbgf0-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:40:20.578000+00:00,3a181c1a37f08ba9d12f68d265784042a069ff7b
+DELETED,,nfl-manager-jp16g6j9u-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:39:50.324000+00:00,a330286b93aff909480347f5f24a9ae700233e0f
+DELETED,,nfl-manager-nsgtdzi2g-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:37:37.606000+00:00,d952b60abc726faadae53eb948baa13d716256e6
+DELETED,,nfl-manager-j0urd3vau-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:34:45.014000+00:00,79ac79f85455a3a920719d35eeb6bc706dbd935a
+DELETED,,nfl-manager-c0hnnehs1-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:34:17.988000+00:00,2e7d3fe314122c95046708c28998152c1941c3c5
+DELETED,,nfl-manager-bav5ibj88-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:31:41.849000+00:00,a6fc276afa80f5c97bd4e5c182157531911bd686
+DELETED,,nfl-manager-o4h9jg3g9-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:23:30.805000+00:00,fbc992d8affaf15ddb567a0aea05220c5f6ca12a
+DELETED,,nfl-manager-3q7rfexqu-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:22:54.776000+00:00,a1b0781e3f39b0948625b0839fd91e40244de75e
+DELETED,,nfl-manager-6zmqrzouz-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:19:39.429000+00:00,18f5f52a30d80b643ffad5c04b02df133036d9ed
+DELETED,,nfl-manager-8izjfai77-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:17:39.189000+00:00,2d7aece97da1aabd756ac2de7b68801839897842
+DELETED,,nfl-manager-ba9xgbds2-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:17:10.684000+00:00,9b130310449334b3e1814006d1457aedb982aa4f
+DELETED,,nfl-manager-gqrlgb3jg-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:14:51.756000+00:00,5b5ef6f647f7cee933d2801f753a5f7e2864cf4e
+DELETED,,nfl-manager-k606ujy90-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:13:06.100000+00:00,af23f40430d9333b60ade45990fccbac3e535a48
+DELETED,,nfl-manager-gsg1alfun-tyler-dingmans-projects.vercel.app,CANCELED,production,2026-09-07T16:12:31.570000+00:00,eb48fa2560b58b5df6ef98977c5cca8ba558fffa
+DELETED,,nfl-manager-4n5yjn7iz-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:10:22.841000+00:00,a630f15f55093897b56f511eb87197584e4378e5
+DELETED,,nfl-manager-h6d3lltft-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:09:50.681000+00:00,2a75d25b7875e37a6a61b1c1666dfed258a0b2ac
+DELETED,,nfl-manager-9koinywho-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:07:29.930000+00:00,983bdf858a27008ee7b58ed30677feb4eef8983c
+DELETED,,nfl-manager-ok8h2ydva-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:06:57.827000+00:00,bda97bd45c324a9ef362195bd009c71bc89a6e67
+DELETED,,nfl-manager-qt4j0elnw-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:04:26.589000+00:00,f5c3788c7d18efadb0a6c3557db62370f10065e0
+DELETED,,nfl-manager-jisgwkuq1-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:01:57.086000+00:00,7609b84418689c54e17156668bd089caeb14be06
+DELETED,,nfl-manager-bj7ogtaqr-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T16:01:27.419000+00:00,942ce2643527d8b7caccbeb990eecc44b5aee6c7
+DELETED,,nfl-manager-bzgy4dsau-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:55:01.414000+00:00,7ea8421f34064520fa59151fd0c9dc13fd1dded8
+DELETED,,nfl-manager-2g6ri4yfe-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:47:04.586000+00:00,92e13a8a0946c47abbef26daa42422d6b10afc82
+DELETED,,nfl-manager-pryv0x2go-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:46:42.080000+00:00,12a2e7d99de852770384747afc6f5218a62148a3
+DELETED,,nfl-manager-9iwprey5j-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:43:11.409000+00:00,e8f7c86c3509f25c8660e2913856f6fcee624f68
+DELETED,,nfl-manager-cnpitfc5u-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:40:35.754000+00:00,6141dd315a4914465f196039f8de86506ca5d188
+DELETED,,nfl-manager-c41u9ysua-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:40:19.384000+00:00,61032eeef8bd4ed1201f2dc0dd891603bb137dc3
+DELETED,,nfl-manager-n6qxyg99e-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:38:10.553000+00:00,36597352524f147c812c157b43ee82a3959c2402
+DELETED,,nfl-manager-dm5ulw8n0-tyler-dingmans-projects.vercel.app,CANCELED,production,2026-09-07T15:37:47.585000+00:00,67b53ca91ed75293785d70c73163fe7b3d12e4a4
+DELETED,,nfl-manager-gwei7l7i6-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:35:15.839000+00:00,25e8070a7136bfa4050f310cfa67372b49381e74
+DELETED,,nfl-manager-p0xx7x5r4-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:34:50.010000+00:00,d9e715645ea7c12868b947fe3de48dd0251d2d3b
+DELETED,,nfl-manager-4wlnlu5cb-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:32:36.809000+00:00,4c84e01eb821157c19835be326d97b1e07e78bf3
+DELETED,,nfl-manager-c9y3ofqcv-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:28:01.726000+00:00,e0fa4076efc8e5086d50a305bfe1b0702449acb4
+DELETED,,nfl-manager-qw93kvljq-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:27:40.557000+00:00,9e8bcc4a31b8dd5d6aac5151b6f496bd8f86fca2
+DELETED,,nfl-manager-cumijly3q-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T15:23:17.376000+00:00,ed19db882cb77fdfec1d0f283a07d8a9538bb943
+DELETED,,nfl-manager-irge6pt4h-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T12:51:37.708000+00:00,d22732383cd0f21ec58446f9f62e41ad0dc1ec57
+DELETED,,nfl-manager-5tlkct4kt-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T12:40:58.027000+00:00,6fa514a42a98e5598d0381391cfd9199e55a4e4a
+DELETED,,nfl-manager-g7uy60vt1-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T12:36:20.798000+00:00,1091434ec0a583a9fd9a0df7cdba63dff3f77fcd
+DELETED,,nfl-manager-cr543644w-tyler-dingmans-projects.vercel.app,READY,production,2026-09-07T12:31:26.245000+00:00,1091434ec0a583a9fd9a0df7cdba63dff3f77fcd
+DELETED,,nfl-manager-k4004nfmt-tyler-dingmans-projects.vercel.app,READY,production,2026-09-06T16:16:44.775000+00:00,1091434ec0a583a9fd9a0df7cdba63dff3f77fcd
+DELETED,,nfl-manager-2vrpibt5x-tyler-dingmans-projects.vercel.app,READY,production,2026-09-06T14:36:55.184000+00:00,e3660bb970eb688c52c6882f10f5ce7686245a8d
+DELETED,,nfl-manager-aqbyp1zyw-tyler-dingmans-projects.vercel.app,READY,production,2026-09-06T12:49:19.945000+00:00,b58eb4385b3cf50eafd2e81cb9344832bcc4c6d5
+DELETED,,nfl-manager-jknco4f55-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T17:00:26.992000+00:00,24f1269efd384c51f0cbc285b6d8ee8ad84cefa1
+DELETED,,nfl-manager-ptzhjw96l-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T16:21:17.892000+00:00,d5efb440c5aaeb7a0706ed0487c849ebb8f0a9f8
+DELETED,,nfl-manager-6ayunmyfq-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T16:01:59.748000+00:00,46a41c80e33df11870727d3a6b13ee4052af0802
+DELETED,,nfl-manager-9u71cdl3k-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T15:54:35.977000+00:00,85ba3f797d3b93f0850970f4b17dce06d95cb369
+DELETED,,nfl-manager-lwgdylpdz-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T15:40:02.629000+00:00,9e097bc87c4ae121662646d42478d2bc4ccc4703
+DELETED,,nfl-manager-hea8hedn8-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T04:41:35.745000+00:00,c52298a3025ea57411ec1292ce6923c58b9a922a
+DELETED,,nfl-manager-opf3v3dhc-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T04:29:22.898000+00:00,8f1848411eda99e8a01e38f4abbfecef54b53cbb
+DELETED,,nfl-manager-8vdh5atky-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T04:18:54.612000+00:00,5203214147292a6a231452c94782a608022b7add
+DELETED,,nfl-manager-fam0phfky-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T04:14:35.453000+00:00,f0848bbe6aa5e1fad23ae8cb0c2acba2873eb1c8
+DELETED,,nfl-manager-65zun7gva-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T02:52:48.091000+00:00,d71c7b364541c2a30593b226be1c91feaba9696d
+DELETED,,nfl-manager-d2mf1gdgc-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T02:21:12.504000+00:00,16de857f1582061accb97360f2b84ea2c49b2e13
+DELETED,,nfl-manager-dt5s0chxv-tyler-dingmans-projects.vercel.app,READY,production,2026-09-05T01:57:49.071000+00:00,29be4fef0dd2a31781b2bab66391e97cd66abdf1
+DELETED,,nfl-manager-8xlvd0lh6-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T23:56:07.843000+00:00,b99814d30ec5758b2c6c4346cc5d801436ac919c
+DELETED,,nfl-manager-d6mlyrn2d-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T21:55:19.123000+00:00,ee81d4897f0dd387f5295907f6057198255c98ff
+DELETED,,nfl-manager-bwy0nb1yj-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T21:14:57.042000+00:00,d811a2f80874d6837db8a77f780e9629ba42ac5b
+DELETED,,nfl-manager-c8u4hzdxz-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T21:10:23.121000+00:00,d811a2f80874d6837db8a77f780e9629ba42ac5b
+DELETED,,nfl-manager-m8kjffemh-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T20:01:26.699000+00:00,d811a2f80874d6837db8a77f780e9629ba42ac5b
+DELETED,,nfl-manager-ls4twn21i-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T19:37:33.631000+00:00,d811a2f80874d6837db8a77f780e9629ba42ac5b
+DELETED,,nfl-manager-3u5ma4uk8-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T19:20:01.834000+00:00,6d571e64b29865721e679baa3e0e1448a3c2de2a
+DELETED,,nfl-manager-1hdt4eu0l-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T18:55:54.025000+00:00,6d571e64b29865721e679baa3e0e1448a3c2de2a
+DELETED,,nfl-manager-mj8zfs2k9-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T18:51:08.720000+00:00,6d571e64b29865721e679baa3e0e1448a3c2de2a
+DELETED,,nfl-manager-amava07zy-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T18:39:41.911000+00:00,6d571e64b29865721e679baa3e0e1448a3c2de2a
+DELETED,,nfl-manager-foig5v7jz-tyler-dingmans-projects.vercel.app,READY,production,2026-09-04T16:51:40.848000+00:00,6d571e64b29865721e679baa3e0e1448a3c2de2a
+DELETED,,nfl-manager-gw9zzvgy1-tyler-dingmans-projects.vercel.app,ERROR,production,2026-09-04T16:04:15.982000+00:00,325581e0a39082e50757ccfdfea474248800e967
+DELETED,,nfl-manager-3wy1k52al-tyler-dingmans-projects.vercel.app,ERROR,production,2026-03-23T12:50:07.597000+00:00,f38217ad006f4880dde9c340952dc8dd3043a431
+DELETED,,nfl-manager-q1yztqfee-tyler-dingmans-projects.vercel.app,ERROR,production,2026-03-22T17:37:54.332000+00:00,c666feb90313dc4dbe7349e9da5e03d857482b60
+DELETED,,nfl-manager-lt9uyf7ux-tyler-dingmans-projects.vercel.app,READY,production,2026-03-21T17:14:01.111000+00:00,6b330a3182bea98fd431dc87b95ce7b5d03d30b8
+DELETED,,nfl-manager-rnc98cpgw-tyler-dingmans-projects.vercel.app,READY,production,2026-03-20T20:37:31.642000+00:00,284abd300588530fa78a9d85959b9eb149f7306e
+KEEP,assigned alias,nfl-manager-k8il37m3m-tyler-dingmans-projects.vercel.app,READY,,2026-03-18T02:27:46.028000+00:00,ac968e04d57753bf266324ba8797a1ddb643f50b
+KEEP,assigned alias,nfl-manager-n7sosce2l-tyler-dingmans-projects.vercel.app,READY,,2026-03-18T02:01:57.773000+00:00,9f0b8a3e116337048c6b85c1d3e8c18b51bfba45
+KEEP,assigned alias,nfl-manager-r5as5n13m-tyler-dingmans-projects.vercel.app,READY,,2026-03-18T01:49:31.325000+00:00,ce77f57b0d15ee6179d4ccd4ec97fbdd8a210233
+KEEP,assigned alias,nfl-manager-79qg08afe-tyler-dingmans-projects.vercel.app,READY,,2026-03-18T01:24:19.756000+00:00,2a6d7d3665bbca5b3eefe9c9bc4daf06f91c94dc
+KEEP,assigned alias,nfl-manager-26880qavs-tyler-dingmans-projects.vercel.app,READY,,2026-03-18T01:08:52.056000+00:00,1f2a400bb64f9c520cedaa262c2f381e02163c20
+KEEP,assigned alias,nfl-manager-jyyncdp2z-tyler-dingmans-projects.vercel.app,READY,,2026-03-18T00:10:14.333000+00:00,d2cf24854afc8fc35b644100469592952e6e9c37
+KEEP,assigned alias,nfl-manager-ofe3suxh3-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T23:57:57.677000+00:00,4ca7fb5910a93a1af58e1acd919b1dcfe23e7ef0
+KEEP,assigned alias,nfl-manager-bh29kbtc2-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T23:31:19.991000+00:00,a8bdd30faf38c42fb9a5212d96337b6a32b174c2
+KEEP,assigned alias,nfl-manager-8ne4uhkdy-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T23:18:02.423000+00:00,128799408861d07edbd699dc33930cf672054cb6
+KEEP,assigned alias,nfl-manager-n454c1gti-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T23:03:37.911000+00:00,852585e604188890d229b796b0ce5425483bc320
+KEEP,assigned alias,nfl-manager-1plaklpu6-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T22:47:41.299000+00:00,30bc6fd6c1cf681c483c738c8966598172f210ea
+KEEP,assigned alias,nfl-manager-pgto2yq41-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T22:22:09.062000+00:00,cad1a0907e7c5dda07cf9bc0fc312e2cfa196cbe
+KEEP,assigned alias,nfl-manager-m2eilfsg4-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T22:13:40.998000+00:00,f3722d2928e5e1bcb7ee470543efabc954b8f688
+KEEP,assigned alias,nfl-manager-iriwlt090-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T22:00:54.559000+00:00,4a921f45d8264341e2ae925f9c2d269d5f7051cc
+KEEP,assigned alias,nfl-manager-mai0gt650-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T21:40:01.755000+00:00,cd410a6ab836cb786bf37ccb1f0ae567efae9404
+KEEP,assigned alias,nfl-manager-h8sz6psrb-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T21:04:39.195000+00:00,4e10bab0ab65317b3b8f6d8dcdeed8d7d957611e
+KEEP,assigned alias,nfl-manager-2bn5344op-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T20:50:29.926000+00:00,7a690c0346694a56088fc57022823dded425a5ef
+KEEP,assigned alias,nfl-manager-kfjdx0dr0-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T20:24:17.213000+00:00,6fd057ec0f0a5babb978c87724366f717ba1caf7
+KEEP,assigned alias,nfl-manager-f7jf6353e-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T20:16:30.551000+00:00,9c8088658d09caac8a2b81a9defa76fe2f254503
+KEEP,assigned alias,nfl-manager-aforgbz4s-tyler-dingmans-projects.vercel.app,READY,,2026-03-17T19:58:35.361000+00:00,f74571a6084cc93d911ae7c8b1b6bd0f6c7753e8

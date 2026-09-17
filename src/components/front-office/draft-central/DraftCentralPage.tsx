@@ -1,7 +1,13 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { ArrowRight, BarChart3, ClipboardList, Sparkles, Target } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import {
+  DdTeamAnalyticsIcon as BarChart3,
+  DdDraftGuideIcon as ClipboardList,
+  DdPlaybookIcon as Sparkles,
+  DdScoutingIcon as Target,
+} from '@/components/ui/football-icons';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
 import { DraftNewsGraphic } from '@/components/front-office/story-graphics/FrontOfficeStoryGraphic';

@@ -4,7 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ArrowRight, ChevronDown, Menu, Search, Shirt, X } from 'lucide-react';
+import { ArrowRight, ChevronDown, Shirt, X } from 'lucide-react';
+import { DdMenuIcon as Menu, DdSearchIcon as Search } from '@/components/ui/football-icons';
 
 import LoginButton from '@/components/auth/login-button';
 import { MerchCartButton, useMerchCart } from '@/components/merch/merch-cart';

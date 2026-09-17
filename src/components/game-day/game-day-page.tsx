@@ -4,17 +4,8 @@ import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import {
-  ChevronRight,
-  CloudSun,
-  Flame,
-  Gift,
-  MapPin,
-  Send,
-  Share2,
-  Sparkles,
-  Users,
-} from 'lucide-react';
+import { ChevronRight, CloudSun, Flame, Gift, MapPin, Send, Sparkles, Users } from 'lucide-react';
+import { DdShareIcon as Share2 } from '@/components/ui/football-icons';
 import HuddleStoryCard from '@/components/huddle/huddle-story-card';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';

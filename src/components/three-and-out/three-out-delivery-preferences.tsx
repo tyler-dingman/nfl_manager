@@ -1,6 +1,7 @@
 'use client';
 
-import { BellRing, Check, Mail, MessageCircle } from 'lucide-react';
+import { BellRing, Check, Mail } from 'lucide-react';
+import { DdMessagesIcon as MessageCircle } from '@/components/ui/football-icons';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 

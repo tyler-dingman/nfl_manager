@@ -2,18 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CircleAlert, Flame, Gamepad2, ShieldCheck, Trophy, Users, X } from 'lucide-react';
 import {
-  Bell,
-  CalendarDays,
-  CircleAlert,
-  Flame,
-  Gamepad2,
-  Newspaper,
-  ShieldCheck,
-  Trophy,
-  Users,
-  X,
-} from 'lucide-react';
+  DdNotificationsIcon as Bell,
+  DdScheduleIcon as CalendarDays,
+  DdArticlesIcon as Newspaper,
+} from '@/components/ui/football-icons';
 
 import { useAuthUser } from '@/features/auth/auth-session';
 import { notificationMatchesTeamScope } from '@/lib/notification-scope';

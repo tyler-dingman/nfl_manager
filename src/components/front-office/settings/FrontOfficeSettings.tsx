@@ -3,19 +3,21 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import {
-  Bell,
   Check,
   ChevronRight,
   Cloud,
-  Copy,
   Gauge,
   LayoutDashboard,
   LockKeyhole,
   RotateCcw,
   ShieldCheck,
-  SlidersHorizontal,
   Volume2,
 } from 'lucide-react';
+import {
+  DdNotificationsIcon as Bell,
+  DdCopyIcon as Copy,
+  DdFiltersIcon as SlidersHorizontal,
+} from '@/components/ui/football-icons';
 import { TEAM_LIST } from '@/data/teams';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';

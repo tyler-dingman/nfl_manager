@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { PREVIEW_COOKIE, prelaunchEnabled, verifyPreviewToken } from '@/lib/prelaunch';
+import { hasMobilePreviewAccess, isMobileAuthRoute } from '@/lib/mobile-preview-access';
 
 const TOOL_PREFIX = '/offseasonmanager';
 const TOOL_ROUTES = [
@@ -41,6 +42,8 @@ const PUBLIC_PRELAUNCH_ROUTES = new Set([
   '/api/preview/access',
   '/api/automation/content',
   '/api/automation/content/global',
+  // Automation handlers enforce their own Bearer-token authentication.
+  '/api/automation/three-and-out',
   '/api/commerce/stripe/webhook',
 ]);
 
@@ -52,8 +55,14 @@ function noIndex(response: NextResponse) {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (prelaunchEnabled() && !PUBLIC_PRELAUNCH_ROUTES.has(pathname)) {
-    const authorized = await verifyPreviewToken(request.cookies.get(PREVIEW_COOKIE)?.value);
+  if (
+    prelaunchEnabled() &&
+    !PUBLIC_PRELAUNCH_ROUTES.has(pathname) &&
+    !isMobileAuthRoute(pathname)
+  ) {
+    const authorized =
+      (await verifyPreviewToken(request.cookies.get(PREVIEW_COOKIE)?.value)) ||
+      (await hasMobilePreviewAccess(pathname, request.headers.get('authorization')));
     if (!authorized) {
       if (pathname.startsWith('/api/'))
         return noIndex(

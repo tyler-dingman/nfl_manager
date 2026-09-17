@@ -33,3 +33,8 @@ test('passing touchdown yes market is presented as a 1+ threshold', () => {
   assert.equal(sportsbookLineLabel(selection), '1+');
   assert.equal(rowName(selection), 'Patrick Mahomes');
 });
+
+test('quarter props retain their period in the selection name', () => {
+  assert.equal(rowName(market({ playerName: 'Jared Goff', period: '1q' })), 'Jared Goff Over · 1Q');
+  assert.equal(rowName(market({ playerName: 'Jared Goff', period: '3q' })), 'Jared Goff Over · 3Q');
+});

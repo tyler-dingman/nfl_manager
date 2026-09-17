@@ -1,18 +1,15 @@
 'use client';
 
 import Image from 'next/image';
+import PlayerDetailsModal from '@/components/player-details-modal';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ChevronDown, CirclePlus, RefreshCcw, ShieldCheck, X } from 'lucide-react';
 import {
-  ArrowLeftRight,
-  BarChart3,
-  ChevronDown,
-  CirclePlus,
-  RefreshCcw,
-  Search,
-  ShieldCheck,
-  X,
-} from 'lucide-react';
+  DdTradeHubIcon as ArrowLeftRight,
+  DdPlayerComparisonIcon as BarChart3,
+} from '@/components/ui/football-icons';
+import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 
 import { TEAM_LIST } from '@/data/teams';
 import { useSaveStore } from '@/features/save/save-store';
@@ -76,6 +73,9 @@ function AssetBrowser({
   onTab: (tab: Tab) => void;
   onToggle: (type: 'player' | 'pick', id: string, selected: boolean) => void;
 }) {
+  const [detailId, setDetailId] = useState<string | null>(null);
+  const detailTeams = useTeamStore((state) => state.teams);
+  const detailSave = useSaveStore();
   const [query, setQuery] = useState('');
   const [position, setPosition] = useState('ALL');
   const [contract, setContract] = useState('ALL');
@@ -101,6 +101,25 @@ function AssetBrowser({
 
   return (
     <div className={styles.browser}>
+      <PlayerDetailsModal
+        isOpen={Boolean(detailId)}
+        source={
+          source?.players.find((player) => player.id === detailId)
+            ? {
+                kind: 'tradeAsset',
+                player: source.players.find((player) => player.id === detailId)!,
+              }
+            : null
+        }
+        sources={players.map((player) => ({ kind: 'tradeAsset', player }))}
+        roster={source?.players ?? []}
+        teams={detailTeams}
+        userTeamAbbr={detailSave.teamAbbr}
+        capSpace={detailSave.capSpace}
+        capLimit={detailSave.capLimit}
+        onClose={() => setDetailId(null)}
+        onSelectSource={(entry) => setDetailId(entry.player.id)}
+      />
       <div className={styles.tabs}>
         <button
           className={tab === 'players' ? styles.activeTab : ''}
@@ -156,22 +175,31 @@ function AssetBrowser({
             {players.map((player) => {
               const checked = selectedPlayers.has(player.id);
               return (
-                <button
-                  key={player.id}
-                  className={checked ? styles.selectedAsset : ''}
-                  onClick={() => onToggle('player', player.id, checked)}
-                >
-                  <span className={styles.check}>{checked ? '✓' : ''}</span>
-                  <span className={styles.playerIdentity}>
-                    {player.headshotUrl ? (
-                      <Image src={player.headshotUrl} alt="" width={28} height={28} />
-                    ) : null}
-                    <b>{playerName(player)}</b>
-                  </span>
-                  <span>{player.position}</span>
-                  <span>{resolvePlayerRating(player) ?? '—'}</span>
-                  <span>{player.capHit || '—'}</span>
-                </button>
+                <div className={styles.assetRow} key={player.id}>
+                  <button
+                    className={checked ? styles.selectedAsset : ''}
+                    onClick={() => onToggle('player', player.id, checked)}
+                  >
+                    <span className={styles.check}>{checked ? '✓' : ''}</span>
+                    <span className={styles.playerIdentity}>
+                      {player.headshotUrl ? (
+                        <Image src={player.headshotUrl} alt="" width={28} height={28} />
+                      ) : null}
+                      <b>{playerName(player)}</b>
+                    </span>
+                    <span>{player.position}</span>
+                    <span>{resolvePlayerRating(player) ?? '—'}</span>
+                    <span>{player.capHit || '—'}</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.viewPlayer}
+                    aria-label={`View ${playerName(player)} details`}
+                    onClick={() => setDetailId(player.id)}
+                  >
+                    Details
+                  </button>
+                </div>
               );
             })}
           </div>

@@ -3,6 +3,7 @@ import { OAUTH_COOKIE, safeRedirect } from '@/server/auth/http';
 import { createOAuthState } from '@/server/auth/oauth-state';
 import { authConfig } from '@/server/auth/config';
 import { getAuthProvider } from '@/server/auth/providers';
+import { validMobileChallenge } from '@/server/auth/mobile-handoff';
 import { currentUser } from '@/server/auth/request';
 export async function GET(request: NextRequest, { params }: { params: { provider: string } }) {
   try {
@@ -11,7 +12,20 @@ export async function GET(request: NextRequest, { params }: { params: { provider
     const link = request.nextUrl.searchParams.get('link') === '1';
     const user = link ? await currentUser(request) : null;
     if (link && !user) throw new Error('Sign in before linking another account.');
-    const state = await createOAuthState(params.provider, next, user?.id);
+    const mobileRequested = request.nextUrl.searchParams.get('mobile') === '1';
+    const challenge = request.nextUrl.searchParams.get('code_challenge') ?? '';
+    const clientState = request.nextUrl.searchParams.get('mobile_state') ?? '';
+    if (
+      mobileRequested &&
+      (link || !validMobileChallenge(challenge) || !/^[A-Za-z0-9_-]{32,128}$/.test(clientState))
+    )
+      return NextResponse.json({ error: 'Invalid mobile sign-in request.' }, { status: 400 });
+    const state = await createOAuthState(
+      params.provider,
+      next,
+      user?.id,
+      mobileRequested ? { challenge, state: clientState } : undefined,
+    );
     const redirectUri = `${authConfig.AUTH_BASE_URL ?? request.nextUrl.origin}/api/auth/social/${params.provider}/callback`;
     const response = NextResponse.redirect(provider.beginAuthentication({ ...state, redirectUri }));
     response.cookies.set(OAUTH_COOKIE, state.token, {

@@ -1,18 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { CircleX, ExternalLink, FlaskConical, Plus, RefreshCw, Trophy } from 'lucide-react';
 import {
-  Bookmark,
-  CircleX,
-  Download,
-  ExternalLink,
-  FlaskConical,
-  MessageCircle,
-  Plus,
-  RefreshCw,
-  Share2,
-  Trophy,
-} from 'lucide-react';
+  DdSaveIcon as Bookmark,
+  DdDownloadIcon as Download,
+  DdMessagesIcon as MessageCircle,
+  DdShareIcon as Share2,
+} from '@/components/ui/football-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import MainSiteHeader from '@/components/main-site-header';
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';

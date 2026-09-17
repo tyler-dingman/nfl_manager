@@ -1,5 +1,6 @@
 .page {
   color: #071b30;
+  padding-top: 1.25rem;
 }
 .titleRow {
   display: flex;
@@ -69,15 +70,13 @@
   outline: 3px solid color-mix(in srgb, var(--fo-interactive) 45%, transparent);
   outline-offset: 2px;
 }
-.layout {
-  display: grid;
-  grid-template-columns: minmax(0, 2.15fr) minmax(18rem, 0.92fr);
-  gap: 1.2rem;
-}
+.layout,
 .topGrid {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
   gap: 1.2rem;
+}
+.topGrid {
   align-items: stretch;
 }
 .topGrid .sideCard,

@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, Clock3, Radio, Search, Shield, Sparkles, Users } from 'lucide-react';
+import { ArrowRight, Clock3, Radio, Shield, Sparkles, Users } from 'lucide-react';
+import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 
 import FilmRoomGrid from '@/components/film-room/film-room-grid';
 import FilmRoomPlayDiagram from '@/components/film-room/film-room-play-diagram';

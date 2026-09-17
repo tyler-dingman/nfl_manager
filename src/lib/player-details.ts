@@ -33,6 +33,7 @@ export type PlayerDetailsModel = {
   headshotUrl: string | null;
   teamName: string | null;
   teamAbbr: string | null;
+  isFreeAgent: boolean;
   teamLogoUrl: string | null;
   rating: number | null;
   ratingDisplay: string;
@@ -64,6 +65,7 @@ type BuildPlayerDetailsOptions = {
   userTeamAbbr?: string | null;
   capSpace: number;
   capLimit: number;
+  season?: number;
 };
 
 const OFFENSIVE_POSITIONS = new Set([
@@ -78,12 +80,14 @@ const OFFENSIVE_POSITIONS = new Set([
   'RG',
   'RT',
   'OL',
+  'OT',
+  'OG',
 ]);
 
 const DEFENSIVE_BACK_POSITIONS = new Set(['CB', 'S', 'FS', 'SS', 'DB']);
 const LINEBACKER_POSITIONS = new Set(['LB', 'MLB', 'OLB']);
 const DEFENSIVE_LINE_POSITIONS = new Set(['EDGE', 'ED', 'DE', 'DT', 'DL']);
-const OFFENSIVE_LINE_POSITIONS = new Set(['LT', 'LG', 'C', 'RG', 'RT', 'OL']);
+const OFFENSIVE_LINE_POSITIONS = new Set(['LT', 'LG', 'C', 'RG', 'RT', 'OL', 'OT', 'OG']);
 const PREMIUM_POSITIONS = new Set(['QB', 'WR', 'LT', 'RT', 'EDGE', 'ED', 'CB']);
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
@@ -102,7 +106,16 @@ const formatContractYears = (years: number | null | undefined) =>
     ? '—'
     : `${years} yr${years === 1 ? '' : 's'}`;
 
+const isAvailableFreeAgent = (source: PlayerDetailsSource) =>
+  source.kind !== 'expiring' &&
+  (source.player.isUnsigned ||
+    source.player.marketStatus === 'unsigned' ||
+    source.player.status?.toLowerCase() === 'cut' ||
+    (source.kind === 'freeAgent' &&
+      source.player.marketStatus !== 'signed' &&
+      source.player.status?.toLowerCase() !== 'signed'));
 const inferTeamAbbr = (source: PlayerDetailsSource, userTeamAbbr?: string | null) => {
+  if (isAvailableFreeAgent(source)) return null;
   if (source.kind === 'expiring') {
     return (
       source.player.teamAbbr ??
@@ -113,14 +126,7 @@ const inferTeamAbbr = (source: PlayerDetailsSource, userTeamAbbr?: string | null
     );
   }
   const player = source.player;
-  return (
-    player.teamAbbr ??
-    player.currentTeamAbbr ??
-    player.signedTeamAbbr ??
-    player.lastTeamAbbr ??
-    userTeamAbbr ??
-    null
-  );
+  return player.currentTeamAbbr ?? player.signedTeamAbbr ?? player.teamAbbr ?? null;
 };
 
 const getTeamLogoUrl = (team: TeamLike | null) => {
@@ -156,14 +162,14 @@ const getSourceDisplayName = (source: PlayerDetailsSource) =>
 const getSourcePosition = (source: PlayerDetailsSource) =>
   source.kind === 'expiring' ? source.player.pos : source.player.position;
 
-const getContractSnapshot = (source: PlayerDetailsSource) => {
+const getContractSnapshot = (source: PlayerDetailsSource, season = CURRENT_MODELED_LEAGUE_YEAR) => {
   if (source.kind === 'expiring') {
     return {
       yearsRemaining: 0,
       capHitValue: source.player.currentSalary / 1_000_000,
       capHitLabel: formatMoneyMillions(source.player.currentSalary / 1_000_000),
       apy: source.player.estValue / 1_000_000,
-      finalYear: CURRENT_MODELED_LEAGUE_YEAR,
+      finalYear: season,
       marketValue: source.player.estValue / 1_000_000,
       status: 'Expiring contract',
     };
@@ -179,7 +185,7 @@ const getContractSnapshot = (source: PlayerDetailsSource) => {
     player.averagePerYear ??
     player.expectedAnnualValue ??
     (typeof player.marketValue === 'number' ? player.marketValue / 1_000_000 : null);
-  const finalYear = yearsRemaining > 0 ? CURRENT_MODELED_LEAGUE_YEAR + yearsRemaining - 1 : null;
+  const finalYear = yearsRemaining > 0 ? season + yearsRemaining - 1 : null;
   const marketValue =
     player.expectedAnnualValue ??
     player.freeAgentProfile?.expectedAnnualValue ??
@@ -392,11 +398,7 @@ const buildStatsSnapshot = (position: string, stats?: UnifiedPlayerStats) => {
     return entries;
   }
 
-  push('Tackles', stats.tackles);
-  push('Sacks', stats.sacks);
-  push('Receptions', stats.receptions);
-  push('Rush Yards', stats.rushYards);
-  return entries.slice(0, 4);
+  return entries;
 };
 
 const buildTags = ({
@@ -502,7 +504,7 @@ const buildSummary = ({
   source: PlayerDetailsSource;
   yearsRemaining: number;
 }) => {
-  const teamReference = teamName ?? 'this team';
+  const teamReference = teamName ? `the ${teamName.replace(/^the /i, '')}` : 'this team';
   const rolePhrase =
     roleRank === 1
       ? 'a clear starter'
@@ -519,7 +521,9 @@ const buildSummary = ({
       ? 'gives the front office useful value flexibility'
       : contractValueTag === 'Expensive'
         ? 'comes with a heavier financial commitment'
-        : 'is paid about where you would expect';
+        : contractValueTag
+          ? 'is paid about where you would expect'
+          : 'has limited value information available';
 
   if (source.kind === 'expiring') {
     return `${getSourceDisplayName(source)} heads toward the end of his deal as ${rolePhrase} for ${teamReference}. He remains a ${agePhrase} ${position} whose next contract will say a lot about how this roster is being shaped.`;
@@ -543,6 +547,7 @@ export const buildPlayerDetailsModel = ({
   userTeamAbbr,
   capSpace,
   capLimit,
+  season,
 }: BuildPlayerDetailsOptions): PlayerDetailsModel => {
   const name = getSourceDisplayName(source);
   const position = getSourcePosition(source);
@@ -550,8 +555,15 @@ export const buildPlayerDetailsModel = ({
   const rating = getSourceRating(source);
   const teamAbbr = inferTeamAbbr(source, userTeamAbbr);
   const team = teams.find((entry) => entry.abbr === teamAbbr) ?? null;
-  const contract = getContractSnapshot(source);
-  const roleRank = inferRoleRank(source, roster);
+  const contract = getContractSnapshot(source, season);
+  const roleRank = teamAbbr
+    ? inferRoleRank(
+        source,
+        roster.filter(
+          (p) => (p.currentTeamAbbr ?? p.signedTeamAbbr ?? p.teamAbbr ?? userTeamAbbr) === teamAbbr,
+        ),
+      )
+    : null;
   const activeRoster = roster.filter((player) => player.status?.toLowerCase() !== 'cut');
   const trajectory = computeFranchiseTrajectory({
     roster: activeRoster,
@@ -621,6 +633,7 @@ export const buildPlayerDetailsModel = ({
     headshotUrl: getSourceHeadshot(source),
     teamName: team?.name ?? null,
     teamAbbr,
+    isFreeAgent: Boolean(isAvailableFreeAgent(source)),
     teamLogoUrl: getTeamLogoUrl(team),
     rating,
     ratingDisplay: rating !== null ? String(rating) : '—',
@@ -645,7 +658,12 @@ export const buildPlayerDetailsModel = ({
       yearsRemaining: contract.yearsRemaining,
     }),
     contractValueTag,
-    contract: contractItems,
+    contract: contractItems.filter(
+      (item) =>
+        item.value !== '—' &&
+        item.value !== '$0.0M' &&
+        (!isAvailableFreeAgent(source) || item.label === 'APY / Market'),
+    ),
     meters: [
       {
         key: 'loyalty',

@@ -2,7 +2,13 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowLeftRight, ArrowUpDown, Handshake, MoreHorizontal, Users } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
+import {
+  DdTradeHubIcon as ArrowLeftRight,
+  DdContractsIcon as Handshake,
+  DdMoreIcon as MoreHorizontal,
+  DdRosterIcon as Users,
+} from '@/components/ui/football-icons';
 
 import AppShell from '@/components/app-shell';
 import { FrontOfficePageHeader } from '@/components/front-office/front-office-page-header';
@@ -1376,6 +1382,66 @@ function RosterPageContent() {
         capLimit={capLimit}
         onClose={() => setActivePlayerDetails(null)}
         onSelectSource={(nextSource) => setActivePlayerDetails(nextSource)}
+        actions={
+          activePlayerDetails
+            ? (() => {
+                const selected = activePlayerDetails;
+                if (selected.kind === 'expiring')
+                  return [
+                    {
+                      label: 'Re-sign',
+                      onSelect: () => {
+                        setActivePlayerDetails(null);
+                        setActiveExpiringContract(selected.player);
+                      },
+                    },
+                  ];
+                const player = selected.player;
+                if (
+                  player.status.toLowerCase() === 'cut' ||
+                  player.isUnsigned ||
+                  player.marketStatus === 'unsigned'
+                )
+                  return [];
+                const ownsPlayer =
+                  players.some((entry) => entry.id === player.id) &&
+                  (player.currentTeamAbbr ??
+                    player.signedTeamAbbr ??
+                    player.teamAbbr ??
+                    teamAbbr) === teamAbbr;
+                return [
+                  {
+                    label: ownsPlayer ? 'Explore Trade' : 'Trade For Player',
+                    onSelect: () => {
+                      setActivePlayerDetails(null);
+                      router.push(
+                        `/manage/trades?playerId=${encodeURIComponent(player.id)}&partnerTeamAbbr=${encodeURIComponent(player.currentTeamAbbr ?? player.teamAbbr ?? '')}`,
+                      );
+                    },
+                  },
+                  ...(ownsPlayer
+                    ? [
+                        {
+                          label: 'Renegotiate Contract',
+                          onSelect: () => {
+                            setActivePlayerDetails(null);
+                            setActiveRenegotiatePlayer(player);
+                          },
+                        },
+                        {
+                          label: 'Cut Player',
+                          destructive: true,
+                          onSelect: () => {
+                            setActivePlayerDetails(null);
+                            setActiveCutPlayer(player);
+                          },
+                        },
+                      ]
+                    : []),
+                ];
+              })()
+            : []
+        }
       />
       {activeCutPlayer ? (
         <CutPlayerModal

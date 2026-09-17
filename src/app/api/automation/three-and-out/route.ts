@@ -1,5 +1,5 @@
-import { timingSafeEqual } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
+import { automationAuthError } from '@/server/content-automation/auth';
 
 import {
   deliverDueDailyThreeAndOut,
@@ -11,21 +11,13 @@ import { localHourAndMinute } from '@/features/three-and-out/daily';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-const authorized = (request: NextRequest) => {
-  const expected = `Bearer ${process.env.CONTENT_AUTOMATION_SECRET ?? ''}`;
-  const actual = request.headers.get('authorization') ?? '';
-  const left = Buffer.from(actual);
-  const right = Buffer.from(expected);
-  return (
-    Boolean(process.env.CONTENT_AUTOMATION_SECRET) &&
-    left.length === right.length &&
-    timingSafeEqual(left, right)
-  );
-};
-
 export async function POST(request: NextRequest) {
-  if (!authorized(request))
-    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
+  const authError = automationAuthError(request.headers.get('authorization'));
+  if (authError)
+    return NextResponse.json(
+      { ok: false, code: authError.code, error: authError.error },
+      { status: authError.status },
+    );
   const action = request.nextUrl.searchParams.get('action') ?? 'run';
   const teamId = request.nextUrl.searchParams.get('team')?.toUpperCase();
   const force = request.nextUrl.searchParams.get('force') === 'true';
