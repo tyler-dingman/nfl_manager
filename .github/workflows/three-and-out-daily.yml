@@ -21,6 +21,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Generate or deliver daily briefings
         env:

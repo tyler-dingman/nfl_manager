@@ -11,10 +11,15 @@ Required bindings:
 The Worker is deployed with this cron trigger:
 
 ```cron
-*/5 * * * *
+*/30 * * * *
 ```
 
 Manage the trigger through `wrangler.toml` so the scheduled handler and trigger are deployed as
 one version. The Vercel kill switch is `CONTENT_AUTOMATION_GLOBAL_ENABLED`. It must equal `true` before any
 database or source work occurs. Removing it or setting it to any other value stops processing while
 leaving the Worker healthy.
+
+Use this as the sole scheduled ingestion caller. GitHub ingestion is a manual backup.
+The 30-minute interval gives Neon time to scale to zero; it is not a guarantee
+against compute usage from site traffic or other jobs. Deploy this change to update
+the existing live trigger, and check the Cloudflare dashboard afterward.

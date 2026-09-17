@@ -1,9 +1,7 @@
 name: Content and video ingestion
 
 on:
-  schedule:
-    # Source-specific intervals determine which sources are due each run.
-    - cron: '*/15 * * * *'
+  # Manual backup only: Cloudflare owns scheduled ingestion to avoid duplicate wakeups.
   workflow_dispatch:
     inputs:
       group:
@@ -39,7 +37,7 @@ jobs:
       - name: Test ingestion authentication safeguards
         run: node --test scripts/content-ingestion-request.test.mjs
       - name: Run ${{ matrix.group }} ingestion
-        if: github.event_name == 'schedule' || inputs.group == 'both' || inputs.group == matrix.group
+        if: inputs.group == 'both' || inputs.group == matrix.group
         env:
           BASE_URL: ${{ secrets.CONTENT_AUTOMATION_BASE_URL }}
           AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}

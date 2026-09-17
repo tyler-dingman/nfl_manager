@@ -71,8 +71,9 @@ type UsagePayload = {
 };
 
 const numericLimit = (value: string | number | undefined) => {
+  if (value === undefined || value === '') return null;
   const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
+  return Number.isSafeInteger(parsed) && parsed >= 0 ? parsed : null;
 };
 
 export class SportsGameOddsClient {
@@ -103,7 +104,7 @@ export class SportsGameOddsClient {
     return payload.data;
   }
 
-  private async enforceUsageGuard() {
+  private async enforceUsageGuard(maximumObjects: number) {
     const configuredMonthlyCeiling = Number(
       process.env.SPORTSGAMEODDS_MONTHLY_OBJECT_CEILING ?? DEFAULT_MONTHLY_OBJECT_CEILING,
     );
@@ -132,9 +133,16 @@ export class SportsGameOddsClient {
         'SportsGameOdds did not report monthly object usage; import stopped safely.',
       );
     }
-    if (used >= monthlyCeiling) {
+    const effectiveCeiling = Math.min(monthlyCeiling, providerMaximum ?? monthlyCeiling);
+    if (used >= effectiveCeiling) {
       throw new SportsGameOddsError(
-        `Local monthly safety ceiling reached (${used}/${monthlyCeiling} objects). No odds request was made.`,
+        `Local monthly safety ceiling reached (${used}/${effectiveCeiling} objects). No odds request was made.`,
+      );
+    }
+    // Reserve a full result page plus headroom for the usage lookup itself.
+    if (used + maximumObjects + 1 > effectiveCeiling) {
+      throw new SportsGameOddsError(
+        'Insufficient monthly object budget for the next odds response; import stopped safely.',
       );
     }
     console.info(
@@ -146,7 +154,7 @@ export class SportsGameOddsClient {
 
   private async request(params: URLSearchParams): Promise<Page> {
     if (!this.apiKey) throw new SportsGameOddsError('SPORTSGAMEODDS_API_KEY is not configured.');
-    await this.enforceUsageGuard();
+    await this.enforceUsageGuard(Number(params.get('limit') ?? 100));
     const url = `${BASE_URL}/events?${params.toString()}`;
     console.info('[sportsGameOdds] GET /events', Object.fromEntries(params));
     const response = await this.fetcher(url, { headers: { 'x-api-key': this.apiKey } });
@@ -169,6 +177,7 @@ export class SportsGameOddsClient {
   async getEvent(eventId: string) {
     const params = new URLSearchParams({
       eventID: eventId,
+      limit: '1',
       bookmakerID: BOOKMAKER_IDS,
       includeAltLines: 'true',
       includeOpposingOdds: 'true',

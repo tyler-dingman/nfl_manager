@@ -117,12 +117,14 @@ export async function indexSearchDocuments({
   for (let offset = 0; offset < changed.length; offset += 32) {
     const batch = changed.slice(offset, offset + 32);
     let embeddings: Array<number[] | null> = batch.map(() => null);
-    try {
-      embeddings = await embeddingProvider.embedBatch(batch.map((row) => row.content));
-      embeddingsCreated += embeddings.length;
-    } catch (error) {
-      failures += batch.length;
-      console.warn('[search-index] embeddings unavailable; indexing lexical content only', error);
+    if (process.env.SEARCH_EMBEDDING_ENABLED === 'true') {
+      try {
+        embeddings = await embeddingProvider.embedBatch(batch.map((row) => row.content));
+        embeddingsCreated += embeddings.length;
+      } catch (error) {
+        failures += batch.length;
+        console.warn('[search-index] embeddings unavailable; indexing lexical content only', error);
+      }
     }
     await sql.begin(async (tx) => {
       for (let index = 0; index < batch.length; index += 1) {

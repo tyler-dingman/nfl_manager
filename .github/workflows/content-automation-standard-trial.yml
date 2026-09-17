@@ -18,6 +18,7 @@ permissions:
 jobs:
   poll-standard:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Enforce fixed three-day window before contacting Vercel
         id: window
