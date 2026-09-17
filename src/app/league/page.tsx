@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowRight, BarChart3, Trophy } from 'lucide-react';
@@ -47,6 +47,14 @@ const newsTeam = (abbr: string | null): NewsGraphicTeam | undefined => {
 };
 
 export default function LeaguePage() {
+  return (
+    <Suspense fallback={null}>
+      <LeaguePageContent />
+    </Suspense>
+  );
+}
+
+function LeaguePageContent() {
   const searchParams = useSearchParams();
   const view = searchParams?.get('view');
   const saveId = useSaveStore((state) => state.saveId);
