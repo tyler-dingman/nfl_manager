@@ -1,8 +1,10 @@
-export const getPickValue = (overall: number): number => {
-  const adjusted = Math.max(1, overall);
-  const value = 3000 / Math.pow(adjusted + 5, 0.85);
-  return Math.round(value);
-};
+import { getPickTradeValue } from '@/lib/trade-chart';
+
+export const getPickValue = (overall: number): number =>
+  getPickTradeValue({
+    round: Math.ceil(Math.max(1, overall) / 32),
+    overallSlot: Math.max(1, overall),
+  });
 
 export const clampNumber = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value));

@@ -1,6 +1,7 @@
 'use client';
 
-import Link from 'next/link';
+import { useState } from 'react';
+import SiteSearchModal from '@/components/search/site-search-modal';
 import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 
 import LoginButton from '@/components/auth/login-button';
@@ -19,10 +20,11 @@ export default function MainSiteHeader({
   active?: PrimaryNavItemId | null;
   tone?: 'team' | 'merch' | 'brand';
 }) {
-  const teamSuffix = teamAbbr ? `&team=${encodeURIComponent(teamAbbr)}` : '';
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <SiteHeaderShell tone={tone}>
+      <SiteSearchModal open={searchOpen} onClose={() => setSearchOpen(false)} teamAbbr={teamAbbr} />
       <SiteHeaderLogo teamAbbr={teamAbbr} generic={!teamAbbr} />
       <PrimaryNavigation
         teamAbbr={teamAbbr}
@@ -31,13 +33,15 @@ export default function MainSiteHeader({
         showMobile={false}
       />
       <div className="ml-auto flex min-w-0 items-center gap-2">
-        <Link
-          href={`/?search=1${teamSuffix}`}
+        <button
+          type="button"
+          onClick={() => setSearchOpen(true)}
+          aria-haspopup="dialog"
           className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] transition hover:bg-white/10"
           aria-label="Search"
         >
           <Search className="h-4 w-4" />
-        </Link>
+        </button>
         <NotificationCenter teamAbbr={teamAbbr} />
         <span className="hidden lg:block">
           <LoginButton teamAbbr={teamAbbr} />

@@ -1,12 +1,14 @@
 'use client';
+import { Trophy, FlaskConical, CircleX, ExternalLink, Plus, RefreshCw } from 'lucide-react';
+
+import { DdShareIcon as Share2 } from '@/components/ui/football-icons';
 
 import Link from 'next/link';
-import { CircleX, ExternalLink, FlaskConical, Plus, RefreshCw, Trophy } from 'lucide-react';
+
 import {
   DdSaveIcon as Bookmark,
   DdDownloadIcon as Download,
   DdMessagesIcon as MessageCircle,
-  DdShareIcon as Share2,
 } from '@/components/ui/football-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import MainSiteHeader from '@/components/main-site-header';
@@ -171,7 +173,7 @@ export default function MyPlaysPage() {
   );
   const textFor = (play: SavedPlay) =>
     [
-      `Parlay Lab · ${play.selections.length} Picks · ${price(play.savedCombinedOdds)}`,
+      `The Parlay Bus · ${play.selections.length} Picks · ${price(play.savedCombinedOdds)}`,
       matchup(play),
       '',
       ...play.selections.map(
@@ -180,11 +182,11 @@ export default function MyPlaysPage() {
       ),
       '',
       statusLabel[play.status ?? 'UPCOMING'],
-      'Built with the Down & Distance Parlay Lab — https://downdistance.com/parlay-lab',
+      'Built with the Down & Distance The Parlay Bus — https://downdistance.com/parlay-lab',
     ].join('\n');
   const share = async (play: SavedPlay) => {
     const text = textFor(play);
-    if (navigator.share) await navigator.share({ title: 'Down & Distance Parlay Lab', text });
+    if (navigator.share) await navigator.share({ title: 'Down & Distance The Parlay Bus', text });
     else {
       await navigator.clipboard.writeText(text);
       setMessage('Saved play copied.');
@@ -192,7 +194,7 @@ export default function MyPlaysPage() {
   };
   return (
     <div className={styles.shell}>
-      <MainSiteHeader active="parlay-lab" tone="brand" />
+      <MainSiteHeader active="parlay-lab" tone="merch" />
       <ParlayLabSecondaryNav />
       <main className={styles.page}>
         <header className={styles.header}>
@@ -467,7 +469,7 @@ async function downloadPlayImage(play: SavedPlay, returnValue: number | null) {
   ctx.fillRect(0, 0, 1080, 1080);
   ctx.fillStyle = '#071b30';
   ctx.font = '900 48px Arial';
-  ctx.fillText('DOWN & DISTANCE · PARLAY LAB', 60, 82);
+  ctx.fillText('DOWN & DISTANCE · THE PARLAY BUS', 60, 82);
   ctx.fillStyle = '#fff';
   ctx.beginPath();
   ctx.roundRect(42, 120, 996, 850, 32);

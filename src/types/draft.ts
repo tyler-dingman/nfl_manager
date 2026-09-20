@@ -1,3 +1,4 @@
+import type { MockTradeState } from '@/lib/mock-draft-trades';
 import type { PlayerRowDTO } from '@/types/player';
 
 export type DraftMode = 'mock' | 'real';
@@ -30,6 +31,8 @@ export type DraftSessionDTO = {
   picks: DraftPickDTO[];
   prospects: PlayerRowDTO[];
   status: DraftSessionStatus;
+  tradeState?: MockTradeState;
+  tradeRevision?: number;
   fallingProspectId?: string | null;
   fallReason?: string | null;
   fallSeverity?: number | null;

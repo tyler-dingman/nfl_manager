@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, Check, Minus, PackageCheck, Plus, RefreshCcw, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 
+import MobileSiteMenu from '@/components/mobile-site-menu';
 import LoginButton from '@/components/auth/login-button';
 import { MerchCartButton, useMerchCart } from '@/components/merch/merch-cart';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -23,14 +24,17 @@ export default function MerchProductDetail({ product }: { product: MerchProduct 
       <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
         <SiteHeaderShell tone="merch">
           <SiteHeaderLogo generic />
-          <PrimaryNavigation active="merch" tone="dark" />
+          <PrimaryNavigation active="merch" tone="light" showMobile={false} />
           <div className="ml-auto flex items-center gap-2">
             <MoveTheChainsIndicator />
-            <LoginButton dark={false} />
+            <span className="hidden lg:block">
+              <LoginButton />
+            </span>
             <MerchCartButton />
+            <MobileSiteMenu active="merch" />
           </div>
         </SiteHeaderShell>
-        <div className="bg-[#00172B] px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-[#F4D9B7]">
+        <div className="bg-[#FF3D38] px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-white">
           Free shipping on orders $75+ · Shop preview
         </div>
 

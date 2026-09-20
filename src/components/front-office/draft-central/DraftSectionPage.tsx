@@ -61,12 +61,30 @@ const activeKeys: Record<string, DraftExperienceNavKey> = {
 export function DraftSectionPage({ section }: { section: string }) {
   const saveId = useSaveStore((state) => state.saveId);
   const [data, setData] = useState<Data | null>(null);
+  const [error, setError] = useState(false);
   useEffect(() => {
+    let active = true;
+    setError(false);
+    setData(null);
     if (saveId)
       void apiFetch(`/api/front-office/draft-central?saveId=${encodeURIComponent(saveId)}`)
-        .then((response) => response.json())
-        .then(setData)
-        .catch(() => setData(null));
+        .then(async (response) => {
+          if (!response.ok) throw new Error('Draft data unavailable');
+          const body = await response.json();
+          if (
+            !Array.isArray(body.needAnalysis) ||
+            !Array.isArray(body.prospects) ||
+            !Array.isArray(body.recommendations)
+          )
+            throw new Error('Incomplete draft data');
+          if (active) setData(body);
+        })
+        .catch(() => {
+          if (active) setError(true);
+        });
+    return () => {
+      active = false;
+    };
   }, [saveId]);
   const heading = copy[section] ?? copy.scouting;
   return (
@@ -77,7 +95,14 @@ export function DraftSectionPage({ section }: { section: string }) {
         active={activeKeys[section] ?? 'draft-guide'}
       />
       <div className={styles.sectionPage}>
-        {!data ? (
+        {error ? (
+          <div className={styles.status} role="alert">
+            Draft intelligence is temporarily unavailable.{' '}
+            <button type="button" onClick={() => window.location.reload()}>
+              Try again
+            </button>
+          </div>
+        ) : !data ? (
           <div className={styles.status}>Loading draft intelligence…</div>
         ) : section === 'team-needs' ? (
           <TeamNeedsPage data={data} />

@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight, ChevronDown, Shirt, X } from 'lucide-react';
 import { DdMenuIcon as Menu, DdSearchIcon as Search } from '@/components/ui/football-icons';
 
+import MobileSiteMenu from '@/components/mobile-site-menu';
 import LoginButton from '@/components/auth/login-button';
 import { MerchCartButton, useMerchCart } from '@/components/merch/merch-cart';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -125,22 +126,25 @@ export default function MerchShop({ categoryPage }: { categoryPage?: MerchCatego
       <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
         <SiteHeaderShell tone="merch">
           <SiteHeaderLogo generic />
-          <PrimaryNavigation active="merch" tone="dark" />
+          <PrimaryNavigation active="merch" tone="light" showMobile={false} />
           <div className="ml-auto flex items-center gap-2">
             <MoveTheChainsIndicator />
-            <LoginButton dark={false} />
+            <span className="hidden lg:block">
+              <LoginButton />
+            </span>
             <button
               type="button"
               onClick={() => setIsSearchOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#00172B]/15 transition hover:bg-white/20"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 transition hover:bg-white/20"
               aria-label="Search shop"
             >
               <Search className="h-5 w-5" />
             </button>
             <MerchCartButton />
+            <MobileSiteMenu active="merch" />
           </div>
         </SiteHeaderShell>
-        <div className="bg-[#00172B] px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-[#F4D9B7]">
+        <div className="bg-[#FF3D38] px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.2em] text-white">
           Free shipping on orders $75+ · Shop preview
         </div>
         <div className="border-b border-[#00172B]/10 bg-[#F4D9B7] text-[#00172B]">
@@ -351,9 +355,11 @@ export default function MerchShop({ categoryPage }: { categoryPage?: MerchCatego
                       <Link
                         key={item}
                         href={`/merch/${item.toLowerCase()}`}
-                        className={`group min-h-64 rounded-[2rem] p-8 text-white transition hover:-translate-y-1 ${index % 2 ? 'bg-[#FF3D38]' : 'bg-[#00172B]'}`}
+                        className={`group min-w-0 min-h-64 rounded-[2rem] p-5 sm:p-8 text-white transition hover:-translate-y-1 ${index % 2 ? 'bg-[#FF3D38]' : 'bg-[#00172B]'}`}
                       >
-                        <span className="text-4xl font-black uppercase">{item}</span>
+                        <span className="break-words text-3xl sm:text-4xl font-black uppercase">
+                          {item}
+                        </span>
                         <span className="mt-3 block max-w-sm text-lg font-semibold opacity-80">
                           {CATEGORY_COPY[item]}
                         </span>
@@ -374,11 +380,13 @@ export default function MerchShop({ categoryPage }: { categoryPage?: MerchCatego
                     className="object-contain"
                   />
                 </div>
-                <div className="flex flex-col justify-center rounded-[2rem] bg-[#F4D9B7] p-8 lg:p-12">
+                <div className="flex min-w-0 flex-col justify-center rounded-[2rem] bg-[#F4D9B7] p-5 sm:p-8 lg:p-12">
                   <p className="text-xs font-black uppercase tracking-[.2em] text-[#FF3D38]">
                     Featured drop
                   </p>
-                  <h2 className="mt-3 text-4xl font-black uppercase">City colorways</h2>
+                  <h2 className="mt-3 break-words text-3xl font-black uppercase sm:text-4xl">
+                    City colorways
+                  </h2>
                   <p className="mt-4 text-lg font-semibold text-[#00172B]/65">
                     Football culture, built around the colors that make home feel like home. No
                     logos. Just football.

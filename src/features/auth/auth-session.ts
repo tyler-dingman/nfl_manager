@@ -20,6 +20,7 @@ export type AuthUser = {
 const EVENT_NAME = 'dd-auth-session-change';
 let cachedUser: AuthUser | null = null;
 let loaded = false;
+let pendingUser: Promise<AuthUser | null> | null = null;
 
 const normalize = (user: Omit<AuthUser, 'name' | 'email'>): AuthUser => ({
   ...user,
@@ -28,14 +29,24 @@ const normalize = (user: Omit<AuthUser, 'name' | 'email'>): AuthUser => ({
 });
 
 export async function fetchAuthUser() {
-  const response = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
-  if (!response.ok) return null;
-  const body = (await response.json()) as { user: Omit<AuthUser, 'name' | 'email'> };
-  return normalize(body.user);
+  if (pendingUser) return pendingUser;
+  const request = (async () => {
+    const response = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
+    if (!response.ok) return null;
+    const body = (await response.json()) as { user: Omit<AuthUser, 'name' | 'email'> | null };
+    return body.user ? normalize(body.user) : null;
+  })();
+  pendingUser = request;
+  try {
+    return await request;
+  } finally {
+    if (pendingUser === request) pendingUser = null;
+  }
 }
 
 export function notifyAuthChanged() {
   loaded = false;
+  pendingUser = null;
   window.dispatchEvent(new Event(EVENT_NAME));
 }
 

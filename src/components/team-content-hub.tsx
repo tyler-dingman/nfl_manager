@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, Clock3, Radio, Shield, Sparkles, Users } from 'lucide-react';
-import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 
 import FilmRoomGrid from '@/components/film-room/film-room-grid';
 import FilmRoomPlayDiagram from '@/components/film-room/film-room-play-diagram';
@@ -94,7 +93,7 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
     if (kind !== 'huddle') return;
     const controller = new AbortController();
     const query = new URLSearchParams({ team: teamAbbr });
-    for (const key of ['page', 'type', 'range', 'sort', 'q']) {
+    for (const key of ['page', 'type', 'range', 'sort']) {
       const value = searchParams?.get(key);
       if (value) query.set(key, value);
     }
@@ -158,7 +157,6 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
             <HuddleGrid
               briefings={briefings}
               teamAbbr={teamAbbr}
-              teamName={teamName}
               pagination={beatPagination}
               loading={beatLoading}
             />
@@ -203,13 +201,11 @@ const beatFilters: Array<{ id: BeatFilter; label: string }> = [
 function HuddleGrid({
   briefings,
   teamAbbr,
-  teamName,
   pagination,
   loading,
 }: {
   briefings: TeamBriefing[];
   teamAbbr: string;
-  teamName: string;
   pagination: BeatPagination;
   loading: boolean;
 }) {
@@ -218,15 +214,13 @@ function HuddleGrid({
   const pathname = usePathname();
   const { user, hydrated } = useAuthUser();
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
-  const urlQuery = searchParams?.get('q') ?? '';
-  const [query, setQuery] = useState(urlQuery);
   const filter = (searchParams?.get('type') ?? 'ALL').toUpperCase() as BeatFilter;
   const timeRange = (searchParams?.get('range') ?? 'ALL').toUpperCase();
   const sort = (searchParams?.get('sort') ?? 'UPDATED').toUpperCase() as 'UPDATED' | 'NEWEST';
-  const teamNickname = teamName.split(' ').at(-1) ?? teamName;
 
   const updateUrl = (changes: Record<string, string | null>, resetPage = true) => {
     const params = new URLSearchParams(searchParams?.toString() ?? '');
+    params.delete('q');
     Object.entries(changes).forEach(([key, value]) => {
       if (!value || value === 'ALL' || (key === 'sort' && value === 'UPDATED')) params.delete(key);
       else params.set(key, value);
@@ -235,7 +229,6 @@ function HuddleGrid({
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  useEffect(() => setQuery(urlQuery), [urlQuery]);
   useEffect(() => {
     const requestedPage = parseBeatPage(searchParams?.get('page'));
     if (!loading && pagination.totalPages > 0 && requestedPage !== pagination.page) {
@@ -244,14 +237,6 @@ function HuddleGrid({
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }
   }, [loading, pagination.page, pagination.totalPages, pathname, router, searchParams]);
-  useEffect(() => {
-    const timeout = window.setTimeout(() => {
-      if (query.trim() !== urlQuery) updateUrl({ q: query.trim() || null });
-    }, 350);
-    return () => window.clearTimeout(timeout);
-    // URL replacement is intentionally debounced from the controlled input.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, urlQuery]);
 
   useEffect(() => {
     if (!hydrated || !user || !briefings.length) return;
@@ -300,33 +285,7 @@ function HuddleGrid({
 
   return (
     <section aria-labelledby="beat-stories-heading">
-      <div className="rounded-3xl border border-[#00172B]/10 bg-white p-5 shadow-sm sm:p-7">
-        <label
-          htmlFor="ask-dd"
-          className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]"
-        >
-          Ask D&amp;D
-        </label>
-        <div className="relative mt-3">
-          <Search
-            className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#52677c]"
-            aria-hidden="true"
-          />
-          <input
-            id="ask-dd"
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder={`Search ${teamNickname} news, players, injuries, trades and more...`}
-            className="h-14 w-full rounded-2xl border border-[#00172B]/15 bg-[#f7f4ee] pl-12 pr-4 font-bold text-[#00172B] outline-none transition placeholder:text-[#6d7f91] focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
-          />
-        </div>
-        <p className="mt-2 text-xs font-semibold text-[#6d7f91]">
-          Searches D&amp;D’s canonical stories and their attributed sources.
-        </p>
-      </div>
-
-      <div className="mt-7 flex flex-col gap-4 border-b border-[#00172B]/10 pb-5 lg:flex-row lg:items-end lg:justify-between">
+      <div className="flex flex-col gap-4 border-b border-[#00172B]/10 pb-5 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h2 id="beat-stories-heading" className="sr-only">
             The Beat stories
@@ -379,7 +338,6 @@ function HuddleGrid({
 
       <p className="mt-5 text-xs font-bold text-[#6d7f91]" role="status" aria-live="polite">
         {pagination.totalItems} {pagination.totalItems === 1 ? 'development' : 'developments'}
-        {query.trim() ? ` matching “${query.trim()}”` : ''}
       </p>
 
       <div
@@ -414,7 +372,7 @@ function HuddleGrid({
           ))
         ) : (
           <div className="rounded-2xl border border-dashed border-[#00172B]/20 bg-white p-8 text-center text-sm font-semibold text-[#52677c] md:col-span-2 lg:col-span-3">
-            No developments match those filters. Try a broader search or time range.
+            No developments match those filters. Try another category or time range.
           </div>
         )}
       </div>

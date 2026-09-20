@@ -7,6 +7,7 @@ export type FrontOfficeStrategicHeroProps = {
   title: string;
   description: string;
   actions?: ReactNode;
+  compact?: boolean;
 };
 
 export function FrontOfficeStrategicHero({
@@ -14,9 +15,10 @@ export function FrontOfficeStrategicHero({
   title,
   description,
   actions,
+  compact = false,
 }: FrontOfficeStrategicHeroProps) {
   return (
-    <section className={styles.hero}>
+    <section className={`${styles.hero} ${compact ? styles.compact : ''}`}>
       <div className={styles.copy}>
         <p>Front Office · {section}</p>
         <h1 className="dd-home-hero-display">{title}</h1>

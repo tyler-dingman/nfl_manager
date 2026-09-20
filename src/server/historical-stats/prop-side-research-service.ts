@@ -1,6 +1,4 @@
-import { calculateLineMargin } from './line-margin-service';
-import { calculatePlayerConsistency } from './player-consistency-service';
-import { calculatePlayerUsageTrend } from './player-usage-trend-service';
+import type { ScoreContext } from './research-score';
 import { normalizeHistoricalStatType } from './stat-resolver';
 import { calculatePlayerPropTrend } from './trend-service';
 import type { HistoricalPlayerGame } from './types';
@@ -40,14 +38,11 @@ type MarketInput = {
   side: string;
 };
 
-const clamp = (value: number) => Math.max(0, Math.min(100, value));
-const fmt = (value: number | null, suffix = '') =>
-  value === null ? 'Unavailable' : `${Math.round(value * 10) / 10}${suffix}`;
-
 export function evaluatePropSides(
   market: MarketInput,
   games: HistoricalPlayerGame[],
   currentOpponentId?: string,
+  context: ScoreContext = {},
 ) {
   const statType =
     normalizeHistoricalStatType(market.marketType) ??
@@ -55,8 +50,6 @@ export function evaluatePropSides(
   if (!market.playerId || market.line === null || !statType)
     return { labFindSide: null as LabFindSide, over: null, under: null };
 
-  const consistency = calculatePlayerConsistency(games, statType);
-  const usage = calculatePlayerUsageTrend(games, statType);
   const calculate = (side: 'OVER' | 'UNDER'): LabSideResult => {
     const trend = calculatePlayerPropTrend(games, {
       playerId: market.playerId!,
@@ -64,75 +57,45 @@ export function evaluatePropSides(
       line: market.line!,
       side,
       currentOpponentId,
+      ...context,
     });
-    const margin = calculateLineMargin(games, statType, market.line!, side);
-    const recent =
-      trend.last5.hitRate === null || trend.last10.hitRate === null
-        ? null
-        : trend.last5.hitRate * 0.4 + trend.last10.hitRate * 0.6;
-    const marginScale = [
-      'RECEPTIONS',
-      'PASSING_TDS',
-      'RUSHING_TDS',
-      'RECEIVING_TDS',
-      'ANYTIME_TD',
-    ].includes(statType)
-      ? 2
-      : Math.max(Math.abs(market.line!) * 0.2, 5);
+    const research = trend.researchScore;
+    const groups = research.breakdown;
     const signals = [
       {
-        label: 'Recent form',
-        value: `${trend.last10.hits}/${trend.last10.games} last 10`,
-        score: recent,
-        weight: 25,
+        label: 'Historical evidence',
+        value: research.lineContext.scoreBasis,
+        score: 50 + groups.historical.adjustment,
       },
-      {
-        label: 'Line cushion',
-        value: `${fmt(margin.averageMargin, statType.includes('YARDS') ? ' yds' : '')} average`,
-        score:
-          margin.averageMargin === null
-            ? null
-            : clamp(50 + (margin.averageMargin / marginScale) * 35),
-        weight: 20,
-      },
-      {
-        label: `${usage.primaryMetric} trend`,
-        value:
-          usage.trendPct === null
-            ? 'Unavailable'
-            : `${usage.trendPct > 0 ? '+' : ''}${usage.trendPct}%`,
-        score:
-          usage.trendPct === null
-            ? null
-            : clamp(50 + (side === 'OVER' ? usage.trendPct : -usage.trendPct) * 1.5),
-        weight: 15,
-      },
-      {
-        label: 'Consistency',
-        value: consistency?.label ?? 'Unavailable',
-        score:
-          recent === null || !consistency
-            ? null
-            : clamp(50 + ((recent - 50) * consistency.score) / 100),
-        weight: 15,
-      },
-      {
-        label: 'Vs. opponent',
-        value: `${trend.vsOpponent.hits}/${trend.vsOpponent.games}`,
-        score: trend.vsOpponent.games >= 2 ? trend.vsOpponent.hitRate : null,
-        weight: 10,
-      },
-      {
-        label: 'Two-year history',
-        value: `${trend.last2Years.hits}/${trend.last2Years.games}`,
-        score: trend.last2Years.hitRate,
-        weight: 15,
-      },
-    ].filter((signal): signal is LabSignal & { weight: number } => signal.score !== null);
-    const weight = signals.reduce((sum, signal) => sum + signal.weight, 0);
-    const internalScore = weight
-      ? Math.round(signals.reduce((sum, signal) => sum + signal.score * signal.weight, 0) / weight)
-      : 0;
+      ...(groups.usage.alignment === 'unknown'
+        ? []
+        : [
+            {
+              label: 'Usage',
+              value: groups.usage.alignment,
+              score: 50 + groups.usage.adjustment * 8,
+            },
+          ]),
+      ...(groups.matchup.alignment === 'unknown'
+        ? []
+        : [
+            {
+              label: 'Matchup',
+              value: research.matchup.label,
+              score: 50 + groups.matchup.adjustment * 5,
+            },
+          ]),
+      ...(groups.gameContext.alignment === 'unknown'
+        ? []
+        : [
+            {
+              label: 'Game context',
+              value: groups.gameContext.alignment,
+              score: 50 + groups.gameContext.adjustment * 15,
+            },
+          ]),
+    ];
+    const internalScore = research.score;
     return {
       sampleSize: trend.last2Years.games,
       internalScore,
@@ -144,7 +107,7 @@ export function evaluatePropSides(
       concerns: signals
         .filter((signal) => signal.score <= 35)
         .sort((a, b) => a.score - b.score)
-        .slice(0, 1),
+        .slice(0, 3),
     };
   };
   const over = calculate('OVER'),

@@ -56,7 +56,12 @@ export default function Search() {
             returnKeyType="search"
           />
           {query ? (
-            <Pressable onPress={() => setQuery('')}>
+            <Pressable
+              accessibilityLabel="Clear search"
+              hitSlop={8}
+              style={{ minHeight: 44, justifyContent: 'center' }}
+              onPress={() => setQuery('')}
+            >
               <Text style={s.clear}>CLEAR</Text>
             </Pressable>
           ) : null}
@@ -64,7 +69,11 @@ export default function Search() {
         {loading ? (
           <ActivityIndicator color={C.red} style={s.loader} />
         ) : (
-          <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={s.results}>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            contentContainerStyle={s.results}
+          >
             {data.stories.length ? (
               <>
                 <Text style={s.section}>STORIES</Text>

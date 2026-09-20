@@ -239,7 +239,7 @@ export async function getTriviaLeaderboard(
       : '';
   const params = scope === 'TEAM' ? [teamId] : [];
   return authDb().unsafe(
-    `SELECT row_number() OVER(ORDER BY s.${points} DESC,s.correct_answers DESC,u.id)::int AS rank,u.id AS "userId",coalesce(u.display_name,'Football Fan') AS name,s.${points} AS score,CASE WHEN s.questions_answered=0 THEN 0 ELSE round(s.correct_answers::numeric/s.questions_answered*100,1) END AS accuracy,s.games_played AS "gamesPlayed" FROM trivia_stats s JOIN users u ON u.id=s.user_id ${teamJoin} WHERE u.is_guest=false ORDER BY s.${points} DESC,s.correct_answers DESC,u.id LIMIT ${Math.min(100, Math.max(1, limit))}`,
+    `SELECT row_number() OVER(ORDER BY s.${points} DESC,s.correct_answers DESC,u.id)::int AS rank,u.id AS "userId",coalesce(u.display_name,'Football Fan') AS name,s.${points} AS score,(CASE WHEN s.questions_answered=0 THEN 0 ELSE round(s.correct_answers::numeric/s.questions_answered*100,1) END)::double precision AS accuracy,s.games_played AS "gamesPlayed" FROM trivia_stats s JOIN users u ON u.id=s.user_id ${teamJoin} WHERE u.is_guest=false ORDER BY s.${points} DESC,s.correct_answers DESC,u.id LIMIT ${Math.min(100, Math.max(1, limit))}`,
     params,
   );
 }

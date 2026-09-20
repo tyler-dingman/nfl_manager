@@ -1,5 +1,8 @@
 'use client';
 
+import { ProspectDetailsModal } from './prospect-details-modal';
+import { useTeamStore } from '@/features/team/team-store';
+import type { PlayerRowDTO } from '@/types/player';
 import Image from 'next/image';
 import { ChevronDown, ChevronUp, GripVertical, Star, Trash2, X } from 'lucide-react';
 import { DdSearchIcon as Search } from '@/components/ui/football-icons';
@@ -19,6 +22,23 @@ const gradeScore = (grade: string | null) =>
     grade?.toUpperCase() as 'A+'
   ] ?? 0;
 
+function profilePlayer(p: DraftProspectRecord): PlayerRowDTO {
+  const [firstName, ...lastName] = p.name.split(/\s+/);
+  return {
+    ...p,
+    firstName,
+    lastName: lastName.join(' '),
+    position: p.position ?? '—',
+    rank: p.ranking ?? undefined,
+    projectedPick: p.projectedPick ?? undefined,
+    age: p.age ?? undefined,
+    grade: p.grade ?? undefined,
+    contractYearsRemaining: 0,
+    capHit: '—',
+    status: 'Prospect',
+  };
+}
+
 function ProspectImage({ prospect, size = 36 }: { prospect: DraftProspectRecord; size?: number }) {
   return prospect.headshotUrl ? (
     <Image src={prospect.headshotUrl} alt="" width={size} height={size} unoptimized />
@@ -37,11 +57,15 @@ export function ProspectBoard({
   prospects,
   title = 'Big Board',
   showHeader = true,
+  initialProspectId,
 }: {
   prospects: DraftProspectRecord[];
   title?: string;
   showHeader?: boolean;
+  initialProspectId?: string;
 }) {
+  const teamAbbr = useSaveStore((s) => s.teamAbbr);
+  const team = useTeamStore((s) => s.teams.find((t) => t.abbr === teamAbbr));
   const saveId = useSaveStore((state) => state.saveId);
   const [query, setQuery] = useState('');
   const [position, setPosition] = useState('ALL');
@@ -51,7 +75,9 @@ export function ProspectBoard({
   const [board, setBoard] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [showDrafted, setShowDrafted] = useState(false);
-  const [active, setActive] = useState<DraftProspectRecord | null>(null);
+  const [active, setActive] = useState<DraftProspectRecord | null>(
+    () => prospects.find((p) => p.id === initialProspectId) ?? null,
+  );
   const [rankedProspects, setRankedProspects] = useState(prospects);
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const draftYear = prospects.find((prospect) => prospect.draftYear)?.draftYear ?? 2027;
@@ -429,45 +455,18 @@ export function ProspectBoard({
           </div>
         </aside>
       </div>
-      {active ? (
-        <div
-          className={styles.modalLayer}
-          onMouseDown={(event) => event.target === event.currentTarget && setActive(null)}
-        >
-          <section role="dialog" aria-modal="true" aria-labelledby="prospect-name">
-            <button type="button" onClick={() => setActive(null)} aria-label="Close">
-              <X />
-            </button>
-            <p>Rank #{active.ranking}</p>
-            <h2 id="prospect-name">{active.name}</h2>
-            <span>
-              {active.position} · {active.school}
-            </span>
-            <dl>
-              <div>
-                <dt>Grade</dt>
-                <dd>{active.grade ?? '—'}</dd>
-              </div>
-              <div>
-                <dt>Range</dt>
-                <dd>{active.projectedRange ?? '—'}</dd>
-              </div>
-              <div>
-                <dt>Height</dt>
-                <dd>{active.height ?? '—'}</dd>
-              </div>
-              <div>
-                <dt>Weight</dt>
-                <dd>{active.weight ? `${active.weight} lbs` : '—'}</dd>
-              </div>
-            </dl>
-            {active.summary ? <p>{active.summary}</p> : null}
-            <button type="button" onClick={() => toggleBoard(active.id)}>
-              {board.includes(active.id) ? 'Remove from My Big Board' : 'Add to My Big Board'}
-            </button>
-          </section>
-        </div>
-      ) : null}
+      <ProspectDetailsModal
+        open={Boolean(active)}
+        player={active ? profilePlayer(active) : null}
+        players={visible.map(profilePlayer)}
+        year={draftYear}
+        teamAbbr={teamAbbr ?? undefined}
+        teamNeeds={team?.allTeamNeeds ?? team?.teamNeeds ?? []}
+        isOnBoard={Boolean(active && board.includes(active.id))}
+        onToggleBoard={toggleBoard}
+        onSelectPlayer={(id) => setActive(rankedProspects.find((p) => p.id === id) ?? null)}
+        onClose={() => setActive(null)}
+      />
     </div>
   );
 }

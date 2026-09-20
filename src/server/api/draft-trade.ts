@@ -1,3 +1,5 @@
+import { mockTradeAssets } from '@/lib/mock-draft-trades';
+import { updateMockDraftTrades } from '@/server/logic/mock-draft-trades';
 import { buildPickAsset } from '@/lib/trade-chart';
 import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
 import { findSaveIdForDraftSession, restoreDraftSession } from '@/server/api/draft';
@@ -13,6 +15,7 @@ import type { SaveUnlocksDTO } from '@/types/save';
 import type { TradePickAssetDTO } from '@/types/trade-offers';
 
 type DraftSaveSnapshot = {
+  year?: number;
   teamAbbr: string;
   capSpace: number;
   capLimit: number;
@@ -96,6 +99,13 @@ export const getDraftTradeAssetSource = (
 ) => {
   const normalizedTeamAbbr = teamAbbr.toUpperCase();
   const saveAssets = getTeamTradeAssets(state, normalizedTeamAbbr);
+  if (session.mode === 'mock') {
+    updateMockDraftTrades(session, state);
+    return {
+      players: saveAssets.players,
+      draftPicks: mockTradeAssets(session).filter((p) => p.owningTeamAbbr === normalizedTeamAbbr),
+    };
+  }
   const liveCurrentYearPicks = session.picks
     .filter(
       (pick) =>
@@ -117,6 +127,10 @@ export const resolveDraftTradePickAssetById = (
   session: DraftSessionDTO,
   pickId: string,
 ): TradePickAssetDTO | null => {
+  if (session.mode === 'mock') {
+    updateMockDraftTrades(session, state);
+    return mockTradeAssets(session).find((p) => p.id === pickId) ?? null;
+  }
   const livePick = session.picks
     .filter((pick) => !pick.selectedPlayerId)
     .map(buildLiveSessionPickAsset)

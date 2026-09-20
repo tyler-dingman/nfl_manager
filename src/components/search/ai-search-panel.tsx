@@ -1,15 +1,27 @@
 'use client';
 
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { CirclePlus, ExternalLink, Loader2, Mic, Sparkles, Video } from 'lucide-react';
+import { FormEvent, useEffect, useMemo, useRef, useState, useId } from 'react';
+import {
+  CirclePlus,
+  ExternalLink,
+  Loader2,
+  Mic,
+  Sparkles,
+  Video,
+  X,
+  ArrowRight,
+} from 'lucide-react';
 import {
   DdArticlesIcon as Newspaper,
   DdSearchIcon as Search,
   DdProfileIcon as UserRound,
 } from '@/components/ui/football-icons';
 
+import { AnswerBlocks, AnswerSources } from './structured-answer';
+import type { SearchContext } from '@/features/search/answer-types';
 import type { SearchResponse } from '@/features/search/types';
 import { parseSearchAnswerCitations } from '@/features/search/citations';
+import { TEAM_LIST } from '@/data/teams';
 import { lightenHexColor } from '@/lib/color-utils';
 
 type Props = {
@@ -20,6 +32,9 @@ type Props = {
   nickname: string;
   query: string;
   onQueryChange: (query: string) => void;
+  variant?: 'hero' | 'overlay';
+  onClose?: () => void;
+  quickLinks?: Array<{ category: string; title: string; description: string; href: string }>;
 };
 
 const iconSuggestions = [Newspaper, Mic, Video, CirclePlus, UserRound] as const;
@@ -32,7 +47,13 @@ export default function AiSearchPanel({
   nickname,
   query,
   onQueryChange,
+  variant = 'hero',
+  onClose,
+  quickLinks = [],
 }: Props) {
+  const inputId = useId();
+  const [searchTeam, setSearchTeam] = useState('');
+  const effectiveTeamId = teamId || searchTeam;
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState('');
   const [animationStopped, setAnimationStopped] = useState(false);
   const [status, setStatus] = useState<
@@ -40,6 +61,15 @@ export default function AiSearchPanel({
   >('idle');
   const [response, setResponse] = useState<SearchResponse | null>(null);
   const [error, setError] = useState('');
+  const contextRef = useRef<SearchContext | undefined>(undefined);
+  const searchController = useRef<AbortController | null>(null);
+  useEffect(() => {
+    searchController.current?.abort();
+    contextRef.current = undefined;
+    setResponse(null);
+    setStatus('idle');
+    return () => searchController.current?.abort();
+  }, [effectiveTeamId]);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -60,7 +90,7 @@ export default function AiSearchPanel({
   const lighterPrimary = useMemo(() => lightenHexColor(primaryColor, 0.2), [primaryColor]);
 
   useEffect(() => {
-    if (animationStopped) return;
+    if (animationStopped || variant === 'overlay') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setAnimatedPlaceholder('Ask anything...');
       return;
@@ -109,9 +139,12 @@ export default function AiSearchPanel({
 
   const runSearch = async (searchQuery: string) => {
     const normalized = searchQuery.trim();
-    if (normalized.length < 2) return;
+    if (normalized.length < 2 || !effectiveTeamId) return;
     stopAnimation();
     onQueryChange(normalized);
+    searchController.current?.abort();
+    const controller = new AbortController();
+    searchController.current = controller;
     setStatus('searching');
     setResponse(null);
     setError('');
@@ -119,13 +152,26 @@ export default function AiSearchPanel({
       const result = await fetch('/api/search', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ query: normalized, teamId, limit: 12, includeAnswer: true }),
+        body: JSON.stringify({
+          query: normalized,
+          teamId: effectiveTeamId,
+          limit: 12,
+          includeAnswer: true,
+          context: contextRef.current,
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        }),
+        signal: controller.signal,
       });
+      if (!result.headers.get('content-type')?.includes('application/json'))
+        throw new Error('Search is temporarily unavailable. Please try again.');
       const payload = (await result.json()) as SearchResponse & { error?: string };
       if (!result.ok) throw new Error(payload.error ?? 'Search failed');
+      if (controller.signal.aborted) return;
+      contextRef.current = payload.context;
       setResponse(payload);
       setStatus('idle');
     } catch (searchError) {
+      if (controller.signal.aborted) return;
       setStatus('error');
       setError(searchError instanceof Error ? searchError.message : 'Search is unavailable.');
     }
@@ -171,6 +217,8 @@ export default function AiSearchPanel({
         form.set('audio', audio, 'voice-search.webm');
         try {
           const result = await fetch('/api/search/transcribe', { method: 'POST', body: form });
+          if (!result.headers.get('content-type')?.includes('application/json'))
+            throw new Error('Search is temporarily unavailable. Please try again.');
           const payload = (await result.json()) as { text?: string; error?: string };
           if (!result.ok || !payload.text) throw new Error(payload.error ?? 'Transcription failed');
           onQueryChange(payload.text);
@@ -189,6 +237,183 @@ export default function AiSearchPanel({
       setError('Microphone access was denied or unavailable.');
     }
   };
+
+  if (variant === 'overlay')
+    return (
+      <div className="flex max-h-full w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-white shadow-2xl">
+        <form
+          onSubmit={submit}
+          role="search"
+          className="flex shrink-0 items-center gap-3 border-b border-slate-200 px-5"
+        >
+          <Search className="h-5 w-5 shrink-0 text-slate-400" aria-hidden="true" />
+          <label htmlFor={inputId} className="sr-only">
+            Search Down &amp; Distance
+          </label>
+          <input
+            id={inputId}
+            type="search"
+            maxLength={300}
+            value={query}
+            onChange={(event) => onQueryChange(event.target.value)}
+            placeholder={`Search or ask about ${nickname} football…`}
+            className="h-16 min-w-0 flex-1 bg-transparent text-base font-semibold text-slate-950 outline-none placeholder:text-slate-400"
+          />
+          <button
+            type="submit"
+            aria-label="Submit search"
+            disabled={!effectiveTeamId || query.trim().length < 2 || status === 'searching'}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-700 hover:bg-slate-100 disabled:opacity-40"
+          >
+            <ArrowRight className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close search"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </form>
+        <div
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3"
+          onClick={(event) => {
+            const link = (event.target as HTMLElement).closest('a');
+            if (link && link.getAttribute('href')?.startsWith('/') && link.target !== '_blank')
+              onClose?.();
+          }}
+        >
+          {!teamId ? (
+            <label className="mb-3 flex items-center gap-3 px-3 pt-3 text-sm font-semibold text-slate-700">
+              Search team
+              <select
+                aria-label="Search team"
+                value={searchTeam}
+                onChange={(event) => setSearchTeam(event.target.value)}
+                className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white p-2"
+              >
+                <option value="">Choose a team</option>
+                {TEAM_LIST.map((team) => (
+                  <option key={team.abbr} value={team.abbr}>
+                    {team.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+          {status === 'searching' ? (
+            <div role="status" className="flex items-center gap-3 px-3 py-6 text-sm text-slate-600">
+              <Loader2 className="h-5 w-5 animate-spin motion-reduce:animate-none" />
+              Searching team data and relevant reporting…
+            </div>
+          ) : null}
+          {error ? (
+            <p role="alert" className="m-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">
+              {error} Try your search again.
+            </p>
+          ) : null}
+          {response?.answer ? (
+            <section
+              aria-label="AI search answer"
+              className="m-1 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-900"
+            >
+              <h2 className="mb-3 flex items-center gap-2 text-sm font-bold">
+                <Sparkles className="h-4 w-4" />
+                Down &amp; Distance Answer
+              </h2>
+              <div className="whitespace-pre-line">
+                <LinkedSearchAnswer response={response} />
+              </div>
+              <AnswerBlocks response={response} />
+              <AnswerSources response={response} />
+            </section>
+          ) : null}
+          {response ? (
+            <section aria-label="Search results">
+              <p role="status" className="px-3 pb-2 pt-4 text-xs font-bold text-slate-500">
+                {response.results.length
+                  ? `${response.results.length} results for “${response.query}”`
+                  : response.answer
+                    ? 'Ask a follow-up above or explore the sources.'
+                    : `No results for “${response.query}”. Try a player, topic, or team.`}
+              </p>
+              {response.results.map((result) => (
+                <a
+                  key={result.id}
+                  href={result.url}
+                  target={result.url.startsWith('http') ? '_blank' : undefined}
+                  rel={result.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="group flex items-start gap-4 rounded-2xl px-3 py-3 hover:bg-slate-100"
+                >
+                  <span className="team-primary-filled mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl">
+                    <Search className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[10px] font-black uppercase tracking-wider text-[var(--team-primary-text)]">
+                      {result.type.replaceAll('_', ' ')}
+                    </span>
+                    <span className="mt-1 block font-bold leading-5 text-slate-950">
+                      {result.title}
+                    </span>
+                    {result.summary ? (
+                      <span className="mt-1 block line-clamp-2 text-xs text-slate-500">
+                        {result.summary}
+                      </span>
+                    ) : null}
+                  </span>
+                  <ArrowRight className="mt-3 h-4 w-4 shrink-0 text-slate-400" />
+                </a>
+              ))}
+            </section>
+          ) : status !== 'searching' ? (
+            <>
+              <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">
+                Ask AI Search
+              </p>
+              <div className="flex flex-wrap gap-2 px-3 pb-4">
+                {suggestions.slice(0, 3).map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    disabled={!effectiveTeamId}
+                    onClick={() => void runSearch(suggestion)}
+                    className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+              <p className="px-3 pb-2 text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">
+                Suggested
+              </p>
+              {quickLinks.slice(0, 6).map((item) => (
+                <a
+                  key={`${item.category}-${item.title}`}
+                  href={item.href}
+                  className="group flex items-start gap-4 rounded-2xl px-3 py-3 hover:bg-slate-100"
+                >
+                  <span className="team-primary-filled mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl">
+                    <Search className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[10px] font-black uppercase tracking-wider text-[var(--team-primary-text)]">
+                      {item.category}
+                    </span>
+                    <span className="mt-1 block font-bold leading-5 text-slate-950">
+                      {item.title}
+                    </span>
+                    <span className="mt-1 block truncate text-xs text-slate-500">
+                      {item.description}
+                    </span>
+                  </span>
+                  <ArrowRight className="mt-3 h-4 w-4 shrink-0 text-slate-300" />
+                </a>
+              ))}
+            </>
+          ) : null}
+        </div>
+      </div>
+    );
 
   return (
     <div>
@@ -212,11 +437,11 @@ export default function AiSearchPanel({
               <span className="relative mr-3 grid h-9 w-10 shrink-0 place-items-center border-r border-slate-200 pr-3 sm:mr-5 sm:h-12 sm:w-14 sm:pr-5">
                 <Sparkles className="h-7 w-7 text-[var(--primary)]" aria-hidden="true" />
               </span>
-              <label htmlFor="ask-dd" className="sr-only">
+              <label htmlFor={inputId} className="sr-only">
                 Search Down &amp; Distance
               </label>
               <input
-                id="ask-dd"
+                id={inputId}
                 type="search"
                 value={query}
                 onFocus={stopAnimation}
@@ -268,7 +493,7 @@ export default function AiSearchPanel({
                     <div>
                       <p className="text-sm font-black">Searching Down &amp; Distance</p>
                       <p className="mt-0.5 text-sm font-medium text-[#52677c]">
-                        Checking the latest {nickname} coverage…
+                        Checking verified team data and relevant reporting…
                       </p>
                     </div>
                   </div>
@@ -278,6 +503,8 @@ export default function AiSearchPanel({
                       <Sparkles className="h-4 w-4" aria-hidden="true" /> Down &amp; Distance Answer
                     </div>
                     <LinkedSearchAnswer response={response} />
+                    <AnswerBlocks response={response} />
+                    <AnswerSources response={response} />
                   </div>
                 ) : null}
               </div>
@@ -291,6 +518,7 @@ export default function AiSearchPanel({
                 <button
                   key={suggestion}
                   type="button"
+                  disabled={!effectiveTeamId}
                   onClick={() => void runSearch(suggestion)}
                   className="flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-white/40 bg-white px-4 text-sm font-bold text-[#00172b] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
@@ -317,7 +545,7 @@ export default function AiSearchPanel({
           {error} Typed search remains available.
         </p>
       ) : null}
-      {response ? (
+      {response && !response.answerType ? (
         <section className="mt-6" aria-label="Search results">
           <p className="text-sm font-bold text-[#52677c]">
             {response.results.length} results for “{response.query}”

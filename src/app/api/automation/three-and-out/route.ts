@@ -6,6 +6,11 @@ import {
   generateAllDailyThreeAndOut,
   generateDailyThreeAndOut,
 } from '@/server/three-and-out/daily-service';
+import { authDb } from '@/server/auth/database';
+import {
+  assertDailyThreeAndOutSchema,
+  DailySchemaNotReadyError,
+} from '@/server/three-and-out/schema';
 import { localHourAndMinute } from '@/features/three-and-out/daily';
 
 export const dynamic = 'force-dynamic';
@@ -21,7 +26,12 @@ export async function POST(request: NextRequest) {
   const action = request.nextUrl.searchParams.get('action') ?? 'run';
   const teamId = request.nextUrl.searchParams.get('team')?.toUpperCase();
   const force = request.nextUrl.searchParams.get('force') === 'true';
+  if (!['generate', 'deliver', 'check'].includes(action)) {
+    return NextResponse.json({ ok: false, error: 'Unknown action' }, { status: 400 });
+  }
   try {
+    await assertDailyThreeAndOutSchema(authDb());
+    if (action === 'check') return NextResponse.json({ ok: true, action, schemaReady: true });
     if (action === 'generate') {
       const chicago = localHourAndMinute(new Date(), 'America/Chicago');
       if (
@@ -46,6 +56,12 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json({ ok: false, error: 'Unknown action' }, { status: 400 });
   } catch (error) {
+    if (error instanceof DailySchemaNotReadyError) {
+      return NextResponse.json(
+        { ok: false, code: error.code, error: error.message, missing: error.missing },
+        { status: 503 },
+      );
+    }
     console.error('[three-and-out-automation]', error);
     return NextResponse.json(
       { ok: false, error: error instanceof Error ? error.message : 'Automation failed' },

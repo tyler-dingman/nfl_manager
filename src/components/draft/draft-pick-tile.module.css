@@ -1,0 +1,80 @@
+.tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 32px;
+  min-height: 28px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: var(--pick-color, #00172b);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+.tile[data-known='true'] {
+  min-height: 32px;
+  width: 76px;
+}
+.round {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+.overall {
+  flex: 1;
+  border-left: 1px solid #ffffff66;
+  padding-left: 6px;
+  color: inherit;
+  font-family: var(--font-headline), var(--font-sans), sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+.tile[aria-pressed='true'] {
+  border-color: #ffab43;
+  box-shadow:
+    0 0 0 2px #ffab43,
+    0 3px 8px #00172b26;
+}
+.check {
+  position: absolute;
+  right: 2px;
+  top: 1px;
+  font-size: 8px;
+  line-height: 1;
+}
+@media (hover: hover) {
+  .tile:not(:disabled):hover {
+    transform: translateY(-1px);
+    background-image: linear-gradient(#00000014, #00000014);
+  }
+}
+.tile:not(:disabled):active {
+  transform: translateY(1px);
+}
+.tile:focus-visible {
+  outline: 3px solid #0878ff;
+  outline-offset: 4px;
+}
+.tile:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tile {
+    transition: none;
+  }
+}
+@media (pointer: coarse) {
+  .tile,
+  .tile[data-known='true'] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

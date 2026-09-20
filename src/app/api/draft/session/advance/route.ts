@@ -14,6 +14,7 @@ export const POST = async (request: Request) => {
     draftSessionId?: string;
     saveId?: string;
     mode?: 'default' | 'best_available';
+    autoPickUser?: boolean;
     sessionSnapshot?: DraftSessionDTO;
     saveSnapshot?: {
       teamAbbr: string;
@@ -35,7 +36,12 @@ export const POST = async (request: Request) => {
 
   try {
     const resolvedSaveId = findSaveIdForDraftSession(body.draftSessionId) ?? body.saveId;
-    const session = advanceDraftSession(body.draftSessionId, resolvedSaveId, body.mode);
+    const session = advanceDraftSession(
+      body.draftSessionId,
+      resolvedSaveId,
+      body.mode,
+      body.autoPickUser === true,
+    );
     return NextResponse.json({ ok: true, session });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to advance draft';
@@ -51,7 +57,12 @@ export const POST = async (request: Request) => {
           return NextResponse.json({ ok: false, error: message }, { status: 400 });
         }
         restoreDraftSession(restoredSaveId, sessionSnapshot, body.saveSnapshot);
-        const session = advanceDraftSession(body.draftSessionId, restoredSaveId, body.mode);
+        const session = advanceDraftSession(
+          body.draftSessionId,
+          restoredSaveId,
+          body.mode,
+          body.autoPickUser === true,
+        );
         return NextResponse.json({ ok: true, session });
       } catch (restoreError) {
         const restoreMessage =

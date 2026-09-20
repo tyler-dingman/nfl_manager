@@ -1,5 +1,8 @@
 'use client';
 
+import { apiFetch } from '@/lib/api';
+import { normalizeTriviaStats, type TriviaStats as Stats } from '@/features/trivia/stats';
+
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -26,14 +29,6 @@ import TeamThemeProvider from '@/components/team-theme-provider';
 import { useAuthUser } from '@/features/auth/auth-session';
 import { useTeamStore } from '@/features/team/team-store';
 
-type Stats = {
-  lifetimePoints: number;
-  weeklyPoints: number;
-  accuracy: number;
-  questionsAnswered: number;
-  gamesPlayed: number;
-  currentStreak: number;
-};
 type Leader = { rank: number; userId?: string; name: string; score: number; accuracy?: number };
 type UserResult = { id: string; displayName: string; avatarUrl: string | null };
 type Panel = null | 'GROUP';
@@ -54,20 +49,22 @@ export default function TriviaPage() {
 
   useEffect(() => {
     if (!user) return;
-    void fetch('/api/trivia/stats')
+    void apiFetch('/api/trivia/stats')
       .then((response) => (response.ok ? response.json() : null))
-      .then((body: { stats?: Stats } | null) => {
-        setStats(body?.stats ?? null);
-      });
+      .then((body: { stats?: unknown } | null) => {
+        setStats(body?.stats ? normalizeTriviaStats(body.stats) : null);
+      })
+      .catch(() => setStats(null));
   }, [user, launch, panel]);
 
   useEffect(() => {
     if (!user) return;
-    void fetch(`/api/trivia/leaderboard?scope=TEAM&period=WEEK&team=${teamId}`)
+    void apiFetch(`/api/trivia/leaderboard?scope=TEAM&period=WEEK&team=${teamId}`)
       .then((response) => (response.ok ? response.json() : null))
       .then((body) => {
         setTeamLeaders((body?.rows as Leader[] | undefined) ?? []);
-      });
+      })
+      .catch(() => setTeamLeaders([]));
   }, [teamId, user]);
 
   return (
@@ -298,10 +295,13 @@ function TriviaLeaderboard({
     }
     let active = true;
     setLoading(true);
-    void fetch(`/api/trivia/leaderboard?scope=${scope}&period=${period}&team=${teamId}`)
+    void apiFetch(`/api/trivia/leaderboard?scope=${scope}&period=${period}&team=${teamId}`)
       .then((response) => (response.ok ? response.json() : null))
       .then((body) => {
         if (active) setLeaders(body?.rows ?? []);
+      })
+      .catch(() => {
+        if (active) setLeaders([]);
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -380,68 +380,133 @@ function GroupPanel({
     if (query.trim().length < 2) return setUsers([]);
     const timer = window.setTimeout(
       () =>
-        void fetch(`/api/trivia/friends?query=${encodeURIComponent(query)}`)
+        void apiFetch(`/api/trivia/friends?query=${encodeURIComponent(query)}`)
           .then((response) => (response.ok ? response.json() : null))
-          .then((body) => setUsers(body?.users ?? [])),
+          .then((body) => setUsers(body?.users ?? []))
+          .catch(() => setUsers([])),
       250,
     );
     return () => window.clearTimeout(timer);
   }, [query]);
 
   const create = async () => {
-    const response = await fetch('/api/trivia/groups', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ teamId }),
-    });
-    const body = await response.json();
-    if (response.ok) {
-      setRoom(body.joinCode);
-      setCode(body.joinCode);
-      setInviteLink(`${window.location.origin}/trivia/join/${body.inviteToken}`);
-    } else setMessage(body.error ?? 'Unable to create room.');
+    try {
+      const response = await apiFetch('/api/trivia/groups', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ teamId }),
+      });
+      const body = await response.json();
+      if (response.ok) {
+        setRoom(body.joinCode);
+        setCode(body.joinCode);
+        setInviteLink(`${window.location.origin}/trivia/join/${body.inviteToken}`);
+      } else setMessage(body.error ?? 'Unable to create room.');
+    } catch (cause) {
+      if (cause instanceof Error && cause.name === 'AbortError') return;
+      setMessage(
+        cause instanceof Error
+          ? cause.message
+          : 'Unable to complete the request. Please try again.',
+      );
+    }
   };
 
   const inviteBuddy = async (userId: string) => {
-    if (!room) return;
-    const response = await fetch(`/api/trivia/groups/${encodeURIComponent(room)}/invite`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ userId }),
-    });
-    const body = await response.json();
-    setMessage(response.ok ? 'Buddy added. Share the game link so they can join.' : body.error);
+    try {
+      if (!room) return;
+      const response = await apiFetch(`/api/trivia/groups/${encodeURIComponent(room)}/invite`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      });
+      const body = await response.json();
+      setMessage(response.ok ? 'Buddy added. Share the game link so they can join.' : body.error);
+    } catch (cause) {
+      if (cause instanceof Error && cause.name === 'AbortError') return;
+      setMessage(
+        cause instanceof Error
+          ? cause.message
+          : 'Unable to complete the request. Please try again.',
+      );
+    }
   };
 
   const share = async () => {
-    if (!inviteLink) return;
-    if (navigator.share)
-      await navigator.share({ title: 'Down & Distance Trivia', url: inviteLink });
-    else await navigator.clipboard.writeText(inviteLink);
+    try {
+      if (!inviteLink) return;
+      if (navigator.share)
+        await navigator.share({ title: 'Down & Distance Trivia', url: inviteLink });
+      else await navigator.clipboard.writeText(inviteLink);
+    } catch (cause) {
+      if (cause instanceof Error && cause.name === 'AbortError') return;
+      setMessage(
+        cause instanceof Error
+          ? cause.message
+          : 'Unable to complete the request. Please try again.',
+      );
+    }
   };
   useEffect(() => {
     if (!room) return;
+    let active = true;
+    let retryDelay = 2000;
+    let timer: ReturnType<typeof setTimeout>;
     const poll = async () => {
-      const response = await fetch(`/api/trivia/groups/${encodeURIComponent(room)}`, {
-        cache: 'no-store',
-      });
-      if (!response.ok) return;
-      const body = await response.json();
-      setParticipants(body.room.participants ?? []);
-      setIsHost(Boolean(body.room.isHost));
-      if (body.room.status === 'ACTIVE') onLaunch(body.room.gameId);
+      try {
+        const response = await apiFetch(`/api/trivia/groups/${encodeURIComponent(room)}`, {
+          cache: 'no-store',
+        });
+        if (!response.ok) {
+          if ([401, 403, 404].includes(response.status)) {
+            if (active)
+              setMessage(
+                response.status === 404
+                  ? 'This room is no longer available. Return to the lobby to create another.'
+                  : 'Please sign in again to access this room.',
+              );
+            return;
+          }
+          throw new Error('Unable to load the room. Retrying shortly.');
+        }
+        const body = await response.json();
+        if (!active) return;
+        retryDelay = 2000;
+        setMessage('');
+        setParticipants(body.room.participants ?? []);
+        setIsHost(Boolean(body.room.isHost));
+        if (body.room.status === 'ACTIVE') {
+          onLaunch(body.room.gameId);
+          return;
+        }
+      } catch (cause) {
+        retryDelay = Math.min(retryDelay * 2, 30000);
+        if (active) setMessage(cause instanceof Error ? cause.message : 'Unable to load the room.');
+      }
+      if (active) timer = setTimeout(() => void poll(), retryDelay);
     };
     void poll();
-    const timer = window.setInterval(() => void poll(), 2000);
-    return () => window.clearInterval(timer);
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
   }, [onLaunch, room]);
   const startRoom = async () => {
-    const response = await fetch(`/api/trivia/groups/${encodeURIComponent(room)}/start`, {
-      method: 'POST',
-    });
-    const body = await response.json();
-    if (response.ok) onLaunch(body.gameId);
-    else setMessage(body.error ?? 'Unable to start room.');
+    try {
+      const response = await apiFetch(`/api/trivia/groups/${encodeURIComponent(room)}/start`, {
+        method: 'POST',
+      });
+      const body = await response.json();
+      if (response.ok) onLaunch(body.gameId);
+      else setMessage(body.error ?? 'Unable to start room.');
+    } catch (cause) {
+      if (cause instanceof Error && cause.name === 'AbortError') return;
+      setMessage(
+        cause instanceof Error
+          ? cause.message
+          : 'Unable to complete the request. Please try again.',
+      );
+    }
   };
   return (
     <div className="mt-7">

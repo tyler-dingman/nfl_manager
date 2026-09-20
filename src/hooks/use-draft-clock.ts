@@ -1,11 +1,12 @@
 'use client';
-
 import * as React from 'react';
+import { DraftClock } from '@/lib/draft-clock';
 
 type UseDraftClockParams = {
   clockKey: string | null;
   enabled: boolean;
   durationSeconds: number;
+  rate?: number;
   onExpire: () => void | Promise<void>;
 };
 
@@ -13,50 +14,46 @@ export const useDraftClock = ({
   clockKey,
   enabled,
   durationSeconds,
+  rate = 1,
   onExpire,
 }: UseDraftClockParams) => {
   const [secondsRemaining, setSecondsRemaining] = React.useState(durationSeconds);
-  const deadlineRef = React.useRef<number | null>(null);
-  const expiredRef = React.useRef<string | null>(null);
-
-  React.useEffect(() => {
-    if (!clockKey || !enabled) {
-      deadlineRef.current = null;
-      setSecondsRemaining(durationSeconds);
-      return;
-    }
-
-    deadlineRef.current = Date.now() + durationSeconds * 1000;
-    expiredRef.current = null;
+  const clock = React.useRef<DraftClock | null>(null);
+  const expired = React.useRef(false);
+  const callback = React.useRef(onExpire);
+  callback.current = onExpire;
+  React.useLayoutEffect(() => {
+    clock.current = new DraftClock(durationSeconds, performance.now());
+    expired.current = false;
     setSecondsRemaining(durationSeconds);
-  }, [clockKey, durationSeconds, enabled]);
-
-  React.useEffect(() => {
-    if (!clockKey || !enabled || deadlineRef.current === null) {
-      return;
-    }
-
+  }, [clockKey, durationSeconds]);
+  React.useLayoutEffect(() => {
+    const current = clock.current;
+    if (!current) return;
+    current.configure(performance.now(), enabled && Boolean(clockKey), rate);
+    if (enabled) expired.current = false;
     const tick = () => {
-      if (deadlineRef.current === null) return;
-      const remaining = Math.max(0, Math.ceil((deadlineRef.current - Date.now()) / 1000));
-      setSecondsRemaining(remaining);
-      if (remaining === 0 && expiredRef.current !== clockKey) {
-        expiredRef.current = clockKey;
-        void onExpire();
+      const remaining = current.tick(performance.now());
+      setSecondsRemaining(Math.ceil(remaining / 1000));
+      if (enabled && clockKey && remaining === 0 && !expired.current) {
+        expired.current = true;
+        void callback.current();
       }
     };
-
     tick();
-    const intervalId = window.setInterval(tick, 250);
-    return () => window.clearInterval(intervalId);
-  }, [clockKey, enabled, onExpire]);
-
+    if (!enabled || !clockKey) return;
+    const timer = window.setInterval(tick, 100);
+    return () => {
+      current.configure(performance.now(), false, rate);
+      window.clearInterval(timer);
+    };
+  }, [clockKey, durationSeconds, enabled, rate]);
   return {
     secondsRemaining,
     isCritical: enabled && secondsRemaining <= 20,
     progressPct:
-      durationSeconds <= 0
-        ? 0
-        : Math.max(0, Math.min(100, (secondsRemaining / durationSeconds) * 100)),
+      durationSeconds > 0
+        ? Math.max(0, Math.min(100, (secondsRemaining / durationSeconds) * 100))
+        : 0,
   };
 };

@@ -2,7 +2,7 @@ import type { SearchResponse, SearchResult } from '@/features/search/types';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { loadTeamBriefings } from '@/server/content/team-briefings';
 import { listPublicStories } from '@/server/story-engine/projections';
-import { buildDeterministicSearchAnswer } from './deterministic-answer';
+import { answerSearch } from './answer-engine';
 
 const searchTerms = (query: string) =>
   query
@@ -28,6 +28,7 @@ export async function fallbackTeamSearch(input: {
   limit: number;
   includeAnswer: boolean;
 }): Promise<SearchResponse> {
+  if (input.includeAnswer) return answerSearch(input);
   const started = Date.now();
   const [canonicalResult, briefingResult] = await Promise.allSettled([
     listPublicStories(input.teamId, 50),
@@ -120,9 +121,6 @@ export async function fallbackTeamSearch(input: {
     .slice(0, input.limit);
   return {
     query: input.query,
-    ...(input.includeAnswer
-      ? { answer: buildDeterministicSearchAnswer(input.query, results) }
-      : {}),
     results,
     sources: results.map((result) => ({ id: result.id, title: result.title, url: result.url })),
     timing: { totalMs: Date.now() - started, lexicalMs: 0, vectorMs: null, answerMs: 0 },

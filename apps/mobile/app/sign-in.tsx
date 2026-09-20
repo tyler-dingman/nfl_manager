@@ -1,3 +1,4 @@
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { useState } from 'react';
 import {
@@ -5,7 +6,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -29,7 +29,11 @@ export default function SignIn() {
   return (
     <SafeAreaView style={s.page}>
       <KeyboardAvoidingView style={s.page} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={s.content} keyboardShouldPersistTaps="handled">
+        <ScrollView
+          contentContainerStyle={s.content}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+        >
           <Text style={s.logo}>DOWN &amp; DISTANCE</Text>
           <Text style={s.tag}>KEEP IT HIGH AND TIGHT</Text>
           <Text style={s.heading}>Your team. Your account.</Text>

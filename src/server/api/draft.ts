@@ -1,3 +1,10 @@
+import {
+  executeMockTrade,
+  mockTradeAssets,
+  proposeMockTrade,
+  type MockTradeOffer,
+} from '@/lib/mock-draft-trades';
+import { updateMockDraftTrades } from '@/server/logic/mock-draft-trades';
 import { randomUUID } from 'crypto';
 
 import type { PlayerRowDTO } from '@/types/player';
@@ -68,6 +75,7 @@ const cloneDraftSessionSnapshot = (
   ...session,
   rngState: session.rngState ?? session.rngSeed,
   saveId,
+  tradeState: session.tradeState ? structuredClone(session.tradeState) : undefined,
   finalized: session.status === 'completed',
   picks: session.picks.map((pick) => ({ ...pick })),
   prospects: session.prospects.map((prospect) => ({
@@ -429,6 +437,7 @@ export const createDraftSession = (
 
 export const getDraftSession = (draftSessionId: string, saveId: string): DraftSessionDTO => {
   const { session } = getDraftSessionState(saveId, draftSessionId);
+  updateMockDraftTrades(session, getSaveStateOrThrow(saveId));
   return session;
 };
 
@@ -438,6 +447,7 @@ export const pickDraftPlayer = (
   saveId: string,
 ): DraftSessionDTO => {
   const { session, state } = getDraftSessionState(saveId, draftSessionId);
+  if (session.status === 'completed') throw new Error('Draft is already complete');
   const currentPick = session.picks[session.currentPickIndex];
   if (!currentPick || currentPick.ownerTeamAbbr !== session.userTeamAbbr) {
     throw new Error('Not user pick');
@@ -457,7 +467,7 @@ export const pickDraftPlayer = (
     details: `${session.userTeamAbbr} select ${player.firstName} ${player.lastName} at pick ${pickNumber}.`,
     severity: 'success',
   });
-  addDraftedPlayersInState(state, [player]);
+  if (session.mode === 'real') addDraftedPlayersInState(state, [player]);
   if (
     session.currentPickIndex >= session.picks.length ||
     isDraftCompleteForSelection(session.picks[session.currentPickIndex], session.maxRounds)
@@ -465,6 +475,7 @@ export const pickDraftPlayer = (
     finalizeDraftSession(session, state);
   }
 
+  updateMockDraftTrades(session, state);
   return session;
 };
 
@@ -472,6 +483,7 @@ export const advanceDraftSession = (
   draftSessionId: string,
   saveId: string,
   mode: 'default' | 'best_available' = 'default',
+  autoPickUser = false,
 ): DraftSessionDTO => {
   const { session, state } = getDraftSessionState(saveId, draftSessionId);
   if (session.isPaused) {
@@ -488,7 +500,11 @@ export const advanceDraftSession = (
   }
 
   if (currentPick.ownerTeamAbbr === session.userTeamAbbr) {
-    return session;
+    if (!autoPickUser) return session;
+    const player = session.prospects
+      .filter((prospect) => !prospect.isDrafted)
+      .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999))[0];
+    if (player) return pickDraftPlayer(draftSessionId, player.id, saveId);
   }
 
   const pool = session.prospects
@@ -555,6 +571,7 @@ export const advanceDraftSession = (
     finalizeDraftSession(session, state);
   }
 
+  updateMockDraftTrades(session, state);
   return session;
 };
 
@@ -575,23 +592,21 @@ export const applyDraftTrade = (
   receivePickIds: string[],
   saveId: string,
 ): DraftSessionDTO => {
-  const { session } = getDraftSessionState(saveId, draftSessionId);
-  if (session.mode !== 'mock') {
-    throw new Error('Trades are mock-only for now');
-  }
-
-  const updatedPicks = new Set<string>([...sendPickIds, ...receivePickIds]);
-  session.picks.forEach((pick) => {
-    if (!updatedPicks.has(pick.id)) {
-      return;
-    }
-    if (sendPickIds.includes(pick.id)) {
-      pick.ownerTeamAbbr = partnerTeamAbbr;
-    } else if (receivePickIds.includes(pick.id)) {
-      pick.ownerTeamAbbr = session.userTeamAbbr;
-    }
-  });
-
+  const { session, state } = getDraftSessionState(saveId, draftSessionId);
+  updateMockDraftTrades(session, state);
+  const offer: MockTradeOffer = {
+    id: `trade-${session.id}-${session.tradeState?.history.length ?? 0}`,
+    team: partnerTeamAbbr,
+    send: sendPickIds,
+    receive: receivePickIds,
+    intent: 'move_up',
+    status: 'active',
+    reason: 'Accepted draft trade',
+    createdPick: session.currentPickIndex,
+    exchanges: 0,
+  };
+  executeMockTrade(session, offer);
+  session.tradeRevision = (session.tradeRevision ?? 0) + 1;
   return session;
 };
 
@@ -615,6 +630,38 @@ export const acceptDraftTradeOffer = (
   const { session, state } = getDraftSessionState(saveId, draftSessionId);
   if (session.status === 'completed') {
     throw new Error('Draft is already complete');
+  }
+
+  if (
+    session.mode === 'mock' &&
+    [...offer.incoming.assets, ...offer.outgoing.assets].every((asset) => asset.type === 'pick')
+  ) {
+    updateMockDraftTrades(session, state);
+    const assets = mockTradeAssets(session);
+    const resolve = (side: typeof offer.incoming, owner: string) =>
+      side.assets.map((asset) => {
+        if (asset.type !== 'pick') throw new Error('Expected a draft pick.');
+        const pick = assets.find(
+          (p) =>
+            p.owningTeamAbbr === owner &&
+            (p.id === asset.id ||
+              (p.year === asset.year &&
+                p.round === asset.round &&
+                p.overallSlot === asset.overallSlot &&
+                p.originalTeamAbbr === asset.originalTeamAbbr)),
+        );
+        if (!pick) throw new Error('A pick in this offer is no longer available.');
+        return pick.id;
+      });
+    const result = proposeMockTrade(
+      session,
+      offer.proposingTeamAbbr,
+      resolve(offer.outgoing, session.userTeamAbbr),
+      resolve(offer.incoming, offer.proposingTeamAbbr),
+    );
+    if (result.outcome !== 'accepted') throw new Error(result.reason);
+    session.tradeRevision = (session.tradeRevision ?? 0) + 1;
+    return { session, roster: state.roster, header: { saveId, ...getSaveHeaderSnapshot(state) } };
   }
 
   const currentPick = session.picks[session.currentPickIndex];

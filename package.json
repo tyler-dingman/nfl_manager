@@ -36,6 +36,7 @@
     "content:ollama-stress": "tsx scripts/content-ollama-stress-test.ts",
     "search:index": "tsx scripts/search-index.ts",
     "search:reindex": "tsx scripts/search-index.ts --full",
+    "three-out:migrate": "tsx scripts/migrate-three-and-out.ts",
     "auth:migrate": "tsx scripts/migrate-auth.ts",
     "trivia:seed": "tsx scripts/seed-trivia.ts",
     "test:auth": "node --import tsx --test src/server/auth/*.test.ts",

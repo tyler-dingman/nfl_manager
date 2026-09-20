@@ -676,6 +676,7 @@ export function DraftTradeOfferReviewModal({
 
   const handleSubmitTrade = async () => {
     setActionMessage(null);
+    if (sessionSnapshot.isPaused) return;
     setIsSubmitting(true);
 
     const extraIncomingPlayerIds = extraIncomingSelections
@@ -919,12 +920,18 @@ export function DraftTradeOfferReviewModal({
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     Actions
                   </p>
+                  {sessionSnapshot.isPaused && (
+                    <p className="mt-2 text-xs">
+                      Resume the draft to submit this trade. You can keep preparing your offer while
+                      paused.
+                    </p>
+                  )}
                   <div className="mt-3 space-y-2">
                     <Button
                       type="button"
                       className="h-8 w-full px-2.5 text-xs"
                       onClick={handleSubmitTrade}
-                      disabled={isSubmitting || totalAssetCount === 0}
+                      disabled={sessionSnapshot.isPaused || isSubmitting || totalAssetCount === 0}
                     >
                       {isSubmitting ? 'Submitting...' : 'Submit Trade'}
                     </Button>

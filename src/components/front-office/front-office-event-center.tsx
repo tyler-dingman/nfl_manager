@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChevronRight, X } from 'lucide-react';
+import { ArrowLeftRight, ChevronRight, X } from 'lucide-react';
 import { DdLiveIcon as Radio } from '@/components/ui/football-icons';
 import { DdNotificationsIcon as Bell } from '@/components/ui/football-icons';
 import { createPortal } from 'react-dom';
@@ -12,6 +12,13 @@ import { TEAM_LIST } from '@/data/teams';
 import { apiFetch } from '@/lib/api';
 import { frontOfficeEventIncludesTeam, relativeNewsTime } from '@/lib/front-office-league-news';
 import type { FrontOfficeEvent } from '@/types/front-office';
+
+import {
+  useDraftTradeNotifications,
+  unreadDraftOffers,
+} from '@/features/draft/trade-notifications';
+import { presentMockOffer } from '@/lib/mock-trade-presentation';
+import { FrontOfficeNotificationToast } from './front-office-notification-toast';
 
 type NewsFilter = 'all' | 'team' | 'breaking';
 
@@ -73,33 +80,43 @@ const isNewsEvent = (event: FrontOfficeEvent) =>
 const teamFor = (event: FrontOfficeEvent) =>
   TEAM_LIST.find((team) => team.abbr === (event.teamAbbr ?? event.relatedTeamAbbr));
 
-function EventTeamLogo({ event }: { event: FrontOfficeEvent }) {
-  const primary = teamFor(event);
+function NotificationTeamLogo({
+  primaryAbbr,
+  secondaryAbbr,
+}: {
+  primaryAbbr?: string;
+  secondaryAbbr?: string;
+}) {
+  const primary = TEAM_LIST.find((team) => team.abbr === primaryAbbr);
   const secondary = TEAM_LIST.find(
-    (team) => team.abbr === event.relatedTeamAbbr && team.abbr !== primary?.abbr,
+    (team) => team.abbr === secondaryAbbr && team.abbr !== primary?.abbr,
   );
   return (
     <span className={`fo-news-team-logo${secondary ? ' multi-team' : ''}`}>
       {primary ? (
-        <Image
-          src={primary.logoUrl}
-          alt={`${primary.city} ${primary.name}`}
-          width={36}
-          height={36}
-        />
+        <Image src={primary.logoUrl} alt={primary.name} width={36} height={36} unoptimized />
       ) : (
         <Bell aria-hidden="true" />
       )}
-      {secondary ? (
+      {secondary && (
         <Image
           className="fo-news-secondary-logo"
           src={secondary.logoUrl}
-          alt={`${secondary.city} ${secondary.name}`}
+          alt={secondary.name}
           width={22}
           height={22}
+          unoptimized
         />
-      ) : null}
+      )}
     </span>
+  );
+}
+function EventTeamLogo({ event }: { event: FrontOfficeEvent }) {
+  return (
+    <NotificationTeamLogo
+      primaryAbbr={teamFor(event)?.abbr}
+      secondaryAbbr={event.relatedTeamAbbr ?? undefined}
+    />
   );
 }
 
@@ -115,7 +132,44 @@ export function FrontOfficeEventCenter({
   const pathname = usePathname();
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
   const [notification, setNotification] = useState<FrontOfficeEvent | null>(null);
-  const [open, setOpen] = useState(false);
+  const [tradeFilter, setTradeFilter] = useState<'all' | 'new' | 'resolved'>('all');
+  const [newsOpen, setNewsOpen] = useState(false);
+  const draft = useDraftTradeNotifications();
+  const draftActive = Boolean(draft.session);
+  const open = draftActive ? draft.drawerOpen : newsOpen;
+  const setOpen = useCallback((value: boolean) => {
+    if (useDraftTradeNotifications.getState().session)
+      useDraftTradeNotifications.setState({ drawerOpen: value });
+    else setNewsOpen(value);
+  }, []);
+  const tradeEntries = draft.session
+    ? (draft.session.tradeState?.offers ?? []).map((offer) =>
+        presentMockOffer(draft.session!, offer),
+      )
+    : [];
+  const unreadTrades = tradeEntries.filter(
+    (entry) => entry.valid && !draft.readIds.includes(entry.offer.id),
+  );
+  const resolvedTrades = tradeEntries.filter((entry) => !entry.valid);
+  const visibleTrades =
+    tradeFilter === 'new'
+      ? unreadTrades
+      : tradeFilter === 'resolved'
+        ? resolvedTrades
+        : tradeEntries;
+  const tradeTime = (id: string, pick: number) =>
+    draft.receivedAt[id] ? relativeNewsTime(draft.receivedAt[id]) : `Pick ${pick + 1}`;
+  const toastOffer = tradeEntries.find((entry) => entry.offer.id === draft.toastId && entry.valid);
+  useEffect(() => {
+    setNewsOpen(false);
+    setNotification(null);
+    setTradeFilter('all');
+  }, [draftActive]);
+  useEffect(() => {
+    if (!draft.toastId) return;
+    const timer = setTimeout(() => useDraftTradeNotifications.setState({ toastId: null }), 6500);
+    return () => clearTimeout(timer);
+  }, [draft.toastId]);
   const [filter, setFilter] = useState<NewsFilter>('all');
   const [mounted, setMounted] = useState(false);
   const [focusedStoryId, setFocusedStoryId] = useState<string | null>(null);
@@ -155,7 +209,7 @@ export function FrontOfficeEventCenter({
   }, [load]);
 
   useEffect(() => {
-    if (!mounted || paused || open || !pathname) return;
+    if (!mounted || paused || open || !pathname || draftActive) return;
     const state = JSON.parse(sessionStorage.getItem(storageKey) ?? '{}') as {
       count?: number;
       lastPath?: string;
@@ -168,7 +222,7 @@ export function FrontOfficeEventCenter({
       if (didSurface)
         sessionStorage.setItem(storageKey, JSON.stringify({ count: 0, lastPath: pathname }));
     });
-  }, [mounted, open, pathname, paused, storageKey, surface]);
+  }, [mounted, open, pathname, paused, storageKey, surface, draftActive]);
 
   useEffect(() => {
     const onAdvanced = () => void load();
@@ -185,14 +239,21 @@ export function FrontOfficeEventCenter({
   const closeDrawer = useCallback(() => {
     setOpen(false);
     setFocusedStoryId(null);
-    window.setTimeout(() => triggerRef.current?.focus(), 0);
-  }, []);
+    window.setTimeout(() => {
+      if (useDraftTradeNotifications.getState().session)
+        document.querySelector<HTMLElement>('[data-notification-bell]')?.focus();
+      else triggerRef.current?.focus();
+    }, 0);
+  }, [setOpen]);
 
-  const openDrawer = useCallback((storyId?: string) => {
-    setNotification(null);
-    setFocusedStoryId(storyId ?? null);
-    setOpen(true);
-  }, []);
+  const openDrawer = useCallback(
+    (storyId?: string) => {
+      setNotification(null);
+      setFocusedStoryId(storyId ?? null);
+      setOpen(true);
+    },
+    [setOpen],
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -208,7 +269,7 @@ export function FrontOfficeEventCenter({
       if (event.key !== 'Tab' || !panelRef.current) return;
       const focusable = Array.from(
         panelRef.current.querySelectorAll<HTMLElement>(
-          'button, a[href], [tabindex]:not([tabindex="-1"])',
+          'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"]):not([disabled])',
         ),
       );
       if (!focusable.length) return;
@@ -272,85 +333,174 @@ export function FrontOfficeEventCenter({
       <div
         ref={panelRef}
         className="fo-wire-panel"
+        data-mode={draftActive ? 'draft-trades' : 'news'}
         role="dialog"
         aria-modal="true"
         aria-labelledby="fo-news-title"
       >
         <header>
           <h2 id="fo-news-title">
-            <Radio aria-hidden="true" /> News
+            {draftActive ? <ArrowLeftRight aria-hidden="true" /> : <Radio aria-hidden="true" />}{' '}
+            {draftActive ? 'Draft Trade Hub' : 'News'}
           </h2>
-          <button ref={closeRef} type="button" onClick={closeDrawer} aria-label="Close news">
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={closeDrawer}
+            aria-label={draftActive ? 'Close trade notifications' : 'Close news'}
+          >
             <X />
           </button>
         </header>
-        <div className="fo-news-filters" role="tablist" aria-label="News filters">
-          {(
-            [
-              ['all', 'All', newsEvents.length],
-              ['team', 'My Team', myTeamEvents.length],
-              ['breaking', 'Breaking', breakingEvents.length],
-            ] as const
-          ).map(([value, label, count]) => (
-            <button
-              key={value}
-              type="button"
-              role="tab"
-              aria-selected={filter === value}
-              onClick={() => setFilter(value)}
-            >
-              {label} <span>{count}</span>
-            </button>
-          ))}
-        </div>
-        <div className="fo-wire-list">
-          {visibleEvents.length ? (
-            visibleEvents.slice(0, visibleLimit).map((event) => {
-              const category = categoryFor(event);
-              return (
-                <Link
-                  key={event.id}
-                  ref={(node) => {
-                    storyRefs.current[event.id] = node;
-                  }}
-                  href={`/front-office/league/news/${encodeURIComponent(event.id)}`}
-                  className={`fo-news-row${event.readAt ? ' read' : ' unread'}${focusedStoryId === event.id ? ' focused-story' : ''}`}
-                  onClick={() => {
-                    void update(event, 'read');
-                    closeDrawer();
-                  }}
+        {draftActive ? (
+          <>
+            <div className="fo-news-filters" role="tablist" aria-label="Trade notification filters">
+              {(
+                [
+                  ['all', 'All', tradeEntries.length],
+                  ['new', 'New', unreadTrades.length],
+                  ['resolved', 'Resolved', resolvedTrades.length],
+                ] as const
+              ).map(([value, label, count]) => (
+                <button
+                  key={value}
+                  type="button"
+                  role="tab"
+                  aria-selected={tradeFilter === value}
+                  onClick={() => setTradeFilter(value)}
                 >
-                  <EventTeamLogo event={event} />
-                  <span className="fo-news-row-copy">
-                    <span className="fo-news-meta">
-                      <b data-category={category}>{category}</b>
-                      <time>
-                        {relativeNewsTime(
-                          String(event.metadata.sourcePublishedAt ?? event.createdAt),
-                        )}
-                      </time>
+                  {label} <span>{count}</span>
+                </button>
+              ))}
+            </div>
+            <div className="fo-wire-list">
+              {!visibleTrades.length && (
+                <p className="fo-wire-empty">
+                  {tradeFilter === 'new'
+                    ? 'No unread trade offers.'
+                    : tradeFilter === 'resolved'
+                      ? 'No resolved trade offers.'
+                      : 'No trade offers yet.'}
+                </p>
+              )}
+              {[...visibleTrades].reverse().map((entry) => {
+                const offer = entry.offer;
+                const unread = entry.valid && !draft.readIds.includes(offer.id);
+                const team = TEAM_LIST.find((t) => t.abbr === offer.team);
+                const status = entry.valid ? 'TRADE_OFFER' : entry.status.toUpperCase();
+                const target = entry.send.find((p) => p.overallSlot);
+                return (
+                  <button
+                    type="button"
+                    className={`fo-news-row ${unread ? 'unread' : 'read'}`}
+                    data-active={entry.valid}
+                    key={offer.id}
+                    disabled={!entry.valid}
+                    onClick={() => draft.view(offer.id)}
+                    aria-label={`${entry.valid ? 'View Offer: ' : ''}${team?.name ?? offer.team}, ${status.replaceAll('_', ' ')}`}
+                  >
+                    <NotificationTeamLogo primaryAbbr={offer.team} />
+                    <span className="fo-news-row-copy">
+                      <span className="fo-news-meta">
+                        <b data-category={status}>{status.replaceAll('_', ' ')}</b>
+                        <time>{tradeTime(offer.id, offer.createdPick)}</time>
+                      </span>
+                      <strong>
+                        {team?.city ?? offer.team} wants to{' '}
+                        {offer.intent === 'move_up' ? 'trade up' : 'move back'}
+                      </strong>
+                      <small>
+                        {target
+                          ? `Targeting Round ${target.round} · Pick ${target.overallSlot}`
+                          : 'Trading for future draft capital'}{' '}
+                        · {entry.value.label}
+                      </small>
                     </span>
-                    <strong>{event.headline}</strong>
-                  </span>
-                  <ChevronRight aria-hidden="true" />
-                </Link>
-              );
-            })
-          ) : (
-            <p className="fo-wire-empty">No news matches this filter.</p>
-          )}
-          {visibleEvents.length > visibleLimit ? (
-            <button
-              className="fo-news-load-more"
-              type="button"
-              onClick={() => setVisibleLimit((limit) => limit + 60)}
-            >
-              Load more news
-            </button>
-          ) : null}
-        </div>
+                    <ChevronRight aria-hidden="true" />
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="fo-news-filters" role="tablist" aria-label="News filters">
+              {(
+                [
+                  ['all', 'All', newsEvents.length],
+                  ['team', 'My Team', myTeamEvents.length],
+                  ['breaking', 'Breaking', breakingEvents.length],
+                ] as const
+              ).map(([value, label, count]) => (
+                <button
+                  key={value}
+                  type="button"
+                  role="tab"
+                  aria-selected={filter === value}
+                  onClick={() => setFilter(value)}
+                >
+                  {label} <span>{count}</span>
+                </button>
+              ))}
+            </div>
+            <div className="fo-wire-list">
+              {visibleEvents.length ? (
+                visibleEvents.slice(0, visibleLimit).map((event) => {
+                  const category = categoryFor(event);
+                  return (
+                    <Link
+                      key={event.id}
+                      ref={(node) => {
+                        storyRefs.current[event.id] = node;
+                      }}
+                      href={`/front-office/league/news/${encodeURIComponent(event.id)}`}
+                      className={`fo-news-row${event.readAt ? ' read' : ' unread'}${focusedStoryId === event.id ? ' focused-story' : ''}`}
+                      onClick={() => {
+                        void update(event, 'read');
+                        closeDrawer();
+                      }}
+                    >
+                      <EventTeamLogo event={event} />
+                      <span className="fo-news-row-copy">
+                        <span className="fo-news-meta">
+                          <b data-category={category}>{category}</b>
+                          <time>
+                            {relativeNewsTime(
+                              String(event.metadata.sourcePublishedAt ?? event.createdAt),
+                            )}
+                          </time>
+                        </span>
+                        <strong>{event.headline}</strong>
+                      </span>
+                      <ChevronRight aria-hidden="true" />
+                    </Link>
+                  );
+                })
+              ) : (
+                <p className="fo-wire-empty">No news matches this filter.</p>
+              )}
+              {visibleEvents.length > visibleLimit ? (
+                <button
+                  className="fo-news-load-more"
+                  type="button"
+                  onClick={() => setVisibleLimit((limit) => limit + 60)}
+                >
+                  Load more news
+                </button>
+              ) : null}
+            </div>
+          </>
+        )}
         <footer>
-          <button type="button" onClick={() => void markAllRead()} disabled={!unread}>
+          <button
+            type="button"
+            onClick={() =>
+              draftActive
+                ? draft.markRead(tradeEntries.filter((e) => e.valid).map((e) => e.offer.id))
+                : void markAllRead()
+            }
+            disabled={draftActive ? !unreadDraftOffers(draft) : !unread}
+          >
             Mark all as read
           </button>
         </footer>
@@ -360,7 +510,7 @@ export function FrontOfficeEventCenter({
 
   return (
     <>
-      {!open ? (
+      {!open && !draftActive ? (
         <button
           ref={triggerRef}
           className="fo-wire-trigger"
@@ -372,39 +522,42 @@ export function FrontOfficeEventCenter({
           {unread ? <strong>{unread > 99 ? '99+' : unread}</strong> : null}
         </button>
       ) : null}
-      {notification && !open ? (
-        <aside
-          className={`fo-event-toast priority-${notification.priority}`}
-          role={notification.priority === 'urgent' ? 'alert' : 'status'}
+      {notification && !open && !draftActive ? (
+        <FrontOfficeNotificationToast
+          logo={<EventTeamLogo event={notification} />}
+          meta={
+            <>
+              <b data-category={categoryFor(notification)}>{categoryFor(notification)}</b>
+              <time>
+                {relativeNewsTime(
+                  String(notification.metadata.sourcePublishedAt ?? notification.createdAt),
+                )}
+              </time>
+            </>
+          }
+          priority={notification.priority}
+          onView={() => openDrawer(notification.id)}
+          onDismiss={() => setNotification(null)}
         >
-          <button
-            className="fo-event-toast-main"
-            type="button"
-            onClick={() => openDrawer(notification.id)}
-          >
-            <EventTeamLogo event={notification} />
-            <span className="fo-event-toast-copy">
-              <span className="fo-news-meta">
-                <b data-category={categoryFor(notification)}>{categoryFor(notification)}</b>
-                <time>
-                  {relativeNewsTime(
-                    String(notification.metadata.sourcePublishedAt ?? notification.createdAt),
-                  )}
-                </time>
-              </span>
-              <strong>{notification.headline}</strong>
-            </span>
-            <ChevronRight aria-hidden="true" />
-          </button>
-          <button
-            className="fo-event-close"
-            type="button"
-            onClick={() => setNotification(null)}
-            aria-label="Dismiss notification"
-          >
-            <X />
-          </button>
-        </aside>
+          {notification.headline}
+        </FrontOfficeNotificationToast>
+      ) : null}
+      {toastOffer && !open ? (
+        <FrontOfficeNotificationToast
+          variant="draft-trade"
+          logo={<NotificationTeamLogo primaryAbbr={toastOffer.offer.team} />}
+          meta={
+            <>
+              <b data-category="TRADE_OFFER">TRADE OFFER</b>
+              <time>{tradeTime(toastOffer.offer.id, toastOffer.offer.createdPick)}</time>
+            </>
+          }
+          onView={() => draft.view(toastOffer.offer.id)}
+          onDismiss={() => useDraftTradeNotifications.setState({ toastId: null })}
+        >
+          {TEAM_LIST.find((t) => t.abbr === toastOffer.offer.team)?.city ?? toastOffer.offer.team}{' '}
+          wants to {toastOffer.offer.intent === 'move_up' ? 'trade up' : 'move back'}
+        </FrontOfficeNotificationToast>
       ) : null}
       {mounted && drawer ? createPortal(drawer, document.body) : null}
     </>

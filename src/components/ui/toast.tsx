@@ -58,6 +58,7 @@ export type ToastPayload = {
   variant?: ToastVariant;
   kind?: ToastKind;
   durationMs?: number;
+  action?: { label: string; onClick: () => void };
   starReaction?: StarReactionToastData;
   leagueBuzz?: LeagueBuzzToastData;
   chainReaction?: ChainReactionToastData;
@@ -370,6 +371,18 @@ export const ToastViewport = () => {
                   {toast.title ? <p className="font-semibold">{toast.title}</p> : null}
                   {toast.description ? (
                     <p className="mt-1 text-xs text-muted-foreground">{toast.description}</p>
+                  ) : null}
+                  {toast.action ? (
+                    <button
+                      type="button"
+                      className="mt-2 font-semibold text-blue-600"
+                      onClick={() => {
+                        toast.action?.onClick();
+                        context.remove(toast.id as string);
+                      }}
+                    >
+                      {toast.action.label}
+                    </button>
                   ) : null}
                 </div>
                 <button

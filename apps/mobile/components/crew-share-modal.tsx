@@ -1,7 +1,10 @@
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Image,
+  KeyboardAvoidingView,
+  Platform,
   Modal,
   Pressable,
   ScrollView,
@@ -96,90 +99,113 @@ export default function CrewShareModal({
       presentationStyle="pageSheet"
       onRequestClose={onClose}
     >
-      <View style={s.page}>
-        <View style={s.header}>
-          <Text style={s.heading}>SHARE WITH THE CREW</Text>
-          <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel="Close">
-            <Text style={s.close}>×</Text>
-          </Pressable>
-        </View>
-        <View style={s.preview}>
-          <Text style={[s.kind, { color: theme.primary }]}>
-            {content.contentType.replace('_', ' ')}
-          </Text>
-          <Text style={s.title}>{content.title}</Text>
-        </View>
-        {loading ? (
-          <Text style={s.center}>Loading your Crew…</Text>
-        ) : recipients.length ? (
-          <>
-            <Text style={s.label}>SEND TO</Text>
-            <ScrollView style={s.recipients} nestedScrollEnabled>
-              <RecipientRow
-                name="EVERYONE"
-                detail={`All ${recipients.length} Crew members`}
-                checked={everyone}
-                mixed={selected.size > 0 && !everyone}
-                onPress={() => setSelected(new Set(everyone ? [] : recipients.map(({ id }) => id)))}
-                color={theme.primaryFill}
-              />
-              {recipients.map((recipient) => (
-                <RecipientRow
-                  key={recipient.id}
-                  name={recipient.displayName}
-                  checked={selected.has(recipient.id)}
-                  onPress={() => toggle(recipient.id)}
-                  color={theme.primaryFill}
-                  avatarUrl={recipient.avatarUrl}
-                />
-              ))}
-            </ScrollView>
-            <TextInput
-              value={message}
-              onChangeText={(value) => setMessage(value.slice(0, 120))}
-              placeholder="Add a message (optional)…"
-              multiline
-              style={s.message}
-            />
-            <Text style={s.count}>{message.length}/120</Text>
-            <Pressable
-              disabled={!selected.size || sending}
-              onPress={() => void submit()}
-              accessibilityRole="button"
-              accessibilityLabel={`Send to ${selected.size} Crew members`}
-              style={[
-                s.send,
-                { backgroundColor: theme.primaryFill },
-                (!selected.size || sending) && s.disabled,
-              ]}
-            >
-              <Text style={[s.sendText, { color: theme.onPrimary }]}>
-                {sending ? 'SENDING…' : cta}
+      <SafeAreaView style={{ flex: 1 }}>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            contentContainerStyle={s.page}
+          >
+            <View style={s.header}>
+              <Text style={s.heading}>SHARE WITH THE CREW</Text>
+              <Pressable
+                style={{
+                  minWidth: 44,
+                  minHeight: 44,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                onPress={onClose}
+                accessibilityRole="button"
+                accessibilityLabel="Close"
+              >
+                <Text style={s.close}>×</Text>
+              </Pressable>
+            </View>
+            <View style={s.preview}>
+              <Text style={[s.kind, { color: theme.primary }]}>
+                {content.contentType.replace('_', ' ')}
               </Text>
-            </Pressable>
-            {!selected.size ? <Text style={s.hint}>Select at least one person.</Text> : null}
-          </>
-        ) : (
-          <View style={s.empty}>
-            <Text style={s.emptyTitle}>YOUR CREW IS EMPTY</Text>
-            <Text style={s.center}>Invite some people before sharing.</Text>
-            <Pressable
-              style={[s.send, { backgroundColor: theme.primaryFill }]}
-              onPress={() => {
-                onClose();
-                router.push('/crew' as never);
-              }}
-            >
-              <Text style={[s.sendText, { color: theme.onPrimary }]}>INVITE FRIENDS</Text>
-            </Pressable>
-          </View>
-        )}
-        {status ? (
-          <Text accessibilityLiveRegion="polite" style={s.status}>
-            {status}
-          </Text>
-        ) : null}
-      </View>
+              <Text style={s.title}>{content.title}</Text>
+            </View>
+            {loading ? (
+              <Text style={s.center}>Loading your Crew…</Text>
+            ) : recipients.length ? (
+              <>
+                <Text style={s.label}>SEND TO</Text>
+                <ScrollView style={s.recipients} nestedScrollEnabled>
+                  <RecipientRow
+                    name="EVERYONE"
+                    detail={`All ${recipients.length} Crew members`}
+                    checked={everyone}
+                    mixed={selected.size > 0 && !everyone}
+                    onPress={() =>
+                      setSelected(new Set(everyone ? [] : recipients.map(({ id }) => id)))
+                    }
+                    color={theme.primaryFill}
+                  />
+                  {recipients.map((recipient) => (
+                    <RecipientRow
+                      key={recipient.id}
+                      name={recipient.displayName}
+                      checked={selected.has(recipient.id)}
+                      onPress={() => toggle(recipient.id)}
+                      color={theme.primaryFill}
+                      avatarUrl={recipient.avatarUrl}
+                    />
+                  ))}
+                </ScrollView>
+                <TextInput
+                  value={message}
+                  onChangeText={(value) => setMessage(value.slice(0, 120))}
+                  placeholder="Add a message (optional)…"
+                  multiline
+                  style={s.message}
+                />
+                <Text style={s.count}>{message.length}/120</Text>
+                <Pressable
+                  disabled={!selected.size || sending}
+                  onPress={() => void submit()}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Send to ${selected.size} Crew members`}
+                  style={[
+                    s.send,
+                    { backgroundColor: theme.primaryFill },
+                    (!selected.size || sending) && s.disabled,
+                  ]}
+                >
+                  <Text style={[s.sendText, { color: theme.onPrimary }]}>
+                    {sending ? 'SENDING…' : cta}
+                  </Text>
+                </Pressable>
+                {!selected.size ? <Text style={s.hint}>Select at least one person.</Text> : null}
+              </>
+            ) : (
+              <View style={s.empty}>
+                <Text style={s.emptyTitle}>YOUR CREW IS EMPTY</Text>
+                <Text style={s.center}>Invite some people before sharing.</Text>
+                <Pressable
+                  style={[s.send, { backgroundColor: theme.primaryFill }]}
+                  onPress={() => {
+                    onClose();
+                    router.push('/crew' as never);
+                  }}
+                >
+                  <Text style={[s.sendText, { color: theme.onPrimary }]}>INVITE FRIENDS</Text>
+                </Pressable>
+              </View>
+            )}
+            {status ? (
+              <Text accessibilityLiveRegion="polite" style={s.status}>
+                {status}
+              </Text>
+            ) : null}
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </Modal>
   );
 }
@@ -222,7 +248,7 @@ function RecipientRow({
   );
 }
 const s = StyleSheet.create({
-  page: { flex: 1, backgroundColor: '#fff', padding: 20 },
+  page: { flexGrow: 1, backgroundColor: '#fff', padding: 20 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   heading: { fontSize: 18, fontWeight: '900', color: '#00172B' },
   close: { fontSize: 32, color: '#00172B', padding: 8 },

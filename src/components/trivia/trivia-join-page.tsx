@@ -1,5 +1,7 @@
 'use client';
 
+import { apiFetch } from '@/lib/api';
+
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UsersRound } from 'lucide-react';
@@ -18,11 +20,11 @@ export default function TriviaJoinPage({ token }: { token: string }) {
       router.replace(`/login?next=${encodeURIComponent(`/trivia/join/${token}`)}`);
       return;
     }
-    void fetch(`/api/trivia/join/${encodeURIComponent(token)}`, { method: 'POST' })
+    void apiFetch(`/api/trivia/join/${encodeURIComponent(token)}`, { method: 'POST' })
       .then(async (response) => {
         const body = await response.json();
         if (!response.ok) throw new Error(body.error ?? 'Unable to join Trivia room.');
-        const roomResponse = await fetch(`/api/trivia/join/${encodeURIComponent(token)}`);
+        const roomResponse = await apiFetch(`/api/trivia/join/${encodeURIComponent(token)}`);
         const roomBody = await roomResponse.json();
         if (!roomResponse.ok) throw new Error(roomBody.error ?? 'Unable to load Trivia room.');
         router.replace(`/trivia?team=${roomBody.room.teamId}&room=${roomBody.room.joinCode}`);

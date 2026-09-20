@@ -34,7 +34,6 @@ import TeamThemeProvider from '@/components/team-theme-provider';
 import { TeamNeeds } from '@/components/team-needs';
 import { FrontOfficePhaseControl } from '@/components/front-office/front-office-phase-control';
 import { FrontOfficeEventCenter } from '@/components/front-office/front-office-event-center';
-import { WeekCompletePanel } from '@/components/front-office/week-complete-panel';
 import { PhaseStepper } from '@/components/phase-stepper';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
@@ -150,14 +149,20 @@ export default function AppShell({
   children,
   showTeamSummary = true,
   showLeagueWire = true,
+  phaseControl,
 }: {
   children: React.ReactNode;
   showTeamSummary?: boolean;
   showLeagueWire?: boolean;
+  phaseControl?: React.ReactNode;
 }) {
   return (
     <Suspense fallback={null}>
-      <AppShellContent showTeamSummary={showTeamSummary} showLeagueWire={showLeagueWire}>
+      <AppShellContent
+        phaseControl={phaseControl}
+        showTeamSummary={showTeamSummary}
+        showLeagueWire={showLeagueWire}
+      >
         {children}
       </AppShellContent>
     </Suspense>
@@ -168,10 +173,12 @@ function AppShellContent({
   children,
   showTeamSummary,
   showLeagueWire,
+  phaseControl,
 }: {
   children: React.ReactNode;
   showTeamSummary: boolean;
   showLeagueWire: boolean;
+  phaseControl?: React.ReactNode;
 }) {
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
@@ -195,8 +202,6 @@ function AppShellContent({
   const completedSteps = useExperienceStore((state) => state.completedSteps);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [trajectoryPulse, setTrajectoryPulse] = useState(false);
-  const [weekRecapPaused, setWeekRecapPaused] = useState(Boolean(showTeamSummary && saveId));
-  const setRecapExpanded = useCallback((expanded: boolean) => setWeekRecapPaused(expanded), []);
   const wasNegativeRef = useRef(false);
   const lastSaveIdRef = useRef<string | null>(null);
   const lastTrajectoryStateRef = useRef<string | null>(null);
@@ -692,18 +697,6 @@ function AppShellContent({
               <header className="front-office-team-summary border-b border-border bg-[#fffdf9]/90 md:bg-[#fffdf9]/95">
                 <div className="front-office-team-summary-inner flex flex-col gap-3">
                   <div className="flex items-center gap-3 md:hidden">
-                    <button
-                      type="button"
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
-                      onClick={() => setIsMobileSidebarOpen((open) => !open)}
-                      aria-label={isMobileSidebarOpen ? 'Close menu' : 'Open menu'}
-                    >
-                      {isMobileSidebarOpen ? (
-                        <X className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <Menu className="h-4 w-4 text-muted-foreground" />
-                      )}
-                    </button>
                     <Link
                       href="/teams?switch=1"
                       aria-label="Change team"
@@ -735,7 +728,7 @@ function AppShellContent({
                     <div className="min-w-0 flex-1">
                       <div className="flex min-w-0 items-center gap-3">
                         <div className="min-w-0">
-                          <span className="block truncate text-sm font-semibold text-foreground">
+                          <span className="block whitespace-normal text-sm font-semibold text-foreground">
                             {selectedTeam?.name ?? 'Select a team'}
                           </span>
                           <span
@@ -785,6 +778,7 @@ function AppShellContent({
                       season={franchiseYear}
                       phase={phase}
                       freeAgencyWave={freeAgencyWave}
+                      actionOverride={phaseControl}
                     />
                   </div>
                   <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
@@ -866,6 +860,7 @@ function AppShellContent({
                       season={franchiseYear}
                       phase={phase}
                       freeAgencyWave={freeAgencyWave}
+                      actionOverride={phaseControl}
                     />
                   </div>
                 </div>
@@ -874,14 +869,6 @@ function AppShellContent({
 
             {showTeamSummary && showOffseasonStepper && mode === 'full' ? (
               <PhaseStepper currentStep={currentStep} completedSteps={completedSteps} />
-            ) : null}
-
-            {showTeamSummary && saveId && storedTeamAbbr ? (
-              <WeekCompletePanel
-                saveId={saveId}
-                teamAbbr={storedTeamAbbr}
-                onExpandedChange={setRecapExpanded}
-              />
             ) : null}
 
             {showTeamSummary && showOnTheClock ? (
@@ -908,13 +895,9 @@ function AppShellContent({
               ) : null}
             </div>
           </div>
-          {!weekRecapPaused ? <TradeOfferToast scopeKey={tradeOfferScopeKey} /> : null}
+          <TradeOfferToast scopeKey={tradeOfferScopeKey} />
           {showLeagueWire && saveId ? (
-            <FrontOfficeEventCenter
-              saveId={saveId}
-              teamAbbr={storedTeamAbbr ?? ''}
-              paused={weekRecapPaused}
-            />
+            <FrontOfficeEventCenter saveId={saveId} teamAbbr={storedTeamAbbr ?? ''} />
           ) : null}
         </div>
       </div>

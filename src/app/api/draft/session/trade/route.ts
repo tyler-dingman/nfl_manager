@@ -1,36 +1,23 @@
 import { NextResponse } from 'next/server';
+import { POST as tradeHub } from '@/app/api/draft/trade-hub/route';
 
-import { applyDraftTrade } from '@/server/api/draft';
-
-export const POST = async (request: Request) => {
-  const body = (await request.json()) as {
-    draftSessionId?: string;
-    partnerTeamAbbr?: string;
-    sendPickIds?: string[];
-    receivePickIds?: string[];
-    saveId?: string;
-  };
-
-  if (!body.draftSessionId || !body.partnerTeamAbbr || !body.saveId) {
-    return NextResponse.json(
-      { ok: false, error: 'draftSessionId, partnerTeamAbbr, and saveId are required' },
-      { status: 400 },
-    );
-  }
-
+export async function POST(request: Request) {
   try {
-    return NextResponse.json({
-      ok: true,
-      session: applyDraftTrade(
-        body.draftSessionId,
-        body.partnerTeamAbbr,
-        body.sendPickIds ?? [],
-        body.receivePickIds ?? [],
-        body.saveId,
-      ),
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unable to apply trade';
-    return NextResponse.json({ ok: false, error: message }, { status: 400 });
+    const body = await request.json();
+    return tradeHub(
+      new Request(request.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...body,
+          action: 'propose',
+          team: body.partnerTeamAbbr,
+          send: body.sendPickIds,
+          receive: body.receivePickIds,
+        }),
+      }),
+    );
+  } catch {
+    return NextResponse.json({ ok: false, error: 'Invalid trade request.' }, { status: 400 });
   }
-};
+}

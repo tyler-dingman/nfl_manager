@@ -28,7 +28,7 @@ export function CustomerOrders() {
     <CommerceShell>
       <p className="text-xs font-black uppercase tracking-[.2em] text-[#FF3D38]">Your account</p>
       <h1 className="mt-2 text-5xl font-black">MY ORDERS</h1>
-      <div className="mt-7 flex gap-2">
+      <div className="mt-7 flex flex-wrap gap-2">
         {['ALL', 'PROCESSING', 'SHIPPED', 'CANCELED'].map((x) => (
           <button
             key={x}

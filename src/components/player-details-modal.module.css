@@ -615,3 +615,34 @@
     font-size: 58px;
   }
 }
+
+@media (max-width: 600px) {
+  .dialog {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .dialog .utility {
+    position: fixed;
+    top: env(safe-area-inset-top);
+    background: #061421ed;
+  }
+  .dialog .utility button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 56px;
+  }
+  .overall {
+    justify-self: start;
+    min-width: 90px;
+  }
+  .identity,
+  .teamline {
+    min-width: 0;
+  }
+  .identity h2 strong {
+    overflow-wrap: anywhere;
+  }
+}

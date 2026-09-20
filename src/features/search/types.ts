@@ -1,3 +1,4 @@
+import type { AnswerBlock, AnswerSource, SearchContext, SearchIntent } from './answer-types';
 export type SearchResultType =
   | 'story'
   | 'article'
@@ -30,8 +31,13 @@ export type SearchResult = {
 export type SearchResponse = {
   query: string;
   answer?: string;
+  lead?: string;
+  answerType?: SearchIntent;
+  blocks?: AnswerBlock[];
+  context?: SearchContext;
+  availability?: { unavailable: string[]; newsWindowHours: number };
   results: SearchResult[];
-  sources: Array<{ id: string; title: string; url: string }>;
+  sources: AnswerSource[];
   timing: { totalMs: number; lexicalMs: number; vectorMs: number | null; answerMs: number | null };
 };
 

@@ -53,8 +53,10 @@ export function parseResearchPrompt(input: string): ResearchIntent {
     positions,
     side: text.includes('under') ? 'UNDER' : text.includes('over') ? 'OVER' : undefined,
     touchdownsOnly: /touchdown|\btds?\b/.test(text),
-    plusMoney: /plus money|underdog/.test(text),
-    confidence: /high confidence|safer|conservative/.test(text) ? 'high' : 'balanced',
+    plusMoney: /plus[- ]money|underdog/.test(text),
+    confidence: /high confidence|high historical hit[- ]rate|safer|conservative/.test(text)
+      ? 'high'
+      : 'balanced',
   };
 }
 
@@ -91,7 +93,7 @@ export function generateResearchSlip(candidates: ResearchCandidate[], intent: Re
     if (intent.side && market.side !== intent.side) return false;
     if (
       intent.touchdownsOnly &&
-      !`${market.marketType} ${market.statId}`.toLowerCase().includes('td')
+      !/td|touchdown/.test(`${market.marketType} ${market.statId}`.toLowerCase())
     )
       return false;
     if (intent.plusMoney && (market.odds === null || market.odds <= 0)) return false;

@@ -1,5 +1,9 @@
 'use client';
 
+import { useRef } from 'react';
+import { useDialogFocus } from '@/hooks/use-dialog-focus';
+import { createPortal } from 'react-dom';
+
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
@@ -33,6 +37,8 @@ export function DraftRecapModal({
   entries,
   onContinue,
 }: DraftRecapModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(open, dialogRef, onContinue);
   if (!open) return null;
 
   const addressedNeeds = teamNeeds.filter((need) =>
@@ -40,12 +46,30 @@ export function DraftRecapModal({
   );
   const remainingNeeds = teamNeeds.filter((need) => !addressedNeeds.includes(need));
 
-  return (
-    <div className="app-modal-layer fixed inset-0 bg-black/45">
+  return createPortal(
+    <div
+      ref={dialogRef}
+      style={{ zIndex: 2100 }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Draft Recap"
+      className="app-modal-layer front-office-app fixed inset-0 bg-black/45"
+    >
       <div className="h-full overflow-y-auto">
         <div className="mx-auto min-h-full w-full max-w-4xl px-0 py-0 md:px-6 md:py-8">
           <div className="min-h-screen rounded-none bg-slate-50 shadow-2xl md:min-h-0 md:rounded-3xl">
-            <div className="sticky top-0 z-10 border-b border-border bg-white/95 px-4 py-4 backdrop-blur md:px-6">
+            <div
+              style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}
+              className="sticky top-0 z-10 border-b border-border bg-white/95 px-4 py-4 backdrop-blur md:px-6"
+            >
+              <button
+                type="button"
+                onClick={onContinue}
+                aria-label="Close draft recap"
+                className="float-right min-h-11 min-w-11"
+              >
+                ✕
+              </button>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                 Draft Recap
               </p>
@@ -55,7 +79,10 @@ export function DraftRecapModal({
               </p>
             </div>
 
-            <div className="space-y-5 px-4 py-5 md:px-6 md:py-6">
+            <div
+              style={{ paddingBottom: 'max(24px, env(safe-area-inset-bottom))' }}
+              className="space-y-5 px-4 py-5 md:px-6 md:py-6"
+            >
               <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div>
@@ -179,6 +206,7 @@ export function DraftRecapModal({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

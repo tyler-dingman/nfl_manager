@@ -1,4 +1,8 @@
-import { MERCH_PRODUCTS } from '@/features/merch/catalog';
+import {
+  MERCH_PRODUCTS,
+  RETIRED_MERCH_PRODUCT_IDS,
+  FIXED_PRICE_MERCH_PRODUCTS,
+} from '@/features/merch/catalog';
 import { authDb } from '@/server/auth/database';
 
 const description = (type: string) =>
@@ -8,6 +12,9 @@ const description = (type: string) =>
 
 export async function syncCommerceCatalog() {
   const sql = authDb();
+  // Retain historical order records while removing retired items from sale.
+  await sql`UPDATE commerce_products SET active=false,updated_at=now()
+    WHERE id=ANY(${RETIRED_MERCH_PRODUCT_IDS}) AND active=true`;
   for (const product of MERCH_PRODUCTS) {
     await sql`INSERT INTO commerce_products(id,slug,name,description,category,base_price_cents,active,featured)
       VALUES(${product.id},${product.id},${product.name},${description(product.type)},${product.category},${Math.round(product.price * 100)},true,${Boolean(product.badge)})
@@ -22,6 +29,15 @@ export async function syncCommerceCatalog() {
         ON CONFLICT(id) DO NOTHING`;
     }
   }
+  // Reconcile existing database prices as well as newly seeded products.
+  for (const product of FIXED_PRICE_MERCH_PRODUCTS) {
+    const cents = Math.round(product.price * 100);
+    await sql`UPDATE commerce_products SET base_price_cents=${cents},updated_at=now()
+      WHERE id=${product.id} AND base_price_cents IS DISTINCT FROM ${cents}`;
+  }
+  await sql`UPDATE commerce_product_variants SET price_cents=NULL
+    WHERE product_id=ANY(${FIXED_PRICE_MERCH_PRODUCTS.map((product) => product.id)})
+    AND price_cents IS NOT NULL`;
 }
 
 export async function commerceCatalog() {

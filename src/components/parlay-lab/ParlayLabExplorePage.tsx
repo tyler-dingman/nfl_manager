@@ -21,6 +21,7 @@ import {
   type SortState,
 } from './parlay-table';
 import styles from './parlay-explore-page.module.css';
+import { LabScore, LineBadge } from './TrendEducation';
 
 type Event = {
   id: string;
@@ -203,11 +204,11 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
 
   return (
     <div className={styles.shell}>
-      <MainSiteHeader active="parlay-lab" tone="brand" />
+      <MainSiteHeader active="parlay-lab" tone="merch" />
       <ParlayLabSecondaryNav />
       <main className={styles.page}>
         <header className={styles.hero}>
-          <span>{mode === 'lab-finds' ? <FlaskConical /> : null} Down &amp; Distance Labs</span>
+          <span>{mode === 'lab-finds' ? <FlaskConical /> : null} The Parlay Bus</span>
           <h1>{title}</h1>
           <p>{description}</p>
         </header>
@@ -313,7 +314,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                         })
                       }
                     >
-                      <option value="score">Trend Score</option>
+                      <option value="score">Lab Score</option>
                       <option value="last10">Last 10</option>
                       <option value="hitRate">Hit Rate</option>
                       <option value="odds">Odds</option>
@@ -430,11 +431,11 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                   title="Best currently stored price across selected sportsbooks."
                 />
                 <ParlaySortHeader
-                  label="Score"
+                  label="Lab Score"
                   sortKey="score"
                   sort={sort}
                   onSort={(key) => setSort((value) => nextSort(value, key))}
-                  title="Parlay Lab research score. This is not a predicted win probability."
+                  title="The Parlay Bus research score. This is not a predicted win probability."
                 />
               </div>
               {visible.map((market) => {
@@ -451,7 +452,8 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                     </strong>
                     <span>{event ? `${event.awayTeamId} @ ${event.homeTeamId}` : '—'}</span>
                     <span>
-                      <b>{selection(market)}</b> {marketName(market)}
+                      <b>{selection(market)}</b> {marketName(market)}{' '}
+                      <LineBadge passive lineType={market.lineType} mainLine={market.mainLine} />
                     </span>
                     <span>
                       {market.trend
@@ -471,7 +473,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                     </span>
                     <span>{sportsbookName(market.sportsbook)}</span>
                     <b>{odds(market.odds)}</b>
-                    <span>{market.trend ? `${market.trend.trendScore}/100` : '—'}</span>
+                    <LabScore score={market.trend?.trendScore} />
                   </Link>
                 );
               })}

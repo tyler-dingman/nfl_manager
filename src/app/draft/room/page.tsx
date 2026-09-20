@@ -7,6 +7,14 @@ import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeftRight, ArrowRight, CheckCircle2, ChevronDown, Settings } from 'lucide-react';
 
+import { DraftDialog } from '@/components/draft/live-draft-panels';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import type { DraftSimulationTarget } from '@/lib/draft-simulation-target';
 import AppShell from '@/components/app-shell';
 import { FrontOfficeSupportingPanels } from '@/components/front-office/front-office-supporting-panels';
 import { DraftSimulatorProspectTable } from '@/components/draft/draft-simulator-prospect-table';
@@ -79,6 +87,7 @@ function PreDraftWorkspace({
   selectedPlayerId,
   onSelectPlayer,
   onOpenPlayer,
+  onVisiblePlayersChange,
 }: {
   entries: DraftBoardEntry[];
   teams: TeamDTO[];
@@ -87,6 +96,7 @@ function PreDraftWorkspace({
   selectedPlayerId: string | null;
   onSelectPlayer: (playerId: string) => void;
   onOpenPlayer: () => void;
+  onVisiblePlayersChange: (ids: string[]) => void;
 }) {
   const boardSaveId = useSaveStore((state) => state.saveId);
   const [personalBoardIds, setPersonalBoardIds] = React.useState<string[]>([]);
@@ -263,6 +273,7 @@ function PreDraftWorkspace({
             </div>
           ) : (
             <DraftSimulatorProspectTable
+              onVisiblePlayersChange={onVisiblePlayersChange}
               entries={boardTab === 'my-board' ? personalEntries : entries}
               teamNeeds={needs}
               selectedPlayerId={selectedEntry?.player.id ?? null}
@@ -374,10 +385,44 @@ function DraftRoomContent() {
     document.body.classList.add('mock-draft-room-active');
     return () => document.body.classList.remove('mock-draft-room-active');
   }, []);
+  const [visibleProfileIds, setVisibleProfileIds] = React.useState<string[]>([]);
   const [session, setSession] = React.useState<DraftSessionDTO | null>(null);
+  const [exitOpen, setExitOpen] = React.useState(false);
+  const pausedRef = React.useRef(false);
+  const deferredSession = React.useRef<DraftSessionDTO | null>(null);
+  const acceptSessionUpdate = React.useCallback((next: DraftSessionDTO) => {
+    setSession((current) => {
+      if (
+        current &&
+        ((next.tradeRevision ?? 0) < (current.tradeRevision ?? 0) ||
+          next.currentPickIndex < current.currentPickIndex)
+      )
+        return current;
+      if (pausedRef.current) {
+        deferredSession.current = next;
+        return current;
+      }
+      return next;
+    });
+  }, []);
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
-  const [speedLevel, setSpeedLevel] = React.useState<DraftSpeedLevel>(1);
+  const [simulationTarget, setSimulationTarget] = React.useState<DraftSimulationTarget | null>(
+    null,
+  );
+  const [primarySimulationAction, setPrimarySimulationAction] = React.useState<
+    'user_pick' | 'next_pick'
+  >('user_pick');
+  React.useEffect(() => {
+    try {
+      if (localStorage.getItem('dd-draft-primary-simulation') === 'next_pick') {
+        setPrimarySimulationAction('next_pick');
+      }
+    } catch {
+      // The control still remembers the selection in memory when storage is unavailable.
+    }
+  }, []);
+  const [speedLevel, setSpeedLevel] = React.useState<DraftSpeedLevel>(0);
   const [draftView, setDraftView] = React.useState<'board' | 'trade'>('board');
   const [teams, setTeams] = React.useState<TeamsResponse['teams']>([]);
   const [selectedPickNumber] = React.useState(1);
@@ -390,6 +435,9 @@ function DraftRoomContent() {
   const [pickAnnouncementGrade, setPickAnnouncementGrade] = React.useState<string | null>(null);
   const [selectedLobbyPlayerId, setSelectedLobbyPlayerId] = React.useState<string | null>(null);
   const [isLobbyProspectModalOpen, setIsLobbyProspectModalOpen] = React.useState(false);
+  const [clockDisplay, setClockDisplay] = React.useState<{ pickId: string; text: string } | null>(
+    null,
+  );
   const [draftControlBusy, setDraftControlBusy] = React.useState(false);
   const [isDraftSetupOpen, setIsDraftSetupOpen] = React.useState(false);
   const [pendingDraftRounds, setPendingDraftRounds] = React.useState<number | null>(null);
@@ -480,7 +528,7 @@ function DraftRoomContent() {
   }, [setIsUserOnClock]);
 
   React.useEffect(() => {
-    if (modeExperience !== 'full') return;
+    if (modeExperience !== 'full' || mode === 'mock') return;
     if (session?.status === 'completed' && !completedSteps.includes('draft')) {
       if (saveId) {
         recordProgressEvent({
@@ -493,6 +541,7 @@ function DraftRoomContent() {
       completeCurrentStep();
     }
   }, [
+    mode,
     modeExperience,
     session?.status,
     completedSteps,
@@ -727,17 +776,25 @@ function DraftRoomContent() {
       capSpace,
       capLimit,
       roster,
-      phase: 'draft',
-      unlocked: {
-        freeAgency: true,
-        draft: true,
-      },
+      phase: mode === 'mock' ? phase : 'draft',
+      unlocked: mode === 'mock' ? unlocked : { freeAgency: true, draft: true },
     }),
-    [capLimit, capSpace, franchiseYear, roster, selectedTeam?.abbr, teamAbbr],
+    [
+      capLimit,
+      capSpace,
+      franchiseYear,
+      roster,
+      selectedTeam?.abbr,
+      teamAbbr,
+      mode,
+      phase,
+      unlocked,
+    ],
   );
 
   const syncDraftPhase = React.useCallback(
     async (activeSaveId: string) => {
+      if (mode === 'mock') return true;
       const response = await apiFetch(
         '/api/saves/phase',
         {
@@ -771,7 +828,7 @@ function DraftRoomContent() {
       );
       return true;
     },
-    [buildDraftSaveSnapshot, setSaveHeader, teamId],
+    [buildDraftSaveSnapshot, setSaveHeader, teamId, mode],
   );
 
   const startDraft = React.useCallback(
@@ -785,9 +842,10 @@ function DraftRoomContent() {
       setError('');
       setLobbyMessage('');
       setDraftView('board');
+      setShowSettings(false);
 
       try {
-        const activeSaveId = await ensureSaveExists('draft');
+        const activeSaveId = await ensureSaveExists(mode === 'mock' ? undefined : 'draft');
         if (!activeSaveId) {
           setError('Select a team to start a save.');
           return false;
@@ -825,7 +883,7 @@ function DraftRoomContent() {
 
         if (!response.ok || !payload.ok) {
           if (!payload.ok && payload.error === 'Save not found') {
-            const freshSaveId = await ensureSaveExists('draft');
+            const freshSaveId = await ensureSaveExists(mode === 'mock' ? undefined : 'draft');
             if (!freshSaveId) {
               setLobbyMessage(payload.error);
               return false;
@@ -880,6 +938,8 @@ function DraftRoomContent() {
     }
     setDraftControlBusy(true);
     const nextPaused = !session.isPaused;
+    pausedRef.current = nextPaused;
+    if (nextPaused) setSession({ ...session, isPaused: true });
     try {
       const response = await apiFetch(
         '/api/draft/session/pause',
@@ -890,7 +950,7 @@ function DraftRoomContent() {
             saveId: actionableSaveId,
             draftSessionId: activeDraftSessionId,
             isPaused: nextPaused,
-            sessionSnapshot: session,
+            sessionSnapshot: deferredSession.current ?? session,
             saveSnapshot: buildDraftSaveSnapshot(actionableSaveId),
           }),
         },
@@ -899,9 +959,21 @@ function DraftRoomContent() {
       const payload = (await response.json()) as DraftSessionResponse;
       if (!response.ok || !payload.ok) {
         setError(payload.ok ? 'Unable to update pause state' : payload.error);
+        pausedRef.current = true;
+        setSession((current) => (current ? { ...current, isPaused: true } : current));
         return;
       }
-      setSession(payload.session);
+      if (nextPaused) {
+        deferredSession.current = payload.session;
+      } else {
+        deferredSession.current = null;
+        setSession(payload.session);
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Unable to update pause state.');
+      // Keep the local simulation stopped when the server cannot confirm resume.
+      pausedRef.current = true;
+      setSession((current) => (current ? { ...current, isPaused: true } : current));
     } finally {
       setDraftControlBusy(false);
     }
@@ -970,55 +1042,66 @@ function DraftRoomContent() {
 
   const handleDraftPlayer = async (player: PlayerRowDTO) => {
     const actionableSaveId = resolvedSaveId || saveId;
-    if (!actionableSaveId || !activeDraftSessionId || !session) {
+    if (!actionableSaveId || !activeDraftSessionId || !session || draftControlBusy) {
       return;
     }
 
-    const currentPick = session.picks[session.currentPickIndex];
-    const teamNeeds = getTeamNeeds(session.userTeamAbbr, teams);
+    setDraftControlBusy(true);
+    try {
+      const currentPick = session.picks[session.currentPickIndex];
+      const teamNeeds = getTeamNeeds(session.userTeamAbbr, teams);
 
-    const response = await apiFetch(
-      '/api/draft/pick',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          saveId: actionableSaveId,
-          draftSessionId: activeDraftSessionId,
-          playerId: player.id,
-          teamNeeds,
-          sessionSnapshot: session,
-          saveSnapshot: buildDraftSaveSnapshot(actionableSaveId),
-        }),
-      },
-      { skipSaveGuard: true },
-    );
-    const payload = (await response.json()) as DraftPickResponse;
-    if (!response.ok || !payload.ok) {
-      setError(payload.ok ? 'Unable to make pick.' : payload.error);
-      return;
+      const response = await apiFetch(
+        '/api/draft/pick',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            saveId: actionableSaveId,
+            draftSessionId: activeDraftSessionId,
+            playerId: player.id,
+            teamNeeds,
+            sessionSnapshot: session,
+            saveSnapshot: buildDraftSaveSnapshot(actionableSaveId),
+          }),
+        },
+        { skipSaveGuard: true },
+      );
+      const payload = (await response.json()) as DraftPickResponse;
+      if (!response.ok || !payload.ok) {
+        setError(payload.ok ? 'Unable to make pick.' : payload.error);
+        return;
+      }
+      deferredSession.current = null;
+      pausedRef.current = payload.session.isPaused;
+      setSession(payload.session);
+      if (session.mode === 'real') {
+        setRoster(
+          roster.some((entry) => entry.id === payload.draftedPlayer.id)
+            ? roster.map((entry) =>
+                entry.id === payload.draftedPlayer.id ? payload.draftedPlayer : entry,
+              )
+            : [...roster, payload.draftedPlayer],
+        );
+        await refreshSaveHeader(actionableSaveId);
+      }
+      const pick = payload.session.picks.find((entry) => entry.selectedPlayerId === player.id);
+      const pickNumber = pick?.overall ?? currentPick?.overall ?? payload.session.currentPickIndex;
+
+      setPickAnnouncementPlayer(payload.draftedPlayer);
+      setPickAnnouncementGrade(payload.grade.letter);
+      setPickAnnouncementOpen(true);
+      window.setTimeout(() => setPickAnnouncementOpen(false), 1800);
+      trackProgress(
+        `draft-pick:${payload.draftedPlayer.id}:${pickNumber}`,
+        OFFSEASON_PROGRESS_POINTS.draft.pick,
+        `Submitted pick ${pickNumber} and added ${player.firstName} ${player.lastName}.`,
+      );
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Unable to make pick.');
+    } finally {
+      setDraftControlBusy(false);
     }
-    setSession(payload.session);
-    setRoster(
-      roster.some((entry) => entry.id === payload.draftedPlayer.id)
-        ? roster.map((entry) =>
-            entry.id === payload.draftedPlayer.id ? payload.draftedPlayer : entry,
-          )
-        : [...roster, payload.draftedPlayer],
-    );
-    await refreshSaveHeader(actionableSaveId);
-    const pick = payload.session.picks.find((entry) => entry.selectedPlayerId === player.id);
-    const pickNumber = pick?.overall ?? currentPick?.overall ?? payload.session.currentPickIndex;
-
-    setPickAnnouncementPlayer(payload.draftedPlayer);
-    setPickAnnouncementGrade(payload.grade.letter);
-    setPickAnnouncementOpen(true);
-    window.setTimeout(() => setPickAnnouncementOpen(false), 1800);
-    trackProgress(
-      `draft-pick:${payload.draftedPlayer.id}:${pickNumber}`,
-      OFFSEASON_PROGRESS_POINTS.draft.pick,
-      `Submitted pick ${pickNumber} and added ${player.firstName} ${player.lastName}.`,
-    );
   };
 
   const handleDraftTradeAccepted = React.useCallback(
@@ -1153,47 +1236,197 @@ function DraftRoomContent() {
     router.push('/offseason-recap');
   };
 
+  const simulateTo = async (kind: DraftSimulationTarget['kind']) => {
+    if (!session || session.status !== 'in_progress' || draftControlBusy) return;
+    if (kind === 'user_pick' || kind === 'next_pick') {
+      setPrimarySimulationAction(kind);
+      try {
+        localStorage.setItem('dd-draft-primary-simulation', kind);
+      } catch {
+        /* In-memory preference remains available. */
+      }
+    }
+    const round = session.picks[session.currentPickIndex]?.round ?? 1;
+    setSimulationTarget(
+      kind === 'next_pick' ? { kind, round, pickIndex: session.currentPickIndex } : { kind, round },
+    );
+    if (session.isPaused) await togglePause();
+  };
+  const finishSimulationTarget = () => {
+    setSimulationTarget(null);
+    if (
+      simulationTarget?.kind === 'end_round' &&
+      session?.status === 'in_progress' &&
+      !session.isPaused
+    )
+      void togglePause();
+  };
+
   return (
-    <AppShell>
+    <AppShell
+      phaseControl={
+        session?.status === 'in_progress' ? (
+          <button
+            className={styles.exitDraftButton}
+            type="button"
+            onClick={() => {
+              setExitOpen(true);
+              if (!session.isPaused) void togglePause();
+            }}
+          >
+            ✕ Exit Mock Draft
+          </button>
+        ) : undefined
+      }
+    >
+      {exitOpen && (
+        <DraftDialog title="Exit Mock Draft?" onClose={() => setExitOpen(false)}>
+          <p>
+            Your current draft will remain paused. Return to this room to resume it. Your Front
+            Office season will not advance.
+          </p>
+          <footer>
+            <button type="button" onClick={() => setExitOpen(false)}>
+              Cancel
+            </button>
+            <button type="button" disabled={draftControlBusy} onClick={() => router.push('/draft')}>
+              Exit Draft
+            </button>
+          </footer>
+        </DraftDialog>
+      )}
       <DraftExperienceHero
+        draftStatus={
+          session?.status === 'in_progress'
+            ? {
+                paused: session.isPaused,
+                round: session.picks[session.currentPickIndex]?.round ?? 1,
+                pick: session.picks[session.currentPickIndex]?.overall ?? 1,
+                team: session.picks[session.currentPickIndex]?.ownerTeamAbbr ?? '',
+                clock:
+                  clockDisplay?.pickId === session.picks[session.currentPickIndex]?.id
+                    ? clockDisplay.text
+                    : '—',
+              }
+            : undefined
+        }
+        compact={session?.status === 'in_progress'}
         title="Mock Draft Simulator"
         description="Make picks, explore trades, and build your team with real analysis."
         active="mock-draft"
         actions={
           <>
-            <Link href="/teams?switch=1" className={styles.teamSelector}>
+            <Link
+              href={session?.status === 'in_progress' ? '#' : '/teams?switch=1'}
+              onClick={(event) => {
+                if (session?.status === 'in_progress') {
+                  event.preventDefault();
+                  setExitOpen(true);
+                  if (!session.isPaused) void togglePause();
+                }
+              }}
+              className={styles.teamSelector}
+            >
               {selectedTeam?.logo_url ? (
                 <Image src={selectedTeam.logo_url} alt="" width={34} height={34} />
               ) : null}
               <span>{selectedTeam?.name ?? 'Select team'}</span>
               <ChevronDown aria-hidden="true" />
             </Link>
-            <button
-              type="button"
-              className={styles.settingsButton}
-              onClick={() => setShowSettings((current) => !current)}
-            >
-              <Settings aria-hidden="true" /> Settings
-            </button>
-            <button
-              type="button"
-              className={styles.startButton}
-              disabled={draftControlBusy}
-              onClick={() => {
-                if (session) {
-                  if (session.isPaused) void togglePause();
-                  return;
-                }
-                setIsDraftSetupOpen(true);
-              }}
-            >
-              {session
-                ? session.isPaused
-                  ? 'Resume Mock Draft'
-                  : 'Draft In Progress'
-                : 'Start Mock Draft'}
-              <ArrowRight aria-hidden="true" />
-            </button>
+            {session?.status === 'in_progress' ? (
+              <div className={styles.simSplitButton}>
+                <button
+                  type="button"
+                  disabled={
+                    draftControlBusy || (primarySimulationAction === 'user_pick' && userOnClock)
+                  }
+                  onClick={() => void simulateTo(primarySimulationAction)}
+                >
+                  <span className={styles.fullSkipLabel}>
+                    {primarySimulationAction === 'next_pick'
+                      ? 'Skip to Next Pick'
+                      : `Sim to ${userTeam?.name ?? session.userTeamAbbr} Pick`}
+                  </span>
+                  <span className={styles.shortSkipLabel} aria-hidden="true">
+                    Skip
+                  </span>
+                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      disabled={draftControlBusy}
+                      aria-label="Simulation options"
+                    >
+                      <ChevronDown aria-hidden="true" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    {primarySimulationAction === 'next_pick' ? (
+                      <DropdownMenuItem
+                        disabled={userOnClock}
+                        onClick={() => void simulateTo('user_pick')}
+                      >
+                        Sim to {userTeam?.name ?? session.userTeamAbbr} Pick
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem onClick={() => void simulateTo('next_pick')}>
+                        Skip to Next Pick
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem onClick={() => void simulateTo('end_round')}>
+                      Sim to End of Round
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => void simulateTo('end_draft')}>
+                      Sim to End of Draft
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <button
+                type="button"
+                className={styles.settingsButton}
+                onClick={() => setShowSettings((current) => !current)}
+              >
+                <Settings aria-hidden="true" /> Settings
+              </button>
+            )}
+            {session?.status === 'in_progress' ? (
+              <>
+                <label className={styles.speedControl}>
+                  <span>Speed:</span>{' '}
+                  <select
+                    aria-label="Draft speed"
+                    value={speedLevel}
+                    onChange={(event) =>
+                      setSpeedLevel(Number(event.target.value) as DraftSpeedLevel)
+                    }
+                  >
+                    <option value={0}>Normal</option>
+                    <option value={1}>Fast</option>
+                    <option value={2}>Instant</option>
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  className={styles.pauseDraftButton}
+                  disabled={draftControlBusy}
+                  onClick={() => void togglePause()}
+                >
+                  {session.isPaused ? '▶ Resume Draft' : 'Ⅱ Pause Draft'}
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                className={styles.startButton}
+                disabled={draftControlBusy || Boolean(session)}
+                onClick={() => setIsDraftSetupOpen(true)}
+              >
+                {session ? 'Draft Complete' : 'Start Mock Draft'} <ArrowRight aria-hidden="true" />
+              </button>
+            )}
           </>
         }
       />
@@ -1224,6 +1457,7 @@ function DraftRoomContent() {
                 <p className="text-sm text-muted-foreground">{lobbyMessage}</p>
               ) : null}
               <PreDraftWorkspace
+                onVisiblePlayersChange={setVisibleProfileIds}
                 entries={lobbyBoardEntries}
                 teams={teams}
                 teamAbbr={teamAbbr || selectedTeam?.abbr || 'KC'}
@@ -1261,6 +1495,7 @@ function DraftRoomContent() {
             </div>
           ) : (
             <ActiveDraftRoom
+              onClockDisplayChange={setClockDisplay}
               saveId={resolvedSaveId || saveId}
               year={session.draftYear ?? draftYear}
               session={session}
@@ -1268,6 +1503,8 @@ function DraftRoomContent() {
               saveSnapshot={buildDraftSaveSnapshot(resolvedSaveId || saveId)}
               teams={teams}
               falcoNotes={falcoBoard.notes}
+              simulationTarget={simulationTarget}
+              onSimulationTargetReached={finishSimulationTarget}
               speedLevel={speedLevel}
               showSettings={showSettings}
               draftView={draftView}
@@ -1283,7 +1520,19 @@ function DraftRoomContent() {
               onToggleSettings={() => setShowSettings((current) => !current)}
               onDraftPlayer={handleDraftPlayer}
               onDraftTradeAccepted={handleDraftTradeAccepted}
-              onSessionUpdate={setSession}
+              onTradeBusyChange={setDraftControlBusy}
+              onTradeUpdate={(next) => {
+                deferredSession.current = null;
+                pausedRef.current = next.isPaused;
+                setSession((current) =>
+                  current &&
+                  ((current.tradeRevision ?? 0) > (next.tradeRevision ?? 0) ||
+                    current.currentPickIndex > next.currentPickIndex)
+                    ? current
+                    : next,
+                );
+              }}
+              onSessionUpdate={acceptSessionUpdate}
             />
           )}
         </div>
@@ -1293,7 +1542,12 @@ function DraftRoomContent() {
       <ProspectDetailsModal
         open={isLobbyProspectModalOpen}
         player={selectedLobbyPlayer}
-        players={lobbyBoardEntries.map((entry) => entry.player)}
+        players={visibleProfileIds.flatMap((id) => {
+          const entry = lobbyBoardEntries.find((e) => e.player.id === id);
+          return entry ? [entry.player] : [];
+        })}
+        year={draftYear}
+        teamAbbr={teamAbbr ?? undefined}
         boardEntry={
           lobbyBoardEntries.find((entry) => entry.player.id === selectedLobbyPlayer?.id) ?? null
         }
@@ -1302,7 +1556,7 @@ function DraftRoomContent() {
         onSelectPlayer={setSelectedLobbyPlayerId}
         onClose={() => setIsLobbyProspectModalOpen(false)}
       />
-      {!session && isDraftWorkflowAvailable(phase) && isDraftSetupOpen ? (
+      {!session && (mode === 'mock' || isDraftWorkflowAvailable(phase)) && isDraftSetupOpen ? (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 px-4 py-6 sm:items-center">
           <div className="w-full max-w-xl rounded-3xl bg-white p-5 shadow-2xl sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">

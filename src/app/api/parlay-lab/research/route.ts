@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { researchSeasonStats } from '@/server/historical-stats/research-season-stats';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { getGameByGameTrend } from '@/server/historical-stats/game-by-game-trend-service';
 import { buildGameScriptContext } from '@/server/historical-stats/game-script-context-service';
@@ -28,7 +29,10 @@ import { calculatePlayerEnvironmentTrends } from '@/server/historical-stats/play
 import { calculatePlayerConsistency } from '@/server/historical-stats/player-consistency-service';
 import { calculatePlayerUsageTrend } from '@/server/historical-stats/player-usage-trend-service';
 import { calculatePlayerVenueTrends } from '@/server/historical-stats/player-venue-trend-service';
-import { getTrendingProps } from '@/server/historical-stats/trending-props-service';
+import {
+  getTrendingProps,
+  supportsFullGameResearch,
+} from '@/server/historical-stats/trending-props-service';
 import { buildUpcomingMatchup } from '@/server/historical-stats/upcoming-matchup-service';
 import { buildVenueInsight } from '@/server/historical-stats/venue-insight-service';
 import { venueContextForHomeTeam } from '@/server/historical-stats/venue-environment-service';
@@ -51,9 +55,20 @@ type LocalMarket = {
   teamId: string | null;
   period: string;
   isAltLine: boolean;
+  lineType?: 'main' | 'alternate' | 'unknown';
+  mainLine?: number | null;
 };
 
 export async function GET(request: NextRequest) {
+  const period = request.nextUrl.searchParams.get('period') ?? 'game';
+  if (!supportsFullGameResearch(period))
+    return NextResponse.json(
+      {
+        error:
+          'Research currently supports full-game markets only. Quarter and half props require period-specific history.',
+      },
+      { status: 422 },
+    );
   const eventId = request.nextUrl.searchParams.get('eventId');
   if (!eventId) return NextResponse.json({ error: 'eventId is required' }, { status: 400 });
   const events = (await listLocalOddsEvents()) as unknown as Array<{
@@ -71,7 +86,12 @@ export async function GET(request: NextRequest) {
           [candidate.homeTeamId]: candidate.awayTeamId,
           [candidate.awayTeamId]: candidate.homeTeamId,
         };
-        const markets = await getTrendingProps(candidate.id, opponents);
+        const markets = await getTrendingProps(
+          candidate.id,
+          opponents,
+          candidate.season,
+          candidate,
+        );
         return markets.map((market) => ({ ...market, eventId: candidate.id }));
       }),
     );
@@ -90,7 +110,7 @@ export async function GET(request: NextRequest) {
       request.nextUrl.searchParams.get('side') === 'UNDER' ? ('UNDER' as const) : ('OVER' as const);
   if (!playerId || !marketType || !Number.isFinite(line))
     return NextResponse.json({
-      markets: (await getTrendingProps(eventId, opponents)).map((market) => ({
+      markets: (await getTrendingProps(eventId, opponents, event.season, event)).map((market) => ({
         ...market,
         eventId,
       })),
@@ -100,13 +120,26 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Historical stat type is unsupported' }, { status: 400 });
   const markets = (await getLocalEventMarkets(eventId)) as unknown as LocalMarket[],
     playerMarkets = markets.filter(
-      (m) => m.playerId === playerId && m.marketType === marketType && m.side === side,
+      (m) =>
+        supportsFullGameResearch(m.period) &&
+        m.playerId === playerId &&
+        m.marketType === marketType &&
+        m.side === side,
     ),
-    selected = playerMarkets.find((m) => Number(m.line) === line),
+    selected =
+      playerMarkets.find(
+        (m) =>
+          Number(m.line) === line &&
+          m.sportsbook === request.nextUrl.searchParams.get('sportsbook'),
+      ) ?? playerMarkets.find((m) => Number(m.line) === line),
     identity = NFL_LEAGUE_DATA.players.find((player) => player.id === playerId),
     teamId = selected?.teamId ?? identity?.teamAbbr ?? null,
     opponentId = teamId ? opponents[teamId] : undefined,
     position = identity?.position as 'QB' | 'RB' | 'WR' | 'TE' | undefined;
+  const currentStrengthSeason = event.season - 1;
+  const currentOpponentStrength = opponentId
+    ? await getTeamSeasonStrength(opponentId, currentStrengthSeason)
+    : null;
   const logs = await getPlayerGameLogs([playerId]),
     summary = calculatePlayerPropTrend(logs, {
       playerId,
@@ -115,6 +148,11 @@ export async function GET(request: NextRequest) {
       side,
       currentOpponentId: opponentId,
       currentHomeAway: teamId === event.homeTeamId ? 'HOME' : 'AWAY',
+      strength: currentOpponentStrength,
+      position,
+      lineType: selected?.lineType,
+      mainLine: selected?.mainLine,
+      spread: buildGameScriptContext(markets, teamId, statType, event)?.spread,
     }),
     lineLadder = buildLineLadder(logs, statType, line, side, playerMarkets),
     gameByGame = getGameByGameTrend(logs, statType, line, side, 40),
@@ -174,11 +212,7 @@ export async function GET(request: NextRequest) {
       opponentId && position && opponentLogs.length
         ? calculateOpponentVsPosition(opponentLogs, position, statType, line, side)
         : null;
-  const currentStrengthSeason = 2025,
-    currentOpponentStrength = opponentId
-      ? await getTeamSeasonStrength(opponentId, currentStrengthSeason)
-      : null,
-    opponentIdentity = NFL_LEAGUE_DATA.teams.find(
+  const opponentIdentity = NFL_LEAGUE_DATA.teams.find(
       (team) => team.id === opponentId || team.abbr === opponentId,
     ),
     defenseContext = defenseContextForMarket(statType);
@@ -192,68 +226,11 @@ export async function GET(request: NextRequest) {
           : currentOpponentStrength.totalDefenseRank
     : null;
   const supportedInsight =
-    summary.last10.games > 0 &&
-    missContext.misses.length === 1 &&
-    missContext.misses[0]!.opponentRelevantDefenseRank !== null &&
-    currentDefenseRank !== null
-      ? `${selected?.playerName ?? identity?.name ?? 'This player'} has cleared this line in ${summary.last10.hits} of the last ${summary.last10.games} games. The only miss came against a defense that finished #${missContext.misses[0]!.opponentRelevantDefenseRank} in ${defenseContextLabel(defenseContext).toLowerCase()}. This week's opponent finished #${currentDefenseRank}.`
-      : null;
-  const labSignals = [
-      { weight: 50, value: summary.trendScore },
-      ...(missContext.missContextScore === null
-        ? []
-        : [{ weight: 15, value: missContext.missContextScore }]),
-      ...(currentDefenseRank === null
-        ? []
-        : [{ weight: 20, value: (currentDefenseRank / 32) * 100 }]),
-      ...(opponentVsPosition?.last10.hitRate === null ||
-      opponentVsPosition?.last10.hitRate === undefined
-        ? []
-        : [{ weight: 15, value: opponentVsPosition.last10.hitRate }]),
-      ...(usage.trendPct === null
-        ? []
-        : [{ weight: 8, value: Math.max(0, Math.min(100, 50 + usage.trendPct)) }]),
-      ...(lineMargin.label === null
-        ? []
-        : [
-            {
-              weight: 8,
-              value:
-                (
-                  {
-                    'BARELY CLEARING': 40,
-                    'SOME CUSHION': 60,
-                    'COMFORTABLE CUSHION': 80,
-                    'CRUSHING THE LINE': 90,
-                  } as Record<string, number>
-                )[lineMargin.label] ?? 50,
-            },
-          ]),
-      ...(consistency ? [{ weight: 8, value: consistency.score }] : []),
-      ...(gameScript
-        ? [
-            {
-              weight: 4,
-              value: /support|favorable/i.test(gameScript.relevantInsight) ? 60 : 45,
-            },
-          ]
-        : []),
-      ...(currentVenue.environment === 'UNKNOWN' ||
-      (currentVenue.environment === 'INDOOR' ? venueSplits.indoor : venueSplits.outdoor).games < 5
-        ? []
-        : [
-            {
-              weight: 5,
-              value:
-                (currentVenue.environment === 'INDOOR' ? venueSplits.indoor : venueSplits.outdoor)
-                  .hitRate ?? 50,
-            },
-          ]),
-    ],
-    labWeight = labSignals.reduce((sum, signal) => sum + signal.weight, 0),
-    labMatchScore = Math.round(
-      labSignals.reduce((sum, signal) => sum + signal.weight * signal.value, 0) / labWeight,
-    );
+    summary.researchScore.matchup.alignment === 'conflicts'
+      ? `${opponentId}'s ${summary.researchScore.matchup.metric?.toLowerCase()} context works against the selected ${side.toLowerCase()}. ${summary.researchScore.matchup.contextualOnly ? 'This is broad yardage context, not a forecast of usage or role.' : 'This is context, not a prediction.'}`
+      : summary.researchScore.matchup.label + '.';
+  // Single score for the table, modal hero, and legacy match-score field.
+  const labMatchScore = summary.trendScore;
   return NextResponse.json({
     player: {
       id: playerId,
@@ -263,6 +240,7 @@ export async function GET(request: NextRequest) {
     },
     event,
     market: { marketType, statType, line, side, opponentId: opponentId ?? null },
+    seasonStats: researchSeasonStats(logs, statType, position),
     currentPrices: playerMarkets.filter((m) => Number(m.line) === line && m.available),
     summary,
     gameByGame,
@@ -302,12 +280,15 @@ export async function GET(request: NextRequest) {
       : null,
     upcomingMatchup:
       currentOpponentStrength && opponentId
-        ? buildUpcomingMatchup(
-            opponentId,
-            opponentIdentity?.name ?? opponentId,
-            defenseContext,
-            currentOpponentStrength,
-          )
+        ? {
+            ...buildUpcomingMatchup(
+              opponentId,
+              opponentIdentity?.name ?? opponentId,
+              defenseContext,
+              currentOpponentStrength,
+            ),
+            matchupLabel: summary.researchScore.matchup.label,
+          }
         : null,
     generatedInsight: supportedInsight,
     labMatchScore,

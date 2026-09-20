@@ -1,3 +1,4 @@
+import { classifyStoredLine } from './line-classification';
 import { authDb } from '@/server/auth/database';
 import type { NormalizedOddsMarket } from './normalization';
 import { SPORTSBOOK_IDS } from './sportsbooks';
@@ -119,7 +120,7 @@ export async function getLocalEventMarkets(
   const rows = await db`
     SELECT m.id, m.market_type AS "marketType", m.stat_id AS "statId", m.entity_id AS "entityId",
       m.player_id AS "playerId", pm.provider_name AS "playerName", m.team_id AS "teamId", m.period, m.side, m.line,
-      m.normalized_key AS "normalizedKey", m.is_alt_line AS "isAltLine",
+      m.normalized_key AS "normalizedKey", m.is_alt_line AS "isAltLine", m.raw_provider_metadata AS "rawProviderMetadata",
       p.sportsbook, p.odds, p.available, p.deeplink
     FROM bet_markets m
     JOIN sportsbook_prices p ON p.market_id=m.id
@@ -132,7 +133,20 @@ export async function getLocalEventMarkets(
       AND (${filters.minLine ?? null}::numeric IS NULL OR m.line >= ${filters.minLine ?? null})
       AND (${filters.maxLine ?? null}::numeric IS NULL OR m.line <= ${filters.maxLine ?? null})
     ORDER BY m.market_type, m.line, p.sportsbook`;
-  return rows.filter((row) => visibleSportsbooks.has(String(row.sportsbook)));
+  return rows
+    .filter((row) => visibleSportsbooks.has(String(row.sportsbook)))
+    .map((row) => {
+      const { rawProviderMetadata, ...market } = row;
+      return {
+        ...market,
+        ...classifyStoredLine({
+          sportsbook: String(row.sportsbook),
+          line: row.line,
+          isAltLine: row.isAltLine,
+          rawProviderMetadata,
+        }),
+      };
+    });
 }
 
 export async function findLocalOddsEvent(homeTeamId: string, awayTeamId: string, season: number) {

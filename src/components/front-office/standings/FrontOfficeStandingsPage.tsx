@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 
@@ -101,7 +102,13 @@ function ConferenceCard({
   return (
     <article className={styles.conferenceCard}>
       <h2>
-        <b>{conference.slice(0, 1)}</b>
+        <Image
+          className={styles.conferenceLogo}
+          src={conference === 'AFC' ? '/assets/afc_logo.svg' : '/assets/nfc_logo.svg'}
+          alt=""
+          width={36}
+          height={28}
+        />
         {conference}
       </h2>
       {divisions.map((division) => (

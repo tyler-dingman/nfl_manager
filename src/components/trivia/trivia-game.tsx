@@ -1,5 +1,7 @@
 'use client';
 
+import { apiFetch } from '@/lib/api';
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { RotateCcw, Trophy, X } from 'lucide-react';
 import { DdShareIcon as Share2 } from '@/components/ui/football-icons';
@@ -94,7 +96,7 @@ export default function TriviaGame({
     started = useRef(false),
     kickoffShown = useRef(false);
   const load = useCallback(async (id: string) => {
-    const response = await fetch(`/api/trivia/games/${id}`, { cache: 'no-store' });
+    const response = await apiFetch(`/api/trivia/games/${id}`, { cache: 'no-store' });
     if (!response.ok) throw new Error('Unable to load game.');
     const body = (await response.json()) as { game: Game };
     setGame(body.game);
@@ -117,7 +119,7 @@ export default function TriviaGame({
     setBusy(true);
     setError(null);
     try {
-      const response = await fetch('/api/trivia/games', {
+      const response = await apiFetch('/api/trivia/games', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ teamId }),
@@ -135,7 +137,8 @@ export default function TriviaGame({
   useEffect(() => {
     if (started.current) return;
     started.current = true;
-    if (initialGameId) void load(initialGameId);
+    if (initialGameId)
+      void load(initialGameId).catch((cause) => setError((cause as Error).message));
     else void start();
   }, [initialGameId, load, start]);
   const answer = useCallback(
@@ -145,7 +148,7 @@ export default function TriviaGame({
       setPhase('LOCKED');
       setBusy(true);
       try {
-        const response = await fetch(`/api/trivia/games/${game.gameId}/answer`, {
+        const response = await apiFetch(`/api/trivia/games/${game.gameId}/answer`, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ selectedAnswer: choice }),
@@ -216,10 +219,12 @@ export default function TriviaGame({
     return () => window.clearTimeout(timer);
   }, [kickoff]);
   useEffect(() => {
-    if (!game?.waitingForPlayers) return;
-    const timer = window.setInterval(() => void load(game.gameId), 1000);
-    return () => window.clearInterval(timer);
-  }, [game, load]);
+    if (!game?.waitingForPlayers || error) return;
+    const timer = window.setTimeout(() => {
+      void load(game.gameId).catch((cause) => setError((cause as Error).message));
+    }, 1000);
+    return () => window.clearTimeout(timer);
+  }, [error, game, load]);
   const next = useCallback(async () => {
     if (!game) return;
     setBusy(true);
@@ -256,8 +261,16 @@ export default function TriviaGame({
   if (error)
     return (
       <Shell>
-        <Centered icon={<X />} title="Couldn't start the drill" detail={error}>
-          <button onClick={() => void start()} className="trivia-primary-button">
+        <Centered icon={<X />} title="Couldn't load the drill" detail={error}>
+          <button
+            onClick={() => {
+              const id = game?.gameId ?? initialGameId;
+              setError(null);
+              if (id) void load(id).catch((cause) => setError((cause as Error).message));
+              else void start();
+            }}
+            className="trivia-primary-button"
+          >
             Try again
           </button>
           <button onClick={onClose} className="trivia-secondary-button">
@@ -279,14 +292,20 @@ export default function TriviaGame({
       </Shell>
     );
   const runItBack = async () => {
-    if (game.mode !== 'GROUP') return start();
-    const response = await fetch(`/api/trivia/games/${game.gameId}/rematch`, { method: 'POST' });
-    const body = (await response.json()) as { joinCode?: string; error?: string };
-    if (!response.ok || !body.joinCode) {
-      setError(body.error ?? 'Unable to run it back.');
-      return;
+    try {
+      if (game.mode !== 'GROUP') return start();
+      const response = await apiFetch(`/api/trivia/games/${game.gameId}/rematch`, {
+        method: 'POST',
+      });
+      const body = (await response.json()) as { joinCode?: string; error?: string };
+      if (!response.ok || !body.joinCode) {
+        setError(body.error ?? 'Unable to run it back.');
+        return;
+      }
+      window.location.assign(`/trivia?team=${game.teamId}&room=${body.joinCode}`);
+    } catch (cause) {
+      setError((cause as Error).message);
     }
-    window.location.assign(`/trivia?team=${game.teamId}&room=${body.joinCode}`);
   };
   if (phase === 'COMPLETE' || game.completed)
     return <FinalRecap game={game} onPlayAgain={() => void runItBack()} onClose={onClose} />;
@@ -607,9 +626,11 @@ function QuestionPanel({
         ) : null}
         {game.question?.category.replaceAll('_', ' ')}
       </div>
-      <div className="relative p-5 pr-24 sm:pr-28">
+      <div className="relative p-4 sm:p-5">
         <Countdown seconds={seconds} total={game.timerSeconds} />
-        <h2 className="text-xl font-black sm:text-2xl">{game.question?.question}</h2>
+        <h2 className="min-h-20 pr-24 text-xl font-black sm:pr-28 sm:text-2xl">
+          {game.question?.question}
+        </h2>
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
           {answers.map(([choice, text]) => {
             const correct = phase === 'REVEAL' && result?.correctAnswer === choice,

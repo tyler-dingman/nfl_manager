@@ -13,13 +13,14 @@ export function SiteHeaderShell({
 }) {
   return (
     <header
+      data-site-header
       className={cn(
         'sticky top-0 z-[70] box-border border-b shadow-sm',
         tone === 'team'
           ? 'border-white/10 bg-[var(--dark)] text-[var(--team-on-dark)]'
           : tone === 'brand'
             ? 'border-white/20 bg-[#FF3D38] text-white [--team-light-on-dark:#fff] [--team-on-dark:#fff] [--team-secondary-on-dark:#fff]'
-            : 'border-[#00172B]/10 bg-[#FF3D38] text-[#00172B]',
+            : 'border-white/10 bg-[#00172B] text-white [--team-light-on-dark:#fff] [--team-on-dark:#fff] [--team-secondary-on-dark:#fff]',
       )}
     >
       <div className="mx-auto flex h-[var(--site-header-height)] max-w-[1440px] min-w-0 items-center gap-2 px-3 sm:gap-5 sm:px-6 lg:px-8">

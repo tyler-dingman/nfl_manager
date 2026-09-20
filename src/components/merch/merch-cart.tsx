@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import { useDialogFocus } from '@/hooks/use-dialog-focus';
 import Link from 'next/link';
 import {
   createContext,
@@ -59,6 +60,8 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
     [hydrated, setHydrated] = useState(false),
     [placing, setPlacing] = useState(false),
     [stripeCheckout, setStripeCheckout] = useState<PreparedStripeCheckout | null>(null);
+  const dialogRef = useRef<HTMLElement>(null);
+  useDialogFocus(open, dialogRef, () => setOpen(false));
   const checkoutAttemptId = useRef<string | null>(null);
   const [order, setOrder] = useState<OrderConfirmation | null>(null),
     [error, setError] = useState(''),
@@ -308,7 +311,18 @@ export function MerchCartProvider({ children }: { children: ReactNode }) {
             onClick={() => setOpen(false)}
             aria-label="Close cart"
           />
-          <aside className="relative flex h-full w-full max-w-xl flex-col bg-[#f7f4ee] text-[#00172B] shadow-2xl">
+          <aside
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Shopping bag"
+            tabIndex={-1}
+            style={{
+              paddingTop: 'env(safe-area-inset-top)',
+              paddingBottom: 'env(safe-area-inset-bottom)',
+            }}
+            className="relative flex h-full w-full max-w-xl flex-col bg-[#f7f4ee] text-[#00172B] shadow-2xl"
+          >
             <header className="flex items-center justify-between border-b border-[#00172B]/10 px-6 py-5">
               <div>
                 <p className="text-xs font-black uppercase tracking-[.2em] text-[#FF3D38]">
@@ -821,7 +835,10 @@ export function MerchCartButton({ className = '' }: { className?: string }) {
   const { count, openCart } = useMerchCart();
   return (
     <button
-      onClick={openCart}
+      onClick={(event) => {
+        event.currentTarget.focus();
+        openCart();
+      }}
       className={`relative grid h-10 w-10 place-items-center rounded-full border border-[#00172B]/15 ${className}`}
       aria-label={`Open shopping bag with ${count} items`}
     >

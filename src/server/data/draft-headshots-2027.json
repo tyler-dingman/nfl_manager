@@ -1,0 +1,602 @@
+[
+  {
+    "name": "Jeremiah Smith",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Jeremiah-Smith-WR-OhioState",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Jeremiah-Smith-WR-OhioState.png",
+    "localPath": "/assets/draft/headshots/2027/jeremiah-smith.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "918c9c656ade080eae7baf4fb40bbed3e988b2f3bf1887dc3ea24a1daf3df86b"
+  },
+  {
+    "name": "Dante Moore",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Dante-Moore-QB-UCLA",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Dante-Moore-QB-UCLA.png",
+    "localPath": "/assets/draft/headshots/2027/dante-moore.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "329ceee509a49410efa1b862080701117b0774716019eb9ee24a30bfa4e08337"
+  },
+  {
+    "name": "Arch Manning",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Arch-Manning-QB-Texas",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Arch-Manning-QB-Texas.png",
+    "localPath": "/assets/draft/headshots/2027/arch-manning.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "5036fc3815b1e45d49bc77a63740d9acd5060eca7c8f1604d8e5bcf0c0eb0d81"
+  },
+  {
+    "name": "Colin Simmons",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Colin-Simmons-LB-Texas",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Colin-Simmons-LB-Texas.png",
+    "localPath": "/assets/draft/headshots/2027/colin-simmons.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "ae323099ff290fba9ca9134932a18c777b70f0b54f94b709c39822d49b87ae38"
+  },
+  {
+    "name": "Leonard Moore",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Leonard-Moore-CB-NotreDame",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Leonard-Moore-CB-NotreDame.png",
+    "localPath": "/assets/draft/headshots/2027/leonard-moore.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "8c22dd23c1e726dd2139a0d34bccaa1031c35f96afc9d5469a68f585ad0ae97b"
+  },
+  {
+    "name": "Dylan Stewart",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Dylan-Stewart-LB-SouthCarolina",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Dylan-Stewart-LB-SouthCarolina.png",
+    "localPath": "/assets/draft/headshots/2027/dylan-stewart.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "948716e012942d3333913bdf060c37359f20fd7b7bdfeea9eb2d714cb2db9fc4"
+  },
+  {
+    "name": "Julian Sayin",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Julian-Sayin-QB-OhioState",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Julian-Sayin-QB-OhioState.png",
+    "localPath": "/assets/draft/headshots/2027/julian-sayin.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "d41b090d669ee8e6231f12fbd1783b18d1cea0617371e68a9e2c8c4af355d5cb"
+  },
+  {
+    "name": "Cam Coleman",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Cam-Coleman-WR-Auburn",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Cam-Coleman-WR-Auburn.png",
+    "localPath": "/assets/draft/headshots/2027/cam-coleman.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "05703b369cd9883012aeb018b1ca2c1a44663dd38c2767ee907409c1e3f92e01"
+  },
+  {
+    "name": "Matayo Uiagalelei",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Matayo-Uiagalelei-DE-Oregon",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Matayo-Uiagalelei-DE-Oregon.png",
+    "localPath": "/assets/draft/headshots/2027/matayo-uiagalelei.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "7a77876a88760ebf24be73027893543219b2c38440ae703405e9506849135098"
+  },
+  {
+    "name": "Carter Smith",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Carter-Smith-OL-Indiana",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Carter-Smith-OL-Indiana.png",
+    "localPath": "/assets/draft/headshots/2027/carter-smith.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "e38a27ca2ba2222f738148d0652b04e2efd35f74b8459c55f1c93b5cc4af5bfd"
+  },
+  {
+    "name": "Cayden Green",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Cayden-Green-OL-Oklahoma",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Cayden-Green-OL-Oklahoma.png",
+    "localPath": "/assets/draft/headshots/2027/cayden-green.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "5a7442695bafc54c3bda0f811d92c7d80520c00fd5e86c9bbadfe833868b96a1"
+  },
+  {
+    "name": "Ellis Robinson IV",
+    "page": 1,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Ellis-RobinsonIV-CB-Georgia",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Ellis-RobinsonIV-CB-Georgia.png",
+    "localPath": "/assets/draft/headshots/2027/ellis-robinson-iv.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "2dd96830b3ddc8e51e30ed0375efb0871ea3845ea3426ec2ba28a951505bb4ec"
+  },
+  {
+    "name": "Trevor Goosby",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Trevor-Goosby-OL-Texas",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Trevor-Goosby-OL-Texas.png",
+    "localPath": "/assets/draft/headshots/2027/trevor-goosby.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "f44d357778ff323a223656c5abc8d08689eb35fa89a0234141440066a5d82a6b"
+  },
+  {
+    "name": "Will Echoles",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/William-Echoles-DT-OleMiss",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/William-Echoles-DT-OleMiss.png",
+    "localPath": "/assets/draft/headshots/2027/will-echoles.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "8f461f0f3a8e1a22d2390b242fd939d3fc949cf3532550252c2c4cdcfb539dd1"
+  },
+  {
+    "name": "Kyngstonn Viliamu-Asa",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Kyngstonn-ViliamuAsa-LB-NotreDame",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Kyngstonn-ViliamuAsa-LB-NotreDame.png",
+    "localPath": "/assets/draft/headshots/2027/kyngstonn-viliamu-asa.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "bbea9e3cba91ab5adbbd1a9867dd338a627417fcc553c99e6c5fb974422ab84f"
+  },
+  {
+    "name": "KJ Bolden",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/KJ-Bolden-S-Georgia",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/KJ-Bolden-S-Georgia.png",
+    "localPath": "/assets/draft/headshots/2027/kj-bolden.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "289a753e8225ad106f6fee6fd26cb463099d714135345464923bf01acdac7a07"
+  },
+  {
+    "name": "Trey'Dez Green",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/TreyDez-Green-TE-LSU",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/TreyDez-Green-TE-LSU.png",
+    "localPath": "/assets/draft/headshots/2027/trey-dez-green.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "34e776c62616ac949d336cf8cfe6e80a30af779e90d63db64b16347ecd6112a6"
+  },
+  {
+    "name": "Yhonzae Pierre",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Yhonzae-Pierre-LB-Alabama",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Yhonzae-Pierre-LB-Alabama.png",
+    "localPath": "/assets/draft/headshots/2027/yhonzae-pierre.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "d2a9ab1f1cf5ff7d8efd9a03883107557d7cf84cff321555fbf49e11327aaa55"
+  },
+  {
+    "name": "David Stone",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/David-Stone-DL-Oklahoma",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/David-Stone-DL-Oklahoma.png",
+    "localPath": "/assets/draft/headshots/2027/david-stone.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "2041aadc9162a46c121e6ec673f0d808a9528e09198afa565e74d7131df7eebd"
+  },
+  {
+    "name": "Justin Scott",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Justin-Scott-DT-Miami",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Justin-Scott-DT-Miami.png",
+    "localPath": "/assets/draft/headshots/2027/justin-scott.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "62cecd9aa6bfee34fa2435bc77b21fddc7cb5826096ccbc62f9ecc71e8126bb4"
+  },
+  {
+    "name": "Drew Mestemaker",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Drew-Mestemaker-QB-NorthTexas",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Drew-Mestemaker-QB-NorthTexas.png",
+    "localPath": "/assets/draft/headshots/2027/drew-mestemaker.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "94b5d4b922919ad75b7e62d076585577b6ae00f729e42d8b95ec8084f8a94453"
+  },
+  {
+    "name": "A.J. Holmes Jr.",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Anthony-HolmesJr-DL-Houston",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Anthony-HolmesJr-DL-Houston.png",
+    "localPath": "/assets/draft/headshots/2027/a-j-holmes-jr.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "61937017da9f552aa89e575b2f81b0a502335bd937ca31aa8036ee10810f08f8"
+  },
+  {
+    "name": "Jordan Seaton",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Jordan-Seaton-OT-Colorado",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Jordan-Seaton-OT-Colorado.png",
+    "localPath": "/assets/draft/headshots/2027/jordan-seaton.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "e976b5ae58a90ccb85b13ebf6f2b0f9398f34d7fa44ac1affc5854f9ea54adfe"
+  },
+  {
+    "name": "A'Mauri Washington",
+    "page": 2,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/AMauri-Washington-DL-Oregon",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/AMauri-Washington-DL-Oregon.png",
+    "localPath": "/assets/draft/headshots/2027/a-mauri-washington.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "91f08f931fd5077cb3d78f0c75cb028e1a811784f5c856d24149c5b88d3bfc87"
+  },
+  {
+    "name": "CJ Carr",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/CJ-Carr-QB-NotreDame",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/CJ-Carr-QB-NotreDame.png",
+    "localPath": "/assets/draft/headshots/2027/cj-carr.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "0d9674141af266d5aa381c27b66a744f52ea4c833da7f9cf9fc8f55efe9161b1"
+  },
+  {
+    "name": "Sammy Brown",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Sammy-Brown-LB-Clemson",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Sammy-Brown-LB-Clemson.png",
+    "localPath": "/assets/draft/headshots/2027/sammy-brown.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "d65745026c468fa4571679d5378d8de81e2d951f85bc5a927579ad254df3bcdb"
+  },
+  {
+    "name": "Ahmad Hardy",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Ahmad-Hardy-RB-ULMonroe",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Ahmad-Hardy-RB-ULMonroe.png",
+    "localPath": "/assets/draft/headshots/2027/ahmad-hardy.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "5448c2f65a88959d17a23e2431f3eb073f46dc79425e666210e69b3f61dc614d"
+  },
+  {
+    "name": "Chris Cole",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Chris-Cole-LB-Georgia",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Chris-Cole-LB-Georgia.png",
+    "localPath": "/assets/draft/headshots/2027/chris-cole.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "ba4ec61cc33dc03dd2d38d5129d09c045b8663b257d07f41cb2372cc59c7b3a3"
+  },
+  {
+    "name": "Suntarine Perkins",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Suntarine-Perkins-LB-Mississippi",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Suntarine-Perkins-LB-Mississippi.png",
+    "localPath": "/assets/draft/headshots/2027/suntarine-perkins.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "eb5d11115ea04b41aefc03ec0c7a91102e13d81f2be97c590ac8f672ed187b07"
+  },
+  {
+    "name": "Tae Johnson",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Tae-Johnson-S-NotreDame",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Tae-Johnson-S-NotreDame.png",
+    "localPath": "/assets/draft/headshots/2027/tae-johnson.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "7535dcecbab291a85c25b5a1031f4bb6e9d429e45c55f1c4c5157ecbf086f71e"
+  },
+  {
+    "name": "Dashawn Spears",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Dashawn-Spears-S-LSU",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Dashawn-Spears-S-LSU.png",
+    "localPath": "/assets/draft/headshots/2027/dashawn-spears.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "83a33aa957c87156a33646c63fd51cbac65252a56307e522b1924b8fb64e91b1"
+  },
+  {
+    "name": "Jamari Johnson",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Jamari-Johnson-TE-Louisville",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Jamari-Johnson-TE-Louisville.png",
+    "localPath": "/assets/draft/headshots/2027/jamari-johnson.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "8bad5e27abb766b4eca971664d3c16aabd565912a5a5bfb1bba1b4e0df87ecb5"
+  },
+  {
+    "name": "Trevor Lauck",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Trevor-Lauck-OT-Iowa",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Trevor-Lauck-OT-Iowa.png",
+    "localPath": "/assets/draft/headshots/2027/trevor-lauck.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "f024411e9e5fbb6adb933cd47d699d968342c87e73a9a681b1d4564c2c20c062"
+  },
+  {
+    "name": "Charlie Becker",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Charlie-Becker-WR-Indiana",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Charlie-Becker-WR-Indiana.png",
+    "localPath": "/assets/draft/headshots/2027/charlie-becker.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "3092568cc3eed0984b599a839f95499057d4b3dfe71a17239ea4f6bf1cb3a18e"
+  },
+  {
+    "name": "Jadan Baugh",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Jadan-Baugh-RB-Florida",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Jadan-Baugh-RB-Florida.png",
+    "localPath": "/assets/draft/headshots/2027/jadan-baugh.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "e24174bc77d1b16921f3ba05953527de1517a842ff32f2facecd152a9d61ff60"
+  },
+  {
+    "name": "KJ Duff",
+    "page": 3,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/KJ-Duff-WR-Rutgers",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/KJ-Duff-WR-Rutgers.png",
+    "localPath": "/assets/draft/headshots/2027/kj-duff.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "7e50627ca367ad2520021e6bf004e275f9461ffa3fb79d6af48207e665295425"
+  },
+  {
+    "name": "Zabien Brown",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Zabien-Brown-CB-Alabama",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Zabien-Brown-CB-Alabama.png",
+    "localPath": "/assets/draft/headshots/2027/zabien-brown.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "42edbbef6bb3234a4cc49ecbcce4b1317a50f87cf025d186ad63118b50da6b99"
+  },
+  {
+    "name": "Damon Wilson II",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Damon-WilsonII-LB-Georgia",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Damon-WilsonII-LB-Georgia.png",
+    "localPath": "/assets/draft/headshots/2027/damon-wilson-ii.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "01ad5c1d1b6f9d21b8311d6d9675bed62cc1a9e6f7fcf5ca91255a3606231319"
+  },
+  {
+    "name": "Clev Lubin",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Clev-Lubin-LB-Army",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Clev-Lubin-LB-Army.png",
+    "localPath": "/assets/draft/headshots/2027/clev-lubin.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "1e7883f4f5a54efd33b7a04e9554e8c0b8135ce575933f5e43ac5ec1e7745b65"
+  },
+  {
+    "name": "Duce Robinson",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Duce-Robinson-WR-USC",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Duce-Robinson-WR-USC.png",
+    "localPath": "/assets/draft/headshots/2027/duce-robinson.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "820a9ea57d8f47e46284a4fce390d7f76064585205b5da2e8078189d1d36cd51"
+  },
+  {
+    "name": "Kewan Lacy",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Kewan-Lacy-RB-Missouri",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Kewan-Lacy-RB-Missouri.png",
+    "localPath": "/assets/draft/headshots/2027/kewan-lacy.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "2c45c0d83638dd0d80e4a2c15daf3708d7f1d329b889b52dd7cad368221a67c2"
+  },
+  {
+    "name": "Austin Siereveld",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Austin-Siereveld-OL-OhioState",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Austin-Siereveld-OL-OhioState.png",
+    "localPath": "/assets/draft/headshots/2027/austin-siereveld.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "f964295f81b4e6c59e9db72951ad063fff11ec4718614b52f41e87d4cd265bcd"
+  },
+  {
+    "name": "John Henry Daley",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/JohnHenry-Daley-DE-BYU",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/JohnHenry-Daley-DE-BYU.png",
+    "localPath": "/assets/draft/headshots/2027/john-henry-daley.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "a7e7d57002eea186db3d4a3289f7c925fea656cc09a0ae3d41eb9b529575ed8a"
+  },
+  {
+    "name": "Darian Mensah",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Darian-Mensah-QB-Tulane",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Darian-Mensah-QB-Tulane.png",
+    "localPath": "/assets/draft/headshots/2027/darian-mensah.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "a6df1149e1eb3743270b3ea8e8310c25dec44cf3b7d92df80b24fd9e6f19cdc9"
+  },
+  {
+    "name": "Kade Pieper",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Kade-Pieper-OG-Iowa",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Kade-Pieper-OG-Iowa.png",
+    "localPath": "/assets/draft/headshots/2027/kade-pieper.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "c02abac7782d376f72b5f36917814e3a6fcd865c5c7281777cb59d159930fec0"
+  },
+  {
+    "name": "Jelani McDonald",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Jelani-McDonald-DB-Texas",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Jelani-McDonald-DB-Texas.png",
+    "localPath": "/assets/draft/headshots/2027/jelani-mcdonald.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "0a26d0be6cebe60699bde0547eaeb59c32e9647fab55371f0831c463a990a4ab"
+  },
+  {
+    "name": "Ryan Coleman-Williams",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Ryan-Williams-WR-Alabama",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Ryan-Williams-WR-Alabama.png",
+    "localPath": "/assets/draft/headshots/2027/ryan-coleman-williams.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "d7dcf988a796116c2b863d0946778b119fb7842aeec616cec38bf74df541b667"
+  },
+  {
+    "name": "LaNorris Sellers",
+    "page": 4,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/LaNorris-Sellers-QB-SouthCarolina",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/LaNorris-Sellers-QB-SouthCarolina.png",
+    "localPath": "/assets/draft/headshots/2027/lanorris-sellers.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "645996eaeab72cc66d51e4b3dd081340a3c5146246a0dbb8024280d063fc0ba6"
+  },
+  {
+    "name": "Kelley Jones",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Kelley-Jones-CB-MississippiState",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Kelley-Jones-CB-MississippiState.png",
+    "localPath": "/assets/draft/headshots/2027/kelley-jones.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "be24031b2729365defc4f1f7bfae30a4ed9637eeb53fe0a6369800cb7163b67c"
+  },
+  {
+    "name": "Will Heldt",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Will-Heldt-LB-Purdue",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Will-Heldt-LB-Purdue.png",
+    "localPath": "/assets/draft/headshots/2027/will-heldt.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "a35539c8243d06032493cb4f227fcb7fac4ced1dfcb753fbb1269b6c1d456214"
+  },
+  {
+    "name": "Trinidad Chambliss",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Trinidad-Chambliss-QB-OleMiss",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Trinidad-Chambliss-QB-OleMiss.png",
+    "localPath": "/assets/draft/headshots/2027/trinidad-chambliss.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "54069c6167270c4d5f6dbd05b53b4a321e76e31797fcd9fc29a47d9d94d0db54"
+  },
+  {
+    "name": "Jacarrius Peak",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Jacarrius-Peak-OL-NCState",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Jacarrius-Peak-OL-NCState.png",
+    "localPath": "/assets/draft/headshots/2027/jacarrius-peak.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "903201cbb7d2244a6746c27fa9ef04f5eb9ff10d01297f457a5ab96f5bcf4ae2"
+  },
+  {
+    "name": "Boubacar Traore",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Boubacar-Traore-DL-NotreDame",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Boubacar-Traore-DL-NotreDame.png",
+    "localPath": "/assets/draft/headshots/2027/boubacar-traore.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "e42731d16aff673e8c0ea3543c8f1c0fde800ccf71e9eb528b6b21d25da0ce84"
+  },
+  {
+    "name": "PJ Williams",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/PJ-Williams-OL-SMU",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/PJ-Williams-OL-SMU.png",
+    "localPath": "/assets/draft/headshots/2027/pj-williams.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "8d412c7b8c815ef78310c7cc38c5c813dcf3c8c373044b3e32cc9eaf0fbd8529"
+  },
+  {
+    "name": "Bryant Wesco Jr.",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Bryant-WescoJr-WR-Clemson",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Bryant-WescoJr-WR-Clemson.png",
+    "localPath": "/assets/draft/headshots/2027/bryant-wesco-jr.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "194443b6f20e41f6f769fd96268a735db421ebfed0083e40404e2856b31e8617"
+  },
+  {
+    "name": "Ryan Wingo",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Ryan-Wingo-WR-Texas",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Ryan-Wingo-WR-Texas.png",
+    "localPath": "/assets/draft/headshots/2027/ryan-wingo.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "8f7422af936cff63e5529755deb4686628e4c5dce60f84130cab818edf5c274a"
+  },
+  {
+    "name": "Nate Frazier",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Nate-Frazier-RB-Georgia",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Nate-Frazier-RB-Georgia.png",
+    "localPath": "/assets/draft/headshots/2027/nate-frazier.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "851248700b2d8621a50d9efbe8d98528d0861c419f2b3909e49872d4a06e20ce"
+  },
+  {
+    "name": "Nick Marsh",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Nick-Marsh-WR-MichiganState",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Nick-Marsh-WR-MichiganState.png",
+    "localPath": "/assets/draft/headshots/2027/nick-marsh.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "07ce5043f4278f6ec437c27a99085e3cec08e049501ab29d103223b4cbac889b"
+  },
+  {
+    "name": "Ashton Hampton",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Ashton-Hampton-CB-Clemson",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Ashton-Hampton-CB-Clemson.png",
+    "localPath": "/assets/draft/headshots/2027/ashton-hampton.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "608372704332f1f68323355e87579e0e0604dcd7f9de66a9cac52aad54ded908"
+  },
+  {
+    "name": "Kenyatta Jackson Jr.",
+    "page": 5,
+    "profileUrl": "https://www.nfldraftbuzz.com/Player/Kenyatta-Jackson-DE-OhioState",
+    "imageUrl": "https://www.nfldraftbuzz.com/Content/PlayerHeadShots/Kenyatta-Jackson-DE-OhioState.png",
+    "localPath": "/assets/draft/headshots/2027/kenyatta-jackson-jr.png",
+    "width": 600,
+    "height": 436,
+    "sha256": "3f338ca8ee902a5b4345edbfbc7fb1ead9c9bea4315202f1cd1985e400eff24f"
+  }
+]

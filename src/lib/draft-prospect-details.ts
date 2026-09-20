@@ -1,3 +1,4 @@
+import { getDraftHeadshot } from '@/lib/draft-headshots';
 import type { DraftBoardEntry } from '@/lib/draft-board';
 import {
   generateDraftProspectSummary,
@@ -263,8 +264,11 @@ export const buildProspectDetailsModel = ({
   return {
     name: `${player.firstName} ${player.lastName}`.trim(),
     position: player.position,
-    school: player.college ?? 'School TBD',
-    headshotUrl: player.headshotUrl ?? null,
+    school: player.college ?? player.school ?? 'School TBD',
+    headshotUrl:
+      getDraftHeadshot(`${player.firstName} ${player.lastName}`)?.localPath ??
+      player.headshotUrl ??
+      null,
     ratingDisplay: rating ? String(rating) : 'N/A',
     projectedRange: getProjectedRange(player),
     indicators,

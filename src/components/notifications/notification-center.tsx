@@ -9,6 +9,10 @@ import {
   DdArticlesIcon as Newspaper,
 } from '@/components/ui/football-icons';
 
+import {
+  useDraftTradeNotifications,
+  unreadDraftOffers,
+} from '@/features/draft/trade-notifications';
 import { useAuthUser } from '@/features/auth/auth-session';
 import { notificationMatchesTeamScope } from '@/lib/notification-scope';
 
@@ -46,6 +50,12 @@ const relativeTime = (value: string) => {
 
 export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | null }) {
   const router = useRouter();
+  const draft = useDraftTradeNotifications();
+  const tradeUnread = unreadDraftOffers(draft);
+  const draftActive = Boolean(draft.session);
+  useEffect(() => {
+    if (draftActive) setOpen(false);
+  }, [draftActive]);
   const { user, hydrated } = useAuthUser();
   const rootRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -107,7 +117,26 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
   }, [load, open, user]);
   useEffect(() => {
     if (!open) return;
+    const overflow = document.body.style.overflow;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    document.body.style.overflow = 'hidden';
     const close = (event: KeyboardEvent | MouseEvent) => {
+      if (event instanceof KeyboardEvent && event.key === 'Tab') {
+        const nodes = Array.from(
+          rootRef.current?.querySelectorAll<HTMLElement>(
+            '[role="dialog"] button:not(:disabled), [role="dialog"] a[href]',
+          ) ?? [],
+        ).filter((e) => e.getClientRects().length);
+        const first = nodes[0],
+          last = nodes[nodes.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
       if (event instanceof KeyboardEvent && event.key === 'Escape') setOpen(false);
       if (event instanceof MouseEvent && !rootRef.current?.contains(event.target as Node))
         setOpen(false);
@@ -115,6 +144,8 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
     document.addEventListener('keydown', close);
     document.addEventListener('mousedown', close);
     return () => {
+      document.body.style.overflow = overflow;
+      previousFocus?.focus();
       document.removeEventListener('keydown', close);
       document.removeEventListener('mousedown', close);
     };
@@ -147,31 +178,42 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
       <button
         type="button"
         onClick={() => {
+          if (draftActive) {
+            useDraftTradeNotifications.setState({ drawerOpen: true });
+            return;
+          }
           if (hydrated && !user) router.push('/login?next=/');
           else setOpen((value) => !value);
         }}
         className="relative flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] transition hover:bg-white/10"
-        aria-label={count ? `Notifications, ${count} unread` : 'Notifications'}
-        aria-expanded={open}
+        data-notification-bell
+        aria-label={
+          count + tradeUnread ? `Notifications, ${count + tradeUnread} unread` : 'Notifications'
+        }
+        aria-expanded={draftActive ? draft.drawerOpen : open}
         aria-haspopup="dialog"
       >
         <Bell className="h-4 w-4" />
-        {count > 0 ? (
+        {count + tradeUnread > 0 ? (
           <span className="absolute -right-1 -top-1 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-[var(--team-secondary)] px-1 text-[9px] font-black leading-none text-[var(--team-on-secondary)] ring-2 ring-[var(--dark)]">
-            {count > 9 ? '9+' : count}
+            {count + tradeUnread > 9 ? '9+' : count + tradeUnread}
           </span>
         ) : null}
       </button>
       {open ? (
         <>
-          <div className="fixed inset-0 z-40 bg-black/30 sm:hidden" aria-hidden="true" />
+          <div
+            className="fixed inset-0 z-40 bg-black/30 sm:hidden"
+            aria-hidden="true"
+            onClick={() => setOpen(false)}
+          />
           <section
             role="dialog"
             aria-modal="true"
             aria-label="Notification Center"
-            className="fixed inset-x-3 top-16 z-50 flex max-h-[calc(100dvh-5rem)] flex-col overflow-hidden rounded-3xl bg-white text-[#00172B] shadow-2xl sm:absolute sm:inset-x-auto sm:right-0 sm:top-12 sm:h-auto sm:max-h-[min(680px,calc(100vh-7rem))] sm:w-[440px]"
+            className="notification-dialog fixed inset-x-3 top-16 z-50 flex max-h-[calc(100dvh-5rem)] flex-col overflow-hidden rounded-3xl bg-white text-[#00172B] shadow-2xl sm:absolute sm:inset-x-auto sm:right-0 sm:top-12 sm:h-auto sm:max-h-[min(680px,calc(100vh-7rem))] sm:w-[440px]"
           >
-            <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+            <header className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-5 py-4">
               <h2 className="text-sm font-black uppercase tracking-[0.18em]">Notifications</h2>
               <div className="flex items-center gap-2">
                 {count ? (

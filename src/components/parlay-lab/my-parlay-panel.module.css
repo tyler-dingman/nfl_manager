@@ -20,22 +20,36 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 18px;
+  padding: 1.1rem;
+  gap: 0.7rem;
   border-bottom: 1px solid #e2e8ee;
   background: #fff;
 }
-.panel h2 {
+.panel > header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #071b30;
+  font-family: var(--font-headline), var(--font-sans), sans-serif;
+  line-height: 1.25;
   margin: 0;
   font-size: 1.35rem;
   font-weight: 900;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.025em;
   text-transform: none;
+}
+.panel h2 > svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  color: var(--team-primary-text);
+  stroke-width: 2;
 }
 .panel h2 span {
   display: inline-grid;
   min-width: 28px;
   height: 28px;
-  margin-left: 6px;
+  flex-shrink: 0;
   place-items: center;
   border-radius: 999px;
   background: #071b30;
@@ -46,6 +60,9 @@
   border: 0;
   background: none;
   color: #0871c9;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  white-space: nowrap;
   font-weight: 800;
   cursor: pointer;
 }
@@ -407,8 +424,13 @@
   .panel {
     position: static;
     max-height: none;
-    overflow: hidden;
+    overflow: visible;
+    overscroll-behavior: auto;
     scrollbar-gutter: auto;
+  }
+  .panel > header {
+    position: static;
+    border-radius: 18px 18px 0 0;
   }
   .metrics {
     grid-template-columns: repeat(2, 1fr);

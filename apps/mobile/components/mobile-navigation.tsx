@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { type Href, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTeamBranding } from '../lib/team-branding';
 import { getUnreadNotificationCount } from '../lib/api';
 
@@ -59,6 +60,7 @@ export function MobileHeaderActions() {
 }
 
 export function MobileMenuButton() {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { logoSource, teamId, theme } = useTeamBranding();
@@ -86,7 +88,17 @@ export function MobileMenuButton() {
             onPress={() => setOpen(false)}
             style={s.scrim}
           />
-          <View style={[s.drawer, { backgroundColor: theme.dark }]}>
+          <View
+            style={[
+              s.drawer,
+              {
+                backgroundColor: theme.dark,
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
+                paddingLeft: insets.left,
+              },
+            ]}
+          >
             <View style={[s.drawerHeader, { borderBottomColor: theme.secondary }]}>
               <Image
                 accessibilityLabel={`${teamId} Down & Distance`}
@@ -96,6 +108,12 @@ export function MobileMenuButton() {
               />
               <Pressable
                 accessibilityLabel="Close navigation menu"
+                style={{
+                  minWidth: 44,
+                  minHeight: 44,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
                 hitSlop={10}
                 onPress={() => setOpen(false)}
               >
@@ -143,7 +161,7 @@ const s = StyleSheet.create({
   drawer: { width: '84%', maxWidth: 360, height: '100%', backgroundColor: '#081824' },
   drawerHeader: {
     minHeight: 112,
-    paddingTop: 52,
+    paddingTop: 12,
     paddingHorizontal: 20,
     paddingBottom: 14,
     flexDirection: 'row',

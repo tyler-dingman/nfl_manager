@@ -1,3 +1,4 @@
+import { getDraftHeadshot } from '@/lib/draft-headshots';
 import { readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -70,6 +71,7 @@ const main = async () => {
 
   const prospects: DraftProspectRecord[] = board.prospects.map((entry) => {
     const profile = profiles.get(normalizeName(entry.name));
+    const localHeadshot = getDraftHeadshot(entry.name);
     const range = projectedRange(entry.sourceRank);
     const size = [entry.height, entry.weight ? `${entry.weight} pounds` : null]
       .filter(Boolean)
@@ -90,10 +92,18 @@ const main = async () => {
       confidence: 'high',
       espnPlayerId: profile?.espnPlayerId ?? null,
       espnProfileUrl: profile?.espnProfileUrl ?? null,
-      headshotUrl: profile?.headshotUrl ?? null,
-      headshotSource: profile?.headshotUrl ? 'espn-profile-cache' : null,
-      headshotStatus: profile?.headshotUrl ? 'verified-cache-match' : 'fallback',
-      headshotSourceUrl: profile?.espnProfileUrl ?? null,
+      headshotUrl: localHeadshot?.localPath ?? profile?.headshotUrl ?? null,
+      headshotSource: localHeadshot
+        ? 'nfl-draft-buzz'
+        : profile?.headshotUrl
+          ? 'espn-profile-cache'
+          : null,
+      headshotStatus: localHeadshot
+        ? 'verified-name-match'
+        : profile?.headshotUrl
+          ? 'verified-cache-match'
+          : 'fallback',
+      headshotSourceUrl: localHeadshot?.profileUrl ?? profile?.espnProfileUrl ?? null,
       age: profile?.age ?? null,
       classYear: '2027 Draft',
       height: entry.height,

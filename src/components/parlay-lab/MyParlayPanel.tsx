@@ -1,20 +1,21 @@
 'use client';
-
 import {
+  Target,
+  FlaskConical,
+  Trophy,
   BarChart3,
   ExternalLink,
-  FlaskConical,
   Plus,
   Save as SaveIcon,
-  Target,
   TriangleAlert,
-  Trophy,
   X,
 } from 'lucide-react';
+
+import { DdShareIcon as Share2 } from '@/components/ui/football-icons';
+
 import {
   DdDownloadIcon as Download,
   DdMessagesIcon as MessageCircle,
-  DdShareIcon as Share2,
 } from '@/components/ui/football-icons';
 import { useMemo, useState } from 'react';
 import type { Sportsbook } from '@/server/odds/sportsbooks';
@@ -183,7 +184,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
       ? `Best sportsbook fit: ${best.sportsbook.name} (${best.matchedLegs}/${best.totalLegs})`
       : 'No single sportsbook match found.',
     '',
-    'Built with the Down & Distance Parlay Lab — https://downdistance.com/parlay-lab',
+    'Built with the Down & Distance The Parlay Bus — https://downdistance.com/parlay-lab',
   ].join('\n');
   const saveImage = async () => {
     const canvas = document.createElement('canvas');
@@ -220,7 +221,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
     }
     ctx.fillStyle = '#071b30';
     ctx.font = '900 48px Arial';
-    ctx.fillText('PARLAY LAB', 270, 94);
+    ctx.fillText('THE PARLAY BUS', 270, 94);
     ctx.fillStyle = '#60758a';
     ctx.font = '700 22px Arial';
     ctx.fillText('DOWN & DISTANCE', 272, 126);
@@ -310,7 +311,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
     link.click();
   };
   const share = async () => {
-    if (navigator.share) await navigator.share({ title: 'Down & Distance Parlay Lab', text });
+    if (navigator.share) await navigator.share({ title: 'Down & Distance The Parlay Bus', text });
     else {
       await navigator.clipboard.writeText(text);
       setMessage('Parlay copied to your clipboard.');
@@ -321,6 +322,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
       <aside className={styles.panel}>
         <header>
           <h2>
+            <FlaskConical aria-hidden="true" />
             My Parlay <span>0</span>
           </h2>
         </header>
@@ -335,6 +337,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
     <aside className={styles.panel}>
       <header>
         <h2>
+          <FlaskConical aria-hidden="true" />
           My Parlay <span>{props.legs.length}</span>
         </h2>
         <button onClick={props.onClear}>Clear All</button>

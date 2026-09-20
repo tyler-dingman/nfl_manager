@@ -65,7 +65,7 @@ export default function RewardsPage() {
           <p className="text-xs font-black uppercase tracking-[0.25em] text-[#FF3D38]">
             Move The Chains
           </p>
-          <h1 className="mt-2 text-5xl font-black sm:text-7xl">Engagement Rewards</h1>
+          <h1 className="mt-2 break-words text-4xl font-black sm:text-7xl">Engagement Rewards</h1>
           {error ? (
             <div className="mt-8 rounded-3xl bg-white p-8 text-lg font-bold">{error}</div>
           ) : null}

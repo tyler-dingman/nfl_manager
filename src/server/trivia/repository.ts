@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { normalizeTriviaStats } from '@/features/trivia/stats';
 
 import { authDb } from '@/server/auth/database';
 import { awardYardsInTransaction } from '@/server/rewards/repository';
@@ -117,18 +118,7 @@ export async function getTriviaStats(userId: string) {
       correct_answers AS "correctAnswers", games_played AS "gamesPlayed", current_streak AS "currentStreak", best_streak AS "bestStreak",
       CASE WHEN questions_answered = 0 THEN 0 ELSE round(correct_answers::numeric / questions_answered * 100, 1) END AS accuracy
     FROM trivia_stats WHERE user_id = ${userId}`;
-  return (
-    rows[0] ?? {
-      lifetimePoints: 0,
-      weeklyPoints: 0,
-      questionsAnswered: 0,
-      correctAnswers: 0,
-      gamesPlayed: 0,
-      currentStreak: 0,
-      bestStreak: 0,
-      accuracy: 0,
-    }
-  );
+  return normalizeTriviaStats(rows[0]);
 }
 
 export async function startTriviaGame(

@@ -1,5 +1,7 @@
 'use client';
 
+import { createPortal } from 'react-dom';
+
 import type { TeamDTO } from '@/types/team';
 import type { PlayerRowDTO } from '@/types/player';
 
@@ -13,8 +15,12 @@ type PickAnnouncementProps = {
 export function PickAnnouncement({ open, team, player, grade }: PickAnnouncementProps) {
   if (!open || !player) return null;
 
-  return (
-    <div className="pointer-events-none fixed inset-x-0 top-6 z-40 flex justify-center px-4">
+  return createPortal(
+    <div
+      style={{ zIndex: 2200 }}
+      role="status"
+      className="front-office-app pointer-events-none fixed inset-x-0 top-6 flex justify-center px-4"
+    >
       <div className="w-full max-w-2xl rounded-2xl border border-slate-800 bg-slate-950/95 px-5 py-4 text-white shadow-2xl backdrop-blur">
         <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-300">
           The Pick Is In
@@ -31,6 +37,7 @@ export function PickAnnouncement({ open, team, player, grade }: PickAnnouncement
           </div>
         ) : null}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

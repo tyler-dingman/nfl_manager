@@ -10,9 +10,14 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: generate or deliver
+        description: Generate, deliver, or check deployment readiness
         required: true
         default: generate
+        type: choice
+        options:
+          - generate
+          - deliver
+          - check
 
 concurrency:
   group: three-and-out-daily

@@ -2,20 +2,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const home = readFileSync(new URL('./ParlayLabHome.tsx', import.meta.url), 'utf8');
-const game = readFileSync(new URL('./ParlayLabPage.tsx', import.meta.url), 'utf8');
-const trends = readFileSync(
-  new URL('../../app/parlay-lab/trends/page.tsx', import.meta.url),
-  'utf8',
-);
-
-test('all Parlay Lab surfaces use generic Down & Distance branding with white header controls', () => {
-  for (const source of [home, game]) {
-    assert.match(source, /<TeamThemeProvider>/);
-    assert.match(source, /<MainSiteHeader active="parlay-lab" tone="brand" \/>/);
-    assert.doesNotMatch(source, /<TeamThemeProvider team=/);
+test('all The Parlay Bus surfaces use generic branding and Merch header colors', () => {
+  for (const name of ['ParlayLabHome', 'ParlayLabPage', 'ParlayLabExplorePage', 'MyPlaysPage']) {
+    const source = readFileSync(new URL(`./${name}.tsx`, import.meta.url), 'utf8');
+    assert.match(source, /<MainSiteHeader active="parlay-lab" tone="merch" \/>/);
     assert.doesNotMatch(source, /<MainSiteHeader teamAbbr=/);
+    assert.doesNotMatch(source, /<TeamThemeProvider team=/);
   }
-  assert.match(trends, /<MainSiteHeader active="parlay-lab" tone="brand" \/>/);
-  assert.doesNotMatch(trends, /teamAbbr=/);
 });

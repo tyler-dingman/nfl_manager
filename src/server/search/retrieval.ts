@@ -1,8 +1,8 @@
 import type { SearchResponse, SearchResult } from '@/features/search/types';
 import { reciprocalRankFusion } from '@/server/search/core';
 import { searchDb } from '@/server/search/database';
-import { buildDeterministicSearchAnswer } from '@/server/search/deterministic-answer';
-import { BgeHttpEmbeddingProvider, OllamaAnswerProvider } from '@/server/search/providers';
+import { answerSearch } from './answer-engine';
+import { BgeHttpEmbeddingProvider } from '@/server/search/providers';
 
 const asResult = (row: any, score: number): SearchResult => ({
   id: row.parent_id,
@@ -32,6 +32,7 @@ export async function hybridSearch({
   limit?: number;
   includeAnswer?: boolean;
 }): Promise<SearchResponse> {
+  if (includeAnswer) return answerSearch({ query, teamId });
   const started = Date.now();
   const sql = searchDb();
   const lexicalStarted = Date.now();
@@ -68,34 +69,11 @@ export async function hybridSearch({
   ]);
   const byId = new Map([...lexical, ...vector].map((row) => [row.parent_id, row]));
   const results = fused.slice(0, limit).map(([id, score]) => asResult(byId.get(id), score));
-  let answer: string | undefined;
-  let answerMs: number | null = null;
-  if (includeAnswer && results.length) {
-    try {
-      const answerStarted = Date.now();
-      if ((process.env.SEARCH_ANSWER_PROVIDER ?? 'deterministic') === 'ollama') {
-        answer = await new OllamaAnswerProvider().answer(
-          query,
-          results.slice(0, 6).map((result) => ({
-            id: result.id,
-            title: result.title,
-            content: `${result.summary}\n${byId.get(result.id)?.content ?? ''}`,
-          })),
-        );
-      } else {
-        answer = buildDeterministicSearchAnswer(query, results);
-      }
-      answerMs = Date.now() - answerStarted;
-    } catch (error) {
-      console.warn('[search] grounded answer unavailable; returning results only', error);
-    }
-  }
   const response: SearchResponse = {
     query,
-    ...(answer ? { answer } : {}),
     results,
     sources: results.map((result) => ({ id: result.id, title: result.title, url: result.url })),
-    timing: { totalMs: Date.now() - started, lexicalMs, vectorMs, answerMs },
+    timing: { totalMs: Date.now() - started, lexicalMs, vectorMs, answerMs: null },
   };
   console.info(
     JSON.stringify({ metric: 'search_complete', resultCount: results.length, ...response.timing }),

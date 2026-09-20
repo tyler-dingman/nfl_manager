@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
@@ -120,12 +119,45 @@ function TeamGateway({
 }
 
 export default function DownDistanceHome() {
-  const router = useRouter();
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  useEffect(() => {
+    if (!isSearchOpen) return;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document
+      .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')
+      ?.focus();
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsSearchOpen(false);
+      if (event.key !== 'Tab') return;
+      const dialog = document.querySelector('[aria-label="Search Down & Distance"]');
+      const nodes = Array.from(
+        dialog?.querySelectorAll<HTMLElement>('input, select, button:not(:disabled), a[href]') ??
+          [],
+      ).filter((e) => e.getClientRects().length);
+      const first = nodes[0],
+        last = nodes[nodes.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      document.body.style.overflow = overflow;
+      previousFocus?.focus();
+      window.removeEventListener('keydown', handleKey);
+    };
+  }, [isSearchOpen]);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [aiSearchQuery, setAiSearchQuery] = useState('');
   const [hasSelectedTeam, setHasSelectedTeam] = useState(false);
@@ -344,14 +376,6 @@ export default function DownDistanceHome() {
     ],
     [activeTeam?.abbr, displayedWireItems, huddleCards, latestFilmRoomVideos, teamAbbr, teamName],
   );
-  const normalizedSearchQuery = searchQuery.trim().toLowerCase();
-  const searchResults = normalizedSearchQuery
-    ? searchItems.filter((item) =>
-        `${item.category} ${item.title} ${item.description}`
-          .toLowerCase()
-          .includes(normalizedSearchQuery),
-      )
-    : searchItems.slice(0, 6);
 
   return (
     <TeamThemeProvider team={activeTeam}>
@@ -372,7 +396,7 @@ export default function DownDistanceHome() {
         ) : null}
         {isSearchOpen ? (
           <div
-            className="fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 flex items-start justify-center overflow-hidden bg-slate-950/75 px-4 py-4 backdrop-blur-sm sm:py-8"
+            className="mobile-search-overlay fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 flex items-start justify-center overflow-hidden bg-slate-950/75 px-4 py-4 backdrop-blur-sm sm:py-8"
             role="dialog"
             aria-modal="true"
             aria-label="Search Down & Distance"
@@ -380,80 +404,21 @@ export default function DownDistanceHome() {
               if (event.currentTarget === event.target) setIsSearchOpen(false);
             }}
           >
-            <div className="flex max-h-full w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-white shadow-2xl">
-              <div className="flex items-center gap-3 border-b border-slate-200 px-5">
-                <Search className="h-5 w-5 shrink-0 text-slate-400" />
-                <input
-                  autoFocus
-                  value={searchQuery}
-                  onChange={(event) => setSearchQuery(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Escape') setIsSearchOpen(false);
-                    if (event.key === 'Enter' && searchResults[0]) {
-                      event.preventDefault();
-                      setIsSearchOpen(false);
-                      setSearchQuery('');
-                      router.push(searchResults[0].href);
-                    }
-                  }}
-                  placeholder={`Search ${teamName} stories, videos, roster info...`}
-                  className="h-16 min-w-0 flex-1 bg-transparent text-base font-semibold outline-none placeholder:text-slate-400"
-                />
-                <button
-                  type="button"
-                  onClick={() => setIsSearchOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200"
-                  aria-label="Close search"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-              <div className="min-h-0 flex-1 overflow-y-auto p-3">
-                <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">
-                  {normalizedSearchQuery ? `${searchResults.length} results` : 'Suggested'}
-                </p>
-                {searchResults.length ? (
-                  searchResults.map((item) => (
-                    <Link
-                      key={`${item.category}-${item.title}`}
-                      href={item.href}
-                      onClick={() => {
-                        setIsSearchOpen(false);
-                        setSearchQuery('');
-                      }}
-                      className="group flex items-start gap-4 rounded-2xl px-3 py-3 transition hover:bg-slate-100"
-                    >
-                      <span className="team-primary-filled mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
-                        <Search className="h-4 w-4" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-[var(--team-primary-text)]">
-                          {item.category}
-                        </span>
-                        <span className="mt-1 block font-bold leading-5 text-slate-950">
-                          {item.title}
-                        </span>
-                        <span className="mt-1 block truncate text-xs text-slate-500">
-                          {item.description}
-                        </span>
-                      </span>
-                      <ArrowRight className="mt-3 h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-1 group-hover:text-slate-600" />
-                    </Link>
-                  ))
-                ) : (
-                  <div className="px-4 py-12 text-center">
-                    <Search className="mx-auto h-8 w-8 text-slate-300" />
-                    <p className="mt-3 font-bold text-slate-700">No results for “{searchQuery}”</p>
-                    <p className="mt-1 text-sm text-slate-500">
-                      Try a player, topic, video, or feature.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
+            <AiSearchPanel
+              variant="overlay"
+              teamId={activeTeam?.abbr ?? ''}
+              teamName={teamName}
+              teamCity={activeTeam?.city ?? teamName}
+              primaryColor={activeTeam?.color_primary ?? '#00172b'}
+              nickname={activeTeam?.name.split(/\s+/).at(-1) ?? 'NFL'}
+              query={searchQuery}
+              onQueryChange={setSearchQuery}
+              onClose={() => setIsSearchOpen(false)}
+              quickLinks={searchItems}
+            />
           </div>
         ) : null}
-        <SiteHeaderShell>
+        <SiteHeaderShell tone={activeTeam ? 'team' : 'merch'}>
           <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
           <PrimaryNavigation teamAbbr={activeTeam?.abbr} active="huddle" showMobile={false} />
           <div className="ml-auto flex min-w-0 items-center gap-2">

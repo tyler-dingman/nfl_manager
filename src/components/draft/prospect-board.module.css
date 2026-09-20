@@ -565,3 +565,57 @@
     max-height: 560px;
   }
 }
+
+/* Phone cards retain every field and action without a desktop-width grid. */
+@media (max-width: 780px) {
+  .layout,
+  .layout > *,
+  .filters,
+  .prospectList {
+    min-width: 0;
+  }
+  .viewTabs {
+    flex-wrap: wrap;
+  }
+  .prospectRow,
+  .draftedRow {
+    grid-template-columns: 30px minmax(0, 1fr) 44px;
+    gap: 8px;
+    padding: 12px;
+  }
+  .playerCell {
+    min-width: 0;
+  }
+  .playerCell b {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .prospectRow > :nth-child(4),
+  .draftedRow > :nth-child(4) {
+    display: flex;
+    grid-column: 2 / -1;
+  }
+  .prospectRow > :nth-child(5),
+  .draftedRow > :nth-child(5) {
+    display: block;
+    grid-column: 2 / -1;
+  }
+  .grade {
+    grid-column: 2;
+  }
+  .actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+  .actions button,
+  .boardRow button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .boardRow {
+    grid-template-columns: 18px 24px minmax(0, 1fr) 44px;
+  }
+  .boardRow > button {
+    grid-row: auto;
+  }
+}

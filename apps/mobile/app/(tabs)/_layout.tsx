@@ -1,3 +1,4 @@
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -14,6 +15,7 @@ const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   account: 'person',
 };
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
   const { theme } = useTeamBranding();
   return (
     <Tabs
@@ -24,10 +26,12 @@ export default function TabLayout() {
         headerLeft: () => <MobileMenuButton />,
         headerTitle: () => <MobileHeaderLogo />,
         headerRight: () => <MobileHeaderActions />,
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: '#667786',
         tabBarStyle: {
-          height: 84,
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom,
           paddingTop: 8,
           backgroundColor: '#fff',
           borderTopColor: '#e8e1d7',

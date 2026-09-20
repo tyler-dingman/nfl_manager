@@ -85,7 +85,8 @@ type SaveRestorePayload = {
   createdAt?: string;
 };
 
-const getTradePickYearsForLeagueYear = (year: number) => [year, year + 1] as const;
+const getTradePickYearsForLeagueYear = (year: number) =>
+  [year, year + 1, year + 2, year + 3] as const;
 
 const saveStore = new Map<string, SaveState>();
 let otcRowsCache: OtcFreeAgencyRow[] | null = null;
@@ -478,6 +479,17 @@ const sortDraftPickAssets = (assets: TradePickAssetDTO[]) =>
 const ensureDraftPickAssets = (state: SaveState): TradePickAssetDTO[] => {
   if (!state.draftPickAssets || state.draftPickAssets.length === 0) {
     state.draftPickAssets = buildInitialDraftPickAssets(getLeagueYearForSave(state));
+  }
+  const existingYears = new Set(state.draftPickAssets.map((pick) => pick.year));
+  const missingYears = getTradePickYearsForLeagueYear(getLeagueYearForSave(state)).filter(
+    (year) => !existingYears.has(year),
+  );
+  if (missingYears.length) {
+    state.draftPickAssets.push(
+      ...buildInitialDraftPickAssets(getLeagueYearForSave(state)).filter((pick) =>
+        missingYears.includes(pick.year),
+      ),
+    );
   }
   return state.draftPickAssets;
 };

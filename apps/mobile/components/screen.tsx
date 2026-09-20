@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTeamBranding } from '../lib/team-branding';
 export const C = {
   navy: '#081824',
@@ -12,8 +13,16 @@ export const C = {
 };
 export function Screen({ children }: PropsWithChildren) {
   return (
-    <SafeAreaView style={s.safe}>
-      <ScrollView contentContainerStyle={s.body}>{children}</ScrollView>
+    <SafeAreaView style={s.safe} edges={['left', 'right', 'bottom']}>
+      <KeyboardAvoidingView style={s.safe} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          contentContainerStyle={s.body}
+        >
+          {children}
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

@@ -139,18 +139,20 @@ export default function FilmRoomVideoModal({
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={describedBy}
-        className="relative flex max-h-[100dvh] w-full max-w-[1480px] flex-col overflow-y-auto border border-white/15 bg-[#151616] text-white shadow-[0_28px_100px_rgba(0,0,0,0.7)] sm:max-h-[94dvh] sm:w-[min(94vw,calc(((94dvh-23rem)*16/9+2.5rem)*1.65))] sm:rounded-2xl lg:w-[min(88vw,calc(((94dvh-23rem)*16/9+5rem)*1.65))]"
+        className="film-room-video-dialog relative flex max-h-[100dvh] w-full max-w-[1480px] flex-col overflow-y-auto border border-white/15 bg-[#151616] text-white shadow-[0_28px_100px_rgba(0,0,0,0.7)] sm:max-h-[94dvh] sm:w-[min(94vw,calc(((94dvh-23rem)*16/9+2.5rem)*1.65))] sm:rounded-2xl lg:w-[min(88vw,calc(((94dvh-23rem)*16/9+5rem)*1.65))]"
         onMouseDown={(event) => event.stopPropagation()}
       >
-        <button
-          ref={closeButtonRef}
-          type="button"
-          onClick={onClose}
-          aria-label="Close video player"
-          className="absolute right-3 top-3 z-10 grid h-12 w-12 place-items-center rounded-full bg-[var(--dark)] text-[var(--team-on-dark)] shadow-lg transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-4 sm:top-4"
-        >
-          <X className="h-7 w-7" aria-hidden="true" />
-        </button>
+        <div className="sticky top-0 z-10 h-0 shrink-0">
+          <button
+            ref={closeButtonRef}
+            type="button"
+            onClick={onClose}
+            aria-label="Close video player"
+            className="absolute right-3 top-3 z-10 grid h-12 w-12 place-items-center rounded-full bg-[var(--dark)] text-[var(--team-on-dark)] shadow-lg transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-4 sm:top-4"
+          >
+            <X className="h-7 w-7" aria-hidden="true" />
+          </button>
+        </div>
 
         <div className="p-0 sm:p-5 lg:p-10 lg:pb-5">
           <div className="aspect-video w-full overflow-hidden bg-black sm:mx-auto sm:rounded-lg">

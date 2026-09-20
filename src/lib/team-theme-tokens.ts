@@ -4,7 +4,7 @@ import {
   getReadableTextColor,
   mixHexColors,
 } from '@/lib/color-utils';
-import { getTeamBrandTheme } from '@/lib/team-brand-themes';
+import { TEAM_BRAND_THEMES, getTeamBrandTheme } from '@/lib/team-brand-themes';
 
 export type TeamThemeTokens = {
   primary: string;
@@ -63,4 +63,14 @@ export function getFrontOfficeTeamTheme(teamAbbr?: string | null): FrontOfficeTe
     accent: brand.secondary,
     borderAccent: interactive,
   };
+}
+
+/** Filled pick controls always use white text, retaining the owner's primary hue. */
+export function getAccessibleTeamPickColor(teamAbbr: string): string {
+  if (!TEAM_BRAND_THEMES[teamAbbr.toUpperCase()]) {
+    if (process.env.NODE_ENV === 'development')
+      console.warn(`Missing pick owner theme: ${teamAbbr}`);
+    return '#00172b';
+  }
+  return ensureAccessibleTextColor(getTeamThemeTokens(teamAbbr).primaryFill, '#ffffff');
 }

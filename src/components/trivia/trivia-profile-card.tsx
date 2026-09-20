@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { normalizeTriviaStats } from '@/features/trivia/stats';
 export default function TriviaProfileCard() {
   const [data, setData] = useState<{
     stats: { lifetimePoints: number; accuracy: number; gamesPlayed: number };
@@ -9,7 +10,14 @@ export default function TriviaProfileCard() {
   useEffect(() => {
     void fetch('/api/trivia/stats')
       .then((r) => (r.ok ? r.json() : null))
-      .then(setData);
+      .then((body) =>
+        setData(
+          body?.stats && body?.moveTheChains
+            ? { ...body, stats: normalizeTriviaStats(body.stats) }
+            : null,
+        ),
+      )
+      .catch(() => setData(null));
   }, []);
   if (!data) return null;
   return (

@@ -1,5 +1,8 @@
 'use client';
 
+import { useDialogFocus } from '@/hooks/use-dialog-focus';
+import { createPortal } from 'react-dom';
+
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -30,12 +33,21 @@ export function DraftGradeModal({
   reasons = [],
   onClose,
 }: DraftGradeModalProps) {
+  const dialogRef = React.useRef<HTMLDivElement>(null);
+  useDialogFocus(isOpen && Boolean(gradeLetter), dialogRef, onClose);
   if (!isOpen || !gradeLetter) {
     return null;
   }
 
-  return (
-    <div className="app-modal-layer fixed inset-0 flex items-center justify-center bg-black/40 px-4 py-6">
+  return createPortal(
+    <div
+      ref={dialogRef}
+      style={{ zIndex: 2100 }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Draft Grade"
+      className="app-modal-layer front-office-app fixed inset-0 flex items-center justify-center bg-black/40 px-4 py-6"
+    >
       <div className="w-full max-w-sm max-h-[90dvh] overflow-y-auto overscroll-contain rounded-2xl bg-white p-6 shadow-lg">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -59,7 +71,13 @@ export function DraftGradeModal({
               {teamName ? <p className="text-xs text-muted-foreground">{teamName}</p> : null}
             </div>
           </div>
-          <Button type="button" variant="ghost" size="icon" onClick={onClose}>
+          <Button
+            type="button"
+            aria-label="Close draft grade"
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+          >
             ✕
           </Button>
         </div>
@@ -97,6 +115,7 @@ export function DraftGradeModal({
           Continue
         </Button>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

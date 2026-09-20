@@ -1,10 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { X } from 'lucide-react';
-import { DdMenuIcon as Menu } from '@/components/ui/football-icons';
+import MobileSiteMenu from '@/components/mobile-site-menu';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
 import {
   getPrimaryNavActive,
@@ -25,15 +23,12 @@ export default function PrimaryNavigation({
   showMobile?: boolean;
 }) {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
   const activeItem = active === undefined ? getPrimaryNavActive(pathname) : active;
   const activeClass = tone === 'light' ? 'text-[var(--team-on-dark)]' : 'text-white';
   const inactiveClass =
     tone === 'light'
       ? 'text-[var(--team-light-on-dark)] hover:text-[var(--team-on-dark)]'
       : 'text-white/75 hover:text-white';
-
-  useEffect(() => setMobileOpen(false), [pathname]);
 
   return (
     <>
@@ -52,51 +47,7 @@ export default function PrimaryNavigation({
           </Link>
         ))}
       </nav>
-      {showMobile ? (
-        <>
-          <button
-            type="button"
-            onClick={() => setMobileOpen(true)}
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border lg:hidden ${tone === 'light' ? 'border-white/15 text-[var(--light)] hover:bg-white/10' : 'border-white/30 text-white hover:bg-white/20'}`}
-            aria-label="Open primary navigation"
-            aria-expanded={mobileOpen}
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-          {mobileOpen ? (
-            <div className="fixed inset-0 z-[120] overflow-y-auto bg-[var(--dark)] px-5 py-6 text-[var(--team-on-dark)] lg:hidden">
-              <div className="mx-auto max-w-lg">
-                <div className="flex items-center justify-between border-b border-white/10 pb-5">
-                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--team-secondary-on-dark)]">
-                    Down &amp; Distance
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 hover:bg-white/10"
-                    aria-label="Close primary navigation"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-                <nav aria-label="Mobile primary navigation" className="mt-5 grid">
-                  {PRIMARY_NAV_ITEMS.map((item) => (
-                    <Link
-                      key={item.id}
-                      href={getPrimaryNavHref(item.href, teamAbbr)}
-                      aria-current={activeItem === item.id ? 'page' : undefined}
-                      onClick={() => setMobileOpen(false)}
-                      className={`border-b border-white/10 py-5 text-2xl font-black transition hover:pl-2 ${activeItem === item.id ? 'text-[var(--team-secondary-on-dark)]' : 'text-[var(--team-on-dark)]'}`}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-            </div>
-          ) : null}
-        </>
-      ) : null}
+      {showMobile ? <MobileSiteMenu teamAbbr={teamAbbr} active={activeItem} /> : null}
     </>
   );
 }

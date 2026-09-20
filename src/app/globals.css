@@ -1158,22 +1158,6 @@
   box-shadow: 0 22px 60px rgb(0 13 28 / 0.38);
   animation: fo-event-in 0.25s ease-out both;
 }
-body.mock-draft-room-active .fo-event-toast {
-  right: auto;
-  bottom: 1rem;
-  left: 1rem;
-  width: min(280px, calc(100vw - 2rem));
-  padding: 0.85rem;
-}
-body.mock-draft-room-active .fo-event-toast h2 {
-  font-size: 0.82rem;
-}
-body.mock-draft-room-active .fo-event-toast p {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
 .fo-event-toast.priority-urgent {
   border-left-color: #ff4d2e;
 }
@@ -3594,5 +3578,156 @@ table td {
   }
   .fo-week-strip button {
     margin-left: auto;
+  }
+}
+
+/* Draft notifications share the league-news drawer, with a single scrolling list. */
+.fo-wire-panel[data-mode='draft-trades'] {
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+.fo-wire-panel[data-mode='draft-trades'] .fo-news-row.read {
+  opacity: 1;
+}
+.fo-wire-panel[data-mode='draft-trades'] .fo-news-row-copy p {
+  color: #b9cbdc;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin-top: 0.4rem;
+}
+.fo-wire-panel[data-mode='draft-trades'] .fo-news-row-copy button {
+  color: #9bcaff;
+  text-align: left;
+  margin-top: 0.65rem;
+  font-weight: 700;
+}
+.fo-wire-panel[data-mode='draft-trades'] .fo-news-row[data-active='false'] {
+  background: #091724;
+}
+
+.fo-news-meta b[data-category='TRADE_OFFER'] {
+  background: #853d17;
+  color: #ffe5cc;
+}
+.fo-event-toast[data-variant='draft-trade'] {
+  border-left-color: #ef6b24;
+}
+.fo-wire-list button.fo-news-row {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+}
+.fo-wire-list button.fo-news-row:disabled {
+  cursor: default;
+}
+.fo-news-row-copy > small {
+  color: #b9cbdc;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+.fo-news-meta b[data-category='ACCEPTED'] {
+  background: #236146;
+  color: #dcffef;
+}
+.fo-news-meta b[data-category='DECLINED'],
+.fo-news-meta b[data-category='EXPIRED'],
+.fo-news-meta b[data-category='COUNTERED'] {
+  background: #33465a;
+  color: #d3dfec;
+}
+
+/* Mobile baseline: readable forms and touch targets without changing desktop. */
+@media (max-width: 767px) {
+  input:not([type='checkbox']):not([type='radio']),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  button:not([role='switch']),
+  [role='button'],
+  summary {
+    min-height: 44px;
+  }
+  button[aria-label],
+  a[aria-label] {
+    min-width: 44px;
+  }
+  [data-site-header] {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  [role='dialog'] {
+    overscroll-behavior: contain;
+  }
+  .trivia-dashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .trivia-dashboard > *,
+  .trivia-dashboard-center,
+  .trivia-dashboard-card {
+    min-width: 0;
+  }
+  .trivia-dashboard-card h2 {
+    overflow-wrap: anywhere;
+  }
+  .trivia-weekly header {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 767px) {
+  .fo-wire-panel {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    height: 100dvh;
+    min-height: 0;
+  }
+  .fo-wire-panel > header {
+    flex-shrink: 0;
+  }
+  .fo-event-toast {
+    bottom: calc(5rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 767px) {
+  .notification-dialog {
+    top: calc(12px + env(safe-area-inset-top));
+    max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+  .mobile-search-overlay {
+    top: calc(var(--site-header-height) + env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 700px) {
+  .trivia-stats > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .trivia-stats article {
+    min-width: 0;
+    grid-template-columns: 24px minmax(0, 1fr);
+    padding: 8px;
+    gap: 4px;
+  }
+  .trivia-stats small {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* A short landscape viewport must not collapse the video dialog's width. */
+@media (max-height: 600px) {
+  .film-room-video-dialog[role="dialog"] {
+    width: min(94vw, 980px);
+    max-height: 94dvh;
+  }
+}
+@media (max-width: 767px) {
+  .film-room-video-dialog[role="dialog"] {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }

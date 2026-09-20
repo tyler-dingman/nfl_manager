@@ -45,3 +45,16 @@ test('research generation does not require a sportsbook deeplink or price', () =
     candidate,
   ]);
 });
+
+test('Quick Ride wording maps to existing intent controls', () => {
+  assert.equal(parseResearchPrompt('Build me a plus-money parlay.').plusMoney, true);
+  assert.equal(
+    parseResearchPrompt('Build me a parlay using high historical hit-rate props.').confidence,
+    'high',
+  );
+  assert.equal(parseResearchPrompt('Build me a parlay using strong Under trends.').side, 'UNDER');
+  assert.equal(
+    parseResearchPrompt('Build me a parlay using touchdown props.').touchdownsOnly,
+    true,
+  );
+});

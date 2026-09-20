@@ -273,7 +273,7 @@
   color: #dc2626;
 }
 .boardTabs {
-  justify-content: space-between;
+  justify-content: flex-start;
   overflow-x: auto;
 }
 .boardTabs button {
@@ -749,5 +749,1278 @@
     grid-column: 1 / -1;
     grid-row: 2;
     flex-wrap: wrap;
+  }
+}
+
+/* Active room: the session remains authoritative; these panels only present it. */
+.liveWorkspace {
+  grid-template-columns: minmax(190px, 23fr) minmax(0, 54fr) minmax(210px, 23fr);
+}
+.liveWorkspace > * {
+  min-width: 0;
+}
+.liveStatus {
+  display: grid;
+  gap: 7px;
+  padding: 12px 16px;
+  border: 1px solid #687d91;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.78rem;
+}
+.liveStatus strong {
+  color: #ff681f;
+}
+.speedControl {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #8aa0b5;
+  border-radius: 7px;
+  padding: 0 18px;
+  min-height: 52px;
+  background: #08223b99;
+  color: white;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.speedControl select {
+  font: inherit;
+  letter-spacing: inherit;
+  background: transparent;
+  color: inherit;
+  max-width: 90px;
+}
+.speedControl option {
+  color: #071b30;
+  background: white;
+}
+.pauseDraftButton,
+.exitDraftButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  background: #ef4c12;
+  color: white;
+  font-weight: 800;
+  font-size: 0.8rem;
+}
+.pauseDraftButton:disabled {
+  opacity: 0.6;
+}
+.exitDraftButton {
+  background: #0c182b;
+  min-height: 44px;
+}
+.liveClockBanner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: linear-gradient(115deg, #071421, #14273b);
+  color: white;
+}
+.liveClockBanner > img {
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.liveClockBanner > div:first-of-type {
+  flex: 1;
+}
+.liveClockBanner span {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.liveWorkspace .liveClockBanner h2 {
+  font-size: clamp(1.3rem, 2.2vw, 2rem);
+  line-height: 1.1;
+  margin: 8px 0;
+  color: white;
+}
+.liveClockBanner p {
+  font-size: 0.78rem;
+}
+.liveClock {
+  display: grid;
+  gap: 6px;
+  flex: 0 1 170px;
+  text-align: center;
+}
+.liveClock strong {
+  font-size: 2.6rem;
+  line-height: 1;
+  color: #ffb348;
+  font-variant-numeric: tabular-nums;
+}
+.liveClock progress {
+  width: 100%;
+  height: 8px;
+  accent-color: #ff9c2f;
+}
+.liveClock small {
+  font-size: 0.65rem;
+  color: #c4cfda;
+}
+.liveRail > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid #e4e9f0;
+}
+.liveRail h2 {
+  font-size: 0.9rem;
+  margin: 0;
+}
+.liveRail header button,
+.liveRail header span {
+  font-size: 0.65rem;
+  color: #1766da;
+}
+.liveRail select {
+  max-width: 100px;
+  min-width: 0;
+  font-size: 0.65rem;
+  border: 1px solid #d8e1ea;
+  border-radius: 4px;
+  padding: 6px;
+}
+.livePickList {
+  position: relative;
+  max-height: 590px;
+  overflow-y: auto;
+  padding: 6px;
+}
+.livePick {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 62px;
+  padding: 8px 6px;
+  border-bottom: 1px solid #e7edf4;
+  font-size: 0.7rem;
+}
+.livePick > b {
+  flex: 0 0 20px;
+  font-variant-numeric: tabular-nums;
+}
+.livePick img {
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.livePick > div {
+  min-width: 0;
+  flex: 1;
+}
+.livePick strong,
+.livePick small {
+  display: block;
+}
+.livePick small {
+  font-size: 0.62rem;
+  color: #58708b;
+  margin-top: 2px;
+}
+.livePick time {
+  color: #ef681e;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+.liveCurrent {
+  border-left: 3px solid #1778ff;
+  border-radius: 4px;
+  background: #102338;
+  color: white;
+}
+.liveCurrent small {
+  color: #d4e0ef;
+}
+.liveUserPick {
+  background: #eef6ff;
+  border-left: 3px solid #247fff;
+  color: #0751aa;
+}
+.yourPickCard {
+  margin: 10px;
+  padding: 14px;
+  border-radius: 5px;
+  background: #edf5ff;
+  font-size: 0.78rem;
+}
+.yourPickCard p {
+  margin: 5px 0;
+  color: #4a617b;
+}
+.yourPickActive {
+  border: 2px solid #f06b22;
+}
+.yourPickCard button {
+  margin: 10px 6px 0 0;
+  padding: 7px 10px;
+  border-radius: 4px;
+  color: white;
+  background: #096eee;
+  font-size: 0.7rem;
+}
+.liveTrade {
+  padding: 12px;
+  border-top: 1px solid #dce5ef;
+  font-size: 0.72rem;
+}
+.liveDialog {
+  width: min(660px, calc(100vw - 32px));
+  max-height: 85dvh;
+  overflow: auto;
+  padding: 24px;
+  border: 1px solid #d8e0e9;
+  border-radius: 12px;
+  color: #071b30;
+  background: white;
+}
+.liveDialog::backdrop {
+  background: #061423b3;
+}
+.liveDialog header,
+.liveDialog footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.liveDialog footer {
+  margin: 24px 0 0;
+  justify-content: flex-end;
+}
+.liveDialog footer button {
+  padding: 10px 18px;
+  border-radius: 5px;
+  background: #102338;
+  color: white;
+}
+.liveDialog h3 {
+  margin-top: 20px;
+}
+.liveProspectRow {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e7edf4;
+}
+.liveProspectRow > button {
+  flex: 1;
+  min-width: 0;
+}
+.prospectRowActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+}
+.prospectRowActions .watchlistButton {
+  font-size: 1.2rem;
+  color: #4b6683;
+}
+.mobileLiveNav {
+  display: none;
+}
+@media (max-width: 1200px) {
+  .liveWorkspace {
+    grid-template-columns: minmax(170px, 1fr) minmax(0, 3fr);
+  }
+  .liveWorkspace > aside:last-child {
+    grid-column: 1 / -1;
+  }
+  .liveWorkspace > aside:last-child .livePickList {
+    max-height: 260px;
+  }
+  .liveClockBanner {
+    padding: 16px;
+    gap: 10px;
+  }
+}
+@media (max-width: 760px) {
+  .mobileLiveNav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    gap: 4px;
+    padding: 8px 0;
+    background: #f8f7f3;
+  }
+  .mobileLiveNav button {
+    flex: 1;
+    padding: 10px 4px;
+    border: 1px solid #d9e2ec;
+    border-radius: 4px;
+    background: white;
+    font-size: 0.65rem;
+  }
+  .mobileLiveNav button[aria-pressed='true'] {
+    background: #102338;
+    color: white;
+  }
+  .liveWorkspace {
+    display: block;
+  }
+  .liveWorkspace[data-mobile-panel='board'] > aside,
+  .liveWorkspace[data-mobile-panel='order'] > section,
+  .liveWorkspace[data-mobile-panel='order'] > .tradeHub,
+  .liveWorkspace[data-mobile-panel='feed'] > section,
+  .liveWorkspace[data-mobile-panel='feed'] > aside:first-child {
+    display: none;
+  }
+  .liveClockBanner {
+    flex-wrap: wrap;
+  }
+  .liveClockBanner > img {
+    width: 50px;
+    height: 50px;
+  }
+  .liveClock {
+    flex: 1 0 100%;
+    grid-template-columns: auto auto;
+    align-items: center;
+    text-align: left;
+  }
+  .liveClock strong {
+    text-align: right;
+    font-size: 2rem;
+  }
+  .liveClock progress,
+  .liveClock small {
+    grid-column: 1 / -1;
+  }
+  .liveProspectRow {
+    min-width: 640px;
+  }
+  .liveRail .livePickList,
+  .liveWorkspace > aside:last-child .livePickList {
+    max-height: 65dvh;
+  }
+  .liveStatus {
+    padding: 8px;
+  }
+  .pauseDraftButton {
+    min-height: 44px;
+  }
+}
+.liveClock progress {
+  appearance: none;
+  border: 0;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #425264;
+}
+.liveClock progress::-webkit-progress-bar {
+  background: #425264;
+}
+.liveClock progress::-webkit-progress-value {
+  background: #ffac42;
+  border-radius: 5px;
+}
+.liveClock progress::-moz-progress-bar {
+  background: #ffac42;
+}
+.liveTableHeader {
+  display: flex;
+  min-width: 640px;
+  background: #f7f9fb;
+  align-items: center;
+}
+.liveTableHeader > div {
+  flex: 1;
+  min-width: 0;
+}
+.actionColumnLabel {
+  flex: 0 0 113px;
+  text-align: center;
+  font-size: 0.5rem;
+  color: #617b94;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.liveProspectRow .prospectRowActions {
+  flex: 0 0 113px;
+  padding: 0 5px;
+  gap: 5px;
+}
+.liveProspectRow {
+  min-width: 640px;
+}
+.simSplitButton {
+  display: inline-flex;
+  border: 1px solid #8aa0b5;
+  border-radius: 7px;
+  background: #08223b99;
+  color: white;
+}
+.simSplitButton button {
+  min-height: 52px;
+  padding: 0 14px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.simSplitButton > div > button {
+  border-left: 1px solid #8aa0b5;
+  display: inline-flex;
+  align-items: center;
+}
+.simSplitButton svg {
+  width: 17px;
+  height: 17px;
+}
+.simSplitButton button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.simSplitButton button:focus-visible {
+  outline: 2px solid #ffae49;
+  outline-offset: 2px;
+}
+.userPickNotice {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #edf5ff;
+  color: #123654;
+  font-size: 0.75rem;
+}
+.userPickNotice button {
+  background: #ef4c12;
+  color: white;
+  border-radius: 4px;
+  padding: 7px 12px;
+  font-weight: 800;
+}
+.prospectRowActions .draftRowButton {
+  background: var(--team-primary, #00172b);
+  color: var(--team-on-primary, #fff);
+  border-radius: 4px;
+  padding: 4px 8px;
+  min-height: 28px;
+  line-height: 1.2;
+  font-size: 0.65rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.prospectRowActions .draftRowButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tradeHub {
+  min-width: 0;
+  align-self: start;
+}
+.tradeHub > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid #e4eaf0;
+}
+.tradeHub h2 {
+  font-size: 1rem;
+  font-weight: 800;
+}
+.tradeHub > header button {
+  color: #0878ff;
+  font-size: 0.65rem;
+  white-space: nowrap;
+}
+.tradeHubTabs {
+  display: flex;
+  gap: 20px;
+  padding: 0 16px;
+  overflow-x: auto;
+  border-bottom: 1px solid #e4eaf0;
+}
+.tradeHubTabs > button {
+  flex: 0 0 auto;
+  padding: 12px 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-bottom: 2px solid transparent;
+}
+.tradeHubTabs > button[aria-selected='true'] {
+  color: #0878ff;
+  border-bottom-color: #0878ff;
+}
+.tradeHubTabs b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  color: white;
+  background: #ef4c12;
+  font-size: 0.6rem;
+}
+.tradeHubBody {
+  padding: 12px;
+  max-height: 76vh;
+  overflow: auto;
+}
+.tradeOfferCard {
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #dce5ef;
+  border-radius: 6px;
+  background: #f7f9fc;
+  font-size: 0.68rem;
+}
+.tradeOfferTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tradeOfferTitle strong {
+  flex: 1;
+}
+.tradeOfferTitle > span {
+  background: #dff3e5;
+  color: #207840;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 0.6rem;
+}
+.tradeOfferTitle > span[data-poor='true'] {
+  background: #fff0db;
+  color: #94570a;
+}
+.tradeOfferSides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 12px 0;
+}
+.tradeOfferSides > div + div {
+  border-left: 1px solid #ccd8e5;
+  padding-left: 12px;
+}
+.tradeOfferSides p {
+  margin-top: 4px;
+}
+.tradeOfferActions {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+.tradeOfferActions button {
+  flex: 1;
+  padding: 8px 4px;
+  border-radius: 4px;
+  background: #e7ecf2;
+  font-weight: 700;
+}
+.tradeOfferActions button:first-child {
+  background: #279147;
+  color: white;
+}
+.tradeOfferActions button:last-child {
+  background: #fbe0e2;
+  color: #b71920;
+}
+.tradeHub button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.tradeEmpty,
+.tradeMessage {
+  padding: 12px;
+  color: #4b6683;
+  font-size: 0.75rem;
+}
+.tradeNotice {
+  padding: 12px;
+  background: #eaf4ff;
+  font-size: 0.75rem;
+}
+.tradeNotice button {
+  color: #096ee8;
+  font-weight: 800;
+  margin-top: 4px;
+}
+.proposeTradeLink {
+  width: 100%;
+  padding: 18px;
+  text-align: left;
+  border: 1px solid #dce5ef;
+  border-radius: 6px;
+  background: #f7f9fc;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+.tradeBuilder {
+  display: grid;
+  gap: 14px;
+  font-size: 0.75rem;
+}
+.tradeBuilder select {
+  display: block;
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #dce5ef;
+  border-radius: 4px;
+}
+.tradeBuilder legend {
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.tradePartnerSelector {
+  position: relative;
+  display: block;
+}
+.tradePartnerLogo {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  object-fit: contain;
+  pointer-events: none;
+}
+.tradePartnerSelector:has(.tradePartnerLogo) select {
+  padding-left: 48px;
+  min-height: 44px;
+}
+.tradePickChoices {
+  max-height: 190px;
+  overflow: auto;
+  border: 1px solid #dce5ef;
+  border-radius: 4px;
+}
+.tradePickChoices label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-bottom: 1px solid #edf1f5;
+}
+.tradeValuation {
+  padding: 12px;
+  background: #f2f6fa;
+  border-radius: 6px;
+}
+.tradeSubmit {
+  padding: 12px;
+  background: #096ee8;
+  color: white;
+  border-radius: 5px;
+  font-weight: 800;
+}
+.ownedPicks {
+  margin-bottom: 18px;
+  font-size: 0.8rem;
+}
+.ownedPicks h3 {
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.ownedPicks p {
+  padding: 8px 0;
+  border-bottom: 1px solid #e4eaf0;
+}
+.tradeChart {
+  width: 100%;
+  margin-top: 12px;
+}
+.tradeChart th,
+.tradeChart td {
+  padding: 5px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e4eaf0;
+}
+
+/* Active workspace: feed, primary trade workspace, compact prospects. */
+.liveWorkspace {
+  grid-template-columns: minmax(180px, 22fr) minmax(0, 50fr) minmax(330px, 28fr);
+  align-items: start;
+  gap: 16px;
+}
+.playersHeader {
+  padding: 16px;
+  border-bottom: 1px solid #e4eaf0;
+}
+.playersHeader h2 {
+  font-size: 1rem;
+  font-weight: 800;
+}
+.playersRail {
+  min-width: 0;
+}
+.playersRail .boardTabs {
+  padding: 0 6px;
+  gap: 0;
+}
+.playersRail .boardTabs button {
+  flex: 0 0 auto;
+  padding: 12px 4px;
+  font-size: 0.65rem;
+}
+.playersRail .boardTable {
+  overflow: auto;
+}
+.tradeHubBody {
+  max-height: 78dvh;
+  padding: 16px;
+}
+.tradeHubBody h3 {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+.tradeHelp {
+  margin: 6px 0 12px;
+  color: #4b6683;
+  font-size: 0.72rem;
+}
+.tradeOfferCard {
+  padding: 16px;
+  font-size: 0.75rem;
+}
+.tradeOfferCard[data-expired='true'] {
+  opacity: 0.65;
+}
+.offerExpiry {
+  display: block;
+  color: #51677d;
+  margin-bottom: 10px;
+}
+.tradeOfferSides {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.tradeOfferSides [data-positive='true'] {
+  color: #078351;
+  font-weight: 700;
+}
+.tradeOfferSides [data-positive='false'] {
+  color: #b71920;
+  font-weight: 700;
+}
+.tradeBuilderSides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.tradePickSide {
+  container-type: inline-size;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #dce5ef;
+  border-radius: 6px;
+}
+.tradePickSide h4 {
+  font-weight: 800;
+  margin: 12px 0 8px;
+}
+.pickChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tradePickSide > section + section {
+  margin-top: 14px;
+}
+.selectedPackage {
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 1px solid #dce5ef;
+}
+.selectedPackage p {
+  margin-top: 5px;
+}
+.tradeValuation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.tradeValuation p {
+  margin-top: 5px;
+}
+.tradeValuation meter {
+  display: block;
+  width: 100%;
+  height: 18px;
+}
+.compactProspects .prospectFilters {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  padding: 8px;
+}
+.compactProspects .prospectFilters label {
+  grid-column: 1 / -1;
+}
+.compactProspects .prospectFilters input,
+.compactProspects .prospectFilters select {
+  min-width: 0;
+  width: 100%;
+  font-size: 0.6rem;
+  padding-right: 3px;
+}
+.compactProspects .prospectTableHeader,
+.compactProspects .prospectRow,
+.compactProspects .selectedProspectRow {
+  grid-template-columns: 22px minmax(85px, 1fr) 30px 54px 34px;
+  gap: 4px;
+  padding: 6px;
+  font-size: 0.6rem;
+}
+.compactProspects .prospectTableHeader {
+  font-size: 0.48rem;
+}
+.compactProspects .prospectIdentity {
+  gap: 4px;
+  min-width: 0;
+}
+.compactProspects .prospectIdentity img,
+.compactProspects .prospectIdentity i {
+  width: 24px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.compactProspects .tableGrade {
+  padding: 5px 2px;
+  font-size: 0.65rem;
+  min-width: 0;
+}
+.compactProspects .liveTableHeader,
+.compactProspects .liveProspectRow {
+  min-width: 0;
+}
+.compactProspects .prospectRowActions {
+  flex: 0 0 70px;
+  gap: 3px;
+  padding: 0 4px;
+}
+.compactProspects .draftRowButton {
+  padding: 4px 8px;
+  min-width: 0;
+  font-size: 0.6rem;
+}
+.compactProspects .actionColumnLabel {
+  flex: 0 0 70px;
+  font-size: 0.48rem;
+}
+@media (max-width: 1350px) and (min-width: 761px) {
+  .liveWorkspace {
+    grid-template-columns: minmax(180px, 1fr) minmax(0, 3fr);
+  }
+  .liveWorkspace > .playersRail {
+    grid-column: 2;
+  }
+  .liveWorkspace > .liveRail {
+    grid-row: 1 / 3;
+  }
+}
+@media (max-width: 760px) {
+  .liveWorkspace {
+    display: block;
+  }
+  .tradeHubBody {
+    max-height: none;
+    padding: 12px;
+  }
+  .tradeBuilderSides,
+  .tradeValuation {
+    grid-template-columns: 1fr;
+  }
+  .tradeOfferSides {
+    grid-template-columns: 1fr 1fr;
+  }
+  .tradeOfferSides > div:last-child {
+    grid-column: 1 / -1;
+    padding: 8px 0 0;
+    border-left: 0;
+    border-top: 1px solid #dce5ef;
+  }
+  .tradeOfferTitle {
+    flex-wrap: wrap;
+  }
+  .tradeHubTabs > button {
+    font-size: 0.6rem;
+  }
+  .compactProspects .liveTableHeader,
+  .compactProspects .liveProspectRow {
+    min-width: 355px;
+  }
+}
+
+.feedCurrentSummary {
+  padding: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #102338;
+  color: white;
+  font-size: 0.7rem;
+}
+.feedCurrentSummary time {
+  margin-left: auto;
+  color: #ffac42;
+  font-weight: 800;
+}
+.feedCurrentSummary button {
+  width: 100%;
+  text-align: left;
+  text-decoration: underline;
+}
+.compactProspects .prospectIdentity strong {
+  font-size: 0.65rem;
+  white-space: normal;
+}
+
+.tradeOfferTitle > span[data-value='Fair Value'] {
+  background: #fff4cf;
+  color: #7b5900;
+}
+.tradeOfferTitle > span[data-value='Poor Value'] {
+  background: #fbe0e2;
+  color: #b71920;
+}
+.tradeOfferSides p[data-changed='true'] {
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: #0878ff;
+  background: #e8f2ff;
+}
+
+.playersRail .boardTabs {
+  gap: 16px;
+  padding: 0 16px;
+}
+.tradeHubBody {
+  max-height: none;
+  overflow: visible;
+}
+.tradeBuilder {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #dce5ef;
+}
+
+.heroDraftControls {
+  display: flex;
+  align-items: center;
+  justify-content: inherit;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.stickyDraftControls {
+  position: fixed;
+  inset: var(--draft-header-offset) 0 auto;
+  z-index: 45;
+  background: #061c30;
+  color: white;
+  border-bottom: 1px solid #ffffff26;
+  box-shadow: 0 3px 9px #00142320;
+  animation: draftStripEnter 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.draftControlStripInner {
+  height: calc(68px / var(--draft-document-zoom, 1));
+  margin-inline: auto;
+  padding-inline: max(17px, 1.7vw);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.compactDraftStatus {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 3px 10px;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.compactDraftStatus strong {
+  color: #ff8d43;
+  font-size: 11px;
+}
+.compactDraftStatus small {
+  grid-column: 1 / -1;
+  color: #c1cddd;
+  font-size: 12px;
+}
+.compactDraftActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.compactDraftActions .teamSelector,
+.compactDraftActions .speedControl,
+.compactDraftActions .pauseDraftButton,
+.compactDraftActions .simSplitButton button {
+  min-height: 40px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+.compactDraftActions .teamSelector img {
+  width: 25px;
+  height: 25px;
+}
+@keyframes draftStripEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+    box-shadow: 0 0 0 #00142300;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 3px 9px #00142320;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stickyDraftControls {
+    animation: none;
+  }
+}
+@media (max-width: 1100px) {
+  .compactDraftActions .teamSelector {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .draftControlStripInner {
+    height: 104px;
+    padding: 8px 12px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 8px;
+  }
+  .compactDraftStatus {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+  }
+  .compactDraftStatus small {
+    font-size: 11px;
+  }
+  .compactDraftActions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 4px;
+  }
+  .compactDraftActions .simSplitButton {
+    min-width: 0;
+  }
+  .compactDraftActions .simSplitButton > button:first-child {
+    flex: 1;
+    white-space: normal;
+    line-height: 1.15;
+  }
+  .compactDraftActions .speedControl,
+  .compactDraftActions .pauseDraftButton,
+  .compactDraftActions .simSplitButton button {
+    padding: 0 5px;
+    font-size: 10px;
+    min-height: 42px;
+  }
+  .compactDraftActions .speedControl {
+    gap: 2px;
+  }
+  .mobileLiveNav {
+    position: relative;
+    z-index: 1;
+  }
+}
+:global(.front-office-app):has(.heroDraftControls) {
+  overflow-x: clip;
+}
+
+.stickyDraftControls {
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+.stickyDraftControls[data-visible='false'] {
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stickyDraftControls {
+    transition: none;
+  }
+}
+
+.tradeHubBody > .tradeBuilder {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.tradeOfferCard[data-highlight='true'] {
+  outline: 2px solid #0878ff;
+  background: #edf5ff;
+}
+.tradeOfferCard {
+  scroll-margin-top: calc(var(--site-header-height) + 120px);
+}
+.tradeHubTabs > button {
+  white-space: nowrap;
+}
+
+.shortSkipLabel {
+  display: none;
+}
+@media (max-width: 760px) {
+  .compactProspects .liveTableHeader {
+    display: none;
+  }
+  .compactProspects .liveProspectRow {
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr) 56px;
+  }
+  .compactProspects .prospectRow,
+  .compactProspects .selectedProspectRow {
+    grid-template-columns: 22px minmax(0, 1fr) 32px;
+    gap: 8px;
+    font-size: 13px;
+    padding: 12px 8px;
+  }
+  .compactProspects .prospectIdentity {
+    min-width: 0;
+  }
+  .compactProspects .prospectIdentity strong {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .compactProspects .prospectSchool {
+    grid-column: 2;
+    font-size: 12px;
+  }
+  .compactProspects .tableGrade {
+    grid-column: 3;
+    font-size: 12px;
+  }
+  .compactProspects .draftRowButton {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 4px;
+    font-size: 12px;
+  }
+  .prospectFilters {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .prospectFilters label {
+    grid-column: 1/-1;
+  }
+  .prospectFilters select {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .tradeOfferSides {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tradeOfferSides > div {
+    border-left: 0;
+    padding: 8px 0;
+  }
+  .tradeOfferActions button {
+    min-height: 44px;
+  }
+  .tradeHubTabs > button {
+    font-size: 12px;
+    min-height: 44px;
+  }
+  .tradeHubTabs {
+    overflow-x: auto;
+  }
+  .tradeHubTabs > button {
+    flex-shrink: 0;
+  }
+  .compactDraftActions {
+    grid-template-columns: minmax(0, 1fr) 90px 88px;
+  }
+  .compactDraftActions .fullSkipLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .compactDraftActions .shortSkipLabel {
+    display: inline;
+  }
+  .compactDraftActions .speedControl > span {
+    display: none;
+  }
+  .compactDraftActions .pauseDraftButton,
+  .compactDraftActions .simSplitButton button {
+    min-height: 44px;
+    font-size: 12px;
+  }
+  .compactDraftActions .simSplitButton > button:last-child {
+    min-width: 32px;
+  }
+  .compactDraftActions .speedControl {
+    min-height: 44px;
+  }
+  .compactDraftStatus {
+    flex-wrap: wrap;
+    font-size: 12px;
+    gap: 3px 8px;
+  }
+  .userPickNotice {
+    position: sticky;
+    top: calc(var(--draft-header-offset, 0px) + 104px);
+    z-index: 3;
+    background: #e8f4ff;
+  }
+}
+
+@media (max-width: 760px) {
+  .heroDraftControls {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 6px;
+  }
+  .heroDraftControls .teamSelector {
+    min-width: 0;
+    grid-column: 1/-1;
+    min-height: 44px;
+    padding: 6px 10px;
+    justify-content: flex-start;
+  }
+  .heroDraftControls .simSplitButton {
+    grid-column: 1/-1;
+    min-width: 0;
+  }
+  .heroDraftControls .simSplitButton > button:first-child {
+    flex: 1;
+    min-width: 0;
+    white-space: normal;
+  }
+  .heroDraftControls .speedControl,
+  .heroDraftControls .pauseDraftButton {
+    min-height: 44px;
+    padding: 6px;
+    font-size: 12px;
+    justify-content: center;
+  }
+  .compactProspects .prospectFilters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

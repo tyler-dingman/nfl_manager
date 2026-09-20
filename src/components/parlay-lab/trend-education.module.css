@@ -1,0 +1,183 @@
+.help {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: none;
+  color: #0871c9;
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 5px 0;
+}
+.lineBadge {
+  display: inline-block;
+  border: 1px solid #d6e1ea;
+  border-radius: 5px;
+  background: #f0f5f8;
+  color: #40586e;
+  font-size: 9px;
+  font-weight: 800;
+  white-space: nowrap;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+.alt {
+  background: #fff4dc;
+  color: #794f08;
+  border-color: #ead49b;
+}
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+.score b {
+  font-size: 1.15rem;
+  color: #071b30;
+}
+.score small {
+  padding: 2px 5px;
+  font-size: 9px;
+  font-weight: 800;
+  border-radius: 4px;
+  background: #eef1f5;
+  color: #475569;
+}
+.score small[data-tier='HIGH'],
+.score small[data-tier='GOOD'] {
+  background: #e4f5ed;
+  color: #087447;
+}
+.guide {
+  margin-top: 16px;
+  border: 1px solid #d9e2ea;
+  border-radius: 18px;
+  background: white;
+  padding: 18px;
+  color: #071b30;
+}
+.guide header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.guide h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+.guide > div {
+  border-bottom: 1px solid #e6edf3;
+  padding: 12px 0;
+  font-size: 0.8rem;
+}
+.guide p {
+  color: #526a80;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin: 5px 0;
+}
+.guide b span {
+  margin-left: 10px;
+}
+.warning {
+  display: block;
+  margin-top: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fff4dc;
+  color: #63440b;
+  font-size: 0.8rem;
+}
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+  background: #061523b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.dialog {
+  position: relative;
+  width: min(620px, 100%);
+  max-height: 85dvh;
+  overflow: auto;
+  padding: 28px;
+  background: white;
+  border-radius: 18px;
+  color: #071b30;
+  box-shadow: 0 20px 70px #0004;
+}
+.dialog h2 {
+  font-size: 1.3rem;
+  padding-right: 30px;
+}
+.dialog h3 {
+  font-size: 1rem;
+  margin-top: 22px;
+}
+.dialog p {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: #40586e;
+}
+.close {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: #eef3f6;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.helpWrap {
+  position: relative;
+  display: inline-flex;
+}
+.tooltip {
+  display: none;
+  position: absolute;
+  z-index: 20;
+  top: 100%;
+  right: 0;
+  width: 240px;
+  padding: 12px;
+  border: 1px solid #d9e2ea;
+  border-radius: 10px;
+  background: white;
+  color: #40586e;
+  box-shadow: 0 8px 25px #071b3020;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: none;
+}
+.tooltip strong {
+  display: block;
+  color: #071b30;
+  margin-top: 5px;
+}
+.helpWrap:hover .tooltip,
+.helpWrap:focus-within .tooltip {
+  display: block;
+}
+.inlineScore {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.inlineScore b {
+  font-size: 0.875rem;
+}
+.inlineScore small {
+  font-size: 0.6rem;
+}

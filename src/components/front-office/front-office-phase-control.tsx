@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowRight, ChevronDown, Loader2, X } from 'lucide-react';
 
 import {
@@ -23,10 +23,12 @@ export function FrontOfficePhaseControl({
   season,
   phase,
   freeAgencyWave,
+  actionOverride,
 }: {
   season: number;
   phase: string;
   freeAgencyWave: number;
+  actionOverride?: ReactNode;
 }) {
   const saveId = useSaveStore((state) => state.saveId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
@@ -164,33 +166,35 @@ export function FrontOfficePhaseControl({
           <span>Current phase</span>
           <strong>{phaseDisplayName(phase, freeAgencyWave)}</strong>
         </div>
-        <div className="fo-phase-split">
-          <button
-            type="button"
-            className="front-office-advance-button"
-            disabled={busy}
-            onClick={() => void advance(actions.primary)}
-          >
-            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            {actions.primary.label} <ArrowRight className="h-4 w-4" />
-          </button>
-          {actions.jumps.length ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button type="button" className="fo-phase-menu" aria-label="Skip-ahead options">
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {actions.jumps.map((action) => (
-                  <DropdownMenuItem key={action.label} onClick={() => void advance(action)}>
-                    {action.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : null}
-        </div>
+        {actionOverride ?? (
+          <div className="fo-phase-split">
+            <button
+              type="button"
+              className="front-office-advance-button"
+              disabled={busy}
+              onClick={() => void advance(actions.primary)}
+            >
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {actions.primary.label} <ArrowRight className="h-4 w-4" />
+            </button>
+            {actions.jumps.length ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button type="button" className="fo-phase-menu" aria-label="Skip-ahead options">
+                    <ChevronDown className="h-4 w-4" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {actions.jumps.map((action) => (
+                    <DropdownMenuItem key={action.label} onClick={() => void advance(action)}>
+                      {action.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : null}
+          </div>
+        )}
         {error ? (
           <p role="alert" className="fo-phase-error">
             {error}
