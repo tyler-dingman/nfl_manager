@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import { FreeAgencyOfferHero } from './free-agency-offer-hero';
+import heroStyles from './free-agency-offer-hero.module.css';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import TransactionModal from '@/components/transaction-modal';
 import { Button } from '@/components/ui/button';
@@ -148,6 +150,7 @@ export default function ContractOfferModal({
 
   return (
     <TransactionModal
+      compactHeader={scoreVariant === 'freeAgency'}
       open={isOpen}
       variant={scoreVariant === 'freeAgency' ? 'sign-free-agent' : 're-sign'}
       title={title}
@@ -155,40 +158,73 @@ export default function ContractOfferModal({
       onClose={onClose}
     >
       <div className="overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
-        <div className="grid gap-4 sm:grid-cols-[88px_1fr] sm:items-center">
-          <div className="w-fit">
-            <div
-              className="front-office-player-tile flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl text-2xl font-black sm:h-24 sm:w-24"
-              aria-hidden="true"
-            >
-              <span>{player.position}</span>
+        {scoreVariant === 'freeAgency' ? (
+          <>
+            <FreeAgencyOfferHero
+              key={player.id}
+              player={player}
+              teamAbbr={teamAbbr}
+              previousTeamAbbr={previousTeamAbbr}
+            />
+            <dl className={heroStyles.marketSummary} aria-label="Free agent market summary">
+              <div>
+                <dt>Expected APY</dt>
+                <dd className="front-office-stat-value">${estimate.expectedApy.toFixed(1)}M</dd>
+              </div>
+              <div>
+                <dt>Preferred Deal</dt>
+                <dd className="front-office-stat-value">
+                  {estimate.expectedYearsRange[0]}–{estimate.expectedYearsRange[1]} Years
+                </dd>
+              </div>
+              <div>
+                <dt>Market Status</dt>
+                <dd className={heroStyles.marketStatus}>Available Free Agent</dd>
+              </div>
+              <div>
+                <dt>Interest</dt>
+                <dd className="front-office-stat-value">
+                  {interestLabel} · {score.toFixed(0)}%
+                </dd>
+              </div>
+            </dl>
+          </>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-[88px_1fr] sm:items-center">
+            <div className="w-fit">
+              <div
+                className="front-office-player-tile flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl text-2xl font-black sm:h-24 sm:w-24"
+                aria-hidden="true"
+              >
+                <span>{player.position}</span>
+              </div>
+            </div>
+            <div className="space-y-1 text-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Player Details
+              </p>
+              <p className="font-semibold text-foreground">
+                <span className="inline-flex items-center gap-1.5">
+                  <span>
+                    {player.firstName} {player.lastName}
+                  </span>
+                  <PlayerTypeIcon player={player} />
+                </span>
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {player.position}
+                {player.college ? ` · ${player.college}` : ''}
+                {' · '}Age {age}
+              </p>
+              {!response ? (
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  Preferred Years: {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]}
+                  {' · '}Expected APY: ${estimate.expectedApy.toFixed(1)}M
+                </p>
+              ) : null}
             </div>
           </div>
-          <div className="space-y-1 text-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Player Details
-            </p>
-            <p className="font-semibold text-foreground">
-              <span className="inline-flex items-center gap-1.5">
-                <span>
-                  {player.firstName} {player.lastName}
-                </span>
-                <PlayerTypeIcon player={player} />
-              </span>
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {player.position}
-              {player.college ? ` · ${player.college}` : ''}
-              {' · '}Age {age}
-            </p>
-            {!response ? (
-              <p className="text-xs leading-relaxed text-muted-foreground">
-                Preferred Years: {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]}
-                {' · '}Expected APY: ${estimate.expectedApy.toFixed(1)}M
-              </p>
-            ) : null}
-          </div>
-        </div>
+        )}
 
         {!response ? (
           <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">

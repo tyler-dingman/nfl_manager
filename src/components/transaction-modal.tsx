@@ -66,6 +66,7 @@ type Props = {
   onClose: () => void;
   children: ReactNode;
   footer?: ReactNode;
+  compactHeader?: boolean;
 };
 
 const focusableSelector =
@@ -79,6 +80,7 @@ export default function TransactionModal({
   onClose,
   children,
   footer,
+  compactHeader = false,
 }: Props) {
   const titleId = useId();
   const descriptionId = useId();
@@ -135,26 +137,34 @@ export default function TransactionModal({
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={description ? descriptionId : undefined}
-        className={`txn-modal txn-modal--${variant}`}
+        className={`txn-modal txn-modal--${variant} ${compactHeader ? 'txn-modal--compact-player' : ''}`}
         style={style}
       >
-        <i className="txn-layer txn-layer--field" aria-hidden="true" />
-        <i className="txn-layer txn-layer--playbook" aria-hidden="true" />
-        <i className="txn-layer txn-layer--grain" aria-hidden="true" />
-        <i className="txn-layer txn-layer--stroke" aria-hidden="true" />
+        {!compactHeader && (
+          <>
+            <i className="txn-layer txn-layer--field" aria-hidden="true" />
+            <i className="txn-layer txn-layer--playbook" aria-hidden="true" />
+            <i className="txn-layer txn-layer--grain" aria-hidden="true" />
+            <i className="txn-layer txn-layer--stroke" aria-hidden="true" />
+          </>
+        )}
         <header className="txn-hero">
-          {team?.logo_url ? (
-            <Image
-              src={team.logo_url}
-              width={56}
-              height={56}
-              alt={`${team.name} logo`}
-              className="txn-team-logo"
-            />
-          ) : null}
-          <div className="txn-icon" aria-hidden="true" />
-          <div className="txn-phrase" aria-hidden="true" />
-          <span className="sr-only">{assets.phraseText}</span>
+          {!compactHeader && (
+            <>
+              {team?.logo_url ? (
+                <Image
+                  src={team.logo_url}
+                  width={56}
+                  height={56}
+                  alt={`${team.name} logo`}
+                  className="txn-team-logo"
+                />
+              ) : null}
+              <div className="txn-icon" aria-hidden="true" />
+              <div className="txn-phrase" aria-hidden="true" />
+              <span className="sr-only">{assets.phraseText}</span>
+            </>
+          )}
           <button
             type="button"
             className="txn-close"

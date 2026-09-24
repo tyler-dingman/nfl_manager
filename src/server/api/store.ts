@@ -93,7 +93,12 @@ type SaveRestorePayload = {
 const getTradePickYearsForLeagueYear = (year: number) =>
   [year, year + 1, year + 2, year + 3] as const;
 
-const saveStore = new Map<string, SaveState>();
+// Next bundles API routes separately. Keep the existing in-memory state shared
+// across those module instances and development hot reloads in this server process.
+const serverState = globalThis as typeof globalThis & {
+  __frontOfficeSaveStore?: Map<string, SaveState>;
+};
+const saveStore = (serverState.__frontOfficeSaveStore ??= new Map<string, SaveState>());
 let otcRowsCache: OtcFreeAgencyRow[] | null = null;
 let otcRowsPromise: Promise<OtcFreeAgencyRow[]> | null = null;
 

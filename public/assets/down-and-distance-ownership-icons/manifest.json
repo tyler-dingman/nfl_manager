@@ -1,0 +1,549 @@
+{
+  "name": "Down & Distance Ownership",
+  "version": "1.0.0",
+  "count": 90,
+  "viewBox": "0 0 24 24",
+  "strokeWidth": 1.75,
+  "icons": [
+    {
+      "name": "stadium",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/stadium.svg",
+      "use": "Stadium overview and snapshot"
+    },
+    {
+      "name": "suites",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/suites.svg",
+      "use": "Private premium suites"
+    },
+    {
+      "name": "premium-seating",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/premium-seating.svg",
+      "use": "Premium ticket tiers and hospitality"
+    },
+    {
+      "name": "club-seating",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/club-seating.svg",
+      "use": "Club seats and lounges"
+    },
+    {
+      "name": "seating",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/seating.svg",
+      "use": "General seating upgrades"
+    },
+    {
+      "name": "video",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/video.svg",
+      "use": "Video production and content"
+    },
+    {
+      "name": "video-boards",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/video-boards.svg",
+      "use": "Stadium screens and replay boards"
+    },
+    {
+      "name": "wi-fi",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/wi-fi.svg",
+      "use": "Connectivity and wireless coverage"
+    },
+    {
+      "name": "restrooms",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/restrooms.svg",
+      "use": "Restrooms and family facilities"
+    },
+    {
+      "name": "sound",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/sound.svg",
+      "use": "Stadium sound system"
+    },
+    {
+      "name": "concessions",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/concessions.svg",
+      "use": "Concession stands and revenue"
+    },
+    {
+      "name": "food",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/food.svg",
+      "use": "Dining and food quality"
+    },
+    {
+      "name": "hot-dog",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/hot-dog.svg",
+      "use": "Hot dogs and game-day food"
+    },
+    {
+      "name": "hamburger",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/hamburger.svg",
+      "use": "Burgers and concession menus"
+    },
+    {
+      "name": "drink",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/drink.svg",
+      "use": "Soft drinks and beverages"
+    },
+    {
+      "name": "beer",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/beer.svg",
+      "use": "Beer and beverage sales"
+    },
+    {
+      "name": "grab-and-go",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/grab-and-go.svg",
+      "use": "Grab & Go markets"
+    },
+    {
+      "name": "entry-gates",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/entry-gates.svg",
+      "use": "Entry gates and turnstiles"
+    },
+    {
+      "name": "accessibility",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/accessibility.svg",
+      "use": "Accessible seating and facilities"
+    },
+    {
+      "name": "parking",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/parking.svg",
+      "use": "Parking and arrival experience"
+    },
+    {
+      "name": "security",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/security.svg",
+      "use": "Security and guest safety"
+    },
+    {
+      "name": "shovel",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/shovel.svg",
+      "use": "Groundbreaking and construction"
+    },
+    {
+      "name": "renovate",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/renovate.svg",
+      "use": "Renovate current stadium"
+    },
+    {
+      "name": "expand",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/expand.svg",
+      "use": "Expand capacity and footprint"
+    },
+    {
+      "name": "new-stadium",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/new-stadium.svg",
+      "use": "Build new stadium"
+    },
+    {
+      "name": "lighting",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/lighting.svg",
+      "use": "Field and stadium lighting"
+    },
+    {
+      "name": "game-day",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/game-day.svg",
+      "use": "Game day operations"
+    },
+    {
+      "name": "project-timeline",
+      "category": "Stadium & Game Day",
+      "path": "Stadium & Game Day/project-timeline.svg",
+      "use": "Project duration and construction schedule"
+    },
+    {
+      "name": "training-facility",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/training-facility.svg",
+      "use": "Training facility overview"
+    },
+    {
+      "name": "training",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/training.svg",
+      "use": "Player training and conditioning"
+    },
+    {
+      "name": "dumbbell",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/dumbbell.svg",
+      "use": "Weight room and strength equipment"
+    },
+    {
+      "name": "medical-center",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/medical-center.svg",
+      "use": "Medical center upgrades"
+    },
+    {
+      "name": "nutrition",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/nutrition.svg",
+      "use": "Nutrition programs and healthy meals"
+    },
+    {
+      "name": "recovery",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/recovery.svg",
+      "use": "Recovery and rehabilitation"
+    },
+    {
+      "name": "practice-fields",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/practice-fields.svg",
+      "use": "Practice fields and playing surfaces"
+    },
+    {
+      "name": "locker-room",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/locker-room.svg",
+      "use": "Locker room and player storage"
+    },
+    {
+      "name": "player-amenities",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/player-amenities.svg",
+      "use": "Player lounges and amenities"
+    },
+    {
+      "name": "scouting",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/scouting.svg",
+      "use": "Scouting facilities and evaluation"
+    },
+    {
+      "name": "facility-technology",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/facility-technology.svg",
+      "use": "Facility technology and equipment"
+    },
+    {
+      "name": "team-offices",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/team-offices.svg",
+      "use": "Administrative and team offices"
+    },
+    {
+      "name": "training-staff",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/training-staff.svg",
+      "use": "Training staff quality"
+    },
+    {
+      "name": "treatment-room",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/treatment-room.svg",
+      "use": "Training room and treatment tables"
+    },
+    {
+      "name": "hydrotherapy",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/hydrotherapy.svg",
+      "use": "Recovery pools and hydrotherapy"
+    },
+    {
+      "name": "sleep-rest",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/sleep-rest.svg",
+      "use": "Rest and sleep amenities"
+    },
+    {
+      "name": "player-development",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/player-development.svg",
+      "use": "Player development impact"
+    },
+    {
+      "name": "free-agent-appeal",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/free-agent-appeal.svg",
+      "use": "Free-agent appeal and desirability"
+    },
+    {
+      "name": "equipment",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/equipment.svg",
+      "use": "Equipment storage and operations"
+    },
+    {
+      "name": "team-travel",
+      "category": "Facilities & Player Development",
+      "path": "Facilities & Player Development/team-travel.svg",
+      "use": "Team travel quality"
+    },
+    {
+      "name": "franchise-value",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/franchise-value.svg",
+      "use": "Franchise valuation"
+    },
+    {
+      "name": "annual-revenue",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/annual-revenue.svg",
+      "use": "Annual revenue and revenue breakdown"
+    },
+    {
+      "name": "operating-income",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/operating-income.svg",
+      "use": "Operating income and profitability"
+    },
+    {
+      "name": "available-capital",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/available-capital.svg",
+      "use": "Available capital and spending balance"
+    },
+    {
+      "name": "budget",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/budget.svg",
+      "use": "Budgets and financial planning"
+    },
+    {
+      "name": "partnerships",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/partnerships.svg",
+      "use": "Partnerships and business deals"
+    },
+    {
+      "name": "sponsorship",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/sponsorship.svg",
+      "use": "Sponsor placements and sponsorship offers"
+    },
+    {
+      "name": "naming-rights",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/naming-rights.svg",
+      "use": "Venue naming-rights offers"
+    },
+    {
+      "name": "contract",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/contract.svg",
+      "use": "Contracts and signed agreements"
+    },
+    {
+      "name": "negotiation",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/negotiation.svg",
+      "use": "Negotiating offers"
+    },
+    {
+      "name": "merchandise",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/merchandise.svg",
+      "use": "Merchandise sales and apparel"
+    },
+    {
+      "name": "ticket-revenue",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/ticket-revenue.svg",
+      "use": "Ticket sales and pricing"
+    },
+    {
+      "name": "pricing",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/pricing.svg",
+      "use": "Prices, discounts, and affordability"
+    },
+    {
+      "name": "business-opportunity",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/business-opportunity.svg",
+      "use": "New business opportunities and initiatives"
+    },
+    {
+      "name": "investment",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/investment.svg",
+      "use": "Capital and facility investments"
+    },
+    {
+      "name": "financial-report",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/financial-report.svg",
+      "use": "Financial updates and reports"
+    },
+    {
+      "name": "owners-desk",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/owners-desk.svg",
+      "use": "Owner action queue and decisions"
+    },
+    {
+      "name": "approval",
+      "category": "Business & Revenue",
+      "path": "Business & Revenue/approval.svg",
+      "use": "Approve projects and offers"
+    },
+    {
+      "name": "fans",
+      "category": "Fans & Community",
+      "path": "Fans & Community/fans.svg",
+      "use": "Fans and market overview"
+    },
+    {
+      "name": "fan-experience",
+      "category": "Fans & Community",
+      "path": "Fans & Community/fan-experience.svg",
+      "use": "Fan experience and approval"
+    },
+    {
+      "name": "attendance",
+      "category": "Fans & Community",
+      "path": "Fans & Community/attendance.svg",
+      "use": "Attendance and capacity utilization"
+    },
+    {
+      "name": "fan-sentiment",
+      "category": "Fans & Community",
+      "path": "Fans & Community/fan-sentiment.svg",
+      "use": "Fan sentiment and survey results"
+    },
+    {
+      "name": "season-ticket-renewal",
+      "category": "Fans & Community",
+      "path": "Fans & Community/season-ticket-renewal.svg",
+      "use": "Season-ticket renewal and retention"
+    },
+    {
+      "name": "community",
+      "category": "Fans & Community",
+      "path": "Fans & Community/community.svg",
+      "use": "Community programs and local impact"
+    },
+    {
+      "name": "community-investment",
+      "category": "Fans & Community",
+      "path": "Fans & Community/community-investment.svg",
+      "use": "Community investment and giving"
+    },
+    {
+      "name": "families",
+      "category": "Fans & Community",
+      "path": "Fans & Community/families.svg",
+      "use": "Treatment of families and family amenities"
+    },
+    {
+      "name": "digital-social",
+      "category": "Fans & Community",
+      "path": "Fans & Community/digital-social.svg",
+      "use": "Digital and social engagement"
+    },
+    {
+      "name": "fan-feedback",
+      "category": "Fans & Community",
+      "path": "Fans & Community/fan-feedback.svg",
+      "use": "Feedback and fan comments"
+    },
+    {
+      "name": "fan-insights",
+      "category": "Fans & Community",
+      "path": "Fans & Community/fan-insights.svg",
+      "use": "Key fan insights and research"
+    },
+    {
+      "name": "featured-initiative",
+      "category": "Fans & Community",
+      "path": "Fans & Community/featured-initiative.svg",
+      "use": "Featured initiatives and campaigns"
+    },
+    {
+      "name": "market",
+      "category": "Fans & Community",
+      "path": "Fans & Community/market.svg",
+      "use": "Market reach and fan geography"
+    },
+    {
+      "name": "loyalty",
+      "category": "Fans & Community",
+      "path": "Fans & Community/loyalty.svg",
+      "use": "Fan loyalty and retention"
+    },
+    {
+      "name": "report-card",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/report-card.svg",
+      "use": "Overall grade and category report card"
+    },
+    {
+      "name": "league-rank",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/league-rank.svg",
+      "use": "League rank and comparison"
+    },
+    {
+      "name": "trend",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/trend.svg",
+      "use": "Grade trends and value growth"
+    },
+    {
+      "name": "key-issues",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/key-issues.svg",
+      "use": "Key issues and improvement priorities"
+    },
+    {
+      "name": "legacy",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/legacy.svg",
+      "use": "Ownership history and lasting legacy"
+    },
+    {
+      "name": "owner-tenure",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/owner-tenure.svg",
+      "use": "Owner tenure and seasons served"
+    },
+    {
+      "name": "championships",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/championships.svg",
+      "use": "Championships and trophies"
+    },
+    {
+      "name": "playoff-appearances",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/playoff-appearances.svg",
+      "use": "Playoff appearances and honors"
+    },
+    {
+      "name": "win-loss-history",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/win-loss-history.svg",
+      "use": "Win-loss record and season history"
+    },
+    {
+      "name": "milestones",
+      "category": "Report Card & Legacy",
+      "path": "Report Card & Legacy/milestones.svg",
+      "use": "Major decisions, completed projects, and milestones"
+    }
+  ]
+}

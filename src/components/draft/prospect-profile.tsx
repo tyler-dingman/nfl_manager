@@ -131,6 +131,7 @@ export function ProspectProfile({
         style={
           {
             '--college-primary': theme?.primary ?? '#17334c',
+            '--player-accent': theme?.primary ?? '#17334c',
             '--college-secondary': theme?.secondary ?? '#a6b6c5',
           } as React.CSSProperties
         }
@@ -139,11 +140,9 @@ export function ProspectProfile({
           <span>DRAFT PROSPECT</span>
           <nav aria-label="Prospect navigation">{navigation}</nav>
         </div>
-        {rank ? (
-          <span className={styles.rankBackdrop} aria-hidden="true">
-            {rank}
-          </span>
-        ) : null}
+        <span className={styles.rankBackdrop} aria-hidden="true">
+          {player.position}
+        </span>
         <div className={styles.portrait}>
           {model.headshotUrl && !failedPhoto ? (
             // eslint-disable-next-line @next/next/no-img-element

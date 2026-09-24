@@ -1101,10 +1101,9 @@
   }
 }
 
-/* Personnel intelligence: keep every field visible, with a stacked compact layout. */
+/* Personnel intelligence: one aligned desktop row; stacked only on mobile. */
 .market {
   padding: 16px;
-  container-type: inline-size;
 }
 .market .tabs {
   margin-bottom: 6px;
@@ -1115,55 +1114,71 @@
   padding: 8px;
 }
 .marketRow {
-  grid-template-columns: 38px minmax(94px, 1fr) 26px minmax(48px, auto) minmax(110px, 1.5fr) 10px;
-  grid-template-rows: auto auto;
+  grid-template-columns: 46px minmax(0, 1.1fr) 32px minmax(60px, 0.75fr) minmax(0, 2fr) 18px;
+  grid-template-rows: auto;
+  align-items: center;
   column-gap: 8px;
-  row-gap: 3px;
-  min-height: 70px;
-  padding: 11px 0;
+  row-gap: 0;
+  min-height: 66px;
+  padding: 9px 0;
+  background: transparent;
 }
 .marketRow:last-child {
   border-bottom: 0;
 }
 .marketPortrait {
   grid-column: 1;
-  grid-row: 1 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.marketRow > .marketName {
+.marketIdentity {
   grid-column: 2;
-  grid-row: 1;
-  align-self: end;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.marketName {
   font-size: 12px;
+  line-height: 1.25;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0;
 }
 .marketPosition {
-  grid-column: 2;
-  grid-row: 2;
-  align-self: start;
-  color: var(--fo-muted);
   font-size: 10px;
+  line-height: 1.2;
+  color: var(--fo-muted);
 }
 .marketTeam {
   grid-column: 3;
-  grid-row: 1 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.marketStatus {
+.marketRow .marketStatus {
   grid-column: 4;
-  grid-row: 1 / 3;
+  max-width: 100px;
+  justify-self: start;
+  padding: 4px 6px;
 }
 .marketRow > .marketIntel {
   grid-column: 5;
-  grid-row: 1 / 3;
   display: -webkit-box;
   font-size: 11px;
-  line-height: 1.5;
+  line-height: 1.45;
+  -webkit-line-clamp: 2;
 }
 .marketChevron {
   grid-column: 6;
-  grid-row: 1 / 3;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  height: 100%;
 }
 .marketRow:hover {
   background: var(--fo-elevated);
@@ -1172,44 +1187,8 @@
   outline: 2px solid var(--fo-accent);
   outline-offset: -2px;
 }
-@container (max-width: 440px) {
-  .marketRow {
-    grid-template-columns: 38px minmax(65px, 1fr) 26px auto 12px;
-    grid-template-rows: auto auto auto;
-    min-height: 104px;
-    padding: 13px 0;
-    gap: 7px 8px;
-  }
-  .marketPortrait {
-    grid-row: 1 / 3;
-  }
-  .marketRow > .marketName {
-    grid-column: 2 / 5;
-    grid-row: 1;
-    font-size: 13px;
-  }
-  .marketPosition {
-    grid-column: 2;
-    grid-row: 2;
-    align-self: center;
-  }
-  .marketTeam {
-    grid-column: 3;
-    grid-row: 2;
-  }
-  .marketStatus {
-    grid-column: 4;
-    grid-row: 2;
-  }
-  .marketChevron {
-    grid-column: 5;
-    grid-row: 1;
-  }
-  .marketRow > .marketIntel {
-    grid-column: 1 / -1;
-    grid-row: 3;
-    font-size: 12px;
-  }
+.marketRow[data-subject='team'] > .marketStatus {
+  grid-column: 3 / 5;
 }
 @media (min-width: 1200px) {
   .development {
@@ -1218,55 +1197,48 @@
   }
 }
 @media (max-width: 767px) {
-  .market {
-    padding: 16px;
-  }
   .market .tabs button {
     min-height: 44px;
   }
-}
-
-@media (max-width: 767px) {
   .marketRow {
-    grid-template-columns: 38px minmax(65px, 1fr) 26px auto 12px;
+    grid-template-columns: 46px minmax(0, 1fr) auto 18px;
     grid-template-rows: auto auto auto;
     min-height: 104px;
-    padding: 13px 0;
-    gap: 7px 8px;
+    padding: 12px 0;
+    gap: 6px 8px;
   }
   .marketPortrait {
+    grid-column: 1;
     grid-row: 1 / 3;
   }
-  .marketRow > .marketName {
-    grid-column: 2 / 5;
+  .marketIdentity {
+    grid-column: 2 / 4;
     grid-row: 1;
+  }
+  .marketName {
     font-size: 13px;
   }
-  .marketPosition {
+  .marketTeam {
     grid-column: 2;
     grid-row: 2;
-    align-self: center;
+    justify-content: flex-start;
   }
-  .marketTeam {
+  .marketRow .marketStatus {
     grid-column: 3;
     grid-row: 2;
   }
-  .marketStatus {
-    grid-column: 4;
-    grid-row: 2;
-  }
-  .marketChevron {
-    grid-column: 5;
-    grid-row: 1;
+  .marketRow[data-subject='team'] > .marketStatus {
+    grid-column: 2 / 4;
   }
   .marketRow > .marketIntel {
-    grid-column: 1 / -1;
+    grid-column: 1 / 4;
     grid-row: 3;
     font-size: 12px;
   }
-}
-
-@media (max-width: 767px) {
+  .marketChevron {
+    grid-column: 4;
+    grid-row: 1 / 4;
+  }
   .status {
     display: none;
   }

@@ -9,7 +9,8 @@ import { useSaveStore } from '@/features/save/save-store';
 import { buildPlayerDetailsModel, type PlayerDetailsSource } from '@/lib/player-details';
 import { getFrontOfficeTeamTheme } from '@/lib/team-theme-tokens';
 import { apiFetch } from '@/lib/api';
-import type { FrontOfficeEvent } from '@/types/front-office';
+import { summarizeSimulatedPlayerStats } from '@/lib/simulated-player-stats';
+import type { FranchiseSimulationState, FrontOfficeEvent } from '@/types/front-office';
 import type { PlayerRowDTO } from '@/types/player';
 import type { TeamDTO } from '@/types/team';
 import styles from './player-details-modal.module.css';
@@ -102,12 +103,81 @@ export default function PlayerDetailsModal({
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const id = React.useId();
+  const [modalBounds, setModalBounds] = React.useState<{ top: number; height: number } | null>(
+    null,
+  );
+  React.useLayoutEffect(() => {
+    if (!isOpen) return;
+    const header = document.querySelector('[data-site-header]');
+    const measure = () => {
+      const zoom = Number.parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+      const top = Math.max(0, header?.getBoundingClientRect().bottom ?? 0);
+      setModalBounds({
+        top: top / zoom,
+        height: Math.max(0, (window.visualViewport?.height ?? innerHeight) - top) / zoom,
+      });
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (header) observer.observe(header);
+    window.addEventListener('resize', measure);
+    window.addEventListener('scroll', measure, true);
+    window.visualViewport?.addEventListener('resize', measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('scroll', measure, true);
+      window.visualViewport?.removeEventListener('resize', measure);
+    };
+  }, [isOpen]);
   const [tab, setTab] = React.useState<Tab>('Overview');
   const [failedPhoto, setFailedPhoto] = React.useState<string | null>(null);
   const [events, setEvents] = React.useState<FrontOfficeEvent[]>([]);
   const [newsState, setNewsState] = React.useState<'loading' | 'ready' | 'error'>('loading');
   const saveId = useSaveStore((state) => state.saveId);
   const season = useSaveStore((state) => state.franchiseYear);
+  const [simulation, setSimulation] = React.useState<FranchiseSimulationState | null>(null);
+  const [statsState, setStatsState] = React.useState<'loading' | 'ready' | 'error'>('loading');
+  React.useEffect(() => {
+    setSimulation(null);
+    if (!isOpen || !saveId) {
+      setStatsState('ready');
+      return;
+    }
+    let controller: AbortController;
+    const load = async () => {
+      controller?.abort();
+      controller = new AbortController();
+      const signal = controller.signal;
+      setStatsState('loading');
+      try {
+        const response = await apiFetch(
+          `/api/front-office/simulate?saveId=${encodeURIComponent(saveId)}`,
+          { signal },
+        );
+        if (!response.ok) throw new Error('Unable to load simulation stats');
+        const body = (await response.json()) as { state?: FranchiseSimulationState };
+        if (!signal.aborted) {
+          setSimulation(body.state ?? null);
+          setStatsState('ready');
+        }
+      } catch {
+        if (!signal.aborted) setStatsState('error');
+      }
+    };
+    void load();
+    window.addEventListener('front-office-simulation-advanced', load);
+    window.addEventListener('front-office-week-complete', load);
+    return () => {
+      controller?.abort();
+      window.removeEventListener('front-office-simulation-advanced', load);
+      window.removeEventListener('front-office-week-complete', load);
+    };
+  }, [isOpen, saveId]);
+  const simulatedStats = React.useMemo(
+    () => summarizeSimulatedPlayerStats(simulation?.games ?? [], source?.player.id ?? ''),
+    [simulation, source?.player.id],
+  );
   const index = sources.findIndex((entry) => entry.player.id === source?.player.id);
   const previous = index > 0 ? sources[index - 1] : null;
   const next = index >= 0 ? sources[index + 1] : null;
@@ -247,27 +317,63 @@ export default function PlayerDetailsModal({
       {value}
     </>
   );
-  const performance = model.stats.length ? (
-    <div className={styles.stats}>
-      {model.stats.map((stat) => (
-        <div key={stat.label}>
-          <strong className="front-office-stat-value">{stat.value}</strong>
-          <span>{stat.label}</span>
+  const shownStats = simulatedStats.stats.length ? simulatedStats.stats : model.stats;
+  const performance = (
+    <>
+      {statsState === 'loading' ? (
+        <p className={styles.empty} role="status">
+          Loading simulated season stats…
+        </p>
+      ) : statsState === 'error' ? (
+        <p className={styles.empty} role="alert">
+          Unable to load simulated season stats. Reopen this player to try again.
+        </p>
+      ) : simulatedStats.stats.length ? (
+        <p className={styles.empty}>
+          {simulation?.season} simulated regular season · {simulatedStats.recordedGames}{' '}
+          {simulatedStats.recordedGames === 1 ? 'game' : 'games'} with recorded stats
+        </p>
+      ) : (
+        <p className={styles.empty}>
+          No simulated regular-season stats have been recorded for this player yet.
+        </p>
+      )}
+      {!simulatedStats.stats.length && model.stats.length > 0 && (
+        <p className={styles.empty}>Imported player snapshot (not simulation totals)</p>
+      )}
+      {shownStats.length > 0 && (
+        <div className={styles.stats}>
+          {shownStats.map((stat) => (
+            <div key={stat.label}>
+              <strong className="front-office-stat-value">{stat.value}</strong>
+              <span>{stat.label}</span>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  ) : (
-    <p className={styles.empty}>No meaningful stat snapshot is available for this player yet.</p>
+      )}
+    </>
   );
   return (
-    <div className={`app-modal-layer ${styles.backdrop}`} onClick={onClose}>
+    <div
+      className={`app-modal-layer ${styles.backdrop}`}
+      onClick={onClose}
+      style={
+        {
+          top: modalBounds?.top ?? 0,
+          bottom: 'auto',
+          height: modalBounds?.height ?? 0,
+          visibility: modalBounds ? 'visible' : 'hidden',
+          '--player-modal-top': `${modalBounds?.top ?? 0}px`,
+        } as React.CSSProperties
+      }
+    >
       <div
         ref={dialogRef}
         className={styles.dialog}
         role="dialog"
         aria-modal="true"
         aria-labelledby={`${id}-name`}
-        style={{ '--player-accent': accent } as React.CSSProperties}
+        style={{ '--player-accent': accent, maxHeight: '100%' } as React.CSSProperties}
         onClick={(event) => event.stopPropagation()}
       >
         <div className={styles.scroll} ref={scrollRef}>
@@ -505,17 +611,7 @@ export default function PlayerDetailsModal({
                 <Card title="Performance Snapshot">{performance}</Card>
               </>
             )}
-            {tab === 'Stats' && (
-              <Card title="Performance Snapshot">
-                {performance}
-                {model.stats.length > 0 && (
-                  <p className={styles.empty}>
-                    Available player snapshot. Season-by-season and playoff splits are not available
-                    in this save.
-                  </p>
-                )}
-              </Card>
-            )}
+            {tab === 'Stats' && <Card title="Performance Snapshot">{performance}</Card>}
             {tab === 'Contract' && (
               <Card title="Current Contract">
                 {contract}

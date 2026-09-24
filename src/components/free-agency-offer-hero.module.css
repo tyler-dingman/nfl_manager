@@ -1,0 +1,170 @@
+/* Composition only; photography, watermark, geometry and OVR use Player Details styles. */
+.hero.hero {
+  min-height: 280px;
+  height: 280px;
+  padding: 16px 20px 0 0;
+  grid-template-columns: 32% minmax(0, 1fr) 84px;
+  gap: 16px;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  background: #06121e;
+}
+.hero .portrait {
+  height: 100%;
+  max-width: none;
+}
+.hero .identity {
+  margin: 0;
+  padding: 12px 0;
+  grid-column: auto;
+}
+.identity h3 {
+  margin: 0;
+  color: #fff;
+  line-height: 1.02;
+  letter-spacing: normal;
+}
+.identity h3 span {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.identity h3 strong {
+  display: block;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+.hero .overall {
+  grid-column: auto;
+  min-height: 112px;
+  margin: 0;
+  align-self: center;
+}
+.hero .overall strong {
+  font-size: 48px;
+}
+.hero .initials {
+  height: 85%;
+  font-size: 48px;
+}
+.marketSummary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 14px 0;
+  border: 1px solid var(--fo-line, #ffffff20);
+  border-radius: 6px;
+  background: #091a20;
+  color: #f5f7f7;
+}
+.marketSummary > div {
+  padding: 0 14px;
+  border-right: 1px solid #ffffff18;
+}
+.marketSummary > div:last-child {
+  border: 0;
+}
+.marketSummary dt {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a8bac4;
+  margin-bottom: 5px;
+}
+.marketSummary dd {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
+}
+.marketSummary .marketStatus {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+}
+@media (max-width: 600px) {
+  .hero.hero {
+    height: 250px;
+    min-height: 250px;
+    grid-template-columns: 38% minmax(0, 1fr) 60px;
+    padding: 12px 8px 0 0;
+    gap: 8px;
+    align-content: center;
+  }
+  .hero .portrait {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 43%;
+    height: 85%;
+  }
+  .hero .identity {
+    grid-column: 2;
+    align-self: start;
+  }
+  .identity h3 span {
+    font-size: 16px;
+  }
+  .identity h3 strong {
+    font-size: 27px;
+  }
+  .hero .overall {
+    grid-column: 3;
+    min-height: 84px;
+    align-self: start;
+  }
+  .hero .overall strong {
+    font-size: 38px;
+  }
+  .hero .overall span {
+    font-size: 10px;
+  }
+  .marketSummary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 0;
+  }
+  .marketSummary > div:nth-child(2) {
+    border: 0;
+  }
+}
+.hero .portrait {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 32%;
+  height: 95%;
+}
+.hero .identity {
+  grid-column: 2;
+}
+.hero .overall {
+  grid-column: 3;
+}
+@media (max-width: 600px) {
+  .hero.hero {
+    grid-template-columns: 38% minmax(0, 1fr);
+  }
+  .hero .portrait {
+    width: 43%;
+    height: 85%;
+  }
+  .hero .identity {
+    align-self: start;
+    padding-bottom: 68px;
+  }
+  .hero .overall {
+    position: absolute;
+    right: 8px;
+    bottom: 12px;
+    width: 60px;
+  }
+  .identity h3 strong {
+    font-size: 25px;
+  }
+}
+/* Fill the compact cutout stage so wide source headshots remain prominent. */
+.hero .portrait > img {
+  object-fit: cover;
+  object-position: center bottom;
+}

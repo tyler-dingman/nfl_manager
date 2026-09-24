@@ -11,6 +11,7 @@ import {
   getTradableDraftPicksForTeam,
   pushNewsItem,
   transferStoredPlayerToTeam,
+  transferDraftPicksToTeam,
   type SaveResult,
 } from './store';
 import { parseMoneyMillions } from '@/server/logic/cap';
@@ -98,7 +99,12 @@ type TradeBalanceResult = {
   explanation: string;
 };
 
-const tradeStore = new Map<string, TradeState>();
+// Next bundles API routes separately. Keep the existing in-memory state shared
+// across those module instances and development hot reloads in this server process.
+const serverState = globalThis as typeof globalThis & {
+  __frontOfficeTradeStore?: Map<string, TradeState>;
+};
+const tradeStore = (serverState.__frontOfficeTradeStore ??= new Map<string, TradeState>());
 
 const getPartnerRoster = (
   state: Parameters<typeof getOrBuildProjectedRosterForTeam>[0],
@@ -644,7 +650,8 @@ export const analyzeTrade = (
   );
   const outgoing = sumValues(trade.sendAssets);
   const incoming = sumValues(trade.receiveAssets);
-  const acceptance = outgoing === 0 ? 0 : Math.min(100, Math.round((incoming / outgoing) * 100));
+  const acceptance =
+    incoming === 0 || outgoing === 0 ? 0 : Math.min(100, Math.round((outgoing / incoming) * 100));
 
   return {
     ok: true,
@@ -716,9 +723,31 @@ export const proposeTrade = (
   const sendValue = sumValues(trade.sendAssets);
   const receiveValue = sumValues(trade.receiveAssets);
   const acceptance =
-    sendValue === 0 ? 0 : Math.min(100, Math.round((receiveValue / sendValue) * 100));
+    receiveValue === 0 || sendValue === 0
+      ? 0
+      : Math.min(100, Math.round((sendValue / receiveValue) * 100));
   const accepted = acceptance >= 70 && proposal.isValid;
 
+  // Revalidate ownership at execution time; browser selections can be stale.
+  for (const [assets, roster, owner] of [
+    [trade.sendAssets, userRoster, userTeamAbbr],
+    [trade.receiveAssets, partnerRoster, partnerTeamAbbr],
+  ] as const) {
+    const picks = new Set(
+      getTradableDraftPicksForTeam(saveStateResult.data, owner).map((pick) => pick.id),
+    );
+    if (
+      assets.some((asset) =>
+        asset.type === 'player'
+          ? !roster.some((player) => player.id === asset.playerId)
+          : !asset.pickId || !picks.has(asset.pickId),
+      )
+    ) {
+      throw new Error(
+        'An asset is no longer owned by the selected team. Reset the trade and try again.',
+      );
+    }
+  }
   if (accepted) {
     const sendPlayerIds = new Set(proposal.outgoingPlayers.map((player) => player.id));
     const receivePlayerIds = new Set(proposal.incomingPlayers.map((player) => player.id));
@@ -774,6 +803,19 @@ export const proposeTrade = (
         timestamp: now,
       });
     }
+
+    transferDraftPicksToTeam(
+      saveStateResult.data,
+      trade.sendAssets.flatMap((asset) => (asset.pickId ? [asset.pickId] : [])),
+      partnerTeamAbbr,
+    );
+    transferDraftPicksToTeam(
+      saveStateResult.data,
+      trade.receiveAssets.flatMap((asset) => (asset.pickId ? [asset.pickId] : [])),
+      userTeamAbbr,
+    );
+    // Retire executed workspaces so retries cannot transfer assets or charge cap twice.
+    tradeStore.delete(tradeId);
 
     pushNewsItem(saveStateResult.data, {
       type: 'trade',

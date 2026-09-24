@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, DraftingCompass, Handshake, Trophy } from 'lucide-react';
 
@@ -56,10 +56,14 @@ function FrontOfficePathGate({
   selectedMode,
   onSelect,
   onContinue,
+  busy,
+  error,
 }: {
   selectedMode: ExperienceMode;
   onSelect: (mode: ExperienceMode) => void;
-  onContinue: () => void;
+  onContinue: (mode: ExperienceMode) => void;
+  busy: boolean;
+  error: string;
 }) {
   return (
     <AppShell showTeamSummary={false} showLeagueWire={false}>
@@ -81,7 +85,12 @@ function FrontOfficePathGate({
                     ? 'is-selected border-transparent bg-[var(--team-dark)] text-[var(--team-on-dark)] shadow-xl'
                     : 'border-border bg-white hover:-translate-y-0.5 hover:shadow-lg'
                 }`}
-                onClick={() => onSelect(option.key)}
+                disabled={busy}
+                aria-pressed={isSelected}
+                onClick={() => {
+                  onSelect(option.key);
+                  if (window.matchMedia('(max-width: 767px)').matches) onContinue(option.key);
+                }}
               >
                 {option.isDefault ? (
                   <div className="absolute right-0 top-[-2px] z-10">
@@ -113,10 +122,21 @@ function FrontOfficePathGate({
             );
           })}
         </div>
-        <div className="mt-6 flex justify-end">
+        {busy && (
+          <p role="status" className="mt-4 text-sm text-muted-foreground">
+            Starting your experience…
+          </p>
+        )}
+        {error && (
+          <p role="alert" className="mt-4 text-sm text-foreground">
+            {error}
+          </p>
+        )}
+        <div className="mt-6 hidden justify-end md:flex">
           <Button
             type="button"
-            onClick={onContinue}
+            disabled={busy}
+            onClick={() => onContinue(selectedMode)}
             className="w-full bg-[var(--team-dark)] text-[var(--team-on-dark)] hover:bg-[var(--team-dark)] hover:opacity-95 md:w-auto"
           >
             Continue
@@ -153,6 +173,9 @@ export default function ExperiencePage() {
   const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
   const [savedPath, setSavedPath] = useState<FrontOfficePath | null>(null);
   const [frontOfficeReady, setFrontOfficeReady] = useState(false);
+  const [starting, setStarting] = useState(false);
+  const [startError, setStartError] = useState('');
+  const startingRef = useRef(false);
 
   const isHydrated = hasHydrated && experienceHasHydrated;
 
@@ -295,79 +318,91 @@ export default function ExperiencePage() {
     );
   }
 
-  const handleContinue = async () => {
-    const actionableSaveId = await ensureRecoverableSaveId(
-      {
-        preferredSaveId: saveId,
-        teamId,
-        teamAbbr,
-        year: franchiseYear,
-        capSpace,
-        capLimit,
-        roster,
-        phase,
-        unlocked,
-      },
-      setSaveHeader,
-    );
+  const handleContinue = async (selectedMode: ExperienceMode) => {
+    if (startingRef.current) return;
+    startingRef.current = true;
+    setStarting(true);
+    setStartError('');
+    try {
+      const actionableSaveId = await ensureRecoverableSaveId(
+        {
+          preferredSaveId: saveId,
+          teamId,
+          teamAbbr,
+          year: franchiseYear,
+          capSpace,
+          capLimit,
+          roster,
+          phase,
+          unlocked,
+        },
+        setSaveHeader,
+      );
 
-    if (!actionableSaveId) {
-      router.replace('/');
-      return;
+      if (!actionableSaveId) {
+        router.replace('/');
+        return;
+      }
+
+      let initialPhase = phase;
+      if (selectedMode === 'full') {
+        initialPhase = 'week-1';
+      } else if (selectedMode === 'free_agency') {
+        initialPhase = 'free_agency';
+      } else if (selectedMode === 'draft') {
+        initialPhase = 'draft';
+      }
+
+      const metadataResponse = await apiFetch('/api/front-office/state', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId: actionableSaveId,
+          teamAbbr,
+          season: franchiseYear,
+          selectedPath: selectedMode,
+          simulationPhase: initialPhase,
+        }),
+      }).catch(() => null);
+      if (!metadataResponse?.ok) throw new Error('Unable to save experience selection.');
+      const simulationResponse = await apiFetch('/api/front-office/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId: actionableSaveId,
+          action: 'initialize',
+          target: initialPhase,
+        }),
+      });
+      const simulationPayload = (await simulationResponse.json().catch(() => null)) as {
+        state?: FranchiseSimulationState;
+      } | null;
+      if (!simulationResponse.ok || !simulationPayload?.state)
+        throw new Error('Unable to initialize experience.');
+      applyAuthoritativeFranchiseState(simulationPayload.state);
+      localStorage.setItem(`dnd-front-office-path:${actionableSaveId}`, selectedMode);
+      setSavedPath(selectedMode);
+
+      if (selectedMode === 'full') {
+        setFullExperience();
+        router.replace('/experience');
+        return;
+      }
+
+      if (selectedMode === 'free_agency') {
+        enterSandboxStep('free-agency');
+        router.push('/free-agents');
+        return;
+      }
+
+      enterSandboxStep('draft');
+      router.push('/front-office/draft');
+    } catch {
+      setStartError('Could not start your experience. Please tap your choice to try again.');
+    } finally {
+      startingRef.current = false;
+      setStarting(false);
     }
-
-    let initialPhase = phase;
-    if (selectedMode === 'full') {
-      initialPhase = 'week-1';
-    } else if (selectedMode === 'free_agency') {
-      initialPhase = 'free_agency';
-    } else if (selectedMode === 'draft') {
-      initialPhase = 'draft';
-    }
-
-    const metadataResponse = await apiFetch('/api/front-office/state', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId: actionableSaveId,
-        teamAbbr,
-        season: franchiseYear,
-        selectedPath: selectedMode,
-        simulationPhase: initialPhase,
-      }),
-    }).catch(() => null);
-    if (!metadataResponse?.ok) return;
-    const simulationResponse = await apiFetch('/api/front-office/simulate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId: actionableSaveId,
-        action: 'initialize',
-        target: initialPhase,
-      }),
-    });
-    const simulationPayload = (await simulationResponse.json().catch(() => null)) as {
-      state?: FranchiseSimulationState;
-    } | null;
-    if (!simulationResponse.ok || !simulationPayload?.state) return;
-    applyAuthoritativeFranchiseState(simulationPayload.state);
-    localStorage.setItem(`dnd-front-office-path:${actionableSaveId}`, selectedMode);
-    setSavedPath(selectedMode);
-
-    if (selectedMode === 'full') {
-      setFullExperience();
-      router.replace('/experience');
-      return;
-    }
-
-    if (selectedMode === 'free_agency') {
-      enterSandboxStep('free-agency');
-      router.push('/free-agents');
-      return;
-    }
-
-    enterSandboxStep('draft');
-    router.push('/front-office/draft');
   };
 
   if (shouldShowFrontOfficeOnboarding(savedPath)) {
@@ -375,7 +410,9 @@ export default function ExperiencePage() {
       <FrontOfficePathGate
         selectedMode={selectedMode}
         onSelect={setSelectedMode}
-        onContinue={() => void handleContinue()}
+        onContinue={(mode) => void handleContinue(mode)}
+        busy={starting}
+        error={startError}
       />
     );
   }

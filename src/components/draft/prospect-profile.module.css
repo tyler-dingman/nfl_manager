@@ -28,35 +28,18 @@
   overscroll-behavior: contain;
 }
 .hero {
+  composes: cinematic from '../player-hero-visual.module.css';
   position: relative;
   isolation: isolate;
   display: grid;
   grid-template-columns: 32% minmax(0, 1fr) 170px;
   align-items: center;
   gap: 24px;
-  min-height: 350px;
-  padding: 65px 34px 22px;
-  background: var(--fo-panel);
+  min-height: 315px;
+  padding: 48px 32px 0 20px;
+  background: #06121e;
   color: var(--fo-text);
   overflow: hidden;
-}
-.hero:before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: var(--college-primary);
-  opacity: 0.38;
-  clip-path: polygon(43% 0, 74% 0, 44% 100%, 19% 100%);
-}
-.hero:after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: var(--college-secondary);
-  opacity: 0.1;
-  clip-path: polygon(88% 0, 100% 0, 64% 100%, 55% 100%);
 }
 .utility {
   position: absolute;
@@ -109,7 +92,7 @@
   position: absolute;
   left: 2%;
   top: 65px;
-  opacity: 0.08;
+  opacity: 0.12;
   font-size: 150px;
   line-height: 1;
   font-weight: 900;
@@ -119,7 +102,7 @@
   bottom: 0;
   left: 0;
   width: 37%;
-  height: calc(100% - 62px);
+  height: calc(100% - 48px);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -204,7 +187,8 @@
   height: 230px;
   display: grid;
   place-items: center;
-  opacity: 0.14;
+  opacity: 0.12;
+  filter: grayscale(1);
 }
 .schoolMark img {
   width: 100%;
@@ -651,12 +635,9 @@
     font-size: 12px;
   }
 }
-.hero::before {
-  background: url('/assets/front-office/graphics/heroes/play-diagram.svg') right center / contain
-    no-repeat;
-  opacity: 0.12;
-  clip-path: none;
-}
-.hero::after {
-  display: none;
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .hero {
+    min-height: 280px;
+  }
 }

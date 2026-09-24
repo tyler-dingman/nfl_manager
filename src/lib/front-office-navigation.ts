@@ -1,4 +1,13 @@
 export const FRONT_OFFICE_NAVIGATION = {
+  ownership: [
+    { label: 'Ownership Central', href: '/front-office/ownership', key: 'central' },
+    { label: 'Stadium', href: '/front-office/ownership/stadium', key: 'stadium' },
+    { label: 'Facilities', href: '/front-office/ownership/facilities', key: 'facilities' },
+    { label: 'Business', href: '/front-office/ownership/business', key: 'business' },
+    { label: 'Fans', href: '/front-office/ownership/fans', key: 'fans' },
+    { label: 'Report Card', href: '/front-office/ownership/report-card', key: 'report-card' },
+    { label: 'Legacy', href: '/front-office/ownership/legacy', key: 'legacy' },
+  ],
   roster: [
     { label: 'Roster Central', href: '/roster?view=roster', key: 'roster-central' },
     { label: 'Depth Chart', href: '/roster?view=depth', key: 'depth-chart' },

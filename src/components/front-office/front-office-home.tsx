@@ -92,26 +92,32 @@ function MarketRow({
     ? playerName(player)
     : (teamsByAbbr.get(teamAbbr ?? '')?.name ?? title ?? 'Trade market');
   return (
-    <Link className={styles.marketRow} href={href}>
+    <Link className={styles.marketRow} href={href} data-subject={player ? 'player' : 'team'}>
       <div className={styles.marketPortrait}>
-        {player ? <Portrait player={player} size={38} /> : <Logo abbr={teamAbbr} size={32} />}
+        {player ? <Portrait player={player} size={46} /> : <Logo abbr={teamAbbr} size={32} />}
       </div>
-      <strong className={styles.marketName} title={name}>
-        {name}
-      </strong>
+      <div className={styles.marketIdentity}>
+        <strong className={styles.marketName} title={name}>
+          {name}
+        </strong>
+        {player && (
+          <small className={styles.marketPosition}>
+            {player.position} · {rating(player) ?? '—'} OVR
+          </small>
+        )}
+      </div>
       {player && (
-        <small className={styles.marketPosition}>
-          {player.position} · {rating(player) ?? '—'} OVR
-        </small>
+        <div className={styles.marketTeam}>
+          <Logo abbr={teamAbbr} size={30} />
+        </div>
       )}
-      <div className={styles.marketTeam}>
-        <Logo abbr={teamAbbr} size={26} />
-      </div>
       <span className={`${styles.chip} ${styles.marketStatus}`} title={status}>
         {status}
       </span>
       <p className={styles.marketIntel}>{intel || title}</p>
-      <ChevronRight className={styles.marketChevron} aria-hidden="true" />
+      <span className={styles.marketChevron} aria-hidden="true">
+        <ChevronRight size={16} />
+      </span>
     </Link>
   );
 }
@@ -576,8 +582,10 @@ export function FrontOfficeHome({
                     <MarketRow
                       key={e.id}
                       player={
-                        roster.find((p) => p.id === e.playerId) ??
-                        market.targets.find((p) => p.id === e.playerId)
+                        Array.isArray(e.metadata?.playerIds) && e.metadata.playerIds.length > 1
+                          ? undefined
+                          : (roster.find((p) => p.id === e.playerId) ??
+                            market.targets.find((p) => p.id === e.playerId))
                       }
                       teamAbbr={e.relatedTeamAbbr ?? e.teamAbbr}
                       title={e.headline}

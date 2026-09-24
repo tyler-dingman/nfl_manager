@@ -18,7 +18,10 @@ import {
   X,
   ChevronDown,
 } from 'lucide-react';
+import { OwnershipIcon } from '@/components/ui/ownership-icon';
 import type { Team } from '@/features/team/team-store';
+
+const OwnershipNavIcon = () => <OwnershipIcon name="owners-desk" />;
 
 const items = [
   { label: 'Home', href: '/experience', icon: Home },
@@ -30,6 +33,7 @@ const items = [
   { label: 'Player Development', href: '/front-office/development', icon: Layers },
   { label: 'Contracts', href: '/roster?view=resign', icon: FileText },
   { label: 'League Intel', href: '/league', icon: Globe },
+  { label: 'Ownership', href: '/front-office/ownership', icon: OwnershipNavIcon },
   { label: 'Settings', href: '/front-office/settings', icon: Settings },
 ];
 
@@ -145,7 +149,6 @@ export function FrontOfficeSidebar({
           )}
           <span>
             <strong>{team?.name ?? 'Your franchise'}</strong>
-            <span>Front Office</span>
             <small>{season} Season</small>
           </span>
         </Link>

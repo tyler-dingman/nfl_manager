@@ -3,8 +3,16 @@
 import Image from 'next/image';
 import PlayerDetailsModal from '@/components/player-details-modal';
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ChevronDown, CirclePlus, RefreshCcw, ShieldCheck, X } from 'lucide-react';
+import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Check,
+  Handshake,
+  ChevronDown,
+  CirclePlus,
+  RefreshCcw,
+  ShieldCheck,
+  X,
+} from 'lucide-react';
 import {
   DdTradeHubIcon as ArrowLeftRight,
   DdPlayerComparisonIcon as BarChart3,
@@ -14,6 +22,8 @@ import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 import { TEAM_LIST } from '@/data/teams';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
+import { dispatchSaveDataUpdated } from '@/lib/save-sync-events';
+import { invalidatePlayerQueryCache } from '@/features/players/queries';
 import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { resolvePlayerRating } from '@/lib/team-overview';
@@ -66,7 +76,11 @@ function AssetBrowser({
   tab,
   onTab,
   onToggle,
+  side,
+  disabled,
 }: {
+  side: Side;
+  disabled: boolean;
   source: TeamTradeAssetSourceDTO | null;
   selected: TradeAsset[];
   tab: Tab;
@@ -178,13 +192,28 @@ function AssetBrowser({
               return (
                 <div className={styles.assetRow} key={player.id}>
                   <button
+                    disabled={disabled}
+                    draggable={!disabled && !checked}
+                    onDragStart={(event) => {
+                      event.dataTransfer.setData(
+                        'application/x-trade-asset',
+                        JSON.stringify({ side, type: 'player', id: player.id }),
+                      );
+                      event.dataTransfer.effectAllowed = 'copy';
+                    }}
                     className={checked ? styles.selectedAsset : ''}
                     onClick={() => onToggle('player', player.id, checked)}
                   >
                     <span className={styles.check}>{checked ? '✓' : ''}</span>
                     <span className={styles.playerIdentity}>
                       {player.headshotUrl ? (
-                        <Image src={player.headshotUrl} alt="" width={28} height={28} />
+                        <Image
+                          src={player.headshotUrl}
+                          alt=""
+                          width={28}
+                          height={28}
+                          draggable={false}
+                        />
                       ) : null}
                       <b>{playerName(player)}</b>
                     </span>
@@ -212,6 +241,15 @@ function AssetBrowser({
             return (
               <button
                 key={pick.id}
+                disabled={disabled}
+                draggable={!disabled && !checked}
+                onDragStart={(event) => {
+                  event.dataTransfer.setData(
+                    'application/x-trade-asset',
+                    JSON.stringify({ side, type: 'pick', id: pick.id }),
+                  );
+                  event.dataTransfer.effectAllowed = 'copy';
+                }}
                 className={checked ? styles.selectedAsset : ''}
                 onClick={() => onToggle('pick', pick.id, checked)}
               >
@@ -243,6 +281,16 @@ function AssetBrowser({
 }
 
 export function TradeHubPage() {
+  const userBrowserRef = useRef<HTMLElement>(null);
+  const partnerBrowserRef = useRef<HTMLElement>(null);
+  const focusAssetBrowser = (side: Side) => {
+    const browser = (side === 'send' ? userBrowserRef : partnerBrowserRef).current;
+    browser?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    (
+      browser?.querySelector<HTMLElement>('input') ??
+      browser?.querySelector<HTMLElement>('button:not(:disabled)')
+    )?.focus({ preventScroll: true });
+  };
   const save = useSaveStore();
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const selectedTeam = useTeamStore((state) =>
@@ -263,29 +311,31 @@ export function TradeHubPage() {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const busyRef = useRef(false);
+  const [dropSide, setDropSide] = useState<Side | null>(null);
   const [chartOpen, setChartOpen] = useState(false);
   const userAbbr = save.teamAbbr || selectedTeam?.abbr || '';
   const userTeam = teams.find((team) => team.abbr === userAbbr);
   const partnerTeam = teams.find((team) => team.abbr === partner);
 
-  const resolveSave = useCallback(
-    async () =>
-      ensureRecoverableSaveId(
-        {
-          preferredSaveId: save.saveId,
-          teamId: save.teamId,
-          teamAbbr: userAbbr,
-          year: save.franchiseYear,
-          capSpace: save.capSpace,
-          capLimit: save.capLimit,
-          roster: save.roster,
-          phase: save.phase,
-          unlocked: save.unlocked,
-        },
-        setSaveHeader,
-      ),
-    [save, setSaveHeader, userAbbr],
-  );
+  const resolveSave = useCallback(async () => {
+    const current = useSaveStore.getState();
+    return ensureRecoverableSaveId(
+      {
+        preferredSaveId: current.saveId,
+        teamId: current.teamId,
+        teamAbbr: current.teamAbbr || userAbbr,
+        year: current.franchiseYear,
+        capSpace: current.capSpace,
+        capLimit: current.capLimit,
+        roster: current.roster,
+        phase: current.phase,
+        unlocked: current.unlocked,
+      },
+      setSaveHeader,
+    );
+  }, [setSaveHeader, userAbbr]);
   useEffect(() => {
     void apiFetch('/api/teams')
       .then((response) => response.json())
@@ -299,8 +349,8 @@ export function TradeHubPage() {
   const load = useCallback(async () => {
     if (!partner || !userAbbr) return;
     setLoading(true);
-    setStatus('');
     setAnalysis(null);
+    setTrade(null);
     try {
       const saveId = await resolveSave();
       if (!saveId) throw new Error('Unable to resolve the active Front Office save.');
@@ -326,14 +376,14 @@ export function TradeHubPage() {
         throw new Error(payload.error ?? 'Unable to load team assets.');
       setUserSource(payload.user);
       setPartnerSource(payload.partner);
-      setCaps(payload.caps ?? { user: save.capSpace, partner: 0 });
+      setCaps(payload.caps ?? { user: useSaveStore.getState().capSpace, partner: 0 });
       setLiveNeeds(payload.needs ?? { user: [], partner: [] });
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Unable to load Trade Machine.');
     } finally {
       setLoading(false);
     }
-  }, [partner, resolveSave, save.capSpace, userAbbr]);
+  }, [partner, resolveSave, userAbbr]);
   useEffect(() => {
     void load();
   }, [load]);
@@ -362,28 +412,110 @@ export function TradeHubPage() {
     id: string,
     selected: boolean,
   ) => {
-    if (!trade) return;
-    const saveId = await resolveSave();
-    if (!saveId) return;
-    const existing = (side === 'send' ? trade.sendAssets : trade.receiveAssets).find((asset) =>
-      type === 'player' ? asset.playerId === id : asset.pickId === id,
-    );
-    const endpoint = selected && existing ? 'remove-asset' : 'add-asset';
-    const response = await apiFetch(`/api/trades/${trade.id}/${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        saveId,
-        side,
-        type,
-        ...(type === 'player' ? { playerId: id } : { pickId: id }),
-        ...(existing ? { assetId: existing.id } : {}),
-      }),
-    });
-    if (response.ok) {
-      const next = (await response.json()) as Trade;
-      setTrade(next);
-      void analyze(next);
+    if (!trade || busyRef.current || loading) return;
+    busyRef.current = true;
+    setBusy(true);
+    setStatus('');
+    try {
+      const saveId = await resolveSave();
+      if (!saveId) throw new Error('Unable to load your save. Please reload and try again.');
+      const existing = (side === 'send' ? trade.sendAssets : trade.receiveAssets).find((asset) =>
+        type === 'player' ? asset.playerId === id : asset.pickId === id,
+      );
+      if (!selected && existing) return;
+      const endpoint = selected && existing ? 'remove-asset' : 'add-asset';
+      const response = await apiFetch(`/api/trades/${trade.id}/${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          saveId,
+          side,
+          type,
+          ...(type === 'player' ? { playerId: id } : { pickId: id }),
+          ...(existing ? { assetId: existing.id } : {}),
+        }),
+      });
+      if (response.ok) {
+        const next = (await response.json()) as Trade;
+        setTrade(next);
+        await analyze(next);
+      } else {
+        const body = await response.json();
+        throw new Error(body.error ?? 'Unable to update trade assets.');
+      }
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Unable to update trade.');
+    } finally {
+      busyRef.current = false;
+      setBusy(false);
+    }
+  };
+
+  const dropAsset = (event: React.DragEvent) => {
+    event.preventDefault();
+    setDropSide(null);
+    if (busyRef.current || loading) return;
+    try {
+      const asset = JSON.parse(event.dataTransfer.getData('application/x-trade-asset'));
+      if (
+        !['send', 'receive'].includes(asset.side) ||
+        !['player', 'pick'].includes(asset.type) ||
+        typeof asset.id !== 'string'
+      )
+        return;
+      // Ownership determines the package, even when dropped on the opposite box.
+      const side: Side = asset.side;
+      const source = side === 'send' ? userSource : partnerSource;
+      if (
+        asset.type === 'player'
+          ? !source?.players.some((p) => p.id === asset.id)
+          : !source?.draftPicks.some((p) => p.id === asset.id)
+      )
+        return;
+      void toggleAsset(side, asset.type, asset.id, false);
+    } catch {
+      /* Ignore unrelated drag payloads. */
+    }
+  };
+  const executeTrade = async () => {
+    if (!trade || busyRef.current || !analysis?.proposal.isValid) return;
+    busyRef.current = true;
+    setBusy(true);
+    setStatus('Submitting trade…');
+    try {
+      const saveId = await resolveSave();
+      if (!saveId) throw new Error('Unable to load your save.');
+      const response = await apiFetch(`/api/trades/${trade.id}/propose`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ saveId }),
+      });
+      const result = await response.json();
+      if (!response.ok || result.ok === false)
+        throw new Error(result.error ?? 'Unable to submit trade.');
+      if (!result.accepted) {
+        setStatus(
+          result.proposal?.validationErrors?.[0]?.message ??
+            'Trade declined. Offer more value to the other team and try again.',
+        );
+        return;
+      }
+      setTrade(null);
+      setAnalysis(null);
+      setSaveHeader(result.header);
+      invalidatePlayerQueryCache(undefined, saveId);
+      const rosterResponse = await apiFetch(
+        `/api/roster?${new URLSearchParams({ saveId, teamAbbr: userAbbr })}`,
+      );
+      if (rosterResponse.ok) useSaveStore.getState().setRoster(await rosterResponse.json());
+      dispatchSaveDataUpdated({ saveId, teamAbbr: userAbbr, reason: 'trade-accepted' });
+      await load();
+      setStatus('Trade accepted. Both rosters, draft picks, and cap space have been updated.');
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Unable to submit trade.');
+    } finally {
+      busyRef.current = false;
+      setBusy(false);
     }
   };
 
@@ -427,6 +559,7 @@ export function TradeHubPage() {
               onClick={() =>
                 void toggleAsset(asset.side, asset.type, (asset.playerId ?? asset.pickId)!, true)
               }
+              disabled={busy || loading}
               aria-label="Remove asset"
             >
               <X />
@@ -441,23 +574,66 @@ export function TradeHubPage() {
       </div>
     );
 
-  const balance = analysis
-    ? Math.max(5, Math.min(95, 50 + analysis.packageValues.difference / 4))
-    : 50;
+  const totalValue = analysis
+    ? analysis.packageValues.incoming + analysis.packageValues.outgoing
+    : 0;
+  const valueShare = totalValue > 0 ? analysis!.packageValues.incoming / totalValue : 0.5;
+  const completePackage = Boolean(trade?.sendAssets.length && trade.receiveAssets.length);
+  const grade = !completePackage
+    ? '—'
+    : !analysis?.proposal.isValid
+      ? 'D'
+      : valueShare >= 0.6
+        ? 'A'
+        : valueShare >= 0.53
+          ? 'B+'
+          : valueShare >= 0.47
+            ? 'B'
+            : valueShare >= 0.4
+              ? 'C'
+              : 'D';
+  const verdict = !completePackage
+    ? 'Incomplete proposal'
+    : !analysis?.proposal.isValid
+      ? 'Needs attention'
+      : valueShare >= 0.53
+        ? 'Favorable'
+        : valueShare >= 0.47
+          ? 'Balanced'
+          : 'Costly';
+  const acceptance =
+    analysis?.proposal.isValid && completePackage
+      ? Math.max(0, Math.min(100, Math.round(analysis.acceptance)))
+      : 0;
+  const incomingPicks = trade?.receiveAssets.filter((asset) => asset.type === 'pick').length ?? 0;
+  const outgoingPicks = trade?.sendAssets.filter((asset) => asset.type === 'pick').length ?? 0;
+  const capChange = analysis ? analysis.simulation.teams.sending.resultingCapSpace - caps.user : 0;
+  const gradeSummary = !completePackage
+    ? 'Add assets from both teams to evaluate the complete proposal.'
+    : (analysis?.proposal.validationErrors[0]?.message ??
+      `${valueShare >= 0.53 ? 'Receives more value than it sends' : valueShare >= 0.47 ? 'Exchanges comparable package value' : 'Sends more value than it receives'}, with ${money(Math.abs(capChange))} ${capChange >= 0 ? 'added to' : 'used from'} your available cap space.`);
   if (loading && !trade) return <div className={styles.status}>Loading the Trade Machine…</div>;
   if (status && !trade)
     return (
       <div className={styles.status}>
         <b>Trade Machine unavailable</b>
         <span>{status}</span>
-        <button onClick={() => void load()}>Try again</button>
+        <button
+          disabled={busy || loading}
+          onClick={() => {
+            setStatus('');
+            void load();
+          }}
+        >
+          Try again
+        </button>
       </div>
     );
 
   return (
     <div className={styles.page}>
       <div className={styles.workspace}>
-        <section className={styles.teamPanel}>
+        <section className={styles.teamPanel} ref={userBrowserRef}>
           <header>
             <TeamMark abbr={userAbbr} name={userTeam?.name ?? 'Your team'} />
             <span>
@@ -468,6 +644,8 @@ export function TradeHubPage() {
             </span>
           </header>
           <AssetBrowser
+            side="send"
+            disabled={busy || loading}
             source={userSource}
             selected={trade?.sendAssets ?? []}
             tab={leftTab}
@@ -484,21 +662,68 @@ export function TradeHubPage() {
               <RefreshCcw /> Reset trade
             </button>
           </header>
+          {status ? (
+            <p role="status" className={styles.proposalStatus}>
+              {status}
+            </p>
+          ) : null}
           <div className={styles.packages}>
-            <section>
-              <h3>{userTeam?.name ?? userAbbr} receive</h3>
-              {renderPackage(
-                trade?.receiveAssets ?? [],
-                partnerSource,
-                'Add players, picks, or assets from the right panel',
-              )}
-            </section>
-            <section>
-              <h3>{partnerTeam?.name ?? 'Other team'} receive</h3>
+            <section
+              aria-label="Your team sends"
+              data-drop-active={dropSide === 'send'}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDropSide('send');
+              }}
+              onDragLeave={() => setDropSide(null)}
+              onDrop={dropAsset}
+            >
+              <h3>{userTeam?.name ?? userAbbr}</h3>
               {renderPackage(
                 trade?.sendAssets ?? [],
                 userSource,
-                'Add players, picks, or assets from the left panel',
+                'Drag players or picks here from your team, or click to add',
+              )}
+              {Boolean(trade?.sendAssets.length) && (
+                <button
+                  type="button"
+                  className={styles.addPackageAsset}
+                  disabled={busy || loading}
+                  aria-label="Add players or picks from your team"
+                  onClick={() => focusAssetBrowser('send')}
+                  title="Add or drop another player or pick"
+                >
+                  <CirclePlus size={22} />
+                </button>
+              )}
+            </section>
+            <section
+              aria-label="Your team receives"
+              data-drop-active={dropSide === 'receive'}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDropSide('receive');
+              }}
+              onDragLeave={() => setDropSide(null)}
+              onDrop={dropAsset}
+            >
+              <h3>{partnerTeam?.name ?? partner}</h3>
+              {renderPackage(
+                trade?.receiveAssets ?? [],
+                partnerSource,
+                'Drag players or picks here from the other team, or click to add',
+              )}
+              {Boolean(trade?.receiveAssets.length) && (
+                <button
+                  type="button"
+                  className={styles.addPackageAsset}
+                  disabled={busy || loading}
+                  aria-label="Add players or picks from the other team"
+                  onClick={() => focusAssetBrowser('receive')}
+                  title="Add or drop another player or pick"
+                >
+                  <CirclePlus size={22} />
+                </button>
               )}
             </section>
           </div>
@@ -508,40 +733,102 @@ export function TradeHubPage() {
             </h3>
             {analysis ? (
               <>
-                <div className={styles.valueLabels}>
-                  <span>
-                    <b>{userTeam?.abbr}</b>
-                    <small>{analysis.packageValues.incoming.toFixed(0)} value</small>
-                  </span>
-                  <strong>
-                    {analysis.packageValues.difference === 0
-                      ? 'Fair trade'
-                      : analysis.packageValues.difference > 0
-                        ? `Value for ${userAbbr}`
-                        : `Value for ${partner}`}
-                  </strong>
-                  <span>
-                    <b>{partner}</b>
-                    <small>{analysis.packageValues.outgoing.toFixed(0)} value</small>
-                  </span>
+                <div className={styles.gradeBody}>
+                  <div
+                    className={styles.gradeRing}
+                    style={
+                      {
+                        '--ring-fill': `${completePackage ? valueShare * 100 : 0}%`,
+                      } as CSSProperties
+                    }
+                  >
+                    <strong>{grade}</strong>
+                  </div>
+                  <div className={styles.gradeCopy}>
+                    <h4
+                      data-favorable={
+                        completePackage && analysis.proposal.isValid && valueShare >= 0.47
+                      }
+                    >
+                      {verdict}
+                    </h4>
+                    <p>{gradeSummary}</p>
+                    <div className={styles.gradeChips}>
+                      <span>
+                        {analysis.packageValues.difference >= 0 ? '↑' : '↓'}{' '}
+                        {Math.abs(analysis.packageValues.difference).toFixed(0)} net value
+                      </span>
+                      <span>
+                        {incomingPicks > outgoingPicks
+                          ? '↑ Adds'
+                          : incomingPicks < outgoingPicks
+                            ? '↓ Sends'
+                            : '− Neutral'}{' '}
+                        draft capital
+                      </span>
+                      <span>
+                        {Math.abs(capChange) < 1
+                          ? '− Minimal cap impact'
+                          : `${capChange >= 0 ? '↑' : '↓'} ${money(Math.abs(capChange))} cap space`}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.valueBar}>
-                  <i style={{ left: `${balance}%` }} />
+                <div className={styles.acceptanceSection}>
+                  <div>
+                    <h4>
+                      <Handshake /> Likelihood to be Accepted
+                    </h4>
+                    <div
+                      className={styles.acceptanceBar}
+                      role="meter"
+                      aria-label="Acceptance estimate"
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={acceptance}
+                    >
+                      <span style={{ width: `${acceptance}%` }} />
+                    </div>
+                    <p>
+                      {!completePackage
+                        ? 'Add assets from both teams to estimate acceptance.'
+                        : !analysis.proposal.isValid
+                          ? 'Resolve the trade requirements before proposing.'
+                          : `${partnerTeam?.name ?? partner}: ${analysis.likelyAccepted ? 'likely to accept' : 'more value may be needed'} based on the current offer.`}
+                    </p>
+                  </div>
+                  <div className={styles.acceptanceScore}>
+                    <div
+                      className={styles.gradeRing}
+                      style={{ '--ring-fill': `${acceptance}%` } as CSSProperties}
+                    >
+                      <strong>{acceptance}%</strong>
+                    </div>
+                    <span>
+                      Acceptance
+                      <br />
+                      Estimate
+                    </span>
+                  </div>
                 </div>
-                <div className={styles.analysisMessage}>
-                  <b>
-                    {analysis.proposal.isValid
-                      ? analysis.likelyAccepted
-                        ? 'Likely to be accepted'
-                        : 'More value may be needed'
-                      : 'Trade needs attention'}
-                  </b>
-                  <span>
-                    {analysis.proposal.validationErrors[0]?.message ??
-                      analysis.simulation.warnings[0] ??
-                      'Package values, contracts, and cap impact are based on the current save.'}
-                  </span>
-                </div>
+                <details id="trade-analysis-details" className={styles.analysisDetails}>
+                  <summary>Detailed analysis</summary>
+                  <p>
+                    Value received: {analysis.packageValues.incoming.toFixed(0)} · Value sent:{' '}
+                    {analysis.packageValues.outgoing.toFixed(0)}. The grade compares package value
+                    from your team’s perspective.
+                  </p>
+                  <p>
+                    Acceptance is the simulation’s offer-value score, not a statistical probability.
+                    Valid offers scoring at least 70 are accepted.
+                  </p>
+                  {analysis.proposal.validationErrors.map((error, i) => (
+                    <p key={i}>{error.message}</p>
+                  ))}
+                  {analysis.simulation.warnings.map((warning, i) => (
+                    <p key={i}>{warning}</p>
+                  ))}
+                </details>
               </>
             ) : (
               <div className={styles.analysisEmpty}>
@@ -555,23 +842,28 @@ export function TradeHubPage() {
           </section>
           <button
             className={styles.propose}
-            disabled={!analysis || !trade?.sendAssets.length || !trade.receiveAssets.length}
-            onClick={() =>
-              setStatus(
-                analysis?.likelyAccepted
-                  ? 'CPU evaluation: likely to be accepted. No league state has been changed.'
-                  : 'CPU evaluation: this package is unlikely to be accepted. No league state has been changed.',
-              )
+            disabled={
+              busy ||
+              loading ||
+              !analysis?.proposal.isValid ||
+              !trade?.sendAssets.length ||
+              !trade.receiveAssets.length
             }
+            onClick={() => void executeTrade()}
           >
-            Propose Trade
+            {busy ? (
+              'Updating trade…'
+            ) : (
+              <>
+                <Check size={20} /> Propose Trade
+              </>
+            )}
           </button>
           <small className={styles.disclaimer}>
-            This is a hypothetical evaluation. No changes will be made to your league.
+            Accepted trades transfer players and picks and update both teams’ cap space.
           </small>
-          {status ? <p className={styles.proposalStatus}>{status}</p> : null}
         </main>
-        <section className={styles.teamPanel}>
+        <section className={styles.teamPanel} ref={partnerBrowserRef}>
           <header>
             <TeamMark abbr={partner || 'NFL'} name={partnerTeam?.name ?? 'Select a team'} />
             <span>
@@ -583,7 +875,12 @@ export function TradeHubPage() {
               </small>
             </span>
             <label className={styles.teamSelect}>
-              <select value={partner} onChange={(event) => setPartner(event.target.value)}>
+              <select
+                disabled={busy || loading}
+                aria-label="Trade partner"
+                value={partner}
+                onChange={(event) => setPartner(event.target.value)}
+              >
                 {teams
                   .filter((team) => team.abbr !== userAbbr)
                   .map((team) => (
@@ -596,6 +893,8 @@ export function TradeHubPage() {
             </label>
           </header>
           <AssetBrowser
+            side="receive"
+            disabled={busy || loading}
             source={partnerSource}
             selected={trade?.receiveAssets ?? []}
             tab={rightTab}

@@ -629,6 +629,26 @@
   text-underline-offset: 12px;
   text-decoration-thickness: 2px;
 }
+/* Portals and short franchise pages must not expose the site's white canvas. */
+html:has(.front-office-app),
+body:has(.front-office-app) {
+  background: #061219;
+}
+body:has(.front-office-app) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+body:has(.front-office-app) .site-footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+@media (min-width: 1024px) {
+  body:has(.front-office-app) {
+    /* Match the existing document zoom so the footer fills the physical viewport. */
+    min-height: calc(100dvh / 0.9);
+  }
+}
 body:has(.front-office-app) .site-footer {
   background: #091a20;
   border-color: rgb(255 255 255 / 9%);
@@ -960,4 +980,21 @@ body:has(.front-office-app) .site-footer > div {
   outline: 2px solid var(--fo-accent);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Free Agency supplies a Player Details hero instead of transaction artwork. */
+.front-office-app .txn-modal--compact-player {
+  background: #061219;
+}
+.front-office-app .txn-modal--compact-player::before {
+  display: none;
+}
+.front-office-app .txn-modal--compact-player > .txn-hero {
+  height: 44px;
+  min-height: 44px;
+  background: transparent;
+}
+.front-office-app .txn-modal--compact-player > .txn-content {
+  background: #061219;
+  color: var(--fo-text);
 }
