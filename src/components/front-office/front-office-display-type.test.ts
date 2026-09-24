@@ -33,7 +33,7 @@ test('homepage and shared strategic heroes use the canonical display class', asy
   assert.match(strategicHero, /<h1 className="dd-home-hero-display">/);
   assert.match(pageHeader, /<FrontOfficeStrategicHero/);
   assert.match(overviewHero, /<h1 className="dd-home-hero-display">/);
-  assert.match(shell, /className="front-office-wordmark dd-home-hero-display"/);
+  assert.match(shell, /<FrontOfficeSidebar/);
   assert.match(capSpace, /<FrontOfficeStrategicHero/);
   assert.match(bigBoard, /DraftExperienceHero/);
 });
@@ -93,14 +93,14 @@ test('Front Office hero centers its larger description without the legacy taglin
   assert.match(descriptionRule, /font-size:\s*clamp\(1rem,\s*1\.35vw,\s*1\.25rem\)/);
 });
 
-test('strategic hero stays Down and Distance navy across team themes', async () => {
+test('strategic hero stays neutral across team themes', async () => {
   const css = await readFile(
     'src/components/front-office/front-office-strategic-hero.module.css',
     'utf8',
   );
   const hero = css.match(/\.hero\s*\{([^}]+)\}/)?.[1] ?? '';
 
-  assert.match(hero, /background:\s*#041a30/);
+  assert.match(hero, /background:\s*var\(--fo-panel\)/);
   assert.doesNotMatch(hero, /var\(--team-/);
-  assert.match(css, /playbook-xo-arrows\.svg/);
+  assert.match(css, /graphics\/heroes\/play-diagram\.svg/);
 });

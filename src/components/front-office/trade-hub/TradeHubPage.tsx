@@ -143,6 +143,7 @@ function AssetBrowser({
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search players..."
+                aria-label="Search trade players"
               />
             </label>
             <select
@@ -626,19 +627,23 @@ export function TradeHubPage() {
             <div className={styles.capGrid}>
               <span>
                 <small>{userAbbr} current</small>
-                <b>{money(caps.user)}</b>
+                <b className="front-office-stat-value">{money(caps.user)}</b>
               </span>
               <span>
                 <small>Projected</small>
-                <b>{money(analysis.simulation.teams.sending.resultingCapSpace)}</b>
+                <b className="front-office-stat-value">
+                  {money(analysis.simulation.teams.sending.resultingCapSpace)}
+                </b>
               </span>
               <span>
                 <small>{partner} current</small>
-                <b>{money(caps.partner)}</b>
+                <b className="front-office-stat-value">{money(caps.partner)}</b>
               </span>
               <span>
                 <small>Projected</small>
-                <b>{money(analysis.simulation.teams.receiving.resultingCapSpace)}</b>
+                <b className="front-office-stat-value">
+                  {money(analysis.simulation.teams.receiving.resultingCapSpace)}
+                </b>
               </span>
             </div>
           ) : (

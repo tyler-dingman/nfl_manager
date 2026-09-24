@@ -74,7 +74,7 @@ export function FrontOfficeSupportingPanels({ mode }: { mode: SupportingPanelMod
       },
       {
         title: 'Contract Status',
-        href: '/roster?view=contracts',
+        href: '/roster?view=resign',
         items: [
           { label: 'Expiring contracts', value: `${expiring.length}` },
           { label: 'Multi-year contracts', value: `${activeRoster.length - expiring.length}` },

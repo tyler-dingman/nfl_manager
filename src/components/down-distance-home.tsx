@@ -431,7 +431,7 @@ export default function DownDistanceHome() {
               <Search className="h-4 w-4" />
             </button>
             <NotificationCenter teamAbbr={activeTeam?.abbr} />
-            <span className="hidden xl:block">
+            <span className="hidden lg:block">
               <LoginButton teamAbbr={activeTeam?.abbr} />
             </span>
             <MobileSiteMenu teamAbbr={activeTeam?.abbr} active="huddle" />

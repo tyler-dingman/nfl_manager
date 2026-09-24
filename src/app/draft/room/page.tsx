@@ -327,7 +327,7 @@ function PreDraftWorkspace({
                 <div className={styles.gradeCard}>
                   <div>
                     <span>D&amp;D Grade</span>
-                    <strong>{details.ratingDisplay}</strong>
+                    <strong className="front-office-stat-value">{details.ratingDisplay}</strong>
                     <small>{details.projectedRange}</small>
                   </div>
                   <p>{selectedEntry.player.summary ?? 'No scouting summary added yet.'}</p>

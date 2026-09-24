@@ -40,7 +40,9 @@ export function DraftPickTile({
       onClick={onClick}
     >
       <span className={styles.round}>R{round}</span>
-      {overallPick != null && <strong className={styles.overall}>{overallPick}</strong>}
+      {overallPick != null && (
+        <strong className={`${styles.overall} front-office-stat-value`}>{overallPick}</strong>
+      )}
       {selected && (
         <span className={styles.check} aria-hidden="true">
           ✓

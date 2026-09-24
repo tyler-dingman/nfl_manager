@@ -11,6 +11,7 @@ import MobileSiteMenu from '@/components/mobile-site-menu';
 import LoginButton from '@/components/auth/login-button';
 import { MerchCartButton, useMerchCart } from '@/components/merch/merch-cart';
 import TeamThemeProvider from '@/components/team-theme-provider';
+import NotificationCenter from '@/components/notifications/notification-center';
 import MoveTheChainsIndicator from '@/components/rewards/move-the-chains-indicator';
 import PrimaryNavigation from '@/components/primary-navigation';
 import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
@@ -124,11 +125,13 @@ export default function MerchShop({ categoryPage }: { categoryPage?: MerchCatego
   return (
     <TeamThemeProvider>
       <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
-        <SiteHeaderShell tone="merch">
+        <SiteHeaderShell tone="merch" className="max-[359px]:[&>div]:px-0">
           <SiteHeaderLogo generic />
           <PrimaryNavigation active="merch" tone="light" showMobile={false} />
-          <div className="ml-auto flex items-center gap-2">
-            <MoveTheChainsIndicator />
+          <div className="ml-auto flex items-center gap-2 max-[359px]:gap-1">
+            <span className="hidden xl:block">
+              <MoveTheChainsIndicator />
+            </span>
             <span className="hidden lg:block">
               <LoginButton />
             </span>
@@ -140,6 +143,7 @@ export default function MerchShop({ categoryPage }: { categoryPage?: MerchCatego
             >
               <Search className="h-5 w-5" />
             </button>
+            <NotificationCenter />
             <MerchCartButton />
             <MobileSiteMenu active="merch" />
           </div>

@@ -1,4 +1,4 @@
-# The Parlay Bus
+# Parlay Lab
 
 User-facing naming updated in primary navigation (including the shared mobile menu), hero, page metadata, secondary navigation accessibility label, research help, saved-play sharing/export images, and supporting pages. `/parlay-lab`, APIs, environment variables, Lab Score and database identifiers stay unchanged.
 

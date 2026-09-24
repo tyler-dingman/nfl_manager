@@ -9,6 +9,8 @@ import {
   normalizeCrewInviteRecipient,
 } from '@/features/crew/policy';
 import { crewEmailProvider, crewSmsProvider } from './delivery';
+import type { z } from 'zod';
+import { crewPostSchema, crewUpdateSchema } from '@/features/crew/validation';
 import { resolveCrewShareAudience } from '@/features/crew/share-selection';
 
 const recipientHash = (value: string) =>
@@ -22,7 +24,7 @@ export async function getCrewForUser(userId: string) {
   const sql = authDb();
   const crews = await sql<
     any[]
-  >`SELECT c.*,m.role FROM crews c JOIN crew_members m ON m.crew_id=c.id
+  >`SELECT c.*,m.role,owner.display_name AS owner_name FROM crews c JOIN users owner ON owner.id=c.owner_user_id JOIN crew_members m ON m.crew_id=c.id
     WHERE m.user_id=${userId} AND m.status='ACTIVE' LIMIT 1`;
   const crew = crews[0];
   if (!crew) return null;
@@ -39,7 +41,8 @@ export async function getCrewForUser(userId: string) {
     sql<
       any[]
     >`SELECT a.id,a.type,a.content_id AS "contentId",a.content_type AS "contentType",a.href,a.message,a.metadata,
-        a.created_at AS "createdAt",u.display_name AS "actorName",u.avatar_url AS "actorAvatar",
+        a.created_at AS "createdAt",a.actor_user_id AS "actorUserId",u.display_name AS "actorName",u.avatar_url AS "actorAvatar",
+        (SELECT COALESCE(jsonb_agg(jsonb_build_object('id',cc.id,'message',cc.message,'createdAt',cc.created_at,'actorName',cu.display_name,'actorAvatar',cu.avatar_url) ORDER BY cc.created_at),'[]') FROM crew_comments cc JOIN users cu ON cu.id=cc.user_id WHERE cc.activity_id=a.id) AS comments,
         COALESCE(jsonb_agg(jsonb_build_object('reaction',r.reaction,'userId',r.user_id)) FILTER (WHERE r.user_id IS NOT NULL),'[]') AS reactions
         FROM crew_activity a LEFT JOIN users u ON u.id=a.actor_user_id LEFT JOIN crew_reactions r ON r.activity_id=a.id
         WHERE a.crew_id=${crew.id} GROUP BY a.id,u.display_name,u.avatar_url ORDER BY a.created_at DESC LIMIT 30`,
@@ -58,6 +61,9 @@ export async function getCrewForUser(userId: string) {
     name: crew.name,
     teamAbbr: crew.team_abbr,
     ownerUserId: crew.owner_user_id,
+    ownerName: crew.owner_name,
+    createdAt: crew.created_at,
+    photoUrl: crew.photo_url,
     role: crew.role,
     members,
     activity,
@@ -280,9 +286,18 @@ export async function reactToActivity(
     ON CONFLICT DO NOTHING`;
 }
 
-export async function updateCrew(userId: string, input: { name?: string; teamAbbr?: string }) {
-  await authDb()`UPDATE crews c SET name=COALESCE(${input.name ?? null},name),team_abbr=COALESCE(${input.teamAbbr ?? null},team_abbr),updated_at=now()
-    WHERE owner_user_id=${userId}`;
+export async function updateCrew(userId: string, input: z.infer<typeof crewUpdateSchema>) {
+  const member = await requireCrewMember(userId);
+  if (member.role !== 'OWNER') throw new Error('Only the Crew owner can edit the Crew.');
+  let photoUrl: string | null = null;
+  if (input.photoMediaId) {
+    const media =
+      await authDb()`SELECT id FROM crew_media WHERE id=${input.photoMediaId} AND crew_id=${member.crewId} AND uploader_user_id=${userId}`;
+    if (!media.length) throw new Error('Photo is not available for this Crew.');
+    photoUrl = `/api/crew/media/${input.photoMediaId}`;
+  }
+  await authDb()`UPDATE crews SET name=COALESCE(${input.name ?? null},name),team_abbr=COALESCE(${input.teamAbbr ?? null},team_abbr),photo_url=COALESCE(${photoUrl},photo_url),updated_at=now()
+    WHERE id=${member.crewId} AND owner_user_id=${userId}`;
 }
 
 export async function leaveCrew(userId: string) {
@@ -290,4 +305,56 @@ export async function leaveCrew(userId: string) {
     any[]
   >`UPDATE crew_members SET status='LEFT',updated_at=now() WHERE user_id=${userId} AND status='ACTIVE' AND role<>'OWNER' RETURNING id`;
   if (!rows.length) throw new Error('Crew owners cannot leave until ownership is transferred.');
+}
+
+export async function requireCrewMember(userId: string) {
+  const rows = await authDb()<
+    Array<{ crewId: string; role: string }>
+  >`SELECT crew_id AS "crewId",role FROM crew_members WHERE user_id=${userId} AND status='ACTIVE' LIMIT 1`;
+  if (!rows[0]) throw new Error('Join a Crew first.');
+  return rows[0];
+}
+
+export async function saveCrewMedia(userId: string, mime: string, bytes: Buffer) {
+  const member = await requireCrewMember(userId);
+  const id = randomUUID();
+  await authDb()`INSERT INTO crew_media(id,crew_id,uploader_user_id,mime_type,content) VALUES(${id},${member.crewId},${userId},${mime},${bytes})`;
+  return { id, url: `/api/crew/media/${id}` };
+}
+
+export async function createCrewPost(userId: string, input: z.infer<typeof crewPostSchema>) {
+  const member = await requireCrewMember(userId);
+  let photoUrl: string | undefined;
+  if (input.kind === 'PHOTO') {
+    const media =
+      await authDb()`SELECT id FROM crew_media WHERE id=${input.mediaId!} AND crew_id=${member.crewId} AND uploader_user_id=${userId}`;
+    if (!media.length) throw new Error('Choose a photo uploaded to this Crew.');
+    photoUrl = `/api/crew/media/${input.mediaId}`;
+  }
+  const id = randomUUID();
+  const sql = authDb();
+  await sql`INSERT INTO crew_activity(id,crew_id,actor_user_id,type,message,href,metadata) VALUES(${id},${member.crewId},${userId},${'POST_' + input.kind},${input.message || null},${input.kind === 'LINK' ? input.href! : null},${sql.json(photoUrl ? { photoUrl } : {})})`;
+  return { id };
+}
+
+export async function commentOnCrewActivity(userId: string, activityId: string, message: string) {
+  const member = await requireCrewMember(userId);
+  const result =
+    await authDb()`INSERT INTO crew_comments(id,activity_id,user_id,message) SELECT ${randomUUID()},id,${userId},${message} FROM crew_activity WHERE id=${activityId} AND crew_id=${member.crewId} RETURNING id`;
+  if (!result.length) throw new Error('Post not found in your Crew.');
+}
+
+export async function deleteCrewPost(userId: string, activityId: string) {
+  const member = await requireCrewMember(userId);
+  const rows =
+    await authDb()`DELETE FROM crew_activity WHERE id=${activityId} AND crew_id=${member.crewId} AND type IN ('POST_TEXT','POST_PHOTO','POST_LINK') AND (actor_user_id=${userId} OR ${member.role}='OWNER') RETURNING id`;
+  if (!rows.length) throw new Error('You cannot delete this post.');
+}
+
+export async function removeCrewMember(userId: string, targetId: string) {
+  const member = await requireCrewMember(userId);
+  if (member.role !== 'OWNER') throw new Error('Only the Crew owner can manage members.');
+  const rows =
+    await authDb()`UPDATE crew_members SET status='REMOVED',updated_at=now() WHERE crew_id=${member.crewId} AND user_id=${targetId} AND status='ACTIVE' AND role<>'OWNER' RETURNING id`;
+  if (!rows.length) throw new Error('This member cannot be removed.');
 }

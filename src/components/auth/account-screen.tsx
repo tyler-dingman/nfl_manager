@@ -8,10 +8,10 @@ import {
   DdNotificationsIcon as Bell,
   DdSaveIcon as Bookmark,
   DdDownloadIcon as Download,
-  DdSettingsIcon as Settings2,
-  DdProfileIcon as UserRound,
 } from '@/components/ui/football-icons';
 
+import { useProfileTeam } from '@/features/team/use-profile-team';
+import ProfileLayout from '@/components/auth/profile-navigation';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import TriviaProfileCard from '@/components/trivia/trivia-profile-card';
@@ -39,14 +39,6 @@ export type AccountSection =
   | 'front-office'
   | 'security';
 
-const sections = [
-  ['my-team', 'My Team', Settings2],
-  ['notifications', 'Notifications', Bell],
-  ['content', 'Content', Bookmark],
-  ['account', 'Account', UserRound],
-  ['devices', 'Devices', BriefcaseBusiness],
-  ['privacy-security', 'Privacy & Security', ShieldCheck],
-] as const;
 const sectionHref = (section: AccountSection) =>
   section === 'profile' || section === 'account' ? '/account' : `/account/${section}`;
 const inputClass =
@@ -506,12 +498,10 @@ function SecuritySection() {
             .map((session) => (
               <div
                 key={session.id}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-[#00172B]/10 p-4"
+                className="flex min-w-0 items-start justify-between gap-4 rounded-2xl border border-[#00172B]/10 p-4"
               >
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-black">
-                    {session.userAgent ?? 'Unknown device'}
-                  </p>
+                <div className="min-w-0 flex-1 whitespace-normal [overflow-wrap:anywhere]">
+                  <p className="text-sm font-black">{session.userAgent ?? 'Unknown device'}</p>
                   <p className="text-xs font-semibold text-[#00172B]/45">
                     Last used {new Date(session.lastUsedAt).toLocaleString()}
                   </p>
@@ -598,38 +588,22 @@ export default function AccountScreen({ section }: { section: AccountSection }) 
   const router = useRouter();
   const { user, hydrated } = useAuthUser();
   const teams = useTeamStore((state) => state.teams);
-  const [teamAbbr, setTeamAbbr] = useState<string | null>(null);
-  const handleTeamChange = useCallback((value: string) => setTeamAbbr(value || null), []);
+  const [teamAbbr, setTeamAbbr] = useProfileTeam();
+  const handleTeamChange = useCallback(
+    (value: string) => setTeamAbbr(value || null),
+    [setTeamAbbr],
+  );
   useEffect(() => {
     if (hydrated && !user) router.replace(`/login?next=${sectionHref(section)}`);
   }, [hydrated, router, section, user]);
-  useEffect(() => {
-    void readCanonicalFanTeamPreference().then(setTeamAbbr);
-  }, []);
   const activeTeam = useMemo(() => teams.find((team) => team.abbr === teamAbbr), [teamAbbr, teams]);
-  if (!hydrated || !user) return <div className="min-h-screen bg-[#f7f4ee]" />;
+  if (!hydrated || !user || teamAbbr === undefined)
+    return <div className="min-h-screen bg-[#f7f4ee]" />;
   return (
     <TeamThemeProvider team={activeTeam}>
       <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
         <MainSiteHeader teamAbbr={teamAbbr} active={null} />
-        <main className="mx-auto grid max-w-6xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[250px_1fr]">
-          <aside className="h-fit rounded-3xl bg-[var(--dark)] p-3 text-[var(--team-on-dark)] lg:sticky lg:top-28">
-            <div className="px-3 py-4">
-              <p className="font-black">{user.name}</p>
-              <p className="mt-1 truncate text-xs font-semibold text-white/45">{user.email}</p>
-            </div>
-            <nav className="grid gap-1 sm:grid-cols-3 lg:grid-cols-1">
-              {sections.map(([id, label, Icon]) => (
-                <Link
-                  key={id}
-                  href={sectionHref(id)}
-                  className={`flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-bold ${section === id ? 'team-primary-filled' : 'text-[var(--team-light-on-dark)] hover:bg-white/10 hover:text-[var(--team-on-dark)]'}`}
-                >
-                  <Icon className="h-4 w-4" /> {label}
-                </Link>
-              ))}
-            </nav>
-          </aside>
+        <ProfileLayout>
           <section className="rounded-3xl bg-white p-6 shadow-sm sm:p-9">
             {section === 'profile' || section === 'account' ? (
               <ProfileSection name={user.name} email={user.email} />
@@ -645,7 +619,7 @@ export default function AccountScreen({ section }: { section: AccountSection }) 
               <SecuritySection />
             ) : null}
           </section>
-        </main>
+        </ProfileLayout>
       </div>
     </TeamThemeProvider>
   );

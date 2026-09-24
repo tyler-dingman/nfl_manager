@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
+import { useSaveStore } from '@/features/save/save-store';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, Clock3, Radio, Shield, Sparkles, Users } from 'lucide-react';
@@ -115,42 +117,60 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
 
   return (
     <TeamThemeProvider team={activeTeam}>
-      <div className="min-h-screen bg-[#f4f6f8] text-slate-950">
+      <div
+        className={
+          kind === 'front-office'
+            ? 'front-office-app fo-public-entry min-h-screen'
+            : 'min-h-screen bg-[#f4f6f8] text-slate-950'
+        }
+      >
         <MainSiteHeader
           teamAbbr={activeTeam?.abbr}
           active={kind === 'huddle' || kind === 'watch' || kind === 'front-office' ? kind : null}
         />
 
-        <section className="relative overflow-hidden bg-[var(--dark)] text-[var(--team-on-dark)]">
-          {kind === 'watch' ? <FilmRoomPlayDiagram /> : null}
-          <div className="relative z-[1] mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
-            <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--team-secondary-on-dark)]">
-              {teamName} · {meta.eyebrow}
-            </p>
-            {kind === 'huddle' ? (
-              <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
-                Everything happening with your team.{' '}
-                <span className="text-[var(--secondary)] [text-shadow:0_2px_0_rgba(0,0,0,0.2)]">
-                  As it happens.
-                </span>
-              </h1>
-            ) : kind === 'watch' ? (
-              <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
-                Get into the film room and{' '}
-                <span className="text-[var(--secondary)] [text-shadow:0_2px_0_rgba(0,0,0,0.2)]">
-                  put on the tape.
-                </span>
-              </h1>
-            ) : (
-              <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
-                {meta.title}
-              </h1>
-            )}
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--team-light-on-dark)]">
-              {meta.description}
-            </p>
-          </div>
-        </section>
+        {kind === 'front-office' ? (
+          <FrontOfficeStrategicHero
+            section="Your Franchise"
+            title="Front Office"
+            description="Manage your roster, explore trades, and build for the future."
+          />
+        ) : (
+          <section className="relative overflow-hidden bg-[var(--dark)] text-[var(--team-on-dark)]">
+            {kind === 'watch' ? <FilmRoomPlayDiagram /> : null}
+            <div className="relative z-[1] mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--team-secondary-on-dark)]">
+                {teamName} · {meta.eyebrow}
+              </p>
+              {kind === 'huddle' ? (
+                <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
+                  Everything happening with your team.{' '}
+                  <span
+                    className={`${teamAbbr === 'NYJ' ? 'text-white' : 'text-[var(--secondary)]'} [text-shadow:0_2px_0_rgba(0,0,0,0.2)]`}
+                  >
+                    As it happens.
+                  </span>
+                </h1>
+              ) : kind === 'watch' ? (
+                <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
+                  Get into the film room and{' '}
+                  <span
+                    className={`${teamAbbr === 'NYJ' ? 'text-white' : 'text-[var(--secondary)]'} [text-shadow:0_2px_0_rgba(0,0,0,0.2)]`}
+                  >
+                    put on the tape.
+                  </span>
+                </h1>
+              ) : (
+                <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
+                  {meta.title}
+                </h1>
+              )}
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--team-light-on-dark)]">
+                {meta.description}
+              </p>
+            </div>
+          </section>
+        )}
 
         <main className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
           {kind === 'huddle' ? (
@@ -497,24 +517,28 @@ function WireTimeline() {
 }
 
 function FrontOffice({ teamName, teamAbbr }: { teamName: string; teamAbbr?: string | null }) {
+  const saveId = useSaveStore((state) => state.saveId);
   const tools = [
-    ['Depth chart', 'Current roster and roles', Users],
-    ['Cap outlook', 'Contracts and available space', Shield],
-    ['Transactions', 'Signings, cuts, and movement', Clock3],
-    ['Draft capital', 'Current and future selections', Sparkles],
+    ['Depth chart', 'Current roster and roles', Users, '/roster?view=depth'],
+    ['Cap outlook', 'Contracts and available space', Shield, '/cap-space'],
+    ['Transactions', 'Signings, cuts, and movement', Clock3, '/league?view=transactions'],
+    ['Draft capital', 'Current and future selections', Sparkles, '/front-office/draft'],
   ] as const;
   return (
     <div className="grid gap-5 md:grid-cols-2">
-      {tools.map(([title, description, Icon]) => (
+      {tools.map(([title, description, Icon, href]) => (
         <article key={title} className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
           <Icon className="h-7 w-7 text-[var(--team-primary-text)]" />
           <h2 className="mt-6 text-2xl font-black">{title}</h2>
           <p className="mt-2 text-slate-600">
             {teamName} · {description}
           </p>
-          <button className="mt-6 font-black text-[var(--team-primary-text)]">
+          <Link
+            href={saveId ? href : getOffseasonManagerRoute('', teamAbbr)}
+            className="mt-6 inline-flex min-h-11 items-center font-black text-[var(--team-primary-text)]"
+          >
             Explore {title.toLowerCase()} →
-          </button>
+          </Link>
         </article>
       ))}
       <Link

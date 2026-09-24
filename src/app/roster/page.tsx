@@ -6,7 +6,6 @@ import { ArrowUpDown } from 'lucide-react';
 import {
   DdTradeHubIcon as ArrowLeftRight,
   DdContractsIcon as Handshake,
-  DdMoreIcon as MoreHorizontal,
   DdRosterIcon as Users,
 } from '@/components/ui/football-icons';
 
@@ -17,7 +16,7 @@ import { FrontOfficeSupportingPanels } from '@/components/front-office/front-off
 import CutPlayerModal from '@/components/cut-player-modal';
 import OnboardingModal from '@/components/onboarding/OnboardingModal';
 import PlayerDetailsModal from '@/components/player-details-modal';
-import { PlayerTable, PositionFilterBar } from '@/components/player-table';
+import { PlayerTable, PlayerFilterToolbar } from '@/components/player-table';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import { TradeBlockTable } from '@/components/trade-block-table';
 import ResignPlayerModal from '@/components/resign-player-modal';
@@ -25,12 +24,6 @@ import ResignOfferResultModal from '@/components/resign-offer-result-modal';
 import RenegotiateModal from '@/components/renegotiate-modal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { useToast, type ToastPayload } from '@/components/ui/toast';
 import { useExpiringContractsQuery } from '@/features/contracts/queries';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
@@ -1003,374 +996,364 @@ function RosterPageContent() {
                   'Develop depth, protect young talent, and manage the bottom of your roster.',
               }
             : {
-                title: 'Roster Central',
+                title: 'Roster',
                 description:
                   'Build your depth chart, evaluate your personnel, and manage the foundation of your team.',
               };
 
   return (
     <AppShell>
-      <FrontOfficePageHeader
-        title={rosterHero.title}
-        strapline="Every player. Every position. Every possibility."
-        description={rosterHero.description}
-      />
-      <FrontOfficeSectionNav section="roster" />
-      {phase === 'resign_cut' || requestedView === 'resign' ? (
-        <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
-              <button
-                type="button"
-                className={`rounded-full px-3 py-1 transition ${
-                  activeTab === 'expiring'
-                    ? 'bg-white text-foreground shadow-sm'
-                    : 'text-muted-foreground'
-                }`}
-                onClick={() => setActiveTab('expiring')}
-              >
-                <span className="inline-flex items-center gap-1.5">
-                  <Handshake className="h-3.5 w-3.5" aria-hidden="true" />
-                  Expiring Contracts
-                </span>
-              </button>
-              <button
-                type="button"
-                className={`rounded-full px-3 py-1 transition ${
-                  activeTab === 'roster'
-                    ? 'bg-white text-foreground shadow-sm'
-                    : 'text-muted-foreground'
-                }`}
-                onClick={() => setActiveTab('roster')}
-              >
-                <span className="inline-flex items-center gap-1.5">
-                  <Users className="h-3.5 w-3.5" aria-hidden="true" />
-                  Roster
-                </span>
-              </button>
-              <button
-                type="button"
-                className={`rounded-full px-3 py-1 transition ${
-                  activeTab === 'tradeBlock'
-                    ? 'bg-white text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:bg-white/70'
-                }`}
-                onClick={() => setActiveTab('tradeBlock')}
-              >
-                <span className="inline-flex items-center gap-1.5">
-                  <ArrowLeftRight
-                    className="h-3.5 w-3.5"
-                    style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
-                    aria-hidden="true"
-                  />
-                  Trade Block
-                </span>
-              </button>
-            </div>
-            {activeTab === 'tradeBlock' ? (
-              <Button
-                type="button"
-                className="h-8 w-full rounded-full px-2.5 text-xs font-semibold sm:w-auto"
-                style={{ backgroundColor: selectedTeam?.color_primary }}
-                onClick={() => router.push('/front-office/trade-hub/new')}
-              >
-                Propose Trade
-              </Button>
-            ) : null}
-          </div>
-
-          {activeTab === 'expiring' ? (
-            <div className="max-h-[70vh] overflow-y-auto">
-              <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
-                <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <PositionFilterBar
-                      active={expiringPositionFilter}
-                      onSelect={setExpiringPositionFilter}
-                    />
-                    <div className="flex w-full items-center gap-2 sm:w-auto sm:max-w-sm">
-                      <input
-                        type="search"
-                        placeholder="Search players..."
-                        className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                        value={expiringSearchQuery}
-                        onChange={(event) => setExpiringSearchQuery(event.target.value)}
+      <div className="fo-section-layout">
+        <div className="fo-section-primary">
+          <FrontOfficePageHeader
+            title={rosterHero.title}
+            strapline="Every player. Every position. Every possibility."
+            description={rosterHero.description}
+          />
+          <FrontOfficeSectionNav section="roster" />
+          {phase === 'resign_cut' || requestedView === 'resign' ? (
+            <div className="mb-6 rounded-2xl border border-border bg-white p-4 shadow-sm">
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
+                  <button
+                    type="button"
+                    className={`rounded-full px-3 py-1 transition ${
+                      activeTab === 'expiring'
+                        ? 'bg-white text-foreground shadow-sm'
+                        : 'text-muted-foreground'
+                    }`}
+                    onClick={() => setActiveTab('expiring')}
+                  >
+                    <span className="inline-flex items-center gap-1.5">
+                      <Handshake className="h-3.5 w-3.5" aria-hidden="true" />
+                      Expiring Contracts
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`rounded-full px-3 py-1 transition ${
+                      activeTab === 'roster'
+                        ? 'bg-white text-foreground shadow-sm'
+                        : 'text-muted-foreground'
+                    }`}
+                    onClick={() => setActiveTab('roster')}
+                  >
+                    <span className="inline-flex items-center gap-1.5">
+                      <Users className="h-3.5 w-3.5" aria-hidden="true" />
+                      Roster
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`rounded-full px-3 py-1 transition ${
+                      activeTab === 'tradeBlock'
+                        ? 'bg-white text-foreground shadow-sm'
+                        : 'text-muted-foreground hover:bg-white/70'
+                    }`}
+                    onClick={() => setActiveTab('tradeBlock')}
+                  >
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowLeftRight
+                        className="h-3.5 w-3.5"
+                        style={{ color: selectedTeam?.color_primary ?? 'var(--team-primary)' }}
+                        aria-hidden="true"
                       />
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="icon" className="h-9 w-9">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={resetExpiringFilters}>
-                            Reset filters
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setExpiringSearchQuery('')}>
-                            Clear search
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </div>
+                      Trade Block
+                    </span>
+                  </button>
                 </div>
-                <div className="py-4 sm:px-6">
-                  <div className="px-4 md:hidden">
-                    <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-                      <ArrowLeftRight className="h-3.5 w-3.5" />
-                      <span>Swipe to see more columns.</span>
-                    </div>
-                  </div>
-                  {isExpiringLoading && expiringContracts.length === 0 ? (
-                    <>
-                      <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
-                        <table className="min-w-full w-max border-collapse table-fixed md:w-full md:table-auto">
-                          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                            <tr>
-                              <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                Name
-                              </th>
-                              <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                Pos
-                              </th>
-                              <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                Age
-                              </th>
-                              <th className="w-[112px] min-w-[112px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                Status
-                              </th>
-                              <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                Interest
-                              </th>
-                              <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none">
-                                ACTIONS
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {Array.from({ length: 8 }, (_, index) => (
-                              <tr
-                                key={`expiring-skeleton-${index}`}
-                                className="border-t border-border"
-                              >
-                                {['w-40', 'w-12', 'w-10', 'hidden md:block w-24'].map(
-                                  (width, cellIndex) => (
-                                    <td
-                                      key={`${index}-${cellIndex}`}
-                                      className="px-4 py-3 align-middle sm:px-6"
-                                    >
-                                      <div
-                                        className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`}
-                                      />
-                                    </td>
-                                  ),
-                                )}
-                                <td className="sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 py-3 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
-                                  <div className="h-4 w-full animate-pulse rounded bg-slate-200/80" />
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                      <div className="px-4 py-2 text-xs text-muted-foreground sm:px-6">
-                        Loading players...
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
-                        <table className="min-w-full w-max border-collapse table-fixed md:min-w-[720px] md:w-full md:table-auto">
-                          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
-                            <tr>
-                              <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                {renderExpiringHeader('Player', 'name')}
-                              </th>
-                              <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                {renderExpiringHeader('Pos', 'pos')}
-                              </th>
-                              <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                Age
-                              </th>
-                              <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
-                                {renderExpiringHeader('Interest', 'interest')}
-                              </th>
-                              <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none">
-                                ACTIONS
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {filteredExpiringContracts.map((player) => (
-                              <tr
-                                key={player.id}
-                                className="cursor-pointer border-t border-border hover:bg-slate-50/60"
-                                onClick={() =>
-                                  setActivePlayerDetails({
-                                    kind: 'expiring',
-                                    player,
-                                  })
-                                }
-                              >
-                                <td className="px-4 py-1.5 text-left text-sm font-semibold text-foreground sm:px-6">
-                                  <div className="flex w-full items-start justify-start gap-3 text-left">
-                                    <div className="shrink-0">
-                                      <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
-                                        {player.headshotUrl ? (
-                                          // eslint-disable-next-line @next/next/no-img-element
-                                          <img
-                                            src={player.headshotUrl}
-                                            alt={player.name}
-                                            className="h-full w-full object-cover"
-                                            loading="lazy"
-                                            decoding="async"
-                                          />
-                                        ) : (
-                                          `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(
-                                            player.name.split(' ').slice(1).join(' ') || player.name
-                                          ).charAt(0)}`.toUpperCase()
-                                        )}
-                                      </div>
-                                    </div>
-                                    <div className="min-w-0 flex-1 text-left">
-                                      <div className="flex min-w-0 items-center gap-1.5">
-                                        <div className="truncate leading-tight">{player.name}</div>
-                                        <PlayerTypeIcon
-                                          player={{ age: player.age, rating: player.rating }}
-                                        />
-                                      </div>
-                                      {player.interestQuote ? (
-                                        <div
-                                          className="line-clamp-2 pt-0.5 text-left text-xs italic font-normal leading-snug text-muted-foreground"
-                                          title={`"${player.interestQuote}"`}
-                                        >
-                                          &ldquo;{player.interestQuote}&rdquo;
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                  </div>
-                                </td>
-                                <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                                  {player.pos}
-                                </td>
-                                <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
-                                  {player.age ?? '—'}
-                                </td>
-                                <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
-                                  {(() => {
-                                    const score = Math.max(
-                                      0,
-                                      Math.min(100, player.interestPct ?? 0),
-                                    );
-                                    const tier = getInterestTier(score);
-                                    return (
-                                      <div className="w-32">
-                                        <div className="mb-1 text-xs font-medium text-muted-foreground">
-                                          {tier.label}
-                                        </div>
-                                        <div className="h-2 w-full rounded-full bg-slate-200">
-                                          <div
-                                            className={`h-2 rounded-full ${tier.barClass}`}
-                                            style={{ width: `${score}%` }}
-                                          />
-                                        </div>
-                                      </div>
-                                    );
-                                  })()}
-                                </td>
-                                <td className="sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 py-1.5 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none">
-                                  <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    disabled={!saveId}
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                      setActiveExpiringContract(player);
-                                    }}
-                                    className="h-9 w-[124px] justify-center gap-1.5 text-xs md:hidden"
-                                  >
-                                    <Handshake className="h-4 w-4" />
-                                    Re-sign
-                                  </Button>
-                                  <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="icon"
-                                    disabled={!saveId}
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                      setActiveExpiringContract(player);
-                                    }}
-                                    className="hidden md:inline-flex"
-                                  >
-                                    <Handshake className="h-4 w-4" />
-                                    <span className="sr-only">Re-sign {player.name}</span>
-                                  </Button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                      {filteredExpiringContracts.length === 0 ? (
-                        <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
-                          No players match the current filters.
-                        </div>
-                      ) : null}
-                    </>
-                  )}
-                </div>
+                {activeTab === 'tradeBlock' ? (
+                  <Button
+                    type="button"
+                    className="h-8 w-full rounded-full px-2.5 text-xs font-semibold sm:w-auto"
+                    style={{ backgroundColor: selectedTeam?.color_primary }}
+                    onClick={() => router.push('/front-office/trade-hub/new')}
+                  >
+                    Propose Trade
+                  </Button>
+                ) : null}
               </div>
-              {expiringError ? (
-                <div className="px-4 py-4 text-sm text-destructive sm:px-6">{expiringError}</div>
-              ) : null}
+
+              {activeTab === 'expiring' ? (
+                <div className="max-h-[70vh] overflow-y-auto">
+                  <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+                    <div className="border-b border-border px-4 py-3 sm:px-6">
+                      <PlayerFilterToolbar
+                        active={expiringPositionFilter}
+                        onSelect={setExpiringPositionFilter}
+                        query={expiringSearchQuery}
+                        onQueryChange={setExpiringSearchQuery}
+                        onReset={resetExpiringFilters}
+                      />
+                    </div>
+                    <div className="py-4 sm:px-6">
+                      <div className="px-4 md:hidden">
+                        <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                          <ArrowLeftRight className="h-3.5 w-3.5" />
+                          <span>Swipe to see more columns.</span>
+                        </div>
+                      </div>
+                      {isExpiringLoading && expiringContracts.length === 0 ? (
+                        <>
+                          <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
+                            <table className="min-w-full w-max border-collapse table-fixed md:w-full md:table-auto">
+                              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                                <tr>
+                                  <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                    Name
+                                  </th>
+                                  <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                    Pos
+                                  </th>
+                                  <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                    Age
+                                  </th>
+                                  <th className="w-[112px] min-w-[112px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                    Status
+                                  </th>
+                                  <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                    Interest
+                                  </th>
+                                  <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none">
+                                    ACTIONS
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {Array.from({ length: 8 }, (_, index) => (
+                                  <tr
+                                    key={`expiring-skeleton-${index}`}
+                                    className="border-t border-border"
+                                  >
+                                    {['w-40', 'w-12', 'w-10', 'hidden md:block w-24'].map(
+                                      (width, cellIndex) => (
+                                        <td
+                                          key={`${index}-${cellIndex}`}
+                                          className="px-4 py-3 align-middle sm:px-6"
+                                        >
+                                          <div
+                                            className={`h-4 animate-pulse rounded bg-slate-200/80 ${width}`}
+                                          />
+                                        </td>
+                                      ),
+                                    )}
+                                    <td className="sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 py-3 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-right md:shadow-none">
+                                      <div className="h-4 w-full animate-pulse rounded bg-slate-200/80" />
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div className="px-4 py-2 text-xs text-muted-foreground sm:px-6">
+                            Loading players...
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
+                            <table className="min-w-full w-max border-collapse table-fixed md:min-w-[720px] md:w-full md:table-auto">
+                              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
+                                <tr>
+                                  <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                    {renderExpiringHeader('Player', 'name')}
+                                  </th>
+                                  <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                    {renderExpiringHeader('Pos', 'pos')}
+                                  </th>
+                                  <th className="w-[64px] min-w-[64px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                    Age
+                                  </th>
+                                  <th className="w-[132px] min-w-[132px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
+                                    {renderExpiringHeader('Interest', 'interest')}
+                                  </th>
+                                  <th className="sticky right-0 z-20 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-slate-50 pl-4 pr-2 py-2 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.18)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none">
+                                    ACTIONS
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {filteredExpiringContracts.map((player) => (
+                                  <tr
+                                    key={player.id}
+                                    className="cursor-pointer border-t border-border hover:bg-slate-50/60"
+                                    onClick={() =>
+                                      setActivePlayerDetails({
+                                        kind: 'expiring',
+                                        player,
+                                      })
+                                    }
+                                  >
+                                    <td className="px-4 py-1.5 text-left text-sm font-semibold text-foreground sm:px-6">
+                                      <div className="flex w-full items-start justify-start gap-3 text-left">
+                                        <div className="shrink-0">
+                                          <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                                            {player.headshotUrl ? (
+                                              // eslint-disable-next-line @next/next/no-img-element
+                                              <img
+                                                src={player.headshotUrl}
+                                                alt={player.name}
+                                                className="h-full w-full object-cover"
+                                                loading="lazy"
+                                                decoding="async"
+                                              />
+                                            ) : (
+                                              `${(player.name.split(' ')[0] ?? player.name).charAt(0)}${(
+                                                player.name.split(' ').slice(1).join(' ') ||
+                                                player.name
+                                              ).charAt(0)}`.toUpperCase()
+                                            )}
+                                          </div>
+                                        </div>
+                                        <div className="min-w-0 flex-1 text-left">
+                                          <div className="flex min-w-0 items-center gap-1.5">
+                                            <div className="truncate leading-tight">
+                                              {player.name}
+                                            </div>
+                                            <PlayerTypeIcon
+                                              player={{ age: player.age, rating: player.rating }}
+                                            />
+                                          </div>
+                                          {player.interestQuote ? (
+                                            <div
+                                              className="line-clamp-2 pt-0.5 text-left text-xs italic font-normal leading-snug text-muted-foreground"
+                                              title={`"${player.interestQuote}"`}
+                                            >
+                                              &ldquo;{player.interestQuote}&rdquo;
+                                            </div>
+                                          ) : null}
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                                      {player.pos}
+                                    </td>
+                                    <td className="px-4 py-1.5 text-sm text-muted-foreground sm:px-6">
+                                      {player.age ?? '—'}
+                                    </td>
+                                    <td className="px-4 py-1.5 text-sm text-foreground sm:px-6">
+                                      {(() => {
+                                        const score = Math.max(
+                                          0,
+                                          Math.min(100, player.interestPct ?? 0),
+                                        );
+                                        const tier = getInterestTier(score);
+                                        return (
+                                          <div className="w-32">
+                                            <div className="mb-1 text-xs font-medium text-muted-foreground">
+                                              {tier.label}
+                                            </div>
+                                            <div className="h-2 w-full rounded-full bg-slate-200">
+                                              <div
+                                                className={`h-2 rounded-full ${tier.barClass}`}
+                                                style={{ width: `${score}%` }}
+                                              />
+                                            </div>
+                                          </div>
+                                        );
+                                      })()}
+                                    </td>
+                                    <td className="sticky right-0 z-10 box-border w-[132px] min-w-[132px] border-l border-slate-200 bg-white pl-4 pr-2 py-1.5 text-left shadow-[-8px_0_14px_-14px_rgba(15,23,42,0.14)] md:static md:w-auto md:min-w-0 md:border-l-0 md:bg-transparent md:px-6 md:text-left md:shadow-none">
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        disabled={!saveId}
+                                        onClick={(event) => {
+                                          event.stopPropagation();
+                                          setActiveExpiringContract(player);
+                                        }}
+                                        className="h-9 w-[124px] justify-center gap-1.5 text-xs md:hidden"
+                                      >
+                                        <Handshake className="h-4 w-4" />
+                                        Re-sign
+                                      </Button>
+                                      <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        disabled={!saveId}
+                                        onClick={(event) => {
+                                          event.stopPropagation();
+                                          setActiveExpiringContract(player);
+                                        }}
+                                        className="hidden md:inline-flex"
+                                      >
+                                        <Handshake className="h-4 w-4" />
+                                        <span className="sr-only">Re-sign {player.name}</span>
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                          {filteredExpiringContracts.length === 0 ? (
+                            <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
+                              No players match the current filters.
+                            </div>
+                          ) : null}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  {expiringError ? (
+                    <div className="px-4 py-4 text-sm text-destructive sm:px-6">
+                      {expiringError}
+                    </div>
+                  ) : null}
+                </div>
+              ) : activeTab === 'tradeBlock' ? (
+                <>
+                  <TradeBlockTable
+                    data={tradeBlockPlayers}
+                    loading={isTradeBlockLoading && tradeBlockPlayers.length === 0}
+                    onVisiblePlayersChange={setVisibleTradeBlockPlayers}
+                    onSelectPlayer={(player) =>
+                      setActivePlayerDetails({ kind: 'tradeBlock', player })
+                    }
+                    onExplorePlayer={(player) =>
+                      router.push(
+                        `/manage/trades?partnerTeamAbbr=${player.teamAbbr ?? ''}&playerId=${player.id}`,
+                      )
+                    }
+                  />
+                  {tradeBlockError ? (
+                    <div className="px-4 py-4 text-sm text-destructive sm:px-6">
+                      {tradeBlockError}
+                    </div>
+                  ) : null}
+                </>
+              ) : (
+                <div className="max-h-[70vh] overflow-y-auto">
+                  <PlayerTable
+                    data={sortedPlayers}
+                    variant="roster"
+                    loading={isRosterLoading && players.length === 0}
+                    onVisiblePlayersChange={setVisibleRosterPlayers}
+                    onCutPlayer={setActiveCutPlayer}
+                    onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
+                    onRenegotiatePlayer={setActiveRenegotiatePlayer}
+                    onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'roster', player })}
+                  />
+                </div>
+              )}
             </div>
-          ) : activeTab === 'tradeBlock' ? (
-            <>
-              <TradeBlockTable
-                data={tradeBlockPlayers}
-                loading={isTradeBlockLoading && tradeBlockPlayers.length === 0}
-                onVisiblePlayersChange={setVisibleTradeBlockPlayers}
-                onSelectPlayer={(player) => setActivePlayerDetails({ kind: 'tradeBlock', player })}
-                onExplorePlayer={(player) =>
-                  router.push(
-                    `/manage/trades?partnerTeamAbbr=${player.teamAbbr ?? ''}&playerId=${player.id}`,
-                  )
-                }
-              />
-              {tradeBlockError ? (
-                <div className="px-4 py-4 text-sm text-destructive sm:px-6">{tradeBlockError}</div>
-              ) : null}
-            </>
           ) : (
-            <div className="max-h-[70vh] overflow-y-auto">
-              <PlayerTable
-                data={sortedPlayers}
-                variant="roster"
-                loading={isRosterLoading && players.length === 0}
-                onVisiblePlayersChange={setVisibleRosterPlayers}
-                onCutPlayer={setActiveCutPlayer}
-                onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
-                onRenegotiatePlayer={setActiveRenegotiatePlayer}
-                onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'roster', player })}
-              />
-            </div>
+            <PlayerTable
+              data={sortedPlayers}
+              variant="roster"
+              loading={isRosterLoading && players.length === 0}
+              onVisiblePlayersChange={setVisibleRosterPlayers}
+              onCutPlayer={setActiveCutPlayer}
+              onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
+              onRenegotiatePlayer={setActiveRenegotiatePlayer}
+              onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'roster', player })}
+            />
           )}
         </div>
-      ) : (
-        <PlayerTable
-          data={sortedPlayers}
-          variant="roster"
-          loading={isRosterLoading && players.length === 0}
-          onVisiblePlayersChange={setVisibleRosterPlayers}
-          onCutPlayer={setActiveCutPlayer}
-          onTradePlayer={(player) => router.push(`/manage/trades?playerId=${player.id}`)}
-          onRenegotiatePlayer={setActiveRenegotiatePlayer}
-          onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'roster', player })}
-        />
-      )}
-      <FrontOfficeSupportingPanels mode="roster" />
+        <FrontOfficeSupportingPanels mode="roster" />
+      </div>
       <PlayerDetailsModal
         isOpen={Boolean(activePlayerDetails)}
         source={activePlayerDetails}

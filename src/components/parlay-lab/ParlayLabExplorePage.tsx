@@ -208,7 +208,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
       <ParlayLabSecondaryNav />
       <main className={styles.page}>
         <header className={styles.hero}>
-          <span>{mode === 'lab-finds' ? <FlaskConical /> : null} The Parlay Bus</span>
+          <span>{mode === 'lab-finds' ? <FlaskConical /> : null} Parlay Lab</span>
           <h1>{title}</h1>
           <p>{description}</p>
         </header>
@@ -435,7 +435,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                   sortKey="score"
                   sort={sort}
                   onSort={(key) => setSort((value) => nextSort(value, key))}
-                  title="The Parlay Bus research score. This is not a predicted win probability."
+                  title="Parlay Lab research score. This is not a predicted win probability."
                 />
               </div>
               {visible.map((market) => {

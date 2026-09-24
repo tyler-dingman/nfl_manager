@@ -60,7 +60,12 @@
     "sync:contracts": "tsx src/scripts/sync-contracts.ts",
     "sync:league": "tsx src/scripts/sync-nfl-data.ts",
     "android": "expo run:android",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "logo:generate": "node scripts/generate-team-logo.mjs",
+    "logo:check": "node scripts/generate-team-logo.mjs --check",
+    "logo:audit": "node scripts/audit-team-logo.mjs",
+    "logo:audit-native": "node scripts/audit-team-logo-native.mjs",
+    "prebuild": "npm run logo:check"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.2.0",

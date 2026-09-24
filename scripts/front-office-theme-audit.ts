@@ -22,7 +22,7 @@ for (const team of teams) {
   }
   const navRatio = getContrastRatio(theme.navForeground, theme.navBackground);
   const interactiveRatio = getContrastRatio(theme.interactiveForeground, theme.interactive);
-  const interactiveTextRatio = getContrastRatio(theme.interactiveText, '#f7f4ee');
+  const interactiveTextRatio = getContrastRatio(theme.interactiveText, '#0E232A');
   const navPass = navRatio >= 4.5;
   const interactivePass = interactiveRatio >= 4.5;
   const interactiveTextPass = interactiveTextRatio >= 4.5;

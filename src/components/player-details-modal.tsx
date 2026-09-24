@@ -7,7 +7,7 @@ import PlayerTypeIcon from '@/components/player-type-icon';
 import type { Team as StoreTeam } from '@/features/team/team-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { buildPlayerDetailsModel, type PlayerDetailsSource } from '@/lib/player-details';
-import { getTeamBrandTheme } from '@/lib/team-brand-themes';
+import { getFrontOfficeTeamTheme } from '@/lib/team-theme-tokens';
 import { apiFetch } from '@/lib/api';
 import type { FrontOfficeEvent } from '@/types/front-office';
 import type { PlayerRowDTO } from '@/types/player';
@@ -207,10 +207,7 @@ export default function PlayerDetailsModal({
     };
   }, [isOpen, tab, saveId]);
   if (!isOpen || !source || !model) return null;
-  const theme = getTeamBrandTheme(model.teamAbbr);
-  const accent = ['CHI', 'GB', 'LAR', 'BAL', 'CLE', 'SEA', 'LV'].includes(model.teamAbbr ?? '')
-    ? theme.secondary
-    : theme.primary;
+  const accent = getFrontOfficeTeamTheme(model.teamAbbr).interactive;
   const parts = model.name.trim().split(/\s+/);
   const surname = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
   const info = [
@@ -254,7 +251,7 @@ export default function PlayerDetailsModal({
     <div className={styles.stats}>
       {model.stats.map((stat) => (
         <div key={stat.label}>
-          <strong>{stat.value}</strong>
+          <strong className="front-office-stat-value">{stat.value}</strong>
           <span>{stat.label}</span>
         </div>
       ))}
@@ -379,7 +376,19 @@ export default function PlayerDetailsModal({
               </div>
               <div className={styles.heroControls}>
                 {model.contractValueTag && !model.isFreeAgent && (
-                  <span className={styles.badge}>{model.contractValueTag}</span>
+                  <button
+                    type="button"
+                    className={styles.badge}
+                    onClick={() => {
+                      setTab('Contract');
+                      requestAnimationFrame(() =>
+                        document.getElementById(`${id}-tab-Contract`)?.focus(),
+                      );
+                    }}
+                    aria-label={`${model.contractValueTag}: view contract assessment`}
+                  >
+                    {model.contractValueTag}
+                  </button>
                 )}
                 {actions.length > 0 && (
                   <details className={styles.actions}>
@@ -404,7 +413,7 @@ export default function PlayerDetailsModal({
             </div>
             <div className={styles.overall}>
               <span>OVR</span>
-              <strong>{model.ratingDisplay}</strong>
+              <strong className="front-office-stat-value">{model.ratingDisplay}</strong>
             </div>
           </section>
           <nav className={styles.tabs} role="tablist" aria-label="Player information">
@@ -456,7 +465,10 @@ export default function PlayerDetailsModal({
                   <Card title="Key Ratings">
                     <div className={styles.ratings}>
                       <div>
-                        <strong data-elite={(model.rating ?? 0) >= 90}>
+                        <strong
+                          className="front-office-stat-value"
+                          data-elite={(model.rating ?? 0) >= 90}
+                        >
                           {model.ratingDisplay}
                         </strong>
                         <span>OVR</span>

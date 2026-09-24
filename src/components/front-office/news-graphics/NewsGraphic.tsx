@@ -39,21 +39,6 @@ export type NewsGraphicProps = {
   className?: string;
 };
 
-const assets: Record<NewsGraphicVariant, { background: string; overlay: string }> = {
-  'trade-rumor': { background: 'grunge.svg', overlay: 'trade-arrows.svg' },
-  trade: { background: 'playbook.svg', overlay: 'trade-arrows.svg' },
-  injury: { background: 'field.svg', overlay: 'injury-cross.svg' },
-  'game-recap': { background: 'stadium.svg', overlay: 'standings-bars.svg' },
-  contract: { background: 'locker-room.svg', overlay: 'signature.svg' },
-  signing: { background: 'tunnel.svg', overlay: 'signed-stamp.svg' },
-  'player-performance': { background: 'playbook.svg', overlay: 'number-frame.svg' },
-  draft: { background: 'tunnel.svg', overlay: 'draft-frame.svg' },
-  standings: { background: 'stadium.svg', overlay: 'standings-bars.svg' },
-  coach: { background: 'locker-room.svg', overlay: 'quote-mark.svg' },
-  rumor: { background: 'playbook.svg', overlay: 'rumor-xo.svg' },
-  breaking: { background: 'city.svg', overlay: 'breaking-bars.svg' },
-};
-
 const defaultLabel: Record<NewsGraphicVariant, string> = {
   'trade-rumor': 'Trade rumor',
   trade: 'Trade talk',
@@ -82,13 +67,11 @@ export function NewsGraphic({
   label,
   className = '',
 }: NewsGraphicProps) {
-  const asset = assets[variant];
   const style = {
     '--team-primary': team?.primaryColor ?? '#d71920',
     '--team-secondary': team?.secondaryColor ?? '#f2c400',
     '--opponent-primary': opponent?.primaryColor ?? '#667085',
     '--opponent-secondary': opponent?.secondaryColor ?? '#d0d5dd',
-    '--graphic-background': `url('/assets/front-office/news-graphics/backgrounds/${asset.background}')`,
   } as CSSProperties;
   const isTrade = variant === 'trade' || variant === 'trade-rumor';
 
@@ -99,14 +82,7 @@ export function NewsGraphic({
       data-variant={variant}
       data-size={size}
     >
-      <div className={styles.texture} aria-hidden="true" />
       {isTrade ? <div className={styles.tradeSplit} aria-hidden="true" /> : null}
-      <img
-        className={styles.overlay}
-        src={`/assets/front-office/news-graphics/overlays/${asset.overlay}`}
-        alt=""
-        aria-hidden="true"
-      />
       <div className={styles.content}>
         <div className={styles.eyebrow}>
           <i aria-hidden="true" />

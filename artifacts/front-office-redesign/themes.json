@@ -1,0 +1,23 @@
+[
+  {
+    "team": "NYJ",
+    "bg": "rgb(6, 18, 25)",
+    "panel": "rgb(9, 26, 32)",
+    "header": "rgb(9, 26, 32)",
+    "accent": "#125740"
+  },
+  {
+    "team": "KC",
+    "bg": "rgb(6, 18, 25)",
+    "panel": "rgb(9, 26, 32)",
+    "header": "rgb(9, 26, 32)",
+    "accent": "#E31837"
+  },
+  {
+    "team": "CHI",
+    "bg": "rgb(6, 18, 25)",
+    "panel": "rgb(9, 26, 32)",
+    "header": "rgb(9, 26, 32)",
+    "accent": "#C83803"
+  }
+]

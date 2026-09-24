@@ -1,0 +1,239 @@
+{
+  "rendered": {
+    "fonts": [
+      {
+        "familyName": "Barlow Condensed ExtraBold",
+        "postScriptName": "BarlowCondensed-ExtraBoldItalic",
+        "isCustomFont": true,
+        "glyphCount": 29
+      }
+    ]
+  },
+  "results": [
+    {
+      "width": 1440,
+      "text": "Focus: Build\nfor the long term",
+      "family": "__Barlow_Condensed_559bd1, __Barlow_Condensed_Fallback_559bd1, sans-serif",
+      "weight": "800",
+      "style": "italic",
+      "synthesis": "none",
+      "size": "57.6px",
+      "lineHeight": "54.72px",
+      "transform": "uppercase",
+      "overflow": false,
+      "headingOverflow": false,
+      "rect": {
+        "x": 237.578125,
+        "width": 1130.4375,
+        "height": 98.5
+      },
+      "faces": [
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "loaded"
+        },
+        {
+          "family": "__Barlow_Condensed_Fallback_559bd1",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "uiFont": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+    },
+    {
+      "width": 1024,
+      "text": "Focus: Build\nfor the long term",
+      "family": "__Barlow_Condensed_559bd1, __Barlow_Condensed_Fallback_559bd1, sans-serif",
+      "weight": "800",
+      "style": "italic",
+      "synthesis": "none",
+      "size": "40.96px",
+      "lineHeight": "38.912px",
+      "transform": "uppercase",
+      "overflow": false,
+      "headingOverflow": false,
+      "rect": {
+        "x": 35.984375,
+        "width": 916.03125,
+        "height": 70.03125
+      },
+      "faces": [
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "loaded"
+        },
+        {
+          "family": "__Barlow_Condensed_Fallback_559bd1",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "uiFont": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+    },
+    {
+      "width": 768,
+      "text": "Focus: Build\nfor the long term",
+      "family": "__Barlow_Condensed_559bd1, __Barlow_Condensed_Fallback_559bd1, sans-serif",
+      "weight": "800",
+      "style": "italic",
+      "synthesis": "none",
+      "size": "38.25px",
+      "lineHeight": "36.3375px",
+      "transform": "uppercase",
+      "overflow": false,
+      "headingOverflow": false,
+      "rect": {
+        "x": 40,
+        "width": 688,
+        "height": 72.65625
+      },
+      "faces": [
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "loaded"
+        },
+        {
+          "family": "__Barlow_Condensed_Fallback_559bd1",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "uiFont": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+    },
+    {
+      "width": 390,
+      "text": "Focus: Build\nfor the long term",
+      "family": "__Barlow_Condensed_559bd1, __Barlow_Condensed_Fallback_559bd1, sans-serif",
+      "weight": "800",
+      "style": "italic",
+      "synthesis": "none",
+      "size": "38.25px",
+      "lineHeight": "36.3375px",
+      "transform": "uppercase",
+      "overflow": false,
+      "headingOverflow": false,
+      "rect": {
+        "x": 30,
+        "width": 330,
+        "height": 72.65625
+      },
+      "faces": [
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "loaded"
+        },
+        {
+          "family": "__Barlow_Condensed_Fallback_559bd1",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "uiFont": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+    },
+    {
+      "width": 320,
+      "text": "Focus: Build\nfor the long term",
+      "family": "__Barlow_Condensed_559bd1, __Barlow_Condensed_Fallback_559bd1, sans-serif",
+      "weight": "800",
+      "style": "italic",
+      "synthesis": "none",
+      "size": "38.25px",
+      "lineHeight": "36.3375px",
+      "transform": "uppercase",
+      "overflow": false,
+      "headingOverflow": false,
+      "rect": {
+        "x": 30,
+        "width": 260,
+        "height": 108.984375
+      },
+      "faces": [
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "__Barlow_Condensed_559bd1",
+          "weight": "800",
+          "style": "italic",
+          "status": "loaded"
+        },
+        {
+          "family": "__Barlow_Condensed_Fallback_559bd1",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "uiFont": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+    }
+  ]
+}

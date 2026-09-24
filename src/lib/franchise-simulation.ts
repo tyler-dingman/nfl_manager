@@ -11,7 +11,10 @@ export type SimulationTeamInput = Omit<
   FranchiseTeamState,
   'record' | 'pointsFor' | 'pointsAgainst'
 >;
-export type SimulationGameInput = Pick<FranchiseGameState, 'id' | 'week' | 'homeTeam' | 'awayTeam'>;
+export type SimulationGameInput = Pick<
+  FranchiseGameState,
+  'id' | 'week' | 'homeTeam' | 'awayTeam' | 'startsAt'
+>;
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 

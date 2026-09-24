@@ -36,7 +36,9 @@ export function DraftRecap({ summary, entries }: DraftRecapProps) {
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Final Grade
             </p>
-            <p className="mt-1 text-3xl font-bold text-foreground">{summary.overallGrade}</p>
+            <p className="front-office-stat-value mt-1 text-3xl font-bold text-foreground">
+              {summary.overallGrade}
+            </p>
           </div>
         </div>
 

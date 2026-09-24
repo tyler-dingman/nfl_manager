@@ -104,7 +104,7 @@ export function ProspectProfile({
           className={styles.fitCircle}
           style={{ '--fit': `${model.fitScore}%` } as React.CSSProperties}
         >
-          <strong>{model.fitScore}</strong>
+          <strong className="front-office-stat-value">{model.fitScore}</strong>
           <small>Fit Score</small>
         </div>
         <div>

@@ -9,6 +9,7 @@ import MobileSiteMenu from '@/components/mobile-site-menu';
 import LoginButton from '@/components/auth/login-button';
 import { MerchCartButton, useMerchCart } from '@/components/merch/merch-cart';
 import TeamThemeProvider from '@/components/team-theme-provider';
+import NotificationCenter from '@/components/notifications/notification-center';
 import MoveTheChainsIndicator from '@/components/rewards/move-the-chains-indicator';
 import PrimaryNavigation from '@/components/primary-navigation';
 import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
@@ -26,10 +27,13 @@ export default function MerchProductDetail({ product }: { product: MerchProduct 
           <SiteHeaderLogo generic />
           <PrimaryNavigation active="merch" tone="light" showMobile={false} />
           <div className="ml-auto flex items-center gap-2">
-            <MoveTheChainsIndicator />
+            <span className="hidden xl:block">
+              <MoveTheChainsIndicator />
+            </span>
             <span className="hidden lg:block">
               <LoginButton />
             </span>
+            <NotificationCenter />
             <MerchCartButton />
             <MobileSiteMenu active="merch" />
           </div>

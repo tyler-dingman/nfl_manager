@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="240" viewBox="0 0 1600 240" fill="none">
+<title>Front Office football play diagram</title>
+<desc>Ready-to-use neutral dark hero with the same shared football route watermark. No team color is baked in.</desc>
+<defs><linearGradient id="surface" x1="0" y1="0" x2="1600" y2="240" gradientUnits="userSpaceOnUse"><stop stop-color="#061219"/><stop offset="1" stop-color="#0C2026"/></linearGradient></defs>
+<path fill="url(#surface)" d="M0 0H1600V240H0Z"/>
+<g transform="translate(790 0)" opacity="0.12"><g fill="none" stroke="#B0C0C8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M34 -22 C31 29 38 71 50 113" stroke-dasharray="17 16"/>
+  <circle cx="58" cy="151" r="19"/>
+  <circle cx="181" cy="175" r="18"/>
+  <path d="M216 168 C270 153 309 137 337 108" stroke-dasharray="17 16"/>
+  <path d="M231 72 L256 97 M256 72 L231 97"/>
+  <path d="M369 247 C380 190 372 143 362 98"/>
+  <path d="M347 89 L356 54 L381 81 Z"/>
+  <circle cx="746" cy="141" r="27"/>
+  <path d="M524 249 C585 207 670 207 716 248" stroke-dasharray="17 17"/>
+</g></g>
+</svg>

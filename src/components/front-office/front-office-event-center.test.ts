@@ -7,16 +7,16 @@ const css = readFileSync('src/app/globals.css', 'utf8');
 
 test('News drawer is portaled and floating surfaces are mutually exclusive', () => {
   assert.match(component, /createPortal\(drawer, document\.body\)/);
-  assert.match(component, /\{!open \? \(/);
+  assert.match(component, /\{!open && !draftActive \? \(/);
   assert.match(component, /notification && !open/);
   assert.match(css, /\.fo-wire-backdrop\s*\{[^}]*inset:\s*0;[^}]*z-index:\s*1990/s);
   assert.match(css, /\.fo-wire-panel\s*\{[^}]*z-index:\s*2000;[^}]*align-self:\s*stretch/s);
 });
 
 test('News drawer uses a compact dark newswire presentation', () => {
-  assert.match(component, /<Radio aria-hidden="true" \/> News/);
+  assert.match(component, /draftActive \? 'Draft Trade Hub' : 'News'/);
   assert.doesNotMatch(component, /<span>Front Office<\/span>/);
-  assert.match(css, /\.fo-wire-panel\s*\{[^}]*background:\s*#061522/s);
+  assert.match(css, /\.fo-wire-panel\s*\{[^}]*background:\s*var\(--fo-panel\)/s);
   assert.match(css, /\.fo-wire-list \.fo-news-row\s*\{[^}]*min-height:\s*76px/s);
   assert.match(css, /-webkit-line-clamp:\s*2/);
 });

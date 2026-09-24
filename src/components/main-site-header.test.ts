@@ -8,10 +8,10 @@ test('global desktop header removes Team Select and passes team context to profi
   assert.match(source, /<LoginButton teamAbbr=\{teamAbbr\}/);
 });
 
-test('profile menu exposes the existing team selector as Favorite Team', () => {
-  const source = readFileSync('src/components/auth/login-button.tsx', 'utf8');
-  assert.match(source, /team-select=1/);
-  assert.match(source, /Favorite Team/);
+test('profile menu opens account team preferences for Favorite Team', () => {
+  const source = readFileSync('src/components/auth/profile-navigation.tsx', 'utf8');
+  assert.match(source, /\['\/account\/my-team', 'Favorite Team', Shield\]/);
+  assert.doesNotMatch(source, /team-select=1/);
   assert.ok(source.indexOf("'/account', 'Account'") < source.indexOf("'/rewards', 'Rewards'"));
   assert.ok(source.indexOf("'/rewards', 'Rewards'") < source.indexOf("'/crew', 'My Crew'"));
 });

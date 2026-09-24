@@ -1,0 +1,86 @@
+{
+  "BUF": {
+    "background": "#001E4D"
+  },
+  "CAR": {
+    "background": "#0D283A"
+  },
+  "CHI": {
+    "background": "#05101F"
+  },
+  "CLE": {
+    "background": "#1E1100"
+  },
+  "DAL": {
+    "background": "#001734"
+  },
+  "DEN": {
+    "background": "#281D26"
+  },
+  "DET": {
+    "background": "#06243F"
+  },
+  "GB": {
+    "background": "#122621"
+  },
+  "HOU": {
+    "background": "#02141E"
+  },
+  "IND": {
+    "background": "#001C3C"
+  },
+  "JAX": {
+    "background": "#0D242D"
+  },
+  "KC": {
+    "background": "#E41536"
+  },
+  "LV": {
+    "background": "#0D0D0D"
+  },
+  "LAC": {
+    "background": "#00366C"
+  },
+  "LAR": {
+    "background": "#002057"
+  },
+  "MIA": {
+    "background": "#005D79"
+  },
+  "MIN": {
+    "background": "#321759"
+  },
+  "NE": {
+    "background": "#00162D"
+  },
+  "NO": {
+    "background": "#2E3130"
+  },
+  "NYG": {
+    "background": "#061742"
+  },
+  "NYJ": {
+    "background": "#0B3629"
+  },
+  "PHI": {
+    "background": "#003036"
+  },
+  "PIT": {
+    "background": "#35301C"
+  },
+  "SF": {
+    "background": "#6D0000"
+  },
+  "SEA": {
+    "background": "#00172F"
+  },
+  "TB": {
+    "background": "#4C2824"
+  },
+  "TEN": {
+    "background": "#07172C"
+  },
+  "WAS": {
+    "background": "#3A0C0C"
+  }
+}

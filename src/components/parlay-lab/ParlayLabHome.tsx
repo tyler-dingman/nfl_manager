@@ -21,6 +21,11 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
+import { useTeamStore } from '@/features/team/team-store';
+import {
+  readCanonicalFanTeamPreference,
+  readFanTeamPreference,
+} from '@/features/team/fan-team-preference';
 import { TEAM_LIST } from '@/data/teams';
 import { sportsbookName } from '@/server/odds/sportsbooks';
 import RideTheBusDrawer from './RideTheBusDrawer';
@@ -316,6 +321,19 @@ type TrendingSortKey =
 
 export function ParlayLabHome() {
   const searchParams = useSearchParams();
+  const teams = useTeamStore((s) => s.teams);
+  const selectedTeamId = useTeamStore((s) => s.selectedTeamId);
+  const [fanTeam, setFanTeam] = useState<string | null>(null);
+  const creatorTeam =
+    teams.find((t) => t.abbr === (searchParams?.get('team')?.toUpperCase() ?? fanTeam)) ??
+    teams.find((t) => t.id === selectedTeamId);
+  useEffect(() => {
+    setFanTeam(readFanTeamPreference());
+    void readCanonicalFanTeamPreference().then(setFanTeam);
+  }, []);
+  const [marketState, setMarketState] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [marketError, setMarketError] = useState('');
+  const [marketRetry, setMarketRetry] = useState(0);
   const [events, setEvents] = useState<OddsEvent[]>([]),
     [eventId, setEventId] = useState(''),
     [markets, setMarkets] = useState<HomeMarket[]>([]),
@@ -341,15 +359,26 @@ export function ParlayLabHome() {
     else if (view === 'trends') setFilter('ALL');
   }, [searchParams]);
   useEffect(() => {
+    setMarketState('loading');
+    setTrendingMarkets([]);
+    setMarketError('');
     fetch('/api/parlay-lab/events')
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error('Events unavailable');
+        return r.json();
+      })
       .then((b) => {
         const rows = (b.events ?? []) as OddsEvent[];
         setEvents(rows);
+        if (!rows.length) setMarketState('ready');
         setEventId(rows[0]?.id ?? '');
       })
-      .catch(() => setMessage('Local odds are unavailable.'));
-  }, []);
+      .catch(() => {
+        setMessage('Local odds are unavailable.');
+        setMarketError('Markets could not be loaded. Please try again.');
+        setMarketState('error');
+      });
+  }, [marketRetry]);
   useEffect(() => {
     if (!eventId) return;
     setMarkets([]);
@@ -362,18 +391,30 @@ export function ParlayLabHome() {
     if (!events.length) return;
     const controller = new AbortController();
     setTrendingMarkets([]);
+    setMarketState('loading');
+    setMarketError('');
     fetch(`/api/parlay-lab/research?eventId=${encodeURIComponent(trendingGameId)}`, {
       signal: controller.signal,
     })
-      .then((response) => response.json())
-      .then((body) =>
-        setTrendingMarkets((body.markets ?? []).filter((market: HomeMarket) => market.available)),
-      )
+      .then((response) => {
+        if (!response.ok) throw new Error('Markets unavailable');
+        return response.json();
+      })
+      .then((body) => {
+        if (!controller.signal.aborted) {
+          setTrendingMarkets((body.markets ?? []).filter((market: HomeMarket) => market.available));
+          setMarketState('ready');
+        }
+      })
       .catch((error) => {
-        if (error.name !== 'AbortError') setMessage('Trending markets could not be loaded.');
+        if (error.name !== 'AbortError') {
+          setMessage('Trending markets could not be loaded.');
+          setMarketError('Markets could not be loaded. Please try again.');
+          setMarketState('error');
+        }
       });
     return () => controller.abort();
-  }, [events.length, trendingGameId]);
+  }, [events, trendingGameId]);
   useEffect(
     () => setTrendingPage(1),
     [
@@ -523,6 +564,10 @@ export function ParlayLabHome() {
           </div>
         </header>
         <RideTheBusDrawer
+          team={creatorTeam}
+          marketState={marketState}
+          marketError={marketError}
+          onRetry={() => setMarketRetry((value) => value + 1)}
           open={rideOpen}
           onClose={() => setRideOpen(false)}
           markets={trendingMarkets}
@@ -559,8 +604,14 @@ export function ParlayLabHome() {
                   </p>
                 </div>
                 <div className={styles.trendActions}>
-                  <button className={styles.rideButton} onClick={() => setRideOpen(true)}>
-                    <Sparkles aria-hidden="true" /> Let&apos;s do Science
+                  <button
+                    className={styles.rideButton}
+                    onClick={(event) => {
+                      event.currentTarget.focus();
+                      setRideOpen(true);
+                    }}
+                  >
+                    <Sparkles aria-hidden="true" /> Create a Parlay
                   </button>
                   <Link href="/parlay-lab/trends">See all trends →</Link>
                 </div>

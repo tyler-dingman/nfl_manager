@@ -78,3 +78,14 @@
     min-width: 44px;
   }
 }
+
+/* Shared neutral Front Office treatment; standalone player views retain their theme. */
+:global(.front-office-app) .tile {
+  background: var(--pick-color, var(--fo-panel));
+  color: var(--fo-text);
+}
+@media (hover: hover) {
+  :global(.front-office-app) .tile:not(:disabled):hover {
+    background-image: var(--fo-panel);
+  }
+}

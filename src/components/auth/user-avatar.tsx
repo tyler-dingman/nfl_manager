@@ -8,9 +8,16 @@ type UserAvatarProps = {
   name: string;
   size?: 'sm' | 'md';
   className?: string;
+  fallback?: 'icon' | 'initials';
 };
 
-export default function UserAvatar({ src, name, size = 'sm', className = '' }: UserAvatarProps) {
+export default function UserAvatar({
+  src,
+  name,
+  size = 'sm',
+  className = '',
+  fallback = 'icon',
+}: UserAvatarProps) {
   const [failed, setFailed] = useState(false);
   const dimensions = size === 'md' ? 'h-10 w-10' : 'h-7 w-7';
 
@@ -23,7 +30,18 @@ export default function UserAvatar({ src, name, size = 'sm', className = '' }: U
         aria-hidden="true"
         data-avatar-fallback
       >
-        <UserRound className={size === 'md' ? 'h-5 w-5' : 'h-4 w-4'} />
+        {fallback === 'initials' ? (
+          name
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((part) => part[0])
+            .slice(0, 2)
+            .join('')
+            .toUpperCase()
+        ) : (
+          <UserRound className={size === 'md' ? 'h-5 w-5' : 'h-4 w-4'} />
+        )}
       </span>
     );
   }

@@ -1,0 +1,115 @@
+{
+  "views": [
+    {
+      "team": "NYJ",
+      "width": 1536,
+      "overflow": false,
+      "height": 919.015625,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(18, 87, 64)",
+      "devContentClipped": false,
+      "status": "83Team OVR0-2Record$39.6MCap Space53 / 53Roster SizeWeek 3Next game vs LionsSun, Sep 27, 1:00 PM EDT"
+    },
+    {
+      "team": "NYJ",
+      "width": 1440,
+      "overflow": false,
+      "height": 919.015625,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(18, 87, 64)",
+      "devContentClipped": false,
+      "status": "83Team OVR0-2Record$39.6MCap Space53 / 53Roster SizeWeek 3Next game vs LionsSun, Sep 27, 1:00 PM EDT"
+    },
+    {
+      "team": "NYJ",
+      "width": 1024,
+      "overflow": false,
+      "height": 1357.71875,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(18, 87, 64)",
+      "devContentClipped": false,
+      "status": "83Team OVR0-2Record$39.6MCap Space53 / 53Roster SizeWeek 3Next game vs LionsSun, Sep 27, 1:00 PM EDT"
+    },
+    {
+      "team": "NYJ",
+      "width": 768,
+      "overflow": false,
+      "height": 1507.9375,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(18, 87, 64)",
+      "devContentClipped": false,
+      "status": "83Team OVR0-2Record$39.6MCap Space53 / 53Roster SizeWeek 3Next game vs LionsSun, Sep 27, 1:00 PM EDT"
+    },
+    {
+      "team": "NYJ",
+      "width": 390,
+      "overflow": false,
+      "height": 3101.21875,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(18, 87, 64)",
+      "devContentClipped": false,
+      "status": "83Team OVR0-2Record$39.6MCap Space53 / 53Roster SizeWeek 3Next game vs LionsSun, Sep 27, 1:00 PM EDT"
+    },
+    {
+      "team": "NYJ",
+      "width": 320,
+      "overflow": false,
+      "height": 3132.21875,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(18, 87, 64)",
+      "devContentClipped": false,
+      "status": "83Team OVR0-2Record$39.6MCap Space53 / 53Roster SizeWeek 3Next game vs LionsSun, Sep 27, 1:00 PM EDT"
+    },
+    {
+      "team": "KC",
+      "width": 1536,
+      "overflow": false,
+      "height": 919.015625,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(227, 24, 55)",
+      "devContentClipped": false,
+      "status": "88Team OVR0-0Record$6.7MCap Space53 / 53Roster SizeWeek 1Next game vs BroncosMon, Sep 14, 8:15 PM EDT"
+    },
+    {
+      "team": "KC",
+      "width": 390,
+      "overflow": false,
+      "height": 3132.40625,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(227, 24, 55)",
+      "devContentClipped": false,
+      "status": "88Team OVR0-0Record$6.7MCap Space53 / 53Roster SizeWeek 1Next game vs BroncosMon, Sep 14, 8:15 PM EDT"
+    },
+    {
+      "team": "CHI",
+      "width": 1536,
+      "overflow": false,
+      "height": 919.015625,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(200, 56, 3)",
+      "devContentClipped": false,
+      "status": "88Team OVR0-0Record$0.2MCap Space53 / 53Roster SizeWeek 1Next game vs PanthersSun, Sep 13, 1:00 PM EDT"
+    },
+    {
+      "team": "CHI",
+      "width": 390,
+      "overflow": false,
+      "height": 3046.40625,
+      "bg": "rgb(6, 18, 25)",
+      "panel": "rgb(9, 26, 32)",
+      "accent": "rgb(200, 56, 3)",
+      "devContentClipped": false,
+      "status": "88Team OVR0-0Record$0.2MCap Space53 / 53Roster SizeWeek 1Next game vs PanthersSun, Sep 13, 1:00 PM EDT"
+    }
+  ],
+  "errors": []
+}

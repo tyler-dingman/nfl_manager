@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
+import { getActiveSimulationRoster } from '@/lib/front-office-roster';
 import { computeTeamOverviewRaw } from '@/lib/team-overview';
 import {
   getFrontOfficePhaseActions,
@@ -24,11 +25,13 @@ export function FrontOfficePhaseControl({
   phase,
   freeAgencyWave,
   actionOverride,
+  onRecordChange,
 }: {
   season: number;
   phase: string;
   freeAgencyWave: number;
   actionOverride?: ReactNode;
+  onRecordChange?: (record: string) => void;
 }) {
   const saveId = useSaveStore((state) => state.saveId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
@@ -44,6 +47,13 @@ export function FrontOfficePhaseControl({
   const cancelRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
   const actions = getFrontOfficePhaseActions(phase);
+  const teamRecord = simulation?.teams[teamAbbr]?.record;
+  const record = teamRecord
+    ? `${teamRecord.wins}-${teamRecord.losses}${teamRecord.ties ? `-${teamRecord.ties}` : ''}`
+    : '—';
+  useEffect(() => {
+    onRecordChange?.(record);
+  }, [onRecordChange, record]);
 
   useEffect(() => {
     if (!saveId) return;
@@ -105,7 +115,7 @@ export function FrontOfficePhaseControl({
     );
     try {
       if (!saveId) throw new Error('Create or restore a franchise save first.');
-      const activeRoster = roster.filter((player) => player.status?.toLowerCase() !== 'cut');
+      const activeRoster = getActiveSimulationRoster(roster, teamAbbr);
       const rawOverall = activeRoster.length ? computeTeamOverviewRaw(activeRoster).overall : 75;
       const response = await apiFetch('/api/front-office/simulate', {
         method: 'POST',
@@ -154,14 +164,12 @@ export function FrontOfficePhaseControl({
           <span>Season</span>
           <strong>{season}</strong>
         </div>
-        <div>
-          <span>Record</span>
-          <strong>
-            {simulation?.teams[teamAbbr]?.record
-              ? `${simulation.teams[teamAbbr].record.wins}-${simulation.teams[teamAbbr].record.losses}${simulation.teams[teamAbbr].record.ties ? `-${simulation.teams[teamAbbr].record.ties}` : ''}`
-              : '0-0'}
-          </strong>
-        </div>
+        {!onRecordChange && (
+          <div>
+            <span>Record</span>
+            <strong className="front-office-stat-value">{record}</strong>
+          </div>
+        )}
         <div>
           <span>Current phase</span>
           <strong>{phaseDisplayName(phase, freeAgencyWave)}</strong>

@@ -67,6 +67,7 @@ export type FranchiseTeamState = {
 };
 
 export type FranchiseGameState = {
+  startsAt?: string;
   id: string;
   week: number;
   seasonType: 'REG' | 'POST';

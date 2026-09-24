@@ -7,10 +7,21 @@ import {
   type VisibilityState,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowDown, ArrowLeftRight, ArrowUpDown, Loader2, MoreHorizontal } from 'lucide-react';
+import {
+  ArrowDown,
+  ArrowLeftRight,
+  ArrowUpDown,
+  Loader2,
+  MoreHorizontal,
+  Search,
+  X,
+} from 'lucide-react';
+
+import toolbarStyles from './player-filter-toolbar.module.css';
 
 import PlayerRowActions, { type PlayerRowActionsVariant } from '@/components/player-row-actions';
 import { Badge } from '@/components/ui/badge';
@@ -69,7 +80,10 @@ type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
   };
 };
 
-const SortableHeader = ({
+export const PLAYER_TABLE_HEADING_CLASS =
+  'inline-flex items-center gap-1 text-left text-xs font-semibold uppercase text-muted-foreground';
+
+export const SortableHeader = ({
   column,
   label,
 }: {
@@ -78,7 +92,7 @@ const SortableHeader = ({
 }) => (
   <button
     type="button"
-    className="inline-flex items-center gap-1 text-left text-xs font-semibold uppercase text-muted-foreground"
+    className={PLAYER_TABLE_HEADING_CLASS}
     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
   >
     {label}
@@ -187,7 +201,7 @@ const normalizePositionToken = (token: string) => {
   return normalized;
 };
 
-const matchesPositionFilter = (playerPosition: string, filter: string) => {
+export const matchesPositionFilter = (playerPosition: string, filter: string) => {
   if (filter === 'All') return true;
   const raw = playerPosition?.toUpperCase() ?? '';
   const parts = raw.split('/').map((part) => normalizePositionToken(part));
@@ -209,14 +223,15 @@ export function PositionFilterBar({
   active: string;
   onSelect: (value: string) => void;
 }) {
+  const positionId = React.useId();
   return (
     <div className="w-full">
       <div className="md:hidden">
-        <label className="sr-only" htmlFor="player-position-filter">
+        <label className="sr-only" htmlFor={positionId}>
           Filter by position
         </label>
         <select
-          id="player-position-filter"
+          id={positionId}
           value={active}
           onChange={(event) => onSelect(event.target.value)}
           className="h-10 w-full rounded-md border border-input bg-background pl-3 pr-10 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -244,6 +259,96 @@ export function PositionFilterBar({
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+export function PlayerFilterToolbar({
+  active,
+  onSelect,
+  query,
+  onQueryChange,
+  onReset,
+}: {
+  active: string;
+  onSelect: (value: string) => void;
+  query?: string;
+  onQueryChange?: (value: string) => void;
+  onReset?: () => void;
+}) {
+  const [open, setOpen] = React.useState(false);
+  const expanded = open || Boolean(query);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const searchId = React.useId();
+  React.useEffect(() => {
+    if (open) inputRef.current?.focus();
+  }, [open]);
+  const closeSearch = () => {
+    onQueryChange?.('');
+    setOpen(false);
+    requestAnimationFrame(() => triggerRef.current?.focus());
+  };
+  return (
+    <div className={toolbarStyles.toolbar} data-search-open={expanded}>
+      <div className={toolbarStyles.positions}>
+        <PositionFilterBar active={active} onSelect={onSelect} />
+      </div>
+      {onQueryChange && (
+        <div
+          className={toolbarStyles.search}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget) && !query) setOpen(false);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape') {
+              event.preventDefault();
+              event.stopPropagation();
+              closeSearch();
+            }
+          }}
+        >
+          {expanded && (
+            <input
+              ref={inputRef}
+              id={searchId}
+              type="search"
+              aria-label="Search players"
+              placeholder="Search players..."
+              value={query ?? ''}
+              onChange={(event) => onQueryChange(event.target.value)}
+            />
+          )}
+          <button
+            ref={triggerRef}
+            type="button"
+            aria-label={expanded ? 'Clear search and close' : 'Open player search'}
+            aria-expanded={expanded}
+            aria-controls={expanded ? searchId : undefined}
+            onClick={() => (expanded ? closeSearch() : setOpen(true))}
+          >
+            {expanded ? <X aria-hidden="true" /> : <Search aria-hidden="true" />}
+          </button>
+        </div>
+      )}
+      {onReset && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              aria-label="Player table options"
+              size="icon"
+              className="h-10 w-10 shrink-0"
+            >
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={onReset}>Reset filters</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onQueryChange?.('')}>Clear search</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </div>
   );
 }
@@ -818,6 +923,9 @@ export function PlayerTable({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: variant !== 'roster' && variant !== 'freeAgent',
+    initialState: { pagination: { pageIndex: 0, pageSize: 10 } },
     state: { sorting, columnVisibility },
     onSortingChange: handleSortingChange,
     getRowId: (row) => row.id,
@@ -841,10 +949,15 @@ export function PlayerTable({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: variant !== 'roster' && variant !== 'freeAgent',
+    initialState: { pagination: { pageIndex: 0, pageSize: 10 } },
     state: { sorting, columnVisibility },
     onSortingChange: handleSortingChange,
     getRowId: (row) => row.id,
   });
+
+  const activeTable = variant === 'freeAgent' ? freeAgentTable : table;
 
   const resetFilters = () => {
     setPositionFilter('All');
@@ -881,40 +994,16 @@ export function PlayerTable({
   };
 
   return (
-    <div className="overflow-visible rounded-2xl border border-border bg-white shadow-sm">
+    <div className="fo-player-table overflow-visible rounded-2xl border border-border bg-white shadow-sm">
       {topSlot ? <div className="border-b border-border px-4 py-4 sm:px-6">{topSlot}</div> : null}
-      <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
-          {variant !== 'draft' ? (
-            <div className="flex w-full items-center gap-2 sm:w-auto sm:max-w-sm">
-              <input
-                type="search"
-                placeholder="Search players..."
-                className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-9"
-                value={searchQuery}
-                onChange={(event) => setSearchQuery(event.target.value)}
-              />
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-10 w-10 shrink-0 sm:h-9 sm:w-9"
-                  >
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={resetFilters}>Reset filters</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSearchQuery('')}>
-                    Clear search
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          ) : null}
-        </div>
+      <div className="border-b border-border px-4 py-3 sm:px-6">
+        <PlayerFilterToolbar
+          active={positionFilter}
+          onSelect={setPositionFilter}
+          query={searchQuery}
+          onQueryChange={variant !== 'draft' ? setSearchQuery : undefined}
+          onReset={variant !== 'draft' ? resetFilters : undefined}
+        />
       </div>
       <div className="py-3 sm:px-6 sm:py-4">
         <div className="px-4 md:hidden">
@@ -923,7 +1012,12 @@ export function PlayerTable({
             <span>Swipe to see more columns.</span>
           </div>
         </div>
-        <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
+        <div
+          className="mt-3 w-full overflow-x-auto overscroll-x-contain"
+          role="region"
+          aria-label="Player table, scroll for more columns"
+          tabIndex={0}
+        >
           <table className={tableClassName}>
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
               {(variant === 'freeAgent' ? freeAgentTable : table)
@@ -1022,6 +1116,46 @@ export function PlayerTable({
           </div>
         ) : null}
       </div>
+      {!loading &&
+        (variant === 'roster' || variant === 'freeAgent') &&
+        activeTable.getFilteredRowModel().rows.length > 0 && (
+          <nav className="fo-pagination" aria-label="Player table pagination">
+            <span>{activeTable.getFilteredRowModel().rows.length} players</span>
+            <div>
+              <button
+                type="button"
+                onClick={() => activeTable.previousPage()}
+                disabled={!activeTable.getCanPreviousPage()}
+              >
+                Previous
+              </button>
+              <span aria-live="polite">
+                {activeTable.getState().pagination.pageIndex + 1} / {activeTable.getPageCount()}
+              </span>
+              <button
+                type="button"
+                onClick={() => activeTable.nextPage()}
+                disabled={!activeTable.getCanNextPage()}
+              >
+                Next
+              </button>
+            </div>
+            <label>
+              Show{' '}
+              <select
+                aria-label="Players per page"
+                value={activeTable.getState().pagination.pageSize}
+                onChange={(event) => activeTable.setPageSize(Number(event.target.value))}
+              >
+                {[10, 25, 50, 100].map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </nav>
+        )}
       {!loading &&
         (variant === 'freeAgent' ? freeAgentTableData.length === 0 : filteredData.length === 0) && (
           <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">

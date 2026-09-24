@@ -3,32 +3,13 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  BriefcaseBusiness,
-  ChevronDown,
-  LogIn,
-  LogOut,
-  ShieldCheck,
-  Trophy,
-  Users,
-  Shield,
-} from 'lucide-react';
-import {
-  DdNotificationsIcon as Bell,
-  DdSaveIcon as Bookmark,
-  DdSettingsIcon as Settings2,
-} from '@/components/ui/football-icons';
+import { ChevronDown, LogIn, LogOut } from 'lucide-react';
+import { profileLinks } from '@/components/auth/profile-navigation';
 
 import { clearPreviewSession, useAuthUser } from '@/features/auth/auth-session';
 import UserAvatar from '@/components/auth/user-avatar';
 
-export default function LoginButton({
-  dark = true,
-  teamAbbr,
-}: {
-  dark?: boolean;
-  teamAbbr?: string | null;
-}) {
+export default function LoginButton({ dark = true }: { dark?: boolean; teamAbbr?: string | null }) {
   const router = useRouter();
   const { user, hydrated } = useAuthUser();
   const [open, setOpen] = useState(false);
@@ -57,21 +38,6 @@ export default function LoginButton({
       </Link>
     );
   }
-
-  const links = [
-    ['/account', 'Account', BriefcaseBusiness],
-    ['/rewards', 'Rewards', Trophy],
-    ['/crew', 'My Crew', Users],
-    [
-      `/?team-select=1${teamAbbr ? `&team=${encodeURIComponent(teamAbbr)}` : ''}`,
-      'Favorite Team',
-      Shield,
-    ],
-    ['/account/notifications', 'Notifications', Bell],
-    ['/account/content', 'Content', Bookmark],
-    ['/account/devices', 'Devices', ShieldCheck],
-    ['/account/privacy-security', 'Privacy & Security', ShieldCheck],
-  ] as const;
 
   return (
     <div ref={menuRef} className="relative">
@@ -104,7 +70,7 @@ export default function LoginButton({
             </div>
           </div>
           <div className="p-2">
-            {links.map(([href, label, Icon]) => (
+            {profileLinks.map(([href, label, Icon]) => (
               <Link
                 key={href}
                 href={href}

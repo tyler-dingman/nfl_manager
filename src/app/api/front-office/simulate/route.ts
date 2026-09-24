@@ -9,7 +9,8 @@ import {
 import { authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
-import { getSaveStateResult } from '@/server/api/store';
+import { getActiveSimulationRoster } from '@/lib/front-office-roster';
+import { ensureSaveState, getSaveStateResult } from '@/server/api/store';
 import {
   createFallbackRegularSeasonSchedule,
   getNFLRegularSeasonSchedule,
@@ -71,6 +72,7 @@ async function initializeSimulation(input: {
     games: schedule.map((game) => ({
       id: game.id,
       week: game.week,
+      ...(game.id.includes('-fallback-') ? {} : { startsAt: game.startsAt }),
       homeTeam: normalizeScheduleTeam(game.homeTeam!),
       awayTeam: normalizeScheduleTeam(game.awayTeam!),
     })),
@@ -123,6 +125,7 @@ export async function GET(request: NextRequest) {
       state: state?.simulation ?? null,
       version: state?.version,
       matchupPlayers,
+      nextGameSchedule: nextGame?.startsAt ? { startsAt: nextGame.startsAt } : null,
     });
   } catch (error) {
     console.error('[front-office:simulate:GET]', error);
@@ -176,19 +179,29 @@ export async function POST(request: NextRequest) {
     }
     const previousSimulation = metadata.simulation;
     const saveState = getSaveStateResult(input.saveId);
-    const userRoster = saveState.ok ? saveState.data.roster : [];
+    const userRoster = getActiveSimulationRoster(
+      (saveState.ok
+        ? saveState.data
+        : ensureSaveState(input.saveId, metadata.teamAbbr, metadata.season)
+      ).roster,
+      metadata.teamAbbr,
+    );
     const playerMap = new Map(
-      NFL_LEAGUE_DATA.players.map((player) => [
-        player.id,
-        {
-          id: player.id,
-          name: player.name,
-          position: player.position,
-          teamAbbr: normalizeScheduleTeam(player.teamAbbr),
-          rating: player.rating,
-          headshotUrl: player.headshotUrl,
-        },
-      ]),
+      NFL_LEAGUE_DATA.players
+        .filter(
+          (player) => normalizeScheduleTeam(player.teamAbbr) !== metadata.teamAbbr.toUpperCase(),
+        )
+        .map((player) => [
+          player.id,
+          {
+            id: player.id,
+            name: player.name,
+            position: player.position,
+            teamAbbr: normalizeScheduleTeam(player.teamAbbr),
+            rating: player.rating,
+            headshotUrl: player.headshotUrl,
+          },
+        ]),
     );
     for (const player of userRoster) {
       playerMap.set(player.id, {

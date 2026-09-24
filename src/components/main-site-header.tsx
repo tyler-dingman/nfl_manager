@@ -23,7 +23,10 @@ export default function MainSiteHeader({
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <SiteHeaderShell tone={tone}>
+    <SiteHeaderShell
+      tone={tone}
+      className={active === 'front-office' ? 'fo-global-header' : undefined}
+    >
       <SiteSearchModal open={searchOpen} onClose={() => setSearchOpen(false)} teamAbbr={teamAbbr} />
       <SiteHeaderLogo teamAbbr={teamAbbr} generic={!teamAbbr} />
       <PrimaryNavigation

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
+import { useTeamStyle } from '@/components/team-theme-provider';
 
 import { cn } from '@/lib/utils';
 
@@ -38,6 +39,7 @@ function DropdownMenuTrigger({
   asChild?: boolean;
 }) {
   const { open, setOpen, triggerRef } = useDropdownContext();
+  const teamStyle = useTeamStyle();
 
   const setTriggerRef = React.useCallback(
     (element: HTMLElement | null) => {
@@ -74,6 +76,7 @@ const DropdownMenuContent = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement> & { align?: 'start' | 'end' }
 >(({ className, align = 'start', ...props }, ref) => {
   const { open, setOpen, triggerRef } = useDropdownContext();
+  const teamStyle = useTeamStyle();
   const contentRef = React.useRef<HTMLDivElement>(null);
 
   React.useImperativeHandle(ref, () => contentRef.current as HTMLDivElement);
@@ -125,9 +128,10 @@ const DropdownMenuContent = React.forwardRef<
       role="menu"
       className={cn(
         'z-[1000] mt-2 overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md',
+        triggerRef.current?.closest('.front-office-app') ? 'fo-portal-menu' : undefined,
         className,
       )}
-      style={alignStyles}
+      style={{ ...teamStyle, ...alignStyles }}
       {...props}
     />
   );

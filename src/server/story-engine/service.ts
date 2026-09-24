@@ -174,11 +174,15 @@ export async function processSource(
   try {
     const result = await fetcher.fetch(source);
     let inserted = 0;
-    const eligibleItems = options.publishedSince
-      ? result.items.filter(
-          (item) => new Date(item.publishedAt).getTime() >= options.publishedSince!.getTime(),
-        )
-      : result.items;
+    // Film Room needs the channel's latest uploads even when none were published today.
+    // Playlist polling is already bounded; candidate IDs deduplicate subsequent polls.
+    const videoOnly = source.sourceType === 'YOUTUBE' || source.metadata.platform === 'YOUTUBE';
+    const eligibleItems =
+      options.publishedSince && !videoOnly
+        ? result.items.filter(
+            (item) => new Date(item.publishedAt).getTime() >= options.publishedSince!.getTime(),
+          )
+        : result.items;
     for (const raw of eligibleItems) {
       // Full-page text can contain bilingual navigation or unrelated modules. The headline and
       // feed excerpt are the authored story copy and are the reliable language signal.
@@ -188,7 +192,6 @@ export async function processSource(
       const id = await repo.saveCandidate(candidate);
       if (id) {
         inserted++;
-        const videoOnly = source.sourceType === 'YOUTUBE' || source.metadata.platform === 'YOUTUBE';
         if (!videoOnly) {
           await repo.enqueueJob('CANDIDATE_PROCESS', `candidate:${id}`, { candidateId: id });
         }

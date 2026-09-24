@@ -8,7 +8,7 @@
   padding: 3vh 2vw;
   background: #020812bd;
   backdrop-filter: blur(5px);
-  color: #0c1b2e;
+  color: var(--fo-text);
 }
 .dialog {
   width: 96vw;
@@ -17,9 +17,9 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid #34404c;
+  border: 1px solid var(--fo-line);
   border-radius: 20px;
-  background: #f8fafc;
+  background: var(--fo-panel);
   box-shadow: 0 30px 100px #0008;
 }
 .scroll {
@@ -36,8 +36,8 @@
   gap: 24px;
   min-height: 350px;
   padding: 65px 34px 22px;
-  background: #061421;
-  color: #fff;
+  background: var(--fo-panel);
+  color: var(--fo-text);
   overflow: hidden;
 }
 .hero:before {
@@ -89,7 +89,7 @@
   min-width: 34px;
   min-height: 34px;
   border-radius: 6px;
-  color: #fff;
+  color: var(--fo-text);
   font-size: 12px;
 }
 .utility button:hover {
@@ -138,7 +138,7 @@
   height: 90%;
   font-size: 90px;
   font-weight: 800;
-  color: #d0deea;
+  color: var(--fo-muted);
 }
 .identity {
   grid-column: 2;
@@ -156,7 +156,7 @@
   align-items: baseline;
   gap: 14px;
   margin: 0 0 12px;
-  color: #fff;
+  color: var(--fo-text);
   font-family: var(--font-headline), sans-serif;
   font-size: clamp(38px, 4.7vw, 72px);
   font-weight: 900;
@@ -168,12 +168,12 @@
   font-family: var(--font-sans, Arial), sans-serif;
   font-size: 17px;
   font-weight: 700;
-  color: #cad5df;
+  color: var(--fo-muted);
 }
 .identity p {
   margin: 10px 0;
   font-size: 14px;
-  color: #e0e7ef;
+  color: var(--fo-text);
   line-height: 1.5;
 }
 .schoolLine {
@@ -190,8 +190,8 @@
   padding: 5px 10px;
   margin-top: 4px;
   border-radius: 6px;
-  background: #e1e9ed;
-  color: #162a3b;
+  background: var(--fo-panel);
+  color: var(--fo-text);
   font-size: 11px;
   font-weight: 700;
 }
@@ -250,8 +250,8 @@
   justify-content: space-between;
   gap: 8px;
   padding: 0 24px;
-  border-bottom: 1px solid #dce3e9;
-  background: #fff;
+  border-bottom: 1px solid var(--fo-line);
+  background: var(--fo-panel);
 }
 .tabs {
   display: flex;
@@ -262,14 +262,14 @@
   min-height: 58px;
   padding: 10px 14px;
   border-bottom: 3px solid transparent;
-  color: #50677f;
+  color: var(--fo-muted);
   font-size: 13px;
   font-weight: 700;
   white-space: nowrap;
 }
 .tabs button[aria-selected='true'] {
   border-color: #e64b08;
-  color: #071b30;
+  color: var(--fo-text);
 }
 .actions {
   display: flex;
@@ -285,16 +285,16 @@
   gap: 6px;
   min-height: 34px;
   padding: 7px 10px;
-  border: 1px solid #d5dee7;
+  border: 1px solid var(--fo-line);
   border-radius: 6px;
   font-size: 11px;
   font-weight: 700;
-  background: white;
+  background: var(--fo-panel);
   cursor: pointer;
 }
 .actions .draft {
-  background: #071b30;
-  color: #fff;
+  background: var(--fo-panel);
+  color: var(--fo-text);
 }
 .actions details {
   position: relative;
@@ -311,9 +311,9 @@
   z-index: 5;
   min-width: 185px;
   padding: 6px;
-  border: 1px solid #dce3e9;
+  border: 1px solid var(--fo-line);
   border-radius: 8px;
-  background: white;
+  background: var(--fo-panel);
   box-shadow: 0 8px 22px #00172b22;
 }
 .actions details button {
@@ -325,7 +325,7 @@
 }
 .content {
   padding: 22px;
-  background: #f8fafc;
+  background: var(--fo-panel);
   min-height: 280px;
 }
 .overview {
@@ -346,15 +346,15 @@
 }
 .card {
   padding: 20px;
-  border: 1px solid #dfe5eb;
+  border: 1px solid var(--fo-line);
   border-radius: 13px;
-  background: #fff;
+  background: var(--fo-panel);
   box-shadow: 0 5px 16px #071b3004;
   min-width: 0;
 }
 .card h3 {
   margin: 0 0 14px;
-  color: #071b30;
+  color: var(--fo-text);
   font-family: var(--font-headline), sans-serif;
   font-size: 19px;
   line-height: 1.2;
@@ -365,7 +365,7 @@
 .card li {
   font-size: 13px;
   line-height: 1.65;
-  color: #4f657d;
+  color: var(--fo-muted);
 }
 .card p + p {
   margin-top: 10px;
@@ -375,15 +375,15 @@
   justify-content: space-between;
   gap: 14px;
   padding: 7px 0;
-  border-bottom: 1px solid #edf0f4;
+  border-bottom: 1px solid var(--fo-line);
   font-size: 12px;
 }
 .info dt {
-  color: #577089;
+  color: var(--fo-muted);
 }
 .info dd {
   text-align: right;
-  color: #10283d;
+  color: var(--fo-text);
   font-weight: 600;
 }
 .info > div:last-child {
@@ -392,7 +392,7 @@
 .projection {
   display: block;
   font-size: 27px;
-  color: #102a40;
+  color: var(--fo-text);
   font-weight: 800;
   margin-bottom: 10px;
 }
@@ -406,7 +406,7 @@
   margin: 8px 0;
 }
 .strengths li::marker {
-  color: #169769;
+  color: var(--fo-muted);
 }
 .weaknesses li::marker {
   color: #db8c17;
@@ -414,7 +414,7 @@
 .note,
 .card .note {
   font-size: 11px;
-  color: #697e90;
+  color: var(--fo-muted);
   line-height: 1.6;
 }
 .fit {
@@ -435,7 +435,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: conic-gradient(#18866c var(--fit), #e6eef0 0);
+  background: var(--fo-panel);
   isolation: isolate;
 }
 .fitCircle:before {
@@ -443,13 +443,13 @@
   position: absolute;
   inset: 5px;
   border-radius: 50%;
-  background: white;
+  background: var(--fo-panel);
   z-index: -1;
 }
 .fitCircle strong {
   font-size: 26px;
   font-weight: 800;
-  color: #087259;
+  color: var(--fo-text);
   line-height: 1.1;
 }
 .fitCircle small {
@@ -461,7 +461,7 @@
   gap: 8px;
   font-size: 12px;
   font-weight: 700;
-  color: #096cd1;
+  color: var(--fo-muted);
   margin-top: 14px;
 }
 .analysis {
@@ -472,17 +472,17 @@
 }
 .story {
   padding: 14px 0;
-  border-top: 1px solid #e6ecf1;
+  border-top: 1px solid var(--fo-line);
 }
 .story a {
   font-weight: 700;
-  color: #096cd1;
+  color: var(--fo-muted);
 }
 .story small {
-  color: #697e90;
+  color: var(--fo-muted);
 }
 .dialog :is(button, a, summary):focus-visible {
-  outline: 3px solid #0878ff;
+  outline: 3px solid var(--fo-line);
   outline-offset: 3px;
 }
 @media (max-width: 1050px) {
@@ -593,7 +593,7 @@
   .scroll {
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
-    background: #061421;
+    background: var(--fo-panel);
   }
   .hero {
     display: flex;
@@ -650,4 +650,13 @@
     min-height: 44px;
     font-size: 12px;
   }
+}
+.hero::before {
+  background: url('/assets/front-office/graphics/heroes/play-diagram.svg') right center / contain
+    no-repeat;
+  opacity: 0.12;
+  clip-path: none;
+}
+.hero::after {
+  display: none;
 }

@@ -28,7 +28,7 @@ export async function createTriviaGame(userId: string, teamId: string) {
 }
 
 export const getGameStandings = (gameId: string) =>
-  authDb()`SELECT p.user_id AS "userId",coalesce(u.display_name,'Football Fan') AS name,f.team_id AS "teamId",p.score,p.correct_answers AS "correctAnswers",p.wrong_answers AS "wrongAnswers",p.timeouts,p.response_time_total_ms AS "responseTimeTotalMs",p.best_question_score AS "bestQuestionScore",p.completed_at AS "completedAt",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC LIMIT 1) AS "currentRank",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC OFFSET 1 LIMIT 1) AS "previousRank" FROM trivia_game_participants p JOIN users u ON u.id=p.user_id LEFT JOIN user_team_follows f ON f.user_id=u.id AND f.is_primary=true WHERE p.game_id=${gameId} AND p.participant_status='JOINED' ORDER BY p.score DESC,p.correct_answers DESC,p.response_time_total_ms ASC,u.display_name,u.id`;
+  authDb()`SELECT p.user_id AS "userId",coalesce(u.display_name,'Football Fan') AS name,u.avatar_url AS "avatarUrl",f.team_id AS "teamId",p.score,p.correct_answers AS "correctAnswers",p.wrong_answers AS "wrongAnswers",p.timeouts,p.response_time_total_ms AS "responseTimeTotalMs",p.best_question_score AS "bestQuestionScore",p.completed_at AS "completedAt",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC LIMIT 1) AS "currentRank",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC OFFSET 1 LIMIT 1) AS "previousRank" FROM trivia_game_participants p JOIN users u ON u.id=p.user_id LEFT JOIN user_team_follows f ON f.user_id=u.id AND f.is_primary=true WHERE p.game_id=${gameId} AND p.participant_status='JOINED' ORDER BY p.score DESC,p.correct_answers DESC,p.response_time_total_ms ASC,u.display_name,u.id`;
 
 export async function getTriviaGame(userId: string, gameId: string) {
   const sql = authDb();
@@ -242,4 +242,17 @@ export async function getTriviaLeaderboard(
     `SELECT row_number() OVER(ORDER BY s.${points} DESC,s.correct_answers DESC,u.id)::int AS rank,u.id AS "userId",coalesce(u.display_name,'Football Fan') AS name,s.${points} AS score,(CASE WHEN s.questions_answered=0 THEN 0 ELSE round(s.correct_answers::numeric/s.questions_answered*100,1) END)::double precision AS accuracy,s.games_played AS "gamesPlayed" FROM trivia_stats s JOIN users u ON u.id=s.user_id ${teamJoin} WHERE u.is_guest=false ORDER BY s.${points} DESC,s.correct_answers DESC,u.id LIMIT ${Math.min(100, Math.max(1, limit))}`,
     params,
   );
+}
+
+// Read-only polling: unlike getTriviaGame, this never presents the next question.
+export async function getTriviaLiveState(userId: string, gameId: string) {
+  const sql = authDb();
+  const members =
+    await sql`SELECT user_id FROM trivia_game_participants WHERE game_id=${gameId} AND user_id=${userId} AND participant_status='JOINED'`;
+  if (!members.length) throw new Error('Game not found.');
+  const [standings, activity] = await Promise.all([
+    getGameStandings(gameId),
+    sql`SELECT a.id,a.answered_at AS at,coalesce(u.display_name,'Football Fan') AS name,a.correct,a.points_awarded AS points,gq.position FROM trivia_answers a JOIN users u ON u.id=a.user_id JOIN trivia_game_questions gq ON gq.game_id=a.game_id AND gq.question_id=a.question_id WHERE a.game_id=${gameId} ORDER BY a.answered_at DESC,a.id LIMIT 5`,
+  ]);
+  return { standings, activity };
 }

@@ -1,0 +1,12 @@
+{
+  "report": [
+    "development",
+    "Development search and filters",
+    "public-entry",
+    "season-simulation",
+    "league-story",
+    "trade-target",
+    "Trade failure and retry"
+  ],
+  "errors": []
+}

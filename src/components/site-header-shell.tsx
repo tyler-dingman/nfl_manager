@@ -7,9 +7,11 @@ import Link from 'next/link';
 export function SiteHeaderShell({
   children,
   tone = 'team',
+  className,
 }: {
   children: ReactNode;
   tone?: 'team' | 'merch' | 'brand';
+  className?: string;
 }) {
   return (
     <header
@@ -21,6 +23,7 @@ export function SiteHeaderShell({
           : tone === 'brand'
             ? 'border-white/20 bg-[#FF3D38] text-white [--team-light-on-dark:#fff] [--team-on-dark:#fff] [--team-secondary-on-dark:#fff]'
             : 'border-white/10 bg-[#00172B] text-white [--team-light-on-dark:#fff] [--team-on-dark:#fff] [--team-secondary-on-dark:#fff]',
+        className,
       )}
     >
       <div className="mx-auto flex h-[var(--site-header-height)] max-w-[1440px] min-w-0 items-center gap-2 px-3 sm:gap-5 sm:px-6 lg:px-8">

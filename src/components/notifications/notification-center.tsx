@@ -195,7 +195,7 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
       >
         <Bell className="h-4 w-4" />
         {count + tradeUnread > 0 ? (
-          <span className="absolute -right-1 -top-1 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-[var(--team-secondary)] px-1 text-[9px] font-black leading-none text-[var(--team-on-secondary)] ring-2 ring-[var(--dark)]">
+          <span className="absolute -right-1 -top-1 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-[#FF3D38] px-1 text-[9px] font-black leading-none text-white ring-2 ring-[var(--dark)]">
             {count + tradeUnread > 9 ? '9+' : count + tradeUnread}
           </span>
         ) : null}

@@ -45,13 +45,33 @@ const titles: Record<string, [string, string]> = {
 export function TradeHubToolPage({ tool }: { tool: string }) {
   const saveId = useSaveStore((store) => store.saveId);
   const [data, setData] = useState<HubPayload | null>(null);
+  const [error, setError] = useState('');
+  const [retry, setRetry] = useState(0);
   useEffect(() => {
     if (!saveId) return;
+    let active = true;
+    setError('');
+    setData(null);
     void apiFetch(`/api/front-office/trade-hub?saveId=${encodeURIComponent(saveId)}`)
-      .then((response) => response.json())
-      .then(setData)
-      .catch(() => setData(null));
-  }, [saveId]);
+      .then(async (response) => {
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || 'Trade intelligence is unavailable.');
+        if (
+          !Array.isArray(payload.targets) ||
+          !Array.isArray(payload.tradeEvents) ||
+          !Array.isArray(payload.recentTrades)
+        )
+          throw new Error('Trade intelligence is incomplete.');
+        if (active) setData(payload);
+      })
+      .catch((cause) => {
+        if (active)
+          setError(cause instanceof Error ? cause.message : 'Unable to load trade intelligence.');
+      });
+    return () => {
+      active = false;
+    };
+  }, [saveId, retry]);
   const recentIds = useMemo(() => {
     if (typeof window === 'undefined' || !saveId) return new Set<string>();
     try {
@@ -86,7 +106,14 @@ export function TradeHubToolPage({ tool }: { tool: string }) {
           <h2>{copy[0]}</h2>
           <p>{copy[1]}</p>
         </header>
-        {!data ? (
+        {error ? (
+          <div className={styles.status} role="alert">
+            <p>{error}</p>
+            <button type="button" onClick={() => setRetry((value) => value + 1)}>
+              Try again
+            </button>
+          </div>
+        ) : !data ? (
           <div className={styles.status}>Loading trade intelligence…</div>
         ) : tool === 'activity' ? (
           <section className={styles.toolPanel}>

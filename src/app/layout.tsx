@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next';
+import { frontOfficeFont } from '@/components/front-office/front-office-font';
 import AppProviders from '@/components/app-providers';
 import SiteFooter from '@/components/site-footer';
 import './globals.css';
+import '@/components/front-office/front-office-system.css';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -38,7 +40,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={frontOfficeFont.variable} suppressHydrationWarning>
       <head>
         <link
           rel="icon"

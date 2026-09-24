@@ -1,0 +1,38 @@
+{
+  "results": [
+    {
+      "name": "Roster search and reset",
+      "pass": true
+    },
+    {
+      "name": "Roster pagination and page size",
+      "pass": true
+    },
+    {
+      "name": "Roster sorting",
+      "pass": true
+    },
+    {
+      "name": "Player details and tabs",
+      "pass": true
+    },
+    {
+      "name": "Mobile navigation, focus and Escape",
+      "pass": true
+    },
+    {
+      "name": "Trade assets, picks, filters and reset",
+      "pass": true
+    },
+    {
+      "name": "Draft board filters and prospect profile",
+      "pass": true
+    },
+    {
+      "name": "News drawer",
+      "pass": true
+    }
+  ],
+  "themes": [],
+  "errors": []
+}

@@ -1,7 +1,8 @@
+import { TeamBrandedLogo } from './team-branded-logo';
 import { Ionicons } from '@expo/vector-icons';
 import { type Href, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTeamBranding } from '../lib/team-branding';
 import { getUnreadNotificationCount } from '../lib/api';
@@ -50,7 +51,7 @@ export function MobileHeaderActions() {
       >
         <Ionicons name="notifications-outline" color={theme.light} size={22} />
         {count ? (
-          <View style={[s.badge, { backgroundColor: theme.secondary }]}>
+          <View style={[s.badge, { backgroundColor: '#FF3D38' }]}>
             <Text style={s.badgeText}>{count > 9 ? '9+' : count}</Text>
           </View>
         ) : null}
@@ -63,7 +64,7 @@ export function MobileMenuButton() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const { logoSource, teamId, theme } = useTeamBranding();
+  const { teamId, theme } = useTeamBranding();
 
   const navigate = (href: Href) => {
     setOpen(false);
@@ -100,10 +101,9 @@ export function MobileMenuButton() {
             ]}
           >
             <View style={[s.drawerHeader, { borderBottomColor: theme.secondary }]}>
-              <Image
+              <TeamBrandedLogo
                 accessibilityLabel={`${teamId} Down & Distance`}
-                resizeMode="contain"
-                source={logoSource}
+                team={teamId}
                 style={s.drawerLogo}
               />
               <Pressable
@@ -142,12 +142,11 @@ export function MobileMenuButton() {
 }
 
 export function MobileHeaderLogo() {
-  const { logoSource, teamId } = useTeamBranding();
+  const { teamId } = useTeamBranding();
   return (
-    <Image
+    <TeamBrandedLogo
       accessibilityLabel={`${teamId} Down & Distance`}
-      resizeMode="contain"
-      source={logoSource}
+      team={teamId}
       style={s.headerLogo}
     />
   );
@@ -195,5 +194,5 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  badgeText: { color: '#081824', fontSize: 9, fontWeight: '900' },
+  badgeText: { color: '#FFFFFF', fontSize: 9, fontWeight: '900' },
 });

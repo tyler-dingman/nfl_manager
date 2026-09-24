@@ -1,0 +1,82 @@
+[
+  {
+    "team": "NYJ",
+    "width": 390,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      167.6875,
+      167.6875,
+      167.6875,
+      167.6875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "12-3",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "$-103.4M",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 83,
+        "scroll": 83
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 68.53125,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "NYJ",
+    "width": 320,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      167.34375,
+      167.34375,
+      167.34375,
+      167.34375
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "12-3",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "$-103.4M",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 65,
+        "scroll": 65
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 57,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(18, 87, 64)"
+  }
+]

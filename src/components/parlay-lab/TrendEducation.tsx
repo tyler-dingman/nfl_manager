@@ -77,7 +77,7 @@ export function TrendHelp({ compact = false }: { compact?: boolean }) {
           close={() => setOpen(false)}
         >
           <p>
-            The Parlay Bus scans stored player props for statistical patterns worth researching. Recent
+            Parlay Lab scans stored player props for statistical patterns worth researching. Recent
             history, line context, consistency and sample size contribute to the ranking. Defensive
             matchup, usage and stored spread context support or conflict with the selected side.
           </p>

@@ -1,10 +1,10 @@
 .nav {
   display: flex;
-  margin: 0 -32px;
+  margin: 0 0 14px;
   overflow-x: auto;
-  border-bottom: 1px solid #dce5ec;
-  background: #fff;
-  padding: 0 clamp(24px, 3vw, 48px);
+  border-bottom: 1px solid var(--fo-line);
+  background: var(--fo-panel);
+  padding: 0 8px;
   scrollbar-width: none;
 }
 .nav::-webkit-scrollbar {
@@ -14,7 +14,7 @@
   position: relative;
   flex: 0 0 auto;
   padding: 14px 18px;
-  color: #294b6c;
+  color: var(--fo-muted);
   font-size: 0.72rem;
   font-weight: 750;
   text-decoration: none;
@@ -22,7 +22,7 @@
 }
 .nav a:hover,
 .nav a[aria-current='page'] {
-  color: #0878e8;
+  color: var(--fo-accent);
 }
 .nav a[aria-current='page']::after {
   position: absolute;
@@ -30,16 +30,16 @@
   bottom: -1px;
   left: 12px;
   height: 2px;
-  background: #0878ff;
+  background: var(--fo-accent);
   content: '';
 }
 .nav a:focus-visible {
-  outline: 3px solid #0878ff55;
+  outline: 3px solid var(--fo-accent);
   outline-offset: -3px;
 }
 @media (max-width: 760px) {
   .nav {
-    margin: 0 -16px;
+    margin: 0 0 12px;
     padding-inline: 8px;
   }
   .nav a {

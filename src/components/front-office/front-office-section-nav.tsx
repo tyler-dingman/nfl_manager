@@ -11,7 +11,7 @@ import {
 import styles from './front-office-section-nav.module.css';
 
 export function FrontOfficeSectionNav({ section }: { section: FrontOfficeSection }) {
-  const pathname = usePathname() ?? '';
+  const pathname = (usePathname() ?? '').replace(/^\/offseasonmanager(?=\/)/, '');
   const params = useSearchParams();
   const activeRef = useRef<HTMLAnchorElement>(null);
   const items = FRONT_OFFICE_NAVIGATION[section];

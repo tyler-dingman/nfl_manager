@@ -1,0 +1,122 @@
+[
+  {
+    "team": "NYJ",
+    "width": 1536,
+    "overflow": false,
+    "status": 81,
+    "hero": 270,
+    "topToMarket": 390.578125,
+    "kpiTops": [
+      120.96875,
+      120.96875,
+      120.96875,
+      120.96875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 180,
+        "scroll": 180
+      },
+      {
+        "text": "12-3",
+        "width": 159,
+        "scroll": 159
+      },
+      {
+        "text": "$-103.4M",
+        "width": 159,
+        "scroll": 159
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 159,
+        "scroll": 159
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 73.53125,
+    "base": "rgba(0, 0, 0, 0)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "NYJ",
+    "width": 600,
+    "overflow": false,
+    "status": 127.9375,
+    "hero": 280,
+    "topToMarket": 555.9375,
+    "kpiTops": [
+      167,
+      167,
+      167,
+      167
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 135,
+        "scroll": 135
+      },
+      {
+        "text": "12-3",
+        "width": 135,
+        "scroll": 135
+      },
+      {
+        "text": "$-103.4M",
+        "width": 135,
+        "scroll": 135
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 135,
+        "scroll": 135
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 76,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "NYJ",
+    "width": 320,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      168.015625,
+      168.015625,
+      168.015625,
+      168.015625
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "12-3",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "$-103.4M",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 65,
+        "scroll": 65
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 57,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(18, 87, 64)"
+  }
+]

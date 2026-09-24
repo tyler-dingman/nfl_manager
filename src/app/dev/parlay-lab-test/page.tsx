@@ -12,7 +12,7 @@ export default function ParlayLabTestPage() {
   const [error, setError] = useState('');
   useEffect(() => { fetch('/api/parlay-lab/test-ticket').then(async (response) => { const body = await response.json(); if (!response.ok) throw new Error(body.error); return body; }).then(setTicket).catch((reason) => setError(reason.message)); }, []);
   return <main className={styles.page}>
-    <p className={styles.eyebrow}>The Parlay Bus</p><h1>The Parlay Bus — Dev Test</h1><h2>DEN @ KC</h2>
+    <p className={styles.eyebrow}>Parlay Lab</p><h1>Parlay Lab — Dev Test</h1><h2>DEN @ KC</h2>
     {error ? <div className={styles.notice}>{error}<small>Run the migration and import the 2026 test week first.</small></div> : null}
     {!ticket && !error ? <div className={styles.notice}>Loading local odds…</div> : null}
     {ticket ? <>

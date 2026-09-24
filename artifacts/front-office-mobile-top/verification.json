@@ -1,0 +1,842 @@
+[
+  {
+    "team": "NYJ",
+    "width": 430,
+    "overflow": false,
+    "status": 126.03125,
+    "hero": 280,
+    "topToMarket": 554.03125,
+    "kpiTops": [
+      167,
+      167,
+      167,
+      167
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 93,
+        "scroll": 93
+      },
+      {
+        "text": "12-3",
+        "width": 93,
+        "scroll": 93
+      },
+      {
+        "text": "$-103.4M",
+        "width": 93,
+        "scroll": 93
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 93,
+        "scroll": 93
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 75.5625,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "NYJ",
+    "width": 390,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      167.6875,
+      167.6875,
+      167.6875,
+      167.6875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "12-3",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "$-103.4M",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 83,
+        "scroll": 83
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 68.53125,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "NYJ",
+    "width": 375,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      167.953125,
+      167.953125,
+      167.953125,
+      167.953125
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 79,
+        "scroll": 79
+      },
+      {
+        "text": "12-3",
+        "width": 79,
+        "scroll": 79
+      },
+      {
+        "text": "$-103.4M",
+        "width": 79,
+        "scroll": 79
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 79,
+        "scroll": 79
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 65.90625,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "NYJ",
+    "width": 360,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      168.015625,
+      168.015625,
+      168.015625,
+      168.015625
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 75,
+        "scroll": 75
+      },
+      {
+        "text": "12-3",
+        "width": 75,
+        "scroll": 75
+      },
+      {
+        "text": "$-103.4M",
+        "width": 75,
+        "scroll": 75
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 75,
+        "scroll": 75
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 63.25,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "NYJ",
+    "width": 320,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      168.015625,
+      168.015625,
+      168.015625,
+      168.015625
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "12-3",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "$-103.4M",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 65,
+        "scroll": 65
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 57,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "NYJ",
+    "width": 768,
+    "overflow": false,
+    "status": 88,
+    "hero": 280,
+    "topToMarket": 473,
+    "kpiTops": [
+      197.296875,
+      197.296875,
+      197.296875,
+      197.296875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 120,
+        "scroll": 120
+      },
+      {
+        "text": "12-3",
+        "width": 109,
+        "scroll": 109
+      },
+      {
+        "text": "$-103.4M",
+        "width": 109,
+        "scroll": 120
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 109,
+        "scroll": 109
+      }
+    ],
+    "kpiOverflow": true,
+    "headingHeight": 60.78125,
+    "base": "rgba(0, 0, 0, 0)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "NYJ",
+    "width": 1536,
+    "overflow": false,
+    "status": 81,
+    "hero": 270,
+    "topToMarket": 390.578125,
+    "kpiTops": [
+      120.96875,
+      120.96875,
+      120.96875,
+      120.96875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 180,
+        "scroll": 180
+      },
+      {
+        "text": "12-3",
+        "width": 159,
+        "scroll": 159
+      },
+      {
+        "text": "$-103.4M",
+        "width": 159,
+        "scroll": 159
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 159,
+        "scroll": 159
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 73.53125,
+    "base": "rgba(0, 0, 0, 0)",
+    "cta": "rgb(18, 87, 64)"
+  },
+  {
+    "team": "KC",
+    "width": 430,
+    "overflow": false,
+    "status": 126.03125,
+    "hero": 280,
+    "topToMarket": 554.03125,
+    "kpiTops": [
+      167,
+      167,
+      167,
+      167
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 93,
+        "scroll": 93
+      },
+      {
+        "text": "12-3",
+        "width": 93,
+        "scroll": 93
+      },
+      {
+        "text": "$-103.4M",
+        "width": 93,
+        "scroll": 93
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 93,
+        "scroll": 93
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 75.5625,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(227, 24, 55)"
+  },
+  {
+    "team": "KC",
+    "width": 390,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      167.6875,
+      167.6875,
+      167.6875,
+      167.6875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "12-3",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "$-103.4M",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 83,
+        "scroll": 83
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 68.53125,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(227, 24, 55)"
+  },
+  {
+    "team": "KC",
+    "width": 375,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      167.953125,
+      167.953125,
+      167.953125,
+      167.953125
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 79,
+        "scroll": 79
+      },
+      {
+        "text": "12-3",
+        "width": 79,
+        "scroll": 79
+      },
+      {
+        "text": "$-103.4M",
+        "width": 79,
+        "scroll": 79
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 79,
+        "scroll": 79
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 65.90625,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(227, 24, 55)"
+  },
+  {
+    "team": "KC",
+    "width": 360,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      168.015625,
+      168.015625,
+      168.015625,
+      168.015625
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 75,
+        "scroll": 75
+      },
+      {
+        "text": "12-3",
+        "width": 75,
+        "scroll": 75
+      },
+      {
+        "text": "$-103.4M",
+        "width": 75,
+        "scroll": 75
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 75,
+        "scroll": 75
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 63.25,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(227, 24, 55)"
+  },
+  {
+    "team": "KC",
+    "width": 320,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      168.015625,
+      168.015625,
+      168.015625,
+      168.015625
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "12-3",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "$-103.4M",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 65,
+        "scroll": 65
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 57,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(227, 24, 55)"
+  },
+  {
+    "team": "KC",
+    "width": 768,
+    "overflow": false,
+    "status": 88,
+    "hero": 280,
+    "topToMarket": 473,
+    "kpiTops": [
+      197.296875,
+      197.296875,
+      197.296875,
+      197.296875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 120,
+        "scroll": 120
+      },
+      {
+        "text": "12-3",
+        "width": 109,
+        "scroll": 109
+      },
+      {
+        "text": "$-103.4M",
+        "width": 109,
+        "scroll": 120
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 109,
+        "scroll": 109
+      }
+    ],
+    "kpiOverflow": true,
+    "headingHeight": 60.78125,
+    "base": "rgba(0, 0, 0, 0)",
+    "cta": "rgb(227, 24, 55)"
+  },
+  {
+    "team": "KC",
+    "width": 1536,
+    "overflow": false,
+    "status": 81,
+    "hero": 270,
+    "topToMarket": 390.578125,
+    "kpiTops": [
+      120.96875,
+      120.96875,
+      120.96875,
+      120.96875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 180,
+        "scroll": 180
+      },
+      {
+        "text": "12-3",
+        "width": 159,
+        "scroll": 159
+      },
+      {
+        "text": "$-103.4M",
+        "width": 159,
+        "scroll": 159
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 159,
+        "scroll": 159
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 73.53125,
+    "base": "rgba(0, 0, 0, 0)",
+    "cta": "rgb(227, 24, 55)"
+  },
+  {
+    "team": "CHI",
+    "width": 430,
+    "overflow": false,
+    "status": 126.03125,
+    "hero": 280,
+    "topToMarket": 554.03125,
+    "kpiTops": [
+      167,
+      167,
+      167,
+      167
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 93,
+        "scroll": 93
+      },
+      {
+        "text": "12-3",
+        "width": 93,
+        "scroll": 93
+      },
+      {
+        "text": "$-103.4M",
+        "width": 93,
+        "scroll": 93
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 93,
+        "scroll": 93
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 75.5625,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(200, 56, 3)"
+  },
+  {
+    "team": "CHI",
+    "width": 390,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      167.6875,
+      167.6875,
+      167.6875,
+      167.6875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "12-3",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "$-103.4M",
+        "width": 83,
+        "scroll": 83
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 83,
+        "scroll": 83
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 68.53125,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(200, 56, 3)"
+  },
+  {
+    "team": "CHI",
+    "width": 375,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      167.953125,
+      167.953125,
+      167.953125,
+      167.953125
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 79,
+        "scroll": 79
+      },
+      {
+        "text": "12-3",
+        "width": 79,
+        "scroll": 79
+      },
+      {
+        "text": "$-103.4M",
+        "width": 79,
+        "scroll": 79
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 79,
+        "scroll": 79
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 65.90625,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(200, 56, 3)"
+  },
+  {
+    "team": "CHI",
+    "width": 360,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      168.015625,
+      168.015625,
+      168.015625,
+      168.015625
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 75,
+        "scroll": 75
+      },
+      {
+        "text": "12-3",
+        "width": 75,
+        "scroll": 75
+      },
+      {
+        "text": "$-103.4M",
+        "width": 75,
+        "scroll": 75
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 75,
+        "scroll": 75
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 63.25,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(200, 56, 3)"
+  },
+  {
+    "team": "CHI",
+    "width": 320,
+    "overflow": false,
+    "status": 126,
+    "hero": 280,
+    "topToMarket": 554,
+    "kpiTops": [
+      168.015625,
+      168.015625,
+      168.015625,
+      168.015625
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "12-3",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "$-103.4M",
+        "width": 65,
+        "scroll": 65
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 65,
+        "scroll": 65
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 57,
+    "base": "rgb(6, 18, 25)",
+    "cta": "rgb(200, 56, 3)"
+  },
+  {
+    "team": "CHI",
+    "width": 768,
+    "overflow": false,
+    "status": 88,
+    "hero": 280,
+    "topToMarket": 473,
+    "kpiTops": [
+      197.296875,
+      197.296875,
+      197.296875,
+      197.296875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 120,
+        "scroll": 120
+      },
+      {
+        "text": "12-3",
+        "width": 109,
+        "scroll": 109
+      },
+      {
+        "text": "$-103.4M",
+        "width": 109,
+        "scroll": 120
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 109,
+        "scroll": 109
+      }
+    ],
+    "kpiOverflow": true,
+    "headingHeight": 60.78125,
+    "base": "rgba(0, 0, 0, 0)",
+    "cta": "rgb(200, 56, 3)"
+  },
+  {
+    "team": "CHI",
+    "width": 1536,
+    "overflow": false,
+    "status": 81,
+    "hero": 270,
+    "topToMarket": 390.578125,
+    "kpiTops": [
+      120.96875,
+      120.96875,
+      120.96875,
+      120.96875
+    ],
+    "values": [
+      {
+        "text": "91+16",
+        "width": 180,
+        "scroll": 180
+      },
+      {
+        "text": "12-3",
+        "width": 159,
+        "scroll": 159
+      },
+      {
+        "text": "$-103.4M",
+        "width": 159,
+        "scroll": 159
+      },
+      {
+        "text": "53 / 5353/53",
+        "width": 159,
+        "scroll": 159
+      }
+    ],
+    "kpiOverflow": false,
+    "headingHeight": 73.53125,
+    "base": "rgba(0, 0, 0, 0)",
+    "cta": "rgb(200, 56, 3)"
+  }
+]

@@ -1,0 +1,69 @@
+{
+  "views": [
+    {
+      "route": "/roster?view=roster",
+      "width": 1440,
+      "height": 39.59375,
+      "expandedHeight": 39.59375,
+      "overflow": false,
+      "filterVerified": true
+    },
+    {
+      "route": "/roster?view=roster",
+      "width": 768,
+      "height": 44,
+      "expandedHeight": 44,
+      "overflow": false,
+      "filterVerified": true
+    },
+    {
+      "route": "/roster?view=roster",
+      "width": 390,
+      "height": 44,
+      "expandedHeight": 44,
+      "overflow": false,
+      "filterVerified": true
+    },
+    {
+      "route": "/roster?view=roster",
+      "width": 320,
+      "height": 44,
+      "expandedHeight": 44,
+      "overflow": false,
+      "filterVerified": true
+    },
+    {
+      "route": "/free-agents",
+      "width": 1440,
+      "height": 39.59375,
+      "expandedHeight": 39.59375,
+      "overflow": false,
+      "filterVerified": false
+    },
+    {
+      "route": "/free-agents",
+      "width": 768,
+      "height": 44,
+      "expandedHeight": 44,
+      "overflow": false,
+      "filterVerified": false
+    },
+    {
+      "route": "/free-agents",
+      "width": 390,
+      "height": 44,
+      "expandedHeight": 44,
+      "overflow": false,
+      "filterVerified": false
+    },
+    {
+      "route": "/free-agents",
+      "width": 320,
+      "height": 44,
+      "expandedHeight": 44,
+      "overflow": false,
+      "filterVerified": false
+    }
+  ],
+  "errors": []
+}

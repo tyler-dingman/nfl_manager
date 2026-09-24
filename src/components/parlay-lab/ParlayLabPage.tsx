@@ -418,7 +418,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
       '',
       ...slip.map((market, index) => `${index + 1}. ${titleFor(market)}`),
       '',
-      'Built with the Down & Distance The Parlay Bus — https://downdistance.com/parlay-lab',
+      'Built with the Down & Distance Parlay Lab — https://downdistance.com/parlay-lab',
     ].join('\n');
   };
   const copyParlay = async () => {
@@ -427,7 +427,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
   };
   const shareParlay = async () => {
     if (!navigator.share) return copyParlay();
-    await navigator.share({ title: 'Down & Distance The Parlay Bus', text: parlayText() });
+    await navigator.share({ title: 'Down & Distance Parlay Lab', text: parlayText() });
   };
   const saveParlayImage = () => {
     const canvas = document.createElement('canvas');
@@ -443,7 +443,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
     context.font = '800 42px Arial';
     context.fillText('DOWN & DISTANCE', 72, 105);
     context.font = '900 72px Arial';
-    context.fillText('THE PARLAY BUS', 72, 195);
+    context.fillText('PARLAY LAB', 72, 195);
     context.fillStyle = '#f16832';
     context.font = '800 34px Arial';
     context.fillText(event ? `${event.awayTeamId} @ ${event.homeTeamId}` : 'NFL PARLAY', 72, 265);
@@ -476,9 +476,9 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
           <section className={styles.content}>
             <header className={styles.pageHeader}>
               <p>
-                <FlaskConical /> The Parlay Bus
+                <FlaskConical /> Parlay Lab
               </p>
-              <h1>The Parlay Bus</h1>
+              <h1>Parlay Lab</h1>
               <span>
                 Research NFL pregame markets and build a parlay plan across stored sportsbook
                 prices.

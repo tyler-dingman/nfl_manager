@@ -40,11 +40,11 @@ export function getTeamThemeTokens(teamAbbr?: string | null): TeamThemeTokens {
 export function getFrontOfficeTeamTheme(teamAbbr?: string | null): FrontOfficeTeamTheme {
   const brand = getTeamBrandTheme(teamAbbr);
   const { primaryFill } = getTeamThemeTokens(teamAbbr);
-  const navBackground = primaryFill;
+  const navBackground = '#091A20';
   const navForeground = getReadableTextColor(navBackground);
-  const interactive = primaryFill;
+  const interactive = teamAbbr?.toUpperCase() === 'CHI' ? brand.secondary : primaryFill;
   const interactiveForeground = getReadableTextColor(interactive);
-  const interactiveText = ensureAccessibleTextColor(interactive, '#f7f4ee');
+  const interactiveText = ensureAccessibleTextColor(interactive, '#0E232A');
   const interactiveHover = mixHexColors(
     interactive,
     interactiveForeground === '#ffffff' ? '#000000' : '#ffffff',
@@ -54,13 +54,13 @@ export function getFrontOfficeTeamTheme(teamAbbr?: string | null): FrontOfficeTe
   return {
     navBackground,
     navForeground,
-    navMutedForeground: ensureAccessibleTextColor(brand.light, navBackground),
-    navActiveIndicator: ensureAccessibleTextColor(brand.secondary, navBackground, 3),
+    navMutedForeground: '#A8BAC4',
+    navActiveIndicator: ensureAccessibleTextColor(interactive, navBackground, 3),
     interactive,
     interactiveForeground,
     interactiveText,
     interactiveHover,
-    accent: brand.secondary,
+    accent: interactiveText,
     borderAccent: interactive,
   };
 }

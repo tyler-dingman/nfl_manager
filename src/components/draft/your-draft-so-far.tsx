@@ -23,7 +23,9 @@ export function YourDraftSoFar({ summary }: YourDraftSoFarProps) {
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             Grade
           </p>
-          <p className="mt-1 text-2xl font-bold text-foreground">{summary.overallGrade}</p>
+          <p className="front-office-stat-value mt-1 text-2xl font-bold text-foreground">
+            {summary.overallGrade}
+          </p>
         </div>
       </div>
 
@@ -32,19 +34,23 @@ export function YourDraftSoFar({ summary }: YourDraftSoFarProps) {
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             Picks Made
           </p>
-          <p className="mt-1 text-lg font-semibold text-foreground">{summary.pickCount}</p>
+          <p className="front-office-stat-value mt-1 text-lg font-semibold text-foreground">
+            {summary.pickCount}
+          </p>
         </div>
         <div className="rounded-xl bg-slate-50 px-3 py-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             Needs Hit
           </p>
-          <p className="mt-1 text-lg font-semibold text-foreground">{summary.needsAddressed}</p>
+          <p className="front-office-stat-value mt-1 text-lg font-semibold text-foreground">
+            {summary.needsAddressed}
+          </p>
         </div>
         <div className="rounded-xl bg-slate-50 px-3 py-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             Value Added
           </p>
-          <p className="mt-1 text-lg font-semibold text-foreground">
+          <p className="front-office-stat-value mt-1 text-lg font-semibold text-foreground">
             {summary.totalValueAdded.toFixed(1)}
           </p>
         </div>

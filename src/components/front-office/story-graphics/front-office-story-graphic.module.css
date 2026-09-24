@@ -14,22 +14,22 @@
 }
 .hero,
 .article {
-  grid-template-columns: minmax(0, 1.6fr) minmax(7rem, 0.8fr);
+  grid-template-columns: minmax(0, 1fr);
   padding: 1rem;
   min-height: 0;
 }
 .card {
-  grid-template-columns: minmax(0, 1.5fr) minmax(5rem, 0.7fr);
+  grid-template-columns: minmax(0, 1fr);
   padding: 0.95rem;
   min-height: 0;
 }
 .compact {
-  grid-template-columns: minmax(0, 1fr) 3.5rem;
+  grid-template-columns: minmax(0, 1fr);
   padding: 0.8rem;
   min-height: 7.5rem;
 }
 .article {
-  min-height: 22rem;
+  min-height: 0;
   padding: 1.5rem;
 }
 .copy {
@@ -68,7 +68,7 @@
   object-fit: contain;
 }
 .root h3 {
-  max-width: 35rem;
+  max-width: 100%;
   margin: 0.55rem 0 0.28rem;
   font-family: var(--font-headline), sans-serif;
   font-size: clamp(1.1rem, 1.7vw, 1.6rem);
@@ -80,7 +80,7 @@
   overflow-wrap: anywhere;
 }
 .root p {
-  max-width: 34rem;
+  max-width: 65ch;
   margin: 0;
   color: var(--fo-muted, #b8c1cc);
   font-size: 0.75rem;
@@ -323,11 +323,11 @@
   .hero,
   .article {
     min-height: 0;
-    grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 28%);
+    grid-template-columns: minmax(0, 1fr);
     padding: 0.9rem;
   }
   .card {
-    grid-template-columns: minmax(0, 1fr) 4.5rem;
+    grid-template-columns: minmax(0, 1fr);
   }
   .root h3 {
     font-size: 1.2rem;

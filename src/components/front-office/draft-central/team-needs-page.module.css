@@ -2,7 +2,7 @@
   max-width: 1540px;
   margin: 0 auto;
   padding: 1rem 1.5rem 5rem;
-  color: #071c34;
+  color: var(--fo-text);
 }
 .primaryGrid {
   display: grid;
@@ -19,9 +19,9 @@
 .secondaryCard,
 .overview,
 .recommendations {
-  border: 1px solid #dce4ec;
+  border: 1px solid var(--fo-line);
   border-radius: 0.65rem;
-  background: #fff;
+  background: var(--fo-panel);
   box-shadow: 0 5px 18px rgba(8, 29, 52, 0.05);
 }
 .primaryCard,
@@ -51,7 +51,7 @@
 .secondaryCard > div > b {
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 0.62rem;
+  font-size: var(--fo-label-size);
 }
 .high {
   color: #dd4c4a;
@@ -60,7 +60,7 @@
   color: #a37700;
 }
 .low {
-  color: #086dd9;
+  color: var(--fo-muted);
 }
 .primaryCard h2,
 .secondaryCard h2 {
@@ -70,7 +70,7 @@
 }
 .primaryCard p {
   margin: 0.65rem 0;
-  color: #506a83;
+  color: var(--fo-muted);
   font-size: 0.76rem;
   line-height: 1.5;
 }
@@ -80,7 +80,7 @@
   align-items: center;
   gap: 0.4rem;
   margin-top: auto;
-  color: #076ee9;
+  color: var(--fo-muted);
   font-size: 0.72rem;
   font-weight: 800;
 }
@@ -110,7 +110,7 @@
   position: absolute;
   inset: 0.48rem;
   border-radius: 50%;
-  background: #fff;
+  background: var(--fo-panel);
 }
 .scoreRing span {
   position: relative;
@@ -118,8 +118,8 @@
   font-weight: 900;
 }
 .scoreBlock small {
-  color: #526a82;
-  font-size: 0.63rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .secondaryCard .scoreRing {
   width: 3.9rem;
@@ -148,11 +148,11 @@
 .overview header p,
 .recommendations header p {
   margin: 0.18rem 0 0;
-  color: #60778d;
-  font-size: 0.68rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .table {
-  font-size: 0.67rem;
+  font-size: var(--fo-label-size);
 }
 .tableHead,
 .tableRow {
@@ -163,15 +163,15 @@
   padding: 0.48rem 0.7rem;
 }
 .tableHead {
-  background: #f3f7fa;
-  color: #536a81;
+  background: var(--fo-panel);
+  color: var(--fo-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: 0.56rem;
+  font-size: var(--fo-label-size);
   font-weight: 900;
 }
 .tableRow {
-  border-bottom: 1px solid #e4eaf0;
+  border-bottom: 1px solid var(--fo-line);
 }
 .tableRow:last-child {
   border: 0;
@@ -181,21 +181,21 @@
   min-width: 4.1rem;
   padding: 0.2rem 0.55rem;
   border-radius: 0.28rem;
-  background: #edf3f9;
+  background: var(--fo-panel);
   font-style: normal;
   text-align: center;
 }
 .tableRow em.high {
-  background: #ffe2e1;
+  background: var(--fo-panel);
 }
 .tableRow em.moderate {
   background: #fff1bc;
 }
 .tableRow em.low {
-  background: #ddecfb;
+  background: var(--fo-panel);
 }
 .recommendations > div {
-  border: 1px solid #dce4ec;
+  border: 1px solid var(--fo-line);
   border-radius: 0.48rem;
   overflow: hidden;
 }
@@ -206,13 +206,13 @@
   gap: 0.65rem;
   min-height: 3.8rem;
   padding: 0.55rem 0.7rem;
-  border-bottom: 1px solid #dfe6ed;
+  border-bottom: 1px solid var(--fo-line);
 }
 .recommendations a:last-child {
   border: 0;
 }
 .recommendations a:hover {
-  background: #f7faff;
+  background: var(--fo-panel);
 }
 .recommendations i {
   width: 2.1rem;
@@ -220,8 +220,8 @@
   display: grid;
   place-items: center;
   border-radius: 0.4rem;
-  background: #edf5ff;
-  color: #0872ed;
+  background: var(--fo-panel);
+  color: var(--fo-muted);
 }
 .recommendations i svg {
   width: 1.15rem;
@@ -234,13 +234,13 @@
 }
 .recommendations small {
   margin-top: 0.15rem;
-  color: #526a82;
-  font-size: 0.62rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
   line-height: 1.35;
 }
 .recommendations > a > svg {
   width: 0.9rem;
-  color: #50708f;
+  color: var(--fo-muted);
 }
 @media (max-width: 1050px) {
   .primaryGrid {

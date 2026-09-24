@@ -41,7 +41,7 @@ test('all 32 Front Office themes provide accessible navigation and interactive p
       `${teamAbbr} has unsafe Front Office interactive contrast`,
     );
     assert.ok(
-      getContrastRatio(theme.interactiveText, '#f7f4ee') >= 4.5,
+      getContrastRatio(theme.interactiveText, '#0E232A') >= 4.5,
       `${teamAbbr} has unsafe Front Office interactive text contrast`,
     );
     assert.ok(
@@ -54,9 +54,13 @@ test('all 32 Front Office themes provide accessible navigation and interactive p
 test('Detroit and Kansas City retain team identity with readable Front Office colors', () => {
   const detroit = getFrontOfficeTeamTheme('DET');
   const kansasCity = getFrontOfficeTeamTheme('KC');
-  assert.equal(detroit.navBackground, '#0076B6');
+  assert.equal(detroit.navBackground, '#091A20');
+  assert.equal(detroit.interactive, '#0076B6');
   assert.equal(detroit.navForeground, '#ffffff');
-  assert.equal(kansasCity.navBackground, '#E31837');
+  assert.equal(kansasCity.navBackground, '#091A20');
+  assert.equal(kansasCity.interactive, '#E31837');
+  assert.equal(getFrontOfficeTeamTheme('CHI').interactive, '#C83803');
+  assert.equal(getFrontOfficeTeamTheme('NYJ').navBackground, detroit.navBackground);
   assert.equal(kansasCity.navForeground, '#ffffff');
 });
 

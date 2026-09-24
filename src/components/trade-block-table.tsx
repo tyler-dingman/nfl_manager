@@ -1,17 +1,11 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeftRight, ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowLeftRight, ArrowUpDown } from 'lucide-react';
 
-import { PositionFilterBar } from '@/components/player-table';
+import { PlayerFilterToolbar } from '@/components/player-table';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import type { TradeBlockRow } from '@/types/trade-block';
@@ -169,34 +163,15 @@ export function TradeBlockTable({
   return (
     <div className="max-h-[70vh] overflow-y-auto">
       <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
-        <div className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <PositionFilterBar active={positionFilter} onSelect={setPositionFilter} />
-            <div className="flex w-full items-center gap-2 sm:w-auto sm:max-w-sm">
-              <input
-                type="search"
-                placeholder="Search players..."
-                className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                value={searchQuery}
-                onChange={(event) => setSearchQuery(event.target.value)}
-              />
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="icon" className="h-9 w-9">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={resetFilters}>Reset filters</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSearchQuery('')}>
-                    Clear search
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
+        <div className="border-b border-border px-4 py-3 sm:px-6">
+          <PlayerFilterToolbar
+            active={positionFilter}
+            onSelect={setPositionFilter}
+            query={searchQuery}
+            onQueryChange={setSearchQuery}
+            onReset={resetFilters}
+          />
         </div>
-
         <div className="py-4 sm:px-6">
           <div className="px-4 md:hidden">
             <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">

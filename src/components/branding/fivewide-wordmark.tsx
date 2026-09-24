@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { TeamBrandedLogo } from './team-branded-logo';
 
 import { cn } from '@/lib/utils';
 
@@ -7,15 +7,13 @@ type FiveWideWordmarkProps = {
   priority?: boolean;
 };
 
-export function FiveWideWordmark({ className, priority = false }: FiveWideWordmarkProps) {
+export function FiveWideWordmark({ className }: FiveWideWordmarkProps) {
   return (
-    <Image
-      src="/images/down_distance_badge.png"
-      alt="Down & Distance"
+    <TeamBrandedLogo
       width={1594}
       height={806}
+      style={{ aspectRatio: '1601 / 818' }}
       className={cn('h-auto w-auto object-contain', className)}
-      priority={priority}
     />
   );
 }

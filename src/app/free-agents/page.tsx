@@ -412,87 +412,91 @@ export default function FreeAgentsPage() {
 
   return (
     <AppShell>
-      <FrontOfficePageHeader
-        title="Free Agency"
-        strapline="Find talent. Create opportunity."
-        description="Find available talent, compare value, and strengthen your roster."
-      />
-      <FrontOfficeSectionNav section="roster" />
-      <PlayerTable
-        data={players}
-        variant="freeAgent"
-        loading={isLoading && players.length === 0}
-        freeAgentView={activeTab}
-        topSlot={
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
-              <button
-                type="button"
-                className={`rounded-full px-3 py-1 transition ${
-                  activeTab === 'available'
-                    ? 'bg-white text-foreground shadow-sm'
-                    : 'text-muted-foreground'
-                }`}
-                onClick={() => setActiveTab('available')}
-              >
-                Available
-              </button>
-              <button
-                type="button"
-                className={`rounded-full px-3 py-1 transition ${
-                  activeTab === 'userSigned'
-                    ? 'bg-white text-foreground shadow-sm'
-                    : 'text-muted-foreground'
-                }`}
-                onClick={() => setActiveTab('userSigned')}
-              >
-                {selectedTeam ? (
-                  <img
-                    src={selectedTeam.logo_url}
-                    alt={`${selectedTeam.name} logo`}
-                    className="mr-1 inline-block h-3 w-3 rounded-full object-cover"
-                  />
-                ) : null}
-                Signed
-              </button>
-              <button
-                type="button"
-                className={`rounded-full px-3 py-1 transition ${
-                  activeTab === 'signed'
-                    ? 'bg-white text-foreground shadow-sm'
-                    : 'text-muted-foreground'
-                }`}
-                onClick={() => setActiveTab('signed')}
-              >
-                Signed
-              </button>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-                <span className="font-semibold text-slate-700">Wave {freeAgencyWave}</span>
-                <span>
-                  {freeAgencyWave === 1
-                    ? 'Tampering Window'
-                    : freeAgencyWave === 2
-                      ? 'Secondary Market'
-                      : 'Final Wave'}
-                </span>
+      <div className="fo-section-layout">
+        <div className="fo-section-primary">
+          <FrontOfficePageHeader
+            title="Free Agency"
+            strapline="Find talent. Create opportunity."
+            description="Find available talent, compare value, and strengthen your roster."
+          />
+          <FrontOfficeSectionNav section="roster" />
+          <PlayerTable
+            data={players}
+            variant="freeAgent"
+            loading={isLoading && players.length === 0}
+            freeAgentView={activeTab}
+            topSlot={
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex rounded-full bg-slate-100 p-1 text-xs font-semibold">
+                  <button
+                    type="button"
+                    className={`rounded-full px-3 py-1 transition ${
+                      activeTab === 'available'
+                        ? 'bg-white text-foreground shadow-sm'
+                        : 'text-muted-foreground'
+                    }`}
+                    onClick={() => setActiveTab('available')}
+                  >
+                    Available
+                  </button>
+                  <button
+                    type="button"
+                    className={`rounded-full px-3 py-1 transition ${
+                      activeTab === 'userSigned'
+                        ? 'bg-white text-foreground shadow-sm'
+                        : 'text-muted-foreground'
+                    }`}
+                    onClick={() => setActiveTab('userSigned')}
+                  >
+                    {selectedTeam ? (
+                      <img
+                        src={selectedTeam.logo_url}
+                        alt={`${selectedTeam.name} logo`}
+                        className="mr-1 inline-block h-3 w-3 rounded-full object-cover"
+                      />
+                    ) : null}
+                    Signed
+                  </button>
+                  <button
+                    type="button"
+                    className={`rounded-full px-3 py-1 transition ${
+                      activeTab === 'signed'
+                        ? 'bg-white text-foreground shadow-sm'
+                        : 'text-muted-foreground'
+                    }`}
+                    onClick={() => setActiveTab('signed')}
+                  >
+                    Signed
+                  </button>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                    <span className="font-semibold text-slate-700">Wave {freeAgencyWave}</span>
+                    <span>
+                      {freeAgencyWave === 1
+                        ? 'Tampering Window'
+                        : freeAgencyWave === 2
+                          ? 'Secondary Market'
+                          : 'Final Wave'}
+                    </span>
+                  </div>
+                  <Button
+                    type="button"
+                    className="h-8 rounded-full px-3 text-xs font-semibold"
+                    style={{ backgroundColor: selectedTeam?.color_primary }}
+                    onClick={handleContinue}
+                  >
+                    Continue
+                  </Button>
+                </div>
               </div>
-              <Button
-                type="button"
-                className="h-8 rounded-full px-3 text-xs font-semibold"
-                style={{ backgroundColor: selectedTeam?.color_primary }}
-                onClick={handleContinue}
-              >
-                Continue
-              </Button>
-            </div>
-          </div>
-        }
-        onOfferPlayer={handleOfferPlayer}
-        onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'freeAgent', player })}
-      />
-      <FrontOfficeSupportingPanels mode="free-agency" />
+            }
+            onOfferPlayer={handleOfferPlayer}
+            onPlayerSelect={(player) => setActivePlayerDetails({ kind: 'freeAgent', player })}
+          />
+        </div>
+        <FrontOfficeSupportingPanels mode="free-agency" />
+      </div>
       <PlayerDetailsModal
         isOpen={Boolean(activePlayerDetails)}
         source={activePlayerDetails}

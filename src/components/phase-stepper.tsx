@@ -34,7 +34,7 @@ export function PhaseStepper({ currentStep, completedSteps }: Props) {
   };
 
   return (
-    <div className="md:hidden flex items-center justify-center gap-1 px-4 pt-4 pb-0">
+    <div className="fo-phase-stepper md:hidden flex flex-wrap items-center justify-center gap-1 px-2 pt-4 pb-0">
       {OFFSEASON_STEPS.map((step, index) => {
         const isCompleted = completedSteps.includes(step.id);
         const isCurrent = step.id === currentStep;

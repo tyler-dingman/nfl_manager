@@ -2,8 +2,8 @@ export const PRIMARY_NAV_ITEMS = [
   { id: 'huddle', label: 'The Beat', href: '/the-beat' },
   { id: 'watch', label: 'Film Room', href: '/watch' },
   { id: 'front-office', label: 'Front Office', href: '/offseasonmanager' },
-  { id: 'parlay-lab', label: 'Parlay Lab', href: '/parlay-lab' },
   { id: 'trivia', label: 'Trivia', href: '/trivia' },
+  { id: 'parlay-lab', label: 'Parlay Lab', href: '/parlay-lab' },
   { id: 'merch', label: 'Merch', href: '/merch' },
 ] as const;
 

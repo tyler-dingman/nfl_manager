@@ -74,6 +74,17 @@ export const KOOZIE_PRODUCTS: MerchProduct[] = KOOZIE_TEAMS.map(([slug, market, 
 
 export const MERCH_PRODUCTS: MerchProduct[] = [
   {
+    id: 'parlay-science-shirt',
+    name: 'Parlay Science Shirt',
+    category: 'Men',
+    type: "Men's Shirts",
+    price: 29.99,
+    colors: ['#111111'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    imageUrl: '/images/store/mens_shirts/parlay_science_shirt.png',
+    badge: 'New',
+  },
+  {
     id: 'camo-pocket-tee',
     name: 'Camo Pocket Badge Tee',
     category: 'Men',
@@ -197,6 +208,28 @@ export const MERCH_PRODUCTS: MerchProduct[] = [
     badge: 'New',
   },
   {
+    id: 'grey-hat',
+    name: 'Down & Distance Grey Rope Hat',
+    category: 'Hats',
+    type: 'Rope Hat',
+    price: 29.99,
+    colors: ['#625653'],
+    sizes: ['One Size'],
+    imageUrl: '/images/store/hats/grey_hat.png',
+    badge: 'New',
+  },
+  {
+    id: 'yellow-hat',
+    name: 'Down & Distance Yellow Rope Hat',
+    category: 'Hats',
+    type: 'Rope Hat',
+    price: 29.99,
+    colors: ['#E8AC3D'],
+    sizes: ['One Size'],
+    imageUrl: '/images/store/hats/yellow_hat.png',
+    badge: 'New',
+  },
+  {
     id: 'script-snapback',
     name: 'D&D Script Snapback',
     category: 'Hats',
@@ -267,5 +300,5 @@ export const RETIRED_MERCH_PRODUCT_IDS = [
 
 // These categories use the same catalog price for every size.
 export const FIXED_PRICE_MERCH_PRODUCTS = MERCH_PRODUCTS.filter(
-  (product) => /shirt|hoodie|koozie/i.test(product.type) || product.id === 'camo-hat',
+  (product) => /shirt|hoodie|koozie/i.test(product.type) || product.type === 'Rope Hat',
 );

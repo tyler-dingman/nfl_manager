@@ -619,3 +619,173 @@
     grid-row: auto;
   }
 }
+
+/* Shared neutral Front Office treatment; standalone player views retain their theme. */
+:global(.front-office-app) .page {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .page > header span {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .databasePanel,
+:global(.front-office-app) .boardPanel {
+  border: 1px solid var(--fo-line);
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .viewTabs {
+  border-bottom: 1px solid var(--fo-line);
+}
+:global(.front-office-app) .viewTabs > button {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .viewTabs > button[aria-pressed='true'] {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .viewTabs > button[aria-pressed='true']::after {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .draftedToggle {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .draftedToggle i {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .draftedToggle i::after {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .draftedToggle input:checked + i {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .filters {
+  border-bottom: 1px solid var(--fo-line);
+}
+:global(.front-office-app) .filters label svg {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .filters input,
+:global(.front-office-app) .filters select {
+  border: 1px solid var(--fo-line);
+  background: var(--fo-panel);
+  color: var(--fo-text);
+}
+:global(.front-office-app) .filters > span {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .tableHeader {
+  border-bottom: 1px solid var(--fo-line);
+  background: var(--fo-panel);
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .prospectRow,
+:global(.front-office-app) .draftedRow {
+  border-bottom: 1px solid var(--fo-line);
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .prospectRow > strong,
+:global(.front-office-app) .draftedRow > strong {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .draftedRow {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .playerCell {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .playerCell > span,
+:global(.front-office-app) .boardPlayer i {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .grade {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .grade[data-grade='C'],
+:global(.front-office-app) .grade[data-grade='D'] {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .actions > button:first-child {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .addButton {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .addedButton {
+  border: 1px solid var(--fo-line);
+  background: var(--fo-panel);
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .empty,
+:global(.front-office-app) .boardEmpty {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .empty strong,
+:global(.front-office-app) .boardEmpty strong {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .empty button {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .boardPanel > header {
+  border-bottom: 1px solid var(--fo-line);
+}
+:global(.front-office-app) .boardPanel > header button {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .boardList > div {
+  border-bottom: 1px solid var(--fo-line);
+}
+:global(.front-office-app) .boardList > div > svg {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .boardList small {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .boardList > div > button,
+:global(.front-office-app) .moveButtons button {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .dragging {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .reorderHelp {
+  border-top: 1px solid var(--fo-line);
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .modalLayer > section {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .modalLayer section > span {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .modalLayer dl div {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .modalLayer dt {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .modalLayer section > button:last-child {
+  background: var(--fo-panel);
+  color: var(--fo-text);
+}
+:global(.front-office-app) .addButton {
+  border-color: var(--fo-accent);
+  color: var(--fo-accent);
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .addedButton {
+  border-color: var(--fo-accent);
+  color: var(--fo-interactive-fg);
+  background: var(--fo-interactive);
+}
+:global(.front-office-app) .grade {
+  background: #122b26;
+  color: #6ee7b7;
+}
+:global(.front-office-app) .grade[data-grade='B'] {
+  background: #302719;
+  color: #fbbf24;
+}
+:global(.front-office-app) .grade[data-grade='C'],
+:global(.front-office-app) .grade[data-grade='D'] {
+  background: #301c25;
+  color: #fda4af;
+}

@@ -4,7 +4,7 @@
   gap: 14px;
   align-items: start;
   padding: 16px 0 48px;
-  color: #071c31;
+  color: var(--fo-text);
 }
 .left,
 .right {
@@ -20,9 +20,9 @@
 .emptyState,
 .insightDetail {
   overflow: hidden;
-  border: 1px solid #dbe4ec;
+  border: 1px solid var(--fo-line);
   border-radius: 9px;
-  background: #fff;
+  background: var(--fo-panel);
   box-shadow: 0 4px 18px rgb(10 35 58/5%);
 }
 .left nav {
@@ -36,15 +36,15 @@
   border-radius: 4px;
   background: transparent;
   padding: 0 12px;
-  color: #294b6c;
+  color: var(--fo-muted);
   cursor: pointer;
   font-size: 0.72rem;
   text-align: left;
 }
 .left nav button[aria-pressed='true'] {
-  border-left-color: #0878ff;
-  background: #edf6ff;
-  color: #071c31;
+  border-left-color: var(--fo-line);
+  background: var(--fo-panel);
+  color: var(--fo-text);
   font-weight: 800;
 }
 .filters {
@@ -59,19 +59,19 @@
   display: grid;
   gap: 5px;
   margin-top: 10px;
-  color: #294b6c;
-  font-size: 0.62rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .filters select,
 .filters input {
   width: 100%;
   height: 36px;
-  border: 1px solid #d8e1e9;
+  border: 1px solid var(--fo-line);
   border-radius: 5px;
-  background: #fff;
+  background: var(--fo-panel);
   padding: 0 9px;
-  color: #163b5c;
-  font-size: 0.66rem;
+  color: var(--fo-text);
+  font-size: var(--fo-label-size);
 }
 .search {
   position: relative;
@@ -90,13 +90,13 @@
   margin-top: 12px;
   align-items: center;
   gap: 6px;
-  border: 1px solid #d8e1e9;
+  border: 1px solid var(--fo-line);
   border-radius: 5px;
-  background: #fff;
+  background: var(--fo-panel);
   padding: 8px 10px;
-  color: #294b6c;
+  color: var(--fo-muted);
   cursor: pointer;
-  font-size: 0.64rem;
+  font-size: var(--fo-label-size);
   font-weight: 750;
 }
 .filters > button svg {
@@ -107,7 +107,7 @@
   min-height: 68px;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #dbe4ec;
+  border-bottom: 1px solid var(--fo-line);
   padding: 10px 16px;
 }
 .prospectPanel h2 {
@@ -116,15 +116,15 @@
 }
 .prospectPanel header p {
   margin: 4px 0 0;
-  color: #5e7690;
-  font-size: 0.67rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .prospectPanel header a {
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #0878e8;
-  font-size: 0.64rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
   font-weight: 800;
   text-decoration: none;
 }
@@ -142,23 +142,23 @@
 }
 .tableHeader {
   min-height: 34px;
-  background: #f6f8fa;
+  background: var(--fo-panel);
   padding: 0 12px;
-  color: #607890;
-  font-size: 0.5rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
   font-weight: 850;
   text-transform: uppercase;
 }
 .prospectRow {
   min-height: 57px;
-  border-top: 1px solid #e8edf2;
+  border-top: 1px solid var(--fo-line);
   padding: 5px 12px;
-  color: #375671;
-  font-size: 0.61rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
   text-decoration: none;
 }
 .prospectRow > strong {
-  color: #071c31;
+  color: var(--fo-text);
   text-align: center;
 }
 .prospectRow > svg {
@@ -178,7 +178,7 @@
   flex: 0 0 auto;
   place-items: center;
   border-radius: 50%;
-  background: #e8eef3;
+  background: var(--fo-panel);
   object-fit: cover;
   object-position: top;
   font-style: normal;
@@ -186,8 +186,8 @@
 }
 .player b {
   overflow: hidden;
-  color: #071c31;
-  font-size: 0.68rem;
+  color: var(--fo-text);
+  font-size: var(--fo-label-size);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -203,15 +203,15 @@
 .prospectRow small {
   display: block;
   margin-top: 2px;
-  font-size: 0.53rem;
+  font-size: var(--fo-label-size);
 }
 .grade {
   width: fit-content;
   min-width: 39px;
   border-radius: 5px;
-  background: #e8f8ed;
+  background: var(--fo-panel);
   padding: 6px;
-  color: #117a36;
+  color: var(--fo-muted);
   text-align: center;
 }
 .grade[data-grade='B'] {
@@ -227,7 +227,7 @@
 }
 .empty {
   padding: 30px;
-  color: #607890;
+  color: var(--fo-muted);
   text-align: center;
 }
 .right > section {
@@ -239,11 +239,11 @@
   grid-template-columns: 31px 1fr 14px;
   gap: 8px;
   align-items: center;
-  border: 1px solid #e1e8ee;
+  border: 1px solid var(--fo-line);
   border-radius: 6px;
-  background: #fff;
+  background: var(--fo-panel);
   padding: 8px;
-  color: #071c31;
+  color: var(--fo-text);
   cursor: pointer;
   text-align: left;
 }
@@ -254,9 +254,9 @@
   width: 28px;
   height: 28px;
   border-radius: 5px;
-  background: #eaf4ff;
+  background: var(--fo-panel);
   padding: 6px;
-  color: #0878e8;
+  color: var(--fo-muted);
 }
 .insightButton > svg:last-child {
   width: 13px;
@@ -266,25 +266,25 @@
   display: block;
 }
 .insightButton b {
-  font-size: 0.66rem;
+  font-size: var(--fo-label-size);
 }
 .insightButton small {
   margin-top: 2px;
-  color: #607890;
-  font-size: 0.55rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .analysisEmpty {
   border-radius: 6px;
-  background: #f5f7f9;
+  background: var(--fo-panel);
   padding: 18px;
-  color: #607890;
-  font-size: 0.64rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
   line-height: 1.5;
 }
 .boardCta {
   display: flex !important;
   gap: 12px;
-  background: #edf7ff !important;
+  background: var(--fo-panel) !important;
   padding: 18px !important;
 }
 .boardCta > svg {
@@ -292,13 +292,13 @@
   height: 36px;
   flex: 0 0 auto;
   border-radius: 7px;
-  background: #fff;
+  background: var(--fo-panel);
   padding: 8px;
-  color: #0878e8;
+  color: var(--fo-muted);
 }
 .boardCta p {
-  color: #4f6d88;
-  font-size: 0.68rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
   line-height: 1.45;
 }
 .boardCta a {
@@ -307,10 +307,10 @@
   align-items: center;
   gap: 5px;
   border-radius: 5px;
-  background: #0878ff;
+  background: var(--fo-panel);
   padding: 9px 13px;
-  color: #fff;
-  font-size: 0.65rem;
+  color: var(--fo-text);
+  font-size: var(--fo-label-size);
   font-weight: 800;
   text-decoration: none;
 }
@@ -334,7 +334,7 @@
 .strategy > p,
 .emptyState p,
 .insightDetail > p {
-  color: #607890;
+  color: var(--fo-muted);
   font-size: 0.72rem;
 }
 .groupView article {
@@ -342,7 +342,7 @@
   width: calc(50% - 6px);
   margin: 6px 6px 6px 0;
   vertical-align: top;
-  border: 1px solid #e1e8ee;
+  border: 1px solid var(--fo-line);
   border-radius: 7px;
   padding: 11px;
 }
@@ -353,33 +353,33 @@
   font-size: 0.78rem;
 }
 .groupView article h3 span {
-  color: #607890;
-  font-size: 0.58rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .groupView article a,
 .insightDetail > div > a,
 .insightDetail > div > span {
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid #edf1f4;
+  border-top: 1px solid var(--fo-line);
   padding: 7px 0;
-  color: #294b6c;
-  font-size: 0.65rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
   text-decoration: none;
 }
 .groupView article a b,
 .insightDetail > div b {
-  color: #071c31;
+  color: var(--fo-text);
 }
 .strategy article {
   display: flex;
   gap: 12px;
-  border-top: 1px solid #e2e8ee;
+  border-top: 1px solid var(--fo-line);
   padding: 13px 0;
 }
 .strategy article > svg {
   width: 22px;
-  color: #0878e8;
+  color: var(--fo-muted);
 }
 .strategy h3 {
   margin: 0;
@@ -387,8 +387,8 @@
 }
 .strategy article p {
   margin: 4px 0 0;
-  color: #526f89;
-  font-size: 0.68rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .emptyState {
   min-height: 300px;
@@ -398,14 +398,14 @@
   width: 44px;
   height: 44px;
   margin: 50px auto 12px;
-  color: #7790a6;
+  color: var(--fo-muted);
 }
 .insightDetail > button {
   border: 0;
   background: transparent;
-  color: #0878e8;
+  color: var(--fo-muted);
   cursor: pointer;
-  font-size: 0.68rem;
+  font-size: var(--fo-label-size);
   font-weight: 800;
 }
 .insightDetail h2 {
@@ -444,7 +444,7 @@
     border-left: 0;
   }
   .left nav button[aria-pressed='true'] {
-    border-bottom-color: #0878ff;
+    border-bottom-color: var(--fo-line);
   }
   .filters {
     display: grid;

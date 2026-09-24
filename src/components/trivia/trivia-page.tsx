@@ -117,6 +117,10 @@ export default function TriviaPage() {
               teamName={team?.name ?? 'NFL'}
               initialGameId={launch.gameId}
               onClose={() => setLaunch(null)}
+              onBuddies={() => {
+                setLaunch(null);
+                setPanel('GROUP');
+              }}
             />
           ) : panel === 'GROUP' ? (
             <SocialPanel

@@ -1,0 +1,44 @@
+[
+  {
+    "path": "/assets/front-office/heroes/play-diagram.svg",
+    "width": 800,
+    "height": 240,
+    "usage": "Full-strength transparent neutral motif; apply 10\u201316% opacity.",
+    "teamColorBakedIn": false
+  },
+  {
+    "path": "/assets/front-office/heroes/play-diagram@2x.png",
+    "width": 1600,
+    "height": 480,
+    "usage": "Full-strength transparent neutral motif; apply 10\u201316% opacity.",
+    "teamColorBakedIn": false
+  },
+  {
+    "path": "/assets/front-office/heroes/play-diagram-hero-overlay.svg",
+    "width": 1600,
+    "height": 240,
+    "usage": "Transparent hero; opacity built in.",
+    "teamColorBakedIn": false
+  },
+  {
+    "path": "/assets/front-office/heroes/play-diagram-hero-overlay@2x.png",
+    "width": 3200,
+    "height": 480,
+    "usage": "Transparent hero; opacity built in.",
+    "teamColorBakedIn": false
+  },
+  {
+    "path": "/assets/front-office/heroes/play-diagram-hero-dark.svg",
+    "width": 1600,
+    "height": 240,
+    "usage": "Opaque neutral hero; opacity built in.",
+    "teamColorBakedIn": false
+  },
+  {
+    "path": "/assets/front-office/heroes/play-diagram-hero-dark@2x.png",
+    "width": 3200,
+    "height": 480,
+    "usage": "Opaque neutral hero; opacity built in.",
+    "teamColorBakedIn": false
+  }
+]

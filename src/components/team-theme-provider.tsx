@@ -1,6 +1,6 @@
 'use client';
 
-import type { CSSProperties, ReactNode } from 'react';
+import { createContext, useContext, type CSSProperties, type ReactNode } from 'react';
 
 import type { Team } from '@/features/team/team-store';
 import { ensureAccessibleTextColor, getReadableTextColor } from '@/lib/color-utils';
@@ -8,8 +8,10 @@ import { getTeamBrandTheme } from '@/lib/team-brand-themes';
 import { getFrontOfficeTeamTheme, getTeamThemeTokens } from '@/lib/team-theme-tokens';
 
 const SITE_SURFACE = '#f7f4ee';
+const TeamStyleContext = createContext<CSSProperties>({});
+export const useTeamStyle = () => useContext(TeamStyleContext);
 
-const toTeamStyle = (team?: Team): CSSProperties => {
+export const toTeamStyle = (team?: Team): CSSProperties => {
   const theme = getTeamBrandTheme(team?.abbr);
   const { primary, secondary, dark, light } = theme;
   const { primaryFill, onPrimary: primaryForeground } = getTeamThemeTokens(team?.abbr);
@@ -64,9 +66,12 @@ export default function TeamThemeProvider({
   team?: Team;
   children: ReactNode;
 }) {
+  const style = toTeamStyle(team);
   return (
-    <div style={toTeamStyle(team)} className="min-h-screen">
-      {children}
-    </div>
+    <TeamStyleContext.Provider value={style}>
+      <div style={style} className="min-h-screen">
+        {children}
+      </div>
+    </TeamStyleContext.Provider>
   );
 }

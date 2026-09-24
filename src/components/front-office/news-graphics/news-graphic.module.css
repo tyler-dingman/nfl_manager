@@ -36,14 +36,6 @@
   min-height: 190px;
   aspect-ratio: 16/7;
 }
-.texture {
-  position: absolute;
-  inset: 0;
-  z-index: -3;
-  background-image: var(--graphic-background);
-  background-position: center;
-  background-size: cover;
-}
 .graphic:after {
   content: '';
   position: absolute;
@@ -67,17 +59,6 @@
     transparent 48%,
     color-mix(in srgb, var(--opponent-primary) 34%, transparent)
   );
-}
-.overlay {
-  position: absolute;
-  z-index: -1;
-  right: 2%;
-  top: 11%;
-  width: 44%;
-  height: 68%;
-  object-fit: contain;
-  opacity: 0.56;
-  filter: brightness(0) invert(1);
 }
 .content {
   display: flex;
@@ -107,7 +88,7 @@
   background: var(--team-primary);
 }
 .content h2 {
-  max-width: min(78%, 880px);
+  max-width: min(100%, 880px);
   margin: 0;
   font-family: var(--font-headline), var(--font-sans), sans-serif;
   font-size: clamp(1.45rem, 4.2vw, 4.5rem);
@@ -211,10 +192,7 @@
 .injury .overlay,
 .contract .overlay,
 .signing .overlay,
-.draft .overlay {
-  color: var(--team-primary);
-}
-@media (max-width: 640px) {
+.draft @media (max-width: 640px) {
   .hero {
     min-height: 320px;
     aspect-ratio: 4/3;
@@ -228,11 +206,6 @@
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
-  }
-  .overlay {
-    right: -6%;
-    width: 58%;
-    opacity: 0.35;
   }
   .teamName {
     max-width: 40%;

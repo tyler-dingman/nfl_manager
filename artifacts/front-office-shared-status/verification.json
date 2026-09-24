@@ -1,0 +1,382 @@
+[
+  {
+    "route": "/experience",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/experience",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/roster?view=roster",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/roster?view=roster",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/roster?view=depth",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/roster?view=depth",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/roster?view=resign",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/roster?view=resign",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/free-agents",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/free-agents",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/front-office/trade-hub",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/front-office/trade-hub",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/front-office/draft",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/front-office/draft",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/front-office/development",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/front-office/development",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/league",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/league",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/front-office/settings",
+    "width": 390,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  },
+  {
+    "route": "/front-office/settings",
+    "width": 320,
+    "height": 126,
+    "values": [
+      "91\n↑16",
+      "12-3",
+      "$-103.4M",
+      "53/53"
+    ],
+    "tops": [
+      159,
+      159,
+      159,
+      159
+    ],
+    "overflow": false,
+    "matchup": "Week 18 · vs Buccaneers"
+  }
+]

@@ -1,5 +1,5 @@
 .page {
-  color: #071b30;
+  color: var(--fo-text);
   font-family: var(--font-sans), sans-serif;
 }
 .heading {
@@ -12,7 +12,7 @@
 .heading nav {
   display: flex;
   gap: 0.45rem;
-  color: #69788b;
+  color: var(--fo-muted);
   font-size: 0.78rem;
 }
 .heading h1 {
@@ -26,7 +26,7 @@
 }
 .heading p {
   margin: 0.35rem 0 0;
-  color: #56667b;
+  color: var(--fo-muted);
   font-size: 0.9rem;
 }
 .saveState {
@@ -34,14 +34,14 @@
   min-width: 13.5rem;
   align-items: center;
   gap: 0.65rem;
-  border: 1px solid #dfe4e8;
+  border: 1px solid var(--fo-line);
   border-radius: 0.4rem;
-  background: #fff;
+  background: var(--fo-panel);
   padding: 0.65rem 0.8rem;
 }
 .saveState > svg {
   width: 1.2rem;
-  color: #1c9a64;
+  color: var(--fo-muted);
 }
 .saveState > svg:last-child {
   margin-left: auto;
@@ -56,8 +56,8 @@
   text-transform: uppercase;
 }
 .saveState small {
-  color: #718094;
-  font-size: 0.63rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .layout {
   display: grid;
@@ -70,23 +70,23 @@
   position: sticky;
   top: 1rem;
   overflow: hidden;
-  border: 1px solid #e1e4e8;
+  border: 1px solid var(--fo-line);
   border-radius: 0.4rem;
-  background: #fff;
+  background: var(--fo-panel);
 }
 .settingsNav a {
   display: flex;
   min-height: 2.8rem;
   align-items: center;
   gap: 0.65rem;
-  border-bottom: 1px solid #edf0f2;
+  border-bottom: 1px solid var(--fo-line);
   padding: 0 0.8rem;
   font-size: 0.73rem;
   font-weight: 750;
 }
 .settingsNav a:first-child {
   border-left: 3px solid var(--fo-border-accent);
-  background: color-mix(in srgb, var(--fo-interactive) 9%, white);
+  background: var(--fo-elevated);
   color: var(--fo-interactive-text);
 }
 .settingsNav svg {
@@ -99,9 +99,9 @@
 }
 .card {
   scroll-margin-top: 1rem;
-  border: 1px solid #e1e4e8;
+  border: 1px solid var(--fo-line);
   border-radius: 0.4rem;
-  background: #fff;
+  background: var(--fo-panel);
   box-shadow: 0 6px 18px rgba(7, 27, 48, 0.04);
   padding: 1rem;
 }
@@ -109,7 +109,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.7rem;
-  border-bottom: 1px solid #edf0f2;
+  border-bottom: 1px solid var(--fo-line);
   padding-bottom: 0.8rem;
 }
 .card > header > span {
@@ -118,7 +118,7 @@
   height: 2rem;
   place-items: center;
   border-radius: 0.35rem;
-  background: color-mix(in srgb, var(--fo-interactive) 9%, white);
+  background: var(--fo-elevated);
   color: var(--fo-interactive-text);
 }
 .card > header svg {
@@ -133,8 +133,8 @@
 }
 .card header p {
   margin: 0.08rem 0 0;
-  color: #6c7b8e;
-  font-size: 0.68rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .toggleRow,
 .infoRow {
@@ -143,7 +143,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  border-bottom: 1px solid #edf0f2;
+  border-bottom: 1px solid var(--fo-line);
 }
 .toggleRow strong,
 .infoRow strong {
@@ -152,8 +152,8 @@
 .toggleRow small,
 .infoRow small {
   margin-top: 0.15rem;
-  color: #718094;
-  font-size: 0.66rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .toggleRow input {
   position: absolute;
@@ -167,7 +167,7 @@
   height: 1.25rem;
   flex: 0 0 auto;
   border-radius: 999px;
-  background: #cbd2da;
+  background: var(--fo-elevated);
   transition: 0.2s;
 }
 .toggleRow > i b {
@@ -177,7 +177,7 @@
   width: 0.91rem;
   height: 0.91rem;
   border-radius: 50%;
-  background: #fff;
+  background: var(--fo-panel);
   box-shadow: 0 1px 3px #0003;
   transition: 0.2s;
 }
@@ -193,9 +193,9 @@
 }
 .infoRow > b {
   border-radius: 0.25rem;
-  background: #edf0f3;
+  background: var(--fo-panel);
   padding: 0.35rem 0.55rem;
-  font-size: 0.64rem;
+  font-size: var(--fo-label-size);
   text-transform: uppercase;
 }
 .manageLink {
@@ -216,7 +216,7 @@
   align-items: center;
   gap: 0.7rem;
   margin-top: 0.9rem;
-  border: 1px solid #e4e7ea;
+  border: 1px solid var(--fo-line);
   border-radius: 0.35rem;
   padding: 0.8rem;
 }
@@ -226,8 +226,8 @@
   height: 2.5rem;
   place-items: center;
   border-radius: 50%;
-  color: #fff;
-  font-size: 0.61rem;
+  color: var(--fo-text);
+  font-size: var(--fo-label-size);
   font-weight: 950;
 }
 .franchise > div:nth-child(2),
@@ -238,8 +238,8 @@
   font-size: 0.78rem;
 }
 .franchise > div:nth-child(2) span {
-  color: #718094;
-  font-size: 0.65rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .franchise dl {
   display: flex;
@@ -247,8 +247,8 @@
   margin: 0;
 }
 .franchise dt {
-  color: #718094;
-  font-size: 0.57rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
   text-transform: uppercase;
 }
 .franchise dd {
@@ -261,10 +261,10 @@
   align-items: center;
   gap: 0.35rem;
   margin-top: 0.75rem;
-  border: 1px solid #dce1e6;
+  border: 1px solid var(--fo-line);
   border-radius: 0.3rem;
   padding: 0.42rem 0.6rem;
-  font-size: 0.65rem;
+  font-size: var(--fo-label-size);
   font-weight: 800;
 }
 .copyButton svg,
@@ -276,13 +276,13 @@
   align-items: center;
   gap: 0.45rem;
   margin: 0.8rem 0 0;
-  color: #647388;
-  font-size: 0.64rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
 }
 .help section {
-  border: 1px solid #e1e4e8;
+  border: 1px solid var(--fo-line);
   border-radius: 0.4rem;
-  background: #fff;
+  background: var(--fo-panel);
   padding: 1rem;
 }
 .help svg {
@@ -297,8 +297,8 @@
 }
 .help p {
   margin: 0;
-  color: #6b798b;
-  font-size: 0.68rem;
+  color: var(--fo-muted);
+  font-size: var(--fo-label-size);
   line-height: 1.55;
 }
 @media (max-width: 1150px) {

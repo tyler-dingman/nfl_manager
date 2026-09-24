@@ -1,3 +1,8 @@
+import {
+  assignSimulationRoster,
+  getActiveSimulationRoster,
+  FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
+} from '@/lib/front-office-roster';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -111,7 +116,7 @@ const DEFAULT_STATE: Omit<
   startingNeeds: [],
   capLimit: 0,
   rosterCount: 0,
-  rosterLimit: 0,
+  rosterLimit: FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
   roster: [],
   phase: 'resign_cut',
   unlocked: { freeAgency: false, draft: false },
@@ -151,7 +156,7 @@ export const useSaveStore = create<SaveStoreState>()(
         const teamAbbr = header.teamAbbr;
         const capLimit = header.capLimit;
         const rosterCount = header.rosterCount;
-        const rosterLimit = header.rosterLimit;
+        const rosterLimit = header.rosterLimit || FRONT_OFFICE_ACTIVE_ROSTER_LIMIT;
         const phase = header.phase;
         const unlocked = resolveUnlocks(phase, header.unlocked);
         const currentRoster = get().roster;
@@ -194,9 +199,9 @@ export const useSaveStore = create<SaveStoreState>()(
       setRoster: (players) =>
         set((state) => ({
           ...state,
-          roster: players,
+          roster: assignSimulationRoster(players),
           capSpace: state.capSpace,
-          rosterCount: players.filter((player) => player.status?.toLowerCase() !== 'cut').length,
+          rosterCount: getActiveSimulationRoster(players).length,
         })),
       setHasHydrated: (value) => set((state) => ({ ...state, hasHydrated: value })),
       setSaveLoadError: (error) => set((state) => ({ ...state, saveLoadError: error })),
@@ -279,7 +284,7 @@ export const useSaveStore = create<SaveStoreState>()(
             startingNeeds: [],
             capLimit: 0,
             rosterCount: 0,
-            rosterLimit: 0,
+            rosterLimit: FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
             roster: [],
             phase: 'resign_cut',
             unlocked: { freeAgency: false, draft: false },
@@ -381,9 +386,9 @@ export const useSaveStore = create<SaveStoreState>()(
               : (state.startingCapSpace ?? data.capSpace),
           capLimit: data.capLimit,
           rosterCount: state.roster.length
-            ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length
+            ? getActiveSimulationRoster(state.roster).length
             : data.rosterCount,
-          rosterLimit: data.rosterLimit,
+          rosterLimit: data.rosterLimit || FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
           phase: data.phase,
           unlocked: resolveUnlocks(data.phase, data.unlocked),
           saveLoadError: null,
@@ -426,9 +431,9 @@ export const useSaveStore = create<SaveStoreState>()(
               : (state.startingCapSpace ?? data.capSpace),
           capLimit: data.capLimit,
           rosterCount: state.roster.length
-            ? state.roster.filter((player) => player.status?.toLowerCase() !== 'cut').length
+            ? getActiveSimulationRoster(state.roster).length
             : data.rosterCount,
-          rosterLimit: data.rosterLimit,
+          rosterLimit: data.rosterLimit || FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
           phase: data.phase,
           unlocked: resolveUnlocks(data.phase, data.unlocked),
           saveLoadError: null,
@@ -455,6 +460,8 @@ export const useSaveStore = create<SaveStoreState>()(
         activeDraftSessionId: state.activeDraftSessionId,
         activeDraftSessionIdsBySave: state.activeDraftSessionIdsBySave,
         roster: state.roster,
+        rosterLimit: state.rosterLimit || FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
+        rosterCount: state.rosterCount,
         capSpace: state.capSpace,
         capLimit: state.capLimit,
         selectedDraftRounds: state.selectedDraftRounds,
@@ -464,6 +471,11 @@ export const useSaveStore = create<SaveStoreState>()(
       }),
       onRehydrateStorage: () => (state, error) => {
         if (!error) {
+          if (state) {
+            state.rosterLimit ||= FRONT_OFFICE_ACTIVE_ROSTER_LIMIT;
+            state.roster = assignSimulationRoster(state.roster);
+            state.rosterCount = getActiveSimulationRoster(state.roster).length;
+          }
           state?.setHasHydrated(true);
           return;
         }

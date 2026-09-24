@@ -184,7 +184,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
       ? `Best sportsbook fit: ${best.sportsbook.name} (${best.matchedLegs}/${best.totalLegs})`
       : 'No single sportsbook match found.',
     '',
-    'Built with the Down & Distance The Parlay Bus — https://downdistance.com/parlay-lab',
+    'Built with the Down & Distance Parlay Lab — https://downdistance.com/parlay-lab',
   ].join('\n');
   const saveImage = async () => {
     const canvas = document.createElement('canvas');
@@ -221,7 +221,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
     }
     ctx.fillStyle = '#071b30';
     ctx.font = '900 48px Arial';
-    ctx.fillText('THE PARLAY BUS', 270, 94);
+    ctx.fillText('PARLAY LAB', 270, 94);
     ctx.fillStyle = '#60758a';
     ctx.font = '700 22px Arial';
     ctx.fillText('DOWN & DISTANCE', 272, 126);
@@ -311,7 +311,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
     link.click();
   };
   const share = async () => {
-    if (navigator.share) await navigator.share({ title: 'Down & Distance The Parlay Bus', text });
+    if (navigator.share) await navigator.share({ title: 'Down & Distance Parlay Lab', text });
     else {
       await navigator.clipboard.writeText(text);
       setMessage('Parlay copied to your clipboard.');

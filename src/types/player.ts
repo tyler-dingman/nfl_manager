@@ -33,6 +33,7 @@ export type FreeAgentProfileDTO = {
 };
 
 export type PlayerRowDTO = {
+  rosterAssignment?: 'active' | 'reserve' | 'practice_squad' | 'injured_reserve';
   id: string;
   firstName: string;
   lastName: string;

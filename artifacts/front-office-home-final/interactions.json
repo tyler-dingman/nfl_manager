@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "Weekly brief opens, Escape closes",
+    "Development tabs",
+    "Trade market tabs",
+    "Trade player target /front-office/trade-hub/player/jax-4432620",
+    "Development row opens player details",
+    "Active roster survives navigation/reload",
+    "Advance week updates status and next opponent",
+    "320px after advance has no overflow"
+  ],
+  "errors": []
+}

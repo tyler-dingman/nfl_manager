@@ -68,9 +68,9 @@
 .hero {
   isolation: isolate;
   position: relative;
-  min-height: 330px;
+  min-height: 315px;
   display: grid;
-  grid-template-columns: 34% 1fr 100px;
+  grid-template-columns: 32% minmax(0, 1fr) 100px;
   gap: 20px;
   align-items: center;
   padding: 48px 32px 0 20px;
@@ -130,9 +130,9 @@
 .positionWatermark {
   position: absolute;
   left: 0;
-  top: 34px;
-  font: 900 clamp(48px, 6vw, 86px)/1 var(--font-headline, var(--font-sans, sans-serif));
-  opacity: 0.11;
+  top: 24px;
+  font: 900 clamp(90px, 13vw, 168px)/1 var(--font-headline, var(--font-sans, sans-serif));
+  opacity: 0.12;
 }
 .initials {
   display: grid;
@@ -148,7 +148,7 @@
 .identity {
   min-width: 0;
   position: relative;
-  padding: 26px 0;
+  padding: 12px 0;
 }
 .dialog .identity h2 {
   color: #fff;
@@ -644,5 +644,146 @@
   }
   .identity h2 strong {
     overflow-wrap: anywhere;
+  }
+}
+
+/* Shared neutral Front Office treatment; standalone player views retain their theme. */
+:global(.front-office-app) .backdrop {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .dialog {
+  border: 1px solid var(--fo-line);
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .dialog .utility {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .hero {
+  background: #06121e;
+  color: var(--fo-text);
+}
+:global(.front-office-app) .initials {
+  background: var(--fo-panel);
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .dialog .identity h2 {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .identity h2 > span {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .identity h2 strong {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .teamline {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .badge {
+  background: #dbe6ed;
+  color: #132436;
+}
+:global(.front-office-app) .tabs {
+  border-bottom: 1px solid var(--fo-line);
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .tabs button {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .tabs button[aria-selected='true'] {
+  color: var(--fo-text);
+}
+:global(.front-office-app) .content {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .card {
+  border: 1px solid var(--fo-line);
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .card p {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .facts > div {
+  border-bottom: 1px solid var(--fo-line);
+}
+:global(.front-office-app) .facts dt {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .ratings p {
+  border-left: 1px solid var(--fo-line);
+}
+:global(.front-office-app) .value {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .value span {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .value[data-value='Expensive'] {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .mindset strong {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .mindset meter::-webkit-meter-bar {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .mindset meter::-webkit-meter-optimum-value {
+  background: var(--fo-panel);
+}
+:global(.front-office-app) .stats > div {
+  border-left: 1px solid var(--fo-line);
+}
+:global(.front-office-app) .stats span {
+  color: var(--fo-muted);
+}
+:global(.front-office-app) .tags span {
+  background: var(--fo-panel);
+  color: var(--fo-text);
+}
+:global(.front-office-app) .story + .story {
+  border-top: 1px solid var(--fo-line);
+}
+:global(.front-office-app) .actions > div {
+  background: var(--fo-panel);
+  color: var(--fo-text);
+}
+:global(.front-office-app) .actions button:hover {
+  background: var(--fo-panel);
+}
+
+/* Player portraits retain their own cinematic composition, separate from page headers. */
+.hero {
+  border-radius: 19px 19px 0 0;
+}
+.watermarkLogo {
+  opacity: 0.12;
+  filter: grayscale(1);
+}
+.portrait > img {
+  /* Transparent source photography meets the bottom edge without a card or crop. */
+  object-fit: contain;
+}
+.badge {
+  cursor: pointer;
+}
+.overall strong {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-synthesis: none;
+}
+@media (max-width: 600px) {
+  .hero {
+    border-radius: 0;
+  }
+  .portrait {
+    height: 260px;
+    max-width: 340px;
+  }
+  .positionWatermark {
+    font-size: 128px;
+    top: 12px;
+  }
+  .watermarkLogo {
+    opacity: 0.055;
   }
 }

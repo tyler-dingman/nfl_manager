@@ -18,3 +18,11 @@ test('user avatar renders the generic fallback when no image is present', () => 
   assert.match(html, /data-avatar-fallback/);
   assert.doesNotMatch(html, /<img/);
 });
+
+test('initials fallback uses the player name while preserving the default icon elsewhere', () => {
+  const html = renderToStaticMarkup(
+    <UserAvatar src={null} name="  Tyler   Dingman  " fallback="initials" />,
+  );
+  assert.match(html, />TD<\/span>/);
+  assert.doesNotMatch(html, /<svg|<img/);
+});

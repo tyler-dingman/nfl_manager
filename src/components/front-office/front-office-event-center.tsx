@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useTeamStyle } from '@/components/team-theme-provider';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ArrowLeftRight, ChevronRight, X } from 'lucide-react';
@@ -129,6 +130,7 @@ export function FrontOfficeEventCenter({
   teamAbbr: string;
   paused?: boolean;
 }) {
+  const teamStyle = useTeamStyle();
   const pathname = usePathname();
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
   const [notification, setNotification] = useState<FrontOfficeEvent | null>(null);
@@ -227,7 +229,11 @@ export function FrontOfficeEventCenter({
   useEffect(() => {
     const onAdvanced = () => void load();
     window.addEventListener('front-office-simulation-advanced', onAdvanced);
-    return () => window.removeEventListener('front-office-simulation-advanced', onAdvanced);
+    window.addEventListener('front-office-events-read', onAdvanced);
+    return () => {
+      window.removeEventListener('front-office-simulation-advanced', onAdvanced);
+      window.removeEventListener('front-office-events-read', onAdvanced);
+    };
   }, [load]);
 
   useEffect(() => {
@@ -326,7 +332,8 @@ export function FrontOfficeEventCenter({
 
   const drawer = open ? (
     <div
-      className="fo-wire-backdrop"
+      className="front-office-app fo-wire-backdrop"
+      style={teamStyle}
       role="presentation"
       onMouseDown={(event) => event.target === event.currentTarget && closeDrawer()}
     >

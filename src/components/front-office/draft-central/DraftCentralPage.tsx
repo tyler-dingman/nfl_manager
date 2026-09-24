@@ -1,19 +1,17 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { ArrowRight } from 'lucide-react';
-import {
-  DdTeamAnalyticsIcon as BarChart3,
-  DdDraftGuideIcon as ClipboardList,
-  DdPlaybookIcon as Sparkles,
-  DdScoutingIcon as Target,
-} from '@/components/ui/football-icons';
+import { ArrowRight, Bookmark, ChevronRight, Trophy } from 'lucide-react';
 import { useSaveStore } from '@/features/save/save-store';
+import { TEAM_LIST } from '@/data/teams';
 import { apiFetch } from '@/lib/api';
-import { DraftNewsGraphic } from '@/components/front-office/story-graphics/FrontOfficeStoryGraphic';
-import { adaptDraftNewsGraphic } from '@/components/front-office/story-graphics/story-graphic-model';
-import styles from './draft-central.module.css';
-
+import { useProspectBoard } from '@/components/draft/use-prospect-board';
+import { FrontOfficePhaseControl } from '@/components/front-office/front-office-phase-control';
+import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
+import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
+import styles from './draft-central-home.module.css';
+import { PLAYER_TABLE_HEADING_CLASS } from '@/components/player-table';
 type Prospect = {
   id: string;
   name: string;
@@ -21,6 +19,9 @@ type Prospect = {
   school: string | null;
   height: string | null;
   weight: number | null;
+  conference?: string | null;
+  overall?: number | null;
+  summary?: string | null;
   headshotUrl?: string | null;
   schoolLogo?: string | null;
   currentRank: number;
@@ -32,9 +33,16 @@ type Prospect = {
   needFitScore?: number;
   availabilityScore?: number;
 };
-type Pick = { id: string; year: number; round: number; displayOverall: number };
+type Pick = {
+  id: string;
+  year: number;
+  round: number;
+  displayOverall: number;
+  compensatory?: boolean;
+};
 type Need = { position: string; score: number; level: 'High' | 'Moderate' | 'Low' };
 type Data = {
+  draftInfo?: { startsAt: string; endsAt?: string; location?: string };
   week: number;
   draftYear: number;
   projectedSlot: number;
@@ -47,521 +55,406 @@ type Data = {
   news: Array<{
     id: string;
     prospectId: string;
+    createdAt?: string;
     category: string;
     headline: string;
     summary: string;
   }>;
 };
-const Trend = ({ n }: { n: number }) => (
-  <i className={n > 0 ? styles.up : n < 0 ? styles.down : ''}>
-    {n > 0 ? `↑ ${n}` : n < 0 ? `↓ ${Math.abs(n)}` : '—'}
-  </i>
-);
+
+const profile = (id: string) => `/front-office/draft/prospects/${encodeURIComponent(id)}`;
 function Avatar({ p }: { p: Prospect }) {
-  return (
-    <span
-      className={styles.avatar}
-      style={p.headshotUrl ? { backgroundImage: `url(${p.headshotUrl})` } : undefined}
-    >
-      {!p.headshotUrl &&
-        p.name
-          .split(' ')
-          .map((x) => x[0])
-          .slice(0, 2)
-          .join('')}
+  return p.headshotUrl ? (
+    <Image src={p.headshotUrl} alt="" width={32} height={32} unoptimized />
+  ) : (
+    <span className={styles.initials}>
+      {p.name
+        .split(' ')
+        .map((x) => x[0])
+        .slice(0, 2)
+        .join('')}
     </span>
   );
 }
-const Grade = ({ n }: { n: number }) => <b className={styles.grade}>{n}</b>;
-function Player({ p, note }: { p: Prospect; note?: string }) {
-  return (
-    <Link className={styles.playerRow} href={`/front-office/draft/prospects/${p.id}`}>
-      <Avatar p={p} />
-      <span>
-        <strong>{p.name}</strong>
-        <small>
-          {p.position} · {p.school}
-        </small>
-      </span>
-      {note ? <em>{note}</em> : <Grade n={p.scoutGrade} />}
-    </Link>
-  );
-}
-
 export function DraftCentralPage() {
-  const saveId = useSaveStore((s) => s.saveId),
-    [data, setData] = useState<Data | null>(null),
-    [board, setBoard] = useState<string[]>([]),
-    [error, setError] = useState('');
+  const save = useSaveStore();
+  const [data, setData] = useState<Data | null>(null);
+  const [error, setError] = useState('');
+  const [position, setPosition] = useState('');
+  const [conference, setConference] = useState('');
+  const [limit, setLimit] = useState(100);
+  const [year, setYear] = useState<number | null>(null);
+  const [now, setNow] = useState<number | null>(null);
+  const board = useProspectBoard(data?.draftYear ?? save.franchiseYear + 1);
   useEffect(() => {
-    if (!saveId) return;
-    let active = true;
+    setNow(Date.now());
+    const timer = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(timer);
+  }, []);
+  useEffect(() => {
+    if (!save.saveId) return;
+    const controller = new AbortController();
     const load = async () => {
       try {
-        const r = await apiFetch(
-            `/api/front-office/draft-central?saveId=${encodeURIComponent(saveId)}`,
-          ),
-          p = await r.json();
-        if (!r.ok) throw new Error(p.error ?? 'Unable to load Draft Central.');
-        if (active) {
-          setData(p);
+        const response = await apiFetch(
+          `/api/front-office/draft-central?saveId=${encodeURIComponent(save.saveId!)}`,
+          { signal: controller.signal },
+        );
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.error ?? 'Unable to load Draft Central.');
+        if (!controller.signal.aborted) {
+          setData(body);
           setError('');
         }
       } catch (e) {
-        if (active) setError(e instanceof Error ? e.message : 'Unable to load Draft Central.');
+        if (!controller.signal.aborted)
+          setError(e instanceof Error ? e.message : 'Unable to load Draft Central.');
       }
     };
     void load();
     window.addEventListener('front-office-simulation-advanced', load);
-    try {
-      setBoard(JSON.parse(localStorage.getItem(`dd-draft-big-board:${saveId}`) ?? '[]'));
-    } catch {
-      setBoard([]);
-    }
+    window.addEventListener('front-office-week-complete', load);
     return () => {
-      active = false;
+      controller.abort();
       window.removeEventListener('front-office-simulation-advanced', load);
+      window.removeEventListener('front-office-week-complete', load);
     };
-  }, [saveId]);
-  if (error) return <div className={styles.status}>{error}</div>;
-  if (!data) return <div className={styles.status}>Loading Draft Central…</div>;
-  const visible = data;
-  const boardRank = new Map(board.map((id, i) => [id, i + 1])),
-    picks = visible.picks.filter((p) => p.year === visible.draftYear).slice(0, 5),
-    first = picks[0],
-    featured = visible.news[0],
-    featuredProspect = featured
-      ? visible.prospects.find((prospect) => prospect.id === featured.prospectId)
-      : undefined;
-  const targets = (pick: Pick) =>
-    [...visible.fits]
-      .sort((a, b) => {
-        const aa =
-            a.projectedPickLow <= pick.displayOverall + 8 &&
-            a.projectedPickHigh >= pick.displayOverall - 8,
-          ba =
-            b.projectedPickLow <= pick.displayOverall + 8 &&
-            b.projectedPickHigh >= pick.displayOverall - 8;
-        return (
-          Number(ba) - Number(aa) ||
-          (boardRank.get(a.id) ?? 999) - (boardRank.get(b.id) ?? 999) ||
-          (b.needFitScore ?? 0) - (a.needFitScore ?? 0)
-        );
-      })
-      .slice(0, 3);
-  const radar = [...visible.fits]
-      .sort(
-        (a, b) =>
-          (boardRank.get(a.id) ?? 999) - (boardRank.get(b.id) ?? 999) ||
-          (b.needFitScore ?? 0) - (a.needFitScore ?? 0),
-      )
-      .slice(0, 6),
-    movers = visible.prospects.filter((p) => p.rankingTrend !== 0),
-    risers = [...movers].sort((a, b) => b.rankingTrend - a.rankingTrend).slice(0, 3),
-    fallers = [...movers].sort((a, b) => a.rankingTrend - b.rankingTrend).slice(0, 3);
-  const groups = (
-      [...new Set(visible.prospects.map((p) => p.position).filter(Boolean))] as string[]
+  }, [save.saveId]);
+  if (!data) return <p role="status">{error || 'Loading Draft Central…'}</p>;
+  const featured = [...data.prospects].sort((a, b) => a.currentRank - b.currentRank)[0];
+  const story = data.news.find((n) => n.prospectId === featured?.id);
+  const selectedYear = year ?? data.draftYear;
+  const years = [...new Set([data.draftYear, ...data.picks.map((p) => p.year)])].sort();
+  const picks = data.picks
+    .filter((p) => p.year === selectedYear)
+    .sort((a, b) => a.displayOverall - b.displayOverall);
+  const conferences = [
+    ...new Set(data.prospects.map((p) => p.conference).filter((c): c is string => !!c)),
+  ].sort();
+  const prospects = data.prospects
+    .filter(
+      (p) =>
+        (!position || p.position === position) &&
+        (!conference || p.conference === conference) &&
+        p.currentRank <= limit,
     )
-      .map((position) => {
-        const g = visible.prospects.filter((p) => p.position === position),
-          score =
-            g.filter((p) => p.currentRank <= 50).length * 3 +
-            g.filter((p) => p.currentRank <= 100).length;
-        return { position, score };
-      })
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 8),
-    max = Math.max(...groups.map((g) => g.score), 1);
+    .slice(0, 10);
+  const team = TEAM_LIST.find((t) => t.abbr === save.teamAbbr);
+  const draftTime = data.draftInfo ? Date.parse(data.draftInfo.startsAt) : NaN;
+  const remaining =
+    now != null && Number.isFinite(draftTime)
+      ? Math.max(0, Math.floor((draftTime - now) / 60000))
+      : null;
+  const countdown =
+    remaining == null
+      ? ['—', '—', '—']
+      : [Math.floor(remaining / 1440), Math.floor(remaining / 60) % 24, remaining % 60];
   return (
-    <div className={styles.page}>
-      <div className={styles.firstRow}>
-        <section className={styles.card}>
-          <header>
-            <h2>Top Draft News</h2>
-            <Link href="/front-office/draft/scouting">
-              Draft Guide <ArrowRight />
-            </Link>
-          </header>
-          {featured ? (
-            <div className={styles.newsGrid}>
-              <Link
-                className={styles.storyFeature}
-                href={`/front-office/draft/prospects/${featured.prospectId}`}
-              >
-                <DraftNewsGraphic
-                  size="hero"
-                  identityLine={[featuredProspect?.position, featuredProspect?.school]
-                    .filter(Boolean)
-                    .join(' · ')}
-                  actionLabel="View prospect"
-                  story={adaptDraftNewsGraphic({
-                    id: featured.id,
-                    headline: featured.headline,
-                    summary: featured.summary,
-                    category: featured.category,
-                    prospectName: featuredProspect?.name,
-                    school: featuredProspect?.school,
-                    schoolLogo: featuredProspect?.schoolLogo,
-                    previousRank: featuredProspect?.priorRank,
-                    currentRank: featuredProspect?.currentRank,
-                    dateLabel: `Week ${visible.week}`,
-                  })}
-                />
-              </Link>
-              <div className={styles.newsList}>
-                {visible.news.slice(1, 6).map((x) => (
-                  <Link key={x.id} href={`/front-office/draft/prospects/${x.prospectId}`}>
-                    <b>{x.category}</b>
-                    <span>{x.headline}</span>
-                    <small>Week {visible.week}</small>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className={styles.empty}>No major draft developments yet.</div>
-          )}
-        </section>
-        <section className={styles.card}>
-          <header>
-            <h2>
-              <BarChart3 /> Draft Insights
-            </h2>
-          </header>
-          <dl className={styles.insights}>
-            <div>
-              <dt>Your Pick</dt>
-              <dd>
-                #{first?.displayOverall ?? visible.projectedSlot}
-                <small>Overall · Round {first?.round ?? 1}</small>
-              </dd>
-            </div>
-            <div>
-              <dt>Next Pick</dt>
-              <dd>
-                {picks[1] ? `#${picks[1].displayOverall}` : '—'}
-                <small>{picks[1] ? `Overall · Round ${picks[1].round}` : 'No later pick'}</small>
-              </dd>
-            </div>
-            <div>
-              <dt>Total Picks</dt>
-              <dd>
-                {visible.picks.length}
-                <small>{visible.draftYear} and future</small>
-              </dd>
-            </div>
-          </dl>
-          <Link className={styles.insightLink} href="/front-office/draft/team-needs">
-            <Target />
-            <span>
-              Team Needs<strong>{visible.needs.slice(0, 3).join(' · ')}</strong>
-            </span>
-            <ArrowRight />
-          </Link>
-          <Link className={styles.insightLink} href="/front-office/trade-hub">
-            <BarChart3 />
-            <span>
-              Draft Capital
-              <strong>
-                {picks
-                  .slice(0, 3)
-                  .map((p) => `#${p.displayOverall}`)
-                  .join(' · ') || 'No owned picks'}
-              </strong>
-            </span>
-            <ArrowRight />
-          </Link>
-        </section>
-      </div>
-      <div className={styles.secondRow}>
-        <section className={`${styles.card} ${styles.planCard}`}>
-          <header>
-            <div>
-              <h2>
-                <ClipboardList /> Your Draft Plan
-              </h2>
-              <p>Need-weighted targets near each owned selection.</p>
-            </div>
-            <Link href="/front-office/draft/room?mode=mock">
-              Open Mock Draft <ArrowRight />
-            </Link>
-          </header>
-          {picks.length ? (
-            <div className={styles.planList}>
-              {picks.slice(0, 4).map((pick) => (
-                <div key={pick.id} className={styles.planPick}>
-                  <div>
-                    <b>Pick #{pick.displayOverall}</b>
-                    <small>Round {pick.round}</small>
-                  </div>
+    <div className={styles.layout}>
+      <div className={styles.main}>
+        <div className={styles.hero}>
+          <FrontOfficeStrategicHero
+            section="Draft"
+            title="Draft Central"
+            description="Scouting, analysis, projections, and everything you need to prepare for the next draft."
+            compact
+          />
+          <FrontOfficeSectionNav section="draft" />
+        </div>
+        {error && <p role="status">{error}</p>}
+        <div className={styles.editorial}>
+          <section className={styles.feature} aria-label="Featured prospect">
+            {featured ? (
+              <>
+                <div className={styles.featureCopy}>
+                  <span className={styles.badge}>Featured Prospect</span>
+                  <h2>{featured.name}</h2>
+                  <h3>No. {featured.currentRank} in the current projection</h3>
                   <p>
-                    <span>Priority</span>
-                    {visible.needs.slice(0, 3).join(' · ')}
+                    {story?.summary ??
+                      featured.summary ??
+                      `${featured.position ?? 'Prospect'} from ${featured.school ?? 'the current draft class'}. Explore the full scouting report and projected draft range.`}
                   </p>
-                  <div className={styles.targetChips}>
-                    {targets(pick).map((p) => (
-                      <Link key={p.id} href={`/front-office/draft/prospects/${p.id}`}>
-                        {p.name}
-                        <small>
-                          {p.position} · Grade {p.scoutGrade}
-                        </small>
-                      </Link>
-                    ))}
+                  <div className={styles.featureActions}>
+                    <Link href={profile(featured.id)}>
+                      View Scouting Report <ArrowRight size={14} />
+                    </Link>
+                    <button
+                      type="button"
+                      aria-pressed={board.ids.includes(featured.id)}
+                      onClick={() => board.toggle(featured.id)}
+                    >
+                      <Bookmark size={14} />
+                      {board.ids.includes(featured.id) ? 'On Watchlist' : 'Add to Watchlist'}
+                    </button>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className={styles.empty}>No owned selections are available for this draft.</div>
-          )}
-        </section>
-        <section className={styles.card}>
-          <header>
-            <h2>
-              <Target /> On Your Radar
-            </h2>
-            <Link href="/front-office/draft/prospects">
-              All prospects <ArrowRight />
-            </Link>
-          </header>
-          <div className={styles.radar}>
-            {radar.map((p) => (
-              <Player
-                key={p.id}
-                p={p}
-                note={
-                  boardRank.has(p.id)
-                    ? `Big Board #${boardRank.get(p.id)}`
-                    : (p.needFitScore ?? 0) >= 70
-                      ? `High need: ${p.position}`
-                      : `Near Pick #${first?.displayOverall ?? visible.projectedSlot}`
-                }
-              />
-            ))}
-          </div>
-        </section>
-      </div>
-      <div className={styles.thirdRow}>
-        <section className={`${styles.card} ${styles.prospectCard}`}>
-          <header>
-            <div>
-              <h2>Top Prospects</h2>
-              <p>Shared rankings used across the draft experience.</p>
-            </div>
-            <Link href="/front-office/draft/prospects">
-              View all <ArrowRight />
-            </Link>
-          </header>
-          <div className={styles.prospectHead}>
-            <span>Rank</span>
-            <span>Player</span>
-            <span>Pos</span>
-            <span>School</span>
-            <span>HT</span>
-            <span>WT</span>
-            <span>Grade</span>
-            <span>Trend</span>
-          </div>
-          <div className={styles.prospects}>
-            {visible.prospects.slice(0, 8).map((p) => (
-              <Link key={p.id} href={`/front-office/draft/prospects/${p.id}`}>
-                <b>{p.currentRank}</b>
-                <span>
-                  <Avatar p={p} />
-                  <strong>{p.name}</strong>
-                </span>
-                <span>{p.position}</span>
-                <span>{p.school}</span>
-                <span>{p.height ?? '—'}</span>
-                <span>{p.weight ?? '—'}</span>
-                <Grade n={p.scoutGrade} />
-                <Trend n={p.rankingTrend} />
-              </Link>
-            ))}
-          </div>
-        </section>
-        <section className={styles.card}>
-          <header>
-            <h2>Best Fits for Your Team</h2>
-            <Link href="/front-office/draft/prospects?fit=my-team">
-              View all <ArrowRight />
-            </Link>
-          </header>
-          <div className={styles.fits}>
-            {visible.fits.slice(0, 6).map((p) => (
-              <div key={p.id}>
-                <Avatar p={p} />
-                <span>
-                  <strong>{p.name}</strong>
                   <small>
-                    {p.position} · {p.school}
+                    {[
+                      featured.position,
+                      featured.school,
+                      featured.height,
+                      featured.weight ? `${featured.weight} lbs` : null,
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </small>
+                </div>
+                {featured.headshotUrl && (
+                  <div className={styles.featureVisual}>
+                    {featured.schoolLogo && (
+                      <Image
+                        className={styles.schoolWatermark}
+                        src={featured.schoolLogo}
+                        alt=""
+                        width={180}
+                        height={180}
+                        unoptimized
+                      />
+                    )}
+                    <Image
+                      className={styles.cutout}
+                      src={featured.headshotUrl}
+                      alt={featured.name}
+                      width={400}
+                      height={400}
+                      unoptimized
+                    />
+                  </div>
+                )}
+                <div className={styles.rank}>
+                  <strong className="front-office-stat-value">#{featured.currentRank}</strong>
+                  <span>Overall</span>
+                </div>
+              </>
+            ) : (
+              <p>No prospects are available for this draft class.</p>
+            )}
+          </section>
+          <section className={styles.headlines} aria-label="Draft Headlines">
+            <header>
+              <h2>Draft Headlines</h2>
+              <Link href="/front-office/draft/scouting">
+                View All <ArrowRight size={12} />
+              </Link>
+            </header>
+            {data.news.slice(0, 5).map((n) => (
+              <Link className={styles.headline} key={n.id} href={profile(n.prospectId)}>
+                <span>
+                  <b
+                    data-category={n.category
+                      .trim()
+                      .toLowerCase()
+                      .replace(/[\s_]+/g, '-')}
+                  >
+                    {n.category}
+                  </b>
+                  <small>
+                    {n.createdAt && now
+                      ? `${Math.max(0, Math.floor((now - Date.parse(n.createdAt)) / 3600000))}h ago`
+                      : `Week ${data.week}`}
                   </small>
                 </span>
-                <Grade n={p.scoutGrade} />
-                <label>
-                  Need<b>{Math.round(p.needFitScore ?? 0)}</b>
-                </label>
-                <label>
-                  Available<b>{Math.round(p.availabilityScore ?? 0)}</b>
-                </label>
-                <Link href={`/front-office/draft/prospects/${p.id}`}>View</Link>
-              </div>
+                <strong>{n.headline}</strong>
+              </Link>
             ))}
-          </div>
-        </section>
-        <section className={styles.card}>
+            {!data.news.length && <p>No draft headlines yet.</p>}
+          </section>
+        </div>
+        <section className={styles.board} aria-label="Top Prospects">
           <header>
-            <h2>Draft Stock</h2>
-          </header>
-          {movers.length ? (
-            <div className={styles.stock}>
-              <div>
-                <h3>Risers</h3>
-                {risers.map((p) => (
-                  <Player key={p.id} p={p} note={`↑ ${p.rankingTrend}`} />
+            <h2>Top Prospects</h2>
+            <div className={styles.filters}>
+              <select
+                aria-label="Prospect position"
+                value={position}
+                onChange={(e) => setPosition(e.target.value)}
+              >
+                <option value="">All Positions</option>
+                {[...new Set(data.prospects.map((p) => p.position).filter(Boolean))]
+                  .sort()
+                  .map((p) => (
+                    <option key={p!}>{p}</option>
+                  ))}
+              </select>
+              <select
+                aria-label="Prospect conference"
+                title={
+                  !conferences.length ? 'Conference data is unavailable for this class' : undefined
+                }
+                disabled={!conferences.length}
+                value={conference}
+                onChange={(e) => setConference(e.target.value)}
+              >
+                <option value="">All Conferences</option>
+                {conferences.map((c) => (
+                  <option key={c}>{c}</option>
                 ))}
-              </div>
-              <div>
-                <h3>Fallers</h3>
-                {fallers.map((p) => (
-                  <Player key={p.id} p={p} note={`↓ ${Math.abs(p.rankingTrend)}`} />
-                ))}
-              </div>
+              </select>
+              <select
+                aria-label="Prospect ranking range"
+                value={limit}
+                onChange={(e) => setLimit(Number(e.target.value))}
+              >
+                <option value={100}>All Top 100</option>
+                <option value={50}>Top 50</option>
+                <option value={32}>First Round</option>
+                <option value={9999}>All Prospects</option>
+              </select>
             </div>
-          ) : (
-            <div className={styles.empty}>No major movement this week.</div>
-          )}
+            <Link href="/front-office/draft/prospects">
+              View All <ArrowRight size={12} />
+            </Link>
+          </header>
+          <div className={styles.tableScroll}>
+            <table>
+              <thead>
+                <tr>
+                  {['Rank', 'Player', 'Pos', 'School', 'HT', 'WT', 'OVR', 'Grade', ''].map(
+                    (v, i) => (
+                      <th key={i} scope="col">
+                        <span className={PLAYER_TABLE_HEADING_CLASS}>{v}</span>
+                      </th>
+                    ),
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {prospects.map((p) => (
+                  <tr key={p.id}>
+                    <td>{p.currentRank}</td>
+                    <td>
+                      <Link href={profile(p.id)}>
+                        <Avatar p={p} />
+                        <strong>{p.name}</strong>
+                      </Link>
+                    </td>
+                    <td>{p.position}</td>
+                    <td>{p.school}</td>
+                    <td>{p.height ?? '—'}</td>
+                    <td>{p.weight ?? '—'}</td>
+                    <td>{p.overall ?? '—'}</td>
+                    <td>
+                      <b className={styles.grade}>{p.scoutGrade}</b>
+                    </td>
+                    <td>
+                      <Link href={profile(p.id)} aria-label={`View ${p.name}`}>
+                        <ChevronRight size={14} />
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {!prospects.length && <p>No prospects match these filters.</p>}
         </section>
       </div>
-      <div className={styles.fourthRow}>
-        <section className={styles.card}>
-          <header>
-            <h2>Position Strength</h2>
-            <Link href="/front-office/draft/position-rankings">
-              Rankings <ArrowRight />
-            </Link>
-          </header>
-          <div className={styles.strength}>
-            {groups.map((g) => {
-              const need = visible.needAnalysis.find((n) => n.position === g.position),
-                label =
-                  g.score >= max * 0.72
-                    ? 'Deep'
-                    : g.score >= max * 0.42
-                      ? 'Strong'
-                      : g.score >= max * 0.2
-                        ? 'Average'
-                        : 'Thin';
-              return (
-                <div key={g.position}>
-                  <b>{g.position}</b>
-                  <span>
-                    <i style={{ width: `${Math.max(12, (g.score / max) * 100)}%` }} />
-                  </span>
-                  <strong>{label}</strong>
-                  <small>{need ? `${need.level} need · ${need.score}` : 'Class depth'}</small>
-                </div>
-              );
-            })}
-          </div>
+      <aside className={styles.rail} aria-label="Draft tools">
+        <section className={styles.advance}>
+          <FrontOfficePhaseControl
+            season={save.franchiseYear}
+            phase={save.phase}
+            freeAgencyWave={save.freeAgencyWave}
+          />
         </section>
-        <section className={styles.card}>
+        <section className={styles.panel}>
           <header>
-            <h2>
-              <Sparkles /> Draft Strategy
-            </h2>
-            <Link href="/front-office/draft/team-needs">
-              Team needs <ArrowRight />
-            </Link>
+            <h2>Draft Info</h2>
           </header>
-          <div className={styles.strategy}>
-            {visible.recommendations.slice(0, 4).map((x, i) => (
-              <div key={`${x.position}-${i}`}>
-                <em>{i + 1}</em>
-                <span>
-                  <strong>{x.title}</strong>
-                  <small>{x.detail}</small>
-                </span>
+          <div className={styles.draftInfo}>
+            <Trophy size={38} />
+            <div>
+              <strong>{data.draftYear} NFL Draft</strong>
+              <p>
+                {data.draftInfo
+                  ? new Date(data.draftInfo.startsAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })
+                  : 'Dates to be announced'}
+                <br />
+                {data.draftInfo?.location ?? 'Location to be announced'}
+              </p>
+            </div>
+          </div>
+          <div className={styles.countdown}>
+            {['Days', 'Hours', 'Minutes'].map((label, i) => (
+              <div key={label}>
+                <strong className="front-office-stat-value">{countdown[i]}</strong>
+                <small>{label}</small>
               </div>
             ))}
           </div>
+          <Link className={styles.railLink} href="/front-office/draft/room?mode=mock">
+            Draft Order <ChevronRight size={14} />
+          </Link>
+          <details className={styles.compensatory}>
+            <summary>Compensatory Picks</summary>
+            <p>
+              {picks
+                .filter((p) => p.compensatory)
+                .map((p) => `R${p.round} · #${p.displayOverall}`)
+                .join(', ') || 'No compensatory designations are recorded for this draft capital.'}
+            </p>
+          </details>
+          <Link className={styles.railLink} href="/front-office/draft/history">
+            Past Draft Results <ChevronRight size={14} />
+          </Link>
         </section>
-        <section className={styles.card}>
+        <section className={styles.panel}>
           <header>
-            <h2>What If?</h2>
+            <h2>{team?.name.split(' ').slice(-1)[0] ?? save.teamAbbr} Draft Picks</h2>
+            <select
+              aria-label="Draft picks year"
+              value={selectedYear}
+              onChange={(e) => setYear(Number(e.target.value))}
+            >
+              {years.map((y) => (
+                <option key={y}>{y}</option>
+              ))}
+            </select>
           </header>
-          <div className={styles.whatIf}>
-            <Link href="/front-office/draft/room?mode=mock">
-              Stay at #{first?.displayOverall ?? visible.projectedSlot}
-              <ArrowRight />
+          {picks.map((p) => (
+            <Link className={styles.pick} href="/front-office/draft/room?mode=mock" key={p.id}>
+              <b>R{p.round}</b>
+              <strong>#{p.displayOverall}</strong>
+              <ChevronRight size={14} />
             </Link>
-            <Link href="/front-office/trade-hub">
-              Explore a trade back
-              <ArrowRight />
-            </Link>
-            <Link href="/front-office/draft/room?mode=mock">
-              Address {visible.needs[0] ?? 'value'} first
-              <ArrowRight />
-            </Link>
-          </div>
+          ))}
+          {!picks.length && <p>No owned picks in {selectedYear}.</p>}
         </section>
-      </div>
-      <div className={styles.finalRow}>
-        <section className={styles.card}>
+        <section className={styles.panel}>
           <header>
-            <h2>Latest Mock Draft</h2>
+            <h2>Team Needs</h2>
+            <Link href="/front-office/draft/team-needs">Edit</Link>
           </header>
-          <div className={styles.calloutEmpty}>
-            <span>No saved mock draft yet.</span>
-            <p>Run a mock draft to see your latest results here.</p>
-            <Link href="/front-office/draft/room?mode=mock">
-              Start Mock Draft <ArrowRight />
+          {data.needAnalysis.slice(0, 5).map((n, i) => (
+            <Link className={styles.need} href="/front-office/draft/team-needs" key={n.position}>
+              <b>{i + 1}</b>
+              <span>{n.position}</span>
+              <small data-level={n.level}>{n.level === 'Moderate' ? 'Medium' : n.level}</small>
             </Link>
-          </div>
+          ))}
+          {!data.needAnalysis.length && <p>No team needs identified.</p>}
         </section>
-        <section className={styles.card}>
+        <section className={styles.panel}>
           <header>
-            <h2>Recent Draft Activity</h2>
+            <h2>Quick Actions</h2>
           </header>
-          <div className={styles.activity}>
-            {board.length ? (
-              <div>
-                <span>Big Board</span>
-                <strong>
-                  {board.length} prospect{board.length === 1 ? '' : 's'} ranked
-                </strong>
-                <Link href="/front-office/draft/big-board">
-                  Review <ArrowRight />
-                </Link>
-              </div>
-            ) : (
-              <div className={styles.calloutEmpty}>
-                <span>No recent draft activity.</span>
-                <p>Board and saved mock activity will appear here.</p>
-              </div>
-            )}
-          </div>
-        </section>
-        <section className={styles.card}>
-          <header>
-            <h2>Draft Capital</h2>
-            <Link href="/front-office/trade-hub">
-              Trade Machine <ArrowRight />
+          {[
+            ['Start Mock Draft', '/front-office/draft/room?mode=mock'],
+            ['Explore Big Board', '/front-office/draft/big-board'],
+            ['Compare Prospects', '/front-office/draft/prospects'],
+            ['Trade Up/Down', '/front-office/trade-hub'],
+          ].map(([label, href]) => (
+            <Link className={styles.railLink} href={href} key={label}>
+              {label}
+              <ChevronRight size={14} />
             </Link>
-          </header>
-          <div className={styles.capital}>
-            {visible.picks.slice(0, 8).map((p) => (
-              <div key={p.id}>
-                <b>#{p.displayOverall}</b>
-                <span>
-                  {p.year}
-                  <small>Round {p.round}</small>
-                </span>
-              </div>
-            ))}
-          </div>
+          ))}
         </section>
-      </div>
+      </aside>
     </div>
   );
 }

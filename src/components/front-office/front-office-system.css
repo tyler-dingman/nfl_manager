@@ -1,0 +1,963 @@
+/* Shared franchise UI. All surfaces are neutral; team tokens affect controls only. */
+.front-office-app,
+.front-office-surface {
+  --fo-page: #061219;
+  --fo-panel: #091a20;
+  --fo-elevated: #0e232a;
+  --fo-text: #f5f7f7;
+  --fo-muted: #a8bac4;
+  --fo-line: rgb(255 255 255 / 9%);
+  --fo-paper: var(--fo-panel);
+  --fo-cream: var(--fo-page);
+  --fo-navy: var(--fo-text);
+  --fo-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  --background: 202 61% 6%;
+  --foreground: 180 11% 96%;
+  --card: 196 56% 8%;
+  --card-foreground: 180 11% 96%;
+  --popover: 195 50% 11%;
+  --popover-foreground: 180 11% 96%;
+  --muted: 195 50% 11%;
+  --muted-foreground: 201 19% 71%;
+  --accent: 195 50% 11%;
+  --accent-foreground: 180 11% 96%;
+  --border: 195 20% 20%;
+  --input: 195 20% 25%;
+  --radius: 0.35rem;
+  color-scheme: dark;
+}
+.front-office-app {
+  background: var(--fo-page);
+  color: var(--fo-text);
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+  --font-headline: ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.front-office-app .front-office-shell {
+  background: var(--fo-page);
+}
+.front-office-app :where(h1, h2, h3, h4) {
+  color: var(--fo-text);
+}
+.front-office-app :where(h1, h2, h3) {
+  font-family: var(--font-headline, 'Arial Narrow'), Arial, sans-serif;
+}
+/* Athletic editorial features only; never inherited by ordinary UI headings. */
+.front-office-app .front-office-feature-heading {
+  margin: 0;
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-synthesis: none;
+  font-size: clamp(2.25rem, 4vw, 3.75rem);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 0.95;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  padding-inline-end: 0.12em;
+}
+.fo-home > section:first-child {
+  margin-bottom: 1rem;
+}
+.front-office-app .text-sm {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+.front-office-app .text-xs {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+.front-office-app .front-office-workspace {
+  min-width: 0;
+  padding: 14px;
+}
+.front-office-content {
+  width: 100%;
+}
+.front-office-app .front-office-team-summary {
+  margin: 16px 14px 0;
+  border-radius: 5px;
+  background: var(--fo-panel);
+  box-shadow: none;
+}
+.front-office-app .front-office-team-summary::after {
+  display: none;
+}
+.front-office-app .front-office-team-summary-inner {
+  max-width: none;
+  padding: 14px 18px;
+}
+.front-office-app :where(.front-office-feature-panel, .front-office-experience-card.is-selected) {
+  background: var(--fo-panel);
+  color: var(--fo-text);
+  border-color: var(--fo-line);
+  box-shadow: var(--fo-shadow);
+}
+.front-office-app
+  :where(
+    .bg-white,
+    .bg-slate-50,
+    .bg-gray-50,
+    .bg-slate-100,
+    .bg-gray-100,
+    .bg-white\/90,
+    .bg-white\/95
+  ) {
+  background-color: var(--fo-panel);
+}
+.front-office-app
+  :where(.text-slate-900, .text-slate-800, .text-gray-900, .text-gray-800, .text-black) {
+  color: var(--fo-text);
+}
+.front-office-app
+  :where(
+    .text-slate-700,
+    .text-slate-600,
+    .text-slate-500,
+    .text-gray-700,
+    .text-gray-600,
+    .text-gray-500
+  ) {
+  color: var(--fo-muted);
+}
+.front-office-app :where(.border-slate-200, .border-gray-200, .border-slate-100) {
+  border-color: var(--fo-line);
+}
+.front-office-app main table {
+  background: var(--fo-panel);
+  font-size: 0.75rem;
+}
+.front-office-app main table thead {
+  background: var(--fo-elevated);
+  color: var(--fo-muted);
+}
+.front-office-app main table th {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.front-office-app main table :where(th, td) {
+  padding: 9px 12px;
+  border-color: var(--fo-line);
+}
+.front-office-app main table tbody tr:hover {
+  background: var(--fo-elevated);
+}
+.front-office-app :where(input, select, textarea) {
+  background: var(--fo-elevated);
+  color: var(--fo-text);
+  border-color: var(--fo-line);
+  border-radius: 5px;
+  min-width: 0;
+}
+.front-office-app :where(input, textarea)::placeholder {
+  color: var(--fo-muted);
+}
+.front-office-app :where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--fo-accent);
+  outline-offset: 3px;
+}
+.front-office-app :where(button, a)[aria-current='page'] {
+  border-color: var(--fo-accent);
+}
+.front-office-app :where(button, [role='button']):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.front-office-app [role='dialog'] {
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  background: var(--fo-panel);
+  color: var(--fo-text);
+  border-color: var(--fo-line);
+}
+.front-office-app [role='dialog'] > :first-child {
+  background: var(--fo-panel);
+}
+.front-office-app :where(.fo-home-panel, .fo-support-panel) {
+  border-radius: 5px;
+}
+.front-office-app :where(.fo-home, .fo-home-top, .fo-home-bottom) {
+  min-width: 0;
+}
+.front-office-app .fo-home-top {
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 14px;
+}
+.front-office-app .fo-home-bottom {
+  gap: 14px;
+}
+.front-office-app .fo-overview-shade {
+  background: linear-gradient(90deg, #091a20 5%, rgb(9 26 32 / 85%) 40%, rgb(9 26 32 / 20%));
+}
+.front-office-app .fo-overview-hero {
+  border-radius: 5px;
+}
+.fo-sidebar {
+  display: none;
+  background: var(--fo-panel);
+  border-right: 1px solid var(--fo-line);
+  padding: 20px 12px;
+}
+.fo-sidebar-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 30px;
+}
+.fo-sidebar-identity > img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+.fo-sidebar-identity span {
+  display: grid;
+  gap: 3px;
+}
+.fo-sidebar-identity strong {
+  font-size: 14px;
+}
+.fo-sidebar-identity small {
+  color: var(--fo-muted);
+  font-size: 12px;
+}
+.fo-sidebar nav {
+  display: grid;
+  gap: 3px;
+}
+.fo-sidebar nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 14px;
+  padding: 10px 12px;
+  border-left: 3px solid transparent;
+  border-radius: 4px;
+  color: var(--fo-text);
+  font-weight: 500;
+}
+.fo-sidebar nav a:last-child {
+  margin-top: 16px;
+  border-top: 1px solid var(--fo-line);
+}
+.fo-sidebar nav a:hover {
+  background: var(--fo-elevated);
+}
+.fo-sidebar nav a[aria-current='page'] {
+  background: var(--fo-elevated);
+  border-left-color: var(--fo-accent);
+  font-weight: 700;
+}
+.fo-sidebar nav a[aria-current='page'] svg {
+  color: var(--fo-accent);
+}
+.fo-sidebar nav svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+.fo-sidebar-close,
+.front-office-mobile-bar,
+.fo-sidebar-backdrop {
+  display: none;
+}
+@media (min-width: 1100px) {
+  .front-office-app .front-office-shell {
+    display: grid;
+    grid-template-columns: 224px minmax(0, 1fr);
+    align-items: start;
+  }
+  .fo-sidebar {
+    display: block;
+    position: sticky;
+    top: var(--site-header-height, 80px);
+    height: calc(100dvh - var(--site-header-height, 80px));
+    overflow-y: auto;
+  }
+}
+@media (max-width: 1099px) {
+  .front-office-mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: var(--fo-panel);
+    border-bottom: 1px solid var(--fo-line);
+    font-weight: 700;
+  }
+  .front-office-mobile-bar button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+  }
+  .front-office-mobile-bar svg {
+    width: 20px;
+    height: 20px;
+  }
+  .fo-sidebar[data-open='true'] {
+    display: block;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(300px, 90vw);
+    z-index: 101;
+    overflow-y: auto;
+  }
+  .fo-sidebar-close {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+  }
+  .fo-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgb(0 0 0 / 65%);
+    z-index: 100;
+  }
+  .front-office-app .fo-home-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 767px) {
+  .front-office-app .front-office-workspace {
+    padding: 12px 10px;
+  }
+  .front-office-app .front-office-team-summary {
+    margin: 10px 10px 0;
+  }
+  .front-office-app .front-office-team-summary-inner {
+    padding: 12px;
+  }
+  .front-office-app :where(.fo-home-top, .fo-home-bottom) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .front-office-app :where(input, select, textarea) {
+    font-size: 16px;
+    min-height: 44px;
+    max-width: 100%;
+  }
+  .front-office-app :where(button, [role='button'], summary) {
+    min-height: 44px;
+  }
+  .front-office-app .overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: var(--fo-muted) var(--fo-panel);
+  }
+  .front-office-app [role='dialog'] {
+    overscroll-behavior: contain;
+    scroll-padding-bottom: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .front-office-app *,
+  .front-office-app *::before,
+  .front-office-app *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* Inherit the shared site navbar palette; only Front Office removes its width cap. */
+.fo-global-header > div {
+  max-width: none;
+}
+.fo-portal-menu {
+  background: #0e232a;
+  color: #f5f7f7;
+  border-color: rgb(255 255 255 / 10%);
+  color-scheme: dark;
+  max-width: calc(100vw - 24px);
+}
+.fo-portal-menu [role='menuitem']:is(:hover, :focus, :active) {
+  background: #18343d;
+  color: #f5f7f7;
+}
+.fo-portal-menu [role='menuitem']:focus-visible {
+  outline: 2px solid var(--fo-accent, #a8bac4);
+  outline-offset: -2px;
+}
+.front-office-app .fo-franchise-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 22px;
+}
+.fo-franchise-summary dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  flex: 1;
+  gap: 18px;
+}
+.fo-franchise-summary dl > div + div {
+  border-left: 1px solid var(--fo-line);
+  padding-left: 18px;
+}
+.fo-franchise-summary dd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fo-text);
+  font-size: clamp(20px, 2.1vw, 32px);
+  line-height: 1.15;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+.fo-franchise-summary dd small {
+  font-size: 0.7em;
+}
+.fo-franchise-summary dt {
+  margin-top: 5px;
+  color: var(--fo-muted);
+  font-size: 12px;
+}
+.front-office-app :where(.bg-primary, .team-primary-filled) {
+  background: var(--fo-interactive) !important;
+  color: var(--fo-interactive-fg) !important;
+}
+.front-office-app .bg-secondary {
+  background: var(--fo-elevated);
+  color: var(--fo-text);
+}
+@media (max-width: 767px) {
+  .front-office-app .fo-franchise-summary {
+    display: grid;
+    gap: 14px;
+    padding: 14px;
+  }
+  .fo-franchise-summary dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .fo-franchise-summary dl > div + div {
+    padding-left: 0;
+    border: 0;
+  }
+  .fo-franchise-summary dd {
+    font-size: 25px;
+  }
+}
+.fo-section-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 276px;
+  align-items: start;
+  gap: 14px;
+}
+.fo-section-primary {
+  min-width: 0;
+}
+.front-office-app .fo-section-layout .fo-support-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin: 0;
+}
+.front-office-app .fo-section-card {
+  border: 1px solid var(--fo-line);
+  border-radius: 5px;
+  padding: 16px;
+  background: var(--fo-panel);
+}
+.front-office-app .fo-section-card dd {
+  color: var(--fo-text);
+}
+.front-office-app .fo-player-table {
+  border-radius: 5px;
+}
+.front-office-app .fo-player-table > div {
+  padding: 12px;
+}
+.front-office-app .fo-section-primary > .rounded-2xl {
+  padding: 10px;
+  border-radius: 5px;
+}
+.front-office-app .fo-section-primary .fo-player-table {
+  border: 0;
+  box-shadow: none;
+}
+.front-office-app .fo-franchise-summary .front-office-command-status > div:first-child {
+  display: none;
+}
+.front-office-app .fo-wire-panel {
+  max-height: 100dvh;
+  background: var(--fo-panel);
+}
+.front-office-app .bg-gradient-to-b.from-slate-100\/80 {
+  background-image: none;
+}
+@media (max-width: 1199px) {
+  .fo-section-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .front-office-app .fo-section-layout .fo-support-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 639px) {
+  .front-office-app .fo-section-layout .fo-support-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.front-office-app .fo-home-bottom {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.front-office-app .fo-home-panel tr.active {
+  background: var(--fo-elevated);
+  color: var(--fo-text);
+  box-shadow: inset 2px 0 var(--fo-accent);
+}
+.front-office-app .fo-home-panel header {
+  flex-wrap: wrap;
+}
+.front-office-app .fo-home-panel table :where(td, th) {
+  padding: 8px;
+}
+.front-office-app .fo-home-list > a {
+  display: block;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--fo-line);
+}
+.front-office-app .fo-home-bottom-link {
+  color: var(--fo-accent);
+}
+.front-office-app .fo-phase-stepper button {
+  background: var(--fo-panel) !important;
+  color: var(--fo-text);
+}
+.front-office-app .fo-phase-stepper .team-primary-filled {
+  background: var(--fo-interactive) !important;
+  color: var(--fo-interactive-fg);
+}
+@media (max-width: 1099px) {
+  .front-office-app .fo-home-top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .front-office-app .fo-home-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 639px) {
+  .front-office-app .fo-home-top,
+  .front-office-app .fo-home-bottom {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .front-office-app .fo-home-panel {
+    min-width: 0;
+  }
+  .front-office-app .fo-home-matchup-content {
+    padding: 18px;
+  }
+  .front-office-app .fo-phase-stepper svg {
+    flex-shrink: 0;
+  }
+}
+.fo-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--fo-line);
+  padding: 12px;
+  color: var(--fo-muted);
+  font-size: 12px;
+}
+.fo-pagination > div,
+.fo-pagination label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.fo-pagination button {
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--fo-line);
+  border-radius: 4px;
+  color: var(--fo-text);
+}
+.fo-pagination select {
+  padding: 6px;
+}
+@media (max-width: 639px) {
+  .fo-pagination button {
+    min-height: 44px;
+  }
+}
+.front-office-app {
+  --team-primary-text: var(--fo-accent);
+  --team-secondary-text: var(--fo-accent);
+}
+.front-office-app :where(.text-red-600, .text-red-700, .text-rose-600) {
+  color: #fb7185;
+}
+.front-office-app :where(.text-emerald-600, .text-emerald-700, .text-green-600) {
+  color: #34d399;
+}
+.front-office-app :where(.text-amber-600, .text-amber-700, .text-amber-900) {
+  color: #fbbf24;
+}
+.front-office-app :where(.bg-amber-50, .bg-yellow-50) {
+  background: #302719;
+}
+.front-office-app :where(.bg-red-50, .bg-rose-50) {
+  background: #301c25;
+}
+.front-office-app :where(.bg-emerald-50, .bg-green-50) {
+  background: #122b26;
+}
+.front-office-app :where(.bg-white\/70, .bg-white\/80) {
+  background: var(--fo-elevated);
+}
+.fo-cap-table {
+  scrollbar-width: thin;
+}
+.front-office-app .fo-section-card-heading a {
+  color: var(--fo-accent);
+}
+.front-office-app .fo-franchise-summary dd {
+  white-space: nowrap;
+}
+.fo-global-header nav a[aria-current='page'] {
+  text-decoration: underline;
+  text-underline-offset: 12px;
+  text-decoration-thickness: 2px;
+}
+body:has(.front-office-app) .site-footer {
+  background: #091a20;
+  border-color: rgb(255 255 255 / 9%);
+}
+body:has(.front-office-app) .site-footer > div {
+  color: #a8bac4;
+}
+.front-office-app.fo-public-entry > section {
+  max-width: 1440px;
+  margin: auto;
+}
+.front-office-app.fo-public-entry main > div > a {
+  background: var(--fo-panel);
+  color: var(--fo-text);
+  border: 1px solid var(--fo-line);
+}
+.fo-development-panel {
+  margin-top: 14px;
+  border: 1px solid var(--fo-line);
+  border-radius: 5px;
+  background: var(--fo-panel);
+}
+.fo-development-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px;
+}
+.fo-development-toolbar > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.fo-development-toolbar button {
+  padding: 10px;
+  min-height: 44px;
+  border-bottom: 2px solid transparent;
+}
+.fo-development-toolbar button[aria-pressed='true'] {
+  border-color: var(--fo-accent);
+  color: var(--fo-accent);
+  background: var(--fo-elevated);
+}
+.fo-development-toolbar input {
+  padding: 10px;
+  border: 1px solid var(--fo-line);
+}
+.fo-development-note {
+  padding: 0 14px 14px;
+  color: var(--fo-muted);
+  font-size: 12px;
+}
+.fo-development-table {
+  width: 100%;
+  min-width: 560px;
+  text-align: left;
+}
+.fo-development-table td button {
+  min-height: 36px;
+  font-weight: 700;
+}
+.fo-development-empty {
+  padding: 40px 16px;
+  color: var(--fo-muted);
+  text-align: center;
+}
+.front-office-app {
+  --fo-label-size: 0.6875rem;
+  --fo-body-size: 0.8125rem;
+}
+/* Decorative diagrams fade before reaching live hero copy. */
+.front-office-app:has([role='dialog']) .fo-wire-trigger,
+.front-office-app:has([role='dialog']) .fo-event-toast {
+  visibility: hidden;
+}
+
+/* Explicit KPI role: dense table cells and labels keep the standard UI face. */
+.front-office-app .front-office-stat-value {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-synthesis: none;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.fo-franchise-summary .front-office-stat-value {
+  font-size: clamp(2rem, 2.7vw, 2.75rem);
+  color: var(--fo-text);
+}
+.fo-franchise-summary dd {
+  flex-wrap: wrap;
+}
+@media (min-width: 768px) and (max-width: 1099px) {
+  .front-office-app .fo-franchise-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  .fo-franchise-summary .front-office-stat-value {
+    font-size: 2rem;
+  }
+}
+
+/* Home uses the approved dashboard composition below the unchanged global header. */
+.fo-home-shell .front-office-workspace {
+  padding: 16px;
+}
+.fo-sidebar-ad {
+  margin: auto 14px 16px;
+  padding-top: 28px;
+}
+.fo-sidebar-ad img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.fo-sidebar-ad small {
+  display: block;
+  margin-top: 7px;
+  color: var(--fo-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+@media (min-width: 1100px) {
+  .front-office-app.fo-home-shell .front-office-shell {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+  .fo-home-shell .fo-sidebar {
+    display: flex;
+    flex-direction: column;
+  }
+  .fo-home-shell .fo-sidebar nav {
+    flex-shrink: 0;
+  }
+  .fo-home-shell .fo-sidebar-identity {
+    padding: 24px 20px;
+  }
+}
+@media (max-width: 767px) {
+  .fo-home-shell .front-office-workspace {
+    padding: 10px;
+  }
+}
+@media (min-width: 1100px) {
+  .fo-home-shell .fo-sidebar {
+    height: calc(111.111dvh - var(--site-header-height, 80px));
+  }
+  .fo-home-shell .fo-sidebar-identity {
+    padding: 0 8px;
+    margin: 8px 0 30px;
+  }
+  .fo-home-shell .fo-sidebar-ad {
+    margin: auto 0 10px;
+  }
+}
+
+.fo-sheet-heading {
+  display: none;
+}
+@media (max-width: 1099px) {
+  .front-office-mobile-bar {
+    height: 52px;
+    padding: 4px 12px;
+    gap: 12px;
+  }
+  .front-office-mobile-bar > span {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .front-office-mobile-bar button {
+    justify-content: flex-end;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 13px;
+    gap: 6px;
+  }
+  .front-office-mobile-bar svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .fo-sidebar[data-open='true'] {
+    inset: auto 0 0;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: min(85dvh, 680px);
+    padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+    border: 1px solid var(--fo-line);
+    border-radius: 18px 18px 0 0;
+    overscroll-behavior: contain;
+    box-shadow: 0 -16px 60px #0006;
+  }
+  .fo-sidebar .fo-sidebar-identity,
+  .fo-sidebar .fo-sidebar-ad {
+    display: none;
+  }
+  .fo-sheet-heading {
+    display: block;
+    position: absolute;
+    top: 24px;
+    left: 28px;
+    font-weight: 700;
+  }
+  .fo-sidebar-close {
+    margin-bottom: 6px;
+  }
+  .fo-sidebar nav {
+    gap: 1px;
+  }
+  .fo-sidebar nav a {
+    min-height: 44px;
+    padding-block: 8px;
+  }
+  .fo-sidebar nav a[aria-current='page'] {
+    color: var(--fo-accent);
+  }
+  .fo-sidebar nav a:last-child {
+    margin-top: 8px;
+    padding-top: 12px;
+  }
+  .front-office-app .front-office-workspace {
+    padding-top: 6px;
+  }
+}
+
+.fo-mobile-franchise-actions {
+  display: none;
+}
+@media (max-width: 767px) {
+  .front-office-app .fo-franchise-summary,
+  .front-office-app .fo-desktop-phase-stepper {
+    display: none;
+  }
+  .fo-mobile-franchise-actions {
+    display: block;
+    margin: 4px 10px 0;
+    color: var(--fo-muted);
+  }
+  .fo-mobile-franchise-actions > summary {
+    padding: 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .fo-mobile-franchise-actions > .front-office-command-status {
+    margin: 0;
+    padding: 10px;
+    background: var(--fo-panel);
+  }
+}
+
+/* Draft Central owns its phase control in the restored right rail. */
+.fo-draft-central-shell .fo-franchise-summary > .front-office-command-status,
+.fo-draft-central-shell .fo-mobile-franchise-actions {
+  display: none;
+}
+
+/* Development uses the roster's player identity hierarchy and row rhythm. */
+.front-office-app .fo-development-table th {
+  text-transform: uppercase;
+}
+.front-office-app .fo-development-table tbody tr {
+  cursor: pointer;
+  border-bottom: 1px solid var(--fo-line);
+}
+.front-office-app .fo-development-table td {
+  height: 64px;
+  vertical-align: middle;
+}
+.front-office-app .fo-development-table td:first-child {
+  min-width: 220px;
+}
+.front-office-app .fo-development-table .fo-development-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  text-align: left;
+}
+.fo-development-portrait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--fo-elevated);
+  color: var(--fo-muted);
+  font-size: 11px;
+}
+.fo-development-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fo-development-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.fo-development-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+}
+.front-office-app .fo-development-tag {
+  border-radius: 999px;
+  padding: 0 8px;
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--fo-muted);
+}
+.fo-development-player:focus-visible {
+  outline: 2px solid var(--fo-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}

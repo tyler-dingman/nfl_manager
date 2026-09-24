@@ -1,22 +1,16 @@
 import type { CSSProperties } from 'react';
-import { StoryArtwork, type StoryArtworkId } from './StoryArtwork';
 /* School marks come from the existing prospect feed's multiple approved providers. */
 /* eslint-disable @next/next/no-img-element */
 import styles from './front-office-story-graphic.module.css';
 import {
   comparableRankDirection,
   normalizeStoryTemplate,
-  STORY_TEMPLATE_ASSETS,
   type FrontOfficeStoryGraphicModel,
   type StoryGraphicSize,
 } from './story-graphic-model';
 
 const HEX = /^#[0-9a-f]{6}$/i;
 type GraphicStyle = CSSProperties & Record<`--${string}`, string>;
-
-function StoryAsset({ id, className = '' }: { id: StoryArtworkId; className?: string }) {
-  return <StoryArtwork id={id} className={`${styles.asset} ${className}`} />;
-}
 
 export function FrontOfficeStoryGraphic({
   story,
@@ -32,7 +26,6 @@ export function FrontOfficeStoryGraphic({
   actionLabel?: string;
 }) {
   const template = normalizeStoryTemplate(story.template);
-  const assets = STORY_TEMPLATE_ASSETS[template];
   const isMovement = template === 'rising-prospect' || template === 'falling-prospect';
   const rank = comparableRankDirection(story.previousRank, story.currentRank);
   const primary = HEX.test(story.primaryIdentity?.primary ?? '')
@@ -57,12 +50,9 @@ export function FrontOfficeStoryGraphic({
       data-template={template}
       data-breaking={story.status === 'BREAKING' || undefined}
     >
-      <StoryAsset id="etched-texture" className={styles.grain} />
-      <StoryAsset id="playbook-pattern" className={styles.playbook} />
-      <StoryAsset id="diagonal-slashes" className={styles.ribbon} />
       <div className={styles.copy}>
         <div className={styles.eyebrow}>
-          {story.primaryIdentity?.logoUrl && (!isMovement || size === 'compact') ? (
+          {story.primaryIdentity?.logoUrl ? (
             <img src={story.primaryIdentity.logoUrl} alt="" width="30" height="30" />
           ) : null}
           <span>{story.eyebrow ?? 'Front Office'}</span>
@@ -70,15 +60,9 @@ export function FrontOfficeStoryGraphic({
         {rank ? (
           <div className={styles.rank}>
             <div className={styles.movement}>
-              <StoryAsset
-                id={
-                  rank.direction === 'up'
-                    ? 'arrow-up'
-                    : rank.direction === 'down'
-                      ? 'arrow-down'
-                      : 'minus'
-                }
-              />
+              <span aria-hidden="true">
+                {rank.direction === 'up' ? '↑' : rank.direction === 'down' ? '↓' : '−'}
+              </span>
               <strong>
                 {rank.movement > 0 ? '+' : rank.movement < 0 ? '−' : ''}
                 {Math.abs(rank.movement)}
@@ -127,42 +111,6 @@ export function FrontOfficeStoryGraphic({
           </span>
         ) : null}
         <footer>{[story.source, story.dateLabel].filter(Boolean).join(' · ')}</footer>
-      </div>
-      <div className={styles.art} aria-hidden="true">
-        {template === 'rising-prospect' || template === 'falling-prospect' ? (
-          <>
-            {story.primaryIdentity?.logoUrl ? (
-              <img
-                className={styles.heroIdentity}
-                src={story.primaryIdentity.logoUrl}
-                alt=""
-                width="160"
-                height="120"
-              />
-            ) : (
-              <span className={styles.identityText}>
-                {story.primaryIdentity?.displayName ?? 'D&D'}
-              </span>
-            )}
-            <StoryAsset
-              id={template === 'rising-prospect' ? 'bars-ascending' : 'bars-descending'}
-              className={styles.bars}
-            />
-          </>
-        ) : (
-          <>
-            {story.primaryIdentity?.logoUrl ? (
-              <img
-                className={styles.storyIdentityLogo}
-                src={story.primaryIdentity.logoUrl}
-                alt=""
-                width="120"
-                height="90"
-              />
-            ) : null}
-            <StoryAsset id={assets[0]} className={styles.primaryArtwork} />
-          </>
-        )}
       </div>
       {story.secondaryIdentity ? (
         <div className={styles.secondaryIdentity}>

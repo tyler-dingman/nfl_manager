@@ -1,0 +1,683 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 14px;
+  color: var(--fo-text);
+}
+.main,
+.rail {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.hero {
+  background: var(--fo-panel);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.hero > section {
+  min-height: 150px;
+  padding: 20px 26px;
+}
+.hero h1 {
+  font-size: clamp(32px, 3.5vw, 52px);
+}
+.hero nav {
+  margin-bottom: 0;
+}
+.editorial {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(215px, 1fr);
+  gap: 12px;
+}
+.feature,
+.headlines,
+.board,
+.panel,
+.advance {
+  background: var(--fo-panel);
+  border-radius: 5px;
+  border: 1px solid var(--fo-line);
+  min-width: 0;
+}
+.feature {
+  position: relative;
+  isolation: isolate;
+  height: 280px;
+  overflow: hidden;
+  padding: 18px;
+}
+.featureCopy {
+  position: relative;
+  z-index: 1;
+  width: 58%;
+}
+.badge {
+  display: inline-block;
+  padding: 4px 7px;
+  border-radius: 3px;
+  background: var(--fo-interactive);
+  color: var(--fo-interactive-fg);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.feature h2 {
+  font-size: clamp(22px, 2.2vw, 32px);
+  line-height: 1.05;
+  font-weight: 800;
+  margin: 14px 0 4px;
+}
+.feature h3 {
+  font-size: 18px;
+  line-height: 1.15;
+  font-weight: 750;
+}
+.featureCopy > p {
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 10px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.featureCopy > small {
+  display: block;
+  margin-top: 10px;
+  font-size: 9px;
+  color: var(--fo-muted);
+}
+.featureActions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.featureActions a,
+.featureActions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 2rem;
+  padding: 7px;
+  border: 1px solid var(--fo-line);
+  border-radius: 4px;
+  font-size: 10px;
+}
+.featureActions a {
+  background: var(--fo-interactive);
+  color: var(--fo-interactive-fg);
+}
+.featureActions button {
+  background: var(--fo-page);
+}
+.cutout {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 43%;
+  height: 92%;
+  object-fit: contain;
+  object-position: center bottom;
+  z-index: 0;
+}
+.rank {
+  position: absolute;
+  right: 12px;
+  top: 14px;
+  display: grid;
+  text-align: center;
+  font-size: 11px;
+}
+.rank strong {
+  font-size: 30px;
+}
+.headlines {
+  padding: 12px;
+  height: 280px;
+  overflow: auto;
+}
+.layout header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.layout h2 {
+  font-weight: 750;
+}
+.layout header h2 {
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+.layout header a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--fo-accent);
+  white-space: nowrap;
+}
+.headline {
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr);
+  gap: 9px;
+  padding: 9px 0;
+  border-top: 1px solid var(--fo-line);
+}
+.headline b {
+  display: inline-block;
+  font-size: 8px;
+  text-transform: uppercase;
+  padding: 3px 4px;
+  background: var(--fo-elevated);
+  border-radius: 3px;
+}
+/* Editorial category colors stay consistent across franchise team themes. */
+.headline b {
+  color: #fff;
+  background: #455a64;
+}
+.headline b[data-category='trending'] {
+  background: #006bb3;
+}
+.headline b[data-category='analysis'],
+.headline b[data-category='rising-prospect'] {
+  background: #00795c;
+}
+.headline b[data-category='rumor'],
+.headline b[data-category='interview'] {
+  background: #be202b;
+}
+.headline b[data-category='draft-stock'] {
+  background: #885616;
+}
+.headline b[data-category='team-needs'] {
+  background: #455a64;
+}
+.headline small {
+  display: block;
+  color: var(--fo-muted);
+  font-size: 9px;
+  margin-top: 3px;
+}
+.headline strong {
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.board {
+  padding: 12px;
+}
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+.layout select {
+  min-width: 0;
+  font-size: 10px;
+  padding: 6px;
+  border: 1px solid var(--fo-line);
+  border-radius: 4px;
+  background: var(--fo-page);
+  color: var(--fo-text);
+}
+.layout select:disabled {
+  opacity: 0.5;
+}
+.tableScroll {
+  overflow-x: auto;
+}
+.board table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+  font-size: 0.875rem;
+}
+.board th {
+  color: var(--fo-muted);
+  letter-spacing: 0.06em;
+  text-align: left;
+  background: var(--fo-elevated);
+}
+.board td {
+  border-bottom: 1px solid var(--fo-line);
+  vertical-align: middle;
+}
+.board tbody tr {
+  height: 64px;
+}
+.board td a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 2rem;
+}
+.board td strong {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.board td img,
+.initials {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.initials {
+  display: grid;
+  place-items: center;
+  background: var(--fo-elevated);
+  font-size: 11px;
+  font-weight: 600;
+}
+.grade {
+  display: inline-block;
+  border-radius: 3px;
+  padding: 4px 8px;
+  background: color-mix(in srgb, var(--fo-interactive) 30%, var(--fo-panel));
+}
+.panel {
+  padding: 12px 14px;
+  font-size: 11px;
+}
+.panel p {
+  color: var(--fo-muted);
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 5px 0;
+}
+.advance {
+  padding: 10px;
+}
+.advance :global(.front-office-command-status) {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+.advance :global(.front-office-command-status) > div:has(> span) {
+  display: none;
+}
+.advance :global(.front-office-advance-button) {
+  font-size: 12px;
+  min-height: 38px;
+}
+.draftInfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 0;
+}
+.draftInfo > svg {
+  color: var(--fo-accent);
+  flex-shrink: 0;
+}
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 6px 0;
+}
+.countdown > div {
+  display: grid;
+  text-align: center;
+  background: var(--fo-elevated);
+  border-radius: 4px;
+  padding: 8px;
+}
+.countdown strong {
+  font-size: 24px;
+}
+.countdown small {
+  font-size: 10px;
+}
+.railLink,
+.pick,
+.need {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 29px;
+  padding: 6px;
+  border-bottom: 1px solid var(--fo-line);
+}
+.railLink svg,
+.pick svg {
+  margin-left: auto;
+}
+.pick:nth-child(even),
+.need:nth-child(even) {
+  background: var(--fo-elevated);
+}
+.pick b,
+.need b {
+  width: 24px;
+}
+.need span {
+  flex: 1;
+}
+.need small {
+  border-radius: 3px;
+  padding: 3px 8px;
+  background: var(--fo-elevated);
+}
+.need small[data-level='High'] {
+  background: #4b1720;
+  color: #ff9ba4;
+}
+.need small[data-level='Moderate'] {
+  background: #493818;
+  color: #ffd16b;
+}
+.compensatory summary {
+  padding: 8px 6px;
+  cursor: pointer;
+}
+@media (max-width: 1250px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 260px;
+  }
+  .editorial {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .headlines {
+    height: auto;
+  }
+  .board header {
+    flex-wrap: wrap;
+  }
+  .filters {
+    order: 2;
+    width: 100%;
+    margin: 0;
+  }
+}
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rail {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .advance {
+    grid-column: 1/-1;
+  }
+}
+@media (max-width: 600px) {
+  .rail {
+    display: flex;
+  }
+  .hero > section {
+    padding: 20px 16px;
+  }
+  .feature {
+    height: 310px;
+    padding: 14px;
+  }
+  .featureCopy {
+    width: 60%;
+  }
+  .feature h2 {
+    font-size: 25px;
+  }
+  .feature h3 {
+    font-size: 16px;
+  }
+  .cutout {
+    width: 40%;
+    height: 65%;
+  }
+  .featureActions {
+    flex-direction: column;
+    align-items: start;
+  }
+  .featureActions a,
+  .featureActions button {
+    min-height: 44px;
+    font-size: 10px;
+    padding: 6px;
+  }
+  .featureCopy > p {
+    -webkit-line-clamp: 2;
+  }
+  .filters {
+    overflow-x: auto;
+  }
+  .filters select {
+    flex: 1;
+    font-size: 11px;
+  }
+  .board table {
+    min-width: 660px;
+  }
+  .railLink,
+  .pick,
+  .need {
+    min-height: 44px;
+  }
+}
+/* Match Roster's readable table scale without affecting other draft modules. */
+:global(.front-office-app) .board table {
+  /* The site-wide table size is important; keep this exception local. */
+  font-size: 0.875rem !important;
+}
+:global(.front-office-app) .board table :is(th, td) {
+  padding: 9px 12px;
+}
+.board .grade {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+@media (min-width: 901px) {
+  .rail {
+    gap: 10px;
+  }
+  .panel {
+    padding: 10px 12px;
+  }
+  .railLink,
+  .pick,
+  .need {
+    min-height: 25px;
+    padding: 4px 6px;
+  }
+  .countdown > div {
+    padding: 6px;
+  }
+}
+@media (max-width: 600px) {
+  :global(.front-office-app) .board table :is(th, td) {
+    padding: 10px 12px;
+  }
+}
+
+/* Keep desktop unchanged; give the prospect its own responsive visual stage. */
+.featureVisual {
+  display: contents;
+}
+.schoolWatermark {
+  display: none;
+}
+@media (min-width: 431px) and (max-width: 700px) {
+  .feature {
+    height: auto;
+    min-height: 400px;
+    padding: 18px;
+  }
+  .featureCopy {
+    width: 49%;
+  }
+  .feature h2 {
+    font-size: 28px;
+  }
+  .feature h3 {
+    font-size: 17px;
+  }
+  .featureCopy > p {
+    font-size: 13px;
+    -webkit-line-clamp: 4;
+    margin-block: 14px;
+  }
+  .featureCopy > small {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .featureActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .featureActions a,
+  .featureActions button {
+    min-height: 44px;
+    font-size: 11px;
+    padding: 8px;
+  }
+  .featureVisual {
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 48%;
+    height: 100%;
+    isolation: isolate;
+  }
+  .featureVisual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--fo-interactive) 17%, transparent);
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+    z-index: -1;
+  }
+  .cutout {
+    width: 100%;
+    height: 78%;
+    right: 0;
+    bottom: 0;
+    object-fit: cover;
+    object-position: center bottom;
+  }
+  .schoolWatermark {
+    display: block;
+    position: absolute;
+    top: 70px;
+    right: 6%;
+    width: 75%;
+    height: 130px;
+    object-fit: contain;
+    opacity: 0.09;
+    filter: grayscale(1);
+  }
+  .rank {
+    z-index: 2;
+  }
+}
+@media (max-width: 430px) {
+  .feature {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 14px;
+  }
+  .featureCopy {
+    display: contents;
+  }
+  .badge {
+    order: 0;
+    align-self: flex-start;
+    margin: 2px 66px 16px 0;
+    min-height: 24px;
+  }
+  .rank {
+    top: 14px;
+    right: 16px;
+    z-index: 2;
+  }
+  .rank strong {
+    font-size: 28px;
+  }
+  .featureVisual {
+    display: block;
+    position: relative;
+    isolation: isolate;
+    order: 1;
+    flex: none;
+    height: clamp(220px, 65vw, 280px);
+    width: calc(100% + 28px);
+    margin-inline: -14px;
+    overflow: hidden;
+  }
+  .featureVisual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--fo-interactive) 15%, transparent);
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+    z-index: -1;
+  }
+  .cutout {
+    width: 100%;
+    height: 100%;
+    right: 0;
+    bottom: 0;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .schoolWatermark {
+    display: block;
+    position: absolute;
+    inset: 0 5% auto auto;
+    width: 60%;
+    height: 80%;
+    object-fit: contain;
+    opacity: 0.09;
+    filter: grayscale(1);
+  }
+  .feature h2 {
+    order: 2;
+    font-size: 28px;
+    margin: 14px 0 6px;
+  }
+  .feature h3 {
+    order: 3;
+    font-size: 17px;
+  }
+  .featureCopy > p {
+    order: 4;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 12px 0 16px;
+    -webkit-line-clamp: 3;
+  }
+  .featureActions {
+    order: 5;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .featureActions a,
+  .featureActions button {
+    width: 100%;
+    min-height: 46px;
+    font-size: 12px;
+    padding: 10px;
+  }
+  .featureCopy > small {
+    order: 6;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 14px;
+  }
+}

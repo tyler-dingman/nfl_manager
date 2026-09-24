@@ -134,7 +134,7 @@ export function ProspectDetailsModal({
   if (!open || !player || !model) return null;
 
   return createPortal(
-    <div className={`app-modal-layer ${styles.backdrop}`} onClick={onClose}>
+    <div className={`app-modal-layer front-office-surface ${styles.backdrop}`} onClick={onClose}>
       <div
         ref={dialogRef}
         role="dialog"

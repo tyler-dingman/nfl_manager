@@ -1,118 +1,32 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowDownRight, ArrowUp, ChevronDown, X, type LucideIcon } from 'lucide-react';
-import { DdMenuIcon as Menu, DdSettingsIcon as Settings2 } from '@/components/ui/football-icons';
+import { getActiveSimulationRoster } from '@/lib/front-office-roster';
 
-import {
-  DdRosterIcon,
-  DdDraftCentralIcon,
-  DdFootballIcon,
-  DdDepthChartIcon,
-  DdContractsIcon,
-  DdFreeAgencyIcon,
-  DdTradeHubIcon,
-  DdPracticeSquadIcon,
-  DdMockDraftIcon,
-  DdBigBoardIcon,
-  DdDraftGuideIcon,
-  DdScoutingIcon,
-  DdTeamAnalyticsIcon,
-  DdTradeMachineIcon,
-  DdMyDraftsIcon,
-  DdAllNewsIcon,
-  DdStandingsIcon,
-  DdScheduleIcon,
-  DdTransactionsIcon,
-} from '@/components/ui/football-icons';
+import { usePathname, useRouter } from 'next/navigation';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowDownRight, ArrowUp } from 'lucide-react';
 
+import { FrontOfficeMobileStatus } from '@/components/front-office/front-office-mobile-status';
 import MainSiteHeader from '@/components/main-site-header';
+import {
+  FrontOfficeSidebar,
+  FrontOfficeMobileNav,
+} from '@/components/front-office/front-office-sidebar';
 import TeamThemeProvider from '@/components/team-theme-provider';
-import { TeamNeeds } from '@/components/team-needs';
 import { FrontOfficePhaseControl } from '@/components/front-office/front-office-phase-control';
 import { FrontOfficeEventCenter } from '@/components/front-office/front-office-event-center';
 import { PhaseStepper } from '@/components/phase-stepper';
 import { TeamFavicon } from '@/components/team-favicon';
 import { TradeOfferToast } from '@/components/trade-offer-toast';
-import { AdSlot } from '@/components/ads/AdSlot';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { getStepForPath } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
-import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
-import {
-  FRONT_OFFICE_ROUTES,
-  FRONT_OFFICE_DRAFT_ROUTES,
-  FRONT_OFFICE_LEAGUE_ROUTES,
-  FRONT_OFFICE_ROSTER_ROUTES,
-  isFrontOfficeRouteActive,
-  type FrontOfficeNavItem,
-  type FrontOfficeDraftNavItem,
-  type FrontOfficeLeagueNavItem,
-  type FrontOfficeRosterNavItem,
-} from '@/lib/front-office-navigation';
 import { useTeamStore } from '@/features/team/team-store';
 import { buildCapCrisisAlert } from '@/lib/falco-alerts';
-import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
 import { formatMoneyMillions } from '@/server/logic/cap';
-import {
-  computeTeamNeeds,
-  computeTeamOverviewRaw,
-  scaleOverviewScore,
-  type TeamNeed,
-} from '@/lib/team-overview';
+import { computeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
 import { cn } from '@/lib/utils';
-
-const navRoutes = FRONT_OFFICE_ROUTES;
-const rosterNavRoutes = FRONT_OFFICE_ROSTER_ROUTES;
-const draftNavRoutes = FRONT_OFFICE_DRAFT_ROUTES;
-const leagueNavRoutes = FRONT_OFFICE_LEAGUE_ROUTES;
-type NavItem = FrontOfficeNavItem;
-type RosterNavItem = FrontOfficeRosterNavItem;
-type DraftNavItem = FrontOfficeDraftNavItem;
-type LeagueNavItem = FrontOfficeLeagueNavItem;
-
-const navIcons: Record<NavItem, LucideIcon> = {
-  Roster: DdRosterIcon,
-  Draft: DdDraftCentralIcon,
-  League: DdFootballIcon,
-  Settings: Settings2,
-};
-const rosterNavIcons: Record<RosterNavItem, LucideIcon> = {
-  'Roster Central': DdRosterIcon,
-  'Depth Chart': DdDepthChartIcon,
-  Contracts: DdContractsIcon,
-  'Free Agency': DdFreeAgencyIcon,
-  'Trade Hub': DdTradeHubIcon,
-  'Practice Squad': DdPracticeSquadIcon,
-};
-const draftNavIcons: Record<DraftNavItem, LucideIcon> = {
-  'Draft Central': DdDraftCentralIcon,
-  'Mock Draft': DdMockDraftIcon,
-  'Big Board': DdBigBoardIcon,
-  'Draft Guide': DdDraftGuideIcon,
-  'Position Rankings': DdScoutingIcon,
-  'Team Needs': DdTeamAnalyticsIcon,
-  'Trade Machine': DdTradeMachineIcon,
-  'My Drafts': DdMyDraftsIcon,
-};
-const leagueNavIcons: Record<LeagueNavItem, LucideIcon> = {
-  'League Central': DdFootballIcon,
-  News: DdAllNewsIcon,
-  Standings: DdStandingsIcon,
-  Schedule: DdScheduleIcon,
-  Transactions: DdTransactionsIcon,
-};
-
-const shellRightRailRoutes = [
-  '/experience',
-  '/manage-team',
-  '/manage/trades',
-  '/cap-space',
-] as const;
 
 function HeaderDelta({ delta, suffix = '' }: { delta: number | null; suffix?: string }) {
   if (!delta) return null;
@@ -188,7 +102,7 @@ function AppShellContent({
   const capSpace = useSaveStore((state) => state.capSpace);
   const startingCapSpace = useSaveStore((state) => state.startingCapSpace);
   const startingOverall = useSaveStore((state) => state.startingOverall);
-  const capLimit = useSaveStore((state) => state.capLimit);
+  const rosterLimit = useSaveStore((state) => state.rosterLimit);
   const roster = useSaveStore((state) => state.roster);
   const isUserOnClock = useSaveStore((state) => state.isUserOnClock);
   const phase = useSaveStore((state) => state.phase);
@@ -201,21 +115,11 @@ function AppShellContent({
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completedSteps = useExperienceStore((state) => state.completedSteps);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [trajectoryPulse, setTrajectoryPulse] = useState(false);
   const wasNegativeRef = useRef(false);
   const lastSaveIdRef = useRef<string | null>(null);
-  const lastTrajectoryStateRef = useRef<string | null>(null);
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const pathname = usePathname()?.replace(/^\/offseasonmanager(?=\/)/, '') ?? '';
   const router = useRouter();
   const routeStep = pathname ? getStepForPath(pathname) : null;
-
-  const closeOtherDesktopDropdowns = useCallback((current: HTMLDetailsElement) => {
-    if (!current.open) return;
-    current.parentElement?.querySelectorAll<HTMLDetailsElement>('details[open]').forEach((menu) => {
-      if (menu !== current) menu.removeAttribute('open');
-    });
-  }, []);
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -229,13 +133,8 @@ function AppShellContent({
     [selectedTeamId, teams],
   );
   const liveRosterPlayers = useMemo(
-    () =>
-      roster.filter(
-        (player) =>
-          player.status?.toLowerCase() !== 'cut' &&
-          (!selectedTeam?.abbr || !player.teamAbbr || player.teamAbbr === selectedTeam.abbr),
-      ),
-    [roster, selectedTeam?.abbr],
+    () => getActiveSimulationRoster(roster, storedTeamAbbr || selectedTeam?.abbr),
+    [roster, storedTeamAbbr, selectedTeam?.abbr],
   );
   const liveTeamSummary = useMemo(() => {
     if (liveRosterPlayers.length === 0) {
@@ -260,7 +159,7 @@ function AppShellContent({
             69,
             91,
           )
-        : (selectedTeam?.teamOverview ?? null);
+        : Math.round(rawOverview.overall);
 
     return {
       overall,
@@ -290,18 +189,7 @@ function AppShellContent({
     const delta = Number((capSpace - baselineCapSpace).toFixed(1));
     return delta === 0 ? null : delta;
   }, [capSpace, startingCapSpace]);
-  const liveTrajectory = useMemo(
-    () =>
-      computeFranchiseTrajectory({
-        roster: liveRosterPlayers,
-        teamOverview: liveTeamSummary.overall,
-        capSpace,
-        capLimit,
-      }),
-    [capLimit, capSpace, liveRosterPlayers, liveTeamSummary.overall],
-  );
-
-  const showTeamNeeds = Boolean(pathname);
+  const [record, setRecord] = useState('—');
 
   const showOnTheClock = Boolean(isUserOnClock && pathname?.startsWith('/draft'));
 
@@ -326,17 +214,6 @@ function AppShellContent({
     };
   }, [capSpace, pushAlert, saveId]);
 
-  useEffect(() => {
-    if (!saveId) return;
-    const previous = lastTrajectoryStateRef.current;
-    const next = liveTrajectory.state;
-    lastTrajectoryStateRef.current = next;
-    if (!previous || previous === next) return;
-    setTrajectoryPulse(true);
-    const timer = window.setTimeout(() => setTrajectoryPulse(false), 700);
-    return () => window.clearTimeout(timer);
-  }, [liveTrajectory.state, saveId]);
-
   const tradeOfferScopeKey = useMemo(() => {
     if (!saveId || !pathname) return null;
     if (pathname.startsWith('/roster')) {
@@ -351,14 +228,6 @@ function AppShellContent({
     return null;
   }, [pathname, saveId]);
 
-  const trajectoryAccentClass =
-    liveTrajectory.state === 'Contender' || liveTrajectory.state === 'Rising'
-      ? 'text-emerald-600'
-      : liveTrajectory.state === 'Balanced'
-        ? 'text-amber-600'
-        : liveTrajectory.state === 'Declining'
-          ? 'text-orange-600'
-          : 'text-red-600';
   useEffect(() => {
     if (storedTeamAbbr) {
       const matchingTeam = teams.find((team) => team.abbr === storedTeamAbbr);
@@ -381,11 +250,17 @@ function AppShellContent({
       }
     };
 
+    const desktop = window.matchMedia('(min-width: 1100px)');
+    const closeOnDesktop = () => {
+      if (desktop.matches) setIsMobileSidebarOpen(false);
+    };
+    desktop.addEventListener('change', closeOnDesktop);
     window.addEventListener('keydown', handleEscape);
 
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleEscape);
+      desktop.removeEventListener('change', closeOnDesktop);
     };
   }, [isMobileSidebarOpen]);
 
@@ -396,7 +271,9 @@ function AppShellContent({
   if (!isHydrated) {
     return (
       <TeamThemeProvider team={teams[0]}>
-        <div className="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 md:flex-row" />
+        <div
+          className={`front-office-app min-h-screen ${pathname?.endsWith('/experience') ? 'fo-home-shell' : ''} ${pathname === '/front-office/draft' ? 'fo-draft-central-shell' : ''}`}
+        />
       </TeamThemeProvider>
     );
   }
@@ -405,9 +282,6 @@ function AppShellContent({
     return null;
   }
 
-  const showShellRightRail = pathname
-    ? shellRightRailRoutes.some((route) => pathname.startsWith(route))
-    : false;
   const showOffseasonStepper =
     Boolean(routeStep) ||
     pathname === '/experience' ||
@@ -419,456 +293,87 @@ function AppShellContent({
     pathname === '/season-recap' ||
     pathname?.startsWith('/season-recap/');
 
-  const isNavItemActive = (href: string) => {
-    return isFrontOfficeRouteActive(href, pathname ?? '', searchParams ?? new URLSearchParams());
-  };
-  const rosterSectionActive =
-    pathname === '/roster' ||
-    pathname === '/free-agents' ||
-    pathname === '/cap-space' ||
-    pathname?.startsWith('/manage/trades') ||
-    (pathname?.startsWith('/front-office/trade-hub') &&
-      (pathname !== '/front-office/trade-hub' || searchParams?.get('context') === 'roster'));
-  const draftSectionActive =
-    pathname?.startsWith('/draft/') ||
-    pathname?.startsWith('/front-office/draft') ||
-    (pathname === '/front-office/trade-hub' && searchParams?.get('context') !== 'roster');
-  const leagueSectionActive =
-    pathname === '/league' || pathname?.startsWith('/front-office/league');
-
   return (
     <TeamThemeProvider team={selectedTeam}>
       <TeamFavicon teamAbbr={selectedTeam?.abbr ?? null} />
       <MainSiteHeader teamAbbr={selectedTeam?.abbr} active="front-office" />
-      <div className="front-office-app min-h-screen overflow-x-hidden bg-[#f7f4ee]">
-        <div className="front-office-secondary-nav">
-          <div className="front-office-secondary-nav-inner">
-            <Link
-              href="/experience"
-              className="front-office-wordmark dd-home-hero-display"
-              aria-label="Front Office overview"
-            >
-              <span>Front</span> <strong>Office</strong>
-            </Link>
-            <nav className="front-office-desktop-nav" aria-label="Front Office">
-              <details
-                className="front-office-nav-dropdown"
-                onToggle={(event) => closeOtherDesktopDropdowns(event.currentTarget)}
-              >
-                <summary
-                  className="front-office-top-link"
-                  aria-current={rosterSectionActive ? 'page' : undefined}
-                >
-                  Roster
-                  <ChevronDown aria-hidden="true" />
-                </summary>
-                <div className="front-office-nav-dropdown-menu">
-                  {(Object.keys(rosterNavRoutes) as RosterNavItem[]).map((item) => {
-                    const href = rosterNavRoutes[item];
-                    const Icon = rosterNavIcons[item];
-                    const active = isNavItemActive(href);
-                    return (
-                      <Link
-                        key={item}
-                        href={href}
-                        onClick={(event) =>
-                          event.currentTarget.closest('details')?.removeAttribute('open')
-                        }
-                        aria-current={active ? 'page' : undefined}
-                        className="front-office-nav-dropdown-link"
-                      >
-                        <Icon aria-hidden="true" />
-                        {item}
-                      </Link>
-                    );
-                  })}
-                </div>
+      <div
+        className={`front-office-app min-h-screen ${pathname?.endsWith('/experience') ? 'fo-home-shell' : ''} ${pathname === '/front-office/draft' ? 'fo-draft-central-shell' : ''}`}
+      >
+        <FrontOfficeMobileNav
+          open={isMobileSidebarOpen}
+          onOpen={() => setIsMobileSidebarOpen(true)}
+        />
+        <div className="front-office-shell flex min-h-[calc(100vh-var(--site-header-height))] flex-col">
+          <FrontOfficeSidebar
+            team={selectedTeam}
+            season={franchiseYear}
+            open={isMobileSidebarOpen}
+            onClose={() => setIsMobileSidebarOpen(false)}
+          />
+          <div className="front-office-content flex min-w-0 flex-1 flex-col">
+            {(showTeamSummary || pathname === '/experience') && <FrontOfficeMobileStatus />}
+            {showTeamSummary && (
+              <details className="fo-mobile-franchise-actions">
+                <summary>Franchise actions</summary>
+                <FrontOfficePhaseControl
+                  season={franchiseYear}
+                  phase={phase}
+                  freeAgencyWave={freeAgencyWave}
+                  actionOverride={phaseControl}
+                />
               </details>
-              <details
-                className="front-office-nav-dropdown"
-                onToggle={(event) => closeOtherDesktopDropdowns(event.currentTarget)}
-              >
-                <summary
-                  className="front-office-top-link"
-                  aria-current={draftSectionActive ? 'page' : undefined}
-                >
-                  Draft
-                  <ChevronDown aria-hidden="true" />
-                </summary>
-                <div className="front-office-nav-dropdown-menu">
-                  {(Object.keys(draftNavRoutes) as DraftNavItem[]).map((item) => {
-                    const href = draftNavRoutes[item];
-                    const Icon = draftNavIcons[item];
-                    const active = isNavItemActive(href);
-                    return (
-                      <Link
-                        key={item}
-                        href={href}
-                        onClick={(event) =>
-                          event.currentTarget.closest('details')?.removeAttribute('open')
-                        }
-                        aria-current={active ? 'page' : undefined}
-                        className="front-office-nav-dropdown-link"
-                      >
-                        <Icon aria-hidden="true" />
-                        {item}
-                      </Link>
-                    );
-                  })}
-                </div>
-              </details>
-              <details
-                className="front-office-nav-dropdown"
-                onToggle={(event) => closeOtherDesktopDropdowns(event.currentTarget)}
-              >
-                <summary
-                  className="front-office-top-link"
-                  aria-current={leagueSectionActive ? 'page' : undefined}
-                >
-                  League
-                  <ChevronDown aria-hidden="true" />
-                </summary>
-                <div className="front-office-nav-dropdown-menu">
-                  {(Object.keys(leagueNavRoutes) as LeagueNavItem[]).map((item) => {
-                    const href = leagueNavRoutes[item];
-                    const Icon = leagueNavIcons[item];
-                    const active = isNavItemActive(href);
-                    return (
-                      <Link
-                        key={item}
-                        href={href}
-                        onClick={(event) =>
-                          event.currentTarget.closest('details')?.removeAttribute('open')
-                        }
-                        aria-current={active ? 'page' : undefined}
-                        className="front-office-nav-dropdown-link"
-                      >
-                        <Icon aria-hidden="true" />
-                        {item}
-                      </Link>
-                    );
-                  })}
-                </div>
-              </details>
-              {(['Settings'] as NavItem[]).map((item) => {
-                const href = navRoutes[item];
-                const active = isNavItemActive(href);
-                return (
-                  <Link
-                    key={item}
-                    href={href}
-                    aria-current={active ? 'page' : undefined}
-                    className="front-office-top-link"
-                  >
-                    {item}
-                  </Link>
-                );
-              })}
-            </nav>
-            <button
-              type="button"
-              className="front-office-mobile-menu"
-              onClick={() => setIsMobileSidebarOpen(true)}
-              aria-label="Open Front Office menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-        <div className="front-office-shell flex min-h-[calc(100vh-var(--site-header-height))] flex-col bg-[#f7f4ee]">
-          {isMobileSidebarOpen ? (
-            <div
-              className="fixed inset-0 z-40 bg-black/50 md:hidden"
-              onClick={() => setIsMobileSidebarOpen(false)}
-              aria-hidden="true"
-            />
-          ) : null}
-
-          <aside
-            className="front-office-sidebar fixed bottom-0 left-0 top-0 z-50 w-72 -translate-x-full overflow-y-auto border-r border-border bg-white px-5 pb-6 pt-0 transition-transform md:hidden"
-            style={{ transform: isMobileSidebarOpen ? 'translateX(0)' : undefined }}
-          >
-            <div className="mb-[20px] mt-7 flex items-start justify-between gap-3 text-left text-sm">
-              <Link
-                href={getOffseasonManagerRoute('/experience', selectedTeam?.abbr)}
-                aria-label="Go to experience selection"
-                className="inline-flex min-w-0 flex-1 cursor-pointer flex-col items-start py-1"
-              >
-                <span className="block text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                  Front Office
-                </span>
-              </Link>
-              <button
-                type="button"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white md:hidden"
-                onClick={() => setIsMobileSidebarOpen(false)}
-                aria-label="Close menu"
-              >
-                <X className="h-4 w-4 text-muted-foreground" />
-              </button>
-            </div>
-            <nav className="flex flex-col gap-5 text-sm" aria-label="Front Office mobile">
-              <div className="space-y-1">
-                <p className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Roster
-                </p>
-                {(Object.keys(rosterNavRoutes) as RosterNavItem[]).map((item) => {
-                  const href = rosterNavRoutes[item];
-                  const active = isNavItemActive(href);
-                  const Icon = rosterNavIcons[item];
-                  return (
-                    <Link
-                      key={item}
-                      href={href}
-                      aria-current={active ? 'page' : undefined}
-                      className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                    >
-                      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      <span className={active ? 'text-foreground' : undefined}>{item}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-              <div className="space-y-1 border-t border-border pt-4">
-                <p className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Draft
-                </p>
-                {(Object.keys(draftNavRoutes) as DraftNavItem[]).map((item) => {
-                  const href = draftNavRoutes[item];
-                  const active = isNavItemActive(href);
-                  const Icon = draftNavIcons[item];
-                  return (
-                    <Link
-                      key={item}
-                      href={href}
-                      aria-current={active ? 'page' : undefined}
-                      className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                    >
-                      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      <span className={active ? 'text-foreground' : undefined}>{item}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-              <div className="space-y-1 border-t border-border pt-4">
-                <p className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  League
-                </p>
-                {(Object.keys(leagueNavRoutes) as LeagueNavItem[]).map((item) => {
-                  const href = leagueNavRoutes[item];
-                  const active = isNavItemActive(href);
-                  const Icon = leagueNavIcons[item];
-                  return (
-                    <Link
-                      key={item}
-                      href={href}
-                      aria-current={active ? 'page' : undefined}
-                      className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                    >
-                      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      <span className={active ? 'text-foreground' : undefined}>{item}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-              <div className="space-y-1 border-t border-border pt-4">
-                {(['Settings'] as NavItem[]).map((item) => {
-                  const href = navRoutes[item];
-                  const active = isNavItemActive(href);
-                  const Icon = navIcons[item];
-                  return (
-                    <Link
-                      key={item}
-                      href={href}
-                      aria-current={active ? 'page' : undefined}
-                      className="front-office-nav-item flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                    >
-                      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      <span className={active ? 'text-foreground' : undefined}>{item}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </nav>
-          </aside>
-
-          <div className="flex min-w-0 flex-1 flex-col">
+            )}
             {showTeamSummary ? (
-              <header className="front-office-team-summary border-b border-border bg-[#fffdf9]/90 md:bg-[#fffdf9]/95">
-                <div className="front-office-team-summary-inner flex flex-col gap-3">
-                  <div className="flex items-center gap-3 md:hidden">
-                    <Link
-                      href="/teams?switch=1"
-                      aria-label="Change team"
-                      className="group flex h-9 w-9 items-center justify-center bg-white transition hover:ring-2 hover:ring-ring md:overflow-hidden md:rounded-full md:border md:border-border"
-                    >
-                      {selectedTeam?.logo_url ? (
-                        <>
-                          <Image
-                            src={selectedTeam.logo_url}
-                            alt={`${selectedTeam.name} logo`}
-                            width={36}
-                            height={36}
-                            className="block h-8 w-8 object-contain md:hidden"
-                          />
-                          <Image
-                            src={selectedTeam.logo_url}
-                            alt={`${selectedTeam.name} logo`}
-                            width={36}
-                            height={36}
-                            className="hidden h-full w-full object-cover md:block"
-                          />
-                        </>
-                      ) : (
-                        <span className="text-xs font-semibold text-muted-foreground">
-                          {selectedTeam?.abbr ?? '--'}
-                        </span>
-                      )}
-                    </Link>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex min-w-0 items-center gap-3">
-                        <div className="min-w-0">
-                          <span className="block whitespace-normal text-sm font-semibold text-foreground">
-                            {selectedTeam?.name ?? 'Select a team'}
-                          </span>
-                          <span
-                            className={cn(
-                              'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
-                              trajectoryAccentClass,
-                              trajectoryPulse ? 'animate-pulse' : null,
-                            )}
-                          >
-                            <span className="inline-flex items-start gap-1 text-foreground">
-                              <span>
-                                OVR{' '}
-                                <span className="text-sm font-semibold">
-                                  {liveTeamSummary.overall ?? '—'}
-                                </span>
-                              </span>
-                              <HeaderDelta delta={liveOverallDelta} />
-                            </span>
-                            <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
-                          </span>
-                        </div>
-                        <div className="h-9 w-px shrink-0 bg-border" />
-                        <div className="shrink-0">
-                          <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                            Cap Space
-                          </span>
-                          <span
-                            className={cn(
-                              'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
-                              capSpace < 0 ? 'text-destructive' : 'text-foreground',
-                            )}
-                          >
-                            <span>{formatMoneyMillions(capSpace)}</span>
-                            <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
-                          </span>
-                        </div>
-                        {showTeamNeeds ? (
-                          <div className="hidden md:flex items-center border-l border-border pl-3">
-                            <TeamNeeds teamNeeds={liveTeamSummary.needs as TeamNeed[]} />
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
+              <header className="front-office-team-summary fo-franchise-summary">
+                <dl>
+                  <div>
+                    <dd>
+                      <span className="front-office-stat-value">
+                        {liveTeamSummary.overall ?? '—'}
+                      </span>{' '}
+                      <HeaderDelta delta={liveOverallDelta} />
+                    </dd>
+                    <dt>Team OVR</dt>
                   </div>
-                  <div className="md:hidden">
-                    <FrontOfficePhaseControl
-                      season={franchiseYear}
-                      phase={phase}
-                      freeAgencyWave={freeAgencyWave}
-                      actionOverride={phaseControl}
-                    />
+                  <div>
+                    <dd>
+                      <span className="front-office-stat-value">{record}</span>
+                    </dd>
+                    <dt>Record</dt>
                   </div>
-                  <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
-                    <div className="flex min-w-0 items-center gap-3">
-                      <Link
-                        href="/teams?switch=1"
-                        aria-label="Change team"
-                        className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-white transition hover:ring-2 hover:ring-ring"
-                      >
-                        {selectedTeam?.logo_url ? (
-                          <Image
-                            src={selectedTeam.logo_url}
-                            alt={`${selectedTeam.name} logo`}
-                            width={40}
-                            height={40}
-                            className="h-full w-full object-cover"
-                          />
-                        ) : (
-                          <span className="text-xs font-semibold text-muted-foreground">
-                            {selectedTeam?.abbr ?? '--'}
-                          </span>
-                        )}
-                      </Link>
-                      <div className="flex min-w-0 items-center gap-4">
-                        <div className="min-w-0">
-                          <span className="block truncate text-sm font-semibold text-foreground">
-                            {selectedTeam?.name ?? 'Select a team'}
-                          </span>
-                          <span
-                            className={cn(
-                              'mt-0.5 inline-flex max-w-full items-center gap-1 text-xs font-medium',
-                              trajectoryAccentClass,
-                              trajectoryPulse ? 'animate-pulse' : null,
-                            )}
-                          >
-                            <span className="inline-flex items-start gap-1 text-foreground">
-                              <span>
-                                OVR{' '}
-                                <span className="text-sm font-semibold">
-                                  {liveTeamSummary.overall ?? '—'}
-                                </span>
-                              </span>
-                              <HeaderDelta delta={liveOverallDelta} />
-                            </span>
-                            <span className="ml-1.5 truncate">{liveTrajectory.state}</span>
-                          </span>
-                        </div>
-                        <div className="h-10 w-px shrink-0 bg-border" />
-                        <div className="shrink-0">
-                          <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                            Cap Space
-                          </span>
-                          <span
-                            className={cn(
-                              'inline-flex items-start gap-1 whitespace-nowrap text-sm font-semibold',
-                              capSpace < 0 ? 'text-destructive' : 'text-foreground',
-                            )}
-                          >
-                            <span>{formatMoneyMillions(capSpace)}</span>
-                            <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
-                          </span>
-                        </div>
-                        {showTeamNeeds ? (
-                          <div className="hidden lg:flex items-center border-l border-border pl-3">
-                            <TeamNeeds teamNeeds={liveTeamSummary.needs as TeamNeed[]} />
-                          </div>
-                        ) : null}
-                      </div>
-                      {showOnTheClock ? (
-                        <span
-                          className="hidden text-xs font-extrabold uppercase tracking-[0.25em] text-[#ff2d55] lg:inline"
-                          style={{ textShadow: '0 2px 12px rgba(255, 45, 85, 0.45)' }}
-                        >
-                          ON THE CLOCK
-                        </span>
-                      ) : null}
-                    </div>
-                    <FrontOfficePhaseControl
-                      season={franchiseYear}
-                      phase={phase}
-                      freeAgencyWave={freeAgencyWave}
-                      actionOverride={phaseControl}
-                    />
+                  <div>
+                    <dd>
+                      <span className="front-office-stat-value">
+                        {formatMoneyMillions(capSpace)}
+                      </span>
+                      <HeaderDelta delta={liveCapSpaceDelta} suffix="M" />
+                    </dd>
+                    <dt>Cap Space</dt>
                   </div>
-                </div>
+                  <div>
+                    <dd>
+                      <span className="front-office-stat-value">
+                        {liveRosterPlayers.length} / {rosterLimit || '—'}
+                      </span>
+                    </dd>
+                    <dt>{showOnTheClock ? 'On the clock' : 'Roster Size'}</dt>
+                  </div>
+                </dl>
+                <FrontOfficePhaseControl
+                  season={franchiseYear}
+                  phase={phase}
+                  freeAgencyWave={freeAgencyWave}
+                  actionOverride={phaseControl}
+                  onRecordChange={setRecord}
+                />
               </header>
             ) : null}
 
             {showTeamSummary && showOffseasonStepper && mode === 'full' ? (
-              <PhaseStepper currentStep={currentStep} completedSteps={completedSteps} />
+              <div className="fo-desktop-phase-stepper">
+                <PhaseStepper currentStep={currentStep} completedSteps={completedSteps} />
+              </div>
             ) : null}
 
             {showTeamSummary && showOnTheClock ? (
@@ -888,11 +393,6 @@ function AppShellContent({
               <main className="front-office-workspace min-w-0 flex-1 px-4 py-6 pb-24 sm:py-8 md:px-8 md:pb-8">
                 {children}
               </main>
-              {showShellRightRail ? (
-                <aside className="hidden w-[260px] shrink-0 px-0 py-5 md:block md:pr-6 md:pt-6 lg:w-[280px] lg:pr-8">
-                  <AdSlot placement="RIGHT_RAIL" sticky={false} />
-                </aside>
-              ) : null}
             </div>
           </div>
           <TradeOfferToast scopeKey={tradeOfferScopeKey} />

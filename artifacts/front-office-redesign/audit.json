@@ -1,0 +1,556 @@
+{
+  "results": [
+    {
+      "route": "/experience",
+      "width": 1440,
+      "url": "/offseasonmanager/experience",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/experience",
+      "width": 1024,
+      "url": "/offseasonmanager/experience",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/experience",
+      "width": 768,
+      "url": "/offseasonmanager/experience",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/experience",
+      "width": 390,
+      "url": "/offseasonmanager/experience",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/experience",
+      "width": 320,
+      "url": "/offseasonmanager/experience",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/roster?view=roster",
+      "width": 1440,
+      "url": "/offseasonmanager/roster",
+      "title": "Roster",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/roster?view=roster",
+      "width": 1024,
+      "url": "/offseasonmanager/roster",
+      "title": "Roster",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/roster?view=roster",
+      "width": 768,
+      "url": "/offseasonmanager/roster",
+      "title": "Roster",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/roster?view=roster",
+      "width": 390,
+      "url": "/offseasonmanager/roster",
+      "title": "Roster",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 111.71875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 98.96875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 128.359375
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/roster?view=roster",
+      "width": 320,
+      "url": "/offseasonmanager/roster",
+      "title": "Roster",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 96.53125
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 111.71875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 98.96875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 128.359375
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/free-agents",
+      "width": 1440,
+      "url": "/offseasonmanager/free-agents",
+      "title": "Free Agency",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/free-agents",
+      "width": 1024,
+      "url": "/offseasonmanager/free-agents",
+      "title": "Free Agency",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/free-agents",
+      "width": 768,
+      "url": "/offseasonmanager/free-agents",
+      "title": "Free Agency",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/free-agents",
+      "width": 390,
+      "url": "/offseasonmanager/free-agents",
+      "title": "Free Agency",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 111.71875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 98.96875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 128.359375
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/free-agents",
+      "width": 320,
+      "url": "/offseasonmanager/free-agents",
+      "title": "Free Agency",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 96.53125
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 111.71875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 98.96875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 128.359375
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/draft",
+      "width": 1440,
+      "url": "/front-office/draft",
+      "title": "Draft Central",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/draft",
+      "width": 1024,
+      "url": "/front-office/draft",
+      "title": "Draft Central",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/draft",
+      "width": 768,
+      "url": "/front-office/draft",
+      "title": "Draft Central",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 125.265625
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 95.59375
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/draft",
+      "width": 390,
+      "url": "/front-office/draft",
+      "title": "Draft Central",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 105.9375
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 144.921875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 110.4375
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 125.265625
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 95.59375
+        },
+        {
+          "tag": "IMG",
+          "cls": "",
+          "w": 219.1875
+        },
+        {
+          "tag": "SECTION",
+          "cls": "draft-central_card__Qs27t",
+          "w": 389.5625
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/draft",
+      "width": 320,
+      "url": "/front-office/draft",
+      "title": "Draft Central",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 94.921875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 105.9375
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 144.921875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 110.4375
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 125.265625
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 95.59375
+        },
+        {
+          "tag": "SECTION",
+          "cls": "draft-central_card__Qs27t undefined",
+          "w": 348.25
+        },
+        {
+          "tag": "HEADER",
+          "cls": "",
+          "w": 320.75
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 57.578125
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "w": 11.703125
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/league",
+      "width": 1440,
+      "url": "/league",
+      "title": "League Central",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/league",
+      "width": 1024,
+      "url": "/league",
+      "title": "League Central",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/league",
+      "width": 768,
+      "url": "/league",
+      "title": "League Central",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/league",
+      "width": 390,
+      "url": "/league",
+      "title": "League Central",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 92.71875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 115.078125
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/league",
+      "width": 320,
+      "url": "/league",
+      "title": "League Central",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 92.71875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 115.078125
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "w": 119
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/trade-hub?context=roster",
+      "width": 1440,
+      "url": "/front-office/trade-hub",
+      "title": "Trade Hub",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/trade-hub?context=roster",
+      "width": 1024,
+      "url": "/front-office/trade-hub",
+      "title": "Trade Hub",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/trade-hub?context=roster",
+      "width": 768,
+      "url": "/front-office/trade-hub",
+      "title": "Trade Hub",
+      "overflow": false,
+      "wide": [],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/trade-hub?context=roster",
+      "width": 390,
+      "url": "/front-office/trade-hub",
+      "title": "Trade Hub",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 111.71875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 98.96875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 128.359375
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    },
+    {
+      "route": "/front-office/trade-hub?context=roster",
+      "width": 320,
+      "url": "/front-office/trade-hub",
+      "title": "Trade Hub",
+      "overflow": false,
+      "wide": [
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 96.53125
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 111.71875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 98.96875
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "w": 128.359375
+        }
+      ],
+      "bg": "rgb(6, 18, 25)"
+    }
+  ],
+  "errors": []
+}

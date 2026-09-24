@@ -1,3 +1,8 @@
+import {
+  assignSimulationRoster,
+  getActiveSimulationRoster,
+  FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
+} from '@/lib/front-office-roster';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO, SaveUnlocksDTO } from '@/types/save';
 import type { DraftSessionState } from '@/types/draft';
@@ -395,7 +400,7 @@ const buildLeagueRoster = (teamAbbr: string): StoredPlayer[] => {
     };
   });
 
-  return roster;
+  return assignSimulationRoster(roster);
 };
 
 const buildRosterForTeam = (teamAbbr: string): StoredPlayer[] => buildLeagueRoster(teamAbbr);
@@ -600,7 +605,7 @@ export const listSaveStates = (): Array<{ saveId: string; state: SaveState }> =>
 
 export const getSaveHeaderSnapshot = (state: SaveState): SaveHeaderDTO => ({
   ...state.header,
-  rosterCount: state.roster.length,
+  rosterCount: getActiveSimulationRoster(state.roster).length,
 });
 
 const resolveUnlocksForPhase = (phase: string, current?: SaveUnlocksDTO): SaveUnlocksDTO => {
@@ -644,8 +649,8 @@ export const createSaveState = (
     year,
     capSpace,
     capLimit,
-    rosterCount: roster.length,
-    rosterLimit: 53,
+    rosterCount: getActiveSimulationRoster(roster).length,
+    rosterLimit: FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
     phase: 'resign_cut',
     unlocked: { freeAgency: false, draft: false },
     createdAt: new Date().toISOString(),
@@ -701,7 +706,7 @@ export const ensureSaveState = (saveId: string, teamAbbr: string, year?: number)
 export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): SaveState => {
   const normalizedTeamAbbr = payload.teamAbbr.toUpperCase();
   const state = ensureSaveState(saveId, normalizedTeamAbbr);
-  const restoredRoster = payload.roster.map(toStoredPlayer);
+  const restoredRoster = assignSimulationRoster(payload.roster.map(toStoredPlayer));
 
   state.roster = restoredRoster;
   state.teamRosters[normalizedTeamAbbr] = restoredRoster;
@@ -713,7 +718,7 @@ export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): S
     freeAgencyWave: normalizeFreeAgencyWave(state.offseason?.freeAgencyWave),
     capSpace: Number(payload.capSpace.toFixed(1)),
     capLimit: Number(payload.capLimit.toFixed(1)),
-    rosterCount: restoredRoster.length,
+    rosterCount: getActiveSimulationRoster(restoredRoster).length,
     rosterLimit: state.header.rosterLimit,
     phase: payload.phase ?? state.header.phase,
     unlocked: payload.unlocked ?? resolveUnlocksForPhase(payload.phase ?? state.header.phase),

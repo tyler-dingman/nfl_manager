@@ -28,7 +28,7 @@ function ScoreRing({ need }: { need: TeamNeedAnalysis }) {
       <div
         className={styles.scoreRing}
         style={{
-          background: `conic-gradient(${color} ${need.score * 3.6}deg, #e7edf3 0deg)`,
+          background: `conic-gradient(${color} ${need.score * 3.6}deg, var(--fo-elevated) 0deg)`,
         }}
       >
         <span>{need.score}</span>

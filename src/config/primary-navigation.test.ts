@@ -10,8 +10,8 @@ test('primary navigation has the approved labels and destinations in order', () 
       { label: 'The Beat', href: '/the-beat' },
       { label: 'Film Room', href: '/watch' },
       { label: 'Front Office', href: '/offseasonmanager' },
-      { label: 'Parlay Lab', href: '/parlay-lab' },
       { label: 'Trivia', href: '/trivia' },
+      { label: 'Parlay Lab', href: '/parlay-lab' },
       { label: 'Merch', href: '/merch' },
     ],
   );

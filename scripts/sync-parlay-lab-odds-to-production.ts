@@ -11,14 +11,16 @@ const batches = <T>(rows: T[]) => {
 };
 
 async function syncMappings(source: Sql, target: Sql) {
-  const teams = await source`SELECT provider, provider_team_id, team_id, created_at, updated_at FROM provider_team_mappings`;
+  const teams =
+    await source`SELECT provider, provider_team_id, team_id, created_at, updated_at FROM provider_team_mappings`;
   for (const batch of batches(teams)) {
     await target`
       INSERT INTO provider_team_mappings ${target(batch, 'provider', 'provider_team_id', 'team_id', 'created_at', 'updated_at')}
       ON CONFLICT (provider, provider_team_id) DO UPDATE SET
         team_id=EXCLUDED.team_id, updated_at=EXCLUDED.updated_at`;
   }
-  const players = await source`SELECT provider, provider_player_id, player_id, provider_name, confidence, created_at, updated_at FROM provider_player_mappings`;
+  const players =
+    await source`SELECT provider, provider_player_id, player_id, provider_name, confidence, created_at, updated_at FROM provider_player_mappings`;
   for (const batch of batches(players)) {
     await target`
       INSERT INTO provider_player_mappings ${target(batch, 'provider', 'provider_player_id', 'player_id', 'provider_name', 'confidence', 'created_at', 'updated_at')}
@@ -34,10 +36,22 @@ async function main() {
   if (!process.argv.includes('--confirm-production')) {
     throw new Error('Production sync refused. Add --confirm-production after reviewing the audit.');
   }
+  const seasonArg = process.argv.find((arg) => arg.startsWith('--season='))?.split('=')[1];
+  const weekArg = process.argv.find((arg) => arg.startsWith('--week='))?.split('=')[1];
+  const season = seasonArg === undefined ? null : Number(seasonArg);
+  const week = weekArg === undefined ? null : Number(weekArg);
+  if (
+    (season !== null && (!Number.isInteger(season) || season < 2000)) ||
+    (week !== null && (!Number.isInteger(week) || week < 1 || week > 18)) ||
+    (season === null) !== (week === null)
+  )
+    throw new Error('Supply a valid --season and --week together.');
   const localUrl = process.env.DATABASE_URL;
   const productionUrl = process.env.PRODUCTION_DATABASE_URL;
-  if (!localUrl || !productionUrl) throw new Error('DATABASE_URL and PRODUCTION_DATABASE_URL are required');
-  if (localUrl === productionUrl) throw new Error('Local and production database targets must be different');
+  if (!localUrl || !productionUrl)
+    throw new Error('DATABASE_URL and PRODUCTION_DATABASE_URL are required');
+  if (localUrl === productionUrl)
+    throw new Error('Local and production database targets must be different');
   console.log('Source environment: local');
   console.log('Target environment: production');
   const source = postgres(localUrl, { max: 1, ssl: false });
@@ -48,7 +62,10 @@ async function main() {
       SELECT provider, provider_event_id, league, season, week, home_team_id, away_team_id,
         kickoff_at, status, markets_locked, first_imported_at, refreshed_24h_at,
         final_snapshot_at, last_imported_at, created_at, updated_at
-      FROM sportsbook_events WHERE kickoff_at > now() ORDER BY kickoff_at`;
+      FROM sportsbook_events WHERE kickoff_at > now()
+        AND (${season}::int IS NULL OR season=${season})
+        AND (${week}::int IS NULL OR week=${week})
+      ORDER BY kickoff_at`;
     let marketCount = 0;
     let priceCount = 0;
     for (const event of events) {
@@ -97,7 +114,9 @@ async function main() {
       const productionMarkets = await target<Array<{ id: string; normalizedKey: string }>>`
         SELECT id, normalized_key AS "normalizedKey" FROM bet_markets
         WHERE event_id=${productionEvent.id}`;
-      const marketIds = new Map(productionMarkets.map((market) => [market.normalizedKey, market.id]));
+      const marketIds = new Map(
+        productionMarkets.map((market) => [market.normalizedKey, market.id]),
+      );
       const prices: Record<string, unknown>[] = localPrices.flatMap((price) => {
         const marketId = marketIds.get(String(price.normalized_key));
         return marketId ? [{ ...price, market_id: marketId }] : [];
@@ -115,7 +134,9 @@ async function main() {
       }
       marketCount += markets.length;
       priceCount += prices.length;
-      console.log(`Synced ${event.away_team_id} @ ${event.home_team_id}: ${markets.length} markets, ${prices.length} prices`);
+      console.log(
+        `Synced ${event.away_team_id} @ ${event.home_team_id}: ${markets.length} markets, ${prices.length} prices`,
+      );
     }
     console.table({
       Events: events.length,

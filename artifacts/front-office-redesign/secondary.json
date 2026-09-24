@@ -1,0 +1,424 @@
+{
+  "results": [
+    {
+      "route": "/roster?view=depth",
+      "width": 1440,
+      "title": "Depth Chart",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/roster?view=depth",
+      "width": 320,
+      "title": "Depth Chart",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/roster?view=resign",
+      "width": 1440,
+      "title": "Contracts",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/roster?view=resign",
+      "width": 320,
+      "title": "Contracts",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/roster?view=practice-squad",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/roster?view=practice-squad",
+      "width": 320,
+      "title": "Practice Squad",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/cap-space",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/cap-space",
+      "width": 320,
+      "title": "Cap Space",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/manage-team",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/manage-team",
+      "width": 320,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/manage/trades",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/manage/trades",
+      "width": 320,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/settings",
+      "width": 1440,
+      "title": "Settings",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/settings",
+      "width": 320,
+      "title": "Settings",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/messages",
+      "width": 1440,
+      "title": "Messages",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/messages",
+      "width": 320,
+      "title": "Messages",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/league/news",
+      "width": 1440,
+      "title": "League News",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/league/news",
+      "width": 320,
+      "title": "League News",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/league/standings",
+      "width": 1440,
+      "title": "Standings",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/league/standings",
+      "width": 320,
+      "title": "Standings",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/league/schedule",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/league/schedule",
+      "width": 320,
+      "title": "Schedule",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/league?view=transactions",
+      "width": 1440,
+      "title": "Transactions",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/league?view=transactions",
+      "width": 320,
+      "title": "Transactions",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/big-board",
+      "width": 1440,
+      "title": "Big Board",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/big-board",
+      "width": 320,
+      "title": "Big Board",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/scouting",
+      "width": 1440,
+      "title": "Draft Guide",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/scouting",
+      "width": 320,
+      "title": "Draft Guide",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/prospects",
+      "width": 1440,
+      "title": "Position Rankings",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/prospects",
+      "width": 320,
+      "title": "Position Rankings",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/team-needs",
+      "width": 1440,
+      "title": "Team Needs",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/team-needs",
+      "width": 320,
+      "title": "Team Needs",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/history",
+      "width": 1440,
+      "title": "My Drafts",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/history",
+      "width": 320,
+      "title": "My Drafts",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/room?mode=mock",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/draft/room?mode=mock",
+      "width": 320,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/partners",
+      "width": 1440,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/partners",
+      "width": 320,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/finder",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/finder",
+      "width": 320,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/offers",
+      "width": 1440,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/offers",
+      "width": 320,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/block",
+      "width": 1440,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/block",
+      "width": 320,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/recent",
+      "width": 1440,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/recent",
+      "width": 320,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/activity",
+      "width": 1440,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/activity",
+      "width": 320,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/new",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/front-office/trade-hub/new",
+      "width": 320,
+      "title": "Trade Hub",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/offseason-recap",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/offseason-recap",
+      "width": 320,
+      "title": "New York Jets ready for what is next",
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/season-recap",
+      "width": 1440,
+      "overflow": false,
+      "light": [],
+      "error": null
+    },
+    {
+      "route": "/season-recap",
+      "width": 320,
+      "overflow": false,
+      "light": [],
+      "error": null
+    }
+  ],
+  "errors": []
+}

@@ -173,7 +173,7 @@ export default function MyPlaysPage() {
   );
   const textFor = (play: SavedPlay) =>
     [
-      `The Parlay Bus · ${play.selections.length} Picks · ${price(play.savedCombinedOdds)}`,
+      `Parlay Lab · ${play.selections.length} Picks · ${price(play.savedCombinedOdds)}`,
       matchup(play),
       '',
       ...play.selections.map(
@@ -182,11 +182,11 @@ export default function MyPlaysPage() {
       ),
       '',
       statusLabel[play.status ?? 'UPCOMING'],
-      'Built with the Down & Distance The Parlay Bus — https://downdistance.com/parlay-lab',
+      'Built with the Down & Distance Parlay Lab — https://downdistance.com/parlay-lab',
     ].join('\n');
   const share = async (play: SavedPlay) => {
     const text = textFor(play);
-    if (navigator.share) await navigator.share({ title: 'Down & Distance The Parlay Bus', text });
+    if (navigator.share) await navigator.share({ title: 'Down & Distance Parlay Lab', text });
     else {
       await navigator.clipboard.writeText(text);
       setMessage('Saved play copied.');
@@ -469,7 +469,7 @@ async function downloadPlayImage(play: SavedPlay, returnValue: number | null) {
   ctx.fillRect(0, 0, 1080, 1080);
   ctx.fillStyle = '#071b30';
   ctx.font = '900 48px Arial';
-  ctx.fillText('DOWN & DISTANCE · THE PARLAY BUS', 60, 82);
+  ctx.fillText('DOWN & DISTANCE · PARLAY LAB', 60, 82);
   ctx.fillStyle = '#fff';
   ctx.beginPath();
   ctx.roundRect(42, 120, 996, 850, 32);
