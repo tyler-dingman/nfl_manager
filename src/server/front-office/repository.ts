@@ -1,3 +1,4 @@
+import { syncSaveSimulation } from '@/server/api/store';
 import { authDb } from '@/server/auth/database';
 import { normalizeFranchiseSimulationState } from '@/lib/franchise-simulation';
 import type {
@@ -23,8 +24,10 @@ export function normalizeFranchiseSimulation(value: unknown): FranchiseSimulatio
 
 const mapRow = (row: FrontOfficeSaveRow): FrontOfficeSaveMetadata => {
   const simulation = normalizeFranchiseSimulation(row.simulation);
+  if (simulation) syncSaveSimulation(row.saveId, simulation);
   return {
     ...row,
+    season: simulation?.season ?? row.season,
     // A committed simulation snapshot owns progression. simulation_phase is retained as an
     // index/fallback for pre-simulation saves, but must never override the snapshot on restore.
     simulationPhase: simulation?.phase ?? row.simulationPhase,
@@ -72,9 +75,9 @@ export async function upsertFrontOfficeSaveMetadata(input: {
        ${input.selectedPath ? new Date() : null})
     ON CONFLICT (user_id, save_id) DO UPDATE SET
       team_abbr = EXCLUDED.team_abbr,
-      season = EXCLUDED.season,
+      season = CASE WHEN user_front_office_saves.simulation_state IS NULL THEN EXCLUDED.season ELSE user_front_office_saves.season END,
       selected_path = COALESCE(EXCLUDED.selected_path, user_front_office_saves.selected_path),
-      simulation_phase = COALESCE(EXCLUDED.simulation_phase, user_front_office_saves.simulation_phase),
+      simulation_phase = CASE WHEN user_front_office_saves.simulation_state IS NULL THEN COALESCE(EXCLUDED.simulation_phase, user_front_office_saves.simulation_phase) ELSE user_front_office_saves.simulation_phase END,
       initialized_at = COALESCE(user_front_office_saves.initialized_at, EXCLUDED.initialized_at),
       updated_at = now()
     RETURNING save_id AS "saveId", team_abbr AS "teamAbbr", season,
@@ -94,6 +97,7 @@ export async function saveFranchiseSimulation(input: {
     UPDATE user_front_office_saves
     SET simulation_state = ${db.json(input.simulation as any)},
       simulation_phase = ${input.simulation.phase},
+      season = ${input.simulation.season},
       version = version + 1,
       updated_at = now()
     WHERE user_id = ${input.userId} AND save_id = ${input.saveId}

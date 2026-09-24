@@ -155,6 +155,7 @@
   align-items: center;
 }
 .tableHeader {
+  composes: heading from './draft-table-heading.module.css';
   position: sticky;
   z-index: 2;
   top: 0;
@@ -163,9 +164,6 @@
   background: #f6f8fa;
   padding: 0 14px;
   color: #617990;
-  font-size: 0.55rem;
-  font-weight: 850;
-  text-transform: uppercase;
 }
 .prospectList {
   max-height: 650px;

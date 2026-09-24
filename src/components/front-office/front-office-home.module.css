@@ -1243,3 +1243,180 @@
     display: none;
   }
 }
+
+.heroVisual {
+  display: contents;
+}
+
+/* Use Draft Featured Prospect's bounded, bottom-anchored cover crop at its
+   small-screen breakpoint. Keep the weekly headline above the split content. */
+@media (max-width: 700px) {
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
+    grid-template-rows: auto auto 1fr auto;
+    align-items: start;
+    gap: 0 10px;
+    min-height: 0;
+    padding: 18px 14px 0;
+    overflow: hidden;
+  }
+  .hero::before {
+    inset: 0 0 0 48%;
+    border-left: 0;
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+    background: color-mix(in srgb, var(--fo-interactive) 17%, transparent);
+  }
+  .heroCopy {
+    display: contents;
+  }
+  .hero .eyebrow {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .hero :global(.front-office-feature-heading) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    position: relative;
+    z-index: 2;
+    font-size: clamp(34px, 7vw, 42px);
+    margin-bottom: 14px;
+  }
+  .heroSummary {
+    grid-column: 1;
+    grid-row: 3;
+    max-width: none;
+    margin: 0 0 14px;
+    -webkit-line-clamp: 5;
+    position: relative;
+    z-index: 2;
+  }
+  .hero .cta {
+    grid-column: 1;
+    grid-row: 4;
+    align-self: end;
+    justify-self: start;
+    margin-bottom: 18px;
+    min-width: 0;
+    gap: 5px;
+    padding-inline: 8px;
+    position: relative;
+    z-index: 2;
+  }
+  .heroVisual {
+    display: block;
+    position: relative;
+    isolation: isolate;
+    grid-column: 2;
+    grid-row: 3 / 5;
+    align-self: stretch;
+    min-height: clamp(240px, 48vw, 320px);
+    margin-right: -14px;
+    overflow: hidden;
+  }
+  .heroPhoto {
+    width: 100%;
+    height: 100%;
+    right: 0;
+    bottom: 0;
+    object-fit: cover;
+    object-position: center 30%;
+    opacity: 1;
+    mask-image: none;
+  }
+  .heroPlayer {
+    inset: auto 0 0;
+    width: auto;
+    padding: 26px 10px 10px;
+    gap: 2px;
+    background: linear-gradient(transparent, #061219 65%);
+  }
+  .heroPlayer > a {
+    min-height: 44px;
+    display: flex;
+    align-items: end;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+  }
+  .heroPlayer > span {
+    font-size: 11px;
+  }
+}
+
+.offseasonHeroIcon {
+  position: absolute;
+  right: 8%;
+  bottom: 0;
+  width: 35%;
+  height: 80%;
+  opacity: 0.16;
+  color: var(--fo-accent);
+}
+.offseasonRow {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  min-height: 68px;
+  border-bottom: 1px solid var(--fo-line);
+}
+.offseasonRow span {
+  display: grid;
+  gap: 3px;
+}
+.offseasonRow strong {
+  font-size: 14px;
+}
+.offseasonRow small {
+  color: var(--fo-muted);
+}
+.offseasonRow img {
+  object-fit: contain;
+  height: 44px;
+}
+.offseasonRow:hover {
+  background: var(--fo-elevated);
+}
+.offseasonPick {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--fo-line);
+  padding: 8px 0;
+  margin: 0;
+}
+.offseasonTimeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.offseasonTimeline a {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 0;
+}
+.offseasonTimeline [aria-current='step'] {
+  color: var(--fo-accent);
+  font-weight: 700;
+}
+@media (max-width: 700px) {
+  .offseasonHeroIcon {
+    width: 90%;
+    height: 90%;
+    right: 0;
+  }
+}
+
+.offseasonRail {
+  display: contents;
+}
+@media (max-width: 767px) {
+  .offseasonRail {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    order: 7;
+  }
+}

@@ -401,6 +401,8 @@ export const createDraftSession = (
   const draftSessionId = randomUUID();
   const rngSeed = Math.floor(Math.random() * 1_000_000_000) + 1;
   const state = getSaveStateOrThrow(saveId);
+  if (mode === 'real' && state.header.phase !== 'draft')
+    throw new Error('Real draft picks are only available during Offseason · NFL Draft.');
   const userTeamAbbr = state.header.teamAbbr ?? USER_TEAM_ABBR;
 
   const session: DraftSessionState = {

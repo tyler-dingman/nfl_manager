@@ -26,10 +26,10 @@ test('normalizes repeatedly encoded simulation state at the simulation boundary'
       }),
     ),
   );
-  assert.equal(normalizeFranchiseSimulationState(encoded)?.phase, 'preseason');
+  assert.equal(normalizeFranchiseSimulationState(encoded)?.phase, 'week-1');
   assert.equal(
-    advanceSimulation(encoded as unknown as FranchiseSimulationState, 'week-1').phase,
-    'week-1',
+    advanceSimulation(encoded as unknown as FranchiseSimulationState, 'week-2').phase,
+    'week-2',
   );
 });
 
@@ -161,7 +161,7 @@ test('weekly progression leaves a bye-week team unchanged', () => {
     teams: [team('AAA', 80), team('BBB', 80), team('CCC', 80)],
     games: [{ id: 'week-one', week: 1, homeTeam: 'AAA', awayTeam: 'BBB' }],
   });
-  const advanced = advanceSimulation(state, 'week-1');
+  const advanced = advanceSimulation(state, 'week-2');
   assert.equal(advanced.teams.CCC.record.wins, 0);
   assert.equal(advanced.teams.CCC.record.losses, 0);
   assert.equal(advanced.games[0].played, true);
@@ -207,6 +207,11 @@ test('full season creates and advances a 14-team bracket, champion, and 32-pick 
     })),
   ).flat();
   let state = createFranchiseSimulation({ seed: 'lifecycle', season: 2026, teams, games });
+  for (let week = 2; week <= 18; week += 1) {
+    state = advanceSimulation(state, `week-${week}`);
+    assert.equal(state.phase, `week-${week}`);
+    assert.equal(state.currentWeek, week - 1);
+  }
   state = advanceSimulation(state, 'wild-card');
   assert.equal(Object.values(state.playoffs!.seeds).flat().length, 14);
   assert.equal(state.playoffs!.games.filter((game) => game.week === 1).length, 6);
@@ -216,8 +221,122 @@ test('full season creates and advances a 14-team bracket, champion, and 32-pick 
   assert.equal(state.playoffs!.games.filter((game) => game.week === 3).length, 2);
   state = advanceSimulation(state, 'super-bowl');
   assert.equal(state.playoffs!.games.filter((game) => game.week === 4).length, 1);
-  state = advanceSimulation(state, 'resign_cut');
+  state = advanceSimulation(state, 'scouting_combine');
   assert.ok(state.playoffs!.champion);
   assert.equal(new Set(state.draftOrder).size, 32);
   assert.equal(state.draftOrder.at(-1), state.playoffs!.champion);
+  const champion = state.playoffs!.champion;
+  state = advanceSimulation(state, 'free_agency');
+  state = advanceSimulation(state, 'free_agency_open');
+  state = advanceSimulation(state, 'draft');
+  const completedGames = structuredClone(state.games);
+  assert.throws(() => advanceSimulation(state, 'week-1'), /Complete the NFL Draft/);
+  assert.throws(
+    () =>
+      advanceSimulation(state, 'week-1', {
+        completedDraftSessions: [{ mode: 'mock', status: 'completed', draftYear: 2027 }],
+      }),
+    /Complete the NFL Draft/,
+  );
+  assert.throws(
+    () =>
+      advanceSimulation(state, 'week-1', {
+        completedDraftSessions: [{ mode: 'real', status: 'completed', draftYear: 2026 }],
+      }),
+    /Complete the NFL Draft/,
+  );
+  const newSeason = advanceSimulation(state, 'week-1', {
+    completedDraftSessions: [{ mode: 'real', status: 'completed', draftYear: 2027 }],
+  });
+  assert.equal(newSeason.season, 2027);
+  assert.equal(newSeason.currentWeek, 0);
+  assert.equal(newSeason.phase, 'week-1');
+  assert.equal(newSeason.playoffs, null);
+  assert.equal(newSeason.games.length, games.length);
+  assert.ok(
+    newSeason.games.every((game) => !game.played && !game.result && game.homeScore === null),
+  );
+  assert.ok(
+    Object.values(newSeason.teams).every(
+      (team) => team.record.wins === 0 && team.record.losses === 0,
+    ),
+  );
+  assert.equal(newSeason.seasonHistory?.[0].playoffs?.champion, champion);
+  assert.deepEqual(newSeason.seasonHistory?.[0].games, completedGames);
+  assert.equal(advanceSimulation(newSeason, 'week-2').currentWeek, 1);
+});
+
+test('one advance plays only the opening week and invalid stage jumps cannot mutate a save', () => {
+  const state = createFranchiseSimulation({
+    seed: 'guard',
+    season: 2026,
+    teams: [team('A', 80), team('B', 80)],
+    games: [1, 2].map((week) => ({ id: `game-${week}`, week, homeTeam: 'A', awayTeam: 'B' })),
+  });
+  const advanced = advanceSimulation(state, 'week-2');
+  assert.equal(advanced.games[0].played, true);
+  assert.equal(advanced.games[1].played, false);
+  assert.equal(advanced.currentWeek, 1);
+  for (const target of [
+    'draft',
+    'free_agency',
+    'free_agency_open',
+    'scouting_combine',
+    'week-1',
+    'nonsense',
+  ])
+    assert.throws(() => advanceSimulation(advanced, target), /Invalid franchise transition/);
+  assert.equal(state.games[0].played, false);
+});
+
+test('legacy post-draft saves archive results and normalize to a fresh season exactly once', () => {
+  const initial = createFranchiseSimulation({
+    seed: 'migration',
+    season: 2026,
+    teams: [team('A', 80), team('B', 80)],
+    games: [{ id: 'g', week: 1, homeTeam: 'A', awayTeam: 'B' }],
+  });
+  const played = advanceSimulation(initial, 'week-2');
+  const normalized = normalizeFranchiseSimulationState({ ...played, phase: 'post-draft' })!;
+  assert.equal(normalized.season, 2027);
+  assert.equal(normalized.phase, 'week-1');
+  assert.equal(normalized.games[0].played, false);
+  assert.equal(normalized.seasonHistory?.[0].games[0].played, true);
+  assert.deepEqual(normalizeFranchiseSimulationState(normalized), normalized);
+});
+
+test('eliminated franchises skip spectator playoff rounds while the league finishes its bracket', () => {
+  const teams = Array.from({ length: 32 }, (_, index) =>
+    team(`T${index}`, 65 + (index % 30), index < 16 ? 'AFC' : 'NFC', `D${index % 4}`),
+  );
+  const games = Array.from({ length: 18 }, (_, weekIndex) =>
+    Array.from({ length: 16 }, (_, index) => ({
+      id: `g-${weekIndex}-${index}`,
+      week: weekIndex + 1,
+      homeTeam: `T${index}`,
+      awayTeam: `T${31 - index}`,
+    })),
+  ).flat();
+  let state = createFranchiseSimulation({ seed: 'postseason-paths', season: 2026, teams, games });
+  for (let week = 2; week <= 17; week++) state = advanceSimulation(state, `week-${week}`);
+  const week18 = advanceSimulation(state, 'week-18');
+  const bracket = advanceSimulation(week18, 'wild-card');
+  const qualified = Object.values(bracket.playoffs!.seeds).flat();
+  const out = teams.find((t) => !qualified.includes(t.abbr))!.abbr;
+  const offseason = advanceSimulation(week18, 'wild-card', { recapTeamAbbr: out });
+  assert.equal(offseason.phase, 'scouting_combine');
+  assert.equal(offseason.playoffs?.games.length, 13);
+  assert.ok(offseason.playoffs?.games.every((game) => game.played));
+  assert.ok(offseason.playoffs?.champion);
+  assert.equal(new Set(offseason.draftOrder).size, 32);
+  let playoffRun = advanceSimulation(week18, 'wild-card', { recapTeamAbbr: qualified[0] });
+  assert.equal(playoffRun.phase, 'wild-card');
+  for (const target of ['divisional', 'conference', 'super-bowl', 'scouting_combine']) {
+    if (playoffRun.phase === 'scouting_combine') break;
+    playoffRun = advanceSimulation(playoffRun, target, { recapTeamAbbr: qualified[0] });
+  }
+  assert.equal(playoffRun.phase, 'scouting_combine');
+  assert.ok(playoffRun.playoffs?.champion);
+  assert.equal(advanceSimulation(offseason, 'free_agency').phase, 'free_agency');
+  assert.throws(() => advanceSimulation(offseason, 'week-1'), /Invalid franchise transition/);
 });

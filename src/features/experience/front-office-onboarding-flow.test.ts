@@ -37,5 +37,8 @@ test('returning to the same team resumes its durable save without clearing progr
     /activeSaveId && activeSaveTeam === team\.abbr[\s\S]*?router\.push\([\s\S]*?return;/,
   );
   assert.match(createRoute, /getLatestFrontOfficeSaveForTeam/);
-  assert.match(createRoute, /ensureSaveState\(durable\.saveId, durable\.teamAbbr\)/);
+  assert.match(
+    createRoute,
+    /ensureSaveState\(durable\.saveId, durable\.teamAbbr, durable\.season\)/,
+  );
 });

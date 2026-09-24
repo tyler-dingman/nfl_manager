@@ -1,0 +1,1093 @@
+{
+  "schemaVersion": "1.0.0",
+  "canvas": {
+    "width": 320,
+    "height": 180,
+    "preserveAspectRatio": "xMidYMid meet"
+  },
+  "sharedLayers": [
+    "dark-base",
+    "dark-grain-texture",
+    "etched-schematic-texture",
+    "diagonal-shadow-bands"
+  ],
+  "assets": [
+    {
+      "id": "dark-base",
+      "path": "backgrounds/dark-base.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "base",
+      "cssOpacity": 1,
+      "placement": "Full top; neutral opaque base.",
+      "families": [
+        "all"
+      ],
+      "layer": 0
+    },
+    {
+      "id": "dark-grain-texture",
+      "path": "backgrounds/dark-grain-texture.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "texture",
+      "cssOpacity": 0.34,
+      "placement": "Full top; white currentColor; tile-free fixed seed vector grain.",
+      "families": [
+        "all"
+      ],
+      "layer": 1
+    },
+    {
+      "id": "etched-schematic-texture",
+      "path": "backgrounds/etched-schematic-texture.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "texture",
+      "cssOpacity": 0.14,
+      "placement": "Full top above grain; faint chalk fractures.",
+      "families": [
+        "all"
+      ],
+      "layer": 1
+    },
+    {
+      "id": "diagonal-accent-stripes",
+      "path": "backgrounds/diagonal-accent-stripes.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 0.85,
+      "placement": "Bottom right; full canvas; stripe boundaries intentionally clipped.",
+      "families": [
+        "standard",
+        "business-community",
+        "game-result",
+        "film",
+        "league"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "diagonal-shadow-bands",
+      "path": "backgrounds/diagonal-shadow-bands.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.035,
+      "placement": "Full top under foreground; broad neutral diagonal bands.",
+      "families": [
+        "all"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "xo-corner-routes",
+      "path": "playbook/xo-corner-routes.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.45,
+      "placement": "Rightmost 90 px; empty left content area.",
+      "families": [
+        "numbered",
+        "standard",
+        "scouting"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "field-yard-lines",
+      "path": "playbook/field-yard-lines.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.13,
+      "placement": "Right x184\u2013298, y35\u2013180; numbers remain live if used.",
+      "families": [
+        "standard",
+        "game-matchup"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "matchup-framing",
+      "path": "game/matchup-framing.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.3,
+      "placement": "Logo slots x20/y60/w78/h72 and x222/y60/w78/h72; center text x108\u2013212.",
+      "families": [
+        "game-matchup"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "result-separator",
+      "path": "game/result-separator.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 0.65,
+      "placement": "Score divider x160 y66\u2013128; scores in x92\u2013151 and x169\u2013228.",
+      "families": [
+        "game-result"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "numbered-list-background",
+      "path": "stats/numbered-list-background.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.27,
+      "placement": "Numeral x18\u2013120; descriptor x128\u2013240; routes at right.",
+      "families": [
+        "numbered"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "data-dividers",
+      "path": "stats/data-dividers.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 0.72,
+      "placement": "Vertical separator x183; three live rows y42,83,123.",
+      "families": [
+        "stats"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "mini-bars",
+      "path": "stats/mini-bars.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 0.75,
+      "placement": "Optional chart x205\u2013294 y59\u2013114; decorative only, no numeric meaning.",
+      "families": [
+        "stats"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "name-underline",
+      "path": "player/name-underline.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 1,
+      "placement": "Underline below two-line player name; x22 y139 w105 h5.",
+      "families": [
+        "player",
+        "film"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "position-framing",
+      "path": "player/position-framing.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 0.55,
+      "placement": "Optional brackets around live outlined position; never a rasterized LT.",
+      "families": [
+        "player"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "status-watermark",
+      "path": "injury/status-watermark.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.065,
+      "placement": "Background only; crosses must stay behind W3/status typography.",
+      "families": [
+        "injury"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "status-divider",
+      "path": "injury/status-divider.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 0.75,
+      "placement": "W3 x20\u2013160, status rows x186\u2013302 at y72/102/132.",
+      "families": [
+        "injury"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "directional-four-chevrons",
+      "path": "transaction/directional-four-chevrons.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 1,
+      "placement": "Exactly four right-pointing chevrons; x126\u2013167 y66\u201376; right of logo, left of action.",
+      "families": [
+        "transaction"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "contract-divider",
+      "path": "transaction/contract-divider.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 0.85,
+      "placement": "Contract column x230\u2013301, y110\u2013155.",
+      "families": [
+        "transaction"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "opening-quote-marks",
+      "path": "quote/opening-quote-marks.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 1,
+      "placement": "Opening glyph-like graphic x20\u201362 y49\u201378; quotation copy remains live.",
+      "families": [
+        "quote"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "closing-quote-marks",
+      "path": "quote/closing-quote-marks.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 1,
+      "placement": "Closing pair lower right x259\u2013302 y125\u2013154.",
+      "families": [
+        "quote"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "strategy-play-diagram",
+      "path": "film/strategy-play-diagram.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.78,
+      "placement": "Diagram x138\u2013290 y45\u2013156; live FILM ROOM x22\u2013120 y68\u2013131.",
+      "families": [
+        "film"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "story-timeline",
+      "path": "developing/story-timeline.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 1,
+      "placement": "Rail x34; three nodes y62/103/145; live times x60 y51/92/134.",
+      "families": [
+        "developing"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "status-watch-frame",
+      "path": "developing/status-watch-frame.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 1,
+      "placement": "Optional live STATUS WATCH inside x213\u2013297/y150\u2013167; do not overlap third update.",
+      "families": [
+        "developing"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "interlocking-lines",
+      "path": "business-community/interlocking-lines.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 0.28,
+      "placement": "Abstract partnership geometry on right; no handshake, no logo.",
+      "families": [
+        "business-community"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "opponent-route-diagram",
+      "path": "scouting/opponent-route-diagram.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.48,
+      "placement": "Right lower routes beneath opponent logo slot x223/y47/w65/h60.",
+      "families": [
+        "scouting"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "strategy-routes",
+      "path": "coaching/strategy-routes.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.55,
+      "placement": "Right diagram; live GAME PLAN at x24/y67.",
+      "families": [
+        "coaching"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "around-nfl-network",
+      "path": "league/around-nfl-network.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.2,
+      "placement": "Right network; neutral league treatment without NFL shield.",
+      "families": [
+        "league"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "media-waveform",
+      "path": "video/media-waveform.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.38,
+      "placement": "Waveform right x237\u2013297, centered y101; static decoration.",
+      "families": [
+        "video"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "play-disc",
+      "path": "video/play-disc.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 1,
+      "placement": "Play disk x34\u201388 y76\u2013130; decorative unless wrapped in a labeled button.",
+      "families": [
+        "video"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "team-type-corner",
+      "path": "standard/team-type-corner.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.16,
+      "placement": "Variant A: small corner rule; live ghost abbreviation on right.",
+      "families": [
+        "standard-a"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "playbook-variant",
+      "path": "standard/playbook-variant.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.22,
+      "placement": "Variant B: ghost at x116, route marks at right.",
+      "families": [
+        "standard-b"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "field-variant",
+      "path": "standard/field-variant.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "white",
+      "cssOpacity": 0.12,
+      "placement": "Variant C: ghost at x122 plus field ticks.",
+      "families": [
+        "standard-c"
+      ],
+      "layer": 2
+    },
+    {
+      "id": "wordmark-variant",
+      "path": "standard/wordmark-variant.svg",
+      "viewBox": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "colorRole": "accent",
+      "cssOpacity": 0.45,
+      "placement": "Variant D: live category word x20/y55, small live team abbreviation x246/y119.",
+      "families": [
+        "standard-d"
+      ],
+      "layer": 2
+    }
+  ],
+  "recipes": {
+    "standard": {
+      "layers": [
+        "diagonal-accent-stripes",
+        "team-type-corner"
+      ],
+      "textSlots": [
+        {
+          "name": "ghost",
+          "x": 125,
+          "y": 30,
+          "width": 180,
+          "height": 145,
+          "fontSize": 136,
+          "weight": 800,
+          "color": "ghost"
+        }
+      ]
+    },
+    "game-matchup": {
+      "layers": [
+        "field-yard-lines",
+        "matchup-framing"
+      ],
+      "textSlots": [
+        {
+          "name": "week",
+          "x": 110,
+          "y": 51,
+          "width": 100,
+          "height": 24,
+          "fontSize": 22,
+          "weight": 700,
+          "color": "white"
+        },
+        {
+          "name": "versus",
+          "x": 133,
+          "y": 80,
+          "width": 54,
+          "height": 28,
+          "fontSize": 27,
+          "weight": 700,
+          "color": "white"
+        },
+        {
+          "name": "kickoff",
+          "x": 90,
+          "y": 144,
+          "width": 140,
+          "height": 20,
+          "fontSize": 16,
+          "weight": 600,
+          "color": "white"
+        }
+      ]
+    },
+    "game-result": {
+      "layers": [
+        "diagonal-accent-stripes",
+        "result-separator"
+      ],
+      "textSlots": [
+        {
+          "name": "score-home",
+          "x": 92,
+          "y": 61,
+          "width": 62,
+          "height": 65,
+          "fontSize": 56,
+          "weight": 800,
+          "color": "accent"
+        },
+        {
+          "name": "score-away",
+          "x": 169,
+          "y": 61,
+          "width": 62,
+          "height": 65,
+          "fontSize": 56,
+          "weight": 800,
+          "color": "white"
+        },
+        {
+          "name": "final",
+          "x": 102,
+          "y": 136,
+          "width": 116,
+          "height": 24,
+          "fontSize": 18,
+          "weight": 600,
+          "color": "white"
+        }
+      ]
+    },
+    "numbered": {
+      "layers": [
+        "numbered-list-background"
+      ],
+      "textSlots": [
+        {
+          "name": "number",
+          "x": 19,
+          "y": 35,
+          "width": 100,
+          "height": 123,
+          "fontSize": 110,
+          "weight": 800,
+          "color": "accent"
+        },
+        {
+          "name": "descriptor",
+          "x": 127,
+          "y": 73,
+          "width": 117,
+          "height": 63,
+          "fontSize": 29,
+          "weight": 700,
+          "color": "white"
+        }
+      ]
+    },
+    "stats": {
+      "layers": [
+        "data-dividers"
+      ],
+      "textSlots": [
+        {
+          "name": "number",
+          "x": 20,
+          "y": 40,
+          "width": 75,
+          "height": 120,
+          "fontSize": 108,
+          "weight": 800,
+          "color": "accent"
+        },
+        {
+          "name": "descriptor",
+          "x": 100,
+          "y": 80,
+          "width": 77,
+          "height": 62,
+          "fontSize": 28,
+          "weight": 700,
+          "color": "white"
+        },
+        {
+          "name": "stats-rows",
+          "x": 198,
+          "y": 42,
+          "width": 102,
+          "height": 115,
+          "fontSize": 19,
+          "weight": 700,
+          "color": "white"
+        }
+      ]
+    },
+    "player": {
+      "layers": [
+        "diagonal-accent-stripes",
+        "name-underline"
+      ],
+      "textSlots": [
+        {
+          "name": "name",
+          "x": 22,
+          "y": 66,
+          "width": 111,
+          "height": 69,
+          "fontSize": 29,
+          "weight": 700,
+          "color": "white"
+        },
+        {
+          "name": "position",
+          "x": 143,
+          "y": 42,
+          "width": 115,
+          "height": 118,
+          "fontSize": 110,
+          "weight": 700,
+          "color": "outline"
+        },
+        {
+          "name": "jersey",
+          "x": 263,
+          "y": 123,
+          "width": 40,
+          "height": 30,
+          "fontSize": 26,
+          "weight": 600,
+          "color": "muted"
+        }
+      ]
+    },
+    "injury": {
+      "layers": [
+        "status-watermark",
+        "status-divider"
+      ],
+      "textSlots": [
+        {
+          "name": "week",
+          "x": 20,
+          "y": 46,
+          "width": 147,
+          "height": 111,
+          "fontSize": 103,
+          "weight": 800,
+          "color": "accent"
+        },
+        {
+          "name": "status-rows",
+          "x": 186,
+          "y": 69,
+          "width": 115,
+          "height": 82,
+          "fontSize": 20,
+          "weight": 600,
+          "color": "white"
+        }
+      ]
+    },
+    "transaction": {
+      "layers": [
+        "directional-four-chevrons",
+        "contract-divider"
+      ],
+      "textSlots": [
+        {
+          "name": "action",
+          "x": 181,
+          "y": 54,
+          "width": 120,
+          "height": 38,
+          "fontSize": 34,
+          "weight": 700,
+          "color": "white"
+        },
+        {
+          "name": "position-number",
+          "x": 25,
+          "y": 110,
+          "width": 177,
+          "height": 23,
+          "fontSize": 18,
+          "weight": 600,
+          "color": "white"
+        },
+        {
+          "name": "name",
+          "x": 25,
+          "y": 134,
+          "width": 184,
+          "height": 28,
+          "fontSize": 23,
+          "weight": 700,
+          "color": "white"
+        },
+        {
+          "name": "contract",
+          "x": 230,
+          "y": 109,
+          "width": 73,
+          "height": 52,
+          "fontSize": 15,
+          "weight": 600,
+          "color": "white"
+        }
+      ]
+    },
+    "quote": {
+      "layers": [
+        "opening-quote-marks",
+        "closing-quote-marks"
+      ],
+      "textSlots": [
+        {
+          "name": "quote",
+          "x": 76,
+          "y": 53,
+          "width": 211,
+          "height": 83,
+          "fontSize": 26,
+          "weight": 700,
+          "color": "white"
+        },
+        {
+          "name": "attribution",
+          "x": 76,
+          "y": 140,
+          "width": 175,
+          "height": 24,
+          "fontSize": 12,
+          "weight": 600,
+          "color": "white"
+        }
+      ]
+    },
+    "film": {
+      "layers": [
+        "strategy-play-diagram",
+        "name-underline",
+        "diagonal-accent-stripes"
+      ],
+      "textSlots": [
+        {
+          "name": "title",
+          "x": 22,
+          "y": 64,
+          "width": 105,
+          "height": 70,
+          "fontSize": 35,
+          "weight": 700,
+          "color": "white"
+        }
+      ]
+    },
+    "developing": {
+      "layers": [
+        "story-timeline"
+      ],
+      "textSlots": [
+        {
+          "name": "updates",
+          "x": 60,
+          "y": 49,
+          "width": 242,
+          "height": 116,
+          "fontSize": 13,
+          "weight": 600,
+          "color": "white"
+        }
+      ]
+    },
+    "business-community": {
+      "layers": [
+        "diagonal-accent-stripes",
+        "interlocking-lines"
+      ],
+      "textSlots": [
+        {
+          "name": "ghost",
+          "x": 20,
+          "y": 30,
+          "width": 180,
+          "height": 140,
+          "fontSize": 130,
+          "weight": 800,
+          "color": "ghost"
+        },
+        {
+          "name": "title",
+          "x": 51,
+          "y": 108,
+          "width": 205,
+          "height": 62,
+          "fontSize": 29,
+          "weight": 700,
+          "color": "white"
+        }
+      ]
+    },
+    "scouting": {
+      "layers": [
+        "opponent-route-diagram"
+      ],
+      "textSlots": [
+        {
+          "name": "title",
+          "x": 24,
+          "y": 67,
+          "width": 139,
+          "height": 71,
+          "fontSize": 30,
+          "weight": 700,
+          "color": "white"
+        }
+      ]
+    },
+    "coaching": {
+      "layers": [
+        "strategy-routes"
+      ],
+      "textSlots": [
+        {
+          "name": "title",
+          "x": 24,
+          "y": 67,
+          "width": 110,
+          "height": 71,
+          "fontSize": 30,
+          "weight": 700,
+          "color": "white"
+        }
+      ]
+    },
+    "league": {
+      "layers": [
+        "around-nfl-network",
+        "diagonal-accent-stripes"
+      ],
+      "textSlots": [
+        {
+          "name": "title",
+          "x": 35,
+          "y": 76,
+          "width": 176,
+          "height": 73,
+          "fontSize": 30,
+          "weight": 700,
+          "color": "white"
+        }
+      ]
+    },
+    "video": {
+      "layers": [
+        "play-disc",
+        "media-waveform"
+      ],
+      "textSlots": [
+        {
+          "name": "title",
+          "x": 110,
+          "y": 77,
+          "width": 119,
+          "height": 66,
+          "fontSize": 29,
+          "weight": 700,
+          "color": "white"
+        }
+      ]
+    },
+    "standard-a": {
+      "layers": [
+        "team-type-corner",
+        "diagonal-accent-stripes"
+      ],
+      "textSlots": [
+        {
+          "name": "ghost",
+          "x": 115,
+          "y": 35,
+          "width": 190,
+          "height": 130,
+          "fontSize": 125,
+          "weight": 800,
+          "color": "ghost"
+        }
+      ]
+    },
+    "standard-b": {
+      "layers": [
+        "playbook-variant",
+        "diagonal-accent-stripes"
+      ],
+      "textSlots": [
+        {
+          "name": "ghost",
+          "x": 115,
+          "y": 35,
+          "width": 190,
+          "height": 130,
+          "fontSize": 125,
+          "weight": 800,
+          "color": "ghost"
+        }
+      ]
+    },
+    "standard-c": {
+      "layers": [
+        "field-variant",
+        "diagonal-accent-stripes"
+      ],
+      "textSlots": [
+        {
+          "name": "ghost",
+          "x": 115,
+          "y": 35,
+          "width": 190,
+          "height": 130,
+          "fontSize": 125,
+          "weight": 800,
+          "color": "ghost"
+        }
+      ]
+    },
+    "standard-d": {
+      "layers": [
+        "wordmark-variant",
+        "diagonal-accent-stripes"
+      ],
+      "textSlots": [
+        {
+          "name": "category",
+          "x": 20,
+          "y": 61,
+          "width": 280,
+          "height": 130,
+          "fontSize": 70,
+          "weight": 800,
+          "color": "ghost"
+        }
+      ]
+    }
+  }
+}

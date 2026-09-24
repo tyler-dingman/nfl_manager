@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "policy": "Recommended UI accents tuned for neutral dark cards; not official brand specifications. Verify against site brand tokens. Bills deliberately blue, Packers yellow, Bengals orange. Never use accent as small text on white.",
+  "defaultAccent": "#A5ACAF",
+  "teams": {
+    "ARI": {
+      "name": "Arizona Cardinals",
+      "accent": "#FFB612"
+    },
+    "ATL": {
+      "name": "Atlanta Falcons",
+      "accent": "#E71930"
+    },
+    "BAL": {
+      "name": "Baltimore Ravens",
+      "accent": "#9E7CDB"
+    },
+    "BUF": {
+      "name": "Buffalo Bills",
+      "accent": "#006DCE"
+    },
+    "CAR": {
+      "name": "Carolina Panthers",
+      "accent": "#0085CA"
+    },
+    "CHI": {
+      "name": "Chicago Bears",
+      "accent": "#F26522"
+    },
+    "CIN": {
+      "name": "Cincinnati Bengals",
+      "accent": "#FB4F14"
+    },
+    "CLE": {
+      "name": "Cleveland Browns",
+      "accent": "#FF3C00"
+    },
+    "DAL": {
+      "name": "Dallas Cowboys",
+      "accent": "#869DBB"
+    },
+    "DEN": {
+      "name": "Denver Broncos",
+      "accent": "#FB4F14"
+    },
+    "DET": {
+      "name": "Detroit Lions",
+      "accent": "#009FE3"
+    },
+    "GB": {
+      "name": "Green Bay Packers",
+      "accent": "#FFB612"
+    },
+    "HOU": {
+      "name": "Houston Texans",
+      "accent": "#E83242"
+    },
+    "IND": {
+      "name": "Indianapolis Colts",
+      "accent": "#3B7FC4"
+    },
+    "JAX": {
+      "name": "Jacksonville Jaguars",
+      "accent": "#D7A22A"
+    },
+    "KC": {
+      "name": "Kansas City Chiefs",
+      "accent": "#FF153C"
+    },
+    "LAC": {
+      "name": "Los Angeles Chargers",
+      "accent": "#0080C6"
+    },
+    "LAR": {
+      "name": "Los Angeles Rams",
+      "accent": "#FFD100"
+    },
+    "LV": {
+      "name": "Las Vegas Raiders",
+      "accent": "#A5ACAF"
+    },
+    "MIA": {
+      "name": "Miami Dolphins",
+      "accent": "#00B7AF"
+    },
+    "MIN": {
+      "name": "Minnesota Vikings",
+      "accent": "#FFC62F"
+    },
+    "NE": {
+      "name": "New England Patriots",
+      "accent": "#EE244B"
+    },
+    "NO": {
+      "name": "New Orleans Saints",
+      "accent": "#D3BC8D"
+    },
+    "NYG": {
+      "name": "New York Giants",
+      "accent": "#E62947"
+    },
+    "NYJ": {
+      "name": "New York Jets",
+      "accent": "#18A875"
+    },
+    "PHI": {
+      "name": "Philadelphia Eagles",
+      "accent": "#20A99E"
+    },
+    "PIT": {
+      "name": "Pittsburgh Steelers",
+      "accent": "#FFB612"
+    },
+    "SEA": {
+      "name": "Seattle Seahawks",
+      "accent": "#69BE28"
+    },
+    "SF": {
+      "name": "San Francisco 49ers",
+      "accent": "#E52D38"
+    },
+    "TB": {
+      "name": "Tampa Bay Buccaneers",
+      "accent": "#F3263D"
+    },
+    "TEN": {
+      "name": "Tennessee Titans",
+      "accent": "#4B92DB"
+    },
+    "WAS": {
+      "name": "Washington Commanders",
+      "accent": "#FFB612"
+    }
+  }
+}

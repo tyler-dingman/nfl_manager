@@ -1,3 +1,4 @@
+import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
 
 import { pickDraftPlayer } from '@/server/api/draft';
@@ -19,6 +20,7 @@ export const POST = async (request: Request) => {
 
   try {
     const session = pickDraftPlayer(body.draftSessionId, body.playerId, body.saveId);
+    await persistCompletedFranchiseDraft(request, body.saveId, session);
     const stateResult = getSaveStateResult(body.saveId);
     const header = stateResult.ok ? getSaveHeaderSnapshot(stateResult.data) : undefined;
     return NextResponse.json({

@@ -9,7 +9,8 @@ import { useTeamStore } from '@/features/team/team-store';
 import { useRosterQuery } from '@/features/players/queries';
 import { TEAM_LIST } from '@/data/teams';
 import { apiFetch } from '@/lib/api';
-import { phaseDisplayName } from '@/lib/front-office-phase';
+import { frontOfficeHomePhase } from '@/lib/front-office-home-phase';
+import { phaseDisplayName, getFranchiseNextGame } from '@/lib/front-office-phase';
 import {
   getActiveSimulationRoster,
   FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
@@ -66,13 +67,13 @@ export function FrontOfficeMobileStatus() {
   const delta =
     overall != null && save.startingOverall != null ? overall - save.startingOverall : 0;
   const record = simulation?.teams[save.teamAbbr]?.record;
-  const game = simulation?.games.find(
-    (g) => !g.played && [g.homeTeam, g.awayTeam].includes(save.teamAbbr),
-  );
+  const game = getFranchiseNextGame(simulation, save.teamAbbr);
   const opponent = TEAM_LIST.find(
     (t) => t.abbr === (game?.homeTeam === save.teamAbbr ? game?.awayTeam : game?.homeTeam),
   );
   const phase = simulation?.phase ?? save.phase;
+  const homePhase = frontOfficeHomePhase(phase);
+  const offseason = ['combine', 'free-agency', 'draft'].includes(homePhase.kind);
   const phaseLabel =
     phase.startsWith('week-') && game?.week
       ? `Week ${game.week}`
@@ -109,12 +110,18 @@ export function FrontOfficeMobileStatus() {
           </div>
         ))}
       </dl>
-      <Link href="/front-office/league/schedule" className={styles.matchup}>
+      <Link
+        href={offseason ? homePhase.href : '/front-office/league/schedule'}
+        className={styles.matchup}
+      >
         {opponent && (
           <Image src={opponent.logoUrl} alt={opponent.name} width={32} height={32} unoptimized />
         )}
         <strong>
-          {phaseLabel} · {opponent ? `vs ${opponent.name.split(' ').slice(-1)[0]}` : 'Schedule'}
+          {phaseLabel}
+          {!offseason && (
+            <> · {opponent ? `vs ${opponent.name.split(' ').slice(-1)[0]}` : 'Schedule'}</>
+          )}
         </strong>
         <ChevronRight size={18} aria-hidden="true" />
       </Link>

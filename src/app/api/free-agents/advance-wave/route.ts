@@ -1,25 +1,30 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { POST as advanceSimulation } from '@/app/api/front-office/simulate/route';
+import { getFrontOfficePhaseActions, isOffseasonFreeAgency } from '@/lib/front-office-phase';
+import { currentUser } from '@/server/auth/request';
+import { getFrontOfficeSaveMetadata } from '@/server/front-office/repository';
 
-import { advanceFreeAgencyWave } from '@/server/api/players';
-import { getSaveStateResult, hydrateOffseasonFreeAgencyState } from '@/server/api/store';
-
-export async function POST(request: Request) {
-  const body = (await request.json()) as { saveId?: string };
-  if (!body.saveId) {
-    return NextResponse.json({ ok: false, error: 'saveId is required' }, { status: 400 });
-  }
-
-  const stateResult = getSaveStateResult(body.saveId);
-  if (!stateResult.ok) {
-    return NextResponse.json({ ok: false, error: stateResult.error }, { status: 404 });
-  }
-
-  await hydrateOffseasonFreeAgencyState(stateResult.data);
-
-  const result = advanceFreeAgencyWave(body.saveId);
-  if (!result.ok) {
-    return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
-  }
-
-  return NextResponse.json({ ok: true, ...result.data });
+/** Legacy clients cannot advance a market clock independently of the franchise. */
+export async function POST(request: NextRequest) {
+  const { saveId } = await request.json();
+  const user = await currentUser(request);
+  if (!user) return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
+  const metadata = saveId ? await getFrontOfficeSaveMetadata(user.id, saveId) : null;
+  const phase = metadata?.simulation?.phase;
+  if (!phase || !isOffseasonFreeAgency(phase))
+    return NextResponse.json(
+      { error: 'Free Agency progression is only available during offseason Free Agency.' },
+      { status: 409 },
+    );
+  return advanceSimulation(
+    new NextRequest(request.url, {
+      method: 'POST',
+      headers: request.headers,
+      body: JSON.stringify({
+        saveId,
+        action: 'advance',
+        target: getFrontOfficePhaseActions(phase).primary.target,
+      }),
+    }),
+  );
 }

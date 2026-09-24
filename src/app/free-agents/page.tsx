@@ -15,10 +15,7 @@ import { useToast } from '@/components/ui/toast';
 import { useFalcoAlertStore } from '@/features/draft/falco-alert-store';
 import { useFreeAgentsQuery } from '@/features/players/queries';
 import { useTradeOfferOrchestrator } from '@/features/trades/use-trade-offer-orchestrator';
-import { useExperienceStore } from '@/features/experience/experience-store';
 import { useOffseasonProgressStore } from '@/features/experience/offseason-progress-store';
-import { OFFSEASON_STEPS } from '@/features/experience/offseason-steps';
-import { getRouteForStep } from '@/features/experience/experience-utils';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 import { generateChainReactionEffects } from '@/lib/chain-reaction-effects';
@@ -27,18 +24,19 @@ import { apiFetch } from '@/lib/api';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { OFFSEASON_PROGRESS_POINTS } from '@/lib/offseason-progress';
 import { buildStarReactionToastPayload } from '@/lib/star-player-reaction';
-import { generateFreeAgencyWaveTransitionToast } from '@/lib/league-buzz';
+import { getFrontOfficePhaseActions, isOffseasonFreeAgency } from '@/lib/front-office-phase';
 import type { PlayerDetailsSource } from '@/lib/player-details';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveBootstrapDTO, SaveHeaderDTO } from '@/types/save';
-import type { FreeAgencyMarketDTO } from '@/types/free-agency';
 
 export default function FreeAgentsPage() {
   const router = useRouter();
   const saveId = useSaveStore((state) => state.saveId);
   const teamId = useSaveStore((state) => state.teamId);
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
-  const freeAgencyWave = useSaveStore((state) => state.freeAgencyWave);
+  const [advancing, setAdvancing] = useState(false);
+  const [phaseError, setPhaseError] = useState('');
+  const advancingRef = useRef(false);
   const capSpace = useSaveStore((state) => state.capSpace);
   const capLimit = useSaveStore((state) => state.capLimit);
   const phase = useSaveStore((state) => state.phase);
@@ -50,16 +48,12 @@ export default function FreeAgentsPage() {
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
-  const { data, isLoading } = useFreeAgentsQuery(saveId, teamAbbr);
+  const { data, isLoading, refresh } = useFreeAgentsQuery(saveId, teamAbbr);
   const [players, setPlayers] = useState<PlayerRowDTO[]>(() => data.players);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
   const [activePlayerDetails, setActivePlayerDetails] = useState<PlayerDetailsSource | null>(null);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const { push: pushToast } = useToast();
-  const mode = useExperienceStore((state) => state.mode);
-  const currentStep = useExperienceStore((state) => state.currentStep);
-  const completeCurrentStep = useExperienceStore((state) => state.completeCurrentStep);
-  const skipCurrentStep = useExperienceStore((state) => state.skipCurrentStep);
   const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);
   const [activeTab, setActiveTab] = useState<'available' | 'userSigned' | 'signed'>('available');
   const selectedTeam = teams.find((team) => team.id === selectedTeamId) ?? null;
@@ -110,7 +104,7 @@ export default function FreeAgentsPage() {
     );
   };
   const requestTradeOffer = useTradeOfferOrchestrator({
-    enabled: phase === 'free_agency',
+    enabled: isOffseasonFreeAgency(phase),
     phase: 'freeAgency',
     saveId,
     teamAbbr,
@@ -121,7 +115,9 @@ export default function FreeAgentsPage() {
     setPlayers(data.players);
   }, [data]);
 
-  const userSignedCount = players.filter((player) => player.isSignedByUser).length;
+  useEffect(() => {
+    void refresh();
+  }, [phase, refresh]);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') return;
@@ -134,7 +130,7 @@ export default function FreeAgentsPage() {
   }, [players]);
 
   useEffect(() => {
-    if (phase !== 'free_agency' || !saveId || !teamAbbr) return;
+    if (!isOffseasonFreeAgency(phase) || !saveId || !teamAbbr) return;
     const requestKey = `${saveId}:${teamAbbr}`;
     if (initialTradeOfferRequestedRef.current === requestKey) return;
     initialTradeOfferRequestedRef.current = requestKey;
@@ -319,96 +315,23 @@ export default function FreeAgentsPage() {
     return responsePayload;
   };
 
-  const handleAdvanceWave = async () => {
-    if (!saveId) return;
-
-    try {
-      const response = await apiFetch('/api/free-agents/advance-wave', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ saveId }),
-      });
-
-      if (!response.ok) {
-        const errorData = (await response.json()) as { error?: string };
-        throw new Error(errorData.error || 'Failed to advance wave');
-      }
-
-      const result = (await response.json()) as {
-        header: SaveHeaderDTO;
-        market: FreeAgencyMarketDTO;
-      };
-
-      // Update the save header with new wave
-      setSaveHeader(result.header);
-
-      // Update players with the new market data
-      setPlayers(result.market.players);
-
-      // Generate Jim Schwartz toast
-      const userSignedPlayers = result.market.players.filter((p) => p.isSignedByUser);
-      const toastPayload = generateFreeAgencyWaveTransitionToast({
-        teamName: selectedTeam?.name ?? 'Your Team',
-        fromWave: freeAgencyWave as 1 | 2,
-        nextWave: (freeAgencyWave + 1) as 2 | 3,
-        signedPlayers: userSignedPlayers.map((p) => ({
-          firstName: p.firstName,
-          lastName: p.lastName,
-          rating: p.rating,
-          marketValue: p.marketValue,
-        })),
-        teamAbbr,
-      });
-
-      if (toastPayload) {
-        pushToast({
-          id: `free-agency-wave-${Date.now()}`,
-          kind: 'leagueBuzz',
-          durationMs: 6200,
-          leagueBuzz: toastPayload,
-        });
-      }
-    } catch (error) {
-      console.error('Failed to advance wave:', error);
-      // Could add error toast here
-    }
-  };
-
   const handleContinue = async () => {
-    if (freeAgencyWave < 3) {
-      await handleAdvanceWave();
-      return;
+    if (!isOffseasonFreeAgency(phase) || advancingRef.current) return;
+    advancingRef.current = true;
+    setAdvancing(true);
+    setPhaseError('');
+    try {
+      const target = getFrontOfficePhaseActions(phase).primary.target;
+      await setPhase(target);
+      await refresh();
+      if (target === 'draft') router.push('/front-office/draft');
+    } catch (error) {
+      setPhaseError(error instanceof Error ? error.message : 'Unable to advance Free Agency.');
+    } finally {
+      advancingRef.current = false;
+      setAdvancing(false);
     }
-
-    await setPhase('draft');
-    router.push('/front-office/draft/room?mode=mock');
   };
-
-  const handleSkip = () => {
-    if (mode !== 'full' || currentStep !== 'free-agency') return;
-    if (saveId) {
-      recordProgressEvent({
-        saveId,
-        step: 'free-agency',
-        eventKey: 'skip:free-agency',
-        complete: true,
-        skipped: true,
-      });
-      pushToast({
-        id: `progress:${saveId}:skip:free-agency`,
-        kind: 'progress',
-        durationMs: 3200,
-        progress: {
-          message: 'Completed the Free Agency step.',
-          detail: 'Free Agency',
-        },
-      });
-    }
-    const nextStep = skipCurrentStep();
-    if (nextStep) router.push(getRouteForStep(nextStep));
-  };
-
-  const canContinueInFull = mode !== 'full' || userSignedCount > 0;
 
   return (
     <AppShell>
@@ -469,26 +392,31 @@ export default function FreeAgentsPage() {
                     Signed
                   </button>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-                    <span className="font-semibold text-slate-700">Wave {freeAgencyWave}</span>
-                    <span>
-                      {freeAgencyWave === 1
-                        ? 'Tampering Window'
-                        : freeAgencyWave === 2
-                          ? 'Secondary Market'
-                          : 'Final Wave'}
-                    </span>
-                  </div>
-                  <Button
-                    type="button"
-                    className="h-8 rounded-full px-3 text-xs font-semibold"
-                    style={{ backgroundColor: selectedTeam?.color_primary }}
-                    onClick={handleContinue}
+                {isOffseasonFreeAgency(phase) && (
+                  <div
+                    className="flex flex-wrap items-center gap-3"
+                    aria-label="Offseason Free Agency progression"
                   >
-                    Continue
-                  </Button>
-                </div>
+                    <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                      <span className="font-semibold">Phase {phase === 'free_agency' ? 1 : 2}</span>
+                      <span>{phase === 'free_agency' ? 'Tampering Window' : 'Free Agency'}</span>
+                    </div>
+                    <Button
+                      type="button"
+                      className="h-8 rounded-full px-3 text-xs font-semibold"
+                      style={{ backgroundColor: selectedTeam?.color_primary }}
+                      onClick={handleContinue}
+                      disabled={advancing}
+                    >
+                      {advancing
+                        ? 'Advancing…'
+                        : phase === 'free_agency'
+                          ? 'Continue'
+                          : 'Continue to NFL Draft'}
+                    </Button>
+                    {phaseError && <p role="alert">{phaseError}</p>}
+                  </div>
+                )}
               </div>
             }
             onOfferPlayer={handleOfferPlayer}

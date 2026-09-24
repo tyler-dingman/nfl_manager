@@ -29,7 +29,14 @@ import {
   FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
 } from '@/lib/front-office-roster';
 import { analyzeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
-import { phaseDisplayName } from '@/lib/front-office-phase';
+import { phaseDisplayName, getFranchiseNextGame } from '@/lib/front-office-phase';
+import { frontOfficeHomePhase } from '@/lib/front-office-home-phase';
+import {
+  useOffseasonHomeData,
+  OffseasonHomeHero,
+  OffseasonHomeMarket,
+  OffseasonHomeRail,
+} from './front-office-offseason-home';
 import { formatMoneyMillions } from '@/server/logic/cap';
 import type {
   FranchiseRecord,
@@ -263,7 +270,9 @@ export function FrontOfficeHome({
   useEffect(() => {
     let active = true;
     const controller = new AbortController();
+    let requestVersion = 0;
     const load = async () => {
+      const version = ++requestVersion;
       setLoading(true);
       const urls = ['simulate', 'events', 'trade-hub'];
       const results = await Promise.allSettled(
@@ -277,10 +286,13 @@ export function FrontOfficeHome({
           return json;
         }),
       );
-      if (!active) return;
+      if (!active || version !== requestVersion) return;
       const [sim, feed, trades] = results;
       if (sim.status === 'fulfilled') {
-        setSimulation(sim.value.state ?? null);
+        if (sim.value.state) {
+          setSimulation(sim.value.state);
+          useSaveStore.getState().applyAuthoritativeFranchiseState(sim.value.state);
+        }
         setSchedule(sim.value.nextGameSchedule ?? null);
       }
       if (feed.status === 'fulfilled') setEvents(feed.value.events ?? []);
@@ -306,7 +318,14 @@ export function FrontOfficeHome({
       setLoading(false);
     };
     void load();
-    const reload = () => void load();
+    const reload = (event: Event) => {
+      const state = (event as CustomEvent<{ state?: FranchiseSimulationState }>).detail?.state;
+      if (state) {
+        setSimulation(state);
+        setSchedule(null);
+      }
+      void load();
+    };
     window.addEventListener('front-office-simulation-advanced', reload);
     window.addEventListener('front-office-week-complete', reload);
     return () => {
@@ -318,15 +337,27 @@ export function FrontOfficeHome({
   }, [saveId, revision]);
   const team = teams.find((t) => t.abbr === teamAbbr);
   const ownState = simulation?.teams[teamAbbr];
-  const nextGame = simulation?.games.find(
-    (game) => !game.played && [game.homeTeam, game.awayTeam].includes(teamAbbr),
+  const phase = simulation?.phase ?? save.phase;
+  const homePhase = frontOfficeHomePhase(phase);
+  const offseason = ['combine', 'free-agency', 'draft'].includes(homePhase.kind);
+  const offseasonData = useOffseasonHomeData(
+    saveId,
+    phase,
+    simulation?.season ?? save.franchiseYear,
   );
+  const offseasonProps = {
+    phase,
+    data: offseasonData,
+    capSpace: save.capSpace,
+    season: simulation?.season ?? save.franchiseYear,
+  };
+  const nextGame = getFranchiseNextGame(simulation, teamAbbr);
   const opponent = nextGame
     ? nextGame.homeTeam === teamAbbr
       ? nextGame.awayTeam
       : nextGame.homeTeam
     : null;
-  const week = nextGame?.week ?? simulation?.currentWeek;
+  const week = homePhase.kind === 'season' ? Number(phase.slice(5)) : undefined;
   const overall = useMemo(() => {
     if (!activeRoster.length) return ownState?.overall ?? team?.teamOverview ?? null;
     const bounds = teams
@@ -368,7 +399,9 @@ export function FrontOfficeHome({
       ['trade_interest', 'trade_rumor', 'trade_offer', 'deadline_alert'].includes(e.type),
     );
   const summary =
-    featuredEvent?.summary ??
+    (homePhase.kind === 'playoffs'
+      ? `Prepare for ${opponent ? (teamsByAbbr.get(opponent)?.name ?? opponent) : 'the next playoff round'}. Review your lineup, injury report, and postseason matchup.`
+      : featuredEvent?.summary) ??
     (loading
       ? 'Loading this week’s franchise storylines…'
       : `${up.length} ${up.length === 1 ? 'player is' : 'players are'} above their stored baseline rating. Review your roster needs${opponent ? ` ahead of ${teamsByAbbr.get(opponent)?.name ?? opponent}` : ' and plan your next moves'}.`);
@@ -453,168 +486,210 @@ export function FrontOfficeHome({
             </div>
           ))}
         </dl>
-        <Link className={styles.statusGame} href={gameHref}>
-          <Logo abbr={opponent} size={48} />
-          <span className={styles.desktopOnly}>
-            <strong>{week ? `Week ${week}` : 'Schedule'}</strong>
-            <small>
-              {opponent
-                ? `Next game vs ${teamsByAbbr.get(opponent)?.name.split(' ').slice(-1)[0] ?? opponent}`
-                : 'Next matchup pending'}
-            </small>
-            <small>{kickoff ?? (loading ? 'Loading schedule…' : 'Kickoff time TBD')}</small>
-          </span>
-          <span className={styles.mobileOnly}>
-            <strong>
-              {/^week-/.test(save.phase) && week ? `Week ${week}` : phaseDisplayName(save.phase)} ·{' '}
-              {opponent
-                ? `vs ${teamsByAbbr.get(opponent)?.name.split(' ').slice(-1)[0] ?? opponent}`
-                : 'Schedule'}
-            </strong>
-          </span>
-          <ChevronRight className={styles.mobileOnly} size={18} aria-hidden="true" />
-        </Link>
-      </section>
-      <section className={styles.hero} aria-label="Weekly feature">
-        <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>
-            <CalendarDays size={14} />
-            <span className={styles.desktopOnly}>{week ? `Week ${week}` : 'Weekly focus'}</span>
-            <span className={styles.mobileOnly}>Weekly focus</span>
-          </p>
-          <FrontOfficeFeatureHeading>{'Focus: Build\nfor the long term'}</FrontOfficeFeatureHeading>
-          <p className={styles.heroSummary}>
-            {featured && summary.includes(playerName(featured))
-              ? summary.split(playerName(featured)).map((part, index) => (
-                  <span key={index}>
-                    {index > 0 && <mark>{playerName(featured)}</mark>}
-                    {part}
-                  </span>
-                ))
-              : summary}
-          </p>
-          <button className={styles.cta} onClick={() => setBriefOpen(true)}>
-            View Weekly Brief <ArrowRight size={16} />
-          </button>
-        </div>
-        {featured?.headshotUrl && failedHero !== featured.id && (
-          <Image
-            className={styles.heroPhoto}
-            src={featured.headshotUrl}
-            alt={playerName(featured)}
-            width={440}
-            height={360}
-            unoptimized
-            onError={() => setFailedHero(featured.id)}
-          />
-        )}
-        {featured && (
-          <div className={styles.heroPlayer}>
-            <Link href={playerLink(featured)}>{playerName(featured)}</Link>
+        {offseason ? (
+          <Link className={styles.statusGame} href={homePhase.href}>
+            <CalendarDays size={32} aria-hidden="true" />
             <span>
-              {featured.position}
-              {featured.age ? ` · Age ${featured.age}` : ''}
+              <strong>{homePhase.eyebrow}</strong>
+              <small>
+                {homePhase.kind === 'free-agency'
+                  ? phase === 'free_agency'
+                    ? 'Phase 1 · Tampering Window'
+                    : 'Phase 2 · Free Agency'
+                  : `${offseasonProps.season + 1} draft class`}
+              </small>
             </span>
-            <i />
-            <small>Franchise spotlight</small>
-            <span className={`front-office-stat-value ${styles.heroRating}`}>
-              {rating(featured) ?? '—'} <small>OVR</small>
+            <ChevronRight size={18} aria-hidden="true" />
+          </Link>
+        ) : (
+          <Link className={styles.statusGame} href={gameHref}>
+            <Logo abbr={opponent} size={48} />
+            <span className={styles.desktopOnly}>
+              <strong>
+                {homePhase.kind === 'playoffs'
+                  ? phaseDisplayName(phase)
+                  : week
+                    ? `Week ${week}`
+                    : 'Schedule'}
+              </strong>
+              <small>
+                {opponent
+                  ? `Next game vs ${teamsByAbbr.get(opponent)?.name.split(' ').slice(-1)[0] ?? opponent}`
+                  : 'Next matchup pending'}
+              </small>
+              <small>{kickoff ?? (loading ? 'Loading schedule…' : 'Kickoff time TBD')}</small>
             </span>
-          </div>
+            <span className={styles.mobileOnly}>
+              <strong>
+                {/^week-/.test(phase) && week ? `Week ${week}` : phaseDisplayName(phase)} ·{' '}
+                {opponent
+                  ? `vs ${teamsByAbbr.get(opponent)?.name.split(' ').slice(-1)[0] ?? opponent}`
+                  : 'Schedule'}
+              </strong>
+            </span>
+            <ChevronRight className={styles.mobileOnly} size={18} aria-hidden="true" />
+          </Link>
         )}
       </section>
-      <Panel
-        title="Trade Market"
-        icon={<ArrowLeftRight />}
-        href="/front-office/trade-hub"
-        className={styles.market}
-      >
-        <div className={styles.tabs} role="group" aria-label="Trade market filters">
-          {[
-            ['rumors', `All Rumors (${rumors.length})`],
-            ['available', `Available Players (${market.targets.length})`],
-            ['own', `Your Players (${ownRumors.length})`],
-            ['activity', 'Recent Activity'],
-          ].map(([key, label]) => (
-            <button
-              key={key}
-              aria-pressed={activeMarketTab === key}
-              onClick={() => setMarketTab(key)}
-            >
-              {label}
+      {offseason ? (
+        <OffseasonHomeHero {...offseasonProps} />
+      ) : (
+        <section
+          className={styles.hero}
+          aria-label={homePhase.kind === 'playoffs' ? 'Playoff feature' : 'Weekly feature'}
+        >
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}>
+              <CalendarDays size={14} />
+              <span className={styles.desktopOnly}>
+                {homePhase.kind === 'playoffs'
+                  ? 'Playoff Focus'
+                  : week
+                    ? `Week ${week}`
+                    : 'Weekly focus'}
+              </span>
+              <span className={styles.mobileOnly}>{homePhase.eyebrow}</span>
+            </p>
+            <FrontOfficeFeatureHeading>{homePhase.title}</FrontOfficeFeatureHeading>
+            <p className={styles.heroSummary}>
+              {featured && summary.includes(playerName(featured))
+                ? summary.split(playerName(featured)).map((part, index) => (
+                    <span key={index}>
+                      {index > 0 && <mark>{playerName(featured)}</mark>}
+                      {part}
+                    </span>
+                  ))
+                : summary}
+            </p>
+            <button className={styles.cta} onClick={() => setBriefOpen(true)}>
+              View Weekly Brief <ArrowRight size={16} />
             </button>
-          ))}
-        </div>
-        <div className={styles.marketRows}>
-          {activeMarketTab === 'available'
-            ? market.targets
-                .slice(0, 4)
-                .map((p) => (
-                  <MarketRow
-                    key={p.id}
-                    player={p}
-                    teamAbbr={p.currentTeamAbbr ?? p.teamAbbr}
-                    status={p.availabilityLabel ?? 'Available'}
-                    intel={p.whyAvailable?.join('. ') || 'Review this player in Trade Hub.'}
-                    href={`/front-office/trade-hub/player/${encodeURIComponent(p.id)}`}
-                  />
-                ))
-            : activeMarketTab === 'activity'
-              ? market.recentTrades
+          </div>
+          <div className={styles.heroVisual}>
+            {featured?.headshotUrl && failedHero !== featured.id && (
+              <Image
+                className={styles.heroPhoto}
+                src={featured.headshotUrl}
+                alt={playerName(featured)}
+                width={440}
+                height={360}
+                unoptimized
+                onError={() => setFailedHero(featured.id)}
+              />
+            )}
+            {featured && (
+              <div className={styles.heroPlayer}>
+                <Link href={playerLink(featured)}>{playerName(featured)}</Link>
+                <span>
+                  {featured.position}
+                  {featured.age ? ` · Age ${featured.age}` : ''}
+                </span>
+                <i />
+                <small>Franchise spotlight</small>
+                <span className={`front-office-stat-value ${styles.heroRating}`}>
+                  {rating(featured) ?? '—'} <small>OVR</small>
+                </span>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+      {offseason ? (
+        <OffseasonHomeMarket {...offseasonProps} />
+      ) : (
+        <Panel
+          title="Trade Market"
+          icon={<ArrowLeftRight />}
+          href="/front-office/trade-hub"
+          className={styles.market}
+        >
+          <div className={styles.tabs} role="group" aria-label="Trade market filters">
+            {[
+              ['rumors', `All Rumors (${rumors.length})`],
+              ['available', `Available Players (${market.targets.length})`],
+              ['own', `Your Players (${ownRumors.length})`],
+              ['activity', 'Recent Activity'],
+            ].map(([key, label]) => (
+              <button
+                key={key}
+                aria-pressed={activeMarketTab === key}
+                onClick={() => setMarketTab(key)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className={styles.marketRows}>
+            {activeMarketTab === 'available'
+              ? market.targets
                   .slice(0, 4)
-                  .map((t) => (
+                  .map((p) => (
                     <MarketRow
-                      key={t.id}
-                      player={
-                        roster.find((p) => p.id === t.playerId) ??
-                        market.targets.find((p) => p.id === t.playerId)
-                      }
-                      teamAbbr={t.toTeamAbbr}
-                      status="Traded"
-                      title="Completed trade"
-                      intel={`${t.fromTeamAbbr ?? 'Previous team'} → ${t.toTeamAbbr ?? 'New team'} · ${stamp(t.createdAt)}`}
-                      href="/front-office/trade-hub/activity"
+                      key={p.id}
+                      player={p}
+                      teamAbbr={p.currentTeamAbbr ?? p.teamAbbr}
+                      status={p.availabilityLabel ?? 'Available'}
+                      intel={p.whyAvailable?.join('. ') || 'Review this player in Trade Hub.'}
+                      href={`/front-office/trade-hub/player/${encodeURIComponent(p.id)}`}
                     />
                   ))
-              : currentRumors
-                  .slice(0, 4)
-                  .map((e) => (
-                    <MarketRow
-                      key={e.id}
-                      player={
-                        Array.isArray(e.metadata?.playerIds) && e.metadata.playerIds.length > 1
-                          ? undefined
-                          : (roster.find((p) => p.id === e.playerId) ??
-                            market.targets.find((p) => p.id === e.playerId))
-                      }
-                      teamAbbr={e.relatedTeamAbbr ?? e.teamAbbr}
-                      title={e.headline}
-                      status={
-                        e.type === 'trade_offer'
-                          ? 'Offer'
-                          : e.type === 'trade_interest'
-                            ? 'Interest'
-                            : 'Rumor'
-                      }
-                      intel={e.summary}
-                      href={localLink(e.actionUrl, '/front-office/trade-hub')}
-                    />
-                  ))}
-          {(activeMarketTab === 'available'
-            ? !market.targets.length
-            : activeMarketTab === 'activity'
-              ? !market.recentTrades.length
-              : !currentRumors.length) && (
-            <Empty>
-              {loading
-                ? 'Loading trade market…'
-                : errors.includes('Trade market')
-                  ? 'Trade market unavailable. Retry below.'
-                  : 'No current updates in this market view.'}
-            </Empty>
-          )}
-        </div>
-      </Panel>
+              : activeMarketTab === 'activity'
+                ? market.recentTrades
+                    .slice(0, 4)
+                    .map((t) => (
+                      <MarketRow
+                        key={t.id}
+                        player={
+                          roster.find((p) => p.id === t.playerId) ??
+                          market.targets.find((p) => p.id === t.playerId)
+                        }
+                        teamAbbr={t.toTeamAbbr}
+                        status="Traded"
+                        title="Completed trade"
+                        intel={`${t.fromTeamAbbr ?? 'Previous team'} → ${t.toTeamAbbr ?? 'New team'} · ${stamp(t.createdAt)}`}
+                        href="/front-office/trade-hub/activity"
+                      />
+                    ))
+                : currentRumors
+                    .slice(0, 4)
+                    .map((e) => (
+                      <MarketRow
+                        key={e.id}
+                        player={
+                          Array.isArray(e.metadata?.playerIds) && e.metadata.playerIds.length > 1
+                            ? undefined
+                            : (roster.find((p) => p.id === e.playerId) ??
+                              market.targets.find((p) => p.id === e.playerId))
+                        }
+                        teamAbbr={e.relatedTeamAbbr ?? e.teamAbbr}
+                        title={e.headline}
+                        status={
+                          e.type === 'trade_offer'
+                            ? 'Offer'
+                            : e.type === 'trade_interest'
+                              ? 'Interest'
+                              : 'Rumor'
+                        }
+                        intel={e.summary}
+                        href={localLink(e.actionUrl, '/front-office/trade-hub')}
+                      />
+                    ))}
+            {(activeMarketTab === 'available'
+              ? !market.targets.length
+              : activeMarketTab === 'activity'
+                ? !market.recentTrades.length
+                : !currentRumors.length) && (
+              <Empty>
+                {loading
+                  ? 'Loading trade market…'
+                  : errors.includes('Trade market')
+                    ? 'Trade market unavailable. Retry below.'
+                    : 'No current updates in this market view.'}
+              </Empty>
+            )}
+          </div>
+        </Panel>
+      )}
       <Panel
         title="Player Development"
         icon={<TrendingUp />}
@@ -789,7 +864,7 @@ export function FrontOfficeHome({
         )}
       </Panel>
       <Panel
-        title="League Movement"
+        title={offseason ? 'Offseason Activity' : 'League Movement'}
         icon={<Globe />}
         href="/league?view=transactions"
         className={styles.movement}
@@ -799,106 +874,119 @@ export function FrontOfficeHome({
       <aside className={styles.rail} aria-label="Franchise updates">
         <section className={styles.advance} aria-label="Advance franchise">
           <FrontOfficePhaseControl
-            season={save.franchiseYear}
-            phase={save.phase}
+            season={simulation?.season ?? save.franchiseYear}
+            phase={phase}
             freeAgencyWave={save.freeAgencyWave}
           />
         </section>
-        <Panel
-          title="Next Game"
-          icon={<CalendarDays />}
-          href={gameHref}
-          link="View Schedule"
-          className={styles.nextGame}
-        >
-          {nextGame && opponent ? (
-            <>
-              <div className={styles.matchup}>
-                <div>
-                  <Logo abbr={teamAbbr} size={58} />
-                  <strong>{teamAbbr}</strong>
-                  <small>{record(ownState?.record)}</small>
-                </div>
-                <span>VS</span>
-                <div>
-                  <Logo abbr={opponent} size={58} />
-                  <strong>{opponent}</strong>
-                  <small>{record(simulation?.teams[opponent]?.record)}</small>
-                </div>
-              </div>
-              <p className={styles.gameTime}>
-                {kickoff ?? 'Kickoff time not published'}
-                <small>
-                  {nextGame.homeTeam === teamAbbr ? 'Home' : 'Away'} · Week {nextGame.week}
-                </small>
-              </p>
-            </>
-          ) : (
-            <Empty>
-              {loading
-                ? 'Loading next matchup…'
-                : simulation?.completedAt
-                  ? 'Season complete. Review your season recap.'
-                  : 'Your next matchup is not available yet.'}
-            </Empty>
-          )}
-        </Panel>
-        <Panel
-          title="Injury Report"
-          icon={<HeartPulse />}
-          href="/roster?view=roster"
-          className={styles.injuries}
-        >
-          <div className={styles.injuryHead}>
-            <span>Player</span>
-            <span>Pos</span>
-            <span>Status</span>
+        {offseason ? (
+          <div className={styles.offseasonRail}>
+            <OffseasonHomeRail {...offseasonProps} />
           </div>
-          {injuries.slice(0, 3).map((p) => (
-            <Link className={styles.injuryRow} key={p.id} href={playerLink(p)}>
-              <span>
-                <Portrait player={p} size={22} />
-                {playerName(p)}
-              </span>
-              <span>{p.position}</span>
-              <small className={styles.chip}>{p.status}</small>
-            </Link>
-          ))}
-          {!injuries.length && <Empty>No injury designations in the saved roster.</Empty>}
-        </Panel>
-        <Panel
-          title={ownState ? `${ownState.conference} ${ownState.division}` : 'Division Standings'}
-          icon={<Shield />}
-          href="/front-office/league/standings"
-          link="Full Standings"
-          className={styles.standings}
-        >
-          <div className={styles.standingsHead}>
-            <span>Team</span>
-            <span>W</span>
-            <span>L</span>
-            <span>T</span>
-            <span>PCT</span>
-          </div>
-          {division.map((t) => {
-            const games = t.record.wins + t.record.losses + t.record.ties;
-            return (
-              <div className={styles.standingsRow} data-own={t.abbr === teamAbbr} key={t.abbr}>
-                <span>
-                  <Logo abbr={t.abbr} size={20} />
-                  {teamsByAbbr.get(t.abbr)?.name.split(' ').slice(-1)[0] ?? t.abbr}
-                </span>
-                <span>{t.record.wins}</span>
-                <span>{t.record.losses}</span>
-                <span>{t.record.ties}</span>
-                <span>
-                  {games ? ((t.record.wins + t.record.ties / 2) / games).toFixed(3) : '.000'}
-                </span>
+        ) : (
+          <>
+            <Panel
+              title={homePhase.kind === 'playoffs' ? 'Next Playoff Game' : 'Next Game'}
+              icon={<CalendarDays />}
+              href={gameHref}
+              link="View Schedule"
+              className={styles.nextGame}
+            >
+              {nextGame && opponent ? (
+                <>
+                  <div className={styles.matchup}>
+                    <div>
+                      <Logo abbr={teamAbbr} size={58} />
+                      <strong>{teamAbbr}</strong>
+                      <small>{record(ownState?.record)}</small>
+                    </div>
+                    <span>VS</span>
+                    <div>
+                      <Logo abbr={opponent} size={58} />
+                      <strong>{opponent}</strong>
+                      <small>{record(simulation?.teams[opponent]?.record)}</small>
+                    </div>
+                  </div>
+                  <p className={styles.gameTime}>
+                    {kickoff ?? 'Kickoff time not published'}
+                    <small>
+                      {nextGame.homeTeam === teamAbbr ? 'Home' : 'Away'} ·{' '}
+                      {homePhase.kind === 'playoffs'
+                        ? phaseDisplayName(phase)
+                        : `Week ${nextGame.week}`}
+                    </small>
+                  </p>
+                </>
+              ) : (
+                <Empty>
+                  {loading
+                    ? 'Loading next matchup…'
+                    : simulation?.completedAt
+                      ? 'Season complete. Review your season recap.'
+                      : 'Your next matchup is not available yet.'}
+                </Empty>
+              )}
+            </Panel>
+            <Panel
+              title="Injury Report"
+              icon={<HeartPulse />}
+              href="/roster?view=roster"
+              className={styles.injuries}
+            >
+              <div className={styles.injuryHead}>
+                <span>Player</span>
+                <span>Pos</span>
+                <span>Status</span>
               </div>
-            );
-          })}
-          {!division.length && <Empty>Standings are not available yet.</Empty>}
-        </Panel>
+              {injuries.slice(0, 3).map((p) => (
+                <Link className={styles.injuryRow} key={p.id} href={playerLink(p)}>
+                  <span>
+                    <Portrait player={p} size={22} />
+                    {playerName(p)}
+                  </span>
+                  <span>{p.position}</span>
+                  <small className={styles.chip}>{p.status}</small>
+                </Link>
+              ))}
+              {!injuries.length && <Empty>No injury designations in the saved roster.</Empty>}
+            </Panel>
+            <Panel
+              title={
+                ownState ? `${ownState.conference} ${ownState.division}` : 'Division Standings'
+              }
+              icon={<Shield />}
+              href="/front-office/league/standings"
+              link="Full Standings"
+              className={styles.standings}
+            >
+              <div className={styles.standingsHead}>
+                <span>Team</span>
+                <span>W</span>
+                <span>L</span>
+                <span>T</span>
+                <span>PCT</span>
+              </div>
+              {division.map((t) => {
+                const games = t.record.wins + t.record.losses + t.record.ties;
+                return (
+                  <div className={styles.standingsRow} data-own={t.abbr === teamAbbr} key={t.abbr}>
+                    <span>
+                      <Logo abbr={t.abbr} size={20} />
+                      {teamsByAbbr.get(t.abbr)?.name.split(' ').slice(-1)[0] ?? t.abbr}
+                    </span>
+                    <span>{t.record.wins}</span>
+                    <span>{t.record.losses}</span>
+                    <span>{t.record.ties}</span>
+                    <span>
+                      {games ? ((t.record.wins + t.record.ties / 2) / games).toFixed(3) : '.000'}
+                    </span>
+                  </div>
+                );
+              })}
+              {!division.length && <Empty>Standings are not available yet.</Empty>}
+            </Panel>
+          </>
+        )}
         <Panel
           title="Recent Transactions"
           icon={<Users />}
@@ -925,13 +1013,28 @@ export function FrontOfficeHome({
           </div>
         </Panel>
         <Panel
-          title="The Wire"
+          title={
+            offseason
+              ? homePhase.kind === 'free-agency'
+                ? 'Free Agency Activity'
+                : 'Draft Activity'
+              : 'The Wire'
+          }
           icon={<MessageSquare />}
           href="/front-office/league/news"
           link="All News"
           className={styles.wire}
         >
-          <EventList events={events.filter((e) => e.type !== 'welcome_message')} count={3} />
+          <EventList
+            events={events.filter((e) =>
+              offseason
+                ? homePhase.kind === 'free-agency'
+                  ? ['free_agent_signing', 'player_release', 'contract_extension'].includes(e.type)
+                  : /draft|prospect|combine/i.test(`${e.type} ${e.headline}`)
+                : e.type !== 'welcome_message',
+            )}
+            count={3}
+          />
         </Panel>
       </aside>
       {(errors.length > 0 || rosterError) && (
@@ -954,7 +1057,7 @@ export function FrontOfficeHome({
           summary={summary}
           player={featured}
           teamAbbr={teamAbbr}
-          period={/^week-/.test(save.phase) && week ? `Week ${week}` : phaseDisplayName(save.phase)}
+          period={/^week-/.test(phase) && week ? `Week ${week}` : phaseDisplayName(phase)}
           saveId={saveId}
           onRead={(ids) =>
             setEvents((previous) =>

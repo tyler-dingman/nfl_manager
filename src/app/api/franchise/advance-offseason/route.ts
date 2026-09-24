@@ -1,36 +1,20 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { POST as advanceSimulation } from '@/app/api/front-office/simulate/route';
+import { getSaveStateResult, getSaveHeaderSnapshot } from '@/server/api/store';
 
-import { advanceSaveStateToNextOffseason } from '@/server/api/store';
-
-export const POST = async (request: Request) => {
-  let body: { saveId?: string } = {};
-  try {
-    body = (await request.json()) as { saveId?: string };
-  } catch {
-    body = {};
-  }
-
-  if (!body.saveId) {
-    return NextResponse.json({ ok: false, error: 'saveId is required' }, { status: 400 });
-  }
-
-  const result = advanceSaveStateToNextOffseason(body.saveId);
-  if (!result.ok) {
-    return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
-  }
-
-  return NextResponse.json({
-    ok: true,
-    saveId: result.data.header.id,
-    teamAbbr: result.data.header.teamAbbr,
-    year: result.data.header.year,
-    capSpace: result.data.header.capSpace,
-    capLimit: result.data.header.capLimit,
-    rosterCount: result.data.header.rosterCount,
-    rosterLimit: result.data.header.rosterLimit,
-    phase: result.data.header.phase,
-    unlocked: result.data.header.unlocked,
-    createdAt: result.data.header.createdAt,
-    roster: result.data.roster,
-  });
-};
+/** The season recap enters the Combine through the same guarded simulation transition. */
+export async function POST(request: NextRequest) {
+  const { saveId } = await request.json();
+  const response = await advanceSimulation(
+    new NextRequest(request.url, {
+      method: 'POST',
+      headers: request.headers,
+      body: JSON.stringify({ saveId, action: 'advance', target: 'scouting_combine' }),
+    }),
+  );
+  if (!response.ok) return response;
+  const state = getSaveStateResult(saveId);
+  if (!state.ok) return NextResponse.json({ ok: false, error: state.error }, { status: 404 });
+  const header = getSaveHeaderSnapshot(state.data);
+  return NextResponse.json({ ok: true, ...header, saveId: header.id, roster: state.data.roster });
+}

@@ -1,3 +1,4 @@
+import { normalizeFrontOfficePhase } from '@/lib/front-office-phase';
 import {
   assignSimulationRoster,
   getActiveSimulationRoster,
@@ -687,6 +688,18 @@ export const createSaveState = (
   return state;
 };
 
+/** Mirror the committed simulation into the roster/market cache; never advances its clock. */
+export function syncSaveSimulation(saveId: string, simulation: { phase: string; season: number }) {
+  const state = getSaveState(saveId);
+  if (!state) return;
+  state.header.phase = normalizeFrontOfficePhase(simulation.phase);
+  state.header.year = simulation.season;
+  state.header.unlocked = { freeAgency: true, draft: true };
+  const wave = state.header.phase === 'free_agency' ? 1 : 2;
+  state.header.freeAgencyWave = wave;
+  state.offseason.freeAgencyWave = wave;
+}
+
 export const setSavePhase = (saveId: string, phase: string): SaveResult<SaveHeaderDTO> => {
   const state = getSaveState(saveId);
   if (!state) {
@@ -725,7 +738,7 @@ export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): S
     capLimit: Number(payload.capLimit.toFixed(1)),
     rosterCount: getActiveSimulationRoster(restoredRoster).length,
     rosterLimit: state.header.rosterLimit,
-    phase: payload.phase ?? state.header.phase,
+    phase: normalizeFrontOfficePhase(payload.phase ?? state.header.phase),
     unlocked: payload.unlocked ?? resolveUnlocksForPhase(payload.phase ?? state.header.phase),
     createdAt: payload.createdAt ?? state.header.createdAt,
   };

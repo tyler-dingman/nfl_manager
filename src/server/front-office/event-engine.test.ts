@@ -15,7 +15,7 @@ test('front office event engine creates stable, state-backed events', () => {
     teams,
     games: [{ id: 'g1', week: 1, homeTeam: 'CHI', awayTeam: 'GB' }],
   });
-  const advanced = advanceSimulation(initial, 'week-1');
+  const advanced = advanceSimulation(initial, 'week-2');
   const first = generateFrontOfficeEvents({
     saveId: 'save',
     teamAbbr: 'CHI',
@@ -43,7 +43,7 @@ test('front office event engine caps non-game alerts while preserving game news'
     teams,
     games: [{ id: 'g1', week: 1, homeTeam: 'CHI', awayTeam: 'GB' }],
   });
-  const advanced = advanceSimulation(initial, 'week-1');
+  const advanced = advanceSimulation(initial, 'week-2');
   const events = generateFrontOfficeEvents({
     saveId: 'save',
     teamAbbr: 'CHI',
@@ -60,7 +60,8 @@ test('weekly progression persists re-sign readiness on the referenced player', (
     teams,
     games: [],
   });
-  const advanced = advanceSimulation(initial, 'week-18');
+  let advanced = initial;
+  for (let week = 2; week <= 18; week += 1) advanced = advanceSimulation(advanced, `week-${week}`);
   const events = generateFrontOfficeEvents({
     saveId: 'save',
     teamAbbr: 'CHI',

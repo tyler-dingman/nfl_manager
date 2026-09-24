@@ -103,6 +103,31 @@ export function buildDraftCentralIntelligence(input: {
     ...pick,
     displayOverall: pick.overallSlot ?? (pick.round - 1) * 32 + projectedSlot,
   }));
+  const liveDraft =
+    input.simulation?.completedDraft ??
+    Object.values(input.state.draftSessions).find(
+      (session) => session.mode === 'real' && session.draftYear === draftYear,
+    );
+  const selectedIds = new Set(
+    liveDraft?.picks.flatMap((pick) => (pick.selectedPlayerId ? [pick.selectedPlayerId] : [])) ??
+      [],
+  );
+  const availableProspects = prospects.filter((prospect) => !selectedIds.has(prospect.id));
+  const remainingPicks = liveDraft
+    ? liveDraft.picks
+        .filter(
+          (pick) =>
+            pick.ownerTeamAbbr === input.teamAbbr &&
+            !pick.selectedPlayerId &&
+            pick.round <= liveDraft.maxRounds,
+        )
+        .map((pick) => ({
+          id: pick.id,
+          year: draftYear,
+          round: pick.round,
+          displayOverall: pick.overall,
+        }))
+    : picks.filter((pick) => pick.year === draftYear);
   const fits = prospects
     .map((prospect) => {
       const position = toNeedPosition(prospect.position ?? '');
@@ -168,6 +193,8 @@ export function buildDraftCentralIntelligence(input: {
     needAnalysis,
     recommendations,
     picks,
+    remainingPicks,
+    availableProspects,
     prospects,
     fits,
     news,

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createSave, getSavesByTeam } from '@/server/api/save';
-import { ensureSaveState, getSaveHeaderSnapshot, setSavePhase } from '@/server/api/store';
+import { ensureSaveState, getSaveHeaderSnapshot, syncSaveSimulation } from '@/server/api/store';
 import { currentUser } from '@/server/auth/request';
 import {
   getLatestFrontOfficeSaveForTeam,
@@ -23,8 +23,12 @@ export const POST = async (request: NextRequest) => {
   const durable = user ? await getLatestFrontOfficeSaveForTeam(user.id, resolvedTeam) : null;
   let header;
   if (durable) {
-    const state = ensureSaveState(durable.saveId, durable.teamAbbr);
-    if (durable.simulationPhase) setSavePhase(durable.saveId, durable.simulationPhase);
+    const state = ensureSaveState(durable.saveId, durable.teamAbbr, durable.season);
+    if (durable.simulationPhase)
+      syncSaveSimulation(durable.saveId, {
+        phase: durable.simulationPhase,
+        season: durable.season,
+      });
     header = getSaveHeaderSnapshot(state);
   } else {
     const existingSaves = getSavesByTeam(body.teamId, body.teamAbbr);

@@ -11,7 +11,7 @@ import { FrontOfficePhaseControl } from '@/components/front-office/front-office-
 import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
 import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import styles from './draft-central-home.module.css';
-import { PLAYER_TABLE_HEADING_CLASS } from '@/components/player-table';
+import tableHeading from '@/components/draft/draft-table-heading.module.css';
 type Prospect = {
   id: string;
   name: string;
@@ -41,7 +41,7 @@ type Pick = {
   compensatory?: boolean;
 };
 type Need = { position: string; score: number; level: 'High' | 'Moderate' | 'Low' };
-type Data = {
+export type DraftCentralHomeData = {
   draftInfo?: { startsAt: string; endsAt?: string; location?: string };
   week: number;
   draftYear: number;
@@ -50,6 +50,8 @@ type Data = {
   needAnalysis: Need[];
   recommendations: Array<{ position: string; title: string; detail: string }>;
   picks: Pick[];
+  remainingPicks?: Pick[];
+  availableProspects?: Prospect[];
   prospects: Prospect[];
   fits: Prospect[];
   news: Array<{
@@ -78,7 +80,7 @@ function Avatar({ p }: { p: Prospect }) {
 }
 export function DraftCentralPage() {
   const save = useSaveStore();
-  const [data, setData] = useState<Data | null>(null);
+  const [data, setData] = useState<DraftCentralHomeData | null>(null);
   const [error, setError] = useState('');
   const [position, setPosition] = useState('');
   const [conference, setConference] = useState('');
@@ -312,7 +314,7 @@ export function DraftCentralPage() {
                   {['Rank', 'Player', 'Pos', 'School', 'HT', 'WT', 'OVR', 'Grade', ''].map(
                     (v, i) => (
                       <th key={i} scope="col">
-                        <span className={PLAYER_TABLE_HEADING_CLASS}>{v}</span>
+                        <span className={tableHeading.heading}>{v}</span>
                       </th>
                     ),
                   )}

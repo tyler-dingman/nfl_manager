@@ -17,8 +17,11 @@ const simulation = {
 };
 
 test('normalizes proper JSONB objects and legacy JSON-string simulation rows', () => {
-  assert.deepEqual(normalizeFranchiseSimulation(simulation), simulation);
-  assert.deepEqual(normalizeFranchiseSimulation(JSON.stringify(simulation)), simulation);
+  assert.deepEqual(normalizeFranchiseSimulation(simulation), { ...simulation, phase: 'week-1' });
+  assert.deepEqual(normalizeFranchiseSimulation(JSON.stringify(simulation)), {
+    ...simulation,
+    phase: 'week-1',
+  });
 });
 
 test('treats malformed legacy simulation state as uninitialized', () => {

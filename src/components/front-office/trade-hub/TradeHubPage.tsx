@@ -5,6 +5,7 @@ import PlayerDetailsModal from '@/components/player-details-modal';
 import Link from 'next/link';
 import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  ArrowRight,
   Check,
   Handshake,
   ChevronDown,
@@ -309,8 +310,38 @@ export function TradeHubPage() {
   const [leftTab, setLeftTab] = useState<Tab>('players');
   const [rightTab, setRightTab] = useState<Tab>('players');
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
-  const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState('');
+  const [reviewing, setReviewing] = useState(false);
+  const [tradeResult, setTradeResult] = useState<{
+    accepted: boolean;
+    partnerName: string;
+    reason?: string;
+    estimate: number;
+    moves: Array<{ label: string; destination: string }>;
+  } | null>(null);
+  const resultRef = useRef<HTMLElement>(null);
+  const packagesRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!tradeResult || loading) return;
+    const card = resultRef.current;
+    if (!card) return;
+    card.focus({ preventScroll: true });
+    const bounds = card.getBoundingClientRect();
+    const headerBottom =
+      document.querySelector('[data-site-header]')?.getBoundingClientRect().bottom ?? 0;
+    if (bounds.top < headerBottom || bounds.bottom > window.innerHeight) {
+      card.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'instant'
+          : 'smooth',
+        block: 'center',
+      });
+    }
+  }, [tradeResult, loading]);
+  useEffect(() => {
+    setTradeResult(null);
+  }, [partner]);
   const [busy, setBusy] = useState(false);
   const busyRef = useRef(false);
   const [dropSide, setDropSide] = useState<Side | null>(null);
@@ -416,6 +447,7 @@ export function TradeHubPage() {
     busyRef.current = true;
     setBusy(true);
     setStatus('');
+    setTradeResult(null);
     try {
       const saveId = await resolveSave();
       if (!saveId) throw new Error('Unable to load your save. Please reload and try again.');
@@ -481,7 +513,9 @@ export function TradeHubPage() {
     if (!trade || busyRef.current || !analysis?.proposal.isValid) return;
     busyRef.current = true;
     setBusy(true);
-    setStatus('Submitting trade…');
+    setReviewing(true);
+    setTradeResult(null);
+    setStatus('');
     try {
       const saveId = await resolveSave();
       if (!saveId) throw new Error('Unable to load your save.');
@@ -493,13 +527,36 @@ export function TradeHubPage() {
       const result = await response.json();
       if (!response.ok || result.ok === false)
         throw new Error(result.error ?? 'Unable to submit trade.');
-      if (!result.accepted) {
-        setStatus(
+      const outcome = {
+        accepted: Boolean(result.accepted),
+        partnerName: partnerTeam?.name ?? partner,
+        reason:
           result.proposal?.validationErrors?.[0]?.message ??
-            'Trade declined. Offer more value to the other team and try again.',
-        );
-        return;
-      }
+          'Offer more value to the other team to make this deal work.',
+        estimate: result.acceptance ?? analysis.acceptance,
+        moves: [
+          ...trade.sendAssets.map((asset) => ({
+            label: asset.playerId
+              ? (() => {
+                  const player = userSource?.players.find((p) => p.id === asset.playerId);
+                  return player ? playerName(player) : asset.label;
+                })()
+              : asset.label,
+            destination: partnerTeam?.name ?? partner,
+          })),
+          ...trade.receiveAssets.map((asset) => ({
+            label: asset.playerId
+              ? (() => {
+                  const player = partnerSource?.players.find((p) => p.id === asset.playerId);
+                  return player ? playerName(player) : asset.label;
+                })()
+              : asset.label,
+            destination: userTeam?.name ?? userAbbr,
+          })),
+        ],
+      };
+      setTradeResult(outcome);
+      if (!result.accepted) return;
       setTrade(null);
       setAnalysis(null);
       setSaveHeader(result.header);
@@ -510,12 +567,12 @@ export function TradeHubPage() {
       if (rosterResponse.ok) useSaveStore.getState().setRoster(await rosterResponse.json());
       dispatchSaveDataUpdated({ saveId, teamAbbr: userAbbr, reason: 'trade-accepted' });
       await load();
-      setStatus('Trade accepted. Both rosters, draft picks, and cap space have been updated.');
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Unable to submit trade.');
     } finally {
       busyRef.current = false;
       setBusy(false);
+      setReviewing(false);
     }
   };
 
@@ -613,7 +670,7 @@ export function TradeHubPage() {
     : (analysis?.proposal.validationErrors[0]?.message ??
       `${valueShare >= 0.53 ? 'Receives more value than it sends' : valueShare >= 0.47 ? 'Exchanges comparable package value' : 'Sends more value than it receives'}, with ${money(Math.abs(capChange))} ${capChange >= 0 ? 'added to' : 'used from'} your available cap space.`);
   if (loading && !trade) return <div className={styles.status}>Loading the Trade Machine…</div>;
-  if (status && !trade)
+  if (status && !trade && !tradeResult)
     return (
       <div className={styles.status}>
         <b>Trade Machine unavailable</b>
@@ -658,16 +715,18 @@ export function TradeHubPage() {
             <h2>
               <ArrowLeftRight /> Trade Proposal
             </h2>
-            <button onClick={() => void load()}>
+            <button
+              disabled={busy || loading}
+              onClick={() => {
+                setTradeResult(null);
+                setStatus('');
+                void load();
+              }}
+            >
               <RefreshCcw /> Reset trade
             </button>
           </header>
-          {status ? (
-            <p role="status" className={styles.proposalStatus}>
-              {status}
-            </p>
-          ) : null}
-          <div className={styles.packages}>
+          <div className={styles.packages} ref={packagesRef} tabIndex={-1}>
             <section
               aria-label="Your team sends"
               data-drop-active={dropSide === 'send'}
@@ -727,6 +786,81 @@ export function TradeHubPage() {
               )}
             </section>
           </div>
+          {tradeResult && (
+            <section
+              ref={resultRef}
+              tabIndex={-1}
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              className={styles.tradeResult}
+              data-accepted={tradeResult.accepted}
+              aria-label={tradeResult.accepted ? 'Trade accepted' : 'Trade declined'}
+            >
+              <button
+                type="button"
+                className={styles.resultClose}
+                aria-label="Dismiss trade result"
+                onClick={() => {
+                  setTradeResult(null);
+                  packagesRef.current?.focus({ preventScroll: true });
+                }}
+              >
+                <X size={20} aria-hidden="true" />
+              </button>
+              <h3>
+                {tradeResult.accepted ? <Check aria-hidden="true" /> : <X aria-hidden="true" />}
+                {tradeResult.accepted ? 'TRADE ACCEPTED' : 'TRADE DECLINED'}
+              </h3>
+              <p>
+                {tradeResult.partnerName} has {tradeResult.accepted ? 'accepted' : 'declined'} your
+                trade proposal.
+              </p>
+              {tradeResult.accepted ? (
+                <>
+                  <ul>
+                    {tradeResult.moves.map((move, index) => (
+                      <li key={index}>
+                        {move.label} <ArrowRight size={14} aria-hidden="true" /> {move.destination}
+                      </li>
+                    ))}
+                  </ul>
+                  <strong className={styles.completed}>
+                    <Check size={18} aria-hidden="true" /> Trade Completed
+                  </strong>
+                  <p>
+                    Players and picks have been transferred. Both teams’ rosters and cap space have
+                    been updated.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>{tradeResult.reason}</p>
+                  <small>Current acceptance estimate: {Math.round(tradeResult.estimate)}%</small>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTradeResult(null);
+                      packagesRef.current?.focus({ preventScroll: true });
+                      packagesRef.current?.scrollIntoView({
+                        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                          ? 'instant'
+                          : 'smooth',
+                        block: 'center',
+                      });
+                    }}
+                  >
+                    Adjust Trade
+                  </button>
+                </>
+              )}
+            </section>
+          )}
+          {status ? (
+            <p role="status" className={styles.proposalStatus}>
+              {status}
+            </p>
+          ) : null}
           <section className={styles.analysis}>
             <h3>
               <BarChart3 /> Trade Analysis
@@ -754,11 +888,31 @@ export function TradeHubPage() {
                     </h4>
                     <p>{gradeSummary}</p>
                     <div className={styles.gradeChips}>
-                      <span>
-                        {analysis.packageValues.difference >= 0 ? '↑' : '↓'}{' '}
+                      <span
+                        data-tone={
+                          analysis.packageValues.difference > 0
+                            ? 'positive'
+                            : analysis.packageValues.difference < 0
+                              ? 'negative'
+                              : 'neutral'
+                        }
+                      >
+                        {analysis.packageValues.difference > 0
+                          ? '↑'
+                          : analysis.packageValues.difference < 0
+                            ? '↓'
+                            : '−'}{' '}
                         {Math.abs(analysis.packageValues.difference).toFixed(0)} net value
                       </span>
-                      <span>
+                      <span
+                        data-tone={
+                          incomingPicks > outgoingPicks
+                            ? 'positive'
+                            : incomingPicks < outgoingPicks
+                              ? 'negative'
+                              : 'neutral'
+                        }
+                      >
                         {incomingPicks > outgoingPicks
                           ? '↑ Adds'
                           : incomingPicks < outgoingPicks
@@ -766,7 +920,15 @@ export function TradeHubPage() {
                             : '− Neutral'}{' '}
                         draft capital
                       </span>
-                      <span>
+                      <span
+                        data-tone={
+                          Math.abs(capChange) < 1
+                            ? 'neutral'
+                            : capChange > 0
+                              ? 'positive'
+                              : 'negative'
+                        }
+                      >
                         {Math.abs(capChange) < 1
                           ? '− Minimal cap impact'
                           : `${capChange >= 0 ? '↑' : '↓'} ${money(Math.abs(capChange))} cap space`}
@@ -851,7 +1013,9 @@ export function TradeHubPage() {
             }
             onClick={() => void executeTrade()}
           >
-            {busy ? (
+            {reviewing ? (
+              'Reviewing Offer…'
+            ) : busy ? (
               'Updating trade…'
             ) : (
               <>

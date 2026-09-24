@@ -4,6 +4,8 @@ import { ProspectDetailsModal } from './prospect-details-modal';
 import { useTeamStore } from '@/features/team/team-store';
 import type { PlayerRowDTO } from '@/types/player';
 import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { draftPositionFilter, matchesDraftPosition } from '@/lib/draft-position-filter';
 import { ChevronDown, ChevronUp, GripVertical, Star, Trash2, X } from 'lucide-react';
 import { DdSearchIcon as Search } from '@/components/ui/football-icons';
 import { useEffect, useMemo, useState } from 'react';
@@ -58,17 +60,32 @@ export function ProspectBoard({
   title = 'Big Board',
   showHeader = true,
   initialProspectId,
+  initialPosition = 'ALL',
 }: {
   prospects: DraftProspectRecord[];
   title?: string;
   showHeader?: boolean;
   initialProspectId?: string;
+  initialPosition?: string;
 }) {
   const teamAbbr = useSaveStore((s) => s.teamAbbr);
   const team = useTeamStore((s) => s.teams.find((t) => t.abbr === teamAbbr));
   const saveId = useSaveStore((state) => state.saveId);
   const [query, setQuery] = useState('');
-  const [position, setPosition] = useState('ALL');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  // Preserve the page's requested filter before client routing is ready. Once
+  // available, the URL also handles dropdown changes and back/forward navigation.
+  const position = draftPositionFilter(
+    searchParams ? searchParams.get('position') : initialPosition,
+  );
+  const setPosition = (value: string) => {
+    const params = new URLSearchParams(searchParams?.toString());
+    if (value === 'ALL') params.delete('position');
+    else params.set('position', value);
+    router.replace(`${pathname}${params.size ? `?${params.toString()}` : ''}`, { scroll: false });
+  };
   const [school, setSchool] = useState('ALL');
   const [sort, setSort] = useState<Sort>('rank');
   const [view, setView] = useState<View>('all');
@@ -160,8 +177,14 @@ export function ProspectBoard({
   };
 
   const positions = useMemo(
-    () => [...new Set(rankedProspects.map((item) => positionGroup(item.position)))].sort(),
-    [rankedProspects],
+    () =>
+      [
+        ...new Set([
+          ...rankedProspects.map((item) => positionGroup(item.position)),
+          ...(position !== 'ALL' ? [position] : []),
+        ]),
+      ].sort(),
+    [rankedProspects, position],
   );
   const schools = useMemo(
     () =>
@@ -196,7 +219,7 @@ export function ProspectBoard({
         return (
           (showDrafted || !drafted) &&
           (!text || haystack.includes(text)) &&
-          (position === 'ALL' || positionGroup(item.position) === position) &&
+          matchesDraftPosition(item.position, position) &&
           (school === 'ALL' || item.school === school)
         );
       })
@@ -276,7 +299,11 @@ export function ProspectBoard({
                 placeholder="Search players, school, or position"
               />
             </label>
-            <select value={position} onChange={(event) => setPosition(event.target.value)}>
+            <select
+              aria-label="Prospect position"
+              value={position}
+              onChange={(event) => setPosition(event.target.value)}
+            >
               <option value="ALL">All positions</option>
               {positions.map((value) => (
                 <option key={value}>{value}</option>

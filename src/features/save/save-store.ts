@@ -1,3 +1,4 @@
+import { getFrontOfficePhaseActions, normalizeFrontOfficePhase } from '@/lib/front-office-phase';
 import {
   assignSimulationRoster,
   getActiveSimulationRoster,
@@ -137,10 +138,10 @@ const resolveUnlocks = (phase: string, current?: SaveUnlocksDTO): SaveUnlocksDTO
     draft: current?.draft ?? false,
   };
 
-  if (phase === 'free_agency' || phase === 'draft' || phase === 'season') {
+  if (phase !== 'resign_cut') {
     next.freeAgency = true;
   }
-  if (phase === 'draft' || phase === 'season') {
+  if (phase !== 'resign_cut') {
     next.draft = true;
   }
 
@@ -157,7 +158,10 @@ export const useSaveStore = create<SaveStoreState>()(
         const capLimit = header.capLimit;
         const rosterCount = header.rosterCount;
         const rosterLimit = header.rosterLimit || FRONT_OFFICE_ACTIVE_ROSTER_LIMIT;
-        const phase = header.phase;
+        const phase =
+          header.phase === 'resign_cut'
+            ? header.phase
+            : normalizeFrontOfficePhase(header.phase, header.freeAgencyWave);
         const unlocked = resolveUnlocks(phase, header.unlocked);
         const currentRoster = get().roster;
         const capSpace = header.capSpace;
@@ -249,7 +253,19 @@ export const useSaveStore = create<SaveStoreState>()(
         set((state) => ({
           ...state,
           franchiseYear: simulation.season,
-          phase: simulation.phase,
+          activeDraftSessionId:
+            simulation.season !== state.franchiseYear ? null : state.activeDraftSessionId,
+          activeDraftSessionIdsBySave:
+            simulation.season !== state.franchiseYear && state.saveId
+              ? Object.fromEntries(
+                  Object.entries(state.activeDraftSessionIdsBySave).filter(
+                    ([id]) => id !== state.saveId,
+                  ),
+                )
+              : state.activeDraftSessionIdsBySave,
+          isUserOnClock: simulation.season !== state.franchiseYear ? false : state.isUserOnClock,
+          phase: normalizeFrontOfficePhase(simulation.phase),
+          freeAgencyWave: simulation.phase === 'free_agency' ? 1 : 2,
           unlocked: resolveUnlocks(simulation.phase, state.unlocked),
           saveLoadError: null,
         })),
@@ -299,53 +315,30 @@ export const useSaveStore = create<SaveStoreState>()(
           };
         }),
       setPhase: async (nextPhase) => {
-        const { saveId, teamAbbr, franchiseYear, capSpace, capLimit, roster, unlocked } = get();
-        if (!saveId) {
-          return;
-        }
-        const response = await apiFetch('/api/saves/phase', {
+        const { saveId } = get();
+        if (!saveId) throw new Error('Create or restore a franchise save first.');
+        const response = await apiFetch('/api/front-office/simulate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            saveId,
-            phase: nextPhase,
-            teamAbbr,
-            year: franchiseYear,
-            capSpace,
-            capLimit,
-            roster,
-            unlocked,
-          }),
+          body: JSON.stringify({ saveId, action: 'advance', target: nextPhase }),
         });
-        if (!response.ok) {
-          get().setSaveLoadError('Unable to update save phase.');
-          return;
+        const payload = await response.json();
+        if (!response.ok || !payload.state) {
+          const message = payload.error ?? 'Unable to advance the franchise.';
+          get().setSaveLoadError(message);
+          throw new Error(message);
         }
-        const data = (await response.json()) as SaveBootstrapDTO | { ok: false; error: string };
-        if (!('ok' in data) || !data.ok) {
-          get().setSaveLoadError(data.error ?? 'Unable to update save phase.');
-          return;
-        }
-        set((state) => ({
-          ...state,
-          saveId: data.saveId,
-          franchiseYear: data.year,
-          phase: data.phase,
-          unlocked: resolveUnlocks(data.phase, data.unlocked),
-          saveLoadError: null,
-        }));
+        get().applyAuthoritativeFranchiseState(payload.state);
+        window.dispatchEvent(
+          new CustomEvent('front-office-simulation-advanced', {
+            detail: { state: payload.state, events: payload.events ?? [] },
+          }),
+        );
       },
       advancePhase: async () => {
-        const { phase } = get();
-        const nextPhase =
-          phase === 'resign_cut'
-            ? 'free_agency'
-            : phase === 'free_agency'
-              ? 'draft'
-              : phase === 'draft'
-                ? 'season'
-                : 'season';
-        await get().setPhase(nextPhase);
+        const action = getFrontOfficePhaseActions(get().phase).primary;
+        if (action.href) return;
+        await get().setPhase(action.target);
       },
       refreshSaveHeader: async (saveIdOverride) => {
         const { saveId, teamAbbr } = get();
@@ -389,7 +382,7 @@ export const useSaveStore = create<SaveStoreState>()(
             ? getActiveSimulationRoster(state.roster).length
             : data.rosterCount,
           rosterLimit: data.rosterLimit || FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
-          phase: data.phase,
+          phase: normalizeFrontOfficePhase(data.phase, data.freeAgencyWave),
           unlocked: resolveUnlocks(data.phase, data.unlocked),
           saveLoadError: null,
           activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,
@@ -434,7 +427,7 @@ export const useSaveStore = create<SaveStoreState>()(
             ? getActiveSimulationRoster(state.roster).length
             : data.rosterCount,
           rosterLimit: data.rosterLimit || FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
-          phase: data.phase,
+          phase: normalizeFrontOfficePhase(data.phase, data.freeAgencyWave),
           unlocked: resolveUnlocks(data.phase, data.unlocked),
           saveLoadError: null,
           activeDraftSessionId: state.activeDraftSessionIdsBySave[data.saveId] ?? null,

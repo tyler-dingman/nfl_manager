@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowRight, ChevronDown, Loader2, X } from 'lucide-react';
 
@@ -15,6 +16,7 @@ import { getActiveSimulationRoster } from '@/lib/front-office-roster';
 import { computeTeamOverviewRaw } from '@/lib/team-overview';
 import {
   getFrontOfficePhaseActions,
+  getFranchisePhaseActions,
   phaseDisplayName,
   type FrontOfficePhaseAction,
 } from '@/lib/front-office-phase';
@@ -44,9 +46,15 @@ export function FrontOfficePhaseControl({
   const [pending, setPending] = useState<FrontOfficePhaseAction | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [loadAttempt, setLoadAttempt] = useState(0);
+  const busyRef = useRef(false);
+  const simulationRevision = useRef(0);
   const cancelRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
-  const actions = getFrontOfficePhaseActions(phase);
+  const currentPhase = simulation?.phase ?? phase;
+  const actions = simulation
+    ? getFranchisePhaseActions(simulation, teamAbbr)
+    : getFrontOfficePhaseActions(currentPhase);
   const teamRecord = simulation?.teams[teamAbbr]?.record;
   const record = teamRecord
     ? `${teamRecord.wins}-${teamRecord.losses}${teamRecord.ties ? `-${teamRecord.ties}` : ''}`
@@ -57,23 +65,47 @@ export function FrontOfficePhaseControl({
 
   useEffect(() => {
     if (!saveId) return;
+    setSimulation(null);
     const controller = new AbortController();
+    const revision = simulationRevision.current;
     void apiFetch(`/api/front-office/simulate?saveId=${encodeURIComponent(saveId)}`, {
       signal: controller.signal,
     })
       .then(async (response) => {
-        if (!response.ok) return null;
+        if (!response.ok) throw new Error('Unable to load the current franchise phase.');
         return response.json() as Promise<{ state?: FranchiseSimulationState | null }>;
       })
       .then((payload) => {
-        if (payload?.state) {
+        if (
+          payload?.state &&
+          !controller.signal.aborted &&
+          revision === simulationRevision.current
+        ) {
           setSimulation(payload.state);
           applyAuthoritativeFranchiseState(payload.state);
         }
       })
-      .catch(() => undefined);
+      .catch(() => {
+        if (!controller.signal.aborted) setError('Unable to load the current franchise phase.');
+      });
     return () => controller.abort();
-  }, [applyAuthoritativeFranchiseState, saveId]);
+  }, [applyAuthoritativeFranchiseState, saveId, loadAttempt]);
+
+  useEffect(() => {
+    const sync = (event: Event) => {
+      const state = (event as CustomEvent<{ state?: FranchiseSimulationState }>).detail?.state;
+      if (state) {
+        simulationRevision.current += 1;
+        setSimulation(state);
+      }
+    };
+    window.addEventListener('front-office-simulation-advanced', sync);
+    window.addEventListener('front-office-week-complete', sync);
+    return () => {
+      window.removeEventListener('front-office-simulation-advanced', sync);
+      window.removeEventListener('front-office-week-complete', sync);
+    };
+  }, []);
 
   useEffect(() => {
     if (!pending) return;
@@ -102,10 +134,24 @@ export function FrontOfficePhaseControl({
   }, [pending]);
 
   const advance = async (action: FrontOfficePhaseAction) => {
+    if (!simulation) return;
+    const valid = getFranchisePhaseActions(simulation, teamAbbr);
+    if (
+      ![valid.primary, ...valid.jumps].some(
+        (candidate) => !candidate.href && candidate.target === action.target,
+      )
+    ) {
+      setPending(null);
+      setError('The franchise phase changed. Choose the current progression action.');
+      return;
+    }
     if (action.requiresConfirmation) {
       setPending(action);
       return;
     }
+    if (busyRef.current) return;
+    busyRef.current = true;
+    simulationRevision.current += 1;
     setBusy(true);
     setError('');
     setProgress(
@@ -152,6 +198,7 @@ export function FrontOfficePhaseControl({
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Unable to advance the franchise phase.');
     } finally {
+      busyRef.current = false;
       setBusy(false);
       setProgress('');
     }
@@ -162,7 +209,7 @@ export function FrontOfficePhaseControl({
       <div className="front-office-command-status" aria-label="Franchise phase">
         <div>
           <span>Season</span>
-          <strong>{season}</strong>
+          <strong>{simulation?.season ?? season}</strong>
         </div>
         {!onRecordChange && (
           <div>
@@ -172,20 +219,27 @@ export function FrontOfficePhaseControl({
         )}
         <div>
           <span>Current phase</span>
-          <strong>{phaseDisplayName(phase, freeAgencyWave)}</strong>
+          <strong>{phaseDisplayName(currentPhase, freeAgencyWave)}</strong>
         </div>
         {actionOverride ?? (
           <div className="fo-phase-split">
-            <button
-              type="button"
-              className="front-office-advance-button"
-              disabled={busy}
-              onClick={() => void advance(actions.primary)}
-            >
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-              {actions.primary.label} <ArrowRight className="h-4 w-4" />
-            </button>
-            {actions.jumps.length ? (
+            {actions.primary.href ? (
+              <Link className="front-office-advance-button" href={actions.primary.href}>
+                {actions.primary.label} <ArrowRight className="h-4 w-4" />
+              </Link>
+            ) : (
+              <button
+                type="button"
+                className="front-office-advance-button"
+                disabled={busy || !simulation}
+                onClick={() => void advance(actions.primary)}
+              >
+                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                {simulation ? actions.primary.label : 'Loading franchise…'}{' '}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            )}
+            {simulation && actions.jumps.length ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button type="button" className="fo-phase-menu" aria-label="Skip-ahead options">
@@ -206,6 +260,17 @@ export function FrontOfficePhaseControl({
         {error ? (
           <p role="alert" className="fo-phase-error">
             {error}
+            {!simulation && (
+              <button
+                type="button"
+                onClick={() => {
+                  setError('');
+                  setLoadAttempt((n) => n + 1);
+                }}
+              >
+                Retry
+              </button>
+            )}
           </p>
         ) : null}
         {progress ? (

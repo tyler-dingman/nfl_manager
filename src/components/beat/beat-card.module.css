@@ -1,0 +1,319 @@
+.card {
+  background: #fff;
+  color: #071c49;
+  border: 1px solid #dbe4ed;
+  border-radius: 10px;
+  box-shadow: 0 2px 7px #071c4909;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+}
+.card :is(a, button, summary):focus-visible {
+  outline: 3px solid #2469b0;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+.graphic {
+  border-top: 3px solid var(--beat-accent);
+  border-radius: 9px 9px 0 0;
+  overflow: hidden;
+  background: #0b1115;
+}
+.canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 320 / 180;
+  container-type: inline-size;
+  font-family: var(--font-beat-barlow), sans-serif;
+  font-synthesis: none;
+  color: #fff;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.layer svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.layer[data-beat-layer='play-disc'] path {
+  fill: var(--beat-on-accent);
+}
+.slot {
+  position: absolute;
+  white-space: pre-line;
+  text-transform: uppercase;
+  line-height: 0.96;
+}
+.ghost {
+  pointer-events: none;
+  white-space: nowrap;
+}
+.week,
+.versus,
+.kickoff,
+.final,
+.score-home,
+.score-away {
+  text-align: center;
+}
+.quote {
+  line-height: 1.05;
+}
+.attribution,
+.contract {
+  line-height: 1.1;
+}
+.contractLabel {
+  display: block;
+  font-size: 2.8125cqw;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.625cqw;
+}
+.logo {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  font-size: 7.5cqw;
+  font-weight: 700;
+}
+.logo img {
+  object-fit: contain;
+}
+.marker {
+  position: absolute;
+  left: 4.375%;
+  top: 7.2222%;
+  width: 1.25%;
+  height: 10%;
+  background: var(--beat-accent);
+}
+.category,
+.age {
+  position: absolute;
+  top: 7.7778%;
+  font-size: 3.75cqw;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.category {
+  left: 8.75%;
+  max-width: 75%;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.age {
+  right: 5%;
+  font-weight: 500;
+}
+.body {
+  padding: 14px 18px 16px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 198px;
+}
+.storyLink {
+  color: inherit;
+  text-decoration: none;
+}
+.headline {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 21.85px;
+  letter-spacing: -0.035em;
+  color: #071c49;
+  margin: 0;
+}
+.summary {
+  font-size: 14px;
+  line-height: 17.5px;
+  font-weight: 400;
+  color: #45658c;
+  margin: 9px 0 0;
+}
+.headline,
+.summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.footer {
+  margin-top: auto;
+  padding-top: 18px;
+}
+.metadata {
+  font-size: 10px;
+  line-height: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5077a6;
+}
+.sources {
+  display: inline;
+}
+.sources summary {
+  display: inline;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.sources[open] {
+  display: block;
+}
+.sources div {
+  padding: 10px 0;
+}
+.sources a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  color: #071c49;
+}
+.sources svg {
+  width: 16px;
+  height: 16px;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 14px;
+}
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  font-size: 11px;
+  line-height: 13.2px;
+  font-weight: 600;
+  color: #071c49;
+  white-space: nowrap;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.control svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.arrow {
+  margin-left: auto;
+  margin-right: -12px;
+}
+.saved {
+  fill: currentColor;
+}
+.hot {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #071c49;
+  margin: 9px 0 0;
+}
+.hot svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+/* Lead cards retain the same column and graphic dimensions instead of doubling the artwork. */
+.card[data-lead] {
+  box-shadow: 0 2px 9px #071c4912;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .storyLink:hover .headline {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 3px;
+}
+.sources[open] {
+  flex-basis: 100%;
+}
+.sources summary {
+  position: relative;
+}
+.sources summary::before {
+  content: '';
+  position: absolute;
+  inset: -15.5px 0;
+}
+.category {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Below a 280px outer card, use a compact text list instead of illegibly scaling the canvas. */
+.card {
+  container: beat-card / inline-size;
+}
+@container beat-card (max-width:277px) {
+  .canvas {
+    aspect-ratio: auto;
+    min-height: 64px;
+    padding: 42px 14px 14px;
+  }
+  .canvas .slot {
+    position: relative;
+    inset: auto !important;
+    display: block;
+    width: auto !important;
+    height: auto !important;
+    font-size: 16px !important;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .canvas .slot[aria-hidden='true'] {
+    display: none;
+  }
+  .canvas .logo {
+    position: relative;
+    inset: auto !important;
+    display: inline-grid;
+    width: 44px !important;
+    height: 44px !important;
+    margin: 4px 8px 0 0;
+    font-size: 14px;
+  }
+  .category,
+  .age {
+    top: 14px;
+    font-size: 12px;
+  }
+  .category {
+    left: 28px;
+    max-width: calc(100% - 70px);
+  }
+  .marker {
+    top: 13px;
+    left: 14px;
+    width: 4px;
+    height: 18px;
+  }
+  .control {
+    white-space: normal;
+  }
+  .body {
+    padding: 14px;
+  }
+}

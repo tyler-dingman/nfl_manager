@@ -141,13 +141,11 @@
   align-items: center;
 }
 .tableHeader {
+  composes: heading from './draft-table-heading.module.css';
   min-height: 34px;
   background: var(--fo-panel);
   padding: 0 12px;
   color: var(--fo-muted);
-  font-size: var(--fo-label-size);
-  font-weight: 850;
-  text-transform: uppercase;
 }
 .prospectRow {
   min-height: 57px;

@@ -1,10 +1,13 @@
-import { NextResponse } from 'next/server';
+import { currentUser } from '@/server/auth/request';
+import { getFrontOfficeSaveMetadata } from '@/server/front-office/repository';
+import { syncSaveSimulation } from '@/server/api/store';
+import { NextRequest, NextResponse } from 'next/server';
 
-import { getSaveHeaderSnapshot, restoreSaveState } from '@/server/api/store';
+import { getSaveHeaderSnapshot, getSaveStateResult, restoreSaveState } from '@/server/api/store';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveUnlocksDTO } from '@/types/save';
 
-export const POST = async (request: Request) => {
+export const POST = async (request: NextRequest) => {
   let body:
     | {
         saveId?: string;
@@ -38,16 +41,22 @@ export const POST = async (request: Request) => {
     );
   }
 
-  const state = restoreSaveState(body.saveId, {
-    teamAbbr: body.teamAbbr,
-    year: body.year,
-    capSpace: body.capSpace,
-    capLimit: body.capLimit,
-    roster: body.roster,
-    phase: body.phase,
-    unlocked: body.unlocked,
-    createdAt: body.createdAt,
-  });
+  const existing = getSaveStateResult(body.saveId);
+  const state = existing.ok
+    ? existing.data
+    : restoreSaveState(body.saveId, {
+        teamAbbr: body.teamAbbr,
+        year: body.year,
+        capSpace: body.capSpace,
+        capLimit: body.capLimit,
+        roster: body.roster,
+        phase: body.phase,
+        unlocked: body.unlocked,
+        createdAt: body.createdAt,
+      });
+  const user = await currentUser(request);
+  const metadata = user ? await getFrontOfficeSaveMetadata(user.id, body.saveId) : null;
+  if (metadata?.simulation) syncSaveSimulation(body.saveId, metadata.simulation);
   const header = getSaveHeaderSnapshot(state);
 
   return NextResponse.json({

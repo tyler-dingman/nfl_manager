@@ -331,9 +331,9 @@ export default function OffseasonRecapPage() {
           <Button
             type="button"
             className="h-11 w-full md:w-auto"
-            onClick={() => router.push('/sim-season')}
+            onClick={() => router.push('/experience')}
           >
-            Sim Season
+            Continue to Front Office
           </Button>
         </div>
       </div>

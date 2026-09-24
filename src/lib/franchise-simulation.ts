@@ -1,3 +1,9 @@
+import {
+  getFrontOfficePhaseActions,
+  normalizeFrontOfficePhase,
+  isTeamAliveInPlayoffs,
+  frontOfficeLifecycle,
+} from '@/lib/front-office-phase';
 import type {
   FranchiseGameState,
   FranchisePlayoffState,
@@ -37,7 +43,24 @@ export function normalizeFranchiseSimulationState(value: unknown): FranchiseSimu
   ) {
     return null;
   }
-  return candidate as FranchiseSimulationState;
+  const normalized = {
+    ...candidate,
+    phase: normalizeFrontOfficePhase(
+      candidate.phase ?? 'week-1',
+      (candidate as { freeAgencyWave?: number }).freeAgencyWave,
+    ),
+  } as FranchiseSimulationState;
+  // Old post-draft/preseason snapshots retained the previous season's played games.
+  // Archive them once before exposing the next Week 1; the returned canonical phase
+  // makes normalization idempotent even before the next database write.
+  if (
+    ['post-draft', 'preseason', 'season'].includes(candidate.phase ?? '') &&
+    candidate.season &&
+    (candidate.currentWeek > 0 || candidate.games.some((game) => game.played))
+  ) {
+    return beginNextFranchiseSeason(normalized);
+  }
+  return normalized;
 }
 
 export const hashSeed = (value: string) => {
@@ -222,7 +245,7 @@ export function createFranchiseSimulation(input: {
     seed: input.seed,
     season: input.season,
     currentWeek: 0,
-    phase: 'preseason',
+    phase: 'week-1',
     teams,
     games: input.games.map((game) => ({
       ...game,
@@ -247,16 +270,107 @@ export function startFranchiseAtWeekOne(state: FranchiseSimulationState): Franch
   return next;
 }
 
+function beginNextFranchiseSeason(state: FranchiseSimulationState): FranchiseSimulationState {
+  const { seasonHistory, ...finishedSeason } = state;
+  const fresh = createFranchiseSimulation({
+    seed: `${state.seed}:${state.season + 1}`,
+    season: state.season + 1,
+    teams: Object.values(state.teams),
+    // Retain the valid 18-week matchup structure, with new IDs and no stale dates/results.
+    games: state.games
+      .filter((game) => game.seasonType === 'REG')
+      .map((game, index) => ({
+        id: `${state.season + 1}-reg-${index}`,
+        week: game.week,
+        homeTeam: game.homeTeam,
+        awayTeam: game.awayTeam,
+      })),
+  });
+  return {
+    ...fresh,
+    transactions: state.transactions,
+    seasonHistory: [...(seasonHistory ?? []), finishedSeason],
+  };
+}
+
+export function hasCompletedFranchiseDraft(
+  state: FranchiseSimulationState,
+  sessions: Array<
+    Pick<import('@/types/draft').DraftSessionDTO, 'mode' | 'status' | 'draftYear'>
+  > = [],
+) {
+  return [state.completedDraft, ...sessions].some(
+    (session) =>
+      session?.mode === 'real' &&
+      session.status === 'completed' &&
+      session.draftYear === state.season + 1,
+  );
+}
+
 export function advanceSimulation(
   state: FranchiseSimulationState,
   target: string,
-  options: { players?: SimulatedPlayer[]; recapTeamAbbr?: string } = {},
+  options: {
+    players?: SimulatedPlayer[];
+    recapTeamAbbr?: string;
+    completedDraftSessions?: Array<
+      Pick<import('@/types/draft').DraftSessionDTO, 'mode' | 'status' | 'draftYear'>
+    >;
+  } = {},
 ) {
   const normalized = normalizeFranchiseSimulationState(state);
   if (!normalized) throw new Error('The saved franchise simulation state is invalid.');
   const next = structuredClone(normalized);
+  if (
+    !/^week-(?:[1-9]|1[0-8])$/.test(target) &&
+    ![
+      'wild-card',
+      'divisional',
+      'conference',
+      'super-bowl',
+      'resign_cut',
+      'scouting_combine',
+      'free_agency',
+      'free_agency_open',
+      'draft',
+      'post-draft',
+      'season',
+      'preseason',
+    ].includes(target)
+  )
+    throw new Error('Invalid franchise transition target.');
+  target = normalizeFrontOfficePhase(target);
+  if (
+    next.phase === 'draft' &&
+    target === 'week-1' &&
+    !hasCompletedFranchiseDraft(next, options.completedDraftSessions)
+  )
+    throw new Error('Complete the NFL Draft before beginning the next season.');
+  const actions = getFrontOfficePhaseActions(next.phase, {
+    draftCompleted: hasCompletedFranchiseDraft(next, options.completedDraftSessions),
+    playoffEliminated: Boolean(
+      options.recapTeamAbbr && next.playoffs && !isTeamAliveInPlayoffs(next, options.recapTeamAbbr),
+    ),
+  });
+  if (
+    ![actions.primary, ...actions.jumps].some((action) => !action.href && action.target === target)
+  ) {
+    throw new Error(`Invalid franchise transition: ${next.phase} → ${target}`);
+  }
+  if (next.phase === 'draft' && target === 'week-1') {
+    if (!hasCompletedFranchiseDraft(next, options.completedDraftSessions))
+      throw new Error('Complete the NFL Draft before beginning the next season.');
+    return beginNextFranchiseSeason(next);
+  }
+  if (
+    target === 'scouting_combine' &&
+    frontOfficeLifecycle(next.phase).mainPhase === 'PLAYOFFS' &&
+    next.phase !== 'super-bowl'
+  ) {
+    return finishRemainingPlayoffs(next);
+  }
   const targetWeek = target.startsWith('week-')
-    ? clamp(Number(target.slice(5)) || 1, 1, 18)
+    ? clamp((Number(target.slice(5)) || 1) - 1, 0, 18)
     : target === 'wild-card'
       ? 18
       : next.currentWeek;
@@ -297,7 +411,7 @@ export function advanceSimulation(
     if (!next.playoffs.games.some((game) => game.week === nextRound))
       next.playoffs.games.push(...createPlayoffRound(next, nextRound));
     next.phase = target;
-  } else if (target === 'resign_cut' && next.phase === 'super-bowl') {
+  } else if (target === 'scouting_combine' && next.phase === 'super-bowl') {
     if (!next.playoffs) throw new Error('Playoffs are unavailable.');
     next.playoffs.games = next.playoffs.games.map((game) =>
       game.week === 4 ? simulateGame(game, next.teams, next.seed) : game,
@@ -321,11 +435,24 @@ export function advanceSimulation(
     const runnerUp =
       superBowl.winner === superBowl.homeTeam ? superBowl.awayTeam : superBowl.homeTeam;
     next.draftOrder = [...nonPlayoff, ...eliminated, runnerUp, next.playoffs.champion!];
-    next.phase = 'resign_cut';
-  } else if (
-    ['resign_cut', 'free_agency', 'draft', 'post-draft', 'preseason', 'season'].includes(target)
+    next.phase = 'scouting_combine';
+  } else if (['scouting_combine', 'free_agency', 'free_agency_open', 'draft'].includes(target)) {
+    next.phase = target;
+  }
+  if (
+    options.recapTeamAbbr &&
+    frontOfficeLifecycle(next.phase).mainPhase === 'PLAYOFFS' &&
+    !isTeamAliveInPlayoffs(next, options.recapTeamAbbr)
   ) {
-    next.phase = target === 'season' ? 'preseason' : target;
+    return finishRemainingPlayoffs(next);
+  }
+  return next;
+}
+
+function finishRemainingPlayoffs(state: FranchiseSimulationState): FranchiseSimulationState {
+  let next = state;
+  while (frontOfficeLifecycle(next.phase).mainPhase === 'PLAYOFFS') {
+    next = advanceSimulation(next, getFrontOfficePhaseActions(next.phase).primary.target);
   }
   return next;
 }

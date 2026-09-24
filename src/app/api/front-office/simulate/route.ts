@@ -1,8 +1,10 @@
+import { normalizeFrontOfficePhase } from '@/lib/front-office-phase';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 import {
   advanceSimulation,
+  hasCompletedFranchiseDraft,
   createFranchiseSimulation,
   startFranchiseAtWeekOne,
 } from '@/lib/franchise-simulation';
@@ -10,7 +12,12 @@ import { authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { getActiveSimulationRoster } from '@/lib/front-office-roster';
-import { ensureSaveState, getSaveStateResult } from '@/server/api/store';
+import {
+  ensureSaveState,
+  getSaveStateResult,
+  advanceFreeAgencyWaveInState,
+  syncSaveSimulation,
+} from '@/server/api/store';
 import {
   createFallbackRegularSeasonSchedule,
   getNFLRegularSeasonSchedule,
@@ -80,7 +87,7 @@ async function initializeSimulation(input: {
   if (input.initialPhase === 'week-1') {
     simulation = startFranchiseAtWeekOne(simulation);
   } else if (input.initialPhase) {
-    simulation.phase = input.initialPhase;
+    simulation.phase = normalizeFrontOfficePhase(input.initialPhase);
   }
   return saveFranchiseSimulation({
     userId: input.userId,
@@ -145,7 +152,11 @@ export async function POST(request: NextRequest) {
       userId: user.id,
       saveId: input.saveId,
       userTeamOverall: input.userTeamOverall,
-      initialPhase: input.action === 'initialize' ? input.target : undefined,
+      initialPhase:
+        input.action === 'initialize'
+          ? input.target
+          : ((await getFrontOfficeSaveMetadata(user.id, input.saveId))?.simulationPhase ??
+            undefined),
     });
     if (!metadata) return NextResponse.json({ error: 'Save not found.' }, { status: 404 });
     if (input.action === 'initialize') {
@@ -213,10 +224,55 @@ export async function POST(request: NextRequest) {
         headshotUrl: player.headshotUrl ?? null,
       });
     }
-    const simulation = advanceSimulation(previousSimulation, input.target, {
+    if (
+      previousSimulation.phase === 'draft' &&
+      normalizeFrontOfficePhase(input.target) === 'week-1'
+    ) {
+      const completedDraft = hasCompletedFranchiseDraft(
+        previousSimulation,
+        saveState.ok ? Object.values(saveState.data.draftSessions) : [],
+      );
+      if (!completedDraft)
+        return NextResponse.json(
+          { error: 'Complete the NFL Draft before beginning the next season.' },
+          { status: 409 },
+        );
+    }
+    const completedDraft =
+      previousSimulation.completedDraft ??
+      (saveState.ok
+        ? Object.values(saveState.data.draftSessions).find(
+            (session) =>
+              session.mode === 'real' &&
+              session.status === 'completed' &&
+              session.draftYear === previousSimulation.season + 1,
+          )
+        : undefined);
+    const simulation = advanceSimulation({ ...previousSimulation, completedDraft }, input.target, {
       players: [...playerMap.values()],
       recapTeamAbbr: metadata.teamAbbr.toUpperCase(),
+      completedDraftSessions: saveState.ok ? Object.values(saveState.data.draftSessions) : [],
     });
+    if (simulation.season !== previousSimulation.season) {
+      let schedule = await getNFLRegularSeasonSchedule(simulation.season).catch(() => []);
+      if (schedule.length < 272)
+        schedule = createFallbackRegularSeasonSchedule(
+          Object.keys(simulation.teams),
+          simulation.season,
+        );
+      simulation.games = createFranchiseSimulation({
+        seed: simulation.seed,
+        season: simulation.season,
+        teams: Object.values(simulation.teams),
+        games: schedule.map((game) => ({
+          id: game.id,
+          week: game.week,
+          ...(game.id.includes('-fallback-') ? {} : { startsAt: game.startsAt }),
+          homeTeam: normalizeScheduleTeam(game.homeTeam!),
+          awayTeam: normalizeScheduleTeam(game.awayTeam!),
+        })),
+      }).games;
+    }
     if (simulation.currentWeek > previousSimulation.currentWeek + 1) {
       const latestGame = simulation.games.find(
         (game) =>
@@ -273,6 +329,16 @@ export async function POST(request: NextRequest) {
         { error: 'The franchise changed in another request. Refresh and try again.' },
         { status: 409 },
       );
+    }
+    // Market changes follow the successful versioned simulation commit, never a separate wave clock.
+    if (
+      saveState.ok &&
+      previousSimulation.phase === 'free_agency' &&
+      simulation.phase === 'free_agency_open'
+    ) {
+      saveState.data.offseason.freeAgencyWave = 1;
+      advanceFreeAgencyWaveInState(saveState.data);
+      syncSaveSimulation(input.saveId, simulation);
     }
     for (const resolved of resolvedNegotiations) {
       await resolveFrontOfficeEventsForPlayer(
@@ -336,7 +402,12 @@ export async function POST(request: NextRequest) {
     console.error('[front-office:simulate]', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Unable to simulate franchise.' },
-      { status: 500 },
+      {
+        status:
+          error instanceof Error && error.message.startsWith('Invalid franchise transition')
+            ? 409
+            : 500,
+      },
     );
   }
 }

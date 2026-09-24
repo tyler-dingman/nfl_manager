@@ -362,7 +362,7 @@ function HuddleGrid({
 
       <div
         id="beat-feed-start"
-        className="mt-4 grid min-h-[30rem] items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3"
+        className="mt-4 grid min-h-[30rem] items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         aria-busy={loading}
       >
         {loading ? (
@@ -374,7 +374,8 @@ function HuddleGrid({
             <HuddleStoryCard
               key={briefing.id}
               id={briefing.id}
-              teamId={briefing.teamAbbr}
+              teamId={teamAbbr}
+              appearance="beat"
               headline={briefing.headline}
               summary={briefing.summary}
               category={briefing.category}

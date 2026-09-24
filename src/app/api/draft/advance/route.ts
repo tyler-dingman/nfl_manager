@@ -1,3 +1,4 @@
+import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
 
 import { advanceDraftSession, getDraftSession } from '@/server/api/draft';
@@ -43,6 +44,7 @@ export const POST = async (request: Request) => {
     }
 
     const session = advanceDraftSession(body.draftSessionId, resolvedSaveId);
+    await persistCompletedFranchiseDraft(request, resolvedSaveId, session);
     return NextResponse.json({ ok: true, session });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to advance draft';

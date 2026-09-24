@@ -162,6 +162,8 @@ export type FranchisePlayoffState = {
 };
 
 export type FranchiseSimulationState = {
+  completedDraft?: import('@/types/draft').DraftSessionDTO;
+  seasonHistory?: Omit<FranchiseSimulationState, 'seasonHistory'>[];
   seed: string;
   season: number;
   currentWeek: number;

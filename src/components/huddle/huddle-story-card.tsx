@@ -1,3 +1,5 @@
+import { BeatStoryCard } from '@/components/beat/beat-story-card';
+import type { BeatGraphicData } from '@/components/beat/beat-model';
 import { ArrowRight, Flame } from 'lucide-react';
 import { DdSaveIcon as Bookmark } from '@/components/ui/football-icons';
 import Link from 'next/link';
@@ -11,7 +13,9 @@ import { shouldUseRookieBlueprintGraphic } from '@/components/editorial/rookie-b
 import TradeTalkGraphicCard from '@/components/editorial/trade-talk-graphic-card';
 import { shouldUseTradeTalkGraphic } from '@/components/editorial/trade-talk-category';
 
-type HuddleStoryCardProps = {
+export type HuddleStoryCardProps = {
+  appearance?: 'legacy' | 'beat';
+  graphic?: BeatGraphicData;
   id: string;
   teamId: string;
   headline: string;
@@ -45,7 +49,15 @@ export function isHotRead(hotReadUntil?: string | null, now = Date.now()) {
   return Boolean(hotReadUntil && new Date(hotReadUntil).getTime() > now);
 }
 
-export default function HuddleStoryCard({
+export default function HuddleStoryCard(props: HuddleStoryCardProps) {
+  return props.appearance === 'beat' ? (
+    <BeatStoryCard {...props} />
+  ) : (
+    <LegacyHuddleStoryCard {...props} />
+  );
+}
+
+function LegacyHuddleStoryCard({
   id,
   teamId,
   headline,

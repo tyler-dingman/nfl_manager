@@ -163,12 +163,9 @@
   padding: 0.48rem 0.7rem;
 }
 .tableHead {
+  composes: heading from '../../draft/draft-table-heading.module.css';
   background: var(--fo-panel);
   color: var(--fo-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: var(--fo-label-size);
-  font-weight: 900;
 }
 .tableRow {
   border-bottom: 1px solid var(--fo-line);

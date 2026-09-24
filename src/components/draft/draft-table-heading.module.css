@@ -1,0 +1,11 @@
+/* Shared prospect-table typography, matching the roster's compact UI headings. */
+.heading {
+  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fo-muted, #617990);
+}

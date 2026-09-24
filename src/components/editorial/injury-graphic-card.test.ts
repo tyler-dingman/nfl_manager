@@ -47,7 +47,7 @@ test('card composes the neutral background and recolorable vector masks without 
   assert.doesNotMatch(`${component}${sharedComponent}`, /logo_url|headshot|player.*image/i);
 });
 
-test('The Beat uses the injury graphic and leaves non-injury cards conditional', async () => {
+test('Legacy surfaces retain the injury graphic while The Beat opts into reference cards', async () => {
   const source = await readFile('src/components/huddle/huddle-story-card.tsx', 'utf8');
   assert.match(source, /normalizedCategory\.includes\('INJUR'\)/);
   assert.match(source, /isInjury \? \(/);
@@ -66,7 +66,7 @@ test('contract template uses shared sizing, live HTML copy, and recolorable supp
   assert.doesNotMatch(`${contract}${shared}`, /logo_url|headshot|player.*image/i);
 });
 
-test('The Beat maps only canonical contract categories to the contract graphic', async () => {
+test('Legacy surfaces map only canonical contract categories to the contract graphic', async () => {
   const source = await readFile('src/components/huddle/huddle-story-card.tsx', 'utf8');
   assert.match(source, /\['CONTRACT', 'CONTRACT NEWS', 'CONTRACT UPDATE'\]/);
   assert.match(source, /isContract \? \(/);
@@ -118,7 +118,10 @@ test('trade discussion taxonomy maps to Trade Talk while completed trades stay c
     true,
   );
   assert.equal(
-    shouldUseTradeTalkGraphic({ category: 'TRADE', headline: 'Chiefs acquired a veteran receiver' }),
+    shouldUseTradeTalkGraphic({
+      category: 'TRADE',
+      headline: 'Chiefs acquired a veteran receiver',
+    }),
     false,
   );
   assert.equal(
@@ -127,7 +130,7 @@ test('trade discussion taxonomy maps to Trade Talk while completed trades stay c
   );
 });
 
-test('The Beat inserts Trade Talk without replacing canonical story metadata and actions', async () => {
+test('Legacy surfaces retain Trade Talk without replacing canonical story metadata and actions', async () => {
   const source = await readFile('src/components/huddle/huddle-story-card.tsx', 'utf8');
   assert.match(source, /shouldUseTradeTalkGraphic\(\{ category, headline, summary, status \}\)/);
   assert.match(source, /isTradeTalk \? \(/);
@@ -182,7 +185,10 @@ test('rookie development maps to Blueprint while future prospect coverage keeps 
     'DRAFT CLASS',
     'FIRST-YEAR PLAYER',
   ]) {
-    assert.equal(shouldUseRookieBlueprintGraphic({ category, headline: 'Young players develop' }), true);
+    assert.equal(
+      shouldUseRookieBlueprintGraphic({ category, headline: 'Young players develop' }),
+      true,
+    );
   }
   assert.equal(
     shouldUseRookieBlueprintGraphic({
@@ -204,7 +210,7 @@ test('rookie development maps to Blueprint while future prospect coverage keeps 
   );
 });
 
-test('The Beat inserts Rookie Blueprint while preserving canonical card content and actions', async () => {
+test('Legacy surfaces retain Rookie Blueprint while preserving canonical card content and actions', async () => {
   const source = await readFile('src/components/huddle/huddle-story-card.tsx', 'utf8');
   assert.match(source, /shouldUseRookieBlueprintGraphic\(\{ category, headline, summary \}\)/);
   assert.match(source, /isRookieBlueprint \? \(/);

@@ -5,23 +5,18 @@ import { useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import AppShell from '@/components/app-shell';
+import { getFrontOfficePhaseActions } from '@/lib/front-office-phase';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
-import { apiFetch } from '@/lib/api';
-import { approximateTrajectoryFromOverall } from '@/lib/offseason-recap';
-import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import { computeFranchiseTrajectory } from '@/lib/franchise-trajectory';
-import { computeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
-import type { SaveBootstrapDTO } from '@/types/save';
+import { computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
 
 export const dynamic = 'force-dynamic';
 
 export default function SeasonRecapPage() {
   const router = useRouter();
-  const saveId = useSaveStore((state) => state.saveId);
   const roster = useSaveStore((state) => state.roster);
   const capSpace = useSaveStore((state) => state.capSpace);
   const capLimit = useSaveStore((state) => state.capLimit);
@@ -29,12 +24,6 @@ export default function SeasonRecapPage() {
   const franchiseYear = useSaveStore((state) => state.franchiseYear);
   const latestSeasonRecap = useSaveStore((state) => state.latestSeasonRecap);
   const phase = useSaveStore((state) => state.phase);
-  const unlocked = useSaveStore((state) => state.unlocked);
-  const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
-  const setRoster = useSaveStore((state) => state.setRoster);
-  const setRunBaseline = useSaveStore((state) => state.setRunBaseline);
-  const setLatestDraftRecap = useSaveStore((state) => state.setLatestDraftRecap);
-  const setFullExperience = useExperienceStore((state) => state.setFullExperience);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const [busy, setBusy] = useState(false);
@@ -46,7 +35,8 @@ export default function SeasonRecapPage() {
 
   const recap = latestSeasonRecap;
 
-  const nextOffseasonLabel = `${franchiseYear + 1} Offseason`;
+  const nextPhaseAction = getFrontOfficePhaseActions(phase);
+  const [phaseError, setPhaseError] = useState('');
   const computeOverviewForRoster = useCallback(
     (targetRoster: typeof roster) => {
       const rawOverview = computeTeamOverviewRaw(targetRoster);
@@ -79,8 +69,8 @@ export default function SeasonRecapPage() {
       <AppShell>
         <div className="mx-auto w-full max-w-3xl rounded-3xl border border-border bg-white p-6 shadow-sm">
           <p className="text-sm text-muted-foreground">Season recap is not ready yet.</p>
-          <Button type="button" className="mt-4" onClick={() => router.push('/sim-season')}>
-            Back To Sim Season
+          <Button type="button" className="mt-4" onClick={() => router.push('/experience')}>
+            Back to Front Office
           </Button>
         </div>
       </AppShell>
@@ -88,102 +78,21 @@ export default function SeasonRecapPage() {
   }
 
   const handleStartNextOffseason = async () => {
-    if (!saveId || !selectedTeam) {
-      router.push('/');
+    if (busy) return;
+    if (nextPhaseAction.primary.href) {
+      router.push(nextPhaseAction.primary.href);
       return;
     }
-
     setBusy(true);
-    const actionableSaveId = await ensureRecoverableSaveId(
-      {
-        preferredSaveId: saveId,
-        teamId: selectedTeam.id,
-        teamAbbr: teamAbbr ?? selectedTeam.abbr,
-        year: franchiseYear,
-        capSpace,
-        capLimit,
-        roster,
-        phase,
-        unlocked,
-      },
-      setSaveHeader,
-    );
-
-    if (!actionableSaveId) {
+    setPhaseError('');
+    try {
+      await useSaveStore.getState().setPhase(nextPhaseAction.primary.target);
+      router.push('/experience');
+    } catch (error) {
+      setPhaseError(error instanceof Error ? error.message : 'Unable to advance the franchise.');
+    } finally {
       setBusy(false);
-      return;
     }
-
-    let response = await apiFetch('/api/franchise/advance-offseason', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ saveId: actionableSaveId }),
-    });
-
-    if (response.status === 404) {
-      const recoveredSaveId = await ensureRecoverableSaveId(
-        {
-          preferredSaveId: actionableSaveId,
-          teamId: selectedTeam.id,
-          teamAbbr: teamAbbr ?? selectedTeam.abbr,
-          year: franchiseYear,
-          capSpace,
-          capLimit,
-          roster,
-          phase,
-          unlocked,
-        },
-        setSaveHeader,
-      );
-
-      if (!recoveredSaveId) {
-        setBusy(false);
-        return;
-      }
-
-      response = await apiFetch('/api/franchise/advance-offseason', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ saveId: recoveredSaveId }),
-      });
-    }
-
-    if (!response.ok) {
-      setBusy(false);
-      return;
-    }
-
-    const data = (await response.json()) as
-      | (SaveBootstrapDTO & { roster: typeof roster })
-      | { ok: false; error?: string };
-
-    if ('ok' in data && !data.ok) {
-      setBusy(false);
-      return;
-    }
-
-    setSaveHeader(
-      {
-        ...data,
-        unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-      },
-      selectedTeam.id,
-    );
-    setRoster(data.roster);
-    setLatestDraftRecap(null);
-
-    const activeNextRoster = data.roster.filter((player) => player.status?.toLowerCase() !== 'cut');
-    const nextNeeds = computeTeamNeeds(activeNextRoster);
-    const nextOverall = computeOverviewForRoster(activeNextRoster);
-    setRunBaseline({
-      capSpace: data.capSpace,
-      overall: nextOverall,
-      trajectory: approximateTrajectoryFromOverall(nextOverall),
-      needs: nextNeeds,
-    });
-    setFullExperience();
-    setBusy(false);
-    router.push('/manage-team');
   };
 
   const liveTrajectory = computeFranchiseTrajectory({
@@ -338,8 +247,9 @@ export default function SeasonRecapPage() {
             disabled={busy}
             onClick={() => void handleStartNextOffseason()}
           >
-            {busy ? `Starting ${nextOffseasonLabel}...` : `Start ${nextOffseasonLabel}`}
+            {busy ? 'Advancing…' : nextPhaseAction.primary.label}
           </Button>
+          {phaseError && <p role="alert">{phaseError}</p>}
         </div>
       </div>
     </AppShell>

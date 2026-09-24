@@ -48,7 +48,7 @@ export function generateFrontOfficeEvents(input: {
   const { current, previous, reSignCandidates = [], saveId, teamAbbr } = input;
   const generated: NewFrontOfficeEvent[] = [];
   const start = Math.max(1, previous.currentWeek + 1);
-  const end = Math.max(start, current.currentWeek);
+  const end = current.season === previous.season ? current.currentWeek : 0;
 
   for (let week = start; week <= end; week += 1) {
     const weekly: NewFrontOfficeEvent[] = [];

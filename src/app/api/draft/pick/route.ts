@@ -1,3 +1,4 @@
+import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
 
 import {
@@ -72,6 +73,7 @@ export const POST = async (request: Request) => {
 
     pickDraftPlayer(body.draftSessionId, body.playerId, resolvedSaveId);
     const session = getDraftSession(body.draftSessionId, resolvedSaveId);
+    await persistCompletedFranchiseDraft(request, resolvedSaveId, session);
     const result = assignStoredUserGrade(session, body.playerId, teamNeeds);
     if (!result) {
       return NextResponse.json({ ok: false, error: 'Drafted player not found' }, { status: 404 });
@@ -99,6 +101,7 @@ export const POST = async (request: Request) => {
         restoreDraftSession(restoredSaveId, sessionSnapshot, body.saveSnapshot);
         pickDraftPlayer(body.draftSessionId, body.playerId, restoredSaveId);
         const updatedSession = getDraftSession(body.draftSessionId, restoredSaveId);
+        await persistCompletedFranchiseDraft(request, restoredSaveId, updatedSession);
         const result = assignStoredUserGrade(updatedSession, body.playerId, teamNeeds);
         if (!result) {
           return NextResponse.json(

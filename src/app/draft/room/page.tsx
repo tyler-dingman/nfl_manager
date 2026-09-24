@@ -1196,7 +1196,7 @@ function DraftRoomContent() {
     skipCurrentStep();
   };
 
-  const handleContinueFromDraftRecap = () => {
+  const handleContinueFromDraftRecap = async () => {
     if (!session || !draftRecap) {
       router.push('/offseason-recap');
       return;
@@ -1232,8 +1232,16 @@ function DraftRoomContent() {
         rating: player.rating ?? player.maddenRating ?? null,
       })),
     });
+    if (session.mode === 'real') {
+      try {
+        await useSaveStore.getState().setPhase('week-1');
+      } catch (error) {
+        setError(error instanceof Error ? error.message : 'Unable to begin the next season.');
+        return;
+      }
+    }
     setIsDraftRecapOpen(false);
-    router.push('/offseason-recap');
+    router.push(session.mode === 'real' ? '/front-office' : '/offseason-recap');
   };
 
   const simulateTo = async (kind: DraftSimulationTarget['kind']) => {
