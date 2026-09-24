@@ -1,0 +1,986 @@
+{
+  "teamAbbr": "NYJ",
+  "teamName": "New York Jets",
+  "briefings": [
+    {
+      "id": "f8020141-6ccd-464e-a8c7-b78f9b8ef54e",
+      "teamAbbr": "NYJ",
+      "category": "SIGNING",
+      "headline": "Jets Sign WR Malik McClain and DL Jack Heflin to Active Roster",
+      "summary": "Green & White Place DL David Onyemata, LB Marcelino McCrary-Ball and WR Arian Smith on Injured Reserve Green & White Add QB Will Levis & LB Jaden Keller to Practice Squad",
+      "whatHappened": "Green & White Place DL David Onyemata, LB Marcelino McCrary-Ball and WR Arian Smith on Injured Reserve Green & White Add QB Will Levis & LB Jaden Keller to Practice Squad",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T21:00:56.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-23T04:00:45.099Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "603c2131-417e-4443-9508-04768ae17f51",
+          "publisher": "Official team news",
+          "title": "Jets Sign WR Malik McClain and DL Jack Heflin to Active Roster",
+          "url": "https://www.newyorkjets.com/news/jets-sign-jack-heflin-malik-mcclain-active-roster-onyemata-mccrary-ball-arian-smith-to-injured-reserve-09-22-2026",
+          "publishedAt": "2026-09-22T21:58:04.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "b385af67-230e-4305-98aa-2ed31277a5d6",
+          "publisher": "Official team news",
+          "title": "Jets Sign WR Malik McClain and DL Jack Heflin to Active Roster",
+          "url": "https://www.newyorkjets.com/news/jets-sign-troy-reeder-active-roster-will-levis-jaden-keller-practice-squad-09-22-2026",
+          "publishedAt": "2026-09-22T21:00:56.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "NYJ",
+          "action": "SIGNED",
+          "name": "Malik McClain",
+          "position": "WR"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Malik McClain",
+            "source": "headline",
+            "excerpt": "Sign WR Malik McClain"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "Sign WR Malik McClain"
+          },
+          {
+            "field": "position",
+            "value": "WR",
+            "source": "headline",
+            "excerpt": "WR Malik McClain"
+          },
+          {
+            "field": "team",
+            "value": "NYJ",
+            "source": "canonical",
+            "excerpt": "NYJ"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-sign-jack-heflin-malik-mcclain-active-roster-onyemata-mccrary-ball-arian-smith-to-injured-reserve-09-22-2026",
+          "https://www.newyorkjets.com/news/jets-sign-troy-reeder-active-roster-will-levis-jaden-keller-practice-squad-09-22-2026"
+        ],
+        "asOf": "2026-09-22T21:00:56.000Z"
+      }
+    },
+    {
+      "id": "b160d63c-bbcb-4777-a4eb-08d63f4ad625",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "3 Stats to Know | Jets' Turnover-Free Start, David Bailey's Pressure Rate & Azareye'h Thomas' NFL-Best Streak",
+      "summary": "Offense Stays Stingy, David Bailey's QB Pressure Builds, Azareye'h Thomas' PD Streak Continues",
+      "whatHappened": "Offense Stays Stingy, David Bailey's QB Pressure Builds, Azareye'h Thomas' PD Streak Continues",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T12:10:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T16:00:47.526Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "58473afc-b188-4f3b-bd4f-af54183e1152",
+          "publisher": "Official team news",
+          "title": "3 Stats to Know | Jets' Turnover-Free Start, David Bailey's Pressure Rate & Azareye'h Thomas' NFL-Best Streak",
+          "url": "https://www.newyorkjets.com/news/3-stats-to-know-jets-yet-to-turn-the-ball-over-this-season-09-22-2026",
+          "publishedAt": "2026-09-22T12:10:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/3-stats-to-know-jets-yet-to-turn-the-ball-over-this-season-09-22-2026"
+        ],
+        "asOf": "2026-09-22T12:10:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "fcb7db2d-3e67-4625-b960-0a7e96c73e5e",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Jets Defense Currently Leads NFL in Total Defense Through Week 2",
+      "summary": "Green & White Have NFL's No. 1 Yardage Ranking, Show Ability to Force Fumbles, Limit Big Plays",
+      "whatHappened": "Green & White Have NFL's No. 1 Yardage Ranking, Show Ability to Force Fumbles, Limit Big Plays",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T17:07:14.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T22:00:39.244Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "73acf1e6-0a05-4b34-8ec2-58d7b3be663b",
+          "publisher": "Official team news",
+          "title": "Jets Defense Currently Leads NFL in Total Defense Through Week 2",
+          "url": "https://www.newyorkjets.com/news/jets-defense-leads-nfl-total-defense-through-two-weeks-09-21-2026",
+          "publishedAt": "2026-09-21T17:07:14.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-defense-leads-nfl-total-defense-through-two-weeks-09-21-2026"
+        ],
+        "asOf": "2026-09-21T17:07:14.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6c9afb7a-496e-411f-a4ba-c8e7ab2e2e0b",
+      "teamAbbr": "NYJ",
+      "category": "GAME",
+      "headline": "3 Takeaways | HC Aaron Glenn Said Loss to Packers Won't 'Define' the Jets",
+      "summary": "Andrew Beck on Special Teams: ‘We Can Get Better’",
+      "whatHappened": "Andrew Beck on Special Teams: ‘We Can Get Better’",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T15:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T22:00:39.350Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f394d7bf-d800-42ef-84ad-e0e8a04c7e9c",
+          "publisher": "Official team news",
+          "title": "3 Takeaways | HC Aaron Glenn Said Loss to Packers Won't 'Define' the Jets",
+          "url": "https://www.newyorkjets.com/news/3-takeaways-aaron-glenn-said-loss-to-packers-wont-define-the-jets-09-21-2026",
+          "publishedAt": "2026-09-21T15:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "3",
+          "descriptor": "TAKEAWAYS"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "3",
+            "source": "headline",
+            "excerpt": "3 Takeaways"
+          },
+          {
+            "field": "descriptor",
+            "value": "TAKEAWAYS",
+            "source": "headline",
+            "excerpt": "3 Takeaways | HC Aaron Glenn Said Loss to Packers Won't 'Define' the Jets"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/3-takeaways-aaron-glenn-said-loss-to-packers-wont-define-the-jets-09-21-2026"
+        ],
+        "asOf": "2026-09-21T15:00:00.000Z"
+      }
+    },
+    {
+      "id": "fb0f4ce0-0584-4cf6-a94f-34014e987464",
+      "teamAbbr": "NYJ",
+      "category": "GAME",
+      "headline": "Jets-Packers Game Recap | Green & White Drop Overtime Battle, 20-17, to Packers",
+      "summary": "Defense Holds Jordan Love-Led Offense to 199 Yards in Defeat",
+      "whatHappened": "Defense Holds Jordan Love-Led Offense to 199 Yards in Defeat",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T14:00:47.414Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a042b90d-ae24-47b6-bc71-d77a18eb63ba",
+          "publisher": "Official team news",
+          "title": "Jets-Packers Game Recap | Green & White Drop Overtime Battle, 20-17, to Packers",
+          "url": "https://www.newyorkjets.com/news/jets-packers-game-recap-week-2-09-20-2026",
+          "publishedAt": "2026-09-20T23:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "recap",
+          "teams": [
+            "NYJ",
+            "GB"
+          ],
+          "overtime": true
+        },
+        "reason": "Recap without a verified score pair",
+        "displayCategory": "Recap",
+        "evidence": [
+          {
+            "field": "teams.0",
+            "value": "NYJ",
+            "source": "headline",
+            "excerpt": "Jets-Packers Game Recap | Green & White Drop Overtime Battle, 20-17, to Packers"
+          },
+          {
+            "field": "teams.1",
+            "value": "GB",
+            "source": "headline",
+            "excerpt": "Jets-Packers Game Recap | Green & White Drop Overtime Battle, 20-17, to Packers"
+          },
+          {
+            "field": "overtime",
+            "value": true,
+            "source": "headline",
+            "excerpt": "Jets-Packers Game Recap | Green & White Drop Overtime Battle, 20-17, to Packers"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-packers-game-recap-week-2-09-20-2026"
+        ],
+        "asOf": "2026-09-20T23:00:00.000Z"
+      }
+    },
+    {
+      "id": "7144e038-46ce-4f13-8f4f-ac0bdde34739",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Jets LB Demario Davis: 'We Let One Get Away'",
+      "summary": "Defensive Captain Says: ‘We’re Close. We’re Close’",
+      "whatHappened": "Defensive Captain Says: ‘We’re Close. We’re Close’",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T22:59:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T14:00:47.477Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b2b664af-af07-44af-8434-4cea5f0b28ec",
+          "publisher": "Official team news",
+          "title": "Jets LB Demario Davis: 'We Let One Get Away'",
+          "url": "https://www.newyorkjets.com/news/demario-davis-says-jets-let-one-get-away-09-20-2026",
+          "publishedAt": "2026-09-20T22:59:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/demario-davis-says-jets-let-one-get-away-09-20-2026"
+        ],
+        "asOf": "2026-09-20T22:59:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "bc8804e2-31c7-49a9-8109-f2952cbe838d",
+      "teamAbbr": "NYJ",
+      "category": "INJURY",
+      "headline": "Jets Place WR Omar Cooper Jr. on Injured Reserve",
+      "summary": "Green & White Elevate K Jason Sanders & LB Troy Reeder to Active Roster for Week 2",
+      "whatHappened": "Green & White Elevate K Jason Sanders & LB Troy Reeder to Active Roster for Week 2",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:01:31.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T16:00:46.044Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7587a69a-165b-4b58-b31f-2571e7d11d29",
+          "publisher": "Official team news",
+          "title": "Jets Place WR Omar Cooper Jr. on Injured Reserve",
+          "url": "https://www.newyorkjets.com/news/jets-omar-cooper-injured-reserve-09-19-2026",
+          "publishedAt": "2026-09-19T20:01:31.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "Omar Cooper Jr.",
+          "position": "WR",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Omar Cooper Jr.",
+            "source": "headline",
+            "excerpt": "WR Omar Cooper Jr."
+          },
+          {
+            "field": "position",
+            "value": "WR",
+            "source": "headline",
+            "excerpt": "WR Omar Cooper Jr."
+          }
+        ],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-omar-cooper-injured-reserve-09-19-2026"
+        ],
+        "asOf": "2026-09-19T20:01:31.000Z"
+      }
+    },
+    {
+      "id": "b7e8aa33-fb68-4f37-8eb5-e1c1863c1087",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Notebook | HC Aaron Glenn Explains Why Packers' Jordan Love Will Give the Jets a Challenge",
+      "summary": "Rookie CB D’Angelo Ponds Is ‘Ready to Go’ Glenn Says",
+      "whatHappened": "Rookie CB D’Angelo Ponds Is ‘Ready to Go’ Glenn Says",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T02:00:56.188Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c4996582-6f57-4af5-9169-e402ac0ebb36",
+          "publisher": "Official team news",
+          "title": "Notebook | HC Aaron Glenn Explains Why Packers' Jordan Love Will Give the Jets a Challenge",
+          "url": "https://www.newyorkjets.com/news/notebook-jets-aaron-glenn-gives-injury-update-omar-cooper-jr-dangelo-ponds-09-18-2026",
+          "publishedAt": "2026-09-18T20:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/notebook-jets-aaron-glenn-gives-injury-update-omar-cooper-jr-dangelo-ponds-09-18-2026"
+        ],
+        "asOf": "2026-09-18T20:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "56742106-c638-4a10-bfbf-a1a76d3f466d",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "How Can the Jets Keep their Momentum Going Against the Packers?",
+      "summary": "Demario Davis & Jets Defense Tasked with Containing Packers QB Jordan Love",
+      "whatHappened": "Demario Davis & Jets Defense Tasked with Containing Packers QB Jordan Love",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:47.006Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "06cbfe2a-ca41-439d-ac70-db0aa71ef4dc",
+          "publisher": "Official team news",
+          "title": "How Can the Jets Keep their Momentum Going Against the Packers?",
+          "url": "https://www.newyorkjets.com/news/jets-look-to-keep-their-momentum-going-against-the-packers-09-18-2026",
+          "publishedAt": "2026-09-18T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-look-to-keep-their-momentum-going-against-the-packers-09-18-2026"
+        ],
+        "asOf": "2026-09-18T16:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "cb8b4891-7dcc-40e9-9db2-57e2f54a5e3b",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Jets' Versatile S Dane Belton Plays Different Positions ... All Well",
+      "summary": "Packers’ QB Jordan Love Will Challenge Green & White’s Defensive Backfield",
+      "whatHappened": "Packers’ QB Jordan Love Will Challenge Green & White’s Defensive Backfield",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:35:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T02:00:49.628Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a0f46876-1410-4e23-b27a-00875f129623",
+          "publisher": "Official team news",
+          "title": "Jets' Versatile S Dane Belton Plays Different Positions ... All Well",
+          "url": "https://www.newyorkjets.com/news/jets-versatile-dane-belton-looking-forward-to-packers-challenge-jordan-love-chrisitian-watson-09-18-2026",
+          "publishedAt": "2026-09-18T14:35:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-versatile-dane-belton-looking-forward-to-packers-challenge-jordan-love-chrisitian-watson-09-18-2026"
+        ],
+        "asOf": "2026-09-18T14:35:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "81514031-260c-4b8c-b997-1f57569290ae",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Jets-Packers Game Preview | 'Momentum Is a Belief'",
+      "summary": "WR Garrett Wilson Discusses a New Reality; LB Demario Davis Expects a Lively Crowd for the Home Opener",
+      "whatHappened": "WR Garrett Wilson Discusses a New Reality; LB Demario Davis Expects a Lively Crowd for the Home Opener",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T21:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T14:01:10.836Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b5cce0cf-906d-457f-b269-ab5cd1e08a84",
+          "publisher": "Official team news",
+          "title": "Jets-Packers Game Preview | 'Momentum Is a Belief'",
+          "url": "https://www.newyorkjets.com/news/jets-vs-packers-week-2-2026-game-preview-geno-smith-jordan-love-09-20-2026",
+          "publishedAt": "2026-09-17T21:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "NYJ",
+          "rightTeam": "GB"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "NYJ",
+            "source": "headline",
+            "excerpt": "Jets-Packers Game Preview | 'Momentum Is a Belief'"
+          },
+          {
+            "field": "rightTeam",
+            "value": "GB",
+            "source": "headline",
+            "excerpt": "Jets-Packers Game Preview | 'Momentum Is a Belief'"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-vs-packers-week-2-2026-game-preview-geno-smith-jordan-love-09-20-2026"
+        ],
+        "asOf": "2026-09-17T21:30:00.000Z"
+      }
+    },
+    {
+      "id": "78974fc8-c209-4716-8581-48cb2039f726",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Jets Breece Hall's Accelerated Mindset Drives Constant Desire to Win",
+      "summary": "OC Frank Reich: ‘This Guy Understands Football at Such a High Level’",
+      "whatHappened": "OC Frank Reich: ‘This Guy Understands Football at Such a High Level’",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T21:15:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T22:00:53.398Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b2bd6a4c-56a9-4a02-ace2-afce89327be7",
+          "publisher": "Official team news",
+          "title": "Jets Breece Hall's Accelerated Mindset Drives Constant Desire to Win",
+          "url": "https://www.newyorkjets.com/news/breece-hall-continuing-to-make-jets-rushing-history-09-17-2026",
+          "publishedAt": "2026-09-17T21:15:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/breece-hall-continuing-to-make-jets-rushing-history-09-17-2026"
+        ],
+        "asOf": "2026-09-17T21:15:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "c3a0dbd8-2f8b-4f12-8806-6d3ff62552b2",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Andre Cisco, Jets Secondary Prepare for Challenge of Packers QB Jordan Love",
+      "summary": "DC Brian Duker on Facing Packers QB: ‘We’re Going to Have Our Hands Full’",
+      "whatHappened": "DC Brian Duker on Facing Packers QB: ‘We’re Going to Have Our Hands Full’",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T17:15:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T22:00:53.833Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "54f61784-abf3-4e3c-ab72-47e11eca385d",
+          "publisher": "Official team news",
+          "title": "Andre Cisco, Jets Secondary Prepare for Challenge of Packers QB Jordan Love",
+          "url": "https://www.newyorkjets.com/news/jets-defense-andre-cisco-packers-qb-jordan-love-week-2-09-17-2026",
+          "publishedAt": "2026-09-17T17:15:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-defense-andre-cisco-packers-qb-jordan-love-week-2-09-17-2026"
+        ],
+        "asOf": "2026-09-17T17:15:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "921d53a4-c63e-44a3-b20e-aa8fb21efecc",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Geno Smith Stays Grounded Ahead of Home Opener vs. Packers",
+      "summary": "QB Ready to 'Go Out in Front of Our Fans & Put on a Good Show'",
+      "whatHappened": "QB Ready to 'Go Out in Front of Our Fans & Put on a Good Show'",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T22:07:52.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T00:10:29.814Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ceddb540-5323-477c-9eec-e1c9094035a9",
+          "publisher": "Official team news",
+          "title": "Geno Smith Stays Grounded Ahead of Home Opener vs. Packers",
+          "url": "https://www.newyorkjets.com/news/geno-smith-jets-stays-grounded-ahead-of-home-opener-vs-packers-09-16-2026",
+          "publishedAt": "2026-09-16T22:07:52.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/geno-smith-jets-stays-grounded-ahead-of-home-opener-vs-packers-09-16-2026"
+        ],
+        "asOf": "2026-09-16T22:07:52.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "916f1d92-9127-47a1-b778-6fca96a6dd32",
+      "teamAbbr": "NYJ",
+      "category": "INJURY",
+      "headline": "Jets Injury Report | Week 2 vs. Packers - Wednesday",
+      "summary": "CB D'Angelo Ponds (Calf) & LB Jamien Sherwood (Knee) Limited Participants",
+      "whatHappened": "CB D'Angelo Ponds (Calf) & LB Jamien Sherwood (Knee) Limited Participants",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T20:00:00.000Z",
+      "sourceCount": 4,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T22:20:35.103Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "91d41a98-f4a1-4162-9a25-2c32b217af64",
+          "publisher": "Official team news",
+          "title": "Jets Injury Report | Week 2 vs. Packers - Wednesday",
+          "url": "https://www.newyorkjets.com/news/jets-injury-report-week-2-vs-packers-wednesday-09-16-2026",
+          "publishedAt": "2026-09-16T20:00:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "c48ffea9-b9f3-4713-94d9-792fa2460bf9",
+          "publisher": "Official team news",
+          "title": "Jets Injury Report | Week 2 vs. Packers - Wednesday",
+          "url": "https://www.packers.com/news/packers-jets-injury-report-sept-16-2026",
+          "publishedAt": "2026-09-16T20:36:20.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "3e08cc98-541e-4ab0-8230-7d1ac0697d79",
+          "publisher": "Official team news",
+          "title": "Jets Injury Report | Week 2 vs. Packers - Wednesday",
+          "url": "https://www.packers.com/news/packers-jets-injury-report-sept-17-2026",
+          "publishedAt": "2026-09-17T20:23:46.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "47314e07-f465-4550-9ca6-b7206061b92a",
+          "publisher": "Official team news",
+          "title": "Jets Injury Report | Week 2 vs. Packers - Wednesday",
+          "url": "https://www.newyorkjets.com/news/jets-injury-report-week-2-vs-packers-thursday-09-17-2026",
+          "publishedAt": "2026-09-17T20:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "D'Angelo Ponds",
+          "position": "CB",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "D'Angelo Ponds",
+            "source": "summary",
+            "excerpt": "CB D'Angelo Ponds"
+          },
+          {
+            "field": "position",
+            "value": "CB",
+            "source": "summary",
+            "excerpt": "CB D'Angelo Ponds"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-injury-report-week-2-vs-packers-wednesday-09-16-2026",
+          "https://www.packers.com/news/packers-jets-injury-report-sept-16-2026",
+          "https://www.packers.com/news/packers-jets-injury-report-sept-17-2026",
+          "https://www.newyorkjets.com/news/jets-injury-report-week-2-vs-packers-thursday-09-17-2026"
+        ],
+        "asOf": "2026-09-16T20:00:00.000Z"
+      }
+    },
+    {
+      "id": "85d610a8-4825-4c0a-b6c5-71468007e619",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "S Minkah Fitzpatrick, WR Omar Cooper Jr. Week-to-Week; Rookie CB D'Angelo Ponds May Make NFL Debut",
+      "summary": "LB Jamien Sherwood, CB Jarvis Brownlee and Ponds will be ‘Ready for Gametime’ vs. Packers",
+      "whatHappened": "LB Jamien Sherwood, CB Jarvis Brownlee and Ponds will be ‘Ready for Gametime’ vs. Packers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T19:21:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T21:45:12.158Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "31fb355c-0582-4979-905e-9cfac884593e",
+          "publisher": "Official team news",
+          "title": "S Minkah Fitzpatrick, WR Omar Cooper Jr. Week-to-Week; Rookie CB D'Angelo Ponds May Make NFL Debut",
+          "url": "https://www.newyorkjets.com/news/jets-injury-update-minkah-fitzpatrick-omar-cooper-week-to-week-09-16-2026",
+          "publishedAt": "2026-09-16T19:21:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "Minkah Fitzpatrick",
+          "position": "S",
+          "status": "WEEK-TO-WEEK"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Minkah Fitzpatrick",
+            "source": "headline",
+            "excerpt": "S Minkah Fitzpatrick"
+          },
+          {
+            "field": "position",
+            "value": "S",
+            "source": "headline",
+            "excerpt": "S Minkah Fitzpatrick"
+          },
+          {
+            "field": "status",
+            "value": "WEEK-TO-WEEK",
+            "source": "headline",
+            "excerpt": "Week-to-Week"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-injury-update-minkah-fitzpatrick-omar-cooper-week-to-week-09-16-2026"
+        ],
+        "asOf": "2026-09-16T19:21:10.000Z"
+      }
+    },
+    {
+      "id": "104f8e3f-8fd8-42d0-a979-4fc7b4ea05cf",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "📈 Stock Report | Frank Reich's Tight End-Heavy Approach Helps Fuel Offense",
+      "summary": "David Bailey, Jets Pass Rush Poised to Challenge Packers' Shaky Pass Protection",
+      "whatHappened": "David Bailey, Jets Pass Rush Poised to Challenge Packers' Shaky Pass Protection",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T19:09:23.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T21:25:04.502Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "63220266-0bea-4071-9924-4bec0f50f251",
+          "publisher": "Official team news",
+          "title": "📈 Stock Report | Frank Reich's Tight End-Heavy Approach Helps Fuel Offense",
+          "url": "https://www.newyorkjets.com/news/stock-report-jets-week-1-frank-reich-kenyon-sadiq-jordan-love-david-bailey-09-16-2026",
+          "publishedAt": "2026-09-16T19:09:23.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/stock-report-jets-week-1-frank-reich-kenyon-sadiq-jordan-love-david-bailey-09-16-2026"
+        ],
+        "asOf": "2026-09-16T19:09:23.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "57fde750-e72b-4ce9-ab2c-99209aac95c7",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Jets Begin On-Field Preparations for Home Opener vs. Packers",
+      "summary": "HC Aaron Glenn: ‘Our Players Are Up for the Challenge”",
+      "whatHappened": "HC Aaron Glenn: ‘Our Players Are Up for the Challenge”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:10:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:30:10.478Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "68a81990-f450-4d90-9eb1-11d0992a4f04",
+          "publisher": "Official team news",
+          "title": "Jets Begin On-Field Preparations for Home Opener vs. Packers",
+          "url": "https://www.newyorkjets.com/news/jets-begin-preparations-for-home-opener-against-green-bay-packers-09-16-2026",
+          "publishedAt": "2026-09-16T17:10:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-begin-preparations-for-home-opener-against-green-bay-packers-09-16-2026"
+        ],
+        "asOf": "2026-09-16T17:10:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "adcf24de-4763-4801-abfc-93435b7120a0",
+      "teamAbbr": "NYJ",
+      "category": "ANALYSIS",
+      "headline": "Ways to Watch and Stream | Jets vs. Packers",
+      "summary": "Broadcast and Stream Info for Sunday's Home Opener",
+      "whatHappened": "Broadcast and Stream Info for Sunday's Home Opener",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T12:00:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T14:15:12.578Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e41ff57a-f067-467e-95ff-42a5f1f69d0c",
+          "publisher": "Official team news",
+          "title": "Ways to Watch and Stream | Jets vs. Packers",
+          "url": "https://www.newyorkjets.com/news/jets-vs-packers-ways-to-watch-stream-week-2-09-20-2026",
+          "publishedAt": "2026-09-16T12:00:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-vs-packers-ways-to-watch-stream-week-2-09-20-2026"
+        ],
+        "asOf": "2026-09-16T12:00:10.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8dd1a6df-7ff7-4052-a6d9-8c2893744f36",
+      "teamAbbr": "NYJ",
+      "category": "SIGNING",
+      "headline": "Jets Sign CB Jordan Clark to Active Roster",
+      "summary": "Green & White Add Three Players to Practice Squad, Release Two",
+      "whatHappened": "Green & White Add Three Players to Practice Squad, Release Two",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T21:08:32.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T23:15:05.742Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9d4c4bb2-103b-43d9-8ea9-6facdbd0089d",
+          "publisher": "Official team news",
+          "title": "Jets Sign CB Jordan Clark to Active Roster",
+          "url": "https://www.newyorkjets.com/news/jets-sign-db-jordan-clark-to-active-roster-09-15-2026",
+          "publishedAt": "2026-09-15T21:08:32.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "NYJ",
+          "action": "SIGNED",
+          "name": "Jordan Clark",
+          "position": "CB"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Jordan Clark",
+            "source": "headline",
+            "excerpt": "Sign CB Jordan Clark"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "Sign CB Jordan Clark"
+          },
+          {
+            "field": "position",
+            "value": "CB",
+            "source": "headline",
+            "excerpt": "CB Jordan Clark"
+          },
+          {
+            "field": "team",
+            "value": "NYJ",
+            "source": "canonical",
+            "excerpt": "NYJ"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.newyorkjets.com/news/jets-sign-db-jordan-clark-to-active-roster-09-15-2026"
+        ],
+        "asOf": "2026-09-15T21:08:32.000Z"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 54,
+    "totalPages": 3
+  }
+}

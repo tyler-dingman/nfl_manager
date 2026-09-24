@@ -1,0 +1,868 @@
+{
+  "teamAbbr": "SF",
+  "teamName": "San Francisco 49ers",
+  "briefings": [
+    {
+      "id": "37102d40-cd2b-4c94-b5d1-62c9465f1d6a",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Power Rankings: Where the 49ers Stand Entering Week 3",
+      "summary": "Find out where the San Francisco 49ers landed in the latest set of NFL power rankings according to several national outlets following their 35-13 victory over the Miami Dolphins.",
+      "whatHappened": "Find out where the San Francisco 49ers landed in the latest set of NFL power rankings according to several national outlets following their 35-13 victory over the Miami Dolphins.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-23T00:23:54.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T04:00:44.787Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6c5314de-e0d9-4413-b11c-edbe5930b637",
+          "publisher": "Official team news",
+          "title": "Power Rankings: Where the 49ers Stand Entering Week 3",
+          "url": "https://www.49ers.com/news/power-rankings-where-the-49ers-stand-entering-week-3",
+          "publishedAt": "2026-09-23T00:23:54.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/power-rankings-where-the-49ers-stand-entering-week-3"
+        ],
+        "asOf": "2026-09-23T00:23:54.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "55b322ae-33b2-4edf-bc58-0d76f4ecadaa",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Bosa Teams Up With Pizza Legend to Benefit Local SF Nonprofit | Off the Field",
+      "summary": "Nick Bosa is bringing his love of pizza to the San Francisco food scene with a new collaboration benefiting a local nonprofit.",
+      "whatHappened": "Nick Bosa is bringing his love of pizza to the San Francisco food scene with a new collaboration benefiting a local nonprofit.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T21:18:14.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T04:00:45.176Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7d71c1fd-b2f0-46f4-803b-31fbfe6697d8",
+          "publisher": "Official team news",
+          "title": "Bosa Teams Up With Pizza Legend to Benefit Local SF Nonprofit | Off the Field",
+          "url": "https://www.49ers.com/news/bosa-teams-up-with-pizza-legend-to-benefit-local-sf-nonprofit-off-the-field",
+          "publishedAt": "2026-09-22T21:18:14.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/bosa-teams-up-with-pizza-legend-to-benefit-local-sf-nonprofit-off-the-field"
+        ],
+        "asOf": "2026-09-22T21:18:14.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "25fe9a56-12f9-41bc-9c94-1dac4fd8fecc",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "What the 49ers and Dolphins Had to Say After Week 2",
+      "summary": "See what Kyle Shanahan, Brock Purdy, Kyle Juszczyk, Trent Williams, Jeff Hafley, and Malik Willis had to say following the Week 2 contest.",
+      "whatHappened": "See what Kyle Shanahan, Brock Purdy, Kyle Juszczyk, Trent Williams, Jeff Hafley, and Malik Willis had to say following the Week 2 contest.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T23:56:35.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T18:00:51.567Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "66f36bd5-62fb-4cc8-8a7d-49d4cb04e5ab",
+          "publisher": "Official team news",
+          "title": "What the 49ers and Dolphins Had to Say After Week 2",
+          "url": "https://www.49ers.com/news/what-the-49ers-and-dolphins-had-to-say-after-week-2",
+          "publishedAt": "2026-09-21T23:56:35.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/what-the-49ers-and-dolphins-had-to-say-after-week-2"
+        ],
+        "asOf": "2026-09-21T23:56:35.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "bc0cb02b-6096-43d1-a9f7-ceea0dc62169",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "100 Touchdowns: McCaffrey Marks Next Milestone",
+      "summary": "Running back Christian McCaffrey reached another milestone in his decorated career Sunday against the Dolphins, scoring his 100th career touchdown and joining an exclusive group in NFL history.",
+      "whatHappened": "Running back Christian McCaffrey reached another milestone in his decorated career Sunday against the Dolphins, scoring his 100th career touchdown and joining an exclusive group in NFL history.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T23:09:24.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T18:00:51.990Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "08925efb-fa7f-45fb-abea-449bc2f2b2b9",
+          "publisher": "Official team news",
+          "title": "100 Touchdowns: McCaffrey Marks Next Milestone",
+          "url": "https://www.49ers.com/news/100-touchdowns-mccaffrey-marks-next-milestone",
+          "publishedAt": "2026-09-21T23:09:24.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/100-touchdowns-mccaffrey-marks-next-milestone"
+        ],
+        "asOf": "2026-09-21T23:09:24.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d2871815-9d85-468d-b1bb-becf8c3e3263",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Christian McCaffrey Reaches 100 Career Touchdowns; Stats and Facts from #MIAvsSF",
+      "summary": "Take a look at key stats from the San Francisco 49ers Week 2 matchup vs. the Miami Dolphins.",
+      "whatHappened": "Take a look at key stats from the San Francisco 49ers Week 2 matchup vs. the Miami Dolphins.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T17:35:58.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T22:00:39.184Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7c6bd99c-3ccb-4167-8912-e4d93f7f65c6",
+          "publisher": "Official team news",
+          "title": "Christian McCaffrey Reaches 100 Career Touchdowns; Stats and Facts from #MIAvsSF",
+          "url": "https://www.49ers.com/news/christian-mccaffrey-reaches-100-career-touchdowns-stats-and-facts-from-miavssf",
+          "publishedAt": "2026-09-21T17:35:58.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/christian-mccaffrey-reaches-100-career-touchdowns-stats-and-facts-from-miavssf"
+        ],
+        "asOf": "2026-09-21T17:35:58.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a0cf1de9-63f3-44cf-a9ce-f7c59043219c",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Morning Report: 49ers Start the Season 2-0, Recap the Win 🗞️",
+      "summary": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whatHappened": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T00:00:43.131Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b8efbac1-fd70-473b-a02a-06036dfee80a",
+          "publisher": "Official team news",
+          "title": "Morning Report: 49ers Start the Season 2-0, Recap the Win 🗞️",
+          "url": "https://www.49ers.com/news/morning-reports/morning-report-49ers-start-the-season-2-0-recap-the-win",
+          "publishedAt": "2026-09-21T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "recap",
+          "teams": [
+            "SF"
+          ],
+          "overtime": false
+        },
+        "reason": "Recap without a verified score pair",
+        "displayCategory": "Recap",
+        "evidence": [
+          {
+            "field": "teams.0",
+            "value": "SF",
+            "source": "headline",
+            "excerpt": "Morning Report: 49ers Start the Season 2-0, Recap the Win 🗞️"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.49ers.com/news/morning-reports/morning-report-49ers-start-the-season-2-0-recap-the-win"
+        ],
+        "asOf": "2026-09-21T13:00:00.000Z"
+      }
+    },
+    {
+      "id": "06b74271-8421-4f28-9b27-940f12800c3e",
+      "teamAbbr": "SF",
+      "category": "GAME",
+      "headline": "49ers Defeat Dolphins 35-13 in Home Opener; Takeaways from #MIAvsSF",
+      "summary": "The San Francisco 49ers secured a 35-13 win over the Miami Dolphins in their Week 2 home opener.",
+      "whatHappened": "The San Francisco 49ers secured a 35-13 win over the Miami Dolphins in their Week 2 home opener.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T01:15:38.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T04:00:42.113Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f76887b7-bc6e-4ed8-9e55-d0bcee191773",
+          "publisher": "Official team news",
+          "title": "49ers Defeat Dolphins 35-13 in Home Opener; Takeaways from #MIAvsSF",
+          "url": "https://www.49ers.com/news/49ers-defeat-dolphins-35-13-in-home-opener-takeaways-from-miavssf",
+          "publishedAt": "2026-09-21T01:15:38.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/49ers-defeat-dolphins-35-13-in-home-opener-takeaways-from-miavssf"
+        ],
+        "asOf": "2026-09-21T01:15:38.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a8a6ec86-55d6-4469-aec9-3064b5b761e7",
+      "teamAbbr": "SF",
+      "category": "INJURY",
+      "headline": "49ers Promote DL Ogbo Okoronkwo, Place WR De'Zhaun Stribling on the Injured Reserve List",
+      "summary": "The San Francisco 49ers have promoted DL Ogbo Okoronkwo to the active roster. In order to make room on the roster, the team placed WR De’Zhaun Stribling on the Injured Reserve List.",
+      "whatHappened": "The San Francisco 49ers have promoted DL Ogbo Okoronkwo to the active roster. In order to make room on the roster, the team placed WR De’Zhaun Stribling on the Injured Reserve List.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:59:57.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T16:00:45.938Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5da99d4c-93b4-46b0-a0f2-397d3e63d83e",
+          "publisher": "Official team news",
+          "title": "49ers Promote DL Ogbo Okoronkwo, Place WR De'Zhaun Stribling on the Injured Reserve List",
+          "url": "https://www.49ers.com/news/49ers-promote-dl-ogbo-okoronkwo-place-wr-de-zhaun-stribling-on-the-injured-reserve-list",
+          "publishedAt": "2026-09-19T20:59:57.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "Ogbo Okoronkwo",
+          "position": "DL",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Ogbo Okoronkwo",
+            "source": "headline",
+            "excerpt": "DL Ogbo Okoronkwo"
+          },
+          {
+            "field": "position",
+            "value": "DL",
+            "source": "headline",
+            "excerpt": "DL Ogbo Okoronkwo"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.49ers.com/news/49ers-promote-dl-ogbo-okoronkwo-place-wr-de-zhaun-stribling-on-the-injured-reserve-list"
+        ],
+        "asOf": "2026-09-19T20:59:57.000Z"
+      }
+    },
+    {
+      "id": "0bf4cfd2-dc37-445a-8c62-8a8912366466",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "5 Things to Know: 49ers Home Opener vs. the Miami Dolphins",
+      "summary": "The San Francisco 49ers return to Levi's® Stadium for their 2026 home opener against the Miami Dolphins in Week 2.",
+      "whatHappened": "The San Francisco 49ers return to Levi's® Stadium for their 2026 home opener against the Miami Dolphins in Week 2.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T00:02:11.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.627Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a2dc1356-54a2-4678-8bc0-a29f95e40adb",
+          "publisher": "Official team news",
+          "title": "5 Things to Know: 49ers Home Opener vs. the Miami Dolphins",
+          "url": "https://www.49ers.com/news/5-things-to-know-49ers-home-opener-vs-the-miami-dolphins",
+          "publishedAt": "2026-09-19T00:02:11.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "5 Things to Know: 49ers Home Opener vs. the Miami Dolphins"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.49ers.com/news/5-things-to-know-49ers-home-opener-vs-the-miami-dolphins"
+        ],
+        "asOf": "2026-09-19T00:02:11.000Z"
+      }
+    },
+    {
+      "id": "b8bf100e-044b-4347-86d8-525a401390de",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Morning Report: Get Ready for the Week 2 Home Opener 🗞️",
+      "summary": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whatHappened": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:46.771Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6db12294-dca1-42e9-984b-8da200baab4e",
+          "publisher": "Official team news",
+          "title": "Morning Report: Get Ready for the Week 2 Home Opener 🗞️",
+          "url": "https://www.49ers.com/news/morning-reports/morning-report-get-ready-for-the-week-2-home-opener",
+          "publishedAt": "2026-09-18T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/morning-reports/morning-report-get-ready-for-the-week-2-home-opener"
+        ],
+        "asOf": "2026-09-18T13:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "7dccaabd-fa24-400b-8399-4c3da9261d06",
+      "teamAbbr": "SF",
+      "category": "COACHING",
+      "headline": "Morning Report: Ep. 1 of 'Forty Niner Way', Updates from Coach 🗞️",
+      "summary": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whatHappened": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:15:34.169Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8d190874-9429-422a-b8e3-beb31f812d8e",
+          "publisher": "Official team news",
+          "title": "Morning Report: Ep. 1 of 'Forty Niner Way', Updates from Coach 🗞️",
+          "url": "https://www.49ers.com/news/morning-reports/morning-report-ep-1-of-forty-niner-way-updates-from-coach",
+          "publishedAt": "2026-09-17T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/morning-reports/morning-report-ep-1-of-forty-niner-way-updates-from-coach"
+        ],
+        "asOf": "2026-09-17T13:00:00.000Z"
+      }
+    },
+    {
+      "id": "3624deb0-899f-4fa8-a691-43f830d3368e",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Power Rankings: Where the 49ers Stand Entering Week 2",
+      "summary": "Find out where the San Francisco 49ers landed in the latest set of NFL power rankings according to several national outlets following their 27-7 victory over the Los Angeles Rams.",
+      "whatHappened": "Find out where the San Francisco 49ers landed in the latest set of NFL power rankings according to several national outlets following their 27-7 victory over the Los Angeles Rams.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T00:19:33.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T02:40:32.649Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "cb428e3c-4d33-4684-96c0-f46c42d8fbfa",
+          "publisher": "Official team news",
+          "title": "Power Rankings: Where the 49ers Stand Entering Week 2",
+          "url": "https://www.49ers.com/news/power-rankings-where-the-49ers-stand-entering-week-2-x2668",
+          "publishedAt": "2026-09-17T00:19:33.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/power-rankings-where-the-49ers-stand-entering-week-2-x2668"
+        ],
+        "asOf": "2026-09-17T00:19:33.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d4366ae9-9b9b-4379-9708-0764d3aa8fa3",
+      "teamAbbr": "SF",
+      "category": "SIGNING",
+      "headline": "49ers Promote TE Brayden Willis to Active Roster; Sign DL McKinnley Jackson",
+      "summary": "The 49ers announced they have promoted TE Brayden Willis to the active roster, signed DL McKinnley Jackson to the team’s practice squad. The 49ers announced they have promoted WR KhaDarel Hodge to Active Roster, sign TE Jack Stoll to the team’s practice squad, and placed TE Jake Tonges on the Injured Reserve List.",
+      "whatHappened": "The 49ers announced they have promoted TE Brayden Willis to the active roster, signed DL McKinnley Jackson to the team’s practice squad. The 49ers announced they have promoted WR KhaDarel Hodge to Active Roster, sign TE Jack Stoll to the team’s practice squad, and placed TE Jake Tonges on the Injured Reserve List.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T18:00:17.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-15T20:15:05.923Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b96c1e9f-ae0e-4dab-97b9-7711eb8f192d",
+          "publisher": "Official team news",
+          "title": "49ers Promote TE Brayden Willis to Active Roster; Sign DL McKinnley Jackson",
+          "url": "https://www.49ers.com/news/49ers-promote-te-brayden-willis-to-active-roster-sign-dl-mckinnley-jackson",
+          "publishedAt": "2026-09-15T18:00:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "76d68268-f0ac-4ecf-89bc-52d5c49e5bb1",
+          "publisher": "Official team news",
+          "title": "49ers Promote TE Brayden Willis to Active Roster; Sign DL McKinnley Jackson",
+          "url": "https://www.49ers.com/news/49ers-promote-wr-khadarel-hodge-to-active-roster-sign-te-jack-stoll-place-te-jake-tonges-on-ir",
+          "publishedAt": "2026-09-16T18:00:17.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "SF",
+          "action": "SIGNED",
+          "name": "McKinnley Jackson",
+          "position": "DL"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "McKinnley Jackson",
+            "source": "headline",
+            "excerpt": "Sign DL McKinnley Jackson"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "Sign DL McKinnley Jackson"
+          },
+          {
+            "field": "position",
+            "value": "DL",
+            "source": "headline",
+            "excerpt": "DL McKinnley Jackson"
+          },
+          {
+            "field": "team",
+            "value": "SF",
+            "source": "canonical",
+            "excerpt": "SF"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.49ers.com/news/49ers-promote-te-brayden-willis-to-active-roster-sign-dl-mckinnley-jackson",
+          "https://www.49ers.com/news/49ers-promote-wr-khadarel-hodge-to-active-roster-sign-te-jack-stoll-place-te-jake-tonges-on-ir"
+        ],
+        "asOf": "2026-09-16T18:00:17.000Z"
+      }
+    },
+    {
+      "id": "0f452122-85ca-49c5-919f-a650b1e16e94",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Morning Report: Juice Mic'd Up in Melbourne, Looking Ahead to the Home Opener 🗞️",
+      "summary": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whatHappened": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T15:10:08.093Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ad340dde-2992-42b9-836e-2dc8a36a94ad",
+          "publisher": "Official team news",
+          "title": "Morning Report: Juice Mic'd Up in Melbourne, Looking Ahead to the Home Opener 🗞️",
+          "url": "https://www.49ers.com/news/morning-reports/morning-report-juice-mic-d-up-in-melbourne-looking-ahead-to-the-home-opener",
+          "publishedAt": "2026-09-16T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/morning-reports/morning-report-juice-mic-d-up-in-melbourne-looking-ahead-to-the-home-opener"
+        ],
+        "asOf": "2026-09-16T13:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "845a1d7b-ec2b-4c92-a0e1-d61640ed4118",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "What the 49ers and Rams Had to Say After Week 1",
+      "summary": "See what Kyle Shanahan, Brock Purdy, Mike Evans, Trent Williams, Sean McVay, Matthew Stafford, and Myles Garrett had to say following the Week 1 contest in Australia.",
+      "whatHappened": "See what Kyle Shanahan, Brock Purdy, Mike Evans, Trent Williams, Sean McVay, Matthew Stafford, and Myles Garrett had to say following the Week 1 contest in Australia.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T02:07:34.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T04:25:07.271Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "92ab4ae9-432a-4632-9021-162101632f30",
+          "publisher": "Official team news",
+          "title": "What the 49ers and Rams Had to Say After Week 1",
+          "url": "https://www.49ers.com/news/what-the-49ers-and-rams-had-to-say-after-week-1",
+          "publishedAt": "2026-09-16T02:07:34.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/what-the-49ers-and-rams-had-to-say-after-week-1"
+        ],
+        "asOf": "2026-09-16T02:07:34.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a6b3f6cb-17b8-43e4-9e31-c1626929971e",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Promise Kept: Deebo's Spider-Man Celebration | Off the Field",
+      "summary": "WR Deebo Samuel Sr. celebrates his first touchdown back with the 49ers by keeping a promise to his biggest fan.",
+      "whatHappened": "WR Deebo Samuel Sr. celebrates his first touchdown back with the 49ers by keeping a promise to his biggest fan.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T21:12:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T23:15:05.685Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "84903fc3-e7bc-4dd0-b71a-e3bf0432d7a0",
+          "publisher": "Official team news",
+          "title": "Promise Kept: Deebo's Spider-Man Celebration | Off the Field",
+          "url": "https://www.49ers.com/news/promise-kept-deebo-s-spider-man-celebration-off-the-field",
+          "publishedAt": "2026-09-15T21:12:21.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/promise-kept-deebo-s-spider-man-celebration-off-the-field"
+        ],
+        "asOf": "2026-09-15T21:12:21.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "bafec8d3-f4ca-4a56-a280-19207d620362",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Ways to Watch and Listen: Dolphins vs. 49ers | Week 2",
+      "summary": "Broadcast and streaming information for the San Francisco 49ers Week 2 matchup against the Miami Dolphins at Levi's® Stadium.",
+      "whatHappened": "Broadcast and streaming information for the San Francisco 49ers Week 2 matchup against the Miami Dolphins at Levi's® Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:37:13.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T22:40:05.296Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4fdad5cb-bd96-444e-aa6a-99e998834db9",
+          "publisher": "Official team news",
+          "title": "Ways to Watch and Listen: Dolphins vs. 49ers | Week 2",
+          "url": "https://www.49ers.com/news/ways-to-watch-and-listen-dolphins-vs-49ers-week-2",
+          "publishedAt": "2026-09-15T20:37:13.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/ways-to-watch-and-listen-dolphins-vs-49ers-week-2"
+        ],
+        "asOf": "2026-09-15T20:37:13.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8db755c1-44f6-4ad7-ab36-599e5f5fab5e",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Morning Report: Stats and Sounds from the Game at Melbourne Cricket Ground 🗞️",
+      "summary": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whatHappened": "Catch up on the latest San Francisco 49ers headlines, powered by Cisco.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T16:05:07.265Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "11812023-21ff-4fcc-aff1-7ea74491c276",
+          "publisher": "Official team news",
+          "title": "Morning Report: Stats and Sounds from the Game at Melbourne Cricket Ground 🗞️",
+          "url": "https://www.49ers.com/news/morning-reports/morning-report-stats-and-sounds-from-the-game-at-melbourne-cricket-ground",
+          "publishedAt": "2026-09-15T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/morning-reports/morning-report-stats-and-sounds-from-the-game-at-melbourne-cricket-ground"
+        ],
+        "asOf": "2026-09-15T14:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a0dde326-892d-48f6-8a13-5a5ff7b22ea4",
+      "teamAbbr": "SF",
+      "category": "ANALYSIS",
+      "headline": "Fred Warner Surpasses Patrick Willis in Most Tackles in 49ers History; Stats and Facts from #SFvsLAR",
+      "summary": "Take a look at key stats from the San Francisco 49ers Week 1 matchup vs. the Los Angeles Rams.",
+      "whatHappened": "Take a look at key stats from the San Francisco 49ers Week 1 matchup vs. the Los Angeles Rams.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T04:28:48.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T02:20:10.754Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e75be0ad-a743-4576-ae58-31032d4dbfb1",
+          "publisher": "Official team news",
+          "title": "Fred Warner Surpasses Patrick Willis in Most Tackles in 49ers History; Stats and Facts from #SFvsLAR",
+          "url": "https://www.49ers.com/news/fred-warner-surpasses-patrick-willis-in-most-tackles-in-49ers-history-stats-and-facts-from-sfvslar",
+          "publishedAt": "2026-09-15T04:28:48.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/fred-warner-surpasses-patrick-willis-in-most-tackles-in-49ers-history-stats-and-facts-from-sfvslar"
+        ],
+        "asOf": "2026-09-15T04:28:48.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "47f3f69d-cc8a-459a-a3ba-995eaa73c206",
+      "teamAbbr": "SF",
+      "category": "GAME",
+      "headline": "'Exactly What We Expected': Mike Evans Shines in 49ers Debut",
+      "summary": "Mike Evans delivered a memorable debut in the 49ers Week 1 win over Los Angeles.",
+      "whatHappened": "Mike Evans delivered a memorable debut in the 49ers Week 1 win over Los Angeles.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T18:52:23.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T21:15:06.066Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "30570d20-d89d-4c96-b293-f478bc679cf3",
+          "publisher": "Official team news",
+          "title": "'Exactly What We Expected': Mike Evans Shines in 49ers Debut",
+          "url": "https://www.49ers.com/news/exactly-what-we-expected-mike-evans-shines-in-49ers-debut",
+          "publishedAt": "2026-09-14T18:52:23.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.49ers.com/news/exactly-what-we-expected-mike-evans-shines-in-49ers-debut"
+        ],
+        "asOf": "2026-09-14T18:52:23.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 41,
+    "totalPages": 3
+  }
+}

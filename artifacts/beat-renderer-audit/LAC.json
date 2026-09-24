@@ -1,0 +1,986 @@
+{
+  "teamAbbr": "LAC",
+  "teamName": "Los Angeles Chargers",
+  "briefings": [
+    {
+      "id": "38318506-9a00-4f80-81ed-8f4055c98760",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "5 Things to Know About New Chargers TE Hayden Rucci",
+      "summary": "The 25-year-old appeared in four games last season for the Miami Dolphins",
+      "whatHappened": "The 25-year-old appeared in four games last season for the Miami Dolphins",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:05:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:41.381Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ce195157-c763-4260-87e4-445acb64f05e",
+          "publisher": "Official team news",
+          "title": "5 Things to Know About New Chargers TE Hayden Rucci",
+          "url": "https://www.chargers.com/news/hayden-rucci-signing-depth-chart-roster-2026",
+          "publishedAt": "2026-09-22T20:05:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "5 Things to Know About New Chargers TE Hayden Rucci"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/hayden-rucci-signing-depth-chart-roster-2026"
+        ],
+        "asOf": "2026-09-22T20:05:00.000Z"
+      }
+    },
+    {
+      "id": "123f90eb-1ebb-4cc4-9372-22eba502acda",
+      "teamAbbr": "LAC",
+      "category": "SIGNING",
+      "headline": "Los Angeles Chargers Sign Hayden Rucci",
+      "summary": "The Los Angeles Chargers today signed tight end Hayden Rucci to the active roster from Jacksonville’s practice squad. In a corresponding move, the team waived wide receiver Gary Jennings.",
+      "whatHappened": "The Los Angeles Chargers today signed tight end Hayden Rucci to the active roster from Jacksonville’s practice squad. In a corresponding move, the team waived wide receiver Gary Jennings.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:41.440Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b61df67d-f564-4cea-abaa-ea132880bc5d",
+          "publisher": "Official team news",
+          "title": "Los Angeles Chargers Sign Hayden Rucci",
+          "url": "https://www.chargers.com/news/sign-hayden-rucci-2026",
+          "publishedAt": "2026-09-22T20:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "LAC",
+          "action": "SIGNED",
+          "name": "Hayden Rucci",
+          "position": "TE"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Hayden Rucci",
+            "source": "headline",
+            "excerpt": "Sign Hayden Rucci"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "Sign Hayden Rucci"
+          },
+          {
+            "field": "position",
+            "value": "TE",
+            "source": "summary",
+            "excerpt": "tight end Hayden Rucci"
+          },
+          {
+            "field": "team",
+            "value": "LAC",
+            "source": "canonical",
+            "excerpt": "LAC"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/sign-hayden-rucci-2026"
+        ],
+        "asOf": "2026-09-22T20:00:00.000Z"
+      }
+    },
+    {
+      "id": "1d8a29c6-a1eb-418a-8953-eb685e65f525",
+      "teamAbbr": "LAC",
+      "category": "INJURY",
+      "headline": "5 Takeaways: Kolar & Njoku Headed to Injured Reserve; Harbaugh on Urgency for Week 3",
+      "summary": "Chargers Head Coach Jim Harbaugh said Monday there is a \"sense of urgency\" ahead of Sunday's road game against the Bills",
+      "whatHappened": "Chargers Head Coach Jim Harbaugh said Monday there is a \"sense of urgency\" ahead of Sunday's road game against the Bills",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:47:08.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T14:00:43.940Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "913c2471-68fc-4232-9ba4-e24bf8e40207",
+          "publisher": "Official team news",
+          "title": "5 Takeaways: Kolar & Njoku Headed to Injured Reserve; Harbaugh on Urgency for Week 3",
+          "url": "https://www.chargers.com/news/charlie-kolar-david-njoku-injured-reserve-fantasy",
+          "publishedAt": "2026-09-21T21:47:08.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "TAKEAWAYS"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 Takeaways"
+          },
+          {
+            "field": "descriptor",
+            "value": "TAKEAWAYS",
+            "source": "headline",
+            "excerpt": "5 Takeaways: Kolar & Njoku Headed to Injured Reserve; Harbaugh on Urgency for Week 3"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/charlie-kolar-david-njoku-injured-reserve-fantasy"
+        ],
+        "asOf": "2026-09-21T21:47:08.000Z"
+      }
+    },
+    {
+      "id": "5e8c1982-c49e-4d84-a110-1aebc4187aa7",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "5 Things To Know About the Chargers Ahead of Week 3",
+      "summary": "Here is what you need to know about the Chargers as they look ahead to a Week 3 game against the Bills",
+      "whatHappened": "Here is what you need to know about the Chargers as they look ahead to a Week 3 game against the Bills",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T20:00:42.744Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f94514e2-8fd5-4570-a693-f619062918f6",
+          "publisher": "Official team news",
+          "title": "5 Things To Know About the Chargers Ahead of Week 3",
+          "url": "https://www.chargers.com/news/bills-week-3-fantasy-2026",
+          "publishedAt": "2026-09-21T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "5 Things To Know About the Chargers Ahead of Week 3"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/bills-week-3-fantasy-2026"
+        ],
+        "asOf": "2026-09-21T16:00:00.000Z"
+      }
+    },
+    {
+      "id": "28b3d418-a9cc-4cac-b8d1-51fbba439a16",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "What Are Chargers-Bills Betting Odds & Game Picks in Week 3?",
+      "summary": "Here's the betting line and game picks for the Chargers Week 3 AFC battle against the Bills",
+      "whatHappened": "Here's the betting line and game picks for the Chargers Week 3 AFC battle against the Bills",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T15:55:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T20:00:42.810Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "24c9cf4b-b141-4488-bdda-f343eed6c2e3",
+          "publisher": "Official team news",
+          "title": "What Are Chargers-Bills Betting Odds & Game Picks in Week 3?",
+          "url": "https://www.chargers.com/news/nfl-betting-odds-bills-game-picks-week-3-2026",
+          "publishedAt": "2026-09-21T15:55:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chargers.com/news/nfl-betting-odds-bills-game-picks-week-3-2026"
+        ],
+        "asOf": "2026-09-21T15:55:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6b0c7139-6979-4a8d-8cf8-402e9e7d57e7",
+      "teamAbbr": "LAC",
+      "category": "PRACTICE",
+      "headline": "Los Angeles Chargers Elevate Isas Waxter",
+      "summary": "The Los Angeles Chargers today elevated cornerback Isas Waxter from the practice squad for Sunday’s game.",
+      "whatHappened": "The Los Angeles Chargers today elevated cornerback Isas Waxter from the practice squad for Sunday’s game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:05:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T14:00:51.793Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "affa01aa-a70b-474b-9652-171647d0e020",
+          "publisher": "Official team news",
+          "title": "Los Angeles Chargers Elevate Isas Waxter",
+          "url": "https://www.chargers.com/news/elevate-isas-waxter-2026",
+          "publishedAt": "2026-09-19T20:05:53.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "LAC",
+          "action": "ELEVATED",
+          "name": "Isas Waxter",
+          "position": "TE"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Isas Waxter",
+            "source": "headline",
+            "excerpt": "Elevate Isas Waxter"
+          },
+          {
+            "field": "action",
+            "value": "ELEVATED",
+            "source": "headline",
+            "excerpt": "Elevate Isas Waxter"
+          },
+          {
+            "field": "position",
+            "value": "TE",
+            "source": "headline",
+            "excerpt": "te Isas Waxter"
+          },
+          {
+            "field": "team",
+            "value": "LAC",
+            "source": "canonical",
+            "excerpt": "LAC"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/elevate-isas-waxter-2026"
+        ],
+        "asOf": "2026-09-19T20:05:53.000Z"
+      }
+    },
+    {
+      "id": "a1fddb3e-a8b6-4b96-8d58-70a9be5b2792",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "5 Final Thoughts Ahead of Chargers-Raiders in Week 2",
+      "summary": "Here are five key storylines to watch as the Chargers host the Raiders in Week 2 at SoFi Stadium",
+      "whatHappened": "Here are five key storylines to watch as the Chargers host the Raiders in Week 2 at SoFi Stadium",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T21:53:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T00:00:51.791Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "46b526e2-9339-4357-9e0a-3344dec3c9c1",
+          "publisher": "Official team news",
+          "title": "5 Final Thoughts Ahead of Chargers-Raiders in Week 2",
+          "url": "https://www.chargers.com/news/raiders-game-preview-week-2-2026",
+          "publishedAt": "2026-09-18T21:53:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chargers.com/news/raiders-game-preview-week-2-2026"
+        ],
+        "asOf": "2026-09-18T21:53:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "483427c5-23cf-40e6-92ee-23c409bda143",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "3 Chargers Players to Watch Against Raiders in Week 2",
+      "summary": "Here are three Chargers players to keep an eye on for in Week 2 of the regular season",
+      "whatHappened": "Here are three Chargers players to keep an eye on for in Week 2 of the regular season",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:00:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:45.980Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "eb7f9d3c-fca4-4f19-b21e-fca6821936f8",
+          "publisher": "Official team news",
+          "title": "3 Chargers Players to Watch Against Raiders in Week 2",
+          "url": "https://www.chargers.com/news/players-to-watch-raiders-week-2-2026",
+          "publishedAt": "2026-09-18T15:00:26.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chargers.com/news/players-to-watch-raiders-week-2-2026"
+        ],
+        "asOf": "2026-09-18T15:00:26.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "694a1685-e02f-4dd4-9e92-060c4d183779",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "Chargers Recognize Jessica Manriquez & Derek Gonzalez as Latino Youth Honors Nominees",
+      "summary": "The pair of impactful student-athletes will be recognized on the field during the Chargers Latino Heritage Game in Week 2 against the Raiders.",
+      "whatHappened": "The pair of impactful student-athletes will be recognized on the field during the Chargers Latino Heritage Game in Week 2 against the Raiders.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:00:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T04:00:52.249Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "654b7d95-f85f-4d24-a1c7-54113a3be23e",
+          "publisher": "Official team news",
+          "title": "Chargers Recognize Jessica Manriquez & Derek Gonzalez as Latino Youth Honors Nominees",
+          "url": "https://www.chargers.com/news/latino-youth-honors-jessica-manriquez-derek-gonzalez",
+          "publishedAt": "2026-09-18T14:00:26.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chargers.com/news/latino-youth-honors-jessica-manriquez-derek-gonzalez"
+        ],
+        "asOf": "2026-09-18T14:00:26.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f5bab99d-3d14-4cfb-a5cb-5ee5094e4afa",
+      "teamAbbr": "LAC",
+      "category": "PRACTICE",
+      "headline": "How Chargers Wide Receivers Are Preparing With Ladd McConkey 'Day-to-Day'",
+      "summary": "McConkey did not practice Wednesday or Thursday for the Chargers",
+      "whatHappened": "McConkey did not practice Wednesday or Thursday for the Chargers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T23:20:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T04:01:02.427Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d52801c7-4009-4f27-87d0-f8ae67b781db",
+          "publisher": "Official team news",
+          "title": "How Chargers Wide Receivers Are Preparing With Ladd McConkey 'Day-to-Day'",
+          "url": "https://www.chargers.com/news/ladd-mcconkey-quentin-johnston-wide-receiver-depth-chart-2026",
+          "publishedAt": "2026-09-17T23:20:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chargers.com/news/ladd-mcconkey-quentin-johnston-wide-receiver-depth-chart-2026"
+        ],
+        "asOf": "2026-09-17T23:20:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "41af875b-0496-4bd6-b0c1-13c63f37e78c",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "'More Motivated Than Ever': How Daiyan Henley Hopes to Level Up in 2026",
+      "summary": "The linebacker, who was voted a team captain once again, has his eyes set on a big year after an adversity-filled 2025 season",
+      "whatHappened": "The linebacker, who was voted a team captain once again, has his eyes set on a big year after an adversity-filled 2025 season",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T15:00:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T17:15:38.730Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a5685d34-e86e-4f79-b178-73a12a413eae",
+          "publisher": "Official team news",
+          "title": "'More Motivated Than Ever': How Daiyan Henley Hopes to Level Up in 2026",
+          "url": "https://www.chargers.com/news/daiyan-henley-captain-contract-depth-chart",
+          "publishedAt": "2026-09-17T15:00:21.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chargers.com/news/daiyan-henley-captain-contract-depth-chart"
+        ],
+        "asOf": "2026-09-17T15:00:21.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2eb131ff-8bb9-4443-8367-1778e7e96a6c",
+      "teamAbbr": "LAC",
+      "category": "INJURY",
+      "headline": "Chargers vs. Raiders Injury Report: Ladd McConkey Among 5 Who Don't Practice Wednesday",
+      "summary": "Take a look at the Chargers Injury Report ahead of Week 2 against the Raiders",
+      "whatHappened": "Take a look at the Chargers Injury Report ahead of Week 2 against the Raiders",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T22:32:56.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T00:40:32.207Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "dacf17ce-3d6a-4e46-9fbe-b1f5f02f051f",
+          "publisher": "Official team news",
+          "title": "Chargers vs. Raiders Injury Report: Ladd McConkey Among 5 Who Don't Practice Wednesday",
+          "url": "https://www.chargers.com/news/raiders-injury-report-ladd-mcconkey-fantasy",
+          "publishedAt": "2026-09-16T22:32:56.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "summary",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/raiders-injury-report-ladd-mcconkey-fantasy"
+        ],
+        "asOf": "2026-09-16T22:32:56.000Z"
+      }
+    },
+    {
+      "id": "2d138110-5976-4419-9a5b-b2038d137af9",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "How the Chargers Can Respond in Week 2 Against the Raiders",
+      "summary": "The Chargers Mailbag looks ahead to a Week 2 home game against the Las Vegas Raiders",
+      "whatHappened": "The Chargers Mailbag looks ahead to a Week 2 home game against the Las Vegas Raiders",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T16:04:24.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T18:20:05.845Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3471e6ad-e9e1-4c53-8f03-919812ad1cd1",
+          "publisher": "Official team news",
+          "title": "How the Chargers Can Respond in Week 2 Against the Raiders",
+          "url": "https://www.chargers.com/news/raiders-fantasy-week-2-mailbag",
+          "publishedAt": "2026-09-16T16:04:24.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chargers.com/news/raiders-fantasy-week-2-mailbag"
+        ],
+        "asOf": "2026-09-16T16:04:24.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a4c9d2ad-50f3-4035-b794-456cbd4b63fd",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "Los Angeles Chargers vs. Las Vegas Raiders: Where to Watch, Listen & Live Stream",
+      "summary": "The Chargers play at home for the second consecutive week as they open AFC West play against the Raiders",
+      "whatHappened": "The Chargers play at home for the second consecutive week as they open AFC West play against the Raiders",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T18:20:05.958Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "77d0a3d1-d538-468c-a632-16ffbf0b1380",
+          "publisher": "Official team news",
+          "title": "Los Angeles Chargers vs. Las Vegas Raiders: Where to Watch, Listen & Live Stream",
+          "url": "https://www.chargers.com/news/2026-week-2-raiders-where-to-watch-listen-livestream",
+          "publishedAt": "2026-09-16T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chargers.com/news/2026-week-2-raiders-where-to-watch-listen-livestream"
+        ],
+        "asOf": "2026-09-16T14:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "43ba1202-7b2d-4f44-b42b-a3d11ff951c4",
+      "teamAbbr": "LAC",
+      "category": "SIGNING",
+      "headline": "Chargers Place KeAndre Lambert-Smith on Injured Reserve; Sign Gary Jennings",
+      "summary": "The Los Angeles Chargers today placed wide receiver KeAndre Lambert-Smith on Reserve/Injured. In corresponding moves, the team signed wide receiver Gary Jennings to the active roster and signed cornerback Isas Waxter to the practice squad.",
+      "whatHappened": "The Los Angeles Chargers today placed wide receiver KeAndre Lambert-Smith on Reserve/Injured. In corresponding moves, the team signed wide receiver Gary Jennings to the active roster and signed cornerback Isas Waxter to the practice squad.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T21:07:14.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T23:25:08.034Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e567f935-c377-4ee6-8c4b-f4b7f4a3d8af",
+          "publisher": "Official team news",
+          "title": "Chargers Place KeAndre Lambert-Smith on Injured Reserve; Sign Gary Jennings",
+          "url": "https://www.chargers.com/news/keandre-lambert-smith-injured-reserve-sign-gary-jennings-2026",
+          "publishedAt": "2026-09-15T21:07:14.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "LAC",
+          "action": "SIGNED",
+          "name": "Gary Jennings",
+          "position": "WR"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Gary Jennings",
+            "source": "headline",
+            "excerpt": "Sign Gary Jennings"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "Sign Gary Jennings"
+          },
+          {
+            "field": "position",
+            "value": "WR",
+            "source": "summary",
+            "excerpt": "wide receiver Gary Jennings"
+          },
+          {
+            "field": "team",
+            "value": "LAC",
+            "source": "canonical",
+            "excerpt": "LAC"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/keandre-lambert-smith-injured-reserve-sign-gary-jennings-2026"
+        ],
+        "asOf": "2026-09-15T21:07:14.000Z"
+      }
+    },
+    {
+      "id": "5a40f49c-f4e0-4962-8cc6-d1065a1ab13a",
+      "teamAbbr": "LAC",
+      "category": "INJURY",
+      "headline": "5 Takeaways: Jim Harbaugh Provides Ladd McConkey Injury Update, Turns Page to Week 2",
+      "summary": "The Chargers wide receiver has a rib injury and is considered day-to-day",
+      "whatHappened": "The Chargers wide receiver has a rib injury and is considered day-to-day",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T22:02:28.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T00:20:06.848Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8f9fd7b7-6242-4c9b-87d0-72652c17832d",
+          "publisher": "Official team news",
+          "title": "5 Takeaways: Jim Harbaugh Provides Ladd McConkey Injury Update, Turns Page to Week 2",
+          "url": "https://www.chargers.com/news/ladd-mcconkey-injury-fantasy-jm-harbaugh-week-1",
+          "publishedAt": "2026-09-14T22:02:28.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "TAKEAWAYS"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 Takeaways"
+          },
+          {
+            "field": "descriptor",
+            "value": "TAKEAWAYS",
+            "source": "headline",
+            "excerpt": "5 Takeaways: Jim Harbaugh Provides Ladd McConkey Injury Update, Turns Page to Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/ladd-mcconkey-injury-fantasy-jm-harbaugh-week-1"
+        ],
+        "asOf": "2026-09-14T22:02:28.000Z"
+      }
+    },
+    {
+      "id": "8b38953b-0050-46d1-bc32-219665f5e1fb",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "5 Things To Know About the Chargers Ahead of Week 2",
+      "summary": "Here is what you need to know about the Chargers as they turn the page to a Week 2 matchup with the Raiders",
+      "whatHappened": "Here is what you need to know about the Chargers as they turn the page to a Week 2 matchup with the Raiders",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T16:18:33.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T18:30:08.951Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7160fe16-1f73-422c-93f6-4eb3460d413e",
+          "publisher": "Official team news",
+          "title": "5 Things To Know About the Chargers Ahead of Week 2",
+          "url": "https://www.chargers.com/news/raiders-afc-west-week-2-fantasy",
+          "publishedAt": "2026-09-14T16:18:33.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "5 Things To Know About the Chargers Ahead of Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/raiders-afc-west-week-2-fantasy"
+        ],
+        "asOf": "2026-09-14T16:18:33.000Z"
+      }
+    },
+    {
+      "id": "a834f59b-91db-47d0-a90a-828ef2bffd6d",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "What Are Chargers-Raiders Betting Odds in Week 2?",
+      "summary": "Here's the betting line for the Chargers Week 2 divisional matchup against the Raiders",
+      "whatHappened": "Here's the betting line for the Chargers Week 2 divisional matchup against the Raiders",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T16:15:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T18:30:09.020Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7aa458b6-6f72-4626-ba33-8a3e58b10043",
+          "publisher": "Official team news",
+          "title": "What Are Chargers-Raiders Betting Odds in Week 2?",
+          "url": "https://www.chargers.com/news/nfl-betting-odds-raiders-game-picks-week-2-2026",
+          "publishedAt": "2026-09-14T16:15:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chargers.com/news/nfl-betting-odds-raiders-game-picks-week-2-2026"
+        ],
+        "asOf": "2026-09-14T16:15:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8e73f319-1aa9-4fad-9604-a7a3dddf63d2",
+      "teamAbbr": "LAC",
+      "category": "ANALYSIS",
+      "headline": "5 Takeaways: Chargers Look to Bounce Back After 'Sloppy' Week 1 Loss",
+      "summary": "The Chargers dropped their 2026 season opener at home to the Cardinals",
+      "whatHappened": "The Chargers dropped their 2026 season opener at home to the Cardinals",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T01:53:31.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T03:55:08.474Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1ebfa9ca-3394-4d1e-abf3-7495634a38c2",
+          "publisher": "Official team news",
+          "title": "5 Takeaways: Chargers Look to Bounce Back After 'Sloppy' Week 1 Loss",
+          "url": "https://www.chargers.com/news/cardinals-week-1-takeaways-jim-harbaugh",
+          "publishedAt": "2026-09-14T01:53:31.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "TAKEAWAYS"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 Takeaways"
+          },
+          {
+            "field": "descriptor",
+            "value": "TAKEAWAYS",
+            "source": "headline",
+            "excerpt": "5 Takeaways: Chargers Look to Bounce Back After 'Sloppy' Week 1 Loss"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/cardinals-week-1-takeaways-jim-harbaugh"
+        ],
+        "asOf": "2026-09-14T01:53:31.000Z"
+      }
+    },
+    {
+      "id": "50edb06e-cf48-4f62-bcb1-054b3e5e67c9",
+      "teamAbbr": "LAC",
+      "category": "GAME",
+      "headline": "Game Recap: Chargers Fall to Cardinals in 2026 Season Opener",
+      "summary": "The Chargers dropped a Week 1 contest at home to Arizona",
+      "whatHappened": "The Chargers dropped a Week 1 contest at home to Arizona",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-13T23:24:51.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T01:35:11.105Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "74eda864-45fe-4961-9c6a-69be81c57cb6",
+          "publisher": "Official team news",
+          "title": "Game Recap: Chargers Fall to Cardinals in 2026 Season Opener",
+          "url": "https://www.chargers.com/news/cardinals-game-recap-week-1-2026",
+          "publishedAt": "2026-09-13T23:24:51.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "recap",
+          "teams": [
+            "LAC",
+            "ARI"
+          ],
+          "overtime": false
+        },
+        "reason": "Recap without a verified score pair",
+        "displayCategory": "Recap",
+        "evidence": [
+          {
+            "field": "teams.0",
+            "value": "LAC",
+            "source": "headline",
+            "excerpt": "Game Recap: Chargers Fall to Cardinals in 2026 Season Opener"
+          },
+          {
+            "field": "teams.1",
+            "value": "ARI",
+            "source": "headline",
+            "excerpt": "Game Recap: Chargers Fall to Cardinals in 2026 Season Opener"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chargers.com/news/cardinals-game-recap-week-1-2026"
+        ],
+        "asOf": "2026-09-13T23:24:51.000Z"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 42,
+    "totalPages": 3
+  }
+}

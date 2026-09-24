@@ -1,0 +1,905 @@
+{
+  "teamAbbr": "CAR",
+  "teamName": "Carolina Panthers",
+  "briefings": [
+    {
+      "id": "f73a485a-2e46-4b74-8354-87da70b2b290",
+      "teamAbbr": "CAR",
+      "category": "RELEASE",
+      "headline": "Panthers release depth chart ahead of Week 3 of the 2026 season",
+      "summary": "The Carolina Panthers have released their depth chart for the Week 3 game versus the Cleveland Browns.",
+      "whatHappened": "The Carolina Panthers have released their depth chart for the Week 3 game versus the Cleveland Browns.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:50:49.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T14:00:42.774Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "10fdd90e-9cdf-4f01-8b37-1f8834e5912d",
+          "publisher": "Official team news",
+          "title": "Panthers release depth chart ahead of Week 3 of the 2026 season",
+          "url": "https://www.panthers.com/news/panthers-release-depth-chart-ahead-of-week-3-of-the-2026-season",
+          "publishedAt": "2026-09-22T20:50:49.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "team-update",
+          "label": "DEPTH\nCHART"
+        },
+        "reason": "Published depth chart; release is not a player transaction",
+        "displayCategory": "Team",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/panthers-release-depth-chart-ahead-of-week-3-of-the-2026-season"
+        ],
+        "asOf": "2026-09-22T20:50:49.000Z"
+      }
+    },
+    {
+      "id": "b1fe1c1b-61a9-42d9-b234-427f78d57c5a",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "Ask The Old Guy: Celebrate the good times, and keep working",
+      "summary": "Everybody was in a better mood this week for some reason. But the work has to stay the same. So this week, we talk defense, running back depth, XL making big plays, Hall of Fame voting, and more.",
+      "whatHappened": "Everybody was in a better mood this week for some reason. But the work has to stay the same. So this week, we talk defense, running back depth, XL making big plays, Hall of Fame voting, and more.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:20:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T14:00:42.854Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "13c88977-09b9-4836-bf8f-f2d8ccfd1e54",
+          "publisher": "Official team news",
+          "title": "Ask The Old Guy: Celebrate the good times, and keep working",
+          "url": "https://www.panthers.com/news/ask-the-old-guy-celebrate-the-good-times-and-keep-working-atlanta-defense-bryce-young-xavier-legette-pro-football-hall-of-fame",
+          "publishedAt": "2026-09-22T20:20:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/ask-the-old-guy-celebrate-the-good-times-and-keep-working-atlanta-defense-bryce-young-xavier-legette-pro-football-hall-of-fame"
+        ],
+        "asOf": "2026-09-22T20:20:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "302938da-0133-4cc1-a35c-12e808f452ae",
+      "teamAbbr": "CAR",
+      "category": "PRACTICE",
+      "headline": "Panthers add experienced returner Ihmir Smith-Marsette",
+      "summary": "The team added the former Panthers returner and receiver to the practice squad on Tuesday, adding some depth at a position of need after Jalen Coker returned punts last week in Atlanta.",
+      "whatHappened": "The team added the former Panthers returner and receiver to the practice squad on Tuesday, adding some depth at a position of need after Jalen Coker returned punts last week in Atlanta.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T19:41:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T14:00:43.084Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f49c2739-f39b-4cb5-a60f-c24971e94adc",
+          "publisher": "Official team news",
+          "title": "Panthers add experienced returner Ihmir Smith-Marsette",
+          "url": "https://www.panthers.com/news/panthers-add-experienced-returner-ihmir-smith-marsette-practice-squad",
+          "publishedAt": "2026-09-22T19:41:53.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/panthers-add-experienced-returner-ihmir-smith-marsette-practice-squad"
+        ],
+        "asOf": "2026-09-22T19:41:53.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8d6782a3-6795-49f0-a224-b0b112017899",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "Know Your Foe: Week 3, Cleveland Browns",
+      "summary": "From a dynamic duo of rookie receivers to replacing Myles Garrett, get to know the 2026 Cleveland Brown squad ahead of the Panthers' Week 3 matchup .",
+      "whatHappened": "From a dynamic duo of rookie receivers to replacing Myles Garrett, get to know the 2026 Cleveland Brown squad ahead of the Panthers' Week 3 matchup .",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T12:53:31.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T20:00:41.599Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9db5a98d-ecef-46ae-a7ce-5947d7006e40",
+          "publisher": "Official team news",
+          "title": "Know Your Foe: Week 3, Cleveland Browns",
+          "url": "https://www.panthers.com/news/know-your-foe-week-3-cleveland-browns",
+          "publishedAt": "2026-09-22T12:53:31.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "scouting",
+          "opponent": "CLE"
+        },
+        "reason": "Explicit opponent/scouting focus",
+        "displayCategory": "Scouting",
+        "evidence": [
+          {
+            "field": "opponent",
+            "value": "CLE",
+            "source": "headline",
+            "excerpt": "Know Your Foe: Week 3, Cleveland Browns"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.panthers.com/news/know-your-foe-week-3-cleveland-browns"
+        ],
+        "asOf": "2026-09-22T12:53:31.000Z"
+      }
+    },
+    {
+      "id": "2fc253ad-7994-48ba-9da7-1d0c3404a936",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "Monday Brew: Bryce Young's deep throws take a big jump through two games",
+      "summary": "Dave Canales breaks down how and why Bryce Young's deep throws have increased so far in 2026. Plus updates on Pat Jones and Jonathon Brooks, Dan Morgan's offseason plans coming together, and a surprise punt returner.",
+      "whatHappened": "Dave Canales breaks down how and why Bryce Young's deep throws have increased so far in 2026. Plus updates on Pat Jones and Jonathon Brooks, Dan Morgan's offseason plans coming together, and a surprise punt returner.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T20:40:35.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:46.163Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "65243dd3-8de1-432e-9a52-d602f6ff1620",
+          "publisher": "Official team news",
+          "title": "Monday Brew: Bryce Young's deep throws take a big jump through two games",
+          "url": "https://www.panthers.com/news/monday-brew-bryce-young-s-deep-throws-take-a-big-jump-through-two-games",
+          "publishedAt": "2026-09-21T20:40:35.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/monday-brew-bryce-young-s-deep-throws-take-a-big-jump-through-two-games"
+        ],
+        "asOf": "2026-09-21T20:40:35.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "62531f88-42a8-42e2-8e3f-2105f0ac06e9",
+      "teamAbbr": "CAR",
+      "category": "GAME",
+      "headline": "Inside The Numbers: Panthers at Falcons in Week 2",
+      "summary": "A look at some of the key stats from the game, as well as the snap counts from Sunday's win over the Falcons in Week 2",
+      "whatHappened": "A look at some of the key stats from the game, as well as the snap counts from Sunday's win over the Falcons in Week 2",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T09:40:46.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T14:00:46.691Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ada74074-e264-4cd3-82a2-f0aa864ddada",
+          "publisher": "Official team news",
+          "title": "Inside The Numbers: Panthers at Falcons in Week 2",
+          "url": "https://www.panthers.com/news/inside-the-numbers-panthers-at-falcons-in-week-2",
+          "publishedAt": "2026-09-21T09:40:46.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "stats",
+          "descriptor": "BY THE\nNUMBERS",
+          "rows": []
+        },
+        "reason": "Explicit statistics format; only sourced values displayed",
+        "displayCategory": "Stats",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/inside-the-numbers-panthers-at-falcons-in-week-2"
+        ],
+        "asOf": "2026-09-21T09:40:46.000Z"
+      }
+    },
+    {
+      "id": "eafb6a4e-8322-4ef1-9c3c-043d6a8159d7",
+      "teamAbbr": "CAR",
+      "category": "GAME",
+      "headline": "Panthers passing game dominates the deep game in Atlanta as Young and the receiving corps continue to gel",
+      "summary": "Tetairoa McMillan registered this third 100-yard game, Jalen Coker stepped up in more ways than one, and Xavier Legette has the play of the day as Bryce Young throws for 287 yards in a 34-3 win over the Falcons.",
+      "whatHappened": "Tetairoa McMillan registered this third 100-yard game, Jalen Coker stepped up in more ways than one, and Xavier Legette has the play of the day as Bryce Young throws for 287 yards in a 34-3 win over the Falcons.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T00:40:07.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T14:00:46.988Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b9ffd6f9-4da9-45fe-aa2e-0661fe559aec",
+          "publisher": "Official team news",
+          "title": "Panthers passing game dominates the deep game in Atlanta as Young and the receiving corps continue to gel",
+          "url": "https://www.panthers.com/news/panthers-passing-game-dominates-the-deep-game-in-atlanta-as-young-and-the-receiving-corps-continue-to-gel",
+          "publishedAt": "2026-09-21T00:40:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/panthers-passing-game-dominates-the-deep-game-in-atlanta-as-young-and-the-receiving-corps-continue-to-gel"
+        ],
+        "asOf": "2026-09-21T00:40:07.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1d5adf1c-814f-41de-9464-d5d832fce76d",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "Week 2 Inactives at Atlanta: Pat Jones out for Falcons game",
+      "summary": "The Panthers will be without the veteran outside linebacker again this week, after he was able to begin practicing. Defensive tackle Bobby Brown is also out, and here's a look at the full list of inactives.",
+      "whatHappened": "The Panthers will be without the veteran outside linebacker again this week, after he was able to begin practicing. Defensive tackle Bobby Brown is also out, and here's a look at the full list of inactives.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T15:33:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:46.492Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ac112673-13bd-4a1e-ad7a-8d23890fe9a3",
+          "publisher": "Official team news",
+          "title": "Week 2 Inactives at Atlanta: Pat Jones out for Falcons game",
+          "url": "https://www.panthers.com/news/week-2-inactives-at-atlanta-pat-jones-out-for-falcons-game-bobby-brown-panthers-falcons",
+          "publishedAt": "2026-09-20T15:33:02.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INACTIVE\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.panthers.com/news/week-2-inactives-at-atlanta-pat-jones-out-for-falcons-game-bobby-brown-panthers-falcons"
+        ],
+        "asOf": "2026-09-20T15:33:02.000Z"
+      }
+    },
+    {
+      "id": "3e690738-8351-4155-8065-699c10a0686d",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "Halfway around the world and back: The week that was for Luke Kuechly",
+      "summary": "The Hall of Fame linebacker and Panthers legend went from calling a game in Australia on Thursday night, to back in Bank of America Stadium by Sunday morning. All it took was a plan, and lots of coffee.",
+      "whatHappened": "The Hall of Fame linebacker and Panthers legend went from calling a game in Australia on Thursday night, to back in Bank of America Stadium by Sunday morning. All it took was a plan, and lots of coffee.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T10:00:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:46.651Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "95d8e5a8-62ed-444d-ba90-b29f4cac09f1",
+          "publisher": "Official team news",
+          "title": "Halfway around the world and back: The week that was for Luke Kuechly",
+          "url": "https://www.panthers.com/news/halfway-around-the-world-and-back-the-week-that-was-for-luke-kuechly-panthers-australia-netflix-broadcasting-coffee-charlotte",
+          "publishedAt": "2026-09-20T10:00:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/halfway-around-the-world-and-back-the-week-that-was-for-luke-kuechly-panthers-australia-netflix-broadcasting-coffee-charlotte"
+        ],
+        "asOf": "2026-09-20T10:00:12.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "dfc59f61-75d9-41e6-b4df-19a4c171a305",
+      "teamAbbr": "CAR",
+      "category": "DRAFT",
+      "headline": "Tetairoa McMillan, Jalen Coker, and a simple balance that has created a complex offense for the Panthers",
+      "summary": "A Top 10 draft pick and an undrafted receiver have come together for a balanced approach on the field, in turn creating a complex offense for Panthers' opponents.",
+      "whatHappened": "A Top 10 draft pick and an undrafted receiver have come together for a balanced approach on the field, in turn creating a complex offense for Panthers' opponents.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T21:31:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T02:00:48.902Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "db54639c-2e90-43e0-b37e-37feb4f80532",
+          "publisher": "Official team news",
+          "title": "Tetairoa McMillan, Jalen Coker, and a simple balance that has created a complex offense for the Panthers",
+          "url": "https://www.panthers.com/news/tetairoa-mcmillan-jalen-coker-and-a-simple-balance-that-has-created-a-complex-offense-for-the-panthers-bryce-young-falcons",
+          "publishedAt": "2026-09-19T21:31:26.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "DRAFT",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/tetairoa-mcmillan-jalen-coker-and-a-simple-balance-that-has-created-a-complex-offense-for-the-panthers-bryce-young-falcons"
+        ],
+        "asOf": "2026-09-19T21:31:26.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "5b3e508f-6e1e-4925-ae76-94b2f9d3b0e1",
+      "teamAbbr": "CAR",
+      "category": "PRACTICE",
+      "headline": "Panthers promote two from the practice squad for Week 2",
+      "summary": "The team activated outside linebacker Jeremiah Moon and safety and special teamer Isaiah Simmons from the practice squad to provide depth for Sunday's trip to Atlanta to face the Falcons in Week 2.",
+      "whatHappened": "The team activated outside linebacker Jeremiah Moon and safety and special teamer Isaiah Simmons from the practice squad to provide depth for Sunday's trip to Atlanta to face the Falcons in Week 2.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T17:45:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T02:00:49.287Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "09bf0df5-59d6-4c0b-ad4c-2c09bf9a6b8c",
+          "publisher": "Official team news",
+          "title": "Panthers promote two from the practice squad for Week 2",
+          "url": "https://www.panthers.com/news/panthers-promote-two-from-the-practice-squad-for-week-2-at-falcons-injury-report",
+          "publishedAt": "2026-09-19T17:45:02.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/panthers-promote-two-from-the-practice-squad-for-week-2-at-falcons-injury-report"
+        ],
+        "asOf": "2026-09-19T17:45:02.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d893909b-b752-416d-aa9d-f67b758facbd",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "How to watch, listen and follow: Panthers at Falcons in Week 2",
+      "summary": "Fans can watch the game on Fox and listen live on the radio in the Panthers regional area.",
+      "whatHappened": "Fans can watch the game on Fox and listen live on the radio in the Panthers regional area.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T14:27:30.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T02:00:49.443Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9a4cf615-7fc7-40bf-b208-d0531fdf1093",
+          "publisher": "Official team news",
+          "title": "How to watch, listen and follow: Panthers at Falcons in Week 2",
+          "url": "https://www.panthers.com/news/how-to-watch-listen-and-follow-panthers-at-falcons-in-week-2",
+          "publishedAt": "2026-09-19T14:27:30.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "CAR",
+          "rightTeam": "ATL",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "CAR",
+            "source": "headline",
+            "excerpt": "How to watch, listen and follow: Panthers at Falcons in Week 2"
+          },
+          {
+            "field": "rightTeam",
+            "value": "ATL",
+            "source": "headline",
+            "excerpt": "How to watch, listen and follow: Panthers at Falcons in Week 2"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.panthers.com/news/how-to-watch-listen-and-follow-panthers-at-falcons-in-week-2"
+        ],
+        "asOf": "2026-09-19T14:27:30.000Z"
+      }
+    },
+    {
+      "id": "0d99e431-0636-4340-9423-7a093201fb07",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "5 things to watch as Panthers begin division race in Atlanta",
+      "summary": "From bringing down Bijan Robinson to the key in Bryce Young's streak against the Falcons, here are five things to watch as Carolina travels to Atlanta to open division play.",
+      "whatHappened": "From bringing down Bijan Robinson to the key in Bryce Young's streak against the Falcons, here are five things to watch as Carolina travels to Atlanta to open division play.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T11:40:23.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T16:00:52.606Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e473843f-0d61-4aac-9a88-fac94af25f35",
+          "publisher": "Official team news",
+          "title": "5 things to watch as Panthers begin division race in Atlanta",
+          "url": "https://www.panthers.com/news/5-things-to-watch-as-panthers-begin-division-race-in-atlanta-bryce-young-cooper-rush-bijan-robinson-run-defense",
+          "publishedAt": "2026-09-19T11:40:23.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "5 things to watch as Panthers begin division race in Atlanta"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.panthers.com/news/5-things-to-watch-as-panthers-begin-division-race-in-atlanta-bryce-young-cooper-rush-bijan-robinson-run-defense"
+        ],
+        "asOf": "2026-09-19T11:40:23.000Z"
+      }
+    },
+    {
+      "id": "9598d14e-e5aa-4f1c-a04e-5fe2f5e9b55b",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "Three takeaways from Friday, including a new look on defense",
+      "summary": "The Panthers know they're without Bobby Brown, and Pat Jones will be a game-time decision, so the Panthers are going to get a different look up front against the Falcons. Plus more on Atlanta's QB call.",
+      "whatHappened": "The Panthers know they're without Bobby Brown, and Pat Jones will be a game-time decision, so the Panthers are going to get a different look up front against the Falcons. Plus more on Atlanta's QB call.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T17:37:08.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T14:00:54.642Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ec012d4b-aa88-4c73-9e15-df1666fb7e68",
+          "publisher": "Official team news",
+          "title": "Three takeaways from Friday, including a new look on defense",
+          "url": "https://www.panthers.com/news/three-takeaways-from-friday-including-a-new-look-on-defense-falcons-quarterback-cooper-rush-kippy-brown-memorial",
+          "publishedAt": "2026-09-18T17:37:08.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "3",
+          "descriptor": "TAKEAWAYS"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "3",
+            "source": "headline",
+            "excerpt": "Three takeaways"
+          },
+          {
+            "field": "descriptor",
+            "value": "TAKEAWAYS",
+            "source": "headline",
+            "excerpt": "Three takeaways from Friday, including a new look on defense"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.panthers.com/news/three-takeaways-from-friday-including-a-new-look-on-defense-falcons-quarterback-cooper-rush-kippy-brown-memorial"
+        ],
+        "asOf": "2026-09-18T17:37:08.000Z"
+      }
+    },
+    {
+      "id": "503747f7-eee7-4f48-b634-3093b7b3d007",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "Fit Check Friday: Week 2 at Atlanta",
+      "summary": "The Panthers are going with the traditional white-on-white this weekend, with the black socks for the quick trip to Atlanta.",
+      "whatHappened": "The Panthers are going with the traditional white-on-white this weekend, with the black socks for the quick trip to Atlanta.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T16:42:49.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T18:00:54.667Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "acd7dc60-4a2c-4667-91ae-374d91bff115",
+          "publisher": "Official team news",
+          "title": "Fit Check Friday: Week 2 at Atlanta",
+          "url": "https://www.panthers.com/news/fit-check-friday-week-2-at-atlanta",
+          "publishedAt": "2026-09-18T16:42:49.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/fit-check-friday-week-2-at-atlanta"
+        ],
+        "asOf": "2026-09-18T16:42:49.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "69d7fd14-94bb-4032-aa84-8d7433d62267",
+      "teamAbbr": "CAR",
+      "category": "INJURY",
+      "headline": "Week 2 Wednesday Injury Report: Darren Waller gets a rest day",
+      "summary": "The Panthers were without outside linebacker Pat Jones and tight end Darren Waller, and wide receiver Jalen Coker was limited. The Panthers were without the veteran defensive tackle again on Thursday, while outside linebacker Pat Jones practiced on a limited basis again on Thursday. The Panthers defensive tackle didn't practice Friday for the third straight day, and won't play Sunday against the Falcons, leaving them young up front alongside Derrick Brown.",
+      "whatHappened": "The Panthers were without outside linebacker Pat Jones and tight end Darren Waller, and wide receiver Jalen Coker was limited. The Panthers were without the veteran defensive tackle again on Thursday, while outside linebacker Pat Jones practiced on a limited basis again on Thursday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T16:29:53.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-16T21:50:12.515Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "493c7721-1bcd-44e1-963b-ab2b0196f714",
+          "publisher": "Official team news",
+          "title": "Week 2 Wednesday Injury Report: Darren Waller gets a rest day",
+          "url": "https://www.panthers.com/news/week-2-wednesday-injury-report-",
+          "publishedAt": "2026-09-16T19:32:25.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "a4991f71-8712-416a-93b6-99e1529efcb6",
+          "publisher": "Official team news",
+          "title": "Week 2 Wednesday Injury Report: Darren Waller gets a rest day",
+          "url": "https://www.panthers.com/news/week-2-thursday-injury-report-bobby-brown-held-out-again",
+          "publishedAt": "2026-09-17T19:34:44.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "6876611a-134b-4c1d-97a7-ceb29f411395",
+          "publisher": "Official team news",
+          "title": "Week 2 Wednesday Injury Report: Darren Waller gets a rest day",
+          "url": "https://www.panthers.com/news/week-2-friday-injury-report-bobby-brown-ruled-out",
+          "publishedAt": "2026-09-18T16:29:53.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "Pat Jones",
+          "position": "OLB",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Pat Jones",
+            "source": "summary",
+            "excerpt": "outside linebacker Pat Jones"
+          },
+          {
+            "field": "position",
+            "value": "OLB",
+            "source": "summary",
+            "excerpt": "outside linebacker Pat Jones"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.panthers.com/news/week-2-wednesday-injury-report-",
+          "https://www.panthers.com/news/week-2-thursday-injury-report-bobby-brown-held-out-again",
+          "https://www.panthers.com/news/week-2-friday-injury-report-bobby-brown-ruled-out"
+        ],
+        "asOf": "2026-09-18T16:29:53.000Z"
+      }
+    },
+    {
+      "id": "d45ec23c-ebb7-4515-b56a-d17ac5af3e5d",
+      "teamAbbr": "CAR",
+      "category": "ANALYSIS",
+      "headline": "Panthers' run defense focus shifts to the league's reigning scrimmage leader, Bijan Robinson",
+      "summary": "Carolina came out of Week 1 knowing the run defense would have to be addressed. It's a quick turnaround though, with one of the league's most dangerous backs, who's getting the ball more than ever.",
+      "whatHappened": "Carolina came out of Week 1 knowing the run defense would have to be addressed. It's a quick turnaround though, with one of the league's most dangerous backs, who's getting the ball more than ever.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T12:32:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:46.881Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "16cbba40-b25d-451e-9757-28a11e5758ce",
+          "publisher": "Official team news",
+          "title": "Panthers' run defense focus shifts to the league's reigning scrimmage leader, Bijan Robinson",
+          "url": "https://www.panthers.com/news/panthers-run-defense-focus-shifts-to-the-league-s-reigning-scrimmage-leader-bijan-robinson",
+          "publishedAt": "2026-09-18T12:32:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/panthers-run-defense-focus-shifts-to-the-league-s-reigning-scrimmage-leader-bijan-robinson"
+        ],
+        "asOf": "2026-09-18T12:32:10.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "fd3b35e7-b96e-41dc-aa71-0a946efd7d3f",
+      "teamAbbr": "CAR",
+      "category": "SIGNING",
+      "headline": "For Tyrel Dodson, the chance to reconnect with Dan Morgan was all he needed to hear",
+      "summary": "The new linebacker was signed as an undrafted rookie by the Bills, when Morgan was in the Buffalo front office. So deciding to come here on the practice squad for a week, and take this promotion rather than other offers, was natural for him.",
+      "whatHappened": "The new linebacker was signed as an undrafted rookie by the Bills, when Morgan was in the Buffalo front office. So deciding to come here on the practice squad for a week, and take this promotion rather than other offers, was natural for him.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T22:04:01.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T00:00:49.908Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3f57878e-1bdf-45f6-89c3-77c670fb7b12",
+          "publisher": "Official team news",
+          "title": "For Tyrel Dodson, the chance to reconnect with Dan Morgan was all he needed to hear",
+          "url": "https://www.panthers.com/news/for-tyrel-dodson-the-chance-to-reconnect-with-dan-morgan-was-all-he-needed-to-hear",
+          "publishedAt": "2026-09-17T22:04:01.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "SIGNING",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/for-tyrel-dodson-the-chance-to-reconnect-with-dan-morgan-was-all-he-needed-to-hear"
+        ],
+        "asOf": "2026-09-17T22:04:01.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "4efc9241-31c2-409d-a3ac-0fe7649a4833",
+      "teamAbbr": "CAR",
+      "category": "COACHING",
+      "headline": "Three takeaways from coordinators Thursday, including grading Monroe Freeling's debut",
+      "summary": "Plus, Tracy Smith explains \"banana ball\" punts and Ejiro Evero shares the responsibility on coaches after a loss.",
+      "whatHappened": "Plus, Tracy Smith explains \"banana ball\" punts and Ejiro Evero shares the responsibility on coaches after a loss.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T19:10:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T00:00:56.744Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a5e0564b-4b69-4552-b22e-81731d7f88bc",
+          "publisher": "Official team news",
+          "title": "Three takeaways from coordinators Thursday, including grading Monroe Freeling's debut",
+          "url": "https://www.panthers.com/news/three-takeaways-from-coordinators-thursday-including-grading-monroe-freeling-s-debut-ejiro-evero-defense-punt-return-banana-ball",
+          "publishedAt": "2026-09-17T19:10:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "3",
+          "descriptor": "TAKEAWAYS"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "3",
+            "source": "headline",
+            "excerpt": "Three takeaways"
+          },
+          {
+            "field": "descriptor",
+            "value": "TAKEAWAYS",
+            "source": "headline",
+            "excerpt": "Three takeaways from coordinators Thursday, including grading Monroe Freeling's debut"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.panthers.com/news/three-takeaways-from-coordinators-thursday-including-grading-monroe-freeling-s-debut-ejiro-evero-defense-punt-return-banana-ball"
+        ],
+        "asOf": "2026-09-17T19:10:00.000Z"
+      }
+    },
+    {
+      "id": "725e165b-f334-4583-8673-df84d5dae6b0",
+      "teamAbbr": "CAR",
+      "category": "SIGNING",
+      "headline": "Panthers add wide receiver to the practice squad",
+      "summary": "The team signed former Clemson and Indiana wide receiver EJ Williams to the practice squad on Thursday.",
+      "whatHappened": "The team signed former Clemson and Indiana wide receiver EJ Williams to the practice squad on Thursday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T16:38:15.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T16:01:15.926Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "69b4bc01-93f0-46ea-b89d-65b4d26d998d",
+          "publisher": "Official team news",
+          "title": "Panthers add wide receiver to the practice squad",
+          "url": "https://www.panthers.com/news/panthers-add-wide-receiver-to-the-practice-squad-ej-williams",
+          "publishedAt": "2026-09-17T16:38:15.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "SIGNING",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.panthers.com/news/panthers-add-wide-receiver-to-the-practice-squad-ej-williams"
+        ],
+        "asOf": "2026-09-17T16:38:15.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 68,
+    "totalPages": 4
+  }
+}

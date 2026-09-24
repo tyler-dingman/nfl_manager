@@ -12,6 +12,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import UserAvatar from '@/components/auth/user-avatar';
+import { toTeamStyle, useTeamStyle } from '@/components/team-theme-provider';
 import {
   getPrimaryNavActive,
   getPrimaryNavHref,
@@ -35,6 +36,7 @@ export default function MobileSiteMenu({
     state.teams.find((candidate) => candidate.abbr === teamAbbr),
   );
   const [open, setOpen] = useState(false);
+  const teamStyle = useTeamStyle();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const activeItem = active === undefined ? getPrimaryNavActive(pathname) : active;
@@ -95,7 +97,11 @@ export default function MobileSiteMenu({
       </button>
       {open
         ? createPortal(
-            <div className="fixed inset-0 z-[2200] lg:hidden">
+            <div
+              className="fixed inset-0 z-[2200] lg:hidden"
+              // Portals retain React context, but not the theme wrapper's CSS inheritance.
+              style={{ ...toTeamStyle(team), ...teamStyle }}
+            >
               <button
                 type="button"
                 className="absolute inset-0 bg-black/55"

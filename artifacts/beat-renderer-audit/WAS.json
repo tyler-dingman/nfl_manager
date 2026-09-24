@@ -1,0 +1,441 @@
+{
+  "teamAbbr": "WAS",
+  "teamName": "Washington Commanders",
+  "briefings": [
+    {
+      "id": "f53dc77a-3641-4250-9914-3d904e641caa",
+      "teamAbbr": "WAS",
+      "category": "ANALYSIS",
+      "headline": "Behind the Build Q&A: Mark Williams, Partner & Executive Vice President",
+      "summary": "Selected as the project’s lead stadium architect last November, HKS has redefined sports venue design through architecture that elevates the fan experience and sets new benchmarks for innovation and sponsorship integration.",
+      "whatHappened": "Selected as the project’s lead stadium architect last November, HKS has redefined sports venue design through architecture that elevates the fan experience and sets new benchmarks for innovation and sponsorship integration.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T15:00:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T17:05:07.520Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8220b2e4-7d3f-4fe4-975f-ab9fc97acd8e",
+          "publisher": "Official team news",
+          "title": "Behind the Build Q&A: Mark Williams, Partner & Executive Vice President",
+          "url": "https://www.commanders.com/news/behind-the-build-q-a-mark-williams-partner-executive-vice-president",
+          "publishedAt": "2026-09-16T15:00:02.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.commanders.com/news/behind-the-build-q-a-mark-williams-partner-executive-vice-president"
+        ],
+        "asOf": "2026-09-16T15:00:02.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8aabd199-fad4-47a1-935d-5cb1e7217331",
+      "teamAbbr": "WAS",
+      "category": "ANALYSIS",
+      "headline": "Commanders announce new 'Spike the Spear' gameday tradition",
+      "summary": "Throughout the season, the Spike the Spear ritual will include Washington Legends, celebrities and local sports icons with meaningful ties to the Commanders organization and the greater DMV community",
+      "whatHappened": "Throughout the season, the Spike the Spear ritual will include Washington Legends, celebrities and local sports icons with meaningful ties to the Commanders organization and the greater DMV community",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-12T13:00:55.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-12T15:15:07.876Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b6ea55b1-0a03-4c3f-937f-0e6e1e8409b7",
+          "publisher": "Official team news",
+          "title": "Commanders announce new 'Spike the Spear' gameday tradition",
+          "url": "https://www.commanders.com/news/commanders-announce-new-spike-the-spear-gameday-tradition",
+          "publishedAt": "2026-09-12T13:00:55.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.commanders.com/news/commanders-announce-new-spike-the-spear-gameday-tradition"
+        ],
+        "asOf": "2026-09-12T13:00:55.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "ed56e7a1-7e16-43d2-902f-d22fd504ef7b",
+      "teamAbbr": "WAS",
+      "category": "ROSTER",
+      "headline": "NFL Power Rankings: Commanders have lots of questions to answer in Year 3",
+      "summary": "The Washington Commanders are entering a critical offseason in 2026, and needed an infusion of youth, talent, and some luck as they try to bounce back from a 5-12 season. The second year of Adam Peters’ “recalibration” of the roster started with sky-high expectations after an NFC Championship Game appearance the year before. A Terry […]",
+      "whatHappened": "The Washington Commanders are entering a critical offseason in 2026, and needed an infusion of youth, talent, and some luck as they try to bounce back from a 5-12 season. The second year of Adam Peters’ “recalibration” of the roster started with sky-high expectations after an NFC Championship Game appearance the year before. A Terry […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-08T18:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-08T20:43:29.662Z",
+      "firstReportedBy": "Hogs Haven",
+      "sources": [
+        {
+          "id": "a7982455-0106-4cd1-b292-2be4b98ad98a",
+          "publisher": "Hogs Haven",
+          "title": "NFL Power Rankings: Commanders have lots of questions to answer in Year 3",
+          "url": "https://www.hogshaven.com/washington-commanders-power-rankings/438223/nfl-power-rankings-commanders-have-lots-of-questions-to-answer-in-year-3",
+          "publishedAt": "2026-09-08T18:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ROSTER",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.hogshaven.com/washington-commanders-power-rankings/438223/nfl-power-rankings-commanders-have-lots-of-questions-to-answer-in-year-3"
+        ],
+        "asOf": "2026-09-08T18:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2e44089d-1812-4832-9bf0-fe6ddc151c79",
+      "teamAbbr": "WAS",
+      "category": "DRAFT",
+      "headline": "Future Hogs – Week 1: College football players who could help the Commanders",
+      "summary": "The first week of the college football season is in the books, so it’s time for Future Hogs. This is a series of articles during the college football season that looks at draft-eligible players that could improve the Washington Commanders. I’ll feature players each week whose play stands out and how they could fit on […]",
+      "whatHappened": "The first week of the college football season is in the books, so it’s time for Future Hogs. This is a series of articles during the college football season that looks at draft-eligible players that could improve the Washington Commanders. I’ll feature players each week whose play stands out and how they could fit on […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-08T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-08T20:43:29.745Z",
+      "firstReportedBy": "Hogs Haven",
+      "sources": [
+        {
+          "id": "16d7becb-a0e7-4585-b8fb-3761cd2b633d",
+          "publisher": "Hogs Haven",
+          "title": "Future Hogs – Week 1: College football players who could help the Commanders",
+          "url": "https://www.hogshaven.com/nfl-draft-scouting-report-profiles/437806/future-hogs-week-1-college-football-players-could-help-commanders",
+          "publishedAt": "2026-09-08T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "DRAFT",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.hogshaven.com/nfl-draft-scouting-report-profiles/437806/future-hogs-week-1-college-football-players-could-help-commanders"
+        ],
+        "asOf": "2026-09-08T16:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "da8051d8-5aa7-4d2d-ac6a-737270ce64aa",
+      "teamAbbr": "WAS",
+      "category": "COACHING",
+      "headline": "What are the odds? Commanders open as big road underdogs against Eagles",
+      "summary": "The Washington Commanders are entering Year 3 of the Adam Peters/Dan Quinn/Jayden Daniels era, and they kick it off with a pair of road games against division rivals. The Philadelphia Eagles are up first, and they are big favorites at home to kick off the new season. Both teams will have new offensive coordinators when […]",
+      "whatHappened": "The Washington Commanders are entering Year 3 of the Adam Peters/Dan Quinn/Jayden Daniels era, and they kick it off with a pair of road games against division rivals. The Philadelphia Eagles are up first, and they are big favorites at home to kick off the new season. Both teams will have new offensive coordinators when […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-08T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-08T20:43:35.224Z",
+      "firstReportedBy": "Hogs Haven",
+      "sources": [
+        {
+          "id": "140b4004-f7dd-472b-a9d7-955dc73e9060",
+          "publisher": "Hogs Haven",
+          "title": "What are the odds? Commanders open as big road underdogs against Eagles",
+          "url": "https://www.hogshaven.com/washington-commanders-odds/437006/what-odds-commanders-big-road-underdogs-against-eagles",
+          "publishedAt": "2026-09-08T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.hogshaven.com/washington-commanders-odds/437006/what-odds-commanders-big-road-underdogs-against-eagles"
+        ],
+        "asOf": "2026-09-08T14:00:00.000Z"
+      }
+    },
+    {
+      "id": "c900afd1-e215-4ddd-b75a-230d3c286ba1",
+      "teamAbbr": "WAS",
+      "category": "ANALYSIS",
+      "headline": "Washington Commanders at the Eagles in Week 1 – Inside the Matchup",
+      "summary": "Back in June and early July, HH veteran writer, Bill-in-Bangkok, offered a week-by-week preview via the 5 O’Clock Club of the Washington Commanders regular season schedule for 2026. As we roll into the actual games during the regular season, Hogs Haven will revisit each of these previews with John Portis adding additional thoughts and updates […]",
+      "whatHappened": "Back in June and early July, HH veteran writer, Bill-in-Bangkok, offered a week-by-week preview via the 5 O’Clock Club of the Washington Commanders regular season schedule for 2026. As we roll into the actual games during the regular season, Hogs Haven will revisit each of these previews with John Portis adding additional thoughts and updates […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-08T12:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-08T21:00:49.123Z",
+      "firstReportedBy": "Hogs Haven",
+      "sources": [
+        {
+          "id": "e11c4df0-517a-42e0-a66f-ec51a0a87932",
+          "publisher": "Hogs Haven",
+          "title": "Washington Commanders at the Eagles in Week 1 – Inside the Matchup",
+          "url": "https://www.hogshaven.com/washington-commanders-analysis/437657/washington-commanders-eagles-nfl-week-1-inside-matchup",
+          "publishedAt": "2026-09-08T12:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.hogshaven.com/washington-commanders-analysis/437657/washington-commanders-eagles-nfl-week-1-inside-matchup"
+        ],
+        "asOf": "2026-09-08T12:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "4467e549-edc5-461b-a3c9-35c2a83ac88b",
+      "teamAbbr": "WAS",
+      "category": "ROSTER",
+      "headline": "Commanders news: Optimism rises with healthier roster for Philly trip",
+      "summary": "The Daily Slop – 8 September 2026 Editor’s note: Each day, Hogs Haven compiles a collection of articles, podcasts & tweets from around the web to keep you in touch with the Commanders, the NFC East, the NFL and sports in general, with a sprinkling of other stuff. Enjoy! Commanders links Articles Sports Illustrated Albert […]",
+      "whatHappened": "The Daily Slop – 8 September 2026 Editor’s note: Each day, Hogs Haven compiles a collection of articles, podcasts & tweets from around the web to keep you in touch with the Commanders, the NFC East, the NFL and sports in general, with a sprinkling of other stuff. Enjoy! Commanders links Articles Sports Illustrated Albert […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-08T12:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-08T21:00:49.083Z",
+      "firstReportedBy": "Hogs Haven",
+      "sources": [
+        {
+          "id": "b5b7edf5-7575-4f8e-9db6-f34c3cada469",
+          "publisher": "Hogs Haven",
+          "title": "Commanders news: Optimism rises with healthier roster for Philly trip",
+          "url": "https://www.hogshaven.com/washington-commanders-news/438039/optimism-rises-healthier-roster-for-wk-1-vs-eagles-jayden-daniels-stefon-diggs-mclaurin-okonkwo",
+          "publishedAt": "2026-09-08T12:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ROSTER",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.hogshaven.com/washington-commanders-news/438039/optimism-rises-healthier-roster-for-wk-1-vs-eagles-jayden-daniels-stefon-diggs-mclaurin-okonkwo"
+        ],
+        "asOf": "2026-09-08T12:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "bf8bc5d0-afc1-4d84-9c8a-010ce148e62d",
+      "teamAbbr": "WAS",
+      "category": "PRACTICE",
+      "headline": "Dan Quinn: Full participation in practice today; trending in right direction for Week 1",
+      "summary": "Dan Quinn is back for his weekly “Tell the Truth Mondays” as the team begins their official Week 1 preparations. The season opener is in Philadelphia this year, and they’re visiting last season’s NFC East Champion Eagles, where the Commanders are big underdogs. That game will be followed up with another road division game against […]",
+      "whatHappened": "Dan Quinn is back for his weekly “Tell the Truth Mondays” as the team begins their official Week 1 preparations. The season opener is in Philadelphia this year, and they’re visiting last season’s NFC East Champion Eagles, where the Commanders are big underdogs. That game will be followed up with another road division game against […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-07T21:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-09T02:30:48.409Z",
+      "firstReportedBy": "Hogs Haven",
+      "sources": [
+        {
+          "id": "1330f05a-6964-4796-94d0-9fa0e10471ae",
+          "publisher": "Hogs Haven",
+          "title": "Dan Quinn: Full participation in practice today; trending in right direction for Week 1",
+          "url": "https://www.hogshaven.com/pressers/437949/dan-quinn-full-participation-practice-today-trending-right-direction-week-1",
+          "publishedAt": "2026-09-07T21:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.hogshaven.com/pressers/437949/dan-quinn-full-participation-practice-today-trending-right-direction-week-1"
+        ],
+        "asOf": "2026-09-07T21:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "04b1544b-0d30-49cb-b346-4138a4cb39f6",
+      "teamAbbr": "WAS",
+      "category": "ANALYSIS",
+      "headline": "Washington Commanders name team captains for 2026 NFL season",
+      "summary": "The Commanders announced their team captains on Monday afternoon, but in a way that Dan Quinn hasn’t normally done. During his first two seasons at the helm, Quinn had announced captains each week, but, for 2026, he instead named captains for the season that were voted on by the players. DQ said he will still […]",
+      "whatHappened": "The Commanders announced their team captains on Monday afternoon, but in a way that Dan Quinn hasn’t normally done. During his first two seasons at the helm, Quinn had announced captains each week, but, for 2026, he instead named captains for the season that were voted on by the players. DQ said he will still […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-07T20:49:55.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-09T02:30:48.732Z",
+      "firstReportedBy": "Hogs Haven",
+      "sources": [
+        {
+          "id": "bef04eda-9d7f-45c4-b39d-75bcf29e0715",
+          "publisher": "Hogs Haven",
+          "title": "Washington Commanders name team captains for 2026 NFL season",
+          "url": "https://www.hogshaven.com/washington-commanders-news/437023/washington-commanders-name-team-captains-for-2026-nfl-season",
+          "publishedAt": "2026-09-07T20:49:55.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.hogshaven.com/washington-commanders-news/437023/washington-commanders-name-team-captains-for-2026-nfl-season"
+        ],
+        "asOf": "2026-09-07T20:49:55.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d9759d8b-4a01-4398-a056-9e46d2cff3c0",
+      "teamAbbr": "WAS",
+      "category": "SIGNING",
+      "headline": "WR Van Jefferson To Join Commanders’ Practice Squad",
+      "summary": "Van Jefferson was among the players cut by the Commanders last week. The veteran receiver is back in the fold with Washington, though. Jefferson is set to sign with the Commanders, per ESPN’s Jeremy Fowler. This will be a practice squad deal, he adds to little surprise. Jefferson became a free agent upon being released, but […]",
+      "whatHappened": "Van Jefferson was among the players cut by the Commanders last week. The veteran receiver is back in the fold with Washington, though. Jefferson is set to sign with the Commanders, per ESPN’s Jeremy Fowler. This will be a practice squad deal, he adds to little surprise. Jefferson became a free agent upon being released, but […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-07T15:38:54.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-07T22:10:48.980Z",
+      "firstReportedBy": "Pro Football Rumors",
+      "sources": [
+        {
+          "id": "a8bad7a0-d607-4373-89db-0d266abe506a",
+          "publisher": "Pro Football Rumors",
+          "title": "WR Van Jefferson To Join Commanders’ Practice Squad",
+          "url": "https://www.profootballrumors.com/2026/09/wr-van-jefferson-to-join-commanders-practice-squad",
+          "publishedAt": "2026-09-07T15:38:54.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "SIGNING",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.profootballrumors.com/2026/09/wr-van-jefferson-to-join-commanders-practice-squad"
+        ],
+        "asOf": "2026-09-07T15:38:54.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "c290e9a0-640b-4a03-9a2f-85ba65d02e5b",
+      "teamAbbr": "WAS",
+      "category": "CONTRACT",
+      "headline": "Roger Goodell Receives Four-Year Extension",
+      "summary": "As expected, Roger Goodell has received a new contract. Per ESPN’s Adam Schefter, the NFL commissioner secured a four-year extension that runs through the 2030 league year and expires on March 31, 2031. Goodell’s previous deal was set to expire in March 2027, but there was never any doubt that his time atop the league […]",
+      "whatHappened": "As expected, Roger Goodell has received a new contract. Per ESPN’s Adam Schefter, the NFL commissioner secured a four-year extension that runs through the 2030 league year and expires on March 31, 2031. Goodell’s previous deal was set to expire in March 2027, but there was never any doubt that his time atop the league […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-07T04:01:34.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-07T22:10:49.057Z",
+      "firstReportedBy": "Pro Football Rumors",
+      "sources": [
+        {
+          "id": "e398b05f-663f-45ce-bb99-bebe8e3d88ec",
+          "publisher": "Pro Football Rumors",
+          "title": "Roger Goodell Receives Four-Year Extension",
+          "url": "https://www.profootballrumors.com/2026/09/roger-goodell-receives-four-year-extension",
+          "publishedAt": "2026-09-07T04:01:34.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "CONTRACT",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.profootballrumors.com/2026/09/roger-goodell-receives-four-year-extension"
+        ],
+        "asOf": "2026-09-07T04:01:34.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 11,
+    "totalPages": 1
+  }
+}

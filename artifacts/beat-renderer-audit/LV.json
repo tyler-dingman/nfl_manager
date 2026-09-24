@@ -1,0 +1,848 @@
+{
+  "teamAbbr": "LV",
+  "teamName": "Las Vegas Raiders",
+  "briefings": [
+    {
+      "id": "c788e6d6-8457-4cd3-909e-59355fefc8fe",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "Salient named an Official Security Partner of Allegiant Stadium",
+      "summary": "Salient will continue providing specialized security services that support Allegiant Stadium operations, including armed security personnel during non-event periods and executive protection services for select high-profile guests.",
+      "whatHappened": "Salient will continue providing specialized security services that support Allegiant Stadium operations, including armed security personnel during non-event periods and executive protection services for select high-profile guests.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T22:08:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:40.897Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "13da9bc5-15de-44af-beb5-29d126136abc",
+          "publisher": "Official team news",
+          "title": "Salient named an Official Security Partner of Allegiant Stadium",
+          "url": "https://www.raiders.com/news/salient-named-an-official-security-partner-of-allegiant-stadium",
+          "publishedAt": "2026-09-22T22:08:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/salient-named-an-official-security-partner-of-allegiant-stadium"
+        ],
+        "asOf": "2026-09-22T22:08:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "7716744e-3b9c-4cd7-abe6-a42abb9c9c0e",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "By the Numbers: Raiders defense and Kirk Cousins' efficiency highlight Week 2 victory over Chargers",
+      "summary": "Read through for a few numbers that stood out from the Raiders' 26-14 divisional win at SoFi Stadium.",
+      "whatHappened": "Read through for a few numbers that stood out from the Raiders' 26-14 divisional win at SoFi Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:36:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T14:00:43.991Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "829ee41f-d380-4770-b312-80aaa23c0a41",
+          "publisher": "Official team news",
+          "title": "By the Numbers: Raiders defense and Kirk Cousins' efficiency highlight Week 2 victory over Chargers",
+          "url": "https://www.raiders.com/news/by-the-numbers-raiders-defense-and-kirk-cousins-efficiency-highlight-week-2-victory-over-chargers",
+          "publishedAt": "2026-09-21T21:36:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/by-the-numbers-raiders-defense-and-kirk-cousins-efficiency-highlight-week-2-victory-over-chargers"
+        ],
+        "asOf": "2026-09-21T21:36:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "b6445889-8df2-4bc8-b15f-3166893602bb",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "Gutierrez: Sunday marked Cody White's arrival as an unexpected force for the Raiders",
+      "summary": "“He’s a pro’s pro,” marveled fellow wideout Tre Tucker.",
+      "whatHappened": "“He’s a pro’s pro,” marveled fellow wideout Tre Tucker.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T16:00:08.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T20:00:42.562Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "92abde20-3b6e-4261-bd67-4e886c3873d0",
+          "publisher": "Official team news",
+          "title": "Gutierrez: Sunday marked Cody White's arrival as an unexpected force for the Raiders",
+          "url": "https://www.raiders.com/news/cody-white-touchdowns-nfl-week-2-raiders-vs-los-angeles-chargers",
+          "publishedAt": "2026-09-21T16:00:08.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/cody-white-touchdowns-nfl-week-2-raiders-vs-los-angeles-chargers"
+        ],
+        "asOf": "2026-09-21T16:00:08.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2d2c15fb-9b7f-4c1c-9f58-374f4c8df78a",
+      "teamAbbr": "LV",
+      "category": "GAME",
+      "headline": "Highlights: Watch the best moments from the Raiders' 26-14 win over the Chargers",
+      "summary": "Relive the top moments from the Silver and Black's Week 2 win.",
+      "whatHappened": "Relive the top moments from the Silver and Black's Week 2 win.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T15:00:07.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T20:00:42.905Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a81a061c-86aa-4809-8a0c-86f277ef78ab",
+          "publisher": "Official team news",
+          "title": "Highlights: Watch the best moments from the Raiders' 26-14 win over the Chargers",
+          "url": "https://www.raiders.com/news/highlights-watch-the-best-moments-from-the-raiders-26-14-win-over-the-chargers",
+          "publishedAt": "2026-09-21T15:00:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/highlights-watch-the-best-moments-from-the-raiders-26-14-win-over-the-chargers"
+        ],
+        "asOf": "2026-09-21T15:00:07.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "0b5102af-9e70-47bd-90da-e6d958283785",
+      "teamAbbr": "LV",
+      "category": "GAME",
+      "headline": "Game Recap: Raiders earn first win in Los Angeles since 2020",
+      "summary": "Three touchdowns from Kirk Cousins and multiple defensive turnovers paved the way to a 26-14 win over the Chargers for the Raiders' first 2-0 start to the season since 2021. The Chargers fell 26-14 to the Raiders in Week 2 at SoFi Stadium",
+      "whatHappened": "Three touchdowns from Kirk Cousins and multiple defensive turnovers paved the way to a 26-14 win over the Chargers for the Raiders' first 2-0 start to the season since 2021. The Chargers fell 26-14 to the Raiders in Week 2 at SoFi Stadium",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:09:49.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-21T02:00:44.799Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1f796024-b725-456c-b36d-75be00e8a8d3",
+          "publisher": "Official team news",
+          "title": "Game Recap: Raiders earn first win in Los Angeles since 2020",
+          "url": "https://www.raiders.com/news/game-recap-raiders-earn-first-win-in-los-angeles-since-2020",
+          "publishedAt": "2026-09-20T23:27:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "c6516aa6-7280-470b-bc6b-f09780f86200",
+          "publisher": "Official team news",
+          "title": "Game Recap: Raiders earn first win in Los Angeles since 2020",
+          "url": "https://www.chargers.com/news/game-recap-raiders-week-2",
+          "publishedAt": "2026-09-20T23:09:49.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "recap",
+          "teams": [
+            "LV"
+          ],
+          "overtime": false
+        },
+        "reason": "Recap without a verified score pair",
+        "displayCategory": "Recap",
+        "evidence": [
+          {
+            "field": "teams.0",
+            "value": "LV",
+            "source": "headline",
+            "excerpt": "Game Recap: Raiders earn first win in Los Angeles since 2020"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.raiders.com/news/game-recap-raiders-earn-first-win-in-los-angeles-since-2020",
+          "https://www.chargers.com/news/game-recap-raiders-week-2"
+        ],
+        "asOf": "2026-09-20T23:09:49.000Z"
+      }
+    },
+    {
+      "id": "55d73cc9-610f-428d-81f8-3d098ed98342",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "Live Game Updates: Raiders at Chargers | Week 2",
+      "summary": "Follow along for live updates during the game.",
+      "whatHappened": "Follow along for live updates during the game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T20:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T02:00:45.526Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8875fae1-4a73-4332-a938-0cc6e73cf57c",
+          "publisher": "Official team news",
+          "title": "Live Game Updates: Raiders at Chargers | Week 2",
+          "url": "https://www.raiders.com/news/live-game-updates-las-vegas-raiders-at-los-angeles-chargers-week-2-092026",
+          "publishedAt": "2026-09-20T20:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/live-game-updates-las-vegas-raiders-at-los-angeles-chargers-week-2-092026"
+        ],
+        "asOf": "2026-09-20T20:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "eae6a5be-2733-45df-80f8-ebab414f2df8",
+      "teamAbbr": "LV",
+      "category": "GAME",
+      "headline": "Keys to the Game: How the Raiders can grind out a crucial AFC West road win",
+      "summary": "NFL Media's Bucky Brooks analyzes three things the Silver and Black need to do in order to defeat their AFC West foe Sunday.",
+      "whatHappened": "NFL Media's Bucky Brooks analyzes three things the Silver and Black need to do in order to defeat their AFC West foe Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T21:30:39.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T00:00:52.090Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "bad0abd9-b3b8-40fb-a40e-ec23ea690029",
+          "publisher": "Official team news",
+          "title": "Keys to the Game: How the Raiders can grind out a crucial AFC West road win",
+          "url": "https://www.raiders.com/news/keys-to-the-game-las-vegas-raiders-at-los-angeles-chargers-nfl-week-2-2026",
+          "publishedAt": "2026-09-18T21:30:39.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/keys-to-the-game-las-vegas-raiders-at-los-angeles-chargers-nfl-week-2-2026"
+        ],
+        "asOf": "2026-09-18T21:30:39.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "639872d6-7328-4f3c-8a6e-cf0b591a7f46",
+      "teamAbbr": "LV",
+      "category": "COACHING",
+      "headline": "'Just Being Us': Inside Rob Leonard's successful debut as Raiders defensive coordinator",
+      "summary": "\"I enjoy the players buying into what we're doing, the energy, and them feeling like they have a chance to make a play,\" said Leonard after his first game as an NFL defensive coordinator.",
+      "whatHappened": "\"I enjoy the players buying into what we're doing, the energy, and them feeling like they have a chance to make a play,\" said Leonard after his first game as an NFL defensive coordinator.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:35:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T00:00:52.214Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "168b40c4-b1f2-4b8d-bb34-d099bb79248e",
+          "publisher": "Official team news",
+          "title": "'Just Being Us': Inside Rob Leonard's successful debut as Raiders defensive coordinator",
+          "url": "https://www.raiders.com/news/inside-rob-leonard-s-successful-debut-as-raiders-defensive-coordinator",
+          "publishedAt": "2026-09-18T20:35:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/inside-rob-leonard-s-successful-debut-as-raiders-defensive-coordinator"
+        ],
+        "asOf": "2026-09-18T20:35:00.000Z"
+      }
+    },
+    {
+      "id": "434f5d5e-8b13-4166-8674-f4d947091e8b",
+      "teamAbbr": "LV",
+      "category": "COACHING",
+      "headline": "What the Chargers are saying before the Week 2 matchup",
+      "summary": "Take a look at what Los Angeles Chargers players and coaches had to say about the Raiders with the Week 2 contest on the horizon.",
+      "whatHappened": "Take a look at what Los Angeles Chargers players and coaches had to say about the Raiders with the Week 2 contest on the horizon.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:05:38.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T14:00:54.411Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d4c9b836-00f3-4ca2-8728-d83ebab872df",
+          "publisher": "Official team news",
+          "title": "What the Chargers are saying before the Week 2 matchup",
+          "url": "https://www.raiders.com/news/what-the-chargers-are-saying-about-raiders-nfl-week-2-2026",
+          "publishedAt": "2026-09-18T18:05:38.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/what-the-chargers-are-saying-about-raiders-nfl-week-2-2026"
+        ],
+        "asOf": "2026-09-18T18:05:38.000Z"
+      }
+    },
+    {
+      "id": "2d6e599e-f030-4a26-90cd-5b73b0d79df4",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "Expert Game Picks: Raiders or Chargers?",
+      "summary": "Take a look at who the experts are picking to win Sunday's game.",
+      "whatHappened": "Take a look at who the experts are picking to win Sunday's game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T17:00:37.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T18:00:54.449Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "583385d2-d628-4036-80a3-44db60ac3228",
+          "publisher": "Official team news",
+          "title": "Expert Game Picks: Raiders or Chargers?",
+          "url": "https://www.raiders.com/news/game-picks-las-vegas-raiders-or-los-angeles-chargers-nfl-week-2-2026",
+          "publishedAt": "2026-09-18T17:00:37.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/game-picks-las-vegas-raiders-or-los-angeles-chargers-nfl-week-2-2026"
+        ],
+        "asOf": "2026-09-18T17:00:37.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8d4bd6b5-d0ee-4a1a-ac19-090c6e18b9fe",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "Raiders announce Week 2 captains vs. Los Angeles Chargers",
+      "summary": "For the 2026 season, the Raiders will name captains ahead of each matchup.",
+      "whatHappened": "For the 2026 season, the Raiders will name captains ahead of each matchup.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T18:00:54.804Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "85629970-094a-42b4-8337-0fcd79a110df",
+          "publisher": "Official team news",
+          "title": "Raiders announce Week 2 captains vs. Los Angeles Chargers",
+          "url": "https://www.raiders.com/news/raiders-announce-week-2-captains-vs-los-angeles-chargers-092026",
+          "publishedAt": "2026-09-18T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/raiders-announce-week-2-captains-vs-los-angeles-chargers-092026"
+        ],
+        "asOf": "2026-09-18T16:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e0ab3b52-ff29-40cc-a656-77926a867343",
+      "teamAbbr": "LV",
+      "category": "DRAFT",
+      "headline": "Treydan Stukes' improbable path pays off in Raiders debut",
+      "summary": "Stukes not only had the pick in the Raiders’ win over the Dolphins, he also finished with five tackles, a pass defensed and another tackle on special teams while playing all 56 snaps on defense.",
+      "whatHappened": "Stukes not only had the pick in the Raiders’ win over the Dolphins, he also finished with five tackles, a pass defensed and another tackle on special teams while playing all 56 snaps on defense.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T20:02:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T04:01:02.980Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "85f62153-d483-404f-bd37-a7e0545a06c9",
+          "publisher": "Official team news",
+          "title": "Treydan Stukes' improbable path pays off in Raiders debut",
+          "url": "https://www.raiders.com/news/treydan-stukes-improbable-path-pays-off-in-raiders-debut",
+          "publishedAt": "2026-09-17T20:02:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "DRAFT",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/treydan-stukes-improbable-path-pays-off-in-raiders-debut"
+        ],
+        "asOf": "2026-09-17T20:02:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a08a80bb-0282-46e0-90aa-7db4245d5202",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "Key Matchups: Raiders chasing first win at SoFi Stadium since 2020",
+      "summary": "The Raiders edge rusher and quarterback deemed X-factors heading into first divisional game of the season against Los Angeles Chargers.",
+      "whatHappened": "The Raiders edge rusher and quarterback deemed X-factors heading into first divisional game of the season against Los Angeles Chargers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T18:14:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T16:01:15.389Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "371d3add-15e4-443d-9f19-05c98cb57dfa",
+          "publisher": "Official team news",
+          "title": "Key Matchups: Raiders chasing first win at SoFi Stadium since 2020",
+          "url": "https://www.raiders.com/news/key-matchups-raiders-chasing-first-win-at-sofi-stadium-since-2020",
+          "publishedAt": "2026-09-17T18:14:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/key-matchups-raiders-chasing-first-win-at-sofi-stadium-since-2020"
+        ],
+        "asOf": "2026-09-17T18:14:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "77a878fe-96cf-41df-8603-2466e0d970cc",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "How to watch, listen to and livestream Raiders at Chargers",
+      "summary": "The Raiders head to Los Angeles for their first road trip of the season, taking on the Chargers.",
+      "whatHappened": "The Raiders head to Los Angeles for their first road trip of the season, taking on the Chargers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T18:05:29.883Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "34bc430a-8bd9-41b6-912d-e81f71e2ffc7",
+          "publisher": "Official team news",
+          "title": "How to watch, listen to and livestream Raiders at Chargers",
+          "url": "https://www.raiders.com/news/how-to-watch-listen-to-and-livestream-las-vegas-raiders-at-los-angeles-chargers-nfl-week-2-092026",
+          "publishedAt": "2026-09-17T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "LV",
+          "rightTeam": "LAC"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "LV",
+            "source": "headline",
+            "excerpt": "How to watch, listen to and livestream Raiders at Chargers"
+          },
+          {
+            "field": "rightTeam",
+            "value": "LAC",
+            "source": "headline",
+            "excerpt": "How to watch, listen to and livestream Raiders at Chargers"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.raiders.com/news/how-to-watch-listen-to-and-livestream-las-vegas-raiders-at-los-angeles-chargers-nfl-week-2-092026"
+        ],
+        "asOf": "2026-09-17T16:00:00.000Z"
+      }
+    },
+    {
+      "id": "bdc073e9-e8b6-4dda-8eee-8d85f4cc7d3a",
+      "teamAbbr": "LV",
+      "category": "INJURY",
+      "headline": "Raiders-Chargers Week 2 Injury Report",
+      "summary": "Take a look at the Raiders' injury report as the team prepares to face the Los Angeles Chargers.",
+      "whatHappened": "Take a look at the Raiders' injury report as the team prepares to face the Los Angeles Chargers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T22:30:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T00:35:29.628Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4d33b348-eb8c-4377-bc82-ecf37e1377dd",
+          "publisher": "Official team news",
+          "title": "Raiders-Chargers Week 2 Injury Report",
+          "url": "https://www.raiders.com/news/las-vegas-raiders-los-angeles-chargers-nfl-week-2-injury-report-2026-season",
+          "publishedAt": "2026-09-16T22:30:26.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.raiders.com/news/las-vegas-raiders-los-angeles-chargers-nfl-week-2-injury-report-2026-season"
+        ],
+        "asOf": "2026-09-16T22:30:26.000Z"
+      }
+    },
+    {
+      "id": "70026fe8-644f-429d-9cc7-54471c9b63d3",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "Raiders Mailbag: Which newcomers made the biggest impact in Week 1?",
+      "summary": "Raiders.com's Levi Edwards answers fan questions after the team's victory over the Dolphins.",
+      "whatHappened": "Raiders.com's Levi Edwards answers fan questions after the team's victory over the Dolphins.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T20:15:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T22:35:30.349Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "efcf1336-d4b4-41e7-b654-df7c8785ccc5",
+          "publisher": "Official team news",
+          "title": "Raiders Mailbag: Which newcomers made the biggest impact in Week 1?",
+          "url": "https://www.raiders.com/news/mailbag/raiders-mailbag-which-newcomers-made-the-biggest-impact-in-week-1",
+          "publishedAt": "2026-09-16T20:15:26.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/mailbag/raiders-mailbag-which-newcomers-made-the-biggest-impact-in-week-1"
+        ],
+        "asOf": "2026-09-16T20:15:26.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6aac3c0f-33c6-4426-ae81-7416e6ef27d2",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "The next Raiders App Giveaway has arrived!",
+      "summary": "On Friday, Sept. 18 at 12 p.m. PT, we're unlocking a special Raiders Vault Edition giveaway in the Raiders + Allegiant Stadium app, featuring exclusive prizes inspired by the Silver & Black's legendary history.",
+      "whatHappened": "On Friday, Sept. 18 at 12 p.m. PT, we're unlocking a special Raiders Vault Edition giveaway in the Raiders + Allegiant Stadium app, featuring exclusive prizes inspired by the Silver & Black's legendary history.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T19:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T21:05:05.297Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ab8981bb-f2a2-4629-b366-a7c7728ebcb9",
+          "publisher": "Official team news",
+          "title": "The next Raiders App Giveaway has arrived!",
+          "url": "https://www.raiders.com/news/the-next-raiders-app-giveaway-has-arrived",
+          "publishedAt": "2026-09-16T19:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/the-next-raiders-app-giveaway-has-arrived"
+        ],
+        "asOf": "2026-09-16T19:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "ef1fd268-554e-4cb4-a914-0076fa6e7236",
+      "teamAbbr": "LV",
+      "category": "ANALYSIS",
+      "headline": "Game Preview: Divisional matchup on deck as Raiders head to L.A. to take on Chargers",
+      "summary": "The Silver and Black look to stack wins, starting with a road trip to Los Angeles.",
+      "whatHappened": "The Silver and Black look to stack wins, starting with a road trip to Los Angeles.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T15:30:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T17:45:08.159Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "19964132-c2dd-4553-b78a-290247bfa7dd",
+          "publisher": "Official team news",
+          "title": "Game Preview: Divisional matchup on deck as Raiders head to L.A. to take on Chargers",
+          "url": "https://www.raiders.com/news/game-preview-las-vegas-raiders-at-los-angeles-chargers-afc-west-week-2-2026-nfl",
+          "publishedAt": "2026-09-16T15:30:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "LV",
+          "rightTeam": "LAC"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "LV",
+            "source": "headline",
+            "excerpt": "Game Preview: Divisional matchup on deck as Raiders head to L.A. to take on Chargers"
+          },
+          {
+            "field": "rightTeam",
+            "value": "LAC",
+            "source": "headline",
+            "excerpt": "Game Preview: Divisional matchup on deck as Raiders head to L.A. to take on Chargers"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.raiders.com/news/game-preview-las-vegas-raiders-at-los-angeles-chargers-afc-west-week-2-2026-nfl"
+        ],
+        "asOf": "2026-09-16T15:30:25.000Z"
+      }
+    },
+    {
+      "id": "6e06e650-ae39-4726-84bb-c41d28c88096",
+      "teamAbbr": "LV",
+      "category": "RELEASE",
+      "headline": "Raiders' unofficial depth chart for Week 2 at Los Angeles Chargers",
+      "summary": "The Las Vegas Raiders released their updated unofficial depth chart ahead of the Week 2 matchup against the Chargers.",
+      "whatHappened": "The Las Vegas Raiders released their updated unofficial depth chart ahead of the Week 2 matchup against the Chargers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T02:20:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T04:40:08.378Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fd5e7b2a-267a-4548-baf9-a7328194e44c",
+          "publisher": "Official team news",
+          "title": "Raiders' unofficial depth chart for Week 2 at Los Angeles Chargers",
+          "url": "https://www.raiders.com/news/raiders-unofficial-depth-chart-nfl-week-2-at-los-angeles-chargers-092026",
+          "publishedAt": "2026-09-16T02:20:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "team-update",
+          "label": "DEPTH\nCHART"
+        },
+        "reason": "Published depth chart; release is not a player transaction",
+        "displayCategory": "Team",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/raiders-unofficial-depth-chart-nfl-week-2-at-los-angeles-chargers-092026"
+        ],
+        "asOf": "2026-09-16T02:20:43.000Z"
+      }
+    },
+    {
+      "id": "34932f15-d30b-444b-918b-f0c6c1032d76",
+      "teamAbbr": "LV",
+      "category": "GAME",
+      "headline": "Bucky's Breakdown: Ashton Jeanty looked right at home in Klint Kubiak's scheme",
+      "summary": "With a stellar performance in the Raiders’ win over the Dolphins, Jeanty not only silenced his critics, but he also showed the spectacular all-around game that could make him the next star.",
+      "whatHappened": "With a stellar performance in the Raiders’ win over the Dolphins, Jeanty not only silenced his critics, but he also showed the spectacular all-around game that could make him the next star.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T02:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T04:20:11.213Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0bb05f34-e672-4236-bbfe-773b540f3b7f",
+          "publisher": "Official team news",
+          "title": "Bucky's Breakdown: Ashton Jeanty looked right at home in Klint Kubiak's scheme",
+          "url": "https://www.raiders.com/news/bucky-s-breakdown-ashton-jeanty-looked-right-at-home-in-klint-kubiak-s-running-back-friendly-scheme",
+          "publishedAt": "2026-09-16T02:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.raiders.com/news/bucky-s-breakdown-ashton-jeanty-looked-right-at-home-in-klint-kubiak-s-running-back-friendly-scheme"
+        ],
+        "asOf": "2026-09-16T02:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 60,
+    "totalPages": 3
+  }
+}

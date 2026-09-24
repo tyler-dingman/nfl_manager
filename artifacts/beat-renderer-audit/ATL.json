@@ -1,0 +1,857 @@
+{
+  "teamAbbr": "ATL",
+  "teamName": "Atlanta Falcons",
+  "briefings": [
+    {
+      "id": "d4134ef1-d616-4f1e-b185-6fe1dbb0d182",
+      "teamAbbr": "ATL",
+      "category": "INJURY",
+      "headline": "Falcons injury report: QB Tua Tagovailoa returns to full participation",
+      "summary": "Starting right tackle Jawaan Taylor and defensive end Brandon Dorlus returned to full participation status, too.",
+      "whatHappened": "Starting right tackle Jawaan Taylor and defensive end Brandon Dorlus returned to full participation status, too.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T19:49:05.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T14:00:42.978Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "09ba081c-e604-4cf1-afc6-bdd1cf6371f0",
+          "publisher": "Official team news",
+          "title": "Falcons injury report: QB Tua Tagovailoa returns to full participation",
+          "url": "https://www.atlantafalcons.com/news/falcons-injury-report-qb-tua-tagovailoa-returns-to-full-participation",
+          "publishedAt": "2026-09-22T19:49:05.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "Tua Tagovailoa",
+          "position": "QB",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Tua Tagovailoa",
+            "source": "headline",
+            "excerpt": "QB Tua Tagovailoa"
+          },
+          {
+            "field": "position",
+            "value": "QB",
+            "source": "headline",
+            "excerpt": "QB Tua Tagovailoa"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/falcons-injury-report-qb-tua-tagovailoa-returns-to-full-participation"
+        ],
+        "asOf": "2026-09-22T19:49:05.000Z"
+      }
+    },
+    {
+      "id": "6665d8b0-1e57-47ee-9553-323f7f4482c2",
+      "teamAbbr": "ATL",
+      "category": "SIGNING",
+      "headline": "Falcons place A.J. Terrell Jr. on injured reserve",
+      "summary": "In a corresponding move, the team has signed DL Zach Harrison to the active roster.",
+      "whatHappened": "In a corresponding move, the team has signed DL Zach Harrison to the active roster.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T16:58:35.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T20:00:40.918Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fa3b7080-0879-4ba7-86a1-524f5c7337fb",
+          "publisher": "Official team news",
+          "title": "Falcons place A.J. Terrell Jr. on injured reserve",
+          "url": "https://www.atlantafalcons.com/news/falcons-place-aj-terrell-jr-on-injured-reserve",
+          "publishedAt": "2026-09-22T16:58:35.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "SIGNING",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/falcons-place-aj-terrell-jr-on-injured-reserve"
+        ],
+        "asOf": "2026-09-22T16:58:35.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "9ed42608-d8c5-460e-94d5-0378fc396a7c",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "'She would have loved this.' Za'Darius Smith fulfills his late mother's wish",
+      "summary": "In his first home game as an Atlanta Falcon, Smith honored his late mother's wish by bringing together faith, family and football.",
+      "whatHappened": "In his first home game as an Atlanta Falcon, Smith honored his late mother's wish by bringing together faith, family and football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T15:19:22.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T20:00:41.179Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5e2327f6-b829-415a-b289-ceadccf80f35",
+          "publisher": "Official team news",
+          "title": "'She would have loved this.' Za'Darius Smith fulfills his late mother's wish",
+          "url": "https://www.atlantafalcons.com/news/za-darius-smith-church-group-falcons-game-mother-wish",
+          "publishedAt": "2026-09-22T15:19:22.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/za-darius-smith-church-group-falcons-game-mother-wish"
+        ],
+        "asOf": "2026-09-22T15:19:22.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "c0f327fa-7531-49f0-92eb-40f2850dea2e",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "Week 3 NFL Power Rankings Roundup: Where your favorite teams rank",
+      "summary": "Falcons placed towards the bottom of the aggregated rankings.",
+      "whatHappened": "Falcons placed towards the bottom of the aggregated rankings.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T15:04:27.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T20:00:41.329Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ada89a86-7a5c-4b3b-91e5-fcad8d47304c",
+          "publisher": "Official team news",
+          "title": "Week 3 NFL Power Rankings Roundup: Where your favorite teams rank",
+          "url": "https://www.atlantafalcons.com/news/week-3-2026-nfl-power-rankings-roundup",
+          "publishedAt": "2026-09-22T15:04:27.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/week-3-2026-nfl-power-rankings-roundup"
+        ],
+        "asOf": "2026-09-22T15:04:27.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e91f0cc6-636c-445d-8076-32f3ba4b01a4",
+      "teamAbbr": "ATL",
+      "category": "DEPTH_CHART",
+      "headline": "Atlanta Falcons Week 3 depth chart vs. Green Bay Packers",
+      "summary": "The Falcons will travel to Green Bay to face the Packers on Thursday Night Football.",
+      "whatHappened": "The Falcons will travel to Green Bay to face the Packers on Thursday Night Football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:41:52.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:45.943Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "99bf3f7a-3336-4e39-8fa0-ef6ec50c2d3a",
+          "publisher": "Official team news",
+          "title": "Atlanta Falcons Week 3 depth chart vs. Green Bay Packers",
+          "url": "https://www.atlantafalcons.com/news/atlanta-falcons-week-3-depth-chart-vs-green-bay-packers",
+          "publishedAt": "2026-09-21T21:41:52.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "team-update",
+          "label": "DEPTH\nCHART"
+        },
+        "reason": "Published depth chart; release is not a player transaction",
+        "displayCategory": "Team",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/atlanta-falcons-week-3-depth-chart-vs-green-bay-packers"
+        ],
+        "asOf": "2026-09-21T21:41:52.000Z"
+      }
+    },
+    {
+      "id": "6a6ad894-b3b2-4058-9dd0-c50287d19e8a",
+      "teamAbbr": "ATL",
+      "category": "RELEASE",
+      "headline": "Falcons estimated injury report released as Week 3 commences",
+      "summary": "Atlanta is on a short week as they prepare to face the Green Bay Packers on Thursday Night Football.",
+      "whatHappened": "Atlanta is on a short week as they prepare to face the Green Bay Packers on Thursday Night Football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T20:47:30.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:46.090Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "63aa8f83-a101-4f35-9745-f5bc527dc361",
+          "publisher": "Official team news",
+          "title": "Falcons estimated injury report released as Week 3 commences",
+          "url": "https://www.atlantafalcons.com/news/estimated-injury-report-released-week-3-green-bay-packers",
+          "publishedAt": "2026-09-21T20:47:30.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W3",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W3",
+            "source": "headline",
+            "excerpt": "Week 3"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/estimated-injury-report-released-week-3-green-bay-packers"
+        ],
+        "asOf": "2026-09-21T20:47:30.000Z"
+      }
+    },
+    {
+      "id": "97767ca4-5e13-4bfc-80d3-acc9837d7254",
+      "teamAbbr": "ATL",
+      "category": "INJURY",
+      "headline": "Michael Penix Jr. named starting QB for Thursday Night Football vs. Packers",
+      "summary": "Penix makes his official return from a season-ending knee injury last season.",
+      "whatHappened": "Penix makes his official return from a season-ending knee injury last season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T20:29:04.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:46.209Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "cf86133d-bad3-4fc5-b229-9495a7e7e202",
+          "publisher": "Official team news",
+          "title": "Michael Penix Jr. named starting QB for Thursday Night Football vs. Packers",
+          "url": "https://www.atlantafalcons.com/news/michael-penix-jr-starting-qb-thursday-night-football-vs-packers",
+          "publishedAt": "2026-09-21T20:29:04.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "INJURY",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/michael-penix-jr-starting-qb-thursday-night-football-vs-packers"
+        ],
+        "asOf": "2026-09-21T20:29:04.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "93ffbf16-0d4d-450f-9844-b6162d32a479",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "Atlanta Falcons Week 2 inactives vs. Carolina Panthers",
+      "summary": "The Falcons make final decision on QB Tua Tagovailoa. Receive good news about Chris Lindstrom's game status.",
+      "whatHappened": "The Falcons make final decision on QB Tua Tagovailoa. Receive good news about Chris Lindstrom's game status.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T15:28:34.000Z",
+      "sourceCount": 1,
+      "status": "RESOLVED",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:46.570Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "dd261549-19ee-42eb-a928-167a9f9aa0b6",
+          "publisher": "Official team news",
+          "title": "Atlanta Falcons Week 2 inactives vs. Carolina Panthers",
+          "url": "https://www.atlantafalcons.com/news/atlanta-falcons-week-2-inactives-vs-carolina-panthers",
+          "publishedAt": "2026-09-20T15:28:34.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INACTIVE\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/atlanta-falcons-week-2-inactives-vs-carolina-panthers"
+        ],
+        "asOf": "2026-09-20T15:28:34.000Z"
+      }
+    },
+    {
+      "id": "d316c781-3260-4a93-8319-8361f047b14a",
+      "teamAbbr": "ATL",
+      "category": "DRAFT",
+      "headline": "Zach Harrison elevated for Falcons' home opener vs. Panthers",
+      "summary": "The former third-round pick will play in his 41st game for the Falcons and has been a steady contributor for the defensive line.",
+      "whatHappened": "The former third-round pick will play in his 41st game for the Falcons and has been a steady contributor for the defensive line.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T19:58:41.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T02:00:49.234Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1fb634eb-b4d3-49db-9c2e-3b72e82b8d15",
+          "publisher": "Official team news",
+          "title": "Zach Harrison elevated for Falcons' home opener vs. Panthers",
+          "url": "https://www.atlantafalcons.com/news/zach-harrison-elevated-falcons-home-opener-vs-panthers",
+          "publishedAt": "2026-09-19T19:58:41.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "DRAFT",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/zach-harrison-elevated-falcons-home-opener-vs-panthers"
+        ],
+        "asOf": "2026-09-19T19:58:41.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "3c7d0f25-e5f6-4d1e-bb84-c9bad378958b",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "Bralen Trice 'had the time of my life' playing in first meaningful NFL game",
+      "summary": "More than two years after the Atlanta Falcons selected him, Bralen Trice made his long-awaited regular-season debut against the Pittsburgh Steelers. He enjoyed every moment.",
+      "whatHappened": "More than two years after the Atlanta Falcons selected him, Bralen Trice made his long-awaited regular-season debut against the Pittsburgh Steelers. He enjoyed every moment.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:17:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T22:00:50.177Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5faca136-40d5-4686-a6ba-60c0520ae2e9",
+          "publisher": "Official team news",
+          "title": "Bralen Trice 'had the time of my life' playing in first meaningful NFL game",
+          "url": "https://www.atlantafalcons.com/news/bralen-trice-time-of-my-life-playing-first-meaningful-nfl-game",
+          "publishedAt": "2026-09-18T19:17:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/bralen-trice-time-of-my-life-playing-first-meaningful-nfl-game"
+        ],
+        "asOf": "2026-09-18T19:17:25.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a508f78e-36ab-481e-8707-31c5e6f98a97",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "Cooper Rush named starting QB for Falcons vs. Panthers",
+      "summary": "The veteran will start his second game for Atlanta, and he will be backed up by rookie Jack Strand.",
+      "whatHappened": "The veteran will start his second game for Atlanta, and he will be backed up by rookie Jack Strand.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:26:58.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T22:00:50.456Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "115a0686-75c1-4a8a-8795-7a08b1fef80e",
+          "publisher": "Official team news",
+          "title": "Cooper Rush named starting QB for Falcons vs. Panthers",
+          "url": "https://www.atlantafalcons.com/news/cooper-rush-starting-qb-falcons-vs-panthers",
+          "publishedAt": "2026-09-18T18:26:58.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/cooper-rush-starting-qb-falcons-vs-panthers"
+        ],
+        "asOf": "2026-09-18T18:26:58.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e6b468ab-920d-4d2f-b7c1-eeafdd08acdd",
+      "teamAbbr": "ATL",
+      "category": "INJURY",
+      "headline": "Falcons injury report: Michael Penix Jr. ruled out vs. Panthers",
+      "summary": "The Atlanta Falcons have ruled out two players, including two quarterbacks, for Sunday's home opener against the Carolina Panthers",
+      "whatHappened": "The Atlanta Falcons have ruled out two players, including two quarterbacks, for Sunday's home opener against the Carolina Panthers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T17:17:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T18:00:54.361Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b2ba3a1e-263c-45bf-8920-746f59618e93",
+          "publisher": "Official team news",
+          "title": "Falcons injury report: Michael Penix Jr. ruled out vs. Panthers",
+          "url": "https://www.atlantafalcons.com/news/falcons-injury-report-michael-penix-jr-ruled-out-vs-panthers",
+          "publishedAt": "2026-09-18T17:17:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/falcons-injury-report-michael-penix-jr-ruled-out-vs-panthers"
+        ],
+        "asOf": "2026-09-18T17:17:10.000Z"
+      }
+    },
+    {
+      "id": "b54e6e74-6148-4945-a867-3a8ff6bad1f5",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "NFL Expert Picks: Who will win in Week 2, Falcons or Panthers?",
+      "summary": "The Falcons will host the Carolina Panthers in their first game at Mercedes-Benz Stadium this season. See who the experts predict will win the latest entry in the I-85 Rivalry.",
+      "whatHappened": "The Falcons will host the Carolina Panthers in their first game at Mercedes-Benz Stadium this season. See who the experts predict will win the latest entry in the I-85 Rivalry.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:51:59.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:46.185Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9d873bf3-7ec9-4086-87f6-588a348524cd",
+          "publisher": "Official team news",
+          "title": "NFL Expert Picks: Who will win in Week 2, Falcons or Panthers?",
+          "url": "https://www.atlantafalcons.com/news/nfl-expert-picks-who-will-win-week-2-panthers-vs-falcons",
+          "publishedAt": "2026-09-18T14:51:59.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/nfl-expert-picks-who-will-win-week-2-panthers-vs-falcons"
+        ],
+        "asOf": "2026-09-18T14:51:59.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f8f479d7-f4a7-4d48-a445-7cfa5730f37a",
+      "teamAbbr": "ATL",
+      "category": "INJURY",
+      "headline": "Falcons injury report: A.J. Terrell, Chris Lindstrom held out of practice",
+      "summary": "Atlanta also had three quarterbacks listed on its injury report ahead of its home opener against Carolina. Atlanta saw improvement in the statuses of A.J. Terrell and Chris Lindstrom, who were both able to return to practice in some capacity.",
+      "whatHappened": "Atlanta also had three quarterbacks listed on its injury report ahead of its home opener against Carolina. Atlanta saw improvement in the statuses of A.J. Terrell and Chris Lindstrom, who were both able to return to practice in some capacity.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T19:26:05.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-16T22:10:34.133Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "29ce73b7-b8ef-424a-a290-cb2324af226c",
+          "publisher": "Official team news",
+          "title": "Falcons injury report: A.J. Terrell, Chris Lindstrom held out of practice",
+          "url": "https://www.atlantafalcons.com/news/falcons-injury-report-a-j-terrell-chris-lindstrom-tua-tagovailoa-panthers",
+          "publishedAt": "2026-09-16T19:51:47.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "2ed7b3ae-38c6-48f8-bdcd-4bb676553896",
+          "publisher": "Official team news",
+          "title": "Falcons injury report: A.J. Terrell, Chris Lindstrom held out of practice",
+          "url": "https://www.atlantafalcons.com/news/falcons-injury-report-tua-tagovailoa-chris-lindstrom-aj-terrell",
+          "publishedAt": "2026-09-17T19:26:05.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/falcons-injury-report-a-j-terrell-chris-lindstrom-tua-tagovailoa-panthers",
+          "https://www.atlantafalcons.com/news/falcons-injury-report-tua-tagovailoa-chris-lindstrom-aj-terrell"
+        ],
+        "asOf": "2026-09-17T19:26:05.000Z"
+      }
+    },
+    {
+      "id": "4e639938-ddf0-49b3-a092-763135177d40",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "Where to watch Carolina Panthers vs. Atlanta Falcons",
+      "summary": "All the information you need to watch, stream or listen to the Falcons' home opener against the Panthers.",
+      "whatHappened": "All the information you need to watch, stream or listen to the Falcons' home opener against the Panthers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T16:00:15.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T18:15:31.636Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fe73c159-0893-4c0c-9af6-67326876ef12",
+          "publisher": "Official team news",
+          "title": "Where to watch Carolina Panthers vs. Atlanta Falcons",
+          "url": "https://www.atlantafalcons.com/news/where-watch-atlanta-falcons-carolina-panthers-stream-tv-radio",
+          "publishedAt": "2026-09-17T16:00:15.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/where-watch-atlanta-falcons-carolina-panthers-stream-tv-radio"
+        ],
+        "asOf": "2026-09-17T16:00:15.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e06ebe9a-f8bb-4cab-9639-49eeb61cc4ee",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "Michael Penix Jr. says 'I want to be out there' but has physical goals to hit first",
+      "summary": "Penix said he’s “closer” than he was last week when he gave his initial update and explained why his recovery timeline is different than others'.",
+      "whatHappened": "Penix said he’s “closer” than he was last week when he gave his initial update and explained why his recovery timeline is different than others'.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T22:20:34.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T00:30:39.253Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e009223f-570c-4d5b-950f-0017c94d5dd4",
+          "publisher": "Official team news",
+          "title": "Michael Penix Jr. says 'I want to be out there' but has physical goals to hit first",
+          "url": "https://www.atlantafalcons.com/news/michael-penix-jr-acl-knee-injury-update-mental-physical-goals",
+          "publishedAt": "2026-09-16T22:20:34.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/michael-penix-jr-acl-knee-injury-update-mental-physical-goals"
+        ],
+        "asOf": "2026-09-16T22:20:34.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "106e3d53-8ed4-4d2b-8147-2d188a477406",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "Falcons 'not ruling anyone out' at QB for home opener vs. Panthers",
+      "summary": "As the preparation for Carolina begins in earnest, all options are on the table for Atlanta.",
+      "whatHappened": "As the preparation for Carolina begins in earnest, all options are on the table for Atlanta.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:54:59.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T20:10:05.130Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e8c5522c-aceb-4fbb-851c-7e76d69c8ad1",
+          "publisher": "Official team news",
+          "title": "Falcons 'not ruling anyone out' at QB for home opener vs. Panthers",
+          "url": "https://www.atlantafalcons.com/news/falcons-not-ruling-anyone-out-qb-panthers-michael-penix-tua-tagovailoa",
+          "publishedAt": "2026-09-16T17:54:59.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/falcons-not-ruling-anyone-out-qb-panthers-michael-penix-tua-tagovailoa"
+        ],
+        "asOf": "2026-09-16T17:54:59.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "5250e912-c7a6-47cf-a1a9-d64d74f80609",
+      "teamAbbr": "ATL",
+      "category": "SIGNING",
+      "headline": "Falcons place Da'Shawn Hand on IR, sign Nick Muse to active roster",
+      "summary": "Atlanta also filled out its practice squad with the additions of DE Drake Jackson and RB Khalil Herbert.",
+      "whatHappened": "Atlanta also filled out its practice squad with the additions of DE Drake Jackson and RB Khalil Herbert.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T15:33:56.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T17:40:08.644Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "aef86f31-d488-48a3-92a6-404d10ca7aa3",
+          "publisher": "Official team news",
+          "title": "Falcons place Da'Shawn Hand on IR, sign Nick Muse to active roster",
+          "url": "https://www.atlantafalcons.com/news/falcons-dashawn-hand-ir-nick-muse-khalil-herbert-drake-jackson",
+          "publishedAt": "2026-09-16T15:33:56.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "ATL",
+          "action": "SIGNED",
+          "name": "Nick Muse"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Nick Muse",
+            "source": "headline",
+            "excerpt": "sign Nick Muse"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "sign Nick Muse"
+          },
+          {
+            "field": "team",
+            "value": "ATL",
+            "source": "canonical",
+            "excerpt": "ATL"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/falcons-dashawn-hand-ir-nick-muse-khalil-herbert-drake-jackson"
+        ],
+        "asOf": "2026-09-16T15:33:56.000Z"
+      }
+    },
+    {
+      "id": "095af9d2-400b-4085-abff-82b32d8e0feb",
+      "teamAbbr": "ATL",
+      "category": "DEPTH_CHART",
+      "headline": "Atlanta Falcons Week 2 depth chart vs. Carolina Panthers",
+      "summary": "The Falcons will host the Carolina Panthers in their Week 2 home opener.",
+      "whatHappened": "The Falcons will host the Carolina Panthers in their Week 2 home opener.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:38:38.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T22:45:05.442Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c6520f50-c22a-45bf-b2d5-f186fd03160f",
+          "publisher": "Official team news",
+          "title": "Atlanta Falcons Week 2 depth chart vs. Carolina Panthers",
+          "url": "https://www.atlantafalcons.com/news/atlanta-falcons-depth-chart-carolina-panthers",
+          "publishedAt": "2026-09-15T20:38:38.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "team-update",
+          "label": "DEPTH\nCHART"
+        },
+        "reason": "Published depth chart; release is not a player transaction",
+        "displayCategory": "Team",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/atlanta-falcons-depth-chart-carolina-panthers"
+        ],
+        "asOf": "2026-09-15T20:38:38.000Z"
+      }
+    },
+    {
+      "id": "089e1b35-014f-4526-bb0a-405fc64a292a",
+      "teamAbbr": "ATL",
+      "category": "ANALYSIS",
+      "headline": "Tracking the NFC South: Division remains on equal footing after Week 1",
+      "summary": "No NFC South team gained an early lead after a winless Week 1 for the division.",
+      "whatHappened": "No NFC South team gained an early lead after a winless Week 1 for the division.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T16:08:17.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T18:10:06.382Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c523dc87-819e-4f20-82c4-4a98761b7661",
+          "publisher": "Official team news",
+          "title": "Tracking the NFC South: Division remains on equal footing after Week 1",
+          "url": "https://www.atlantafalcons.com/news/tracking-the-nfc-south-falcons-panthers-saints-buccaneers-week-1",
+          "publishedAt": "2026-09-15T16:08:17.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.atlantafalcons.com/news/tracking-the-nfc-south-falcons-panthers-saints-buccaneers-week-1"
+        ],
+        "asOf": "2026-09-15T16:08:17.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 41,
+    "totalPages": 3
+  }
+}

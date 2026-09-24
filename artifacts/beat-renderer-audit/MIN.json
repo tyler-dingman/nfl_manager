@@ -1,0 +1,880 @@
+{
+  "teamAbbr": "MIN",
+  "teamName": "Minnesota Vikings",
+  "briefings": [
+    {
+      "id": "5cf5238b-d158-4bb0-898a-4a64aa04745e",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "NFL Power Rankings: Vikings Crack Top 10 After Gritty Victory at Chicago",
+      "summary": "NFL Power Rankings: Vikings Crack Top 10 After Gritty Victory at Chicago",
+      "whatHappened": "NFL Power Rankings: Vikings Crack Top 10 After Gritty Victory at Chicago",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T21:40:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:41.082Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "215c431c-3249-47b4-a94c-58bb9bebc51c",
+          "publisher": "Official team news",
+          "title": "NFL Power Rankings: Vikings Crack Top 10 After Gritty Victory at Chicago",
+          "url": "https://www.vikings.com/news/nfl-power-rankings-top-10-after-gritty-victory-at-chicago",
+          "publishedAt": "2026-09-22T21:40:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/nfl-power-rankings-top-10-after-gritty-victory-at-chicago"
+        ],
+        "asOf": "2026-09-22T21:40:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "32d86372-e889-41cc-8451-4e0bf91c18a6",
+      "teamAbbr": "MIN",
+      "category": "SIGNING",
+      "headline": "Vikings Sign Punter Johnny Hekker & Running Back Jaret Patterson to Practice Squad Amid Roster Moves",
+      "summary": "Vikings Sign Punter Johnny Hekker & Running Back Jaret Patterson to Practice Squad Amid Roster Moves",
+      "whatHappened": "Vikings Sign Punter Johnny Hekker & Running Back Jaret Patterson to Practice Squad Amid Roster Moves",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T21:10:30.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:41.291Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d0d471bb-fa31-42e3-b57d-054f324911e3",
+          "publisher": "Official team news",
+          "title": "Vikings Sign Punter Johnny Hekker & Running Back Jaret Patterson to Practice Squad Amid Roster Moves",
+          "url": "https://www.vikings.com/news/johnny-hekker-jaret-patterson-signed-brett-thorson-injured-reserve-2026",
+          "publishedAt": "2026-09-22T21:10:30.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "MIN"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "MIN",
+            "source": "canonical",
+            "excerpt": "MIN"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.vikings.com/news/johnny-hekker-jaret-patterson-signed-brett-thorson-injured-reserve-2026"
+        ],
+        "asOf": "2026-09-22T21:10:30.000Z"
+      }
+    },
+    {
+      "id": "49497bcc-ce92-48fb-a34a-7ac76aad0140",
+      "teamAbbr": "MIN",
+      "category": "TRADE",
+      "headline": "15 Vikings Join Tradehome Shoes in Giving Back to 2,000 Youth in Adoptive or Foster Families",
+      "summary": "15 Vikings Join Tradehome Shoes in Giving Back to 2,000 Youth in Adoptive or Foster Families",
+      "whatHappened": "15 Vikings Join Tradehome Shoes in Giving Back to 2,000 Youth in Adoptive or Foster Families",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T19:33:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:41.676Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1dc31c6f-19cb-45ce-849a-be8eee652f09",
+          "publisher": "Official team news",
+          "title": "15 Vikings Join Tradehome Shoes in Giving Back to 2,000 Youth in Adoptive or Foster Families",
+          "url": "https://www.vikings.com/news/tradehome-shoes-giving-back-to-adopted-youth-2026",
+          "publishedAt": "2026-09-22T19:33:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "TRADE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/tradehome-shoes-giving-back-to-adopted-youth-2026"
+        ],
+        "asOf": "2026-09-22T19:33:03.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "fdc886f6-4b8e-4aa2-a6ef-4787c3749a74",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Kevin O'Connell Notes Unsung Heroes from Vikings Week 2 Win at Bears",
+      "summary": "Kevin O'Connell Notes Unsung Heroes from Vikings Week 2 Win at Bears",
+      "whatHappened": "Kevin O'Connell Notes Unsung Heroes from Vikings Week 2 Win at Bears",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:27:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T18:00:52.771Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "cb31902d-1714-49cf-a349-de06a8057e72",
+          "publisher": "Official team news",
+          "title": "Kevin O'Connell Notes Unsung Heroes from Vikings Week 2 Win at Bears",
+          "url": "https://www.vikings.com/news/kevin-o-connell-bears-week-2-win-unsung-heroes-run-game-defense",
+          "publishedAt": "2026-09-21T21:27:21.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/kevin-o-connell-bears-week-2-win-unsung-heroes-run-game-defense"
+        ],
+        "asOf": "2026-09-21T21:27:21.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "eaf51d9f-d8f9-4199-b662-6fba7e67e824",
+      "teamAbbr": "MIN",
+      "category": "GAME",
+      "headline": "Mailbag: Fans React After Vikings Hold Bears Scoreless on 9 Consecutive Possessions in 9-3 Win",
+      "summary": "Mailbag: Fans React After Vikings Hold Bears Scoreless on 9 Consecutive Possessions in 9-3 Win",
+      "whatHappened": "Mailbag: Fans React After Vikings Hold Bears Scoreless on 9 Consecutive Possessions in 9-3 Win",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T20:00:43.094Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6c55f028-7fba-466e-9978-3e7a182dcb92",
+          "publisher": "Official team news",
+          "title": "Mailbag: Fans React After Vikings Hold Bears Scoreless on 9 Consecutive Possessions in 9-3 Win",
+          "url": "https://www.vikings.com/news/mailbag-fans-react-9-3-win-week-2-bears",
+          "publishedAt": "2026-09-21T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/mailbag-fans-react-9-3-win-week-2-bears"
+        ],
+        "asOf": "2026-09-21T13:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d7452a17-ddcf-486c-adfe-a12770ea36b1",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Vikings Special Teams Standouts Help Secure 9-3 Win at Bears",
+      "summary": "Vikings Special Teams Standouts Help Secure 9-3 Win at Bears",
+      "whatHappened": "Vikings Special Teams Standouts Help Secure 9-3 Win at Bears",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T22:51:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T02:00:45.207Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a3c2a89b-a419-4fc8-9405-afe1d6e178a6",
+          "publisher": "Official team news",
+          "title": "Vikings Special Teams Standouts Help Secure 9-3 Win at Bears",
+          "url": "https://www.vikings.com/news/special-teams-standouts-help-secure-week-2-win-bears",
+          "publishedAt": "2026-09-20T22:51:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/special-teams-standouts-help-secure-week-2-win-bears"
+        ],
+        "asOf": "2026-09-20T22:51:12.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f13444b8-ba33-4dcd-a20e-19b2993c5324",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Relentless Vikings Defense Delivers Red Zone Takeaway & Late Stop vs. Bears",
+      "summary": "Relentless Vikings Defense Delivers Red Zone Takeaway & Late Stop vs. Bears",
+      "whatHappened": "Relentless Vikings Defense Delivers Red Zone Takeaway & Late Stop vs. Bears",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T22:34:58.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T02:00:45.288Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9be29457-a16b-449f-ad2c-5edb0d8f73b3",
+          "publisher": "Official team news",
+          "title": "Relentless Vikings Defense Delivers Red Zone Takeaway & Late Stop vs. Bears",
+          "url": "https://www.vikings.com/news/defense-red-zone-takeaway-late-stop-vs-bears",
+          "publishedAt": "2026-09-20T22:34:58.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/defense-red-zone-takeaway-late-stop-vs-bears"
+        ],
+        "asOf": "2026-09-20T22:34:58.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f2a59d41-cd35-40ad-8856-4d02d169bc37",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Vikings at Bears Game Observations: Dallas Turner Finishes 9-3 Slugfest",
+      "summary": "Vikings at Bears Game Observations: Dallas Turner Finishes 9-3 Slugfest",
+      "whatHappened": "Vikings at Bears Game Observations: Dallas Turner Finishes 9-3 Slugfest",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T21:10:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T02:00:45.482Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "276c14ad-2f21-45ea-8fde-332f3e13de0d",
+          "publisher": "Official team news",
+          "title": "Vikings at Bears Game Observations: Dallas Turner Finishes 9-3 Slugfest",
+          "url": "https://www.vikings.com/news/bears-week-2-game-observations-dallas-turner",
+          "publishedAt": "2026-09-20T21:10:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/bears-week-2-game-observations-dallas-turner"
+        ],
+        "asOf": "2026-09-20T21:10:03.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f41fb5dc-a9e4-4545-a771-9475950ae9ba",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Vikings at Bears Week 2 Game Preview",
+      "summary": "Vikings at Bears Week 2 Game Preview After a historic offensive performance fueled a 59-37 win in last weekend’s season opener at Carolina, the Bears will look to improve to 2-0 Sunday when they begin their home slate against the Vikings at Soldier Field.",
+      "whatHappened": "Vikings at Bears Week 2 Game Preview After a historic offensive performance fueled a 59-37 win in last weekend’s season opener at Carolina, the Bears will look to improve to 2-0 Sunday when they begin their home slate against the Vikings at Soldier Field.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T12:20:31.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-19T00:00:52.288Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9afd425a-f2b9-44b4-ba49-0b6d2da86ca9",
+          "publisher": "Official team news",
+          "title": "Vikings at Bears Week 2 Game Preview",
+          "url": "https://www.vikings.com/news/bears-week-2-game-preview-2026",
+          "publishedAt": "2026-09-18T20:28:21.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "82891565-0485-44f2-b919-f960849e50a2",
+          "publisher": "Official team news",
+          "title": "Vikings at Bears Week 2 Game Preview",
+          "url": "https://www.chicagobears.com/news/game-preview-vikings-vs-bears-2026-week-2",
+          "publishedAt": "2026-09-19T12:20:31.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "MIN",
+          "rightTeam": "CHI",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "MIN",
+            "source": "headline",
+            "excerpt": "Vikings at Bears Week 2 Game Preview"
+          },
+          {
+            "field": "rightTeam",
+            "value": "CHI",
+            "source": "headline",
+            "excerpt": "Vikings at Bears Week 2 Game Preview"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.vikings.com/news/bears-week-2-game-preview-2026",
+          "https://www.chicagobears.com/news/game-preview-vikings-vs-bears-2026-week-2"
+        ],
+        "asOf": "2026-09-19T12:20:31.000Z"
+      }
+    },
+    {
+      "id": "a005757d-1d90-4fbd-87ff-fba0f99713db",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "How DeeJay Dallas Quickly Earned Vikings Trust",
+      "summary": "How DeeJay Dallas Quickly Earned Vikings Trust",
+      "whatHappened": "How DeeJay Dallas Quickly Earned Vikings Trust",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:56:15.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T00:00:52.347Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4a513589-fb9d-42f8-bbaf-aa0134f517db",
+          "publisher": "Official team news",
+          "title": "How DeeJay Dallas Quickly Earned Vikings Trust",
+          "url": "https://www.vikings.com/news/how-deejay-dallas-quickly-earned-trust-packers",
+          "publishedAt": "2026-09-18T19:56:15.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/how-deejay-dallas-quickly-earned-trust-packers"
+        ],
+        "asOf": "2026-09-18T19:56:15.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8701cfaf-ed4c-47a8-9bf9-df3febbca8cc",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Carson Wentz to Start for Vikings in Week 2 at Bears",
+      "summary": "Carson Wentz to Start for Vikings in Week 2 at Bears",
+      "whatHappened": "Carson Wentz to Start for Vikings in Week 2 at Bears",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:38:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T00:00:52.401Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "52050b51-cf70-4dcc-9f96-027ec0c2e01b",
+          "publisher": "Official team news",
+          "title": "Carson Wentz to Start for Vikings in Week 2 at Bears",
+          "url": "https://www.vikings.com/news/carson-wentz-starting-week-2-at-bears",
+          "publishedAt": "2026-09-18T18:38:26.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/carson-wentz-starting-week-2-at-bears"
+        ],
+        "asOf": "2026-09-18T18:38:26.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "dc793469-c5de-409a-aa11-cab7fa4f4943",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "NFL Expert Picks: Vikings Defense vs. Bears Offense Offers Intriguing Week 2 Matchup",
+      "summary": "NFL Expert Picks: Vikings Defense vs. Bears Offense Offers Intriguing Week 2 Matchup",
+      "whatHappened": "NFL Expert Picks: Vikings Defense vs. Bears Offense Offers Intriguing Week 2 Matchup",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T22:36:05.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T04:01:02.666Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "df45324f-43c3-4c9d-b25b-22ef3048bcb3",
+          "publisher": "Official team news",
+          "title": "NFL Expert Picks: Vikings Defense vs. Bears Offense Offers Intriguing Week 2 Matchup",
+          "url": "https://www.vikings.com/news/nfl-expert-picks-intriguing-week-2-matchup-bears",
+          "publishedAt": "2026-09-17T22:36:05.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/nfl-expert-picks-intriguing-week-2-matchup-bears"
+        ],
+        "asOf": "2026-09-17T22:36:05.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1710556a-6ec2-4d5a-90a5-975df9cc73c1",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Lunchbreak: Fran Tarkenton to Receive 2026 Bud Grant Distinguished Minnesotan Award",
+      "summary": "Lunchbreak: Fran Tarkenton to Receive 2026 Bud Grant Distinguished Minnesotan Award",
+      "whatHappened": "Lunchbreak: Fran Tarkenton to Receive 2026 Bud Grant Distinguished Minnesotan Award",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T17:09:01.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T22:00:53.891Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "48d29986-3e3a-4e9f-b611-2e68348174de",
+          "publisher": "Official team news",
+          "title": "Lunchbreak: Fran Tarkenton to Receive 2026 Bud Grant Distinguished Minnesotan Award",
+          "url": "https://www.vikings.com/news/lunchbreak-fran-tarkenton-2026-bud-grant-distinguished-minnesotan-award",
+          "publishedAt": "2026-09-17T17:09:01.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/lunchbreak-fran-tarkenton-2026-bud-grant-distinguished-minnesotan-award"
+        ],
+        "asOf": "2026-09-17T17:09:01.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "904d6326-b42d-449b-aeb4-2bdb8cbe6ed7",
+      "teamAbbr": "MIN",
+      "category": "INJURY",
+      "headline": "Initial Vikings at Bears Injury Report for Week 2 of 2026",
+      "summary": "Initial Vikings at Bears Injury Report for Week 2 of 2026",
+      "whatHappened": "Initial Vikings at Bears Injury Report for Week 2 of 2026",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T21:30:17.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T23:35:29.757Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a01228e0-b9d2-47d2-a57e-77fd53de0b8c",
+          "publisher": "Official team news",
+          "title": "Initial Vikings at Bears Injury Report for Week 2 of 2026",
+          "url": "https://www.vikings.com/news/injury-report-week-2-chicago-bears-2026",
+          "publishedAt": "2026-09-16T21:30:17.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.vikings.com/news/injury-report-week-2-chicago-bears-2026"
+        ],
+        "asOf": "2026-09-16T21:30:17.000Z"
+      }
+    },
+    {
+      "id": "b822e82a-e304-45b8-a147-545ebd204ba7",
+      "teamAbbr": "MIN",
+      "category": "SIGNING",
+      "headline": "Vikings Place Jordan Mason on Injured Reserve, Sign DeeJay Dallas from Practice Squad",
+      "summary": "Vikings Place Jordan Mason on Injured Reserve, Sign DeeJay Dallas from Practice Squad",
+      "whatHappened": "Vikings Place Jordan Mason on Injured Reserve, Sign DeeJay Dallas from Practice Squad",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T18:45:36.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T21:05:05.359Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "855c864d-0f3d-4de5-b739-c1b7a6947e96",
+          "publisher": "Official team news",
+          "title": "Vikings Place Jordan Mason on Injured Reserve, Sign DeeJay Dallas from Practice Squad",
+          "url": "https://www.vikings.com/news/jordan-mason-injured-reserve-deejay-dallas-signing-2026",
+          "publishedAt": "2026-09-16T18:45:36.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "MIN",
+          "action": "SIGNED",
+          "name": "DeeJay Dallas"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "DeeJay Dallas",
+            "source": "headline",
+            "excerpt": "Sign DeeJay Dallas"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "Sign DeeJay Dallas"
+          },
+          {
+            "field": "team",
+            "value": "MIN",
+            "source": "canonical",
+            "excerpt": "MIN"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.vikings.com/news/jordan-mason-injured-reserve-deejay-dallas-signing-2026"
+        ],
+        "asOf": "2026-09-16T18:45:36.000Z"
+      }
+    },
+    {
+      "id": "0cc375ce-1b74-4690-ac0c-45ff68adcf0b",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "How to Watch, Listen to & Stream Vikings at Bears in 2026 Week 2 Game",
+      "summary": "How to Watch, Listen to & Stream Vikings at Bears in 2026 Week 2 Game",
+      "whatHappened": "How to Watch, Listen to & Stream Vikings at Bears in 2026 Week 2 Game",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T16:39:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T18:55:05.310Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f46dfeea-b5d1-43a0-a3bb-1e1015671f48",
+          "publisher": "Official team news",
+          "title": "How to Watch, Listen to & Stream Vikings at Bears in 2026 Week 2 Game",
+          "url": "https://www.vikings.com/news/how-to-watch-listen-stream-bears-2026-week-2",
+          "publishedAt": "2026-09-16T16:39:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "MIN",
+          "rightTeam": "CHI",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "MIN",
+            "source": "headline",
+            "excerpt": "How to Watch, Listen to & Stream Vikings at Bears in 2026 Week 2 Game"
+          },
+          {
+            "field": "rightTeam",
+            "value": "CHI",
+            "source": "headline",
+            "excerpt": "How to Watch, Listen to & Stream Vikings at Bears in 2026 Week 2 Game"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.vikings.com/news/how-to-watch-listen-stream-bears-2026-week-2"
+        ],
+        "asOf": "2026-09-16T16:39:43.000Z"
+      }
+    },
+    {
+      "id": "0578008a-006a-465b-8426-abd04e5897df",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "NFL Power Rankings: Vikings Propel Forward After Historic Week 1 Victory over Packers",
+      "summary": "NFL Power Rankings: Vikings Propel Forward After Historic Week 1 Victory over Packers",
+      "whatHappened": "NFL Power Rankings: Vikings Propel Forward After Historic Week 1 Victory over Packers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T22:47:04.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T00:50:06.392Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "578de08a-4448-4ebb-8eec-3b3a04db3fb5",
+          "publisher": "Official team news",
+          "title": "NFL Power Rankings: Vikings Propel Forward After Historic Week 1 Victory over Packers",
+          "url": "https://www.vikings.com/news/nfl-power-rankings-week-1-victory-over-packers",
+          "publishedAt": "2026-09-15T22:47:04.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/nfl-power-rankings-week-1-victory-over-packers"
+        ],
+        "asOf": "2026-09-15T22:47:04.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "9e16ddd2-4213-47c1-84ad-fed5f0457d10",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Vikings Give Back to Teachers & Host All-Abilities Football & Cheer Clinics",
+      "summary": "Vikings Give Back to Teachers & Host All-Abilities Football & Cheer Clinics",
+      "whatHappened": "Vikings Give Back to Teachers & Host All-Abilities Football & Cheer Clinics",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:49:42.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T22:55:04.885Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0157d599-904d-4d87-a1ce-753fbdc55d92",
+          "publisher": "Official team news",
+          "title": "Vikings Give Back to Teachers & Host All-Abilities Football & Cheer Clinics",
+          "url": "https://www.vikings.com/news/2026-community-tuesday-teachers-shopping-all-abilities-clinic",
+          "publishedAt": "2026-09-15T20:49:42.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/2026-community-tuesday-teachers-shopping-all-abilities-clinic"
+        ],
+        "asOf": "2026-09-15T20:49:42.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a2d01c17-4a52-4539-8d8e-8e9ff7b077a3",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Lunchbreak: Justin Jefferson & Andrew Van Ginkel Highlighted by FOX Sports for Week 1 Efforts",
+      "summary": "Lunchbreak: Justin Jefferson & Andrew Van Ginkel Highlighted by FOX Sports for Week 1 Efforts",
+      "whatHappened": "Lunchbreak: Justin Jefferson & Andrew Van Ginkel Highlighted by FOX Sports for Week 1 Efforts",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T17:43:52.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T19:55:05.918Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6517f1a6-00ef-41e2-86ab-05b285e89aa9",
+          "publisher": "Official team news",
+          "title": "Lunchbreak: Justin Jefferson & Andrew Van Ginkel Highlighted by FOX Sports for Week 1 Efforts",
+          "url": "https://www.vikings.com/news/lunchbreak-justin-jefferson-andrew-van-ginkel-week-1-efforts",
+          "publishedAt": "2026-09-15T17:43:52.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/lunchbreak-justin-jefferson-andrew-van-ginkel-week-1-efforts"
+        ],
+        "asOf": "2026-09-15T17:43:52.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6da475a0-143d-4d64-8eb0-1992cfe1a3e9",
+      "teamAbbr": "MIN",
+      "category": "ANALYSIS",
+      "headline": "Kevin O'Connell: Kyler Murray 'Came in Feeling Pretty Good' & Takeaways from Vikings Week 1 Win",
+      "summary": "Kevin O'Connell: Kyler Murray 'Came in Feeling Pretty Good' & Takeaways from Vikings Week 1 Win",
+      "whatHappened": "Kevin O'Connell: Kyler Murray 'Came in Feeling Pretty Good' & Takeaways from Vikings Week 1 Win",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T22:28:16.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T00:35:05.286Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e1bcf744-b44e-48f7-9e52-77845e1a1ebd",
+          "publisher": "Official team news",
+          "title": "Kevin O'Connell: Kyler Murray 'Came in Feeling Pretty Good' & Takeaways from Vikings Week 1 Win",
+          "url": "https://www.vikings.com/news/kevin-oconnell-takeaways-from-week-1-win",
+          "publishedAt": "2026-09-14T22:28:16.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.vikings.com/news/kevin-oconnell-takeaways-from-week-1-win"
+        ],
+        "asOf": "2026-09-14T22:28:16.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 52,
+    "totalPages": 3
+  }
+}

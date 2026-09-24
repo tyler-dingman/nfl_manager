@@ -1,0 +1,892 @@
+{
+  "teamAbbr": "JAX",
+  "teamName": "Jacksonville Jaguars",
+  "briefings": [
+    {
+      "id": "a5f686f8-b64e-4b94-967e-942397356de6",
+      "teamAbbr": "JAX",
+      "category": "SIGNING",
+      "headline": "Roster Moves: Jaguars Sign TE Brenden Bates to the Practice Squad",
+      "summary": "Roster Moves: Jaguars Sign TE Brenden Bates to the Practice Squad",
+      "whatHappened": "Roster Moves: Jaguars Sign TE Brenden Bates to the Practice Squad",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T19:55:11.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:41.551Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4d37ca42-dedc-4698-9235-45fee31aab0e",
+          "publisher": "Official team news",
+          "title": "Roster Moves: Jaguars Sign TE Brenden Bates to the Practice Squad",
+          "url": "https://www.jaguars.com/news/roster-moves-jaguars-sign-te-brenden-bates-to-the-practice-squad",
+          "publishedAt": "2026-09-22T19:55:11.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "JAX"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "JAX",
+            "source": "canonical",
+            "excerpt": "JAX"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/roster-moves-jaguars-sign-te-brenden-bates-to-the-practice-squad"
+        ],
+        "asOf": "2026-09-22T19:55:11.000Z"
+      }
+    },
+    {
+      "id": "700744c2-021f-43e2-8e44-7a5ce6c2f5bd",
+      "teamAbbr": "JAX",
+      "category": "COACHING",
+      "headline": "Day After Week 2 Loss to Broncos: \"Move On and Respond…\"",
+      "summary": "Head Coach Liam Coen a day after the Jaguars’ 20-13 loss to the Denver Broncos in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo.: “We have to move on and respond; that’s what it really comes down to…”",
+      "whatHappened": "Head Coach Liam Coen a day after the Jaguars’ 20-13 loss to the Denver Broncos in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo.: “We have to move on and respond; that’s what it really comes down to…”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T23:39:16.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T14:00:43.745Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5887dc30-8ccd-40b7-b4c6-7229ea21de53",
+          "publisher": "Official team news",
+          "title": "Day After Week 2 Loss to Broncos: \"Move On and Respond…\"",
+          "url": "https://www.jaguars.com/news/day-after-week-2-loss-to-broncos-move-on-and-respond",
+          "publishedAt": "2026-09-21T23:39:16.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "recap",
+          "teams": [
+            "JAX",
+            "DEN"
+          ],
+          "overtime": false
+        },
+        "reason": "Recap without a verified score pair",
+        "displayCategory": "Recap",
+        "evidence": [
+          {
+            "field": "teams.0",
+            "value": "JAX",
+            "source": "canonical",
+            "excerpt": "JAX"
+          },
+          {
+            "field": "teams.1",
+            "value": "DEN",
+            "source": "headline",
+            "excerpt": "Day After Week 2 Loss to Broncos: \"Move On and Respond…\""
+          }
+        ],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/day-after-week-2-loss-to-broncos-move-on-and-respond"
+        ],
+        "asOf": "2026-09-21T23:39:16.000Z"
+      }
+    },
+    {
+      "id": "1570b313-fcd4-414d-855b-157f1c952b39",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "O-Zone Late Night, 2026 Week 2: Broncos 20, Jaguars 13",
+      "summary": "Do you have questions about the Jaguars' game? Submit them to senior writer John Oehser and he may address them in this O-Zone article series following the game.",
+      "whatHappened": "Do you have questions about the Jaguars' game? Submit them to senior writer John Oehser and he may address them in this O-Zone article series following the game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T04:00:46.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T20:00:43.158Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "983fe8c5-9311-4be8-a9bc-fe90a8798152",
+          "publisher": "Official team news",
+          "title": "O-Zone Late Night, 2026 Week 2: Broncos 20, Jaguars 13",
+          "url": "https://www.jaguars.com/news/o-zone-late-night-2026-week-2-broncos-20-jaguars-13",
+          "publishedAt": "2026-09-21T04:00:46.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/o-zone-late-night-2026-week-2-broncos-20-jaguars-13"
+        ],
+        "asOf": "2026-09-21T04:00:46.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "b6d06fa7-41ea-4eb4-8d42-e71fa190c279",
+      "teamAbbr": "JAX",
+      "category": "GAME",
+      "headline": "Game Report, 2026 Week 2: Broncos 20, Jaguars 13",
+      "summary": "A quick look at the Jaguars’ 20-13 loss to the Denver Broncos in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo., Sunday Senior writer John Oehser examines five key storylines from the Jaguars’ 20-13 loss to the Denver Broncos in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo., Sunday… Correspondent John Shipley examines five key plays from the Jaguars’ 20-13 loss to the Denver Broncos in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo., Sunday",
+      "whatHappened": "A quick look at the Jaguars’ 20-13 loss to the Denver Broncos in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo., Sunday Senior writer John Oehser examines five key storylines from the Jaguars’ 20-13 loss to the Denver Broncos in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo., Sunday…",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T03:03:57.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-21T02:00:45.139Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "20f23cd4-acc2-4d9f-9105-49b36d425462",
+          "publisher": "Official team news",
+          "title": "Game Report, 2026 Week 2: Broncos 20, Jaguars 13",
+          "url": "https://www.jaguars.com/news/game-report-2026-week-2-broncos-20-jaguars-13",
+          "publishedAt": "2026-09-20T23:07:13.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "e1cb8906-1b31-4be1-be95-3ed6f670c8a2",
+          "publisher": "Official team news",
+          "title": "Game Report, 2026 Week 2: Broncos 20, Jaguars 13",
+          "url": "https://www.jaguars.com/news/five-key-storylines-from-jaguars-week-2-loss-to-broncos",
+          "publishedAt": "2026-09-21T03:14:16.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "68163609-c203-4747-8e87-55e73ef330a9",
+          "publisher": "Official team news",
+          "title": "Game Report, 2026 Week 2: Broncos 20, Jaguars 13",
+          "url": "https://www.jaguars.com/news/five-key-plays-that-defined-jaguars-20-13-loss-to-broncos",
+          "publishedAt": "2026-09-21T03:03:57.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/game-report-2026-week-2-broncos-20-jaguars-13",
+          "https://www.jaguars.com/news/five-key-storylines-from-jaguars-week-2-loss-to-broncos",
+          "https://www.jaguars.com/news/five-key-plays-that-defined-jaguars-20-13-loss-to-broncos"
+        ],
+        "asOf": "2026-09-21T03:03:57.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8af82cfc-3c1e-4f3e-bcab-9caeb616fbe4",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "In and Out, 2026 Week 2: Mullens Active",
+      "summary": "QB Nick Mullens active, will back up Trevor Lawrence for a second consecutive game when the AFC South-leading Jaguars (1-0) play the Denver Broncos (0-1) in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo., Sunday",
+      "whatHappened": "QB Nick Mullens active, will back up Trevor Lawrence for a second consecutive game when the AFC South-leading Jaguars (1-0) play the Denver Broncos (0-1) in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo., Sunday",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T18:36:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T02:00:45.578Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5f42afed-d207-4565-900a-fbf7ad35c276",
+          "publisher": "Official team news",
+          "title": "In and Out, 2026 Week 2: Mullens Active",
+          "url": "https://www.jaguars.com/news/in-and-out-2026-week-2-mullens-active",
+          "publishedAt": "2026-09-20T18:36:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/in-and-out-2026-week-2-mullens-active"
+        ],
+        "asOf": "2026-09-20T18:36:25.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "581098eb-6f9e-45be-bcec-aac2dca77edb",
+      "teamAbbr": "JAX",
+      "category": "PRACTICE",
+      "headline": "Roster Moves: Jaguars Elevate Two Players",
+      "summary": "The team has elevated QB Nick Mullens and LB Jalen McLeod to the active roster from the practice squad for tomorrow’s game via standard elevation.",
+      "whatHappened": "The team has elevated QB Nick Mullens and LB Jalen McLeod to the active roster from the practice squad for tomorrow’s game via standard elevation.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T18:00:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T14:00:52.081Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c32a6c31-ba76-40ea-b9e1-4fd906e6d70e",
+          "publisher": "Official team news",
+          "title": "Roster Moves: Jaguars Elevate Two Players",
+          "url": "https://www.jaguars.com/news/roster-moves-jaguars-elevate-two-players",
+          "publishedAt": "2026-09-19T18:00:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "JAX"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "JAX",
+            "source": "canonical",
+            "excerpt": "JAX"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/roster-moves-jaguars-elevate-two-players"
+        ],
+        "asOf": "2026-09-19T18:00:25.000Z"
+      }
+    },
+    {
+      "id": "1d8512a6-33ab-4680-b84e-b5c866c6571a",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "Final Analysis: Jaguars Experts Give Predictions Before Week 2 vs. Broncos",
+      "summary": "Jaguars “experts” analyze Sunday’s 2026 Week 2 matchup between the Jaguars and Denver Broncos at Empower Field at Mile High in Denver, Colo.",
+      "whatHappened": "Jaguars “experts” analyze Sunday’s 2026 Week 2 matchup between the Jaguars and Denver Broncos at Empower Field at Mile High in Denver, Colo.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T13:00:24.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:46.577Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f0b93e5f-1cf7-465e-8e13-5998c1aeb976",
+          "publisher": "Official team news",
+          "title": "Final Analysis: Jaguars Experts Give Predictions Before Week 2 vs. Broncos",
+          "url": "https://www.jaguars.com/news/final-analysis-jaguars-experts-give-predictions-before-week-2-vs-broncos",
+          "publishedAt": "2026-09-19T13:00:24.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/final-analysis-jaguars-experts-give-predictions-before-week-2-vs-broncos"
+        ],
+        "asOf": "2026-09-19T13:00:24.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d231f5e2-d11b-4330-81cf-f135c045546f",
+      "teamAbbr": "JAX",
+      "category": "COACHING",
+      "headline": "Jaguars Wednesday: \"Truly About Us…\"",
+      "summary": "Head Coach Liam Coen spoke to the media Wednesday as the AFC South-leading Jaguars (1-0) prepared to play the Denver Broncos (0-1) in a 2026 Week 2 game at Mile High at Empower Field Sunday: “So much of this week is truly about us…” Head Coach Liam Coen spoke to the media Friday as the AFC South-leading Jaguars (1-0) prepared to play the Denver Broncos (0-1) at Empower Field at Mile High Sunday at 4:05 p.m.: “I think they (Jaguars players) have handled the week thus far really well…”",
+      "whatHappened": "Head Coach Liam Coen spoke to the media Wednesday as the AFC South-leading Jaguars (1-0) prepared to play the Denver Broncos (0-1) in a 2026 Week 2 game at Mile High at Empower Field Sunday: “So much of this week is truly about us…” Head Coach Liam Coen spoke to the media Friday as the AFC South-leading Jaguars (1-0) prepared to play the Denver Broncos (0-1) at Empower Field at Mile High Sunday at 4:05 p.m.: “I think they (Jaguars players) have handled the week thus far really well…”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T21:33:05.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-17T00:20:31.810Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7e96cfac-3b5c-4787-884e-7ca2f416fe24",
+          "publisher": "Official team news",
+          "title": "Jaguars Wednesday: \"Truly About Us…\"",
+          "url": "https://www.jaguars.com/news/jaguars-wednesday-truly-about-us",
+          "publishedAt": "2026-09-16T22:18:45.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "6510ad70-87a9-4ff1-87e4-135944e4ff7a",
+          "publisher": "Official team news",
+          "title": "Jaguars Wednesday: \"Truly About Us…\"",
+          "url": "https://www.jaguars.com/news/friday-news-jaguars-ready-to-go",
+          "publishedAt": "2026-09-18T21:33:05.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/jaguars-wednesday-truly-about-us",
+          "https://www.jaguars.com/news/friday-news-jaguars-ready-to-go"
+        ],
+        "asOf": "2026-09-18T21:33:05.000Z"
+      }
+    },
+    {
+      "id": "633ae795-ebae-458d-8d6a-ffddf3937012",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "10 Things Jaguars Must Do to Beat Broncos in Tough Week 2 Road Test",
+      "summary": "Senior writer John Oehser’s 10 things the Jaguars must do to beat the Denver Broncos in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo., Sunday at 4:05 p.m.",
+      "whatHappened": "Senior writer John Oehser’s 10 things the Jaguars must do to beat the Denver Broncos in a 2026 Week 2 game at Empower Field at Mile High in Denver, Colo., Sunday at 4:05 p.m.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:18:06.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T00:00:52.450Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "87f0c4aa-d45d-4505-9342-05894b3e78ef",
+          "publisher": "Official team news",
+          "title": "10 Things Jaguars Must Do to Beat Broncos in Tough Week 2 Road Test",
+          "url": "https://www.jaguars.com/news/10-things-jaguars-must-do-to-beat-broncos-in-tough-week-2-road-test",
+          "publishedAt": "2026-09-18T18:18:06.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "10",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "10",
+            "source": "headline",
+            "excerpt": "10 Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "10 Things Jaguars Must Do to Beat Broncos in Tough Week 2 Road Test"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/10-things-jaguars-must-do-to-beat-broncos-in-tough-week-2-road-test"
+        ],
+        "asOf": "2026-09-18T18:18:06.000Z"
+      }
+    },
+    {
+      "id": "9e45c595-b4d1-4ad6-a852-9f15cdc1d428",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "Emmanuel Pregnon Discusses Family-First Approach, His Mom's \"Soldier-Like\" Work Ethic on the O-Zone Podcast",
+      "summary": "Jaguars rookie G Emmanuel Pregnon joined senior writer John Oehser for this Week 2 2026 O-Zone Podcast: “I know what I came here to do and I know what I’m capable of, and I just wanted to help my team the best way I knew I could…”",
+      "whatHappened": "Jaguars rookie G Emmanuel Pregnon joined senior writer John Oehser for this Week 2 2026 O-Zone Podcast: “I know what I came here to do and I know what I’m capable of, and I just wanted to help my team the best way I knew I could…”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:51:04.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:47.201Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6ebcff04-680a-416f-96dc-12a79a936858",
+          "publisher": "Official team news",
+          "title": "Emmanuel Pregnon Discusses Family-First Approach, His Mom's \"Soldier-Like\" Work Ethic on the O-Zone Podcast",
+          "url": "https://www.jaguars.com/news/emmanuel-pregnon-discusses-family-first-approach-his-mom-s-soldier-like-work-ethic-on-the-o-zone-podcast",
+          "publishedAt": "2026-09-18T15:51:04.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/emmanuel-pregnon-discusses-family-first-approach-his-mom-s-soldier-like-work-ethic-on-the-o-zone-podcast"
+        ],
+        "asOf": "2026-09-18T15:51:04.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "54c42cb3-b2f4-4e8f-84f9-a7ed37d6a313",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "Jaguars Thursday: \"I Felt Great …\"",
+      "summary": "WR/CB Travis Hunter spoke to the media Thursday as the AFC South-leading Jaguars prepared to play the Denver Broncos at Empower Field at Mile High in Denver, Colo., Sunday at 4:05 p.m.; Hunter on his Week 1 performance against the Cleveland Browns: “I felt great…”",
+      "whatHappened": "WR/CB Travis Hunter spoke to the media Thursday as the AFC South-leading Jaguars prepared to play the Denver Broncos at Empower Field at Mile High in Denver, Colo., Sunday at 4:05 p.m.; Hunter on his Week 1 performance against the Cleveland Browns: “I felt great…”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T23:25:38.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T04:01:02.243Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b02d2fcb-2247-40f4-97e7-750761cc3017",
+          "publisher": "Official team news",
+          "title": "Jaguars Thursday: \"I Felt Great …\"",
+          "url": "https://www.jaguars.com/news/jaguars-thursday-i-felt-great",
+          "publishedAt": "2026-09-17T23:25:38.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/jaguars-thursday-i-felt-great"
+        ],
+        "asOf": "2026-09-17T23:25:38.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8d16086d-78c0-4671-a235-a611e3296442",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "Opponent Focus: Mile High Sports Broncos Reporter Cody Roarke Previews Week 2, Looks at X-Factor Broncos Players",
+      "summary": "Team reporter Kainani Stevens speaks with Mile High Sports Broncos reporter and host of Locked On Broncos Cody Roarke as the Broncos prepare to play the Jaguars at Empower Field at Mile High in a 2026 Week 2 game Sunday",
+      "whatHappened": "Team reporter Kainani Stevens speaks with Mile High Sports Broncos reporter and host of Locked On Broncos Cody Roarke as the Broncos prepare to play the Jaguars at Empower Field at Mile High in a 2026 Week 2 game Sunday",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T18:39:07.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T16:01:15.013Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8f9c9de0-9dc0-4bd4-94a6-db9cfa06516f",
+          "publisher": "Official team news",
+          "title": "Opponent Focus: Mile High Sports Broncos Reporter Cody Roarke Previews Week 2, Looks at X-Factor Broncos Players",
+          "url": "https://www.jaguars.com/news/opponent-focus-mile-high-sports-broncos-reporter-cody-roarke-previews-week-2-looks-at-x-factor-broncos-players",
+          "publishedAt": "2026-09-17T18:39:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "JAX",
+          "rightTeam": "DEN",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "JAX",
+            "source": "canonical",
+            "excerpt": "JAX"
+          },
+          {
+            "field": "rightTeam",
+            "value": "DEN",
+            "source": "headline",
+            "excerpt": "Opponent Focus: Mile High Sports Broncos Reporter Cody Roarke Previews Week 2, Looks at X-Factor Broncos Players"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/opponent-focus-mile-high-sports-broncos-reporter-cody-roarke-previews-week-2-looks-at-x-factor-broncos-players"
+        ],
+        "asOf": "2026-09-17T18:39:07.000Z"
+      }
+    },
+    {
+      "id": "cb120923-d95e-41fb-975e-456d9469f664",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "Live Updates from Jaguars vs. Broncos Week 2",
+      "summary": "Highlights, photos and media reactions throughout the Jaguars' Week 2 matchup against the Broncos at Empower Field at Mile High",
+      "whatHappened": "Highlights, photos and media reactions throughout the Jaguars' Week 2 matchup against the Broncos at Empower Field at Mile High",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T16:13:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T18:20:32.502Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "aea53ca6-ef66-4e85-ac95-4e5f00b1739d",
+          "publisher": "Official team news",
+          "title": "Live Updates from Jaguars vs. Broncos Week 2",
+          "url": "https://www.jaguars.com/news/live-updates-from-jaguars-vs-broncos-week-2",
+          "publishedAt": "2026-09-17T16:13:19.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/live-updates-from-jaguars-vs-broncos-week-2"
+        ],
+        "asOf": "2026-09-17T16:13:19.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "940172cc-06c5-4f38-b605-73e39e39356b",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "Wednesday Insider: \"That's Who He Is…\"",
+      "summary": "QB Trevor Lawrence spoke to the media Wednesday as the Jaguars (1-0) prepared to play the Denver Broncos (0-1) at Empower Field at Mile High in Denver, Colo., Sunday at 4:05 p.m.: “We played well Sunday, so hopefully our whole team’s getting a little bit of credit for it…”",
+      "whatHappened": "QB Trevor Lawrence spoke to the media Wednesday as the Jaguars (1-0) prepared to play the Denver Broncos (0-1) at Empower Field at Mile High in Denver, Colo., Sunday at 4:05 p.m.: “We played well Sunday, so hopefully our whole team’s getting a little bit of credit for it…”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T22:26:48.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T00:35:29.681Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "69a47b26-f748-4041-aa6f-46e5b6b575bc",
+          "publisher": "Official team news",
+          "title": "Wednesday Insider: \"That's Who He Is…\"",
+          "url": "https://www.jaguars.com/news/wednesday-insider-that-s-who-he-is",
+          "publishedAt": "2026-09-16T22:26:48.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/wednesday-insider-that-s-who-he-is"
+        ],
+        "asOf": "2026-09-16T22:26:48.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a1669e8d-6bea-4d7b-ad20-82693dbb4794",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "Where to Watch: Jaguars vs. Broncos, Week 2 of 2026 NFL Season",
+      "summary": "The Jacksonville Jaguars will travel to Empower Field at Mile High to face the Denver Broncos for Week 2 of the 2026 season on September 20. Here's how to watch the game...",
+      "whatHappened": "The Jacksonville Jaguars will travel to Empower Field at Mile High to face the Denver Broncos for Week 2 of the 2026 season on September 20. Here's how to watch the game...",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:04:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:25:04.261Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "364a6a92-2776-46fb-8aa9-7a69beb04200",
+          "publisher": "Official team news",
+          "title": "Where to Watch: Jaguars vs. Broncos, Week 2 of 2026 NFL Season",
+          "url": "https://www.jaguars.com/news/where-to-watch-jaguars-vs-broncos-week-2-of-2026-nfl-season",
+          "publishedAt": "2026-09-16T17:04:53.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/where-to-watch-jaguars-vs-broncos-week-2-of-2026-nfl-season"
+        ],
+        "asOf": "2026-09-16T17:04:53.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d84a3aaa-ec16-4245-ac90-917e0ec8f9a0",
+      "teamAbbr": "JAX",
+      "category": "GAME",
+      "headline": "Scout's Take: Bucky Brooks Breaks Down Jaguars' Dominant Week 1 Win Over Browns, MVPs and Keys to Victory",
+      "summary": "In a weekly feature for the 2026 season, NFL Media and Jaguars Media Analyst Bucky Brooks breaks down the Jaguars’ performance in a 34-10 Week 1 victory over the Cleveland Browns at EverBank Stadium",
+      "whatHappened": "In a weekly feature for the 2026 season, NFL Media and Jaguars Media Analyst Bucky Brooks breaks down the Jaguars’ performance in a 34-10 Week 1 victory over the Cleveland Browns at EverBank Stadium",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T16:29:46.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T18:35:05.360Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "21d0ef5a-cbf8-4437-bf86-1954839af4e3",
+          "publisher": "Official team news",
+          "title": "Scout's Take: Bucky Brooks Breaks Down Jaguars' Dominant Week 1 Win Over Browns, MVPs and Keys to Victory",
+          "url": "https://www.jaguars.com/news/scout-s-take-bucky-brooks-breaks-down-jaguars-dominant-week-1-win-over-browns-mvps-and-keys-to-victory",
+          "publishedAt": "2026-09-16T16:29:46.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/scout-s-take-bucky-brooks-breaks-down-jaguars-dominant-week-1-win-over-browns-mvps-and-keys-to-victory"
+        ],
+        "asOf": "2026-09-16T16:29:46.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "54ec373b-4384-4808-a256-71255beb5d40",
+      "teamAbbr": "JAX",
+      "category": "SIGNING",
+      "headline": "Roster Moves: Jaguars Sign Two Players",
+      "summary": "The team has signed LB Jack Kiser to the active roster and DE BJ Ojulari to the practice squad. In a corresponding move the team has placed DE B.J. Green on Injured Reserve.",
+      "whatHappened": "The team has signed LB Jack Kiser to the active roster and DE BJ Ojulari to the practice squad. In a corresponding move the team has placed DE B.J. Green on Injured Reserve.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T14:00:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T16:15:09.041Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4a57cd71-80a1-4a8a-9917-63e7843f9d11",
+          "publisher": "Official team news",
+          "title": "Roster Moves: Jaguars Sign Two Players",
+          "url": "https://www.jaguars.com/news/roster-moves-jaguars-sign-two-players",
+          "publishedAt": "2026-09-16T14:00:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "JAX"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "JAX",
+            "source": "canonical",
+            "excerpt": "JAX"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/roster-moves-jaguars-sign-two-players"
+        ],
+        "asOf": "2026-09-16T14:00:03.000Z"
+      }
+    },
+    {
+      "id": "9d615cb5-3bec-41bb-9e55-67a366942409",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "Tuesday Insider: Good Day, Good Start for Miller",
+      "summary": "LB Ventrell Miller as he looks ahead after a strong performance in a starting role in the Jaguars’ regular-season opening victory this past Sunday: “I'm always confident in myself, knowing what I could do…”",
+      "whatHappened": "LB Ventrell Miller as he looks ahead after a strong performance in a starting role in the Jaguars’ regular-season opening victory this past Sunday: “I'm always confident in myself, knowing what I could do…”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T16:20:14.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T18:30:09.001Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f9a136c3-cb7c-4df6-a03e-89fdbf8bf23c",
+          "publisher": "Official team news",
+          "title": "Tuesday Insider: Good Day, Good Start for Miller",
+          "url": "https://www.jaguars.com/news/tuesday-insider-good-day-good-start-for-miller",
+          "publishedAt": "2026-09-15T16:20:14.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/tuesday-insider-good-day-good-start-for-miller"
+        ],
+        "asOf": "2026-09-15T16:20:14.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6a0e0f1f-cf8c-43ed-94a0-73857d2c8937",
+      "teamAbbr": "JAX",
+      "category": "ANALYSIS",
+      "headline": "NFL Power Rankings, Week 2: Seahawks Strong at No. 1",
+      "summary": "Senior writer John Oehser’s Pre-Week 2 2026 NFL power rankings. And we all know how important these are …",
+      "whatHappened": "Senior writer John Oehser’s Pre-Week 2 2026 NFL power rankings. And we all know how important these are …",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T15:07:27.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T17:25:09.186Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fc5f0b80-0082-4a60-a205-2c9bf30225cd",
+          "publisher": "Official team news",
+          "title": "NFL Power Rankings, Week 2: Seahawks Strong at No. 1",
+          "url": "https://www.jaguars.com/news/nfl-power-rankings-week-2-seahawks-strong-at-no-1",
+          "publishedAt": "2026-09-15T15:07:27.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/nfl-power-rankings-week-2-seahawks-strong-at-no-1"
+        ],
+        "asOf": "2026-09-15T15:07:27.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "83345ded-1d57-4500-a9aa-48d194ef87d5",
+      "teamAbbr": "JAX",
+      "category": "COACHING",
+      "headline": "Day After Week 1 Win Over Browns: Coen Pleased With Fast Week 1 Start",
+      "summary": "Head Coach Liam Coen spoke to the media Monday, a day after the Jaguars’ 34-10 victory over the Cleveland Browns in a 2026 Week 1 game at EverBank Stadium: “The guys came out and tried to do what we asked them to do in terms of starting fast…”",
+      "whatHappened": "Head Coach Liam Coen spoke to the media Monday, a day after the Jaguars’ 34-10 victory over the Cleveland Browns in a 2026 Week 1 game at EverBank Stadium: “The guys came out and tried to do what we asked them to do in terms of starting fast…”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T22:47:57.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T00:50:06.746Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9f6e05a1-bf8a-44d6-b2a1-cf616defa31c",
+          "publisher": "Official team news",
+          "title": "Day After Week 1 Win Over Browns: Coen Pleased With Fast Week 1 Start",
+          "url": "https://www.jaguars.com/news/day-after-week-1-win-over-browns-coen-pleased-with-fast-week-1-start",
+          "publishedAt": "2026-09-14T22:47:57.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.jaguars.com/news/day-after-week-1-win-over-browns-coen-pleased-with-fast-week-1-start"
+        ],
+        "asOf": "2026-09-14T22:47:57.000Z"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 43,
+    "totalPages": 3
+  }
+}

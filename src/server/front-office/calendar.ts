@@ -1,3 +1,4 @@
+import { listCanonicalGames } from '@/server/schedule/repository';
 import {
   resolveNFLSeasonPhase,
   type NFLCalendarState,
@@ -85,6 +86,26 @@ async function fetchCalendarYear(calendarYear: number) {
 }
 
 export async function getNFLRegularSeasonSchedule(season: number) {
+  // Prefer the shared persisted real schedule; simulation fallback remains separate.
+  try {
+    const persisted = (await listCanonicalGames([season])).filter(
+      (game) => game.seasonType === 'REG',
+    );
+    if (persisted.length === 272 && persisted.every((game) => game.kickoffAt)) {
+      return persisted.map((game) => ({
+        id: game.providerEventId ?? game.id,
+        season: game.season,
+        seasonType: game.seasonType,
+        week: game.week,
+        startsAt: game.kickoffAt!,
+        homeTeam: game.homeTeam,
+        awayTeam: game.awayTeam,
+      }));
+    }
+  } catch {
+    // Fresh/offline installations can still use the existing provider path.
+  }
+
   const games = (
     await Promise.all([fetchCalendarYear(season), fetchCalendarYear(season + 1)])
   ).flat();

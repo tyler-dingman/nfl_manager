@@ -1,0 +1,876 @@
+{
+  "teamAbbr": "BAL",
+  "teamName": "Baltimore Ravens",
+  "briefings": [
+    {
+      "id": "e0d74415-1c40-48a5-840b-59c1e86126d7",
+      "teamAbbr": "BAL",
+      "category": "SIGNING",
+      "headline": "Ravens Sign Wide Receiver to Practice Squad",
+      "summary": "With 10 NFL games under his belt, Shedrick Jackson provides more receiver depth for Baltimore.",
+      "whatHappened": "With 10 NFL games under his belt, Shedrick Jackson provides more receiver depth for Baltimore.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T21:19:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T14:00:42.720Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "898c3151-dc13-4b61-a19a-8388426d2ff6",
+          "publisher": "Official team news",
+          "title": "Ravens Sign Wide Receiver to Practice Squad",
+          "url": "https://www.baltimoreravens.com/news/shedrick-jackson-ravens-wide-receiver-sign-practice-squad",
+          "publishedAt": "2026-09-22T21:19:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "BAL",
+          "action": "SIGNED",
+          "name": "Wide Receiver",
+          "destination": "PRACTICE SQUAD"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Wide Receiver",
+            "source": "headline",
+            "excerpt": "Sign Wide Receiver"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "Sign Wide Receiver"
+          },
+          {
+            "field": "destination",
+            "value": "PRACTICE SQUAD",
+            "source": "headline",
+            "excerpt": "Ravens Sign Wide Receiver to Practice Squad"
+          },
+          {
+            "field": "team",
+            "value": "BAL",
+            "source": "canonical",
+            "excerpt": "BAL"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/shedrick-jackson-ravens-wide-receiver-sign-practice-squad"
+        ],
+        "asOf": "2026-09-22T21:19:25.000Z"
+      }
+    },
+    {
+      "id": "1afe2578-5593-4307-ad31-a9a874bca5bc",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Ravens Are Trying to Find Their Early Defensive Identity",
+      "summary": "With 15 games left in the regular season, the Ravens remain determined to have a defense that closes in crucial moments.",
+      "whatHappened": "With 15 games left in the regular season, the Ravens remain determined to have a defense that closes in crucial moments.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T15:06:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T20:00:41.261Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c8dcb959-c044-4dd3-b84d-1a6bf5687074",
+          "publisher": "Official team news",
+          "title": "Ravens Are Trying to Find Their Early Defensive Identity",
+          "url": "https://www.baltimoreravens.com/news/ravens-defensive-identity-jesse-minter-defense-fourth-quarter-trey-hendrickson-malaki-starks-jaylinn-hawkins-poor-tackling-coverage-mistakes-pass-rush",
+          "publishedAt": "2026-09-22T15:06:26.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-defensive-identity-jesse-minter-defense-fourth-quarter-trey-hendrickson-malaki-starks-jaylinn-hawkins-poor-tackling-coverage-mistakes-pass-rush"
+        ],
+        "asOf": "2026-09-22T15:06:26.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "85089007-8f8e-4453-a6ac-35bd0a8f8074",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Late for Work: Pundits Debate Whether Ravens Are Closer to Week 1 or Week 2 Version",
+      "summary": "FOX rules analyst explains why officials got it wrong on the Saints’ game-winning touchdown. Did the Saints show the blueprint for slowing the Ravens offense?",
+      "whatHappened": "FOX rules analyst explains why officials got it wrong on the Saints’ game-winning touchdown. Did the Saints show the blueprint for slowing the Ravens offense?",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T13:38:37.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T20:00:41.407Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "54f1ca0c-56c9-4521-a60e-af78ad6e393c",
+          "publisher": "Official team news",
+          "title": "Late for Work: Pundits Debate Whether Ravens Are Closer to Week 1 or Week 2 Version",
+          "url": "https://www.baltimoreravens.com/news/ravens-pundits-debate-officials-got-wrong-game-winning-touchdown-blueprint-offense",
+          "publishedAt": "2026-09-22T13:38:37.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-pundits-debate-officials-got-wrong-game-winning-touchdown-blueprint-offense"
+        ],
+        "asOf": "2026-09-22T13:38:37.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "7fdfe96d-8adc-4fd4-a493-abbfda5151a6",
+      "teamAbbr": "BAL",
+      "category": "INJURY",
+      "headline": "News & Notes: 'No Concerns' About Rio Field Conditions, Ravens' Travel Plans Set",
+      "summary": "Jesse Minter gives encouraging injury updates. Cleaning up penalties is a ‘major emphasis.’ Trenton Simpson gets ‘major kudos.’",
+      "whatHappened": "Jesse Minter gives encouraging injury updates. Cleaning up penalties is a ‘major emphasis.’ Trenton Simpson gets ‘major kudos.’",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:30:40.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:46.024Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1540c55e-77ff-42d8-94c0-ef656902a155",
+          "publisher": "Official team news",
+          "title": "News & Notes: 'No Concerns' About Rio Field Conditions, Ravens' Travel Plans Set",
+          "url": "https://www.baltimoreravens.com/news/ravens-rio-brazil-field-conditions-no-concerns-travel-nnamdi-madubuike-zay-flowers-injury-update-trenton-simpson-penalties",
+          "publishedAt": "2026-09-21T21:30:40.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "INJURY",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-rio-brazil-field-conditions-no-concerns-travel-nnamdi-madubuike-zay-flowers-injury-update-trenton-simpson-penalties"
+        ],
+        "asOf": "2026-09-21T21:30:40.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "7b584ddf-e38f-4957-b214-5d724a4acdc2",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Grades & Snap Counts: Rashod Bateman Delivers in Top Spot",
+      "summary": "Chris Moore had nearly twice as many snaps as Devontez Walker. Mike Green delivers with more snaps. Chandler Rivers earns a defensive role.",
+      "whatHappened": "Chris Moore had nearly twice as many snaps as Devontez Walker. Mike Green delivers with more snaps. Chandler Rivers earns a defensive role.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T16:42:34.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:46.248Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d1174566-6122-405c-9431-261eabeee6ad",
+          "publisher": "Official team news",
+          "title": "Grades & Snap Counts: Rashod Bateman Delivers in Top Spot",
+          "url": "https://www.baltimoreravens.com/news/rashod-bateman-ravens-grades-snap-counts-mark-andrews-mike-green-trenton-simpson-devontez-walker-chris-moore",
+          "publishedAt": "2026-09-21T16:42:34.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/rashod-bateman-ravens-grades-snap-counts-mark-andrews-mike-green-trenton-simpson-devontez-walker-chris-moore"
+        ],
+        "asOf": "2026-09-21T16:42:34.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "7827564d-7a38-4136-acd1-517f38f97cf2",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Around the AFC North: Todd Monken Fires Back at Mike Tomlin After Browns' First Win",
+      "summary": "Play caller Mike McCarthy takes the blame as Aaron Rodgers weighs in on Steelers’ offensive woes. The Bengals’ defense made a statement as they moved into first place in the AFC North.",
+      "whatHappened": "Play caller Mike McCarthy takes the blame as Aaron Rodgers weighs in on Steelers’ offensive woes. The Bengals’ defense made a statement as they moved into first place in the AFC North.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T16:31:14.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:46.298Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d35402b5-4c62-43e2-b598-366a9e4b74bb",
+          "publisher": "Official team news",
+          "title": "Around the AFC North: Todd Monken Fires Back at Mike Tomlin After Browns' First Win",
+          "url": "https://www.baltimoreravens.com/news/todd-monken-mike-tomlin-trade-barbs-browns-first-win-mike-mccarthy-aaron-rodgers-play-calling-woes-bengals-strong-defense-week-2-around-afc-north",
+          "publishedAt": "2026-09-21T16:31:14.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/todd-monken-mike-tomlin-trade-barbs-browns-first-win-mike-mccarthy-aaron-rodgers-play-calling-woes-bengals-strong-defense-week-2-around-afc-north"
+        ],
+        "asOf": "2026-09-21T16:31:14.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6dbf99ee-cead-4c53-8fce-9fdcf4387c7d",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "The Breakdown: The Ravens Sinned By Not Slamming Door on Saints",
+      "summary": "The Ravens can’t afford to let their disappointment linger. Derrick Henry got few touches in the second half. Baltimore’s special teams made some costly mistakes.",
+      "whatHappened": "The Ravens can’t afford to let their disappointment linger. Derrick Henry got few touches in the second half. Baltimore’s special teams made some costly mistakes.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:38:44.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T14:00:47.060Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0685ca79-ba18-49ae-a432-cb4f6198d543",
+          "publisher": "Official team news",
+          "title": "The Breakdown: The Ravens Sinned By Not Slamming Door on Saints",
+          "url": "https://www.baltimoreravens.com/news/ravens-lose-another-fourth-quarter-lead-drop-home-opener-saints-breakdown-week-2-2026",
+          "publishedAt": "2026-09-20T23:38:44.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-lose-another-fourth-quarter-lead-drop-home-opener-saints-breakdown-week-2-2026"
+        ],
+        "asOf": "2026-09-20T23:38:44.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "5d3a0f66-283a-42db-b367-f476cae65d1d",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Ravens React to Another Fourth-Quarter Loss, This Time in a New Era",
+      "summary": "The Ravens defense gave up two fourth-quarter touchdowns to the Saints.",
+      "whatHappened": "The Ravens defense gave up two fourth-quarter touchdowns to the Saints.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:17:50.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T14:00:47.234Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "2fd31d7c-ea7d-46d9-9513-7129031a164c",
+          "publisher": "Official team news",
+          "title": "Ravens React to Another Fourth-Quarter Loss, This Time in a New Era",
+          "url": "https://www.baltimoreravens.com/news/ravens-react-blown-fourth-quarter-lead-saints-2026",
+          "publishedAt": "2026-09-20T23:17:50.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-react-blown-fourth-quarter-lead-saints-2026"
+        ],
+        "asOf": "2026-09-20T23:17:50.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "0783cd7c-e04b-42fa-9611-fe3eefd566e5",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Ronnie Stanley, John Simpson Active for Ravens vs. Saints",
+      "summary": "Ravens outside linebacker Trey Hendrickson will play despite a reported broken finger.",
+      "whatHappened": "Ravens outside linebacker Trey Hendrickson will play despite a reported broken finger.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T15:42:20.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:45.604Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a857e67f-d410-4ca8-82b7-5e042839c69e",
+          "publisher": "Official team news",
+          "title": "Ronnie Stanley, John Simpson Active for Ravens vs. Saints",
+          "url": "https://www.baltimoreravens.com/news/ravens-inactives-saints-ronnie-stanley-carson-vinson",
+          "publishedAt": "2026-09-20T15:42:20.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-inactives-saints-ronnie-stanley-carson-vinson"
+        ],
+        "asOf": "2026-09-20T15:42:20.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "741c9c76-f888-4b22-b02b-b9085811f1da",
+      "teamAbbr": "BAL",
+      "category": "INJURY",
+      "headline": "Zay Flowers Ruled Out vs. Saints",
+      "summary": "Cornerback T.J. Tampa has been placed on injured reserve. Offensive tackle Gerad Lichtenhan has been elevated from the practice squad.",
+      "whatHappened": "Cornerback T.J. Tampa has been placed on injured reserve. Offensive tackle Gerad Lichtenhan has been elevated from the practice squad.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:18:52.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:45.303Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "58df3408-2e7a-4bb7-b0ce-9d14fbf6a336",
+          "publisher": "Official team news",
+          "title": "Zay Flowers Ruled Out vs. Saints",
+          "url": "https://www.baltimoreravens.com/news/zay-flowers-ruled-out-carl-jones-signed-53-man-roster-tj-tampa-injured-reserve-ravens-saints-week-2-2026",
+          "publishedAt": "2026-09-19T20:18:52.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "T.J. Tampa",
+          "position": "CB",
+          "status": "OUT"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "T.J. Tampa",
+            "source": "summary",
+            "excerpt": "Cornerback T.J. Tampa"
+          },
+          {
+            "field": "position",
+            "value": "CB",
+            "source": "summary",
+            "excerpt": "Cornerback T.J. Tampa"
+          },
+          {
+            "field": "status",
+            "value": "OUT",
+            "source": "headline",
+            "excerpt": "Ruled Out"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/zay-flowers-ruled-out-carl-jones-signed-53-man-roster-tj-tampa-injured-reserve-ravens-saints-week-2-2026"
+        ],
+        "asOf": "2026-09-19T20:18:52.000Z"
+      }
+    },
+    {
+      "id": "a2fc07ed-3399-4d79-a847-c44c28f425c1",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "50 Words or Less: Ravens Need to Make Home Victories a Habit",
+      "summary": "A home opener with the house rocking is Roquan Smith’s kind of party. Derrick Henry could be a workhorse again in Week 2. Lamar Jackson has been masterful against the NFC.",
+      "whatHappened": "A home opener with the house rocking is Roquan Smith’s kind of party. Derrick Henry could be a workhorse again in Week 2. Lamar Jackson has been masterful against the NFC.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T12:55:18.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:45.641Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e6d3b0f5-3975-4dd9-bb40-87559bff8dc9",
+          "publisher": "Official team news",
+          "title": "50 Words or Less: Ravens Need to Make Home Victories a Habit",
+          "url": "https://www.baltimoreravens.com/news/ravens-winning-at-home-habit-white-noise-2026-home-opener-saints-50-words",
+          "publishedAt": "2026-09-19T12:55:18.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-winning-at-home-habit-white-noise-2026-home-opener-saints-50-words"
+        ],
+        "asOf": "2026-09-19T12:55:18.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "b713251b-e790-43be-bf83-988f75f09b00",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Five Things to Know About the New Orleans Saints",
+      "summary": "Info on Tyler Shough, Chris Olave, and others who will hope to spoil the Ravens’ home opener.",
+      "whatHappened": "Info on Tyler Shough, Chris Olave, and others who will hope to spoil the Ravens’ home opener.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:43:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T04:00:52.578Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1f4cdbe9-83de-415b-b881-084e1d1d1ec7",
+          "publisher": "Official team news",
+          "title": "Five Things to Know About the New Orleans Saints",
+          "url": "https://www.baltimoreravens.com/news/five-things-to-know-new-orleans-saints-ravens-opponent-preview-week-2-2026",
+          "publishedAt": "2026-09-18T20:43:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "Five Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Five Things to Know About the New Orleans Saints"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/five-things-to-know-new-orleans-saints-ravens-opponent-preview-week-2-2026"
+        ],
+        "asOf": "2026-09-18T20:43:25.000Z"
+      }
+    },
+    {
+      "id": "0c68237d-1ffe-4281-8133-e18eb6716bef",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "News & Notes: Nnamdi Madubuike's Debut Waits at Least Another Week",
+      "summary": "LaJohntay Wester feels ready to step in for Zay Flowers if needed. Carson Vinson is one of the Ravens’ most improved players. Ravens focused on eliminating pre-snap penalties.",
+      "whatHappened": "LaJohntay Wester feels ready to step in for Zay Flowers if needed. Carson Vinson is one of the Ravens’ most improved players. Ravens focused on eliminating pre-snap penalties.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:25:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T04:00:52.635Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8218c633-c65f-4898-afe6-056914202560",
+          "publisher": "Official team news",
+          "title": "News & Notes: Nnamdi Madubuike's Debut Waits at Least Another Week",
+          "url": "https://www.baltimoreravens.com/news/nnamdi-madubuike-debut-ravens-teddye-buchanan-saints-lajohntay-wester-carson-vinson-news-notes",
+          "publishedAt": "2026-09-18T20:25:53.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/nnamdi-madubuike-debut-ravens-teddye-buchanan-saints-lajohntay-wester-carson-vinson-news-notes"
+        ],
+        "asOf": "2026-09-18T20:25:53.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "cc7f2751-20da-485c-8699-07b94d77247a",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Everything You Need to Know: Ravens vs. Saints",
+      "summary": "Looking to protect their house in 2026, the Ravens (1-0) will host the New Orleans Saints (0-1) in Sunday’s “White Noise” home opener at M&T Bank Stadium.",
+      "whatHappened": "Looking to protect their house in 2026, the Ravens (1-0) will host the New Orleans Saints (0-1) in Sunday’s “White Noise” home opener at M&T Bank Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T17:47:31.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:51.179Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d4cda7b5-c513-4ca2-a302-d403330011e2",
+          "publisher": "Official team news",
+          "title": "Everything You Need to Know: Ravens vs. Saints",
+          "url": "https://www.baltimoreravens.com/news/ravens-saints-game-preview-home-opener-white-noise-roquan-smith-zay-flowers-hamstring-2026-week-2",
+          "publishedAt": "2026-09-18T17:47:31.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-saints-game-preview-home-opener-white-noise-roquan-smith-zay-flowers-hamstring-2026-week-2"
+        ],
+        "asOf": "2026-09-18T17:47:31.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1451bbb6-1110-41c0-bda4-e36a89fd3f71",
+      "teamAbbr": "BAL",
+      "category": "PRACTICE",
+      "headline": "Zay Flowers, Four Ravens Starters Return to Practice",
+      "summary": "Left tackle Ronnie Stanley (toe), left guard John Simpson (groin) and outside linebacker Trey Hendrickson were back at practice Friday.",
+      "whatHappened": "Left tackle Ronnie Stanley (toe), left guard John Simpson (groin) and outside linebacker Trey Hendrickson were back at practice Friday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T16:44:40.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:51.491Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "46df9a54-071c-46da-a9cb-c6f265dafc6c",
+          "publisher": "Official team news",
+          "title": "Zay Flowers, Four Ravens Starters Return to Practice",
+          "url": "https://www.baltimoreravens.com/news/injury-report-zay-flowers-ravens-saints-ronnie-stanley-john-simpson-trey-hendrickson-week-2",
+          "publishedAt": "2026-09-18T16:44:40.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/injury-report-zay-flowers-ravens-saints-ronnie-stanley-john-simpson-trey-hendrickson-week-2"
+        ],
+        "asOf": "2026-09-18T16:44:40.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a033e062-429b-4552-937f-e97c488e04d0",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "How to Watch, Listen, Live Stream Ravens vs. Saints, Week 2",
+      "summary": "The Ravens look to start 2-0 in their home opener.",
+      "whatHappened": "The Ravens look to start 2-0 in their home opener.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:37:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:51.545Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9544277d-5e74-45fa-9540-8a9ad4be8cbb",
+          "publisher": "Official team news",
+          "title": "How to Watch, Listen, Live Stream Ravens vs. Saints, Week 2",
+          "url": "https://www.baltimoreravens.com/news/how-to-watch-listen-live-stream-ravens-vs-saints-week-2",
+          "publishedAt": "2026-09-18T15:37:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "BAL",
+          "rightTeam": "NO",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "BAL",
+            "source": "headline",
+            "excerpt": "How to Watch, Listen, Live Stream Ravens vs. Saints, Week 2"
+          },
+          {
+            "field": "rightTeam",
+            "value": "NO",
+            "source": "headline",
+            "excerpt": "How to Watch, Listen, Live Stream Ravens vs. Saints, Week 2"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/how-to-watch-listen-live-stream-ravens-vs-saints-week-2"
+        ],
+        "asOf": "2026-09-18T15:37:43.000Z"
+      }
+    },
+    {
+      "id": "76dc43bf-7083-4fe6-a808-654c9e3fa2c8",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Ravens Launch 'The Uprising', New Pregame Show With a Poe Flight",
+      "summary": "Fans are encouraged to get their seats early, as the Ravens’ new pregame tradition gives every game a must-see moment.",
+      "whatHappened": "Fans are encouraged to get their seats early, as the Ravens’ new pregame tradition gives every game a must-see moment.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:57:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:52.436Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "70b12b66-132e-4fc1-b607-44b33b3023dc",
+          "publisher": "Official team news",
+          "title": "Ravens Launch 'The Uprising', New Pregame Show With a Poe Flight",
+          "url": "https://www.baltimoreravens.com/news/ravens-the-uprising-pregame-show-poe-flight-zipline-game-entertainment-band-cheerleaders-2026",
+          "publishedAt": "2026-09-18T14:57:53.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-the-uprising-pregame-show-poe-flight-zipline-game-entertainment-band-cheerleaders-2026"
+        ],
+        "asOf": "2026-09-18T14:57:53.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d17d68d5-f773-4f3d-8b3d-17fc0aa07465",
+      "teamAbbr": "BAL",
+      "category": "COACHING",
+      "headline": "Late for Work: What Pundits Expect in Ravens-Saints",
+      "summary": "Hall of Fame running backs admire Derrick Henry’s ‘consistent greatness.’ Is Declan Doyle the top head coaching candidate for 2027? The Ravens worked out veteran wide receiver Brandin Cooks.",
+      "whatHappened": "Hall of Fame running backs admire Derrick Henry’s ‘consistent greatness.’ Is Declan Doyle the top head coaching candidate for 2027? The Ravens worked out veteran wide receiver Brandin Cooks.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:49:58.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T18:00:47.188Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4be8ce82-4ab7-49ed-be78-60090f6d6e00",
+          "publisher": "Official team news",
+          "title": "Late for Work: What Pundits Expect in Ravens-Saints",
+          "url": "https://www.baltimoreravens.com/news/ravens-saints-home-opener-preview-derrick-henry-hall-of-fame-declan-doyle-head-coach-brandin-cooks",
+          "publishedAt": "2026-09-18T13:49:58.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-saints-home-opener-preview-derrick-henry-hall-of-fame-declan-doyle-head-coach-brandin-cooks"
+        ],
+        "asOf": "2026-09-18T13:49:58.000Z"
+      }
+    },
+    {
+      "id": "7abd97d1-cdf7-4a5a-84a4-baa8ec5c5e94",
+      "teamAbbr": "BAL",
+      "category": "GAME",
+      "headline": "Pundit Picks: Ravens Are Heavy Favorites to Defeat Saints",
+      "summary": "The Ravens are widely projected to start 2-0 for the first time since 2023.",
+      "whatHappened": "The Ravens are widely projected to start 2-0 for the first time since 2023.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:28:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T18:00:47.516Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f13a2c39-8cbf-46d3-af3f-58b30b4ff28b",
+          "publisher": "Official team news",
+          "title": "Pundit Picks: Ravens Are Heavy Favorites to Defeat Saints",
+          "url": "https://www.baltimoreravens.com/news/pundit-picks-ravens-are-heavy-favorites-to-defeat-saints-week-2-nfl-2026",
+          "publishedAt": "2026-09-18T13:28:21.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/pundit-picks-ravens-are-heavy-favorites-to-defeat-saints-week-2-nfl-2026"
+        ],
+        "asOf": "2026-09-18T13:28:21.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "5253c4df-7965-4c62-a3ff-83884c7ce924",
+      "teamAbbr": "BAL",
+      "category": "ANALYSIS",
+      "headline": "Zay Flowers, Two Starting Offensive Linemen Not Practicing",
+      "summary": "Wide receiver Zay Flowers is still sidelined, along with Ronnie Stanley (toe) and John Simpson (groin).",
+      "whatHappened": "Wide receiver Zay Flowers is still sidelined, along with Ronnie Stanley (toe) and John Simpson (groin).",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T18:23:35.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T16:01:15.196Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "559987e7-e370-424e-b44a-ab1cc6a04a28",
+          "publisher": "Official team news",
+          "title": "Zay Flowers, Two Starting Offensive Linemen Not Practicing",
+          "url": "https://www.baltimoreravens.com/news/ravens-injury-report-zay-flowers-ronnie-stanley-john-simpson-practice-report-saints-2026",
+          "publishedAt": "2026-09-17T18:23:35.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.baltimoreravens.com/news/ravens-injury-report-zay-flowers-ronnie-stanley-john-simpson-practice-report-saints-2026"
+        ],
+        "asOf": "2026-09-17T18:23:35.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 74,
+    "totalPages": 4
+  }
+}

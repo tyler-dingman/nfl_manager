@@ -1,0 +1,540 @@
+{
+  "teamAbbr": "BUF",
+  "teamName": "Buffalo Bills",
+  "briefings": [
+    {
+      "id": "e6d129e3-4ecc-44c3-8f8c-34a809157a67",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "Top Storylines for Bills vs. Chargers | Week 3",
+      "summary": "Buffalo is looking to get out to a 3-0 start for the second consecutive season",
+      "whatHappened": "Buffalo is looking to get out to a 3-0 start for the second consecutive season",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-23T11:00:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T14:00:42.466Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9b6294be-4e12-4ba5-8100-7c66d34560bb",
+          "publisher": "Official team news",
+          "title": "Top Storylines for Bills vs. Chargers | Week 3",
+          "url": "https://www.buffalobills.com/news/top-storylines-for-bills-vs-chargers-week-3",
+          "publishedAt": "2026-09-23T11:00:19.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "c8e39387-0909-476e-9bec-3cbffafca90f",
+      "teamAbbr": "BUF",
+      "category": "INJURY",
+      "headline": "Injury updates following TNF, Deone Walker's steady play and Bills using upcoming rest to their advantage",
+      "summary": "Recapping what Joe Brady, Jim Leonhard and Pete Carmichael said during Friday's media availability",
+      "whatHappened": "Recapping what Joe Brady, Jim Leonhard and Pete Carmichael said during Friday's media availability",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T02:56:47.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:45.749Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "24b45b68-b226-45e3-8e00-9ef10aefee82",
+          "publisher": "Official team news",
+          "title": "Injury updates following TNF, Deone Walker's steady play and Bills using upcoming rest to their advantage",
+          "url": "https://www.buffalobills.com/news/injury-updates-following-tnf-deone-walker-s-steady-play-and-bills-using-upcoming-rest-to-their-advantage",
+          "publishedAt": "2026-09-19T02:56:47.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "a2459cda-916d-4785-9cea-f2a13685384c",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "'An out-of-body experience' | Bills players recap an unforgettable night in the Highmark Stadium home opener",
+      "summary": "The energy in the building, James Cook III's resurgence, and Keon Coleman answering the call",
+      "whatHappened": "The energy in the building, James Cook III's resurgence, and Keon Coleman answering the call",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:27:11.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:51.675Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6b4d4cec-f617-4871-9f00-f128d449d75a",
+          "publisher": "Official team news",
+          "title": "'An out-of-body experience' | Bills players recap an unforgettable night in the Highmark Stadium home opener",
+          "url": "https://www.buffalobills.com/news/an-out-of-body-experience-bills-players-recap-an-unforgettable-night-in-the-highmark-stadium-home-opener",
+          "publishedAt": "2026-09-18T15:27:11.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "5836b28d-2c21-4529-83c4-2edb1de81617",
+      "teamAbbr": "BUF",
+      "category": "GAME",
+      "headline": "Top 3 things we learned from Bills vs. Lions | Week 2",
+      "summary": "Josh Allen scores 1st TD, then 4 more. Greg Rousseau and Dalton Kincaid put on a show.",
+      "whatHappened": "Josh Allen scores 1st TD, then 4 more. Greg Rousseau and Dalton Kincaid put on a show.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T06:26:47.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T22:00:43.888Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "77437466-1c00-492e-ab33-b995486a69b3",
+          "publisher": "Official team news",
+          "title": "Top 3 things we learned from Bills vs. Lions | Week 2",
+          "url": "https://www.buffalobills.com/news/top-3-things-we-learned-from-bills-vs-lions-week-2",
+          "publishedAt": "2026-09-18T06:26:47.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "272ce48e-8631-4005-9e49-cea8456278fd",
+      "teamAbbr": "BUF",
+      "category": "GAME",
+      "headline": "Bills 41, Lions 31 | Final Score, recap + highlights",
+      "summary": "The Buffalo Bills won the first-ever game at Highmark Stadium, defeating the Detroit Lions 41-31 on Thursday night. Tim Twentyman recaps the Detroit Lions’ 41-31 loss to the Buffalo Bills.",
+      "whatHappened": "The Buffalo Bills won the first-ever game at Highmark Stadium, defeating the Detroit Lions 41-31 on Thursday night. Tim Twentyman recaps the Detroit Lions’ 41-31 loss to the Buffalo Bills.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T03:56:14.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-21T00:00:49.429Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0ceec3a3-ab28-4cf6-a2a9-e6c06200e732",
+          "publisher": "Official team news",
+          "title": "Bills 41, Lions 31 | Final Score, recap + highlights",
+          "url": "https://www.buffalobills.com/news/bills-41-lions-31-final-score-recap-highlights",
+          "publishedAt": "2026-09-18T04:05:54.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "9b5ab0e9-e619-4a73-9a08-774aa3d26783",
+          "publisher": "Official team news",
+          "title": "Bills 41, Lions 31 | Final Score, recap + highlights",
+          "url": "https://www.detroitlions.com/news/recap-lions-at-bills-goff-gibbs-stbrown",
+          "publishedAt": "2026-09-18T03:56:14.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "4c809715-4f1a-445c-81ce-a09f339dc1b0",
+      "teamAbbr": "BUF",
+      "category": "INJURY",
+      "headline": "Bills issue injury update on WR DJ Moore",
+      "summary": "Moore is questionable to return to tonight's contest with a shoulder and stinger injury.",
+      "whatHappened": "Moore is questionable to return to tonight's contest with a shoulder and stinger injury.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T01:33:27.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T00:00:49.591Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e3ea70c1-4fdc-4686-8b03-38b1789a69d0",
+          "publisher": "Official team news",
+          "title": "Bills issue injury update on WR DJ Moore",
+          "url": "https://www.buffalobills.com/news/bills-issue-injury-update-on-wr-dj-moore",
+          "publishedAt": "2026-09-18T01:33:27.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "eda25840-9a84-4150-afa5-b88195ece91d",
+      "teamAbbr": "BUF",
+      "category": "INJURY",
+      "headline": "Bills DL Ed Oliver suffers pregame hip injury, ruled OUT vs. Lions",
+      "summary": "The Bills will be without a centerpiece of their defense for Thursday Night Football against the Lions.",
+      "whatHappened": "The Bills will be without a centerpiece of their defense for Thursday Night Football against the Lions.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T22:51:59.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T00:00:49.741Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b7cd3fb5-2c77-4895-95de-10fbf8680825",
+          "publisher": "Official team news",
+          "title": "Bills DL Ed Oliver suffers pregame hip injury, ruled OUT vs. Lions",
+          "url": "https://www.buffalobills.com/news/bills-dl-ed-oliver-suffers-pregame-hip-injury-ruled-out-vs-lions",
+          "publishedAt": "2026-09-17T22:51:59.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "68297f6f-2087-4ecb-8a24-1acf25508c2d",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "Buffalo Bills inactives vs. Lions | Week 2",
+      "summary": "The Bills are listing 7 players as inactive for Thursday Night Football against the Lions",
+      "whatHappened": "The Bills are listing 7 players as inactive for Thursday Night Football against the Lions",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T22:44:28.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T00:00:49.795Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1b312b55-d58f-44c3-9eeb-64d77b92506c",
+          "publisher": "Official team news",
+          "title": "Buffalo Bills inactives vs. Lions | Week 2",
+          "url": "https://www.buffalobills.com/news/buffalo-bills-inactives-vs-lions-week-2",
+          "publishedAt": "2026-09-17T22:44:28.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "13fbb877-364f-4c76-84dc-7ad8a1a68260",
+      "teamAbbr": "BUF",
+      "category": "PRACTICE",
+      "headline": "Bills elevate WR Greg Dortch and RB Frank Gore Jr. from practice squad vs. Lions",
+      "summary": "The Buffalo Bills are elevating two players from the practice squad for tonight's game against the Detroit Lions.",
+      "whatHappened": "The Buffalo Bills are elevating two players from the practice squad for tonight's game against the Detroit Lions.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T20:51:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T00:00:56.019Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fd2ba4ac-0f22-40d7-b160-8527f2f78b1d",
+          "publisher": "Official team news",
+          "title": "Bills elevate WR Greg Dortch and RB Frank Gore Jr. from practice squad vs. Lions",
+          "url": "https://www.buffalobills.com/news/bills-elevate-wr-greg-dortch-and-rb-frank-gore-jr-from-practice-squad-vs-lions",
+          "publishedAt": "2026-09-17T20:51:02.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "e437dba9-dde4-40de-8c49-23e37c7b56e0",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "Where Bills game day begins: Inside Highmark Stadium's player-first design features",
+      "summary": "From a dedicated player dining hall to an indoor warmup field & expansive recovery facilities, Highmark Stadium supports players through every stage of game day",
+      "whatHappened": "From a dedicated player dining hall to an indoor warmup field & expansive recovery facilities, Highmark Stadium supports players through every stage of game day",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T02:12:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T04:30:33.468Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6171bb8d-0059-4c5e-b5fe-42655bf5dc8f",
+          "publisher": "Official team news",
+          "title": "Where Bills game day begins: Inside Highmark Stadium's player-first design features",
+          "url": "https://www.buffalobills.com/news/where-bills-game-day-begins-inside-highmark-stadium-s-player-first-design-features",
+          "publishedAt": "2026-09-17T02:12:19.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "c138e4cb-2084-47ce-9e73-ef21eb8c2a9f",
+      "teamAbbr": "BUF",
+      "category": "INJURY",
+      "headline": "Buffalo Bills injury report vs. Lions | Week 2",
+      "summary": "The Bills shared their final injury report of the week before facing Lions, three players are questionable",
+      "whatHappened": "The Bills shared their final injury report of the week before facing Lions, three players are questionable",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T19:19:15.000Z",
+      "sourceCount": 1,
+      "status": "RESOLVED",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T21:30:11.794Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "dc104cf7-ff15-4f42-9a79-63126d73c053",
+          "publisher": "Official team news",
+          "title": "Buffalo Bills injury report vs. Lions | Week 2",
+          "url": "https://www.buffalobills.com/news/buffalo-bills-injury-report-vs-lions-week-2",
+          "publishedAt": "2026-09-16T19:19:15.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "4ed58a6b-b221-4bfb-a798-394170876534",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "Exclusive Labatt Beer Horn to be sold at Highmark Stadium for 2026 season",
+      "summary": "The Labatt Beer Horn includes a 16 oz. Labatt Blue Light or Labatt Blue can and is available for $30 at Highmark Stadium",
+      "whatHappened": "The Labatt Beer Horn includes a 16 oz. Labatt Blue Light or Labatt Blue can and is available for $30 at Highmark Stadium",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T15:59:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T18:10:06.467Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e457a746-c81b-4e6f-ad7c-4f03b1d02de8",
+          "publisher": "Official team news",
+          "title": "Exclusive Labatt Beer Horn to be sold at Highmark Stadium for 2026 season",
+          "url": "https://www.buffalobills.com/news/exclusive-labatt-beer-horn-to-be-sold-at-highmark-stadium-for-2026-season",
+          "publishedAt": "2026-09-16T15:59:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "2cfbca89-e6a8-44e7-834c-03cee59685b7",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "'It only happens once' | Bills players preview Highmark Stadium's home opener",
+      "summary": "Handling a historic night, how the new grass is performing, and what challenges the Lions stars bring",
+      "whatHappened": "Handling a historic night, how the new grass is performing, and what challenges the Lions stars bring",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T15:27:50.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T17:40:08.764Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "01e29413-1a28-4998-a9cf-c21dcf01f00e",
+          "publisher": "Official team news",
+          "title": "'It only happens once' | Bills players preview Highmark Stadium's home opener",
+          "url": "https://www.buffalobills.com/news/it-only-happens-once-bills-players-preview-highmark-stadium-s-home-opener",
+          "publishedAt": "2026-09-16T15:27:50.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "eb9c6546-f2f0-4b81-b40a-daf0a19069fd",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "Metallica's M72 World Tour will make a stop at Highmark Stadium in June 2027",
+      "summary": "Tickets for the newly announced shows will be available starting with the Fan Club presales beginning on Monday, September 21 at 10 am",
+      "whatHappened": "Tickets for the newly announced shows will be available starting with the Fan Club presales beginning on Monday, September 21 at 10 am",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T14:01:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T16:10:10.547Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8b41d560-f465-4503-8d3d-408410a48d34",
+          "publisher": "Official team news",
+          "title": "Metallica's M72 World Tour will make a stop at Highmark Stadium in June 2027",
+          "url": "https://www.buffalobills.com/news/metallica-s-m72-world-tour-will-make-a-stop-at-highmark-stadium-in-june-2027",
+          "publishedAt": "2026-09-16T14:01:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "e54cf849-ed03-47f6-b7a7-faa3f5d48176",
+      "teamAbbr": "BUF",
+      "category": "COACHING",
+      "headline": "Buffalo Bills recognize these WNY high school football coaches | Week 2 2026",
+      "summary": "As part of the program, each winning coach’s football program will receive $1,000 from the Buffalo Bills and Visa",
+      "whatHappened": "As part of the program, each winning coach’s football program will receive $1,000 from the Buffalo Bills and Visa",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T14:00:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T16:10:10.617Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8639b2ca-1b26-4133-85a1-7f1c4443cdbd",
+          "publisher": "Official team news",
+          "title": "Buffalo Bills recognize these WNY high school football coaches | Week 2 2026",
+          "url": "https://www.buffalobills.com/news/buffalo-bills-recognize-these-wny-high-school-football-coaches-week-2-2026",
+          "publishedAt": "2026-09-16T14:00:12.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "daec29e1-b678-403d-a3b9-6f5068fe1460",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "What Bills fans can expect for the Highmark Stadium home opener vs. Lions",
+      "summary": "Everything Bills fans can expect for game day when Buffalo hosts Detroit for the first game at Highmark Stadium.",
+      "whatHappened": "Everything Bills fans can expect for game day when Buffalo hosts Detroit for the first game at Highmark Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T12:00:11.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T14:05:07.584Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0fdbf3fa-9fd7-4a62-85c2-5be26b05e73f",
+          "publisher": "Official team news",
+          "title": "What Bills fans can expect for the Highmark Stadium home opener vs. Lions",
+          "url": "https://www.buffalobills.com/news/what-bills-fans-can-expect-for-the-highmark-stadium-home-opener-vs-lions",
+          "publishedAt": "2026-09-16T12:00:11.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "c2e9280e-ddc6-499c-98d4-b27f6ca846d0",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "Buffalo Bills vs. Detroit Lions | Where to watch, stream and listen | Week 2 TNF",
+      "summary": "TV Channel, Streaming and Radio for Bills home opener Thursday Night Football",
+      "whatHappened": "TV Channel, Streaming and Radio for Bills home opener Thursday Night Football",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T18:05:11.371Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3d0d300e-d0e6-446c-9f40-bfc1ee63bd34",
+          "publisher": "Official team news",
+          "title": "Buffalo Bills vs. Detroit Lions | Where to watch, stream and listen | Week 2 TNF",
+          "url": "https://www.buffalobills.com/news/buffalo-bills-vs-detroit-lions-where-to-watch-stream-and-listen-week-2-tnf",
+          "publishedAt": "2026-09-15T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "91348802-1475-407f-a40a-3387986ff09b",
+      "teamAbbr": "BUF",
+      "category": "COACHING",
+      "headline": "'We can sleep on Friday' | Bills coaches recap Week 1 win and what it'll take to replicate it",
+      "summary": "Joe Brady and his coordinators talk tight end success, a true Week 1 defensive showing, and how to prep for a short week",
+      "whatHappened": "Joe Brady and his coordinators talk tight end success, a true Week 1 defensive showing, and how to prep for a short week",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T15:11:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T17:15:11.520Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d040d768-97dd-4228-b4f4-809a28470919",
+          "publisher": "Official team news",
+          "title": "'We can sleep on Friday' | Bills coaches recap Week 1 win and what it'll take to replicate it",
+          "url": "https://www.buffalobills.com/news/we-can-sleep-on-friday-bills-coaches-recap-week-1-win-and-what-it-ll-take-to-replicate-it",
+          "publishedAt": "2026-09-15T15:11:43.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "ee21e52b-6b0d-480f-9b01-c7473b526d31",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "Top storylines for Bills vs. Lions | NFL Week 2",
+      "summary": "Bills insider Chris Brown breaks down Buffalo's explosive offense, keys to preparing on a short week and more",
+      "whatHappened": "Bills insider Chris Brown breaks down Buffalo's explosive offense, keys to preparing on a short week and more",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T13:58:15.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T16:10:11.136Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "abd16112-5cdc-44d9-ab0c-033175aa656c",
+          "publisher": "Official team news",
+          "title": "Top storylines for Bills vs. Lions | NFL Week 2",
+          "url": "https://www.buffalobills.com/news/top-storylines-for-bills-vs-lions-nfl-week-2",
+          "publishedAt": "2026-09-15T13:58:15.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "e059fdf4-fce5-4f46-b10e-69db36c08d39",
+      "teamAbbr": "BUF",
+      "category": "ANALYSIS",
+      "headline": "Kenny Chesney is bringing The Original Vibe Room Tour to Highmark Stadium on June 19, 2027",
+      "summary": "Kenny Chesney is bringing The Original Vibe Room Tour to Highmark Stadium on June 19, 2027",
+      "whatHappened": "Kenny Chesney is bringing The Original Vibe Room Tour to Highmark Stadium on June 19, 2027",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T12:38:31.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T14:55:09.084Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "22e806f0-cea1-4404-bd11-f86a22bb8c0e",
+          "publisher": "Official team news",
+          "title": "Kenny Chesney is bringing The Original Vibe Room Tour to Highmark Stadium on June 19, 2027",
+          "url": "https://www.buffalobills.com/news/kenny-chesney-is-bringing-the-vibe-room-to-highmark-stadium",
+          "publishedAt": "2026-09-15T12:38:31.000Z",
+          "kind": "reporting"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 43,
+    "totalPages": 3
+  }
+}

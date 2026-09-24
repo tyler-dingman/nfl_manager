@@ -1,0 +1,1028 @@
+{
+  "teamAbbr": "KC",
+  "teamName": "Kansas City Chiefs",
+  "briefings": [
+    {
+      "id": "5f9acd9b-b6b6-4557-a3d6-067e3156f687",
+      "teamAbbr": "KC",
+      "category": "GAME",
+      "headline": "10 Quick Facts Following the Chiefs Week 2 Win Over Indianapolis | Upon Further Review",
+      "summary": "The Chiefs outlasted the Colts in a thriller on Sunday night",
+      "whatHappened": "The Chiefs outlasted the Colts in a thriller on Sunday night",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T13:23:55.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T20:00:41.463Z",
+      "firstReportedBy": "Kansas City Chiefs",
+      "sources": [
+        {
+          "id": "0745212d-da14-4251-95b3-4649e42da050",
+          "publisher": "Kansas City Chiefs",
+          "title": "10 Quick Facts Following the Chiefs Week 2 Win Over Indianapolis | Upon Further Review",
+          "url": "https://www.chiefs.com/news/10-quick-facts-following-the-chiefs-week-2-win-over-indianapolis-upon-further-review",
+          "publishedAt": "2026-09-22T13:23:55.000Z",
+          "kind": "official"
+        },
+        {
+          "id": "fa3cbebe-4c74-4c8f-b445-8e60f8c7ff4e",
+          "publisher": "Chiefs.com",
+          "title": "10 Quick Facts Following the Chiefs Week 2 Win Over Indianapolis | Upon Further Review",
+          "url": "https://www.chiefs.com/news/10-quick-facts-following-the-chiefs-week-2-win-over-indianapolis-upon-further-review",
+          "publishedAt": "2026-09-22T13:23:55.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/10-quick-facts-following-the-chiefs-week-2-win-over-indianapolis-upon-further-review",
+          "https://www.chiefs.com/news/10-quick-facts-following-the-chiefs-week-2-win-over-indianapolis-upon-further-review"
+        ],
+        "asOf": "2026-09-22T13:23:55.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "19e2ccd6-f91a-48db-b202-8937d37a6662",
+      "teamAbbr": "KC",
+      "category": "GAME",
+      "headline": "Chiefs Defeat Colts, 33-30, in Overtime Thriller on Sunday Night Football",
+      "summary": "Kansas City moved to 2-0 on Sunday night",
+      "whatHappened": "Kansas City moved to 2-0 on Sunday night",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T15:56:32.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:46.338Z",
+      "firstReportedBy": "Kansas City Chiefs",
+      "sources": [
+        {
+          "id": "f894e430-12f1-4511-960c-6f4cfb95cfe0",
+          "publisher": "Kansas City Chiefs",
+          "title": "Chiefs Defeat Colts, 33-30, in Overtime Thriller on Sunday Night Football",
+          "url": "https://www.chiefs.com/news/chiefs-defeat-colts-33-30-in-overtime-thriller-on-sunday-night-football",
+          "publishedAt": "2026-09-21T15:56:32.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/chiefs-defeat-colts-33-30-in-overtime-thriller-on-sunday-night-football"
+        ],
+        "asOf": "2026-09-21T15:56:32.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "40849d6d-d886-454a-9e7b-ea0994eb73bd",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "How to Watch and Listen | Week 2: Colts vs. Chiefs",
+      "summary": "Here’s how to catch the game on Sunday night",
+      "whatHappened": "Here’s how to catch the game on Sunday night",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:49:28.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T04:00:52.495Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "fd2e68c9-cb9c-43cc-90ba-58897fd2ba04",
+          "publisher": "Chiefs.com",
+          "title": "How to Watch and Listen | Week 2: Colts vs. Chiefs",
+          "url": "https://www.chiefs.com/news/how-to-watch-and-listen-week-2-colts-vs-chiefs",
+          "publishedAt": "2026-09-18T20:49:28.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "f8c721ef-cc0b-44fe-9191-8efcc2dab282",
+          "publisher": "Kansas City Chiefs",
+          "title": "How to Watch and Listen | Week 2: Colts vs. Chiefs",
+          "url": "https://www.chiefs.com/news/how-to-watch-and-listen-week-2-colts-vs-chiefs",
+          "publishedAt": "2026-09-18T20:49:28.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "IND",
+          "rightTeam": "KC",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "IND",
+            "source": "headline",
+            "excerpt": "How to Watch and Listen | Week 2: Colts vs. Chiefs"
+          },
+          {
+            "field": "rightTeam",
+            "value": "KC",
+            "source": "headline",
+            "excerpt": "How to Watch and Listen | Week 2: Colts vs. Chiefs"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/how-to-watch-and-listen-week-2-colts-vs-chiefs",
+          "https://www.chiefs.com/news/how-to-watch-and-listen-week-2-colts-vs-chiefs"
+        ],
+        "asOf": "2026-09-18T20:49:28.000Z"
+      }
+    },
+    {
+      "id": "58e2b849-ab30-4b04-854e-38cf57429ddb",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "Kansas City Chiefs vs Indianapolis Colts: How, When, and Where to watch NFL Week 2?",
+      "summary": "The Chiefs are back at Arrowhead Stadium to host the Colts in Week 2, looking to build on their victory over the Denver Broncos.",
+      "whatHappened": "The Chiefs are back at Arrowhead Stadium to host the Colts in Week 2, looking to build on their victory over the Denver Broncos.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:09:15.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:52.378Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "a826d59f-f897-41dc-b3c6-bc8ea02162a3",
+          "publisher": "Chiefs.com",
+          "title": "Kansas City Chiefs vs Indianapolis Colts: How, When, and Where to watch NFL Week 2?",
+          "url": "https://www.chiefs.com/news/kansas-city-chiefs-vs-indianapolis-colts-how-when-and-where-to-watch-nfl-week-2",
+          "publishedAt": "2026-09-18T15:09:15.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "1d0f2d4d-83e7-44bf-a90e-b1ddc48432f7",
+          "publisher": "Kansas City Chiefs",
+          "title": "Kansas City Chiefs vs Indianapolis Colts: How, When, and Where to watch NFL Week 2?",
+          "url": "https://www.chiefs.com/news/kansas-city-chiefs-vs-indianapolis-colts-how-when-and-where-to-watch-nfl-week-2",
+          "publishedAt": "2026-09-18T15:09:15.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/kansas-city-chiefs-vs-indianapolis-colts-how-when-and-where-to-watch-nfl-week-2",
+          "https://www.chiefs.com/news/kansas-city-chiefs-vs-indianapolis-colts-how-when-and-where-to-watch-nfl-week-2"
+        ],
+        "asOf": "2026-09-18T15:09:15.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6aafab78-c96d-475c-af86-7e956e2095e0",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "Important Fan Information for Sunday Night's Game vs. Indianapolis at Arrowhead Stadium",
+      "summary": "Chiefs vs. Colts, presented by Bud Light, Kicks Off at 7:22 PM",
+      "whatHappened": "Chiefs vs. Colts, presented by Bud Light, Kicks Off at 7:22 PM",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:01:00.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:52.499Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "cdafedf7-bfd8-41e6-86cd-979e37043315",
+          "publisher": "Chiefs.com",
+          "title": "Important Fan Information for Sunday Night's Game vs. Indianapolis at Arrowhead Stadium",
+          "url": "https://www.chiefs.com/news/important-fan-information-for-sunday-night-s-game-vs-indianapolis-at-arrowhead-stadium",
+          "publishedAt": "2026-09-18T14:01:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "de737ebb-b7a7-4135-8d21-24b51146c748",
+          "publisher": "Kansas City Chiefs",
+          "title": "Important Fan Information for Sunday Night's Game vs. Indianapolis at Arrowhead Stadium",
+          "url": "https://www.chiefs.com/news/important-fan-information-for-sunday-night-s-game-vs-indianapolis-at-arrowhead-stadium",
+          "publishedAt": "2026-09-18T14:01:00.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/important-fan-information-for-sunday-night-s-game-vs-indianapolis-at-arrowhead-stadium",
+          "https://www.chiefs.com/news/important-fan-information-for-sunday-night-s-game-vs-indianapolis-at-arrowhead-stadium"
+        ],
+        "asOf": "2026-09-18T14:01:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "70729b4e-27f1-4f81-80e8-3806cc4f5f85",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "Hunt Family Foundation Names Phoenix Family the Next Beneficiary of the Annual Chiefs Charity Game",
+      "summary": "Hunt Family Foundation Names Phoenix Family the Next Beneficiary of the Annual Chiefs Charity Game",
+      "whatHappened": "Hunt Family Foundation Names Phoenix Family the Next Beneficiary of the Annual Chiefs Charity Game",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T19:32:25.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T00:00:56.408Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "a0ea4957-00d5-42fb-ae34-e853a395f381",
+          "publisher": "Chiefs.com",
+          "title": "Hunt Family Foundation Names Phoenix Family the Next Beneficiary of the Annual Chiefs Charity Game",
+          "url": "https://www.chiefs.com/news/hunt-family-foundation-names-phoenix-family-the-next-beneficiary-of-the-annual-chiefs-charity-game",
+          "publishedAt": "2026-09-17T19:32:25.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "68683666-0e47-4e79-9d5c-27251e817229",
+          "publisher": "Kansas City Chiefs",
+          "title": "Hunt Family Foundation Names Phoenix Family the Next Beneficiary of the Annual Chiefs Charity Game",
+          "url": "https://www.chiefs.com/news/hunt-family-foundation-names-phoenix-family-the-next-beneficiary-of-the-annual-chiefs-charity-game",
+          "publishedAt": "2026-09-17T19:32:25.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/hunt-family-foundation-names-phoenix-family-the-next-beneficiary-of-the-annual-chiefs-charity-game",
+          "https://www.chiefs.com/news/hunt-family-foundation-names-phoenix-family-the-next-beneficiary-of-the-annual-chiefs-charity-game"
+        ],
+        "asOf": "2026-09-17T19:32:25.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "88d3770c-9034-4258-823f-2905506fcc69",
+      "teamAbbr": "KC",
+      "category": "INJURY",
+      "headline": "Week 2 Injury Report | Colts vs. Chiefs",
+      "summary": "Injuries for the Chiefs Week 2 matchup against the Indianapolis Colts",
+      "whatHappened": "Injuries for the Chiefs Week 2 matchup against the Indianapolis Colts",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T20:06:34.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T22:25:30.297Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "d16b9431-9775-4612-9a87-748dd4c00919",
+          "publisher": "Chiefs.com",
+          "title": "Week 2 Injury Report | Colts vs. Chiefs",
+          "url": "https://www.chiefs.com/news/2026-week-2-injury-report-colts-vs-chiefs",
+          "publishedAt": "2026-09-16T20:06:34.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "dc48518c-172d-402a-b5a7-d9565d01291e",
+          "publisher": "Kansas City Chiefs",
+          "title": "Week 2 Injury Report | Colts vs. Chiefs",
+          "url": "https://www.chiefs.com/news/2026-week-2-injury-report-colts-vs-chiefs",
+          "publishedAt": "2026-09-16T20:06:34.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/2026-week-2-injury-report-colts-vs-chiefs",
+          "https://www.chiefs.com/news/2026-week-2-injury-report-colts-vs-chiefs"
+        ],
+        "asOf": "2026-09-16T20:06:34.000Z"
+      }
+    },
+    {
+      "id": "1e112fce-8aaa-433c-ba30-6a395deafa12",
+      "teamAbbr": "KC",
+      "category": "COACHING",
+      "headline": "Chiefs Recognize Second Kansas High School Flag Football Coach of the Week",
+      "summary": "Shawnee Mission South High School Head Coach Mark Western Named Week 2 High School Flag Football Coach of the Week",
+      "whatHappened": "Shawnee Mission South High School Head Coach Mark Western Named Week 2 High School Flag Football Coach of the Week",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T20:00:07.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T22:05:33.849Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "0491d23a-e4b3-4c44-9749-c887ef0fae7c",
+          "publisher": "Chiefs.com",
+          "title": "Chiefs Recognize Second Kansas High School Flag Football Coach of the Week",
+          "url": "https://www.chiefs.com/news/chiefs-recognize-second-kansas-high-school-flag-football-coach-of-the-week",
+          "publishedAt": "2026-09-16T20:00:07.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "3f06a82e-256e-43bc-bb3f-0df6244df939",
+          "publisher": "Kansas City Chiefs",
+          "title": "Chiefs Recognize Second Kansas High School Flag Football Coach of the Week",
+          "url": "https://www.chiefs.com/news/chiefs-recognize-second-kansas-high-school-flag-football-coach-of-the-week",
+          "publishedAt": "2026-09-16T20:00:07.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/chiefs-recognize-second-kansas-high-school-flag-football-coach-of-the-week",
+          "https://www.chiefs.com/news/chiefs-recognize-second-kansas-high-school-flag-football-coach-of-the-week"
+        ],
+        "asOf": "2026-09-16T20:00:07.000Z"
+      }
+    },
+    {
+      "id": "e547358a-9e7c-49af-994f-6ae98d3991a8",
+      "teamAbbr": "KC",
+      "category": "COACHING",
+      "headline": "Chiefs Announce High School Coaches of the Week for Second Week of the Season",
+      "summary": "North Kansas City High School Head Coach Dan Joiner and Shawnee Mission North High School Head Coach Danny Long are the Week 2 High School Coaches of the Week for 2026",
+      "whatHappened": "North Kansas City High School Head Coach Dan Joiner and Shawnee Mission North High School Head Coach Danny Long are the Week 2 High School Coaches of the Week for 2026",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T18:30:07.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T21:30:11.842Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "3313a6c7-8c0a-4b8c-8a4d-e20078592713",
+          "publisher": "Chiefs.com",
+          "title": "Chiefs Announce High School Coaches of the Week for Second Week of the Season",
+          "url": "https://www.chiefs.com/news/chiefs-announce-high-school-coaches-of-the-week-for-second-week-of-the-season",
+          "publishedAt": "2026-09-16T18:30:07.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "66bca658-bcc9-4ee2-a02f-979070874880",
+          "publisher": "Kansas City Chiefs",
+          "title": "Chiefs Announce High School Coaches of the Week for Second Week of the Season",
+          "url": "https://www.chiefs.com/news/chiefs-announce-high-school-coaches-of-the-week-for-second-week-of-the-season",
+          "publishedAt": "2026-09-16T18:30:07.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/chiefs-announce-high-school-coaches-of-the-week-for-second-week-of-the-season",
+          "https://www.chiefs.com/news/chiefs-announce-high-school-coaches-of-the-week-for-second-week-of-the-season"
+        ],
+        "asOf": "2026-09-16T18:30:07.000Z"
+      }
+    },
+    {
+      "id": "879cad89-2c1f-4b06-b92e-84a4327651b2",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "Chiefs besiegen Broncos zum Saisonauftakt souverän mit 31:10",
+      "summary": "Chiefs besiegen Broncos zum Saisonauftakt souverän mit 31:10",
+      "whatHappened": "Chiefs besiegen Broncos zum Saisonauftakt souverän mit 31:10",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T16:46:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:00:08.160Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "92951ca3-5e95-450f-b860-08b4be29a1ea",
+          "publisher": "Chiefs.com",
+          "title": "Chiefs besiegen Broncos zum Saisonauftakt souverän mit 31:10",
+          "url": "https://www.chiefs.com/news/chiefs-besiegen-broncos-zum-saisonauftakt-souveraen-mit-31-10",
+          "publishedAt": "2026-09-16T16:46:02.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/chiefs-besiegen-broncos-zum-saisonauftakt-souveraen-mit-31-10"
+        ],
+        "asOf": "2026-09-16T16:46:02.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "cd270907-3ef6-4a92-b86f-bac5a9bf9658",
+      "teamAbbr": "KC",
+      "category": "GAME",
+      "headline": "10 Quick Facts Following the Chiefs Week 1 Win Over Denver | Upon Further Review",
+      "summary": "The Chiefs opened the season with a dominant win on Monday night",
+      "whatHappened": "The Chiefs opened the season with a dominant win on Monday night",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T13:09:19.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T15:30:10.802Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "cc7af321-29c9-434b-9e73-1c60baf07e7f",
+          "publisher": "Chiefs.com",
+          "title": "10 Quick Facts Following the Chiefs Week 1 Win Over Denver | Upon Further Review",
+          "url": "https://www.chiefs.com/news/10-quick-facts-following-the-chiefs-week-1-win-over-denver-upon-further-review",
+          "publishedAt": "2026-09-16T13:09:19.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "313c39e9-9f13-47f2-a724-33d8c3e5074d",
+          "publisher": "Kansas City Chiefs",
+          "title": "10 Quick Facts Following the Chiefs Week 1 Win Over Denver | Upon Further Review",
+          "url": "https://www.chiefs.com/news/10-quick-facts-following-the-chiefs-week-1-win-over-denver-upon-further-review",
+          "publishedAt": "2026-09-16T13:09:19.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/10-quick-facts-following-the-chiefs-week-1-win-over-denver-upon-further-review",
+          "https://www.chiefs.com/news/10-quick-facts-following-the-chiefs-week-1-win-over-denver-upon-further-review"
+        ],
+        "asOf": "2026-09-16T13:09:19.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "3f3c9b19-69ab-4647-8abd-2ce24a544e50",
+      "teamAbbr": "KC",
+      "category": "GAME",
+      "headline": "Chiefs Defeat Broncos in Dominant Fashion, 31-10, to Kick Off Season",
+      "summary": "Kansas City put together a complete team victory on Monday night",
+      "whatHappened": "Kansas City put together a complete team victory on Monday night",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T15:39:44.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T17:50:08.938Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "575b21e3-0c47-4739-a990-80d4a64c18f6",
+          "publisher": "Chiefs.com",
+          "title": "Chiefs Defeat Broncos in Dominant Fashion, 31-10, to Kick Off Season",
+          "url": "https://www.chiefs.com/news/chiefs-defeat-broncos-in-dominant-fashion-31-10-to-kick-off-season",
+          "publishedAt": "2026-09-15T15:39:44.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "24a0c010-eeca-4ece-8a99-9d95467e3e2d",
+          "publisher": "Kansas City Chiefs",
+          "title": "Chiefs Defeat Broncos in Dominant Fashion, 31-10, to Kick Off Season",
+          "url": "https://www.chiefs.com/news/chiefs-defeat-broncos-in-dominant-fashion-31-10-to-kick-off-season",
+          "publishedAt": "2026-09-15T15:39:44.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/chiefs-defeat-broncos-in-dominant-fashion-31-10-to-kick-off-season",
+          "https://www.chiefs.com/news/chiefs-defeat-broncos-in-dominant-fashion-31-10-to-kick-off-season"
+        ],
+        "asOf": "2026-09-15T15:39:44.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "c5d9ae56-c1b2-4e94-ab78-fd97b172b793",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "Kenny Chesney Returns to Stadiums with the All-stadium Original Vibe Tour 2027",
+      "summary": "19 Markets; Kicking off April 24 in Tampa",
+      "whatHappened": "19 Markets; Kicking off April 24 in Tampa",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T13:11:41.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T17:50:09.099Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "0927005a-a6a9-467e-8bf8-0596596ec0d7",
+          "publisher": "Chiefs.com",
+          "title": "Kenny Chesney Returns to Stadiums with the All-stadium Original Vibe Tour 2027",
+          "url": "https://www.chiefs.com/news/kenny-chesney-returns-to-stadiums-with-the-all-stadium-original-vibe-tour-2027",
+          "publishedAt": "2026-09-15T13:11:41.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "3ec0ca58-a1a4-452d-a7ff-7b8bd642b317",
+          "publisher": "Kansas City Chiefs",
+          "title": "Kenny Chesney Returns to Stadiums with the All-stadium Original Vibe Tour 2027",
+          "url": "https://www.chiefs.com/news/kenny-chesney-returns-to-stadiums-with-the-all-stadium-original-vibe-tour-2027",
+          "publishedAt": "2026-09-15T13:11:41.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/kenny-chesney-returns-to-stadiums-with-the-all-stadium-original-vibe-tour-2027",
+          "https://www.chiefs.com/news/kenny-chesney-returns-to-stadiums-with-the-all-stadium-original-vibe-tour-2027"
+        ],
+        "asOf": "2026-09-15T13:11:41.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1633f2e6-7acf-4717-a7e6-3d75eb562791",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "Five Things to Watch on Monday | Broncos vs. Chiefs",
+      "summary": "Here’s a quick game preview heading into Monday night",
+      "whatHappened": "Here’s a quick game preview heading into Monday night",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-13T20:22:13.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-13T22:30:07.629Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "dce59147-ea46-4bf6-a4a8-0c74e1b44c98",
+          "publisher": "Chiefs.com",
+          "title": "Five Things to Watch on Monday | Broncos vs. Chiefs",
+          "url": "https://www.chiefs.com/news/five-things-to-watch-on-monday-broncos-vs-chiefs",
+          "publishedAt": "2026-09-13T20:22:13.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "e7eb3a46-a596-4847-b15e-7230671ef775",
+          "publisher": "Kansas City Chiefs",
+          "title": "Five Things to Watch on Monday | Broncos vs. Chiefs",
+          "url": "https://www.chiefs.com/news/five-things-to-watch-on-monday-broncos-vs-chiefs",
+          "publishedAt": "2026-09-13T20:22:13.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "Five Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Five Things to Watch on Monday | Broncos vs. Chiefs"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/five-things-to-watch-on-monday-broncos-vs-chiefs",
+          "https://www.chiefs.com/news/five-things-to-watch-on-monday-broncos-vs-chiefs"
+        ],
+        "asOf": "2026-09-13T20:22:13.000Z"
+      }
+    },
+    {
+      "id": "4b4742f5-1ec2-4263-8a23-31712b375046",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "How to Watch and Listen | Week 1: Broncos vs. Chiefs",
+      "summary": "Here’s how to catch the season-opener on Monday night",
+      "whatHappened": "Here’s how to catch the season-opener on Monday night",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-13T14:05:20.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-13T16:15:15.251Z",
+      "firstReportedBy": "Chiefs.com",
+      "sources": [
+        {
+          "id": "42b7d79f-a22c-4ffa-9c2b-6d536eee9345",
+          "publisher": "Chiefs.com",
+          "title": "How to Watch and Listen | Week 1: Broncos vs. Chiefs",
+          "url": "https://www.chiefs.com/news/how-to-watch-and-listen-week-1-broncos-vs-chiefs",
+          "publishedAt": "2026-09-13T14:05:20.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "dee836f6-bd4c-4631-9601-d96d1a0e81be",
+          "publisher": "Kansas City Chiefs",
+          "title": "How to Watch and Listen | Week 1: Broncos vs. Chiefs",
+          "url": "https://www.chiefs.com/news/how-to-watch-and-listen-week-1-broncos-vs-chiefs",
+          "publishedAt": "2026-09-13T14:05:20.000Z",
+          "kind": "official"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "DEN",
+          "rightTeam": "KC",
+          "week": "W1"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "DEN",
+            "source": "headline",
+            "excerpt": "How to Watch and Listen | Week 1: Broncos vs. Chiefs"
+          },
+          {
+            "field": "rightTeam",
+            "value": "KC",
+            "source": "headline",
+            "excerpt": "How to Watch and Listen | Week 1: Broncos vs. Chiefs"
+          },
+          {
+            "field": "week",
+            "value": "W1",
+            "source": "headline",
+            "excerpt": "Week 1"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/how-to-watch-and-listen-week-1-broncos-vs-chiefs",
+          "https://www.chiefs.com/news/how-to-watch-and-listen-week-1-broncos-vs-chiefs"
+        ],
+        "asOf": "2026-09-13T14:05:20.000Z"
+      }
+    },
+    {
+      "id": "e9f34b94-992d-4be3-ab0c-c7aeb30c1980",
+      "teamAbbr": "KC",
+      "category": "COACHING",
+      "headline": "Chiefs announce coaching update involving School Coaches",
+      "summary": "Lee's Summit West High School Head Coach Benny Palmer and Olathe Northwest High School Head Coach Lorne Clark are the Week 1 High School Coaches of the Week Desoto High School Head Coach Dustin Parks Named Week 1 High School Flag Football Coach of the Week",
+      "whatHappened": "Lee's Summit West High School Head Coach Benny Palmer and Olathe Northwest High School Head Coach Lorne Clark are the Week 1 High School Coaches of the Week Desoto High School Head Coach Dustin Parks Named Week 1 High School Flag Football Coach of the Week",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-10T22:00:42.000Z",
+      "sourceCount": 4,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-10T23:50:19.831Z",
+      "firstReportedBy": "Kansas City Chiefs",
+      "sources": [
+        {
+          "id": "0adf348e-d324-4494-b275-69028310d9d3",
+          "publisher": "Kansas City Chiefs",
+          "title": "Chiefs announce coaching update involving School Coaches",
+          "url": "https://www.chiefs.com/news/chiefs-announce-high-school-coaches-of-the-week-for-week-one-of-the-2026-season",
+          "publishedAt": "2026-09-10T21:45:12.000Z",
+          "kind": "official"
+        },
+        {
+          "id": "b2db3249-20bb-450a-a80e-e4cd54e2864a",
+          "publisher": "Chiefs.com",
+          "title": "Chiefs announce coaching update involving School Coaches",
+          "url": "https://www.chiefs.com/news/chiefs-announce-high-school-coaches-of-the-week-for-week-one-of-the-2026-season",
+          "publishedAt": "2026-09-10T21:45:12.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "b730c612-158e-469b-bd49-1e876da6be18",
+          "publisher": "Kansas City Chiefs",
+          "title": "Chiefs announce coaching update involving School Coaches",
+          "url": "https://www.chiefs.com/news/chiefs-announce-kansas-high-school-flag-football-coach-of-the-week-for-week-one-of-the-2026-season",
+          "publishedAt": "2026-09-10T22:00:42.000Z",
+          "kind": "official"
+        },
+        {
+          "id": "6396cf1e-bfb0-4c32-8291-6b8942de8996",
+          "publisher": "Chiefs.com",
+          "title": "Chiefs announce coaching update involving School Coaches",
+          "url": "https://www.chiefs.com/news/chiefs-announce-kansas-high-school-flag-football-coach-of-the-week-for-week-one-of-the-2026-season",
+          "publishedAt": "2026-09-10T22:00:42.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/chiefs-announce-high-school-coaches-of-the-week-for-week-one-of-the-2026-season",
+          "https://www.chiefs.com/news/chiefs-announce-high-school-coaches-of-the-week-for-week-one-of-the-2026-season",
+          "https://www.chiefs.com/news/chiefs-announce-kansas-high-school-flag-football-coach-of-the-week-for-week-one-of-the-2026-season",
+          "https://www.chiefs.com/news/chiefs-announce-kansas-high-school-flag-football-coach-of-the-week-for-week-one-of-the-2026-season"
+        ],
+        "asOf": "2026-09-10T22:00:42.000Z"
+      }
+    },
+    {
+      "id": "a486eac2-2e3d-40a6-bd54-e051e4111dba",
+      "teamAbbr": "KC",
+      "category": "INJURY",
+      "headline": "Injury Report injury status updated",
+      "summary": "Injuries for the Chiefs Week 1 matchup against the Denver Broncos The Broncos have listed just one player on their initial practice report of the 2026 season.",
+      "whatHappened": "Injuries for the Chiefs Week 1 matchup against the Denver Broncos The Broncos have listed just one player on their initial practice report of the 2026 season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-10T21:12:00.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-10T23:10:17.091Z",
+      "firstReportedBy": "Kansas City Chiefs",
+      "sources": [
+        {
+          "id": "5d5b9c0a-9dea-4337-8935-051e25514be2",
+          "publisher": "Kansas City Chiefs",
+          "title": "Injury Report injury status updated",
+          "url": "https://www.chiefs.com/news/week-1-injury-report-broncos-vs-chiefs-2026",
+          "publishedAt": "2026-09-10T20:50:03.000Z",
+          "kind": "official"
+        },
+        {
+          "id": "74cbc1a3-662e-4fea-83e4-02ff31047a03",
+          "publisher": "Chiefs.com",
+          "title": "Injury Report injury status updated",
+          "url": "https://www.chiefs.com/news/week-1-injury-report-broncos-vs-chiefs-2026",
+          "publishedAt": "2026-09-10T20:50:03.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "f1b6b494-8cce-49d7-b5af-acbc31bfef60",
+          "publisher": "Official team news",
+          "title": "Injury Report injury status updated",
+          "url": "https://www.denverbroncos.com/news/injuryreport/injury-report-wr-marvin-mims-jr-listed-as-full-participant-ahead-of-week-1-game-vs-chiefs",
+          "publishedAt": "2026-09-10T21:12:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W1",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W1",
+            "source": "summary",
+            "excerpt": "Week 1"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.chiefs.com/news/week-1-injury-report-broncos-vs-chiefs-2026",
+          "https://www.chiefs.com/news/week-1-injury-report-broncos-vs-chiefs-2026",
+          "https://www.denverbroncos.com/news/injuryreport/injury-report-wr-marvin-mims-jr-listed-as-full-participant-ahead-of-week-1-game-vs-chiefs"
+        ],
+        "asOf": "2026-09-10T21:12:00.000Z"
+      }
+    },
+    {
+      "id": "3afcfaa3-1a75-4213-9409-30cdbd492c86",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "Kahlil Benson is one step away from completing his stunning Chiefs rise",
+      "summary": "Kahlil Benson is expected to start at left tackle for the Chiefs in Week 1 with Josh Simmons unlikely to play.",
+      "whatHappened": "Kahlil Benson is expected to start at left tackle for the Chiefs in Week 1 with Josh Simmons unlikely to play.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-08T18:08:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-08T20:45:56.260Z",
+      "firstReportedBy": "Arrowhead Addict",
+      "sources": [
+        {
+          "id": "b81306de-f21c-4324-b5f2-a64a6682771b",
+          "publisher": "Arrowhead Addict",
+          "title": "Kahlil Benson is one step away from completing his stunning Chiefs rise",
+          "url": "https://arrowheadaddict.com/kahlil-benson-one-step-away-from-completing-his-stunning-chiefs-rise",
+          "publishedAt": "2026-09-08T18:08:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://arrowheadaddict.com/kahlil-benson-one-step-away-from-completing-his-stunning-chiefs-rise"
+        ],
+        "asOf": "2026-09-08T18:08:10.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "38a3a889-6a91-44e5-9db9-8b40749fb0ac",
+      "teamAbbr": "KC",
+      "category": "COACHING",
+      "headline": "Chiefs’ Andy Reid says there’s a good chance Josh Simmons misses Week 1",
+      "summary": "With the Kansas City Chiefs starting the 2026 season on “Monday Night Football,” head coach Andy Reid’s weekly Monday press conference shifted to Tuesday ahead of the team’s first practice of the week on Thursday. That also delayed the unfortunate update Reid provided about starting left tackle Josh Simmons (Back), who has missed weeks of […]",
+      "whatHappened": "With the Kansas City Chiefs starting the 2026 season on “Monday Night Football,” head coach Andy Reid’s weekly Monday press conference shifted to Tuesday ahead of the team’s first practice of the week on Thursday. That also delayed the unfortunate update Reid provided about starting left tackle Josh Simmons (Back), who has missed weeks of […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-08T17:52:07.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-08T20:43:29.705Z",
+      "firstReportedBy": "Arrowhead Pride",
+      "sources": [
+        {
+          "id": "80873937-49af-4efe-9470-9d5dc2368f7d",
+          "publisher": "Arrowhead Pride",
+          "title": "Chiefs’ Andy Reid says there’s a good chance Josh Simmons misses Week 1",
+          "url": "https://www.arrowheadpride.com/kansas-city-chiefs-news/209650/andy-reid-good-chance-josh-simmons-misses-week-1",
+          "publishedAt": "2026-09-08T17:52:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.arrowheadpride.com/kansas-city-chiefs-news/209650/andy-reid-good-chance-josh-simmons-misses-week-1"
+        ],
+        "asOf": "2026-09-08T17:52:07.000Z"
+      }
+    },
+    {
+      "id": "c15a2c45-2eed-46e4-be51-08346f887ffd",
+      "teamAbbr": "KC",
+      "category": "ANALYSIS",
+      "headline": "Chiefs fans shouldn't jump to conclusions about Josh Simmons just yet",
+      "summary": "The lack of information surrounding Josh Simmons is understandably creating concern, but Chiefs fans should resist drawing conclusions about his commitment.",
+      "whatHappened": "The lack of information surrounding Josh Simmons is understandably creating concern, but Chiefs fans should resist drawing conclusions about his commitment.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-08T17:30:33.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-08T20:45:56.382Z",
+      "firstReportedBy": "Arrowhead Addict",
+      "sources": [
+        {
+          "id": "78972a4b-56ba-41fd-81b6-b43ddb89604a",
+          "publisher": "Arrowhead Addict",
+          "title": "Chiefs fans shouldn't jump to conclusions about Josh Simmons just yet",
+          "url": "https://arrowheadaddict.com/chiefs-fans-shouldnt-jump-to-conclusions-about-josh-simmons-just-yet",
+          "publishedAt": "2026-09-08T17:30:33.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://arrowheadaddict.com/chiefs-fans-shouldnt-jump-to-conclusions-about-josh-simmons-just-yet"
+        ],
+        "asOf": "2026-09-08T17:30:33.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 146,
+    "totalPages": 8
+  }
+}

@@ -1,0 +1,855 @@
+{
+  "teamAbbr": "PIT",
+  "teamName": "Pittsburgh Steelers",
+  "briefings": [
+    {
+      "id": "389add8f-1e6d-4301-a2db-181053efe150",
+      "teamAbbr": "PIT",
+      "category": "PRACTICE",
+      "headline": "Steelers make roster moves",
+      "summary": "The Steelers made practice squad moves on Tuesday",
+      "whatHappened": "The Steelers made practice squad moves on Tuesday",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:05:46.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T04:00:45.527Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "174cc5b8-f9db-4968-93e5-25a8bf4d8f7a",
+          "publisher": "Official team news",
+          "title": "Steelers make roster moves",
+          "url": "https://www.steelers.com/news/steelers-make-roster-moves-x2199",
+          "publishedAt": "2026-09-22T20:05:46.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "PIT"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "PIT",
+            "source": "canonical",
+            "excerpt": "PIT"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.steelers.com/news/steelers-make-roster-moves-x2199"
+        ],
+        "asOf": "2026-09-22T20:05:46.000Z"
+      }
+    },
+    {
+      "id": "1a683898-a93b-4990-8e4a-008119fa48d7",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Asked and Answered: Sept. 22",
+      "summary": "Harmon had 8 tackles and shared a sack vs. NE",
+      "whatHappened": "Harmon had 8 tackles and shared a sack vs. NE",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T10:05:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T16:00:47.624Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0d71b9ba-e0f3-4f68-98ae-464ed2f30567",
+          "publisher": "Official team news",
+          "title": "Asked and Answered: Sept. 22",
+          "url": "https://www.steelers.com/news/asked-and-answered-sept-22-x3277",
+          "publishedAt": "2026-09-22T10:05:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/asked-and-answered-sept-22-x3277"
+        ],
+        "asOf": "2026-09-22T10:05:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8d2a6df7-1ebb-4957-a39e-68901421f28e",
+      "teamAbbr": "PIT",
+      "category": "COACHING",
+      "headline": "Getting their kicks from distance",
+      "summary": "Coordinators chat about Boswell blasts, pass-rush plans and faith in Metcalf",
+      "whatHappened": "Coordinators chat about Boswell blasts, pass-rush plans and faith in Metcalf",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T00:44:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T18:00:51.387Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b877b96b-716d-4160-8e53-eca71e141d94",
+          "publisher": "Official team news",
+          "title": "Getting their kicks from distance",
+          "url": "https://www.steelers.com/news/getting-their-kicks-from-distance",
+          "publishedAt": "2026-09-22T00:44:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/getting-their-kicks-from-distance"
+        ],
+        "asOf": "2026-09-22T00:44:00.000Z"
+      }
+    },
+    {
+      "id": "359a7303-c5dc-4fdc-9fa0-44a530f975fa",
+      "teamAbbr": "PIT",
+      "category": "COACHING",
+      "headline": "Cleaning things up",
+      "summary": "Head coach Mike McCarthy has corrections to make, but is committed to his offensive philosophies",
+      "whatHappened": "Head coach Mike McCarthy has corrections to make, but is committed to his offensive philosophies",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:03:54.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T18:00:52.827Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "996c63c1-6140-4a9e-8ce6-3856270e7b95",
+          "publisher": "Official team news",
+          "title": "Cleaning things up",
+          "url": "https://www.steelers.com/news/cleaning-things-up",
+          "publishedAt": "2026-09-21T21:03:54.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/cleaning-things-up"
+        ],
+        "asOf": "2026-09-21T21:03:54.000Z"
+      }
+    },
+    {
+      "id": "9ad2a4e5-538e-4830-9063-0cbaa519a39d",
+      "teamAbbr": "PIT",
+      "category": "GAME",
+      "headline": "Labriola on the loss to New England",
+      "summary": "'When the defense holds them to 13, we've got to win the game'",
+      "whatHappened": "'When the defense holds them to 13, we've got to win the game'",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T02:09:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T00:00:43.605Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "de0236f9-a8da-4e56-85da-5b919736da34",
+          "publisher": "Official team news",
+          "title": "Labriola on the loss to New England",
+          "url": "https://www.steelers.com/news/labriola-on-the-loss-to-new-england",
+          "publishedAt": "2026-09-21T02:09:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "recap",
+          "teams": [
+            "PIT"
+          ],
+          "overtime": false
+        },
+        "reason": "Recap without a verified score pair",
+        "displayCategory": "Recap",
+        "evidence": [
+          {
+            "field": "teams.0",
+            "value": "PIT",
+            "source": "canonical",
+            "excerpt": "PIT"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.steelers.com/news/labriola-on-the-loss-to-new-england"
+        ],
+        "asOf": "2026-09-21T02:09:00.000Z"
+      }
+    },
+    {
+      "id": "6a38cd0c-66da-4f27-ace2-74b7da68c02c",
+      "teamAbbr": "PIT",
+      "category": "COACHING",
+      "headline": "From the Press Room: Steelers at Patriots",
+      "summary": "Coach Mike McCarthy, QB Aaron Rodgers and OLB T.J. Watt met with the media at the podium",
+      "whatHappened": "Coach Mike McCarthy, QB Aaron Rodgers and OLB T.J. Watt met with the media at the podium",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T01:45:01.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T04:00:41.906Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "14403d4f-e8cb-44d5-8117-d95fd9fff77c",
+          "publisher": "Official team news",
+          "title": "From the Press Room: Steelers at Patriots",
+          "url": "https://www.steelers.com/news/from-the-press-room-steelers-at-patriots-x8540",
+          "publishedAt": "2026-09-21T01:45:01.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/from-the-press-room-steelers-at-patriots-x8540"
+        ],
+        "asOf": "2026-09-21T01:45:01.000Z"
+      }
+    },
+    {
+      "id": "7356570e-81ab-4eb5-af8f-7486148c2587",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Asked and Answered: Sept. 20",
+      "summary": "Rodgers: 'I'm not worried about DK at all, man'",
+      "whatHappened": "Rodgers: 'I'm not worried about DK at all, man'",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T13:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T16:00:45.511Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5e9c449f-e9fb-44df-a399-12667740b6d4",
+          "publisher": "Official team news",
+          "title": "Asked and Answered: Sept. 20",
+          "url": "https://www.steelers.com/news/asked-and-answered-sept-20-x1274",
+          "publishedAt": "2026-09-20T13:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/asked-and-answered-sept-20-x1274"
+        ],
+        "asOf": "2026-09-20T13:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8df3eafc-022b-49c7-9297-e02180243c24",
+      "teamAbbr": "PIT",
+      "category": "PRACTICE",
+      "headline": "Steelers make roster moves ahead of Patriots game",
+      "summary": "The Steelers made multiple practice squad elevations prior to taking on the Patriots at Gillette Stadium",
+      "whatHappened": "The Steelers made multiple practice squad elevations prior to taking on the Patriots at Gillette Stadium",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T19:01:07.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.018Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c99bf059-7823-439a-a90d-d2fe6fb67aad",
+          "publisher": "Official team news",
+          "title": "Steelers make roster moves ahead of Patriots game",
+          "url": "https://www.steelers.com/news/steelers-make-roster-moves-ahead-of-patriots-game",
+          "publishedAt": "2026-09-19T19:01:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "PIT"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "PIT",
+            "source": "canonical",
+            "excerpt": "PIT"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.steelers.com/news/steelers-make-roster-moves-ahead-of-patriots-game"
+        ],
+        "asOf": "2026-09-19T19:01:07.000Z"
+      }
+    },
+    {
+      "id": "85e2097c-d900-4e6c-8d97-1dbf5297b430",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "WATCH: SNR Drive (All Episodes from Week of September 14)",
+      "summary": "Matt Williamson & Wes Uhler recaps Week 1 and get you ready for the Steelers Week 2 game vs. the Patriots",
+      "whatHappened": "Matt Williamson & Wes Uhler recaps Week 1 and get you ready for the Steelers Week 2 game vs. the Patriots",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T13:37:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.318Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "711d7b88-173d-4a40-a06e-f6c6f374a6fd",
+          "publisher": "Official team news",
+          "title": "WATCH: SNR Drive (All Episodes from Week of September 14)",
+          "url": "https://www.steelers.com/news/watch-snr-drive-all-episodes-from-week-of-september-14",
+          "publishedAt": "2026-09-19T13:37:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/watch-snr-drive-all-episodes-from-week-of-september-14"
+        ],
+        "asOf": "2026-09-19T13:37:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "4b7f9f29-3335-49ff-89a1-3563f5529024",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Four-Down Territory: The simple math of defense",
+      "summary": "Steelers defensive recipe ahead of Patriots, selfless offense and more",
+      "whatHappened": "Steelers defensive recipe ahead of Patriots, selfless offense and more",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T13:00:38.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.448Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "76dfab75-18db-4b42-bd49-3e7a48ad50ab",
+          "publisher": "Official team news",
+          "title": "Four-Down Territory: The simple math of defense",
+          "url": "https://www.steelers.com/news/four-down-territory-the-simple-math-of-defense",
+          "publishedAt": "2026-09-19T13:00:38.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/four-down-territory-the-simple-math-of-defense"
+        ],
+        "asOf": "2026-09-19T13:00:38.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "5c850262-2c8c-4666-9b7f-45de06102a27",
+      "teamAbbr": "PIT",
+      "category": "COACHING",
+      "headline": "Superstars meet a 'super power'",
+      "summary": "Defensive collaboration off to a good start with players and coaches",
+      "whatHappened": "Defensive collaboration off to a good start with players and coaches",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:40:42.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T02:00:56.461Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d1d966f7-5e09-44d7-8078-699872d2c005",
+          "publisher": "Official team news",
+          "title": "Superstars meet a 'super power'",
+          "url": "https://www.steelers.com/news/superstars-meet-a-super-power",
+          "publishedAt": "2026-09-18T19:40:42.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/superstars-meet-a-super-power"
+        ],
+        "asOf": "2026-09-18T19:40:42.000Z"
+      }
+    },
+    {
+      "id": "c6acdcb4-b98f-4349-8158-28aa7db4a6e6",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Matt's Stats: Week 2 at Patriots",
+      "summary": "Matt Williamson gets you up to speed on the Steelers' Week 2 matchup with New England",
+      "whatHappened": "Matt Williamson gets you up to speed on the Steelers' Week 2 matchup with New England",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T14:00:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:10:31.757Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b4b2dd6f-adfa-46f3-b409-17cb16270208",
+          "publisher": "Official team news",
+          "title": "Matt's Stats: Week 2 at Patriots",
+          "url": "https://www.steelers.com/news/matt-s-stats-week-2-at-patriots",
+          "publishedAt": "2026-09-17T14:00:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/matt-s-stats-week-2-at-patriots"
+        ],
+        "asOf": "2026-09-17T14:00:10.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "bb8f151f-6a62-4c90-b829-b35e8ff6aa32",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Asked and Answered: Sept. 17",
+      "summary": "Watt lined up on each end of the line of scrimmage vs. Atlanta",
+      "whatHappened": "Watt lined up on each end of the line of scrimmage vs. Atlanta",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T10:05:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T12:15:30.105Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3659e492-cc02-445e-9a9f-4492a21dfe1a",
+          "publisher": "Official team news",
+          "title": "Asked and Answered: Sept. 17",
+          "url": "https://www.steelers.com/news/asked-and-answered-sept-17-x9236",
+          "publishedAt": "2026-09-17T10:05:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/asked-and-answered-sept-17-x9236"
+        ],
+        "asOf": "2026-09-17T10:05:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f723cd92-eaa8-41b2-aa9b-d86676335908",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Week 2 Blog: Throw your hands in the air",
+      "summary": "All the news and notes as the Steelers prepare to take on the New England Patriots",
+      "whatHappened": "All the news and notes as the Steelers prepare to take on the New England Patriots",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T21:15:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T23:35:29.803Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "55a5d4b0-dab0-46ba-8475-27b7c8b8bfca",
+          "publisher": "Official team news",
+          "title": "Week 2 Blog: Throw your hands in the air",
+          "url": "https://www.steelers.com/news/week-2-blog-throw-your-hands-in-the-air",
+          "publishedAt": "2026-09-16T21:15:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/week-2-blog-throw-your-hands-in-the-air"
+        ],
+        "asOf": "2026-09-16T21:15:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "eb22f5a6-878e-449c-997c-ba1f67bbe7e9",
+      "teamAbbr": "PIT",
+      "category": "INJURY",
+      "headline": "Week 2 Injury Report (Patriots)",
+      "summary": "A look at player injuries and practice participation for Week 2 The New England Patriots and the Pittsburgh Steelers announce the following player injuries and practice participation ahead of their Week 2 game.",
+      "whatHappened": "A look at player injuries and practice participation for Week 2 The New England Patriots and the Pittsburgh Steelers announce the following player injuries and practice participation ahead of their Week 2 game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T20:19:00.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-16T22:25:30.432Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a6448198-aa41-4a60-88f1-a8fd44b90eeb",
+          "publisher": "Official team news",
+          "title": "Week 2 Injury Report (Patriots)",
+          "url": "https://www.steelers.com/news/week-2-injury-report-patriots-x4998",
+          "publishedAt": "2026-09-16T20:00:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "ca034cb6-4fb3-4b59-8853-63d3fa9c12c9",
+          "publisher": "Official team news",
+          "title": "Week 2 Injury Report (Patriots)",
+          "url": "https://www.patriots.com/news/week-2-injury-report-patriots-vs-steelers",
+          "publishedAt": "2026-09-16T20:19:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.steelers.com/news/week-2-injury-report-patriots-x4998",
+          "https://www.patriots.com/news/week-2-injury-report-patriots-vs-steelers"
+        ],
+        "asOf": "2026-09-16T20:19:00.000Z"
+      }
+    },
+    {
+      "id": "e05e2d11-6360-4542-84d0-c09cb991cac6",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Rodgers feels fresh coming out of Week 1",
+      "summary": "Quarterback encouraged by how his body, not just the right arm, has responded to this point in the season",
+      "whatHappened": "Quarterback encouraged by how his body, not just the right arm, has responded to this point in the season",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T20:00:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T22:05:33.778Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "2247a909-7c51-41ee-b007-dbc52f942ea5",
+          "publisher": "Official team news",
+          "title": "Rodgers feels fresh coming out of Week 1",
+          "url": "https://www.steelers.com/news/rodgers-feels-fresh-coming-out-of-week-1",
+          "publishedAt": "2026-09-16T20:00:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/rodgers-feels-fresh-coming-out-of-week-1"
+        ],
+        "asOf": "2026-09-16T20:00:43.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e44964bc-e797-424e-8b9f-f03f2771ea09",
+      "teamAbbr": "PIT",
+      "category": "COACHING",
+      "headline": "In-season process hits 'Opponent Wednesday'",
+      "summary": "Head coach Mike McCarthy explains how he goes about turning the page",
+      "whatHappened": "Head coach Mike McCarthy explains how he goes about turning the page",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T18:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T20:20:06.325Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "60b53c5e-9a09-4111-a980-8ecac25eaf43",
+          "publisher": "Official team news",
+          "title": "In-season process hits 'Opponent Wednesday'",
+          "url": "https://www.steelers.com/news/in-season-process-hits-opponent-wednesday",
+          "publishedAt": "2026-09-16T18:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/in-season-process-hits-opponent-wednesday"
+        ],
+        "asOf": "2026-09-16T18:00:00.000Z"
+      }
+    },
+    {
+      "id": "a8437ac4-d29a-4be3-bddc-f379a19379dc",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Watt win Week 1 AFC honor",
+      "summary": "T.J. Watt is the AFC Defensive Player of the Week",
+      "whatHappened": "T.J. Watt is the AFC Defensive Player of the Week",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T16:03:24.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T18:25:06.983Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5f11f732-5045-48f3-847f-ed1ecef6df6f",
+          "publisher": "Official team news",
+          "title": "Watt win Week 1 AFC honor",
+          "url": "https://www.steelers.com/news/watt-win-week-1-afc-honor",
+          "publishedAt": "2026-09-16T16:03:24.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/watt-win-week-1-afc-honor"
+        ],
+        "asOf": "2026-09-16T16:03:24.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2a5f9bb7-61cf-4265-a003-3c528b4086c8",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Steelers at Patriots: How to watch/listen to the game",
+      "summary": "Complete coverage of how to watch, listen and live stream the Steelers' Week 2 matchup with the New England Patriots",
+      "whatHappened": "Complete coverage of how to watch, listen and live stream the Steelers' Week 2 matchup with the New England Patriots",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T16:31:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T18:50:05.847Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3489358f-bfd2-4b2c-8d09-2b3a7f3ebf07",
+          "publisher": "Official team news",
+          "title": "Steelers at Patriots: How to watch/listen to the game",
+          "url": "https://www.steelers.com/news/steelers-at-patriots-how-to-watch-listen-to-the-game-x3950",
+          "publishedAt": "2026-09-15T16:31:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "PIT",
+          "rightTeam": "NE",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "PIT",
+            "source": "headline",
+            "excerpt": "Steelers at Patriots: How to watch/listen to the game"
+          },
+          {
+            "field": "rightTeam",
+            "value": "NE",
+            "source": "headline",
+            "excerpt": "Steelers at Patriots: How to watch/listen to the game"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "summary",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.steelers.com/news/steelers-at-patriots-how-to-watch-listen-to-the-game-x3950"
+        ],
+        "asOf": "2026-09-15T16:31:00.000Z"
+      }
+    },
+    {
+      "id": "682cdc28-b4cf-4983-b2ad-fa86ecc56506",
+      "teamAbbr": "PIT",
+      "category": "ANALYSIS",
+      "headline": "Asked and Answered: Sept. 15",
+      "summary": "The running game was below the line statistically vs. Atlanta",
+      "whatHappened": "The running game was below the line statistically vs. Atlanta",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T10:05:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T13:50:06.893Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4028439f-da18-4dfc-80ef-73d36ed09531",
+          "publisher": "Official team news",
+          "title": "Asked and Answered: Sept. 15",
+          "url": "https://www.steelers.com/news/asked-and-answered-sept-15-x0449",
+          "publishedAt": "2026-09-15T10:05:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.steelers.com/news/asked-and-answered-sept-15-x0449"
+        ],
+        "asOf": "2026-09-15T10:05:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 55,
+    "totalPages": 3
+  }
+}

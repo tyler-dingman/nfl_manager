@@ -1,0 +1,22 @@
+BEGIN;
+-- Reuse the game records already referenced by historical player/team statistics.
+ALTER TABLE historical_games DROP CONSTRAINT IF EXISTS historical_games_season_type_check;
+ALTER TABLE historical_games ADD CONSTRAINT historical_games_season_type_check CHECK (season_type IN ('PRE','REG','POST'));
+ALTER TABLE historical_games ADD COLUMN IF NOT EXISTS espn_event_id text;
+ALTER TABLE historical_games ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'SCHEDULED' CHECK (status IN ('SCHEDULED','LIVE','FINAL','POSTPONED','CANCELED'));
+ALTER TABLE historical_games ADD COLUMN IF NOT EXISTS overtime boolean NOT NULL DEFAULT false;
+ALTER TABLE historical_games ADD COLUMN IF NOT EXISTS venue text;
+ALTER TABLE historical_games ADD COLUMN IF NOT EXISTS broadcast_network text;
+ALTER TABLE historical_games ADD COLUMN IF NOT EXISTS kickoff_confirmed boolean NOT NULL DEFAULT true;
+UPDATE historical_games SET status='FINAL' WHERE home_score IS NOT NULL AND away_score IS NOT NULL AND status='SCHEDULED';
+CREATE UNIQUE INDEX IF NOT EXISTS historical_games_identity_idx ON historical_games(season,season_type,week,home_team_id,away_team_id);
+CREATE UNIQUE INDEX IF NOT EXISTS historical_games_espn_idx ON historical_games(espn_event_id) WHERE espn_event_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS historical_games_season_week_idx ON historical_games(season,week);
+CREATE INDEX IF NOT EXISTS historical_games_home_idx ON historical_games(home_team_id);
+CREATE INDEX IF NOT EXISTS historical_games_away_idx ON historical_games(away_team_id);
+CREATE INDEX IF NOT EXISTS historical_games_kickoff_idx ON historical_games(kickoff_at);
+CREATE INDEX IF NOT EXISTS historical_games_status_idx ON historical_games(status);
+ALTER TABLE canonical_stories ADD COLUMN IF NOT EXISTS game_id uuid REFERENCES historical_games(id);
+ALTER TABLE canonical_stories ADD COLUMN IF NOT EXISTS game_resolution jsonb;
+CREATE INDEX IF NOT EXISTS canonical_stories_game_idx ON canonical_stories(game_id);
+COMMIT;

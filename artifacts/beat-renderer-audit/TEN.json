@@ -1,0 +1,974 @@
+{
+  "teamAbbr": "TEN",
+  "teamName": "Tennessee Titans",
+  "briefings": [
+    {
+      "id": "32301a5d-68b9-43b7-8cf6-2e3d22ddbb28",
+      "teamAbbr": "TEN",
+      "category": "COACHING",
+      "headline": "Hot Topics From Titans HC Robert Saleh's Zoom Call on Monday",
+      "summary": "Titans coach Robert Saleh conducted a zoom conference call with reporters on Monday, one day after the team's 24-20 loss to the Philadelphia Eagles.",
+      "whatHappened": "Titans coach Robert Saleh conducted a zoom conference call with reporters on Monday, one day after the team's 24-20 loss to the Philadelphia Eagles.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T14:54:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T22:00:39.402Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a523dda8-3f85-4d7f-b924-db047df35ea5",
+          "publisher": "Official team news",
+          "title": "Hot Topics From Titans HC Robert Saleh's Zoom Call on Monday",
+          "url": "https://www.tennesseetitans.com/news/hot-topics-from-titans-hc-robert-saleh-s-zoom-call-on-monday-x3451",
+          "publishedAt": "2026-09-21T14:54:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/hot-topics-from-titans-hc-robert-saleh-s-zoom-call-on-monday-x3451"
+        ],
+        "asOf": "2026-09-21T14:54:12.000Z"
+      }
+    },
+    {
+      "id": "db4a8d36-cbb4-4cff-90c1-b85f7dc9982c",
+      "teamAbbr": "TEN",
+      "category": "GAME",
+      "headline": "Six Things That Stood Out for the Titans in Sunday's 24-20 Loss to the Eagles",
+      "summary": "Senior Writer and Editor Jim Wyatt takes a look at six things that stood out from Sunday's game.",
+      "whatHappened": "Senior Writer and Editor Jim Wyatt takes a look at six things that stood out from Sunday's game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:03:15.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T14:00:47.366Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3b0d4bd0-ee05-449d-87cc-2735ecf4f41a",
+          "publisher": "Official team news",
+          "title": "Six Things That Stood Out for the Titans in Sunday's 24-20 Loss to the Eagles",
+          "url": "https://www.tennesseetitans.com/news/six-things-that-stood-out-for-the-titans-in-sunday-s-24-20-loss-to-the-eagles",
+          "publishedAt": "2026-09-20T23:03:15.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "6",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "6",
+            "source": "headline",
+            "excerpt": "Six Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Six Things That Stood Out for the Titans in Sunday's 24-20 Loss to the Eagles"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/six-things-that-stood-out-for-the-titans-in-sunday-s-24-20-loss-to-the-eagles"
+        ],
+        "asOf": "2026-09-20T23:03:15.000Z"
+      }
+    },
+    {
+      "id": "4a9d642e-1097-4d81-8d1f-8f38972742ed",
+      "teamAbbr": "TEN",
+      "category": "ANALYSIS",
+      "headline": "Weekend Mailbag: Jim Wyatt Answers Questions From Titans Fans Ahead of Sunday's Game vs the Eagles",
+      "summary": "Senior Writer and Editor Jim Wyatt tackles another batch of questions from Titans fans.",
+      "whatHappened": "Senior Writer and Editor Jim Wyatt tackles another batch of questions from Titans fans.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T03:20:11.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.593Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b3615e0b-da44-48b5-9736-c4f8acf7829d",
+          "publisher": "Official team news",
+          "title": "Weekend Mailbag: Jim Wyatt Answers Questions From Titans Fans Ahead of Sunday's Game vs the Eagles",
+          "url": "https://www.tennesseetitans.com/news/weekend-mailbag-jim-wyatt-answers-questions-from-titans-fans-ahead-of-sunday-s-game-vs-the-eagles",
+          "publishedAt": "2026-09-19T03:20:11.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/weekend-mailbag-jim-wyatt-answers-questions-from-titans-fans-ahead-of-sunday-s-game-vs-the-eagles"
+        ],
+        "asOf": "2026-09-19T03:20:11.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2084e06e-2ad5-4d9f-b081-fa90a4f4f1f5",
+      "teamAbbr": "TEN",
+      "category": "PRACTICE",
+      "headline": "Quick Hits on the Titans from Wednesday of Eagles Week",
+      "summary": "The Titans returned to the practice field on Wednesday at Vanderbilt Health Football Center to continue preparations for Sunday's game vs the Philadelphia Eagles. The Titans returned to the practice field on Thursday at Vanderbilt Health Football Center to continue preparations for Sunday's game vs the Philadelphia Eagles. The Titans returned to the practice field on Friday at Vanderbilt Health Football Center to continue preparations for Sunday's game vs the Philadelphia Eagles.",
+      "whatHappened": "The Titans returned to the practice field on Wednesday at Vanderbilt Health Football Center to continue preparations for Sunday's game vs the Philadelphia Eagles. The Titans returned to the practice field on Thursday at Vanderbilt Health Football Center to continue preparations for Sunday's game vs the Philadelphia Eagles.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:16:54.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-16T22:45:37.580Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e9f8585f-7fd5-4806-a898-0f05f778a4c2",
+          "publisher": "Official team news",
+          "title": "Quick Hits on the Titans from Wednesday of Eagles Week",
+          "url": "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-wednesday-of-eagles-week",
+          "publishedAt": "2026-09-16T20:35:51.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "dfc1e04e-cab7-4362-8bc1-bc61b24a0abb",
+          "publisher": "Official team news",
+          "title": "Quick Hits on the Titans from Wednesday of Eagles Week",
+          "url": "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-thursday-of-eagles-week-x3921",
+          "publishedAt": "2026-09-17T17:57:43.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "ba4a0675-3198-4689-a026-4f9624df750b",
+          "publisher": "Official team news",
+          "title": "Quick Hits on the Titans from Wednesday of Eagles Week",
+          "url": "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-friday-of-eagles-week-x7836",
+          "publishedAt": "2026-09-18T18:16:54.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-wednesday-of-eagles-week",
+          "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-thursday-of-eagles-week-x3921",
+          "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-friday-of-eagles-week-x7836"
+        ],
+        "asOf": "2026-09-18T18:16:54.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "772f9f12-b93e-4a33-96df-cdfce7d1bf2c",
+      "teamAbbr": "TEN",
+      "category": "ANALYSIS",
+      "headline": "Six Things to Watch for the Titans in Sunday's Game vs the Eagles",
+      "summary": "Senior Writer and Editor Jim Wyatt takes a look at six things to watch in Sunday's game vs the Eagles.",
+      "whatHappened": "Senior Writer and Editor Jim Wyatt takes a look at six things to watch in Sunday's game vs the Eagles.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T12:57:48.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:46.832Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "bbd98419-4437-4dd2-a9ec-ca784e30e332",
+          "publisher": "Official team news",
+          "title": "Six Things to Watch for the Titans in Sunday's Game vs the Eagles",
+          "url": "https://www.tennesseetitans.com/news/six-things-to-watch-for-the-titans-in-sunday-s-game-vs-the-eagles-x2803",
+          "publishedAt": "2026-09-18T12:57:48.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "6",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "6",
+            "source": "headline",
+            "excerpt": "Six Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Six Things to Watch for the Titans in Sunday's Game vs the Eagles"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/six-things-to-watch-for-the-titans-in-sunday-s-game-vs-the-eagles-x2803"
+        ],
+        "asOf": "2026-09-18T12:57:48.000Z"
+      }
+    },
+    {
+      "id": "53ccad4e-c226-49ea-a2bc-c1e03c5b5216",
+      "teamAbbr": "TEN",
+      "category": "INJURY",
+      "headline": "Week 2 Injury Report | Titans vs Eagles",
+      "summary": "Who's in, who's out for the Titans in Week 2 vs the Philadelphia Eagles",
+      "whatHappened": "Who's in, who's out for the Titans in Week 2 vs the Philadelphia Eagles",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T20:00:44.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T22:05:33.684Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e80e49c8-25e5-4f76-a8e3-82d90ffc7df1",
+          "publisher": "Official team news",
+          "title": "Week 2 Injury Report | Titans vs Eagles",
+          "url": "https://www.tennesseetitans.com/news/week-2-injury-report-titans-vs-eagles",
+          "publishedAt": "2026-09-16T20:00:44.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/week-2-injury-report-titans-vs-eagles"
+        ],
+        "asOf": "2026-09-16T20:00:44.000Z"
+      }
+    },
+    {
+      "id": "eaa0e36c-b764-4899-bb8e-6d1c6bd9541f",
+      "teamAbbr": "TEN",
+      "category": "ANALYSIS",
+      "headline": "Titans QB Cam Ward Remains Confident, Vows to Keep Working to Improve",
+      "summary": "Ward was 19-of-32 in Sunday’s season opener vs the Jets, with a passer rating of 80.2. Ward also tucked the ball four times and ran with it, totaling 21 yards.",
+      "whatHappened": "Ward was 19-of-32 in Sunday’s season opener vs the Jets, with a passer rating of 80.2. Ward also tucked the ball four times and ran with it, totaling 21 yards.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:51:55.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T20:05:04.789Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4e1577c4-0463-495a-ad9c-7fdf3da3ba80",
+          "publisher": "Official team news",
+          "title": "Titans QB Cam Ward Remains Confident, Vows to Keep Working to Improve",
+          "url": "https://www.tennesseetitans.com/news/titans-qb-cam-ward-remains-confident-vows-to-keep-working-to-improve",
+          "publishedAt": "2026-09-16T17:51:55.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/titans-qb-cam-ward-remains-confident-vows-to-keep-working-to-improve"
+        ],
+        "asOf": "2026-09-16T17:51:55.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "35527b6c-b138-4118-9bd2-9174acb476e6",
+      "teamAbbr": "TEN",
+      "category": "GAME",
+      "headline": "Tuesday Mailbag: Jim Wyatt Answers Questions From Titans Fans After the Season Opener",
+      "summary": "Senior Writer and Editor Jim Wyatt tackles a big batch of questions from Titans fans after the 23-10 loss to Jets.",
+      "whatHappened": "Senior Writer and Editor Jim Wyatt tackles a big batch of questions from Titans fans after the 23-10 loss to Jets.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T13:51:47.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T16:10:11.214Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3b288551-f4ea-4486-bf41-fb91e00f69ae",
+          "publisher": "Official team news",
+          "title": "Tuesday Mailbag: Jim Wyatt Answers Questions From Titans Fans After the Season Opener",
+          "url": "https://www.tennesseetitans.com/news/tuesday-mailbag-jim-wyatt-answers-questions-from-titans-fans-after-the-season-opener",
+          "publishedAt": "2026-09-15T13:51:47.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/tuesday-mailbag-jim-wyatt-answers-questions-from-titans-fans-after-the-season-opener"
+        ],
+        "asOf": "2026-09-15T13:51:47.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "b058af6a-b2aa-43e1-9377-7cbe73c7488d",
+      "teamAbbr": "TEN",
+      "category": "GAME",
+      "headline": "Hot Topics From Titans HC Robert Saleh's Zoom Call on Monday",
+      "summary": "Saleh conducted a zoom conference call with reporters on Monday morning, one day after the team's 23-10 season opening loss to the New York Jets.",
+      "whatHappened": "Saleh conducted a zoom conference call with reporters on Monday morning, one day after the team's 23-10 season opening loss to the New York Jets.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T14:31:18.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T16:40:14.209Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "30da37fe-4910-4892-bb92-10bc3aace6a9",
+          "publisher": "Official team news",
+          "title": "Hot Topics From Titans HC Robert Saleh's Zoom Call on Monday",
+          "url": "https://www.tennesseetitans.com/news/hot-topics-from-titans-hc-robert-saleh-s-zoom-call-on-monday-x2613",
+          "publishedAt": "2026-09-14T14:31:18.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/hot-topics-from-titans-hc-robert-saleh-s-zoom-call-on-monday-x2613"
+        ],
+        "asOf": "2026-09-14T14:31:18.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "7067610e-6159-4310-b2a6-ad7c9b70cf20",
+      "teamAbbr": "TEN",
+      "category": "GAME",
+      "headline": "Six Things That Stood Out for the Titans in Sunday's 23-10 Loss to the Jets",
+      "summary": "Senior Writer and Editor Jim Wyatt takes a look at six things that stood out from Sunday's game.",
+      "whatHappened": "Senior Writer and Editor Jim Wyatt takes a look at six things that stood out from Sunday's game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-13T22:43:37.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T01:00:20.737Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "37df2a30-16d8-4fe3-b745-fff85cb92b4d",
+          "publisher": "Official team news",
+          "title": "Six Things That Stood Out for the Titans in Sunday's 23-10 Loss to the Jets",
+          "url": "https://www.tennesseetitans.com/news/six-things-that-stood-out-for-the-titans-in-sunday-s-23-10-loss-to-the-jets",
+          "publishedAt": "2026-09-13T22:43:37.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "6",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "6",
+            "source": "headline",
+            "excerpt": "Six Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Six Things That Stood Out for the Titans in Sunday's 23-10 Loss to the Jets"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/six-things-that-stood-out-for-the-titans-in-sunday-s-23-10-loss-to-the-jets"
+        ],
+        "asOf": "2026-09-13T22:43:37.000Z"
+      }
+    },
+    {
+      "id": "10a40ce1-c266-487c-a615-320a6c849094",
+      "teamAbbr": "TEN",
+      "category": "ANALYSIS",
+      "headline": "Titans Drop Season Opener to Jets, 23-10",
+      "summary": "On a steamy day at Nissan Stadium, the Titans didn’t do much right in a frustrating performance against the Jets.",
+      "whatHappened": "On a steamy day at Nissan Stadium, the Titans didn’t do much right in a frustrating performance against the Jets.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-13T20:02:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-13T22:15:07.480Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9c81d775-86de-46ce-b4e6-fc25416fcc42",
+          "publisher": "Official team news",
+          "title": "Titans Drop Season Opener to Jets, 23-10",
+          "url": "https://www.tennesseetitans.com/news/titans-drop-season-opener-to-jets-23-10",
+          "publishedAt": "2026-09-13T20:02:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/titans-drop-season-opener-to-jets-23-10"
+        ],
+        "asOf": "2026-09-13T20:02:03.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "fca0e51f-59af-413e-9e11-965849da056e",
+      "teamAbbr": "TEN",
+      "category": "ANALYSIS",
+      "headline": "Game Inactives | Week 1 Titans vs Jets",
+      "summary": "The Titans and Jets, two of the eight original American Football League franchises, renew their rivalry for the 48th time.",
+      "whatHappened": "The Titans and Jets, two of the eight original American Football League franchises, renew their rivalry for the 48th time.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-13T15:33:44.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-13T17:50:07.281Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d2ac3300-1e16-4964-a83c-e4d40bf153ca",
+          "publisher": "Official team news",
+          "title": "Game Inactives | Week 1 Titans vs Jets",
+          "url": "https://www.tennesseetitans.com/news/game-inactives-week-1-titans-vs-jets",
+          "publishedAt": "2026-09-13T15:33:44.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W1",
+          "rows": [],
+          "detail": "INACTIVE\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W1",
+            "source": "headline",
+            "excerpt": "Week 1"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/game-inactives-week-1-titans-vs-jets"
+        ],
+        "asOf": "2026-09-13T15:33:44.000Z"
+      }
+    },
+    {
+      "id": "5cbd3f98-3db1-4a7e-9674-aec449919ab0",
+      "teamAbbr": "TEN",
+      "category": "ANALYSIS",
+      "headline": "New York Jets vs. Tennessee Titans: How to Watch, Listen and Live Stream",
+      "summary": "Complete broadcast information for this week's game between the Tennessee Titans and the New York Jets",
+      "whatHappened": "Complete broadcast information for this week's game between the Tennessee Titans and the New York Jets",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-13T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-13T16:30:09.910Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a9f6fbfb-271e-467c-97b6-9d3be76a5ae1",
+          "publisher": "Official team news",
+          "title": "New York Jets vs. Tennessee Titans: How to Watch, Listen and Live Stream",
+          "url": "https://www.tennesseetitans.com/news/new-york-jets-vs-tennessee-titans-how-to-watch-listen-and-live-stream-x8862",
+          "publishedAt": "2026-09-13T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "NYJ",
+          "rightTeam": "TEN"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "NYJ",
+            "source": "headline",
+            "excerpt": "New York Jets vs. Tennessee Titans: How to Watch, Listen and Live Stream"
+          },
+          {
+            "field": "rightTeam",
+            "value": "TEN",
+            "source": "headline",
+            "excerpt": "New York Jets vs. Tennessee Titans: How to Watch, Listen and Live Stream"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/new-york-jets-vs-tennessee-titans-how-to-watch-listen-and-live-stream-x8862"
+        ],
+        "asOf": "2026-09-13T14:00:00.000Z"
+      }
+    },
+    {
+      "id": "7c80bf5e-7436-4e06-a273-ce0ac7674346",
+      "teamAbbr": "TEN",
+      "category": "ANALYSIS",
+      "headline": "Weekend Mailbag: Jim Wyatt Answers Questions From Titans Fans Heading Into Sunday's Game vs the Jets",
+      "summary": "Senior Writer and Editor Jim Wyatt tackles another batch of questions from Titans fans ahead of the season opener.",
+      "whatHappened": "Senior Writer and Editor Jim Wyatt tackles another batch of questions from Titans fans ahead of the season opener.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-12T14:14:55.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-12T16:20:17.290Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "810ea784-888e-49f5-ac67-1b24b69de2a0",
+          "publisher": "Official team news",
+          "title": "Weekend Mailbag: Jim Wyatt Answers Questions From Titans Fans Heading Into Sunday's Game vs the Jets",
+          "url": "https://www.tennesseetitans.com/news/weekend-mailbag-jim-wyatt-answers-questions-from-titans-fans-heading-into-sunday-s-game-vs-the-jets",
+          "publishedAt": "2026-09-12T14:14:55.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/weekend-mailbag-jim-wyatt-answers-questions-from-titans-fans-heading-into-sunday-s-game-vs-the-jets"
+        ],
+        "asOf": "2026-09-12T14:14:55.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2f2592d7-f57b-43b0-b237-6be5f8303e1a",
+      "teamAbbr": "TEN",
+      "category": "RELEASE",
+      "headline": "Titans Claim OL Atonio Mafi Off Waivers, Release OL Garrett Dellinger",
+      "summary": "Mafi, who played at UCLA, was a fifth-round draft pick of the New England Patriots in the 2023 NFL Draft.",
+      "whatHappened": "Mafi, who played at UCLA, was a fifth-round draft pick of the New England Patriots in the 2023 NFL Draft.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-11T21:38:32.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-11T23:45:47.701Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a41b5dad-fbae-4a40-9bcd-7405dc5a338d",
+          "publisher": "Official team news",
+          "title": "Titans Claim OL Atonio Mafi Off Waivers, Release OL Garrett Dellinger",
+          "url": "https://www.tennesseetitans.com/news/titans-claim-ol-atonio-mafi-off-waivers-release-ol-garrett-dellinger",
+          "publishedAt": "2026-09-11T21:38:32.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "TEN",
+          "action": "RELEASED",
+          "name": "OL Garrett"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "OL Garrett",
+            "source": "headline",
+            "excerpt": "Release OL Garrett"
+          },
+          {
+            "field": "action",
+            "value": "RELEASED",
+            "source": "headline",
+            "excerpt": "Release OL Garrett"
+          },
+          {
+            "field": "team",
+            "value": "TEN",
+            "source": "canonical",
+            "excerpt": "TEN"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/titans-claim-ol-atonio-mafi-off-waivers-release-ol-garrett-dellinger"
+        ],
+        "asOf": "2026-09-11T21:38:32.000Z"
+      }
+    },
+    {
+      "id": "7da27872-5433-4c92-a893-fcce3fb460cc",
+      "teamAbbr": "TEN",
+      "category": "PRACTICE",
+      "headline": "Quick Hits on the Titans From Wednesday",
+      "summary": "The Titans returned to the practice field on Wednesday at Vanderbilt Health Football Center to continue preparations for Sunday's season opener vs the New York Jets. The Titans returned to the practice field on Thursday at Vanderbilt Health Football Center to continue preparations for Sunday's season opener vs the New York Jets. The Titans returned to the practice field on Friday at Vanderbilt Health Football Center to continue preparations for Sunday's season opener vs the New York Jets.",
+      "whatHappened": "The Titans returned to the practice field on Wednesday at Vanderbilt Health Football Center to continue preparations for Sunday's season opener vs the New York Jets. The Titans returned to the practice field on Thursday at Vanderbilt Health Football Center to continue preparations for Sunday's season opener vs the New York Jets.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-11T16:35:07.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-10T02:15:19.289Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "64403da1-5a28-4b93-9b2b-1421143381e9",
+          "publisher": "Official team news",
+          "title": "Quick Hits on the Titans From Wednesday",
+          "url": "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-wednesday-x3805",
+          "publishedAt": "2026-09-09T21:09:10.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "86801b28-c6d0-4bbf-a15a-df463c0a387b",
+          "publisher": "Official team news",
+          "title": "Quick Hits on the Titans From Wednesday",
+          "url": "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-thursday-x0055",
+          "publishedAt": "2026-09-10T20:46:15.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "935be345-f415-4c12-ae5a-5ed40d639718",
+          "publisher": "Official team news",
+          "title": "Quick Hits on the Titans From Wednesday",
+          "url": "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-friday-x5997",
+          "publishedAt": "2026-09-11T16:35:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-wednesday-x3805",
+          "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-thursday-x0055",
+          "https://www.tennesseetitans.com/news/quick-hits-on-the-titans-from-friday-x5997"
+        ],
+        "asOf": "2026-09-11T16:35:07.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "994f9813-544c-491f-b269-7c60d602a25b",
+      "teamAbbr": "TEN",
+      "category": "ANALYSIS",
+      "headline": "Six Things to Watch for the Titans in Sunday's Season Opener vs the Jets",
+      "summary": "Senior Writer and Editor Jim Wyatt takes a look at six things to watch in the season opener.",
+      "whatHappened": "Senior Writer and Editor Jim Wyatt takes a look at six things to watch in the season opener.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-11T14:29:49.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-11T16:35:47.112Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6dc48591-3ec2-414b-a9a0-f25eadb24d0c",
+          "publisher": "Official team news",
+          "title": "Six Things to Watch for the Titans in Sunday's Season Opener vs the Jets",
+          "url": "https://www.tennesseetitans.com/news/six-things-to-watch-for-the-titans-in-sunday-s-season-opener-vs-the-jets",
+          "publishedAt": "2026-09-11T14:29:49.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "6",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "6",
+            "source": "headline",
+            "excerpt": "Six Things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Six Things to Watch for the Titans in Sunday's Season Opener vs the Jets"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/six-things-to-watch-for-the-titans-in-sunday-s-season-opener-vs-the-jets"
+        ],
+        "asOf": "2026-09-11T14:29:49.000Z"
+      }
+    },
+    {
+      "id": "9cfc32bc-9152-40e7-8ea5-5b1fcfdea1e4",
+      "teamAbbr": "TEN",
+      "category": "SIGNING",
+      "headline": "Titans Sign CB Jaylon Jones, Waive CB Melvin Smith Jr.",
+      "summary": "Jones, who played at Texas A&M, was a seventh-round draft pick of the Colts in the 2023 NFL Draft and he played from 2023-2025 in Indianapolis.",
+      "whatHappened": "Jones, who played at Texas A&M, was a seventh-round draft pick of the Colts in the 2023 NFL Draft and he played from 2023-2025 in Indianapolis.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-10T16:11:07.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-10T18:20:18.353Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9f2a6107-3ace-4045-88a4-6a11dfd528bb",
+          "publisher": "Official team news",
+          "title": "Titans Sign CB Jaylon Jones, Waive CB Melvin Smith Jr.",
+          "url": "https://www.tennesseetitans.com/news/titans-sign-cb-jaylon-jones-waive-cb-melvin-smith-jr",
+          "publishedAt": "2026-09-10T16:11:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "TEN",
+          "action": "SIGNED",
+          "name": "Jaylon Jones",
+          "position": "CB"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Jaylon Jones",
+            "source": "headline",
+            "excerpt": "Sign CB Jaylon Jones"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "Sign CB Jaylon Jones"
+          },
+          {
+            "field": "position",
+            "value": "CB",
+            "source": "headline",
+            "excerpt": "CB Jaylon Jones"
+          },
+          {
+            "field": "team",
+            "value": "TEN",
+            "source": "canonical",
+            "excerpt": "TEN"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/titans-sign-cb-jaylon-jones-waive-cb-melvin-smith-jr"
+        ],
+        "asOf": "2026-09-10T16:11:07.000Z"
+      }
+    },
+    {
+      "id": "903ecb55-4a77-4105-a160-e981103fc39e",
+      "teamAbbr": "TEN",
+      "category": "INJURY",
+      "headline": "Week 1 Injury Report | Titans vs Jets",
+      "summary": "The Titans host the New York Jets this week to open the 2026 regular season.",
+      "whatHappened": "The Titans host the New York Jets this week to open the 2026 regular season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-09T21:05:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-10T02:15:19.339Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d73bbc63-a2f1-48d9-8224-c3c059d0321a",
+          "publisher": "Official team news",
+          "title": "Week 1 Injury Report | Titans vs Jets",
+          "url": "https://www.tennesseetitans.com/news/week-1-injury-report-titans-vs-jets",
+          "publishedAt": "2026-09-09T21:05:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W1",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W1",
+            "source": "headline",
+            "excerpt": "Week 1"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/week-1-injury-report-titans-vs-jets"
+        ],
+        "asOf": "2026-09-09T21:05:00.000Z"
+      }
+    },
+    {
+      "id": "ea9892c0-bea7-4578-8378-aa46ea569d6f",
+      "teamAbbr": "TEN",
+      "category": "ANALYSIS",
+      "headline": "Titans QB Cam Ward Looks to Carry Positive Momentum Into Year 2",
+      "summary": "In his final eight starts of 2025, Ward threw 10 touchdown passes and just one interception. He had the NFL’s second-best TD-INT ratio from Weeks 11-18 (min. 150 pass attempts).",
+      "whatHappened": "In his final eight starts of 2025, Ward threw 10 touchdown passes and just one interception. He had the NFL’s second-best TD-INT ratio from Weeks 11-18 (min. 150 pass attempts).",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-09T20:15:42.000Z",
+      "sourceCount": 1,
+      "status": "RESOLVED",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-09T22:20:48.342Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "256b2594-3e6b-485d-bc96-5dfd9ec5eca8",
+          "publisher": "Official team news",
+          "title": "Titans QB Cam Ward Looks to Carry Positive Momentum Into Year 2",
+          "url": "https://www.tennesseetitans.com/news/titans-qb-cam-ward-looks-to-carry-positive-momentum-into-year-2",
+          "publishedAt": "2026-09-09T20:15:42.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.tennesseetitans.com/news/titans-qb-cam-ward-looks-to-carry-positive-momentum-into-year-2"
+        ],
+        "asOf": "2026-09-09T20:15:42.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 29,
+    "totalPages": 2
+  }
+}

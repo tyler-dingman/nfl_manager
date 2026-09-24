@@ -1,0 +1,880 @@
+{
+  "teamAbbr": "NYG",
+  "teamName": "New York Giants",
+  "briefings": [
+    {
+      "id": "7bfbfbe2-78d0-48b6-a0cf-c9edb7221544",
+      "teamAbbr": "NYG",
+      "category": "ROSTER",
+      "headline": "Week 3 Tracker: Latest news, notes & roster moves",
+      "summary": "Follow the latest updates from 1925 Giants Drive as the team gears up for Week 3 against the Titans.",
+      "whatHappened": "Follow the latest updates from 1925 Giants Drive as the team gears up for Week 3 against the Titans.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:39:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T04:00:45.343Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "288c2cae-7ae1-4ee1-a68d-ab9e4b29a9d6",
+          "publisher": "Official team news",
+          "title": "Week 3 Tracker: Latest news, notes & roster moves",
+          "url": "https://www.giants.com/news/week-3-tracker-latest-news-notes-roster-moves-tennessee-titans-nfl",
+          "publishedAt": "2026-09-22T20:39:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "NYG"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "NYG",
+            "source": "canonical",
+            "excerpt": "NYG"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.giants.com/news/week-3-tracker-latest-news-notes-roster-moves-tennessee-titans-nfl"
+        ],
+        "asOf": "2026-09-22T20:39:00.000Z"
+      }
+    },
+    {
+      "id": "d19c07c3-49d9-4ade-ae12-540ac6fab167",
+      "teamAbbr": "NYG",
+      "category": "INJURY",
+      "headline": "QB Jaxson Dart exits with knee injury vs. Rams",
+      "summary": "Dart will undergo an MRI on Tuesday after the team returns from the West Coast trip. Evaluations are still “ongoing” with Jaxson Dart and no final decisions have been made yet, coach John Harbaugh said Tuesday afternoon.",
+      "whatHappened": "Dart will undergo an MRI on Tuesday after the team returns from the West Coast trip. Evaluations are still “ongoing” with Jaxson Dart and no final decisions have been made yet, coach John Harbaugh said Tuesday afternoon.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T19:40:00.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-22T16:00:47.181Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "90a81fc7-840a-439d-9416-e38e918f6657",
+          "publisher": "Official team news",
+          "title": "QB Jaxson Dart exits with knee injury vs. Rams",
+          "url": "https://www.giants.com/news/qb-jaxson-dart-knee-questionable-to-return-vs-rams-injury-update",
+          "publishedAt": "2026-09-22T13:27:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "140cca11-2681-4108-9ff7-47dff87fbb3c",
+          "publisher": "Official team news",
+          "title": "QB Jaxson Dart exits with knee injury vs. Rams",
+          "url": "https://www.giants.com/news/jaxson-dart-knee-injury-update-status-jameis-winston",
+          "publishedAt": "2026-09-22T19:40:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "Jaxson Dart",
+          "position": "QB",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Jaxson Dart",
+            "source": "headline",
+            "excerpt": "QB Jaxson Dart"
+          },
+          {
+            "field": "position",
+            "value": "QB",
+            "source": "headline",
+            "excerpt": "QB Jaxson Dart"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.giants.com/news/qb-jaxson-dart-knee-questionable-to-return-vs-rams-injury-update",
+          "https://www.giants.com/news/jaxson-dart-knee-injury-update-status-jameis-winston"
+        ],
+        "asOf": "2026-09-22T19:40:00.000Z"
+      }
+    },
+    {
+      "id": "312464f8-615f-4989-b2b0-21e1fac9ad63",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "Instant Analysis: Giants fall to Rams, 28-6",
+      "summary": "Highlights, notes & statistics from Giants vs. Rams on Monday Night Football",
+      "whatHappened": "Highlights, notes & statistics from Giants vs. Rams on Monday Night Football",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T04:20:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T16:00:47.703Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "841577f8-b155-4e82-bab0-1020f872e45a",
+          "publisher": "Official team news",
+          "title": "Instant Analysis: Giants fall to Rams, 28-6",
+          "url": "https://www.giants.com/news/instant-analysis-giants-fall-to-rams-28-6",
+          "publishedAt": "2026-09-22T04:20:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "recap",
+          "teams": [
+            "NYG",
+            "LAR"
+          ],
+          "overtime": false
+        },
+        "reason": "Recap without a verified score pair",
+        "displayCategory": "Recap",
+        "evidence": [
+          {
+            "field": "teams.0",
+            "value": "NYG",
+            "source": "headline",
+            "excerpt": "Instant Analysis: Giants fall to Rams, 28-6"
+          },
+          {
+            "field": "teams.1",
+            "value": "LAR",
+            "source": "headline",
+            "excerpt": "Instant Analysis: Giants fall to Rams, 28-6"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.giants.com/news/instant-analysis-giants-fall-to-rams-28-6"
+        ],
+        "asOf": "2026-09-22T04:20:00.000Z"
+      }
+    },
+    {
+      "id": "c80de938-903c-42b1-bec7-a35d2480f2cc",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "📸 Game Photos: Giants take on Rams",
+      "summary": "The New York Giants face off against the Los Angeles Rams in Week 2 on Monday Night Football.",
+      "whatHappened": "The New York Giants face off against the Los Angeles Rams in Week 2 on Monday Night Football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T03:05:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T16:00:47.761Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6115bceb-4149-4649-98f7-a3cac6d4aee9",
+          "publisher": "Official team news",
+          "title": "📸 Game Photos: Giants take on Rams",
+          "url": "https://www.giants.com/photos/game-photos-giants-take-on-rams-x4118",
+          "publishedAt": "2026-09-22T03:05:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/photos/game-photos-giants-take-on-rams-x4118"
+        ],
+        "asOf": "2026-09-22T03:05:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "521ce36b-be5f-46ce-8004-f9fb10ba162e",
+      "teamAbbr": "NYG",
+      "category": "COACHING",
+      "headline": "Postgame Press Conference: Coach John Harbaugh on Jaxson Dart's status",
+      "summary": "Coach John Harbaugh addresses the media Monday night following the Giants' Week 2 loss to the Rams.",
+      "whatHappened": "Coach John Harbaugh addresses the media Monday night following the Giants' Week 2 loss to the Rams.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T03:02:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T16:00:47.842Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "57bf8e99-6bc7-4ec1-b179-7521bba35e2a",
+          "publisher": "Official team news",
+          "title": "Postgame Press Conference: Coach John Harbaugh on Jaxson Dart's status",
+          "url": "https://www.giants.com/video/postgame-press-conference-coach-john-harbaugh-on-jaxson-dart-s-status",
+          "publishedAt": "2026-09-22T03:02:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "interview",
+          "transcript": false
+        },
+        "reason": "Text interview/transcript; no invented quote or playback",
+        "displayCategory": "Interview",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/video/postgame-press-conference-coach-john-harbaugh-on-jaxson-dart-s-status"
+        ],
+        "asOf": "2026-09-22T03:02:00.000Z"
+      }
+    },
+    {
+      "id": "4121467d-e09f-4ab1-874b-4c6b18456631",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "🎥 Highlights: Los Angeles Rams 28, New York Giants 6",
+      "summary": "Watch highlights from the Week 2 matchup between the Los Angeles Rams and New York Giants.",
+      "whatHappened": "Watch highlights from the Week 2 matchup between the Los Angeles Rams and New York Giants.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T02:55:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T16:00:47.916Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "543051ac-c5c0-4655-8287-0e448da98c0f",
+          "publisher": "Official team news",
+          "title": "🎥 Highlights: Los Angeles Rams 28, New York Giants 6",
+          "url": "https://www.giants.com/video/highlights-los-angeles-rams-28-new-york-giants-6",
+          "publishedAt": "2026-09-22T02:55:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/video/highlights-los-angeles-rams-28-new-york-giants-6"
+        ],
+        "asOf": "2026-09-22T02:55:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e8b9ffdd-c241-4bfb-baf9-f818ea886ab1",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "✈️ Travel Photos: Giants fly to Los Angeles",
+      "summary": "The New York Giants travel to Los Angeles ahead of their Week 2 matchup against the Rams on Monday Night Football.",
+      "whatHappened": "The New York Giants travel to Los Angeles ahead of their Week 2 matchup against the Rams on Monday Night Football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T01:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T16:00:45.844Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "421112a2-ae85-4122-b31c-aed7d7023608",
+          "publisher": "Official team news",
+          "title": "✈️ Travel Photos: Giants fly to Los Angeles",
+          "url": "https://www.giants.com/photos/travel-photos-giants-fly-to-los-angeles-x2271",
+          "publishedAt": "2026-09-20T01:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/photos/travel-photos-giants-fly-to-los-angeles-x2271"
+        ],
+        "asOf": "2026-09-20T01:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "02558238-4222-489b-a474-f86908f93865",
+      "teamAbbr": "NYG",
+      "category": "SIGNING",
+      "headline": "Giants place CB Paulson Adebo on IR; CB Nikko Reed signed from Chargers' practice squad",
+      "summary": "Adebo, who will miss at least the next four games, appeared on Monday’s injury report with a knee issue and did not practice.",
+      "whatHappened": "Adebo, who will miss at least the next four games, appeared on Monday’s injury report with a knee issue and did not practice.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:33:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T02:00:56.117Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "99dfd450-49c9-4613-961a-312f96af0be8",
+          "publisher": "Official team news",
+          "title": "Giants place CB Paulson Adebo on IR; CB Nikko Reed signed from Chargers' practice squad",
+          "url": "https://www.giants.com/news/giants-place-cornerback-paulson-adebo-on-injured-reserve-week-2-los-angeles-rams-roster-move",
+          "publishedAt": "2026-09-18T20:33:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "SIGNING",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/news/giants-place-cornerback-paulson-adebo-on-injured-reserve-week-2-los-angeles-rams-roster-move"
+        ],
+        "asOf": "2026-09-18T20:33:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "4b5dec23-1804-49a8-8cb4-38f0e4dd62a4",
+      "teamAbbr": "NYG",
+      "category": "COACHING",
+      "headline": "Harbs Weekly: Credit always goes to the players",
+      "summary": "Coach John Harbaugh sits down with Giants.com for a weekly conversation about the latest at 1925 Giants Drive.",
+      "whatHappened": "Coach John Harbaugh sits down with Giants.com for a weekly conversation about the latest at 1925 Giants Drive.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:55:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T02:00:56.385Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "2e4ad2fd-1795-4497-b2f4-524b32ff83a2",
+          "publisher": "Official team news",
+          "title": "Harbs Weekly: Credit always goes to the players",
+          "url": "https://www.giants.com/news/john-harbaugh-nfl-week-2-interview-los-angeles-rams-sean-mcvay",
+          "publishedAt": "2026-09-18T19:55:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/news/john-harbaugh-nfl-week-2-interview-los-angeles-rams-sean-mcvay"
+        ],
+        "asOf": "2026-09-18T19:55:00.000Z"
+      }
+    },
+    {
+      "id": "b1771a38-3390-4965-b065-fbaea4727cd3",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "10 things to watch in Giants vs. Rams",
+      "summary": "Here are 10 things to watch in the Week 2 matchup between the New York Giants and Los Angeles Rams at SoFi Stadium (8:15 p.m. ET).",
+      "whatHappened": "Here are 10 things to watch in the Week 2 matchup between the New York Giants and Los Angeles Rams at SoFi Stadium (8:15 p.m. ET).",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T14:00:53.997Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3ab5d759-92ca-480c-8cb6-0e4adefd793a",
+          "publisher": "Official team news",
+          "title": "10 things to watch in Giants vs. Rams",
+          "url": "https://www.giants.com/news/monday-night-football-week-2-la-rams-john-harbaugh-jaxson-dart-malik-nabers-isaiah-likely-matthew-stafford-aaron-donald",
+          "publishedAt": "2026-09-18T19:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "10",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "10",
+            "source": "headline",
+            "excerpt": "10 things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "10 things to watch in Giants vs. Rams"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.giants.com/news/monday-night-football-week-2-la-rams-john-harbaugh-jaxson-dart-malik-nabers-isaiah-likely-matthew-stafford-aaron-donald"
+        ],
+        "asOf": "2026-09-18T19:00:00.000Z"
+      }
+    },
+    {
+      "id": "78c4cad7-ac8e-4d36-bef2-8f705eb1e7da",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "Fact or Fiction: Previewing Monday Night Football",
+      "summary": "The Giants.com crew is presented with four statements and must decide whether they are Fact or Fiction.",
+      "whatHappened": "The Giants.com crew is presented with four statements and must decide whether they are Fact or Fiction.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:15:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T14:00:54.261Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "cf6a4a46-5605-4acd-b7ae-86becf5f37fa",
+          "publisher": "Official team news",
+          "title": "Fact or Fiction: Previewing Monday Night Football",
+          "url": "https://www.giants.com/news/week-2-los-angeles-rams-isaiah-likely-jaxson-dart-abdul-carter-matthew-stafford-monday-night-football",
+          "publishedAt": "2026-09-18T18:15:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/news/week-2-los-angeles-rams-isaiah-likely-jaxson-dart-abdul-carter-matthew-stafford-monday-night-football"
+        ],
+        "asOf": "2026-09-18T18:15:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1fca2231-92a7-4751-a92f-b2c47f07a246",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "Jameis Winston steals the show at Hamilton audition | The Eli Manning Show",
+      "summary": "In the latest episode of The Eli Manning Show, presented by Panini, Eli Manning, Jameis Winston & Shaun O'Hara head to Broadway to audition for a role in Hamilton! From singing and dancing to putting their acting skills to the test, the trio makes sure they don't throw away their shot to make it on one of the biggest stages in the world.",
+      "whatHappened": "In the latest episode of The Eli Manning Show, presented by Panini, Eli Manning, Jameis Winston & Shaun O'Hara head to Broadway to audition for a role in Hamilton! From singing and dancing to putting their acting skills to the test, the trio makes sure they don't throw away their shot to make it on one of the biggest stages in the world.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:04:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T14:00:54.462Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7e7202a3-3f79-454e-9ee5-7c6088946eb8",
+          "publisher": "Official team news",
+          "title": "Jameis Winston steals the show at Hamilton audition | The Eli Manning Show",
+          "url": "https://www.giants.com/video/jameis-winston-steals-the-show-at-hamilton-audition-the-eli-manning-show",
+          "publishedAt": "2026-09-18T18:04:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/video/jameis-winston-steals-the-show-at-hamilton-audition-the-eli-manning-show"
+        ],
+        "asOf": "2026-09-18T18:04:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "216b93c0-6d8d-4d86-9dfd-7d8f51b7049f",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "Inside the Numbers: Jaxson Dart's historic primetime stat",
+      "summary": "Notes and stats to get you ready for Monday Night Football between the New York Giants and Los Angeles Rams",
+      "whatHappened": "Notes and stats to get you ready for Monday Night Football between the New York Giants and Los Angeles Rams",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:54:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:47.142Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4abe1449-a5f3-447b-8d1c-0e738497d6e3",
+          "publisher": "Official team news",
+          "title": "Inside the Numbers: Jaxson Dart's historic primetime stat",
+          "url": "https://www.giants.com/news/jaxson-dart-stats-primetime-numbers-los-angeles-rams-nfl",
+          "publishedAt": "2026-09-18T15:54:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "stats",
+          "descriptor": "BY THE\nNUMBERS",
+          "rows": []
+        },
+        "reason": "Explicit statistics format; only sourced values displayed",
+        "displayCategory": "Stats",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/news/jaxson-dart-stats-primetime-numbers-los-angeles-rams-nfl"
+        ],
+        "asOf": "2026-09-18T15:54:00.000Z"
+      }
+    },
+    {
+      "id": "6ad8c905-8140-4344-80cb-8f5a64d4fa9d",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "Players to watch in Monday's primetime matchup",
+      "summary": "The Giants will once again be in the national spotlight as they head to Los Angeles for a Week 2 matchup against the Rams on Monday Night Football.",
+      "whatHappened": "The Giants will once again be in the national spotlight as they head to Los Angeles for a Week 2 matchup against the Rams on Monday Night Football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T04:00:51.820Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0da5d08a-a45a-426c-99eb-65d77c62b836",
+          "publisher": "Official team news",
+          "title": "Players to watch in Monday's primetime matchup",
+          "url": "https://www.giants.com/news/week-2-monday-night-football-jaxson-dart-cam-skattebo-malik-nabers-tremaine-edmunds-deonte-banks-greg-newsome",
+          "publishedAt": "2026-09-18T14:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/news/week-2-monday-night-football-jaxson-dart-cam-skattebo-malik-nabers-tremaine-edmunds-deonte-banks-greg-newsome"
+        ],
+        "asOf": "2026-09-18T14:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "64b2e9ce-878d-413f-9fdf-26676d85a231",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "Giants Now: Numbers to know for Giants-Rams",
+      "summary": "The news of the day for Giants fans on Friday, September 18, 2026.",
+      "whatHappened": "The news of the day for Giants fans on Friday, September 18, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T10:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T14:01:10.667Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "edc8f05a-4323-47ca-93da-ee1cd4021600",
+          "publisher": "Official team news",
+          "title": "Giants Now: Numbers to know for Giants-Rams",
+          "url": "https://www.giants.com/news/rams-monday-night-football-week-2-jaxson-dart-cam-skattebo-malik-nabers-brian-burns-abdul-carter",
+          "publishedAt": "2026-09-18T10:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/news/rams-monday-night-football-week-2-jaxson-dart-cam-skattebo-malik-nabers-brian-burns-abdul-carter"
+        ],
+        "asOf": "2026-09-18T10:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "20dc7b79-0c68-405d-9632-f4f244401532",
+      "teamAbbr": "NYG",
+      "category": "PRACTICE",
+      "headline": "📸 Practice Photos: Getting ready for MNF",
+      "summary": "View photos of the Giants on the practice field as they prepare for Monday Night Football against the Rams.",
+      "whatHappened": "View photos of the Giants on the practice field as they prepare for Monday Night Football against the Rams.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T21:13:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T14:01:10.918Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "191350e4-c8c6-4b3b-97c6-a3ae81a685e0",
+          "publisher": "Official team news",
+          "title": "📸 Practice Photos: Getting ready for MNF",
+          "url": "https://www.giants.com/photos/practice-photos-getting-ready-for-mnf-rams-2026",
+          "publishedAt": "2026-09-17T21:13:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/photos/practice-photos-getting-ready-for-mnf-rams-2026"
+        ],
+        "asOf": "2026-09-17T21:13:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d477eb3c-c09c-417f-b20b-6c66493e4a43",
+      "teamAbbr": "NYG",
+      "category": "COACHING",
+      "headline": "Giants name New Britain's Isaiah Boddie Coach of the Week",
+      "summary": "The Giants Foundation and Gatorade will contribute $2,000 to New Britain's football program.",
+      "whatHappened": "The Giants Foundation and Gatorade will contribute $2,000 to New Britain's football program.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T11:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:50:44.434Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e0051200-ed5a-4eda-8d78-a269ab3c99b1",
+          "publisher": "Official team news",
+          "title": "Giants name New Britain's Isaiah Boddie Coach of the Week",
+          "url": "https://www.giants.com/news/giants-name-new-britain-s-isaiah-boddie-coach-of-the-week",
+          "publishedAt": "2026-09-17T11:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/news/giants-name-new-britain-s-isaiah-boddie-coach-of-the-week"
+        ],
+        "asOf": "2026-09-17T11:00:00.000Z"
+      }
+    },
+    {
+      "id": "d4f6b8cc-c7a7-447c-8b10-ebee40a79461",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "Storylines to follow as Giants head to LA",
+      "summary": "Here are five storylines to follow in the Week 2 matchup on Monday Night Football.",
+      "whatHappened": "Here are five storylines to follow in the Week 2 matchup on Monday Night Football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T19:33:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T22:20:35.181Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "436bc161-fea9-4f8a-8d2c-1df7e5c191be",
+          "publisher": "Official team news",
+          "title": "Storylines to follow as Giants head to LA",
+          "url": "https://www.giants.com/news/week-2-rams-monday-night-football-john-harbaugh-jaxson-dart-matthew-stafford-aaron-donald-malik-nabers",
+          "publishedAt": "2026-09-16T19:33:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/news/week-2-rams-monday-night-football-john-harbaugh-jaxson-dart-matthew-stafford-aaron-donald-malik-nabers"
+        ],
+        "asOf": "2026-09-16T19:33:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "bc74f14b-7804-4747-92df-52446b6fc7b6",
+      "teamAbbr": "NYG",
+      "category": "SIGNING",
+      "headline": "Giants sign WR Dalen Cambre to active roster among series of roster moves",
+      "summary": "The New York Giants made a series of roster moves Saturday ahead of the season opener against the Dallas Cowboys on Sunday Night Football. The New York Giants made two roster moves Monday after their Week 1 victory over the Dallas Cowboys on Sunday Night Football. The New York Giants made a series of roster moves Wednesday ahead of their Week 2 matchup against the Los Angeles Rams on Monday Night Football.",
+      "whatHappened": "The New York Giants made a series of roster moves Saturday ahead of the season opener against the Dallas Cowboys on Sunday Night Football. The New York Giants made two roster moves Monday after their Week 1 victory over the Dallas Cowboys on Sunday Night Football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T19:30:00.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-12T22:50:07.379Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "91625367-b7ea-414e-ba8b-f56f5787aea9",
+          "publisher": "Official team news",
+          "title": "Giants sign WR Dalen Cambre to active roster among series of roster moves",
+          "url": "https://www.giants.com/news/roster-moves-week-1-dallas-cowboys-dalen-cambre-braxton-berrios-malik-harrison-practice-squad",
+          "publishedAt": "2026-09-12T20:00:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "064d841c-5678-4802-b88d-304794b6fbfa",
+          "publisher": "Official team news",
+          "title": "Giants sign WR Dalen Cambre to active roster among series of roster moves",
+          "url": "https://www.giants.com/news/giants-waive-wr-dalen-cambre-sign-rb-phil-mafah-to-practice-squad-2026-roster-moves",
+          "publishedAt": "2026-09-14T20:00:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "a1c4c508-2934-490d-8fbf-9729cb37957a",
+          "publisher": "Official team news",
+          "title": "Giants sign WR Dalen Cambre to active roster among series of roster moves",
+          "url": "https://www.giants.com/news/giants-sign-dl-josh-tupou-to-active-roster-wr-dalen-cambre-to-practice-squad-roster-moves-week-2",
+          "publishedAt": "2026-09-16T19:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "NYG"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "NYG",
+            "source": "canonical",
+            "excerpt": "NYG"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.giants.com/news/roster-moves-week-1-dallas-cowboys-dalen-cambre-braxton-berrios-malik-harrison-practice-squad",
+          "https://www.giants.com/news/giants-waive-wr-dalen-cambre-sign-rb-phil-mafah-to-practice-squad-2026-roster-moves",
+          "https://www.giants.com/news/giants-sign-dl-josh-tupou-to-active-roster-wr-dalen-cambre-to-practice-squad-roster-moves-week-2"
+        ],
+        "asOf": "2026-09-16T19:30:00.000Z"
+      }
+    },
+    {
+      "id": "e866570d-ef8f-4006-b92a-ea6c4ed9dcde",
+      "teamAbbr": "NYG",
+      "category": "ANALYSIS",
+      "headline": "Presser Points: Giants prepare to peak Monday night in Los Angeles",
+      "summary": "The Giants will fly to the West Coast a day earlier than a typical road trip.",
+      "whatHappened": "The Giants will fly to the West Coast a day earlier than a typical road trip.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T18:41:32.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T20:50:04.616Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f35a1338-d7d8-40d4-9486-214f0c3ef629",
+          "publisher": "Official team news",
+          "title": "Presser Points: Giants prepare to peak Monday night in Los Angeles",
+          "url": "https://www.giants.com/news/john-harbaugh-los-angeles-rams-week-2-monday-night-football-sean-mcvay-aaron-donald-myles-garrett",
+          "publishedAt": "2026-09-16T18:41:32.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.giants.com/news/john-harbaugh-los-angeles-rams-week-2-monday-night-football-sean-mcvay-aaron-donald-myles-garrett"
+        ],
+        "asOf": "2026-09-16T18:41:32.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 75,
+    "totalPages": 4
+  }
+}

@@ -1,0 +1,556 @@
+{
+  "teamAbbr": "HOU",
+  "teamName": "Houston Texans",
+  "briefings": [
+    {
+      "id": "b253ac33-e6f8-4a69-8fe9-63f9ac4950ba",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "The Texans Are Getting There. Now Come the Last 20 Yards.",
+      "summary": "Four red zone trips says the offense can move the field. HC DeMeco Ryans and QB C.J. Stroud say the finish is the fixable part.",
+      "whatHappened": "Four red zone trips says the offense can move the field. HC DeMeco Ryans and QB C.J. Stroud say the finish is the fixable part.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:30:29.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T18:00:52.719Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d333ffbc-2b46-4075-98d3-5f91dc9641f3",
+          "publisher": "Official team news",
+          "title": "The Texans Are Getting There. Now Come the Last 20 Yards.",
+          "url": "https://www.houstontexans.com/news/texans-red-zone-short-yardage-third-down-focus",
+          "publishedAt": "2026-09-21T21:30:29.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "fe9ac158-bef2-4e20-8e17-8d5e80ee23dc",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Living On The Edge | VanderBlog",
+      "summary": "B. The defense turned up the heat and C.J. Stroud found eight different receivers — but the red zone told the story of the day.",
+      "whatHappened": "B. The defense turned up the heat and C.J. Stroud found eight different receivers — but the red zone told the story of the day.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T22:10:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T02:00:45.356Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7c65c6b0-68ae-4a56-acdf-126771b85e27",
+          "publisher": "Official team news",
+          "title": "Living On The Edge | VanderBlog",
+          "url": "https://www.houstontexans.com/news/living-on-the-edge-vanderblog",
+          "publishedAt": "2026-09-20T22:10:25.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "717be4d5-7004-4756-a32e-29e3d0d19b7c",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Houston Texans at Indianapolis Colts: How to Watch, Listen, & Live Stream",
+      "summary": "All the ways you can watch, stream, and tune-in to Week 3 between the Texans and the Indianapolis Colts at Lucas Oil Stadium on September 27.",
+      "whatHappened": "All the ways you can watch, stream, and tune-in to Week 3 between the Texans and the Indianapolis Colts at Lucas Oil Stadium on September 27.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T22:00:22.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T02:00:45.415Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "38e8c9c6-97da-46f7-9f2a-041cf3575e05",
+          "publisher": "Official team news",
+          "title": "Houston Texans at Indianapolis Colts: How to Watch, Listen, & Live Stream",
+          "url": "https://www.houstontexans.com/news/houston-texans-at-indianapolis-colts-how-to-watch-listen-live-stream",
+          "publishedAt": "2026-09-20T22:00:22.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "dd561f70-4cdc-477b-ab27-e4d9c95062ae",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Ready For Cincinnati",
+      "summary": "You sense an urgency to prove that last Sunday’s issues were correctable and extremely rare.",
+      "whatHappened": "You sense an urgency to prove that last Sunday’s issues were correctable and extremely rare.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T23:07:45.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T14:00:51.429Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4a440fd3-8668-4555-a99f-1d67b377f683",
+          "publisher": "Official team news",
+          "title": "Ready For Cincinnati",
+          "url": "https://www.houstontexans.com/news/ready-for-cincinnati",
+          "publishedAt": "2026-09-19T23:07:45.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "e1e00faa-a617-4cb4-b7b5-9e8275b7a106",
+      "teamAbbr": "HOU",
+      "category": "ROSTER",
+      "headline": "Houston Texans Transactions (9-19-2026)",
+      "summary": "The Houston Texans made roster moves.",
+      "whatHappened": "The Houston Texans made roster moves.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T19:51:04.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T14:00:51.948Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "912ba19a-ea6c-4094-8704-71b80946aba2",
+          "publisher": "Official team news",
+          "title": "Houston Texans Transactions (9-19-2026)",
+          "url": "https://www.houstontexans.com/news/houston-texans-transactions-9-19-2026",
+          "publishedAt": "2026-09-19T19:51:04.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "246fa9ee-b9bd-4a50-8e30-0ebf8cf387de",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Houston Texans vs. Cincinnati Bengals | Texans Roundup",
+      "summary": "A record-setting Texans debut, the most-spread passing game in franchise history and four milestones within reach on Sunday.",
+      "whatHappened": "A record-setting Texans debut, the most-spread passing game in franchise history and four milestones within reach on Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:15:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T00:00:52.490Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "87e7370f-99a9-4cb9-9d37-e1e519f3d3a2",
+          "publisher": "Official team news",
+          "title": "Houston Texans vs. Cincinnati Bengals | Texans Roundup",
+          "url": "https://www.houstontexans.com/news/houston-texans-vs-cincinnati-bengals-texans-roundup",
+          "publishedAt": "2026-09-18T18:15:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "153b7a97-856f-497e-afa2-b21666be13ed",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Know Your Foe: The Texans' Look To Slow Joe Burrow and the Bengals in Week 2",
+      "summary": "Joe Burrow, Ja'Marr Chase and Tee Higgins are coming to Reliant Stadium, and so is the most disruptive interior defender the Texans will see all year. Here's what Houston has to do on Sunday.",
+      "whatHappened": "Joe Burrow, Ja'Marr Chase and Tee Higgins are coming to Reliant Stadium, and so is the most disruptive interior defender the Texans will see all year. Here's what Houston has to do on Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:57:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:46.045Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "271ed3e8-69b5-4994-95bb-776b39c16fa7",
+          "publisher": "Official team news",
+          "title": "Know Your Foe: The Texans' Look To Slow Joe Burrow and the Bengals in Week 2",
+          "url": "https://www.houstontexans.com/news/know-your-foe-the-texans-look-to-slow-joe-burrow-and-the-bengals-in-week-2",
+          "publishedAt": "2026-09-18T14:57:26.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "5ace4676-1a95-44a0-a8fc-b2639ee670e1",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Nick Caserio's Bengals Scouting Report: \"A Really Good Football Team That's Well Constructed\"",
+      "summary": "The Texans EVP/GM broke down Joe Burrow, Ja'Marr Chase, Dexter Lawrence II and an offensive line he says is badly misunderstood",
+      "whatHappened": "The Texans EVP/GM broke down Joe Burrow, Ja'Marr Chase, Dexter Lawrence II and an offensive line he says is badly misunderstood",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T11:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T13:00:36.383Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "686b638e-06ca-4e3d-ab6f-e168dc70c53a",
+          "publisher": "Official team news",
+          "title": "Nick Caserio's Bengals Scouting Report: \"A Really Good Football Team That's Well Constructed\"",
+          "url": "https://www.houstontexans.com/news/nick-caserio-s-bengals-scouting-report-a-really-good-football-team-that-s-well-constructed",
+          "publishedAt": "2026-09-17T11:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "d8b08453-c77e-47b0-951b-c47c03bb074e",
+      "teamAbbr": "HOU",
+      "category": "INJURY",
+      "headline": "Week 2 Injury Report | Texans vs. Bengals",
+      "summary": "Week 2 injury updates presented by Shariff Injury Lawyers for the Houston Texans versus Cincinnati Bengals game. Take a look at the injury reports of the Cincinnati Bengals and the Houston Texans for Week 2 of the 2026 season.",
+      "whatHappened": "Week 2 injury updates presented by Shariff Injury Lawyers for the Houston Texans versus Cincinnati Bengals game. Take a look at the injury reports of the Cincinnati Bengals and the Houston Texans for Week 2 of the 2026 season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T22:00:00.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-17T00:05:30.112Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5c229053-3263-461c-b1cd-34147149cbed",
+          "publisher": "Official team news",
+          "title": "Week 2 Injury Report | Texans vs. Bengals",
+          "url": "https://www.houstontexans.com/news/week-2-injury-report-texans-vs-bengals",
+          "publishedAt": "2026-09-16T22:00:46.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "f39490f0-996f-4832-8c01-59e0ea5c3a22",
+          "publisher": "Official team news",
+          "title": "Week 2 Injury Report | Texans vs. Bengals",
+          "url": "https://www.bengals.com/news/texans-bengals-injury-report-week-2-2026",
+          "publishedAt": "2026-09-16T22:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "c4e572b9-fbb9-46f8-ad5f-28b6f82b9fd6",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Texans Ground Game: \"Both Backs Really Ran Well\"",
+      "summary": "David Montgomery, Woody Marks and rookie Keylan Rutledge drew praise from the GM — and Caserio sees a league-wide shift back toward running the football",
+      "whatHappened": "David Montgomery, Woody Marks and rookie Keylan Rutledge drew praise from the GM — and Caserio sees a league-wide shift back toward running the football",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T21:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T23:15:35.953Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f4338073-5eb0-495b-b223-f5709a5e86be",
+          "publisher": "Official team news",
+          "title": "Texans Ground Game: \"Both Backs Really Ran Well\"",
+          "url": "https://www.houstontexans.com/news/nick-caserio-texans-running-game-keylan-rutledge-debut",
+          "publishedAt": "2026-09-16T21:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "e7e6dd34-99d0-4126-9ace-9ef9c9382303",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Caserio on C.J. Stroud: \"Made Good Decisions With the Football\"",
+      "summary": "The Texans EVP/GM broke down a Week 1 passing game that touched 11 different receivers — and a Nico Collins performance he says has become the expectation",
+      "whatHappened": "The Texans EVP/GM broke down a Week 1 passing game that touched 11 different receivers — and a Nico Collins performance he says has become the expectation",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T18:30:58.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T20:45:04.807Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f4c9b03f-f28d-45d1-8707-6a323cebf02d",
+          "publisher": "Official team news",
+          "title": "Caserio on C.J. Stroud: \"Made Good Decisions With the Football\"",
+          "url": "https://www.houstontexans.com/news/nick-caserio-cj-stroud-nico-collins-texans-all-access",
+          "publishedAt": "2026-09-16T18:30:58.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "d6229f9d-f9af-4803-b74d-b9512e167970",
+      "teamAbbr": "HOU",
+      "category": "COACHING",
+      "headline": "\"I Love How He's Ascending\": DeMeco Ryans on C.J. Stroud's Command",
+      "summary": "The head coach, David Montgomery and N.D. Kalu all came away from the opener saying a version of the same thing about the Texans quarterback.",
+      "whatHappened": "The head coach, David Montgomery and N.D. Kalu all came away from the opener saying a version of the same thing about the Texans quarterback.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T10:00:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T12:15:06.516Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "984fc0ab-4045-4981-a6bf-67e24e2b8adb",
+          "publisher": "Official team news",
+          "title": "\"I Love How He's Ascending\": DeMeco Ryans on C.J. Stroud's Command",
+          "url": "https://www.houstontexans.com/news/demeco-ryans-cj-stroud-command-ascending-texans-opener",
+          "publishedAt": "2026-09-16T10:00:53.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "217cde3d-0a1c-4fd9-9692-30cff4d8c4ac",
+      "teamAbbr": "HOU",
+      "category": "ROSTER",
+      "headline": "Houston Texans Transactions (9-15-2026)",
+      "summary": "The Houston Texans made roster moves.",
+      "whatHappened": "The Houston Texans made roster moves.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:14:34.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T22:20:05.039Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a7c1db0d-559d-49ad-838c-f47c3216ee30",
+          "publisher": "Official team news",
+          "title": "Houston Texans Transactions (9-15-2026)",
+          "url": "https://www.houstontexans.com/news/houston-texans-transactions-9-15-2026",
+          "publishedAt": "2026-09-15T20:14:34.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "04123cdd-6836-4976-b256-65fd1758b4c4",
+          "publisher": "Official team news",
+          "title": "Houston Texans Transactions (9-15-2026)",
+          "url": "https://www.houstontexans.com/news/houston-texans-transactions-9-16-2026",
+          "publishedAt": "2026-09-16T14:20:26.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "328a7bc2-5618-4e5d-a427-deb1efe1226b",
+          "publisher": "Official team news",
+          "title": "Houston Texans Transactions (9-15-2026)",
+          "url": "https://www.houstontexans.com/news/houston-texans-transactions-9-17-2026",
+          "publishedAt": "2026-09-17T15:31:35.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "38293e9d-cc21-4980-b3d8-872332bdbb14",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "A True Weapon, a Homecoming Sack and a Crowd That Showed Up",
+      "summary": "DeMeco Ryans and N.D. Kalu on the third phase, Jadeveon Clowney's first sack back in Houston, and the Reliant Stadium atmosphere.",
+      "whatHappened": "DeMeco Ryans and N.D. Kalu on the third phase, Jadeveon Clowney's first sack back in Houston, and the Reliant Stadium atmosphere.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:00:49.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T22:20:05.206Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "eb9dd26b-fc92-495f-a900-22ec6f4fe509",
+          "publisher": "Official team news",
+          "title": "A True Weapon, a Homecoming Sack and a Crowd That Showed Up",
+          "url": "https://www.houstontexans.com/news/a-true-weapon-a-homecoming-sack-and-a-crowd-that-showed-up",
+          "publishedAt": "2026-09-15T20:00:49.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "5062aee7-d011-4f8d-acc0-e54153a436a9",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "\"We Can Go Get a Yard\": Inside the Texans' New Short-Yardage Confidence",
+      "summary": "DeMeco Ryans and David Montgomery on an offensive line that moved people, a two-back attack, and why fourth-and-one stopped being a gamble.",
+      "whatHappened": "DeMeco Ryans and David Montgomery on an offensive line that moved people, a two-back attack, and why fourth-and-one stopped being a gamble.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T14:11:27.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T16:15:06.236Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "283fe393-281d-41e8-ae41-820cc7bfc15a",
+          "publisher": "Official team news",
+          "title": "\"We Can Go Get a Yard\": Inside the Texans' New Short-Yardage Confidence",
+          "url": "https://www.houstontexans.com/news/we-can-go-get-a-yard-inside-the-texans-new-short-yardage-confidence",
+          "publishedAt": "2026-09-15T14:11:27.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "83f7352c-67c4-464c-8820-333f851f6acb",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "The Part of Sunday Worth Holding Onto",
+      "summary": "My voice is shot, so I listened to this episode like the rest of you.",
+      "whatHappened": "My voice is shot, so I listened to this episode like the rest of you.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T12:20:20.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T14:35:14.776Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "89111cdf-7a4a-4639-aded-5d31ae30b117",
+          "publisher": "Official team news",
+          "title": "The Part of Sunday Worth Holding Onto",
+          "url": "https://www.houstontexans.com/news/texans-bills-the-part-of-sunday-worth-holding-onto",
+          "publishedAt": "2026-09-15T12:20:20.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "3e3f3854-d22b-4e49-8fc6-8011a05362af",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Houston Texans vs Cincinnati Bengals: How to Watch, Listen, & Live Stream",
+      "summary": "All the ways you can watch, stream, and tune-in to Week 2 between the Texans and the Cincinnati Bengals at Reliant Stadium on September 20.",
+      "whatHappened": "All the ways you can watch, stream, and tune-in to Week 2 between the Texans and the Cincinnati Bengals at Reliant Stadium on September 20.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T11:00:39.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T13:15:10.889Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "61350a7b-a1ba-481a-a94e-1062cb478aee",
+          "publisher": "Official team news",
+          "title": "Houston Texans vs Cincinnati Bengals: How to Watch, Listen, & Live Stream",
+          "url": "https://www.houstontexans.com/news/houston-texans-vs-cincinnati-bengals-how-to-watch-listen-live-stream",
+          "publishedAt": "2026-09-14T11:00:39.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "0e48e0d7-3b07-47c5-a2ba-2bfd16515b07",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Week One Done, Bring on the Bengals",
+      "summary": "We’ll be evaluating this one all week with ‘what if’s’ and ‘how did that happen?’ but the fact is that these were two AFC contenders going toe-to-toe. The Texans just came up short. Now, it’s back to the lab to up their game for next week.",
+      "whatHappened": "We’ll be evaluating this one all week with ‘what if’s’ and ‘how did that happen?’ but the fact is that these were two AFC contenders going toe-to-toe. The Texans just came up short. Now, it’s back to the lab to up their game for next week.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-13T22:57:42.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T01:10:07.655Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ac999e03-1670-42d7-90f1-b21d32553279",
+          "publisher": "Official team news",
+          "title": "Week One Done, Bring on the Bengals",
+          "url": "https://www.houstontexans.com/news/week-one-done-bring-on-the-bengals",
+          "publishedAt": "2026-09-13T22:57:42.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "919ab27e-d0f9-49fd-8c19-3d47e62915e2",
+      "teamAbbr": "HOU",
+      "category": "RELEASE",
+      "headline": "Texans Inactives: Week 1 vs. Buffalo Bills",
+      "summary": "The Houston Texans released their inactives list before their Week 1 matchup against the Buffalo Bills.",
+      "whatHappened": "The Houston Texans released their inactives list before their Week 1 matchup against the Buffalo Bills.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-13T15:30:06.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-13T17:45:08.286Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d404d769-b469-4d28-b404-6f35ce9a0b30",
+          "publisher": "Official team news",
+          "title": "Texans Inactives: Week 1 vs. Buffalo Bills",
+          "url": "https://www.houstontexans.com/news/texans-inactives-week-1-vs-buffalo-bills",
+          "publishedAt": "2026-09-13T15:30:06.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "4159d6e7-4329-4646-b6ad-cbe472e76d57",
+      "teamAbbr": "HOU",
+      "category": "ANALYSIS",
+      "headline": "Kai Kroeger's Texans Debut Puts Field Position Front and Center",
+      "summary": "John Harris on the Texans' new punter, set to make his regular season debut on Sunday.",
+      "whatHappened": "John Harris on the Texans' new punter, set to make his regular season debut on Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-12T15:30:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-12T17:35:08.491Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8948042d-1dcb-449a-9617-8ddf0b89179d",
+          "publisher": "Official team news",
+          "title": "Kai Kroeger's Texans Debut Puts Field Position Front and Center",
+          "url": "https://www.houstontexans.com/news/kai-kroeger-s-texans-debut-puts-field-position-front-and-center",
+          "publishedAt": "2026-09-12T15:30:25.000Z",
+          "kind": "reporting"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 36,
+    "totalPages": 2
+  }
+}

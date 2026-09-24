@@ -19,6 +19,12 @@ test('mobile menu and cart contain focus and restore scrolling', async ({ page }
   await menuButton.click();
   const menu = page.getByRole('dialog', { name: 'Site menu' });
   await expect(menu.getByRole('link', { name: 'Trivia', exact: true })).toBeVisible();
+  await expect(menu).toHaveCSS('background-color', /rgb\(\d+, \d+, \d+\)/);
+  const menuColors = await menu.evaluate((element) => {
+    const styles = getComputedStyle(element);
+    return { background: styles.backgroundColor, text: styles.color };
+  });
+  expect(menuColors.text).not.toBe(menuColors.background);
   await page.keyboard.press('Escape');
   await expect(menu).toHaveCount(0);
   await expect(menuButton).toBeFocused();

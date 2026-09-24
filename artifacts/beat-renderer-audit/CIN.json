@@ -1,0 +1,849 @@
+{
+  "teamAbbr": "CIN",
+  "teamName": "Cincinnati Bengals",
+  "briefings": [
+    {
+      "id": "bc4be118-aadc-469d-bc2c-9a99b51201e6",
+      "teamAbbr": "CIN",
+      "category": "COACHING",
+      "headline": "Inside Bengals CB Dax Hill's Record Game",
+      "summary": "Breaking down Dax Hill's record game with Bengals cornerbacks coach Charles Burks",
+      "whatHappened": "Breaking down Dax Hill's record game with Bengals cornerbacks coach Charles Burks",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T21:58:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T16:00:58.436Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "eb1024de-7dbd-4500-879a-5139651361de",
+          "publisher": "Official team news",
+          "title": "Inside Bengals CB Dax Hill's Record Game",
+          "url": "https://www.bengals.com/news/chuck-burks-inside-bengals-cb-dax-hill-s-record-game",
+          "publishedAt": "2026-09-22T21:58:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/chuck-burks-inside-bengals-cb-dax-hill-s-record-game"
+        ],
+        "asOf": "2026-09-22T21:58:12.000Z"
+      }
+    },
+    {
+      "id": "277724c1-eb95-4d79-bbdd-532d609b8c89",
+      "teamAbbr": "CIN",
+      "category": "ANALYSIS",
+      "headline": "Scouting Report Week 3: Bengals Open Divisional Play in Pittsburgh",
+      "summary": "After a 2-0 start, the Cincinnati Bengals have their first AFC North matchup of the season in Week 3 against the Pittsburgh Steelers.",
+      "whatHappened": "After a 2-0 start, the Cincinnati Bengals have their first AFC North matchup of the season in Week 3 against the Pittsburgh Steelers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T18:00:09.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T22:00:46.176Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f6bbb67c-fc84-4e05-a844-6858e9394830",
+          "publisher": "Official team news",
+          "title": "Scouting Report Week 3: Bengals Open Divisional Play in Pittsburgh",
+          "url": "https://www.bengals.com/news/scouting-report-steelers-preview-week-3-2026",
+          "publishedAt": "2026-09-22T18:00:09.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "scouting"
+        },
+        "reason": "Explicit opponent/scouting focus",
+        "displayCategory": "Scouting",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/scouting-report-steelers-preview-week-3-2026"
+        ],
+        "asOf": "2026-09-22T18:00:09.000Z"
+      }
+    },
+    {
+      "id": "aa1eaf1f-8fc8-473d-a5b8-97cb74be3a82",
+      "teamAbbr": "CIN",
+      "category": "RELEASE",
+      "headline": "Bengals Release Uniform Combination for Week 3 against Pittsburgh Steelers",
+      "summary": "Learn what the Bengals are wearing against the Steelers in Week 3.",
+      "whatHappened": "Learn what the Bengals are wearing against the Steelers in Week 3.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T16:00:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T22:00:46.336Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b3c0594b-f59f-458f-a236-24578b2ed2fa",
+          "publisher": "Official team news",
+          "title": "Bengals Release Uniform Combination for Week 3 against Pittsburgh Steelers",
+          "url": "https://www.bengals.com/news/bengals-uniform-combination-week-3-2026-pittsburgh-steelers",
+          "publishedAt": "2026-09-22T16:00:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "TEAM\nSTYLE"
+        },
+        "reason": "Uniform/merchandise feature, not a game preview",
+        "displayCategory": "Business",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/bengals-uniform-combination-week-3-2026-pittsburgh-steelers"
+        ],
+        "asOf": "2026-09-22T16:00:43.000Z"
+      }
+    },
+    {
+      "id": "3333857f-3072-45fc-affe-8a8e9ba39ef9",
+      "teamAbbr": "CIN",
+      "category": "ANALYSIS",
+      "headline": "How To Watch Bengals at Steelers for Week 3 of the 2026 Season",
+      "summary": "Learn how to watch, listen and stream the Steelers-Bengals game in Week 3 of the 2026 season.",
+      "whatHappened": "Learn how to watch, listen and stream the Steelers-Bengals game in Week 3 of the 2026 season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T13:00:41.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:41.169Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ae9728c4-6a65-4762-98d1-f9a5f2de2daa",
+          "publisher": "Official team news",
+          "title": "How To Watch Bengals at Steelers for Week 3 of the 2026 Season",
+          "url": "https://www.bengals.com/news/how-to-watch-listen-stream-steelers-bengals-week-3-2026",
+          "publishedAt": "2026-09-22T13:00:41.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "CIN",
+          "rightTeam": "PIT",
+          "week": "W3"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "CIN",
+            "source": "headline",
+            "excerpt": "How To Watch Bengals at Steelers for Week 3 of the 2026 Season"
+          },
+          {
+            "field": "rightTeam",
+            "value": "PIT",
+            "source": "headline",
+            "excerpt": "How To Watch Bengals at Steelers for Week 3 of the 2026 Season"
+          },
+          {
+            "field": "week",
+            "value": "W3",
+            "source": "headline",
+            "excerpt": "Week 3"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.bengals.com/news/how-to-watch-listen-stream-steelers-bengals-week-3-2026"
+        ],
+        "asOf": "2026-09-22T13:00:41.000Z"
+      }
+    },
+    {
+      "id": "be2d2932-251c-4b92-bae7-6c3d765e6521",
+      "teamAbbr": "CIN",
+      "category": "COACHING",
+      "headline": "Quick Hits | It's On To Pittsburgh for Cincinnati; From Reserve Ced Johnson To Rookie Cashius Howell, Bengals Find Pressure Points",
+      "summary": "Bengals defensive coordinator Al Golden's short memory shows you the urgency of Steelers week.",
+      "whatHappened": "Bengals defensive coordinator Al Golden's short memory shows you the urgency of Steelers week.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T00:21:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T04:00:46.332Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "33fbf6ac-a062-4018-9518-dfd9d2f613c2",
+          "publisher": "Official team news",
+          "title": "Quick Hits | It's On To Pittsburgh for Cincinnati; From Reserve Ced Johnson To Rookie Cashius Howell, Bengals Find Pressure Points",
+          "url": "https://www.bengals.com/news/quick-hits-al-golden-",
+          "publishedAt": "2026-09-22T00:21:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/quick-hits-al-golden-"
+        ],
+        "asOf": "2026-09-22T00:21:12.000Z"
+      }
+    },
+    {
+      "id": "9b28651a-19e9-4ce2-8003-d8d101d6e1cf",
+      "teamAbbr": "CIN",
+      "category": "ANALYSIS",
+      "headline": "Bengals' 2-0 Formula Whipping Up Feel-Good Nostalgia",
+      "summary": "HOUSTON _ With a nod to the Super Bowl run of 2021 and a whiff of their last division sweep of 2009, don’t look now, but the Bengals are the only unbeatens in the AFC North. A look back.",
+      "whatHappened": "HOUSTON _ With a nod to the Super Bowl run of 2021 and a whiff of their last division sweep of 2009, don’t look now, but the Bengals are the only unbeatens in the AFC North. A look back.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T12:19:52.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T16:00:55.703Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8edcf979-215c-4149-a56a-cf781514cdd2",
+          "publisher": "Official team news",
+          "title": "Bengals' 2-0 Formula Whipping Up Feel-Good Nostalgia",
+          "url": "https://www.bengals.com/news/bengals-2-0-formula-dexter-lawrence-joe-burrow-nostalgia",
+          "publishedAt": "2026-09-21T12:19:52.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/bengals-2-0-formula-dexter-lawrence-joe-burrow-nostalgia"
+        ],
+        "asOf": "2026-09-21T12:19:52.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d5f20d90-8de8-40ec-b1f3-aa67a3b5752c",
+      "teamAbbr": "CIN",
+      "category": "ANALYSIS",
+      "headline": "Seven Bengals Inactive For Week 2 Against Texans",
+      "summary": "A look at who's inactive for the Cincinnati Bengals and the Houston Texans in Week 2 of the 2026 season.",
+      "whatHappened": "A look at who's inactive for the Cincinnati Bengals and the Houston Texans in Week 2 of the 2026 season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T15:30:23.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T22:00:43.723Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8a53ef83-95be-4231-96a4-434bc0a44682",
+          "publisher": "Official team news",
+          "title": "Seven Bengals Inactive For Week 2 Against Texans",
+          "url": "https://www.bengals.com/news/bengals-texans-inactives-week-2-2026",
+          "publishedAt": "2026-09-20T15:30:23.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/bengals-texans-inactives-week-2-2026"
+        ],
+        "asOf": "2026-09-20T15:30:23.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "70146b5c-daf4-4dd1-8b79-e052a331112b",
+      "teamAbbr": "CIN",
+      "category": "PRACTICE",
+      "headline": "Josh Johnson, Joe Giles-Harris Elevated Ahead of Week 2 | BENGALS ROSTER UPDATE",
+      "summary": "The Bengals today elevated LB Joe Giles-Harris and QB Josh Johnson from the practice squad to the active roster for tomorrow’s game at Houston.",
+      "whatHappened": "The Bengals today elevated LB Joe Giles-Harris and QB Josh Johnson from the practice squad to the active roster for tomorrow’s game at Houston.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:01:06.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T02:00:49.151Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "188adcb8-0b89-4468-b6bb-26bdb1003af4",
+          "publisher": "Official team news",
+          "title": "Josh Johnson, Joe Giles-Harris Elevated Ahead of Week 2 | BENGALS ROSTER UPDATE",
+          "url": "https://www.bengals.com/news/2026-week-2-roster-elevations-josh-johnson-joe-giles-harris",
+          "publishedAt": "2026-09-19T20:01:06.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/2026-week-2-roster-elevations-josh-johnson-joe-giles-harris"
+        ],
+        "asOf": "2026-09-19T20:01:06.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2d78210a-6dc6-4a36-9111-6d591547e9ac",
+      "teamAbbr": "CIN",
+      "category": "COACHING",
+      "headline": "Quick Hits | Zac Taylor \"Feels Good,\" About Joe Burrow As Bengals Eye Texans",
+      "summary": "Bengals head coach Zac Taylor confirmed that Joe Burrow practiced full Friday for the first time during a week he had been limited with back soreness and his quarterback looks good to go.",
+      "whatHappened": "Bengals head coach Zac Taylor confirmed that Joe Burrow practiced full Friday for the first time during a week he had been limited with back soreness and his quarterback looks good to go.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:54:09.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T22:00:49.904Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a80cadda-ac14-4be5-afb5-a8acc6b23691",
+          "publisher": "Official team news",
+          "title": "Quick Hits | Zac Taylor \"Feels Good,\" About Joe Burrow As Bengals Eye Texans",
+          "url": "https://www.bengals.com/news/quick-hits-zac-taylor-feels-good-about-joe-burrow-as-bengals-eye-texans",
+          "publishedAt": "2026-09-18T19:54:09.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/quick-hits-zac-taylor-feels-good-about-joe-burrow-as-bengals-eye-texans"
+        ],
+        "asOf": "2026-09-18T19:54:09.000Z"
+      }
+    },
+    {
+      "id": "00579630-9bcd-4142-be60-8e88db883970",
+      "teamAbbr": "CIN",
+      "category": "ANALYSIS",
+      "headline": "What to Watch For | Bengals at Texans Week 2",
+      "summary": "The Bengals head down to Houston for their first road game of the season and aim to return with a 2-0 record for the second consecutive year.",
+      "whatHappened": "The Bengals head down to Houston for their first road game of the season and aim to return with a 2-0 record for the second consecutive year.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T17:00:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T18:00:54.520Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "55934561-ffd6-4361-a1bb-db7e2bf24767",
+          "publisher": "Official team news",
+          "title": "What to Watch For | Bengals at Texans Week 2",
+          "url": "https://www.bengals.com/news/game-preview-2026-week-2-bengals-texans",
+          "publishedAt": "2026-09-18T17:00:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/game-preview-2026-week-2-bengals-texans"
+        ],
+        "asOf": "2026-09-18T17:00:03.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "3ff57cf7-1645-4fe8-adcb-7c700cd0a865",
+      "teamAbbr": "CIN",
+      "category": "ANALYSIS",
+      "headline": "Game Within The Game | The Age Of Amarius Moves Into Next Phase",
+      "summary": "If last Sunday’s opener is the dawning of the Age of Amarius, then Sunday’s game in Houston (1 p.m.-Cincinnati’s Local 12) is getting on to high noon as Bengals right tackle Amarius Mims and his offensive line show down with a starry NFL constellation.",
+      "whatHappened": "If last Sunday’s opener is the dawning of the Age of Amarius, then Sunday’s game in Houston (1 p.m.-Cincinnati’s Local 12) is getting on to high noon as Bengals right tackle Amarius Mims and his offensive line show down with a starry NFL constellation.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:24:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T18:00:47.603Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "17177731-d045-41b2-ad9c-5dad8f7ac555",
+          "publisher": "Official team news",
+          "title": "Game Within The Game | The Age Of Amarius Moves Into Next Phase",
+          "url": "https://www.bengals.com/news/age-of-amarius-mims-moves-into-next-phase-in-game-of-afc--heavyweights",
+          "publishedAt": "2026-09-18T13:24:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/age-of-amarius-mims-moves-into-next-phase-in-game-of-afc--heavyweights"
+        ],
+        "asOf": "2026-09-18T13:24:12.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "839f5fe4-0aca-436b-9efa-676d5884b0b1",
+      "teamAbbr": "CIN",
+      "category": "PRACTICE",
+      "headline": "Quick Hits | Two Cincy Kids In Texas Hold' Em; Update On Joe Burrow And Shemar Stewart",
+      "summary": "When it comes right down to it for Bengals safety Bryan Cook and Texans running back David Montgomery, Sunday’s game (1 p.m.-Cincinnati’s Local 12) in Houston won’t be a whole heck of a lot different than that week at practice when their Mount Healthy High School dream team went deep into the Ohio playoffs a decade ago.",
+      "whatHappened": "When it comes right down to it for Bengals safety Bryan Cook and Texans running back David Montgomery, Sunday’s game (1 p.m.-Cincinnati’s Local 12) in Houston won’t be a whole heck of a lot different than that week at practice when their Mount Healthy High School dream team went deep into the Ohio playoffs a decade ago.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T22:45:33.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T02:00:54.984Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fa3bb07e-6a39-41f5-97fb-a4ec3747efd4",
+          "publisher": "Official team news",
+          "title": "Quick Hits | Two Cincy Kids In Texas Hold' Em; Update On Joe Burrow And Shemar Stewart",
+          "url": "https://www.bengals.com/news/quick-hits-two-cincy-kids-in-texas-hold-em-update-on-joe-burrow-and-shemar-stewart",
+          "publishedAt": "2026-09-17T22:45:33.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/quick-hits-two-cincy-kids-in-texas-hold-em-update-on-joe-burrow-and-shemar-stewart"
+        ],
+        "asOf": "2026-09-17T22:45:33.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "65b8a25b-9c9a-4b46-a06c-98bba7ff9a30",
+      "teamAbbr": "CIN",
+      "category": "GAME",
+      "headline": "The Conversation | How Money Mac Invests In Family And Faith, Not To Mention Scottie Scheffler and Jim Breech",
+      "summary": "Bengals.com senior writer Geoff Hobson called a timeout this week not to ice the NFL’s hottest kicker, but to fan the flames. Evan McPherson talks about how PGA great Scottie Scheffler has impacted his streak and delves into his faith, his girl-dadom, and a climb up the Bengals’ all-time kicking lists that has Money Mac joking with Jim Breech about passing him as the franchise’s all-time leader scorer.",
+      "whatHappened": "Bengals.com senior writer Geoff Hobson called a timeout this week not to ice the NFL’s hottest kicker, but to fan the flames. Evan McPherson talks about how PGA great Scottie Scheffler has impacted his streak and delves into his faith, his girl-dadom, and a climb up the Bengals’ all-time kicking lists that has Money Mac joking with Jim Breech about passing him as the franchise’s all-time leader scorer.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T13:13:58.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:25:36.938Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7eecf8cc-36bd-4c46-b580-ab3f37814a0d",
+          "publisher": "Official team news",
+          "title": "The Conversation | How Money Mac Invests In Family And Faith, Not To Mention Scottie Scheffler and Jim Breech",
+          "url": "https://www.bengals.com/news/the-conversation-how-money-mac-invests-in-family-and-faith-not-to-mention-scottie-scheffler-and-jim-breech",
+          "publishedAt": "2026-09-17T13:13:58.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/the-conversation-how-money-mac-invests-in-family-and-faith-not-to-mention-scottie-scheffler-and-jim-breech"
+        ],
+        "asOf": "2026-09-17T13:13:58.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e5d191b8-81b4-4e44-97a8-6ea37b96c625",
+      "teamAbbr": "CIN",
+      "category": "ANALYSIS",
+      "headline": "Quick Hits | Big Game Joe Burrow Says He'll Be Ready For This One Vs. AFC South Power Texans",
+      "summary": "Notes and quotes from Wednesday as Bengals prep for the Texans (1 p.m.-Cincinnati's Local 12) at Houston and face a team that has made it to the playoffs the last three seasons.",
+      "whatHappened": "Notes and quotes from Wednesday as Bengals prep for the Texans (1 p.m.-Cincinnati's Local 12) at Houston and face a team that has made it to the playoffs the last three seasons.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T22:11:23.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T00:15:30.110Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7526c1f7-7a7c-471f-97ed-d386625b3c54",
+          "publisher": "Official team news",
+          "title": "Quick Hits | Big Game Joe Burrow Says He'll Be Ready For This One Vs. AFC South Power Texans",
+          "url": "https://www.bengals.com/news/quick-hits-big-game-joe-burrow-says-he-ll-be-ready-for-this-one-vs-afc-south-power-texans",
+          "publishedAt": "2026-09-16T22:11:23.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/quick-hits-big-game-joe-burrow-says-he-ll-be-ready-for-this-one-vs-afc-south-power-texans"
+        ],
+        "asOf": "2026-09-16T22:11:23.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "03290245-9d72-4cdd-92d8-9fd0bd8fd13c",
+      "teamAbbr": "CIN",
+      "category": "COACHING",
+      "headline": "Quick Hits | Golden Age of Rotation For Bengals D-Line",
+      "summary": "Al Golden had just done what no Bengals defensive coordinator had ever done. Before Wednesday’s practice, Bengals offensive coordinator Dan Pitcher came up with an apt but daunting analogy when it comes to facing the Texans’ well-paid and gifted pass rushers Will Anderson Jr. and Danielle Hunter Sunday (1 p.m.-Cincinnati’s Local 12) in Houston.",
+      "whatHappened": "Al Golden had just done what no Bengals defensive coordinator had ever done. Before Wednesday’s practice, Bengals offensive coordinator Dan Pitcher came up with an apt but daunting analogy when it comes to facing the Texans’ well-paid and gifted pass rushers Will Anderson Jr. and Danielle Hunter Sunday (1 p.m.-Cincinnati’s Local 12) in Houston.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T18:40:52.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-15T02:50:10.498Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b67a3bee-8128-4435-9c8b-a4233109d1dc",
+          "publisher": "Official team news",
+          "title": "Quick Hits | Golden Age of Rotation For Bengals D-Line",
+          "url": "https://www.bengals.com/news/quick-hits-al-golden-jonathan-allen-dexter-lawrence-boye-mafe-age-of-rotation-for-bengals-d-line",
+          "publishedAt": "2026-09-15T00:33:02.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "e1702243-cff9-4409-8424-9a879f15072f",
+          "publisher": "Official team news",
+          "title": "Quick Hits | Golden Age of Rotation For Bengals D-Line",
+          "url": "https://www.bengals.com/news/quick-hits-bengals-texans-early-test-of-afc-supremacy-zac-taylor-will-anderson-jr",
+          "publishedAt": "2026-09-16T18:40:52.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/quick-hits-al-golden-jonathan-allen-dexter-lawrence-boye-mafe-age-of-rotation-for-bengals-d-line",
+          "https://www.bengals.com/news/quick-hits-bengals-texans-early-test-of-afc-supremacy-zac-taylor-will-anderson-jr"
+        ],
+        "asOf": "2026-09-16T18:40:52.000Z"
+      }
+    },
+    {
+      "id": "4081330b-d540-410e-a4ce-1ad52774ec24",
+      "teamAbbr": "CIN",
+      "category": "GAME",
+      "headline": "Evan McPherson Named AFC Special Teams Player of the Week",
+      "summary": "Bengals K Evan McPherson today was named AFC Special Teams Player of the Week for his performance in the team’s 33-27 win over Tampa Bay in Week 1.",
+      "whatHappened": "Bengals K Evan McPherson today was named AFC Special Teams Player of the Week for his performance in the team’s 33-27 win over Tampa Bay in Week 1.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T16:00:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T18:15:05.797Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e61a9ac1-9dee-4785-b9e4-34687d7ab7f6",
+          "publisher": "Official team news",
+          "title": "Evan McPherson Named AFC Special Teams Player of the Week",
+          "url": "https://www.bengals.com/news/evan-mcpherson-afc-special-teams-player-week-1-2026",
+          "publishedAt": "2026-09-16T16:00:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/evan-mcpherson-afc-special-teams-player-week-1-2026"
+        ],
+        "asOf": "2026-09-16T16:00:43.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "104b195e-7369-480c-a918-8877235f0106",
+      "teamAbbr": "CIN",
+      "category": "ANALYSIS",
+      "headline": "CFL Bengals Andrew Hawkins And Milt Stegall Enjoying Rise Of Dohnte Meyers",
+      "summary": "Sunday’s roaring orange oasis of 66,625 at Paycor Stadium is the largest crowd wide receiver Dohnte Meyers ever played in front of, and that doesn’t count the two most famous CFL players in Bengals history who are watching his every move from afar.",
+      "whatHappened": "Sunday’s roaring orange oasis of 66,625 at Paycor Stadium is the largest crowd wide receiver Dohnte Meyers ever played in front of, and that doesn’t count the two most famous CFL players in Bengals history who are watching his every move from afar.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T22:00:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T00:10:08.129Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e0061d9d-f935-4509-9675-a389b30b73e5",
+          "publisher": "Official team news",
+          "title": "CFL Bengals Andrew Hawkins And Milt Stegall Enjoying Rise Of Dohnte Meyers",
+          "url": "https://www.bengals.com/news/cfl-bengals-andrew-hawkins-and-milt-stegall-enjoying-rise-of-dohnte-meyers",
+          "publishedAt": "2026-09-15T22:00:21.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/cfl-bengals-andrew-hawkins-and-milt-stegall-enjoying-rise-of-dohnte-meyers"
+        ],
+        "asOf": "2026-09-15T22:00:21.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "b6b4f621-63c7-4e77-bdeb-2b03bdc0c403",
+      "teamAbbr": "CIN",
+      "category": "GAME",
+      "headline": "Scouting Report Week 2: Bengals Face First Road Test Against Texans",
+      "summary": "Fresh off an Open In Orange win over the Buccaneers in Week 1, the Bengals travel to Houston in Week 2 to play the Texans.",
+      "whatHappened": "Fresh off an Open In Orange win over the Buccaneers in Week 1, the Bengals travel to Houston in Week 2 to play the Texans.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T17:56:07.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T20:05:04.764Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3303fdf1-96dc-44b8-a8c8-5304123373b3",
+          "publisher": "Official team news",
+          "title": "Scouting Report Week 2: Bengals Face First Road Test Against Texans",
+          "url": "https://www.bengals.com/news/scouting-report-texans-preview-week-2-2026",
+          "publishedAt": "2026-09-15T17:56:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "scouting",
+          "opponent": "HOU"
+        },
+        "reason": "Explicit opponent/scouting focus",
+        "displayCategory": "Scouting",
+        "evidence": [
+          {
+            "field": "opponent",
+            "value": "HOU",
+            "source": "headline",
+            "excerpt": "Scouting Report Week 2: Bengals Face First Road Test Against Texans"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.bengals.com/news/scouting-report-texans-preview-week-2-2026"
+        ],
+        "asOf": "2026-09-15T17:56:07.000Z"
+      }
+    },
+    {
+      "id": "036320c5-16ba-441f-a60e-fea7ccadba7e",
+      "teamAbbr": "CIN",
+      "category": "RELEASE",
+      "headline": "Bengals Release Uniform Combination for Week 2 against Houston Texans",
+      "summary": "Learn what the Bengals are wearing against the Texans in Week 2.",
+      "whatHappened": "Learn what the Bengals are wearing against the Texans in Week 2.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T16:00:34.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T18:10:06.511Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "15d639f3-a2db-41cf-a3d7-ef99f8fe3261",
+          "publisher": "Official team news",
+          "title": "Bengals Release Uniform Combination for Week 2 against Houston Texans",
+          "url": "https://www.bengals.com/news/bengals-uniform-combination-week-2-2026-houston-texans",
+          "publishedAt": "2026-09-15T16:00:34.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "TEAM\nSTYLE"
+        },
+        "reason": "Uniform/merchandise feature, not a game preview",
+        "displayCategory": "Business",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.bengals.com/news/bengals-uniform-combination-week-2-2026-houston-texans"
+        ],
+        "asOf": "2026-09-15T16:00:34.000Z"
+      }
+    },
+    {
+      "id": "469b82cf-42a0-444c-a816-266c2f9ddff3",
+      "teamAbbr": "CIN",
+      "category": "ANALYSIS",
+      "headline": "How To Watch Bengals at Texans for Week 2 of the 2026 Season",
+      "summary": "Learn how to watch, listen and stream the Texans-Bengals game in Week 2 of the 2026 season.",
+      "whatHappened": "Learn how to watch, listen and stream the Texans-Bengals game in Week 2 of the 2026 season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T13:06:59.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T15:15:08.679Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "99a8e0d9-99cd-4c23-b19b-c1de962a6fe7",
+          "publisher": "Official team news",
+          "title": "How To Watch Bengals at Texans for Week 2 of the 2026 Season",
+          "url": "https://www.bengals.com/news/how-to-watch-listen-stream-texans-bengals-week-2-2026",
+          "publishedAt": "2026-09-15T13:06:59.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "CIN",
+          "rightTeam": "HOU",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "CIN",
+            "source": "headline",
+            "excerpt": "How To Watch Bengals at Texans for Week 2 of the 2026 Season"
+          },
+          {
+            "field": "rightTeam",
+            "value": "HOU",
+            "source": "headline",
+            "excerpt": "How To Watch Bengals at Texans for Week 2 of the 2026 Season"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.bengals.com/news/how-to-watch-listen-stream-texans-bengals-week-2-2026"
+        ],
+        "asOf": "2026-09-15T13:06:59.000Z"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 46,
+    "totalPages": 3
+  }
+}

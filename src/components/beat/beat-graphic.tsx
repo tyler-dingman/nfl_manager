@@ -7,6 +7,7 @@ import { TEAM_LIST } from '@/data/teams';
 import { beatAssets } from './beat-assets';
 import { beatFont } from './beat-font';
 import { beatTeam, type BeatGraphicData } from './beat-model';
+import { beatComposition } from './beat-composition';
 import styles from './beat-card.module.css';
 
 type Slot = {
@@ -90,7 +91,26 @@ export function BeatGraphic({
   category: string;
   age: string | null;
 }) {
-  const recipe = manifest.recipes[data.family];
+  const composition = beatComposition(
+    data,
+    (abbr) => <Logo abbr={abbr} x={0} y={0} width={80} height={80} />,
+    beatTeam(selectedTeam) ?? 'NFL',
+  );
+  const recipeFamily =
+    data.family === 'depth-chart'
+      ? 'league'
+      : data.family === 'mailbag'
+        ? 'business-community'
+        : data.family === 'practice'
+          ? 'standard-c'
+          : data.family === 'roster-roundup'
+            ? 'transaction'
+            : data.family === 'recap'
+              ? 'game-matchup'
+              : data.family === 'interview' || data.family === 'team-update'
+                ? 'league'
+                : data.family;
+  const recipe = manifest.recipes[recipeFamily];
   const team = beatTeam(selectedTeam) ?? 'NFL';
   const text: Record<string, ReactNode> = {
     ghost: team,
@@ -105,136 +125,35 @@ export function BeatGraphic({
     </span>
   );
   switch (data.family) {
-    case 'game-matchup':
-      Object.assign(text, { week: data.week, versus: 'VS', kickoff: data.kickoff });
-      extra.push(
-        <Logo key="home" abbr={data.home} x={20} y={60} width={78} height={72} />,
-        <Logo key="away" abbr={data.away} x={222} y={60} width={78} height={72} />,
-      );
-      break;
-    case 'game-result':
-      Object.assign(text, {
-        'score-home': data.homeScore,
-        'score-away': data.awayScore,
-        final: data.final,
-      });
-      extra.push(
-        <Logo key="home" abbr={data.home} x={16} y={68} width={66} height={56} />,
-        <Logo key="away" abbr={data.away} x={240} y={68} width={66} height={56} />,
-      );
-      break;
-    case 'numbered':
-      Object.assign(text, { number: data.count, descriptor: data.descriptor });
-      if (data.count.length === 2) overrides.number = { fontSize: 86 };
-      if (data.count.length > 2) {
-        overrides.number = { fontSize: 64, width: 120, y: 60 };
-        overrides.descriptor = { x: 148, width: 106, fontSize: 26 };
-      }
-      break;
-    case 'stats':
-      Object.assign(text, { number: data.count, descriptor: data.descriptor });
-      if (data.count.length > 1) overrides.number = { fontSize: 72, y: 61 };
-      data.rows.forEach((row, i) => {
-        extra.push(
-          slot(`value${i}`, row.value, {
-            x: 198,
-            y: [42, 83, 123][i],
-            width: 102,
-            height: 21,
-            fontSize: 19,
-            weight: 700,
-            color: 'white',
-          }),
-        );
-        extra.push(
-          slot(`label${i}`, row.label, {
-            x: 198,
-            y: [64, 105, 145][i],
-            width: 102,
-            height: 22,
-            fontSize: 10,
-            weight: 600,
-            color: 'white',
-          }),
-        );
-      });
-      break;
-    case 'player':
-      Object.assign(text, {
-        name: data.name,
-        position: data.position,
-        jersey: data.jersey ? `#${data.jersey}` : '',
-      });
-      if (data.name.length > 16) overrides.name = { fontSize: 23 };
-      if (data.position.length > 2) overrides.position = { fontSize: 72, y: 65 };
-      break;
-    case 'injury':
-      text.week = data.period;
-      if (data.period.length > 2) overrides.week = { fontSize: 82, y: 61 };
-      data.rows.forEach((row, i) =>
-        extra.push(
-          slot(`status${i}`, `${row.count} ${row.status}`, {
-            x: 186,
-            y: 69 + i * 30,
-            width: 115,
-            height: 26,
-            fontSize: row.status.length > 9 ? 16 : 20,
-            weight: 600,
-            color: 'white',
-          }),
-        ),
-      );
-      break;
-    case 'transaction':
-      Object.assign(text, {
-        action: data.action,
-        name: data.name,
-        'position-number': `${data.position}${data.jersey ? ` · ${data.jersey}` : ''}`,
-      });
-      if (data.action.length > 6) overrides.action = { fontSize: 26 };
-      if (data.name.length > 18) overrides.name = { fontSize: 16 };
-      if (data.contract)
-        text.contract = (
-          <>
-            <small className={styles.contractLabel}>Contract</small>
-            {data.contract.term}
-            <br />
-            {data.contract.value}
-          </>
-        );
+    case 'roster-roundup':
+      Object.assign(text, { action: 'ROSTER', name: 'MOVES' });
       extra.push(<Logo key="team" abbr={data.team} x={25} y={48} width={75} height={49} />);
+      overrides.name = { x: 181, y: 94, width: 119, height: 40, fontSize: 34 };
+      break;
+    case 'interview':
+      text.title = data.transcript ? 'PRESS\nTRANSCRIPT' : 'INTERVIEW';
+      overrides.title = { x: 24, y: 57, width: 260, height: 76, fontSize: 32 };
+      if (data.name)
+        extra.push(
+          slot('speaker', data.name, {
+            x: 24,
+            y: 140,
+            width: 270,
+            height: 26,
+            fontSize: 19,
+            weight: 600,
+            color: 'white',
+          }),
+        );
+      break;
+    case 'team-update':
+      text.title = data.label;
       break;
     case 'quote':
       Object.assign(text, { quote: data.quote, attribution: `— ${data.attribution}` });
       break;
     case 'film':
       text.title = 'FILM\nROOM';
-      break;
-    case 'developing':
-      data.updates.forEach((update, i) => {
-        extra.push(
-          slot(`time${i}`, update.time, {
-            x: 60,
-            y: [51, 92, 134][i],
-            width: 242,
-            height: 15,
-            fontSize: 13,
-            weight: 600,
-            color: 'white',
-          }),
-        );
-        extra.push(
-          slot(`detail${i}`, update.detail, {
-            x: 60,
-            y: [67, 108, 150][i],
-            width: 242,
-            height: 27,
-            fontSize: 12,
-            weight: 500,
-            color: 'white',
-          }),
-        );
-      });
       break;
     case 'business-community':
       text.title = data.label;
@@ -247,7 +166,7 @@ export function BeatGraphic({
         );
       break;
     case 'coaching':
-      text.title = 'GAME\nPLAN';
+      text.title = data.label ?? 'GAME\nPLAN';
       break;
     case 'league':
       text.title = 'LEAGUE\nUPDATE';
@@ -273,7 +192,33 @@ export function BeatGraphic({
       break;
   }
   const layerIds = [...manifest.sharedLayers, ...recipe.layers].filter((id) => {
-    if (id === 'contract-divider' && data.family === 'transaction' && !data.contract) return false;
+    if (
+      data.family === 'transaction' &&
+      ['directional-four-chevrons', 'contract-divider'].includes(id)
+    )
+      return false;
+    if (data.family === 'depth-chart' && id === 'around-nfl-network') return false;
+    if (data.family === 'mailbag' && id === 'interlocking-lines') return false;
+    if (data.family === 'developing' && id === 'story-timeline') return false;
+    if (
+      composition &&
+      [
+        'name-underline',
+        'status-divider',
+        'data-dividers',
+        'result-separator',
+        'matchup-framing',
+      ].includes(id)
+    )
+      return false;
+    if (
+      id === 'contract-divider' &&
+      (data.family === 'roster-roundup' || (data.family === 'transaction' && !data.contract))
+    )
+      return false;
+    if (id === 'status-divider' && data.family === 'injury' && !data.period && !data.rows.length)
+      return false;
+    if (id === 'data-dividers' && data.family === 'stats' && !data.rows.length) return false;
     if (id === 'closing-quote-marks' && data.family === 'quote') {
       const lines = data.quote.split('\n');
       return lines.length > 1 ? lines[lines.length - 1].length <= 15 : data.quote.length <= 40;
@@ -292,7 +237,15 @@ export function BeatGraphic({
               className={styles.layer}
               aria-hidden="true"
               style={{
-                opacity: asset.cssOpacity,
+                opacity:
+                  (
+                    {
+                      'dark-grain-texture': 0.12,
+                      'etched-schematic-texture': 0.045,
+                      'diagonal-shadow-bands': 0.015,
+                      'diagonal-accent-stripes': 0.38,
+                    } as Record<string, number>
+                  )[id] ?? asset.cssOpacity,
                 color: asset.colorRole === 'accent' ? 'var(--beat-accent)' : '#fff',
               }}
             >
@@ -300,26 +253,27 @@ export function BeatGraphic({
             </div>
           );
         })}
-        {recipe.textSlots
-          .filter((spec) => text[spec.name] != null)
-          .map((spec) => {
-            const decorative = spec.color === 'ghost';
-            return (
-              <span
-                key={spec.name}
-                data-beat-slot={spec.name}
-                aria-hidden={decorative || spec.color === 'outline' || undefined}
-                className={`${styles.slot} ${styles[spec.name] ?? ''}`}
-                style={slotStyle({ ...spec, ...overrides[spec.name] })}
-              >
-                {text[spec.name]}
-              </span>
-            );
-          })}
+        {!composition &&
+          recipe.textSlots
+            .filter((spec) => text[spec.name] != null)
+            .map((spec) => {
+              const decorative = spec.color === 'ghost';
+              return (
+                <span
+                  key={spec.name}
+                  data-beat-slot={spec.name}
+                  aria-hidden={decorative || spec.color === 'outline' || undefined}
+                  className={`${styles.slot} ${styles[spec.name] ?? ''}`}
+                  style={slotStyle({ ...spec, ...overrides[spec.name] })}
+                >
+                  {text[spec.name]}
+                </span>
+              );
+            })}
         {data.family === 'player' ? (
-          <span className="sr-only">Position: {data.position}</span>
+          <span className="sr-only">Position: {data.position ?? ''}</span>
         ) : null}
-        {extra}
+        {composition ?? extra}
         <span className={styles.marker} aria-hidden="true" />
         <span className={styles.category}>{category.replaceAll('_', ' ')}</span>
         {age ? <span className={styles.age}>{age}</span> : null}

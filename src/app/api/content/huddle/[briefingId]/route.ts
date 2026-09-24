@@ -1,3 +1,4 @@
+import { enrichGameStories } from '@/server/schedule/enrich';
 import { NextResponse } from 'next/server';
 
 import { TEAM_LIST } from '@/data/teams';
@@ -13,6 +14,6 @@ export async function GET(request: Request, { params }: { params: { briefingId: 
   const briefing = briefings.find((candidate) => candidate.id === params.briefingId);
 
   return briefing
-    ? NextResponse.json(briefing)
+    ? NextResponse.json((await enrichGameStories([briefing]))[0])
     : NextResponse.json({ error: 'Briefing not found.' }, { status: 404 });
 }

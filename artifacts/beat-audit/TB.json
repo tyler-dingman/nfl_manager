@@ -1,0 +1,556 @@
+{
+  "teamAbbr": "TB",
+  "teamName": "Tampa Bay Buccaneers",
+  "briefings": [
+    {
+      "id": "c9e255a7-0772-4ff2-86e3-263bbae552b6",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "Top Plays Breakdown: Scoring Drive Week 2",
+      "summary": "A behind-the-scenes look at the moments that impacted the Bucs Week Two clash with Cleveland and led to Emeka Egbuka’s five-yard touchdown",
+      "whatHappened": "A behind-the-scenes look at the moments that impacted the Bucs Week Two clash with Cleveland and led to Emeka Egbuka’s five-yard touchdown",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:16:16.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T04:00:45.394Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7e3b7d08-240a-481a-965f-bb5150dba0fb",
+          "publisher": "Official team news",
+          "title": "Top Plays Breakdown: Scoring Drive Week 2",
+          "url": "https://www.buccaneers.com/news/top-plays-breakdown-scoring-drive-week-2-2026",
+          "publishedAt": "2026-09-22T20:16:16.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "b23d74ed-899e-4f6b-9246-5f599e8dae11",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "2026 Bucs NFL Power Rankings Week 3",
+      "summary": "Where do the Tampa Bay Buccaneers rank in Week Three across Power Rankings?",
+      "whatHappened": "Where do the Tampa Bay Buccaneers rank in Week Three across Power Rankings?",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T13:30:45.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T16:00:46.982Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9c07ef1d-571e-463c-824d-0fb76d49773b",
+          "publisher": "Official team news",
+          "title": "2026 Bucs NFL Power Rankings Week 3",
+          "url": "https://www.buccaneers.com/news/2026-bucs-nfl-power-rankings-week-3-2026",
+          "publishedAt": "2026-09-22T13:30:45.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "8020ebc8-b8d7-451d-a3a7-79335a746e4a",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "David Walker Takes Advantage of Opportunity Against Browns",
+      "summary": "Against the Browns in Week Two, second-year outside linebacker David Walker maximized his snaps on defense and nabbed his first-career sack",
+      "whatHappened": "Against the Browns in Week Two, second-year outside linebacker David Walker maximized his snaps on defense and nabbed his first-career sack",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:02:59.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T20:00:41.652Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c100609e-6a67-441e-a204-4cf3b1260238",
+          "publisher": "Official team news",
+          "title": "David Walker Takes Advantage of Opportunity Against Browns",
+          "url": "https://www.buccaneers.com/news/david-walker-takes-advantage-of-opportunity-against-browns",
+          "publishedAt": "2026-09-21T21:02:59.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "5832ba69-ef38-4b70-8005-f4a34d92bafe",
+      "teamAbbr": "TB",
+      "category": "GAME",
+      "headline": "Bucs Control Ground Game in Loss to Browns | Data Crunch",
+      "summary": "Though it didn't result in victory, the Buccaneers averaged 5.5 yards per carry against Cleveland on Sunday while allowing just 1.9 yards per tote on defense…Chase McLaughlin ranks among the NFL's scoring leaders",
+      "whatHappened": "Though it didn't result in victory, the Buccaneers averaged 5.5 yards per carry against Cleveland on Sunday while allowing just 1.9 yards per tote on defense…Chase McLaughlin ranks among the NFL's scoring leaders",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T18:39:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T22:00:39.018Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8139ee3c-59ba-43ec-a780-a83c0b014406",
+          "publisher": "Official team news",
+          "title": "Bucs Control Ground Game in Loss to Browns | Data Crunch",
+          "url": "https://www.buccaneers.com/news/bucs-control-ground-game-in-loss-to-browns-data-crunch",
+          "publishedAt": "2026-09-21T18:39:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "dc441cc5-dfbe-4920-85d8-6c7d5e0093bf",
+      "teamAbbr": "TB",
+      "category": "GAME",
+      "headline": "5 Notes Against the Browns | Week 2",
+      "summary": "In the Buccaneers’ 23-19 loss to the Browns in Week Two, five notes stood out for the home team Top observations from the 23-19 loss to the Browns at Raymond James Stadium in Week Two",
+      "whatHappened": "In the Buccaneers’ 23-19 loss to the Browns in Week Two, five notes stood out for the home team Top observations from the 23-19 loss to the Browns at Raymond James Stadium in Week Two",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T14:39:31.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-21T14:00:47.299Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "aa6e9c62-24fc-4604-875f-a4b2965064c0",
+          "publisher": "Official team news",
+          "title": "5 Notes Against the Browns | Week 2",
+          "url": "https://www.buccaneers.com/news/5-notes-against-the-browns-week-2-2026",
+          "publishedAt": "2026-09-20T23:05:44.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "3f23fdb3-ee5d-41ed-b247-ee0317aa2b0f",
+          "publisher": "Official team news",
+          "title": "5 Notes Against the Browns | Week 2",
+          "url": "https://www.buccaneers.com/news/takeaways-from-buccaneers-browns-week-2",
+          "publishedAt": "2026-09-21T14:39:31.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "8c80eed7-af03-4082-a1d4-296b532f21fb",
+      "teamAbbr": "TB",
+      "category": "GAME",
+      "headline": "After Lightning Delay, Bucs Can't Land Final Strike in Loss to Browns",
+      "summary": "The Buccaneers had a chance to win at the end against Cleveland following a 132-minute interruption due to nearby lightning, but two near-misses in the end zone doomed them to a 23-19 loss and their first 0-2 start in 12 years",
+      "whatHappened": "The Buccaneers had a chance to win at the end against Cleveland following a 132-minute interruption due to nearby lightning, but two near-misses in the end zone doomed them to a 23-19 loss and their first 0-2 start in 12 years",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T02:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T04:00:41.725Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "099238ec-9492-4ce0-b916-306c24da0a5f",
+          "publisher": "Official team news",
+          "title": "After Lightning Delay, Bucs Can't Land Final Strike in Loss to Browns",
+          "url": "https://www.buccaneers.com/news/browns-bucs-week-2-recap-postgame-report-2026",
+          "publishedAt": "2026-09-21T02:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "e7e69f49-8be8-42cb-8d7a-20923c40e1e7",
+      "teamAbbr": "TB",
+      "category": "GAME",
+      "headline": "Baker Mayfield: Bucs' Offense Is Close, Mistakes Are Frustrating",
+      "summary": "The Buccaneers' Week Two loss to Cleveland included unsatisfying results in the red zone, but QB Baker Mayfield thinks the Bucs are close to putting it all together",
+      "whatHappened": "The Buccaneers' Week Two loss to Cleveland included unsatisfying results in the red zone, but QB Baker Mayfield thinks the Bucs are close to putting it all together",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T01:26:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T04:00:42.046Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "29e39268-75c9-4cca-9b32-4bb7d08d874c",
+          "publisher": "Official team news",
+          "title": "Baker Mayfield: Bucs' Offense Is Close, Mistakes Are Frustrating",
+          "url": "https://www.buccaneers.com/news/baker-mayfield-bucs-offense-close-mistakes-frustrating",
+          "publishedAt": "2026-09-21T01:26:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "7af2157e-fd25-4ab4-b6aa-717dcda0d5bc",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "Rapid Reaction: Browns 23, Buccaneers 19",
+      "summary": "The Tampa Bay Buccaneers fell to the Cleveland Browns 23-19 at Raymond James in the home opener",
+      "whatHappened": "The Tampa Bay Buccaneers fell to the Cleveland Browns 23-19 at Raymond James in the home opener",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T01:06:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T04:00:42.158Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6f1e712f-f090-4348-a4a7-6921fc11f157",
+          "publisher": "Official team news",
+          "title": "Rapid Reaction: Browns 23, Buccaneers 19",
+          "url": "https://www.buccaneers.com/news/bucs-lose-cleveland-browns-week-2-2026-score-23-19",
+          "publishedAt": "2026-09-21T01:06:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "173e2a72-001b-42a7-968c-a43aa32609ff",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "Buccaneers' Next Game: Homestand Continues with Visit from Vikings",
+      "summary": "Sitting at 0-2 for the first time since 2014, the Buccaneers will seek to right the ship in Week Three against the visiting Minnesota Vikings, who are 2-0 despite losing their starting quarterback in Week One",
+      "whatHappened": "Sitting at 0-2 for the first time since 2014, the Buccaneers will seek to right the ship in Week Three against the visiting Minnesota Vikings, who are 2-0 despite losing their starting quarterback in Week One",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T01:05:18.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T04:00:42.220Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "03bf71b6-8a6e-4a8c-b008-c6168cecf836",
+          "publisher": "Official team news",
+          "title": "Buccaneers' Next Game: Homestand Continues with Visit from Vikings",
+          "url": "https://www.buccaneers.com/news/next-game-minnesota-vikings-vs-tampa-bay-buccaneers-nfl-season-week-3-2026",
+          "publishedAt": "2026-09-21T01:05:18.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "b5030792-2bba-440b-a783-89bf75254ffe",
+      "teamAbbr": "TB",
+      "category": "INJURY",
+      "headline": "Bucs Elevate Safety Ifeatu Melifonwu Again",
+      "summary": "With just three safeties on the 53-man roster, and with Miles Killebrew questionable for Sunday's game against the Browns, the Bucs have activated veteran defender Ifeatu Melifonwu from the practice squad for the second week in a row",
+      "whatHappened": "With just three safeties on the 53-man roster, and with Miles Killebrew questionable for Sunday's game against the Browns, the Bucs have activated veteran defender Ifeatu Melifonwu from the practice squad for the second week in a row",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T16:00:46.195Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c16ebc44-e53e-4c8e-ae22-ea14d62d8bf3",
+          "publisher": "Official team news",
+          "title": "Bucs Elevate Safety Ifeatu Melifonwu Again",
+          "url": "https://www.buccaneers.com/news/bucs-elevate-safety-ifeatu-melifonwu-again",
+          "publishedAt": "2026-09-19T20:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "971d1b02-8639-481b-85af-6bcee2a8ed0d",
+      "teamAbbr": "TB",
+      "category": "INJURY",
+      "headline": "Buccaneers-Browns Injury Report Sept.16: Parrish, Killebrew Limited Participants",
+      "summary": "A look at Wednesday's injury report ahead of the Week 2 matchup A look at Thursday's injury report ahead of the Week 2 matchup A look at Friday's injury report ahead of the Week 2 matchup",
+      "whatHappened": "A look at Wednesday's injury report ahead of the Week 2 matchup A look at Thursday's injury report ahead of the Week 2 matchup",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:01:45.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-16T22:45:37.509Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "612c06f4-edd5-456c-b0d2-8443c4c1c44c",
+          "publisher": "Official team news",
+          "title": "Buccaneers-Browns Injury Report Sept.16: Parrish, Killebrew Limited Participants",
+          "url": "https://www.buccaneers.com/news/buccaneers-browns-injury-report-sept-16-week-2-2026",
+          "publishedAt": "2026-09-16T20:41:21.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "61b6b752-bc63-4aac-92dd-2964064b97ea",
+          "publisher": "Official team news",
+          "title": "Buccaneers-Browns Injury Report Sept.16: Parrish, Killebrew Limited Participants",
+          "url": "https://www.buccaneers.com/news/buccaneers-browns-injury-report-sept-17-week-2-2026",
+          "publishedAt": "2026-09-17T20:01:15.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "235fb249-845d-490a-8eae-aa3bc5b73e0d",
+          "publisher": "Official team news",
+          "title": "Buccaneers-Browns Injury Report Sept.16: Parrish, Killebrew Limited Participants",
+          "url": "https://www.buccaneers.com/news/buccaneers-browns-injury-report-sept-18-week-2-2026",
+          "publishedAt": "2026-09-18T20:01:45.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "44367f34-62f7-4a1c-ae68-4b64edd9ce67",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "Week Two Expert Picks: Browns at Buccaneers",
+      "summary": "In a battle of two 0-1 teams, the Buccaneers are seen as more likely than the visiting Browns to even up their record in Week Two by most national analysts",
+      "whatHappened": "In a battle of two 0-1 teams, the Buccaneers are seen as more likely than the visiting Browns to even up their record in Week Two by most national analysts",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:43:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T14:00:54.067Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "09cb1d43-f176-4830-a63f-f4aafe447254",
+          "publisher": "Official team news",
+          "title": "Week Two Expert Picks: Browns at Buccaneers",
+          "url": "https://www.buccaneers.com/news/week-two-expert-picks-browns-at-buccaneers-2026",
+          "publishedAt": "2026-09-18T18:43:19.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "f3d0fcd9-c347-4230-b077-f29ffa9b7252",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "D-Line Taking Bengals' Loss Personal, Jalen McMillan Setting Defenders' Leverages & More | Bucs Blitz",
+      "summary": "On Thursday, Larry Foote discussed the defensive line’s mentality entering Week Two after falling short of expectations in the season opener, Zac Robinson dished on Jalen McMillan’s separation skills and Tristan Wirfs chatted on his matchup with Jared Verse",
+      "whatHappened": "On Thursday, Larry Foote discussed the defensive line’s mentality entering Week Two after falling short of expectations in the season opener, Zac Robinson dished on Jalen McMillan’s separation skills and Tristan Wirfs chatted on his matchup with Jared Verse",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:14:32.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:51.887Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "124a0d14-1498-4261-85f9-232c6545bfa0",
+          "publisher": "Official team news",
+          "title": "D-Line Taking Bengals' Loss Personal, Jalen McMillan Setting Defenders' Leverages & More | Bucs Blitz",
+          "url": "https://www.buccaneers.com/news/defensive-line-taking-bengals-loss-personal-mcmillan-setting-defenders-leverages-more-bucs-blitz",
+          "publishedAt": "2026-09-18T15:14:32.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "9124bd79-28e1-43f8-8240-2e0d66628bff",
+      "teamAbbr": "TB",
+      "category": "DRAFT",
+      "headline": "Performance Preview: Week Two Star – Emeka Egbuka, Rueben Bain Jr. or Bucky Irving?",
+      "summary": "As our three-way competition to predict the Buccaneers' weekly standout player continues, we get two picks on offense and our first selection of the year for first-round pick Rueben Bain Jr.",
+      "whatHappened": "As our three-way competition to predict the Buccaneers' weekly standout player continues, we get two picks on offense and our first selection of the year for first-round pick Rueben Bain Jr.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T12:00:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:46.946Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3a7a7494-96b9-4bdc-81f5-ed46bc1a3a3a",
+          "publisher": "Official team news",
+          "title": "Performance Preview: Week Two Star – Emeka Egbuka, Rueben Bain Jr. or Bucky Irving?",
+          "url": "https://www.buccaneers.com/news/performance-preview-week-two-star-emeka-egbuka-rueben-bain-jr-or-bucky-irving",
+          "publishedAt": "2026-09-18T12:00:02.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "068ca778-6899-4c88-851e-06db14d5927c",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "Pass Protection Looms Large | Browns-Bucs Tale of the Tape",
+      "summary": "The Bucs may have an advantage on Sunday in terms of getting their defense off the field, and the Browns' defense has also been good at limiting big plays, but the key to the game may be which team protects its quarterback the best",
+      "whatHappened": "The Bucs may have an advantage on Sunday in terms of getting their defense off the field, and the Browns' defense has also been good at limiting big plays, but the key to the game may be which team protects its quarterback the best",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T12:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:46.995Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "52915db2-39c3-47eb-b13b-dd952fb32578",
+          "publisher": "Official team news",
+          "title": "Pass Protection Looms Large | Browns-Bucs Tale of the Tape",
+          "url": "https://www.buccaneers.com/news/pass-protection-looms-large-browns-bucs-tale-of-the-tape",
+          "publishedAt": "2026-09-18T12:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "b9f5b0e9-20b0-42aa-a093-a448e330b89b",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "Bucky Irving: Outlet for Baker Mayfield in the Passing Game",
+      "summary": "Against the Bengals in Week One, Bucky Irving showcased his versatile skillset, reminiscent of his production at Oregon",
+      "whatHappened": "Against the Bengals in Week One, Bucky Irving showcased his versatile skillset, reminiscent of his production at Oregon",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T19:39:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T00:00:56.278Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0d8e6e9c-8b4a-420e-82ee-bffe7c64d6ee",
+          "publisher": "Official team news",
+          "title": "Bucky Irving: Outlet for Baker Mayfield in the Passing Game",
+          "url": "https://www.buccaneers.com/news/bucky-irving-outlet-for-baker-mayfield-passing-game",
+          "publishedAt": "2026-09-17T19:39:19.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "7e00e3d5-1b72-4de5-ae39-2ebe0931f50a",
+      "teamAbbr": "TB",
+      "category": "PRACTICE",
+      "headline": "Jalen McMillan Brings Separation Prowess to Offense",
+      "summary": "Jalen McMillan has progressed towards a return with full participation in practice this week and Emeka Egbuka spoke on the dynamic ability he brings to the offense",
+      "whatHappened": "Jalen McMillan has progressed towards a return with full participation in practice this week and Emeka Egbuka spoke on the dynamic ability he brings to the offense",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T18:56:51.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T00:00:56.787Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "2e4a6e8c-4c79-43a0-95d4-2336c3381f6b",
+          "publisher": "Official team news",
+          "title": "Jalen McMillan Brings Separation Prowess to Offense",
+          "url": "https://www.buccaneers.com/news/jalen-mcmillan-brings-separation-prowess-to-offense",
+          "publishedAt": "2026-09-17T18:56:51.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "61c33146-d601-49e0-8a21-da53157f0d1a",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "5 Bucs to Watch Against the Browns in Week Two",
+      "summary": "The Buccaneers will take on the Browns in Week Two at Raymond James Stadium. Here are five Buccaneers to keep an eye on",
+      "whatHappened": "The Buccaneers will take on the Browns in Week Two at Raymond James Stadium. Here are five Buccaneers to keep an eye on",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T14:58:44.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T17:05:35.463Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3e5d831e-b584-41b1-ae8b-4e1cbe23fd20",
+          "publisher": "Official team news",
+          "title": "5 Bucs to Watch Against the Browns in Week Two",
+          "url": "https://www.buccaneers.com/news/5-bucs-to-watch-against-the-browns-in-week-two-2026",
+          "publishedAt": "2026-09-17T14:58:44.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "5a9f3123-11cb-4060-bec4-8bc49c5a381b",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "2026 Game Preview: Browns-Buccaneers, Week 2",
+      "summary": "The Bucs will play their 2026 home opener on Sunday against Todd Monken's Browns team, as they look to avoid their turnover problems from Week One and keep dual-threat QB Deshaun Watson in check",
+      "whatHappened": "The Bucs will play their 2026 home opener on Sunday against Todd Monken's Browns team, as they look to avoid their turnover problems from Week One and keep dual-threat QB Deshaun Watson in check",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:35:32.436Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c5dd9a67-12f2-4f17-ab72-53ab14f308ab",
+          "publisher": "Official team news",
+          "title": "2026 Game Preview: Browns-Buccaneers, Week 2",
+          "url": "https://www.buccaneers.com/news/2026-game-preview-browns-buccaneers-week-2",
+          "publishedAt": "2026-09-17T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "678b767a-4fe8-4d7a-8ab4-8d8452eb8fe0",
+      "teamAbbr": "TB",
+      "category": "ANALYSIS",
+      "headline": "Benjamin Morrison Rising to the Occasion and Instinctual LB Play in Week Two | Bucs Blitz",
+      "summary": "A look at Benjamin Morrison’s ascension in the season opener with added reps and elite linebacker play from Buccaneers’ Josiah Trotter and Browns’ Carson Schwesinger",
+      "whatHappened": "A look at Benjamin Morrison’s ascension in the season opener with added reps and elite linebacker play from Buccaneers’ Josiah Trotter and Browns’ Carson Schwesinger",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T21:00:09.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T23:05:30.882Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "edcd0f49-d027-468b-b995-026dc0b01576",
+          "publisher": "Official team news",
+          "title": "Benjamin Morrison Rising to the Occasion and Instinctual LB Play in Week Two | Bucs Blitz",
+          "url": "https://www.buccaneers.com/news/benjamin-morrison-rising-occasion-instinctual-lb-play-week-two-bucs-blitz",
+          "publishedAt": "2026-09-16T21:00:09.000Z",
+          "kind": "reporting"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 60,
+    "totalPages": 3
+  }
+}

@@ -1,3 +1,4 @@
+import { enrichGameStories } from '@/server/schedule/enrich';
 import { NextResponse } from 'next/server';
 
 import { TEAM_LIST } from '@/data/teams';
@@ -62,7 +63,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       teamAbbr,
       teamName,
-      briefings,
+      briefings: await enrichGameStories(briefings),
       pagination: {
         page: result.page,
         pageSize: result.pageSize,

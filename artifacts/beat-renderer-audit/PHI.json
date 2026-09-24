@@ -1,0 +1,891 @@
+{
+  "teamAbbr": "PHI",
+  "teamName": "Philadelphia Eagles",
+  "briefings": [
+    {
+      "id": "4d116e7b-6312-44f2-8944-92f60960373a",
+      "teamAbbr": "PHI",
+      "category": "INJURY",
+      "headline": "Spadaro: Jalen Hurts, Eagles do what it takes to win",
+      "summary": "New scheme, injuries to key personnel, adversity – the offense has overcome it all in this 2-0 start with room for growth.",
+      "whatHappened": "New scheme, injuries to key personnel, adversity – the offense has overcome it all in this 2-0 start with room for growth.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T23:45:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T04:00:44.945Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6740bd45-58e0-421d-8fac-1b40c21c1d3d",
+          "publisher": "Official team news",
+          "title": "Spadaro: Jalen Hurts, Eagles do what it takes to win",
+          "url": "https://www.philadelphiaeagles.com/news/jalen-hurts-eagles-do-what-it-takes-to-win",
+          "publishedAt": "2026-09-22T23:45:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "INJURY",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/jalen-hurts-eagles-do-what-it-takes-to-win"
+        ],
+        "asOf": "2026-09-22T23:45:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "3d4ef9ea-8eb9-47cb-816f-221a00b7860e",
+      "teamAbbr": "PHI",
+      "category": "SIGNING",
+      "headline": "Eagles release DT Gabe Hall from the practice squad",
+      "summary": "The third-year defensive tackle first signed with the Eagles in 2024.",
+      "whatHappened": "The third-year defensive tackle first signed with the Eagles in 2024.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:11:29.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T04:00:45.463Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b3475d31-fb53-485d-baa2-e9b9a71c8f59",
+          "publisher": "Official team news",
+          "title": "Eagles release DT Gabe Hall from the practice squad",
+          "url": "https://www.philadelphiaeagles.com/news/eagles-release-gabe-hall-from-the-practice-squad",
+          "publishedAt": "2026-09-22T20:11:29.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "PHI",
+          "action": "RELEASED",
+          "name": "Gabe Hall",
+          "position": "DT"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Gabe Hall",
+            "source": "headline",
+            "excerpt": "release DT Gabe Hall"
+          },
+          {
+            "field": "action",
+            "value": "RELEASED",
+            "source": "headline",
+            "excerpt": "release DT Gabe Hall"
+          },
+          {
+            "field": "position",
+            "value": "DT",
+            "source": "headline",
+            "excerpt": "DT Gabe Hall"
+          },
+          {
+            "field": "team",
+            "value": "PHI",
+            "source": "canonical",
+            "excerpt": "PHI"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/eagles-release-gabe-hall-from-the-practice-squad"
+        ],
+        "asOf": "2026-09-22T20:11:29.000Z"
+      }
+    },
+    {
+      "id": "232009fa-9f77-4fd6-9d77-5b9d08313cf2",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "Spadaro: The wide receivers? They are delivering",
+      "summary": "DeVonta Smith leads the way, but the Eagles' big-play passing attack is getting contributions from the entire group.",
+      "whatHappened": "DeVonta Smith leads the way, but the Eagles' big-play passing attack is getting contributions from the entire group.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T19:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T22:00:38.933Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "29f2c2a8-1d11-4760-ae74-ffeefb273d26",
+          "publisher": "Official team news",
+          "title": "Spadaro: The wide receivers? They are delivering",
+          "url": "https://www.philadelphiaeagles.com/news/spadaro-the-eagles-wide-receivers-they-are-delivering-devonta-smith-dontayvion-wicks-darius-cooper",
+          "publishedAt": "2026-09-21T19:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/spadaro-the-eagles-wide-receivers-they-are-delivering-devonta-smith-dontayvion-wicks-darius-cooper"
+        ],
+        "asOf": "2026-09-21T19:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "616ac145-b33d-4333-ad1c-330742a12e46",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "Jalen Hurts was composed when it mattered most",
+      "summary": "With less than two minutes remaining, Jalen Hurts led the Eagles’ offense down the field for the game-winning touchdown on the road against the Titans.",
+      "whatHappened": "With less than two minutes remaining, Jalen Hurts led the Eagles’ offense down the field for the game-winning touchdown on the road against the Titans.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T00:15:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T04:00:42.261Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "951d66ed-cf2e-4abf-b2a7-1b1a593bd43d",
+          "publisher": "Official team news",
+          "title": "Jalen Hurts was composed when it mattered most",
+          "url": "https://www.philadelphiaeagles.com/news/jalen-hurts-was-composed-when-it-mattered-most",
+          "publishedAt": "2026-09-21T00:15:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/jalen-hurts-was-composed-when-it-mattered-most"
+        ],
+        "asOf": "2026-09-21T00:15:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e9c7f2c6-7973-43bc-8a7a-f414b26c1ca6",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "Eagles elevate S Maximus Pulley for Sunday's game at Titans",
+      "summary": "The rookie free agent is on track to make his NFL debut.",
+      "whatHappened": "The rookie free agent is on track to make his NFL debut.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T16:00:46.139Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "eb2f3b57-220a-4c0c-819c-1f1f7228c078",
+          "publisher": "Official team news",
+          "title": "Eagles elevate S Maximus Pulley for Sunday's game at Titans",
+          "url": "https://www.philadelphiaeagles.com/news/eagles-elevate-maximus-pulley-for-game-at-titans",
+          "publishedAt": "2026-09-19T20:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "PHI",
+          "action": "ELEVATED",
+          "name": "Maximus Pulley",
+          "position": "S"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Maximus Pulley",
+            "source": "headline",
+            "excerpt": "elevate S Maximus Pulley"
+          },
+          {
+            "field": "action",
+            "value": "ELEVATED",
+            "source": "headline",
+            "excerpt": "elevate S Maximus Pulley"
+          },
+          {
+            "field": "position",
+            "value": "S",
+            "source": "headline",
+            "excerpt": "S Maximus Pulley"
+          },
+          {
+            "field": "team",
+            "value": "PHI",
+            "source": "canonical",
+            "excerpt": "PHI"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/eagles-elevate-maximus-pulley-for-game-at-titans"
+        ],
+        "asOf": "2026-09-19T20:00:00.000Z"
+      }
+    },
+    {
+      "id": "40cd88b6-d403-4cf1-89b1-de08057736ab",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "Get to know Jonathan Jones: \"Dancing with the Stars\" edition",
+      "summary": "The Eagles cornerback watched his former teammate, Danny Amendola, reach the finals of the competition.",
+      "whatHappened": "The Eagles cornerback watched his former teammate, Danny Amendola, reach the finals of the competition.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T09:00:00.000Z",
+      "sourceCount": 1,
+      "status": "RESOLVED",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.547Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a6f2ae2e-3f23-4c3e-bc8a-04158026b8e3",
+          "publisher": "Official team news",
+          "title": "Get to know Jonathan Jones: \"Dancing with the Stars\" edition",
+          "url": "https://www.philadelphiaeagles.com/news/get-to-know-jonathan-jones-dancing-with-the-stars-edition",
+          "publishedAt": "2026-09-19T09:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/get-to-know-jonathan-jones-dancing-with-the-stars-edition"
+        ],
+        "asOf": "2026-09-19T09:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d40d75e7-5fbc-4034-8b82-960b04f4b08d",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "Spadaro: Game Preview at Titans, 6 storylines to follow",
+      "summary": "The goal is to go on the road for the first time in this 2026 regular season and come out with a win. The Titans are hungry, looking to avoid an 0-2 start at home. Something has to give.",
+      "whatHappened": "The goal is to go on the road for the first time in this 2026 regular season and come out with a win. The Titans are hungry, looking to avoid an 0-2 start at home. Something has to give.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T21:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T02:00:55.800Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "bdd7ac7b-ba8f-4757-8c00-a20996556b19",
+          "publisher": "Official team news",
+          "title": "Spadaro: Game Preview at Titans, 6 storylines to follow",
+          "url": "https://www.philadelphiaeagles.com/news/eagles-game-preview-at-titans-6-storylines-to-follow-2026-week-2-nfl-regular-season",
+          "publishedAt": "2026-09-18T21:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "PHI",
+          "rightTeam": "TEN"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "PHI",
+            "source": "canonical",
+            "excerpt": "PHI"
+          },
+          {
+            "field": "rightTeam",
+            "value": "TEN",
+            "source": "headline",
+            "excerpt": "Spadaro: Game Preview at Titans, 6 storylines to follow"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/eagles-game-preview-at-titans-6-storylines-to-follow-2026-week-2-nfl-regular-season"
+        ],
+        "asOf": "2026-09-18T21:00:00.000Z"
+      }
+    },
+    {
+      "id": "4468b0d7-60c1-42d8-a316-01d93f33e3d8",
+      "teamAbbr": "PHI",
+      "category": "GAME",
+      "headline": "Can you name the Eagles offense from the last time we faced the Titans?",
+      "summary": "The Eagles defeated the Titans 35-10 on December 4, 2022.",
+      "whatHappened": "The Eagles defeated the Titans 35-10 on December 4, 2022.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T19:00:05.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T22:00:53.641Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "aed8169f-f0af-476e-b09e-13a36f266774",
+          "publisher": "Official team news",
+          "title": "Can you name the Eagles offense from the last time we faced the Titans?",
+          "url": "https://www.philadelphiaeagles.com/news/can-you-name-the-eagles-offense-from-the-last-time-we-faced-the-titans",
+          "publishedAt": "2026-09-17T19:00:05.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/can-you-name-the-eagles-offense-from-the-last-time-we-faced-the-titans"
+        ],
+        "asOf": "2026-09-17T19:00:05.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e4465150-176f-499d-b5d2-144063eed074",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "Spadaro: Defense looks to carry the energy, the vibe into Sunday's clash with the Titans",
+      "summary": "The players were encouraged by the performance against Washington, but are motivated to be even better this Sunday.",
+      "whatHappened": "The players were encouraged by the performance against Washington, but are motivated to be even better this Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T15:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T17:05:35.384Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "61f1530b-c5c0-4694-b1ac-ff73b7548c4a",
+          "publisher": "Official team news",
+          "title": "Spadaro: Defense looks to carry the energy, the vibe into Sunday's clash with the Titans",
+          "url": "https://www.philadelphiaeagles.com/news/spadaro-defense-looks-to-carry-the-energy-the-vibe-into-sunday-s-clash-with-the-titans",
+          "publishedAt": "2026-09-17T15:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/spadaro-defense-looks-to-carry-the-energy-the-vibe-into-sunday-s-clash-with-the-titans"
+        ],
+        "asOf": "2026-09-17T15:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f345c53f-f44f-494a-b45e-cd60cfb27c50",
+      "teamAbbr": "PHI",
+      "category": "COACHING",
+      "headline": "Eagles Tackle Football Coach of the Week: Don Richardson, West Catholic",
+      "summary": "After waiting nearly two decades for the opportunity to run a program, Richardson is not wasting it.",
+      "whatHappened": "After waiting nearly two decades for the opportunity to run a program, Richardson is not wasting it.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T13:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:35:32.293Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "eeb1f10f-4ee8-4c1c-a434-b333717962cf",
+          "publisher": "Official team news",
+          "title": "Eagles Tackle Football Coach of the Week: Don Richardson, West Catholic",
+          "url": "https://www.philadelphiaeagles.com/news/eagles-tackle-football-coach-of-the-week-don-richardson-west-catholic",
+          "publishedAt": "2026-09-17T13:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/eagles-tackle-football-coach-of-the-week-don-richardson-west-catholic"
+        ],
+        "asOf": "2026-09-17T13:30:00.000Z"
+      }
+    },
+    {
+      "id": "1d7c61cf-52c5-42c2-9832-7a9a9e689bd5",
+      "teamAbbr": "PHI",
+      "category": "INJURY",
+      "headline": "Eagles at Titans Injury Report",
+      "summary": "All-Pros Jalen Carter and Cooper DeJean missed practice on Wednesday.",
+      "whatHappened": "All-Pros Jalen Carter and Cooper DeJean missed practice on Wednesday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T22:47:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T01:00:50.251Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "70ae3430-4fbc-4a67-a6e9-634648f1973a",
+          "publisher": "Official team news",
+          "title": "Eagles at Titans Injury Report",
+          "url": "https://www.philadelphiaeagles.com/news/eagles-at-titans-injury-report-jalen-carter-cooper-dejean-2026-nfl-week-2-regular-season",
+          "publishedAt": "2026-09-16T22:47:19.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/eagles-at-titans-injury-report-jalen-carter-cooper-dejean-2026-nfl-week-2-regular-season"
+        ],
+        "asOf": "2026-09-16T22:47:19.000Z"
+      }
+    },
+    {
+      "id": "595dafc5-22be-489e-8bf3-0ecbee1bc3ae",
+      "teamAbbr": "PHI",
+      "category": "COACHING",
+      "headline": "The Eagles are not the only Philadelphia football team playing on Sunday",
+      "summary": "Will Shipley became Coach Shipley as he helped Special Olympics Philadelphia prepare for their matchup against Special Olympics Tennessee at Nissan Stadium.",
+      "whatHappened": "Will Shipley became Coach Shipley as he helped Special Olympics Philadelphia prepare for their matchup against Special Olympics Tennessee at Nissan Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T20:55:01.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T23:00:41.388Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a40127a8-f2b2-4324-9c69-30c82b705de4",
+          "publisher": "Official team news",
+          "title": "The Eagles are not the only Philadelphia football team playing on Sunday",
+          "url": "https://www.philadelphiaeagles.com/news/the-eagles-are-not-the-only-philadelphia-football-team-playing-on-sunday-special-olympics-flag-football",
+          "publishedAt": "2026-09-16T20:55:01.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/the-eagles-are-not-the-only-philadelphia-football-team-playing-on-sunday-special-olympics-flag-football"
+        ],
+        "asOf": "2026-09-16T20:55:01.000Z"
+      }
+    },
+    {
+      "id": "46b721bd-1ff2-49a5-82c0-76db390ba80f",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "Spadaro: Dallas Goedert does it all and does it well for the Eagles",
+      "summary": "The Eagles have been at the forefront of the ever-evolving tight end position throughout the years.",
+      "whatHappened": "The Eagles have been at the forefront of the ever-evolving tight end position throughout the years.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T19:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T22:05:33.948Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "affa5225-440b-42e7-8505-e3afd01b6e18",
+          "publisher": "Official team news",
+          "title": "Spadaro: Dallas Goedert does it all and does it well for the Eagles",
+          "url": "https://www.philadelphiaeagles.com/news/dallas-goedert-does-it-all-and-does-it-well-for-the-eagles",
+          "publishedAt": "2026-09-16T19:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/dallas-goedert-does-it-all-and-does-it-well-for-the-eagles"
+        ],
+        "asOf": "2026-09-16T19:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "10235560-52b0-4a1a-9abc-b24051f1cc5f",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "Zack Baun named NFC Defensive Player of the Week",
+      "summary": "The linebackers led the way for the Eagles with 12 tackles and graded out as one of the league's best defensive players.",
+      "whatHappened": "The linebackers led the way for the Eagles with 12 tackles and graded out as one of the league's best defensive players.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:15:05.637Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8f9228b4-c40b-4886-a543-15f1b1631ea6",
+          "publisher": "Official team news",
+          "title": "Zack Baun named NFC Defensive Player of the Week",
+          "url": "https://www.philadelphiaeagles.com/news/zack-baun-named-nfc-defensive-player-of-the-week-2026-week-1-commanders",
+          "publishedAt": "2026-09-16T17:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/zack-baun-named-nfc-defensive-player-of-the-week-2026-week-1-commanders"
+        ],
+        "asOf": "2026-09-16T17:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "4a83c6e2-c655-4413-a523-37803b157b5f",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "How to watch, stream, and listen | Eagles at Titans",
+      "summary": "See how to watch and listen to the Eagles’ Week 2 matchup against the Tennessee Titans on Sunday, September 20th at 1:00 PM.",
+      "whatHappened": "See how to watch and listen to the Eagles’ Week 2 matchup against the Tennessee Titans on Sunday, September 20th at 1:00 PM.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:45:04.058Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5f8df257-9361-4190-a231-7774a76a018e",
+          "publisher": "Official team news",
+          "title": "How to watch, stream, and listen | Eagles at Titans",
+          "url": "https://www.philadelphiaeagles.com/news/how-to-watch-stream-and-listen-eagles-at-titans-2026-week-2",
+          "publishedAt": "2026-09-16T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "PHI",
+          "rightTeam": "TEN",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "PHI",
+            "source": "headline",
+            "excerpt": "How to watch, stream, and listen | Eagles at Titans"
+          },
+          {
+            "field": "rightTeam",
+            "value": "TEN",
+            "source": "headline",
+            "excerpt": "How to watch, stream, and listen | Eagles at Titans"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "summary",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/how-to-watch-stream-and-listen-eagles-at-titans-2026-week-2"
+        ],
+        "asOf": "2026-09-16T14:00:00.000Z"
+      }
+    },
+    {
+      "id": "44eb91b8-50ab-42bf-b351-cec588179488",
+      "teamAbbr": "PHI",
+      "category": "INJURY",
+      "headline": "Spadaro: Without Landon Dickerson, the Eagles' offensive line will lean on youth",
+      "summary": "Offensive Coordinator Sean Mannion discussed the interior offensive line following Landon Dickerson’s placement on Injured Reserve.",
+      "whatHappened": "Offensive Coordinator Sean Mannion discussed the interior offensive line following Landon Dickerson’s placement on Injured Reserve.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T21:05:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T23:15:05.790Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8085f801-ba03-4ff4-8c93-2c3585c71467",
+          "publisher": "Official team news",
+          "title": "Spadaro: Without Landon Dickerson, the Eagles' offensive line will lean on youth",
+          "url": "https://www.philadelphiaeagles.com/news/spadaro-without-landon-dickerson-the-eagles-offensive-line-will-lean-on-youth",
+          "publishedAt": "2026-09-15T21:05:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "INJURY",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/spadaro-without-landon-dickerson-the-eagles-offensive-line-will-lean-on-youth"
+        ],
+        "asOf": "2026-09-15T21:05:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d39c3173-dcc2-4d30-8fb1-f50f71855797",
+      "teamAbbr": "PHI",
+      "category": "SIGNING",
+      "headline": "Roster Moves: Eagles sign WR Britain Covey, place G Landon Dickerson on Injured Reserve",
+      "summary": "The Eagles also signed tight end Josiah Deguara to the practice squad.",
+      "whatHappened": "The Eagles also signed tight end Josiah Deguara to the practice squad.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:44:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T23:00:10.048Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f5d6b8fe-e9a1-401c-97d2-34fb7d653c3c",
+          "publisher": "Official team news",
+          "title": "Roster Moves: Eagles sign WR Britain Covey, place G Landon Dickerson on Injured Reserve",
+          "url": "https://www.philadelphiaeagles.com/news/roster-moves-eagles-sign-britain-covey-place-landon-dickerson-on-injured-reserve",
+          "publishedAt": "2026-09-15T20:44:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "PHI"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "PHI",
+            "source": "canonical",
+            "excerpt": "PHI"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/roster-moves-eagles-sign-britain-covey-place-landon-dickerson-on-injured-reserve"
+        ],
+        "asOf": "2026-09-15T20:44:12.000Z"
+      }
+    },
+    {
+      "id": "e23798ea-c5f4-4dd2-bada-8f64f7ba85b8",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "AAA Official Review: A Jalen Hurts appreciation post",
+      "summary": "Driven by AAA, the Official Review presents the aspects of Sunday's win that you might have missed, from the quarterback's outstanding performance to the lockdown coverage by the starting outside cornerbacks.",
+      "whatHappened": "Driven by AAA, the Official Review presents the aspects of Sunday's win that you might have missed, from the quarterback's outstanding performance to the lockdown coverage by the starting outside cornerbacks.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T19:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T21:35:06.301Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b9da3f27-9685-4b1c-a4d9-36b5c10a4de8",
+          "publisher": "Official team news",
+          "title": "AAA Official Review: A Jalen Hurts appreciation post",
+          "url": "https://www.philadelphiaeagles.com/news/aaa-official-review-a-jalen-hurts-appreciation-post-2026-week-1-commanders",
+          "publishedAt": "2026-09-14T19:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/aaa-official-review-a-jalen-hurts-appreciation-post-2026-week-1-commanders"
+        ],
+        "asOf": "2026-09-14T19:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "cc59bd28-188f-4144-a390-e826044a5dac",
+      "teamAbbr": "PHI",
+      "category": "ANALYSIS",
+      "headline": "10th Annual Eagles Autism Challenge set for Saturday, May 8",
+      "summary": "To celebrate the signature event’s 2027 kickoff and 10-year milestone, Five Below will match the first $75,000 in donations as part of the year’s first matching gift drive",
+      "whatHappened": "To celebrate the signature event’s 2027 kickoff and 10-year milestone, Five Below will match the first $75,000 in donations as part of the year’s first matching gift drive",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T18:11:49.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T20:20:04.842Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c44bc920-b8b9-4cfe-a570-2b59bf0c1803",
+          "publisher": "Official team news",
+          "title": "10th Annual Eagles Autism Challenge set for Saturday, May 8",
+          "url": "https://www.philadelphiaeagles.com/news/10th-annual-eagles-autism-challenge-set-for-saturday-may-8",
+          "publishedAt": "2026-09-14T18:11:49.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/10th-annual-eagles-autism-challenge-set-for-saturday-may-8"
+        ],
+        "asOf": "2026-09-14T18:11:49.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "10bd2b04-0e2f-4b49-b459-fa39d31d17d7",
+      "teamAbbr": "PHI",
+      "category": "GAME",
+      "headline": "Spadaro: 10 observations from a thrilling season-opening win over the Commanders",
+      "summary": "The offense capitalized on explosive plays, the defense kept Jayden Daniels in check for a large majority of the game, and special teams helped pave the way to the Eagles' 1-0 start.",
+      "whatHappened": "The offense capitalized on explosive plays, the defense kept Jayden Daniels in check for a large majority of the game, and special teams helped pave the way to the Eagles' 1-0 start.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T01:20:35.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T03:25:07.009Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4c7526a9-5542-40a1-bc7c-ae3c59ead8d0",
+          "publisher": "Official team news",
+          "title": "Spadaro: 10 observations from a thrilling season-opening win over the Commanders",
+          "url": "https://www.philadelphiaeagles.com/news/spadaro-10-observations-from-a-thrilling-season-opening-win-over-the-commanders",
+          "publishedAt": "2026-09-14T01:20:35.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.philadelphiaeagles.com/news/spadaro-10-observations-from-a-thrilling-season-opening-win-over-the-commanders"
+        ],
+        "asOf": "2026-09-14T01:20:35.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 45,
+    "totalPages": 3
+  }
+}

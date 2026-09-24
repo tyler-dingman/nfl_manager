@@ -51,62 +51,98 @@ export function standardVariant(id: string) {
   return standardFamilies[(hash >>> 0) % 4];
 }
 type StandardFamily = 'standard' | (typeof standardFamilies)[number];
-type Three<T> = [T, T, T];
+
 export type BeatGraphicData =
   | { family: StandardFamily }
-  | { family: 'game-matchup'; home: string; away: string; week: string; kickoff: string }
+  | { family: 'game-matchup'; leftTeam: string; rightTeam: string; week?: string; kickoff?: string }
   | {
       family: 'game-result';
-      home: string;
-      away: string;
-      homeScore: number;
-      awayScore: number;
+      leftTeam: string;
+      rightTeam: string;
+      leftScore: number;
+      rightScore: number;
       final: 'FINAL' | 'FINAL · OT';
     }
   | { family: 'numbered'; count: string; descriptor: string }
   | {
       family: 'stats';
-      count: string;
+      count?: string;
       descriptor: string;
-      rows: Three<{ value: string; label: string }>;
+      rows: { value: string; label: string }[];
     }
-  | { family: 'player'; name: string; position: string; jersey?: string }
-  | { family: 'injury'; period: string; rows: Three<{ count: number; status: string }> }
+  | {
+      family: 'player';
+      name: string;
+      position?: string;
+      jersey?: string;
+      status?: string;
+      context?: string;
+    }
+  | {
+      family: 'injury';
+      period?: string;
+      rows: { count: number; status: string }[];
+      detail?: string;
+    }
   | {
       family: 'transaction';
       team: string;
-      action: 'SIGNED' | 'RELEASED' | 'ELEVATED' | 'TRADED' | 'WAIVED';
+      action:
+        | 'SIGNED'
+        | 'RELEASED'
+        | 'ELEVATED'
+        | 'TRADED'
+        | 'WAIVED'
+        | 'ACTIVATED'
+        | 'ADDED'
+        | 'CLAIMED'
+        | 'PROMOTED'
+        | 'PLACED_ON_IR'
+        | 'PRACTICE_SQUAD'
+        | 'OTHER';
+      transactionType?: import('./beat-transaction').TransactionType;
+      playerId?: string;
+      origin?: string;
+      players?: import('./beat-transaction').TransactionPlayer[];
       name: string;
-      position: string;
+      position?: string;
       jersey?: string;
+      destination?: string;
       contract?: { term: string; value: string };
     }
+  | { family: 'recap'; teams: string[]; overtime?: boolean }
+  | { family: 'interview'; name?: string; transcript?: boolean }
+  | { family: 'roster-roundup'; team: string }
+  | { family: 'team-update'; label: string }
+  | { family: 'depth-chart' | 'mailbag' | 'practice' }
   | { family: 'quote'; quote: string; attribution: string }
-  | { family: 'developing'; updates: Three<{ time: string; detail: string }> }
+  | { family: 'developing'; updates: { time: string; detail: string }[] }
   | { family: 'business-community'; label: string }
   | { family: 'scouting'; opponent?: string }
-  | { family: 'film' | 'coaching' | 'league' }
+  | { family: 'film' | 'coaching' | 'league'; label?: string }
   | { family: 'video'; title: string; mediaUrl: string };
 
 const short = (v: unknown, max: number): v is string =>
   typeof v === 'string' && v.trim().length > 0 && v.length <= max;
 const linesFit = (v: string, max: number, lines: number) =>
   v.split('\n').length <= lines && v.split(/\s+/).every((word) => word.length <= max);
-/** Structured data only; never extract a score, quotation or medical status from headlines. */
+/** Validate supported fields; optional facts are deliberately omitted when unavailable. */
 export function validBeatGraphic(data: BeatGraphicData): boolean {
   switch (data.family) {
     case 'game-matchup':
       return (
-        short(data.home, 3) &&
-        short(data.away, 3) &&
-        short(data.week, 10) &&
-        short(data.kickoff, 25)
+        !!beatTeam(data.leftTeam ?? '') &&
+        !!beatTeam(data.rightTeam ?? '') &&
+        data.leftTeam !== data.rightTeam &&
+        (!data.week || short(data.week, 16)) &&
+        (!data.kickoff || short(data.kickoff, 25))
       );
     case 'game-result':
       return (
-        short(data.home, 3) &&
-        short(data.away, 3) &&
-        [data.homeScore, data.awayScore].every((n) => Number.isInteger(n) && n >= 0 && n <= 99) &&
+        !!beatTeam(data.leftTeam ?? '') &&
+        !!beatTeam(data.rightTeam ?? '') &&
+        data.leftTeam !== data.rightTeam &&
+        [data.leftScore, data.rightScore].every((n) => Number.isInteger(n) && n >= 0 && n <= 99) &&
         ['FINAL', 'FINAL · OT'].includes(data.final)
       );
     case 'numbered':
@@ -117,23 +153,26 @@ export function validBeatGraphic(data: BeatGraphicData): boolean {
       );
     case 'stats':
       return (
-        /^\d{1,2}$/.test(data.count) &&
+        (!data.count || /^\d{1,2}$/.test(data.count)) &&
         short(data.descriptor, 16) &&
-        data.rows?.length === 3 &&
+        Array.isArray(data.rows) &&
+        data.rows.length <= 3 &&
         data.rows.every((row) => short(row.value, 10) && short(row.label, 22))
       );
     case 'player':
       return (
         short(data.name, 26) &&
-        linesFit(data.name, 10, 2) &&
-        data.name.trim().split(/\s+/).length <= 2 &&
-        short(data.position, 3) &&
-        (!data.jersey || short(data.jersey, 3))
+        linesFit(data.name, 15, 2) &&
+        (data.status ? !data.position || short(data.position, 3) : short(data.position, 3)) &&
+        (!data.jersey || short(data.jersey, 3)) &&
+        (!data.status || short(data.status, 40)) &&
+        (!data.context || short(data.context, 24))
       );
     case 'injury':
       return (
-        /^(W\d{1,2}|IR)$/.test(data.period) &&
-        data.rows?.length === 3 &&
+        (!data.period || /^(W\d{1,2}|IR)$/.test(data.period)) &&
+        Array.isArray(data.rows) &&
+        data.rows.length <= 3 &&
         data.rows.every(
           (row) =>
             Number.isInteger(row.count) &&
@@ -145,23 +184,59 @@ export function validBeatGraphic(data: BeatGraphicData): boolean {
     case 'transaction':
       return (
         short(data.team, 3) &&
-        ['SIGNED', 'RELEASED', 'ELEVATED', 'TRADED', 'WAIVED'].includes(data.action) &&
-        short(data.name, 25) &&
-        linesFit(data.name, 18, 1) &&
-        short(data.position, 3) &&
+        [
+          'SIGNED',
+          'RELEASED',
+          'ELEVATED',
+          'TRADED',
+          'WAIVED',
+          'ACTIVATED',
+          'ADDED',
+          'CLAIMED',
+          'PROMOTED',
+          'PLACED_ON_IR',
+          'PRACTICE_SQUAD',
+          'OTHER',
+        ].includes(data.action) &&
+        short(data.name, 36) &&
+        linesFit(data.name, 20, 2) &&
+        (!data.players ||
+          (data.players.length <= 2 &&
+            data.players.every(
+              (p) => short(p.name, 36) && (!p.position || short(p.position, 3)),
+            ))) &&
+        (!data.position || short(data.position, 3)) &&
         (!data.contract || (short(data.contract.term, 12) && short(data.contract.value, 10)))
       );
+    case 'recap':
+      return (
+        Array.isArray(data.teams) &&
+        data.teams.length >= 1 &&
+        data.teams.length <= 2 &&
+        data.teams.every((t) => !!beatTeam(t))
+      );
+    case 'interview':
+      return false; // A transcript without an attributed quote is Standard, not a partial quote card.
+    case 'roster-roundup':
+      return short(data.team, 3);
+    case 'team-update':
+      return short(data.label, 28);
     case 'quote':
       return short(data.quote, 68) && linesFit(data.quote, 17, 3) && short(data.attribution, 32);
     case 'developing':
       return (
-        data.updates?.length === 3 &&
+        Array.isArray(data.updates) &&
+        data.updates.length >= 2 &&
+        data.updates.length <= 3 &&
         data.updates.every((row) => short(row.time, 15) && short(row.detail, 44))
       );
     case 'business-community':
       return short(data.label, 28) && linesFit(data.label, 14, 2);
     case 'video':
       return short(data.title, 24) && /^https:\/\//.test(data.mediaUrl);
+    case 'depth-chart':
+    case 'mailbag':
+    case 'practice':
     case 'scouting':
     case 'coaching':
     case 'film':

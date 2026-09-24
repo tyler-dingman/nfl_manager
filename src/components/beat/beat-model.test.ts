@@ -41,23 +41,19 @@ test('all 32 actual app IDs, abbreviations and full names map to configured acce
   assert.equal(beatPalette('GB').accent, '#FFB612');
   for (const team of ['GB', 'LV', 'MIA']) assert.equal(beatPalette(team).onAccent, '#0b1115');
 });
-test('unknown and factual categories without structured data are deterministic Standard cards', () => {
-  for (const category of [
-    'INJURY',
-    'CONTRACT',
-    'TRANSACTION',
-    'QUOTE',
-    'GAME',
-    'VIDEO',
-    'unknown',
-  ]) {
-    assert.equal(
-      classifyBeatGraphic({ id: 'stable-id', category }).family,
-      standardVariant('stable-id'),
-    );
-  }
-  assert.equal(classifyBeatGraphic({ id: 'a', category: 'COACHING' }).family, 'coaching');
-  assert.equal(classifyBeatGraphic({ id: 'a', category: 'AROUND_NFL' }).family, 'league');
+test('partial specialized cards remain valid without optional facts', () => {
+  for (const graphic of [
+    { family: 'game-matchup', leftTeam: 'HOU', rightTeam: 'IND' },
+    {
+      family: 'stats',
+      descriptor: 'BY THE NUMBERS',
+      rows: [{ value: '5.5', label: 'YARDS PER CARRY' }],
+    },
+    { family: 'injury', period: 'W3', rows: [] },
+    { family: 'player', name: 'Kalif Raymond', position: 'WR' },
+    { family: 'transaction', team: 'MIA', name: 'Liam Anderson', action: 'SIGNED' },
+  ] as BeatGraphicData[])
+    assert(validBeatGraphic(graphic), graphic.family);
   assert.equal(new Set(Array.from({ length: 32 }, (_, i) => standardVariant(String(i)))).size, 4);
 });
 test('all twenty recipes have valid typed fixtures; missing data and oversized identities fall back', () => {
@@ -98,10 +94,10 @@ test('all twenty recipes have valid typed fixtures; missing data and oversized i
   assert.equal(
     validBeatGraphic({
       family: 'game-result',
-      home: 'KC',
-      away: 'BUF',
-      homeScore: 0,
-      awayScore: 10,
+      leftTeam: 'KC',
+      rightTeam: 'BUF',
+      leftScore: 0,
+      rightScore: 10,
       final: 'FINAL',
     }),
     true,

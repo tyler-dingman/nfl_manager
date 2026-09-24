@@ -1,3 +1,4 @@
+import type { BeatGraphicDecision } from '@/components/beat/beat-story-adapter';
 import { BeatStoryCard } from '@/components/beat/beat-story-card';
 import type { BeatGraphicData } from '@/components/beat/beat-model';
 import { ArrowRight, Flame } from 'lucide-react';
@@ -16,6 +17,7 @@ import { shouldUseTradeTalkGraphic } from '@/components/editorial/trade-talk-cat
 export type HuddleStoryCardProps = {
   appearance?: 'legacy' | 'beat';
   graphic?: BeatGraphicData;
+  graphicDecision?: BeatGraphicDecision;
   id: string;
   teamId: string;
   headline: string;

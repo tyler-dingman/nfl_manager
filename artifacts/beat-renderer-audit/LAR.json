@@ -1,0 +1,878 @@
+{
+  "teamAbbr": "LAR",
+  "teamName": "Los Angeles Rams",
+  "briefings": [
+    {
+      "id": "4b9f67fd-58d6-4d9f-a173-87f579788472",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "First Look: Rams head to Denver for Sunday Night Football clash with Broncos in Week 3",
+      "summary": "Early preview of Sunday Night Football between the Rams and the Broncos in Week 3.",
+      "whatHappened": "Early preview of Sunday Night Football between the Rams and the Broncos in Week 3.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T21:11:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:41.196Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a8aa088f-9413-40ea-89c4-e114ccc615a2",
+          "publisher": "Official team news",
+          "title": "First Look: Rams head to Denver for Sunday Night Football clash with Broncos in Week 3",
+          "url": "https://www.therams.com/news/first-look-rams-head-to-denver-for-sunday-night-football-clash-with-broncos-in-week-3-2026",
+          "publishedAt": "2026-09-22T21:11:21.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/first-look-rams-head-to-denver-for-sunday-night-football-clash-with-broncos-in-week-3-2026"
+        ],
+        "asOf": "2026-09-22T21:11:21.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "bfab3774-46e6-439c-bf2a-9fbd4eb8b204",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "'He's a future Hall of Famer for a reason': Davante Adams steps up in career night against Giants",
+      "summary": "Wide receiver Davante Adams fueled the Rams offense with 195 receiving yards and two touchdowns against the Giants on Monday Night Football.",
+      "whatHappened": "Wide receiver Davante Adams fueled the Rams offense with 195 receiving yards and two touchdowns against the Giants on Monday Night Football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T05:52:55.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T14:00:43.210Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "463c3ff1-e5e9-44d4-bb9a-82d07864ff76",
+          "publisher": "Official team news",
+          "title": "'He's a future Hall of Famer for a reason': Davante Adams steps up in career night against Giants",
+          "url": "https://www.therams.com/news/he-s-a-future-hall-of-famer-for-a-reason-rams-wide-receiver-davante-adams-steps-up-in-career-night-against-giants",
+          "publishedAt": "2026-09-22T05:52:55.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/he-s-a-future-hall-of-famer-for-a-reason-rams-wide-receiver-davante-adams-steps-up-in-career-night-against-giants"
+        ],
+        "asOf": "2026-09-22T05:52:55.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "757498ae-cad0-456c-9644-16814c83ba84",
+      "teamAbbr": "LAR",
+      "category": "COACHING",
+      "headline": "From the Podium: Sean McVay, Davante Adamm Matthew Stafford and Aaron Donald detail Rams' dominant win over Giants on Monday Night Football",
+      "summary": "Rams head coach Sean McVay, wide receiver Davante Adams, quarterback Matthew Stafford and defensive end Aaron Donald explained what went right and what could be improved following the 28-6 win over the Giants on Monday Night Football. While his first 2026 stat line will be used to measure and evaluate Aaron Donald's re-debut with the Rams, Monday night was a reminder of the value of his presence alone.",
+      "whatHappened": "Rams head coach Sean McVay, wide receiver Davante Adams, quarterback Matthew Stafford and defensive end Aaron Donald explained what went right and what could be improved following the 28-6 win over the Giants on Monday Night Football. While his first 2026 stat line will be used to measure and evaluate Aaron Donald's re-debut with the Rams, Monday night was a reminder of the value of his presence alone.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T05:50:30.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-22T14:00:43.394Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "19c16180-93ba-4d21-b12b-7a5985343638",
+          "publisher": "Official team news",
+          "title": "From the Podium: Sean McVay, Davante Adamm Matthew Stafford and Aaron Donald detail Rams' dominant win over Giants on Monday Night Football",
+          "url": "https://www.therams.com/news/from-the-podium-head-coach-sean-mcvay-quarterback-matthew-stafford-wide-receiver-davante-adams-defensive-end-aaron-donald-win-over-giants-on-monday-night-football-press-conference-2026",
+          "publishedAt": "2026-09-22T05:50:31.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "82a74f7a-3da5-46a0-9999-9b4b1eba1a71",
+          "publisher": "Official team news",
+          "title": "From the Podium: Sean McVay, Davante Adamm Matthew Stafford and Aaron Donald detail Rams' dominant win over Giants on Monday Night Football",
+          "url": "https://www.therams.com/news/aaron-donald-s-return-vs-giants-a-reminder-of-what-his-presence-on-field-in-locker-room-means-to-rams-coaches-teammates-and-fans",
+          "publishedAt": "2026-09-22T05:50:30.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/from-the-podium-head-coach-sean-mcvay-quarterback-matthew-stafford-wide-receiver-davante-adams-defensive-end-aaron-donald-win-over-giants-on-monday-night-football-press-conference-2026",
+          "https://www.therams.com/news/aaron-donald-s-return-vs-giants-a-reminder-of-what-his-presence-on-field-in-locker-room-means-to-rams-coaches-teammates-and-fans"
+        ],
+        "asOf": "2026-09-22T05:50:30.000Z"
+      }
+    },
+    {
+      "id": "004e01fa-69e1-4775-9230-337af2008921",
+      "teamAbbr": "LAR",
+      "category": "GAME",
+      "headline": "Game Recap: Rams defeat Giants 28-6 on Monday Night Football",
+      "summary": "Impactful performances by Matthew Stafford, Davante Adams, Aaron Donald and Trent McDuffie help lead Rams to win over Giants in primetime at SoFi Stadium.",
+      "whatHappened": "Impactful performances by Matthew Stafford, Davante Adams, Aaron Donald and Trent McDuffie help lead Rams to win over Giants in primetime at SoFi Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T03:12:31.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T14:00:43.617Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a8ac8580-dce8-40c2-aa85-e91e2a938a5c",
+          "publisher": "Official team news",
+          "title": "Game Recap: Rams defeat Giants 28-6 on Monday Night Football",
+          "url": "https://www.therams.com/news/game-recap-rams-defeat-giants-28-6-on-monday-night-football",
+          "publishedAt": "2026-09-22T03:12:31.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "recap",
+          "teams": [
+            "LAR",
+            "NYG"
+          ],
+          "overtime": false
+        },
+        "reason": "Recap without a verified score pair",
+        "displayCategory": "Recap",
+        "evidence": [
+          {
+            "field": "teams.0",
+            "value": "LAR",
+            "source": "headline",
+            "excerpt": "Game Recap: Rams defeat Giants 28-6 on Monday Night Football"
+          },
+          {
+            "field": "teams.1",
+            "value": "NYG",
+            "source": "headline",
+            "excerpt": "Game Recap: Rams defeat Giants 28-6 on Monday Night Football"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.therams.com/news/game-recap-rams-defeat-giants-28-6-on-monday-night-football"
+        ],
+        "asOf": "2026-09-22T03:12:31.000Z"
+      }
+    },
+    {
+      "id": "09dd4ab9-3014-4437-a681-3f0596a1457d",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "Matthew Stafford passes Philip Rivers for 6th-most career passing touchdowns in NFL history",
+      "summary": "Rams quarterback Matthew Stafford is now sixth on the NFL's all-time career passing touchdowns list.",
+      "whatHappened": "Rams quarterback Matthew Stafford is now sixth on the NFL's all-time career passing touchdowns list.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T03:09:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T14:00:43.685Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "cda843f6-8fc9-4e99-b9f2-89657df39282",
+          "publisher": "Official team news",
+          "title": "Matthew Stafford passes Philip Rivers for 6th-most career passing touchdowns in NFL history",
+          "url": "https://www.therams.com/news/matthew-stafford-passes-philip-rivers-for-6th-most-career-passing-touchdowns-in-nfl-history-rams-giants-week-2-2026",
+          "publishedAt": "2026-09-22T03:09:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/matthew-stafford-passes-philip-rivers-for-6th-most-career-passing-touchdowns-in-nfl-history-rams-giants-week-2-2026"
+        ],
+        "asOf": "2026-09-22T03:09:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "465ecedb-9a01-4f9f-bab8-abf5593b4122",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "Puka Nacua, Jordan Whittington and Kam Kinchens among Rams' inactives for Monday Night Football vs. Giants",
+      "summary": "Inactives for Monday Night Football between the Rams and the Giants in Week 2 at SoFi Stadium.",
+      "whatHappened": "Inactives for Monday Night Football between the Rams and the Giants in Week 2 at SoFi Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T23:02:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T14:00:43.878Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0add85d8-aad2-410c-9f2d-98d4fc07401d",
+          "publisher": "Official team news",
+          "title": "Puka Nacua, Jordan Whittington and Kam Kinchens among Rams' inactives for Monday Night Football vs. Giants",
+          "url": "https://www.therams.com/news/puka-nacua-among-rams-inactives-for-monday-night-football-vs-giants-week-2-2026",
+          "publishedAt": "2026-09-21T23:02:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INACTIVE\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "summary",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.therams.com/news/puka-nacua-among-rams-inactives-for-monday-night-football-vs-giants-week-2-2026"
+        ],
+        "asOf": "2026-09-21T23:02:03.000Z"
+      }
+    },
+    {
+      "id": "87df6567-04e3-49ed-8076-70950de62b72",
+      "teamAbbr": "LAR",
+      "category": "INJURY",
+      "headline": "'One of the guys that's grown the most as far as the unit': Rams have complete trust in second-year OLB Josaiah Stewart",
+      "summary": "One of the outside linebackers who will be asked to step up while Myles Garrett is on Injured Reserve, Josaiah Stewart's complete skillset and consistency have been praised by his coaches since his arrival.",
+      "whatHappened": "One of the outside linebackers who will be asked to step up while Myles Garrett is on Injured Reserve, Josaiah Stewart's complete skillset and consistency have been praised by his coaches since his arrival.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T22:01:39.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T14:00:51.598Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "05cabfe4-e46d-433b-ab8a-8ba57bb23f79",
+          "publisher": "Official team news",
+          "title": "'One of the guys that's grown the most as far as the unit': Rams have complete trust in second-year OLB Josaiah Stewart",
+          "url": "https://www.therams.com/news/one-of-the-guys-that-s-grown-the-most-as-far-as-the-unit-rams-have-complete-trust-in-second-year-olb-josaiah-stewart",
+          "publishedAt": "2026-09-19T22:01:39.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "Josaiah Stewart",
+          "position": "OLB",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Josaiah Stewart",
+            "source": "headline",
+            "excerpt": "OLB Josaiah Stewart"
+          },
+          {
+            "field": "position",
+            "value": "OLB",
+            "source": "headline",
+            "excerpt": "OLB Josaiah Stewart"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.therams.com/news/one-of-the-guys-that-s-grown-the-most-as-far-as-the-unit-rams-have-complete-trust-in-second-year-olb-josaiah-stewart"
+        ],
+        "asOf": "2026-09-19T22:01:39.000Z"
+      }
+    },
+    {
+      "id": "eccb6174-69bf-4721-933c-7d7b3fb2f2e5",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "3 Keys to Winning for the Rams against the Giants in Week 2 on Monday Night Football",
+      "summary": "Here are 3 Keys to the Rams winning their Week 2 game against the Giants on Monday Night Football, presented by The Law Offices of Jacob Emrani (CallJacob.com).",
+      "whatHappened": "Here are 3 Keys to the Rams winning their Week 2 game against the Giants on Monday Night Football, presented by The Law Offices of Jacob Emrani (CallJacob.com).",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T19:00:01.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T14:00:52.013Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "432996be-5853-4021-bdba-9cd63bd2d8bc",
+          "publisher": "Official team news",
+          "title": "3 Keys to Winning for the Rams against the Giants in Week 2 on Monday Night Football",
+          "url": "https://www.therams.com/news/3-keys-to-winning-for-the-rams-against-the-giants-in-week-2-on-monday-night-football-2026",
+          "publishedAt": "2026-09-19T19:00:01.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/3-keys-to-winning-for-the-rams-against-the-giants-in-week-2-on-monday-night-football-2026"
+        ],
+        "asOf": "2026-09-19T19:00:01.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e5bc6ad3-2bb5-47a3-8d9e-f1e36f5de148",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "AD's hopeful return sets the stage for an epic MNF home opener",
+      "summary": "J.B. Long breaks down how the Rams' run game could set the tone in Week 2, why the Giants present similar challenges L.A. faced against the 49ers in Week 1, and what the return of AD99 could mean for the team and fans at SoFi on Monday Night",
+      "whatHappened": "J.B. Long breaks down how the Rams' run game could set the tone in Week 2, why the Giants present similar challenges L.A. faced against the 49ers in Week 1, and what the return of AD99 could mean for the team and fans at SoFi on Monday Night",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T17:59:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T14:00:52.129Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d3c330f4-86a6-4608-9d74-39b23b4c2f6b",
+          "publisher": "Official team news",
+          "title": "AD's hopeful return sets the stage for an epic MNF home opener",
+          "url": "https://www.therams.com/news/rams-vs-giants-monday-night-football-home-opener-game-preview",
+          "publishedAt": "2026-09-19T17:59:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/rams-vs-giants-monday-night-football-home-opener-game-preview"
+        ],
+        "asOf": "2026-09-19T17:59:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "da578336-972f-409f-a7a8-da32cbfc04c3",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "Interior offensive line a bright spot in Week 1, a testament to trust and instinct built with continuity",
+      "summary": "With a strong Week 1 and years of experience as a foundation, the Rams interior offensive line is looking to hit their stride as quickly as possible through trust and comfort working together.",
+      "whatHappened": "With a strong Week 1 and years of experience as a foundation, the Rams interior offensive line is looking to hit their stride as quickly as possible through trust and comfort working together.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T17:00:01.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:46.311Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5fef1262-64ba-4bcb-9e0e-1b5b20968511",
+          "publisher": "Official team news",
+          "title": "Interior offensive line a bright spot in Week 1, a testament to trust and instinct built with continuity",
+          "url": "https://www.therams.com/news/interior-o-line-coleman-shelton-steve-avila-kevin-dotson-a-bright-spot-in-week-1-2026-testament-to-trust-instinct-built-with-continuity",
+          "publishedAt": "2026-09-19T17:00:01.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/interior-o-line-coleman-shelton-steve-avila-kevin-dotson-a-bright-spot-in-week-1-2026-testament-to-trust-instinct-built-with-continuity"
+        ],
+        "asOf": "2026-09-19T17:00:01.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1ffadc79-4b30-4143-b437-c00e95cef1c8",
+      "teamAbbr": "LAR",
+      "category": "GAME",
+      "headline": "Quentin Lake leading Rams into Week 2 following second-career interception",
+      "summary": "Rams safety Quentin Lake shares his approach to leadership in the face of adversity following their Week 1 loss to the 49ers where he had his second-career interception and led the team in tackles and pass breakups.",
+      "whatHappened": "Rams safety Quentin Lake shares his approach to leadership in the face of adversity following their Week 1 loss to the 49ers where he had his second-career interception and led the team in tackles and pass breakups.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T23:19:14.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:46.622Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0a12a68b-98e6-4c0a-b87d-fd05e40f0bf8",
+          "publisher": "Official team news",
+          "title": "Quentin Lake leading Rams into Week 2 following second-career interception",
+          "url": "https://www.therams.com/news/safety-quentin-lake-leading-rams-into-week-2-giants-following-second-career-interception-week-1-49ers-2026",
+          "publishedAt": "2026-09-18T23:19:14.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/safety-quentin-lake-leading-rams-into-week-2-giants-following-second-career-interception-week-1-49ers-2026"
+        ],
+        "asOf": "2026-09-18T23:19:14.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6c37a5f1-577e-4a09-9b45-f29c771a24fb",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "Trent McDuffie looking forward to first home game as a Ram",
+      "summary": "Rams cornerback Trent McDuffie is excited about his home debut in Week 2 in front of friends and family.",
+      "whatHappened": "Rams cornerback Trent McDuffie is excited about his home debut in Week 2 in front of friends and family.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T23:15:05.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:46.700Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "937c0386-0897-4cdb-9719-3e454ecad5c1",
+          "publisher": "Official team news",
+          "title": "Trent McDuffie looking forward to first home game as a Ram",
+          "url": "https://www.therams.com/news/trent-mcduffie-looking-forward-to-first-home-game-as-a-ram",
+          "publishedAt": "2026-09-18T23:15:05.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/trent-mcduffie-looking-forward-to-first-home-game-as-a-ram"
+        ],
+        "asOf": "2026-09-18T23:15:05.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1be13d70-ea18-4921-a6e5-7df496a5bd4b",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "Aaron Donald on if he'll play vs. Giants on Monday Night Football in Week 2: 'That's the plan'",
+      "summary": "Rams defensive end Aaron Donald said the plan is for him to make his 2026 season debut Monday night against the Giants at SoFi Stadium.",
+      "whatHappened": "Rams defensive end Aaron Donald said the plan is for him to make his 2026 season debut Monday night against the Giants at SoFi Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T23:03:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:46.771Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c0397682-96c7-4dc2-baca-fe0abeda18a2",
+          "publisher": "Official team news",
+          "title": "Aaron Donald on if he'll play vs. Giants on Monday Night Football in Week 2: 'That's the plan'",
+          "url": "https://www.therams.com/news/aaron-donald-on-if-he-ll-play-vs-giants-on-monday-night-football-in-week-2-that-s-the-plan",
+          "publishedAt": "2026-09-18T23:03:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/aaron-donald-on-if-he-ll-play-vs-giants-on-monday-night-football-in-week-2-that-s-the-plan"
+        ],
+        "asOf": "2026-09-18T23:03:25.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "4a58b227-5717-4e84-9a37-4ca6be42111a",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "Rams and Elwood launch limited-edition capsule collection",
+      "summary": "Elwood and the Los Angeles Rams launch vintage-inspired limited-edition capsule collection celebrating the 75th anniversary of the 1951 NFL championship win.",
+      "whatHappened": "Elwood and the Los Angeles Rams launch vintage-inspired limited-edition capsule collection celebrating the 75th anniversary of the 1951 NFL championship win.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T18:00:54.863Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9ebc85b6-dacd-4bc1-9d26-93f12f9b5503",
+          "publisher": "Official team news",
+          "title": "Rams and Elwood launch limited-edition capsule collection",
+          "url": "https://www.therams.com/news/rams-elwood-launch-limited-edition-collection-75th-anniversary-1951-nfl-championship",
+          "publishedAt": "2026-09-18T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/rams-elwood-launch-limited-edition-collection-75th-anniversary-1951-nfl-championship"
+        ],
+        "asOf": "2026-09-18T16:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "833d15c6-860e-4e51-b744-7cc84fcacaa8",
+      "teamAbbr": "LAR",
+      "category": "COACHING",
+      "headline": "From the Podium: Sean McVay, Matthew Stafford and Davante Adams explain moving forward to Week 2 against Giants",
+      "summary": "Rams head coach Sean McVay, quarterback Matthew Stafford and wide receiver Davante Adams discuss the team's mindset as it turns the page to Week 2 against the Giants.",
+      "whatHappened": "Rams head coach Sean McVay, quarterback Matthew Stafford and wide receiver Davante Adams discuss the team's mindset as it turns the page to Week 2 against the Giants.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T23:04:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T04:01:02.507Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "005f0b72-c334-43fd-8617-337b78c133e1",
+          "publisher": "Official team news",
+          "title": "From the Podium: Sean McVay, Matthew Stafford and Davante Adams explain moving forward to Week 2 against Giants",
+          "url": "https://www.therams.com/news/from-the-podium-rams-head-coach-sean-mcvay-quarterback-matthew-stafford-wide-receivers-davante-adams-puka-nacua-defensive-end-aaron-donald-offensive-coordinator-nate-scheelhaase-defensive-coordinator-chris-shula-press-conference-week-2-giants-2026",
+          "publishedAt": "2026-09-17T23:04:19.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/from-the-podium-rams-head-coach-sean-mcvay-quarterback-matthew-stafford-wide-receivers-davante-adams-puka-nacua-defensive-end-aaron-donald-offensive-coordinator-nate-scheelhaase-defensive-coordinator-chris-shula-press-conference-week-2-giants-2026"
+        ],
+        "asOf": "2026-09-17T23:04:19.000Z"
+      }
+    },
+    {
+      "id": "5f2751e8-641a-4036-af89-82ecb0b7d518",
+      "teamAbbr": "LAR",
+      "category": "INJURY",
+      "headline": "McVay: Myles Garrett (knee) 'feeling good' post-surgery, but Rams 'not going to rush him back' from Injured Reserve",
+      "summary": "Rams head coach Sean McVay discusses the latest on outside linebacker Myles Garrett's status after Garrett underwent knee surgery Monday.",
+      "whatHappened": "Rams head coach Sean McVay discusses the latest on outside linebacker Myles Garrett's status after Garrett underwent knee surgery Monday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T23:01:30.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T04:01:02.586Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6ddea8a7-2597-4cf8-9db3-ef3e63a945aa",
+          "publisher": "Official team news",
+          "title": "McVay: Myles Garrett (knee) 'feeling good' post-surgery, but Rams 'not going to rush him back' from Injured Reserve",
+          "url": "https://www.therams.com/news/mcvay-myles-garrett-knee-feeling-good-post-surgery-but-rams-not-going-to-rush-him-back-from-injured-reserve",
+          "publishedAt": "2026-09-17T23:01:30.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "Myles Garrett's",
+          "position": "OLB",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Myles Garrett's",
+            "source": "summary",
+            "excerpt": "outside linebacker Myles Garrett's"
+          },
+          {
+            "field": "position",
+            "value": "OLB",
+            "source": "summary",
+            "excerpt": "outside linebacker Myles Garrett's"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.therams.com/news/mcvay-myles-garrett-knee-feeling-good-post-surgery-but-rams-not-going-to-rush-him-back-from-injured-reserve"
+        ],
+        "asOf": "2026-09-17T23:01:30.000Z"
+      }
+    },
+    {
+      "id": "c6410db4-c8f8-47a5-8ffd-a8946bc0866c",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "Know Before You Go: Rams vs. New York Giants at SoFi Stadium",
+      "summary": "Los Angeles Rams to debut Classic Sol uniforms and pay homage to LA’s first sports championship",
+      "whatHappened": "Los Angeles Rams to debut Classic Sol uniforms and pay homage to LA’s first sports championship",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T21:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T04:01:02.784Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6109ceb9-a2e6-455e-9b8e-e3d637f78732",
+          "publisher": "Official team news",
+          "title": "Know Before You Go: Rams vs. New York Giants at SoFi Stadium",
+          "url": "https://www.therams.com/news/know-before-you-go-rams-vs-new-york-giants-sofi-stadium-week-2",
+          "publishedAt": "2026-09-17T21:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/know-before-you-go-rams-vs-new-york-giants-sofi-stadium-week-2"
+        ],
+        "asOf": "2026-09-17T21:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1467260d-23d7-4b26-af96-1c9a09b61b03",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "East West Bank named an Official Community Banking Partner of the Los Angeles Rams",
+      "summary": "The Los Angeles Rams have announced a multi-year partnership with East West Bank, one of the nation's top-performing financial institutions that stands as the largest independent bank headquarted in Southern California.",
+      "whatHappened": "The Los Angeles Rams have announced a multi-year partnership with East West Bank, one of the nation's top-performing financial institutions that stands as the largest independent bank headquarted in Southern California.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T18:05:29.933Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0147aa8f-e588-4a05-be39-e8bddfa6c553",
+          "publisher": "Official team news",
+          "title": "East West Bank named an Official Community Banking Partner of the Los Angeles Rams",
+          "url": "https://www.therams.com/news/east-west-bank-named-official-community-banking-partner-los-angeles-rams",
+          "publishedAt": "2026-09-17T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/east-west-bank-named-official-community-banking-partner-los-angeles-rams"
+        ],
+        "asOf": "2026-09-17T16:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "76be65e1-a263-414f-9986-27e9f12649d3",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "Los Angeles Rams vs. New York Giants: How to watch, listen to and live stream Monday Night Football Week 2",
+      "summary": "How to watch, listen and stream the Rams' Week 2 matchup against the Giants on Sept. 21.",
+      "whatHappened": "How to watch, listen and stream the Rams' Week 2 matchup against the Giants on Sept. 21.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T23:16:32.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T01:30:32.177Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "eae69d62-218a-4678-a899-9b16b4160e29",
+          "publisher": "Official team news",
+          "title": "Los Angeles Rams vs. New York Giants: How to watch, listen to and live stream Monday Night Football Week 2",
+          "url": "https://www.therams.com/news/los-angeles-rams-vs-new-york-giants-how-to-watch-listen-to-and-live-stream-week-2-2026-monday-night-football",
+          "publishedAt": "2026-09-16T23:16:32.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "LAR",
+          "rightTeam": "NYG",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "LAR",
+            "source": "headline",
+            "excerpt": "Los Angeles Rams vs. New York Giants: How to watch, listen to and live stream Monday Night Football Week 2"
+          },
+          {
+            "field": "rightTeam",
+            "value": "NYG",
+            "source": "headline",
+            "excerpt": "Los Angeles Rams vs. New York Giants: How to watch, listen to and live stream Monday Night Football Week 2"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.therams.com/news/los-angeles-rams-vs-new-york-giants-how-to-watch-listen-to-and-live-stream-week-2-2026-monday-night-football"
+        ],
+        "asOf": "2026-09-16T23:16:32.000Z"
+      }
+    },
+    {
+      "id": "6b6f3f13-f1c5-4754-946c-4fb1bdfce811",
+      "teamAbbr": "LAR",
+      "category": "ANALYSIS",
+      "headline": "Rams Power Rankings: Week 2",
+      "summary": "An aggregate look at where the Los Angeles Rams rank across different outlets in the sports media landscape heading into Week 2 in their home opener against the New York Giants on Monday Night Football.",
+      "whatHappened": "An aggregate look at where the Los Angeles Rams rank across different outlets in the sports media landscape heading into Week 2 in their home opener against the New York Giants on Monday Night Football.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:00:18.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T22:20:05.254Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5abfeca0-d667-48ec-b353-b28a7c0e192d",
+          "publisher": "Official team news",
+          "title": "Rams Power Rankings: Week 2",
+          "url": "https://www.therams.com/news/rams-power-rankings-week-2-2026",
+          "publishedAt": "2026-09-15T20:00:18.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.therams.com/news/rams-power-rankings-week-2-2026"
+        ],
+        "asOf": "2026-09-15T20:00:18.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 50,
+    "totalPages": 3
+  }
+}

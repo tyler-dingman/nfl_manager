@@ -1,0 +1,917 @@
+{
+  "teamAbbr": "DEN",
+  "teamName": "Denver Broncos",
+  "briefings": [
+    {
+      "id": "604a131d-9099-4db0-85e3-e7c2363d697a",
+      "teamAbbr": "DEN",
+      "category": "GAME",
+      "headline": "RB Jonah Coleman nominated for NFL Rookie of the Week following Week 2 win over Jaguars",
+      "summary": "Coleman recorded 58 total yards and a touchdown in Denver’s Week 2 win over the Jacksonville Jaguars.",
+      "whatHappened": "Coleman recorded 58 total yards and a touchdown in Denver’s Week 2 win over the Jacksonville Jaguars.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T15:17:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T22:00:46.378Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "accd1966-2a05-4fe1-832d-d8d4aaa17e88",
+          "publisher": "Official team news",
+          "title": "RB Jonah Coleman nominated for NFL Rookie of the Week following Week 2 win over Jaguars",
+          "url": "https://www.denverbroncos.com/news/rb-jonah-coleman-nominated-for-nfl-rookie-of-the-week-following-week-2-win-over-jaguars",
+          "publishedAt": "2026-09-22T15:17:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/rb-jonah-coleman-nominated-for-nfl-rookie-of-the-week-following-week-2-win-over-jaguars"
+        ],
+        "asOf": "2026-09-22T15:17:10.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "0fd6f2ae-7c3e-4272-847a-ea205b2849ba",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "Denver Broncos name MDA Space inaugural space partner",
+      "summary": "“MDA Space represents the innovation, ambition and pioneering spirit that we value at the Denver Broncos,” said Dennis Moore, Broncos Chief Commercial Officer.",
+      "whatHappened": "“MDA Space represents the innovation, ambition and pioneering spirit that we value at the Denver Broncos,” said Dennis Moore, Broncos Chief Commercial Officer.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:41.201Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "34e6ebb9-def9-4dd5-9191-c7fe501b6801",
+          "publisher": "Official team news",
+          "title": "Denver Broncos name MDA Space inaugural space partner",
+          "url": "https://www.denverbroncos.com/news/denver-broncos-name-mda-space-inaugural-space-partner",
+          "publishedAt": "2026-09-22T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/denver-broncos-name-mda-space-inaugural-space-partner"
+        ],
+        "asOf": "2026-09-22T13:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "76f59cf7-7ef6-490a-894c-721d04b3ae7b",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "Next-Day Notebook: Broncos show offensive potential in second half, must have 'sense of urgency' to establish consistent identity",
+      "summary": "\"The second half is what we see ourselves as,\" tight end Evan Engram said. \"… We’re going to strive to have more days like that.\"",
+      "whatHappened": "\"The second half is what we see ourselves as,\" tight end Evan Engram said. \"… We’re going to strive to have more days like that.\"",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:22:44.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T04:00:46.789Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "60f68346-fb88-455d-b749-227d8bce9d2b",
+          "publisher": "Official team news",
+          "title": "Next-Day Notebook: Broncos show offensive potential in second half, must have 'sense of urgency' to establish consistent identity",
+          "url": "https://www.denverbroncos.com/news/next-day-notebook-broncos-show-offensive-potential-in-second-half-must-have-sense-of-urgency-to-establish-consistent-identity",
+          "publishedAt": "2026-09-21T21:22:44.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/next-day-notebook-broncos-show-offensive-potential-in-second-half-must-have-sense-of-urgency-to-establish-consistent-identity"
+        ],
+        "asOf": "2026-09-21T21:22:44.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2538a8a5-c098-461e-bc9a-f02987d49d31",
+      "teamAbbr": "DEN",
+      "category": "COACHING",
+      "headline": "'That's only the tip of the iceberg for him': WR Jaylen Waddle showcases explosive playmaking ability in home debut",
+      "summary": "“You can see the explosiveness, the run after the catch, all of those things,” Head Coach Sean Payton said. “I’m glad he’s ours.”",
+      "whatHappened": "“You can see the explosiveness, the run after the catch, all of those things,” Head Coach Sean Payton said. “I’m glad he’s ours.”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T02:03:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T18:00:45.530Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0292576d-4e49-465e-91f7-111e03b025b4",
+          "publisher": "Official team news",
+          "title": "'That's only the tip of the iceberg for him': WR Jaylen Waddle showcases explosive playmaking ability in home debut",
+          "url": "https://www.denverbroncos.com/news/that-s-only-the-tip-of-the-iceberg-for-him-wr-jaylen-waddle-showcases-explosive-playmaking-ability-in-home-debut",
+          "publishedAt": "2026-09-21T02:03:02.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/that-s-only-the-tip-of-the-iceberg-for-him-wr-jaylen-waddle-showcases-explosive-playmaking-ability-in-home-debut"
+        ],
+        "asOf": "2026-09-21T02:03:02.000Z"
+      }
+    },
+    {
+      "id": "84fa83b0-4922-4a30-893b-857428a017b1",
+      "teamAbbr": "DEN",
+      "category": "COACHING",
+      "headline": "Broncos Postgame Notebook: Denver's offense comes alive in second half, RB Jonah Coleman scores first career TD",
+      "summary": "“Kind of felt like it was really a tale of two halves,” Head Coach Sean Payton said after the Broncos’ 20-13 win over the Jaguars. “That’s a really good offense,” Head Coach Sean Payton said. “When you looked at last year’s game, I thought they were outstanding. They were going to make their plays, but it was a much different game than a year ago. We had our hands on a few others, but we got off the field on third down. That was good.”",
+      "whatHappened": "“Kind of felt like it was really a tale of two halves,” Head Coach Sean Payton said after the Broncos’ 20-13 win over the Jaguars. “That’s a really good offense,” Head Coach Sean Payton said. “When you looked at last year’s game, I thought they were outstanding. They were going to make their plays, but it was a much different game than a year ago. We had our hands on a few others, but we got off the field on third down. That was good.”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T02:01:43.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-21T16:00:56.061Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "80af34db-ae74-4c7d-b426-76c060922d0b",
+          "publisher": "Official team news",
+          "title": "Broncos Postgame Notebook: Denver's offense comes alive in second half, RB Jonah Coleman scores first career TD",
+          "url": "https://www.denverbroncos.com/news/broncos-postgame-notebook-denver-s-offense-comes-alive-in-second-half-rb-jonah-coleman-scores-first-career-td",
+          "publishedAt": "2026-09-21T03:08:31.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "151da085-c899-4fa0-9186-ff5c5df7c65e",
+          "publisher": "Official team news",
+          "title": "Broncos Postgame Notebook: Denver's offense comes alive in second half, RB Jonah Coleman scores first career TD",
+          "url": "https://www.denverbroncos.com/news/they-played-outstanding-broncos-defense-responds-vs-jaguars-potent-offense-limits-jacksonville-to-3-second-half-points",
+          "publishedAt": "2026-09-21T02:01:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/broncos-postgame-notebook-denver-s-offense-comes-alive-in-second-half-rb-jonah-coleman-scores-first-career-td",
+          "https://www.denverbroncos.com/news/they-played-outstanding-broncos-defense-responds-vs-jaguars-potent-offense-limits-jacksonville-to-3-second-half-points"
+        ],
+        "asOf": "2026-09-21T02:01:43.000Z"
+      }
+    },
+    {
+      "id": "4aca699a-65f6-4a8f-b796-c72510961703",
+      "teamAbbr": "DEN",
+      "category": "GAME",
+      "headline": "Cover 4: Broncos score 17 unanswered points, stampede back to earn 20-13 win over Jaguars",
+      "summary": "These are the players and plays that led to the Broncos' Week 2 win over the Jacksonville Jaguars.",
+      "whatHappened": "These are the players and plays that led to the Broncos' Week 2 win over the Jacksonville Jaguars.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:01:48.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T18:00:46.184Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8a4737f2-439f-4d6f-953e-b20e40ed1cce",
+          "publisher": "Official team news",
+          "title": "Cover 4: Broncos score 17 unanswered points, stampede back to earn 20-13 win over Jaguars",
+          "url": "https://www.denverbroncos.com/news/cover-4-broncos-score-17-unanswered-points-stampede-back-to-earn-20-13-win-over-jaguars",
+          "publishedAt": "2026-09-20T23:01:48.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/cover-4-broncos-score-17-unanswered-points-stampede-back-to-earn-20-13-win-over-jaguars"
+        ],
+        "asOf": "2026-09-20T23:01:48.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "78ab8cef-7ee7-42e8-bfe6-1e6ec84815c3",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "LIVE in-game blog: Denver Broncos vs. Jacksonville Jaguars",
+      "summary": "The Broncos will kick off their 2026 home slate against the Jacksonville Jaguars.",
+      "whatHappened": "The Broncos will kick off their 2026 home slate against the Jacksonville Jaguars.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T19:56:40.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T22:00:43.335Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e63f5c5b-8f40-4c45-9778-3fc979b072ed",
+          "publisher": "Official team news",
+          "title": "LIVE in-game blog: Denver Broncos vs. Jacksonville Jaguars",
+          "url": "https://www.denverbroncos.com/news/live-in-game-blog-denver-broncos-vs-jacksonville-jaguars-x4272",
+          "publishedAt": "2026-09-20T19:56:40.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/live-in-game-blog-denver-broncos-vs-jacksonville-jaguars-x4272"
+        ],
+        "asOf": "2026-09-20T19:56:40.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1c6f2567-4731-492c-b4ec-624a3621886c",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "RB RJ Harvey among Broncos' inactives for Week 2 game vs. Jaguars",
+      "summary": "The Broncos have announced their inactive players for Sunday’s matchup with the Jaguars.",
+      "whatHappened": "The Broncos have announced their inactive players for Sunday’s matchup with the Jaguars.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T18:35:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T22:00:43.419Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "db11189b-a444-4765-8390-5ddc2e61d585",
+          "publisher": "Official team news",
+          "title": "RB RJ Harvey among Broncos' inactives for Week 2 game vs. Jaguars",
+          "url": "https://www.denverbroncos.com/news/rb-rj-harvey-among-broncos-inactives-for-week-2-game-vs-jaguars",
+          "publishedAt": "2026-09-20T18:35:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INACTIVE\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/rb-rj-harvey-among-broncos-inactives-for-week-2-game-vs-jaguars"
+        ],
+        "asOf": "2026-09-20T18:35:00.000Z"
+      }
+    },
+    {
+      "id": "c391fb92-109a-4912-a762-3980d6472e53",
+      "teamAbbr": "DEN",
+      "category": "ROSTER",
+      "headline": "Broncos elevate LS Mitchell Fraboni, FB Adam Prentice for Week 2 game vs. Jaguars",
+      "summary": "The Broncos have added a pair of veterans to their game-day roster for the second consecutive week.",
+      "whatHappened": "The Broncos have added a pair of veterans to their game-day roster for the second consecutive week.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T21:28:54.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T02:00:49.086Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8f09395f-a3c8-4fb5-8e9d-338c7df46707",
+          "publisher": "Official team news",
+          "title": "Broncos elevate LS Mitchell Fraboni, FB Adam Prentice for Week 2 game vs. Jaguars",
+          "url": "https://www.denverbroncos.com/news/broncos-elevate-ls-mitchell-fraboni-fb-adam-prentice-for-week-2-game-vs-jaguars",
+          "publishedAt": "2026-09-19T21:28:54.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "DEN",
+          "action": "ELEVATED",
+          "name": "LS Mitchell",
+          "position": "TE"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "LS Mitchell",
+            "source": "headline",
+            "excerpt": "elevate LS Mitchell"
+          },
+          {
+            "field": "action",
+            "value": "ELEVATED",
+            "source": "headline",
+            "excerpt": "elevate LS Mitchell"
+          },
+          {
+            "field": "position",
+            "value": "TE",
+            "source": "headline",
+            "excerpt": "te LS Mitchell"
+          },
+          {
+            "field": "team",
+            "value": "DEN",
+            "source": "canonical",
+            "excerpt": "DEN"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/broncos-elevate-ls-mitchell-fraboni-fb-adam-prentice-for-week-2-game-vs-jaguars"
+        ],
+        "asOf": "2026-09-19T21:28:54.000Z"
+      }
+    },
+    {
+      "id": "970cfa8f-3cf9-4439-a31f-5d46cba362d3",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "Broncos to wear Sunset Orange jerseys, Summit White pants vs. Jaguars",
+      "summary": "The Broncos are set to wear their Sunset Orange jerseys for the first time in the 2026 season.",
+      "whatHappened": "The Broncos are set to wear their Sunset Orange jerseys for the first time in the 2026 season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T02:00:49.395Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c748e01e-b424-4821-bcc8-bc2e4eb65140",
+          "publisher": "Official team news",
+          "title": "Broncos to wear Sunset Orange jerseys, Summit White pants vs. Jaguars",
+          "url": "https://www.denverbroncos.com/news/broncos-to-wear-sunset-orange-jerseys-summit-white-pants-vs-jaguars",
+          "publishedAt": "2026-09-19T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/broncos-to-wear-sunset-orange-jerseys-summit-white-pants-vs-jaguars"
+        ],
+        "asOf": "2026-09-19T16:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8beb8145-7663-43fe-8fbb-94c09446156b",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "Game Preview: Broncos aim to respond in home opener vs. Jaguars",
+      "summary": "\"Every week is a new challenge,” cornerback Pat Surtain II said Thursday. \"We all know that as a team, but we just have to focus on getting better day-by-day and homing in on the small details. I think that’s what’s going to separate us.\"",
+      "whatHappened": "\"Every week is a new challenge,” cornerback Pat Surtain II said Thursday. \"We all know that as a team, but we just have to focus on getting better day-by-day and homing in on the small details. I think that’s what’s going to separate us.\"",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T00:00:31.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T16:00:52.725Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3508a6ab-21f8-4059-955f-afad9ef02d49",
+          "publisher": "Official team news",
+          "title": "Game Preview: Broncos aim to respond in home opener vs. Jaguars",
+          "url": "https://www.denverbroncos.com/news/game-preview-broncos-aim-to-respond-in-home-opener-vs-jaguars",
+          "publishedAt": "2026-09-19T00:00:31.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "DEN",
+          "rightTeam": "JAX"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "DEN",
+            "source": "headline",
+            "excerpt": "Game Preview: Broncos aim to respond in home opener vs. Jaguars"
+          },
+          {
+            "field": "rightTeam",
+            "value": "JAX",
+            "source": "headline",
+            "excerpt": "Game Preview: Broncos aim to respond in home opener vs. Jaguars"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/game-preview-broncos-aim-to-respond-in-home-opener-vs-jaguars"
+        ],
+        "asOf": "2026-09-19T00:00:31.000Z"
+      }
+    },
+    {
+      "id": "a3fe79f3-1421-47b4-bb8a-a371ae268904",
+      "teamAbbr": "DEN",
+      "category": "INJURY",
+      "headline": "Injury Report: Pair of Broncos estimated as nonparticipants ahead of Week 2 game vs. Jaguars",
+      "summary": "The Broncos did not practice on Wednesday, which makes the injury report an estimation of their participation levels if the team held a practice. Harvey (hamstring) was listed as a nonparticipant on the Broncos’ Wednesday practice report. The Broncos’ second-year running back is officially questionable to play in Denver’s home opener.",
+      "whatHappened": "The Broncos did not practice on Wednesday, which makes the injury report an estimation of their participation levels if the team held a practice. Harvey (hamstring) was listed as a nonparticipant on the Broncos’ Wednesday practice report.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T21:01:22.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-16T22:10:33.962Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c3ac12d3-92c2-4af8-b5a7-d9ee89cec984",
+          "publisher": "Official team news",
+          "title": "Injury Report: Pair of Broncos estimated as nonparticipants ahead of Week 2 game vs. Jaguars",
+          "url": "https://www.denverbroncos.com/news/injury-report-pair-of-broncos-estimated-as-nonparticipants-ahead-of-week-2-game-vs-jaguars",
+          "publishedAt": "2026-09-16T20:04:43.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "fc945382-6ae5-40fa-822e-24868ba4fb30",
+          "publisher": "Official team news",
+          "title": "Injury Report: Pair of Broncos estimated as nonparticipants ahead of Week 2 game vs. Jaguars",
+          "url": "https://www.denverbroncos.com/news/injuryreport/injury-report-rb-rj-harvey-improves-to-limited-participant-ahead-of-week-2-game-vs-jaguars",
+          "publishedAt": "2026-09-17T21:45:03.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "c058dfd4-27d0-4ab4-890e-1ae25890ce3e",
+          "publisher": "Official team news",
+          "title": "Injury Report: Pair of Broncos estimated as nonparticipants ahead of Week 2 game vs. Jaguars",
+          "url": "https://www.denverbroncos.com/news/injuryreport/injury-report-rb-rj-harvey-listed-as-questionable-for-broncos-home-opener-vs-jaguars",
+          "publishedAt": "2026-09-18T21:01:22.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/injury-report-pair-of-broncos-estimated-as-nonparticipants-ahead-of-week-2-game-vs-jaguars",
+          "https://www.denverbroncos.com/news/injuryreport/injury-report-rb-rj-harvey-improves-to-limited-participant-ahead-of-week-2-game-vs-jaguars",
+          "https://www.denverbroncos.com/news/injuryreport/injury-report-rb-rj-harvey-listed-as-questionable-for-broncos-home-opener-vs-jaguars"
+        ],
+        "asOf": "2026-09-18T21:01:22.000Z"
+      }
+    },
+    {
+      "id": "529be131-dc2a-4c92-98d7-fd73397592b2",
+      "teamAbbr": "DEN",
+      "category": "PRACTICE",
+      "headline": "'We know what we need to correct': Broncos have 'attitude of accountability' ahead of Week 2 game vs. Jaguars",
+      "summary": "Following the Broncos’ initial practice of the week, wide receiver Courtland Sutton said he’s seen “an attitude of accountability [and] an attitude of wanting to get better and improving” from his teammates.",
+      "whatHappened": "Following the Broncos’ initial practice of the week, wide receiver Courtland Sutton said he’s seen “an attitude of accountability [and] an attitude of wanting to get better and improving” from his teammates.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T23:33:39.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T02:00:54.727Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "947b374a-83d4-4f49-9e42-f28c876ca1cb",
+          "publisher": "Official team news",
+          "title": "'We know what we need to correct': Broncos have 'attitude of accountability' ahead of Week 2 game vs. Jaguars",
+          "url": "https://www.denverbroncos.com/news/we-know-what-we-need-to-correct-broncos-have-attitude-of-accountability-ahead-of-week-2-game-vs-jaguars",
+          "publishedAt": "2026-09-17T23:33:39.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/we-know-what-we-need-to-correct-broncos-have-attitude-of-accountability-ahead-of-week-2-game-vs-jaguars"
+        ],
+        "asOf": "2026-09-17T23:33:39.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "88285026-a9d2-41d6-ad5d-2929578634dc",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "Former Broncos QB Tim Tebow to serve as Broncos' alumni flag planter for Week 2 game vs. Jaguars",
+      "summary": "For the first time since leading an overtime game-winning drive in the 2011 playoffs, Tim Tebow is set to return to Empower Field at Mile High.",
+      "whatHappened": "For the first time since leading an overtime game-winning drive in the 2011 playoffs, Tim Tebow is set to return to Empower Field at Mile High.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T20:01:41.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T04:01:03.055Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5360c261-71c0-407d-91de-fecc900f8832",
+          "publisher": "Official team news",
+          "title": "Former Broncos QB Tim Tebow to serve as Broncos' alumni flag planter for Week 2 game vs. Jaguars",
+          "url": "https://www.denverbroncos.com/news/former-broncos-qb-tim-tebow-to-serve-as-broncos-alumni-flag-planter-for-week-2-game-vs-jaguars",
+          "publishedAt": "2026-09-17T20:01:41.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/former-broncos-qb-tim-tebow-to-serve-as-broncos-alumni-flag-planter-for-week-2-game-vs-jaguars"
+        ],
+        "asOf": "2026-09-17T20:01:41.000Z"
+      }
+    },
+    {
+      "id": "ed78fd43-0330-4e76-a32f-baf74d637ee9",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "Denver Broncos vs. Jacksonville Jaguars: How to watch, listen and live stream the Broncos' Week 2 game",
+      "summary": "How to watch, listen to and live stream the Broncos’ Week 2 home matchup against the Jacksonville Jaguars on Sunday, Sept. 20, 2026.",
+      "whatHappened": "How to watch, listen to and live stream the Broncos’ Week 2 home matchup against the Jacksonville Jaguars on Sunday, Sept. 20, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T20:52:39.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T23:10:30.577Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "affa3dbc-af29-41b6-8c2d-bb9eee52d1e9",
+          "publisher": "Official team news",
+          "title": "Denver Broncos vs. Jacksonville Jaguars: How to watch, listen and live stream the Broncos' Week 2 game",
+          "url": "https://www.denverbroncos.com/news/denver-broncos-vs-jacksonville-jaguars-how-to-watch-listen-and-live-stream-the-broncos-week-2-game",
+          "publishedAt": "2026-09-16T20:52:39.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "DEN",
+          "rightTeam": "JAX",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "DEN",
+            "source": "headline",
+            "excerpt": "Denver Broncos vs. Jacksonville Jaguars: How to watch, listen and live stream the Broncos' Week 2 game"
+          },
+          {
+            "field": "rightTeam",
+            "value": "JAX",
+            "source": "headline",
+            "excerpt": "Denver Broncos vs. Jacksonville Jaguars: How to watch, listen and live stream the Broncos' Week 2 game"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/denver-broncos-vs-jacksonville-jaguars-how-to-watch-listen-and-live-stream-the-broncos-week-2-game"
+        ],
+        "asOf": "2026-09-16T20:52:39.000Z"
+      }
+    },
+    {
+      "id": "b5a57e0c-2930-483b-b7ac-47a98ef687ec",
+      "teamAbbr": "DEN",
+      "category": "COACHING",
+      "headline": "Broncos High School Tackle Coach of the Week: Tyler Vincent - Olathe",
+      "summary": "Olathe, coached by Tyler Vincent, is 3-0 and ranked No. 4 in 1A just three seasons after not fielding a varsity team.",
+      "whatHappened": "Olathe, coached by Tyler Vincent, is 3-0 and ranked No. 4 in 1A just three seasons after not fielding a varsity team.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T16:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T01:05:34.347Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7c1a771d-fac6-4af7-87c8-c75b830b1e9f",
+          "publisher": "Official team news",
+          "title": "Broncos High School Tackle Coach of the Week: Tyler Vincent - Olathe",
+          "url": "https://www.denverbroncos.com/news/broncos-high-school-tackle-coach-of-the-week-tyler-vincent-olathe",
+          "publishedAt": "2026-09-16T16:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/broncos-high-school-tackle-coach-of-the-week-tyler-vincent-olathe"
+        ],
+        "asOf": "2026-09-16T16:00:00.000Z"
+      }
+    },
+    {
+      "id": "37bbd872-9b42-459f-b6df-2b894c5f5f72",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "Next-Day Notebook: Broncos aim to learn from Week 1 loss, 'get back to work' ahead of Week 2",
+      "summary": "“One game doesn’t define our season or who we are,” tackle Mikle McGlinchey said. “We’ve just got to learn how to get better from it.”",
+      "whatHappened": "“One game doesn’t define our season or who we are,” tackle Mikle McGlinchey said. “We’ve just got to learn how to get better from it.”",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T21:49:41.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T23:55:05.389Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f55364dd-dfb6-40d9-9817-fa46fec8ed5e",
+          "publisher": "Official team news",
+          "title": "Next-Day Notebook: Broncos aim to learn from Week 1 loss, 'get back to work' ahead of Week 2",
+          "url": "https://www.denverbroncos.com/news/next-day-notebook-broncos-aim-to-learn-from-week-1-loss-get-back-to-work-ahead-of-week-2",
+          "publishedAt": "2026-09-15T21:49:41.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/next-day-notebook-broncos-aim-to-learn-from-week-1-loss-get-back-to-work-ahead-of-week-2"
+        ],
+        "asOf": "2026-09-15T21:49:41.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "ab3439f4-725c-4744-8c84-c6c6a271e649",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "What's New in 2026 at Broncos games",
+      "summary": "Attending a Broncos game this year? Here’s a breakdown of what’s new this year at Empower Field at Mile High, as well as a few important reminders of existing programs! From arrival and concession offerings to entertainment and retail, make sure to read every section. We can’t wait to see you and hear you this season! See You Sunday, Hear You Sunday!",
+      "whatHappened": "Attending a Broncos game this year? Here’s a breakdown of what’s new this year at Empower Field at Mile High, as well as a few important reminders of existing programs! From arrival and concession offerings to entertainment and retail, make sure to read every section. We can’t wait to see you and hear you this season! See You Sunday, Hear You Sunday!",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T15:06:33.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T16:50:10.723Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4d533bca-5e82-484b-a263-7ec0cbbc59af",
+          "publisher": "Official team news",
+          "title": "What's New in 2026 at Broncos games",
+          "url": "https://www.denverbroncos.com/news/whats-new-in-2026-at-broncos-games",
+          "publishedAt": "2026-09-15T15:06:33.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/whats-new-in-2026-at-broncos-games"
+        ],
+        "asOf": "2026-09-15T15:06:33.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "788720ae-25f7-4ff6-b88d-bff6e5d888cc",
+      "teamAbbr": "DEN",
+      "category": "GAME",
+      "headline": "'We have to be better': Broncos lament mistakes in 'disappointing' season-opening loss to Chiefs",
+      "summary": "“We know we have to be better,” quarterback Bo Nix said. “There’s a lot of guys in that locker room who are going to take ownership and going to be better.\"",
+      "whatHappened": "“We know we have to be better,” quarterback Bo Nix said. “There’s a lot of guys in that locker room who are going to take ownership and going to be better.\"",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T06:35:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T08:50:06.532Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "eb245859-f676-4ad1-9fdd-8fa04c7c5109",
+          "publisher": "Official team news",
+          "title": "'We have to be better': Broncos lament mistakes in 'disappointing' season-opening loss to Chiefs",
+          "url": "https://www.denverbroncos.com/news/we-have-to-be-better-broncos-lament-mistakes-in-disappointing-season-opening-loss-to-chiefs",
+          "publishedAt": "2026-09-15T06:35:21.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "recap",
+          "teams": [
+            "DEN",
+            "KC"
+          ],
+          "overtime": false
+        },
+        "reason": "Recap without a verified score pair",
+        "displayCategory": "Recap",
+        "evidence": [
+          {
+            "field": "teams.0",
+            "value": "DEN",
+            "source": "headline",
+            "excerpt": "'We have to be better': Broncos lament mistakes in 'disappointing' season-opening loss to Chiefs"
+          },
+          {
+            "field": "teams.1",
+            "value": "KC",
+            "source": "headline",
+            "excerpt": "'We have to be better': Broncos lament mistakes in 'disappointing' season-opening loss to Chiefs"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/we-have-to-be-better-broncos-lament-mistakes-in-disappointing-season-opening-loss-to-chiefs"
+        ],
+        "asOf": "2026-09-15T06:35:21.000Z"
+      }
+    },
+    {
+      "id": "c79ea7c4-830e-4ac5-9e1e-8c6670b8703d",
+      "teamAbbr": "DEN",
+      "category": "ANALYSIS",
+      "headline": "LIVE in-game blog: Denver Broncos at Kansas City Chiefs",
+      "summary": "The Broncos begin their regular season in prime time against the Kansas City Chiefs.",
+      "whatHappened": "The Broncos begin their regular season in prime time against the Kansas City Chiefs.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T00:08:34.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T02:15:09.411Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ce201102-1ef0-43b6-aa74-637f9a533264",
+          "publisher": "Official team news",
+          "title": "LIVE in-game blog: Denver Broncos at Kansas City Chiefs",
+          "url": "https://www.denverbroncos.com/news/live-in-game-blog-denver-broncos-at-kansas-city-chiefs-x9716",
+          "publishedAt": "2026-09-15T00:08:34.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.denverbroncos.com/news/live-in-game-blog-denver-broncos-at-kansas-city-chiefs-x9716"
+        ],
+        "asOf": "2026-09-15T00:08:34.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 38,
+    "totalPages": 2
+  }
+}

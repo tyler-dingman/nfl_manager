@@ -1,0 +1,532 @@
+{
+  "teamAbbr": "MIA",
+  "teamName": "Miami Dolphins",
+  "briefings": [
+    {
+      "id": "b3097780-c05d-45e9-a4dc-d2ea374d4a15",
+      "teamAbbr": "MIA",
+      "category": "GAME",
+      "headline": "Three Takeaways: Dolphins battle through tough test in San Francisco",
+      "summary": "Miami falls to 0-2 on the season after a 35-13 loss to the 49ers.",
+      "whatHappened": "Miami falls to 0-2 on the season after a 35-13 loss to the 49ers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T23:17:49.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T14:00:43.822Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "74bbe4f4-af01-46d3-a876-e6d26dc22efd",
+          "publisher": "Official team news",
+          "title": "Three Takeaways: Dolphins battle through tough test in San Francisco",
+          "url": "https://www.miamidolphins.com/news/three-takeaways-dolphins-battle-through-tough-test-in-san-francisco",
+          "publishedAt": "2026-09-21T23:17:49.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "3f40b3a8-4310-4b3a-adcb-b79803ab52e5",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Miami Dolphins Academy Fall Donation Presented by Baptist Health Delivers Equipment to Royal Palm Beach High School Tackle Football Program",
+      "summary": "This year’s equipment donation included tackle sleds, a tackle wheel, agiles, power drinkers, new cleats, footballs, pads and more to help enhance the tackle football program.",
+      "whatHappened": "This year’s equipment donation included tackle sleds, a tackle wheel, agiles, power drinkers, new cleats, footballs, pads and more to help enhance the tackle football program.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T13:23:42.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T20:00:42.984Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3d61dc83-f744-4be1-9734-4561a4d01adf",
+          "publisher": "Official team news",
+          "title": "Miami Dolphins Academy Fall Donation Presented by Baptist Health Delivers Equipment to Royal Palm Beach High School Tackle Football Program",
+          "url": "https://www.miamidolphins.com/news/miami-dolphins-academy-fall-donation-presented-by-baptist-health-delivers-equipment-to-royal-palm-beach-high-school-tackle-football-program",
+          "publishedAt": "2026-09-21T13:23:42.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "98dec069-7f82-4d7f-b3b0-5e9aa378b773",
+      "teamAbbr": "MIA",
+      "category": "GAME",
+      "headline": "Game Recap: Dolphins Fall to 49ers in Week 2",
+      "summary": "Miami finds rhythm in the run game at Levi’s Stadium.",
+      "whatHappened": "Miami finds rhythm in the run game at Levi’s Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T02:07:04.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T20:00:43.455Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "bafcddae-f441-4435-91a3-e55d903ea5a1",
+          "publisher": "Official team news",
+          "title": "Game Recap: Dolphins Fall to 49ers in Week 2",
+          "url": "https://www.miamidolphins.com/news/game-recap-dolphins-lose-week-2-matchup-to-49ers",
+          "publishedAt": "2026-09-21T02:07:04.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "8de86fce-d512-41a0-9943-650503bee521",
+      "teamAbbr": "MIA",
+      "category": "SIGNING",
+      "headline": "Dolphins make roster moves",
+      "summary": "The Miami Dolphins announced today that they have placed inside linebacker Ronnie Harrison Jr. on the injured reserve list and signed inside linebacker Liam Anderson to the active roster off the practice squad. The team also elevated edges Clelin Ferrell and Max Llewellyn to the active roster for Sunday’s game.",
+      "whatHappened": "The Miami Dolphins announced today that they have placed inside linebacker Ronnie Harrison Jr. on the injured reserve list and signed inside linebacker Liam Anderson to the active roster off the practice squad. The team also elevated edges Clelin Ferrell and Max Llewellyn to the active roster for Sunday’s game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:00:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T14:00:51.880Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "31915a91-0ae7-4007-9453-5d6b5e39046d",
+          "publisher": "Official team news",
+          "title": "Dolphins make roster moves",
+          "url": "https://www.miamidolphins.com/news/dolphins-make-roster-moves-x5502",
+          "publishedAt": "2026-09-19T20:00:02.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "1b3ea339-a407-411b-b2f8-6ca88f014fec",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Game Preview: Miami Dolphins at San Francisco 49ers",
+      "summary": "Dolphins wrap up West Coast swing with a date in the Bay Area.",
+      "whatHappened": "Dolphins wrap up West Coast swing with a date in the Bay Area.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T15:44:34.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:46.497Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b30d9804-7cea-448a-8a29-11e5ec8e7de5",
+          "publisher": "Official team news",
+          "title": "Game Preview: Miami Dolphins at San Francisco 49ers",
+          "url": "https://www.miamidolphins.com/news/game-preview-miami-dolphins-at-san-francisco-49ers",
+          "publishedAt": "2026-09-19T15:44:34.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "574534f0-2b67-4d2f-9451-a24b62ddf064",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Transcript: HC Jeff Hafley Press Conference - September 18",
+      "summary": "Read the full transcript from HC Jeff Hafley 's postgame media availability on September 18, 2026.",
+      "whatHappened": "Read the full transcript from HC Jeff Hafley 's postgame media availability on September 18, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T21:30:06.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T00:00:52.155Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "184e3596-4f6d-4ab8-ba0c-66f7f6c6f1b2",
+          "publisher": "Official team news",
+          "title": "Transcript: HC Jeff Hafley Press Conference - September 18",
+          "url": "https://www.miamidolphins.com/news/transcript-hc-jeff-hafley-press-conference-september-18",
+          "publishedAt": "2026-09-18T21:30:06.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "129fe761-415a-4bca-860d-d3c7a86e5699",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Transcript: STC Chris Tabor Press Conference - September 17",
+      "summary": "Read the full transcript from STC Chris Tabor's media availability on September 17, 2026.",
+      "whatHappened": "Read the full transcript from STC Chris Tabor's media availability on September 17, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:06:49.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T04:00:51.975Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4f453085-0b9b-4511-a202-b6724afababa",
+          "publisher": "Official team news",
+          "title": "Transcript: STC Chris Tabor Press Conference - September 17",
+          "url": "https://www.miamidolphins.com/news/transcript-stc-chris-tabor-press-conference-september-17",
+          "publishedAt": "2026-09-18T14:06:49.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "b5ec0652-95ff-4852-85d0-0426ec0f3aa9",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Transcript: DC Sean Duggan Press Conference - September 17",
+      "summary": "Read the full transcript from DC Sean Duggan's media availability on September 17, 2026.",
+      "whatHappened": "Read the full transcript from DC Sean Duggan's media availability on September 17, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:04:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T04:00:52.070Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "562f7970-6899-44b4-965d-54dd9f171e34",
+          "publisher": "Official team news",
+          "title": "Transcript: DC Sean Duggan Press Conference - September 17",
+          "url": "https://www.miamidolphins.com/news/transcript-dc-sean-duggan-press-conference-september-17",
+          "publishedAt": "2026-09-18T14:04:21.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "5a62bf46-cb2e-466d-8551-348f6fcb154f",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Transcript: OC Bobby Slowik Press Conference - September 17",
+      "summary": "Read the full transcript from OC Bobby Slowik's media availability on September 17, 2026.",
+      "whatHappened": "Read the full transcript from OC Bobby Slowik's media availability on September 17, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:02:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T04:00:52.116Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ccd7a282-5aaa-4b51-abe6-6ea58212fefb",
+          "publisher": "Official team news",
+          "title": "Transcript: OC Bobby Slowik Press Conference - September 17",
+          "url": "https://www.miamidolphins.com/news/transcript-oc-bobby-slowik-press-conference-september-17",
+          "publishedAt": "2026-09-18T14:02:53.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "330c319c-da97-4ded-b00f-e06667970d54",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Top Quotes: Dolphins Growing Together Ahead of Week 2 Test",
+      "summary": "A week together on the road provides opportunity for the Dolphins to grow and improve.",
+      "whatHappened": "A week together on the road provides opportunity for the Dolphins to grow and improve.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:00:04.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T04:00:52.304Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "528ea303-9b01-4884-b24a-424344f84271",
+          "publisher": "Official team news",
+          "title": "Top Quotes: Dolphins Growing Together Ahead of Week 2 Test",
+          "url": "https://www.miamidolphins.com/news/top-quotes-dolphins-growing-together-ahead-of-week-2-test",
+          "publishedAt": "2026-09-18T14:00:04.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "a50f82e0-556c-416e-9ee4-eabe0b3b2a43",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Miami Dolphins Academy 2026 Fall Donation Presented by Baptist Health Delivers Equipment to Boca Raton & Miami Sunset Senior High School Tackle Football Programs",
+      "summary": "This year’s equipment donation included tackle sleds, a tackle wheel, agiles, power drinkers, new cleats, footballs, pads and more to help enhance the tackle football program.",
+      "whatHappened": "This year’s equipment donation included tackle sleds, a tackle wheel, agiles, power drinkers, new cleats, footballs, pads and more to help enhance the tackle football program.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T21:15:45.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T04:01:02.733Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "aa81f25c-2faf-45e7-9743-e953029ec116",
+          "publisher": "Official team news",
+          "title": "Miami Dolphins Academy 2026 Fall Donation Presented by Baptist Health Delivers Equipment to Boca Raton & Miami Sunset Senior High School Tackle Football Programs",
+          "url": "https://www.miamidolphins.com/news/miami-dolphins-academy-2026-fall-donation-presented-by-baptist-health-delivers-equipment-to-boca-raton-miami-sunset-senior-high-school-tackle-football-programs",
+          "publishedAt": "2026-09-17T21:15:45.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "2d8de2b2-4cf2-45cd-bd08-90b13a335084",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "How to Watch, Stream & Listen: Miami Dolphins at San Francisco 49ers",
+      "summary": "The Miami Dolphins are set to take on the San Francisco 49ers this Sunday at Levi’s Stadium. Here's where to watch, listen and livestream the game:",
+      "whatHappened": "The Miami Dolphins are set to take on the San Francisco 49ers this Sunday at Levi’s Stadium. Here's where to watch, listen and livestream the game:",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T17:55:55.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T22:00:53.718Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5d7fabcb-a7ae-4629-b9b2-c65eb429b6f7",
+          "publisher": "Official team news",
+          "title": "How to Watch, Stream & Listen: Miami Dolphins at San Francisco 49ers",
+          "url": "https://www.miamidolphins.com/news/how-to-watch-stream-listen-miami-dolphins-at-san-francisco-49ers-x5136",
+          "publishedAt": "2026-09-17T17:55:55.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "fd8e30b9-0022-44b1-9d64-2aee6302ac93",
+      "teamAbbr": "MIA",
+      "category": "COACHING",
+      "headline": "Miami Dolphins Academy Hosts Flag Football Clinics for Youth and Coaches in Spain",
+      "summary": "Miami Dolphins Academy continues to grow international flag football efforts in Barcelona and Madrid.",
+      "whatHappened": "Miami Dolphins Academy continues to grow international flag football efforts in Barcelona and Madrid.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T17:50:49.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T22:00:53.777Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "03d672f0-00f7-43fc-a80f-5fcd7f82fbed",
+          "publisher": "Official team news",
+          "title": "Miami Dolphins Academy Hosts Flag Football Clinics for Youth and Coaches in Spain",
+          "url": "https://www.miamidolphins.com/news/miami-dolphins-academy-hosts-flag-football-clinics-for-youth-and-coaches-in-spain",
+          "publishedAt": "2026-09-17T17:50:49.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "cf8e9e5c-dd12-46c1-856d-b37a79574e27",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Transcript: QB Malik Willis Press Conference - September 16",
+      "summary": "Read the full transcript from QB Malik Willis' postgame media availability on September 16, 2026.",
+      "whatHappened": "Read the full transcript from QB Malik Willis' postgame media availability on September 16, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T13:29:29.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:45:45.976Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "cde9b4ea-1ba1-4fde-b143-724c9f293c4e",
+          "publisher": "Official team news",
+          "title": "Transcript: QB Malik Willis Press Conference - September 16",
+          "url": "https://www.miamidolphins.com/news/transcript-qb-malik-willis-press-conference-september-16",
+          "publishedAt": "2026-09-17T13:29:29.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "70c14791-da8f-4446-ae39-6e0f4579d768",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Transcript: HC Jeff Hafley Press Conference - September 16",
+      "summary": "Read the full transcript from HC Jeff Hafley 's postgame media availability on September 16, 2026.",
+      "whatHappened": "Read the full transcript from HC Jeff Hafley 's postgame media availability on September 16, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T13:14:08.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:30:37.956Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ef7aefed-7bb4-4813-a9d0-88ea7011783d",
+          "publisher": "Official team news",
+          "title": "Transcript: HC Jeff Hafley Press Conference - September 16",
+          "url": "https://www.miamidolphins.com/news/transcript-hc-jeff-hafley-press-conference-september-16",
+          "publishedAt": "2026-09-17T13:14:08.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "78ec663b-80a8-4975-baf3-b9e495dbffd2",
+      "teamAbbr": "MIA",
+      "category": "SIGNING",
+      "headline": "Dolphins make roster moves",
+      "summary": "The Miami Dolphins announced today that they have placed safety Kyle Louis on the injured reserve list and signed cornerback Jaylin Simpson to the active roster off the practice squad. The team also signed long snapper Cal Adomitis to the practice squad.",
+      "whatHappened": "The Miami Dolphins announced today that they have placed safety Kyle Louis on the injured reserve list and signed cornerback Jaylin Simpson to the active roster off the practice squad. The team also signed long snapper Cal Adomitis to the practice squad.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:00:44.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:10:07.831Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0936eab5-5cf8-49c6-8649-fd26c9814dc5",
+          "publisher": "Official team news",
+          "title": "Dolphins make roster moves",
+          "url": "https://www.miamidolphins.com/news/dolphins-make-roster-moves-x1408",
+          "publishedAt": "2026-09-16T17:00:44.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "53e6dd05-a3b4-40e9-8acd-7d335e89d6b4",
+      "teamAbbr": "MIA",
+      "category": "ROSTER",
+      "headline": "Inside the Numbers: Dolphins youth flashes in season opener despite loss",
+      "summary": "The youngest roster in the NFL experienced ups and downs in Week 1.",
+      "whatHappened": "The youngest roster in the NFL experienced ups and downs in Week 1.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T22:37:41.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T00:50:06.444Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a35ada97-9e83-4e82-b40d-ccd9bda0b1bb",
+          "publisher": "Official team news",
+          "title": "Inside the Numbers: Dolphins youth flashes in season opener despite loss",
+          "url": "https://www.miamidolphins.com/news/inside-the-numbers-dolphins-youth-flashes-in-season-opener-despite-loss",
+          "publishedAt": "2026-09-15T22:37:41.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "84db3a0c-2342-46a5-a390-0828eaa49b1b",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Miami Dolphins Join 9/11 Day Volunteer Event in Recognition of 25th Anniversary of Sept. 11",
+      "summary": "Dolphins alumni, cheerleaders and staff packed meals in a nationwide effort of service.",
+      "whatHappened": "Dolphins alumni, cheerleaders and staff packed meals in a nationwide effort of service.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T22:31:37.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T00:35:05.293Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f483b80b-a15f-4bf0-95d3-59ca108e26df",
+          "publisher": "Official team news",
+          "title": "Miami Dolphins Join 9/11 Day Volunteer Event in Recognition of 25th Anniversary of Sept. 11",
+          "url": "https://www.miamidolphins.com/news/miami-dolphins-join-9-11-day-volunteer-event-in-recognition-of-25th-anniversary-of-sept-11",
+          "publishedAt": "2026-09-15T22:31:37.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "0c732df2-e0b1-4656-b04a-1dc4408d7000",
+      "teamAbbr": "MIA",
+      "category": "ANALYSIS",
+      "headline": "Dolphins Cancer Challenge Honors Childhood Cancer Awareness Month at Sylvester Comprehensive Cancer Center",
+      "summary": "Miami Dolphins Academy hosted nearly 30 events this summer, including football and cheer camps and clinics, Girls Flag Football League, Nike 11-ON and more, impacting over 4,500 people in the South Florida community and in Brazil.",
+      "whatHappened": "Miami Dolphins Academy hosted nearly 30 events this summer, including football and cheer camps and clinics, Girls Flag Football League, Nike 11-ON and more, impacting over 4,500 people in the South Florida community and in Brazil.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T14:44:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T16:55:11.472Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7d622baa-80fa-4afb-a31d-95683c331432",
+          "publisher": "Official team news",
+          "title": "Dolphins Cancer Challenge Honors Childhood Cancer Awareness Month at Sylvester Comprehensive Cancer Center",
+          "url": "https://www.miamidolphins.com/news/dolphins-cancer-challenge-honors-childhood-cancer-awareness-month-at-sylvester-comprehensive-cancer-center",
+          "publishedAt": "2026-09-15T14:44:53.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "d0e28bdc-ad76-47ee-b599-6636ff2c6114",
+      "teamAbbr": "MIA",
+      "category": "TRADE",
+      "headline": "Transcript: S Dante Trader Jr. Press Conference - September 14",
+      "summary": "Read the full transcript from S Dante Trader Jr.'s postgame media availability on September 14, 2026.",
+      "whatHappened": "Read the full transcript from S Dante Trader Jr.'s postgame media availability on September 14, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T21:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T21:05:05.523Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0c72c8ec-a9ef-4ec7-96a6-aae0bb1259f3",
+          "publisher": "Official team news",
+          "title": "Transcript: S Dante Trader Jr. Press Conference - September 14",
+          "url": "https://www.miamidolphins.com/news/transcript-s-dante-trader-jr-press-conference-september-14",
+          "publishedAt": "2026-09-14T21:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 39,
+    "totalPages": 2
+  }
+}

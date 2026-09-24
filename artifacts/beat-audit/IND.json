@@ -1,0 +1,556 @@
+{
+  "teamAbbr": "IND",
+  "teamName": "Indianapolis Colts",
+  "briefings": [
+    {
+      "id": "dd98020d-7b2f-4d68-ac80-f8b769d3bf98",
+      "teamAbbr": "IND",
+      "category": "ANALYSIS",
+      "headline": "Indiana Football Digest Insider 2026 - Week five recap",
+      "summary": "The 2026 Indiana Football Digest Insider",
+      "whatHappened": "The 2026 Indiana Football Digest Insider",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-23T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T16:00:58.053Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fb54adaf-21b0-4ff9-931b-98fe97c32dd8",
+          "publisher": "Official team news",
+          "title": "Indiana Football Digest Insider 2026 - Week five recap",
+          "url": "https://www.colts.com/news/indiana-football-digest-insider-2026-week-five-recap",
+          "publishedAt": "2026-09-23T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "54f53ae4-051d-416a-afd3-2972327e243f",
+      "teamAbbr": "IND",
+      "category": "SIGNING",
+      "headline": "Colts place DE Micheal Clemons on injured reserve, release RB Anderson Castle from practice squad",
+      "summary": "The Colts made the roster moves on Tuesday in addition to signing wide receiver Darius Slayton. The Colts made the roster move Wednesday.",
+      "whatHappened": "The Colts made the roster moves on Tuesday in addition to signing wide receiver Darius Slayton. The Colts made the roster move Wednesday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-23T11:39:58.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-22T22:00:45.817Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "80dca183-7846-4e22-902c-b0005b4c6f5b",
+          "publisher": "Official team news",
+          "title": "Colts place DE Micheal Clemons on injured reserve, release RB Anderson Castle from practice squad",
+          "url": "https://www.colts.com/news/colts-place-de-micheal-clemons-on-injured-reserve-release-rb-anderson-castle-from-practice-squad",
+          "publishedAt": "2026-09-22T19:24:33.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "8310db72-aa91-4333-a9d1-ae87b018496c",
+          "publisher": "Official team news",
+          "title": "Colts place DE Micheal Clemons on injured reserve, release RB Anderson Castle from practice squad",
+          "url": "https://www.colts.com/news/colts-sign-wr-eli-pancol-to-practice-squad",
+          "publishedAt": "2026-09-23T11:39:58.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "0ebc3a81-f8fb-4756-a43e-0feab7423a0d",
+      "teamAbbr": "IND",
+      "category": "COACHING",
+      "headline": "McCutcheon's Michael Fenters named 2026 'Coach of the Week' for Week 5",
+      "summary": "This past weekend, the Mavericks defeated rival West Lafayette Harrison, 21-0. It was the Mavs’ first win over the Raiders since 2017 and their second straight shutout this year.",
+      "whatHappened": "This past weekend, the Mavericks defeated rival West Lafayette Harrison, 21-0. It was the Mavs’ first win over the Raiders since 2017 and their second straight shutout this year.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T21:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T16:00:58.536Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5c1bd6b6-eb4c-4c2c-b58b-ec6960609647",
+          "publisher": "Official team news",
+          "title": "McCutcheon's Michael Fenters named 2026 'Coach of the Week' for Week 5",
+          "url": "https://www.colts.com/news/indianapolis-colts-high-school-football-development-mccutcheon-michael-fenters-named-2026-coach-of-the-week-for-week-5",
+          "publishedAt": "2026-09-22T21:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "a5ab4c57-a545-4a45-ab8d-f52a770ef066",
+      "teamAbbr": "IND",
+      "category": "SIGNING",
+      "headline": "Colts sign wide receiver Darius Slayton",
+      "summary": "Slayton spent his previous seven seasons with the New York Giants.",
+      "whatHappened": "Slayton spent his previous seven seasons with the New York Giants.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T19:24:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T22:00:45.895Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c5c0e68b-6969-4c3b-929d-dd4a02b1bf7b",
+          "publisher": "Official team news",
+          "title": "Colts sign wide receiver Darius Slayton",
+          "url": "https://www.colts.com/news/colts-sign-wide-receiver-darius-slayton",
+          "publishedAt": "2026-09-22T19:24:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "b2549041-77b4-4120-9f68-07aded828762",
+      "teamAbbr": "IND",
+      "category": "ANALYSIS",
+      "headline": "Colts to debut 'Anvil Strike' Rivalries uniform for Sunday's game vs. Houston Texans",
+      "summary": "Official Rivalries gear is available at shop.Colts.com or the Colts Pro Shop at Lucas Oil Stadium.",
+      "whatHappened": "Official Rivalries gear is available at shop.Colts.com or the Colts Pro Shop at Lucas Oil Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:40.909Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "97da6836-8b30-4a20-9056-d0d4a8346258",
+          "publisher": "Official team news",
+          "title": "Colts to debut 'Anvil Strike' Rivalries uniform for Sunday's game vs. Houston Texans",
+          "url": "https://www.colts.com/news/indianapolis-colts-vs-houston-texans-game-tickets-anvil-strike-uniform-nike-rivalries-jersey-nfl-2026-schedule-lucas-oil-stadium",
+          "publishedAt": "2026-09-22T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "99788d42-a850-4c52-a5eb-88d1063b2e8d",
+      "teamAbbr": "IND",
+      "category": "GAME",
+      "headline": "Colts drop heartbreaker in Week 2 overtime loss to Kansas City Chiefs",
+      "summary": "The Colts lost on the third and final possession of overtime on Sunday against the Kansas City Chiefs. The Colts' overtime loss to the Kansas City Chiefs saw some positive developments, but it wasn't enough to avoid an 0-2 start to the 2026 season.",
+      "whatHappened": "The Colts lost on the third and final possession of overtime on Sunday against the Kansas City Chiefs. The Colts' overtime loss to the Kansas City Chiefs saw some positive developments, but it wasn't enough to avoid an 0-2 start to the 2026 season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:13:09.000Z",
+      "sourceCount": 2,
+      "status": "RESOLVED",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-21T16:00:55.949Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e5f38f9f-a96a-4863-93c6-f457843ec67c",
+          "publisher": "Official team news",
+          "title": "Colts drop heartbreaker in Week 2 overtime loss to Kansas City Chiefs",
+          "url": "https://www.colts.com/news/colts-drop-heartbreaker-in-week-2-overtime-loss-to-kansas-city-chiefs",
+          "publishedAt": "2026-09-21T03:53:43.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "6a2afa72-7943-4691-a734-3a50fb75d4c9",
+          "publisher": "Official team news",
+          "title": "Colts drop heartbreaker in Week 2 overtime loss to Kansas City Chiefs",
+          "url": "https://www.colts.com/news/5-colts-things-daniel-jones-offense-handle-steve-spagnuolo-s-blitzes-laquon-treadwell-steps-up-kapena-gushiken-flashes-in-week-2-loss-to-chiefs",
+          "publishedAt": "2026-09-21T21:13:09.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "11411af3-f9f8-4794-9623-ab06692217b4",
+      "teamAbbr": "IND",
+      "category": "COACHING",
+      "headline": "Colts head coach Shane Steichen explains overtime strategy in loss to Chiefs: 'I was trying to finish the game with JT'",
+      "summary": "The Colts got inside the Chiefs' red zone on their first offensive play of overtime, but had to settle for a game-tying field goal – which then set up Harrison Butker's game-winning field goal as time expired in overtime.",
+      "whatHappened": "The Colts got inside the Chiefs' red zone on their first offensive play of overtime, but had to settle for a game-tying field goal – which then set up Harrison Butker's game-winning field goal as time expired in overtime.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T05:35:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T16:00:55.805Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9b60f103-591d-4347-b7ee-0e02c235eb56",
+          "publisher": "Official team news",
+          "title": "Colts head coach Shane Steichen explains overtime strategy in loss to Chiefs: 'I was trying to finish the game with JT'",
+          "url": "https://www.colts.com/news/colts-head-coach-shane-steichen-explains-overtime-strategy-in-loss-to-chiefs-i-was-trying-to-finish-the-game-with-jt",
+          "publishedAt": "2026-09-21T05:35:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "5080ad87-e34c-4c82-962f-053f94d03fc1",
+      "teamAbbr": "IND",
+      "category": "INJURY",
+      "headline": "X-rays on left heel negative for WR Alec Pierce",
+      "summary": "Pierce sustained a heel injury in the first quarter of Sunday night's game.",
+      "whatHappened": "Pierce sustained a heel injury in the first quarter of Sunday night's game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T04:42:59.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T16:00:55.884Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8def7caa-bd18-4aeb-b470-cae2fc201db6",
+          "publisher": "Official team news",
+          "title": "X-rays on left heel negative for WR Alec Pierce",
+          "url": "https://www.colts.com/news/x-rays-on-left-heel-negative-for-wr-alec-pierce",
+          "publishedAt": "2026-09-21T04:42:59.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "c635f2d9-5180-4309-b6fc-237eab932c95",
+      "teamAbbr": "IND",
+      "category": "PRACTICE",
+      "headline": "Colts elevate WR Anthony Gould from practice squad for Week 2",
+      "summary": "The roster move was made Saturday ahead of Sunday's game against the Kansas City Chiefs.",
+      "whatHappened": "The roster move was made Saturday ahead of Sunday's game against the Kansas City Chiefs.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T16:09:42.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T04:00:51.682Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f2d49250-19fa-4875-8396-52c272694b66",
+          "publisher": "Official team news",
+          "title": "Colts elevate WR Anthony Gould from practice squad for Week 2",
+          "url": "https://www.colts.com/news/colts-elevate-wr-anthony-gould-from-practice-squad-for-week-2",
+          "publishedAt": "2026-09-19T16:09:42.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "ded0758f-7a72-4c84-be22-2d09cb756ec7",
+      "teamAbbr": "IND",
+      "category": "COACHING",
+      "headline": "Colts rule out WR Ashton Dulin for Week 2 game against Kansas City Chiefs",
+      "summary": "Head coach Shane Steichen made the announcement Friday.",
+      "whatHappened": "Head coach Shane Steichen made the announcement Friday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T16:44:17.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T18:00:54.589Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d4e8856d-d43b-46a0-aafc-a89f9d25f9a7",
+          "publisher": "Official team news",
+          "title": "Colts rule out WR Ashton Dulin for Week 2 game against Kansas City Chiefs",
+          "url": "https://www.colts.com/news/colts-rule-out-wr-ashton-dulin-for-week-2-game-against-kansas-city-chiefs",
+          "publishedAt": "2026-09-18T16:44:17.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "48df93c9-1b54-4e29-8686-7ddf084f28d3",
+      "teamAbbr": "IND",
+      "category": "ANALYSIS",
+      "headline": "Colts Week 2 preview: Is there a simple fix for defense on Sunday Night Football against Patrick Mahomes, Kenneth Walker & Kansas City Chiefs?",
+      "summary": "The Colts believe shifting communication duties to linebacker Akeem Davis-Gaither will make a major difference in Week 2, though the Kansas City Chiefs' newfound willingness to run the ball looks to provide a stiff challenge on Sunday night.",
+      "whatHappened": "The Colts believe shifting communication duties to linebacker Akeem Davis-Gaither will make a major difference in Week 2, though the Kansas City Chiefs' newfound willingness to run the ball looks to provide a stiff challenge on Sunday night.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:55:54.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:46.119Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7b3d579a-1670-495c-8c1a-688c58ddc0db",
+          "publisher": "Official team news",
+          "title": "Colts Week 2 preview: Is there a simple fix for defense on Sunday Night Football against Patrick Mahomes, Kenneth Walker & Kansas City Chiefs?",
+          "url": "https://www.colts.com/news/colts-week-2-preview-is-there-a-simple-fix-for-defense-on-sunday-night-football-against-patrick-mahomes-kenneth-walker-kansas-city-chiefs",
+          "publishedAt": "2026-09-18T14:55:54.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "70367ff9-33c2-4591-b6b3-55214bf894e6",
+      "teamAbbr": "IND",
+      "category": "ANALYSIS",
+      "headline": "Hobart has put its trust in Aleks Tatum",
+      "summary": "Whether he’s on the gridiron or the wrestling mat, the 6-foot-2, 215-pound Hobart High senior quarterback has proven to be a big hit.",
+      "whatHappened": "Whether he’s on the gridiron or the wrestling mat, the 6-foot-2, 215-pound Hobart High senior quarterback has proven to be a big hit.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:00:37.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T18:00:47.852Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "cfbbccba-cb22-46e6-9eb3-48270f2835f0",
+          "publisher": "Official team news",
+          "title": "Hobart has put its trust in Aleks Tatum",
+          "url": "https://www.colts.com/news/hobart-has-put-its-trust-in-aleks-tatum",
+          "publishedAt": "2026-09-18T13:00:37.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "80b707ce-ce19-4750-a882-ad0a7057d456",
+      "teamAbbr": "IND",
+      "category": "ANALYSIS",
+      "headline": "Colts, Versiti announce dates for 2026 'Bleed Blue Blood Drives'",
+      "summary": "The Indianapolis Colts and Versiti Blood Center of Indiana today announced the return of the 27th annual Bleed Blue Blood Drives, presented by Versiti Blood Center of Indiana and supported by Ascension St. Vincent, which will offer three separate events for fans and friends to donate blood and save lives.",
+      "whatHappened": "The Indianapolis Colts and Versiti Blood Center of Indiana today announced the return of the 27th annual Bleed Blue Blood Drives, presented by Versiti Blood Center of Indiana and supported by Ascension St. Vincent, which will offer three separate events for fans and friends to donate blood and save lives.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:00:37.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T18:00:47.712Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "80084dca-db31-423c-b404-b12e85db0e95",
+          "publisher": "Official team news",
+          "title": "Colts, Versiti announce dates for 2026 'Bleed Blue Blood Drives'",
+          "url": "https://www.colts.com/news/colts-versiti-announce-dates-for-2026-bleed-blue-blood-drives",
+          "publishedAt": "2026-09-18T13:00:37.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "a2030c50-a2c1-48b9-a00c-52763f3cdd31",
+      "teamAbbr": "IND",
+      "category": "PRACTICE",
+      "headline": "Practice Notebook: WR Alec Pierce a full participant in Wednesday's practice",
+      "summary": "Pierce was limited all of last week as he continued to ramp up football activity. The Colts returned to practice on Thursday, where DeForest Buckner (ankle) and Akeem Davis-Gaither (knee) were also full participants.",
+      "whatHappened": "Pierce was limited all of last week as he continued to ramp up football activity. The Colts returned to practice on Thursday, where DeForest Buckner (ankle) and Akeem Davis-Gaither (knee) were also full participants.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T19:44:10.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-16T23:10:30.624Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b1b7a24d-d96e-43cc-af1a-3f909f463318",
+          "publisher": "Official team news",
+          "title": "Practice Notebook: WR Alec Pierce a full participant in Wednesday's practice",
+          "url": "https://www.colts.com/news/practice-notebook-wr-alec-pierce-a-full-participant-in-wednesday-s-practice",
+          "publishedAt": "2026-09-16T20:51:33.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "5f3d6feb-d3e9-4ff2-bf06-742c7e321cd3",
+          "publisher": "Official team news",
+          "title": "Practice Notebook: WR Alec Pierce a full participant in Wednesday's practice",
+          "url": "https://www.colts.com/news/practice-notebook-qb-anthony-richardson-sr-returns-to-practice",
+          "publishedAt": "2026-09-17T19:44:10.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "ab843d33-425f-4722-b50c-4a036868a22a",
+      "teamAbbr": "IND",
+      "category": "COACHING",
+      "headline": "Elkhart's Stephanie Elam named 2026 Girls 'Flag Coach of the Week' for Week 4",
+      "summary": "The Hornets are 5-0 on the season, defeating Terre Haute North, Purdue Poly Broad Ripple, Crispus Attucks, Northview and Roncalli and outscoring their opponents by an average of 37-5.",
+      "whatHappened": "The Hornets are 5-0 on the season, defeating Terre Haute North, Purdue Poly Broad Ripple, Crispus Attucks, Northview and Roncalli and outscoring their opponents by an average of 37-5.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T16:47:41.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T20:00:59.135Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "868474ef-9116-4150-9614-371d678b23d5",
+          "publisher": "Official team news",
+          "title": "Elkhart's Stephanie Elam named 2026 Girls 'Flag Coach of the Week' for Week 4",
+          "url": "https://www.colts.com/news/indianapolis-colts-high-school-football-development-elkhart-s-stephanie-elam-named-2026-girls-flag-coach-of-the-week-for-week-4",
+          "publishedAt": "2026-09-17T16:47:41.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "9d1ed204-113d-4a4a-97ec-b5f6145f4214",
+      "teamAbbr": "IND",
+      "category": "COACHING",
+      "headline": "For Shane Steichen, Daniel Jones & Colts' offense, early down success key to navigate defensive gauntlet",
+      "summary": "The Colts' first three games of 2026 come against aggressive, well-coached and talented defenses in the Ravens, Chiefs and Texans. And after losing to Baltimore in Week 1, the Colts have an idea of where they need to quickly improve on offense.",
+      "whatHappened": "The Colts' first three games of 2026 come against aggressive, well-coached and talented defenses in the Ravens, Chiefs and Texans. And after losing to Baltimore in Week 1, the Colts have an idea of where they need to quickly improve on offense.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T16:24:29.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T20:00:59.227Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0e47c81e-8e23-4b62-9514-d4c08ddf81ad",
+          "publisher": "Official team news",
+          "title": "For Shane Steichen, Daniel Jones & Colts' offense, early down success key to navigate defensive gauntlet",
+          "url": "https://www.colts.com/news/for-shane-steichen-daniel-jones-colts-offense-early-down-success-key-to-navigate-defensive-gauntlet",
+          "publishedAt": "2026-09-17T16:24:29.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "e63668a6-de8c-42f6-97e9-013dc48714f0",
+      "teamAbbr": "IND",
+      "category": "COACHING",
+      "headline": "S Cam Bynum knows LB Akeem Davis-Gaither having green dot will 'help the team win'",
+      "summary": "Colts head coach Shane Steichen announced Wednesday that Davis-Gaither would assume play-calling duties on defense for Week 2.",
+      "whatHappened": "Colts head coach Shane Steichen announced Wednesday that Davis-Gaither would assume play-calling duties on defense for Week 2.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T14:13:44.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:20:44.452Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0ff2a9ba-3dfa-44a5-8f20-099c9f0ff0c9",
+          "publisher": "Official team news",
+          "title": "S Cam Bynum knows LB Akeem Davis-Gaither having green dot will 'help the team win'",
+          "url": "https://www.colts.com/news/s-cam-bynum-knows-lb-akeem-davis-gaither-having-green-dot-will-help-the-team-win",
+          "publishedAt": "2026-09-17T14:13:44.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "ca73fd93-3bc8-4922-81af-a90db87a4905",
+      "teamAbbr": "IND",
+      "category": "ANALYSIS",
+      "headline": "Colts, American Family Insurance host annual School Uniform Blitz",
+      "summary": "The event, which has been held for years, took place Tuesday.",
+      "whatHappened": "The event, which has been held for years, took place Tuesday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T13:05:27.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:10:35.977Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e1893fe6-562e-4f85-bab6-479f06ebe64f",
+          "publisher": "Official team news",
+          "title": "Colts, American Family Insurance host annual School Uniform Blitz",
+          "url": "https://www.colts.com/news/colts-american-family-insurance-host-annual-school-uniform-blitz",
+          "publishedAt": "2026-09-17T13:05:27.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "4b622f7d-a4ea-490c-84c6-066303c3ab8a",
+      "teamAbbr": "IND",
+      "category": "ANALYSIS",
+      "headline": "Colts LB Akeem Davis-Gaither to hold green dot play-calling duties in Week 2 vs. Chiefs",
+      "summary": "Safety Cam Bynum held the role in Week 1.",
+      "whatHappened": "Safety Cam Bynum held the role in Week 1.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:39:58.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:55:04.875Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9fdac46b-d491-441e-ac9c-8f109a519e42",
+          "publisher": "Official team news",
+          "title": "Colts LB Akeem Davis-Gaither to hold green dot play-calling duties in Week 2 vs. Chiefs",
+          "url": "https://www.colts.com/news/colts-lb-akeem-davis-gaither-to-hold-green-dot-play-calling-duties-in-week-2-vs-chiefs",
+          "publishedAt": "2026-09-16T17:39:58.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "492a6d9a-cbea-4313-9e05-52af2832bcd5",
+      "teamAbbr": "IND",
+      "category": "ANALYSIS",
+      "headline": "Indiana Football Digest Insider 2026 - Week four recap",
+      "summary": "The 2026 Indiana Football Digest Insider",
+      "whatHappened": "The 2026 Indiana Football Digest Insider",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T13:00:13.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T15:20:07.199Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "dffa8301-2b40-4fc0-800b-b795333bdcd6",
+          "publisher": "Official team news",
+          "title": "Indiana Football Digest Insider 2026 - Week four recap",
+          "url": "https://www.colts.com/news/indianapolis-colts-high-school-football-development-indiana-football-digest-insider-2026-week-four-recap",
+          "publishedAt": "2026-09-16T13:00:13.000Z",
+          "kind": "reporting"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 55,
+    "totalPages": 3
+  }
+}

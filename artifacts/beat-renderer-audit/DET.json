@@ -1,0 +1,859 @@
+{
+  "teamAbbr": "DET",
+  "teamName": "Detroit Lions",
+  "briefings": [
+    {
+      "id": "49053326-212f-4e6f-bb2b-598a281ae931",
+      "teamAbbr": "DET",
+      "category": "SIGNING",
+      "headline": "LIONS DAILY: Detroit signs veteran safety Jalen Mills to practice squad",
+      "summary": "LIONS DAILY: Detroit signs veteran safety Jalen Mills to practice squad",
+      "whatHappened": "LIONS DAILY: Detroit signs veteran safety Jalen Mills to practice squad",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:41.000Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "77f8c2a4-44ba-4faa-9b1f-dd776b38cdf7",
+          "publisher": "Official team news",
+          "title": "LIONS DAILY: Detroit signs veteran safety Jalen Mills to practice squad",
+          "url": "https://www.detroitlions.com/news/lions-daily-detroit-signs-veteran-safety-jalen-mills-to-practice-squad",
+          "publishedAt": "2026-09-22T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "SIGNING",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-daily-detroit-signs-veteran-safety-jalen-mills-to-practice-squad"
+        ],
+        "asOf": "2026-09-22T14:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "7b3e96ed-b112-4751-8428-d4e40ebb7244",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "NFC NORTH: Where all four teams stand heading into Week 3",
+      "summary": "Tim Twentyman takes a look at where all four teams in the NFC North stand heading into Week 3 of the 2026 NFL season.",
+      "whatHappened": "Tim Twentyman takes a look at where all four teams in the NFC North stand heading into Week 3 of the 2026 NFL season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T11:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:41.248Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "61263eca-0e8c-403e-9e20-67cb1708ff4a",
+          "publisher": "Official team news",
+          "title": "NFC NORTH: Where all four teams stand heading into Week 3",
+          "url": "https://www.detroitlions.com/news/nfc-north-where-all-four-teams-stand-heading-into-week-3-stbrown-williams-murray",
+          "publishedAt": "2026-09-22T11:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/nfc-north-where-all-four-teams-stand-heading-into-week-3-stbrown-williams-murray"
+        ],
+        "asOf": "2026-09-22T11:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "721215ff-b7f8-495d-a4e1-b3bff1e6331b",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "LIONS DAILY: Overheard inside the locker room: On our heels and time for urgency",
+      "summary": "LIONS DAILY: Overheard inside the locker room: On our heels and time for urgency",
+      "whatHappened": "LIONS DAILY: Overheard inside the locker room: On our heels and time for urgency",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T18:00:45.330Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "92df66a8-80d6-4e20-8035-393704a08969",
+          "publisher": "Official team news",
+          "title": "LIONS DAILY: Overheard inside the locker room: On our heels and time for urgency",
+          "url": "https://www.detroitlions.com/news/lions-daily-overheard-inside-the-locker-room-on-our-heels-and-time-for-urgency",
+          "publishedAt": "2026-09-21T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-daily-overheard-inside-the-locker-room-on-our-heels-and-time-for-urgency"
+        ],
+        "asOf": "2026-09-21T14:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "bbe389bc-aeb9-4a49-8c83-a43dbb5ac228",
+      "teamAbbr": "DET",
+      "category": "GAME",
+      "headline": "TWENTYMAN: Week 2 observations",
+      "summary": "Tim Twentyman shares his observations from the Detroit Lions' Week 2 loss to the Buffalo Bills. Tim Twentyman covers all the news from the Detroit Lions’ 41-31 loss to the Buffalo Bills.",
+      "whatHappened": "Tim Twentyman shares his observations from the Detroit Lions' Week 2 loss to the Buffalo Bills. Tim Twentyman covers all the news from the Detroit Lions’ 41-31 loss to the Buffalo Bills.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T05:52:43.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-20T18:00:47.392Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e26b960a-21d2-44a2-90aa-dd2252953ccd",
+          "publisher": "Official team news",
+          "title": "TWENTYMAN: Week 2 observations",
+          "url": "https://www.detroitlions.com/news/detroit-lions-week-2-observations-stbrown-hutchinson-gibbs",
+          "publishedAt": "2026-09-18T13:40:38.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "5d679487-fea1-4f3a-8f49-657fc329675e",
+          "publisher": "Official team news",
+          "title": "TWENTYMAN: Week 2 observations",
+          "url": "https://www.detroitlions.com/news/notebook-lions-look-to-clean-up-communication-on-defense-after-loss-to-bills",
+          "publishedAt": "2026-09-18T05:52:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/detroit-lions-week-2-observations-stbrown-hutchinson-gibbs",
+          "https://www.detroitlions.com/news/notebook-lions-look-to-clean-up-communication-on-defense-after-loss-to-bills"
+        ],
+        "asOf": "2026-09-18T05:52:43.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e2609eb3-4da7-463e-a4a3-e9ebb14795a6",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "INACTIVES: Lions vs. Bills",
+      "summary": "Tim Twentyman reports on inactives for Thursday's Lions-Bills matchup.",
+      "whatHappened": "Tim Twentyman reports on inactives for Thursday's Lions-Bills matchup.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T22:45:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T02:00:55.051Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "acdfd77e-b000-40c2-b77a-831acdf9fe34",
+          "publisher": "Official team news",
+          "title": "INACTIVES: Lions vs. Bills",
+          "url": "https://www.detroitlions.com/news/inactives-lions-vs-bills-miller-mahogany-rakestraw",
+          "publishedAt": "2026-09-17T22:45:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "rows": [],
+          "detail": "INACTIVE\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/inactives-lions-vs-bills-miller-mahogany-rakestraw"
+        ],
+        "asOf": "2026-09-17T22:45:03.000Z"
+      }
+    },
+    {
+      "id": "1b5348aa-ef33-4f82-9851-6dc7e5812ccf",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "LIONS DAILY: WR Amon-Ra St. Brown and the insatiable drive to be great: 'I got to win'",
+      "summary": "LIONS DAILY: WR Amon-Ra St. Brown and the insatiable drive to be great: 'I got to win'",
+      "whatHappened": "LIONS DAILY: WR Amon-Ra St. Brown and the insatiable drive to be great: 'I got to win'",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T22:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T02:00:55.180Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e1673920-36e3-473c-868c-b836512a0f92",
+          "publisher": "Official team news",
+          "title": "LIONS DAILY: WR Amon-Ra St. Brown and the insatiable drive to be great: 'I got to win'",
+          "url": "https://www.detroitlions.com/news/lions-daily-wr-amon-ra-st-brown-and-the-insatiable-drive-to-be-great-i-got-to-win",
+          "publishedAt": "2026-09-17T22:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-daily-wr-amon-ra-st-brown-and-the-insatiable-drive-to-be-great-i-got-to-win"
+        ],
+        "asOf": "2026-09-17T22:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8d5a03bb-a603-46db-93e4-de5c04e11cd5",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "5 things to watch: Lions at Bills",
+      "summary": "Tim Twentyman takes a look at five things to watch in Thursday's Lions-Bills matchup.",
+      "whatHappened": "Tim Twentyman takes a look at five things to watch in Thursday's Lions-Bills matchup.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T11:00:08.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T13:15:35.937Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "27c1f14e-9cd2-4f86-985a-ae898020b983",
+          "publisher": "Official team news",
+          "title": "5 things to watch: Lions at Bills",
+          "url": "https://www.detroitlions.com/news/5-things-to-watch-lions-vs-bills-gibbs-goff-allen",
+          "publishedAt": "2026-09-17T11:00:08.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "5 things to watch: Lions at Bills"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/5-things-to-watch-lions-vs-bills-gibbs-goff-allen"
+        ],
+        "asOf": "2026-09-17T11:00:08.000Z"
+      }
+    },
+    {
+      "id": "e9aa739e-6fac-4c30-ab5d-ef2c5d53df21",
+      "teamAbbr": "DET",
+      "category": "INJURY",
+      "headline": "Lions at Bills injury report: Sept. 16",
+      "summary": "Lions at Bills injury report and game designations for Wednesday, September 16.",
+      "whatHappened": "Lions at Bills injury report and game designations for Wednesday, September 16.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T19:10:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T21:20:09.201Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6b5c39c1-b433-4b29-80a1-cf9d122ccfcb",
+          "publisher": "Official team news",
+          "title": "Lions at Bills injury report: Sept. 16",
+          "url": "https://www.detroitlions.com/news/lions-at-bills-injury-report-sept-16-mahogany-miller-reed",
+          "publishedAt": "2026-09-16T19:10:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-at-bills-injury-report-sept-16-mahogany-miller-reed"
+        ],
+        "asOf": "2026-09-16T19:10:03.000Z"
+      }
+    },
+    {
+      "id": "27335f15-2c70-4f73-bca9-28b00bbef571",
+      "teamAbbr": "DET",
+      "category": "COACHING",
+      "headline": "LIONS DAILY: How Dan Campbell made 'huge' impact on Bills' new coach",
+      "summary": "LIONS DAILY: How Dan Campbell made 'huge' impact on Bills' new coach",
+      "whatHappened": "LIONS DAILY: How Dan Campbell made 'huge' impact on Bills' new coach",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T16:45:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:05:04.408Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1c969a03-657a-4890-bfa7-36f22f1e51fe",
+          "publisher": "Official team news",
+          "title": "LIONS DAILY: How Dan Campbell made 'huge' impact on Bills' new coach",
+          "url": "https://www.detroitlions.com/news/lions-daily-how-dan-campbell-made-huge-impact-on-bills-new-coach",
+          "publishedAt": "2026-09-16T16:45:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-daily-how-dan-campbell-made-huge-impact-on-bills-new-coach"
+        ],
+        "asOf": "2026-09-16T16:45:00.000Z"
+      }
+    },
+    {
+      "id": "c75510cc-161f-4d5f-852d-61273c7d79cf",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "Lions at Bills: How to watch, listen and follow",
+      "summary": "The Detroit Lions take on the Buffalo Bills on the road in Week 2 on Thursday, Sept. 17 at 8:15 p.m. EDT. Here is everything you need to keep up with the action.",
+      "whatHappened": "The Detroit Lions take on the Buffalo Bills on the road in Week 2 on Thursday, Sept. 17 at 8:15 p.m. EDT. Here is everything you need to keep up with the action.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T15:00:04.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T17:10:08.664Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "df0587ee-d873-4b51-bd4d-5e07b337aed6",
+          "publisher": "Official team news",
+          "title": "Lions at Bills: How to watch, listen and follow",
+          "url": "https://www.detroitlions.com/news/lions-at-bills-how-to-watch-listen-and-follow",
+          "publishedAt": "2026-09-16T15:00:04.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "DET",
+          "rightTeam": "BUF",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "DET",
+            "source": "headline",
+            "excerpt": "Lions at Bills: How to watch, listen and follow"
+          },
+          {
+            "field": "rightTeam",
+            "value": "BUF",
+            "source": "headline",
+            "excerpt": "Lions at Bills: How to watch, listen and follow"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "summary",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-at-bills-how-to-watch-listen-and-follow"
+        ],
+        "asOf": "2026-09-16T15:00:04.000Z"
+      }
+    },
+    {
+      "id": "ca66badb-5bc9-4e14-bf4e-1a543b4720e1",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "Week 2 opponent: What the Bills are saying",
+      "summary": "Find out what the Buffalo Bills are saying as they prepare for their Week 2 matchup vs. the Detroit Lions.",
+      "whatHappened": "Find out what the Buffalo Bills are saying as they prepare for their Week 2 matchup vs. the Detroit Lions.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T11:30:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T13:35:08.096Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f8910759-48c0-47ec-9cd1-88edab8c8eb9",
+          "publisher": "Official team news",
+          "title": "Week 2 opponent: What the Bills are saying",
+          "url": "https://www.detroitlions.com/news/week-2-opponent-what-the-bills-are-saying-allen-goff-gibbs",
+          "publishedAt": "2026-09-16T11:30:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/week-2-opponent-what-the-bills-are-saying-allen-goff-gibbs"
+        ],
+        "asOf": "2026-09-16T11:30:03.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "b5e912a9-c9aa-4ec5-836d-89f78b33d9a3",
+      "teamAbbr": "DET",
+      "category": "COACHING",
+      "headline": "Lions at Bills Week 2 preview | The Official Detroit Lions Podcast",
+      "summary": "Tim Twentyman and Brooke Kirchhofer discuss the Lions’ short week, talk with TNF analyst Andrew Whitworth about his expectations for Lions-Bills and sit down with associate head coach Scottie Montgomery.",
+      "whatHappened": "Tim Twentyman and Brooke Kirchhofer discuss the Lions’ short week, talk with TNF analyst Andrew Whitworth about his expectations for Lions-Bills and sit down with associate head coach Scottie Montgomery.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T11:00:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T13:05:07.539Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "79e54608-fa79-420a-828a-8af8ca992183",
+          "publisher": "Official team news",
+          "title": "Lions at Bills Week 2 preview | The Official Detroit Lions Podcast",
+          "url": "https://www.detroitlions.com/news/lions-at-bills-week-2-preview-the-official-detroit-lions-podcast",
+          "publishedAt": "2026-09-16T11:00:03.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "DET",
+          "rightTeam": "BUF",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "DET",
+            "source": "headline",
+            "excerpt": "Lions at Bills Week 2 preview | The Official Detroit Lions Podcast"
+          },
+          {
+            "field": "rightTeam",
+            "value": "BUF",
+            "source": "headline",
+            "excerpt": "Lions at Bills Week 2 preview | The Official Detroit Lions Podcast"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-at-bills-week-2-preview-the-official-detroit-lions-podcast"
+        ],
+        "asOf": "2026-09-16T11:00:03.000Z"
+      }
+    },
+    {
+      "id": "a811795d-b4df-4f91-8e6a-48fd72fa52b3",
+      "teamAbbr": "DET",
+      "category": "PRACTICE",
+      "headline": "Lions at Bills practice report: Sept. 15",
+      "summary": "Lions at Bills practice report for Tuesday, September 15.",
+      "whatHappened": "Lions at Bills practice report for Tuesday, September 15.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:47:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T22:50:04.578Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "70da5c92-d765-46f6-bd7c-710329969224",
+          "publisher": "Official team news",
+          "title": "Lions at Bills practice report: Sept. 15",
+          "url": "https://www.detroitlions.com/news/lions-at-bills-practice-report-sept-15-reed-miller-scruggs",
+          "publishedAt": "2026-09-15T20:47:21.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-at-bills-practice-report-sept-15-reed-miller-scruggs"
+        ],
+        "asOf": "2026-09-15T20:47:21.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "cd542ff6-4219-44fb-81b2-65b008fb4534",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "NOTEBOOK: Lions looking forward to TNF at Buffalo",
+      "summary": "Tim Twentyman covers all the Detroit Lions news of the day including preparing to play on Thursday Night Football at the Buffalo Bills' new stadium, the Bills' use of 13 personnel and more.",
+      "whatHappened": "Tim Twentyman covers all the Detroit Lions news of the day including preparing to play on Thursday Night Football at the Buffalo Bills' new stadium, the Bills' use of 13 personnel and more.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:09:20.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T22:20:05.118Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "afa1fb06-0e39-431f-b413-86c984d150e8",
+          "publisher": "Official team news",
+          "title": "NOTEBOOK: Lions looking forward to TNF at Buffalo",
+          "url": "https://www.detroitlions.com/news/notebook-lions-looking-forward-to-tnf-at-buffalo-gillhoward-hutchinson-yasin",
+          "publishedAt": "2026-09-15T20:09:20.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/notebook-lions-looking-forward-to-tnf-at-buffalo-gillhoward-hutchinson-yasin"
+        ],
+        "asOf": "2026-09-15T20:09:20.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "76b091b4-76d3-4c4d-9e71-681be20c0c98",
+      "teamAbbr": "DET",
+      "category": "COACHING",
+      "headline": "Brad Gross of Beal City High School Named the Detroit Lions High School Football Coach of the Week - Week 3",
+      "summary": "The Detroit Lions have named Brad Gross of Beal City High School the 2026 Detroit Lions High School Football Coach of the Week for Week 3, presented by Carhartt.",
+      "whatHappened": "The Detroit Lions have named Brad Gross of Beal City High School the 2026 Detroit Lions High School Football Coach of the Week for Week 3, presented by Carhartt.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T20:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T22:20:05.326Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7cf718bb-3651-4992-b389-5480b0f96fea",
+          "publisher": "Official team news",
+          "title": "Brad Gross of Beal City High School Named the Detroit Lions High School Football Coach of the Week - Week 3",
+          "url": "https://www.detroitlions.com/news/brad-gross-of-beal-city-high-school-named-the-detroit-lions-high-school-football-coach-of-the-week-week-3",
+          "publishedAt": "2026-09-15T20:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/brad-gross-of-beal-city-high-school-named-the-detroit-lions-high-school-football-coach-of-the-week-week-3"
+        ],
+        "asOf": "2026-09-15T20:00:00.000Z"
+      }
+    },
+    {
+      "id": "f2f23b70-e79f-4555-9130-5f8375e09d97",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "LIONS DAILY: Rookie DT Gill-Howard impresses in NFL debut: 'Crazy to be here'",
+      "summary": "LIONS DAILY: Rookie DT Gill-Howard impresses in NFL debut: 'Crazy to be here'",
+      "whatHappened": "LIONS DAILY: Rookie DT Gill-Howard impresses in NFL debut: 'Crazy to be here'",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T13:55:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T16:15:06.361Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a0ff8e6b-a49c-4941-a494-c8cf65cf62b6",
+          "publisher": "Official team news",
+          "title": "LIONS DAILY: Rookie DT Gill-Howard impresses in NFL debut: 'Crazy to be here'",
+          "url": "https://www.detroitlions.com/news/lions-daily-rookie-dt-gill-howard-impresses-in-nfl-debut-crazy-to-be-here",
+          "publishedAt": "2026-09-15T13:55:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-daily-rookie-dt-gill-howard-impresses-in-nfl-debut-crazy-to-be-here"
+        ],
+        "asOf": "2026-09-15T13:55:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "14a46933-cb66-4b34-be32-eb094a39c821",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "NFC NORTH: Where all four teams stand heading into Week 2",
+      "summary": "Tim Twentyman takes a look at where all four teams in the NFC North stand heading into Week 1 of the 2026 NFL season.",
+      "whatHappened": "Tim Twentyman takes a look at where all four teams in the NFC North stand heading into Week 1 of the 2026 NFL season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T11:00:28.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T13:10:06.339Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "795c3f9f-51bc-4b1c-b5ca-d1792cb622b1",
+          "publisher": "Official team news",
+          "title": "NFC NORTH: Where all four teams stand heading into Week 2",
+          "url": "https://www.detroitlions.com/news/nfc-north-where-all-four-teams-stand-heading-into-week-2-stbrown-gibbs-hutchinson",
+          "publishedAt": "2026-09-15T11:00:28.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/nfc-north-where-all-four-teams-stand-heading-into-week-2-stbrown-gibbs-hutchinson"
+        ],
+        "asOf": "2026-09-15T11:00:28.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "81497686-6fd7-459a-955b-038ddc0d0c60",
+      "teamAbbr": "DET",
+      "category": "COACHING",
+      "headline": "KEY QUESTIONS: What does Campbell see from Bills as Lions prepare for TNF in Buffalo?",
+      "summary": "Tim Twentyman covers all the key questions from Detroit Lions head coach Dan Campbell's Monday press conference.",
+      "whatHappened": "Tim Twentyman covers all the key questions from Detroit Lions head coach Dan Campbell's Monday press conference.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T23:05:44.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T01:25:05.759Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "65b29168-dc1c-429f-a2eb-2041dd97ec16",
+          "publisher": "Official team news",
+          "title": "KEY QUESTIONS: What does Campbell see from Bills as Lions prepare for TNF in Buffalo?",
+          "url": "https://www.detroitlions.com/news/key-questions-dan-campbell-detroit-lions-buffalo-bills-miller-gibbs-bartch",
+          "publishedAt": "2026-09-14T23:05:44.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/key-questions-dan-campbell-detroit-lions-buffalo-bills-miller-gibbs-bartch"
+        ],
+        "asOf": "2026-09-14T23:05:44.000Z"
+      }
+    },
+    {
+      "id": "6dab36a2-5bd1-4a4b-ba87-9047ae336c60",
+      "teamAbbr": "DET",
+      "category": "PRACTICE",
+      "headline": "Lions at Bills practice report: Sept. 14",
+      "summary": "Lions at Bills practice report for Monday, September 14.",
+      "whatHappened": "Lions at Bills practice report for Monday, September 14.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T19:55:59.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T22:15:05.366Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "bfe5dfe4-500b-464d-b44a-ecfc06ca6d11",
+          "publisher": "Official team news",
+          "title": "Lions at Bills practice report: Sept. 14",
+          "url": "https://www.detroitlions.com/news/lions-at-bills-practice-report-sept-14-mahogany-miller-scruggs",
+          "publishedAt": "2026-09-14T19:55:59.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-at-bills-practice-report-sept-14-mahogany-miller-scruggs"
+        ],
+        "asOf": "2026-09-14T19:55:59.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1128b37d-9e95-4b12-97e7-196022a68b8b",
+      "teamAbbr": "DET",
+      "category": "ANALYSIS",
+      "headline": "LIONS DAILY: How Detroit foiled Saints' game-deciding play call",
+      "summary": "LIONS DAILY: How Detroit foiled Saints' game-deciding play call",
+      "whatHappened": "LIONS DAILY: How Detroit foiled Saints' game-deciding play call",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T15:25:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-14T17:35:09.231Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4f0cffb6-3920-41da-8102-4d95ade8f85a",
+          "publisher": "Official team news",
+          "title": "LIONS DAILY: How Detroit foiled Saints' game-deciding play call",
+          "url": "https://www.detroitlions.com/news/lions-daily-how-detroit-foiled-saints-game-deciding-play-call",
+          "publishedAt": "2026-09-14T15:25:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.detroitlions.com/news/lions-daily-how-detroit-foiled-saints-game-deciding-play-call"
+        ],
+        "asOf": "2026-09-14T15:25:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 59,
+    "totalPages": 3
+  }
+}

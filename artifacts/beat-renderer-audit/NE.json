@@ -1,0 +1,911 @@
+{
+  "teamAbbr": "NE",
+  "teamName": "New England Patriots",
+  "briefings": [
+    {
+      "id": "ff0bc7f2-15b6-43d5-95bd-9b5f63c45fe3",
+      "teamAbbr": "NE",
+      "category": "SIGNING",
+      "headline": "Patriots Place OL Mike Onwenu on Injured Reserve; Make Additional Roster Moves",
+      "summary": "The Patriots announced today that they have signed P Mitch Wishnowsky to the 53-man roster from the practice squad and placed OL Mike Onwenu on injured reserve. In addition, the Patriots signed TE Tanner Conner to the practice squad.",
+      "whatHappened": "The Patriots announced today that they have signed P Mitch Wishnowsky to the 53-man roster from the practice squad and placed OL Mike Onwenu on injured reserve. In addition, the Patriots signed TE Tanner Conner to the practice squad.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:41.490Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ab7ef3ae-6147-43e3-bc6d-bfe4cb494d50",
+          "publisher": "Official team news",
+          "title": "Patriots Place OL Mike Onwenu on Injured Reserve; Make Additional Roster Moves",
+          "url": "https://www.patriots.com/news/patriots-place-ol-mike-onwenu-on-injured-reserve-make-additional-roster-moves",
+          "publishedAt": "2026-09-22T20:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "NE"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "NE",
+            "source": "canonical",
+            "excerpt": "NE"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.patriots.com/news/patriots-place-ol-mike-onwenu-on-injured-reserve-make-additional-roster-moves"
+        ],
+        "asOf": "2026-09-22T20:00:00.000Z"
+      }
+    },
+    {
+      "id": "ac7fbe6f-6358-45a5-962f-dd956cb9fbb8",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "The highest field goal in the world: Patriots legend Adam Vinatieri sets a GUINNESS WORLD RECORDS™ title at 3,454 meters on the Jungfraujoch – Top of Europe",
+      "summary": "The New England Patriots, six-time Super Bowl champions of the NFL, set a new world record together with Jungfraubahnen on September 22, 2026: At an altitude of 3,454 meters, legendary kicker Adam Vinatieri converted a field goal on the Jungfraujoch – Top of Europe against the spectacular backdrop of the Swiss Alps. GUINNESS WORLD RECORDS confirmed the title for the highest field goal in the world.",
+      "whatHappened": "The New England Patriots, six-time Super Bowl champions of the NFL, set a new world record together with Jungfraubahnen on September 22, 2026: At an altitude of 3,454 meters, legendary kicker Adam Vinatieri converted a field goal on the Jungfraujoch – Top of Europe against the spectacular backdrop of the Swiss Alps. GUINNESS WORLD RECORDS confirmed the title for the highest field goal in the world.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T19:35:40.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T02:00:41.629Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fdc7db90-9f43-43c9-a054-71db1b981d57",
+          "publisher": "Official team news",
+          "title": "The highest field goal in the world: Patriots legend Adam Vinatieri sets a GUINNESS WORLD RECORDS™ title at 3,454 meters on the Jungfraujoch – Top of Europe",
+          "url": "https://www.patriots.com/news/the-highest-field-goal-in-the-world-patriots-legend-adam-vinatieri-sets-a-guinness-world-recordstm-title-at-3-454-meters-on-the-jungfraujoch-top-of-europe",
+          "publishedAt": "2026-09-22T19:35:40.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/the-highest-field-goal-in-the-world-patriots-legend-adam-vinatieri-sets-a-guinness-world-recordstm-title-at-3-454-meters-on-the-jungfraujoch-top-of-europe"
+        ],
+        "asOf": "2026-09-22T19:35:40.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a7f5a2b7-b419-44ad-aaaa-6cf833b6d27a",
+      "teamAbbr": "NE",
+      "category": "COACHING",
+      "headline": "Transcript: Head Coach Mike Vrabel Press Conference 9/21",
+      "summary": "Read the full transcript from Head Coach Mike Vrabel's press conference on Monday, September 21, 2026.",
+      "whatHappened": "Read the full transcript from Head Coach Mike Vrabel's press conference on Monday, September 21, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T10:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T00:00:43.216Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "feb122cd-e816-43ec-94d1-8c9eac10e490",
+          "publisher": "Official team news",
+          "title": "Transcript: Head Coach Mike Vrabel Press Conference 9/21",
+          "url": "https://www.patriots.com/news/transcript-head-coach-mike-vrabel-press-conference-9-21",
+          "publishedAt": "2026-09-21T10:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "interview",
+          "transcript": true
+        },
+        "reason": "Text interview/transcript; no invented quote or playback",
+        "displayCategory": "Interview",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/transcript-head-coach-mike-vrabel-press-conference-9-21"
+        ],
+        "asOf": "2026-09-21T10:00:00.000Z"
+      }
+    },
+    {
+      "id": "aa93fe61-3dce-4f47-bb9c-d35e3e33acef",
+      "teamAbbr": "NE",
+      "category": "PRACTICE",
+      "headline": "Roster Analysis: Patriots downgrade CB Carlton Davis III to out, elevate P Mitch Wishnowsky from the practice squad for Week 2 vs. Steelers",
+      "summary": "The Patriots will be without their starting corner while the Steelers are also missing starting WR Michael Pittman Jr. (foot).",
+      "whatHappened": "The Patriots will be without their starting corner while the Steelers are also missing starting WR Michael Pittman Jr. (foot).",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:00:27.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T16:00:46.095Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fce384f9-04a7-4d78-84fc-0cebc4bda4ff",
+          "publisher": "Official team news",
+          "title": "Roster Analysis: Patriots downgrade CB Carlton Davis III to out, elevate P Mitch Wishnowsky from the practice squad for Week 2 vs. Steelers",
+          "url": "https://www.patriots.com/news/roster-analysis-patriots-downgrade-cb-carlton-davis-iii-to-out-elevate-p-mitch-wishnowsky-from-the-practice-squad-for-week-2-vs-steelers",
+          "publishedAt": "2026-09-19T20:00:27.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/roster-analysis-patriots-downgrade-cb-carlton-davis-iii-to-out-elevate-p-mitch-wishnowsky-from-the-practice-squad-for-week-2-vs-steelers"
+        ],
+        "asOf": "2026-09-19T20:00:27.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "290cea44-6b86-4e3d-9d00-a6cea7d5407e",
+      "teamAbbr": "NE",
+      "category": "INJURY",
+      "headline": "Injury Report Analysis: RB TreVeyon Henderson expected to play, CB Carlton Davis III officially questionable for Week 2 vs. Steelers",
+      "summary": "Henderson (ankle) is expected to return for the Patriots, but New England could be down its starting cornerback vs. the Steelers on Sunday.",
+      "whatHappened": "Henderson (ankle) is expected to return for the Patriots, but New England could be down its starting cornerback vs. the Steelers on Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:33:13.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T02:00:56.534Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0bcc3ebb-85a0-40aa-99bd-15e7d653b1d8",
+          "publisher": "Official team news",
+          "title": "Injury Report Analysis: RB TreVeyon Henderson expected to play, CB Carlton Davis III officially questionable for Week 2 vs. Steelers",
+          "url": "https://www.patriots.com/news/injury-report-analysis-rb-treveyon-henderson-expected-to-play-cb-carlton-davis-iii-officially-questionable-for-week-2-vs-steelers",
+          "publishedAt": "2026-09-18T19:33:13.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "TreVeyon Henderson",
+          "position": "RB",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "TreVeyon Henderson",
+            "source": "headline",
+            "excerpt": "RB TreVeyon Henderson"
+          },
+          {
+            "field": "position",
+            "value": "RB",
+            "source": "headline",
+            "excerpt": "RB TreVeyon Henderson"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.patriots.com/news/injury-report-analysis-rb-treveyon-henderson-expected-to-play-cb-carlton-davis-iii-officially-questionable-for-week-2-vs-steelers"
+        ],
+        "asOf": "2026-09-18T19:33:13.000Z"
+      }
+    },
+    {
+      "id": "5aba4202-9fe8-4170-ac23-6ae77c393e76",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "Patriots Honor Stephon Gilmore's Legacy as One of the Greatest Cornerbacks in Franchise History",
+      "summary": "Cornerback Stephon Gilmore announced his retirement from the NFL as a New England Patriot on Friday.",
+      "whatHappened": "Cornerback Stephon Gilmore announced his retirement from the NFL as a New England Patriot on Friday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:12:14.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T02:00:56.599Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e9213de9-dda9-483a-b287-74b308da7667",
+          "publisher": "Official team news",
+          "title": "Patriots Honor Stephon Gilmore's Legacy as One of the Greatest Cornerbacks in Franchise History",
+          "url": "https://www.patriots.com/news/patriots-honor-stephon-gilmore-s-legacy-as-one-of-the-greatest-cornerbacks-in-franchise-history",
+          "publishedAt": "2026-09-18T19:12:14.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/patriots-honor-stephon-gilmore-s-legacy-as-one-of-the-greatest-cornerbacks-in-franchise-history"
+        ],
+        "asOf": "2026-09-18T19:12:14.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1ab5d6b4-2feb-471e-b672-84b9ed486a90",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "Pro Football Hall of Famer Adam Vinatieri to Kick off the Patriots Countdown to Munich by Attempting a Guinness World Record on the Jungfraujoch",
+      "summary": "The Patriots are joining forces with Jungfrau Railways to promote this year’s game in Munich with a kickoff event in the Swiss Alps in the DACH region. Pro Football Hall of Fame placekicker Adam Vinatieri will attempt an official Guinness World Records kick at Jungfraujoch, a resort known as the Top of Europe in the Swiss Alps.",
+      "whatHappened": "The Patriots are joining forces with Jungfrau Railways to promote this year’s game in Munich with a kickoff event in the Swiss Alps in the DACH region. Pro Football Hall of Fame placekicker Adam Vinatieri will attempt an official Guinness World Records kick at Jungfraujoch, a resort known as the Top of Europe in the Swiss Alps.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:58:06.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T20:00:47.068Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9337cf5b-0083-4b61-98b5-a51065280f5f",
+          "publisher": "Official team news",
+          "title": "Pro Football Hall of Famer Adam Vinatieri to Kick off the Patriots Countdown to Munich by Attempting a Guinness World Record on the Jungfraujoch",
+          "url": "https://www.patriots.com/news/pro-football-hall-of-famer-adam-vinatieri-to-kick-off-the-patriots-countdown-to-munich-by-attempting-a-guinness-world-record-on-the-jungfraujoch",
+          "publishedAt": "2026-09-18T15:58:06.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/pro-football-hall-of-famer-adam-vinatieri-to-kick-off-the-patriots-countdown-to-munich-by-attempting-a-guinness-world-record-on-the-jungfraujoch"
+        ],
+        "asOf": "2026-09-18T15:58:06.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "3a1bbbf8-f9a8-466c-86e1-51674385e75c",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "Expert Predictions: Week 2 Picks for Steelers at Patriots",
+      "summary": "Experts share their picks for the Patriots' Week 2 matchup against the Pittsburgh Steelers.",
+      "whatHappened": "Experts share their picks for the Patriots' Week 2 matchup against the Pittsburgh Steelers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T10:00:22.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T14:01:10.473Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "31f71b64-558d-46c1-be67-9195a3f3652e",
+          "publisher": "Official team news",
+          "title": "Expert Predictions: Week 2 Picks for Steelers at Patriots",
+          "url": "https://www.patriots.com/news/expert-predictions-week-2-picks-for-steelers-at-patriots",
+          "publishedAt": "2026-09-18T10:00:22.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/expert-predictions-week-2-picks-for-steelers-at-patriots"
+        ],
+        "asOf": "2026-09-18T10:00:22.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8c929a88-6759-4616-90c6-f2e86be09634",
+      "teamAbbr": "NE",
+      "category": "SIGNING",
+      "headline": "Patriots Sign WR Chandler Brayboy and LB Xavier Holmes to the practice Squad; Release S Elliott Davison and RB Hassan Haskins from the Practice Squad",
+      "summary": "The Patriots announced today that they have signed first-year WR Chandler Brayboy and rookie LB Xavier Holmes to the practice squad. In addition, the Patriots released S Elliott Davison and RB Hassan Haskins from the practice squad. The Patriots announced today that they have re-signed S Elliott Davison to the practice squad and released TE Shane Zylstra from the practice squad. The Patriots announced today that they have signed OL Xavier Newman-Johnson to the practice squad and released OL Jacob Rizy from the practice squad.",
+      "whatHappened": "The Patriots announced today that they have signed first-year WR Chandler Brayboy and rookie LB Xavier Holmes to the practice squad. In addition, the Patriots released S Elliott Davison and RB Hassan Haskins from the practice squad. The Patriots announced today that they have re-signed S Elliott Davison to the practice squad and released TE Shane Zylstra from the practice squad.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T20:04:50.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-14T22:05:04.565Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0147ff60-38b7-40cc-8c38-517b38d3716b",
+          "publisher": "Official team news",
+          "title": "Patriots Sign WR Chandler Brayboy and LB Xavier Holmes to the practice Squad; Release S Elliott Davison and RB Hassan Haskins from the Practice Squad",
+          "url": "https://www.patriots.com/news/patriots-sign-wr-chandler-brayboy-and-lb-xavier-holmes-to-the-practice-squad-release-s-elliott-davison-and-rb-hassan-haskins-from-the-practice-squad",
+          "publishedAt": "2026-09-14T19:59:44.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "dc665036-6bb8-4ade-abd6-38b96c00e75e",
+          "publisher": "Official team news",
+          "title": "Patriots Sign WR Chandler Brayboy and LB Xavier Holmes to the practice Squad; Release S Elliott Davison and RB Hassan Haskins from the Practice Squad",
+          "url": "https://www.patriots.com/news/patriots-re-sign-s-elliott-davison-to-the-practice-squad-release-te-shane-zylstra-from-the-practice-squad",
+          "publishedAt": "2026-09-15T20:00:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "d091b21b-571f-41ca-9a12-4b87083d41af",
+          "publisher": "Official team news",
+          "title": "Patriots Sign WR Chandler Brayboy and LB Xavier Holmes to the practice Squad; Release S Elliott Davison and RB Hassan Haskins from the Practice Squad",
+          "url": "https://www.patriots.com/news/patriots-sign-ol-xavier-newman-johnson-to-the-practice-squad-and-release-ol-jacob-rizy-from-the-practice-squad",
+          "publishedAt": "2026-09-17T20:04:50.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "NE"
+        },
+        "reason": "Multiple named player moves",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "NE",
+            "source": "canonical",
+            "excerpt": "NE"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.patriots.com/news/patriots-sign-wr-chandler-brayboy-and-lb-xavier-holmes-to-the-practice-squad-release-s-elliott-davison-and-rb-hassan-haskins-from-the-practice-squad",
+          "https://www.patriots.com/news/patriots-re-sign-s-elliott-davison-to-the-practice-squad-release-te-shane-zylstra-from-the-practice-squad",
+          "https://www.patriots.com/news/patriots-sign-ol-xavier-newman-johnson-to-the-practice-squad-and-release-ol-jacob-rizy-from-the-practice-squad"
+        ],
+        "asOf": "2026-09-17T20:04:50.000Z"
+      }
+    },
+    {
+      "id": "9ba6687a-af82-4943-901e-f127d99f58f5",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "Stefon Gilmore Returns to Foxborough to Retire a Patriot",
+      "summary": "The New England Patriots will host former All-Pro cornerback Stephon Gilmore on Friday, Sept. 18, as he returns to Foxborough to retire a Patriot. He will address the media during a press conference at 2:10 PM ET.",
+      "whatHappened": "The New England Patriots will host former All-Pro cornerback Stephon Gilmore on Friday, Sept. 18, as he returns to Foxborough to retire a Patriot. He will address the media during a press conference at 2:10 PM ET.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T19:51:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T22:00:53.568Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4cf14477-5441-4fb9-b477-3bfc3f53c698",
+          "publisher": "Official team news",
+          "title": "Stefon Gilmore Returns to Foxborough to Retire a Patriot",
+          "url": "https://www.patriots.com/news/stefon-gilmore-returns-to-foxborough-to-retire-a-patriot",
+          "publishedAt": "2026-09-17T19:51:53.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/stefon-gilmore-returns-to-foxborough-to-retire-a-patriot"
+        ],
+        "asOf": "2026-09-17T19:51:53.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "4dc7c01e-2754-4d23-864d-1be04341f703",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "3 to Watch: Patriots Look to Get on Winning Track vs. Steelers",
+      "summary": "Three key areas to watch as the Patriots look to beat the Steelers for their first win of the 2026 NFL season.",
+      "whatHappened": "Three key areas to watch as the Patriots look to beat the Steelers for their first win of the 2026 NFL season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T16:16:49.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T18:25:32.813Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "245647fe-70ee-4267-b00e-74394c8496c5",
+          "publisher": "Official team news",
+          "title": "3 to Watch: Patriots Look to Get on Winning Track vs. Steelers",
+          "url": "https://www.patriots.com/news/3-to-watch-patriots-look-to-get-on-winning-track-vs-steelers",
+          "publishedAt": "2026-09-17T16:16:49.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/3-to-watch-patriots-look-to-get-on-winning-track-vs-steelers"
+        ],
+        "asOf": "2026-09-17T16:16:49.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "08b35a7c-50f0-435a-836e-de1cab4609a5",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "Patriots Gameplan: Is a Blueprint Forming vs. Drake Maye and the Patriots Offense?",
+      "summary": "Previewing the chess match between the Patriots and Steelers in Sunday's home opener at Gillette Stadium.",
+      "whatHappened": "Previewing the chess match between the Patriots and Steelers in Sunday's home opener at Gillette Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T10:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T12:10:32.291Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e5248904-f30e-4895-a611-6e3f0753692b",
+          "publisher": "Official team news",
+          "title": "Patriots Gameplan: Is a Blueprint Forming vs. Drake Maye and the Patriots Offense?",
+          "url": "https://www.patriots.com/news/patriots-gameplan-is-a-blueprint-forming-vs-drake-maye-and-the-patriots-offense",
+          "publishedAt": "2026-09-17T10:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/patriots-gameplan-is-a-blueprint-forming-vs-drake-maye-and-the-patriots-offense"
+        ],
+        "asOf": "2026-09-17T10:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "25749d85-a043-430f-b5db-da5ee24ea698",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "Teachers at Providence elementary school surprised with generous back-to-school donation from Drake & Ann Michael Maye",
+      "summary": "New England Patriots quarterback Drake Maye and his wife, Ann Michael, paid for the Amazon classroom wish lists of more than 50 teachers and support specialists at Alfred Lima Sr., Elementary School in Providence Rhode Island.",
+      "whatHappened": "New England Patriots quarterback Drake Maye and his wife, Ann Michael, paid for the Amazon classroom wish lists of more than 50 teachers and support specialists at Alfred Lima Sr., Elementary School in Providence Rhode Island.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T14:47:05.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T16:55:07.672Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "46f057fc-4e9c-47fd-97fc-9f6e0de2ac3e",
+          "publisher": "Official team news",
+          "title": "Teachers at Providence elementary school surprised with generous back-to-school donation from Drake & Ann Michael Maye",
+          "url": "https://www.patriots.com/news/teachers-at-providence-elementary-school-surprised-with-generous-back-to-school-donation-from-drake-ann-michael-maye",
+          "publishedAt": "2026-09-16T14:47:05.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/teachers-at-providence-elementary-school-surprised-with-generous-back-to-school-donation-from-drake-ann-michael-maye"
+        ],
+        "asOf": "2026-09-16T14:47:05.000Z"
+      }
+    },
+    {
+      "id": "7d7b7364-52ac-4d25-805e-97f8f6d6b1df",
+      "teamAbbr": "NE",
+      "category": "COACHING",
+      "headline": "Transcript: Head Coach Mike Vrabel Press Conference 9/14",
+      "summary": "Read the full transcript from Head Coach Mike Vrabel's press conference on Monday, September 14, 2026. Read the full transcript from Head Coach Mike Vrabel's press conference on Wednesday, September 16, 2026.",
+      "whatHappened": "Read the full transcript from Head Coach Mike Vrabel's press conference on Monday, September 14, 2026. Read the full transcript from Head Coach Mike Vrabel's press conference on Wednesday, September 16, 2026.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T10:00:00.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-14T20:55:04.860Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "84f1e456-ca0b-4acb-9ec3-35448b7cfeef",
+          "publisher": "Official team news",
+          "title": "Transcript: Head Coach Mike Vrabel Press Conference 9/14",
+          "url": "https://www.patriots.com/news/transcript-head-coach-mike-vrabel-press-conference-9-14",
+          "publishedAt": "2026-09-14T18:45:13.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "f44506ae-7bac-4e06-bf85-9068b37069a8",
+          "publisher": "Official team news",
+          "title": "Transcript: Head Coach Mike Vrabel Press Conference 9/14",
+          "url": "https://www.patriots.com/news/transcript-head-coach-mike-vrabel-press-conference-9-16",
+          "publishedAt": "2026-09-16T10:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "interview",
+          "transcript": true
+        },
+        "reason": "Text interview/transcript; no invented quote or playback",
+        "displayCategory": "Interview",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/transcript-head-coach-mike-vrabel-press-conference-9-14",
+          "https://www.patriots.com/news/transcript-head-coach-mike-vrabel-press-conference-9-16"
+        ],
+        "asOf": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "id": "a2796026-86f2-443e-84f1-b811b217ca6d",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "Kraft Family, Patriots Foundation and Gillette Donate $275,000 in the Names of 2026 Myra Kraft Community Mvp Award Winners",
+      "summary": "Twenty-six volunteers were recognized during an awards luncheon at Gillette Stadium on Tuesday, Sept. 15. Susie Shaw of Carlisle, MA presented with this year’s $25,000 grand prize donation for William’s Be Yourself Challenge.",
+      "whatHappened": "Twenty-six volunteers were recognized during an awards luncheon at Gillette Stadium on Tuesday, Sept. 15. Susie Shaw of Carlisle, MA presented with this year’s $25,000 grand prize donation for William’s Be Yourself Challenge.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T22:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T15:40:07.962Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a06ce02a-039d-4ce1-8183-d96996f18dcb",
+          "publisher": "Official team news",
+          "title": "Kraft Family, Patriots Foundation and Gillette Donate $275,000 in the Names of 2026 Myra Kraft Community Mvp Award Winners",
+          "url": "https://www.patriots.com/news/kraft-family-patriots-foundation-and-gillette-donate-275-000-in-the-names-of-2026-myra-kraft-community-mvp-award-winners",
+          "publishedAt": "2026-09-15T22:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/kraft-family-patriots-foundation-and-gillette-donate-275-000-in-the-names-of-2026-myra-kraft-community-mvp-award-winners"
+        ],
+        "asOf": "2026-09-15T22:00:00.000Z"
+      }
+    },
+    {
+      "id": "32d55279-e6fc-4b42-b804-ab06ac6c1b6b",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "How to Watch and Stream Sunday's Patriots Home Opener Against the Steelers",
+      "summary": "Complete broadcast information for this week's game between the New England Patriots and the Pittsburgh Steelers.",
+      "whatHappened": "Complete broadcast information for this week's game between the New England Patriots and the Pittsburgh Steelers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T15:41:38.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T17:45:05.409Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a1c9882a-d436-4ead-b885-252f9cb718df",
+          "publisher": "Official team news",
+          "title": "How to Watch and Stream Sunday's Patriots Home Opener Against the Steelers",
+          "url": "https://www.patriots.com/news/how-to-watch-and-stream-sunday-s-patriots-home-opener-against-the-steelers",
+          "publishedAt": "2026-09-15T15:41:38.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "NE",
+          "rightTeam": "PIT"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "NE",
+            "source": "headline",
+            "excerpt": "How to Watch and Stream Sunday's Patriots Home Opener Against the Steelers"
+          },
+          {
+            "field": "rightTeam",
+            "value": "PIT",
+            "source": "headline",
+            "excerpt": "How to Watch and Stream Sunday's Patriots Home Opener Against the Steelers"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.patriots.com/news/how-to-watch-and-stream-sunday-s-patriots-home-opener-against-the-steelers"
+        ],
+        "asOf": "2026-09-15T15:41:38.000Z"
+      }
+    },
+    {
+      "id": "76fab6c7-7bd9-4212-8ed4-532a7f5ffa94",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "Game Preview: Patriots vs. Steelers",
+      "summary": "The New England Patriots will host the Pittsburgh Steelers for their 2026 home opener at Gillette Stadium on Sunday, September 20 at 1 PM ET.",
+      "whatHappened": "The New England Patriots will host the Pittsburgh Steelers for their 2026 home opener at Gillette Stadium on Sunday, September 20 at 1 PM ET.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T15:30:15.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T17:45:05.475Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ed2187e5-601e-4d60-8d8f-fe7477be4447",
+          "publisher": "Official team news",
+          "title": "Game Preview: Patriots vs. Steelers",
+          "url": "https://www.patriots.com/news/game-preview-patriots-vs-steelers-week2",
+          "publishedAt": "2026-09-15T15:30:15.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "NE",
+          "rightTeam": "PIT"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "NE",
+            "source": "headline",
+            "excerpt": "Game Preview: Patriots vs. Steelers"
+          },
+          {
+            "field": "rightTeam",
+            "value": "PIT",
+            "source": "headline",
+            "excerpt": "Game Preview: Patriots vs. Steelers"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.patriots.com/news/game-preview-patriots-vs-steelers-week2"
+        ],
+        "asOf": "2026-09-15T15:30:15.000Z"
+      }
+    },
+    {
+      "id": "2fa2e602-67fd-48de-ae81-0c41e794c20b",
+      "teamAbbr": "NE",
+      "category": "SIGNING",
+      "headline": "Analysis: Patriots place WR A.J. Brown on injured reserve, sign DT DaQuan Jones",
+      "summary": "Brown is eligible to return this season but will miss a minimum of four games.",
+      "whatHappened": "Brown is eligible to return this season but will miss a minimum of four games.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-12T20:00:56.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-12T22:20:07.660Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9d4f4c16-c97b-4991-ad4f-fa5c03b9a4f7",
+          "publisher": "Official team news",
+          "title": "Analysis: Patriots place WR A.J. Brown on injured reserve, sign DT DaQuan Jones",
+          "url": "https://www.patriots.com/news/analysis-patriots-place-wr-a-j-brown-on-injured-reserve-sign-dt-daquan-jones",
+          "publishedAt": "2026-09-12T20:00:56.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "NE",
+          "action": "SIGNED",
+          "name": "DaQuan Jones",
+          "position": "DT"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "DaQuan Jones",
+            "source": "headline",
+            "excerpt": "sign DT DaQuan Jones"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "sign DT DaQuan Jones"
+          },
+          {
+            "field": "position",
+            "value": "DT",
+            "source": "headline",
+            "excerpt": "DT DaQuan Jones"
+          },
+          {
+            "field": "team",
+            "value": "NE",
+            "source": "canonical",
+            "excerpt": "NE"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.patriots.com/news/analysis-patriots-place-wr-a-j-brown-on-injured-reserve-sign-dt-daquan-jones"
+        ],
+        "asOf": "2026-09-12T20:00:56.000Z"
+      }
+    },
+    {
+      "id": "cc232269-cb6d-4b8c-a031-845da66316a1",
+      "teamAbbr": "NE",
+      "category": "SIGNING",
+      "headline": "Patriots Sign Veteran DT DaQuan Jones and Place WR A.J. Brown On IR",
+      "summary": "The New England Patriots announced today that they have signed veteran DT DaQuan Jones. In addition, the Patriots placed WR A.J. Brown on injured reserve.",
+      "whatHappened": "The New England Patriots announced today that they have signed veteran DT DaQuan Jones. In addition, the Patriots placed WR A.J. Brown on injured reserve.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-12T20:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-12T22:20:07.724Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c7e2a568-d9a0-49f7-9c2a-83cbfc9e8f0d",
+          "publisher": "Official team news",
+          "title": "Patriots Sign Veteran DT DaQuan Jones and Place WR A.J. Brown On IR",
+          "url": "https://www.patriots.com/news/patriots-sign-veteran-dt-daquan-jones-and-place-wr-a-j-brown-on-ir",
+          "publishedAt": "2026-09-12T20:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "NE"
+        },
+        "reason": "Multiple named player moves",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "NE",
+            "source": "canonical",
+            "excerpt": "NE"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.patriots.com/news/patriots-sign-veteran-dt-daquan-jones-and-place-wr-a-j-brown-on-ir"
+        ],
+        "asOf": "2026-09-12T20:00:00.000Z"
+      }
+    },
+    {
+      "id": "7cffeb87-5042-40d3-8f59-3d514d85b60d",
+      "teamAbbr": "NE",
+      "category": "ANALYSIS",
+      "headline": "The Day Football Returned: How 9/11, Joe Andruzzi and an Unforgettable Afternoon Changed Patriots History",
+      "summary": "25 years later, looking back at the inspirational pregame that came on the heels of the 9/11 attacks and the game that changed the course of New England Patriots history.",
+      "whatHappened": "25 years later, looking back at the inspirational pregame that came on the heels of the 9/11 attacks and the game that changed the course of New England Patriots history.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-11T14:16:36.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-11T16:30:49.849Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e48bb950-c2f3-437c-ab01-5cea8e6be55a",
+          "publisher": "Official team news",
+          "title": "The Day Football Returned: How 9/11, Joe Andruzzi and an Unforgettable Afternoon Changed Patriots History",
+          "url": "https://www.patriots.com/news/the-day-football-returned-how-9-11-joe-andruzzi-and-an-unforgettable-afternoon-changed-patriots-history",
+          "publishedAt": "2026-09-11T14:16:36.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.patriots.com/news/the-day-football-returned-how-9-11-joe-andruzzi-and-an-unforgettable-afternoon-changed-patriots-history"
+        ],
+        "asOf": "2026-09-11T14:16:36.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 42,
+    "totalPages": 3
+  }
+}

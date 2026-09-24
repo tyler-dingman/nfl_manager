@@ -1,0 +1,877 @@
+{
+  "teamAbbr": "SEA",
+  "teamName": "Seattle Seahawks",
+  "briefings": [
+    {
+      "id": "38a2298e-e1e0-4248-b954-e46851febe3b",
+      "teamAbbr": "SEA",
+      "category": "ANALYSIS",
+      "headline": "Seahawks Mailbag: JSN's Dominance, Drew Lock's Impressive Play & More",
+      "summary": "You had Seahawks questions; we have answers.",
+      "whatHappened": "You had Seahawks questions; we have answers.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T22:20:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T04:00:45.026Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c40e7967-be92-4f81-af2f-4e5fd7bd4ada",
+          "publisher": "Official team news",
+          "title": "Seahawks Mailbag: JSN's Dominance, Drew Lock's Impressive Play & More",
+          "url": "https://www.seahawks.com/news/seahawks-mailbag-jsn-s-dominance-drew-lock-s-impressive-play-more",
+          "publishedAt": "2026-09-22T22:20:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/seahawks-mailbag-jsn-s-dominance-drew-lock-s-impressive-play-more"
+        ],
+        "asOf": "2026-09-22T22:20:43.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "790a336e-7f09-4e1a-9426-65f181062adf",
+      "teamAbbr": "SEA",
+      "category": "RELEASE",
+      "headline": "Fantasy Football Week 3 Guide: Top Starts And Waiver Wire Rankings",
+      "summary": "Seahawks fantasy insider Scott Engel gets you ready for Week 3 with lineup and waiver wire tips.",
+      "whatHappened": "Seahawks fantasy insider Scott Engel gets you ready for Week 3 with lineup and waiver wire tips.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T20:00:18.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T14:00:42.928Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9912db18-4323-474a-a712-7a77fa052a98",
+          "publisher": "Official team news",
+          "title": "Fantasy Football Week 3 Guide: Top Starts And Waiver Wire Rankings",
+          "url": "https://www.seahawks.com/news/fantasy-football-week-3-guide-top-starts-and-waiver-wire-rankings",
+          "publishedAt": "2026-09-22T20:00:18.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "RELEASE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/fantasy-football-week-3-guide-top-starts-and-waiver-wire-rankings"
+        ],
+        "asOf": "2026-09-22T20:00:18.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2e07ef1b-aa8b-4e0e-b4cc-c5b0092aeb5c",
+      "teamAbbr": "SEA",
+      "category": "ANALYSIS",
+      "headline": "How To Watch, Listen And Follow Seahawks at Commanders In Week 3 On Sunday, September 27",
+      "summary": "Time, TV, radio, live stream, and everything else you need to know to follow the Week 3 action vs. the Washington Commanders at Northwest Stadium.",
+      "whatHappened": "Time, TV, radio, live stream, and everything else you need to know to follow the Week 3 action vs. the Washington Commanders at Northwest Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T19:42:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T14:00:43.036Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "66606dc5-eccd-4125-beaa-f7a7728ac215",
+          "publisher": "Official team news",
+          "title": "How To Watch, Listen And Follow Seahawks at Commanders In Week 3 On Sunday, September 27",
+          "url": "https://www.seahawks.com/news/how-to-watch-listen-and-follow-seahawks-at-commanders-in-week-3-on-sunday-september-27",
+          "publishedAt": "2026-09-22T19:42:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "SEA",
+          "rightTeam": "WAS",
+          "week": "W3"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "SEA",
+            "source": "headline",
+            "excerpt": "How To Watch, Listen And Follow Seahawks at Commanders In Week 3 On Sunday, September 27"
+          },
+          {
+            "field": "rightTeam",
+            "value": "WAS",
+            "source": "headline",
+            "excerpt": "How To Watch, Listen And Follow Seahawks at Commanders In Week 3 On Sunday, September 27"
+          },
+          {
+            "field": "week",
+            "value": "W3",
+            "source": "headline",
+            "excerpt": "Week 3"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/how-to-watch-listen-and-follow-seahawks-at-commanders-in-week-3-on-sunday-september-27"
+        ],
+        "asOf": "2026-09-22T19:42:00.000Z"
+      }
+    },
+    {
+      "id": "8371d84e-2a5f-4216-849b-73a24d24450d",
+      "teamAbbr": "SEA",
+      "category": "COACHING",
+      "headline": "Mike Macdonald Appreciates Travelling Seahawks Fans In Arizona: 'What A Great Showing By The 12s'",
+      "summary": "The 12s showed up to Sunday’s road matchup in Arizona, and “really helped” the Seahawks earn a win over the Cardinals, according to head coach Mike Macdonald. Head coach Mike Macdonald met with the media on Monday after Seattle’s 31-7 win over the Arizona Cardinals.",
+      "whatHappened": "The 12s showed up to Sunday’s road matchup in Arizona, and “really helped” the Seahawks earn a win over the Cardinals, according to head coach Mike Macdonald. Head coach Mike Macdonald met with the media on Monday after Seattle’s 31-7 win over the Arizona Cardinals.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T23:50:33.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-22T00:00:43.443Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d22c136f-b72b-488c-8926-61f88ec86035",
+          "publisher": "Official team news",
+          "title": "Mike Macdonald Appreciates Travelling Seahawks Fans In Arizona: 'What A Great Showing By The 12s'",
+          "url": "https://www.seahawks.com/news/mike-macdonald-appreciates-travelling-seahawks-fans-in-arizona-what-a-great-showing-by-the-12s",
+          "publishedAt": "2026-09-21T03:55:06.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "4e311d09-1ae8-45e3-83df-b9e526c95a08",
+          "publisher": "Official team news",
+          "title": "Mike Macdonald Appreciates Travelling Seahawks Fans In Arizona: 'What A Great Showing By The 12s'",
+          "url": "https://www.seahawks.com/news/sunday-s-rotation-at-right-guard-12-game-win-streak-more-from-mike-macdonald-s-press-conference",
+          "publishedAt": "2026-09-21T23:50:33.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/mike-macdonald-appreciates-travelling-seahawks-fans-in-arizona-what-a-great-showing-by-the-12s",
+          "https://www.seahawks.com/news/sunday-s-rotation-at-right-guard-12-game-win-streak-more-from-mike-macdonald-s-press-conference"
+        ],
+        "asOf": "2026-09-21T23:50:33.000Z"
+      }
+    },
+    {
+      "id": "0d7d9391-2e09-4a22-a8af-c67c4f883186",
+      "teamAbbr": "SEA",
+      "category": "COACHING",
+      "headline": "Seahawks Planning On Sam Darnold Returning To Practice This Week",
+      "summary": "Seahawks coach Mike Macdonald said quarterback Sam Darnold is likely to return to practice this week and gave an update on running back Jadarian Price in his Monday press conference.",
+      "whatHappened": "Seahawks coach Mike Macdonald said quarterback Sam Darnold is likely to return to practice this week and gave an update on running back Jadarian Price in his Monday press conference.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T23:20:32.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T18:00:51.804Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "42d4aa14-14da-4ccc-8b0a-f204b2435d4d",
+          "publisher": "Official team news",
+          "title": "Seahawks Planning On Sam Darnold Returning To Practice This Week",
+          "url": "https://www.seahawks.com/news/seahawks-planning-on-sam-darnold-returning-to-practice-this-week",
+          "publishedAt": "2026-09-21T23:20:32.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/seahawks-planning-on-sam-darnold-returning-to-practice-this-week"
+        ],
+        "asOf": "2026-09-21T23:20:32.000Z"
+      }
+    },
+    {
+      "id": "01bfe633-e8bf-4151-929f-71b283150275",
+      "teamAbbr": "SEA",
+      "category": "ANALYSIS",
+      "headline": "Seahawks Next Gen Stat Of The Week: Jarran Reed Brings The Pressure",
+      "summary": "NFL Next Gen Stats highlights a productive day for veteran defensive tackle Jarran Reed.",
+      "whatHappened": "NFL Next Gen Stats highlights a productive day for veteran defensive tackle Jarran Reed.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T23:07:09.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T18:00:52.451Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "bb8427cd-fa54-48eb-9e58-2a28ebaf1965",
+          "publisher": "Official team news",
+          "title": "Seahawks Next Gen Stat Of The Week: Jarran Reed Brings The Pressure",
+          "url": "https://www.seahawks.com/news/seahawks-next-gen-stat-of-the-week-jarran-reed-brings-the-pressure",
+          "publishedAt": "2026-09-21T23:07:09.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/seahawks-next-gen-stat-of-the-week-jarran-reed-brings-the-pressure"
+        ],
+        "asOf": "2026-09-21T23:07:09.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "480106a4-2b6a-4ae8-bf76-8c9c4c84dee0",
+      "teamAbbr": "SEA",
+      "category": "GAME",
+      "headline": "12 Numbers Of Note From The Seahawks' Week 2 Win At Arizona",
+      "summary": "Twelve notes that help tell the story of the Seahawks’ Week 2 win over the Cardinals.",
+      "whatHappened": "Twelve notes that help tell the story of the Seahawks’ Week 2 win over the Cardinals.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T22:27:40.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T18:00:52.642Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "cec7ef76-8571-43b1-9f83-8379b51a8806",
+          "publisher": "Official team news",
+          "title": "12 Numbers Of Note From The Seahawks' Week 2 Win At Arizona",
+          "url": "https://www.seahawks.com/news/12-numbers-of-note-from-the-seahawks-week-2-win-at-arizona",
+          "publishedAt": "2026-09-21T22:27:40.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/12-numbers-of-note-from-the-seahawks-week-2-win-at-arizona"
+        ],
+        "asOf": "2026-09-21T22:27:40.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "dbea9f45-14d1-4d8d-8880-ba8ce852135f",
+      "teamAbbr": "SEA",
+      "category": "GAME",
+      "headline": "Seahawks Drive Of The Game: Seattle Uses Run Game To Go On 16-Play, 10-Minute Scoring Drive",
+      "summary": "The Seahawks’ offense went 70 yards, on 16 plays in 10:14 in the fourth quarter of their 31-7 win over the Arizona Cardinals.",
+      "whatHappened": "The Seahawks’ offense went 70 yards, on 16 plays in 10:14 in the fourth quarter of their 31-7 win over the Arizona Cardinals.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T19:39:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T22:00:38.683Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "94a4831f-9584-4bdc-abc9-261cdce2b58b",
+          "publisher": "Official team news",
+          "title": "Seahawks Drive Of The Game: Seattle Uses Run Game To Go On 16-Play, 10-Minute Scoring Drive",
+          "url": "https://www.seahawks.com/news/seahawks-drive-of-the-game-seattle-uses-run-game-to-go-on-16-play-10-minute-scoring-drive",
+          "publishedAt": "2026-09-21T19:39:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/seahawks-drive-of-the-game-seattle-uses-run-game-to-go-on-16-play-10-minute-scoring-drive"
+        ],
+        "asOf": "2026-09-21T19:39:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "351cd186-87ab-4517-9d38-928a71153bab",
+      "teamAbbr": "SEA",
+      "category": "GAME",
+      "headline": "Jaxon Smith-Njigba Nominated For Air & Ground Player Of The Week",
+      "summary": "Receiver Jaxon Smith-Njigba was nominated for Air & Ground Player of the Week for his performance in the Week 2 win over the Cardinals.",
+      "whatHappened": "Receiver Jaxon Smith-Njigba was nominated for Air & Ground Player of the Week for his performance in the Week 2 win over the Cardinals.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T18:02:05.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T22:00:39.098Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9668dd9c-446a-4255-8415-af1988710100",
+          "publisher": "Official team news",
+          "title": "Jaxon Smith-Njigba Nominated For Air & Ground Player Of The Week",
+          "url": "https://www.seahawks.com/news/jaxon-smith-njigba-nominated-for-air-ground-player-of-the-week",
+          "publishedAt": "2026-09-21T18:02:05.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/jaxon-smith-njigba-nominated-for-air-ground-player-of-the-week"
+        ],
+        "asOf": "2026-09-21T18:02:05.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "ab8a0ac9-9695-4b69-848e-477c3e760ec8",
+      "teamAbbr": "SEA",
+      "category": "ANALYSIS",
+      "headline": "Lumen Field & WAMU Theater Named Best Live Music Venue In The PNW",
+      "summary": "Lumen Field and WAMU Theater were voted “Best Live Music Venue” in the 2026 Seattle Times “Best In The PNW” people’s choice contest.",
+      "whatHappened": "Lumen Field and WAMU Theater were voted “Best Live Music Venue” in the 2026 Seattle Times “Best In The PNW” people’s choice contest.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T17:00:08.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T22:00:39.302Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0d1836c4-76cc-4818-b79d-720b16e27eed",
+          "publisher": "Official team news",
+          "title": "Lumen Field & WAMU Theater Named Best Live Music Venue In The PNW",
+          "url": "https://www.seahawks.com/news/lumen-field-wamu-theater-named-best-live-music-venue-in-the-pnw",
+          "publishedAt": "2026-09-21T17:00:08.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/lumen-field-wamu-theater-named-best-live-music-venue-in-the-pnw"
+        ],
+        "asOf": "2026-09-21T17:00:08.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "3baafc12-acf5-41cb-8cb8-ce0c5b165df7",
+      "teamAbbr": "SEA",
+      "category": "GAME",
+      "headline": "Drew Lock Played 'Tremendous' In First Seahawks Start Since 2023",
+      "summary": "In his first Seahawks start since 2023, quarterback Drew Lock helped lead Seattle to a 31-7 win over the Arizona Cardinals.",
+      "whatHappened": "In his first Seahawks start since 2023, quarterback Drew Lock helped lead Seattle to a 31-7 win over the Arizona Cardinals.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T04:39:28.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T00:00:43.281Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "32c9cfa4-4c67-4845-89fa-d008fb4c6af9",
+          "publisher": "Official team news",
+          "title": "Drew Lock Played 'Tremendous' In First Seahawks Start Since 2023",
+          "url": "https://www.seahawks.com/news/drew-lock-played-tremendous-in-first-seahawks-start-since-2023",
+          "publishedAt": "2026-09-21T04:39:28.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/drew-lock-played-tremendous-in-first-seahawks-start-since-2023"
+        ],
+        "asOf": "2026-09-21T04:39:28.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6a30e7bb-1944-47b1-940e-8c694323e132",
+      "teamAbbr": "SEA",
+      "category": "GAME",
+      "headline": "Rapid Reactions: Jaxon Smith-Njigba Scores Three Touchdowns In Seahawks' Dominant 31-7 Win Over Cardinals",
+      "summary": "Another big day from Jaxon Smith-Njigba and another dominant defensive performance helped the Seahawks earn a 12th straight victory. Seahawks receiver Jaxon Smith-Njigba turned in yet another standout performance in Seattle’s 31-7 win over the Cardinals. After giving up one first-half touchdown, Seattle’s defense was nearly flawless in a 31-7 win over the Cardinals.",
+      "whatHappened": "Another big day from Jaxon Smith-Njigba and another dominant defensive performance helped the Seahawks earn a 12th straight victory. Seahawks receiver Jaxon Smith-Njigba turned in yet another standout performance in Seattle’s 31-7 win over the Cardinals.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T03:23:53.000Z",
+      "sourceCount": 3,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 2,
+      "hotReadUntil": "2026-09-21T04:00:42.311Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ab63b644-7de2-45ec-8f6e-708ebbf2d5f3",
+          "publisher": "Official team news",
+          "title": "Rapid Reactions: Jaxon Smith-Njigba Scores Three Touchdowns In Seahawks' Dominant 31-7 Win Over Cardinals",
+          "url": "https://www.seahawks.com/news/rapid-reactions-jaxon-smith-njigba-scores-three-touchdowns-in-seahawks-dominant-31-7-win-over-cardinals",
+          "publishedAt": "2026-09-20T23:52:24.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "37d51ea5-90ad-4a90-bbda-3e9d490440b1",
+          "publisher": "Official team news",
+          "title": "Rapid Reactions: Jaxon Smith-Njigba Scores Three Touchdowns In Seahawks' Dominant 31-7 Win Over Cardinals",
+          "url": "https://www.seahawks.com/news/seahawks-marvel-at-jaxon-smith-njigba-s-three-td-performance-in-arizona-man-this-guy-s-a-wizard",
+          "publishedAt": "2026-09-21T04:17:52.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "47501af5-8d90-4a85-9eda-4347f746538c",
+          "publisher": "Official team news",
+          "title": "Rapid Reactions: Jaxon Smith-Njigba Scores Three Touchdowns In Seahawks' Dominant 31-7 Win Over Cardinals",
+          "url": "https://www.seahawks.com/news/seahawks-defense-dominates-again-in-week-2-win-over-cardinals-we-want-to-be-like-a-boa-constrictor",
+          "publishedAt": "2026-09-21T03:23:53.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/rapid-reactions-jaxon-smith-njigba-scores-three-touchdowns-in-seahawks-dominant-31-7-win-over-cardinals",
+          "https://www.seahawks.com/news/seahawks-marvel-at-jaxon-smith-njigba-s-three-td-performance-in-arizona-man-this-guy-s-a-wizard",
+          "https://www.seahawks.com/news/seahawks-defense-dominates-again-in-week-2-win-over-cardinals-we-want-to-be-like-a-boa-constrictor"
+        ],
+        "asOf": "2026-09-21T03:23:53.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "b3968e97-3e60-4b35-a9b2-4780195eb5cd",
+      "teamAbbr": "SEA",
+      "category": "PRACTICE",
+      "headline": "Seahawks Second-Year Safety Nick Emmanwori 'Felt Good' In Limited Return To Action",
+      "summary": "Seahawks safety Nick Emmanwori played in his first game after ankle surgery sidelined him throughout training camp.",
+      "whatHappened": "Seahawks safety Nick Emmanwori played in his first game after ankle surgery sidelined him throughout training camp.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T02:58:38.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T00:00:43.567Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "67047b51-4107-4c6f-8ff8-59ce435bd3c2",
+          "publisher": "Official team news",
+          "title": "Seahawks Second-Year Safety Nick Emmanwori 'Felt Good' In Limited Return To Action",
+          "url": "https://www.seahawks.com/news/seahawks-second-year-safety-nick-emmanwori-felt-good-in-limited-return-to-action",
+          "publishedAt": "2026-09-21T02:58:38.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "PRACTICE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/seahawks-second-year-safety-nick-emmanwori-felt-good-in-limited-return-to-action"
+        ],
+        "asOf": "2026-09-21T02:58:38.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1d3ba80b-a44f-4190-938a-07c302c7ced3",
+      "teamAbbr": "SEA",
+      "category": "INJURY",
+      "headline": "Seahawks Injury Updates From Mike Macdonald Following Sunday's Week 2 Win At Arizona",
+      "summary": "Seahawks coach Mike Macdonald gave injury updates following Sunday’s win in Arizona, including positive news on Sam Darnold and Jadarian Price.",
+      "whatHappened": "Seahawks coach Mike Macdonald gave injury updates following Sunday’s win in Arizona, including positive news on Sam Darnold and Jadarian Price.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T01:29:38.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T04:00:41.965Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a368f9cd-c90e-40b2-8e17-ee324c89b3b8",
+          "publisher": "Official team news",
+          "title": "Seahawks Injury Updates From Mike Macdonald Following Sunday's Week 2 Win At Arizona",
+          "url": "https://www.seahawks.com/news/seahawks-injury-updates-from-mike-macdonald-following-sunday-s-week-2-win-at-arizona",
+          "publishedAt": "2026-09-21T01:29:38.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/seahawks-injury-updates-from-mike-macdonald-following-sunday-s-week-2-win-at-arizona"
+        ],
+        "asOf": "2026-09-21T01:29:38.000Z"
+      }
+    },
+    {
+      "id": "55fd1f5b-1ac4-4ddc-b81d-0a6120748f2e",
+      "teamAbbr": "SEA",
+      "category": "GAME",
+      "headline": "Full Highlights: Seahawks at Cardinals | 2026 Week 2",
+      "summary": "Watch The Top Plays From Seattle's Week 2 Divisional Win Over The Arizona Cardinals",
+      "whatHappened": "Watch The Top Plays From Seattle's Week 2 Divisional Win Over The Arizona Cardinals",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:21:55.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T04:00:42.352Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "764327f9-c8ca-4278-924b-b664e95dc0dc",
+          "publisher": "Official team news",
+          "title": "Full Highlights: Seahawks at Cardinals | 2026 Week 2",
+          "url": "https://www.seahawks.com/news/2026-week-2-seahawks-at-cardinals-full-highlights",
+          "publishedAt": "2026-09-20T23:21:55.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/2026-week-2-seahawks-at-cardinals-full-highlights"
+        ],
+        "asOf": "2026-09-20T23:21:55.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "12122f0c-d121-4b38-9c91-67035d0753a3",
+      "teamAbbr": "SEA",
+      "category": "PRACTICE",
+      "headline": "Seahawks Elevate Rodney Thomas II From Practice Squad, Downgrade G Anthony Bradford To Out",
+      "summary": "The Seahawks elevated safety Rodney Thomas II from the practice squad for the second straight game and downgraded guard Anthony Bradford to out.",
+      "whatHappened": "The Seahawks elevated safety Rodney Thomas II from the practice squad for the second straight game and downgraded guard Anthony Bradford to out.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T20:15:01.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T16:00:45.996Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "745028d6-29ec-4e21-aec0-63e9b300fa1c",
+          "publisher": "Official team news",
+          "title": "Seahawks Elevate Rodney Thomas II From Practice Squad, Downgrade G Anthony Bradford To Out",
+          "url": "https://www.seahawks.com/news/seahawks-elevate-rodney-thomas-ii-from-practice-squad-downgrade-g-anthony-bradford-to-out",
+          "publishedAt": "2026-09-19T20:15:01.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "SEA",
+          "action": "ELEVATED",
+          "name": "Rodney Thomas II",
+          "position": "TE"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Rodney Thomas II",
+            "source": "headline",
+            "excerpt": "Elevate Rodney Thomas II"
+          },
+          {
+            "field": "action",
+            "value": "ELEVATED",
+            "source": "headline",
+            "excerpt": "Elevate Rodney Thomas II"
+          },
+          {
+            "field": "position",
+            "value": "TE",
+            "source": "headline",
+            "excerpt": "te Rodney Thomas II"
+          },
+          {
+            "field": "team",
+            "value": "SEA",
+            "source": "canonical",
+            "excerpt": "SEA"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/seahawks-elevate-rodney-thomas-ii-from-practice-squad-downgrade-g-anthony-bradford-to-out"
+        ],
+        "asOf": "2026-09-19T20:15:01.000Z"
+      }
+    },
+    {
+      "id": "4cbf1657-0c37-4a5c-b787-4a6b568d9ad3",
+      "teamAbbr": "SEA",
+      "category": "ANALYSIS",
+      "headline": "Seahawks OLBs Take Pride In Physical Run Defense: 'We Want To Be Violent, We Want To Be Dominant'",
+      "summary": "Defensive ends and outside linebackers are often measured by their sack totals, but Seattle’s edge players also take a ton of pride being physical and dominant in the run game.",
+      "whatHappened": "Defensive ends and outside linebackers are often measured by their sack totals, but Seattle’s edge players also take a ton of pride being physical and dominant in the run game.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T01:55:52.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T04:00:52.154Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "12fb2d29-ee41-414f-a600-9f3f70de2be6",
+          "publisher": "Official team news",
+          "title": "Seahawks OLBs Take Pride In Physical Run Defense: 'We Want To Be Violent, We Want To Be Dominant'",
+          "url": "https://www.seahawks.com/news/seahawks-olbs-take-pride-in-physical-run-defense-we-want-to-be-violent-we-want-to-be-dominant",
+          "publishedAt": "2026-09-19T01:55:52.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/seahawks-olbs-take-pride-in-physical-run-defense-we-want-to-be-violent-we-want-to-be-dominant"
+        ],
+        "asOf": "2026-09-19T01:55:52.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "da57fd4c-c2b5-4683-be0b-acce15587bd0",
+      "teamAbbr": "SEA",
+      "category": "ANALYSIS",
+      "headline": "Seahawks Announce Week 2 Captains vs. Cardinals",
+      "summary": "The Seahawks announced four players as Week 2 captains ahead of their matchup against the Arizona Cardinals on Sunday.",
+      "whatHappened": "The Seahawks announced four players as Week 2 captains ahead of their matchup against the Arizona Cardinals on Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:23:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T04:00:52.714Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "22a86278-5bfe-47a0-90b9-9a0777a65690",
+          "publisher": "Official team news",
+          "title": "Seahawks Announce Week 2 Captains vs. Cardinals",
+          "url": "https://www.seahawks.com/news/seahawks-announce-week-2-captains-vs-the-cardinals",
+          "publishedAt": "2026-09-18T20:23:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/seahawks-announce-week-2-captains-vs-the-cardinals"
+        ],
+        "asOf": "2026-09-18T20:23:25.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "0a556577-b7e0-49ee-84e2-9801e4186b5f",
+      "teamAbbr": "SEA",
+      "category": "ANALYSIS",
+      "headline": "Drew Lock At Quarterback & Other Things To Watch In The Seahawks' Week 2 Game At Arizona",
+      "summary": "Players, matchups and storylines to watch when the Seahawks face the Cardinals on Sunday.",
+      "whatHappened": "Players, matchups and storylines to watch when the Seahawks face the Cardinals on Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:44:24.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T04:00:52.966Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b36706b2-8a0e-46f3-8949-5b2a608bdc48",
+          "publisher": "Official team news",
+          "title": "Drew Lock At Quarterback & Other Things To Watch In The Seahawks' Week 2 Game At Arizona",
+          "url": "https://www.seahawks.com/news/drew-lock-at-quarterback-other-things-to-watch-in-the-seahawks-week-2-game-at-arizona",
+          "publishedAt": "2026-09-18T19:44:24.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/drew-lock-at-quarterback-other-things-to-watch-in-the-seahawks-week-2-game-at-arizona"
+        ],
+        "asOf": "2026-09-18T19:44:24.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "5a7db046-1428-4c47-ab82-d97d3ba08226",
+      "teamAbbr": "SEA",
+      "category": "ANALYSIS",
+      "headline": "Picks And Predictions For Week 2 vs. the Arizona Cardinals",
+      "summary": "The Seattle Seahawks take on the Arizona Cardinals in Week 2 at State Farm Stadium.",
+      "whatHappened": "The Seattle Seahawks take on the Arizona Cardinals in Week 2 at State Farm Stadium.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T17:31:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:51.339Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3c3907d8-5642-4760-a6b7-aa286fb9050f",
+          "publisher": "Official team news",
+          "title": "Picks And Predictions For Week 2 vs. the Arizona Cardinals",
+          "url": "https://www.seahawks.com/news/picks-and-predictions-for-week-2-vs-the-arizona-cardinals",
+          "publishedAt": "2026-09-18T17:31:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.seahawks.com/news/picks-and-predictions-for-week-2-vs-the-arizona-cardinals"
+        ],
+        "asOf": "2026-09-18T17:31:43.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 69,
+    "totalPages": 4
+  }
+}

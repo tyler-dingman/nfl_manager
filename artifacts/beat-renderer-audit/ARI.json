@@ -1,0 +1,813 @@
+{
+  "teamAbbr": "ARI",
+  "teamName": "Arizona Cardinals",
+  "briefings": [
+    {
+      "id": "e39a40e9-c01d-4ce5-9f2e-d590b966a7c5",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "Cardinals Taking A Stand Down On Goal Line",
+      "summary": "Defense has fourth down stops in each of first two games",
+      "whatHappened": "Defense has fourth down stops in each of first two games",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T22:01:52.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T14:00:42.644Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d6c1f103-262e-4a59-9513-829be9946afe",
+          "publisher": "Official team news",
+          "title": "Cardinals Taking A Stand Down On Goal Line",
+          "url": "https://www.azcardinals.com/news/cardinals-taking-a-stand-down-on-goal-line",
+          "publishedAt": "2026-09-22T22:01:52.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/cardinals-taking-a-stand-down-on-goal-line"
+        ],
+        "asOf": "2026-09-22T22:01:52.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8b36d947-8fa2-4c33-bced-d5b84bacc3ca",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "You've Got Mail: We're On To San Francisco",
+      "summary": "Topics include cornerback depth, Marvin Harrison Jr., and 'moving on'",
+      "whatHappened": "Topics include cornerback depth, Marvin Harrison Jr., and 'moving on'",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T17:50:13.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T20:00:40.711Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "54995663-6633-47b8-ab0e-48fa29454dd2",
+          "publisher": "Official team news",
+          "title": "You've Got Mail: We're On To San Francisco",
+          "url": "https://www.azcardinals.com/news/you-ve-got-mail-we-re-on-to-san-francisco",
+          "publishedAt": "2026-09-22T17:50:13.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/you-ve-got-mail-we-re-on-to-san-francisco"
+        ],
+        "asOf": "2026-09-22T17:50:13.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8705cc5c-8523-4a0d-a831-a59a2f30c4a2",
+      "teamAbbr": "ARI",
+      "category": "GAME",
+      "headline": "'Take It On The Chin': Cardinals Look to Flush First Taste of Adversity",
+      "summary": "Team could even division record with win over 49ers",
+      "whatHappened": "Team could even division record with win over 49ers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T23:45:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:45.726Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "50139423-1bf3-4903-a721-a02991031cc5",
+          "publisher": "Official team news",
+          "title": "'Take It On The Chin': Cardinals Look to Flush First Taste of Adversity",
+          "url": "https://www.azcardinals.com/news/take-it-on-the-chin-cardinals-look-to-flush-first-taste-of-adversity",
+          "publishedAt": "2026-09-21T23:45:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/take-it-on-the-chin-cardinals-look-to-flush-first-taste-of-adversity"
+        ],
+        "asOf": "2026-09-21T23:45:43.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "74c905a3-0547-4fbb-a0b8-ceb32fab781b",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "LaFleur: Will Johnson Could Be Sidelined For Season",
+      "summary": "Cornerback hurt neck against Seahawks",
+      "whatHappened": "Cornerback hurt neck against Seahawks",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T22:24:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T02:00:45.876Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ca582e2d-3ae4-4205-bd8c-3a048f7d8e3a",
+          "publisher": "Official team news",
+          "title": "LaFleur: Will Johnson Could Be Sidelined For Season",
+          "url": "https://www.azcardinals.com/news/lafleur-will-johnson-could-be-sidelined-for-season",
+          "publishedAt": "2026-09-21T22:24:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/lafleur-will-johnson-could-be-sidelined-for-season"
+        ],
+        "asOf": "2026-09-21T22:24:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "7a1f8de1-72a7-4aa3-b37b-d97f7a5ebab3",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "Working To Not Waste Plays, And Seahawks Aftermath",
+      "summary": "Working To Not Waste Plays, And Seahawks Aftermath",
+      "whatHappened": "Working To Not Waste Plays, And Seahawks Aftermath",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T01:20:09.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T14:00:46.912Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "8dc3e209-34e0-4dcb-9d5e-84f0160f85b7",
+          "publisher": "Official team news",
+          "title": "Working To Not Waste Plays, And Seahawks Aftermath",
+          "url": "https://www.azcardinals.com/news/working-to-not-waste-plays-and-seahawks-aftermath",
+          "publishedAt": "2026-09-21T01:20:09.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/working-to-not-waste-plays-and-seahawks-aftermath"
+        ],
+        "asOf": "2026-09-21T01:20:09.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "0f416f75-31b6-41b4-9aed-4811c78c68f1",
+      "teamAbbr": "ARI",
+      "category": "GAME",
+      "headline": "Cardinals Can't Find Way To Dent Seahawks In Loss",
+      "summary": "Tied at halftime, funky fumble to start second half bleeds into 31-7 defeat",
+      "whatHappened": "Tied at halftime, funky fumble to start second half bleeds into 31-7 defeat",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:20:41.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T14:00:47.140Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7fbe0c0a-f5e1-4afb-9f46-7be580ee5dc1",
+          "publisher": "Official team news",
+          "title": "Cardinals Can't Find Way To Dent Seahawks In Loss",
+          "url": "https://www.azcardinals.com/news/cardinals-can-t-find-way-to-dent-seahawks-in-loss",
+          "publishedAt": "2026-09-20T23:20:41.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/cardinals-can-t-find-way-to-dent-seahawks-in-loss"
+        ],
+        "asOf": "2026-09-20T23:20:41.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f811cd72-c0d7-481f-8779-5ac26fce0b01",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "3x3: Week 2 Seahawks vs Cardinals",
+      "summary": "A trio of names, numbers, and notes going into the season opener",
+      "whatHappened": "A trio of names, numbers, and notes going into the season opener",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T18:19:22.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:45.457Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "493af4c0-e612-406e-9f7d-56c22cff77d3",
+          "publisher": "Official team news",
+          "title": "3x3: Week 2 Seahawks vs Cardinals",
+          "url": "https://www.azcardinals.com/news/3x3-week-2-seahawks-vs-cardinals",
+          "publishedAt": "2026-09-19T18:19:22.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/3x3-week-2-seahawks-vs-cardinals"
+        ],
+        "asOf": "2026-09-19T18:19:22.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "4995224c-e759-484b-96b9-79ae1d2fc6c4",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "Return Of The Mack (Wilson), And Friday Before The Seahawks",
+      "summary": "Return Of The Mack (Wilson), And Friday Before The Seahawks",
+      "whatHappened": "Return Of The Mack (Wilson), And Friday Before The Seahawks",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T22:26:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T04:00:52.319Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "75df9e2b-90f9-487c-af15-af5299229efc",
+          "publisher": "Official team news",
+          "title": "Return Of The Mack (Wilson), And Friday Before The Seahawks",
+          "url": "https://www.azcardinals.com/news/return-of-the-mack-wilson-and-friday-before-the-seahawks",
+          "publishedAt": "2026-09-18T22:26:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/return-of-the-mack-wilson-and-friday-before-the-seahawks"
+        ],
+        "asOf": "2026-09-18T22:26:10.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "9bb3d27d-9507-4509-b34c-2f747bc13f67",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "The 'Looong Season' And Jeremiyah Love Workload",
+      "summary": "LaFleur reiterates how rookie running back fits into plan",
+      "whatHappened": "LaFleur reiterates how rookie running back fits into plan",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:31:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T04:00:53.019Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "977f12a9-c84f-4e21-bf0f-064fbed39066",
+          "publisher": "Official team news",
+          "title": "The 'Looong Season' And Jeremiyah Love Workload",
+          "url": "https://www.azcardinals.com/news/the-looong-season-and-jeremiyah-love-workload",
+          "publishedAt": "2026-09-18T19:31:19.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/the-looong-season-and-jeremiyah-love-workload"
+        ],
+        "asOf": "2026-09-18T19:31:19.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "64ef6fa9-8f4d-4ae2-afa3-9fc00410dce5",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "Walter Nolen III Drawing Double Teams, Gaining Respect From Opponents",
+      "summary": "Defensive lineman's presence open opportunity for teammates",
+      "whatHappened": "Defensive lineman's presence open opportunity for teammates",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T17:15:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T20:00:51.422Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "65248c07-c555-4243-b642-a86111288ef5",
+          "publisher": "Official team news",
+          "title": "Walter Nolen III Drawing Double Teams, Gaining Respect From Opponents",
+          "url": "https://www.azcardinals.com/news/walter-nolen-iii-drawing-double-teams-gaining-respect-from-opponents",
+          "publishedAt": "2026-09-18T17:15:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/walter-nolen-iii-drawing-double-teams-gaining-respect-from-opponents"
+        ],
+        "asOf": "2026-09-18T17:15:12.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "ef9bbf31-a4a9-42a2-acd3-c84be0f8650a",
+      "teamAbbr": "ARI",
+      "category": "GAME",
+      "headline": "As Cardinals Grow, Celebrations Mandatory For Team",
+      "summary": "Hackett emphasizes group enjoyment of scores",
+      "whatHappened": "Hackett emphasizes group enjoyment of scores",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T23:53:05.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T00:00:49.704Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a856dc47-ae9b-4a25-9973-a53253f7c571",
+          "publisher": "Official team news",
+          "title": "As Cardinals Grow, Celebrations Mandatory For Team",
+          "url": "https://www.azcardinals.com/news/as-cardinals-grow-celebrations-mandatory-for-team",
+          "publishedAt": "2026-09-17T23:53:05.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/as-cardinals-grow-celebrations-mandatory-for-team"
+        ],
+        "asOf": "2026-09-17T23:53:05.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "71132c0f-1722-45a7-8b66-42c248409dba",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "How Dewey Wingard Became A Hit For Cardinals",
+      "summary": "Veteran safety making impression after just one game",
+      "whatHappened": "Veteran safety making impression after just one game",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T19:49:37.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T00:00:56.213Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0af711d1-3445-4b2d-bb6f-94ae7f9287e3",
+          "publisher": "Official team news",
+          "title": "How Dewey Wingard Became A Hit For Cardinals",
+          "url": "https://www.azcardinals.com/news/how-dewey-wingard-became-a-hit-for-cardinals",
+          "publishedAt": "2026-09-17T19:49:37.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/how-dewey-wingard-became-a-hit-for-cardinals"
+        ],
+        "asOf": "2026-09-17T19:49:37.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "22fc468c-e81f-49f9-9249-2edf1ee5ee0d",
+      "teamAbbr": "ARI",
+      "category": "INJURY",
+      "headline": "Cardinals Place Kitan Crawford On Injured Reserve",
+      "summary": "Safety hurt ankle on Fehoko blocked punt play",
+      "whatHappened": "Safety hurt ankle on Fehoko blocked punt play",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:33:30.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:35:04.490Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "baef8107-ef74-46c2-83e0-f59e90ee433a",
+          "publisher": "Official team news",
+          "title": "Cardinals Place Kitan Crawford On Injured Reserve",
+          "url": "https://www.azcardinals.com/news/cardinals-place-kitan-crawford-on-injured-reserve",
+          "publishedAt": "2026-09-16T17:33:30.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "INJURY",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/cardinals-place-kitan-crawford-on-injured-reserve"
+        ],
+        "asOf": "2026-09-16T17:33:30.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "17c9341b-2d54-4606-a359-638cbf7a6766",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "Jay Parry Receives Inaugural Violet Bidwill Legacy Award",
+      "summary": "In partnership with Wise Arizona, honor named after 1st NFL female owner",
+      "whatHappened": "In partnership with Wise Arizona, honor named after 1st NFL female owner",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:00:47.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:15:05.572Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "2cf372ce-3e1f-49ae-98b8-670d6371e5f5",
+          "publisher": "Official team news",
+          "title": "Jay Parry Receives Inaugural Violet Bidwill Legacy Award",
+          "url": "https://www.azcardinals.com/news/jay-parry-receives-inaugural-violet-bidwill-legacy-award",
+          "publishedAt": "2026-09-16T17:00:47.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/jay-parry-receives-inaugural-violet-bidwill-legacy-award"
+        ],
+        "asOf": "2026-09-16T17:00:47.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8f3880ec-39cd-4c28-92fd-309116b993db",
+      "teamAbbr": "ARI",
+      "category": "GAME",
+      "headline": "Simi Fehoko Earns NFC Special Teams Player Of The Week Honor",
+      "summary": "Wide receiver blocked punt in win over Chargers",
+      "whatHappened": "Wide receiver blocked punt in win over Chargers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T16:00:13.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T18:10:06.412Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b36b8f60-b912-4201-8628-b4b00b2cbf3e",
+          "publisher": "Official team news",
+          "title": "Simi Fehoko Earns NFC Special Teams Player Of The Week Honor",
+          "url": "https://www.azcardinals.com/news/simi-fehoko-earns-nfc-special-teams-player-of-the-week-honor-week-1",
+          "publishedAt": "2026-09-16T16:00:13.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/simi-fehoko-earns-nfc-special-teams-player-of-the-week-honor-week-1"
+        ],
+        "asOf": "2026-09-16T16:00:13.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "17477aac-d72a-43db-907a-03c3aff600b4",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "How To Watch: Cardinals vs. Seahawks, Week 2",
+      "summary": "Check out all the ways to watch, listen and live stream the Arizona Cardinals against the Seattle Seahawks on September 20, 2026",
+      "whatHappened": "Check out all the ways to watch, listen and live stream the Arizona Cardinals against the Seattle Seahawks on September 20, 2026",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T14:21:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T16:25:05.771Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b04528e3-0364-4c46-a711-f0daa37a63cf",
+          "publisher": "Official team news",
+          "title": "How To Watch: Cardinals vs. Seahawks, Week 2",
+          "url": "https://www.azcardinals.com/news/how-to-watch-cardinals-vs-seahawks-week-2",
+          "publishedAt": "2026-09-16T14:21:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "ARI",
+          "rightTeam": "SEA",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "ARI",
+            "source": "headline",
+            "excerpt": "How To Watch: Cardinals vs. Seahawks, Week 2"
+          },
+          {
+            "field": "rightTeam",
+            "value": "SEA",
+            "source": "headline",
+            "excerpt": "How To Watch: Cardinals vs. Seahawks, Week 2"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/how-to-watch-cardinals-vs-seahawks-week-2"
+        ],
+        "asOf": "2026-09-16T14:21:12.000Z"
+      }
+    },
+    {
+      "id": "415a9286-8c1d-44ed-b2fd-93a41c1a4eb2",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "You've Got Mail: After A Win, Rivalry Week",
+      "summary": "Topics include Love usage, 1,000-yard possibilities, and waiting for surgery",
+      "whatHappened": "Topics include Love usage, 1,000-yard possibilities, and waiting for surgery",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T18:28:06.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T20:35:04.854Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9d738b6a-c930-4d29-af4e-dce56bacd148",
+          "publisher": "Official team news",
+          "title": "You've Got Mail: After A Win, Rivalry Week",
+          "url": "https://www.azcardinals.com/news/you-ve-got-mail-after-a-win-rivalry-week",
+          "publishedAt": "2026-09-15T18:28:06.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/you-ve-got-mail-after-a-win-rivalry-week"
+        ],
+        "asOf": "2026-09-15T18:28:06.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "5f9f697c-d287-40c0-aec2-0df5b15ed9a3",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "Cardinals And Arizona Ford Dealers Announce Celebration Plans For Latino Heritage Month",
+      "summary": "Cardinals And Arizona Ford Dealers Announce Celebration Plans For Latino Heritage Month",
+      "whatHappened": "Cardinals And Arizona Ford Dealers Announce Celebration Plans For Latino Heritage Month",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T17:51:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T23:00:10.195Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "95540617-ca37-46cf-b60f-563488b8cf1d",
+          "publisher": "Official team news",
+          "title": "Cardinals And Arizona Ford Dealers Announce Celebration Plans For Latino Heritage Month",
+          "url": "https://www.azcardinals.com/news/cardinals-and-arizona-ford-dealers-announce-celebration-plans-for-latino-heritage-month",
+          "publishedAt": "2026-09-15T17:51:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/cardinals-and-arizona-ford-dealers-announce-celebration-plans-for-latino-heritage-month"
+        ],
+        "asOf": "2026-09-15T17:51:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e7c8cf67-0c52-4464-b080-a5e9188d0bb9",
+      "teamAbbr": "ARI",
+      "category": "DRAFT",
+      "headline": "The Practice Plan For Carson Beck As QB3",
+      "summary": "Cardinals have to be specific to develop third-round pick",
+      "whatHappened": "Cardinals have to be specific to develop third-round pick",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-15T16:52:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T18:55:04.346Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c236a3fa-b890-4b4a-b1cd-b18fecfc6103",
+          "publisher": "Official team news",
+          "title": "The Practice Plan For Carson Beck As QB3",
+          "url": "https://www.azcardinals.com/news/the-practice-plan-for-carson-beck-as-qb3",
+          "publishedAt": "2026-09-15T16:52:02.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "DRAFT",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/the-practice-plan-for-carson-beck-as-qb3"
+        ],
+        "asOf": "2026-09-15T16:52:02.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2a627828-03a8-476c-bb67-226f1cc26f57",
+      "teamAbbr": "ARI",
+      "category": "ANALYSIS",
+      "headline": "Building From Success, Cardinals Can't Fall For The Hype",
+      "summary": "Defending champion Seahawks up next in home opener",
+      "whatHappened": "Defending champion Seahawks up next in home opener",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-14T23:33:33.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-15T01:50:06.122Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4353ce67-13f0-4664-8a85-c3a74736df50",
+          "publisher": "Official team news",
+          "title": "Building From Success, Cardinals Can't Fall For The Hype",
+          "url": "https://www.azcardinals.com/news/building-from-success-cardinals-can-t-fall-for-the-hype",
+          "publishedAt": "2026-09-14T23:33:33.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.azcardinals.com/news/building-from-success-cardinals-can-t-fall-for-the-hype"
+        ],
+        "asOf": "2026-09-14T23:33:33.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 38,
+    "totalPages": 2
+  }
+}

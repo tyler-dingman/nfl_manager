@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { beatFixtures } from '../../src/components/beat/beat-fixtures';
 
 for (const width of [280, 320, 400]) {
   test(`Beat composition gallery at ${width}px`, async ({ page }) => {
@@ -9,7 +10,7 @@ for (const width of [280, 320, 400]) {
     await page.getByLabel('Card width').selectOption(String(width));
     await expect(page.locator('[data-beat-card]').first().locator('time')).toContainText('Updated');
     await page.evaluate(() => document.fonts.ready);
-    expect(await page.locator('[data-beat-family]').count()).toBe(27);
+    expect(await page.locator('[data-beat-family]').count()).toBe(beatFixtures.length);
     await expect(
       page.locator(
         '[data-fixture="transaction"] [data-beat-layer="directional-four-chevrons"] path',
@@ -20,7 +21,7 @@ for (const width of [280, 320, 400]) {
     ).toHaveCount(0);
     await expect(page.locator('[data-fixture="missing-data"] [data-beat-family]')).toHaveAttribute(
       'data-beat-family',
-      /standard-/,
+      'injury',
     );
     const metrics = await page.locator('[data-beat-family]').evaluateAll((elements) =>
       elements.map((element) => {
@@ -51,6 +52,34 @@ for (const width of [280, 320, 400]) {
           .map((el) => el.textContent),
       );
     expect(overflowing).toEqual([]);
+    const clipped = await page.locator('[data-beat-composition] strong').evaluateAll((els) =>
+      els
+        .filter((el) => {
+          const r = el.getBoundingClientRect();
+          const b = el.closest('[data-beat-family]')!.getBoundingClientRect();
+          return (
+            r.left < b.left ||
+            r.right > b.right ||
+            r.top < b.top + 28 ||
+            r.bottom > b.bottom ||
+            el.scrollWidth > el.clientWidth + 2
+          );
+        })
+        .map((el) => el.textContent),
+    );
+    expect(clipped).toEqual([]);
+    for (const id of [
+      'ten-things-said',
+      'three-takeaways',
+      'raiders-recap',
+      'raiders-matchup',
+      'inactive-report',
+      'player-update',
+    ])
+      await page.locator('[data-fixture="' + id + '"] [data-beat-family]').screenshot({
+        path: 'artifacts/beat-renderer-audit/fixture-' + id + '-' + width + '.png',
+        scale: 'css',
+      });
     await page.screenshot({ path: `artifacts/beat-gallery-${width}.png`, fullPage: true });
     const first = page.locator('[data-beat-card]').first();
     await first.getByRole('button', { name: /^Save / }).click();

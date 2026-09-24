@@ -1,0 +1,934 @@
+{
+  "teamAbbr": "NO",
+  "teamName": "New Orleans Saints",
+  "briefings": [
+    {
+      "id": "b3139144-8502-43d4-8b44-54d9ef214062",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Five things to know about the New Orleans Saints for Tuesday, September 22",
+      "summary": "Saints celebrate first win of the season, look ahead to a new week",
+      "whatHappened": "Saints celebrate first win of the season, look ahead to a new week",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T13:15:11.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T16:00:47.272Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "beb45776-c678-447e-924e-dc9a02723f45",
+          "publisher": "Official team news",
+          "title": "Five things to know about the New Orleans Saints for Tuesday, September 22",
+          "url": "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-week-3-for-tuesday-september-22",
+          "publishedAt": "2026-09-22T13:15:11.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "Five things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Five things to know about the New Orleans Saints for Tuesday, September 22"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-week-3-for-tuesday-september-22"
+        ],
+        "asOf": "2026-09-22T13:15:11.000Z"
+      }
+    },
+    {
+      "id": "386ec8e5-6167-4522-b85b-eee58b7f9e06",
+      "teamAbbr": "NO",
+      "category": "GAME",
+      "headline": "Morning Break: Saints' depth delivers in comeback win over Ravens",
+      "summary": "A collection of headlines and news about the Saints and the NFL for Tuesday, September 22",
+      "whatHappened": "A collection of headlines and news about the Saints and the NFL for Tuesday, September 22",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T13:00:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T16:00:47.404Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c9afb261-3dfc-4900-ae8d-34ee4c2ef8cb",
+          "publisher": "Official team news",
+          "title": "Morning Break: Saints' depth delivers in comeback win over Ravens",
+          "url": "https://www.neworleanssaints.com/news/morning-break-saints-depth-delivers-in-comeback-win-over-ravens-new-orleans-news-headlines-9-22-2026",
+          "publishedAt": "2026-09-22T13:00:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/morning-break-saints-depth-delivers-in-comeback-win-over-ravens-new-orleans-news-headlines-9-22-2026"
+        ],
+        "asOf": "2026-09-22T13:00:10.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "566499d0-5d84-4869-b6a5-4cb40440106e",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Five things to know about the New Orleans Saints for Sunday, September 20",
+      "summary": "Saints take on Ravens at M&T Bank Stadium in Week 2 Saints reflect on Week 2 matchup against Ravens",
+      "whatHappened": "Saints take on Ravens at M&T Bank Stadium in Week 2 Saints reflect on Week 2 matchup against Ravens",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T13:15:01.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-20T16:00:45.696Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "425cc427-d830-43b3-9f81-722b104ebad8",
+          "publisher": "Official team news",
+          "title": "Five things to know about the New Orleans Saints for Sunday, September 20",
+          "url": "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-week-2-matchup-baltimore-ravens-for-sunday-september-20",
+          "publishedAt": "2026-09-20T13:15:27.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "c97a9eaf-ccab-4db1-b7e0-5a47caa866aa",
+          "publisher": "Official team news",
+          "title": "Five things to know about the New Orleans Saints for Sunday, September 20",
+          "url": "https://www.neworleanssaints.com/news/five-things-to-know-about-the-new-orleans-saints-win-week-2-for-monday-september-21",
+          "publishedAt": "2026-09-21T13:15:01.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "Five things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Five things to know about the New Orleans Saints for Sunday, September 20"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-week-2-matchup-baltimore-ravens-for-sunday-september-20",
+          "https://www.neworleanssaints.com/news/five-things-to-know-about-the-new-orleans-saints-win-week-2-for-monday-september-21"
+        ],
+        "asOf": "2026-09-21T13:15:01.000Z"
+      }
+    },
+    {
+      "id": "ccb58610-004b-4183-b30e-4c8bff2a46ee",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Morning Break: Saints complete comeback in Baltimore for first win of season",
+      "summary": "A collection of headlines and news about the Saints and the NFL for Monday, September 21",
+      "whatHappened": "A collection of headlines and news about the Saints and the NFL for Monday, September 21",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T00:00:43.058Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "020d8d52-0300-4098-a149-cef6500c93c1",
+          "publisher": "Official team news",
+          "title": "Morning Break: Saints complete comeback in Baltimore for first win of season",
+          "url": "https://www.neworleanssaints.com/news/morning-break-saints-complete-comeback-in-baltimore-for-first-win-of-season-new-orleans-news-headlines-9-21-2026",
+          "publishedAt": "2026-09-21T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/morning-break-saints-complete-comeback-in-baltimore-for-first-win-of-season-new-orleans-news-headlines-9-21-2026"
+        ],
+        "asOf": "2026-09-21T13:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "0a1e3304-4f1a-4533-8b7b-7fdbb2d568e9",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Morning Break: Saints take on Ravens in Week 2 matchup",
+      "summary": "A collection of headlines and news about the Saints and the NFL for Sunday, September 20",
+      "whatHappened": "A collection of headlines and news about the Saints and the NFL for Sunday, September 20",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T13:00:27.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T16:00:45.773Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "11401dcd-7c7b-423f-927b-4081c254aaff",
+          "publisher": "Official team news",
+          "title": "Morning Break: Saints take on Ravens in Week 2 matchup",
+          "url": "https://www.neworleanssaints.com/news/morning-break-saints-take-on-ravens-in-week-2-matchup-new-orleans-news-headlines-9-20-2026",
+          "publishedAt": "2026-09-20T13:00:27.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/morning-break-saints-take-on-ravens-in-week-2-matchup-new-orleans-news-headlines-9-20-2026"
+        ],
+        "asOf": "2026-09-20T13:00:27.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "edd60f0d-8f2f-4d30-961a-a1c494b82e97",
+      "teamAbbr": "NO",
+      "category": "ROSTER",
+      "headline": "Saints announce roster moves",
+      "summary": "Shift4 Transaction Alert: Saints announce gameday elevations for Week 2 vs. Ravens",
+      "whatHappened": "Shift4 Transaction Alert: Saints announce gameday elevations for Week 2 vs. Ravens",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T18:10:23.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.179Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "b24594cc-457b-4ba4-b693-cee49e6d3cae",
+          "publisher": "Official team news",
+          "title": "Saints announce roster moves",
+          "url": "https://www.neworleanssaints.com/news/new-orleans-saints-roster-moves-announced-transactions-2026-nfl-week-2-elevations",
+          "publishedAt": "2026-09-19T18:10:23.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "NO"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "NO",
+            "source": "canonical",
+            "excerpt": "NO"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/new-orleans-saints-roster-moves-announced-transactions-2026-nfl-week-2-elevations"
+        ],
+        "asOf": "2026-09-19T18:10:23.000Z"
+      }
+    },
+    {
+      "id": "b0dc3764-b1ba-44b5-9ff7-e43e1b714fb1",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Key Ingredients to Victory: Saints vs. Ravens | 2026 NFL Week 2",
+      "summary": "Eliminating turnovers is a necessity",
+      "whatHappened": "Eliminating turnovers is a necessity",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T14:15:22.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.256Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fd8a051d-ff77-4536-8f28-9fb5f963f7cb",
+          "publisher": "Official team news",
+          "title": "Key Ingredients to Victory: Saints vs. Ravens | 2026 NFL Week 2",
+          "url": "https://www.neworleanssaints.com/news/saints-vs-ravens-2026-nfl-week-2-key-ingredients-to-victory",
+          "publishedAt": "2026-09-19T14:15:22.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/saints-vs-ravens-2026-nfl-week-2-key-ingredients-to-victory"
+        ],
+        "asOf": "2026-09-19T14:15:22.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d8954fa9-54e4-4285-9d5d-19d71e049170",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Five things to know about the New Orleans Saints for Saturday, September 19",
+      "summary": "Saints-Ravens previews and matchup breakdowns set the stage for Sunday",
+      "whatHappened": "Saints-Ravens previews and matchup breakdowns set the stage for Sunday",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T13:15:22.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.377Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c6bd1e87-712b-4188-8136-b7e49dc80481",
+          "publisher": "Official team news",
+          "title": "Five things to know about the New Orleans Saints for Saturday, September 19",
+          "url": "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-for-week-2-saturday-september-19",
+          "publishedAt": "2026-09-19T13:15:22.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "Five things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Five things to know about the New Orleans Saints for Saturday, September 19"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-for-week-2-saturday-september-19"
+        ],
+        "asOf": "2026-09-19T13:15:22.000Z"
+      }
+    },
+    {
+      "id": "fa43edc3-3f7f-4a97-a561-345b53356e16",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Morning Break: Saints defense prepares for Ravens challenge, Cam Jordan set to return",
+      "summary": "A collection of headlines and news about the Saints and the NFL for Saturday, September 19",
+      "whatHappened": "A collection of headlines and news about the Saints and the NFL for Saturday, September 19",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T13:00:22.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T22:00:44.499Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "398f2fc0-2436-4cc3-9635-3c4e55a32489",
+          "publisher": "Official team news",
+          "title": "Morning Break: Saints defense prepares for Ravens challenge, Cam Jordan set to return",
+          "url": "https://www.neworleanssaints.com/news/morning-break-saints-defense-prepares-for-ravens-challenge-cam-jordan-set-to-return-new-orleans-news-headlines-9-19-2026",
+          "publishedAt": "2026-09-19T13:00:22.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "scouting",
+          "opponent": "BAL"
+        },
+        "reason": "Explicit opponent/scouting focus",
+        "displayCategory": "Scouting",
+        "evidence": [
+          {
+            "field": "opponent",
+            "value": "BAL",
+            "source": "headline",
+            "excerpt": "Morning Break: Saints defense prepares for Ravens challenge, Cam Jordan set to return"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/morning-break-saints-defense-prepares-for-ravens-challenge-cam-jordan-set-to-return-new-orleans-news-headlines-9-19-2026"
+        ],
+        "asOf": "2026-09-19T13:00:22.000Z"
+      }
+    },
+    {
+      "id": "429ddf3a-26a5-4b97-9d88-2a65f932e16c",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "New Orleans Saints defense knows it will be tested by Ravens quarterback Lamar Jackson, running back Derrick Henry",
+      "summary": "\"(Jackson is) that dude. Just got to be aware of him, try to contain him in the pocket\"",
+      "whatHappened": "\"(Jackson is) that dude. Just got to be aware of him, try to contain him in the pocket\"",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:54:28.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T02:00:55.944Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "19028f47-11fa-44fa-b9da-7fc01f56b795",
+          "publisher": "Official team news",
+          "title": "New Orleans Saints defense knows it will be tested by Ravens quarterback Lamar Jackson, running back Derrick Henry",
+          "url": "https://www.neworleanssaints.com/news/new-orleans-saints-defense-knows-it-will-be-tested-by-ravens-quarterback-lamar-jackson-running-back-derrick-henry",
+          "publishedAt": "2026-09-18T20:54:28.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/new-orleans-saints-defense-knows-it-will-be-tested-by-ravens-quarterback-lamar-jackson-running-back-derrick-henry"
+        ],
+        "asOf": "2026-09-18T20:54:28.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "ec1a3e66-34c5-4b84-ae03-60fca237c05b",
+      "teamAbbr": "NO",
+      "category": "SIGNING",
+      "headline": "Saints announce roster moves",
+      "summary": "Shift4 Transaction Alert: Saints sign RB CJ Donaldson to active roster, LS Scott Daly to practice squad",
+      "whatHappened": "Shift4 Transaction Alert: Saints sign RB CJ Donaldson to active roster, LS Scott Daly to practice squad",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:41:21.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T02:00:56.038Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c721411c-69fa-4e8b-a62d-5e3b8a308556",
+          "publisher": "Official team news",
+          "title": "Saints announce roster moves",
+          "url": "https://www.neworleanssaints.com/news/cj-donaldson-scott-daly-saints-roster-moves-transaction-alert-september-18-2026",
+          "publishedAt": "2026-09-18T20:41:21.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "roster-roundup",
+          "team": "NO"
+        },
+        "reason": "Multiple or unspecified roster moves; no single signing asserted",
+        "displayCategory": "Roster moves",
+        "evidence": [
+          {
+            "field": "team",
+            "value": "NO",
+            "source": "canonical",
+            "excerpt": "NO"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/cj-donaldson-scott-daly-saints-roster-moves-transaction-alert-september-18-2026"
+        ],
+        "asOf": "2026-09-18T20:41:21.000Z"
+      }
+    },
+    {
+      "id": "7c6932a1-ec34-4843-b8f8-b28aa3bdb7fc",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Five things to know about the New Orleans Saints for Friday, September 18",
+      "summary": "Saints close out the week before Sunday’s game in Baltimore",
+      "whatHappened": "Saints close out the week before Sunday’s game in Baltimore",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:15:16.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T18:00:47.659Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "57952fcc-a228-4aa3-bbaf-c92de1097d4d",
+          "publisher": "Official team news",
+          "title": "Five things to know about the New Orleans Saints for Friday, September 18",
+          "url": "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-for-week-2-friday-september-18",
+          "publishedAt": "2026-09-18T13:15:16.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "Five things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Five things to know about the New Orleans Saints for Friday, September 18"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-for-week-2-friday-september-18"
+        ],
+        "asOf": "2026-09-18T13:15:16.000Z"
+      }
+    },
+    {
+      "id": "897334fa-f64d-4974-8c96-d4fbe3261e6e",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Morning Break: Saints encouraged by Alvin Kamara's progress ahead of Ravens matchup",
+      "summary": "A collection of headlines and news about the Saints and the NFL for Friday, September 18",
+      "whatHappened": "A collection of headlines and news about the Saints and the NFL for Friday, September 18",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:00:16.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T18:00:47.885Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "49cc9c0e-5692-4be9-b91b-a7aacae2b5f3",
+          "publisher": "Official team news",
+          "title": "Morning Break: Saints encouraged by Alvin Kamara's progress ahead of Ravens matchup",
+          "url": "https://www.neworleanssaints.com/news/morning-break-saints-encouraged-by-alvin-kamara-s-progress-ahead-of-ravens-matchup-new-orleans-news-headlines-9-18-2026",
+          "publishedAt": "2026-09-18T13:00:16.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/morning-break-saints-encouraged-by-alvin-kamara-s-progress-ahead-of-ravens-matchup-new-orleans-news-headlines-9-18-2026"
+        ],
+        "asOf": "2026-09-18T13:00:16.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "7df01583-c98c-42ef-8e13-0aaf67858ec7",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Running back Alvin Kamara ready to make season debut for New Orleans Saints",
+      "summary": "The team's all-time leader in rushing yards beat the projected recovery timeline and will play on Sunday",
+      "whatHappened": "The team's all-time leader in rushing yards beat the projected recovery timeline and will play on Sunday",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T22:27:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T14:01:10.737Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5b9f9b4f-f9a5-451b-a3b0-57774c8e1979",
+          "publisher": "Official team news",
+          "title": "Running back Alvin Kamara ready to make season debut for New Orleans Saints",
+          "url": "https://www.neworleanssaints.com/news/running-back-alvin-kamara-ready-to-make-season-debut-for-new-orleans-saints",
+          "publishedAt": "2026-09-17T22:27:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/running-back-alvin-kamara-ready-to-make-season-debut-for-new-orleans-saints"
+        ],
+        "asOf": "2026-09-17T22:27:25.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8ba9a7d5-be60-4146-9838-0b60f82e15a5",
+      "teamAbbr": "NO",
+      "category": "COACHING",
+      "headline": "Five things to know about the New Orleans Saints for Thursday, September 17",
+      "summary": "Saints coordinators and players meet with the media ahead of Week 2 matchup",
+      "whatHappened": "Saints coordinators and players meet with the media ahead of Week 2 matchup",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T13:15:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:30:37.885Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d9548153-d019-493a-b582-3c2f525f0413",
+          "publisher": "Official team news",
+          "title": "Five things to know about the New Orleans Saints for Thursday, September 17",
+          "url": "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-media-availibility-week-2-for-thursday-september-17",
+          "publishedAt": "2026-09-17T13:15:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "THINGS\nSAID"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "Five things"
+          },
+          {
+            "field": "descriptor",
+            "value": "THINGS\nSAID",
+            "source": "headline",
+            "excerpt": "Five things to know about the New Orleans Saints for Thursday, September 17"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/five-things-to-know-about-new-orleans-saints-media-availibility-week-2-for-thursday-september-17"
+        ],
+        "asOf": "2026-09-17T13:15:10.000Z"
+      }
+    },
+    {
+      "id": "f8ae9265-9657-4e04-94ab-a9332a45091f",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Morning Break: Saints prepare for Ravens, Shough-Olave connection strengthens",
+      "summary": "A collection of headlines and news about the Saints and the NFL for Thursday, September 17",
+      "whatHappened": "A collection of headlines and news about the Saints and the NFL for Thursday, September 17",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T13:00:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T15:15:34.089Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6641769c-1088-4d2b-a259-159323a4e3fb",
+          "publisher": "Official team news",
+          "title": "Morning Break: Saints prepare for Ravens, Shough-Olave connection strengthens",
+          "url": "https://www.neworleanssaints.com/news/morning-break-saints-prepare-for-ravens-shough-olave-connection-strengthens-new-orleans-news-headlines-9-17-2026",
+          "publishedAt": "2026-09-17T13:00:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/morning-break-saints-prepare-for-ravens-shough-olave-connection-strengthens-new-orleans-news-headlines-9-17-2026"
+        ],
+        "asOf": "2026-09-17T13:00:10.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "ce526b75-9737-49eb-865b-a59a58d3accd",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Quarterback Tyler Shough, receiver Chris Olave growing as offensive force for New Orleans Saints",
+      "summary": "\"There's definitely a trust factor with him\"",
+      "whatHappened": "\"There's definitely a trust factor with him\"",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T23:58:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T02:05:33.162Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6417e0e7-4b1a-4267-bad6-25327d37a564",
+          "publisher": "Official team news",
+          "title": "Quarterback Tyler Shough, receiver Chris Olave growing as offensive force for New Orleans Saints",
+          "url": "https://www.neworleanssaints.com/news/quarterback-tyler-shough-receiver-chris-olave-growing-as-offensive-force-for-new-orleans-saints",
+          "publishedAt": "2026-09-16T23:58:19.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/quarterback-tyler-shough-receiver-chris-olave-growing-as-offensive-force-for-new-orleans-saints"
+        ],
+        "asOf": "2026-09-16T23:58:19.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d747faca-bcd5-4edb-bded-88c969c6da2e",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Game Preview: Ravens vs. Saints | 2026 NFL Week 2",
+      "summary": "The New Orleans Saints visit the Baltimore Ravens at M&T Bank Stadium for Week 2 of the 2026 NFL season on Sunday, Sept. 20 at 12 p.m. CT.",
+      "whatHappened": "The New Orleans Saints visit the Baltimore Ravens at M&T Bank Stadium for Week 2 of the 2026 NFL season on Sunday, Sept. 20 at 12 p.m. CT.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T15:25:32.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T17:30:09.453Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f0c5cc1b-6ce6-4d90-a423-dd095d621cea",
+          "publisher": "Official team news",
+          "title": "Game Preview: Ravens vs. Saints | 2026 NFL Week 2",
+          "url": "https://www.neworleanssaints.com/news/baltimore-ravens-vs-new-orleans-saints-game-preview-2026-nfl-preseason-week-2-series-history-stats-connections",
+          "publishedAt": "2026-09-16T15:25:32.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "BAL",
+          "rightTeam": "NO",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "BAL",
+            "source": "headline",
+            "excerpt": "Game Preview: Ravens vs. Saints | 2026 NFL Week 2"
+          },
+          {
+            "field": "rightTeam",
+            "value": "NO",
+            "source": "headline",
+            "excerpt": "Game Preview: Ravens vs. Saints | 2026 NFL Week 2"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/baltimore-ravens-vs-new-orleans-saints-game-preview-2026-nfl-preseason-week-2-series-history-stats-connections"
+        ],
+        "asOf": "2026-09-16T15:25:32.000Z"
+      }
+    },
+    {
+      "id": "533eea02-1d5a-4a71-bb01-55c9530b0d54",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Ravens vs. Saints: How to Watch, Listen, and Stream Games 9/20/2026",
+      "summary": "See all the ways to watch, listen & live stream the New Orleans Saints vs. Baltimore Ravens game on Sept. 20 in Week 2 of the 2026 NFL Season",
+      "whatHappened": "See all the ways to watch, listen & live stream the New Orleans Saints vs. Baltimore Ravens game on Sept. 20 in Week 2 of the 2026 NFL Season",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T15:25:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T17:30:09.527Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f1363644-c789-4bda-8b5b-8ea1075fbb91",
+          "publisher": "Official team news",
+          "title": "Ravens vs. Saints: How to Watch, Listen, and Stream Games 9/20/2026",
+          "url": "https://www.neworleanssaints.com/news/baltimore-ravens-vs-new-orleans-saints-game-watch-listen-stream-tv-channel-radio-9-20-2026",
+          "publishedAt": "2026-09-16T15:25:26.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "BAL",
+          "rightTeam": "NO",
+          "week": "W2"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "BAL",
+            "source": "headline",
+            "excerpt": "Ravens vs. Saints: How to Watch, Listen, and Stream Games 9/20/2026"
+          },
+          {
+            "field": "rightTeam",
+            "value": "NO",
+            "source": "headline",
+            "excerpt": "Ravens vs. Saints: How to Watch, Listen, and Stream Games 9/20/2026"
+          },
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "summary",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/baltimore-ravens-vs-new-orleans-saints-game-watch-listen-stream-tv-channel-radio-9-20-2026"
+        ],
+        "asOf": "2026-09-16T15:25:26.000Z"
+      }
+    },
+    {
+      "id": "eefac8c6-4bf4-4f96-9a6a-ad531bdd6cdd",
+      "teamAbbr": "NO",
+      "category": "ANALYSIS",
+      "headline": "Hap Glaudi, Buddy D and Mike Detillier: Voices that sounded like New Orleans",
+      "summary": "Three Louisiana-born sportscasters built lasting bonds with fans through authenticity and unmistakably local voices",
+      "whatHappened": "Three Louisiana-born sportscasters built lasting bonds with fans through authenticity and unmistakably local voices",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T15:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T17:15:10.711Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "db745002-aaf9-4e01-a29f-c72458ee760b",
+          "publisher": "Official team news",
+          "title": "Hap Glaudi, Buddy D and Mike Detillier: Voices that sounded like New Orleans",
+          "url": "https://www.neworleanssaints.com/news/hap-glaudi-buddy-d-mike-detillier-voices-that-sounded-like-new-orleans",
+          "publishedAt": "2026-09-16T15:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.neworleanssaints.com/news/hap-glaudi-buddy-d-mike-detillier-voices-that-sounded-like-new-orleans"
+        ],
+        "asOf": "2026-09-16T15:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 66,
+    "totalPages": 4
+  }
+}

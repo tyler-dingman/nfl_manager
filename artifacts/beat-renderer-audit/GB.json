@@ -1,0 +1,829 @@
+{
+  "teamAbbr": "GB",
+  "teamName": "Green Bay Packers",
+  "briefings": [
+    {
+      "id": "b21689c5-ceda-450e-aaf4-1f3d1462b368",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Packers, Chiefs to collaborate for pop-up retail store in Munich ahead of NFL game",
+      "summary": "Packers X Chiefs Official Team Shop to offer Green Bay Packers and Kansas City Chiefs merchandise for three days in November",
+      "whatHappened": "Packers X Chiefs Official Team Shop to offer Green Bay Packers and Kansas City Chiefs merchandise for three days in November",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-23T13:45:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T16:00:57.790Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "79c6d0c5-00e2-479f-8912-1631d1cff1ca",
+          "publisher": "Official team news",
+          "title": "Packers, Chiefs to collaborate for pop-up retail store in Munich ahead of NFL game",
+          "url": "https://www.packers.com/news/packers-chiefs-to-collaborate-for-pop-up-retail-store-in-munich-ahead-of-nfl-game-2026",
+          "publishedAt": "2026-09-23T13:45:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/packers-chiefs-to-collaborate-for-pop-up-retail-store-in-munich-ahead-of-nfl-game-2026"
+        ],
+        "asOf": "2026-09-23T13:45:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "1a193c26-e565-4a76-bf3b-5a86a53ba9ae",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Inbox: Combining those effectively is no easy feat",
+      "summary": "This will be a long journey",
+      "whatHappened": "This will be a long journey",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-23T13:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T16:00:57.985Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3fffa490-f660-463f-b47a-abbc7b4b0696",
+          "publisher": "Official team news",
+          "title": "Inbox: Combining those effectively is no easy feat",
+          "url": "https://www.packers.com/news/inbox-combining-those-effectively-is-no-easy-feat-sept-23-2026",
+          "publishedAt": "2026-09-23T13:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/inbox-combining-those-effectively-is-no-easy-feat-sept-23-2026"
+        ],
+        "asOf": "2026-09-23T13:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "75a7e9a1-5055-44a9-8765-978793039f4d",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Hands of 10ve Foundation announces $45,000 donation to aid Menasha tornado recovery efforts",
+      "summary": "Funds will support the City of Menasha and Greater Fox Cities Area Habitat for Humanity",
+      "whatHappened": "Funds will support the City of Menasha and Greater Fox Cities Area Habitat for Humanity",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T18:25:13.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T22:00:46.104Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3ac67382-1349-4dc6-9553-2d8139b2655b",
+          "publisher": "Official team news",
+          "title": "Hands of 10ve Foundation announces $45,000 donation to aid Menasha tornado recovery efforts",
+          "url": "https://www.packers.com/news/hands-of-10ve-foundation-announces-45-000-donation-to-aid-menasha-tornado-recovery-efforts-sept-22-2026",
+          "publishedAt": "2026-09-22T18:25:13.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/hands-of-10ve-foundation-announces-45-000-donation-to-aid-menasha-tornado-recovery-efforts-sept-22-2026"
+        ],
+        "asOf": "2026-09-22T18:25:13.000Z"
+      }
+    },
+    {
+      "id": "29821db0-1fff-4851-b0e6-1f7ffa318ddc",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Packers vs. Falcons | How to watch, stream & listen | Week 3",
+      "summary": "Green Bay Packers vs. Atlanta Falcons channel listing, radio & streaming options",
+      "whatHappened": "Green Bay Packers vs. Atlanta Falcons channel listing, radio & streaming options",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T14:54:11.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:40.608Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c6794275-cb6f-4b3a-844b-f88f709ad9c5",
+          "publisher": "Official team news",
+          "title": "Packers vs. Falcons | How to watch, stream & listen | Week 3",
+          "url": "https://www.packers.com/news/packers-vs-falcons-how-to-watch-stream-listen-week-3-2026",
+          "publishedAt": "2026-09-22T14:54:11.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "GB",
+          "rightTeam": "ATL",
+          "week": "W3"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "GB",
+            "source": "headline",
+            "excerpt": "Packers vs. Falcons | How to watch, stream & listen | Week 3"
+          },
+          {
+            "field": "rightTeam",
+            "value": "ATL",
+            "source": "headline",
+            "excerpt": "Packers vs. Falcons | How to watch, stream & listen | Week 3"
+          },
+          {
+            "field": "week",
+            "value": "W3",
+            "source": "headline",
+            "excerpt": "Week 3"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.packers.com/news/packers-vs-falcons-how-to-watch-stream-listen-week-3-2026"
+        ],
+        "asOf": "2026-09-22T14:54:11.000Z"
+      }
+    },
+    {
+      "id": "d48093e2-c49d-4429-bf18-615cac363898",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Inbox: It's part of the job description",
+      "summary": "Jordan Morgan and Anthony Belton are going to get a lot of time on task",
+      "whatHappened": "Jordan Morgan and Anthony Belton are going to get a lot of time on task",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T13:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:41.130Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "202f6e2e-c8cc-4a88-9b54-a47f8d392ca7",
+          "publisher": "Official team news",
+          "title": "Inbox: It's part of the job description",
+          "url": "https://www.packers.com/news/inbox-it-s-part-of-the-job-description-sept-22-2026",
+          "publishedAt": "2026-09-22T13:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/inbox-it-s-part-of-the-job-description-sept-22-2026"
+        ],
+        "asOf": "2026-09-22T13:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a6931fb4-fa43-4ab9-9e69-2ce77f1edc87",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Packers host Falcons in home opener",
+      "summary": "It is the first-ever Thursday meeting between the teams",
+      "whatHappened": "It is the first-ever Thursday meeting between the teams",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T22:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T04:00:46.551Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f0a73a68-8ee9-4bef-b825-2c078aa9a60b",
+          "publisher": "Official team news",
+          "title": "Packers host Falcons in home opener",
+          "url": "https://www.packers.com/news/packers-host-falcons-in-home-opener-week-3-2026",
+          "publishedAt": "2026-09-21T22:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/packers-host-falcons-in-home-opener-week-3-2026"
+        ],
+        "asOf": "2026-09-21T22:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "596663bc-935e-4179-8f5f-68c85a4c92ac",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Packers, Tork team up for sixth annual 'Tackle Hygiene with Every Catch' campaign",
+      "summary": "Campaign that helps promote hand hygiene will give back to Ronald McDonald House Eastern Wisconsin in 2026",
+      "whatHappened": "Campaign that helps promote hand hygiene will give back to Ronald McDonald House Eastern Wisconsin in 2026",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:46:57.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T04:00:46.736Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6de9bdd0-a9c6-4bbc-8c50-3200cffc1d2c",
+          "publisher": "Official team news",
+          "title": "Packers, Tork team up for sixth annual 'Tackle Hygiene with Every Catch' campaign",
+          "url": "https://www.packers.com/news/packers-tork-team-up-for-sixth-annual-tackle-hygiene-with-every-catch-campaign-sept-21-2026",
+          "publishedAt": "2026-09-21T21:46:57.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/packers-tork-team-up-for-sixth-annual-tackle-hygiene-with-every-catch-campaign-sept-21-2026"
+        ],
+        "asOf": "2026-09-21T21:46:57.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "cf9ca0d3-fc12-439e-ad68-91cb431d6a82",
+      "teamAbbr": "GB",
+      "category": "INJURY",
+      "headline": "Packers-Falcons Injury Report | Sept. 21, 2026",
+      "summary": "Packers-Falcons Injury Report | Sept. 21, 2026",
+      "whatHappened": "Packers-Falcons Injury Report | Sept. 21, 2026",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:07:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T04:00:46.997Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "918e6cc8-5f30-4af1-8e81-7079998f4978",
+          "publisher": "Official team news",
+          "title": "Packers-Falcons Injury Report | Sept. 21, 2026",
+          "url": "https://www.packers.com/news/packers-falcons-injury-report-sept-21-2026",
+          "publishedAt": "2026-09-21T21:07:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "rows": [],
+          "detail": "INJURY\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/packers-falcons-injury-report-sept-21-2026"
+        ],
+        "asOf": "2026-09-21T21:07:43.000Z"
+      }
+    },
+    {
+      "id": "9cec7cc8-1ca5-46c1-aa8c-f3308b1ebc58",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Inbox: This defense has some really intriguing pieces",
+      "summary": "They don’t have a choice",
+      "whatHappened": "They don’t have a choice",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T13:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T16:00:55.622Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7524b756-4b7a-48a1-93ff-1b10286c097f",
+          "publisher": "Official team news",
+          "title": "Inbox: This defense has some really intriguing pieces",
+          "url": "https://www.packers.com/news/inbox-this-defense-has-some-really-intriguing-pieces-sept-21-2026",
+          "publishedAt": "2026-09-21T13:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/inbox-this-defense-has-some-really-intriguing-pieces-sept-21-2026"
+        ],
+        "asOf": "2026-09-21T13:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "9c785e76-2df2-40c4-a796-1919aa92fb74",
+      "teamAbbr": "GB",
+      "category": "INJURY",
+      "headline": "Game recap: 5 takeaways from Packers' overtime victory over Jets",
+      "summary": "Green Bay comes home 1-1 despite several injuries and rough moments",
+      "whatHappened": "Green Bay comes home 1-1 despite several injuries and rough moments",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:05:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T18:00:46.128Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "de433167-eebd-493d-8327-8b4fd5329941",
+          "publisher": "Official team news",
+          "title": "Game recap: 5 takeaways from Packers' overtime victory over Jets",
+          "url": "https://www.packers.com/news/game-recap-5-takeaways-from-packers-overtime-victory-over-jets-week-2-2026",
+          "publishedAt": "2026-09-20T23:05:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "numbered",
+          "count": "5",
+          "descriptor": "TAKEAWAYS"
+        },
+        "reason": "Explicit numbered editorial format takes precedence",
+        "displayCategory": "Takeaways",
+        "evidence": [
+          {
+            "field": "count",
+            "value": "5",
+            "source": "headline",
+            "excerpt": "5 takeaways"
+          },
+          {
+            "field": "descriptor",
+            "value": "TAKEAWAYS",
+            "source": "headline",
+            "excerpt": "Game recap: 5 takeaways from Packers' overtime victory over Jets"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.packers.com/news/game-recap-5-takeaways-from-packers-overtime-victory-over-jets-week-2-2026"
+        ],
+        "asOf": "2026-09-20T23:05:00.000Z"
+      }
+    },
+    {
+      "id": "18ced6e7-de8f-4da2-91f2-c8f49d13b6e9",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Live Chat: Packers-Jets | Week 2",
+      "summary": "Follow the Green Bay Packers vs. New York Jets game with live updates from MetLife Stadium",
+      "whatHappened": "Follow the Green Bay Packers vs. New York Jets game with live updates from MetLife Stadium",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T22:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T22:00:43.129Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7dd7fdec-72fb-4fc0-b0ce-ac784df086d7",
+          "publisher": "Official team news",
+          "title": "Live Chat: Packers-Jets | Week 2",
+          "url": "https://www.packers.com/news/live-chat-packers-jets-week-2-2026",
+          "publishedAt": "2026-09-20T22:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/live-chat-packers-jets-week-2-2026"
+        ],
+        "asOf": "2026-09-20T22:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "285bfae1-dbae-4b2d-a3f3-5cd49baf7fa6",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Jets lead Packers 14-7 after three quarters",
+      "summary": "New York moves in front on 5-yard TD pass to Garrett Wilson",
+      "whatHappened": "New York moves in front on 5-yard TD pass to Garrett Wilson",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T17:52:34.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T22:00:43.479Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d4a46156-5f4b-430b-94ca-6f5bcb4fca54",
+          "publisher": "Official team news",
+          "title": "Jets lead Packers 14-7 after three quarters",
+          "url": "https://www.packers.com/news/in-game-updates-week-2-jets-2026",
+          "publishedAt": "2026-09-20T17:52:34.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/in-game-updates-week-2-jets-2026"
+        ],
+        "asOf": "2026-09-20T17:52:34.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "cdc7a819-b5a3-4616-a9d3-98618a4cea57",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "LG Aaron Banks active for Green Bay: Packers-Jets inactives",
+      "summary": "CB Benjamin St-Juste won't play Sunday",
+      "whatHappened": "CB Benjamin St-Juste won't play Sunday",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T15:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T22:00:43.831Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "463963fa-016d-4d24-a53b-a675c18d5e10",
+          "publisher": "Official team news",
+          "title": "LG Aaron Banks active for Green Bay: Packers-Jets inactives",
+          "url": "https://www.packers.com/news/packers-jets-week-2-inactives-sept-20-2026",
+          "publishedAt": "2026-09-20T15:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "rows": [],
+          "detail": "INACTIVE\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/packers-jets-week-2-inactives-sept-20-2026"
+        ],
+        "asOf": "2026-09-20T15:30:00.000Z"
+      }
+    },
+    {
+      "id": "1a1d9a12-de1a-48f7-9c10-2d70241e07bb",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Quick chemistry: Packers linebacker pair clicking early",
+      "summary": "Partnership between Edgerrin Cooper and Zaire Franklin off to good start",
+      "whatHappened": "Partnership between Edgerrin Cooper and Zaire Franklin off to good start",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T13:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T16:00:52.131Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0f31c341-28ca-4536-9359-6f9c27abcc9a",
+          "publisher": "Official team news",
+          "title": "Quick chemistry: Packers linebacker pair clicking early",
+          "url": "https://www.packers.com/news/quick-chemistry-packers-linebacker-pair-clicking-early-sept-19-2026",
+          "publishedAt": "2026-09-19T13:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/quick-chemistry-packers-linebacker-pair-clicking-early-sept-19-2026"
+        ],
+        "asOf": "2026-09-19T13:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "6ab547f1-9a58-46f6-a3ef-7118d72212e0",
+      "teamAbbr": "GB",
+      "category": "TRADE",
+      "headline": "Inbox: Tight end is a jack-of-all-trades position",
+      "summary": "Just get the first one. That’s it.",
+      "whatHappened": "Just get the first one. That’s it.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T16:00:52.470Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3dfe99ad-e3ea-4f36-9cd0-d8fb3902ab4f",
+          "publisher": "Official team news",
+          "title": "Inbox: Tight end is a jack-of-all-trades position",
+          "url": "https://www.packers.com/news/inbox-tight-end-is-a-jack-of-all-trades-position-sept-19-2026",
+          "publishedAt": "2026-09-19T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "TRADE",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/inbox-tight-end-is-a-jack-of-all-trades-position-sept-19-2026"
+        ],
+        "asOf": "2026-09-19T13:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f3f58b2d-3c57-4a89-a958-cb85018a8a27",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Registration open for 'Tundra Tales' reading program",
+      "summary": "Grant program again being offered; deadline Friday, Oct. 2",
+      "whatHappened": "Grant program again being offered; deadline Friday, Oct. 2",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T14:00:54.518Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "78d01b06-8c6c-4b0b-9bb0-4b3ba4ce08bf",
+          "publisher": "Official team news",
+          "title": "Registration open for 'Tundra Tales' reading program",
+          "url": "https://www.packers.com/news/registration-open-for-tundra-tales-reading-program-2026",
+          "publishedAt": "2026-09-18T18:00:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/registration-open-for-tundra-tales-reading-program-2026"
+        ],
+        "asOf": "2026-09-18T18:00:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f4fa7c74-a333-4e21-954e-72a9503485d6",
+      "teamAbbr": "GB",
+      "category": "COACHING",
+      "headline": "Darnell Wiltz of Waukesha South High School named Green Bay Packers High School Coach of the Week",
+      "summary": "Wiltz has guided the Blackshirts to a perfect 4-0 start, marking the program's first undefeated opening month since 2013",
+      "whatHappened": "Wiltz has guided the Blackshirts to a perfect 4-0 start, marking the program's first undefeated opening month since 2013",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:08:27.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:45.860Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "80639c4e-96cd-47e6-b3a7-f88291244483",
+          "publisher": "Official team news",
+          "title": "Darnell Wiltz of Waukesha South High School named Green Bay Packers High School Coach of the Week",
+          "url": "https://www.packers.com/news/darnell-wiltz-of-waukesha-south-high-school-named-green-bay-packers-high-school-coach-of-the-week-sept-18-2026",
+          "publishedAt": "2026-09-18T15:08:27.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/darnell-wiltz-of-waukesha-south-high-school-named-green-bay-packers-high-school-coach-of-the-week-sept-18-2026"
+        ],
+        "asOf": "2026-09-18T15:08:27.000Z"
+      }
+    },
+    {
+      "id": "3d466309-37be-4b84-a447-c78b82216af7",
+      "teamAbbr": "GB",
+      "category": "CONTRACT",
+      "headline": "Contract extension is dream come true for Tucker Kraft",
+      "summary": "Packers tight end eager to rise to the occasion, win games",
+      "whatHappened": "Packers tight end eager to rise to the occasion, win games",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T15:01:39.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T00:00:45.899Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0b953f4d-d972-4aee-9329-6901ce214af5",
+          "publisher": "Official team news",
+          "title": "Contract extension is dream come true for Tucker Kraft",
+          "url": "https://www.packers.com/news/contract-extension-is-dream-come-true-for-tucker-kraft-sept-18-2026",
+          "publishedAt": "2026-09-18T15:01:39.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "CONTRACT",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/contract-extension-is-dream-come-true-for-tucker-kraft-sept-18-2026"
+        ],
+        "asOf": "2026-09-18T15:01:39.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "170e9c69-574e-4cf2-a4d5-d478966d3279",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Inbox: It already happened",
+      "summary": "Leaders have to be themselves",
+      "whatHappened": "Leaders have to be themselves",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T18:00:47.461Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "869d2f4a-feac-4c5b-8c4d-14011ee4e8ff",
+          "publisher": "Official team news",
+          "title": "Inbox: It already happened",
+          "url": "https://www.packers.com/news/inbox-it-already-happened-sept-18-2026",
+          "publishedAt": "2026-09-18T13:30:00.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/inbox-it-already-happened-sept-18-2026"
+        ],
+        "asOf": "2026-09-18T13:30:00.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "8f9329f7-f90f-4f42-b32e-8e14e94f6e1c",
+      "teamAbbr": "GB",
+      "category": "ANALYSIS",
+      "headline": "Packers fans invited to submit photos for Fan Choice Awards program, presented by Thrivent",
+      "summary": "Winners will each receive a pair of tickets for the Jan. 4 Green Bay vs. Houston game",
+      "whatHappened": "Winners will each receive a pair of tickets for the Jan. 4 Green Bay vs. Houston game",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T21:30:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T02:00:55.480Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "24feff18-1470-44a9-9dd3-22fc3c2d3312",
+          "publisher": "Official team news",
+          "title": "Packers fans invited to submit photos for Fan Choice Awards program, presented by Thrivent",
+          "url": "https://www.packers.com/news/packers-fans-invited-to-submit-photos-for-fan-choice-awards-program-presented-by-thrivent-sept-17-2026",
+          "publishedAt": "2026-09-17T21:30:19.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.packers.com/news/packers-fans-invited-to-submit-photos-for-fan-choice-awards-program-presented-by-thrivent-sept-17-2026"
+        ],
+        "asOf": "2026-09-17T21:30:19.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 75,
+    "totalPages": 4
+  }
+}

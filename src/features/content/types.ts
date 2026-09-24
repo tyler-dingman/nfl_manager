@@ -1,3 +1,5 @@
+import type { BeatGameMetadata } from '@/lib/canonical-game';
+import type { BeatGraphicDecision } from '@/components/beat/beat-story-adapter';
 export type ContentSourceKind = 'reporting' | 'official' | 'video' | 'social';
 
 export type ContentSource = {
@@ -20,6 +22,15 @@ export type BriefingSource = Pick<
 >;
 
 export type TeamBriefing = {
+  gameId?: string;
+  game?: BeatGameMetadata;
+  gameResolution?: {
+    gameId?: string;
+    confidence: 'high' | 'unresolved';
+    method: string;
+    reason: string;
+  };
+  graphicDecision?: BeatGraphicDecision;
   id: string;
   teamAbbr: string;
   category: string;

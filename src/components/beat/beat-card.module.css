@@ -317,3 +317,422 @@
     padding: 14px;
   }
 }
+
+/* Shared foreground area reserves the category/age baseline above every composition. */
+.numberComposition,
+.matchupComposition,
+.resultComposition,
+.recapComposition,
+.injuryComposition,
+.playerComposition,
+.statsComposition,
+.topicComposition {
+  position: absolute;
+  inset: 27% 7% 10%;
+  display: grid;
+  align-items: center;
+  text-transform: uppercase;
+  white-space: pre-line;
+}
+.numberComposition {
+  grid-template-columns: auto 1fr;
+  gap: clamp(14px, 6cqw, 28px);
+}
+.displayNumber {
+  font-size: clamp(70px, 33cqw, 130px);
+  line-height: 0.85;
+  font-weight: 800;
+  color: var(--beat-accent);
+  letter-spacing: -0.045em;
+}
+.displayNumber[data-digits='2'] {
+  font-size: clamp(65px, 29cqw, 116px);
+}
+.displayNumber[data-digits='3'] {
+  font-size: clamp(50px, 22cqw, 90px);
+}
+.listDescriptor {
+  font-size: clamp(20px, 8.2cqw, 34px);
+  line-height: 0.96;
+  font-weight: 800;
+}
+.matchupComposition {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 10px;
+}
+.compositionLogo {
+  position: relative;
+  width: 100%;
+  height: clamp(52px, 22cqw, 88px);
+  min-width: 0;
+}
+.compositionLogo .logo {
+  position: relative;
+  inset: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0;
+}
+.matchupCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  font-size: clamp(16px, 5.8cqw, 24px);
+  line-height: 1;
+}
+.versusText {
+  font-size: clamp(24px, 8cqw, 34px);
+  font-weight: 800;
+}
+.kickoffText {
+  margin-top: 3px;
+  font-size: clamp(10px, 3.5cqw, 14px);
+  line-height: 1.1;
+  white-space: normal;
+}
+.resultComposition {
+  align-content: center;
+  gap: 10px;
+}
+.scoreRow {
+  display: grid;
+  grid-template-columns: 1fr auto 1px auto 1fr;
+  gap: clamp(7px, 2.5cqw, 12px);
+  align-items: center;
+}
+.scoreRow strong {
+  font-size: clamp(40px, 17cqw, 70px);
+  line-height: 0.9;
+  font-weight: 800;
+}
+.accentScore {
+  color: var(--beat-accent);
+}
+.scoreDivider {
+  height: 100%;
+  background: var(--beat-accent);
+}
+.finalText {
+  text-align: center;
+  font-size: clamp(14px, 5cqw, 20px);
+  line-height: 1;
+}
+.recapComposition {
+  grid-template-columns: 38% 1fr;
+  gap: 20px;
+}
+.recapComposition .compositionLogo {
+  height: clamp(60px, 26cqw, 100px);
+}
+.largeTitle {
+  font-size: clamp(28px, 10cqw, 42px);
+  line-height: 0.94;
+  font-weight: 800;
+}
+.injuryComposition {
+  grid-template-columns: auto 1px 1fr;
+  gap: clamp(16px, 7cqw, 28px);
+}
+.displayWeek {
+  font-size: clamp(60px, 27cqw, 110px);
+  color: var(--beat-accent);
+  line-height: 0.85;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.injuryDivider {
+  background: var(--beat-accent);
+  height: 80%;
+}
+.injuryText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  font-size: clamp(18px, 7.2cqw, 30px);
+  line-height: 0.98;
+}
+.injuryText strong {
+  font-weight: 700;
+}
+.injuryComposition[data-has-week='false'] {
+  grid-template-columns: 1fr;
+}
+.injuryComposition[data-has-week='false'] .injuryText {
+  font-size: clamp(30px, 11cqw, 44px);
+}
+.playerComposition {
+  align-content: center;
+  gap: 8px;
+}
+.playerIdentity {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 14px;
+}
+.playerName {
+  font-size: clamp(23px, 9cqw, 36px);
+  line-height: 0.94;
+  font-weight: 800;
+  max-width: 155px;
+}
+.playerPosition {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+.playerPosition strong {
+  font-size: clamp(44px, 23cqw, 92px);
+  line-height: 0.88;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--beat-accent);
+  font-weight: 700;
+}
+.playerPosition span {
+  font-size: 5cqw;
+  opacity: 0.65;
+}
+.playerStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+.statusRule {
+  height: 3px;
+  width: min(42%, 140px);
+  background: var(--beat-accent);
+}
+.playerStatus strong {
+  font-size: clamp(12px, 4.5cqw, 18px);
+  line-height: 1;
+}
+.playerStatus small {
+  font-size: clamp(10px, 3.4cqw, 13px);
+  line-height: 1;
+  opacity: 0.7;
+}
+.playerComposition[data-update='true'] .playerPosition strong {
+  font-size: clamp(34px, 14cqw, 56px);
+}
+.playerComposition[data-update='true'] .playerName {
+  max-width: none;
+  font-size: clamp(22px, 8cqw, 32px);
+}
+.statsComposition {
+  grid-template-columns: 1.15fr 1fr;
+  gap: 20px;
+}
+.statsHeading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(22px, 8.5cqw, 34px);
+  line-height: 0.96;
+  font-weight: 800;
+}
+.statCount {
+  color: var(--beat-accent);
+  font-size: clamp(45px, 18cqw, 72px);
+  line-height: 0.85;
+}
+.statRows {
+  border-left: 1px solid var(--beat-accent);
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.statRows div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.statRows strong {
+  font-size: clamp(17px, 6cqw, 24px);
+  line-height: 1;
+}
+.statRows span {
+  font-size: clamp(9px, 3.2cqw, 13px);
+  line-height: 1;
+}
+.statsComposition[data-has-stats='false'] {
+  grid-template-columns: 1fr;
+}
+.topicComposition {
+  grid-template-columns: 1fr;
+}
+@container beat-card (max-width: 310px) {
+  .numberComposition,
+  .injuryComposition {
+    gap: 14px;
+  }
+  .listDescriptor {
+    font-size: 22px;
+  }
+  .playerIdentity {
+    gap: 8px;
+  }
+  .playerPosition strong {
+    font-size: 52px;
+  }
+  .playerName {
+    font-size: 25px;
+  }
+  .statsComposition {
+    gap: 12px;
+  }
+  .statsHeading {
+    font-size: 23px;
+  }
+  .statRows {
+    padding-left: 10px;
+  }
+  .injuryText {
+    font-size: 19px;
+  }
+}
+.timelineComposition {
+  position: absolute;
+  inset: 25% 8% 8% 12%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  border-left: 2px solid var(--beat-accent);
+  padding-left: 20px;
+  text-transform: uppercase;
+}
+.timelineItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  line-height: 1;
+}
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--beat-accent);
+  left: -24.5px;
+  top: 3px;
+}
+.timelineItem strong {
+  font-size: clamp(12px, 4.5cqw, 18px);
+}
+.timelineItem span {
+  font-size: clamp(10px, 3.7cqw, 15px);
+}
+.depthGraphic {
+  position: absolute;
+  right: 0;
+  width: 42%;
+  height: 100%;
+  opacity: 0.24;
+}
+.topicGhost {
+  position: absolute;
+  right: 0;
+  font-size: 24cqw;
+  font-weight: 800;
+  opacity: 0.075;
+}
+.topicComposition .largeTitle {
+  z-index: 1;
+}
+
+/* Roster actions share one flow; missing contracts never reserve a blank column. */
+.transactionComposition {
+  position: absolute;
+  inset: 26% 7% 7%;
+  display: flex;
+  flex-direction: column;
+  gap: 3cqw;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.transactionFlow {
+  display: grid;
+  grid-template-columns: 24% 18% minmax(0, 1fr);
+  align-items: center;
+  gap: 3cqw;
+  min-height: 15cqw;
+}
+.transactionFlow .compositionLogo {
+  height: 15cqw;
+}
+.transactionChevrons {
+  width: 100%;
+  color: var(--beat-accent);
+}
+.transactionAction {
+  font-size: 10.4cqw;
+  font-weight: 800;
+  white-space: pre-line;
+}
+.transactionAction[data-long='true'] {
+  font-size: 8.1cqw;
+}
+.transactionDetails {
+  display: flex;
+  align-items: flex-start;
+  gap: 4cqw;
+  min-width: 0;
+}
+.transactionPlayers {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+}
+.transactionPlayer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8cqw;
+}
+.transactionPosition {
+  font-size: 4.3cqw;
+  font-weight: 600;
+}
+.transactionName {
+  font-size: 6.5cqw;
+  font-weight: 800;
+}
+.transactionName[data-long='true'] {
+  font-size: 5.6cqw;
+}
+.transactionDestination {
+  font-size: 3.4cqw;
+  color: #abb7bf;
+  font-weight: 600;
+}
+.transactionContract {
+  border-left: 1px solid var(--beat-accent);
+  padding-left: 3cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+  font-size: 4.5cqw;
+}
+.transactionContract small {
+  font-size: 3cqw;
+  color: #abb7bf;
+}
+.transactionPlayers[data-multiple='true'] .transactionPlayer {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 2cqw;
+}
+.transactionPlayers[data-multiple='true'] .transactionName {
+  font-size: 5.1cqw;
+}
+.transactionPlayers[data-multiple='true'] .transactionPosition {
+  font-size: 3.8cqw;
+}

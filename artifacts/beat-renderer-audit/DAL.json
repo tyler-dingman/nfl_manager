@@ -1,0 +1,816 @@
+{
+  "teamAbbr": "DAL",
+  "teamName": "Dallas Cowboys",
+  "briefings": [
+    {
+      "id": "c3a65825-7174-4e2d-a178-d3be656357a6",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Ryan Flournoy 'blessed', says offense will take next steps in Brazil against Ravens",
+      "summary": "Lessons were learned from the Week 1 loss that helped power the offense in their Week 2 and, as they go to Rio for Week 3, there are still steps to take that, according to Ryan Flournoy, will be taken.",
+      "whatHappened": "Lessons were learned from the Week 1 loss that helped power the offense in their Week 2 and, as they go to Rio for Week 3, there are still steps to take that, according to Ryan Flournoy, will be taken.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-23T01:16:55.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T16:00:58.236Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "36f934bd-073c-45bd-9903-89b3a9de4d71",
+          "publisher": "Official team news",
+          "title": "Ryan Flournoy 'blessed', says offense will take next steps in Brazil against Ravens",
+          "url": "https://www.dallascowboys.com/news/ryan-flournoy-blessed-says-offense-will-take-next-steps-in-brazil-against-ravens",
+          "publishedAt": "2026-09-23T01:16:55.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/ryan-flournoy-blessed-says-offense-will-take-next-steps-in-brazil-against-ravens"
+        ],
+        "asOf": "2026-09-23T01:16:55.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "47999388-ee90-42df-8280-bd6992749371",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Kenny Clark, Donovan Ezeiruaku break down facing Lamar Jackson, Ravens offense",
+      "summary": "The Cowboys defense knows the challenge that awaits them in Rio with Lamar Jackson and the Ravens offense. DT Kenny Clark and OLB Donovan Ezeiruaku broke down the matchup and what Dallas' defense needs to do on Sunday.",
+      "whatHappened": "The Cowboys defense knows the challenge that awaits them in Rio with Lamar Jackson and the Ravens offense. DT Kenny Clark and OLB Donovan Ezeiruaku broke down the matchup and what Dallas' defense needs to do on Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T23:52:57.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T16:00:58.308Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6891b931-f3f4-4299-bdd7-9d8ea9f996d1",
+          "publisher": "Official team news",
+          "title": "Kenny Clark, Donovan Ezeiruaku break down facing Lamar Jackson, Ravens offense",
+          "url": "https://www.dallascowboys.com/news/kenny-clark-donovan-ezeiruaku-break-down-facing-lamar-jackson-ravens-offense",
+          "publishedAt": "2026-09-22T23:52:57.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/kenny-clark-donovan-ezeiruaku-break-down-facing-lamar-jackson-ravens-offense"
+        ],
+        "asOf": "2026-09-22T23:52:57.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "513eb3f5-f596-4833-ad28-12797c3cb12c",
+      "teamAbbr": "DAL",
+      "category": "GAME",
+      "headline": "Tape Talk: Film breakdown from Cowboys' 37-20 win over Commanders",
+      "summary": "Let's take a look back at the film from the Cowboys' 37-20 win over the Commanders, with looks at why Dallas wants to keep Caleb Downs close to the line of scrimmage and more.",
+      "whatHappened": "Let's take a look back at the film from the Cowboys' 37-20 win over the Commanders, with looks at why Dallas wants to keep Caleb Downs close to the line of scrimmage and more.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T17:51:37.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T22:00:46.229Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3bc4e9c9-6c17-4759-9f20-b15951af180a",
+          "publisher": "Official team news",
+          "title": "Tape Talk: Film breakdown from Cowboys' 37-20 win over Commanders",
+          "url": "https://www.dallascowboys.com/news/tape-talk-film-breakdown-from-cowboys-37-20-win-over-commanders",
+          "publishedAt": "2026-09-22T17:51:37.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/tape-talk-film-breakdown-from-cowboys-37-20-win-over-commanders"
+        ],
+        "asOf": "2026-09-22T17:51:37.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "71a7d36a-2b4c-485a-bece-39ca9e3f836a",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Rank'em: All 39 players to catch a TD from Dak",
+      "summary": "After Dak Prescott's record-breaking game on Sunday to become the Cowboys' all-time leader in passing touchdowns, we've listed out all 39 players who have been on the receiving end of Dak's TD passes.",
+      "whatHappened": "After Dak Prescott's record-breaking game on Sunday to become the Cowboys' all-time leader in passing touchdowns, we've listed out all 39 players who have been on the receiving end of Dak's TD passes.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T16:22:35.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T22:00:46.281Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d378d826-c4af-467e-b8a4-124f8903fa2d",
+          "publisher": "Official team news",
+          "title": "Rank'em: All 39 players to catch a TD from Dak",
+          "url": "https://www.dallascowboys.com/news/rank-em-all-39-players-to-catch-a-td-from-dak",
+          "publishedAt": "2026-09-22T16:22:35.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/rank-em-all-39-players-to-catch-a-td-from-dak"
+        ],
+        "asOf": "2026-09-22T16:22:35.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "b90b8b7a-c134-4063-9ce1-1d4303bd2c6b",
+      "teamAbbr": "DAL",
+      "category": "ROSTER",
+      "headline": "Jerry Jones on potential to add to the roster, Quinnen and Kenny's play & more",
+      "summary": "Speaking on 105.3 The Fan, Cowboys owner/GM Jerry Jones is optimistic about his team after their Week 2 win, and discussed the potential of making a move to add to the roster and how his star defensive tackle duo of Quinnen Williams and Kenny Clark have started the season.",
+      "whatHappened": "Speaking on 105.3 The Fan, Cowboys owner/GM Jerry Jones is optimistic about his team after their Week 2 win, and discussed the potential of making a move to add to the roster and how his star defensive tackle duo of Quinnen Williams and Kenny Clark have started the season.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T14:52:25.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:40.767Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "93c75c73-960c-4317-9d16-c6bada073540",
+          "publisher": "Official team news",
+          "title": "Jerry Jones on potential to add to the roster, Quinnen and Kenny's play & more",
+          "url": "https://www.dallascowboys.com/news/jerry-jones-on-potential-to-add-to-the-roster-quinnen-and-kenny-s-play-more",
+          "publishedAt": "2026-09-22T14:52:25.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ROSTER",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/jerry-jones-on-potential-to-add-to-the-roster-quinnen-and-kenny-s-play-more"
+        ],
+        "asOf": "2026-09-22T14:52:25.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d7beef92-a956-4204-be63-70e96296c2b9",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Mailbag: Why the running game struggles?",
+      "summary": "Why are the Cowboys having so much trouble getting the ground game going? We all know that not having Tyler Smith doesn't help, but that can't explain such poor production in consecutive games. T.J. Bass is no Smith, but he's a reliable and solid backup who could start for many teams.",
+      "whatHappened": "Why are the Cowboys having so much trouble getting the ground game going? We all know that not having Tyler Smith doesn't help, but that can't explain such poor production in consecutive games. T.J. Bass is no Smith, but he's a reliable and solid backup who could start for many teams.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T14:00:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:40.845Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f9b817e0-f2db-4440-92e2-50b8b8db9aca",
+          "publisher": "Official team news",
+          "title": "Mailbag: Why the running game struggles?",
+          "url": "https://www.dallascowboys.com/news/mailbag-why-the-running-game-struggles",
+          "publishedAt": "2026-09-22T14:00:19.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/mailbag-why-the-running-game-struggles"
+        ],
+        "asOf": "2026-09-22T14:00:19.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "10770aa7-90ad-4682-866b-db9b8e7a72e7",
+      "teamAbbr": "DAL",
+      "category": "INJURY",
+      "headline": "Brian Schottenheimer says Cobie Durant, P.J. Locke could miss multiple weeks",
+      "summary": "Cowboys coach Brian Schottenheimer said Monday that CB Cobie Durant and S P.J. Locke could miss multiple weeks with injuries, meaning Dallas' defensive depth will have to step up again in Week 3.",
+      "whatHappened": "Cowboys coach Brian Schottenheimer said Monday that CB Cobie Durant and S P.J. Locke could miss multiple weeks with injuries, meaning Dallas' defensive depth will have to step up again in Week 3.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:57:26.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T04:00:46.623Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "875dc528-a029-496f-bab8-8fdd1378cd3d",
+          "publisher": "Official team news",
+          "title": "Brian Schottenheimer says Cobie Durant, P.J. Locke could miss multiple weeks",
+          "url": "https://www.dallascowboys.com/news/brian-schottenheimer-says-cobie-durant-p-j-locke-could-miss-multiple-weeks",
+          "publishedAt": "2026-09-21T21:57:26.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "player",
+          "name": "Cobie Durant",
+          "position": "CB",
+          "status": "INJURY UPDATE"
+        },
+        "reason": "Named player injury status with original time/game context",
+        "displayCategory": "Player update",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Cobie Durant",
+            "source": "summary",
+            "excerpt": "CB Cobie Durant"
+          },
+          {
+            "field": "position",
+            "value": "CB",
+            "source": "summary",
+            "excerpt": "CB Cobie Durant"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/brian-schottenheimer-says-cobie-durant-p-j-locke-could-miss-multiple-weeks"
+        ],
+        "asOf": "2026-09-21T21:57:26.000Z"
+      }
+    },
+    {
+      "id": "8cfdf25f-1316-4344-8f9f-a7826e4f4ade",
+      "teamAbbr": "DAL",
+      "category": "GAME",
+      "headline": "Pic 6: Dak Prescott and Jake Ferguson's special connection, pass rush notes & more",
+      "summary": "News and notes from the Cowboys' 37-20 Week 2 win over the Commanders, including how Dak Prescott and Jake Ferguson's bond extends well beyond the football field and how Dallas' pass rush saw an uptick in pressure from Week 1.",
+      "whatHappened": "News and notes from the Cowboys' 37-20 Week 2 win over the Commanders, including how Dak Prescott and Jake Ferguson's bond extends well beyond the football field and how Dallas' pass rush saw an uptick in pressure from Week 1.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T13:30:40.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T16:00:55.421Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "40e44a5c-bdae-422f-92ee-80991a43a9b8",
+          "publisher": "Official team news",
+          "title": "Pic 6: Dak Prescott and Jake Ferguson's special connection, pass rush notes & more",
+          "url": "https://www.dallascowboys.com/news/pic-6-dak-prescott-and-jake-ferguson-s-special-connection-pass-rush-notes-more",
+          "publishedAt": "2026-09-21T13:30:40.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/pic-6-dak-prescott-and-jake-ferguson-s-special-connection-pass-rush-notes-more"
+        ],
+        "asOf": "2026-09-21T13:30:40.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f7654f8c-cb7e-4851-a1a9-5ce278c44731",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "CeeDee Lamb does his part in Dak's big day",
+      "summary": "Fueled by Dak Prescott and CeeDee Lamb’s early connection, the Cowboys offense found its rhythm from the opening drive and never looked back.",
+      "whatHappened": "Fueled by Dak Prescott and CeeDee Lamb’s early connection, the Cowboys offense found its rhythm from the opening drive and never looked back.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T03:09:56.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T16:00:56.002Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "27aa7be0-152e-4164-baea-1fb31d49e0ab",
+          "publisher": "Official team news",
+          "title": "CeeDee Lamb does his part in Dak's big day",
+          "url": "https://www.dallascowboys.com/news/lamb-does-his-part-in-dak-s-big-day",
+          "publishedAt": "2026-09-21T03:09:56.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/lamb-does-his-part-in-dak-s-big-day"
+        ],
+        "asOf": "2026-09-21T03:09:56.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "00e0ca44-f81d-4e9b-b714-75cfd9bd24ff",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Eatman: No one could envision Dak Prescott's record-setting journey – except Dak",
+      "summary": "With Dak Prescott claiming yet another franchise record en route to leading his team to a huge win, it’s further proof of how very few predicted his career, even though he never had a doubt.",
+      "whatHappened": "With Dak Prescott claiming yet another franchise record en route to leading his team to a huge win, it’s further proof of how very few predicted his career, even though he never had a doubt.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T02:04:36.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T16:00:56.107Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "86feaa36-91ec-4ec4-887d-b44e7bfb90e9",
+          "publisher": "Official team news",
+          "title": "Eatman: No one could envision Dak Prescott's record-setting journey – except Dak",
+          "url": "https://www.dallascowboys.com/news/eatman-no-one-could-envision-dak-prescott-s-record-setting-journey-except-dak",
+          "publishedAt": "2026-09-21T02:04:36.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/eatman-no-one-could-envision-dak-prescott-s-record-setting-journey-except-dak"
+        ],
+        "asOf": "2026-09-21T02:04:36.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "3e61ca17-094c-4099-9341-f2a13bff2c69",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Cowboys QB Dak Prescott becomes franchise's all-time leader in touchdown passes",
+      "summary": "On an emotional night at AT&T Stadium, Dak Prescott discusses becoming the franchise's all-time leader in passing touchdowns with 249, the latest four coming against the Commanders in a 37-20 win on Sunday.",
+      "whatHappened": "On an emotional night at AT&T Stadium, Dak Prescott discusses becoming the franchise's all-time leader in passing touchdowns with 249, the latest four coming against the Commanders in a 37-20 win on Sunday.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T02:03:36.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T16:00:56.157Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fbca3a20-a3e3-4a02-b3f0-cb6039d40892",
+          "publisher": "Official team news",
+          "title": "Cowboys QB Dak Prescott becomes franchise's all-time leader in touchdown passes",
+          "url": "https://www.dallascowboys.com/news/cowboys-qb-dak-prescott-becomes-franchise-s-all-time-leader-in-touchdown-passes",
+          "publishedAt": "2026-09-21T02:03:36.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/cowboys-qb-dak-prescott-becomes-franchise-s-all-time-leader-in-touchdown-passes"
+        ],
+        "asOf": "2026-09-21T02:03:36.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "767c2fb6-a6ba-4e6d-9fcc-3790f71c062c",
+      "teamAbbr": "DAL",
+      "category": "INJURY",
+      "headline": "Don't forget these 5: Defensive stop before half",
+      "summary": "Plays that might get forgotten include a wild sequence before halftime that not only kept the Cowboys in the lead but led to a game-changing injury for Washington.",
+      "whatHappened": "Plays that might get forgotten include a wild sequence before halftime that not only kept the Cowboys in the lead but led to a game-changing injury for Washington.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T00:07:31.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T18:00:45.954Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "455108bf-5436-4b24-9fb2-2be025181948",
+          "publisher": "Official team news",
+          "title": "Don't forget these 5: Defensive stop before half",
+          "url": "https://www.dallascowboys.com/news/don-t-forget-these-5-defensive-stop-before-half",
+          "publishedAt": "2026-09-21T00:07:31.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "INJURY",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/don-t-forget-these-5-defensive-stop-before-half"
+        ],
+        "asOf": "2026-09-21T00:07:31.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "49cddbda-e50d-4135-ad9b-385ec9c71a87",
+      "teamAbbr": "DAL",
+      "category": "GAME",
+      "headline": "Jaishawn Barham draws high praise from Dak, other All-Pro's in big win over Commanders",
+      "summary": "Jaishawn Barham channeled his passion into helping to take down the Commanders in Week 2, and in explosive fashion — earning praise from team leaders, including Dak Prescott. Dak Prescott continued his undefeated home streak against Washington, leading Dallas to a 37-20 win over the Commanders.",
+      "whatHappened": "Jaishawn Barham channeled his passion into helping to take down the Commanders in Week 2, and in explosive fashion — earning praise from team leaders, including Dak Prescott. Dak Prescott continued his undefeated home streak against Washington, leading Dallas to a 37-20 win over the Commanders.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T23:46:57.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-21T18:00:45.732Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "48493e37-2d3c-4d92-8fd4-6e0f0337a20f",
+          "publisher": "Official team news",
+          "title": "Jaishawn Barham draws high praise from Dak, other All-Pro's in big win over Commanders",
+          "url": "https://www.dallascowboys.com/news/jaishawn-barham-draws-high-praise-from-all-pro-s-for",
+          "publishedAt": "2026-09-21T01:25:33.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "7ddb99cf-9e46-43dc-9383-bb7d16e46abe",
+          "publisher": "Official team news",
+          "title": "Jaishawn Barham draws high praise from Dak, other All-Pro's in big win over Commanders",
+          "url": "https://www.dallascowboys.com/news/game-recap-dak-leads-dallas-to-win-37-20",
+          "publishedAt": "2026-09-20T23:46:57.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/jaishawn-barham-draws-high-praise-from-all-pro-s-for",
+          "https://www.dallascowboys.com/news/game-recap-dak-leads-dallas-to-win-37-20"
+        ],
+        "asOf": "2026-09-20T23:46:57.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "49f3e53b-3120-45b2-a22f-6442ed62015b",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Spagnola: Must prove first take an aberration",
+      "summary": "It’s Take 2 for the Cowboys defense, as Quinnen Williams and his defensive linemates will need to help the team turn things around by getting more pressure and stopping the run.",
+      "whatHappened": "It’s Take 2 for the Cowboys defense, as Quinnen Williams and his defensive linemates will need to help the team turn things around by getting more pressure and stopping the run.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T00:34:23.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T16:00:52.656Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d02517bd-9c14-4abc-a6a1-56a459ccca12",
+          "publisher": "Official team news",
+          "title": "Spagnola: Must prove first take an aberration",
+          "url": "https://www.dallascowboys.com/news/spagnola-must-prove-first-take-an-aberration",
+          "publishedAt": "2026-09-19T00:34:23.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/spagnola-must-prove-first-take-an-aberration"
+        ],
+        "asOf": "2026-09-19T00:34:23.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d9bd34ff-ae72-467f-9df3-8d6100c4e0f4",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Caleb Downs looking to build off NFL debut vs. Commanders",
+      "summary": "Cowboys S Caleb Downs is looking to build off of his NFL debut against the Commanders in Week 2, where he and Dallas' defense are looking to show improvement against a dangerous offense led by Jayden Daniels.",
+      "whatHappened": "Cowboys S Caleb Downs is looking to build off of his NFL debut against the Commanders in Week 2, where he and Dallas' defense are looking to show improvement against a dangerous offense led by Jayden Daniels.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:49:54.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T16:00:52.918Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "f5ad5516-834a-4c45-80eb-9ff9135d6229",
+          "publisher": "Official team news",
+          "title": "Caleb Downs looking to build off NFL debut vs. Commanders",
+          "url": "https://www.dallascowboys.com/news/caleb-downs-looking-to-build-off-nfl-debut-vs-commanders",
+          "publishedAt": "2026-09-18T20:49:54.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/caleb-downs-looking-to-build-off-nfl-debut-vs-commanders"
+        ],
+        "asOf": "2026-09-18T20:49:54.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "23625f6f-060a-44b2-b034-1df0ce09d92a",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Gut Feeling: Cowboys-Commanders predictions",
+      "summary": "Can the Cowboys get in the win column for the first time this season against the Commanders? Our staff weighs in for this week's Gut Feeling.",
+      "whatHappened": "Can the Cowboys get in the win column for the first time this season against the Commanders? Our staff weighs in for this week's Gut Feeling.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T20:11:56.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T18:00:54.126Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5731ac92-a2fd-4645-a3af-1d5b86197609",
+          "publisher": "Official team news",
+          "title": "Gut Feeling: Cowboys-Commanders predictions",
+          "url": "https://www.dallascowboys.com/news/gut-feeling-cowboys-commanders-predictions-x9188",
+          "publishedAt": "2026-09-18T20:11:56.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/gut-feeling-cowboys-commanders-predictions-x9188"
+        ],
+        "asOf": "2026-09-18T20:11:56.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d55d5906-ffe2-49cd-896a-c83a04209a69",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Here We Goooo: How the Cowboys defense can bounce back against Washington",
+      "summary": "The Cowboys have another tough task in Week 2 against Jayden Daniels and the Washington Commanders. How can they bounce back? We discuss in this week's Here We Goooo.",
+      "whatHappened": "The Cowboys have another tough task in Week 2 against Jayden Daniels and the Washington Commanders. How can they bounce back? We discuss in this week's Here We Goooo.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T19:09:33.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T22:00:50.233Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0893e99a-5d64-4c32-a3d2-ff19676a0ba9",
+          "publisher": "Official team news",
+          "title": "Here We Goooo: How the Cowboys defense can bounce back against Washington",
+          "url": "https://www.dallascowboys.com/news/here-we-goooo-how-the-cowboys-defense-can-bounce-back-against-washington",
+          "publishedAt": "2026-09-18T19:09:33.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/here-we-goooo-how-the-cowboys-defense-can-bounce-back-against-washington"
+        ],
+        "asOf": "2026-09-18T19:09:33.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "9a3a86fe-4bd0-4745-9f2e-23907955257e",
+      "teamAbbr": "DAL",
+      "category": "GAME",
+      "headline": "CeeDee Lamb 'can't wait' for chance to bounce back in home opener vs. Commanders",
+      "summary": "A chance to bounce back quickly from the Week 1 loss to the Giants, and at home, has CeeDee Lamb locked in and ready to even the score in the NFC East.",
+      "whatHappened": "A chance to bounce back quickly from the Week 1 loss to the Giants, and at home, has CeeDee Lamb locked in and ready to even the score in the NFC East.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:51:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T22:00:50.304Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6d743124-dc75-40a2-8552-7f8688590b3c",
+          "publisher": "Official team news",
+          "title": "CeeDee Lamb 'can't wait' for chance to bounce back in home opener vs. Commanders",
+          "url": "https://www.dallascowboys.com/news/ceedee-lamb-can-t-wait-for-chance-to-bounce-back-in-home-opener-vs-commanders",
+          "publishedAt": "2026-09-18T18:51:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/ceedee-lamb-can-t-wait-for-chance-to-bounce-back-in-home-opener-vs-commanders"
+        ],
+        "asOf": "2026-09-18T18:51:43.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "177e7e37-f593-451b-ae84-feff75248bdd",
+      "teamAbbr": "DAL",
+      "category": "COACHING",
+      "headline": "Past/Present: Quinn returns with less familiarity",
+      "summary": "While there aren’t as many familiar faces returning to AT&T Stadium this time around, the Commanders still bring a presence back to this matchup, headlined by their head coach Dan Quinn.",
+      "whatHappened": "While there aren’t as many familiar faces returning to AT&T Stadium this time around, the Commanders still bring a presence back to this matchup, headlined by their head coach Dan Quinn.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:46:40.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T22:00:50.353Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d6fbb7ab-6e00-4805-8345-c8646ba2942d",
+          "publisher": "Official team news",
+          "title": "Past/Present: Quinn returns with less familiarity",
+          "url": "https://www.dallascowboys.com/news/past-present-quinn-returns-with-less-familiarity",
+          "publishedAt": "2026-09-18T18:46:40.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/past-present-quinn-returns-with-less-familiarity"
+        ],
+        "asOf": "2026-09-18T18:46:40.000Z"
+      }
+    },
+    {
+      "id": "efc8d4a9-69e9-4ad2-8cb3-36db83513d8b",
+      "teamAbbr": "DAL",
+      "category": "ANALYSIS",
+      "headline": "Just 8: Cowboys highest-graded players",
+      "summary": "Here are the eight highest-graded players from the Cowboys this year, all stemming of course from the Week 1 matchup against the Giants.",
+      "whatHappened": "Here are the eight highest-graded players from the Cowboys this year, all stemming of course from the Week 1 matchup against the Giants.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:27:10.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T22:00:50.406Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "fe8ac7a1-52eb-4f8d-8c5a-3ef7b3b5b6ab",
+          "publisher": "Official team news",
+          "title": "Just 8: Cowboys highest-graded players",
+          "url": "https://www.dallascowboys.com/news/just-8-cowboys-highest-graded-players",
+          "publishedAt": "2026-09-18T18:27:10.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.dallascowboys.com/news/just-8-cowboys-highest-graded-players"
+        ],
+        "asOf": "2026-09-18T18:27:10.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 88,
+    "totalPages": 5
+  }
+}

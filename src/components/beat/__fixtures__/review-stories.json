@@ -1,0 +1,434 @@
+[
+  {
+    "id": "review-1",
+    "teamAbbr": "HOU",
+    "headline": "Week 3 Injury Report: Texans at Colts",
+    "summary": "",
+    "category": "INJURY",
+    "expected": "injury",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-2",
+    "teamAbbr": "HOU",
+    "headline": "Texans Are Getting There / Last 20 Yards",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "standard",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-3",
+    "teamAbbr": "HOU",
+    "headline": "Living On The Edge / VanderBlog",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "standard",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-4",
+    "teamAbbr": "HOU",
+    "headline": "Texans at Colts: How to Watch",
+    "summary": "Week 3",
+    "category": "ANALYSIS",
+    "expected": "game-matchup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-5",
+    "teamAbbr": "HOU",
+    "headline": "Ready For Cincinnati",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "standard",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-6",
+    "teamAbbr": "HOU",
+    "headline": "Houston Texans Transactions",
+    "summary": "",
+    "category": "ROSTER",
+    "expected": "roster-roundup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-7",
+    "teamAbbr": "HOU",
+    "headline": "Texans vs. Bengals / Texans Roundup",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "game-matchup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-8",
+    "teamAbbr": "HOU",
+    "headline": "Know Your Foe: Bengals",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "scouting",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-9",
+    "teamAbbr": "MIA",
+    "headline": "Inside the Numbers",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "stats",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-10",
+    "teamAbbr": "MIA",
+    "headline": "Dolphins sign Liam Anderson to practice squad",
+    "summary": "ILB Liam Anderson",
+    "category": "SIGNING",
+    "expected": "transaction",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-11",
+    "teamAbbr": "MIA",
+    "headline": "Three Takeaways",
+    "summary": "",
+    "category": "GAME",
+    "expected": "numbered",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-12",
+    "teamAbbr": "MIA",
+    "headline": "Academy equipment donation",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "business-community",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-13",
+    "teamAbbr": "MIA",
+    "headline": "Game Recap: loss to 49ers",
+    "summary": "",
+    "category": "GAME",
+    "expected": "recap",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-14",
+    "teamAbbr": "MIA",
+    "headline": "Dolphins make roster moves",
+    "summary": "",
+    "category": "SIGNING",
+    "expected": "roster-roundup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-15",
+    "teamAbbr": "MIA",
+    "headline": "Game Preview: Miami Dolphins at San Francisco 49ers",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "game-matchup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-16",
+    "teamAbbr": "MIA",
+    "headline": "Transcript: HC Jeff Hafley Press Conference",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "standard",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-17",
+    "teamAbbr": "BUF",
+    "headline": "They\u2019ve got some real talent / Week 3 Chargers",
+    "summary": "Injury updates",
+    "category": "ANALYSIS",
+    "expected": "scouting",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-18",
+    "teamAbbr": "BUF",
+    "headline": "Top Storylines vs. Chargers",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "game-matchup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-19",
+    "teamAbbr": "BUF",
+    "headline": "Injury updates following TNF",
+    "summary": "",
+    "category": "INJURY",
+    "expected": "injury",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-20",
+    "teamAbbr": "BUF",
+    "headline": "An out-of-body experience / players recap",
+    "summary": "",
+    "category": "GAME",
+    "expected": "recap",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-21",
+    "teamAbbr": "BUF",
+    "headline": "Top 3 things we learned",
+    "summary": "",
+    "category": "GAME",
+    "expected": "numbered",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-22",
+    "teamAbbr": "BUF",
+    "headline": "Bills 41, Lions 31 / Final Score",
+    "summary": "",
+    "category": "GAME",
+    "expected": "game-result",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-23",
+    "teamAbbr": "BUF",
+    "headline": "Injury update on WR DJ Moore",
+    "summary": "questionable to return",
+    "category": "INJURY",
+    "expected": "player",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-24",
+    "teamAbbr": "BUF",
+    "headline": "DE Ed Oliver ruled OUT vs. Lions",
+    "summary": "",
+    "category": "INJURY",
+    "expected": "player",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-25",
+    "teamAbbr": "CHI",
+    "headline": "Ben Johnson confident in QB depth",
+    "summary": "",
+    "category": "COACHING",
+    "expected": "coaching",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-26",
+    "teamAbbr": "CHI",
+    "headline": "Ozzy Trapilo, two others closer to action",
+    "summary": "LT Ozzy Trapilo",
+    "category": "INJURY",
+    "expected": "standard",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-27",
+    "teamAbbr": "CHI",
+    "headline": "Bears Alumni Weekend",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "business-community",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-28",
+    "teamAbbr": "CHI",
+    "headline": "Bears defense displays growth",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "standard",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-29",
+    "teamAbbr": "CHI",
+    "headline": "Bears announce roster moves",
+    "summary": "",
+    "category": "SIGNING",
+    "expected": "roster-roundup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-30",
+    "teamAbbr": "CHI",
+    "headline": "Caleb Williams week-to-week",
+    "summary": "QB Caleb Williams",
+    "category": "INJURY",
+    "expected": "player",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-31",
+    "teamAbbr": "CHI",
+    "headline": "Kalif Raymond proving to be reliable veteran target for Bears offense",
+    "summary": "",
+    "category": "GAME",
+    "expected": "standard",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-32",
+    "teamAbbr": "CHI",
+    "headline": "Girls Flag Football Player of the Week",
+    "summary": "",
+    "category": "DRAFT",
+    "expected": "business-community",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-33",
+    "teamAbbr": "TB",
+    "headline": "Vikings-Buccaneers preview Week 3",
+    "summary": "",
+    "category": "GAME",
+    "expected": "game-matchup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-34",
+    "teamAbbr": "TB",
+    "headline": "Week 3 Injury report",
+    "summary": "Three named players DNP",
+    "category": "INJURY",
+    "expected": "injury",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-35",
+    "teamAbbr": "TB",
+    "headline": "Defense facing Justin Jefferson",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "scouting",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-36",
+    "teamAbbr": "TB",
+    "headline": "How to Watch Buccaneers vs. Vikings",
+    "summary": "Week 3",
+    "category": "ANALYSIS",
+    "expected": "game-matchup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-37",
+    "teamAbbr": "TB",
+    "headline": "Top Plays Breakdown: Scoring Drive",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "film",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-38",
+    "teamAbbr": "TB",
+    "headline": "NFL Power Rankings Week 3",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "standard",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-39",
+    "teamAbbr": "TB",
+    "headline": "David Walker Takes Advantage",
+    "summary": "outside linebacker David Walker",
+    "category": "ANALYSIS",
+    "expected": "player",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-40",
+    "teamAbbr": "TB",
+    "headline": "Data Crunch: ground game",
+    "summary": "5.5 yards per carry",
+    "category": "GAME",
+    "expected": "stats",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-41",
+    "teamAbbr": "IND",
+    "headline": "Indiana Football Digest Insider",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "business-community",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-42",
+    "teamAbbr": "IND",
+    "headline": "Colts place DE Micheal Clemons on injured reserve, release RB Anderson Castle",
+    "summary": "Colts also signed Darius Slayton",
+    "category": "SIGNING",
+    "expected": "roster-roundup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-43",
+    "teamAbbr": "IND",
+    "headline": "High-school Coach of the Week",
+    "summary": "",
+    "category": "COACHING",
+    "expected": "business-community",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-44",
+    "teamAbbr": "IND",
+    "headline": "Colts release unofficial depth chart",
+    "summary": "",
+    "category": "RELEASE",
+    "expected": "depth-chart",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-45",
+    "teamAbbr": "IND",
+    "headline": "How to watch Texans at Colts",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "game-matchup",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-46",
+    "teamAbbr": "IND",
+    "headline": "Colts sign wide receiver Darius Slayton",
+    "summary": "",
+    "category": "SIGNING",
+    "expected": "transaction",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-47",
+    "teamAbbr": "IND",
+    "headline": "Anvil Strike uniforms",
+    "summary": "",
+    "category": "ANALYSIS",
+    "expected": "business-community",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  },
+  {
+    "id": "review-48",
+    "teamAbbr": "IND",
+    "headline": "Overtime loss to Chiefs",
+    "summary": "",
+    "category": "GAME",
+    "expected": "recap",
+    "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
+  }
+]

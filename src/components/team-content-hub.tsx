@@ -376,6 +376,7 @@ function HuddleGrid({
               id={briefing.id}
               teamId={teamAbbr}
               appearance="beat"
+              graphicDecision={briefing.graphicDecision}
               headline={briefing.headline}
               summary={briefing.summary}
               category={briefing.category}

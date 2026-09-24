@@ -65,7 +65,8 @@
     "logo:check": "node scripts/generate-team-logo.mjs --check",
     "logo:audit": "node scripts/audit-team-logo.mjs",
     "logo:audit-native": "node scripts/audit-team-logo-native.mjs",
-    "prebuild": "npm run logo:check"
+    "prebuild": "npm run logo:check",
+    "schedule:sync": "tsx scripts/sync-nfl-schedule.ts"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.2.0",

@@ -1,0 +1,913 @@
+{
+  "teamAbbr": "CLE",
+  "teamName": "Cleveland Browns",
+  "briefings": [
+    {
+      "id": "79e8d21c-7efb-408b-9a0b-09c3c9c9adaf",
+      "teamAbbr": "CLE",
+      "category": "SIGNING",
+      "headline": "Browns sign LB Krys Barnes to the practice squad",
+      "summary": "Browns also place LB Nathaniel Watson on practice squad/injured",
+      "whatHappened": "Browns also place LB Nathaniel Watson on practice squad/injured",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T19:46:47.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T22:00:45.483Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "5e87c504-5bf6-47fb-82aa-7fd3d4780103",
+          "publisher": "Official team news",
+          "title": "Browns sign LB Krys Barnes to the practice squad",
+          "url": "https://www.clevelandbrowns.com/news/browns-sign-lb-krys-barnes-to-the-practice-squad",
+          "publishedAt": "2026-09-22T19:46:47.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "CLE",
+          "action": "SIGNED",
+          "name": "Krys Barnes",
+          "position": "LB",
+          "destination": "PRACTICE SQUAD"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Krys Barnes",
+            "source": "headline",
+            "excerpt": "sign LB Krys Barnes"
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "sign LB Krys Barnes"
+          },
+          {
+            "field": "position",
+            "value": "LB",
+            "source": "headline",
+            "excerpt": "LB Krys Barnes"
+          },
+          {
+            "field": "destination",
+            "value": "PRACTICE SQUAD",
+            "source": "headline",
+            "excerpt": "Browns sign LB Krys Barnes to the practice squad"
+          },
+          {
+            "field": "team",
+            "value": "CLE",
+            "source": "canonical",
+            "excerpt": "CLE"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/browns-sign-lb-krys-barnes-to-the-practice-squad"
+        ],
+        "asOf": "2026-09-22T19:46:47.000Z"
+      }
+    },
+    {
+      "id": "99328574-0c1f-44d3-914c-dd7f70bf928c",
+      "teamAbbr": "CLE",
+      "category": "DEPTH_CHART",
+      "headline": "Browns announce unofficial depth chart for Week 3 vs. the Panthers",
+      "summary": "The Browns will host the Panthers at Huntington Bank Field on Sept. 27 in Week 3",
+      "whatHappened": "The Browns will host the Panthers at Huntington Bank Field on Sept. 27 in Week 3",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T18:29:23.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T22:00:46.039Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "0f6964af-1d2b-4cda-a957-b8bf64cbe2a0",
+          "publisher": "Official team news",
+          "title": "Browns announce unofficial depth chart for Week 3 vs. the Panthers",
+          "url": "https://www.clevelandbrowns.com/news/browns-announce-unofficial-depth-chart-for-week-3-vs-the-panthers",
+          "publishedAt": "2026-09-22T18:29:23.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "team-update",
+          "label": "DEPTH\nCHART"
+        },
+        "reason": "Published depth chart; release is not a player transaction",
+        "displayCategory": "Team",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/browns-announce-unofficial-depth-chart-for-week-3-vs-the-panthers"
+        ],
+        "asOf": "2026-09-22T18:29:23.000Z"
+      }
+    },
+    {
+      "id": "3c047636-e46c-4d28-a043-59d36df10567",
+      "teamAbbr": "CLE",
+      "category": "GAME",
+      "headline": "Denzel Boston nominated for NFL Rookie of the Week for Week 2",
+      "summary": "Boston recorded 95 receiving yards and one touchdown in 23-19 win over the Buccaneers",
+      "whatHappened": "Boston recorded 95 receiving yards and one touchdown in 23-19 win over the Buccaneers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T13:59:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T00:00:41.071Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "be1d6f4b-e834-4274-b713-36b1f9a85641",
+          "publisher": "Official team news",
+          "title": "Denzel Boston nominated for NFL Rookie of the Week for Week 2",
+          "url": "https://www.clevelandbrowns.com/news/denzel-boston-nominated-for-nfl-rookie-of-the-week-for-week-2",
+          "publishedAt": "2026-09-22T13:59:19.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/denzel-boston-nominated-for-nfl-rookie-of-the-week-for-week-2"
+        ],
+        "asOf": "2026-09-22T13:59:19.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "be73cf17-5bc0-48ba-8c2c-3ca74e1b6c04",
+      "teamAbbr": "CLE",
+      "category": "COACHING",
+      "headline": "Todd Monken's 1st career win as an NFL head coach highlights grittiness of Browns | The Huddle",
+      "summary": "Monken earned his first win as the head coach of the Browns",
+      "whatHappened": "Monken earned his first win as the head coach of the Browns",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T22:22:39.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T04:00:46.497Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "6871f2ad-5f23-4eb6-a27a-0d1059c74858",
+          "publisher": "Official team news",
+          "title": "Todd Monken's 1st career win as an NFL head coach highlights grittiness of Browns | The Huddle",
+          "url": "https://www.clevelandbrowns.com/news/todd-monken-s-1st-career-win-as-an-nfl-head-coach-highlights-grittiness-of-browns-the-huddle",
+          "publishedAt": "2026-09-21T22:22:39.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "coaching",
+          "label": "COACHING\nUPDATE"
+        },
+        "reason": "Coaching topic; scheme label only when explicit",
+        "displayCategory": "Coaching",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/todd-monken-s-1st-career-win-as-an-nfl-head-coach-highlights-grittiness-of-browns-the-huddle"
+        ],
+        "asOf": "2026-09-21T22:22:39.000Z"
+      }
+    },
+    {
+      "id": "d0707e00-d4e8-4116-bc98-7e37ccb8fd5a",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "Deshaun Watson continues to take strides in Browns' offense | News & Notes",
+      "summary": "Browns are focused on improving the run game ahead of Week 3",
+      "whatHappened": "Browns are focused on improving the run game ahead of Week 3",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:48:13.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T04:00:46.684Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1346003c-4349-4d2f-9b63-b2c39c2efc22",
+          "publisher": "Official team news",
+          "title": "Deshaun Watson continues to take strides in Browns' offense | News & Notes",
+          "url": "https://www.clevelandbrowns.com/news/deshaun-watson-continues-to-take-strides-in-browns-offense-news-notes",
+          "publishedAt": "2026-09-21T21:48:13.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/deshaun-watson-continues-to-take-strides-in-browns-offense-news-notes"
+        ],
+        "asOf": "2026-09-21T21:48:13.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e3e7e5f2-e0f5-49d5-8572-f830ed3cafd9",
+      "teamAbbr": "CLE",
+      "category": "GAME",
+      "headline": "Deshaun Watson leads two second-half scoring drives against Buccaneers | By the Numbers",
+      "summary": "Blake Whiteheart scored the go-ahead touchdown late in the fourth quarter on 17-yard reception",
+      "whatHappened": "Blake Whiteheart scored the go-ahead touchdown late in the fourth quarter on 17-yard reception",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T00:17:44.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T18:00:45.819Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "c8a2983b-c62b-42c5-8f6c-77a03a8dd595",
+          "publisher": "Official team news",
+          "title": "Deshaun Watson leads two second-half scoring drives against Buccaneers | By the Numbers",
+          "url": "https://www.clevelandbrowns.com/news/deshaun-watson-leads-two-second-half-scoring-drives-against-buccaneers-by-the-numbers",
+          "publishedAt": "2026-09-21T00:17:44.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/deshaun-watson-leads-two-second-half-scoring-drives-against-buccaneers-by-the-numbers"
+        ],
+        "asOf": "2026-09-21T00:17:44.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "e58939c8-9006-4042-9c00-cf3199c0259f",
+      "teamAbbr": "CLE",
+      "category": "GAME",
+      "headline": "Browns' defense shows resilience in win over Buccaneers | 3 Big Takeaways",
+      "summary": "Offensive operation improves to contribute to Browns’ 23-19 win over Buccaneers",
+      "whatHappened": "Offensive operation improves to contribute to Browns’ 23-19 win over Buccaneers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T00:09:46.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-21T18:00:45.898Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "48d377a0-ec89-4b99-97d2-9bf3ecb5903d",
+          "publisher": "Official team news",
+          "title": "Browns' defense shows resilience in win over Buccaneers | 3 Big Takeaways",
+          "url": "https://www.clevelandbrowns.com/news/browns-defense-shows-resilience-in-win-over-buccaneers-3-big-takeaways",
+          "publishedAt": "2026-09-21T00:09:46.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "GAME",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/browns-defense-shows-resilience-in-win-over-buccaneers-3-big-takeaways"
+        ],
+        "asOf": "2026-09-21T00:09:46.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "2e9d06b9-aefc-4eb8-a57d-714a63a12273",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "Game Highlights: Browns vs. Buccaneers",
+      "summary": "Watch all the top plays from the Browns' game against the Buccaneers",
+      "whatHappened": "Watch all the top plays from the Browns' game against the Buccaneers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T17:32:07.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T22:00:43.589Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "3615cbb1-6ed0-4e24-9684-5fa0c005516c",
+          "publisher": "Official team news",
+          "title": "Game Highlights: Browns vs. Buccaneers",
+          "url": "https://www.clevelandbrowns.com/news/game-highlights-browns-vs-buccaneers-x2298",
+          "publishedAt": "2026-09-20T17:32:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/game-highlights-browns-vs-buccaneers-x2298"
+        ],
+        "asOf": "2026-09-20T17:32:07.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "f6567b28-4cf2-4d84-8fb7-467ef35567a3",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "Browns announce inactives for Week 2 vs. Buccaneers",
+      "summary": "Cleveland travels to Tampa to face the Buccaneers at Raymond James Stadium at 1 p.m.",
+      "whatHappened": "Cleveland travels to Tampa to face the Buccaneers at Raymond James Stadium at 1 p.m.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-20T15:30:18.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T22:00:43.778Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "51cc751d-eed8-414d-9fc5-e6cb614c9996",
+          "publisher": "Official team news",
+          "title": "Browns announce inactives for Week 2 vs. Buccaneers",
+          "url": "https://www.clevelandbrowns.com/news/browns-announce-inactives-for-week-2-vs-buccaneers",
+          "publishedAt": "2026-09-20T15:30:18.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "injury",
+          "period": "W2",
+          "rows": [],
+          "detail": "INACTIVE\nREPORT"
+        },
+        "reason": "Report topic; unknown aggregate status totals omitted",
+        "displayCategory": "Injury",
+        "evidence": [
+          {
+            "field": "week",
+            "value": "W2",
+            "source": "headline",
+            "excerpt": "Week 2"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/browns-announce-inactives-for-week-2-vs-buccaneers"
+        ],
+        "asOf": "2026-09-20T15:30:18.000Z"
+      }
+    },
+    {
+      "id": "f67ebaa6-ad8b-4889-a41f-827e27670494",
+      "teamAbbr": "CLE",
+      "category": "INJURY",
+      "headline": "Browns elevate LB Nathaniel Watson from the practice squad",
+      "summary": "CB Noah Igbinoghene has been added to the injury report with a questionable game status",
+      "whatHappened": "CB Noah Igbinoghene has been added to the injury report with a questionable game status",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T16:32:06.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T02:00:49.339Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "10bda8d3-e220-47c8-90e3-d15b8d74b4c0",
+          "publisher": "Official team news",
+          "title": "Browns elevate LB Nathaniel Watson from the practice squad",
+          "url": "https://www.clevelandbrowns.com/news/browns-elevate-lb-nathaniel-watson-from-the-practice-squad",
+          "publishedAt": "2026-09-19T16:32:06.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "CLE",
+          "action": "ELEVATED",
+          "name": "Nathaniel Watson",
+          "position": "LB"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Nathaniel Watson",
+            "source": "headline",
+            "excerpt": "elevate LB Nathaniel Watson"
+          },
+          {
+            "field": "action",
+            "value": "ELEVATED",
+            "source": "headline",
+            "excerpt": "elevate LB Nathaniel Watson"
+          },
+          {
+            "field": "position",
+            "value": "LB",
+            "source": "headline",
+            "excerpt": "LB Nathaniel Watson"
+          },
+          {
+            "field": "team",
+            "value": "CLE",
+            "source": "canonical",
+            "excerpt": "CLE"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/browns-elevate-lb-nathaniel-watson-from-the-practice-squad"
+        ],
+        "asOf": "2026-09-19T16:32:06.000Z"
+      }
+    },
+    {
+      "id": "16e0a374-7745-4b88-ab94-f60a6ac16d6e",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "How will the Browns establish the run game in Week 2? | Burning Questions",
+      "summary": "The Browns travel to Tampa to face the Buccaneers",
+      "whatHappened": "The Browns travel to Tampa to face the Buccaneers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-19T13:00:12.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-19T16:00:52.393Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "76199703-c1e7-4d0c-8d06-d19107e26908",
+          "publisher": "Official team news",
+          "title": "How will the Browns establish the run game in Week 2? | Burning Questions",
+          "url": "https://www.clevelandbrowns.com/news/how-will-the-browns-establish-the-run-game-in-week-2-burning-questions",
+          "publishedAt": "2026-09-19T13:00:12.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/how-will-the-browns-establish-the-run-game-in-week-2-burning-questions"
+        ],
+        "asOf": "2026-09-19T13:00:12.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "d590fe76-dcf0-4856-870c-3b199c0c4519",
+      "teamAbbr": "CLE",
+      "category": "SIGNING",
+      "headline": "Browns sign WR Jimmy Horn Jr. to the practice squad",
+      "summary": "Browns also release WR Kole Wilson from the practice squad",
+      "whatHappened": "Browns also release WR Kole Wilson from the practice squad",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:21:16.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T04:00:51.902Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "d59398c7-d63c-4b4c-bab6-1737c37eca64",
+          "publisher": "Official team news",
+          "title": "Browns sign WR Jimmy Horn Jr. to the practice squad",
+          "url": "https://www.clevelandbrowns.com/news/browns-sign-wr-jimmy-horn-jr-to-the-practice-squad",
+          "publishedAt": "2026-09-18T14:21:16.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "transaction",
+          "team": "CLE",
+          "action": "SIGNED",
+          "name": "Jimmy Horn Jr.",
+          "position": "WR",
+          "destination": "PRACTICE SQUAD"
+        },
+        "reason": "Explicit player transaction",
+        "displayCategory": "Transaction",
+        "evidence": [
+          {
+            "field": "name",
+            "value": "Jimmy Horn Jr.",
+            "source": "headline",
+            "excerpt": "sign WR Jimmy Horn Jr."
+          },
+          {
+            "field": "action",
+            "value": "SIGNED",
+            "source": "headline",
+            "excerpt": "sign WR Jimmy Horn Jr."
+          },
+          {
+            "field": "position",
+            "value": "WR",
+            "source": "headline",
+            "excerpt": "WR Jimmy Horn Jr."
+          },
+          {
+            "field": "destination",
+            "value": "PRACTICE SQUAD",
+            "source": "headline",
+            "excerpt": "Browns sign WR Jimmy Horn Jr. to the practice squad"
+          },
+          {
+            "field": "team",
+            "value": "CLE",
+            "source": "canonical",
+            "excerpt": "CLE"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/browns-sign-wr-jimmy-horn-jr-to-the-practice-squad"
+        ],
+        "asOf": "2026-09-18T14:21:16.000Z"
+      }
+    },
+    {
+      "id": "6044d109-a84b-4ed6-8bf7-6a02d0e731a6",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "Crescent Digital powers Browns Experience Center",
+      "summary": "Crescent Digital installed LED video walls and JBL speakers",
+      "whatHappened": "Crescent Digital installed LED video walls and JBL speakers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:00:07.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T18:00:47.936Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "ef6bf352-99a4-4dc6-98d3-f3d62adcec88",
+          "publisher": "Official team news",
+          "title": "Crescent Digital powers Browns Experience Center",
+          "url": "https://www.clevelandbrowns.com/news/crescent-digital-powers-browns-experience-center",
+          "publishedAt": "2026-09-18T13:00:07.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-a"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/crescent-digital-powers-browns-experience-center"
+        ],
+        "asOf": "2026-09-18T13:00:07.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "320a93ff-bf18-42e0-8351-25edd8785a40",
+      "teamAbbr": "CLE",
+      "category": "DEPTH_CHART",
+      "headline": "Austin Barber keeps starting job at right guard after strong Week 1 performance",
+      "summary": "Barber moved inside to guard during the preseason and earned his 1st start in Week 1",
+      "whatHappened": "Barber moved inside to guard during the preseason and earned his 1st start in Week 1",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T22:46:14.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T02:00:54.891Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "812897d9-ea2b-4111-8547-aa358a0754c0",
+          "publisher": "Official team news",
+          "title": "Austin Barber keeps starting job at right guard after strong Week 1 performance",
+          "url": "https://www.clevelandbrowns.com/news/austin-barber-keeps-starting-job-at-right-guard-after-strong-week-1-performance",
+          "publishedAt": "2026-09-17T22:46:14.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "DEPTH_CHART",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/austin-barber-keeps-starting-job-at-right-guard-after-strong-week-1-performance"
+        ],
+        "asOf": "2026-09-17T22:46:14.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "a0ed488d-70e8-4c88-aba8-493018b1d697",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "Jared Verse prepares to face Tristan Wirfs while evolving in Browns' defense",
+      "summary": "Verse has shifted his mindset entering Week 2 against the Buccaneers",
+      "whatHappened": "Verse has shifted his mindset entering Week 2 against the Buccaneers",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T21:50:47.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T02:00:55.287Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a5ab2a8b-6a4b-4b2f-849f-4768db9fd77c",
+          "publisher": "Official team news",
+          "title": "Jared Verse prepares to face Tristan Wirfs while evolving in Browns' defense",
+          "url": "https://www.clevelandbrowns.com/news/jared-verse-prepares-to-face-tristan-wirfs-while-evolving-in-browns-defense",
+          "publishedAt": "2026-09-17T21:50:47.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/jared-verse-prepares-to-face-tristan-wirfs-while-evolving-in-browns-defense"
+        ],
+        "asOf": "2026-09-17T21:50:47.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "ecec4a8c-0bef-433d-9d1e-7b5d4d4036d3",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "Orange vs. West Geauga match up in High School Game of the Week No. 5",
+      "summary": "The game will take place at West Geauga High School at 7 p.m. on Sept. 18",
+      "whatHappened": "The game will take place at West Geauga High School at 7 p.m. on Sept. 18",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T17:57:53.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T16:01:15.491Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a9bbcc24-5733-47e1-907b-574f99871464",
+          "publisher": "Official team news",
+          "title": "Orange vs. West Geauga match up in High School Game of the Week No. 5",
+          "url": "https://www.clevelandbrowns.com/news/orange-vs-west-geauga-match-up-in-high-school-game-of-the-week-no-5",
+          "publishedAt": "2026-09-17T17:57:53.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "business-community",
+          "label": "COMMUNITY"
+        },
+        "reason": "Explicit community, school or youth context",
+        "displayCategory": "Community",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/orange-vs-west-geauga-match-up-in-high-school-game-of-the-week-no-5"
+        ],
+        "asOf": "2026-09-17T17:57:53.000Z"
+      }
+    },
+    {
+      "id": "014e52b9-592a-4724-8720-af832174de3f",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "Browns host 1st Gym Class Takeover of 2026 fall semester at Lorain Bilingual Academy",
+      "summary": "Denzel Boston and KC Concepcion Jr. spoke to students and participated in football activities",
+      "whatHappened": "Denzel Boston and KC Concepcion Jr. spoke to students and participated in football activities",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T17:00:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T16:01:15.754Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a8cb7fc6-a540-4adc-bff8-ad6493ee0878",
+          "publisher": "Official team news",
+          "title": "Browns host 1st Gym Class Takeover of 2026 fall semester at Lorain Bilingual Academy",
+          "url": "https://www.clevelandbrowns.com/news/browns-host-1st-gym-class-takeover-of-2026-fall-semester-at-lorain-bilingual-academy",
+          "publishedAt": "2026-09-17T17:00:02.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-c"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/browns-host-1st-gym-class-takeover-of-2026-fall-semester-at-lorain-bilingual-academy"
+        ],
+        "asOf": "2026-09-17T17:00:02.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "555c3fa4-9b03-498d-8c48-dfc0aebc528a",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "Raheim Sanders remains focused on succeeding in role heading into Week 2",
+      "summary": "Sanders adds another option in the run game and on kick returns for the Browns",
+      "whatHappened": "Sanders adds another option in the run game and on kick returns for the Browns",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T14:56:43.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T17:10:39.456Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e6da9e19-a4f2-4468-889e-823303d44d47",
+          "publisher": "Official team news",
+          "title": "Raheim Sanders remains focused on succeeding in role heading into Week 2",
+          "url": "https://www.clevelandbrowns.com/news/raheim-sanders-remains-focused-on-succeeding-in-role-heading-into-week-2",
+          "publishedAt": "2026-09-17T14:56:43.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-b"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/raheim-sanders-remains-focused-on-succeeding-in-role-heading-into-week-2"
+        ],
+        "asOf": "2026-09-17T14:56:43.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    },
+    {
+      "id": "39268cdb-3cba-4dd4-9947-b6ad064a4b3f",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "Browns vs. Buccaneers: How to Watch, Listen & Live Stream",
+      "summary": "TV, Radio and Streaming information for Browns vs. Buccaneers on Sept. 20, 2026",
+      "whatHappened": "TV, Radio and Streaming information for Browns vs. Buccaneers on Sept. 20, 2026",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T19:50:41.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T22:10:34.191Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "7794e9e7-ce44-4559-8df2-2ae89d2f8c55",
+          "publisher": "Official team news",
+          "title": "Browns vs. Buccaneers: How to Watch, Listen & Live Stream",
+          "url": "https://www.clevelandbrowns.com/news/browns-vs-buccaneers-how-to-watch-listen-live-stream",
+          "publishedAt": "2026-09-16T19:50:41.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "game-matchup",
+          "leftTeam": "CLE",
+          "rightTeam": "TB"
+        },
+        "reason": "Identified teams in an explicit matchup/preview format",
+        "displayCategory": "Matchup",
+        "evidence": [
+          {
+            "field": "leftTeam",
+            "value": "CLE",
+            "source": "headline",
+            "excerpt": "Browns vs. Buccaneers: How to Watch, Listen & Live Stream"
+          },
+          {
+            "field": "rightTeam",
+            "value": "TB",
+            "source": "headline",
+            "excerpt": "Browns vs. Buccaneers: How to Watch, Listen & Live Stream"
+          }
+        ],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/browns-vs-buccaneers-how-to-watch-listen-live-stream"
+        ],
+        "asOf": "2026-09-16T19:50:41.000Z"
+      }
+    },
+    {
+      "id": "d7c338c4-427d-45ad-9fff-92c08dd52479",
+      "teamAbbr": "CLE",
+      "category": "ANALYSIS",
+      "headline": "OHSAA crew selected for September NFL/NFHS Crew of the Month recognition",
+      "summary": "The six officials in the selected crew represent nearly 175 years of football officiating experience",
+      "whatHappened": "The six officials in the selected crew represent nearly 175 years of football officiating experience",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T17:31:22.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-16T19:35:04.543Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a4f9d862-171e-459a-b39d-8dccd7bd34fb",
+          "publisher": "Official team news",
+          "title": "OHSAA crew selected for September NFL/NFHS Crew of the Month recognition",
+          "url": "https://www.clevelandbrowns.com/news/ohsaa-crew-selected-for-september-nfl-nfhs-crew-of-the-month-recognition",
+          "publishedAt": "2026-09-16T17:31:22.000Z",
+          "kind": "reporting"
+        }
+      ],
+      "graphicDecision": {
+        "graphic": {
+          "family": "standard-d"
+        },
+        "reason": "General analysis or insufficient evidence for a specific editorial format",
+        "displayCategory": "ANALYSIS",
+        "evidence": [],
+        "sourceUrls": [
+          "https://www.clevelandbrowns.com/news/ohsaa-crew-selected-for-september-nfl-nfhs-crew-of-the-month-recognition"
+        ],
+        "asOf": "2026-09-16T17:31:22.000Z",
+        "fallbackReason": "General analysis or insufficient evidence for a specific editorial format"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 61,
+    "totalPages": 4
+  }
+}

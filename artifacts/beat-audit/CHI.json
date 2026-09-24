@@ -1,0 +1,548 @@
+{
+  "teamAbbr": "CHI",
+  "teamName": "Chicago Bears",
+  "briefings": [
+    {
+      "id": "59cee29f-11dd-465e-808d-6c2a4af0efc0",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Catching up with former players at Bears Alumni Weekend",
+      "summary": "ChicagoBears.com spoke to former players Gary Fencik, Jordan Howard, Rosevelt Colvin, Henry Melton and Paul Edinger about their current lives and most memorable moments with the Bears.",
+      "whatHappened": "ChicagoBears.com spoke to former players Gary Fencik, Jordan Howard, Rosevelt Colvin, Henry Melton and Paul Edinger about their current lives and most memorable moments with the Bears.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T23:30:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T16:00:58.369Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9ee03ec7-8a51-4a2f-9000-50cc12f2648b",
+          "publisher": "Official team news",
+          "title": "Catching up with former players at Bears Alumni Weekend",
+          "url": "https://www.chicagobears.com/news/catching-up-with-former-players-at-bears-alumni-weekend",
+          "publishedAt": "2026-09-22T23:30:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "c2aa1374-475e-4d36-89d2-403d18cddf48",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Bears defense displays growth, energy in home opener",
+      "summary": "The Bears defense exhibited improvement in multiple areas between Week 1 and Week 2, limiting the Vikings on Sunday to nine points and 246 net yards of offense.",
+      "whatHappened": "The Bears defense exhibited improvement in multiple areas between Week 1 and Week 2, limiting the Vikings on Sunday to nine points and 246 net yards of offense.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-22T21:11:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-23T16:00:58.493Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "e3737c48-d60a-42dd-a560-a25bf9e92c4d",
+          "publisher": "Official team news",
+          "title": "Bears defense displays growth, energy in home opener",
+          "url": "https://www.chicagobears.com/news/bears-defense-displays-growth-energy-in-home-opener",
+          "publishedAt": "2026-09-22T21:11:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "3b961bcc-03a0-4ee7-885e-879ab63f1ba1",
+      "teamAbbr": "CHI",
+      "category": "INJURY",
+      "headline": "Caleb Williams week-to-week with hamstring injury",
+      "summary": "Bears coach Ben Johnson told reporters Monday that quarterback Caleb Williams is week-to-week with a right hamstring injury he sustained midway through the fourth quarter of Sunday’s 9-3 loss to the Vikings at Soldier Field.",
+      "whatHappened": "Bears coach Ben Johnson told reporters Monday that quarterback Caleb Williams is week-to-week with a right hamstring injury he sustained midway through the fourth quarter of Sunday’s 9-3 loss to the Vikings at Soldier Field.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-21T21:10:20.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-22T04:00:46.919Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "1fb0f55e-5d74-436d-ab26-b3270f45363a",
+          "publisher": "Official team news",
+          "title": "Caleb Williams week-to-week with hamstring injury",
+          "url": "https://www.chicagobears.com/news/caleb-williams-week-to-week-with-hamstring-injury",
+          "publishedAt": "2026-09-21T21:10:20.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "13563ecc-2267-48e8-b4e5-e7bd025a67cf",
+      "teamAbbr": "CHI",
+      "category": "GAME",
+      "headline": "Kalif Raymond proving to be reliable veteran target for Bears offense",
+      "summary": "Despite being the Bears' leading receiver in their Week 1 win over the Panthers, Kalif Raymond is focused more on the team's success than his personal stats, saying, \"I don’t really look at that stuff ... we won, and that’s all I’m thinking about.\"",
+      "whatHappened": "Despite being the Bears' leading receiver in their Week 1 win over the Panthers, Kalif Raymond is focused more on the team's success than his personal stats, saying, \"I don’t really look at that stuff ... we won, and that’s all I’m thinking about.\"",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T18:18:50.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T22:00:50.549Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a7cc7813-6290-4d40-8694-c5af7a762e81",
+          "publisher": "Official team news",
+          "title": "Kalif Raymond proving to be reliable veteran target for Bears offense",
+          "url": "https://www.chicagobears.com/news/kalif-raymond-proving-to-be-reliable-veteran-target-for-bears-offense",
+          "publishedAt": "2026-09-18T18:18:50.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "99125ce1-7646-4bcc-9c40-a22cca6970ac",
+      "teamAbbr": "CHI",
+      "category": "DRAFT",
+      "headline": "Girls Flag Football Player of the Week: Claire Happ | Week 3",
+      "summary": "Prospect High School receiver and safety Claire Happ received Week 3 Player of the Week honors. The junior helped lead the Knights to four consecutive wins by making major contributions on both sides of the ball. Happ spoke with ChicagoBears.com about her English roots, her favorite Bears player, why flag football has been so impactful in her life and more.",
+      "whatHappened": "Prospect High School receiver and safety Claire Happ received Week 3 Player of the Week honors. The junior helped lead the Knights to four consecutive wins by making major contributions on both sides of the ball. Happ spoke with ChicagoBears.com about her English roots, her favorite Bears player, why flag football has been so impactful in her life and more.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T14:00:52.176Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a0feb021-b1ee-4837-b940-c255b44f86cb",
+          "publisher": "Official team news",
+          "title": "Girls Flag Football Player of the Week: Claire Happ | Week 3",
+          "url": "https://www.chicagobears.com/news/girls-flag-football-player-of-the-week-claire-happ-week-3",
+          "publishedAt": "2026-09-18T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "02ecd499-499b-4e79-a236-4b2b21167247",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Bears heading to UK for 5-city tour in October",
+      "summary": "The Bears are preparing to do what no other NFL team has done — visit every nation in the United Kingdom during a three-week trip this October. Da Chicago Bears UK Grand Tour will feature stops in Bournemouth, Cardiff, Leeds, Glasgow and Belfast. This tour will mark the first time the Bears have traveled to all five cities, showcasing the organization’s commitment to connecting with the team’s growing international fanbase and making American football and the Bears brand more accessible, inclusive and engaging for young people.",
+      "whatHappened": "The Bears are preparing to do what no other NFL team has done — visit every nation in the United Kingdom during a three-week trip this October. Da Chicago Bears UK Grand Tour will feature stops in Bournemouth, Cardiff, Leeds, Glasgow and Belfast. This tour will mark the first time the Bears have traveled to all five cities, showcasing the organization’s commitment to connecting with the team’s growing international fanbase and making American football and the Bears brand more accessible, inclusive and engaging for young people.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-18T13:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-20T20:00:46.719Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "9fa06264-92a5-4c97-b5d1-b498bd6df6e3",
+          "publisher": "Official team news",
+          "title": "Bears heading to UK for 5-city tour in October",
+          "url": "https://www.chicagobears.com/news/bears-heading-to-uk-for-5-city-tour-in-october",
+          "publishedAt": "2026-09-18T13:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "4c3bb61c-d4e3-484b-a926-7ffa0aa4d760",
+      "teamAbbr": "CHI",
+      "category": "COACHING",
+      "headline": "9 interesting things said by Bears coordinators in advance of home opener",
+      "summary": "Bears coordinators Dennis Allen (defense), Press Taylor (offense) and Richard Hightower (special teams) spoke to the media Thursday about Caleb Williams’ most impressive pass against the Panthers, the “mental war” that’s involved in preparing for the Vikings and more.",
+      "whatHappened": "Bears coordinators Dennis Allen (defense), Press Taylor (offense) and Richard Hightower (special teams) spoke to the media Thursday about Caleb Williams’ most impressive pass against the Panthers, the “mental war” that’s involved in preparing for the Vikings and more.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T20:23:19.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-18T02:00:55.652Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "892332c3-56a6-4a8c-a843-73509e2b2010",
+          "publisher": "Official team news",
+          "title": "9 interesting things said by Bears coordinators in advance of home opener",
+          "url": "https://www.chicagobears.com/news/9-interesting-things-said-by-bears-coordinators-in-advance-of-home-opener",
+          "publishedAt": "2026-09-17T20:23:19.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "23a3692f-122e-4a39-bc76-bb15c1a8fe5a",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Colston Loveland's bounce-back game is all but assured vs. Vikings in Week 2",
+      "summary": "Chicago Bears star tight end Colston Loveland is just about guaranteed a bounce-back game in Week 2 against the Minnesota Vikings.",
+      "whatHappened": "Chicago Bears star tight end Colston Loveland is just about guaranteed a bounce-back game in Week 2 against the Minnesota Vikings.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T14:00:02.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:52:56.799Z",
+      "firstReportedBy": "Bear Goggles On",
+      "sources": [
+        {
+          "id": "f23d23e7-e07a-49ae-b2e8-03727f80f26c",
+          "publisher": "Bear Goggles On",
+          "title": "Colston Loveland's bounce-back game is all but assured vs. Vikings in Week 2",
+          "url": "https://beargoggleson.com/colston-loveland-s-bounce-back-game-is-all-but-assured-vs-vikings-in-week-2",
+          "publishedAt": "2026-09-17T14:00:02.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "5ac7e602-e6e7-4356-b44f-c7946430dddf",
+      "teamAbbr": "CHI",
+      "category": "GAME",
+      "headline": "Question of the Day: Will the Chicago Bears break the scoring record?",
+      "summary": "Let’s just ask the question that’s on everyone’s mind this week. Before the season started, Ben Johnson stated that he wanted to break the all-time scoring mark, which was set by the 2013 Denver Broncos, who scored 606 points and averaged 37.9 points per game. Everyone blew off the comment as “Ben being Ben,” but […]",
+      "whatHappened": "Let’s just ask the question that’s on everyone’s mind this week. Before the season started, Ben Johnson stated that he wanted to break the all-time scoring mark, which was set by the 2013 Denver Broncos, who scored 606 points and averaged 37.9 points per game. Everyone blew off the comment as “Ben being Ben,” but […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T14:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:52:56.880Z",
+      "firstReportedBy": "Windy City Gridiron",
+      "sources": [
+        {
+          "id": "bb9eed32-553b-4b9c-9289-ff152b183d3a",
+          "publisher": "Windy City Gridiron",
+          "title": "Question of the Day: Will the Chicago Bears break the scoring record?",
+          "url": "https://www.windycitygridiron.com/chicago-bears-discussion/122927/question-of-the-day-will-the-chicago-bears-break-the-scoring-record",
+          "publishedAt": "2026-09-17T14:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "a816db85-9a91-4ae5-9af4-c3e3c0cafe15",
+      "teamAbbr": "CHI",
+      "category": "CONTRACT",
+      "headline": "Details of D'Andre Swift's contract further prove Ben Johnson's intrinsic value",
+      "summary": "D'Andre Swift's contract extension is team-friendly, as the Chicago Bears are a team and culture that players want to stay part of as long as possible.",
+      "whatHappened": "D'Andre Swift's contract extension is team-friendly, as the Chicago Bears are a team and culture that players want to stay part of as long as possible.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T12:00:03.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:52:56.941Z",
+      "firstReportedBy": "Bear Goggles On",
+      "sources": [
+        {
+          "id": "8e051ca4-d407-4dc0-972c-fa1a47fcb960",
+          "publisher": "Bear Goggles On",
+          "title": "Details of D'Andre Swift's contract further prove Ben Johnson's intrinsic value",
+          "url": "https://beargoggleson.com/details-of-d-andre-swift-s-contract-further-prove-ben-johnson-s-intrinsic-value",
+          "publishedAt": "2026-09-17T12:00:03.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "3e31c901-a16c-49f2-a969-bf210eb81281",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Chicago Bears Stat Tracker Week 1: Chasing Big Records",
+      "summary": "Welcome to the 2026 Chicago Bears Stat Tracker and boy did Caleb Williams and Ben Johnson’s offense give us some fireworks to kick off the season. Let’s talk about what we’re going to track this year. Caleb broke the single season franchise mark for passing yards but fell a bit short of that 4,000-yard marker. […]",
+      "whatHappened": "Welcome to the 2026 Chicago Bears Stat Tracker and boy did Caleb Williams and Ben Johnson’s offense give us some fireworks to kick off the season. Let’s talk about what we’re going to track this year. Caleb broke the single season franchise mark for passing yards but fell a bit short of that 4,000-yard marker. […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T12:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:52:57.033Z",
+      "firstReportedBy": "Windy City Gridiron",
+      "sources": [
+        {
+          "id": "a1bffc95-d323-4d0b-9099-f3609702745f",
+          "publisher": "Windy City Gridiron",
+          "title": "Chicago Bears Stat Tracker Week 1: Chasing Big Records",
+          "url": "https://www.windycitygridiron.com/chicago-bears-analysis/122804/chicago-bears-stat-tracker-week-1-chasing-big-records",
+          "publishedAt": "2026-09-17T12:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "af94f6e8-ed49-4fab-9550-835490506f79",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Bears have 0 excuses to lose to Vikings after Jordan Mason being put on IR",
+      "summary": "With Minnesota Vikings RB Jordan Mason going on IR, the Chicago Bears' defense no longer has any excuses to not shut their offense down in Week 2.",
+      "whatHappened": "With Minnesota Vikings RB Jordan Mason going on IR, the Chicago Bears' defense no longer has any excuses to not shut their offense down in Week 2.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T11:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:52:57.104Z",
+      "firstReportedBy": "Bear Goggles On",
+      "sources": [
+        {
+          "id": "34d4e72c-39a5-4999-bc8d-32674acfa26a",
+          "publisher": "Bear Goggles On",
+          "title": "Bears have 0 excuses to lose to Vikings after Jordan Mason being put on IR",
+          "url": "https://beargoggleson.com/bears-have-0-excuses-to-lose-to-vikings-after-jordan-mason-being-put-on-ir",
+          "publishedAt": "2026-09-17T11:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "f396b1e2-ca46-4fd7-b97d-a172f072040c",
+      "teamAbbr": "CHI",
+      "category": "GAME",
+      "headline": "Chicago Bears News: Does Ben Johnson have an answer for Minnesota Vikings D?",
+      "summary": "They call it a chess match between Chicago Bears offensive guru Ben Johnson and Minnesota Vikings defensive mastermind Brian Flores, but the key to this weekend’s game may be how well the visiting Norsemen can score on Dennis Allen’s defense. There’s also league-wide awards showering on Bears players following the 59-point offensive outburst against the […]",
+      "whatHappened": "They call it a chess match between Chicago Bears offensive guru Ben Johnson and Minnesota Vikings defensive mastermind Brian Flores, but the key to this weekend’s game may be how well the visiting Norsemen can score on Dennis Allen’s defense. There’s also league-wide awards showering on Bears players following the 59-point offensive outburst against the […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T10:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:52:57.152Z",
+      "firstReportedBy": "Windy City Gridiron",
+      "sources": [
+        {
+          "id": "bfb37e78-b2a5-4f4c-8bce-22baa6ce1e55",
+          "publisher": "Windy City Gridiron",
+          "title": "Chicago Bears News: Does Ben Johnson have an answer for Minnesota Vikings D?",
+          "url": "https://www.windycitygridiron.com/chicago-bears-news/123000/chicago-bears-news-does-ben-johnson-have-an-answer-for-minnesota-vikings-d",
+          "publishedAt": "2026-09-17T10:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "0abe9845-f35b-44c2-b16d-836f74a50856",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Chicago Bears Pass Protection Analysis on the Sacks Allowed vs Panthers",
+      "summary": "Welcome to another season of Sackwatch! My 16th year writing this weekly in-season column! Shout-out to WCG O.G. Kev H. for suggesting I write it to show that not every sack allowed deserves fans screaming at the offensive linemen. Back then, there wasn’t a sacks-are-a-quarterback-stat discourse or much understanding among fans of how nuanced an […]",
+      "whatHappened": "Welcome to another season of Sackwatch! My 16th year writing this weekly in-season column! Shout-out to WCG O.G. Kev H. for suggesting I write it to show that not every sack allowed deserves fans screaming at the offensive linemen. Back then, there wasn’t a sacks-are-a-quarterback-stat discourse or much understanding among fans of how nuanced an […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T02:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:52:57.245Z",
+      "firstReportedBy": "Windy City Gridiron",
+      "sources": [
+        {
+          "id": "faf05635-7a37-4c34-99e2-273049967321",
+          "publisher": "Windy City Gridiron",
+          "title": "Chicago Bears Pass Protection Analysis on the Sacks Allowed vs Panthers",
+          "url": "https://www.windycitygridiron.com/chicago-bears-analysis/122684/caleb-williams-chicago-bears-ol-analysis-sacks-allowed-vs-panthers",
+          "publishedAt": "2026-09-17T02:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "57709216-e4d6-4f0d-9c7e-2b48ab919b5d",
+      "teamAbbr": "CHI",
+      "category": "GAME",
+      "headline": "Bears gear up to host Vikings in NFC North showdown",
+      "summary": "After last weekend’s impressive 59-37 season-opening road win over the Panthers, the Bears return to Soldier Field for their home opener Sunday against the Vikings.",
+      "whatHappened": "After last weekend’s impressive 59-37 season-opening road win over the Panthers, the Bears return to Soldier Field for their home opener Sunday against the Vikings.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T00:54:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T03:05:31.340Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "4d1ec689-a90c-4625-8e49-3a96ca4d28d8",
+          "publisher": "Official team news",
+          "title": "Bears gear up to host Vikings in NFC North showdown",
+          "url": "https://www.chicagobears.com/news/bears-gear-up-to-host-vikings-in-nfc-north-showdown",
+          "publishedAt": "2026-09-17T00:54:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "4c658bce-af9b-464b-8139-0c70fec17e8f",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Bears Over Beers: Getting Ready For The Vikings",
+      "summary": "Welcome to the latest episode of Bears Over Beers! This week, join our hosts Ryan Droste and Bryan Orenchuk as they catch up once again and get ready for the second Bears game of the regular season! The Bears take on the Minnesota Vikings this Sunday in the Bears’ home opener at Soldier Field. We […]",
+      "whatHappened": "Welcome to the latest episode of Bears Over Beers! This week, join our hosts Ryan Droste and Bryan Orenchuk as they catch up once again and get ready for the second Bears game of the regular season! The Bears take on the Minnesota Vikings this Sunday in the Bears’ home opener at Soldier Field. We […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T00:44:54.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:52:57.295Z",
+      "firstReportedBy": "Windy City Gridiron",
+      "sources": [
+        {
+          "id": "d996df0f-64ad-4478-a91a-7729e846770b",
+          "publisher": "Windy City Gridiron",
+          "title": "Bears Over Beers: Getting Ready For The Vikings",
+          "url": "https://www.windycitygridiron.com/chicago-bears-discussion/122996/chicago-bears-over-beers-getting-ready-for-the-vikings",
+          "publishedAt": "2026-09-17T00:44:54.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "39f8de3a-5ae5-4ba1-88f3-da91a1b2df87",
+      "teamAbbr": "CHI",
+      "category": "COACHING",
+      "headline": "Ben Johnson Expects the Unexpected Against Brian Flores and the Vikings",
+      "summary": "Chicago Bears head coach Ben Johnson needs to utilize his rookie wide receiver, Zavion Thomas, in Week 2 versus the Minnesota Vikings. With Week 1 in the rearview, the Chicago Bears have turned the page to their home opener, with the Minnesota Vikings coming to Soldier Field for a divisional matchup Sunday. Bears head coach Ben Johnson has faced Minnesota Vikings defensive coordinator Brian Flores numerous times throughout his coaching career, but that familiarity doesn’t make Flores […]",
+      "whatHappened": "Chicago Bears head coach Ben Johnson needs to utilize his rookie wide receiver, Zavion Thomas, in Week 2 versus the Minnesota Vikings. With Week 1 in the rearview, the Chicago Bears have turned the page to their home opener, with the Minnesota Vikings coming to Soldier Field for a divisional matchup Sunday. Bears head coach Ben Johnson has faced Minnesota Vikings defensive coordinator Brian Flores numerous times throughout his coaching career, but that familiarity doesn’t make Flores […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-17T00:36:32.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-17T16:52:57.196Z",
+      "firstReportedBy": "Bear Goggles On",
+      "sources": [
+        {
+          "id": "66d7d54e-22a8-4af3-aeac-875f2f8bea74",
+          "publisher": "Bear Goggles On",
+          "title": "Ben Johnson Expects the Unexpected Against Brian Flores and the Vikings",
+          "url": "https://beargoggleson.com/ben-johnson-can-t-overthink-using-zavion-thomas-against-the-vikings",
+          "publishedAt": "2026-09-17T10:00:00.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "79cfeb15-0695-450a-a92b-040e48a60b70",
+          "publisher": "Windy City Gridiron",
+          "title": "Ben Johnson Expects the Unexpected Against Brian Flores and the Vikings",
+          "url": "https://www.windycitygridiron.com/chicago-bears-news/122979/chicago-bears-ben-johnson-expects-the-unexpected-against-brian-flores-and-the-vikings",
+          "publishedAt": "2026-09-17T00:36:32.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "f225af14-b291-43f6-bb72-a9b1a7ae5ac4",
+      "teamAbbr": "CHI",
+      "category": "COACHING",
+      "headline": "5 things that stood out to Ben Johnson in Week 1 win",
+      "summary": "After watching tape of Sunday’s season-opening 59-37 win over the Panthers, coach Ben Johnson spoke to reporters about the Bears battling through oppressive heat to finish strong, a record-breaking running game and Caleb Williams’ quick and smart decision-making. It’s clear that Bears receivers have fully embraced coach Ben Johnson’s “no block, no rock” philosophy that incentivizes their downfield blocking.",
+      "whatHappened": "After watching tape of Sunday’s season-opening 59-37 win over the Panthers, coach Ben Johnson spoke to reporters about the Bears battling through oppressive heat to finish strong, a record-breaking running game and Caleb Williams’ quick and smart decision-making. It’s clear that Bears receivers have fully embraced coach Ben Johnson’s “no block, no rock” philosophy that incentivizes their downfield blocking.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T22:48:18.000Z",
+      "sourceCount": 2,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 1,
+      "hotReadUntil": "2026-09-15T01:40:07.544Z",
+      "firstReportedBy": "Official team news",
+      "sources": [
+        {
+          "id": "a66b0654-c415-45c2-ab4d-c1de7433911c",
+          "publisher": "Official team news",
+          "title": "5 things that stood out to Ben Johnson in Week 1 win",
+          "url": "https://www.chicagobears.com/news/5-things-that-stood-out-to-ben-johnson-in-week-1-win-2026",
+          "publishedAt": "2026-09-14T22:48:31.000Z",
+          "kind": "reporting"
+        },
+        {
+          "id": "1c4f92f5-dcdf-42ec-8b5f-1c119980e520",
+          "publisher": "Official team news",
+          "title": "5 things that stood out to Ben Johnson in Week 1 win",
+          "url": "https://www.chicagobears.com/news/bears-embodying-ben-johnson-s-no-block-no-rock-mantra",
+          "publishedAt": "2026-09-16T22:48:18.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "195c09f4-0187-4d8a-807f-5e1f470ce7df",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Cam Lewis could surprisingly become Bears' key to fixing their CB woes",
+      "summary": "After stepping into the starting lineup at the last second in Week 1, Cam Lewis could help the Chicago Bears address their cornerback problems.",
+      "whatHappened": "After stepping into the starting lineup at the last second in Week 1, Cam Lewis could help the Chicago Bears address their cornerback problems.",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T21:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:53:59.144Z",
+      "firstReportedBy": "Bear Goggles On",
+      "sources": [
+        {
+          "id": "5b77cd7e-ea46-40b8-883a-2dd02192416f",
+          "publisher": "Bear Goggles On",
+          "title": "Cam Lewis could surprisingly become Bears' key to fixing their CB woes",
+          "url": "https://beargoggleson.com/cam-lewis-could-surprisingly-become-bears-key-to-fixing-their-cb-woes",
+          "publishedAt": "2026-09-16T21:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    },
+    {
+      "id": "dd1675bd-133c-41dd-ad3a-2811000f3569",
+      "teamAbbr": "CHI",
+      "category": "ANALYSIS",
+      "headline": "Bears’ Caleb Williams wins FedEx Air & Ground Player of the Week",
+      "summary": "Fresh off Chicago Bears running back D’Andre Swift winning the NFC Offensive Player of the Week award (and the NVP!) for his big game against the Carolina Panthers, the Bears have another award winner. Quarterback Caleb Williams is one of the Week 1 winners for the 2026 FedEx Air & Ground Player of the Week […]",
+      "whatHappened": "Fresh off Chicago Bears running back D’Andre Swift winning the NFC Offensive Player of the Week award (and the NVP!) for his big game against the Carolina Panthers, the Bears have another award winner. Quarterback Caleb Williams is one of the Week 1 winners for the 2026 FedEx Air & Ground Player of the Week […]",
+      "whyItMatters": "",
+      "whatsNext": "",
+      "updatedAt": "2026-09-16T21:00:00.000Z",
+      "sourceCount": 1,
+      "status": "DEVELOPING",
+      "materialUpdateCount": 0,
+      "hotReadUntil": "2026-09-17T16:53:59.072Z",
+      "firstReportedBy": "Windy City Gridiron",
+      "sources": [
+        {
+          "id": "64c12853-6708-4cff-aba8-2bd14b0a0f45",
+          "publisher": "Windy City Gridiron",
+          "title": "Bears’ Caleb Williams wins FedEx Air & Ground Player of the Week",
+          "url": "https://www.windycitygridiron.com/chicago-bears-news/122943/chicago-bears-caleb-williams-wins-fedex-air-ground-player-of-the-week-1-nfl-panthers",
+          "publishedAt": "2026-09-16T21:00:00.000Z",
+          "kind": "reporting"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalItems": 60,
+    "totalPages": 3
+  }
+}
