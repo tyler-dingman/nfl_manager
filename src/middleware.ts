@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { PREVIEW_COOKIE, prelaunchEnabled, verifyPreviewToken } from '@/lib/prelaunch';
 import { hasMobilePreviewAccess, isMobileAuthRoute } from '@/lib/mobile-preview-access';
+import { requiresApplicationSession } from '@/lib/application-access';
+import { SESSION_COOKIE } from '@/server/auth/http';
 
 const TOOL_PREFIX = '/offseasonmanager';
 const TOOL_ROUTES = [
@@ -38,6 +40,7 @@ function withDevelopmentCors(response: NextResponse, origin: string) {
 const PUBLIC_PRELAUNCH_ROUTES = new Set([
   '/preview',
   '/preview/logout',
+  '/login',
   '/robots.txt',
   '/api/preview/access',
   '/api/automation/content',
@@ -58,6 +61,7 @@ export async function middleware(request: NextRequest) {
   if (
     prelaunchEnabled() &&
     !PUBLIC_PRELAUNCH_ROUTES.has(pathname) &&
+    !pathname.startsWith('/api/auth/') &&
     !isMobileAuthRoute(pathname)
   ) {
     const authorized =
@@ -76,6 +80,44 @@ export async function middleware(request: NextRequest) {
       url.search = '';
       url.searchParams.set('next', `${pathname}${request.nextUrl.search}`);
       return noIndex(NextResponse.redirect(url));
+    }
+  }
+
+  if (requiresApplicationSession(pathname)) {
+    let authenticated = false;
+    if (request.cookies.get(SESSION_COOKIE)?.value) {
+      try {
+        // Session tokens are opaque and revocable. Let the existing Node auth handler
+        // validate them against the database rather than treating a cookie as proof.
+        const session = await fetch(new URL('/api/auth/me', request.url), {
+          headers: { cookie: request.headers.get('cookie') ?? '' },
+          cache: 'no-store',
+          redirect: 'error',
+          signal: AbortSignal.timeout(10000),
+        });
+        if (session.status !== 401 && !session.ok) throw new Error('Session lookup failed');
+        if (session.ok) {
+          const body = await session.json();
+          authenticated = body.ok === true && Boolean(body.user?.id);
+        }
+      } catch {
+        console.error('[application-auth] Session lookup unavailable', { pathname });
+        return noIndex(
+          new NextResponse('Sign-in verification is temporarily unavailable. Please retry.', {
+            status: 503,
+            headers: { 'Cache-Control': 'no-store' },
+          }),
+        );
+      }
+    }
+    if (!authenticated) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/login';
+      url.search = '';
+      url.searchParams.set('next', `${pathname}${request.nextUrl.search}`);
+      const response = NextResponse.redirect(url);
+      response.headers.set('Cache-Control', 'no-store');
+      return noIndex(response);
     }
   }
 

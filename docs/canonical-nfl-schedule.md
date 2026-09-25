@@ -31,6 +31,14 @@ All resolved game graphics use away-left/home-right ordering. Completed games us
 
 Cards make no external schedule request. The server reads persisted games once per batch, rather than caching a copied kickoff/score on each story. Schedule updates therefore appear on the next feed request without re-backfilling game IDs. Refreshing the provider is a separate ingestion operation.
 
+## Production NEXT UP troubleshooting
+
+On September 25, 2026, production had historical game rows but lacked all six columns from migration 042 (`espn_event_id`, `status`, `kickoff_confirmed`, `venue`, `broadcast_network`, `overtime`). Local already had the migration. This caused the NEXT UP query to fail rather than return an empty schedule. Applying the existing migration and running the existing 2026 sync repaired production (272 regular-season games plus 49 preseason games). Existing game UUIDs were preserved.
+
+For another deployment, run `npm run schedule:sync -- --season=2026 --migrate` with that environment's `DATABASE_URL` and existing server auth configuration; never assume a code deployment applies database migrations. Subsequent refreshes omit `--migrate`. No new provider, API key, homepage dataset, or browser-side external request is required. The sync is still an operational job: this repository does not currently schedule the canonical schedule refresh automatically.
+
+NEXT UP logs the selected team, canonical source, returned game count and safe database failure codes. Schema errors identify migration 042; missing configuration logs variable names only. Saved Parlay Lab market lookup errors return the game with null betting data. A missing venue also leaves the matchup usable. Production-equivalent route checks resolved KC at MIA, PHI at CHI, and LAC at BUF after the repair.
+
 ## Verification
 
 See `artifacts/beat-schedule-audit/2026.json` for per-story links, reasons and resulting metadata; `AUDIT.md` in that folder records requested case checks and season coverage. Unit tests cover DST, postseason labels, rematches, conflicts, ambiguous/missing opponents, stale article scores, canonical ordering and fallback behavior. Browser tests cover the live schedule-enriched route on mobile and desktop and existing gallery/action behavior.

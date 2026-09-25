@@ -8,7 +8,6 @@ import { requestMetadata } from '@/server/auth/request';
 import { issueSession } from '@/server/auth/service';
 import { createMobileHandoff, MOBILE_REDIRECT } from '@/server/auth/mobile-handoff';
 import type { MobileOAuthState } from '@/server/auth/oauth-state';
-import { getOnboarding } from '@/server/user/repository';
 async function callback(request: NextRequest, providerName: string, values: URLSearchParams) {
   let mobile: MobileOAuthState | undefined;
   try {
@@ -45,11 +44,7 @@ async function callback(request: NextRequest, providerName: string, values: URLS
       return response;
     }
     const session = await issueSession(user.id, requestMetadata(request));
-    const onboarding = await getOnboarding(user.id);
-    const destination =
-      safeRedirect(state.next) === '/' && !onboarding.completed
-        ? '/onboarding'
-        : safeRedirect(state.next);
+    const destination = safeRedirect(state.next);
     const response = NextResponse.redirect(new URL(destination, request.url));
     setSessionCookie(response, session.refreshToken, session.expiresAt);
     response.cookies.delete(OAUTH_COOKIE);

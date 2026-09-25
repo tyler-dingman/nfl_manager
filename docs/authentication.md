@@ -38,6 +38,10 @@ Email delivery is intentionally an integration boundary. In development, signup 
 
 Web sessions use a 30-day rotating opaque token in a Secure, HttpOnly, SameSite=Lax cookie. Only its SHA-256 hash is stored. Native clients receive a 15-minute signed access token plus the rotating opaque refresh token and should store the refresh token in iOS Keychain or Android secure credential storage.
 
+Application pages are gated centrally in middleware. Passing the site preview password does not authenticate an application user. Middleware validates `dd_session` through the existing, uncached `/api/auth/me` handler, including database expiry/revocation and user-status checks. Missing or invalid sessions redirect to `/login?next=...`; lookup failures return a retryable 503 instead of granting access. Login and OAuth endpoints remain accessible without either application authentication or a preview cookie. APIs retain their own authorization.
+
+Google and email sign-in return to the existing relative `next` destination, defaulting to `/`. Production's configured Google flow uses `https://www.downdistance.com/api/auth/social/google/callback`; keep `AUTH_BASE_URL` and the Google console's authorized callback consistent with that canonical origin. Provider credentials and `AUTH_JWT_SECRET` stay server-only.
+
 ## API
 
 - `POST /api/auth/signup`

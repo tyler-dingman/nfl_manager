@@ -73,7 +73,7 @@ export default function LoginScreen() {
       };
       if (!response.ok) throw new Error(body.error ?? 'Unable to authenticate.');
       notifyAuthChanged();
-      router.push(next === '/' && !body.onboarding?.completed ? '/onboarding' : next);
+      router.push(next);
       router.refresh();
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to authenticate.');
@@ -151,7 +151,8 @@ export default function LoginScreen() {
                     onClick={() => social('facebook')}
                     className={providerClass}
                   >
-                    <AuthProviderIcon provider="FACEBOOK" className="h-6 w-6" /> Continue with Facebook
+                    <AuthProviderIcon provider="FACEBOOK" className="h-6 w-6" /> Continue with
+                    Facebook
                   </button>
                   <div className="flex items-center gap-3 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#00172B]/35">
                     <span className="h-px flex-1 bg-[#00172B]/10" /> Or{' '}
@@ -162,7 +163,8 @@ export default function LoginScreen() {
                     onClick={() => setMode('email-login')}
                     className="flex h-14 w-full items-center justify-center rounded-full bg-[#00172B] font-black text-white hover:bg-[#FF3D38] disabled:opacity-40"
                   >
-                    <AuthProviderIcon provider="EMAIL" className="mr-3 h-5 w-5" /> Continue with email
+                    <AuthProviderIcon provider="EMAIL" className="mr-3 h-5 w-5" /> Continue with
+                    email
                   </button>
                   {config && !config.email ? (
                     <p className="text-center text-xs font-semibold text-amber-700">
