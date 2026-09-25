@@ -2,6 +2,17 @@ import type { BeatGraphicData } from './beat-model';
 
 // Development-only composition samples, never imported by a feed or ingestion adapter.
 export const beatFixtures: Array<{ id: string; category: string; graphic: BeatGraphicData }> = [
+  {
+    id: 'semantic-interview',
+    category: 'Interview',
+    graphic: { family: 'interview', name: 'Jeff Hafley', transcript: true },
+  },
+  { id: 'semantic-analysis', category: 'Analysis', graphic: { family: 'analysis' } },
+  {
+    id: 'stadium-event',
+    category: 'Events',
+    graphic: { family: 'off_field', subtype: 'EVENT', label: 'STADIUM\nEVENTS' },
+  },
   { id: 'feature', category: 'Standard / Feature', graphic: { family: 'standard' } },
   {
     id: 'matchup',

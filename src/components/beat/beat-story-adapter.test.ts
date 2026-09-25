@@ -29,28 +29,28 @@ const liveExpected: Record<string, string[]> = {
     'recap',
     'roster-roundup',
     'game-matchup',
-    'standard',
-    'standard',
-    'standard',
+    'interview',
+    'interview',
+    'interview',
   ],
   BUF: ['game-matchup', 'injury', 'recap', 'numbered', 'game-result', 'player', 'player', 'injury'],
   CHI: [
     'business-community',
-    'standard',
+    'analysis',
     'player',
-    'standard',
+    'player',
     'business-community',
     'business-community',
     'numbered',
     'player',
   ],
-  TB: ['film', 'standard', 'player', 'stats', 'numbered', 'game-result', 'player', 'game-result'],
+  TB: ['film', 'analysis', 'player', 'stats', 'numbered', 'game-result', 'player', 'game-result'],
   IND: [
     'business-community',
     'roster-roundup',
     'business-community',
     'transaction',
-    'business-community',
+    'off_field',
     'recap',
     'coaching',
     'player',
@@ -120,11 +120,11 @@ test('explicit facts and contextual exclusions', () => {
     'transaction',
   );
   assert.equal(
-    adaptBeatStory(story('NFL Power Rankings Week 3')).graphic.family.startsWith('standard'),
-    true,
+    adaptBeatStory(story('NFL Power Rankings Week 3')).graphic.family,
+    'analysis',
   );
   const transcript = adaptBeatStory(story('Transcript: HC Jeff Hafley Press Conference')).graphic;
-  assert(transcript.family.startsWith('standard'));
+  assert.equal(transcript.family, 'interview');
   assert(!('quote' in transcript));
   assert(!('mediaUrl' in transcript));
 });

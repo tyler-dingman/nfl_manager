@@ -1,7 +1,8 @@
 # The Beat card integration
 
 The live `/the-beat` feed opts into `HuddleStoryCard appearance="beat"` from
-`team-content-hub.tsx`. Homepage and Game Day consumers retain the legacy default.
+`team-content-hub.tsx`. The homepage uses the same cards and server graphic decisions.
+Game Day retains the legacy default.
 The selected feed team controls accents and ghost branding, not the story's subject.
 Opponent/transaction logos use `TEAM_LIST` and retain their authorized colors.
 
@@ -20,8 +21,9 @@ implied home/away. Nothing is borrowed from unrelated articles.
 
 Complete variants support no-kickoff matchups, scoreless recaps, roster roundups,
 one-stat/topic cards and injury reports without totals. Player Focus requires a
-name and position; Player Update requires a name and status. Transcripts without
-an attributed useful quote fall back to Standard. Optional jersey numbers, kickoff
+verified named subject; available roster positions and jersey numbers are enriched
+on the server. Player Update requires a name and status. Explicit transcripts and
+media availability use Interview without inventing a quotation. Optional jersey numbers, kickoff
 and contract details are omitted when unavailable. The card validates the final
 decision again before rendering, including decisions received from the API. DNP, week-to-week and in-game
 questionable-to-return retain their meanings. Community context precedes coach/draft
@@ -132,3 +134,25 @@ chevrons and uses the entire details width when there is no contract.
 Migration 043 stores backfilled transaction metadata. Re-run with
 `npx tsx scripts/backfill-beat-transactions.ts`; see
 `artifacts/beat-transaction-audit/AUDIT.md` for all-team coverage and visual checks.
+
+## Semantic classification and Analysis
+
+The source category remains metadata. `beat-semantics.ts` defines primary-subject
+signals used by the adapter and canonical game resolver. Specific formats override
+source ANALYSIS, while ambiguous general news uses Standard Editorial. Interpretation
+uses one dedicated Analysis composition with team logo, ghost Analysis text and accent
+underline. Off-field events, partnerships, business and awards reuse Business/Community
+artwork through the `off_field` family and subtype. Community retains its existing family.
+
+`beat-players.ts` resolves unique full roster names in headlines; summary-only mentions
+do not establish player focus. Explicit article tackle roles can refine OT to LT/RT.
+Jersey numbers are omitted when missing or associated with another team. Fan information
+uses canonical schedule metadata, and its pregame intent persists after the game ends.
+
+Migration 044 stores presentation decisions in `canonical_stories.visual_classification`.
+The live feed still computes the decision with current canonical game data. Run
+`node --import tsx scripts/backfill-beat-semantics.ts` for a dry audit or add `--apply`
+to backfill presentation metadata; neither changes source categories or article text.
+The saved pre-change baseline is in `artifacts/beat-semantic-audit/before.json`.
+See `artifacts/beat-semantic-audit/AUDIT.md` for all-team before/after counts and acceptance
+results, including the separate source-ANALYSIS cohort.

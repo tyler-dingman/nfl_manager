@@ -1,3 +1,4 @@
+import displayAccents from '../../public/assets/the-beat-asset-library/config/team-accents.json';
 import {
   ensureAccessibleTextColor,
   getContrastRatio,
@@ -73,4 +74,14 @@ export function getAccessibleTeamPickColor(teamAbbr: string): string {
     return '#00172b';
   }
   return ensureAccessibleTextColor(getTeamThemeTokens(teamAbbr).primaryFill, '#ffffff');
+}
+
+/** Existing bright team palette for display text on near-black hero surfaces. */
+export function getTeamDisplayAccent(teamAbbr?: string | null) {
+  const abbr = teamAbbr?.toUpperCase() ?? '';
+  const configured = displayAccents.teams[abbr as keyof typeof displayAccents.teams];
+  if (!configured) return '#FFFFFF';
+  // Minnesota's fan headline uses their purple rather than the gold secondary accent.
+  const accent = abbr === 'MIN' ? getTeamBrandTheme(abbr).primary : configured.accent;
+  return ensureAccessibleTextColor(accent, '#070a0d', 3);
 }

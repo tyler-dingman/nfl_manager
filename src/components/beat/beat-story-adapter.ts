@@ -1,3 +1,9 @@
+import {
+  gameInfoPattern,
+  playerStatusPattern,
+  playerFeaturePattern,
+  analysisPattern,
+} from './beat-semantics';
 import { extractBeatTransaction } from './beat-transaction';
 import type { BeatGameMetadata } from '@/lib/canonical-game';
 import accents from '../../../public/assets/the-beat-asset-library/config/team-accents.json';
@@ -21,6 +27,7 @@ export type BeatGraphicDecision = {
 };
 export type BeatStoryInput = {
   game?: BeatGameMetadata;
+  player?: { name: string; position?: string; jersey?: string; playerId: string; teamId?: string };
   id: string;
   teamAbbr: string;
   category: string;
@@ -111,7 +118,7 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
   ): BeatGraphicDecision => ({
     graphic: validBeatGraphic(graphic) ? graphic : { family: standardVariant(story.id) },
     reason,
-    displayCategory: validBeatGraphic(graphic) ? displayCategory : story.category,
+    displayCategory: validBeatGraphic(graphic) ? displayCategory : 'Editorial',
     evidence,
     sourceUrls: story.sources?.map((s) => s.url) ?? [],
     asOf: story.updatedAt,
@@ -121,7 +128,12 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
         ? { fallbackReason: reason }
         : {}),
   });
-  if (story.graphic && validBeatGraphic(story.graphic)) {
+  if (
+    story.graphic &&
+    !story.graphic.family.startsWith('standard') &&
+    story.graphic.family !== 'analysis' &&
+    validBeatGraphic(story.graphic)
+  ) {
     for (const [key, value] of Object.entries(story.graphic))
       fact(key, value, JSON.stringify(value), 'structured');
     return finish(
@@ -205,6 +217,27 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
     if (day) fact('kickoffDay', day[1], day[0]);
     return label;
   };
+  // Off-field context excludes football-shaped words such as kickoff, tour, and release.
+  if (/concert|(?:stadium|stadiums).*\btour\b|\btour\b.*stadium|music festival/i.test(h))
+    return finish(
+      { family: 'off_field', subtype: 'EVENT', label: 'STADIUM\nEVENTS' },
+      'Explicit stadium entertainment event',
+      'Events',
+    );
+  if (
+    /partnership|(?:extend|announce|renew|official|inaugural|security).*\bpartner\b|pop-up retail|retail store|sponsorship|ownership group|as investor/i.test(
+      h,
+    )
+  )
+    return finish(
+      {
+        family: 'off_field',
+        subtype: /partner|sponsor/i.test(h) ? 'PARTNERSHIP' : 'BUSINESS',
+        label: /partner|sponsor/i.test(h) ? 'PARTNERSHIP' : 'BUSINESS',
+      },
+      'Explicit commercial partnership or retail subject',
+      /partner|sponsor/i.test(h) ? 'Partnership' : 'Business',
+    );
   // Context exclusions precede NFL-specific formats.
   if (
     /donat|alumni|girls.? flag|high.school|youth (?:award|football|clinic)|giving back|nonprofit|pop-up retail|hygiene.*campaign|school uniform|blood drive|volunteer|cancer awareness|coach of the week|football digest|5-city tour|charity|foundation/i.test(
@@ -223,11 +256,18 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
   )
     return finish(
       {
-        family: 'business-community',
+        family: 'off_field',
+        subtype: 'BUSINESS',
         label: /uniform|merchandise|pro shop/i.test(h) ? 'TEAM\nSTYLE' : 'BUSINESS',
       },
       'Uniform/merchandise feature, not a game preview',
       'Business',
+    );
+  if (/(?:receives?|wins?|honored with).*\baward\b|named .*player of the week/i.test(h))
+    return finish(
+      { family: 'off_field', subtype: 'AWARD', label: 'AWARDS' },
+      'Explicit award recognition',
+      'Awards',
     );
   if (/depth chart/i.test(h))
     return finish(
@@ -236,16 +276,12 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
       'Depth chart',
     );
   if (
-    /mailbag|inbox|you['’]ve got mail|ask the old guy|fan questions|asked and answered|Q&A/i.test(h)
+    /mailbag|inbox|you['’]ve got mail|ask the old guy|fan questions|questions from fans|asked and answered|Q&A/i.test(
+      h,
+    )
   )
     return finish({ family: 'mailbag' }, 'Explicit recurring Q&A format', 'Mailbag');
-  if (/power rankings|betting odds|expert predictions|what are the odds/i.test(h))
-    return finish(
-      { family: standardVariant(story.id) },
-      'Rankings/prediction editorial lacks a verified display rank or completed primary result',
-      story.category,
-    );
-  const matrix = h.match(/\b(\d{1,2})[x×](\d)\s*:/i);
+  const matrix = h.match(/\b(\d{1,2})[x×](\d)(?:\s*:|\b)/i);
   if (matrix) {
     const count = matrix[1] + '×' + matrix[2];
     fact('count', count, matrix[0]);
@@ -311,8 +347,14 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
       'Takeaways',
     );
   }
+  if (/power rankings|betting odds|expert predictions|what are the odds/i.test(h))
+    return finish(
+      { family: 'analysis' },
+      'Rankings and prediction analysis without an invented display rank or game result',
+      'Analysis',
+    );
   if (
-    /top plays|film (?:room|study|breakdown)|tape talk|scheme breakdown|play analysis|all-22/i.test(
+    /top plays|film (?:room|study|breakdown)|tape (?:talk|study|breakdown)|play breakdown|scheme (?:breakdown|analysis)|X[ /&]O analysis|play analysis|all-22/i.test(
       h,
     )
   )
@@ -320,7 +362,8 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
   if (
     /know your foe|opponent preview|scouting report|defense.*(?:facing|prepar)|real talent.*(?:preview|week)/i.test(
       h,
-    )
+    ) ||
+    (/breaking down/i.test(h) && teamsIn(h).some((t) => t !== own))
   ) {
     const opponent = teamsIn(all).find((t) => t !== own);
     if (opponent)
@@ -386,13 +429,13 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
       'Transaction',
     );
   }
-  if (/transcript|press conference/i.test(h)) {
+  if (/transcript|press conference|media availability|speaks to the media|podcast/i.test(h)) {
     const m = h.match(/(?:HC|DC|OC|STC|QB|S)\s+(.+?)\s+Press Conference/i);
     const name = m?.[1];
     if (name) fact('name', name, m![0]);
     return finish(
       { family: 'interview', name, transcript: /transcript/i.test(h) },
-      'Transcript has no verified useful quotation; use Standard',
+      'Explicit interview format without an invented quotation',
       'Interview',
     );
   }
@@ -402,9 +445,9 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
   // Also accept an anchored named subject only for an explicit feature format.
   const featureMatch = h.match(
     new RegExp(
-      '^(' +
+      '^(?:How )?(' +
         namePattern +
-        ")(?:'s|’s)? (?:[Tt]akes [Aa]dvantage|proving|[Bb]ounce-back|week-to-week|ruled|[Cc]ould [Bb]e [Ss]idelined)",
+        ")(?:'s|’s)? (?:[Tt]akes [Aa]dvantage|[Bb]ecame|[Qq]uickly [Ee]arned|proving|[Bb]ounce-back|week-to-week|ruled|[Cc]ould [Bb]e [Ss]idelined)",
     ),
   );
   const seasonSubject = h.match(
@@ -413,17 +456,23 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
       'i',
     ),
   );
-  const player = playerMatch?.[2] ?? featureMatch?.[1] ?? seasonSubject?.[1];
-  const position = playerMatch ? positionFor(playerMatch[1]) : undefined;
-  if (
-    player &&
-    !/injury report|inactives?\b/i.test(h) &&
-    /injury|week-to-week|rule[ds]? out|x-rays|sidelined for season|season-ending|injured reserve/i.test(
-      h,
-    )
-  ) {
+  const player = story.player?.name ?? playerMatch?.[2] ?? featureMatch?.[1] ?? seasonSubject?.[1];
+  const playerExcerpt = story.player
+    ? player!
+    : (playerMatch?.[0] ?? featureMatch?.[0] ?? seasonSubject?.[0] ?? '');
+  const playerSource = story.player ? ('canonical' as const) : undefined;
+  const position =
+    story.player?.position ?? (playerMatch ? positionFor(playerMatch[1]) : undefined);
+  const jersey = story.player?.jersey;
+  const positionExcerpt =
+    position === 'LT'
+      ? all.match(/left tackle/i)?.[0]
+      : position === 'RT'
+        ? all.match(/right tackle/i)?.[0]
+        : undefined;
+  if (player && !/injury report|inactives?\b/i.test(h) && playerStatusPattern.test(h)) {
     const statusMatch = all.match(
-      /could be sidelined for season|season-ending|injured reserve|could miss multiple weeks|questionable to return|week-to-week|rule[ds]? OUT|x-rays[^.\n]*?negative|did not participate|\bDNP\b/i,
+      /could be sidelined for season|season-ending|injured reserve|could miss multiple weeks|questionable to return|week-to-week|rule[ds]? OUT|x-rays[^.\n]*?negative|did not participate|\bDNP\b|questionable|doubtful|day-to-day|return(?:s|ing)? to practice|expected to (?:play|start)|limited (?:participant|participation)|not practicing|won['’]t play|will not play|(?:in)?active for|named starting|cleared to (?:play|practice)/i,
     );
     const status = statusMatch
       ? /rule[ds]? out/i.test(statusMatch[0])
@@ -432,8 +481,15 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
           ? 'X-RAYS NEGATIVE'
           : statusMatch[0].toUpperCase()
       : 'INJURY UPDATE';
-    fact('name', player, playerMatch?.[0] ?? featureMatch?.[0] ?? seasonSubject![0]);
-    if (position) fact('position', position, playerMatch![0]);
+    fact('name', player, playerExcerpt, playerSource);
+    if (position)
+      fact(
+        'position',
+        position,
+        positionExcerpt ?? (story.player ? 'Persisted player roster: ' + player : playerMatch![0]),
+        positionExcerpt ? undefined : playerSource,
+      );
+    if (jersey) fact('jersey', jersey, 'Persisted player roster: ' + player, 'canonical');
     if (statusMatch) fact('status', status, statusMatch[0]);
     const context = /questionable to return/i.test(status)
       ? 'IN-GAME UPDATE'
@@ -442,7 +498,7 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
         : undefined;
     if (context) fact('context', context, context === 'IN-GAME UPDATE' ? statusMatch![0] : h);
     return finish(
-      { family: 'player', name: player, position, status, context },
+      { family: 'player', name: player, position, jersey, status, context },
       'Named player injury status with original time/game context',
       'Player update',
     );
@@ -466,7 +522,11 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
       'Injury',
     );
   }
-  if (/inside (?:the )?numbers|by the numbers|data crunch|grades & snap counts/i.test(h)) {
+  if (
+    /inside (?:the )?numbers|by the numbers|data crunch|statistical trends|statistical milestones|stats and facts|grades & snap counts/i.test(
+      h,
+    )
+  ) {
     const m = all.match(/(\d+(?:\.\d+)?)\s+yards per carry/i);
     const rows = m ? [{ value: m[1], label: 'YARDS PER CARRY' }] : [];
     if (m) {
@@ -605,17 +665,32 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
   }
   if (
     player &&
-    (featureMatch || /reliable|bounce-back|takes advantage|offense is close/i.test(h))
+    h.toLowerCase().includes(player.toLowerCase()) &&
+    (featureMatch ||
+      playerFeaturePattern.test(h) ||
+      (story.player &&
+        new RegExp('^(?:How |Why )?' + escape(player) + "(?:[’']s)?\\b", 'i').test(h)))
   ) {
-    fact('name', player, playerMatch?.[0] ?? featureMatch?.[0] ?? seasonSubject![0]);
-    if (position) fact('position', position, playerMatch![0]);
+    fact('name', player, playerExcerpt, playerSource);
+    if (position)
+      fact(
+        'position',
+        position,
+        positionExcerpt ?? (story.player ? 'Persisted player roster: ' + player : playerMatch![0]),
+        positionExcerpt ? undefined : playerSource,
+      );
+    if (jersey) fact('jersey', jersey, 'Persisted player roster: ' + player, 'canonical');
     return finish(
-      { family: 'player', name: player, position },
+      { family: 'player', name: player, position, jersey },
       'Named player feature supported by article text',
       'Player focus',
     );
   }
-  if (story.category === 'COACHING' && /strategy|scheme/i.test(h))
+  if (
+    /coaching (?:changes?|philosophy)|scheme adjustments?|game plans?|(?:coach|coordinator).*(?:scheme|strategy|philosophy)|coaching strategy/i.test(
+      h,
+    )
+  )
     return finish(
       { family: 'coaching', label: 'GAME\nPLAN' },
       'Explicit coaching strategy',
@@ -640,10 +715,23 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
       'Recap',
     );
   }
+  if (gameInfoPattern.test(h) && story.game)
+    return finish(
+      {
+        family: 'game-matchup',
+        leftTeam: story.game.awayTeam,
+        rightTeam: story.game.homeTeam,
+        week: story.game.weekDisplay,
+        kickoff: story.game.kickoffDisplay,
+      },
+      'Specific game information resolved against canonical schedule',
+      'Game Info',
+    );
   if (
-    (/preview|how to watch|how.*(?:listen|stream|watch)|top storylines|live game updates|live in-game|matchup/i.test(
-      h,
-    ) ||
+    (gameInfoPattern.test(h) ||
+      /preview|how to watch|how.*(?:listen|stream|watch)|top storylines|live game updates|live in-game|matchup/i.test(
+        h,
+      ) ||
       new RegExp('^(?:' + teamPattern + ')\\s+(?:vs\\.?|at)\\s+(?:' + teamPattern + ')', 'i').test(
         h,
       )) &&
@@ -672,10 +760,19 @@ function classifyBeatStory(story: BeatStoryInput): BeatGraphicDecision {
       'Practice editorial without a verified player transaction',
       'Practice',
     );
+  if (
+    analysisPattern.test(h) ||
+    /examines|explores|breaks down|evaluates|assesses|argues|explains why/i.test(story.summary)
+  )
+    return finish(
+      { family: 'analysis' },
+      'Interpretive editorial subject after specific formats are excluded',
+      'Analysis',
+    );
   return finish(
     { family: standardVariant(story.id) },
-    'General analysis or insufficient evidence for a specific editorial format',
-    story.category,
+    'General news without sufficient evidence for a specialized format',
+    'Editorial',
   );
 }
 
@@ -693,7 +790,11 @@ export function adaptBeatStory(story: BeatStoryInput): BeatGraphicDecision {
   if (primaryGame) {
     // Away/home ordering is stable for every story, regardless of title order or selected team.
     decision.graphic =
-      game.status === 'FINAL' && game.homeScore !== null && game.awayScore !== null
+      !gameInfoPattern.test(story.headline) &&
+      decision.graphic.family !== 'game-matchup' &&
+      game.status === 'FINAL' &&
+      game.homeScore !== null &&
+      game.awayScore !== null
         ? {
             family: 'game-result',
             leftTeam: game.awayTeam,
@@ -709,7 +810,12 @@ export function adaptBeatStory(story: BeatStoryInput): BeatGraphicDecision {
             week: game.weekDisplay,
             kickoff: game.kickoffDisplay,
           };
-    decision.displayCategory = decision.graphic.family === 'game-result' ? 'Final' : 'Matchup';
+    decision.displayCategory =
+      decision.graphic.family === 'game-result'
+        ? 'Final'
+        : gameInfoPattern.test(story.headline)
+          ? 'Game Info'
+          : 'Matchup';
     decision.reason = 'Resolved canonical NFL game';
     delete decision.fallbackReason;
   }

@@ -1,0 +1,2242 @@
+[
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FFB612",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#E71930",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#9E7CDB",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#006DCE",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#0085CA",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#F26522",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FB4F14",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FF3C00",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#869DBB",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FB4F14",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#009FE3",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FFB612",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#E83242",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#3B7FC4",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#D7A22A",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FF153C",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#0080C6",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FFD100",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#A5ACAF",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#00B7AF",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FFC62F",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#EE244B",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#D3BC8D",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#E62947",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#18A875",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#20A99E",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FFB612",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#69BE28",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#E52D38",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#F3263D",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#4B92DB",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 213.703125,
+      "y": 103.375,
+      "width": 46.90625,
+      "height": 20,
+      "fontSize": "20.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 278,
+    "height": 156.375,
+    "accent": "#FFB612",
+    "word": {
+      "x": 17.375,
+      "y": 52.984375,
+      "width": 243.25,
+      "height": 44.46875,
+      "fontSize": "46.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 278,
+      "height": 156.375,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FFB612",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#E71930",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#9E7CDB",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#006DCE",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#0085CA",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#F26522",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FB4F14",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FF3C00",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#869DBB",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FB4F14",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#009FE3",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FFB612",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#E83242",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#3B7FC4",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#D7A22A",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FF153C",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#0080C6",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FFD100",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#A5ACAF",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#00B7AF",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FFC62F",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#EE244B",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#D3BC8D",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#E62947",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#18A875",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#20A99E",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FFB612",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#69BE28",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#E52D38",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#F3263D",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#4B92DB",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  },
+  {
+    "team": {
+      "x": 305.953125,
+      "y": 148,
+      "width": 67.15625,
+      "height": 28.640625,
+      "fontSize": "29.85px",
+      "fontWeight": "700",
+      "opacity": "1",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "width": 398,
+    "height": 223.875,
+    "accent": "#FFB612",
+    "word": {
+      "x": 24.875,
+      "y": 75.859375,
+      "width": 348.25,
+      "height": 63.671875,
+      "fontSize": "66.3333px",
+      "fontWeight": "800",
+      "opacity": "0.085",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    },
+    "rule": {
+      "x": 0,
+      "y": 0,
+      "width": 398,
+      "height": 223.875,
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "opacity": "0.45",
+      "font": "__Barlow_Condensed_df07ce, __Barlow_Condensed_Fallback_df07ce, sans-serif"
+    }
+  }
+]

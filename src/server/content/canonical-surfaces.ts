@@ -1,4 +1,6 @@
 import type { TeamBriefing } from '@/features/content/types';
+import { enrichGameStories } from '@/server/schedule/enrich';
+import { enrichBeatTransaction } from '@/server/content/beat-transactions';
 import type { ThreeAndOutPackage } from '@/features/three-and-out/types';
 import { listPublicStories, listWireEntries } from '@/server/story-engine/projections';
 import { selectHuddleStories } from '@/features/story-engine/surface-selectors';
@@ -62,6 +64,7 @@ export async function canonicalHuddle(
       teamAbbr: s.teamId,
       headline: s.headline,
       summary: s.shortSummary,
+      whatHappened: s.whatHappened,
       whyItMatters: s.whyItMatters,
       category: s.storyType,
       updatedAt: s.lastMeaningfulUpdateAt,
@@ -109,5 +112,15 @@ export async function getTeamHomepageData(teamId: string) {
       ).slice(0, 4);
   const threeAndOut = threeAndOutResult.status === 'fulfilled' ? threeAndOutResult.value : null;
   const wire = wireResult.status === 'fulfilled' ? wireResult.value : [];
-  return { teamId, huddle, threeAndOut, wire };
+  let beatStories: TeamBriefing[];
+  try {
+    beatStories = await enrichGameStories(huddle, false);
+  } catch (error) {
+    console.error('[homepage] failed to enrich game graphics', error);
+    beatStories = huddle.map((story) => ({
+      ...story,
+      graphicDecision: enrichBeatTransaction(story),
+    }));
+  }
+  return { teamId, huddle: beatStories, threeAndOut, wire };
 }

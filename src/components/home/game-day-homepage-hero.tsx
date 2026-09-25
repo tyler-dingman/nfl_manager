@@ -1,8 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { NextGameHeroCard } from './next-game-hero-card';
+import { getTeamHeroDescription } from '@/config/team-hero-copy';
+import { HomeTeamHeadline } from './home-team-headline';
+import { getTeamDisplayAccent } from '@/lib/team-theme-tokens';
 
 import { gameDayHeroAsset } from '@/config/game-day-hero';
 import type { HomepageGame } from '@/features/game-day/homepage-game';
@@ -16,19 +18,12 @@ const timeLabel = (game: HomepageGame) =>
     timeZone: game.timeZone,
   }).format(new Date(game.startsAt));
 
-const actionLabel = (state: HomepageGame['state']) =>
-  state === 'LIVE' ? 'ENTER LIVE GAME DAY' : state === 'FINAL' ? 'VIEW GAME DAY' : 'ENTER GAME DAY';
-
-const teamNickname = (team: Team) => team.name.trim().split(/\s+/).at(-1) ?? team.name;
-
 export default function GameDayHomepageHero({
   team,
   game,
-  frontOfficeHref,
 }: {
   team: Team;
   game?: HomepageGame | null;
-  frontOfficeHref: string;
 }) {
   const asset = gameDayHeroAsset(team.abbr);
   const isGameDay = Boolean(game);
@@ -54,8 +49,8 @@ export default function GameDayHomepageHero({
         className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/55 to-transparent"
       />
 
-      <div className="relative mx-auto flex min-h-[430px] max-w-[1440px] items-center px-5 py-8 sm:min-h-[460px] sm:px-8 lg:min-h-[500px] lg:px-12 xl:px-16">
-        <div className="w-full max-w-3xl">
+      <div className="relative mx-auto grid min-h-[430px] max-w-[1440px] items-center gap-8 px-5 py-8 lg:grid-cols-[minmax(0,1fr)_minmax(340px,38%)] xl:gap-12 sm:min-h-[460px] sm:px-8 lg:min-h-[500px] lg:px-12 xl:px-16">
+        <div className="w-full min-w-0 max-w-3xl" data-hero-copy>
           <div className="flex flex-wrap items-center gap-3">
             <p className="text-[11px] font-black uppercase tracking-[0.28em] text-white/75 sm:text-xs">
               {team.name}
@@ -73,21 +68,18 @@ export default function GameDayHomepageHero({
             ) : null}
           </div>
 
-          <h1 className="dd-home-hero-display mt-7 text-[clamp(2.8rem,7vw,5.5rem)]">
-            {isGameDay ? (
-              <>
-                IT&apos;S
-                <span className="block text-[var(--secondary)]">GAMEDAY.</span>
-              </>
-            ) : (
-              <>
-                YOUR ALL-IN-ONE
-                <span className="block text-[var(--secondary)]">{teamNickname(team)} HUB.</span>
-              </>
-            )}
-          </h1>
+          {isGameDay ? (
+            <h1 className="dd-home-hero-display mt-7 text-[clamp(2.8rem,7vw,5.5rem)]">
+              IT&apos;S<span className="block text-[var(--secondary)]">GAMEDAY.</span>
+            </h1>
+          ) : (
+            <HomeTeamHeadline teamAbbr={team.abbr} />
+          )}
 
-          <div className="mt-8 border-l-4 border-[var(--secondary)] pl-4 sm:pl-5">
+          <div
+            className="mt-8 border-l-4 border-[var(--secondary)] pl-4 sm:pl-5"
+            style={!isGameDay ? { borderColor: getTeamDisplayAccent(team.abbr) } : undefined}
+          >
             {game ? (
               <>
                 <p className="text-xl font-black uppercase tracking-tight sm:text-3xl">
@@ -98,21 +90,13 @@ export default function GameDayHomepageHero({
                 </p>
               </>
             ) : (
-              <p className="max-w-xl text-base font-semibold leading-7 text-white/75 sm:text-lg">
-                The stories, videos, roster moves, and fan conversations that matter—ranked and
-                explained for you.
+              <p className="max-w-3xl text-base font-semibold leading-7 text-white/75 sm:text-lg">
+                {getTeamHeroDescription(team.abbr)}
               </p>
             )}
           </div>
-
-          <Link
-            href={game ? `/game-day?team=${team.abbr}&game=${game.id}` : frontOfficeHref}
-            className="mt-8 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-xl bg-[var(--secondary)] px-7 text-sm font-black uppercase tracking-[0.08em] text-[var(--team-on-secondary)] shadow-xl shadow-black/25 transition hover:-translate-y-0.5 hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto"
-          >
-            {game ? actionLabel(game.state) : 'OPEN FRONT OFFICE'}{' '}
-            <ArrowRight className="h-5 w-5" aria-hidden="true" />
-          </Link>
         </div>
+        <NextGameHeroCard teamId={team.abbr} />
       </div>
     </section>
   );

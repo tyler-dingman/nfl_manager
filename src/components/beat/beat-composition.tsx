@@ -74,6 +74,19 @@ export function beatComposition(
         </div>
       );
     }
+    case 'analysis':
+      return (
+        <div className={styles.analysisComposition} data-beat-composition="analysis">
+          <span className={styles.analysisGhost} aria-hidden="true">
+            ANALYSIS
+          </span>
+          {mark(team)}
+          <div className={styles.analysisTitle}>
+            <strong>ANALYSIS</strong>
+            <span className={styles.statusRule} aria-hidden="true" />
+          </div>
+        </div>
+      );
     case 'numbered':
       return (
         <div className={styles.numberComposition} data-beat-composition="numbered">

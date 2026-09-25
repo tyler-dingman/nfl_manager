@@ -42,7 +42,7 @@ export const TEAM_BRAND_THEMES: Record<string, TeamBrandTheme> = {
   PIT: { primary: '#FFB612', secondary: '#FFFFFF', dark: '#101820', light: '#FFFFFF' },
   SF: { primary: '#AA0000', secondary: '#B3995D', dark: '#650000', light: '#FFFFFF' },
   SEA: { primary: '#002244', secondary: '#69BE28', dark: '#00162D', light: '#FFFFFF' },
-  TB: { primary: '#D50A0A', secondary: '#B1BABF', dark: '#34302B', light: '#FFFFFF' },
+  TB: { primary: '#D50A0A', secondary: '#B1BABF', dark: '#D50A0A', light: '#FFFFFF' },
   TEN: { primary: '#0C2340', secondary: '#4B92DB', dark: '#07162A', light: '#FFFFFF' },
   WAS: { primary: '#5A1414', secondary: '#FFB612', dark: '#360B0B', light: '#FFFFFF' },
 };

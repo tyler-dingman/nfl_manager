@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FilmRoomHero } from './film-room-hero';
 import { ExternalLink } from 'lucide-react';
 import { DdVideosIcon as Play } from '@/components/ui/football-icons';
 import { DdFiltersIcon as SlidersHorizontal } from '@/components/ui/football-icons';
@@ -147,9 +148,11 @@ export function FilmRoomCard({
 export default function FilmRoomGrid({
   teamAbbr,
   teamName,
+  withHero = false,
 }: {
   teamAbbr: string;
   teamName: string;
+  withHero?: boolean;
 }) {
   const [data, setData] = useState<FilmRoomResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -180,12 +183,13 @@ export default function FilmRoomGrid({
     const controller = new AbortController();
     setLoading(true);
     setData(null);
+    setSelectedVideo(null);
     void fetch(`/api/film-room?team=${encodeURIComponent(teamAbbr)}`, {
       signal: controller.signal,
     })
       .then(async (response) => {
         const payload = (await response.json()) as FilmRoomResponse;
-        setData(payload);
+        if (!controller.signal.aborted && payload.teamId === teamAbbr) setData(payload);
       })
       .catch((error: unknown) => {
         if (!(error instanceof DOMException && error.name === 'AbortError')) {
@@ -206,10 +210,10 @@ export default function FilmRoomGrid({
     };
   }, [teamAbbr]);
 
+  const teamVideos = data?.teamId === teamAbbr ? data.videos : [];
+
   const videos = useMemo(() => {
-    const filtered = (data?.videos ?? []).filter(
-      (video) => filter === 'all' || video.category === filter,
-    );
+    const filtered = teamVideos.filter((video) => filter === 'all' || video.category === filter);
     return [...filtered].sort((left, right) => {
       if (sort === 'most-viewed') return (right.viewCount ?? -1) - (left.viewCount ?? -1);
       const difference =
@@ -217,99 +221,116 @@ export default function FilmRoomGrid({
         new Date(left.publishedAt ?? left.addedAt).getTime();
       return sort === 'oldest' ? -difference : difference;
     });
-  }, [data?.videos, filter, sort]);
+  }, [teamVideos, filter, sort]);
 
   return (
-    <section aria-label={`${teamName} Film Room videos`}>
-      <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex gap-2 overflow-x-auto pb-1" role="group" aria-label="Video category">
-          {FILM_ROOM_CATEGORIES.map((category) => {
-            const selected = filter === category.id;
-            return (
-              <button
-                key={category.id}
-                type="button"
-                onClick={() => setFilter(category.id)}
-                aria-pressed={selected}
-                className={`shrink-0 rounded-full px-4 py-2 text-xs font-black uppercase tracking-wide transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                  selected
-                    ? 'bg-[var(--dark)] text-[var(--team-on-dark)]'
-                    : 'bg-white text-slate-600 hover:bg-slate-100'
-                }`}
-              >
-                {category.label}
-              </button>
-            );
-          })}
-        </div>
-        <label className="flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700">
-          <SlidersHorizontal className="h-4 w-4" />
-          <span className="sr-only">Sort videos</span>
-          <select
-            value={sort}
-            onChange={(event) => setSort(event.target.value as Sort)}
-            className="bg-transparent font-bold outline-none"
-          >
-            <option value="newest">Newest First</option>
-            <option value="oldest">Oldest First</option>
-            <option value="most-viewed">Most Viewed</option>
-          </select>
-        </label>
-      </div>
-
-      {loading ? (
-        <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3" aria-label="Loading videos">
-          {Array.from({ length: 6 }, (_, index) => (
-            <div
-              key={index}
-              className="overflow-hidden rounded-xl border border-slate-200 bg-white"
-            >
-              <div className="aspect-video animate-pulse bg-slate-200" />
-              <div className="space-y-3 p-5">
-                <div className="h-5 animate-pulse rounded bg-slate-200" />
-                <div className="h-5 w-3/4 animate-pulse rounded bg-slate-200" />
-                <div className="h-9 w-1/2 animate-pulse rounded bg-slate-100" />
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : videos.length ? (
-        <div className="mt-5 grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {videos.map((video, index) => (
-            <FilmRoomCard key={video.id} video={video} sequence={index + 1} onPlay={openVideo} />
-          ))}
-        </div>
-      ) : (
-        <div className="mt-5 rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
-          <h2 className="text-xl font-black text-[#00172b]">
-            {filter === 'all' ? 'Film Room is warming up' : 'No videos in this category yet'}
-          </h2>
-          <p className="mx-auto mt-2 max-w-xl text-slate-600">
-            {filter === 'all'
-              ? (data?.message ?? `Curated ${teamName} video coverage will appear here.`)
-              : 'Try another category or select All to see every curated video.'}
-          </p>
-        </div>
-      )}
-
-      {data?.unavailableVideoIds.length ? (
-        <p className="mt-4 text-center text-xs text-slate-500" role="status">
-          {data.unavailableVideoIds.length} curated{' '}
-          {data.unavailableVideoIds.length === 1 ? 'video is' : 'videos are'} currently unavailable.
-        </p>
-      ) : null}
-      <p className="mt-8 text-center text-xs font-semibold text-slate-500">
-        Down &amp; Distance curates videos from YouTube. All rights and ownership belong to the
-        original creators.
-      </p>
-      {selectedVideo ? (
-        <FilmRoomVideoModal
-          video={selectedVideo}
+    <>
+      {withHero && (
+        <FilmRoomHero
           teamAbbr={teamAbbr}
-          onClose={closeVideo}
-          returnFocusTo={playTrigger}
+          videos={teamVideos}
+          onPlay={openVideo}
+          loading={loading}
         />
-      ) : null}
-    </section>
+      )}
+      <section
+        className={withHero ? 'mx-auto max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8' : undefined}
+        aria-label={`${teamName} Film Room videos`}
+      >
+        <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex gap-2 overflow-x-auto pb-1" role="group" aria-label="Video category">
+            {FILM_ROOM_CATEGORIES.map((category) => {
+              const selected = filter === category.id;
+              return (
+                <button
+                  key={category.id}
+                  type="button"
+                  onClick={() => setFilter(category.id)}
+                  aria-pressed={selected}
+                  className={`shrink-0 rounded-full px-4 py-2 text-xs font-black uppercase tracking-wide transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                    selected
+                      ? 'bg-[var(--dark)] text-[var(--team-on-dark)]'
+                      : 'bg-white text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  {category.label}
+                </button>
+              );
+            })}
+          </div>
+          <label className="flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700">
+            <SlidersHorizontal className="h-4 w-4" />
+            <span className="sr-only">Sort videos</span>
+            <select
+              value={sort}
+              onChange={(event) => setSort(event.target.value as Sort)}
+              className="bg-transparent font-bold outline-none"
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="most-viewed">Most Viewed</option>
+            </select>
+          </label>
+        </div>
+
+        {loading ? (
+          <div
+            className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3"
+            aria-label="Loading videos"
+          >
+            {Array.from({ length: 6 }, (_, index) => (
+              <div
+                key={index}
+                className="overflow-hidden rounded-xl border border-slate-200 bg-white"
+              >
+                <div className="aspect-video animate-pulse bg-slate-200" />
+                <div className="space-y-3 p-5">
+                  <div className="h-5 animate-pulse rounded bg-slate-200" />
+                  <div className="h-5 w-3/4 animate-pulse rounded bg-slate-200" />
+                  <div className="h-9 w-1/2 animate-pulse rounded bg-slate-100" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : videos.length ? (
+          <div className="mt-5 grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {videos.map((video, index) => (
+              <FilmRoomCard key={video.id} video={video} sequence={index + 1} onPlay={openVideo} />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-5 rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
+            <h2 className="text-xl font-black text-[#00172b]">
+              {filter === 'all' ? 'Film Room is warming up' : 'No videos in this category yet'}
+            </h2>
+            <p className="mx-auto mt-2 max-w-xl text-slate-600">
+              {filter === 'all'
+                ? (data?.message ?? `Curated ${teamName} video coverage will appear here.`)
+                : 'Try another category or select All to see every curated video.'}
+            </p>
+          </div>
+        )}
+
+        {data?.unavailableVideoIds.length ? (
+          <p className="mt-4 text-center text-xs text-slate-500" role="status">
+            {data.unavailableVideoIds.length} curated{' '}
+            {data.unavailableVideoIds.length === 1 ? 'video is' : 'videos are'} currently
+            unavailable.
+          </p>
+        ) : null}
+        <p className="mt-8 text-center text-xs font-semibold text-slate-500">
+          Down &amp; Distance curates videos from YouTube. All rights and ownership belong to the
+          original creators.
+        </p>
+        {selectedVideo ? (
+          <FilmRoomVideoModal
+            video={selectedVideo}
+            teamAbbr={teamAbbr}
+            onClose={closeVideo}
+            returnFocusTo={playTrigger}
+          />
+        ) : null}
+      </section>
+    </>
   );
 }

@@ -52,10 +52,18 @@ function currentSection(pathname: string, view: string | null) {
   );
 }
 
-export function FrontOfficeMobileNav({ open, onOpen }: { open: boolean; onOpen: () => void }) {
+export function FrontOfficeMobileNav({
+  open,
+  onOpen,
+  preFranchise = false,
+}: {
+  open: boolean;
+  onOpen: () => void;
+  preFranchise?: boolean;
+}) {
   const pathname = usePathname() ?? '';
   const params = useSearchParams();
-  const section = currentSection(pathname, params?.get('view') ?? null);
+  const section = preFranchise ? 'Start' : currentSection(pathname, params?.get('view') ?? null);
   return (
     <div className="front-office-mobile-bar">
       <span>Front Office</span>
@@ -79,11 +87,13 @@ export function FrontOfficeSidebar({
   season,
   open,
   onClose,
+  preFranchise = false,
 }: {
   team?: Team;
   season: number;
   open: boolean;
   onClose: () => void;
+  preFranchise?: boolean;
 }) {
   const pathname = usePathname()?.replace(/^\/offseasonmanager(?=\/)/, '') ?? '';
   const params = useSearchParams();
@@ -153,8 +163,13 @@ export function FrontOfficeSidebar({
           </span>
         </Link>
         <nav aria-label="Front Office">
-          {items.map(({ label, href, icon: Icon }) => {
-            const active = currentSection(pathname, params?.get('view') ?? null) === label;
+          {(preFranchise
+            ? [{ label: 'Start', href: '/experience', icon: Home }, items[items.length - 1]]
+            : items
+          ).map(({ label, href, icon: Icon }) => {
+            const active = preFranchise
+              ? label === 'Start'
+              : currentSection(pathname, params?.get('view') ?? null) === label;
             return (
               <Link
                 key={label}

@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { EditorialCardGraphic } from './editorial-card-graphic';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import manifest from '../../../public/assets/the-beat-asset-library/manifest.json';
 import { TEAM_LIST } from '@/data/teams';
@@ -91,25 +92,32 @@ export function BeatGraphic({
   category: string;
   age: string | null;
 }) {
+  if (category.trim().toUpperCase() === 'EDITORIAL') {
+    return <EditorialCardGraphic team={selectedTeam} age={age} family={data.family} />;
+  }
   const composition = beatComposition(
     data,
     (abbr) => <Logo abbr={abbr} x={0} y={0} width={80} height={80} />,
     beatTeam(selectedTeam) ?? 'NFL',
   );
   const recipeFamily =
-    data.family === 'depth-chart'
-      ? 'league'
-      : data.family === 'mailbag'
-        ? 'business-community'
-        : data.family === 'practice'
-          ? 'standard-c'
-          : data.family === 'roster-roundup'
-            ? 'transaction'
-            : data.family === 'recap'
-              ? 'game-matchup'
-              : data.family === 'interview' || data.family === 'team-update'
-                ? 'league'
-                : data.family;
+    data.family === 'off_field'
+      ? 'business-community'
+      : data.family === 'analysis'
+        ? 'league'
+        : data.family === 'depth-chart'
+          ? 'league'
+          : data.family === 'mailbag'
+            ? 'business-community'
+            : data.family === 'practice'
+              ? 'standard-c'
+              : data.family === 'roster-roundup'
+                ? 'transaction'
+                : data.family === 'recap'
+                  ? 'game-matchup'
+                  : data.family === 'interview' || data.family === 'team-update'
+                    ? 'league'
+                    : data.family;
   const recipe = manifest.recipes[recipeFamily];
   const team = beatTeam(selectedTeam) ?? 'NFL';
   const text: Record<string, ReactNode> = {
@@ -155,6 +163,7 @@ export function BeatGraphic({
     case 'film':
       text.title = 'FILM\nROOM';
       break;
+    case 'off_field':
     case 'business-community':
       text.title = data.label;
       break;
@@ -197,6 +206,7 @@ export function BeatGraphic({
       ['directional-four-chevrons', 'contract-divider'].includes(id)
     )
       return false;
+    if (data.family === 'analysis' && id === 'around-nfl-network') return false;
     if (data.family === 'depth-chart' && id === 'around-nfl-network') return false;
     if (data.family === 'mailbag' && id === 'interlocking-lines') return false;
     if (data.family === 'developing' && id === 'story-timeline') return false;

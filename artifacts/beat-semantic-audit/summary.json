@@ -1,0 +1,39 @@
+{
+  "sourceAnalysisTotal": 1207,
+  "sourceAnalysisAfter": {
+    "Game Info / Matchup": 121,
+    "Business/Off Field/Event": 25,
+    "Player Focus": 83,
+    "Standard Editorial": 661,
+    "Mailbag": 42,
+    "Player Update": 10,
+    "Numbered/List": 42,
+    "Other specialized families": 110,
+    "Analysis": 62,
+    "Stats/Data": 13,
+    "Scouting": 9,
+    "Community": 27,
+    "Strategy/Film": 2
+  },
+  "total": 2045,
+  "teams": 32,
+  "analysisBefore": 881,
+  "analysisAfter": 83,
+  "standardEditorialAfter": 887,
+  "fromAnalysis": {
+    "Game Info / Matchup": 7,
+    "Player Focus": 80,
+    "Player Update": 8,
+    "Numbered/List": 0,
+    "Stats/Data": 3,
+    "Scouting": 0,
+    "Coaching": 0,
+    "Strategy/Film": 0,
+    "Mailbag": 0,
+    "Community": 0,
+    "Business/Off Field/Event": 11,
+    "Other specialized families": 49,
+    "Analysis": 62,
+    "Standard Editorial": 661
+  }
+}

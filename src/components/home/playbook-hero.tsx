@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { getTeamHeroDescription } from '@/config/team-hero-copy';
+import { HomeTeamHeadline } from './home-team-headline';
 import { DdPlaybookIcon as Shield } from '@/components/ui/football-icons';
 import { useMemo } from 'react';
 
@@ -15,7 +15,6 @@ type NextGame = {
 
 type PlaybookHeroProps = {
   team?: Team;
-  frontOfficeHref: string;
   nextGame?: NextGame | null;
 };
 
@@ -71,12 +70,6 @@ const formatBriefingDate = (dayKey: string) =>
     day: 'numeric',
     timeZone: 'UTC',
   }).format(new Date(`${dayKey}T12:00:00Z`));
-
-const splitTeamName = (fullName: string) => {
-  const words = fullName.trim().split(/\s+/);
-  if (words.length < 2) return { city: fullName, nickname: '' };
-  return { city: words.slice(0, -1).join(' '), nickname: words.at(-1) ?? '' };
-};
 
 function ArrowHead({ id, color }: { id: string; color: string }) {
   return (
@@ -275,10 +268,8 @@ function PlayDiagram({
   );
 }
 
-export default function PlaybookHero({ team, frontOfficeHref, nextGame }: PlaybookHeroProps) {
+export default function PlaybookHero({ team, nextGame }: PlaybookHeroProps) {
   const teamAbbr = team?.abbr ?? 'NFL';
-  const teamName = team?.name ?? 'NFL';
-  const { city, nickname } = splitTeamName(teamName);
   const dayKey = useMemo(() => getPlaybookDayKey(), []);
   const palette = getHeroPalette(team?.abbr);
   const style = {
@@ -322,29 +313,12 @@ export default function PlaybookHero({ team, frontOfficeHref, nextGame }: Playbo
               </p>
             </div>
           </div>
-          <h1 className="mt-7 max-w-[780px] text-[clamp(2.9rem,7vw,6.6rem)] font-black uppercase leading-[0.84] tracking-[-0.055em] text-[var(--hero-chalk)]">
-            {team ? (
-              <>
-                Everything <span className="text-[var(--hero-primary)]">{city}</span>
-                <br />
-                {nickname}, all in one place.
-              </>
-            ) : (
-              <>Everything NFL, all in one place.</>
-            )}
-          </h1>
+          <HomeTeamHeadline teamAbbr={team?.abbr} />
+
           <div className="mt-5 h-1 w-24 rounded-full bg-[var(--hero-primary)]" />
-          <p className="mt-5 max-w-xl text-base font-semibold leading-7 text-white/62 sm:text-lg">
-            The stories, videos, roster moves, and fan conversations that matter—ranked and
-            explained for you.
+          <p className="mt-5 max-w-xl border-l-4 border-[var(--hero-primary)] pl-4 text-base font-semibold leading-7 text-white/62 sm:text-lg">
+            {getTeamHeroDescription(team?.abbr)}
           </p>
-          <Link
-            className="group mt-7 inline-flex min-h-13 items-center gap-5 rounded-full bg-[var(--hero-primary)] px-6 py-3.5 text-sm font-black uppercase tracking-[0.08em] text-[var(--hero-cta-text)] transition hover:-translate-y-0.5 hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-white/20"
-            href={frontOfficeHref}
-          >
-            Open Front Office{' '}
-            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-          </Link>
         </div>
         <div className="relative -mt-5 overflow-hidden px-2 pb-5 sm:-mt-10 sm:px-8 sm:pb-8 lg:-ml-16 lg:mt-0 lg:px-0 lg:pb-0 lg:pr-8">
           <PlayDiagram dayKey={dayKey} nextGame={nextGame} teamAbbr={teamAbbr} />

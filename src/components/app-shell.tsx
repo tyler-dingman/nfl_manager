@@ -64,15 +64,18 @@ export default function AppShell({
   showTeamSummary = true,
   showLeagueWire = true,
   phaseControl,
+  preFranchise = false,
 }: {
   children: React.ReactNode;
   showTeamSummary?: boolean;
   showLeagueWire?: boolean;
   phaseControl?: React.ReactNode;
+  preFranchise?: boolean;
 }) {
   return (
     <Suspense fallback={null}>
       <AppShellContent
+        preFranchise={preFranchise}
         phaseControl={phaseControl}
         showTeamSummary={showTeamSummary}
         showLeagueWire={showLeagueWire}
@@ -88,11 +91,13 @@ function AppShellContent({
   showTeamSummary,
   showLeagueWire,
   phaseControl,
+  preFranchise = false,
 }: {
   children: React.ReactNode;
   showTeamSummary: boolean;
   showLeagueWire: boolean;
   phaseControl?: React.ReactNode;
+  preFranchise?: boolean;
 }) {
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
@@ -301,18 +306,22 @@ function AppShellContent({
         className={`front-office-app min-h-screen ${pathname?.endsWith('/experience') ? 'fo-home-shell' : ''} ${pathname === '/front-office/draft' ? 'fo-draft-central-shell' : ''}`}
       >
         <FrontOfficeMobileNav
+          preFranchise={preFranchise}
           open={isMobileSidebarOpen}
           onOpen={() => setIsMobileSidebarOpen(true)}
         />
         <div className="front-office-shell flex min-h-[calc(100vh-var(--site-header-height))] flex-col">
           <FrontOfficeSidebar
+            preFranchise={preFranchise}
             team={selectedTeam}
             season={franchiseYear}
             open={isMobileSidebarOpen}
             onClose={() => setIsMobileSidebarOpen(false)}
           />
           <div className="front-office-content flex min-w-0 flex-1 flex-col">
-            {(showTeamSummary || pathname === '/experience') && <FrontOfficeMobileStatus />}
+            {!preFranchise && (showTeamSummary || pathname === '/experience') && (
+              <FrontOfficeMobileStatus />
+            )}
             {showTeamSummary && (
               <details className="fo-mobile-franchise-actions">
                 <summary>Franchise actions</summary>

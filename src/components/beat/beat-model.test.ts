@@ -117,13 +117,15 @@ test('SVG assets remain trusted ID-free geometry with four separated transaction
       assert.equal((svg.match(/<path /g) || []).length, 4);
   }
 });
-test('The Beat opts into new cards while other existing consumers retain legacy defaults', () => {
+test('The Beat and homepage share new cards while Game Day retains its existing design', () => {
   const hub = readFileSync('src/components/team-content-hub.tsx', 'utf8');
   assert.match(hub, /appearance="beat"/);
   assert.match(hub, /teamId=\{teamAbbr\}/);
-  for (const file of [
-    'src/components/down-distance-home.tsx',
-    'src/components/game-day/game-day-page.tsx',
-  ])
-    assert.doesNotMatch(readFileSync(file, 'utf8'), /appearance="beat"/);
+  const home = readFileSync('src/components/down-distance-home.tsx', 'utf8');
+  assert.match(home, /appearance="beat"/);
+  assert.match(home, /graphicDecision=\{item.briefing.graphicDecision\}/);
+  assert.doesNotMatch(
+    readFileSync('src/components/game-day/game-day-page.tsx', 'utf8'),
+    /appearance="beat"/,
+  );
 });

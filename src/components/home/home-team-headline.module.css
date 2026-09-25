@@ -1,0 +1,26 @@
+.headline {
+  margin: 28px 0 0;
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(3rem, 7.6vw, 6rem);
+  line-height: 0.94;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  max-width: 100%;
+  padding-right: 0.12em;
+}
+.headline span {
+  display: inline;
+}
+.first {
+  color: #fff;
+}
+.second {
+  background: none;
+}
+@media (max-width: 639px) {
+  .headline {
+    font-size: clamp(3rem, 13vw, 5.2rem);
+  }
+}

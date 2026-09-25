@@ -1,3 +1,4 @@
+import { gameInfoPattern } from '@/components/beat/beat-semantics';
 import { TEAM_LIST } from '@/data/teams';
 import { beatTeam } from '@/components/beat/beat-model';
 import type { BeatStoryInput } from '@/components/beat/beat-story-adapter';
@@ -22,6 +23,7 @@ const escape = (v: string) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 export function gameStoryHints(story: GameStory) {
   const h = story.headline;
   const relevant =
+    gameInfoPattern.test(h) ||
     /\bgame\b|matchup|how to watch|watch and stream|preview|know before you go|expert picks|know your foe|scouting report|\bvs\.?\b|\bagainst\b|\bdefeat|\brecap\b|\bwin\b|\bloss\b|\bopener\b|inactive|injury report|week \d/i.test(
       h,
     );
@@ -30,7 +32,17 @@ export function gameStoryHints(story: GameStory) {
     TEAM_LIST.filter(
       (t) =>
         new RegExp(
-          '\\b(?:' + [t.name, t.name.split(' ').at(-1)!].map(escape).join('|') + ')\\b',
+          '\\b(?:' +
+            [
+              t.name,
+              t.name.split(' ').at(-1)!,
+              ...(!['NYG', 'NYJ', 'LAC', 'LAR'].includes(t.abbr)
+                ? [t.name.split(' ').slice(0, -1).join(' ')]
+                : []),
+            ]
+              .map(escape)
+              .join('|') +
+            ')\\b',
           'i',
         ).test(text) || new RegExp('\\b' + escape(t.abbr) + '\\b').test(text),
     )

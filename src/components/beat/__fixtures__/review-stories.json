@@ -140,7 +140,7 @@
     "headline": "Transcript: HC Jeff Hafley Press Conference",
     "summary": "",
     "category": "ANALYSIS",
-    "expected": "standard",
+    "expected": "interview",
     "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
   },
   {
@@ -248,7 +248,7 @@
     "headline": "Bears defense displays growth",
     "summary": "",
     "category": "ANALYSIS",
-    "expected": "standard",
+    "expected": "analysis",
     "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
   },
   {
@@ -275,7 +275,7 @@
     "headline": "Kalif Raymond proving to be reliable veteran target for Bears offense",
     "summary": "",
     "category": "GAME",
-    "expected": "standard",
+    "expected": "player",
     "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
   },
   {
@@ -338,7 +338,7 @@
     "headline": "NFL Power Rankings Week 3",
     "summary": "",
     "category": "ANALYSIS",
-    "expected": "standard",
+    "expected": "analysis",
     "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
   },
   {
@@ -419,7 +419,7 @@
     "headline": "Anvil Strike uniforms",
     "summary": "",
     "category": "ANALYSIS",
-    "expected": "business-community",
+    "expected": "off_field",
     "provenance": "Review-supplied title/summary excerpt; not a fetched full article"
   },
   {

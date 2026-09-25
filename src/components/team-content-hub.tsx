@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { BeatHero } from '@/components/beat/beat-hero';
 import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
 import { useSaveStore } from '@/features/save/save-store';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -8,7 +9,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, Clock3, Radio, Shield, Sparkles, Users } from 'lucide-react';
 
 import FilmRoomGrid from '@/components/film-room/film-room-grid';
-import FilmRoomPlayDiagram from '@/components/film-room/film-room-play-diagram';
 import HuddleStoryCard from '@/components/huddle/huddle-story-card';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -27,9 +27,8 @@ type HubKind = 'huddle' | 'three-and-out' | 'watch' | 'wire' | 'front-office';
 const hubMeta = {
   huddle: {
     eyebrow: 'The Beat',
-    title: 'Everything happening with your team. As it happens.',
-    description:
-      'One story per development. Updated as trusted reporting comes in, with every source linked back to the people doing the work.',
+    title: 'The Beat',
+    description: 'The pulse of your team.',
   },
   'three-and-out': {
     eyebrow: 'Three and Out',
@@ -67,6 +66,8 @@ const wireUpdates = [
 
 export default function TeamContentHub({ kind }: { kind: HubKind }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const teams = useTeamStore((state) => state.teams);
   const requestedAbbr = searchParams?.get('team')?.toUpperCase();
   const [persistedAbbr, setPersistedAbbr] = useState<string | null>(null);
@@ -103,17 +104,31 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
     void fetch(`/api/content/huddle?${query}`, { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : null))
       .then((payload: { briefings?: TeamBriefing[]; pagination?: BeatPagination } | null) => {
+        if (controller.signal.aborted) return;
         setBriefings(payload?.briefings ?? []);
-        if (payload?.pagination) setBeatPagination(payload.pagination);
+        if (payload?.pagination) {
+          setBeatPagination(payload.pagination);
+          // Only the response to this request can clamp its page. Previous page
+          // metadata must never redirect a newly requested page before it loads.
+          if (payload.pagination.page !== parseBeatPage(query.get('page'))) {
+            const params = new URLSearchParams(searchParams?.toString() ?? '');
+            params.set('page', String(payload.pagination.page));
+            router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+          }
+        }
       })
       .catch((error: unknown) => {
-        if (!(error instanceof DOMException && error.name === 'AbortError')) setBriefings([]);
+        if (
+          !controller.signal.aborted &&
+          !(error instanceof DOMException && error.name === 'AbortError')
+        )
+          setBriefings([]);
       })
       .finally(() => {
         if (!controller.signal.aborted) setBeatLoading(false);
       });
     return () => controller.abort();
-  }, [kind, searchParams, teamAbbr]);
+  }, [kind, pathname, router, searchParams, teamAbbr]);
 
   return (
     <TeamThemeProvider team={activeTeam}>
@@ -129,7 +144,9 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
           active={kind === 'huddle' || kind === 'watch' || kind === 'front-office' ? kind : null}
         />
 
-        {kind === 'front-office' ? (
+        {kind === 'huddle' ? (
+          <BeatHero team={activeTeam} />
+        ) : kind === 'watch' ? null : kind === 'front-office' ? (
           <FrontOfficeStrategicHero
             section="Your Franchise"
             title="Front Office"
@@ -137,34 +154,13 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
           />
         ) : (
           <section className="relative overflow-hidden bg-[var(--dark)] text-[var(--team-on-dark)]">
-            {kind === 'watch' ? <FilmRoomPlayDiagram /> : null}
             <div className="relative z-[1] mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
               <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--team-secondary-on-dark)]">
                 {teamName} · {meta.eyebrow}
               </p>
-              {kind === 'huddle' ? (
-                <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
-                  Everything happening with your team.{' '}
-                  <span
-                    className={`${teamAbbr === 'NYJ' ? 'text-white' : 'text-[var(--secondary)]'} [text-shadow:0_2px_0_rgba(0,0,0,0.2)]`}
-                  >
-                    As it happens.
-                  </span>
-                </h1>
-              ) : kind === 'watch' ? (
-                <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
-                  Get into the film room and{' '}
-                  <span
-                    className={`${teamAbbr === 'NYJ' ? 'text-white' : 'text-[var(--secondary)]'} [text-shadow:0_2px_0_rgba(0,0,0,0.2)]`}
-                  >
-                    put on the tape.
-                  </span>
-                </h1>
-              ) : (
-                <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
-                  {meta.title}
-                </h1>
-              )}
+              <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
+                {meta.title}
+              </h1>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--team-light-on-dark)]">
                 {meta.description}
               </p>
@@ -172,7 +168,11 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
           </section>
         )}
 
-        <main className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
+        <main
+          className={
+            kind === 'watch' ? undefined : 'mx-auto max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8'
+          }
+        >
           {kind === 'huddle' ? (
             <HuddleGrid
               briefings={briefings}
@@ -198,7 +198,9 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
               </section>
             )
           ) : null}
-          {kind === 'watch' ? <FilmRoomGrid teamAbbr={teamAbbr} teamName={teamName} /> : null}
+          {kind === 'watch' ? (
+            <FilmRoomGrid teamAbbr={teamAbbr} teamName={teamName} withHero />
+          ) : null}
           {kind === 'wire' ? <WireTimeline /> : null}
           {kind === 'front-office' ? <FrontOffice teamName={teamName} teamAbbr={teamAbbr} /> : null}
         </main>
@@ -248,15 +250,6 @@ function HuddleGrid({
     if (resetPage) params.set('page', '1');
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
-
-  useEffect(() => {
-    const requestedPage = parseBeatPage(searchParams?.get('page'));
-    if (!loading && pagination.totalPages > 0 && requestedPage !== pagination.page) {
-      const params = new URLSearchParams(searchParams?.toString() ?? '');
-      params.set('page', String(pagination.page));
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    }
-  }, [loading, pagination.page, pagination.totalPages, pathname, router, searchParams]);
 
   useEffect(() => {
     if (!hydrated || !user || !briefings.length) return;

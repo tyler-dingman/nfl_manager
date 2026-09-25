@@ -1,0 +1,476 @@
+.start {
+  position: relative;
+  isolation: isolate;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 12px 28px 30px;
+  color: #f7fafc;
+}
+.start::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -16px -16px auto;
+  height: 300px;
+  opacity: 0.16;
+  background:
+    linear-gradient(90deg, #031218 15%, transparent),
+    var(--start-stadium) right 30% / cover;
+  pointer-events: none;
+}
+.intro {
+  position: relative;
+  padding: 0 0 27px;
+}
+.eyebrow,
+.sectionLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #afc5d3;
+}
+.intro h1 {
+  position: relative;
+  margin: 4px 0 9px;
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-weight: 800;
+  font-size: clamp(38px, 4.2vw, 64px);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+.description {
+  font-size: 18px;
+  line-height: 1.4;
+  color: #afc5d3;
+}
+.ghost {
+  position: absolute;
+  right: 1%;
+  top: 5px;
+  font:
+    italic 800 170px/0.95 var(--font-front-office-barlow),
+    sans-serif;
+  opacity: 0.055;
+  pointer-events: none;
+}
+.full,
+.quick {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #36505b;
+  border-radius: 14px;
+  background:
+    linear-gradient(115deg, #06222be6, #021016f5),
+    url('/assets/front-office-asset-pack/textures/panel-grid.svg');
+}
+.full {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  border-color: var(--fo-accent);
+  border-left: 7px solid var(--fo-accent);
+  min-height: 338px;
+}
+.full::after,
+.quick::after {
+  content: '';
+  position: absolute;
+  right: -95px;
+  bottom: -170px;
+  width: 170px;
+  height: 470px;
+  transform: rotate(44deg);
+  background: linear-gradient(
+    90deg,
+    transparent 0 10%,
+    var(--fo-accent) 10% 25%,
+    #001219 25% 32%,
+    var(--secondary) 32% 53%,
+    #001219 53% 59%,
+    var(--fo-accent) 59% 72%,
+    transparent 72%
+  );
+  opacity: 0.65;
+  pointer-events: none;
+}
+.fullCopy {
+  position: relative;
+  z-index: 1;
+  padding: 17px 30px 20px;
+}
+.recommended {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font:
+    700 16px/1.1 var(--font-front-office-barlow),
+    sans-serif;
+  text-transform: uppercase;
+  color: var(--fo-accent);
+}
+.recommended svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+.full h2 {
+  margin: 6px 0 0;
+  font:
+    800 clamp(42px, 4.5vw, 68px)/1 var(--font-front-office-barlow),
+    sans-serif;
+  text-transform: uppercase;
+}
+.subtitle {
+  margin: 2px 0 11px;
+  font:
+    700 25px/1.2 var(--font-front-office-barlow),
+    sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a4bccd;
+}
+.full .description {
+  font-size: 17px;
+}
+.features {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(3, auto);
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 18px;
+  margin: 14px 0 17px;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+.features li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.features svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  padding: 2px;
+  color: #03151c;
+  background: var(--fo-accent);
+  stroke-width: 3;
+}
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  border-radius: 12px;
+  padding: 11px 23px;
+  background: var(--fo-interactive);
+  color: var(--fo-interactive-fg);
+  font:
+    700 21px/1.1 var(--font-front-office-barlow),
+    sans-serif;
+  text-transform: uppercase;
+  border: 1px solid var(--fo-accent);
+}
+.primary svg {
+  width: 22px;
+}
+.primary:hover {
+  background: var(--fo-interactive-hover);
+}
+.start button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+.start button:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 4px;
+}
+.identity {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 22px 25px 30px;
+}
+.identity img {
+  position: relative;
+  z-index: 1;
+  width: min(85%, 290px);
+  height: 220px;
+  object-fit: contain;
+}
+.identity p {
+  align-self: flex-end;
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
+  font:
+    600 16px/1.15 var(--font-front-office-barlow),
+    sans-serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #a4bccd;
+}
+.identity p::after {
+  content: '';
+  display: block;
+  width: 45px;
+  height: 4px;
+  background: var(--secondary);
+  margin-top: 8px;
+}
+.playbook {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background: url('/assets/front-office/graphics/heroes/play-diagram.svg') center/cover;
+}
+.sectionLabel {
+  margin: 22px 0 12px;
+}
+.quickStarts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.quick {
+  display: flex;
+  gap: 24px;
+  padding: 18px 22px;
+  min-height: 154px;
+}
+.quick > div {
+  position: relative;
+  z-index: 1;
+}
+.icon {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  margin-top: 5px;
+  stroke-width: 1.4;
+}
+.quick h3 {
+  font:
+    800 29px/1 var(--font-front-office-barlow),
+    sans-serif;
+  text-transform: uppercase;
+}
+.kicker {
+  font:
+    600 13px/1.2 var(--font-front-office-barlow),
+    sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a4bccd;
+  margin: 5px 0 9px;
+}
+.quick p:not(.kicker) {
+  color: #c0d2dc;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.quick button {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 13px;
+  color: var(--fo-accent);
+  font:
+    700 17px/1.2 var(--font-front-office-barlow),
+    sans-serif;
+  text-transform: uppercase;
+}
+.quick button svg {
+  width: 18px;
+}
+.quickArt {
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  right: -10px;
+  top: 5px;
+  opacity: 0.065;
+  stroke-width: 1;
+}
+.quick::after {
+  opacity: 0.2;
+}
+.lifecycle {
+  display: flex;
+  list-style: none;
+  gap: 17px;
+  padding: 0;
+  margin: 16px 0 0;
+}
+.lifecycle li {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 12px;
+  min-width: 0;
+}
+.lifecycle svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  stroke-width: 1.6;
+}
+.lifecycle strong {
+  display: block;
+  white-space: nowrap;
+  font:
+    700 15px/1.2 var(--font-front-office-barlow),
+    sans-serif;
+  text-transform: uppercase;
+}
+.lifecycle small {
+  display: block;
+  font-size: 10px;
+  color: #a4bccd;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+.lifecycle .chevron {
+  margin-left: auto;
+  width: 15px;
+}
+.feedback {
+  color: #e2e8f0;
+  margin-top: 16px;
+}
+@media (max-width: 1250px) {
+  .start {
+    padding: 12px 12px 25px;
+  }
+  .fullCopy {
+    padding-left: 22px;
+    padding-right: 10px;
+  }
+  .quick {
+    gap: 14px;
+    padding: 18px;
+  }
+  .lifecycle {
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  .lifecycle li {
+    min-width: 145px;
+  }
+}
+@media (max-width: 767px) {
+  .start {
+    padding: 8px 6px 22px;
+  }
+  .intro {
+    padding-bottom: 22px;
+  }
+  .intro h1 {
+    font-size: 42px;
+  }
+  .description {
+    font-size: 16px;
+  }
+  .desktopBreak {
+    display: none;
+  }
+  .ghost {
+    font-size: 110px;
+    top: 45px;
+  }
+  .full {
+    display: block;
+  }
+  .fullCopy {
+    padding: 20px;
+  }
+  .full h2 {
+    font-size: 45px;
+  }
+  .subtitle {
+    font-size: 19px;
+  }
+  .identity {
+    position: absolute;
+    right: -40px;
+    top: 35px;
+    width: 230px;
+    height: 250px;
+    opacity: 0.08;
+    padding: 0;
+    pointer-events: none;
+  }
+  .identity p {
+    display: none;
+  }
+  .features {
+    font-size: 13px;
+    gap: 9px 14px;
+  }
+  .primary {
+    font-size: 20px;
+    width: 100%;
+    justify-content: space-between;
+    padding: 13px 16px;
+  }
+  .quickStarts {
+    grid-template-columns: 1fr;
+  }
+  .quick {
+    min-height: 168px;
+    gap: 20px;
+    padding: 22px;
+  }
+  .sectionLabel {
+    line-height: 1.7;
+    font-size: 11px;
+  }
+}
+@media (max-width: 360px) {
+  .features {
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+  .full h2 {
+    font-size: 38px;
+  }
+}
+
+/* Scope overrides of the shared workspace heading/button defaults to this screen. */
+.start .intro h1 {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-weight: 800;
+}
+.start .full h2,
+.start .quick h3 {
+  text-transform: uppercase !important;
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-weight: 800;
+}
+.start h2.sectionLabel {
+  text-transform: uppercase !important;
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+}
+.start button {
+  font-family: var(--font-front-office-barlow), sans-serif;
+}
+.start .primary {
+  background: var(--start-button);
+  color: #fff;
+  font-weight: 800;
+}
+.start .primary:hover {
+  filter: brightness(1.12);
+}
+
+.start .intro h1 {
+  text-transform: none;
+}

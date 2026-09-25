@@ -1,3 +1,4 @@
+import { resolveBeatPlayer } from './beat-players';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { adaptBeatStory, type BeatStoryInput } from '@/components/beat/beat-story-adapter';
 import type { TransactionGraphic, TransactionPlayer } from '@/components/beat/beat-transaction';
@@ -6,7 +7,7 @@ const key = (name: string) => name.toLowerCase().replace(/[^a-z0-9]/g, '');
 const roster = [...NFL_LEAGUE_DATA.players, ...NFL_LEAGUE_DATA.freeAgents];
 /** Exact unique player lookup only; a number on a former team is not a new jersey number. */
 export function enrichBeatTransaction(story: BeatStoryInput) {
-  const decision = adaptBeatStory(story);
+  const decision = adaptBeatStory({ ...story, player: story.player ?? resolveBeatPlayer(story) });
   if (decision.graphic.family !== 'transaction') return decision;
   const data: TransactionGraphic = { ...decision.graphic };
   const enrich = (player: TransactionPlayer): TransactionPlayer => {

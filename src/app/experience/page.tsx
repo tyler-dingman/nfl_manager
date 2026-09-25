@@ -2,14 +2,12 @@
 
 export const dynamic = 'force-dynamic';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, DraftingCompass, Handshake, Trophy } from 'lucide-react';
+import { FrontOfficeStart } from '@/components/front-office/front-office-start';
 
 import AppShell from '@/components/app-shell';
 import { FrontOfficeHome } from '@/components/front-office/front-office-home';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
@@ -22,127 +20,28 @@ import type { FranchiseSimulationState, FrontOfficePath } from '@/types/front-of
 
 type ExperienceMode = FrontOfficePath;
 
-const EXPERIENCE_OPTIONS: Array<{
-  key: ExperienceMode;
-  title: string;
-  description: string;
-  isDefault?: boolean;
-}> = [
-  {
-    key: 'full',
-    title: 'Full Experience',
-    description: 'Make tough decisions around your team to set it up for success.',
-    isDefault: true,
-  },
-  {
-    key: 'free_agency',
-    title: 'Free Agency',
-    description: 'Sign free agents to improve your team.',
-  },
-  {
-    key: 'draft',
-    title: 'Draft',
-    description: 'Draft the future of your team.',
-  },
-];
-
-const EXPERIENCE_ICONS = {
-  full: Trophy,
-  free_agency: Handshake,
-  draft: DraftingCompass,
-} as const;
-
 function FrontOfficePathGate({
-  selectedMode,
-  onSelect,
   onContinue,
   busy,
   error,
+  teamAbbr,
+  season,
 }: {
-  selectedMode: ExperienceMode;
-  onSelect: (mode: ExperienceMode) => void;
   onContinue: (mode: ExperienceMode) => void;
   busy: boolean;
   error: string;
+  teamAbbr: string | null;
+  season: number;
 }) {
   return (
-    <AppShell showTeamSummary={false} showLeagueWire={false}>
-      <section className="mx-auto flex min-h-[calc(100vh-13rem)] w-full max-w-6xl flex-col pb-10 pt-3 sm:pt-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-          Choose your path
-        </p>
-        <h1 className="mt-2 text-3xl font-black text-foreground">Choose your experience</h1>
-        <div className="mt-7 grid gap-4 md:grid-cols-3">
-          {EXPERIENCE_OPTIONS.map((option) => {
-            const isSelected = selectedMode === option.key;
-            const Icon = EXPERIENCE_ICONS[option.key];
-            return (
-              <button
-                key={option.key}
-                type="button"
-                className={`front-office-experience-card group relative flex min-h-64 h-full flex-col overflow-hidden rounded-2xl border p-6 text-left transition ${
-                  isSelected
-                    ? 'is-selected border-transparent bg-[var(--team-dark)] text-[var(--team-on-dark)] shadow-xl'
-                    : 'border-border bg-white hover:-translate-y-0.5 hover:shadow-lg'
-                }`}
-                disabled={busy}
-                aria-pressed={isSelected}
-                onClick={() => {
-                  onSelect(option.key);
-                  if (window.matchMedia('(max-width: 767px)').matches) onContinue(option.key);
-                }}
-              >
-                {option.isDefault ? (
-                  <div className="absolute right-0 top-[-2px] z-10">
-                    <Badge
-                      variant="secondary"
-                      className="rounded-bl-sm rounded-br-none rounded-tl-none rounded-tr-none border-transparent bg-[var(--team-dark)] px-3.5 text-[var(--team-on-dark)]"
-                    >
-                      Default
-                    </Badge>
-                  </div>
-                ) : null}
-                <Icon className="mb-auto h-9 w-9" aria-hidden="true" />
-                <p
-                  className={`mt-8 text-xl font-semibold ${isSelected ? 'text-inherit' : 'text-foreground'}`}
-                >
-                  {option.title}
-                </p>
-                <p
-                  className={`mt-1 text-sm ${isSelected ? 'text-inherit opacity-80' : 'text-muted-foreground'}`}
-                >
-                  {option.description}
-                </p>
-                <span
-                  className={`mt-6 inline-flex h-10 w-10 items-center justify-center rounded-full border ${isSelected ? 'border-current' : 'border-border bg-[#f7f4ee]'}`}
-                >
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </span>
-              </button>
-            );
-          })}
-        </div>
-        {busy && (
-          <p role="status" className="mt-4 text-sm text-muted-foreground">
-            Starting your experience…
-          </p>
-        )}
-        {error && (
-          <p role="alert" className="mt-4 text-sm text-foreground">
-            {error}
-          </p>
-        )}
-        <div className="mt-6 hidden justify-end md:flex">
-          <Button
-            type="button"
-            disabled={busy}
-            onClick={() => onContinue(selectedMode)}
-            className="w-full bg-[var(--team-dark)] text-[var(--team-on-dark)] hover:bg-[var(--team-dark)] hover:opacity-95 md:w-auto"
-          >
-            Continue
-          </Button>
-        </div>
-      </section>
+    <AppShell showTeamSummary={false} showLeagueWire={false} preFranchise>
+      <FrontOfficeStart
+        teamAbbr={teamAbbr}
+        season={season}
+        onStart={onContinue}
+        busy={busy}
+        error={error}
+      />
     </AppShell>
   );
 }
@@ -169,8 +68,6 @@ export default function ExperiencePage() {
   const setFullExperience = useExperienceStore((state) => state.setFullExperience);
   const enterSandboxStep = useExperienceStore((state) => state.enterSandboxStep);
 
-  const defaultMode = useMemo(() => 'full' as const, []);
-  const [selectedMode, setSelectedMode] = useState<ExperienceMode>(defaultMode);
   const [savedPath, setSavedPath] = useState<FrontOfficePath | null>(null);
   const [frontOfficeReady, setFrontOfficeReady] = useState(false);
   const [starting, setStarting] = useState(false);
@@ -408,8 +305,8 @@ export default function ExperiencePage() {
   if (shouldShowFrontOfficeOnboarding(savedPath)) {
     return (
       <FrontOfficePathGate
-        selectedMode={selectedMode}
-        onSelect={setSelectedMode}
+        teamAbbr={teamAbbr}
+        season={franchiseYear}
         onContinue={(mode) => void handleContinue(mode)}
         busy={starting}
         error={startError}

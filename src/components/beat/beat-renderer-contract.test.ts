@@ -40,10 +40,7 @@ test('dynamic list descriptors and score ownership use explicit facts', () => {
       descriptor,
     });
   }
-  assert.equal(
-    adaptBeatStory(input('TWENTYMAN: Week 2 observations')).graphic.family.startsWith('standard'),
-    true,
-  );
+  assert.equal(adaptBeatStory(input('TWENTYMAN: Week 2 observations')).graphic.family, 'analysis');
   const d = adaptBeatStory(
     input('Chiefs Defeat Broncos in Dominant Fashion, 31–10, to Kick Off Season'),
   ).graphic;
@@ -65,10 +62,11 @@ test('dynamic list descriptors and score ownership use explicit facts', () => {
   });
 });
 test('secondary scores and role-only headlines do not fabricate primary events or player names', () => {
-  assert(
+  assert.equal(
     adaptBeatStory(
       input('Power Rankings: Where the 49ers Stand', 'Their 35-13 win over Dolphins', 'SF'),
-    ).graphic.family.startsWith('standard'),
+    ).graphic.family,
+    'analysis',
   );
   const signing = adaptBeatStory(
     input(
@@ -98,8 +96,8 @@ test('secondary scores and role-only headlines do not fabricate primary events o
   );
 });
 test('complete composition contracts reject missing required fields', () => {
-  assert.equal(validBeatGraphic({ family: 'player', name: 'Player Name' }), false);
-  assert.equal(validBeatGraphic({ family: 'interview', name: 'Speaker', transcript: true }), false);
+  assert.equal(validBeatGraphic({ family: 'player', name: 'Player Name' }), true);
+  assert.equal(validBeatGraphic({ family: 'interview', name: 'Speaker', transcript: true }), true);
   assert.equal(validBeatGraphic({ family: 'recap', teams: [] }), false);
   assert.equal(
     validBeatGraphic({ family: 'game-matchup', leftTeam: 'KC', rightTeam: 'UNK' }),

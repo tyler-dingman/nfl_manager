@@ -54,6 +54,12 @@ type StandardFamily = 'standard' | (typeof standardFamilies)[number];
 
 export type BeatGraphicData =
   | { family: StandardFamily }
+  | { family: 'analysis' }
+  | {
+      family: 'off_field';
+      subtype: 'BUSINESS' | 'PARTNERSHIP' | 'EVENT' | 'COMMUNITY' | 'AWARD' | 'OTHER';
+      label: string;
+    }
   | { family: 'game-matchup'; leftTeam: string; rightTeam: string; week?: string; kickoff?: string }
   | {
       family: 'game-result';
@@ -163,7 +169,7 @@ export function validBeatGraphic(data: BeatGraphicData): boolean {
       return (
         short(data.name, 26) &&
         linesFit(data.name, 15, 2) &&
-        (data.status ? !data.position || short(data.position, 3) : short(data.position, 3)) &&
+        (!data.position || short(data.position, 3)) &&
         (!data.jersey || short(data.jersey, 3)) &&
         (!data.status || short(data.status, 40)) &&
         (!data.context || short(data.context, 24))
@@ -216,7 +222,7 @@ export function validBeatGraphic(data: BeatGraphicData): boolean {
         data.teams.every((t) => !!beatTeam(t))
       );
     case 'interview':
-      return false; // A transcript without an attributed quote is Standard, not a partial quote card.
+      return !data.name || short(data.name, 32); // Interview topic; never fabricate a quotation.
     case 'roster-roundup':
       return short(data.team, 3);
     case 'team-update':
@@ -230,10 +236,12 @@ export function validBeatGraphic(data: BeatGraphicData): boolean {
         data.updates.length <= 3 &&
         data.updates.every((row) => short(row.time, 15) && short(row.detail, 44))
       );
+    case 'off_field':
     case 'business-community':
       return short(data.label, 28) && linesFit(data.label, 14, 2);
     case 'video':
       return short(data.title, 24) && /^https:\/\//.test(data.mediaUrl);
+    case 'analysis':
     case 'depth-chart':
     case 'mailbag':
     case 'practice':
