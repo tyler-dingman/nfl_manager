@@ -64,7 +64,7 @@
   white-space: nowrap;
 }
 .title span {
-  color: var(--hero-beat-accent);
+  color: var(--hero-primary-accent);
 }
 .tagline .nickname {
   color: var(--hero-beat-detail);

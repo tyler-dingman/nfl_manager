@@ -47,7 +47,7 @@ export function getTeamLogoColors(team?: string | null): TeamLogoColors {
   // ARI/ATL/BAL/CIN intentionally use canonical team colors: their old PNGs
   // are incorrect artwork and must not supply sampled logo overrides.
   const background = ['NO', 'PIT'].includes(abbr) ? theme.dark : (overrides?.background ?? theme.dark);
-  const badge = ['ARI', 'BAL', 'CAR', 'CIN', 'DEN', 'NO', 'PIT', 'TB'].includes(abbr) ? theme.primary : secondary;
+  const badge = ['ARI', 'BAL', 'CAR', 'CIN', 'DEN', 'DET', 'NO', 'PIT', 'TB'].includes(abbr) ? theme.primary : secondary;
   return {
     border: abbr === 'DEN' ? theme.light : secondary,
     background,

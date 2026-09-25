@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
@@ -119,10 +120,19 @@ function TeamGateway({
 }
 
 export default function DownDistanceHome() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const teams = useTeamStore((state) => state.teams);
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);
+  useEffect(() => {
+    if (searchParams?.get('team-select') !== '1') return;
+    setIsTeamMenuOpen(true);
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('team-select');
+    router.replace(params.size ? `/?${params}` : '/', { scroll: false });
+  }, [router, searchParams]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   useEffect(() => {
     if (!isSearchOpen) return;
@@ -195,7 +205,6 @@ export default function DownDistanceHome() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('search') === '1') setIsSearchOpen(true);
-    if (params.get('team-select') === '1') setIsTeamMenuOpen(true);
   }, []);
 
   useEffect(() => {

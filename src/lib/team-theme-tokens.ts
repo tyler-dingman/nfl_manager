@@ -5,7 +5,11 @@ import {
   getReadableTextColor,
   mixHexColors,
 } from '@/lib/color-utils';
-import { TEAM_BRAND_THEMES, getTeamBrandTheme } from '@/lib/team-brand-themes';
+import {
+  TEAM_BRAND_THEMES,
+  TEAM_HERO_ACCENT_ROLES,
+  getTeamBrandTheme,
+} from '@/lib/team-brand-themes';
 
 export type TeamThemeTokens = {
   primary: string;
@@ -84,4 +88,18 @@ export function getTeamDisplayAccent(teamAbbr?: string | null) {
   // Minnesota's fan headline uses their purple rather than the gold secondary accent.
   const accent = abbr === 'MIN' ? getTeamBrandTheme(abbr).primary : configured.accent;
   return ensureAccessibleTextColor(accent, '#070a0d', 3);
+}
+
+/** Shared Beat/Film Room roles on their existing dark hero surface. */
+export function getEditorialHeroTheme(teamAbbr?: string | null) {
+  const abbr = teamAbbr?.toUpperCase() ?? '';
+  const display = getTeamDisplayAccent(abbr);
+  const roles = TEAM_HERO_ACCENT_ROLES[abbr];
+  const brand = getTeamBrandTheme(abbr);
+  const heroPrimaryAccent =
+    roles?.primary === 'primary' ? ensureAccessibleTextColor(brand.primary, '#001222', 3) : display;
+  const heroBrightAccent = roles
+    ? ensureAccessibleTextColor(brand[roles.bright], '#001222', 4.5)
+    : heroPrimaryAccent;
+  return { heroPrimaryAccent, heroBrightAccent };
 }

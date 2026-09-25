@@ -1,6 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { getTeamDisplayAccent } from '@/lib/team-theme-tokens';
-import { getTeamBrandTheme } from '@/lib/team-brand-themes';
+import { getTeamDisplayAccent, getEditorialHeroTheme } from '@/lib/team-theme-tokens';
 import headlineStyles from '@/components/home/home-team-headline.module.css';
 import styles from './beat-hero.module.css';
 
@@ -21,6 +20,7 @@ export function EditorialSectionHero({
   variant: 'beat' | 'film-room';
   children: ReactNode;
 }) {
+  const { heroPrimaryAccent, heroBrightAccent } = getEditorialHeroTheme(teamAbbr);
   return (
     <section
       className={styles.hero}
@@ -29,10 +29,8 @@ export function EditorialSectionHero({
       style={
         {
           '--hero-beat-accent': getTeamDisplayAccent(teamAbbr),
-          '--hero-beat-detail':
-            teamAbbr === 'LAC'
-              ? getTeamBrandTheme(teamAbbr).secondary
-              : getTeamDisplayAccent(teamAbbr),
+          '--hero-primary-accent': heroPrimaryAccent,
+          '--hero-beat-detail': heroBrightAccent,
           '--team-secondary-on-dark': 'var(--hero-beat-detail)',
         } as CSSProperties
       }

@@ -50,6 +50,27 @@ export const TEAM_BRAND_THEMES: Record<string, TeamBrandTheme> = {
 export const getTeamBrandTheme = (abbr?: string | null) =>
   (abbr ? TEAM_BRAND_THEMES[abbr.toUpperCase()] : undefined) ?? DEFAULT_TEAM_BRAND_THEME;
 
+/** Intentional two-color editorial heroes. Unlisted teams retain their readable display accent.
+ * Silver/white secondaries and dark navy/brown identities are deliberately not forced in.
+ * Palette roles reference existing brand colors; they do not affect the global theme.
+ */
+export const TEAM_HERO_ACCENT_ROLES: Partial<
+  Record<string, { primary: 'primary' | 'display'; bright: 'secondary' }>
+> = {
+  ARI: { primary: 'primary', bright: 'secondary' },
+  BAL: { primary: 'display', bright: 'secondary' },
+  BUF: { primary: 'display', bright: 'secondary' },
+  GB: { primary: 'primary', bright: 'secondary' },
+  JAX: { primary: 'primary', bright: 'secondary' },
+  KC: { primary: 'display', bright: 'secondary' },
+  LAC: { primary: 'display', bright: 'secondary' },
+  LAR: { primary: 'primary', bright: 'secondary' },
+  MIA: { primary: 'display', bright: 'secondary' },
+  MIN: { primary: 'display', bright: 'secondary' },
+  SF: { primary: 'display', bright: 'secondary' },
+  WAS: { primary: 'primary', bright: 'secondary' },
+};
+
 export const TEAM_BRANDED_LOGO_URLS: Record<string, string> = {
   ARI: '/images/team_branded_logos/down-distance-arizona-cardinals.png',
   ATL: '/images/team_branded_logos/down-distance-atlanta-falcons.png',
