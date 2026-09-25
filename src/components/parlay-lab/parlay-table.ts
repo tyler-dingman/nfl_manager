@@ -64,7 +64,9 @@ export function sortTableRows<Row, Key extends string>(
     if (a == null) return 1;
     if (b == null) return -1;
     const comparison =
-      typeof a === 'string' && typeof b === 'string' ? a.localeCompare(b) : Number(a) - Number(b);
+      typeof a === 'string' && typeof b === 'string'
+        ? a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+        : Number(a) - Number(b);
     return sort.direction === 'asc' ? comparison : -comparison;
   });
 }

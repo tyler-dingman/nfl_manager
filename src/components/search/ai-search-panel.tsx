@@ -430,7 +430,16 @@ export default function AiSearchPanel({
             id="ai-search-heading"
             className="text-2xl font-black tracking-tight text-white sm:text-3xl"
           >
-            Ask anything about <span className="text-[var(--secondary)]">{teamCity} football</span>
+            Ask anything about{' '}
+            <span
+              className={
+                ['ATL', 'CIN', 'DEN', 'DET', 'NO', 'NYJ'].includes(teamId)
+                  ? 'text-white'
+                  : 'text-[var(--secondary)]'
+              }
+            >
+              {teamCity} football
+            </span>
           </h2>
           <form onSubmit={submit} role="search" className="mt-6">
             <div className="flex h-16 items-center rounded-full bg-white px-3 shadow-lg sm:h-20 sm:px-5">

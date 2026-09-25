@@ -1,0 +1,87 @@
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0 20px;
+  max-width: 440px;
+}
+.countdown > div {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 9px;
+  padding: 10px 6px;
+  text-align: center;
+}
+.countdown strong {
+  display: block;
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 1.1;
+}
+.countdown span {
+  display: block;
+  margin-top: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #9aafc0;
+}
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
+  min-height: 52px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--hero-beat-detail);
+  color: #001222;
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.action:disabled {
+  cursor: default;
+}
+.action:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.fans {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: #e2e8f0;
+}
+.fans svg {
+  color: var(--hero-beat-detail);
+  flex-shrink: 0;
+}
+.error {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #fff;
+}
+@media (max-width: 767px) {
+  .countdown {
+    gap: 9px;
+    margin: 12px 0 16px;
+  }
+  .countdown strong {
+    font-size: 40px;
+  }
+  .fans {
+    font-size: 10px;
+    margin-top: 16px;
+  }
+  .action {
+    font-size: 21px;
+  }
+}

@@ -8,18 +8,20 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  color: #091c31;
+  color: var(--lab-text, #f4f8fc);
   font-family: var(--font-inter), Arial, sans-serif;
 }
 .dialog {
+  color-scheme: dark;
+  color: var(--lab-text);
   width: min(1520px, calc(100vw - 80px));
   max-height: 94dvh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 18px;
-  border: 1px solid #b4c4cf;
-  background: #fff;
+  border-radius: 7px;
+  border: 1px solid var(--lab-border, #183b4c);
+  background: var(--lab-panel, #031923);
   box-shadow: 0 28px 90px #0006;
   font-size: 14px;
   line-height: 1.4;
@@ -119,7 +121,7 @@
   padding-bottom: 25px;
 }
 .identity h2 {
-  color: #fff;
+  color: var(--lab-text);
   font-size: clamp(30px, 3.6vw, 51px);
   font-weight: 900;
   line-height: 1.04;
@@ -163,7 +165,7 @@
   margin-top: 14px;
 }
 .prices > span {
-  border: 1px solid #9dabb8;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 6px;
   padding: 9px 12px;
   display: flex;
@@ -172,8 +174,8 @@
   font-weight: 650;
 }
 .prices > span:first-child {
-  background: #fff;
-  color: #0b2035;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
 }
 .decision {
   align-self: center;
@@ -216,17 +218,17 @@
 }
 .kpis span {
   font-size: 11px;
-  text-transform: uppercase;
-  color: #ced9e2;
+  text-transform: none;
+  color: var(--lab-muted, #9db4c6);
 }
 .kpis .positive {
-  color: #45d68c;
+  color: var(--lab-green);
   font-weight: 750;
 }
 .add {
   border: 0;
   border-radius: 7px;
-  background: #ff520e;
+  background: var(--research-accent);
   color: white;
   padding: 11px 19px;
   font-weight: 800 !important;
@@ -244,7 +246,7 @@
 .selection {
   font-size: 11px;
   align-self: center;
-  color: #bdcbd7;
+  color: var(--lab-muted, #9db4c6);
   order: 1;
 }
 .navigation {
@@ -252,7 +254,7 @@
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  border-bottom: 1px solid #e2e9f0;
+  border-bottom: 1px solid var(--lab-border, #183b4c);
   padding: 0 22px;
   gap: 10px;
 }
@@ -267,21 +269,21 @@
   border: 0;
   border-bottom: 3px solid transparent;
   background: transparent;
-  color: #526985;
+  color: var(--lab-muted, #9db4c6);
   padding: 16px 13px 13px;
   font-weight: 700;
   font-size: 15px;
 }
 .tabs [aria-selected='true'] {
-  color: #07192f;
-  border-bottom-color: #ff510d;
+  color: var(--lab-text, #f4f8fc);
+  border-bottom-color: var(--research-accent);
 }
 .navigation select {
   padding: 8px 12px;
-  border: 1px solid #dfe7ef;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 6px;
-  background: white;
-  color: #112a45;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   font-size: 12px;
   max-width: 170px;
 }
@@ -310,9 +312,9 @@
 .summaries article {
   display: flex;
   gap: 9px;
-  border: 1px solid #e3ebf2;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 9px;
-  background: #fcfdff;
+  background: var(--lab-input, #092532);
   padding: 14px 11px;
   min-width: 0;
 }
@@ -320,7 +322,7 @@
   width: 25px;
   min-width: 21px;
   height: 26px;
-  color: #1b9f68;
+  color: var(--lab-green);
 }
 .summaries article:nth-child(even) svg {
   color: #ff5919;
@@ -335,7 +337,7 @@
   text-transform: uppercase;
   font-size: 10px;
   font-weight: 750;
-  color: #536b88;
+  color: var(--lab-muted, #9db4c6);
 }
 .summaries strong {
   font-size: 24px;
@@ -344,19 +346,19 @@
 }
 .summaries span {
   font-size: 11px;
-  color: #526986;
+  color: var(--lab-muted, #9db4c6);
 }
 .summaries em {
   font-size: 11px;
   font-style: normal;
   font-weight: 700;
-  color: #078346;
+  color: var(--lab-green);
 }
 .chartCard,
 .card {
-  border: 1px solid #e0e9f1;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 10px;
-  background: linear-gradient(#fff, #fcfdff);
+  background: var(--lab-panel, #031923);
   padding: 14px 17px;
 }
 .chartCard {
@@ -383,18 +385,18 @@
   flex-wrap: wrap;
 }
 .windows button {
-  border: 1px solid #dee7ef;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 6px;
-  background: white;
-  color: #314e6b;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-muted, #9db4c6);
   padding: 6px 12px;
   font-weight: 700;
   font-size: 11px;
 }
 .windows [aria-pressed='true'] {
-  background: #091b2c;
-  color: #fff;
-  border-color: #091b2c;
+  background: var(--lab-input);
+  color: var(--lab-text);
+  border-color: var(--research-accent);
 }
 .chartFrame {
   position: relative;
@@ -412,10 +414,10 @@
 .chart text {
   font-family: inherit;
   font-size: 12px;
-  fill: #58728b;
+  fill: var(--lab-muted, #9db4c6);
 }
 .chart .barValue {
-  fill: #0a2034;
+  fill: var(--lab-text, #f4f8fc);
   font-weight: 700;
 }
 .chart g:focus {
@@ -426,17 +428,17 @@
   gap: 10px;
   padding: 11px 15px;
   border-radius: 8px;
-  background: #edf6ff;
-  color: #214971;
+  background: var(--lab-input, #092532);
+  color: var(--lab-muted, #9db4c6);
   font-size: 12px;
 }
 .insight svg {
   flex-shrink: 0;
   width: 22px;
-  color: #0879ff;
+  color: var(--lab-text);
 }
 .insight b {
-  color: #0879ff;
+  color: var(--lab-text);
 }
 .insight p {
   margin-top: 4px;
@@ -456,7 +458,7 @@
   border: 0;
   padding: 0;
   margin-bottom: 9px;
-  color: #091c31;
+  color: var(--lab-text, #f4f8fc);
   text-align: left;
   font-weight: 850 !important;
   font-size: 17px !important;
@@ -488,7 +490,7 @@
 .nextGame p {
   font-size: 11px;
   line-height: 1.6;
-  color: #526b88;
+  color: var(--lab-muted, #9db4c6);
 }
 .nextGame > p {
   max-width: 130px;
@@ -501,14 +503,14 @@
   justify-content: space-between;
   gap: 9px;
   padding: 6px 0;
-  border-bottom: 1px solid #eaf0f5;
+  border-bottom: 1px solid var(--lab-border, #183b4c);
   font-size: 12px;
 }
 .card dl > div:last-child {
   border: 0;
 }
 .card dt {
-  color: #476181;
+  color: var(--lab-muted, #9db4c6);
 }
 .card dd {
   margin: 0;
@@ -517,7 +519,7 @@
 }
 .environmentNote {
   font-size: 10px;
-  color: #58708b;
+  color: var(--lab-muted, #9db4c6);
   margin-top: 4px !important;
 }
 .miniSplits {
@@ -531,20 +533,20 @@
   flex-direction: column;
   gap: 5px;
   padding: 7px;
-  border: 1px solid #e5ecf3;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 6px;
   min-width: 0;
 }
 .miniSplits small {
   font-size: 9px;
-  color: #566f8b;
+  color: var(--lab-muted, #9db4c6);
 }
 .miniSplits b {
   font-size: 14px;
 }
 .miniSplits em {
   font-size: 11px;
-  color: #09834c;
+  color: var(--lab-green);
   font-style: normal;
   font-weight: 700;
 }
@@ -552,7 +554,7 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
-  border-top: 1px solid #e5ecf2;
+  border-top: 1px solid var(--lab-border, #183b4c);
   margin-top: 13px;
   padding: 12px 0 0;
 }
@@ -560,14 +562,14 @@
   display: flex;
   align-items: center;
   gap: 13px;
-  border-right: 1px solid #e4edf5;
+  border-right: 1px solid var(--lab-border, #183b4c);
   min-width: 0;
 }
 .statStrip > div:last-child {
   border: 0;
 }
 .statStrip svg {
-  color: #54738c;
+  color: var(--lab-muted, #9db4c6);
   width: 23px;
   flex-shrink: 0;
 }
@@ -578,20 +580,20 @@
 }
 .statStrip small {
   font-size: 10px;
-  color: #526e8b;
+  color: var(--lab-muted, #9db4c6);
 }
 .statStrip b {
   font-size: 13px;
 }
 .disclaimer {
   font-size: 10px;
-  color: #63748a;
+  color: var(--lab-muted, #9db4c6);
   margin-top: 7px !important;
 }
 .loading {
   text-align: center;
   padding: 70px 20px !important;
-  color: #526981;
+  color: var(--lab-muted, #9db4c6);
 }
 .details {
   max-width: 1160px;
@@ -617,7 +619,7 @@
   flex-wrap: wrap;
 }
 .details nav button {
-  border: 1px solid #dae4ec;
+  border: 1px solid var(--lab-border, #183b4c);
   padding: 6px 12px;
   border-radius: 5px;
 }
@@ -825,4 +827,22 @@
   .dialog * {
     scroll-behavior: auto !important;
   }
+}
+
+.details nav button {
+  background: var(--lab-panel);
+  color: var(--lab-muted);
+}
+.summaries strong,
+.card dd,
+.nextGame strong,
+.statStrip b {
+  color: var(--lab-text);
+}
+.kpis > div {
+  background: var(--lab-panel);
+  border-color: var(--lab-border);
+}
+.chartFrame {
+  background: var(--lab-panel);
 }

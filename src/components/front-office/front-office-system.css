@@ -649,13 +649,6 @@ body:has(.front-office-app) .site-footer {
     min-height: calc(100dvh / 0.9);
   }
 }
-body:has(.front-office-app) .site-footer {
-  background: #091a20;
-  border-color: rgb(255 255 255 / 9%);
-}
-body:has(.front-office-app) .site-footer > div {
-  color: #a8bac4;
-}
 .front-office-app.fo-public-entry > section {
   max-width: 1440px;
   margin: auto;

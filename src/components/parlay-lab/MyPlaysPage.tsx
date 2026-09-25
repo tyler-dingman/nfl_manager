@@ -11,7 +11,9 @@ import {
   DdMessagesIcon as MessageCircle,
 } from '@/components/ui/football-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import MainSiteHeader from '@/components/main-site-header';
+import { useParlayTeam } from './use-parlay-team';
+import TeamThemeProvider from '@/components/team-theme-provider';
+import { DashboardShell } from './dashboard-shell';
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';
 import { hypotheticalPortfolioResult, hypotheticalReturn } from './parlay-odds';
 import ParlayLabSecondaryNav from './ParlayLabSecondaryNav';
@@ -70,6 +72,8 @@ const matchup = (play: SavedPlay) =>
   play.event ? `${play.event.awayTeamId} @ ${play.event.homeTeamId}` : 'NFL';
 
 export default function MyPlaysPage() {
+  const brandingTeam = useParlayTeam();
+  const [view, setView] = useState<'Building' | 'Saved' | 'History'>('Saved');
   const [plays, setPlays] = useState<SavedPlay[]>([]);
   const [current, setCurrent] = useState<SavedLeg[]>([]);
   const [filter, setFilter] = useState<Filter>('ALL');
@@ -149,14 +153,18 @@ export default function MyPlaysPage() {
   const visible = useMemo(
     () =>
       plays
-        .filter((play) => filterMatches(play, filter))
+        .filter(
+          (play) =>
+            filterMatches(play, filter) &&
+            (view !== 'History' || ['HIT', 'MISSED', 'VOID'].includes(play.status ?? '')),
+        )
         .sort((a, b) => {
           if (sort === 'ODDS')
             return (b.savedCombinedOdds ?? -Infinity) - (a.savedCombinedOdds ?? -Infinity);
           const delta = new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime();
           return sort === 'OLDEST' ? -delta : delta;
         }),
-    [filter, plays, sort],
+    [filter, plays, sort, view],
   );
   const allTime = useMemo(
     () =>
@@ -193,108 +201,135 @@ export default function MyPlaysPage() {
     }
   };
   return (
-    <div className={styles.shell}>
-      <MainSiteHeader active="parlay-lab" tone="merch" />
-      <ParlayLabSecondaryNav />
-      <main className={styles.page}>
-        <header className={styles.header}>
-          <div>
-            <span>
-              <Bookmark /> Saved research
-            </span>
-            <h1>My Plays</h1>
-            <p>What you researched, what the Lab saw, and what happened.</p>
-          </div>
-          <button onClick={() => void refreshResults(plays)} disabled={refreshing}>
-            <RefreshCw className={refreshing ? styles.spinning : ''} /> Refresh Results
-          </button>
-        </header>
-        {message ? (
-          <p className={styles.message} role="status">
-            {message}
-          </p>
-        ) : null}
-        {current.length ? (
-          <section className={styles.current}>
+    <DashboardShell team={brandingTeam}>
+      <div className={styles.shell}>
+        <main className={styles.page}>
+          <header className={styles.header}>
             <div>
-              <small>Current Parlay</small>
-              <strong>{current.length} unsaved legs</strong>
+              <span>
+                <Bookmark /> Saved research
+              </span>
+              <h1 className="lab-display">MY PARLAYS</h1>
+              <p>What you researched, what the Lab saw, and what happened.</p>
             </div>
-            <Link href="/parlay-lab/games">
-              Continue researching <ExternalLink />
-            </Link>
-          </section>
-        ) : null}
-        {allTime.count ? (
-          <section className={styles.allTime} aria-label="All-time hypothetical performance">
-            <div>
-              <small>All-Time $10 Test</small>
-              <strong>
-                If you had bet $10 on each graded parlay,{' '}
-                {allTime.net > 0
-                  ? `you would have won $${allTime.net.toFixed(2)}`
-                  : allTime.net < 0
-                    ? `you would be down $${Math.abs(allTime.net).toFixed(2)}`
-                    : 'you would have broken even'}
-                .
-              </strong>
-            </div>
-            <p>
-              {allTime.count} graded parlays · ${allTime.staked.toFixed(2)} hypothetical stake · $
-              {allTime.totalReturn.toFixed(2)} total return
-            </p>
-          </section>
-        ) : null}
-        {plays.length ? (
-          <>
-            <div className={styles.toolbar}>
-              <nav aria-label="Filter saved plays">
-                {(['ALL', 'UPCOMING', 'LIVE', 'HIT', 'MISSED'] as Filter[]).map((item) => (
-                  <button
-                    key={item}
-                    className={filter === item ? styles.active : ''}
-                    onClick={() => setFilter(item)}
-                  >
-                    {item[0] + item.slice(1).toLowerCase()}
-                  </button>
-                ))}
-              </nav>
-              <label>
-                Sort{' '}
-                <select value={sort} onChange={(event) => setSort(event.target.value as Sort)}>
-                  <option value="RECENT">Most Recent</option>
-                  <option value="OLDEST">Oldest</option>
-                  <option value="ODDS">Best Odds</option>
-                </select>
-              </label>
-            </div>
-            {visible.length ? (
-              <div className={styles.grid}>
-                {visible.map((play) => (
-                  <PlayCard
-                    key={play.id}
-                    play={play}
-                    text={textFor(play)}
-                    onShare={() => void share(play)}
-                    onMessage={() => setMessage('Opening Messages…')}
-                    onSaved={() => setMessage('Saved play image downloaded.')}
-                  />
-                ))}
-              </div>
+            <button onClick={() => void refreshResults(plays)} disabled={refreshing}>
+              <RefreshCw className={refreshing ? styles.spinning : ''} /> Refresh Results
+            </button>
+          </header>
+          <nav className="lab-tabs" aria-label="My Parlays views">
+            {(['Building', 'Saved', 'History'] as const).map((tab) => (
+              <button
+                key={tab}
+                aria-pressed={view === tab}
+                onClick={() => {
+                  setView(tab);
+                  setFilter('ALL');
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </nav>
+          {view === 'Building' && (
+            <section className="lab-panel">
+              <p className="lab-empty">{current.length} legs in your current parlay.</p>
+              <Link
+                className="lab-primary"
+                href={`/parlay-lab/games?team=${brandingTeam?.abbr ?? ''}`}
+              >
+                Continue building →
+              </Link>
+            </section>
+          )}
+          <div hidden={view === 'Building'}>
+            {message ? (
+              <p className={styles.message} role="status">
+                {message}
+              </p>
+            ) : null}
+            {current.length ? (
+              <section className={styles.current}>
+                <div>
+                  <small>Current Parlay</small>
+                  <strong>{current.length} unsaved legs</strong>
+                </div>
+                <Link href="/parlay-lab/games">
+                  Continue researching <ExternalLink />
+                </Link>
+              </section>
+            ) : null}
+            {allTime.count ? (
+              <section className={styles.allTime} aria-label="All-time hypothetical performance">
+                <div>
+                  <small>All-Time $10 Test</small>
+                  <strong>
+                    If you had bet $10 on each graded parlay,{' '}
+                    {allTime.net > 0
+                      ? `you would have won $${allTime.net.toFixed(2)}`
+                      : allTime.net < 0
+                        ? `you would be down $${Math.abs(allTime.net).toFixed(2)}`
+                        : 'you would have broken even'}
+                    .
+                  </strong>
+                </div>
+                <p>
+                  {allTime.count} graded parlays · ${allTime.staked.toFixed(2)} hypothetical stake ·
+                  ${allTime.totalReturn.toFixed(2)} total return
+                </p>
+              </section>
+            ) : null}
+            {plays.length ? (
+              <>
+                <div className={styles.toolbar}>
+                  <nav aria-label="Filter saved plays">
+                    {(['ALL', 'UPCOMING', 'LIVE', 'HIT', 'MISSED'] as Filter[]).map((item) => (
+                      <button
+                        key={item}
+                        className={filter === item ? styles.active : ''}
+                        onClick={() => setFilter(item)}
+                      >
+                        {item[0] + item.slice(1).toLowerCase()}
+                      </button>
+                    ))}
+                  </nav>
+                  <label>
+                    Sort{' '}
+                    <select value={sort} onChange={(event) => setSort(event.target.value as Sort)}>
+                      <option value="RECENT">Most Recent</option>
+                      <option value="OLDEST">Oldest</option>
+                      <option value="ODDS">Best Odds</option>
+                    </select>
+                  </label>
+                </div>
+                {visible.length ? (
+                  <div className={styles.grid}>
+                    {visible.map((play) => (
+                      <PlayCard
+                        key={play.id}
+                        play={play}
+                        text={textFor(play)}
+                        onShare={() => void share(play)}
+                        onMessage={() => setMessage('Opening Messages…')}
+                        onSaved={() => setMessage('Saved play image downloaded.')}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className={styles.noMatches}>No saved plays match this filter.</p>
+                )}
+              </>
             ) : (
-              <p className={styles.noMatches}>No saved plays match this filter.</p>
+              <section className={styles.empty}>
+                <Plus />
+                <h2>No saved plays yet</h2>
+                <p>Build a research slip and choose Save to add it here.</p>
+                <Link href="/parlay-lab/trends">Explore Parlay Lab</Link>
+              </section>
             )}
-          </>
-        ) : (
-          <section className={styles.empty}>
-            <Plus />
-            <h2>No saved plays yet</h2>
-            <p>Build a research slip and choose Save to add it here.</p>
-            <Link href="/parlay-lab/trends">Explore Parlay Lab</Link>
-          </section>
-        )}
-      </main>
-    </div>
+          </div>
+        </main>
+      </div>
+    </DashboardShell>
   );
 }
 

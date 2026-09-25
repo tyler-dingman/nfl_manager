@@ -5,10 +5,10 @@
   height: var(--avatar-size);
   flex: 0 0 var(--avatar-size);
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--avatar-color) 35%, #d7e0e7);
+  border: 0;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--avatar-color) 12%, #f3f6f8);
-  color: var(--avatar-color);
+  background: transparent;
+  color: var(--lab-muted, var(--avatar-color));
   font-size: calc(var(--avatar-size) * 0.3);
   font-weight: 900;
   line-height: 1;

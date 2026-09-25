@@ -55,6 +55,7 @@ async function main() {
       '039_parlay_lab_research_first.sql',
       '040_fix_passing_rushing_yards.sql',
       '041_crew_feed_and_photos.sql',
+      '045_trivia_scheduled_events.sql',
     ]) {
       if (file === '017_search_documents.sql') {
         const [extension] = await sql<{ available: boolean }[]>`

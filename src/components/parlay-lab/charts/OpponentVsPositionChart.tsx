@@ -17,6 +17,7 @@ export default function OpponentVsPositionChart({
   const option = {
     ...baseChartOption,
     tooltip: {
+      ...baseChartOption.tooltip,
       trigger: 'item',
       formatter: (raw: unknown) => {
         const p = raw as { dataIndex: number };
@@ -29,8 +30,14 @@ export default function OpponentVsPositionChart({
       data: points.map((_, i) => `G${i + 1}`),
       axisTick: { show: false },
       axisLine: { lineStyle: { color: chartColors.border } },
+      axisLabel: { color: chartColors.secondary },
     },
-    yAxis: { type: 'value', min: 0, splitLine: { lineStyle: { color: chartColors.grid } } },
+    yAxis: {
+      type: 'value',
+      min: 0,
+      axisLabel: { color: chartColors.secondary },
+      splitLine: { lineStyle: { color: chartColors.grid } },
+    },
     series: [
       {
         type: 'bar',

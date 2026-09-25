@@ -35,6 +35,7 @@ import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';
 import PlaybookHero from '@/components/home/playbook-hero';
 import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';
 import HuddleStoryCard from '@/components/huddle/huddle-story-card';
+import { BeatBannerAd } from '@/components/beat/beat-banner-ad';
 import PrimaryNavigation from '@/components/primary-navigation';
 import MobileSiteMenu from '@/components/mobile-site-menu';
 import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
@@ -489,7 +490,7 @@ export default function DownDistanceHome() {
                 </Link>
               </div>
               <div className="grid items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {huddleCards.map((item, index) => (
+                {huddleCards.slice(0, 3).map((item, index) => (
                   <HuddleStoryCard
                     key={item.id}
                     id={item.id}
@@ -510,6 +511,7 @@ export default function DownDistanceHome() {
                     onOpen={() => openBriefing(item.briefing)}
                   />
                 ))}
+                <BeatBannerAd />
                 {!huddleCards.length ? (
                   <div className="rounded-2xl border border-dashed border-[#00172B]/15 bg-white/55 p-8 text-sm font-semibold text-[#40556b] md:col-span-2 xl:col-span-3">
                     No verified Beat stories are ready for {teamName} yet.

@@ -1,7 +1,7 @@
 .shell {
   min-height: 100vh;
   background: #f4f7f9;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font-family:
     ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
@@ -57,10 +57,10 @@
   gap: 24px;
   min-height: 210px;
   padding: 24px;
-  border: 1px solid #d9e2ea;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 16px;
-  background: #fff;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   text-decoration: none;
   box-shadow: 0 12px 30px #071b300d;
   transition:
@@ -97,9 +97,9 @@
 .research {
   overflow: hidden;
   margin-top: 30px;
-  border: 1px solid #d9e2ea;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 16px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   box-shadow: 0 12px 30px #071b300d;
 }
 .controls {
@@ -139,9 +139,9 @@
   min-height: 40px;
   border: 1px solid #d6e0e8;
   border-radius: 8px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   padding: 0 12px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
 }
 .range {
@@ -158,7 +158,7 @@
   border: 1px solid #d6e0e8;
   border-radius: 8px;
   padding: 0 8px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
 }
 .activeFilters {
@@ -170,9 +170,9 @@
 .activeFilters button {
   border: 1px solid #cdd9e2;
   border-radius: 999px;
-  background: #f7f9fb;
+  background: var(--lab-panel, #031923);
   padding: 6px 10px;
-  color: #526a80;
+  color: var(--lab-muted, #9db4c6);
   font-size: 0.7rem;
   font-weight: 800;
   cursor: pointer;
@@ -200,8 +200,8 @@
 .tableHead {
   min-height: 42px;
   border-top: 1px solid #e2e8ee;
-  background: #f7f9fb;
-  color: #60748a;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-muted, #9db4c6);
   font-size: 0.68rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -209,7 +209,7 @@
 .tableRow {
   min-height: 70px;
   border-top: 1px solid #e6ebef;
-  color: #526a80;
+  color: var(--lab-muted, #9db4c6);
   font-size: 0.82rem;
   text-decoration: none;
 }
@@ -220,13 +220,13 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
 }
 .tableRow > span:nth-child(3) b {
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
 }
 .tableRow > b {
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
 }
 .empty {
   margin: 0;
@@ -252,7 +252,7 @@
 }
 .pagination div > b {
   min-width: 90px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   text-align: center;
 }
 .pagination button {
@@ -262,8 +262,8 @@
   place-items: center;
   border: 1px solid #d6e0e8;
   border-radius: 7px;
-  background: #fff;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   cursor: pointer;
 }
 .pagination button:disabled {

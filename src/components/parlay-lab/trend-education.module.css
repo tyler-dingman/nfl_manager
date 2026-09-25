@@ -12,10 +12,10 @@
 }
 .lineBadge {
   display: inline-block;
-  border: 1px solid #d6e1ea;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 5px;
-  background: #f0f5f8;
-  color: #40586e;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-muted, #9db4c6);
   font-size: 9px;
   font-weight: 800;
   white-space: nowrap;
@@ -35,15 +35,15 @@
 }
 .score b {
   font-size: 1.15rem;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
 }
 .score small {
   padding: 2px 5px;
   font-size: 9px;
   font-weight: 800;
   border-radius: 4px;
-  background: #eef1f5;
-  color: #475569;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-muted, #9db4c6);
 }
 .score small[data-tier='HIGH'],
 .score small[data-tier='GOOD'] {
@@ -52,11 +52,11 @@
 }
 .guide {
   margin-top: 16px;
-  border: 1px solid #d9e2ea;
-  border-radius: 18px;
-  background: white;
+  border: 1px solid var(--lab-border, #183b4c);
+  border-radius: 7px;
+  background: var(--lab-panel, #031923);
   padding: 18px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
 }
 .guide header {
   display: flex;
@@ -69,12 +69,12 @@
   margin: 0;
 }
 .guide > div {
-  border-bottom: 1px solid #e6edf3;
+  border-bottom: 1px solid var(--lab-border, #183b4c);
   padding: 12px 0;
   font-size: 0.8rem;
 }
 .guide p {
-  color: #526a80;
+  color: var(--lab-muted, #9db4c6);
   font-size: 0.75rem;
   line-height: 1.5;
   margin: 5px 0;
@@ -107,9 +107,9 @@
   max-height: 85dvh;
   overflow: auto;
   padding: 28px;
-  background: white;
-  border-radius: 18px;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  border-radius: 7px;
+  color: var(--lab-text, #f4f8fc);
   box-shadow: 0 20px 70px #0004;
 }
 .dialog h2 {
@@ -123,7 +123,7 @@
 .dialog p {
   font-size: 0.875rem;
   line-height: 1.65;
-  color: #40586e;
+  color: var(--lab-muted, #9db4c6);
 }
 .close {
   position: absolute;
@@ -132,7 +132,7 @@
   width: 32px;
   height: 32px;
   border: 0;
-  background: #eef3f6;
+  background: var(--lab-panel, #031923);
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -150,10 +150,10 @@
   right: 0;
   width: 240px;
   padding: 12px;
-  border: 1px solid #d9e2ea;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 10px;
-  background: white;
-  color: #40586e;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-muted, #9db4c6);
   box-shadow: 0 8px 25px #071b3020;
   font-size: 12px;
   font-weight: 400;
@@ -162,7 +162,7 @@
 }
 .tooltip strong {
   display: block;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   margin-top: 5px;
 }
 .helpWrap:hover .tooltip,
@@ -181,3 +181,9 @@
 .inlineScore small {
   font-size: 0.6rem;
 }
+
+.guide h2 { display:flex; align-items:center; gap:10px; font:700 21px var(--font-front-office-barlow),sans-serif; }
+.guide h2 svg { width:25px; height:25px; }
+.guide > div b { color:var(--lab-green, #00e99a); }
+.guide > div:nth-of-type(3) b { color:#f4d000; }
+.guide > div:nth-of-type(4) b { color:#ff244e; }

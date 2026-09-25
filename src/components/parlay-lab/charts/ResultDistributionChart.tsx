@@ -8,6 +8,7 @@ export default function ResultDistributionChart({ bins, line }: { bins: Bin[]; l
   const option = {
     ...baseChartOption,
     tooltip: {
+      ...baseChartOption.tooltip,
       trigger: 'item',
       formatter: (raw: unknown) => {
         const p = raw as { dataIndex: number };

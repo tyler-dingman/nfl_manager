@@ -18,7 +18,8 @@ import {
 } from '@/components/ui/football-icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import MainSiteHeader from '@/components/main-site-header';
+import { useParlayTeam } from './use-parlay-team';
+import { DashboardShell } from './dashboard-shell';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { TEAM_LIST } from '@/data/teams';
 import {
@@ -40,7 +41,16 @@ import PlayerAvatar from './PlayerAvatar';
 import MyParlayPanel from './MyParlayPanel';
 import ParlayLabSecondaryNav from './ParlayLabSecondaryNav';
 import { snapshotSavedPlay } from './saved-plays';
-import { compareAmericanOdds, matchesOddsFilter, type OddsFilter } from './parlay-table';
+import {
+  compareAmericanOdds,
+  matchesOddsFilter,
+  americanOddsToDecimal,
+  sortTableRows,
+  nextSort,
+  type SortState,
+  type OddsFilter,
+} from './parlay-table';
+import ParlaySortHeader from './ParlaySortHeader';
 import styles from './parlay-lab.module.css';
 
 type OddsEvent = {
@@ -183,12 +193,15 @@ function TeamBadge({ abbr }: { abbr: string }) {
 }
 
 export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string }) {
+  const brandingTeam = useParlayTeam();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [events, setEvents] = useState<OddsEvent[]>([]),
     [eventId, setEventId] = useState('');
   const [markets, setMarkets] = useState<Market[]>([]),
     [book, setBook] = useState<'ALL' | Sportsbook>('ALL');
+  const [columnSort, setColumnSort] = useState<SortState>(null);
+  const sortColumn = (key: string) => setColumnSort((current) => nextSort(current, key));
   const [oddsFilter, setOddsFilter] = useState<OddsFilter>('ALL');
   const [category, setCategory] = useState<ParlayCategory>('popular'),
     [openSection, setOpenSection] = useState(''),
@@ -468,10 +481,8 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
     estimateParlayOdds(slip.map((market) => bookAvailability(market, sportsbook)?.odds));
 
   return (
-    <TeamThemeProvider>
+    <DashboardShell team={brandingTeam}>
       <div className={styles.shell}>
-        <MainSiteHeader active="parlay-lab" tone="merch" />
-        <ParlayLabSecondaryNav />
         <main className={styles.page}>
           <section className={styles.content}>
             <header className={styles.pageHeader}>
@@ -659,78 +670,105 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                             gridTemplateColumns: `minmax(250px, 1fr) repeat(${book === 'ALL' ? SPORTSBOOKS.length : 1}, 130px) 50px`,
                           }}
                         >
-                          <span>Market</span>
+                          <ParlaySortHeader
+                            label="Market"
+                            sortKey="market"
+                            sort={columnSort}
+                            onSort={sortColumn}
+                          />
                           {SPORTSBOOKS.filter(
                             (sportsbook) => book === 'ALL' || sportsbook.id === book,
                           ).map((sportsbook) => (
-                            <span key={sportsbook.id}>{sportsbook.name}</span>
+                            <ParlaySortHeader
+                              key={sportsbook.id}
+                              label={sportsbook.name}
+                              sortKey={sportsbook.id}
+                              sort={columnSort}
+                              onSort={sortColumn}
+                              title="Sort by available sportsbook price"
+                            />
                           ))}
                           <span>Add</span>
                         </div>
-                        {rows.slice(0, 80).map((row) => {
-                          const visibleBooks = SPORTSBOOKS.filter(
-                              (sportsbook) => book === 'ALL' || sportsbook.id === book,
-                            ),
-                            preferred =
-                              book === 'ALL'
-                                ? SPORTSBOOK_IDS.map((id) => row.prices[id]).find(Boolean)
-                                : row.prices[book],
-                            picked = slip.find((item) => item.id === row.id);
-                          return (
-                            <article
-                              className={styles.marketRow}
-                              key={row.id}
-                              style={{
-                                gridTemplateColumns: `minmax(250px, 1fr) repeat(${visibleBooks.length}, 130px) 50px`,
-                              }}
-                            >
-                              <div className={styles.marketIdentity}>
-                                <PlayerAvatar
-                                  name={row.market.playerName}
-                                  headshotUrl={row.market.headshotUrl}
-                                  teamColor={avatarColor(row.market)}
-                                />
-                                <div className={styles.marketName}>
-                                  <strong>{rowName(row.market)}</strong>
-                                  {row.market.researchStatus === 'PARTIAL' && (
-                                    <small>Limited research</small>
-                                  )}
-                                  {row.market.researchStatus === 'NONE' && (
-                                    <small>Historical research not available yet</small>
-                                  )}
-                                </div>
-                              </div>
-                              {visibleBooks.map((sportsbook) => (
-                                <PriceBox
-                                  key={sportsbook.id}
-                                  market={row.prices[sportsbook.id]}
-                                  selected={picked?.sportsbook === sportsbook.id}
-                                  onAdd={addSelection}
-                                  showLabFind={
-                                    sportsbook.id ===
-                                      visibleBooks.find((candidate) => row.prices[candidate.id])
-                                        ?.id &&
-                                    row.market.labResearch?.labFindSide === row.market.side
-                                  }
-                                  onLabCheck={setLabCheck}
-                                />
-                              ))}
-                              <button
-                                className={selected(row.id) ? styles.rowAdded : styles.rowAdd}
-                                type="button"
-                                disabled={!preferred}
-                                onClick={() =>
-                                  preferred &&
-                                  (selected(row.id)
-                                    ? removeSelection(row.id)
-                                    : addSelection(preferred))
-                                }
+                        {sortTableRows(rows, columnSort, {
+                          market: (row) => rowName(row.market),
+                          ...Object.fromEntries(
+                            SPORTSBOOKS.map((book) => [
+                              book.id,
+                              (row: ComparisonRow) => {
+                                const m = row.prices[book.id];
+                                return m?.available && m.odds != null
+                                  ? americanOddsToDecimal(m.odds)
+                                  : null;
+                              },
+                            ]),
+                          ),
+                        })
+                          .slice(0, 80)
+                          .map((row) => {
+                            const visibleBooks = SPORTSBOOKS.filter(
+                                (sportsbook) => book === 'ALL' || sportsbook.id === book,
+                              ),
+                              preferred =
+                                book === 'ALL'
+                                  ? SPORTSBOOK_IDS.map((id) => row.prices[id]).find(Boolean)
+                                  : row.prices[book],
+                              picked = slip.find((item) => item.id === row.id);
+                            return (
+                              <article
+                                className={styles.marketRow}
+                                key={row.id}
+                                style={{
+                                  gridTemplateColumns: `minmax(250px, 1fr) repeat(${visibleBooks.length}, 130px) 50px`,
+                                }}
                               >
-                                {selected(row.id) ? <Check /> : <Plus />}
-                              </button>
-                            </article>
-                          );
-                        })}
+                                <div className={styles.marketIdentity}>
+                                  <PlayerAvatar
+                                    name={row.market.playerName}
+                                    headshotUrl={row.market.headshotUrl}
+                                    teamColor={avatarColor(row.market)}
+                                  />
+                                  <div className={styles.marketName}>
+                                    <strong>{rowName(row.market)}</strong>
+                                    {row.market.researchStatus === 'PARTIAL' && (
+                                      <small>Limited research</small>
+                                    )}
+                                    {row.market.researchStatus === 'NONE' && (
+                                      <small>Historical research not available yet</small>
+                                    )}
+                                  </div>
+                                </div>
+                                {visibleBooks.map((sportsbook) => (
+                                  <PriceBox
+                                    key={sportsbook.id}
+                                    market={row.prices[sportsbook.id]}
+                                    selected={picked?.sportsbook === sportsbook.id}
+                                    onAdd={addSelection}
+                                    showLabFind={
+                                      sportsbook.id ===
+                                        visibleBooks.find((candidate) => row.prices[candidate.id])
+                                          ?.id &&
+                                      row.market.labResearch?.labFindSide === row.market.side
+                                    }
+                                    onLabCheck={setLabCheck}
+                                  />
+                                ))}
+                                <button
+                                  className={selected(row.id) ? styles.rowAdded : styles.rowAdd}
+                                  type="button"
+                                  disabled={!preferred}
+                                  onClick={() =>
+                                    preferred &&
+                                    (selected(row.id)
+                                      ? removeSelection(row.id)
+                                      : addSelection(preferred))
+                                  }
+                                >
+                                  {selected(row.id) ? <Check /> : <Plus />}
+                                </button>
+                              </article>
+                            );
+                          })}
                       </div>
                     )}
                   </section>
@@ -968,7 +1006,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
           </div>
         )}
       </div>
-    </TeamThemeProvider>
+    </DashboardShell>
   );
 }
 

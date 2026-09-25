@@ -12,7 +12,7 @@
   cursor: pointer;
 }
 .button:hover {
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
 }
 .button svg {
   width: 12px;

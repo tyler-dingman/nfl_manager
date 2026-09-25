@@ -1,4 +1,5 @@
 'use client';
+import { LabTestTubeIcon } from './lab-icons';
 import { useRef, useState, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Info, X } from 'lucide-react';
@@ -187,7 +188,9 @@ export function LabScoreGuide() {
   return (
     <section className={styles.guide}>
       <header>
-        <h2>Lab Score Guide</h2>
+        <h2>
+          <LabTestTubeIcon /> Lab Score Guide
+        </h2>
         <TrendHelp compact />
       </header>
       {LAB_SCORE_TIERS.map((tier) => (

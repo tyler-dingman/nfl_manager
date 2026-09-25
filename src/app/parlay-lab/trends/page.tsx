@@ -1,5 +1,3 @@
-import ParlayLabExplorePage from '@/components/parlay-lab/ParlayLabExplorePage';
-
-export default function TrendsPage() {
-  return <ParlayLabExplorePage mode="trends" />;
-}
+import { Suspense } from 'react';
+import { ParlayLabHome } from '@/components/parlay-lab/ParlayLabHome';
+export default function Page() { return <Suspense><ParlayLabHome mode="trends" /></Suspense>; }

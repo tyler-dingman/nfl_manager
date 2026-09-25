@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, FlaskConical } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
-import MainSiteHeader from '@/components/main-site-header';
+import { useParlayTeam } from './use-parlay-team';
+import TeamThemeProvider from '@/components/team-theme-provider';
+import { DashboardShell } from './dashboard-shell';
 import { sportsbookName } from '@/server/odds/sportsbooks';
 import type { Market } from './ParlayLabPage';
 import ParlayLabSecondaryNav from './ParlayLabSecondaryNav';
@@ -65,6 +67,7 @@ const selection = (market: ResearchMarket) =>
 const odds = (value: number | null) => (value === null ? '—' : `${value > 0 ? '+' : ''}${value}`);
 
 export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
+  const brandingTeam = useParlayTeam();
   const [events, setEvents] = useState<Event[]>([]);
   const [markets, setMarkets] = useState<ResearchMarket[]>([]);
   const [gameId, setGameId] = useState('ALL');
@@ -203,315 +206,317 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
         : 'Compare expanded player prop research across every upcoming game and sportsbook.';
 
   return (
-    <div className={styles.shell}>
-      <MainSiteHeader active="parlay-lab" tone="merch" />
-      <ParlayLabSecondaryNav />
-      <main className={styles.page}>
-        <header className={styles.hero}>
-          <span>{mode === 'lab-finds' ? <FlaskConical /> : null} Parlay Lab</span>
-          <h1>{title}</h1>
-          <p>{description}</p>
-        </header>
+    <DashboardShell team={brandingTeam}>
+      <div className={styles.shell}>
+        <main className={styles.page}>
+          <header className={styles.hero}>
+            <span>{mode === 'lab-finds' ? <FlaskConical /> : null} Parlay Lab</span>
+            <h1>{title}</h1>
+            <p>{description}</p>
+          </header>
 
-        {mode === 'games' ? (
-          <section className={styles.gameGrid}>
-            {events.map((event) => (
-              <Link key={event.id} href={`/parlay-lab/game/${event.id}/markets`}>
-                <div>
-                  <small>Week {event.week}</small>
-                  <time>
-                    {new Date(event.kickoffAt).toLocaleString([], {
-                      weekday: 'short',
-                      month: 'short',
-                      day: 'numeric',
-                      hour: 'numeric',
-                      minute: '2-digit',
-                    })}
-                  </time>
-                </div>
-                <strong>
-                  {event.awayTeamId} <i>@</i> {event.homeTeamId}
-                </strong>
-                <span>{event.marketsLocked ? 'Markets closed' : 'Browse all markets →'}</span>
-              </Link>
-            ))}
-          </section>
-        ) : (
-          <section className={styles.research}>
-            <header className={styles.controls}>
-              <div>
-                <h2>{mode === 'lab-finds' ? 'Research-backed picks' : 'Trending Props'}</h2>
-                <p>{rows.length} available selections</p>
-              </div>
-              <div className={styles.filterFields}>
-                <label>
-                  <span>Game</span>
-                  <select value={gameId} onChange={(event) => setGameId(event.target.value)}>
-                    <option value="ALL">All Games</option>
-                    {events.map((event) => (
-                      <option key={event.id} value={event.id}>
-                        {event.awayTeamId} @ {event.homeTeamId}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  <span>Sportsbook</span>
-                  <select value={book} onChange={(event) => setBook(event.target.value)}>
-                    <option value="ALL">All Books</option>
-                    <option value="FANDUEL">FanDuel</option>
-                    <option value="DRAFTKINGS">DraftKings</option>
-                    <option value="BETMGM">BetMGM</option>
-                    <option value="CAESARS">Caesars</option>
-                  </select>
-                </label>
-                <label title="Filters by sportsbook price only. It does not measure the likelihood of the bet winning.">
-                  <span>Odds</span>
-                  <select
-                    value={oddsFilter}
-                    onChange={(event) => setOddsFilter(event.target.value as OddsFilter)}
-                  >
-                    <option value="ALL">All Odds</option>
-                    <option value="-500">-500 or Better</option>
-                    <option value="-300">-300 or Better</option>
-                    <option value="-200">-200 or Better</option>
-                    <option value="-150">-150 or Better</option>
-                    <option value="-120">-120 or Better</option>
-                    <option value="PLUS">Plus Money</option>
-                    <option value="CUSTOM">Custom</option>
-                  </select>
-                </label>
-                {oddsFilter === 'CUSTOM' ? (
-                  <div className={styles.range}>
-                    <input
-                      aria-label="Minimum odds"
-                      placeholder="Min"
-                      value={oddsMinimum ?? ''}
-                      onChange={(event) =>
-                        setOddsMinimum(event.target.value ? Number(event.target.value) : null)
-                      }
-                    />
-                    <span>to</span>
-                    <input
-                      aria-label="Maximum odds"
-                      placeholder="Max"
-                      value={oddsMaximum ?? ''}
-                      onChange={(event) =>
-                        setOddsMaximum(event.target.value ? Number(event.target.value) : null)
-                      }
-                    />
+          {mode === 'games' ? (
+            <section className={styles.gameGrid}>
+              {events.map((event) => (
+                <Link key={event.id} href={`/parlay-lab/game/${event.id}/markets`}>
+                  <div>
+                    <small>Week {event.week}</small>
+                    <time>
+                      {new Date(event.kickoffAt).toLocaleString([], {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                      })}
+                    </time>
                   </div>
-                ) : null}
-                <div className={styles.mobileSort}>
-                  <label>
-                    <span>Sort by</span>
-                    <select
-                      value={sort?.key ?? (mode === 'trends' ? 'hitRate' : 'score')}
-                      onChange={(event) =>
-                        setSort({
-                          key: event.target.value as ResearchSortKey,
-                          direction: sort?.direction ?? 'desc',
-                        })
-                      }
-                    >
-                      <option value="score">Lab Score</option>
-                      <option value="last10">Last 10</option>
-                      <option value="hitRate">Hit Rate</option>
-                      <option value="odds">Odds</option>
-                      <option value="average">Average</option>
-                      <option value="opponent">Vs. Opponent</option>
-                    </select>
-                  </label>
-                  <label>
-                    <span>Direction</span>
-                    <select
-                      value={sort?.direction ?? 'desc'}
-                      onChange={(event) =>
-                        setSort({
-                          key: sort?.key ?? (mode === 'trends' ? 'hitRate' : 'score'),
-                          direction: event.target.value as 'asc' | 'desc',
-                        })
-                      }
-                    >
-                      <option value="desc">Highest to Lowest</option>
-                      <option value="asc">Lowest to Highest</option>
-                    </select>
-                  </label>
-                </div>
-              </div>
-            </header>
-            {gameId !== 'ALL' || book !== 'ALL' || oddsFilter !== 'ALL' ? (
-              <div className={styles.activeFilters}>
-                {gameId !== 'ALL' ? (
-                  <button onClick={() => setGameId('ALL')}>Game filter ×</button>
-                ) : null}
-                {book !== 'ALL' ? (
-                  <button onClick={() => setBook('ALL')}>
-                    {sportsbookName(book as Market['sportsbook'])} ×
-                  </button>
-                ) : null}
-                {oddsFilter !== 'ALL' ? (
-                  <button onClick={() => setOddsFilter('ALL')}>
-                    Odds:{' '}
-                    {oddsFilter === 'PLUS'
-                      ? 'Plus Money'
-                      : oddsFilter === 'CUSTOM'
-                        ? 'Custom'
-                        : `${oddsFilter} or Better`}{' '}
-                    ×
-                  </button>
-                ) : null}
-                <button
-                  onClick={() => {
-                    setGameId('ALL');
-                    setBook('ALL');
-                    setOddsFilter('ALL');
-                    setSort(null);
-                  }}
-                >
-                  Clear filters
-                </button>
-              </div>
-            ) : null}
-            <div className={styles.table}>
-              <div className={styles.tableHead}>
-                <ParlaySortHeader
-                  label="Player"
-                  sortKey="player"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                />
-                <ParlaySortHeader
-                  label="Game"
-                  sortKey="game"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                />
-                <ParlaySortHeader
-                  label="Market"
-                  sortKey="market"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                />
-                <ParlaySortHeader
-                  label="Last 10"
-                  sortKey="last10"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                />
-                <ParlaySortHeader
-                  label="Hit rate"
-                  sortKey="hitRate"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                />
-                <ParlaySortHeader
-                  label="Average"
-                  sortKey="average"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                />
-                <ParlaySortHeader
-                  label="Vs. opponent"
-                  sortKey="opponent"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                />
-                <ParlaySortHeader
-                  label="Book"
-                  sortKey="book"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                />
-                <ParlaySortHeader
-                  label="Odds"
-                  sortKey="odds"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                  title="Best currently stored price across selected sportsbooks."
-                />
-                <ParlaySortHeader
-                  label="Lab Score"
-                  sortKey="score"
-                  sort={sort}
-                  onSort={(key) => setSort((value) => nextSort(value, key))}
-                  title="Parlay Lab research score. This is not a predicted win probability."
-                />
-              </div>
-              {visible.map((market) => {
-                const event = eventById.get(market.eventId ?? gameId);
-                return (
-                  <Link
-                    className={styles.tableRow}
-                    key={`${market.eventId}-${market.id}-${market.sportsbook}`}
-                    href={`/parlay-lab/game/${market.eventId ?? gameId}/markets`}
-                  >
-                    <strong>
-                      <PlayerAvatar name={market.playerName} headshotUrl={market.headshotUrl} />
-                      {market.playerName ?? market.teamId ?? 'Game'}
-                    </strong>
-                    <span>{event ? `${event.awayTeamId} @ ${event.homeTeamId}` : '—'}</span>
-                    <span>
-                      <b>{selection(market)}</b> {marketName(market)}{' '}
-                      <LineBadge passive lineType={market.lineType} mainLine={market.mainLine} />
-                    </span>
-                    <span>
-                      {market.trend
-                        ? `${market.trend.last10.hits}/${market.trend.last10.games}`
-                        : '—'}
-                    </span>
-                    <span>
-                      {market.trend?.last10.hitRate == null
-                        ? '—'
-                        : `${market.trend.last10.hitRate}%`}
-                    </span>
-                    <span>{market.trend?.average ?? '—'}</span>
-                    <span>
-                      {market.trend?.vsOpponent.games
-                        ? `${market.trend.vsOpponent.hits}/${market.trend.vsOpponent.games}`
-                        : '—'}
-                    </span>
-                    <span>{sportsbookName(market.sportsbook)}</span>
-                    <b>{odds(market.odds)}</b>
-                    <LabScore score={market.trend?.trendScore} />
-                  </Link>
-                );
-              })}
-            </div>
-            {loading ? <p className={styles.empty}>Loading research…</p> : null}
-            {!loading && !rows.length ? (
-              <p className={styles.empty}>No qualifying props are available for this selection.</p>
-            ) : null}
-            {rows.length > PAGE_SIZE ? (
-              <nav className={styles.pagination} aria-label={`${title} pages`}>
-                <span>
-                  {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, rows.length)} of{' '}
-                  {rows.length}
-                </span>
+                  <strong>
+                    {event.awayTeamId} <i>@</i> {event.homeTeamId}
+                  </strong>
+                  <span>{event.marketsLocked ? 'Markets closed' : 'Browse all markets →'}</span>
+                </Link>
+              ))}
+            </section>
+          ) : (
+            <section className={styles.research}>
+              <header className={styles.controls}>
                 <div>
+                  <h2>{mode === 'lab-finds' ? 'Research-backed picks' : 'Trending Props'}</h2>
+                  <p>{rows.length} available selections</p>
+                </div>
+                <div className={styles.filterFields}>
+                  <label>
+                    <span>Game</span>
+                    <select value={gameId} onChange={(event) => setGameId(event.target.value)}>
+                      <option value="ALL">All Games</option>
+                      {events.map((event) => (
+                        <option key={event.id} value={event.id}>
+                          {event.awayTeamId} @ {event.homeTeamId}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    <span>Sportsbook</span>
+                    <select value={book} onChange={(event) => setBook(event.target.value)}>
+                      <option value="ALL">All Books</option>
+                      <option value="FANDUEL">FanDuel</option>
+                      <option value="DRAFTKINGS">DraftKings</option>
+                      <option value="BETMGM">BetMGM</option>
+                      <option value="CAESARS">Caesars</option>
+                    </select>
+                  </label>
+                  <label title="Filters by sportsbook price only. It does not measure the likelihood of the bet winning.">
+                    <span>Odds</span>
+                    <select
+                      value={oddsFilter}
+                      onChange={(event) => setOddsFilter(event.target.value as OddsFilter)}
+                    >
+                      <option value="ALL">All Odds</option>
+                      <option value="-500">-500 or Better</option>
+                      <option value="-300">-300 or Better</option>
+                      <option value="-200">-200 or Better</option>
+                      <option value="-150">-150 or Better</option>
+                      <option value="-120">-120 or Better</option>
+                      <option value="PLUS">Plus Money</option>
+                      <option value="CUSTOM">Custom</option>
+                    </select>
+                  </label>
+                  {oddsFilter === 'CUSTOM' ? (
+                    <div className={styles.range}>
+                      <input
+                        aria-label="Minimum odds"
+                        placeholder="Min"
+                        value={oddsMinimum ?? ''}
+                        onChange={(event) =>
+                          setOddsMinimum(event.target.value ? Number(event.target.value) : null)
+                        }
+                      />
+                      <span>to</span>
+                      <input
+                        aria-label="Maximum odds"
+                        placeholder="Max"
+                        value={oddsMaximum ?? ''}
+                        onChange={(event) =>
+                          setOddsMaximum(event.target.value ? Number(event.target.value) : null)
+                        }
+                      />
+                    </div>
+                  ) : null}
+                  <div className={styles.mobileSort}>
+                    <label>
+                      <span>Sort by</span>
+                      <select
+                        value={sort?.key ?? (mode === 'trends' ? 'hitRate' : 'score')}
+                        onChange={(event) =>
+                          setSort({
+                            key: event.target.value as ResearchSortKey,
+                            direction: sort?.direction ?? 'desc',
+                          })
+                        }
+                      >
+                        <option value="score">Lab Score</option>
+                        <option value="last10">Last 10</option>
+                        <option value="hitRate">Hit Rate</option>
+                        <option value="odds">Odds</option>
+                        <option value="average">Average</option>
+                        <option value="opponent">Vs. Opponent</option>
+                      </select>
+                    </label>
+                    <label>
+                      <span>Direction</span>
+                      <select
+                        value={sort?.direction ?? 'desc'}
+                        onChange={(event) =>
+                          setSort({
+                            key: sort?.key ?? (mode === 'trends' ? 'hitRate' : 'score'),
+                            direction: event.target.value as 'asc' | 'desc',
+                          })
+                        }
+                      >
+                        <option value="desc">Highest to Lowest</option>
+                        <option value="asc">Lowest to Highest</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+              </header>
+              {gameId !== 'ALL' || book !== 'ALL' || oddsFilter !== 'ALL' ? (
+                <div className={styles.activeFilters}>
+                  {gameId !== 'ALL' ? (
+                    <button onClick={() => setGameId('ALL')}>Game filter ×</button>
+                  ) : null}
+                  {book !== 'ALL' ? (
+                    <button onClick={() => setBook('ALL')}>
+                      {sportsbookName(book as Market['sportsbook'])} ×
+                    </button>
+                  ) : null}
+                  {oddsFilter !== 'ALL' ? (
+                    <button onClick={() => setOddsFilter('ALL')}>
+                      Odds:{' '}
+                      {oddsFilter === 'PLUS'
+                        ? 'Plus Money'
+                        : oddsFilter === 'CUSTOM'
+                          ? 'Custom'
+                          : `${oddsFilter} or Better`}{' '}
+                      ×
+                    </button>
+                  ) : null}
                   <button
-                    aria-label="Previous page"
-                    disabled={page === 1}
-                    onClick={() => setPage((value) => Math.max(1, value - 1))}
+                    onClick={() => {
+                      setGameId('ALL');
+                      setBook('ALL');
+                      setOddsFilter('ALL');
+                      setSort(null);
+                    }}
                   >
-                    <ChevronLeft />
-                  </button>
-                  <b>
-                    Page {page} of {pageCount}
-                  </b>
-                  <button
-                    aria-label="Next page"
-                    disabled={page === pageCount}
-                    onClick={() => setPage((value) => Math.min(pageCount, value + 1))}
-                  >
-                    <ChevronRight />
+                    Clear filters
                   </button>
                 </div>
-              </nav>
-            ) : null}
-          </section>
-        )}
-      </main>
-    </div>
+              ) : null}
+              <div className={styles.table}>
+                <div className={styles.tableHead}>
+                  <ParlaySortHeader
+                    label="Player"
+                    sortKey="player"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Game"
+                    sortKey="game"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Market"
+                    sortKey="market"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Last 10"
+                    sortKey="last10"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Hit rate"
+                    sortKey="hitRate"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Average"
+                    sortKey="average"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Vs. opponent"
+                    sortKey="opponent"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Book"
+                    sortKey="book"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                  />
+                  <ParlaySortHeader
+                    label="Odds"
+                    sortKey="odds"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                    title="Best currently stored price across selected sportsbooks."
+                  />
+                  <ParlaySortHeader
+                    label="Lab Score"
+                    sortKey="score"
+                    sort={sort}
+                    onSort={(key) => setSort((value) => nextSort(value, key))}
+                    title="Parlay Lab research score. This is not a predicted win probability."
+                  />
+                </div>
+                {visible.map((market) => {
+                  const event = eventById.get(market.eventId ?? gameId);
+                  return (
+                    <Link
+                      className={styles.tableRow}
+                      key={`${market.eventId}-${market.id}-${market.sportsbook}`}
+                      href={`/parlay-lab/game/${market.eventId ?? gameId}/markets`}
+                    >
+                      <strong>
+                        <PlayerAvatar name={market.playerName} headshotUrl={market.headshotUrl} />
+                        {market.playerName ?? market.teamId ?? 'Game'}
+                      </strong>
+                      <span>{event ? `${event.awayTeamId} @ ${event.homeTeamId}` : '—'}</span>
+                      <span>
+                        <b>{selection(market)}</b> {marketName(market)}{' '}
+                        <LineBadge passive lineType={market.lineType} mainLine={market.mainLine} />
+                      </span>
+                      <span>
+                        {market.trend
+                          ? `${market.trend.last10.hits}/${market.trend.last10.games}`
+                          : '—'}
+                      </span>
+                      <span>
+                        {market.trend?.last10.hitRate == null
+                          ? '—'
+                          : `${market.trend.last10.hitRate}%`}
+                      </span>
+                      <span>{market.trend?.average ?? '—'}</span>
+                      <span>
+                        {market.trend?.vsOpponent.games
+                          ? `${market.trend.vsOpponent.hits}/${market.trend.vsOpponent.games}`
+                          : '—'}
+                      </span>
+                      <span>{sportsbookName(market.sportsbook)}</span>
+                      <b>{odds(market.odds)}</b>
+                      <LabScore score={market.trend?.trendScore} />
+                    </Link>
+                  );
+                })}
+              </div>
+              {loading ? <p className={styles.empty}>Loading research…</p> : null}
+              {!loading && !rows.length ? (
+                <p className={styles.empty}>
+                  No qualifying props are available for this selection.
+                </p>
+              ) : null}
+              {rows.length > PAGE_SIZE ? (
+                <nav className={styles.pagination} aria-label={`${title} pages`}>
+                  <span>
+                    {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, rows.length)} of{' '}
+                    {rows.length}
+                  </span>
+                  <div>
+                    <button
+                      aria-label="Previous page"
+                      disabled={page === 1}
+                      onClick={() => setPage((value) => Math.max(1, value - 1))}
+                    >
+                      <ChevronLeft />
+                    </button>
+                    <b>
+                      Page {page} of {pageCount}
+                    </b>
+                    <button
+                      aria-label="Next page"
+                      disabled={page === pageCount}
+                      onClick={() => setPage((value) => Math.min(pageCount, value + 1))}
+                    >
+                      <ChevronRight />
+                    </button>
+                  </div>
+                </nav>
+              ) : null}
+            </section>
+          )}
+        </main>
+      </div>
+    </DashboardShell>
   );
 }

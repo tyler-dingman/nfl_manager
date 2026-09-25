@@ -44,6 +44,7 @@ export default function GameByGameTrendChart({
   const option = {
     ...baseChartOption,
     tooltip: {
+      ...baseChartOption.tooltip,
       trigger: 'item',
       formatter: (raw: unknown) => {
         const game = (raw as { data: { game: GamePoint } }).data.game;

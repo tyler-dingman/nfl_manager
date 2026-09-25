@@ -12,7 +12,7 @@ const MARKET_NAMES: Record<string, string> = {
   RUSHING_RECEIVING_YARDS: 'Rushing / Receiving Yards',
   PASSING_COMPLETIONS: 'Completions',
   PASSING_ATTEMPTS: 'Passing Attempts',
-  RUSHING_ATTEMPTS: 'Carries',
+  RUSHING_ATTEMPTS: 'Rushing Attempts',
   INTERCEPTIONS: 'Interceptions',
 };
 export const marketDisplayName = (statType: string) =>

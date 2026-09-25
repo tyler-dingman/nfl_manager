@@ -16,8 +16,8 @@
   overflow: hidden;
   border-radius: 24px;
   border: 1px solid #dfe7ee;
-  background: #fff;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   display: flex;
   flex-direction: column;
   box-shadow: 0 24px 64px #0003;
@@ -53,16 +53,16 @@
 .modal button {
   cursor: pointer;
   font: inherit;
-  border: 1px solid #d6e1ea;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 12px;
   background: #f8f9fb;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   padding: 10px 14px;
   min-height: 44px;
 }
 .modal button:disabled {
-  background: #e7ebf0;
-  border-color: #e7ebf0;
+  background: var(--lab-border, #183b4c);
+  border-color: var(--lab-border, #183b4c);
   color: #55657a;
   cursor: default;
 }
@@ -107,7 +107,7 @@
   padding: 18px;
   font: inherit;
   font-size: 20px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   margin-top: 16px;
 }
 .body textarea::placeholder {
@@ -190,7 +190,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 40px;
-  border: 1px solid #d6e1ea;
+  border: 1px solid var(--lab-border, #183b4c);
   border-radius: 16px;
   padding: 22px 26px;
 }
@@ -222,7 +222,7 @@
   border-radius: 12px;
   padding: 10px 14px;
   background: #fcfdff;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font-size: 18px;
 }
 .modal .primary {
@@ -240,8 +240,8 @@
   font-size: 21px;
 }
 .modal .primary:disabled {
-  background: #e7ebf0;
-  border-color: #e7ebf0;
+  background: var(--lab-border, #183b4c);
+  border-color: var(--lab-border, #183b4c);
   color: #55657a;
 }
 .note {

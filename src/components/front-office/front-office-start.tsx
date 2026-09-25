@@ -80,7 +80,6 @@ export function FrontOfficeStart({
             <Star aria-hidden="true" /> Recommended
           </p>
           <h2>Full Experience</h2>
-          <p className={styles.subtitle}>Run the franchise</p>
           <p className={styles.description}>
             Take control from Week 1 and manage every decision
             <br className={styles.desktopBreak} /> throughout the season.
@@ -110,9 +109,9 @@ export function FrontOfficeStart({
             <Image src={team.logoUrl} alt="" width={300} height={260} unoptimized priority />
           )}
           <p>
-            Same team.
+            Your team.
             <br />
-            New possibilities.
+            Your decisions.
           </p>
         </div>
       </article>

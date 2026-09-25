@@ -96,7 +96,7 @@
 .fullCopy {
   position: relative;
   z-index: 1;
-  padding: 17px 30px 20px;
+  padding: 26px 30px 28px;
 }
 .recommended {
   display: flex;
@@ -114,20 +114,11 @@
   fill: currentColor;
 }
 .full h2 {
-  margin: 6px 0 0;
+  margin: 12px 0 16px;
   font:
     800 clamp(42px, 4.5vw, 68px)/1 var(--font-front-office-barlow),
     sans-serif;
   text-transform: uppercase;
-}
-.subtitle {
-  margin: 2px 0 11px;
-  font:
-    700 25px/1.2 var(--font-front-office-barlow),
-    sans-serif;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #a4bccd;
 }
 .full .description {
   font-size: 17px;
@@ -137,8 +128,8 @@
   grid-auto-flow: column;
   grid-template-rows: repeat(3, auto);
   grid-template-columns: 1fr 1fr;
-  gap: 5px 18px;
-  margin: 14px 0 17px;
+  gap: 8px 18px;
+  margin: 20px 0 23px;
   padding: 0;
   list-style: none;
   font-size: 14px;
@@ -386,13 +377,10 @@
     display: block;
   }
   .fullCopy {
-    padding: 20px;
+    padding: 28px 20px;
   }
   .full h2 {
     font-size: 45px;
-  }
-  .subtitle {
-    font-size: 19px;
   }
   .identity {
     position: absolute;

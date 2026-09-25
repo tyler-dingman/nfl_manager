@@ -11,14 +11,16 @@ export function EditorialSectionHero({
   taglineLabel,
   variant,
   children,
+  identityExtra,
 }: {
   teamAbbr: string;
   firstWord: string;
   accentWord: string;
   tagline: ReactNode;
   taglineLabel: string;
-  variant: 'beat' | 'film-room';
+  variant: 'beat' | 'film-room' | 'trivia' | 'parlay-lab';
   children: ReactNode;
+  identityExtra?: ReactNode;
 }) {
   const { heroPrimaryAccent, heroBrightAccent } = getEditorialHeroTheme(teamAbbr);
   return (
@@ -54,6 +56,7 @@ export function EditorialSectionHero({
               </svg>
             </p>
           </div>
+          {identityExtra}
         </div>
         <div className={styles.briefing}>{children}</div>
       </div>

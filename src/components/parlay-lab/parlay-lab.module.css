@@ -1,7 +1,7 @@
 .shell {
   min-height: 100vh;
   background: #f6f8fa;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font-family:
     ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
@@ -64,7 +64,7 @@
 .status {
   border: 1px solid #d9e1e8;
   border-radius: 13px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   box-shadow: 0 8px 26px rgb(7 27 48/0.045);
 }
 .matchupCard {
@@ -90,8 +90,8 @@
   padding: 0 38px 0 13px;
   border: 1px solid #ccd6df;
   border-radius: 8px;
-  background: #fff;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
   font-size: 0.88rem;
   font-weight: 800;
@@ -183,7 +183,7 @@
   padding: 0 13px;
   border: 1px solid #d5dde5;
   border-radius: 8px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   color: #42566b;
   font: inherit;
   font-size: 0.75rem;
@@ -201,9 +201,9 @@
 }
 .filters .activeTab,
 .secondaryFilters .activeBook {
-  border-color: #071b30;
-  background: #071b30;
-  color: #fff;
+  border-color: var(--lab-text, #f4f8fc);
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
 }
 .secondaryFilters {
   display: flex;
@@ -231,7 +231,7 @@
   height: 36px;
   border: 0;
   outline: 0;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
   font-size: 0.78rem;
 }
@@ -243,9 +243,9 @@
   min-height: 36px;
   border: 1px solid #d5dde5;
   border-radius: 8px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   padding: 0 10px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
   font-size: 0.78rem;
   font-weight: 800;
@@ -265,8 +265,8 @@
   min-height: 58px;
   padding: 0 20px;
   border: 0;
-  background: #fff;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
   font-size: 1rem;
   font-weight: 900;
@@ -358,8 +358,8 @@
   padding: 6px;
   border: 1px solid #d5dde5;
   border-radius: 8px;
-  background: #f8fafb;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   cursor: pointer;
 }
 .priceBox strong,
@@ -410,9 +410,9 @@
   border: 1px solid #b9e4cf;
   border-top: 5px solid #168553;
   border-radius: 16px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   box-shadow: 0 24px 70px rgba(4, 19, 35, 0.24);
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
 }
 .labCheck > p {
   display: flex;
@@ -523,7 +523,7 @@
   border: 0;
   border-radius: 9px;
   background: #168553;
-  color: #fff;
+  color: var(--lab-panel, #031923);
   font: inherit;
   font-weight: 850;
   cursor: pointer;
@@ -539,9 +539,9 @@
   cursor: not-allowed;
 }
 .selectedPrice {
-  border-color: #071b30;
-  background: #071b30;
-  color: #fff;
+  border-color: var(--lab-text, #f4f8fc);
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
 }
 .selectedPrice small {
   color: #d8e0e8;
@@ -563,8 +563,8 @@
   width: 17px;
 }
 .rowAdded {
-  background: #071b30;
-  color: #fff;
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
 }
 .status {
   padding: 50px 22px;
@@ -617,8 +617,8 @@
   height: 25px;
   margin-left: 6px;
   border-radius: 50%;
-  background: #071b30;
-  color: #fff;
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
   font-size: 0.67rem;
 }
 .slipHeading button {
@@ -719,8 +719,8 @@
   min-height: 46px;
   border: 0;
   border-radius: 8px;
-  background: #071b30;
-  color: #fff;
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
   font: inherit;
   font-weight: 900;
   cursor: pointer;
@@ -754,8 +754,8 @@
   padding: 8px;
   border: 1px solid #ccd7e1;
   border-radius: 8px;
-  background: #fff;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
   font-size: 0.76rem;
   font-weight: 850;
@@ -763,9 +763,9 @@
 }
 .bookStatus .planningActions button:first-child {
   grid-column: 1 / -1;
-  border-color: #071b30;
-  background: #071b30;
-  color: #fff;
+  border-color: var(--lab-text, #f4f8fc);
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
 }
 .planningActions svg {
   width: 15px;
@@ -810,7 +810,7 @@
 }
 .slipTotal b {
   margin-left: 3px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font-size: 0.8rem;
 }
 .slipFooter .estimateNotice {
@@ -827,13 +827,13 @@
 }
 .bookStatus .bookAction button {
   border: 1px solid #ccd7e1;
-  background: #fff;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   cursor: pointer;
 }
 .bookStatus .bookAction button:hover:not(:disabled) {
-  border-color: #071b30;
-  background: #f7f9fb;
+  border-color: var(--lab-text, #f4f8fc);
+  background: var(--lab-panel, #031923);
 }
 .bookStatus .bookAction button:disabled {
   border: 0;
@@ -869,13 +869,13 @@
   text-align: center;
 }
 .bookStatus .bookAction button {
-  border-color: #071b30;
-  background: #071b30;
-  color: #fff;
+  border-color: var(--lab-text, #f4f8fc);
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
 }
 .bookStatus .bookAction button:hover:not(:disabled) {
   background: #132b43;
-  color: #fff;
+  color: var(--lab-panel, #031923);
 }
 .bookStatus .bookAction button small {
   color: #d5e0ea;
@@ -887,13 +887,13 @@
   gap: 7px;
   min-height: 44px;
   border: 1px solid #cbd6df;
-  background: #fff;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
 }
 .bookStatus .saveSecondary:hover {
-  border-color: #071b30;
-  background: #f7f9fb;
-  color: #071b30;
+  border-color: var(--lab-text, #f4f8fc);
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
 }
 .bookStatus .saveSecondary svg {
   width: 15px;

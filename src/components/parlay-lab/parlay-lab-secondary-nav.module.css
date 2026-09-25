@@ -1,7 +1,7 @@
 .bar {
   border-bottom: 1px solid #00172b1a;
-  background: #f4d9b7;
-  color: #00172b;
+  background: var(--dark);
+  color: var(--team-on-dark);
 }
 .inner {
   display: flex;
@@ -42,10 +42,10 @@
 }
 .inner a:hover,
 .inner a.active {
-  color: #00172b;
+  color: var(--team-on-dark);
 }
 .inner a.active::after {
-  background: currentColor;
+  background: var(--team-secondary-on-dark);
 }
 .inner svg {
   width: 17px;
@@ -54,7 +54,7 @@
 .inner a[href*='lab-finds'] svg {
   width: 14px;
   height: 14px;
-  color: #00172b;
+  color: var(--team-on-dark);
 }
 @media (max-width: 640px) {
   .inner {

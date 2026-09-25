@@ -1,55 +1,23 @@
 'use client';
-import {
-  Sparkles,
-  BarChart3,
-  Flame,
-  ChevronLeft,
-  ChevronRight,
-  ExternalLink,
-  Plus,
-  X,
-} from 'lucide-react';
-
 import type { calculateResearchScore, Alignment } from '@/server/historical-stats/research-score';
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { Crosshair, FlaskConical } from 'lucide-react';
+import { DashboardContent, type GeneratorSetup, type DashboardMode } from './dashboard-content';
+import { DashboardShell } from './dashboard-shell';
 import dynamic from 'next/dynamic';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
-import { useEffect, useMemo, useState, useRef } from 'react';
-import MainSiteHeader from '@/components/main-site-header';
-import TeamThemeProvider from '@/components/team-theme-provider';
-import { useTeamStore } from '@/features/team/team-store';
-import {
-  readCanonicalFanTeamPreference,
-  readFanTeamPreference,
-} from '@/features/team/fan-team-preference';
+import { useEffect, useState, useRef } from 'react';
+import { useParlayTeamContext } from './use-parlay-team';
 import { TEAM_LIST } from '@/data/teams';
 import { sportsbookName } from '@/server/odds/sportsbooks';
 import RideTheBusDrawer from './RideTheBusDrawer';
 import { ladderDescriptionUnit, marketDisplayName } from '@/lib/parlay-lab/market-display';
 import { buildSportsbookLink, type Market } from './ParlayLabPage';
 import PlayerAvatar from './PlayerAvatar';
-import { isLabPickMarket, matchesTrendingMarketFilter } from './trending-market-filter';
 import MyParlayPanel from './MyParlayPanel';
-import ParlayLabSecondaryNav from './ParlayLabSecondaryNav';
-import ParlaySortHeader from './ParlaySortHeader';
 import { snapshotSavedPlay } from './saved-plays';
-import {
-  americanOddsToDecimal,
-  hitRateSortValue,
-  matchesOddsFilter,
-  nextSort,
-  sortTableRows,
-  type OddsFilter,
-  type SortState,
-} from './parlay-table';
 import styles from './parlay-home.module.css';
 import ResearchWorkspace from './ResearchWorkspace';
-import { LabScore, LabScoreGuide, LineBadge, TrendHelp } from './TrendEducation';
-import { representativeTrends, trendReason, compactTrendReason } from './trending-context';
 
 const GameByGameTrendChart = dynamic(() => import('./charts/GameByGameTrendChart'), { ssr: false });
 const LineLadderChart = dynamic(() => import('./charts/LineLadderChart'), { ssr: false });
@@ -308,60 +276,58 @@ const pickLabel = (m: Market) =>
   `${m.side === 'OVER' ? 'O' : m.side === 'UNDER' ? 'U' : m.side} ${m.line ?? ''}`.trim();
 const playerTeamColor = (market: Pick<HomeMarket, 'teamId'>) =>
   TEAM_LIST.find((team) => team.abbr === market.teamId)?.colors[0] ?? null;
-const TRENDING_PAGE_SIZE = 12;
-type TrendingSortKey =
-  | 'player'
-  | 'market'
-  | 'last10'
-  | 'hitRate'
-  | 'average'
-  | 'opponent'
-  | 'odds'
-  | 'score';
-
-export function ParlayLabHome() {
+export function ParlayLabHome({
+  mode = 'home',
+  initialEventId,
+}: {
+  mode?: DashboardMode;
+  initialEventId?: string;
+}) {
   const searchParams = useSearchParams();
-  const teams = useTeamStore((s) => s.teams);
-  const selectedTeamId = useTeamStore((s) => s.selectedTeamId);
-  const [fanTeam, setFanTeam] = useState<string | null>(null);
-  const creatorTeam =
-    teams.find((t) => t.abbr === (searchParams?.get('team')?.toUpperCase() ?? fanTeam)) ??
-    teams.find((t) => t.id === selectedTeamId);
+  const { team: creatorTeam, ready: teamReady } = useParlayTeamContext();
+  const router = useRouter();
   useEffect(() => {
-    setFanTeam(readFanTeamPreference());
-    void readCanonicalFanTeamPreference().then(setFanTeam);
-  }, []);
+    if (
+      mode !== 'games' ||
+      !teamReady ||
+      !creatorTeam ||
+      searchParams?.get('team') === creatorTeam.abbr
+    )
+      return;
+    const params = new URLSearchParams(searchParams?.toString());
+    params.set('team', creatorTeam.abbr);
+    router.replace(`/parlay-lab/games?${params}`, { scroll: false });
+  }, [mode, teamReady, creatorTeam, router, searchParams]);
+  const [generatorSetup, setGeneratorSetup] = useState<GeneratorSetup | undefined>();
   const [marketState, setMarketState] = useState<'loading' | 'ready' | 'error'>('loading');
   const [marketError, setMarketError] = useState('');
   const [marketRetry, setMarketRetry] = useState(0);
   const [events, setEvents] = useState<OddsEvent[]>([]),
     [eventId, setEventId] = useState(''),
     [markets, setMarkets] = useState<HomeMarket[]>([]),
-    [trendingGameId, setTrendingGameId] = useState('ALL'),
     [trendingMarkets, setTrendingMarkets] = useState<HomeMarket[]>([]),
+    [heroMarkets, setHeroMarkets] = useState<HomeMarket[]>([]),
     [slip, setSlip] = useState<HomeMarket[]>([]),
     [rideOpen, setRideOpen] = useState(false),
-    [filter, setFilter] = useState('ALL'),
-    [lineFilter, setLineFilter] = useState('ALL'),
-    [showAllThresholds, setShowAllThresholds] = useState(false),
-    [oddsFilter, setOddsFilter] = useState<OddsFilter>('ALL'),
-    [oddsMinimum, setOddsMinimum] = useState<number | null>(null),
-    [oddsMaximum, setOddsMaximum] = useState<number | null>(null),
-    [trendingSort, setTrendingSort] = useState<SortState<TrendingSortKey>>(null),
-    [trendingPage, setTrendingPage] = useState(1),
-    [message, setMessage] = useState(''),
     [detail, setDetail] = useState<HomeMarket | null>(null),
     [detailData, setDetailData] = useState<ResearchDetail | null>(null),
     [chartWindow, setChartWindow] = useState<'L5' | 'L10' | 'SEASON' | '2 YEARS'>('L10');
+  const [buildLoaded, setBuildLoaded] = useState(false);
   useEffect(() => {
-    const view = searchParams?.get('view');
-    if (view === 'lab-finds') setFilter('LAB_FINDS');
-    else if (view === 'trends') setFilter('ALL');
-  }, [searchParams]);
+    try {
+      const saved = JSON.parse(localStorage.getItem('down-distance-parlay-lab-current') ?? '[]');
+      if (Array.isArray(saved)) setSlip(saved);
+    } catch {}
+    setBuildLoaded(true);
+  }, []);
+  useEffect(() => {
+    if (buildLoaded) localStorage.setItem('down-distance-parlay-lab-current', JSON.stringify(slip));
+  }, [slip, buildLoaded]);
   useEffect(() => {
     setMarketState('loading');
     setTrendingMarkets([]);
     setMarketError('');
+    setHeroMarkets([]);
     fetch('/api/parlay-lab/events')
       .then((r) => {
         if (!r.ok) throw new Error('Events unavailable');
@@ -374,7 +340,6 @@ export function ParlayLabHome() {
         setEventId(rows[0]?.id ?? '');
       })
       .catch(() => {
-        setMessage('Local odds are unavailable.');
         setMarketError('Markets could not be loaded. Please try again.');
         setMarketState('error');
       });
@@ -385,7 +350,7 @@ export function ParlayLabHome() {
     fetch(`/api/parlay-lab/research?eventId=${encodeURIComponent(eventId)}`)
       .then((r) => r.json())
       .then((b) => setMarkets((b.markets ?? []).filter((m: HomeMarket) => m.available)))
-      .catch(() => setMessage('Markets for this game could not be loaded.'));
+      .catch(() => {});
   }, [eventId]);
   useEffect(() => {
     if (!events.length) return;
@@ -393,7 +358,7 @@ export function ParlayLabHome() {
     setTrendingMarkets([]);
     setMarketState('loading');
     setMarketError('');
-    fetch(`/api/parlay-lab/research?eventId=${encodeURIComponent(trendingGameId)}`, {
+    fetch(`/api/parlay-lab/research?eventId=${encodeURIComponent('ALL')}`, {
       signal: controller.signal,
     })
       .then((response) => {
@@ -403,88 +368,18 @@ export function ParlayLabHome() {
       .then((body) => {
         if (!controller.signal.aborted) {
           setTrendingMarkets((body.markets ?? []).filter((market: HomeMarket) => market.available));
+          setHeroMarkets(body.markets ?? []);
           setMarketState('ready');
         }
       })
       .catch((error) => {
         if (error.name !== 'AbortError') {
-          setMessage('Trending markets could not be loaded.');
           setMarketError('Markets could not be loaded. Please try again.');
           setMarketState('error');
         }
       });
     return () => controller.abort();
-  }, [events, trendingGameId]);
-  useEffect(
-    () => setTrendingPage(1),
-    [
-      filter,
-      lineFilter,
-      showAllThresholds,
-      oddsFilter,
-      oddsMinimum,
-      oddsMaximum,
-      trendingGameId,
-      trendingSort,
-    ],
-  );
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const allRows = useMemo(() => {
-    const unique = new Map<string, HomeMarket>();
-    for (const m of trendingMarkets) {
-      if (lineFilter !== 'ALL' && m.lineType !== lineFilter) continue;
-      const key = `${m.eventId ?? trendingGameId}:${m.normalizedKey}`;
-      const old = unique.get(key);
-      if (!old || (m.odds ?? -9999) > (old.odds ?? -9999)) unique.set(key, m);
-    }
-    const eligible = [...unique.values()]
-      .filter((m) =>
-        filter === 'LAB_FINDS' ? isLabPickMarket(m) : matchesTrendingMarketFilter(m, filter),
-      )
-      .filter((market) => lineFilter === 'ALL' || market.lineType === lineFilter)
-      .filter((market) => matchesOddsFilter(market.odds, oddsFilter, oddsMinimum, oddsMaximum))
-      .sort((a, b) => (b.trend?.trendScore ?? -1) - (a.trend?.trendScore ?? -1));
-    const filtered = (showAllThresholds ? eligible : representativeTrends(eligible)).sort(
-      (a, b) => (b.trend?.trendScore ?? -1) - (a.trend?.trendScore ?? -1),
-    );
-    if (trendingSort)
-      return sortTableRows(filtered, trendingSort, {
-        player: (market) => (market.playerName ?? market.teamId ?? '').toLowerCase(),
-        market: (market) => marketLabel(market).toLowerCase(),
-        last10: (market) =>
-          market.trend
-            ? hitRateSortValue(market.trend.last10.hits, market.trend.last10.games)
-            : null,
-        hitRate: (market) =>
-          market.trend
-            ? hitRateSortValue(market.trend.last10.hits, market.trend.last10.games)
-            : null,
-        average: (market) => market.trend?.recentAverage10,
-        opponent: (market) => market.matchup?.rank,
-        odds: (market) => (market.odds == null ? null : americanOddsToDecimal(market.odds)),
-        score: (market) => market.trend?.trendScore,
-      });
-    return filtered;
-  }, [
-    trendingMarkets,
-    filter,
-    lineFilter,
-    showAllThresholds,
-    trendingGameId,
-    oddsFilter,
-    oddsMinimum,
-    oddsMaximum,
-    trendingSort,
-  ]);
-  const trendingPageCount = Math.max(1, Math.ceil(allRows.length / TRENDING_PAGE_SIZE));
-  useEffect(
-    () => setTrendingPage((page) => Math.min(page, trendingPageCount)),
-    [trendingPageCount],
-  );
-  const rows = allRows.slice(
-    (trendingPage - 1) * TRENDING_PAGE_SIZE,
-    trendingPage * TRENDING_PAGE_SIZE,
-  );
+  }, [events]);
   const add = (m: HomeMarket) =>
     setSlip((s) => (s.some((x) => x.id === m.id && x.sportsbook === m.sportsbook) ? s : [...s, m]));
   const researchRequest = useRef<AbortController | null>(null);
@@ -520,578 +415,129 @@ export function ParlayLabHome() {
           setResearchError('Research could not be loaded. Please close and try again.');
       });
   };
-  const oneBook =
-    slip.length > 0 && slip.every((x) => x.sportsbook === slip[0]?.sportsbook)
-      ? slip[0].sportsbook
-      : null;
-  const sportsbookLink = oneBook ? buildSportsbookLink(slip, oneBook) : null;
+  const slipEvent = events.find((e) => slip.length > 0 && slip.every((m) => m.eventId === e.id));
   return (
-    <TeamThemeProvider>
-      <div className={styles.shell}>
-        <MainSiteHeader active="parlay-lab" tone="merch" />
-        <ParlayLabSecondaryNav />
-        <header className={styles.hero}>
-          <div className={styles.heroInner}>
-            <div className={styles.heroBrand}>
-              <div className={styles.heroAtom} aria-hidden="true">
-                <Image src="/assets/science_icon.png" alt="" width={1337} height={1176} priority />
-              </div>
-              <div className={styles.heroCopy}>
-                <p>Advanced Analytics</p>
-                <h1>
-                  Parlay <span>Lab</span>
-                </h1>
-                <h2>Research. Analyze. Build smarter parlays.</h2>
-              </div>
-            </div>
-            <div className={styles.values}>
-              <article>
-                <BarChart3 />
-                <b>Real Data</b>
-                <span>League stats &amp; trends</span>
-              </article>
-              <article>
-                <Crosshair />
-                <b>Better Insights</b>
-                <span>Find value, faster</span>
-              </article>
-              <article>
-                <FlaskConical />
-                <b>Smarter Bets</b>
-                <span>Make informed picks</span>
-              </article>
-            </div>
-          </div>
-        </header>
-        <RideTheBusDrawer
-          team={creatorTeam}
-          marketState={marketState}
-          marketError={marketError}
-          onRetry={() => setMarketRetry((value) => value + 1)}
-          open={rideOpen}
-          onClose={() => setRideOpen(false)}
-          markets={trendingMarkets}
-          slip={slip}
-          onAdd={(legs) =>
-            setSlip((previous) => {
-              const next = [...previous];
-              for (const leg of legs)
-                if (
-                  leg.available &&
-                  !next.some((m) => m.id === leg.id && m.sportsbook === leg.sportsbook)
-                )
-                  next.push(leg);
-              return next;
-            })
-          }
-          onResearch={(leg) => {
-            setRideOpen(false);
-            setTimeout(() => openResearch(leg), 0);
+    <DashboardShell team={creatorTeam}>
+      <RideTheBusDrawer
+        team={creatorTeam}
+        marketState={marketState}
+        marketError={marketError}
+        onRetry={() => setMarketRetry((value) => value + 1)}
+        open={rideOpen}
+        onClose={() => setRideOpen(false)}
+        markets={
+          generatorSetup?.eventId && generatorSetup.eventId !== 'ALL'
+            ? trendingMarkets.filter((m) => m.eventId === generatorSetup.eventId)
+            : trendingMarkets
+        }
+        initialPrompt={generatorSetup?.prompt}
+        initialLegCount={generatorSetup?.legs}
+        slip={slip}
+        onAdd={(legs) =>
+          setSlip((previous) => {
+            const next = [...previous];
+            for (const leg of legs)
+              if (
+                leg.available &&
+                !next.some((m) => m.id === leg.id && m.sportsbook === leg.sportsbook)
+              )
+                next.push(leg);
+            return next;
+          })
+        }
+        onResearch={(leg) => {
+          setRideOpen(false);
+          setTimeout(() => openResearch(leg), 0);
+        }}
+      />
+      <DashboardContent
+        onRemove={(id) => setSlip((rows) => rows.filter((market) => market.id !== id))}
+        mode={mode}
+        team={creatorTeam}
+        markets={heroMarkets}
+        events={events}
+        loading={marketState === 'loading'}
+        error={marketError}
+        onOpen={openResearch}
+        onAdd={add}
+        slip={slip}
+        onGenerate={(setup) => {
+          setGeneratorSetup(setup);
+          setRideOpen(true);
+        }}
+        initialEventId={initialEventId ?? searchParams?.get('game') ?? undefined}
+        parlay={
+          <MyParlayPanel
+            legs={slip}
+            markets={[...markets, ...trendingMarkets]}
+            matchup={slipEvent ? `${slipEvent.awayTeamId} @ ${slipEvent.homeTeamId}` : 'NFL'}
+            marketLabel={marketLabel}
+            pickLabel={pickLabel}
+            onRemove={(id) => setSlip((rows) => rows.filter((market) => market.id !== id))}
+            onClear={() => setSlip([])}
+            onSave={() => {
+              localStorage.setItem('down-distance-parlay-lab-current', JSON.stringify(slip));
+              const stored = JSON.parse(
+                localStorage.getItem('down-distance-parlay-lab-slips') ?? '[]',
+              );
+              const saved = Array.isArray(stored) ? stored : [];
+              saved.unshift(
+                snapshotSavedPlay({
+                  event: slipEvent ?? null,
+                  selections: slip,
+                }),
+              );
+              localStorage.setItem(
+                'down-distance-parlay-lab-slips',
+                JSON.stringify(saved.slice(0, 20)),
+              );
+            }}
+            onResearch={openResearch}
+            buildBookLink={buildSportsbookLink}
+            avatarColor={playerTeamColor}
+          />
+        }
+      />
+      {detail && (
+        <ResearchWorkspace
+          key={`${detail.id}:${detail.sportsbook}`}
+          market={detail}
+          data={detailData}
+          error={researchError}
+          onClose={() => {
+            researchRequest.current?.abort();
+            setDetail(null);
           }}
-        />
-        <main className={styles.page}>
-          <section className={styles.main}>
-            <section className={styles.panel} id="trending-props">
-              <header className={styles.trendingHeader}>
-                <div>
-                  <h2>
-                    <Flame aria-hidden="true" />
-                    Trending Props
-                  </h2>
-                  <p>
-                    Props with the strongest statistical trends right now, ranked using recent hit
-                    rate, consistency, line cushion, matchup and supporting context.
-                  </p>
-                </div>
-                <div className={styles.trendActions}>
-                  <button
-                    className={styles.rideButton}
-                    onClick={(event) => {
-                      event.currentTarget.focus();
-                      setRideOpen(true);
-                    }}
-                  >
-                    <Sparkles aria-hidden="true" /> Create a Parlay
-                  </button>
-                  <Link href="/parlay-lab/trends">See all trends →</Link>
-                </div>
-              </header>
-              <button
-                className={styles.mobileFilterToggle}
-                aria-expanded={mobileFiltersOpen}
-                aria-controls="trending-filters"
-                onClick={() => setMobileFiltersOpen((open) => !open)}
-              >
-                {mobileFiltersOpen ? 'Hide filters' : 'Filter'}
-                {[
-                  filter !== 'ALL',
-                  trendingGameId !== 'ALL',
-                  lineFilter !== 'ALL',
-                  oddsFilter !== 'ALL',
-                  showAllThresholds,
-                ].filter(Boolean).length > 0 && ' • Active'}
-              </button>
-              <div
-                id="trending-filters"
-                className={styles.trendingControls}
-                data-mobile-open={mobileFiltersOpen}
-              >
-                <label className={styles.gameFilter}>
-                  <select
-                    aria-label="Prop category"
-                    value={filter}
-                    onChange={(event) => setFilter(event.target.value)}
-                  >
-                    <option value="ALL">All Props</option>
-                    <option value="PASSING">Passing Props</option>
-                    <option value="RUSHING">Rushing Props</option>
-                    <option value="RECEIVING">Receiving Props</option>
-                    <option value="TOUCHDOWN">Touchdown Props</option>
-                    <option value="LAB_FINDS">Lab Finds</option>
-                  </select>
-                </label>
-                <label className={styles.gameFilter}>
-                  <select
-                    aria-label="Match-up"
-                    value={trendingGameId}
-                    onChange={(event) => setTrendingGameId(event.target.value)}
-                  >
-                    <option value="ALL">All Games</option>
-                    {events.map((game) => (
-                      <option key={game.id} value={game.id}>
-                        {game.awayTeamId} @ {game.homeTeamId} ·{' '}
-                        {new Date(game.kickoffAt).toLocaleDateString([], {
-                          weekday: 'short',
-                          month: 'short',
-                          day: 'numeric',
-                        })}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className={styles.gameFilter}>
-                  <select
-                    aria-label="Line type"
-                    value={lineFilter}
-                    onChange={(event) => setLineFilter(event.target.value)}
-                  >
-                    <option value="ALL">All Lines</option>
-                    <option value="main">Main Lines</option>
-                    <option value="alternate">Alt Lines</option>
-                  </select>
-                </label>
-                <label className={styles.gameFilter}>
-                  <select
-                    aria-label="Odds"
-                    value={oddsFilter}
-                    onChange={(event) => setOddsFilter(event.target.value as OddsFilter)}
-                    title="Filters by sportsbook price only. It does not measure the likelihood of the bet winning."
-                  >
-                    <option value="ALL">All Odds</option>
-                    <option value="-500">-500 or Better</option>
-                    <option value="-300">-300 or Better</option>
-                    <option value="-200">-200 or Better</option>
-                    <option value="-150">-150 or Better</option>
-                    <option value="-120">-120 or Better</option>
-                    <option value="PLUS">Plus Money</option>
-                    <option value="CUSTOM">Custom</option>
-                  </select>
-                </label>
-                <label className={styles.allThresholds}>
-                  <input
-                    type="checkbox"
-                    checked={showAllThresholds}
-                    onChange={(event) => setShowAllThresholds(event.target.checked)}
-                  />{' '}
-                  Show all thresholds
-                </label>
-                {oddsFilter === 'CUSTOM' ? (
-                  <div className={styles.customOdds}>
-                    <input
-                      aria-label="Minimum odds"
-                      inputMode="numeric"
-                      placeholder="Min"
-                      onChange={(event) =>
-                        setOddsMinimum(event.target.value ? Number(event.target.value) : null)
-                      }
-                    />
-                    <span>to</span>
-                    <input
-                      aria-label="Maximum odds"
-                      inputMode="numeric"
-                      placeholder="Max"
-                      onChange={(event) =>
-                        setOddsMaximum(event.target.value ? Number(event.target.value) : null)
-                      }
-                    />
-                  </div>
-                ) : null}
-              </div>
-              <div className={styles.table}>
-                <div className={styles.head}>
-                  <ParlaySortHeader
-                    label="Player / team"
-                    sortKey="player"
-                    sort={trendingSort}
-                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
-                  />
-                  <ParlaySortHeader
-                    label="Market"
-                    sortKey="market"
-                    sort={trendingSort}
-                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
-                  />
-                  <ParlaySortHeader
-                    label="L10"
-                    sortKey="last10"
-                    sort={trendingSort}
-                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
-                  />
-                  <ParlaySortHeader
-                    label="AVG"
-                    sortKey="average"
-                    sort={trendingSort}
-                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
-                  />
-                  <ParlaySortHeader
-                    label="Matchup"
-                    sortKey="opponent"
-                    sort={trendingSort}
-                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
-                  />
-                  <ParlaySortHeader
-                    label="Odds"
-                    sortKey="odds"
-                    sort={trendingSort}
-                    onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
-                    title="Best currently stored price across selected sportsbooks."
-                  />
-                  <div className={styles.scoreHeading}>
-                    <ParlaySortHeader
-                      label="Lab Score"
-                      sortKey="score"
-                      sort={trendingSort}
-                      onSort={(key) => setTrendingSort((sort) => nextSort(sort, key))}
-                      title="Research/trend strength, not hit probability or betting value."
-                    />
-                    <TrendHelp compact />
-                  </div>
-                  <span>Why it’s trending</span>
-                  <span>Add</span>
-                </div>
-                {rows.map((m) => (
-                  <div
-                    className={styles.row}
-                    key={`${m.id}-${m.sportsbook}`}
-                    onClick={() => openResearch(m)}
-                  >
-                    <strong className={styles.playerCell}>
-                      <PlayerAvatar
-                        name={m.playerName}
-                        headshotUrl={m.headshotUrl}
-                        teamColor={playerTeamColor(m)}
-                      />
-                      <span>
-                        <button
-                          className={styles.researchPlayerButton}
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            openResearch(m);
-                          }}
-                        >
-                          {m.playerName ?? m.teamId ?? 'Game'}
-                        </button>
-                        <small>{[m.teamId, m.position].filter(Boolean).join(' • ')}</small>
-                      </span>
-                    </strong>
-                    <div className={styles.marketCell}>
-                      <b>{pickLabel(m)}</b>
-                      <span title={marketLabel(m)}>{marketLabel(m)}</span>
-                      {m.lineType !== 'main' && (
-                        <LineBadge lineType={m.lineType} mainLine={m.mainLine} />
-                      )}
-                    </div>
-                    <span
-                      title={
-                        m.trend?.last10.hitRate == null
-                          ? 'Insufficient history'
-                          : `${m.trend.last10.hitRate}% historical hit rate, not a prediction`
-                      }
-                      data-label="L10"
-                      className={
-                        m.trend && (m.trend.last10.hitRate ?? 0) >= 80
-                          ? styles.strongTrend
-                          : undefined
-                      }
-                    >
-                      {m.trend ? `${m.trend.last10.hits}/${m.trend.last10.games}` : '—'}
-                    </span>
-                    <span data-label="Average" title="Last 10 qualifying games">
-                      {m.trend?.recentAverage10 == null
-                        ? '—'
-                        : Number(m.trend.recentAverage10.toFixed(1))}
-                    </span>
-                    <div className={styles.matchupCell} data-label="Matchup">
-                      <b>{m.matchup?.opponentId ? `vs ${m.matchup.opponentId}` : '—'}</b>
-                      <small
-                        title={
-                          m.matchup?.season
-                            ? `${m.matchup.season} regular-season yardage ranking. ${m.matchup.explanation ?? ''}`
-                            : undefined
-                        }
-                      >
-                        {m.matchup?.rank ? `${m.matchup.label} #${m.matchup.rank}` : '—'}
-                        {m.matchup?.alignment === 'conflicts' && (
-                          <span aria-label={m.matchup.explanation} title={m.matchup.explanation}>
-                            {' '}
-                            ⚠
-                          </span>
-                        )}
-                      </small>
-                    </div>
-                    <b data-label="Odds" title={sportsbookName(m.sportsbook)}>
-                      {formatOdds(m.odds)}
-                    </b>
-                    <div data-label="Lab Score">
-                      <LabScore inline score={m.trend?.trendScore} />
-                    </div>
-                    <div
-                      className={styles.trendReason}
-                      data-label="Why it’s trending"
-                      title={`${trendReason(m).title} · ${trendReason(m).detail}`}
-                    >
-                      {trendReason(m).streak ? (
-                        <Flame aria-hidden="true" />
-                      ) : (
-                        <BarChart3 aria-hidden="true" />
-                      )}
-                      <span>{compactTrendReason(m)}</span>
-                    </div>
-                    <button
-                      aria-label="Add to slip"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        add(m);
-                      }}
-                    >
-                      <Plus />
-                    </button>
-                  </div>
-                ))}
-              </div>
-              {!allRows.length && <p className={styles.empty}>No markets match this filter.</p>}
-              {allRows.length > TRENDING_PAGE_SIZE && (
-                <nav className={styles.pagination} aria-label="Trending Props pages">
-                  <span>
-                    {(trendingPage - 1) * TRENDING_PAGE_SIZE + 1}–
-                    {Math.min(trendingPage * TRENDING_PAGE_SIZE, allRows.length)} of{' '}
-                    {allRows.length}
-                  </span>
-                  <div>
-                    <button
-                      aria-label="Previous page"
-                      disabled={trendingPage === 1}
-                      onClick={() => setTrendingPage((page) => Math.max(1, page - 1))}
-                    >
-                      <ChevronLeft />
-                    </button>
-                    <b>
-                      Page {trendingPage} of {trendingPageCount}
-                    </b>
-                    <button
-                      aria-label="Next page"
-                      disabled={trendingPage === trendingPageCount}
-                      onClick={() =>
-                        setTrendingPage((page) => Math.min(trendingPageCount, page + 1))
-                      }
-                    >
-                      <ChevronRight />
-                    </button>
-                  </div>
-                </nav>
-              )}
-              <p className={styles.note}>
-                Markets without at least five qualifying historical games are labeled Insufficient
-                history instead of receiving an estimated trend.
-              </p>
-            </section>
-            <div className={styles.lower}>
-              <section className={styles.panel}>
-                <header>
-                  <h2>
-                    <BarChart3 aria-hidden="true" />
-                    Data Coverage
-                  </h2>
-                </header>
-                <ul>
-                  <li>
-                    Local research markets: <b>{markets.length}</b>
-                  </li>
-                  <li>Sportsbook handoff is optional</li>
-                  <li>History awaits game-log data</li>
-                </ul>
-              </section>
-            </div>
-          </section>
-          <div className={styles.rightRail}>
-            <MyParlayPanel
-              legs={slip}
-              markets={[...markets, ...trendingMarkets]}
-              matchup={
-                events.find((item) => item.id === eventId)
-                  ? `${events.find((item) => item.id === eventId)!.awayTeamId} @ ${events.find((item) => item.id === eventId)!.homeTeamId}`
-                  : 'NFL'
-              }
-              marketLabel={marketLabel}
-              pickLabel={pickLabel}
-              onRemove={(id) => setSlip((rows) => rows.filter((market) => market.id !== id))}
-              onClear={() => setSlip([])}
-              onSave={() => {
-                localStorage.setItem('down-distance-parlay-lab-current', JSON.stringify(slip));
-                const stored = JSON.parse(
-                  localStorage.getItem('down-distance-parlay-lab-slips') ?? '[]',
-                );
-                const saved = Array.isArray(stored) ? stored : [];
-                saved.unshift(
-                  snapshotSavedPlay({
-                    event: events.find((item) => item.id === eventId) ?? null,
-                    selections: slip,
-                  }),
-                );
-                localStorage.setItem(
-                  'down-distance-parlay-lab-slips',
-                  JSON.stringify(saved.slice(0, 20)),
-                );
-              }}
-              onResearch={openResearch}
-              buildBookLink={buildSportsbookLink}
-              avatarColor={playerTeamColor}
-            />
-            <LabScoreGuide />
-          </div>
-          <aside className={styles.slip} hidden>
-            <header>
-              <h2>
-                My Parlay <span>{slip.length}</span>
-              </h2>
-              <button onClick={() => setSlip([])}>Clear All</button>
-            </header>
-            {slip.length ? (
-              <>
-                <div className={styles.legs}>
-                  {slip.map((m, i) => (
-                    <article key={`${m.id}-${m.sportsbook}`}>
-                      <i>{i + 1}</i>
-                      <PlayerAvatar
-                        name={m.playerName}
-                        headshotUrl={m.headshotUrl}
-                        teamColor={playerTeamColor(m)}
-                        size={30}
-                      />
-                      <div>
-                        <b>{m.playerName ?? m.teamId}</b>
-                        <span>
-                          {marketLabel(m)} · {pickLabel(m)}
-                        </span>
-                        <small>
-                          {sportsbookName(m.sportsbook)} {formatOdds(m.odds)}
-                        </small>
-                      </div>
-                      <button onClick={() => setSlip((s) => s.filter((x) => x !== m))}>
-                        <X />
-                      </button>
-                    </article>
-                  ))}
-                </div>
-                <div className={styles.actions}>
-                  {oneBook && sportsbookLink ? (
-                    <button
-                      className={styles.primary}
-                      onClick={() => window.open(sportsbookLink, '_blank', 'noopener,noreferrer')}
-                    >
-                      Open in {sportsbookName(oneBook)} <ExternalLink />
-                    </button>
-                  ) : (
-                    <p>No sportsbook match is currently available.</p>
-                  )}
-                  <button
-                    className={styles.secondary}
-                    onClick={() => {
-                      localStorage.setItem(
-                        'down-distance-parlay-lab-current',
-                        JSON.stringify(slip),
-                      );
-                      setMessage('Saved to My Plays.');
-                    }}
-                  >
-                    Save to My Plays
-                  </button>
-                  <small>
-                    Use this as your research slip. Open your sportsbook and add the legs you want
-                    to play. Odds and availability may change.
-                  </small>
-                </div>
-              </>
-            ) : (
-              <div className={styles.blank}>
-                <Plus />
-                <h3>Build your parlay</h3>
-                <p>Add the legs you like while you research.</p>
-              </div>
-            )}
-            {message && (
-              <div className={styles.summary}>
-                <Sparkles />
-                <div>
-                  <b>Lab Check</b>
-                  <p>{message}</p>
-                </div>
-              </div>
-            )}
-          </aside>
-          {detail && (
-            <ResearchWorkspace
-              key={`${detail.id}:${detail.sportsbook}`}
-              market={detail}
-              data={detailData}
-              error={researchError}
-              onClose={() => {
-                researchRequest.current?.abort();
-                setDetail(null);
-              }}
-              onAdd={() => add(detail)}
-              added={slip.some(
-                (item) => item.id === detail.id && item.sportsbook === detail.sportsbook,
-              )}
-              chartWindow={chartWindow}
-              setChartWindow={setChartWindow}
-              renderDetails={(tab) =>
-                detailData ? (
-                  <ResearchDetails
-                    data={detailData}
-                    market={detail}
-                    tab={tab}
-                    chartWindow={chartWindow}
-                    setChartWindow={setChartWindow}
-                    onAdd={add}
-                    isSelected={(candidate) =>
-                      slip.some(
-                        (item) =>
-                          item.id === candidate.id && item.sportsbook === candidate.sportsbook,
-                      )
-                    }
-                    onAsk={() => {
-                      setDetail(null);
-                      setRideOpen(true);
-                    }}
-                  />
-                ) : null
-              }
-            />
+          onAdd={() => add(detail)}
+          added={slip.some(
+            (item) => item.id === detail.id && item.sportsbook === detail.sportsbook,
           )}
-        </main>
-      </div>
-    </TeamThemeProvider>
+          chartWindow={chartWindow}
+          setChartWindow={setChartWindow}
+          renderDetails={(tab) =>
+            detailData ? (
+              <ResearchDetails
+                data={detailData}
+                market={detail}
+                tab={tab}
+                chartWindow={chartWindow}
+                setChartWindow={setChartWindow}
+                onAdd={add}
+                isSelected={(candidate) =>
+                  slip.some(
+                    (item) => item.id === candidate.id && item.sportsbook === candidate.sportsbook,
+                  )
+                }
+                onAsk={() => {
+                  setDetail(null);
+                  setRideOpen(true);
+                }}
+              />
+            ) : null
+          }
+        />
+      )}
+    </DashboardShell>
   );
 }
 

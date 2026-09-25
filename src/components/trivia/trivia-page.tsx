@@ -25,6 +25,7 @@ import {
 import MainSiteHeader from '@/components/main-site-header';
 import FilmRoomPlayDiagram from '@/components/film-room/film-room-play-diagram';
 import TriviaGame from '@/components/trivia/trivia-game';
+import { TriviaEventHero } from '@/components/trivia/trivia-event-hero';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { useAuthUser } from '@/features/auth/auth-session';
 import { useTeamStore } from '@/features/team/team-store';
@@ -72,44 +73,53 @@ export default function TriviaPage() {
       <div className="min-h-screen bg-[#E9EDF0] text-[#00172B]">
         <MainSiteHeader teamAbbr={team?.abbr} active="trivia" />
         {!launch ? (
-          <section className="relative overflow-hidden bg-[var(--dark)] text-[var(--team-on-dark)]">
-            <FilmRoomPlayDiagram />
-            <div className="relative z-[1] mx-auto flex max-w-[1440px] flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8 lg:py-12">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--team-secondary-on-dark)]">
-                  {team?.name ?? 'NFL'} · Trivia
-                </p>
-                <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
-                  Four Minute{' '}
-                  <span className="text-[var(--secondary)] [text-shadow:0_2px_0_rgba(0,0,0,0.2)]">
-                    Drill
-                  </span>
-                </h1>
-                <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--team-light-on-dark)]">
-                  Ten questions. Twenty-four seconds each. Go the distance.
-                </p>
-              </div>
-              <div className="grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/15 bg-white/15">
-                <HeroStat
-                  label="Trivia points"
-                  value={(stats?.lifetimePoints ?? 0).toLocaleString()}
-                />
-                <HeroStat label="This week" value={(stats?.weeklyPoints ?? 0).toLocaleString()} />
-                <HeroStat
-                  label="Team rank"
-                  value={
-                    teamLeaders?.find((leader) => leader.userId === user?.id)?.rank
-                      ? `#${teamLeaders.find((leader) => leader.userId === user?.id)?.rank}`
-                      : '—'
-                  }
-                />
-              </div>
-            </div>
-          </section>
+          <TriviaEventHero
+            teamId={teamId}
+            onJoin={launchSharedGame}
+            fallback={
+              <section className="relative overflow-hidden bg-[var(--dark)] text-[var(--team-on-dark)]">
+                <FilmRoomPlayDiagram />
+                <div className="relative z-[1] mx-auto flex max-w-[1440px] flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8 lg:py-12">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--team-secondary-on-dark)]">
+                      {team?.name ?? 'NFL'} · Trivia
+                    </p>
+                    <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
+                      Four Minute{' '}
+                      <span className="text-[var(--secondary)] [text-shadow:0_2px_0_rgba(0,0,0,0.2)]">
+                        Drill
+                      </span>
+                    </h1>
+                    <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--team-light-on-dark)]">
+                      Ten questions. Twenty-four seconds each. Go the distance.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/15 bg-white/15">
+                    <HeroStat
+                      label="Trivia points"
+                      value={(stats?.lifetimePoints ?? 0).toLocaleString()}
+                    />
+                    <HeroStat
+                      label="This week"
+                      value={(stats?.weeklyPoints ?? 0).toLocaleString()}
+                    />
+                    <HeroStat
+                      label="Team rank"
+                      value={
+                        teamLeaders?.find((leader) => leader.userId === user?.id)?.rank
+                          ? `#${teamLeaders.find((leader) => leader.userId === user?.id)?.rank}`
+                          : '—'
+                      }
+                    />
+                  </div>
+                </div>
+              </section>
+            }
+          />
         ) : null}
 
         <main
-          className={launch ? 'w-full' : 'mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10'}
+          className={launch ? 'w-full' : 'mx-auto max-w-[1440px] px-4 py-7 sm:px-6 lg:px-8 lg:py-10'}
         >
           {launch ? (
             <TriviaGame

@@ -384,3 +384,23 @@
     left: 107px;
   }
 }
+
+.hero[data-editorial-hero='trivia'] .title {
+  font-size: clamp(40px, 5.6vw, 81px);
+}
+@media (max-width: 767px) {
+  .hero[data-editorial-hero='trivia'] .title {
+    font-size: clamp(28px, 8.9vw, 64px);
+  }
+}
+
+/* Keep the longer Parlay identity inside the shared two-column geometry. */
+.hero[data-editorial-hero='parlay-lab'] .title {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-size: clamp(48px, 7vw, 100px);
+}
+@media (max-width: 767px) {
+  .hero[data-editorial-hero='parlay-lab'] .title {
+    font-size: clamp(36px, 12vw, 80px);
+  }
+}

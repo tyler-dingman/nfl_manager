@@ -1,0 +1,348 @@
+.dashboard.dashboard.dashboard {
+  display: grid;
+}
+.hero {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.1fr) minmax(0, 2fr);
+  gap: 22px;
+  padding: 4px 0;
+}
+.intro {
+  padding: 12px 14px;
+}
+.intro h1 {
+  margin: 0 0 6px !important;
+  font-size: clamp(42px, 4.5vw, 70px);
+}
+.intro h2 {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-size: 20px;
+  font-style: italic;
+  line-height: 1.15;
+  margin: 0 0 14px;
+}
+.intro em {
+  color: var(--lab-bright);
+}
+.intro p {
+  color: var(--lab-muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.feature {
+  border: 1px solid var(--lab-border);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: linear-gradient(145deg, #06202b66, transparent);
+}
+.portrait {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2px;
+}
+.portrait > img {
+  max-width: 35%;
+  object-fit: contain;
+}
+.feature h3 {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-size: 18px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin: 8px 0 3px;
+}
+.feature small {
+  color: var(--lab-muted);
+}
+.feature h4 {
+  color: #00e99a;
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-size: 17px;
+  margin: 12px 0 5px;
+}
+.feature h4[data-status='hot'] {
+  color: #ff6575;
+}
+.feature p {
+  font-size: 13px;
+  line-height: 1.35;
+  margin: 0 0 14px;
+  color: var(--lab-muted);
+}
+.feature button {
+  margin-top: auto;
+  padding: 4px 0;
+  text-align: center;
+  font-size: 14px;
+}
+.filters {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) minmax(100px, 1fr) minmax(100px, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+.filters > input {
+  width: 100%;
+  min-width: 0;
+}
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.directory header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.directory header label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--lab-muted);
+  font-size: 13px;
+}
+.directory table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.directory th {
+  text-align: left;
+  background: #092532;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--lab-muted);
+  padding: 10px 8px;
+}
+.directory td {
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--lab-border);
+}
+.directory tr {
+  cursor: pointer;
+}
+.directory tbody tr:hover {
+  background: #0b2938;
+}
+.player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+}
+.player small {
+  display: none;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--lab-muted);
+}
+.team {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.team img {
+  width: 28px;
+  height: 24px;
+  object-fit: contain;
+}
+.view {
+  background: #092b3a !important;
+  border: 1px solid var(--lab-border) !important;
+  border-radius: 5px;
+  padding: 4px 18px !important;
+}
+.positive {
+  color: #00e99a;
+  white-space: nowrap;
+}
+.negative {
+  color: #ff5269;
+  white-space: nowrap;
+}
+.neutral {
+  color: var(--lab-muted);
+  white-space: nowrap;
+}
+.help {
+  padding: 10px 14px;
+  font-size: 11px;
+  color: var(--lab-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+.more {
+  display: block;
+  padding: 14px;
+  font-size: 14px;
+  text-align: left;
+}
+.slip header h2 span {
+  border-radius: 50%;
+  background: #0b2e3e;
+  padding: 5px 9px;
+  font-size: 14px;
+}
+.slip > a {
+  margin: 12px;
+  display: flex;
+  justify-content: center;
+}
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+}
+.empty > span {
+  font-size: 28px;
+  background: #10303f;
+  border-radius: 50%;
+  width: 42px;
+  text-align: center;
+}
+.empty button {
+  width: 100%;
+}
+.leg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--lab-border);
+}
+.leg > button:first-of-type {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  font-size: 14px;
+}
+.leg small {
+  display: block;
+  font-size: 12px;
+  color: var(--lab-muted);
+}
+.finding {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 14px;
+  margin: 0;
+  border-bottom: 1px solid var(--lab-border);
+}
+.finding svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.top {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 7px;
+  padding: 10px !important;
+  border-bottom: 1px solid var(--lab-border) !important;
+  text-align: left;
+  font-size: 12px;
+}
+.top b {
+  flex: 1;
+  font-weight: 500;
+}
+@media (max-width: 1400px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .intro {
+    padding: 8px;
+  }
+  .intro p {
+    margin: 8px 0;
+  }
+  .feature {
+    padding: 10px;
+  }
+  .directory td,
+  .directory th {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .filters {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+  .filters label {
+    grid-column: 1/-1;
+  }
+}
+@media (max-width: 767px) {
+  .dashboard.dashboard.dashboard {
+    display: flex;
+    flex-direction: column;
+  }
+  .features {
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  }
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+  .filters > input {
+    grid-column: 1/-1;
+  }
+  .directory :is(th, td):nth-child(1),
+  .directory :is(th, td):nth-child(3),
+  .directory :is(th, td):nth-child(4),
+  .directory :is(th, td):nth-child(5),
+  .directory :is(th, td):nth-child(8) {
+    display: none;
+  }
+  .player small {
+    display: block;
+  }
+  .player {
+    font-size: 12px;
+    gap: 5px;
+  }
+  .directory table {
+    font-size: 12px;
+  }
+  .directory th {
+    font-size: 10px;
+  }
+  .view {
+    padding: 4px 7px !important;
+  }
+  .directory header label {
+    width: 100%;
+  }
+  .directory header select {
+    flex: 1;
+  }
+  .directory td:nth-child(2) {
+    width: 47%;
+  }
+  .directory td:nth-child(7) {
+    font-size: 11px;
+  }
+  .intro h1 {
+    font-size: 54px;
+  }
+}

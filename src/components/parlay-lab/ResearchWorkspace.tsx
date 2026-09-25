@@ -120,6 +120,7 @@ export default function ResearchWorkspace({
       }}
     >
       <section
+        data-parlay-research
         className={styles.dialog}
         ref={dialog}
         role="dialog"
@@ -563,7 +564,7 @@ function Summary({
         <small>{label}</small>
         <strong>{value}</strong>
         <span>{caption}</span>
-        <em style={concern ? { color: '#a34b16' } : undefined}>{note}</em>
+        <em style={concern ? { color: 'var(--lab-yellow)' } : undefined}>{note}</em>
       </div>
     </article>
   );
@@ -611,7 +612,7 @@ function CompactChart({
               x2={plotRight}
               y1={y((ceiling * t) / 4)}
               y2={y((ceiling * t) / 4)}
-              stroke="#e6edf3"
+              stroke="var(--lab-border)"
             />
             <text x="28" y={y((ceiling * t) / 4) + 4} textAnchor="end">
               {Math.round((ceiling * t) / 4)}
@@ -632,7 +633,7 @@ function CompactChart({
               width={step * 0.7}
               height={Math.max(1, baseline - y(p.value))}
               rx="3"
-              fill={p.result === 'HIT' ? '#21a06b' : '#99aabc'}
+              fill={p.result === 'HIT' ? 'var(--lab-green)' : 'var(--lab-muted)'}
             />
             {points.length <= 18 && (
               <text

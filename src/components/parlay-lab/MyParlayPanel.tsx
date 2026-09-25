@@ -11,6 +11,7 @@ import {
   X,
 } from 'lucide-react';
 
+import { LabExperimentIcon } from './lab-icons';
 import { DdShareIcon as Share2 } from '@/components/ui/football-icons';
 
 import {
@@ -322,7 +323,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
       <aside className={styles.panel}>
         <header>
           <h2>
-            <FlaskConical aria-hidden="true" />
+            <LabExperimentIcon />
             My Parlay <span>0</span>
           </h2>
         </header>
@@ -337,7 +338,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
     <aside className={styles.panel}>
       <header>
         <h2>
-          <FlaskConical aria-hidden="true" />
+          <LabExperimentIcon />
           My Parlay <span>{props.legs.length}</span>
         </h2>
         <button onClick={props.onClear}>Clear All</button>

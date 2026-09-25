@@ -17,7 +17,7 @@ const links = [
   { href: '/parlay-lab/my-plays', label: 'My Plays', section: 'my-plays' },
 ] as const;
 
-export default function ParlayLabSecondaryNav() {
+export default function ParlayLabSecondaryNav({ teamAbbr }: { teamAbbr?: string }) {
   const pathname = usePathname() ?? '/parlay-lab';
   const active = pathname.startsWith('/parlay-lab/my-plays')
     ? 'my-plays'
@@ -35,7 +35,7 @@ export default function ParlayLabSecondaryNav() {
         {links.map(({ href, label, section, ...link }) => (
           <Link
             key={section}
-            href={href}
+            href={teamAbbr ? `${href}?team=${encodeURIComponent(teamAbbr)}` : href}
             aria-current={active === section ? 'page' : undefined}
             className={active === section ? styles.active : undefined}
           >

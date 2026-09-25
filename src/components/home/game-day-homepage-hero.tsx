@@ -90,7 +90,7 @@ export default function GameDayHomepageHero({
                 </p>
               </>
             ) : (
-              <p className="max-w-3xl text-base font-semibold leading-7 text-white/75 sm:text-lg">
+              <p className="max-w-3xl text-base font-semibold leading-7 text-white sm:text-lg">
                 {getTeamHeroDescription(team.abbr)}
               </p>
             )}

@@ -8,16 +8,18 @@ export default function ParlaySortHeader<Key extends string>({
   sort,
   onSort,
   title,
+  as: Tag = 'span',
 }: {
   label: string;
   sortKey: Key;
   sort: SortState<Key>;
   onSort: (key: Key) => void;
   title?: string;
+  as?: 'span' | 'th';
 }) {
   const direction = sort?.key === sortKey ? sort.direction : null;
   return (
-    <span
+    <Tag
       role="columnheader"
       aria-sort={direction === 'asc' ? 'ascending' : direction === 'desc' ? 'descending' : 'none'}
       title={title}
@@ -32,6 +34,6 @@ export default function ParlaySortHeader<Key extends string>({
           <ChevronsUpDown />
         )}
       </button>
-    </span>
+    </Tag>
   );
 }

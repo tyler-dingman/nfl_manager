@@ -1,4 +1,5 @@
 'use client';
+import { marketDisplayName } from '@/lib/parlay-lab/market-display';
 import {
   Sparkles,
   X,
@@ -71,8 +72,12 @@ export default function RideTheBusDrawer({
   marketState,
   marketError,
   onRetry,
+  initialPrompt,
+  initialLegCount,
 }: {
   team?: Team;
+  initialPrompt?: string;
+  initialLegCount?: number;
   marketState: 'loading' | 'ready' | 'error';
   marketError: string;
   onRetry: () => void;
@@ -114,6 +119,12 @@ export default function RideTheBusDrawer({
     setResult(null);
     setNotice('');
   };
+  useEffect(() => {
+    if (open && initialPrompt) {
+      configure(initialPrompt);
+      if (initialLegCount) setMaxLegs(initialLegCount);
+    }
+  }, [open, initialPrompt, initialLegCount]);
   const generate = async () => {
     if (!prompt.trim() || generating || marketState !== 'ready' || !eligibleMarkets.length) return;
     const request = ++generation.current;
@@ -358,7 +369,7 @@ export default function RideTheBusDrawer({
                       </label>
                       <p>
                         {m.side === 'UNDER' ? 'U' : 'O'} {m.line} ·{' '}
-                        {m.marketType.toLowerCase().replaceAll('_', ' ')}
+                        {marketDisplayName(m.marketType === 'OTHER' ? m.statId : m.marketType)}
                       </p>
                       {m.lineType !== 'main' && (
                         <LineBadge passive lineType={m.lineType} mainLine={m.mainLine} />

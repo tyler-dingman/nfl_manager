@@ -1,5 +1,3 @@
-import ParlayLabExplorePage from '@/components/parlay-lab/ParlayLabExplorePage';
-
-export default function GamesPage() {
-  return <ParlayLabExplorePage mode="games" />;
-}
+import { Suspense } from 'react';
+import { ParlayLabHome } from '@/components/parlay-lab/ParlayLabHome';
+export default function Page() { return <Suspense><ParlayLabHome mode="games" /></Suspense>; }

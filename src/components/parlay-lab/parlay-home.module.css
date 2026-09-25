@@ -1,7 +1,7 @@
 .shell {
   min-height: 100vh;
-  background: #f5f8fb;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   font-family:
     ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
@@ -31,7 +31,7 @@
   position: relative;
   overflow: hidden;
   background: #06192b;
-  color: #fff;
+  color: var(--lab-panel, #031923);
 }
 .hero::after {
   position: absolute;
@@ -63,7 +63,7 @@
 }
 .hero h1 {
   margin: 0;
-  color: #fff;
+  color: var(--lab-panel, #031923);
   font-size: clamp(3.5rem, 5.2vw, 5.25rem);
   font-weight: 900;
   line-height: 0.95;
@@ -74,7 +74,7 @@
 }
 .hero h2 {
   margin: 18px 0 0;
-  color: #fff;
+  color: var(--lab-panel, #031923);
   font-size: clamp(1rem, 1.5vw, 1.3rem);
   font-weight: 500;
   letter-spacing: 0;
@@ -105,7 +105,7 @@
   stroke-width: 2.3;
 }
 .values b {
-  color: #fff;
+  color: var(--lab-panel, #031923);
   font-size: 0.95rem;
 }
 .values span {
@@ -124,7 +124,7 @@
 .slip {
   border: 1px solid #d8e2e9;
   border-radius: 13px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   box-shadow: 0 8px 26px #071b300a;
 }
 .ask {
@@ -155,8 +155,8 @@
   padding: 0 18px;
   border: 0;
   border-radius: 7px;
-  background: #071b30;
-  color: #fff;
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
   font-weight: 900;
   cursor: pointer;
 }
@@ -186,7 +186,7 @@
   align-items: center;
   gap: 0.6rem;
   margin: 0;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font-family: var(--font-headline), var(--font-sans), sans-serif;
   font-size: 1.35rem;
   font-weight: 900;
@@ -225,8 +225,8 @@
   padding: 14px;
   border: 1px solid #dbe3ea;
   border-radius: 9px;
-  background: #fff;
-  color: #071b30;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-text, #f4f8fc);
   cursor: pointer;
   text-align: center;
   text-decoration: none;
@@ -276,15 +276,15 @@
   padding: 7px 14px;
   border: 1px solid #d6e0e8;
   border-radius: 7px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   color: #496075;
   font-size: 0.67rem;
   font-weight: 800;
   cursor: pointer;
 }
 .chips .activeChip {
-  background: #071b30;
-  color: #fff;
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
 }
 .chips .labPickChip svg {
   width: 14px;
@@ -296,14 +296,14 @@
   background: #168354;
 }
 .chips .labPickChip.activeChip svg {
-  color: #fff;
+  color: var(--lab-panel, #031923);
 }
 .gameFilter {
   display: flex;
   min-width: 190px;
   align-items: center;
   gap: 8px;
-  color: #60748a;
+  color: var(--lab-muted, #9db4c6);
   font-size: 0.67rem;
   font-weight: 900;
 }
@@ -311,7 +311,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #60748a;
+  color: var(--lab-muted, #9db4c6);
   font-size: 0.67rem;
   font-weight: 900;
 }
@@ -321,7 +321,7 @@
   border: 1px solid #d6e0e8;
   border-radius: 7px;
   padding: 0 8px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
 }
 .gameFilter select {
@@ -329,9 +329,9 @@
   min-height: 34px;
   border: 1px solid #d6e0e8;
   border-radius: 7px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   padding: 0 30px 0 10px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
   cursor: pointer;
 }
@@ -348,8 +348,8 @@
 }
 .head {
   min-height: 34px;
-  background: #f7f9fb;
-  color: #60748a;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-muted, #9db4c6);
   font-size: 0.68rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -370,7 +370,7 @@
   min-width: 0;
 }
 .row > span {
-  color: #526a80;
+  color: var(--lab-muted, #9db4c6);
 }
 .row > button {
   display: grid;
@@ -399,7 +399,7 @@
   gap: 12px;
   padding: 12px 16px;
   border-top: 1px solid #e5ebef;
-  color: #60748a;
+  color: var(--lab-muted, #9db4c6);
   font-size: 0.72rem;
   font-weight: 800;
 }
@@ -410,7 +410,7 @@
 }
 .pagination div > b {
   min-width: 88px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   text-align: center;
 }
 .pagination button {
@@ -420,14 +420,14 @@
   place-items: center;
   border: 1px solid #d6e0e8;
   border-radius: 7px;
-  background: #fff;
-  color: #526a80;
+  background: var(--lab-panel, #031923);
+  color: var(--lab-muted, #9db4c6);
   font: inherit;
   cursor: pointer;
 }
 .pagination button:hover:not(:disabled) {
-  border-color: #071b30;
-  color: #071b30;
+  border-color: var(--lab-text, #f4f8fc);
+  color: var(--lab-text, #f4f8fc);
 }
 .pagination button:disabled {
   opacity: 0.4;
@@ -459,7 +459,7 @@
   padding: 12px;
   border: 1px solid #dce4ea;
   border-radius: 8px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   text-align: left;
   cursor: pointer;
 }
@@ -505,8 +505,8 @@
   height: 25px;
   margin-left: 6px;
   border-radius: 50%;
-  background: #071b30;
-  color: #fff;
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
   font-size: 0.67rem;
 }
 .slip header button {
@@ -527,7 +527,7 @@
   height: 38px;
   padding: 10px;
   border-radius: 50%;
-  background: #eef3f6;
+  background: var(--lab-panel, #031923);
 }
 .blank h3 {
   margin: 12px 0 5px;
@@ -597,7 +597,7 @@
   height: 40px;
   border: 1px solid #ccd7df;
   border-radius: 7px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   font-weight: 850;
   cursor: pointer;
 }
@@ -639,7 +639,7 @@
   width: min(760px, 96vw);
   height: 100%;
   padding: 24px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   overflow: auto;
   box-shadow: -15px 0 45px #071b3033;
 }
@@ -722,7 +722,7 @@
   text-transform: uppercase;
 }
 .upcomingMatchup strong {
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font-size: 1rem;
 }
 .upcomingMatchup span {
@@ -788,8 +788,8 @@
   padding: 10px 14px;
   border: 0;
   border-radius: 7px;
-  background: #071b30;
-  color: #fff;
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
   font-weight: 900;
   cursor: pointer;
 }
@@ -825,16 +825,16 @@
   padding: 6px 8px;
   border: 1px solid #d5dfe7;
   border-radius: 6px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   color: #52687c;
   font-size: 0.6rem;
   font-weight: 800;
   cursor: pointer;
 }
 .researchSection nav .selectedControl {
-  border-color: #071b30;
-  background: #071b30;
-  color: #fff;
+  border-color: var(--lab-text, #f4f8fc);
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
 }
 .chart {
   position: relative;
@@ -861,7 +861,7 @@
   right: 0;
   bottom: 3px;
   padding: 2px 4px;
-  background: #fff;
+  background: var(--lab-panel, #031923);
   color: #b34a19;
   font-size: 0.58rem;
   font-weight: 900;
@@ -956,7 +956,7 @@
   padding: 12px;
   border: 1px solid #dce4ea;
   border-radius: 8px;
-  background: #f7f9fb;
+  background: var(--lab-panel, #031923);
 }
 .venueGrid article.currentVenue {
   border-color: #0871c9;
@@ -999,7 +999,7 @@
   padding: 10px 12px;
   border: 1px solid #dce4ea;
   border-radius: 8px;
-  background: #f7f9fb;
+  background: var(--lab-panel, #031923);
 }
 .contextMetrics span,
 .contextMetrics small {
@@ -1039,7 +1039,7 @@
 }
 .cushionBuckets b {
   margin-left: 5px;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
 }
 .consistencyContent {
   padding: 14px;
@@ -1089,7 +1089,7 @@
 }
 .ladderContext span,
 .ladderContext small {
-  color: #526a80;
+  color: var(--lab-muted, #9db4c6);
 }
 .ladderContext p {
   margin: 0;
@@ -1097,7 +1097,7 @@
 }
 .ladderContext p b {
   display: block;
-  color: #526a80;
+  color: var(--lab-muted, #9db4c6);
   font-size: 0.72rem;
   text-transform: uppercase;
 }
@@ -1150,8 +1150,8 @@
   height: 27px;
   border: 0;
   border-radius: 50%;
-  background: #071b30;
-  color: #fff;
+  background: var(--lab-text, #f4f8fc);
+  color: var(--lab-panel, #031923);
   cursor: pointer;
 }
 .ladder button.addedLadder {
@@ -1195,7 +1195,7 @@
   padding-top: 18px;
 }
 .chartAccordion > summary {
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font-size: 1.25rem;
   font-weight: 900;
   letter-spacing: -0.015em;
@@ -1383,7 +1383,7 @@
   font-size: 0.72rem;
   font-weight: 500;
   line-height: 1.2;
-  color: #60748a;
+  color: var(--lab-muted, #9db4c6);
 }
 .playerCell button {
   display: block;
@@ -1405,7 +1405,7 @@
 .marketCell > span {
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #60748a;
+  color: var(--lab-muted, #9db4c6);
 }
 .marketCell > button {
   flex-shrink: 0;
@@ -1442,7 +1442,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.75rem;
-  color: #526a80;
+  color: var(--lab-muted, #9db4c6);
   white-space: nowrap;
 }
 .rightRail {
@@ -1524,7 +1524,7 @@
   .row [data-label]::before {
     content: attr(data-label);
     display: block;
-    color: #60748a;
+    color: var(--lab-muted, #9db4c6);
     font-size: 0.65rem;
     font-weight: 600;
     margin-bottom: 3px;
@@ -1556,10 +1556,10 @@
     display: block;
     margin: 0 12px 12px;
     padding: 8px 14px;
-    border: 1px solid #d6e1ea;
+    border: 1px solid var(--lab-border, #183b4c);
     border-radius: 8px;
-    background: #fff;
-    color: #071b30;
+    background: var(--lab-panel, #031923);
+    color: var(--lab-text, #f4f8fc);
     font: inherit;
     font-size: 0.8rem;
     font-weight: 700;
@@ -1632,7 +1632,7 @@
   border-radius: 999px;
   padding: 9px 13px;
   background: #f1f3fc;
-  color: #071b30;
+  color: var(--lab-text, #f4f8fc);
   font: inherit;
   font-size: 0.8rem;
   font-weight: 700;
@@ -1718,4 +1718,80 @@
     flex: none;
     width: 80px;
   }
+}
+
+/* Portal-scoped research details: shared modules retain their other page styles. */
+:global([data-parlay-research]) .researchSection,
+:global([data-parlay-research]) .chartAccordion,
+:global([data-parlay-research]) .metrics article,
+:global([data-parlay-research]) .environmentGrid article,
+:global([data-parlay-research]) .venueGrid article,
+:global([data-parlay-research]) .contextMetrics article,
+:global([data-parlay-research]) .ladderContext {
+  background: var(--lab-panel);
+  border-color: var(--lab-border);
+  color: var(--lab-text);
+}
+:global([data-parlay-research]) .researchSection :is(header small, span, small, time),
+:global([data-parlay-research]) .unknownVenue {
+  color: var(--lab-muted);
+}
+:global([data-parlay-research]) .researchSection :is(h3, b),
+:global([data-parlay-research]) .researchSection summary {
+  color: var(--lab-text);
+}
+:global([data-parlay-research]) .researchSection :is(article, header, footer, nav button),
+:global([data-parlay-research]) .gameLog > div,
+:global([data-parlay-research]) .environmentAllSplits span,
+:global([data-parlay-research]) .ladder > div {
+  border-color: var(--lab-border);
+}
+:global([data-parlay-research]) .researchSection nav button {
+  background: var(--lab-panel);
+  color: var(--lab-muted);
+}
+:global([data-parlay-research]) .researchSection nav .selectedControl,
+:global([data-parlay-research]) .venueGrid article.currentVenue,
+:global([data-parlay-research]) .ladder .currentLine {
+  background: var(--lab-input);
+  color: var(--lab-text);
+  border-color: var(--research-accent);
+}
+:global([data-parlay-research]) .labNote,
+:global([data-parlay-research]) .cushionBuckets span,
+:global([data-parlay-research]) .scriptSummary,
+:global([data-parlay-research]) .ladder > div:first-child,
+:global([data-parlay-research]) .ladder button,
+:global([data-parlay-research]) .askContext {
+  background: var(--lab-input);
+  color: var(--lab-text);
+  border-color: var(--lab-border);
+}
+:global([data-parlay-research]) .labNote b {
+  color: var(--lab-text);
+}
+:global([data-parlay-research]) .hitRateTrack {
+  background: var(--lab-border);
+}
+:global([data-parlay-research]) .hit,
+:global([data-parlay-research]) .environmentGrid strong,
+:global([data-parlay-research]) .venueGrid strong,
+:global([data-parlay-research]) .consistencyContent > strong {
+  color: var(--lab-green);
+}
+:global([data-parlay-research]) .miss {
+  color: var(--lab-red);
+}
+:global([data-parlay-research]) .ladder .addedLadder {
+  background: #12392f;
+  color: var(--lab-green);
+}
+
+:global([data-parlay-research]) .gameLog,
+:global([data-parlay-research]) .ladder,
+:global([data-parlay-research]) .ladderContext > div {
+  border-color: var(--lab-border);
+}
+:global([data-parlay-research]) .venueGrid em {
+  color: var(--lab-muted);
 }

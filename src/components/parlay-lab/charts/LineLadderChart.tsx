@@ -37,6 +37,7 @@ export default function LineLadderChart({
     ...baseChartOption,
     grid: { left: 18, right: 24, top: 12, bottom: 28, containLabel: true },
     tooltip: {
+      ...baseChartOption.tooltip,
       trigger: 'item',
       formatter: (raw: unknown) => {
         const p = raw as { dataIndex: number };

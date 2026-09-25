@@ -21,13 +21,13 @@
   padding: 3px 8px;
   border: 1px solid #f05a28;
   border-radius: 5px;
-  background: #fff7f2;
-  color: #071b30;
+  background: #092532;
+  color: #f4f8fc;
   text-align: center;
 }
 .nextDefense small {
   grid-column: 1 / -1;
-  color: #c44117;
+  color: #f2a36f;
   font-size: 0.52rem;
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -41,15 +41,15 @@
   min-width: 28px;
   border-radius: 4px;
   padding: 4px 2px;
-  background: color-mix(in srgb, #071b30 calc((33 - var(--rank)) * 2.35%), #eef3f6);
-  color: #071b30;
+  background: color-mix(in srgb, #355970 calc((33 - var(--rank)) * 2.35%), #092532);
+  color: #f4f8fc;
   font-size: 0.64rem;
   font-weight: 800;
   text-align: center;
 }
 .defenseStripLabel {
   margin: 0 18px 6px 54px;
-  color: #64798d;
+  color: #9db4c6;
   font-size: 0.68rem;
   font-weight: 900;
   text-transform: uppercase;
