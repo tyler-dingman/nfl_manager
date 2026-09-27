@@ -1,3 +1,8 @@
+import NotificationPreferences from '../components/notification-preferences';
+import { useTeamBranding } from '../lib/team-branding';
+import { getEditorialHeroTheme } from '../../../src/lib/team-theme-tokens';
+import { SvgUri } from 'react-native-svg';
+import { API_BASE_URL } from '../lib/api';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useEffect, useState } from 'react';
 import {
@@ -10,7 +15,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { C, Eyebrow, Heading } from '../components/screen';
+import { C } from '../components/screen';
 import { getUserPreferences, updateUserPreferences, type UserPreferences } from '../lib/api';
 import {
   disablePush,
@@ -32,6 +37,8 @@ const levels: { id: UserPreferences['intensity']; title: string; body: string }[
   { id: 'SICKO', title: 'EVERY SNAP', body: 'Everything meaningful worth knowing.' },
 ];
 export default function NotificationSettings() {
+  const { teamId, theme } = useTeamBranding();
+  const accent = getEditorialHeroTheme(teamId).heroPrimaryAccent;
   const [selected, setSelected] = useState<UserPreferences['intensity'] | null>(null),
     [pushState, setPushState] = useState<PushState | null>(null),
     [busy, setBusy] = useState(false),
@@ -105,8 +112,20 @@ export default function NotificationSettings() {
   };
   return (
     <ScrollView style={s.page} contentContainerStyle={s.body}>
-      <Eyebrow>YOUR SIGNAL</Eyebrow>
-      <Heading>Notifications</Heading>
+      <View style={s.hero}>
+        <View pointerEvents="none" style={s.art}>
+          <SvgUri
+            width={150}
+            height={150}
+            uri={`${API_BASE_URL}/assets/front-office-widget-story-graphics/svg/playbook-pattern.svg`}
+          />
+        </View>
+        <Text style={[s.eyebrow, { color: accent }]}>NOTIFICATIONS</Text>
+        <Text style={s.heroTitle}>STAY IN THE KNOW</Text>
+        <Text style={s.heroCopy}>
+          Get the latest news, updates and activity across Down &amp; Distance.
+        </Text>
+      </View>
       <View style={s.pushCard}>
         <View style={s.pushCopy}>
           <Text style={s.title}>PUSH NOTIFICATIONS</Text>
@@ -123,13 +142,13 @@ export default function NotificationSettings() {
           </Text>
         </View>
         {pushState === null ? (
-          <ActivityIndicator color={C.red} />
+          <ActivityIndicator color={theme.primaryFill} />
         ) : (
           <Switch
             disabled={busy || pushState === 'unavailable' || pushState === 'denied'}
             value={pushState === 'enabled'}
             onValueChange={(value) => void togglePush(value)}
-            trackColor={{ false: '#C9CED2', true: C.red }}
+            trackColor={{ false: '#C9CED2', true: theme.primaryFill }}
           />
         )}
       </View>
@@ -172,16 +191,24 @@ export default function NotificationSettings() {
       {message ? <Text style={s.message}>{message}</Text> : null}
       <Text style={s.section}>HOW CLOSELY ARE YOU FOLLOWING?</Text>
       {selected === null && !message ? (
-        <ActivityIndicator color={C.red} />
+        <ActivityIndicator color={theme.primaryFill} />
       ) : (
         levels.map((level) => (
           <Pressable
             key={level.id}
             disabled={busy}
-            style={[s.card, selected === level.id && s.selected]}
+            style={[s.card, selected === level.id && { borderColor: theme.primaryFill }]}
             onPress={() => void choose(level.id)}
           >
-            <View style={[s.radio, selected === level.id && s.radioOn]} />
+            <View
+              style={[
+                s.radio,
+                selected === level.id && {
+                  borderColor: theme.primaryFill,
+                  backgroundColor: theme.primaryFill,
+                },
+              ]}
+            />
             <View style={s.text}>
               <Text style={s.title}>{level.title}</Text>
               <Text style={s.copy}>{level.body}</Text>
@@ -189,6 +216,7 @@ export default function NotificationSettings() {
           </Pressable>
         ))
       )}
+      <NotificationPreferences />
       {Platform.OS === 'web' ? (
         <Text style={s.note}>
           Native push controls are available in iPhone and Android development builds.
@@ -198,6 +226,17 @@ export default function NotificationSettings() {
   );
 }
 const s = StyleSheet.create({
+  hero: { backgroundColor: '#001222', borderRadius: 16, padding: 22, overflow: 'hidden' },
+  art: { position: 'absolute', right: -20, top: 0, opacity: 0.12 },
+  eyebrow: { fontSize: 12, fontWeight: '800', letterSpacing: 2, marginBottom: 8 },
+  heroTitle: {
+    fontWeight: '900',
+    fontStyle: 'italic',
+    fontSize: 34,
+    lineHeight: 36,
+    color: 'white',
+  },
+  heroCopy: { fontSize: 14, lineHeight: 21, color: '#d5e1ed', marginTop: 10 },
   page: { flex: 1, backgroundColor: C.cream },
   body: { padding: 20, paddingBottom: 40 },
   pushCard: {

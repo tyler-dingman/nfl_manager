@@ -1,6 +1,7 @@
 import type postgres from 'postgres';
 
 const requiredColumns = {
+  user_notification_preferences: { delivery_time: 'text', delivery_timezone: 'text' },
   three_and_out_snapshots: {
     id: 'text',
     team_id: 'text',
@@ -18,6 +19,7 @@ const requiredColumns = {
     updated_at: 'timestamp with time zone',
   },
   three_and_out_push_deliveries: {
+    delivery_date: 'date',
     briefing_id: 'text',
     user_id: 'uuid',
     channel: 'text',
@@ -50,7 +52,7 @@ export class DailySchemaNotReadyError extends Error {
   readonly code = 'THREE_AND_OUT_SCHEMA_NOT_READY';
   constructor(readonly missing: string[]) {
     super(
-      'Three & Out database schema is not ready. Apply db/migrations/033_three_and_out_daily.sql to this deployment’s DATABASE_URL, then rerun the readiness check.',
+      'Three & Out database schema is not ready. Apply db/migrations/033_three_and_out_daily.sql and db/migrations/047_three_out_delivery_timing.sql to this deployment’s DATABASE_URL, then rerun the readiness check.',
     );
     this.name = 'DailySchemaNotReadyError';
   }
@@ -60,7 +62,7 @@ export async function assertDailyThreeAndOutSchema(sql: postgres.Sql) {
   const columns = await sql<Column[]>`
     SELECT table_name, column_name, data_type FROM information_schema.columns
     WHERE table_schema=current_schema()
-      AND table_name IN ('three_and_out_snapshots','three_and_out_push_deliveries')`;
+      AND table_name IN ('three_and_out_snapshots','three_and_out_push_deliveries','user_notification_preferences')`;
   const missing = missingDailySchemaColumns(columns);
   if (missing.length) throw new DailySchemaNotReadyError(missing);
 }

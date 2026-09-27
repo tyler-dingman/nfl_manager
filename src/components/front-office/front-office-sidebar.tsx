@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { PlayersNavIcon } from '@/components/ui/players-nav-icon';
 import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { MobileSecondaryNavigation } from '@/components/navigation/mobile-secondary-navigation';
@@ -25,7 +26,7 @@ const changeTeam = { label: 'Change team', href: '/teams?switch=1', icon: Users 
 
 const items = [
   { label: 'Home', href: '/experience', icon: Home },
-  { label: 'Roster', href: '/roster?view=roster', icon: Users },
+  { label: 'Roster', href: '/roster?view=roster', icon: PlayersNavIcon },
   { label: 'Depth Chart', href: '/roster?view=depth', icon: Network },
   { label: 'Trades', href: '/front-office/trade-hub?context=roster', icon: ArrowLeftRight },
   { label: 'Free Agency', href: '/free-agents', icon: UserPlus },

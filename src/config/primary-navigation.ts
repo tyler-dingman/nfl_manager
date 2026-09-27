@@ -31,16 +31,14 @@ export function getPrimaryNavActive(pathname: string | null): PrimaryNavItemId |
   if (!pathname) return null;
   if (
     matchesPath(pathname, '/the-beat') ||
+    matchesPath(pathname, '/beat') ||
     matchesPath(pathname, '/huddle') ||
     matchesPath(pathname, '/story')
   )
     return 'huddle';
-  if (matchesPath(pathname, '/watch')) return 'watch';
+  if (matchesPath(pathname, '/watch') || matchesPath(pathname, '/film-room')) return 'watch';
   if (FRONT_OFFICE_PATHS.some((path) => matchesPath(pathname, path))) return 'front-office';
-  if (matchesPath(pathname, '/parlay-lab')) return 'parlay-lab';
-  if (matchesPath(pathname, '/trivia')) return 'trivia';
-  if (matchesPath(pathname, '/merch')) return 'merch';
-  return null;
+  return PRIMARY_NAV_ITEMS.find((item) => matchesPath(pathname, item.href))?.id ?? null;
 }
 
 export function getPrimaryNavHref(href: string, teamAbbr?: string | null) {

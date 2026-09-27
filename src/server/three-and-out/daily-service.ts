@@ -7,7 +7,7 @@ import { THREE_AND_OUT_SUMMARY_VERSION } from '@/features/three-and-out/config';
 import {
   buildDailyBriefingPush,
   dateInTimezone,
-  isDailyBriefingDeliveryDue,
+  dailyBriefingDeliveryDate,
   selectDailyBriefingStories,
 } from '@/features/three-and-out/daily';
 import type {
@@ -175,12 +175,12 @@ export async function getDailyThreeAndOut(teamId: string, briefingDate?: string)
 
 export async function generateDailyThreeAndOut(
   teamId: string,
-  options: { now?: Date; force?: boolean } = {},
+  options: { now?: Date; force?: boolean; briefingDate?: string } = {},
 ) {
   const team = TEAM_LIST.find((candidate) => candidate.abbr === teamId);
   if (!team) return null;
   const now = options.now ?? new Date();
-  const briefingDate = dateInTimezone(now, teamTimezone(teamId));
+  const briefingDate = options.briefingDate ?? dateInTimezone(now, teamTimezone(teamId));
   if (!options.force) {
     const existing = await getDailyThreeAndOut(teamId, briefingDate);
     if (existing) return existing;
@@ -254,19 +254,40 @@ export async function generateAllDailyThreeAndOut(options: { now?: Date; force?:
   return results;
 }
 
-type PushCandidate = SnapshotRow & { userId: string; timezone: string };
+type PushCandidate = SnapshotRow & { userId: string; timezone: string; deliveryTime: string };
 
 export async function deliverDueDailyThreeAndOut(now = new Date()) {
+  const subscribers = await authDb()<{ teamId: string; timezone: string; deliveryTime: string }[]>`
+    SELECT DISTINCT pref.favorite_team_abbr AS "teamId",coalesce(np.delivery_timezone,p.timezone,'UTC') AS timezone,
+      coalesce(np.delivery_time,'07:00') AS "deliveryTime"
+    FROM user_notification_preferences np JOIN user_preferences pref ON pref.user_id=np.user_id
+    JOIN user_profiles p ON p.user_id=np.user_id
+    WHERE np.category='THREE_AND_OUT_DAILY' AND np.channel='IN_APP' AND np.enabled=true
+      AND pref.favorite_team_abbr IS NOT NULL`;
+  const generated = new Set<string>();
+  for (const subscriber of subscribers) {
+    const briefingDate = dailyBriefingDeliveryDate(
+      now,
+      subscriber.timezone,
+      subscriber.deliveryTime,
+    );
+    if (!briefingDate) continue;
+    const key = `${subscriber.teamId}:${briefingDate}`;
+    if (generated.has(key)) continue;
+    generated.add(key);
+    await generateDailyThreeAndOut(subscriber.teamId, { now, briefingDate });
+  }
   const candidates = await authDb()<PushCandidate[]>`
     SELECT s.id,s.team_id AS "teamId",s.briefing_date AS "briefingDate",
       s.generated_at AS "generatedAt",s.published_at AS "publishedAt",
       s.source_window_start AS "sourceWindowStart",s.source_window_end AS "sourceWindowEnd",
       s.summary_version AS "summaryVersion",s.items,u.id AS "userId",
-      coalesce(p.timezone,'America/New_York') AS timezone
+      coalesce(timing.delivery_timezone,p.timezone,'UTC') AS timezone, coalesce(timing.delivery_time,'07:00') AS "deliveryTime"
     FROM three_and_out_snapshots s
     JOIN user_preferences pref ON pref.favorite_team_abbr=s.team_id AND pref.push_enabled=true
     JOIN users u ON u.id=pref.user_id
     JOIN user_profiles p ON p.user_id=u.id
+    JOIN user_notification_preferences timing ON timing.user_id=u.id AND timing.category='THREE_AND_OUT_DAILY' AND timing.channel='IN_APP' AND timing.topic_id='THREE_AND_OUT'
     WHERE s.status='PUBLISHED' AND s.items IS NOT NULL AND s.briefing_date >= current_date - 1
       AND EXISTS (
         SELECT 1 FROM user_notification_preferences np
@@ -283,18 +304,23 @@ export async function deliverDueDailyThreeAndOut(now = new Date()) {
   for (const candidate of candidates) {
     const briefingDate = dateOnly(candidate.briefingDate);
     if (
-      dateInTimezone(now, candidate.timezone) !== briefingDate ||
-      !isDailyBriefingDeliveryDue(now, candidate.timezone)
+      dailyBriefingDeliveryDate(now, candidate.timezone, candidate.deliveryTime) !== briefingDate
     ) {
+      skipped += 1;
+      continue;
+    }
+    const legacy =
+      await authDb()`SELECT 1 FROM three_and_out_push_deliveries WHERE briefing_id=${candidate.id} AND user_id=${candidate.userId} AND channel='PUSH' AND delivery_date IS NULL`;
+    if (legacy.length) {
       skipped += 1;
       continue;
     }
     const claimed = await authDb()<{ briefingId: string }[]>`
       INSERT INTO three_and_out_push_deliveries
-        (briefing_id,user_id,channel,status,attempt_count,attempted_at,updated_at)
-      VALUES(${candidate.id},${candidate.userId},'PUSH','PENDING',1,now(),now())
-      ON CONFLICT(briefing_id,user_id,channel) DO UPDATE SET
-        status='PENDING',attempt_count=three_and_out_push_deliveries.attempt_count+1,
+        (briefing_id,user_id,channel,status,attempt_count,attempted_at,updated_at,delivery_date)
+      VALUES(${candidate.id},${candidate.userId},'PUSH','PENDING',1,now(),now(),${briefingDate})
+      ON CONFLICT(user_id,delivery_date,channel) WHERE delivery_date IS NOT NULL DO UPDATE SET
+        briefing_id=EXCLUDED.briefing_id,status='PENDING',attempt_count=three_and_out_push_deliveries.attempt_count+1,
         attempted_at=now(),updated_at=now()
       WHERE three_and_out_push_deliveries.status='FAILED'
         AND three_and_out_push_deliveries.attempt_count<3

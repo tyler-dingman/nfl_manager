@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Bell, Check } from 'lucide-react';
+import styles from './notification-settings.module.css';
 import { useAuthUser } from '@/features/auth/auth-session';
 
 async function saveSubscription(subscription: PushSubscription) {
@@ -145,45 +147,62 @@ export default function BrowserPushSettings() {
   }
 
   const buttonClass =
-    'rounded-xl bg-[#00172B] px-4 py-3 text-sm font-bold text-white disabled:opacity-50';
+    'team-primary-filled min-h-11 rounded-lg px-4 py-2 text-xs font-bold disabled:opacity-50';
   return (
-    <div className="mb-6 rounded-2xl border border-[#00172B]/10 bg-[#f7f4ee] p-5">
-      <h3 className="text-lg font-black">Browser notifications</h3>
-      <p className="mt-1 text-sm text-[#40556b]">
-        Receive Down &amp; Distance updates on this browser.
-      </p>
-      {!supported ? (
-        <p className="mt-3 text-sm">
-          Browser push requires a supported browser and HTTPS (or localhost).
-        </p>
-      ) : permission === 'denied' ? (
-        <p className="mt-3 text-sm">
-          Notifications are blocked. Allow notifications in your browser’s site settings, then
-          reload this page.
-        </p>
-      ) : !publicKey && !busy ? (
-        <p className="mt-3 text-sm">Browser notifications are not configured yet.</p>
-      ) : (
-        <div className="mt-4 flex flex-wrap gap-3">
-          {tokenId ? (
-            <>
-              <button className={buttonClass} disabled={busy} onClick={testPush}>
-                Send Test Notification
+    <section
+      className={`${styles.card} ${styles.header}`}
+      aria-labelledby="browser-notifications-heading"
+    >
+      <Bell aria-hidden="true" />
+      <div className={styles.copy}>
+        <h2 id="browser-notifications-heading">Browser Notifications</h2>
+        <p>Get notified on this browser, even when you’re not on the site.</p>
+      </div>
+      <div className="flex flex-col gap-2 max-sm:w-full">
+        {busy && !publicKey && !tokenId ? (
+          <p role="status">Checking browser notifications…</p>
+        ) : !supported ? (
+          <p className="mt-3 text-sm">
+            Browser push requires a supported browser and HTTPS (or localhost).
+          </p>
+        ) : permission === 'denied' ? (
+          <p className="mt-3 text-sm">
+            Notifications are blocked. Allow notifications in your browser’s site settings, then
+            reload this page.
+          </p>
+        ) : !publicKey && !busy ? (
+          <p className="mt-3 text-sm">Browser notifications are not configured yet.</p>
+        ) : (
+          <div className="flex flex-wrap items-center gap-2 max-sm:[&>button]:w-full">
+            {tokenId ? (
+              <>
+                <span className="flex w-full items-center gap-2 text-sm font-bold">
+                  <Check className="h-4 w-4" /> Notifications Enabled
+                </span>
+                <button className={buttonClass} disabled={busy} onClick={testPush}>
+                  Send Test Notification
+                </button>
+                <button className={buttonClass} disabled={busy} onClick={disable}>
+                  Disable Browser Notifications
+                </button>
+              </>
+            ) : (
+              <button
+                className={buttonClass}
+                disabled={busy || !publicKey || !user}
+                onClick={enable}
+              >
+                Enable Notifications
               </button>
-              <button className={buttonClass} disabled={busy} onClick={disable}>
-                Disable Browser Notifications
-              </button>
-            </>
-          ) : (
-            <button className={buttonClass} disabled={busy || !publicKey || !user} onClick={enable}>
-              Enable Browser Notifications
-            </button>
-          )}
-        </div>
-      )}
-      <p role="status" aria-live="polite" className="mt-3 text-sm text-[#40556b]">
-        {message}
-      </p>
-    </div>
+            )}
+          </div>
+        )}
+        {message ? (
+          <p role="status" aria-live="polite" className="mt-3 text-sm text-[#40556b]">
+            {message}
+          </p>
+        ) : null}
+      </div>
+    </section>
   );
 }

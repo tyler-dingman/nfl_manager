@@ -1,0 +1,433 @@
+.dashboard {
+  min-width: 0;
+  color: #00172b;
+  background: #f5f7f9;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding: 24px;
+  background: #001222;
+  color: white;
+}
+.identity {
+  position: relative;
+  isolation: isolate;
+  align-self: center;
+}
+.identity::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url('/assets/front-office-widget-story-graphics/svg/playbook-pattern.svg') right
+    center / contain no-repeat;
+  opacity: 0.13;
+}
+.eyebrow {
+  color: var(--reward-accent);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  font-weight: 800;
+  margin: 0 0 12px;
+}
+.identity h1 {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(30px, 5cqw, 44px);
+  line-height: 1;
+  margin: 0 0 14px;
+  overflow-wrap: anywhere;
+}
+.identity h1 span {
+  color: var(--reward-accent);
+}
+.identity > p:last-child {
+  color: #d2dfeb;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+.progress {
+  min-width: 0;
+  background: #ffffff06;
+  padding: 16px;
+  border-radius: 12px;
+}
+.progress h2 {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0 0 10px;
+}
+.progressGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+.ring {
+  position: relative;
+  width: 100%;
+  max-width: 172px;
+  aspect-ratio: 1;
+}
+.ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  fill: none;
+  stroke-width: 9;
+}
+.ring circle:first-child {
+  stroke: #20384a;
+}
+.ring circle:last-child {
+  stroke: #ffbd08;
+  stroke-linecap: round;
+}
+.ring > div {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.ring strong {
+  font-size: clamp(22px, 4vw, 38px);
+  font-style: italic;
+  font-weight: 900;
+}
+.ring span {
+  font-size: 15px;
+  color: #c4d4e3;
+  font-weight: 800;
+}
+.ring small {
+  font-size: 8px;
+  letter-spacing: 0.03em;
+  color: #c4d4e3;
+  margin-top: 4px;
+}
+.badge {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 42px;
+  flex-shrink: 0;
+}
+.badge svg:first-child {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.7;
+}
+.badge svg:last-child {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: 12px;
+  top: 12px;
+}
+.currentTier h3 {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 23px;
+  margin: 2px 0;
+  font-weight: 900;
+}
+.currentTier p {
+  font-size: 12px;
+  color: #c4d4e3;
+  margin: 4px 0;
+}
+.track {
+  height: 8px;
+  border-radius: 8px;
+  background: #20384a;
+  margin-top: 12px;
+  overflow: hidden;
+}
+.track span {
+  display: block;
+  height: 100%;
+  background: #ffbd08;
+  border-radius: inherit;
+}
+.progressTotal {
+  text-align: right;
+  font-size: 11px;
+  color: #c4d4e3;
+  margin: 5px 0;
+}
+.progress > a {
+  color: var(--reward-accent);
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 13px;
+  min-height: 44px;
+  text-decoration: underline;
+}
+.content {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+.section {
+  background: white;
+  padding: 16px;
+  border: 1px solid #edf1f5;
+  border-radius: 12px;
+  min-width: 0;
+  scroll-margin-top: 100px;
+}
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.sectionHeading h2 {
+  font-size: 17px;
+  font-weight: 800;
+  margin: 0;
+}
+.sectionHeading button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 44px;
+  color: #0069ad;
+  font-size: 12px;
+  font-weight: 600;
+}
+.timeframe {
+  font-size: 12px;
+  color: #516b84;
+  white-space: nowrap;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.stats article {
+  border: 1px solid #e5ecf2;
+  border-radius: 9px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.stats svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.stats article:nth-child(-n + 2) > svg {
+  color: #e5a000;
+}
+.stats strong {
+  font-size: 21px;
+  font-weight: 800;
+}
+.stats p {
+  margin: 1px 0;
+  font-size: 12px;
+}
+.stats small {
+  font-size: 10px;
+  color: #637f99;
+}
+.tiers,
+.ways {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(102px, 1fr);
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scroll-snap-type: x proximity;
+}
+.tiers article,
+.ways a {
+  border: 1px solid #e5ecf2;
+  border-radius: 9px;
+  padding: 12px 8px;
+  text-align: center;
+  scroll-snap-align: start;
+}
+.tiers h3 {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 12px;
+  margin: 4px 0 2px;
+}
+.tiers p {
+  font-size: 11px;
+  margin: 0;
+}
+.tiers small {
+  display: block;
+  border-radius: 20px;
+  padding: 2px 6px;
+  background: #ffbd08;
+  color: #00172b;
+  font-size: 9px;
+  font-weight: 800;
+  margin-top: 3px;
+}
+.tiers .activeTier {
+  border-color: #efad00;
+  background: #fff9e9;
+}
+.ways a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-height: 100px;
+}
+.ways svg {
+  width: 25px;
+  height: 25px;
+}
+.ways strong {
+  font-size: 11px;
+}
+.ways span {
+  color: #0069ad;
+  font-size: 12px;
+  font-weight: 700;
+}
+.ways small {
+  font-size: 10px;
+  color: #637f99;
+}
+.rewards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.rewards article {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid #e5ecf2;
+  padding: 14px;
+  border-radius: 9px;
+  min-width: 0;
+}
+.rewards article > svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.rewards article > div {
+  min-width: 0;
+}
+.rewards h3 {
+  font-size: 12px;
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+.rewards p,
+.rewards small {
+  font-size: 11px;
+  color: #637f99;
+  margin: 4px 0;
+}
+.rewards small {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  text-transform: capitalize;
+}
+.rewards code {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+.rewards button {
+  min-height: 44px;
+  color: #0069ad;
+  font-size: 12px;
+  font-weight: 800;
+}
+.rewards button:disabled {
+  opacity: 0.5;
+}
+.explanation {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #516b84;
+  margin-top: 12px;
+}
+.dashboard :is(a, button):focus-visible {
+  outline: 2px solid #da8900;
+  outline-offset: 3px;
+}
+@container (min-width: 760px) {
+  .hero {
+    grid-template-columns: 1fr 1fr;
+    padding-block: 12px;
+  }
+  .ring {
+    max-width: 124px;
+  }
+  .progress h2 {
+    margin-bottom: 6px;
+  }
+  .track {
+    margin-top: 8px;
+  }
+  .progress {
+    padding-block: 4px;
+    border-left: 1px solid #65819855;
+    border-radius: 0;
+    background: none;
+  }
+  .stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .stats article {
+    gap: 8px;
+    padding: 10px;
+  }
+}
+@media (max-width: 540px) {
+  .hero {
+    padding: 20px 16px 12px;
+    gap: 16px;
+  }
+  .content {
+    padding: 10px 0;
+    gap: 8px;
+  }
+  .section {
+    padding: 12px;
+  }
+  .sectionHeading h2 {
+    font-size: 15px;
+  }
+  .stats article {
+    padding: 10px 8px;
+    gap: 8px;
+  }
+  .stats strong {
+    font-size: 18px;
+  }
+  .stats small {
+    display: none;
+  }
+  .rewards {
+    grid-template-columns: 1fr;
+  }
+}

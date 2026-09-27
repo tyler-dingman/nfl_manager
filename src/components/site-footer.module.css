@@ -12,12 +12,16 @@
     calc(20px + env(safe-area-inset-bottom) + var(--app-bottom-navigation-height, 0px))
     max(16px, env(safe-area-inset-left));
 }
-.mobileLogo {
+.brand {
   display: inline-flex;
+  align-items: center;
   min-height: 44px;
-}
-.desktopBrand {
-  display: none;
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1;
 }
 .primary {
   display: grid;
@@ -58,19 +62,12 @@
     gap: 16px;
     padding: 32px 24px;
   }
-  .mobileLogo,
   .primary,
   .copyright {
     display: none;
   }
-  .desktopBrand {
-    display: block;
-    font-family: var(--font-front-office-barlow), sans-serif;
-    font-size: 24px;
-    font-weight: 800;
-    font-style: italic;
-    text-transform: uppercase;
-    line-height: 1;
+  .brand {
+    min-height: 0;
   }
   .information {
     margin: 0;

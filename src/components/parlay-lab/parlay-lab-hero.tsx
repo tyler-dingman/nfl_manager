@@ -5,7 +5,7 @@ import shared from '@/components/beat/beat-hero.module.css';
 import { TEAM_LIST } from '@/data/teams';
 import type { HomeMarket } from './ParlayLabHome';
 import { LabStatsIcon, LabExperimentIcon } from './lab-icons';
-import { DdTeamAnalyticsIcon } from '@/components/ui/football-icons';
+import { Globe } from 'lucide-react';
 import PlayerAvatar from './PlayerAvatar';
 import styles from './parlay-lab-hero.module.css';
 
@@ -82,7 +82,7 @@ export function ParlayLabHero({
               <p>Find edges with real trends.</p>
             </div>
             <div>
-              <DdTeamAnalyticsIcon />
+              <Globe />
               <b>ALL 32 TEAMS</b>
               <p>Research every game, player and market.</p>
             </div>

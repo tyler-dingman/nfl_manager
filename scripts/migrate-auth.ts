@@ -58,6 +58,7 @@ async function main() {
       '042_canonical_schedule.sql',
       '045_trivia_scheduled_events.sql',
       '046_web_push.sql',
+      '047_three_out_delivery_timing.sql',
     ]) {
       if (file === '017_search_documents.sql') {
         const [extension] = await sql<{ available: boolean }[]>`

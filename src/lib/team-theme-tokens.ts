@@ -4,12 +4,12 @@ import {
   getContrastRatio,
   getReadableTextColor,
   mixHexColors,
-} from '@/lib/color-utils';
+} from './color-utils';
 import {
   TEAM_BRAND_THEMES,
   TEAM_HERO_ACCENT_ROLES,
   getTeamBrandTheme,
-} from '@/lib/team-brand-themes';
+} from './team-brand-themes';
 
 export type TeamThemeTokens = {
   primary: string;

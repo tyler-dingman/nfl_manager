@@ -5,6 +5,7 @@ import {
   buildDailyBriefingPush,
   dateInTimezone,
   isDailyBriefingDeliveryDue,
+  dailyBriefingDeliveryDate,
   selectDailyBriefingStories,
 } from './daily';
 import type { ThreeAndOutStory } from './types';
@@ -86,7 +87,7 @@ test('clusters duplicate and multilingual headlines around the same named event'
   assert.equal(selected.filter((item) => item.title.includes('Mahomes')).length, 1);
 });
 
-test('builds a stable archived deep link and respects local 5 PM delivery', () => {
+test('builds a stable archived deep link and respects the local morning default', () => {
   const stories = [story('one', 'Trade completed', 'trade', 90)];
   const push = buildDailyBriefingPush({
     teamId: 'KC',
@@ -103,7 +104,7 @@ test('builds a stable archived deep link and respects local 5 PM delivery', () =
     true,
   );
   assert.equal(
-    isDailyBriefingDeliveryDue(new Date('2026-09-09T20:45:00Z'), 'America/New_York'),
+    isDailyBriefingDeliveryDue(new Date('2026-09-09T10:45:00Z'), 'America/New_York'),
     false,
   );
 });
@@ -123,4 +124,32 @@ test('reserves first down for a completed game inside the postgame window', () =
   );
   assert.equal(selected[0].id, 'game-result');
   assert.equal(selected.length, 3);
+});
+
+test('daily delivery follows local time across DST and fractional offsets', () => {
+  for (const [date, zone, time, due] of [
+    ['2026-01-10T12:59:00Z', 'America/Chicago', '07:00', false],
+    ['2026-01-10T13:00:00Z', 'America/Chicago', '07:00', true],
+    ['2026-07-10T12:00:00Z', 'America/Chicago', '07:00', true],
+    ['2026-03-08T08:00:00Z', 'America/Chicago', '02:30', true],
+    ['2026-11-01T06:30:00Z', 'America/Chicago', '01:30', true],
+    ['2026-11-01T07:30:00Z', 'America/Chicago', '01:30', true],
+    ['2026-07-10T01:15:00Z', 'Asia/Kathmandu', '07:00', true],
+    ['2026-07-10T22:00:00Z', 'America/Chicago', '18:00', false],
+    ['2026-07-11T04:59:00Z', 'America/Chicago', '23:59', true],
+    ['2026-07-11T05:00:00Z', 'America/Chicago', '23:59', false],
+    ['2026-07-10T12:00:00Z', 'Invalid/Timezone', '07:00', false],
+  ] as const)
+    assert.equal(isDailyBriefingDeliveryDue(new Date(date), zone, time), due, date + ' ' + zone);
+});
+
+test('late custom times remain deliverable across a delayed midnight poll', () => {
+  assert.equal(
+    dailyBriefingDeliveryDate(new Date('2026-07-11T05:04:00Z'), 'America/Chicago', '23:59'),
+    '2026-07-10',
+  );
+  assert.equal(
+    dailyBriefingDeliveryDate(new Date('2026-07-11T05:30:00Z'), 'America/Chicago', '23:59'),
+    null,
+  );
 });

@@ -1,7 +1,8 @@
+import { getEditorialHeroTheme } from '../../../src/lib/team-theme-tokens';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
 import { Pressable, RefreshControl, Share, StyleSheet, Text, TextInput, View } from 'react-native';
-import { C, Eyebrow, Heading } from '../components/screen';
+import { C } from '../components/screen';
 import { createCrew, createCrewInvite, getCrew, type MobileCrew } from '../lib/api';
 import { useAuth } from '../lib/auth-context';
 import { useTeam } from '../lib/team-context';
@@ -10,6 +11,7 @@ export default function CrewScreen() {
   const { user } = useAuth();
   const { teamId } = useTeam();
   const { theme } = useTeamBranding();
+  const heroAccent = getEditorialHeroTheme(teamId).heroPrimaryAccent;
   const [crew, setCrew] = useState<MobileCrew | null | undefined>(),
     [tab, setTab] = useState<'FEED' | 'LEADERBOARD' | 'MEMBERS'>('FEED'),
     [name, setName] = useState(`${user?.displayName?.split(' ')[0] ?? 'My'}’s ${teamId} Crew`),
@@ -29,8 +31,10 @@ export default function CrewScreen() {
   if (!crew)
     return (
       <ScrollView style={s.page} contentContainerStyle={s.body}>
-        <Eyebrow>BUILD YOUR CREW</Eyebrow>
-        <Heading>Football is better with your people.</Heading>
+        <View style={s.hero}>
+          <Text style={[s.heroEyebrow, { color: heroAccent }]}>BUILD YOUR CREW</Text>
+          <Text style={s.heroTitle}>Football is better with your people.</Text>
+        </View>
         <TextInput
           accessibilityLabel="Crew name"
           value={name}
@@ -60,18 +64,19 @@ export default function CrewScreen() {
       contentContainerStyle={s.body}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
     >
-      {' '}
-      <Eyebrow>MY CREW</Eyebrow>
-      <Heading>{crew.name}</Heading>
-      <Text style={s.sub}>
-        {crew.members.length} members · {crew.teamAbbr} fans
-      </Text>
-      <Pressable
-        style={[s.button, { backgroundColor: theme.primaryFill }]}
-        onPress={() => void invite()}
-      >
-        <Text style={[s.buttonText, { color: theme.onPrimary }]}>INVITE FRIENDS</Text>
-      </Pressable>
+      <View style={s.hero}>
+        <Text style={[s.heroEyebrow, { color: heroAccent }]}>MY CREW</Text>
+        <Text style={s.heroTitle}>{crew.name}</Text>
+        <Text style={s.sub}>
+          {crew.members.length} members · {crew.teamAbbr} fans
+        </Text>
+        <Pressable
+          style={[s.button, { backgroundColor: theme.primaryFill }]}
+          onPress={() => void invite()}
+        >
+          <Text style={[s.buttonText, { color: theme.onPrimary }]}>INVITE FRIENDS</Text>
+        </Pressable>
+      </View>
       <View style={s.score}>
         <Stat label="THIS WEEK" value={`${crew.weeklyYards} YDS`} />
         <Stat label="CREW RANK" value={`#${crew.rank}`} />
@@ -135,7 +140,23 @@ function Stat({ label, value }: { label: string; value: string }) {
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: C.cream },
   body: { padding: 18, paddingBottom: 40 },
-  sub: { color: C.muted, marginTop: 8 },
+  hero: {
+    backgroundColor: '#001222',
+    padding: 22,
+    marginHorizontal: -18,
+    marginTop: -18,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  heroEyebrow: { fontSize: 12, fontWeight: '800', letterSpacing: 2, marginBottom: 10 },
+  heroTitle: {
+    color: 'white',
+    fontSize: 32,
+    fontWeight: '900',
+    fontStyle: 'italic',
+    textTransform: 'uppercase',
+  },
+  sub: { color: '#c4d4e3', marginTop: 8 },
   input: {
     height: 54,
     borderWidth: 1,
@@ -155,15 +176,15 @@ const s = StyleSheet.create({
   },
   buttonText: { fontWeight: '900', letterSpacing: 0.8 },
   score: {
-    backgroundColor: C.navy,
+    backgroundColor: C.white,
     borderRadius: 18,
     padding: 18,
     marginTop: 22,
     flexDirection: 'row',
   },
   stat: { flex: 1 },
-  statLabel: { color: C.gold, fontSize: 10, fontWeight: '900' },
-  statValue: { color: C.white, fontSize: 18, fontWeight: '900', marginTop: 6 },
+  statLabel: { color: C.muted, fontSize: 10, fontWeight: '900' },
+  statValue: { color: C.ink, fontSize: 18, fontWeight: '900', marginTop: 6 },
   tabs: { flexDirection: 'row', marginTop: 18, borderBottomWidth: 1, borderBottomColor: '#DDD6CC' },
   tab: {
     flex: 1,

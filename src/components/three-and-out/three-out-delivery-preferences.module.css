@@ -1,0 +1,107 @@
+.dark {
+  border: 1px solid #65819855;
+  border-radius: 14px;
+  padding: 16px;
+  color: #fff;
+  background: #00121b;
+}
+.dark .muted {
+  color: #a8bac4;
+}
+.dark .edit {
+  color: #fff;
+}
+.channelsDark button {
+  min-width: 0;
+  min-height: 72px;
+  border-color: #658198;
+  background: transparent;
+  color: #fff;
+}
+.channelsDark button[aria-pressed='true'] {
+  border-color: var(--hero-beat-detail, #fff);
+  background: #ffffff14;
+}
+.channelsDark button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.dark .warning {
+  color: #fcd34d;
+}
+.dark .error {
+  color: #fca5a5;
+}
+.timing {
+  min-width: 0;
+  margin: 18px 0 0;
+  padding: 0;
+  border: 0;
+}
+.timing legend {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 8px;
+}
+.timingOptions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.timingOptions button {
+  min-height: 56px;
+  padding: 7px 3px;
+  border: 1px solid #8a9ba755;
+  border-radius: 9px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+.timingOptions strong {
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.timingOptions span {
+  font-size: 11px;
+}
+.timingOptions button[aria-pressed='true'] {
+  background: var(--team-primary);
+  color: var(--team-on-primary);
+  border-color: var(--team-primary);
+}
+.timing:disabled {
+  opacity: 0.55;
+}
+.customTime {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 12px;
+}
+.customTime input {
+  color-scheme: light;
+  min-height: 44px;
+  min-width: 0;
+  border: 1px solid #8a9ba755;
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: #00172b;
+  background: white;
+}
+.timezone {
+  font-size: 11px !important;
+  margin: 8px 0 0;
+  opacity: 0.8;
+}
+@media (max-width: 639px) {
+  .timingOptions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -4,14 +4,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PRIMARY_NAV_ITEMS } from '../../../src/config/primary-navigation';
 import { FOOTER_INFORMATION, footerCopyright } from '../../../packages/navigation/footer';
 import { destinations } from './mobile-navigation';
-import { TeamBrandedLogo } from './team-branded-logo';
 import { API_BASE_URL } from '../lib/network';
 
 export function SiteFooter() {
   const insets = useSafeAreaInsets();
   return (
     <View style={[s.footer, { paddingBottom: Math.max(20, insets.bottom) }]}>
-      <TeamBrandedLogo width={144} height={56} />
+      <Text style={s.brand}>DOWN &amp; DISTANCE</Text>
       <View style={s.links}>
         {PRIMARY_NAV_ITEMS.map((item) => (
           <Pressable
@@ -41,6 +40,7 @@ export function SiteFooter() {
 }
 const s = StyleSheet.create({
   footer: { alignSelf: 'stretch', backgroundColor: '#00121b', padding: 16, marginTop: 24 },
+  brand: { color: 'white', fontSize: 18, fontWeight: '800', fontStyle: 'italic', lineHeight: 18 },
   links: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 12 },
   link: { width: '33.333%', minHeight: 44, justifyContent: 'center' },
   label: { color: 'white', fontSize: 12, fontWeight: '700' },

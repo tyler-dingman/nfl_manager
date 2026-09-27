@@ -1,4 +1,5 @@
 'use client';
+import { PlayersNavIcon } from '@/components/ui/players-nav-icon';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -9,7 +10,6 @@ import type { Team } from '@/features/team/team-store';
 import {
   DdHomeIcon,
   DdGameCenterIcon,
-  DdPlayerComparisonIcon,
   DdMyTeamIcon,
   DdSettingsIcon,
 } from '@/components/ui/football-icons';
@@ -20,7 +20,7 @@ const links = [
   ['Home', '/parlay-lab', DdHomeIcon],
   ['Trending Props', '/parlay-lab/trends', LabTrendsIcon],
   ['Games', '/parlay-lab/games', DdGameCenterIcon],
-  ['Players', '/parlay-lab/players', DdPlayerComparisonIcon],
+  ['Players', '/parlay-lab/players', PlayersNavIcon],
   ['Teams', '/parlay-lab/teams', DdMyTeamIcon],
   ['Parlay Generator ✦', '/parlay-lab/generator', LabExperimentIcon],
   ['Alt Stack', '/parlay-lab/alt-stack', LabExperimentIcon],

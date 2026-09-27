@@ -34,3 +34,19 @@ test('team selection is retained without changing the canonical Merch destinatio
   assert.equal(getPrimaryNavHref('/offseasonmanager', 'KC'), '/offseasonmanager?team=KC');
   assert.equal(getPrimaryNavHref('/merch', 'KC'), '/merch');
 });
+
+test('primary section aliases and descendants resolve without matching unrelated prefixes', () => {
+  for (const [path, id] of [
+    ['/beat/story', 'huddle'],
+    ['/film-room/video', 'watch'],
+    ['/front-office/roster', 'front-office'],
+    ['/front-office/draft/prospect', 'front-office'],
+    ['/trivia/game', 'trivia'],
+    ['/parlay-lab/players', 'parlay-lab'],
+    ['/parlay-lab/alt-stack', 'parlay-lab'],
+    ['/merch/product', 'merch'],
+  ] as const)
+    assert.equal(getPrimaryNavActive(path), id);
+  for (const path of ['/beatbox', '/film-roommates', '/merchandise', '/account', '/'])
+    assert.equal(getPrimaryNavActive(path), null);
+});

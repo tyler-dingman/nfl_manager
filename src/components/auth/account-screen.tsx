@@ -1,7 +1,8 @@
 'use client';
 
-import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { BriefcaseBusiness, Check, LogOut, ShieldCheck, Trash2 } from 'lucide-react';
 import {
@@ -14,7 +15,7 @@ import { useProfileTeam } from '@/features/team/use-profile-team';
 import ProfileLayout from '@/components/auth/profile-navigation';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
-import TriviaProfileCard from '@/components/trivia/trivia-profile-card';
+import AccountDashboard from './account-dashboard';
 import { TEAM_LIST } from '@/data/teams';
 import { clearPreviewSession, notifyAuthChanged, useAuthUser } from '@/features/auth/auth-session';
 import AuthProviderIcon, { providerDisplayName } from '@/components/auth/auth-provider-icon';
@@ -24,8 +25,7 @@ import {
 } from '@/features/team/fan-team-preference';
 import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import { useTeamStore } from '@/features/team/team-store';
-import BrowserPushSettings from '@/components/notifications/browser-push-settings';
-import ThreeOutDeliveryPreferences from '@/components/three-and-out/three-out-delivery-preferences';
+import NotificationSettings from '@/components/notifications/notification-settings';
 
 export type AccountSection =
   | 'profile'
@@ -44,62 +44,6 @@ const sectionHref = (section: AccountSection) =>
   section === 'profile' || section === 'account' ? '/account' : `/account/${section}`;
 const inputClass =
   'mt-2 h-14 w-full rounded-2xl border border-[#00172B]/15 px-4 text-base font-semibold normal-case tracking-normal outline-none focus:border-[var(--primary)]';
-
-function ProfileSection({ name, email }: { name: string; email: string }) {
-  const [nextName, setNextName] = useState(name);
-  const [nextEmail, setNextEmail] = useState(email);
-  const [saved, setSaved] = useState(false);
-  const submit = async (event: FormEvent) => {
-    event.preventDefault();
-    await fetch('/api/user/profile', {
-      method: 'PATCH',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ displayName: nextName }),
-    });
-    if (nextEmail.trim().toLowerCase() !== email.trim().toLowerCase()) {
-      await fetch('/api/user/email-change/request', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email: nextEmail }),
-      });
-    }
-    notifyAuthChanged();
-    setSaved(true);
-    window.setTimeout(() => setSaved(false), 1800);
-  };
-  return (
-    <form onSubmit={submit} className="space-y-5">
-      <SectionTitle
-        title="Profile"
-        description="Manage how your account appears across Down & Distance."
-      />
-      <TriviaProfileCard />
-      <label className="block text-xs font-black uppercase tracking-[0.16em] text-[#00172B]/50">
-        Display name
-        <input
-          required
-          value={nextName}
-          onChange={(event) => setNextName(event.target.value)}
-          className={inputClass}
-        />
-      </label>
-      <label className="block text-xs font-black uppercase tracking-[0.16em] text-[#00172B]/50">
-        Email
-        <input
-          required
-          type="email"
-          value={nextEmail}
-          onChange={(event) => setNextEmail(event.target.value)}
-          className={inputClass}
-        />
-      </label>
-      <button className="team-primary-filled-hover inline-flex h-12 items-center gap-2 rounded-full bg-[var(--dark)] px-6 font-black text-[var(--team-on-dark)]">
-        {saved ? <Check className="h-4 w-4" /> : null}
-        {saved ? 'Saved' : 'Save profile'}
-      </button>
-    </form>
-  );
-}
 
 function SectionTitle({ title, description }: { title: string; description: string }) {
   return (
@@ -159,6 +103,7 @@ function PreferencesSection({ onTeamChange }: { onTeamChange: (teamAbbr: string)
         setAutoplay(body.preferences?.autoplayVideo ?? false);
       });
   }, [onTeamChange]);
+  const selectedTeam = TEAM_LIST.find((item) => item.abbr === team);
   return (
     <div>
       <SectionTitle
@@ -168,26 +113,38 @@ function PreferencesSection({ onTeamChange }: { onTeamChange: (teamAbbr: string)
       <div className="mt-7 space-y-6">
         <label className="block text-xs font-black uppercase tracking-[0.16em] text-[#00172B]/50">
           Favorite team
-          <select
-            value={team}
-            onChange={async (event) => {
-              const value = event.target.value;
-              if (!value) return;
-              setTeam(value);
-              onTeamChange(value);
-              await saveFanTeamPreference(value);
-            }}
-            className={`${inputClass} bg-white`}
-          >
-            <option value="" disabled>
-              Choose a primary team
-            </option>
-            {TEAM_LIST.map((item) => (
-              <option key={item.id} value={item.abbr}>
-                {item.name}
+          <span className="relative mt-2 block">
+            {selectedTeam?.logoUrl && (
+              <Image
+                src={selectedTeam.logoUrl}
+                alt=""
+                width={32}
+                height={32}
+                className="pointer-events-none absolute left-4 top-1/2 z-10 h-8 w-8 -translate-y-1/2 object-contain"
+              />
+            )}
+            <select
+              value={team}
+              onChange={async (event) => {
+                const value = event.target.value;
+                if (!value) return;
+                setTeam(value);
+                onTeamChange(value);
+                await saveFanTeamPreference(value);
+              }}
+              className={`${inputClass.replace('mt-2 ', '')} bg-white`}
+              style={{ paddingLeft: selectedTeam?.logoUrl ? 60 : undefined }}
+            >
+              <option value="" disabled>
+                Choose a primary team
               </option>
-            ))}
-          </select>
+              {TEAM_LIST.map((item) => (
+                <option key={item.id} value={item.abbr}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </span>
         </label>
         <ToggleRow
           label="Around the league"
@@ -214,102 +171,6 @@ function PreferencesSection({ onTeamChange }: { onTeamChange: (teamAbbr: string)
               body: JSON.stringify({ autoplayVideo: value }),
             });
           }}
-        />
-      </div>
-    </div>
-  );
-}
-
-function NotificationsSection() {
-  const [settings, setSettings] = useState<Record<string, boolean>>({
-    BREAKING_NEWS: true,
-    GAME_DAY: true,
-    TRIVIA_FRIENDS: true,
-    CREW_ACTIVITY: true,
-    CREW_TRIVIA: true,
-    CREW_GAME_DAY: true,
-    FRONT_OFFICE: true,
-  });
-  useEffect(() => {
-    void fetch('/api/user/notification-preferences')
-      .then((r) => r.json())
-      .then((body) => {
-        const saved = Object.fromEntries(
-          (body.preferences ?? [])
-            .filter((preference: { channel: string }) => preference.channel === 'IN_APP')
-            .map((preference: { category: string; enabled: boolean }) => [
-              preference.category,
-              preference.enabled,
-            ]),
-        );
-        setSettings((current) => ({ ...current, ...saved }));
-      });
-  }, []);
-  const update = (key: string, value: boolean) => {
-    const next = { ...settings, [key]: value };
-    setSettings(next);
-    void fetch('/api/user/notification-preferences', {
-      method: 'PATCH',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ category: key, channel: 'IN_APP', enabled: value }),
-    });
-  };
-  return (
-    <div>
-      <SectionTitle
-        title="Notifications"
-        description="Choose which updates deserve your attention."
-      />
-      <div className="mt-7 space-y-3">
-        <BrowserPushSettings />
-        <div className="mb-6 rounded-2xl border border-[#00172B]/10 bg-[#f7f4ee] p-5">
-          <h3 className="text-lg font-black tracking-[-0.015em]">Three &amp; Out</h3>
-          <p className="mt-1 text-sm text-[#40556b]">
-            Get the three things you need to know about your team each day.
-          </p>
-          <ThreeOutDeliveryPreferences settings />
-        </div>
-        <ToggleRow
-          label="Breaking team news"
-          description="Major injuries, trades, and roster changes."
-          checked={settings.BREAKING_NEWS}
-          onChange={(value) => update('BREAKING_NEWS', value)}
-        />
-        <ToggleRow
-          label="Game Day"
-          description="Kickoff and meaningful Game Day updates."
-          checked={settings.GAME_DAY}
-          onChange={(value) => update('GAME_DAY', value)}
-        />
-        <ToggleRow
-          label="Trivia & Friends"
-          description="Invites, leaderboard changes, and buddy activity."
-          checked={settings.TRIVIA_FRIENDS}
-          onChange={(value) => update('TRIVIA_FRIENDS', value)}
-        />
-        <ToggleRow
-          label="Crew activity"
-          description="Stories and videos shared by your Crew."
-          checked={settings.CREW_ACTIVITY}
-          onChange={(value) => update('CREW_ACTIVITY', value)}
-        />
-        <ToggleRow
-          label="Crew trivia & challenges"
-          description="Crew challenges and leaderboard milestones."
-          checked={settings.CREW_TRIVIA}
-          onChange={(value) => update('CREW_TRIVIA', value)}
-        />
-        <ToggleRow
-          label="Crew Game Day"
-          description="Crew predictions and meaningful Game Day activity."
-          checked={settings.CREW_GAME_DAY}
-          onChange={(value) => update('CREW_GAME_DAY', value)}
-        />
-        <ToggleRow
-          label="Front Office"
-          description="Important results and progression events."
-          checked={settings.FRONT_OFFICE}
-          onChange={(value) => update('FRONT_OFFICE', value)}
         />
       </div>
     </div>
@@ -606,15 +467,23 @@ export default function AccountScreen({ section }: { section: AccountSection }) 
       <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
         <MainSiteHeader teamAbbr={teamAbbr} active={null} />
         <ProfileLayout>
-          <section className="rounded-3xl bg-white p-6 shadow-sm sm:p-9">
+          <section
+            className={
+              section === 'profile' || section === 'account' || section === 'notifications'
+                ? undefined
+                : 'rounded-3xl bg-white p-6 shadow-sm sm:p-9'
+            }
+          >
             {section === 'profile' || section === 'account' ? (
-              <ProfileSection name={user.name} email={user.email} />
+              <AccountDashboard user={user} teamAbbr={teamAbbr ?? null} />
             ) : null}
             {section === 'preferences' || section === 'my-team' ? (
               <PreferencesSection onTeamChange={handleTeamChange} />
             ) : null}
             {section === 'content' ? <CollectionSection section="saved" /> : null}
-            {section === 'notifications' ? <NotificationsSection /> : null}
+            {section === 'notifications' ? (
+              <NotificationSettings teamAbbr={teamAbbr ?? null} />
+            ) : null}
             {section === 'saved' ? <CollectionSection section="saved" /> : null}
             {section === 'front-office' ? <CollectionSection section="front-office" /> : null}
             {section === 'security' || section === 'devices' || section === 'privacy-security' ? (

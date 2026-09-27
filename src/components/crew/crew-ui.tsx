@@ -1,4 +1,5 @@
 'use client';
+import { readCrewResponse } from '@/features/crew/response';
 import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
@@ -16,9 +17,7 @@ export async function crewRequest(url: string, method = 'GET', body?: unknown) {
         : {}),
     cache: 'no-store',
   });
-  const data = await response.json();
-  if (!response.ok) throw new Error(data.error ?? 'Something went wrong. Please try again.');
-  return data;
+  return readCrewResponse(response);
 }
 export function relativeTime(value: string) {
   const minutes = Math.max(0, Math.floor((Date.now() - new Date(value).getTime()) / 60000));

@@ -191,19 +191,7 @@ export type TeamOption = { abbr: string; name: string; colors: [string, string];
 export async function getTeams() {
   return request<TeamOption[]>('/api/teams');
 }
-export type RewardsDashboard = {
-  progress: { currentDriveYards: number; touchdowns: number; lifetimeYards: number };
-  yardsToNextReward: number;
-  nextReward: null | { title: string; thresholdYards: number };
-  rewards: Array<{
-    id: string;
-    title: string;
-    description: string;
-    thresholdYards: number;
-    status: string;
-    couponCode?: string | null;
-  }>;
-};
+export type RewardsDashboard = import('../../../packages/rewards/presentation').RewardDashboard;
 export async function getRewards() {
   return (await authJson<{ rewards: RewardsDashboard }>('/api/rewards')).rewards;
 }
@@ -393,7 +381,7 @@ export type UserProfile = {
 export async function getUserProfile() {
   return (await authJson<{ profile: UserProfile }>('/api/user/profile')).profile;
 }
-export async function updateUserProfile(input: Pick<UserProfile, 'displayName'>) {
+export async function updateUserProfile(input: Pick<UserProfile, 'displayName'> & { avatarUrl?: string | null }) {
   return (
     await authJson<{ profile: UserProfile }>('/api/user/profile', {
       method: 'PATCH',

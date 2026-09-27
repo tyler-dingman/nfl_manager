@@ -9,6 +9,7 @@ export default function Profile() {
   const { refreshUser } = useAuth();
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -18,6 +19,7 @@ export default function Profile() {
       .then((profile) => {
         setDisplayName(profile.displayName);
         setEmail(profile.primaryEmail ?? '');
+        setAvatarUrl(profile.avatarUrl ?? '');
       })
       .catch((caught) =>
         setMessage(caught instanceof Error ? caught.message : 'Profile is unavailable.'),
@@ -30,7 +32,10 @@ export default function Profile() {
     setSaving(true);
     setMessage(null);
     try {
-      await updateUserProfile({ displayName: displayName.trim() });
+      await updateUserProfile({
+        displayName: displayName.trim(),
+        avatarUrl: avatarUrl.trim() || null,
+      });
       await refreshUser();
       setMessage('Profile saved.');
     } catch (caught) {
@@ -58,6 +63,16 @@ export default function Profile() {
           autoCapitalize="words"
           style={s.input}
         />
+        <Text style={s.label}>PROFILE PHOTO URL</Text>
+        <TextInput
+          accessibilityLabel="Profile photo URL"
+          value={avatarUrl}
+          onChangeText={setAvatarUrl}
+          autoCapitalize="none"
+          keyboardType="url"
+          style={s.input}
+        />
+        <Text style={s.help}>Use an image URL, or leave blank to remove your photo.</Text>
         <Text style={s.label}>EMAIL</Text>
         <View style={s.readOnly}>
           <Text style={s.readOnlyText}>{email || 'No email on file'}</Text>

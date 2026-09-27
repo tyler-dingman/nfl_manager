@@ -1,5 +1,7 @@
 'use client';
 
+import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
+
 import { getActiveSimulationRoster } from '@/lib/front-office-roster';
 
 import { usePathname, useRouter } from 'next/navigation';
@@ -128,9 +130,9 @@ function AppShellContent({
   useEffect(() => {
     if (!isHydrated) return;
     if (!saveId && pathname !== '/') {
-      router.replace('/');
+      router.replace(getOffseasonManagerRoute('', storedTeamAbbr));
     }
-  }, [isHydrated, pathname, router, saveId]);
+  }, [isHydrated, pathname, router, saveId, storedTeamAbbr]);
 
   const selectedTeam = useMemo(
     () => teams.find((team) => team.id === selectedTeamId) ?? teams[0],

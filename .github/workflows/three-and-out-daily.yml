@@ -2,11 +2,8 @@ name: Three & Out daily briefing
 
 on:
   schedule:
-    # Generate before the earliest US 5 PM delivery; delivery decides each user's local time.
-    # Both UTC times are safe across US daylight-saving changes; the API accepts only 4:30–4:50 CT.
-    - cron: '40 21 * * *'
-    - cron: '40 22 * * *'
-    - cron: '*/15 21-23,0-2 * * *'
+    # Evaluate IANA-local delivery times all day; generate missing daily briefings on demand.
+    - cron: '*/5 * * * *'
   workflow_dispatch:
     inputs:
       action:
@@ -56,8 +53,6 @@ jobs:
 
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             action="$MANUAL_ACTION"
-          elif [ "$SCHEDULE" = "40 21 * * *" ] || [ "$SCHEDULE" = "40 22 * * *" ]; then
-            action="generate"
           else
             action="deliver"
           fi

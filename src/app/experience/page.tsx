@@ -10,6 +10,7 @@ import AppShell from '@/components/app-shell';
 import { FrontOfficeHome } from '@/components/front-office/front-office-home';
 import { useExperienceStore } from '@/features/experience/experience-store';
 import { useSaveStore } from '@/features/save/save-store';
+import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import { apiFetch } from '@/lib/api';
 import {
   inferFrontOfficePath,
@@ -79,9 +80,9 @@ export default function ExperiencePage() {
   useEffect(() => {
     if (!isHydrated) return;
     if (!saveId) {
-      router.replace('/');
+      router.replace(getOffseasonManagerRoute('', teamAbbr ?? undefined));
     }
-  }, [isHydrated, router, saveId]);
+  }, [isHydrated, router, saveId, teamAbbr]);
 
   useEffect(() => {
     if (!isHydrated || !saveId) return;
@@ -237,8 +238,7 @@ export default function ExperiencePage() {
       );
 
       if (!actionableSaveId) {
-        router.replace('/');
-        return;
+        throw new Error('Unable to restore your Front Office session. Please try again.');
       }
 
       let initialPhase = phase;

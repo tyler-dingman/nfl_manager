@@ -2,7 +2,6 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
 
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -71,6 +70,8 @@ function TeamSelectScreenInner() {
   const setTeams = useTeamStore((state) => state.setTeams);
   const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
+  const hasHydrated = useSaveStore((state) => state.hasHydrated);
+  const experienceHasHydrated = useExperienceStore((state) => state.hasHydrated);
   const activeSaveId = useSaveStore((state) => state.saveId);
   const activeSaveTeam = useSaveStore((state) => state.teamAbbr);
   const setRunBaseline = useSaveStore((state) => state.setRunBaseline);
@@ -80,6 +81,9 @@ function TeamSelectScreenInner() {
 
   const [preselectedTeamId, setPreselectedTeamId] = useState<string | null>(null);
   const [showExpiredBanner, setShowExpiredBanner] = useState(false);
+  const [openError, setOpenError] = useState('');
+  const [openingTeam, setOpeningTeam] = useState<string | null>(null);
+  const openingRef = useRef(false);
   const autoStartedTeamRef = useRef<string | null>(null);
 
   useEffect(() => {
@@ -138,48 +142,60 @@ function TeamSelectScreenInner() {
 
   const handleSelectTeam = useCallback(
     async (team: (typeof teams)[number]) => {
-      if (activeSaveId && activeSaveTeam === team.abbr) {
+      if (openingRef.current || !hasHydrated || !experienceHasHydrated) return;
+      openingRef.current = true;
+      setOpeningTeam(team.abbr);
+      setOpenError('');
+      try {
+        if (activeSaveId && activeSaveTeam === team.abbr) {
+          setSelectedTeamId(team.id);
+          setActiveTeam(team.id, team.abbr);
+          saveFanTeamPreference(team.abbr);
+          router.push(getOffseasonManagerRoute('/experience', team.abbr));
+          return;
+        }
+        clearSave();
+        resetForNewRun();
         setSelectedTeamId(team.id);
         setActiveTeam(team.id, team.abbr);
         saveFanTeamPreference(team.abbr);
-        router.push(getOffseasonManagerRoute('/experience', team.abbr));
-        return;
-      }
-      clearSave();
-      resetForNewRun();
-      setSelectedTeamId(team.id);
-      setActiveTeam(team.id, team.abbr);
-      saveFanTeamPreference(team.abbr);
 
-      const response = await apiFetch('/api/saves/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamAbbr: team.abbr }),
-      });
-      if (response.ok) {
+        const response = await apiFetch('/api/saves/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ teamAbbr: team.abbr }),
+        });
+        if (!response.ok) throw new Error('Unable to open Front Office. Please try again.');
         const data = (await response.json()) as
           | (SaveBootstrapDTO & { unlocked?: SaveBootstrapDTO['unlocked'] })
           | { ok: false; error: string };
-        if ('ok' in data && data.ok) {
-          setSaveHeader(
-            {
-              ...data,
-              unlocked: data.unlocked ?? { freeAgency: false, draft: false },
-            },
-            team.id,
-          );
-          setRunBaseline({
-            capSpace: data.capSpace,
-            overall: team.teamOverview ?? null,
-            trajectory: approximateTrajectoryFromOverall(team.teamOverview ?? null),
-            needs: team.teamNeeds,
-          });
-        }
-      }
+        if (!data.ok || !data.saveId)
+          throw new Error('Unable to create your Front Office session. Please try again.');
+        setSaveHeader(
+          {
+            ...data,
+            unlocked: data.unlocked ?? { freeAgency: false, draft: false },
+          },
+          team.id,
+        );
+        setRunBaseline({
+          capSpace: data.capSpace,
+          overall: team.teamOverview ?? null,
+          trajectory: approximateTrajectoryFromOverall(team.teamOverview ?? null),
+          needs: team.teamNeeds,
+        });
 
-      router.push(getOffseasonManagerRoute('/experience', team.abbr));
+        router.push(getOffseasonManagerRoute('/experience', team.abbr));
+      } catch {
+        setOpenError('Unable to open Front Office right now. Please try again.');
+      } finally {
+        openingRef.current = false;
+        setOpeningTeam(null);
+      }
     },
     [
+      hasHydrated,
+      experienceHasHydrated,
       clearSave,
       activeSaveId,
       activeSaveTeam,
@@ -194,12 +210,13 @@ function TeamSelectScreenInner() {
 
   useEffect(() => {
     const teamParam = searchParams?.get('team')?.toUpperCase();
+    if (!hasHydrated || !experienceHasHydrated) return;
     if (!teamParam || autoStartedTeamRef.current === teamParam) return;
     const match = teams.find((team) => team.abbr === teamParam);
     if (!match) return;
     autoStartedTeamRef.current = teamParam;
     void handleSelectTeam(match);
-  }, [handleSelectTeam, searchParams, teams]);
+  }, [handleSelectTeam, searchParams, teams, hasHydrated, experienceHasHydrated]);
 
   const requestedTeam = teams.find(
     (team) => team.abbr === searchParams?.get('team')?.toUpperCase(),
@@ -216,8 +233,22 @@ function TeamSelectScreenInner() {
                 Front Office
               </p>
               <h1 className="mt-3 text-3xl font-semibold text-foreground">
-                Opening {requestedTeam.name}…
+                {openError
+                  ? `Front Office · ${requestedTeam.name}`
+                  : `Opening ${requestedTeam.name}…`}
               </h1>
+              {openError ? (
+                <div className="mt-4">
+                  <p role="alert">{openError}</p>
+                  <button
+                    type="button"
+                    className="mt-4 min-h-11 rounded-lg bg-[var(--team-primary)] px-5 py-2 text-[var(--team-on-primary)]"
+                    onClick={() => void handleSelectTeam(requestedTeam)}
+                  >
+                    Try again
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -241,6 +272,8 @@ function TeamSelectScreenInner() {
             </p>
           </div>
 
+          {openError ? <p role="alert">{openError}</p> : null}
+          {openingTeam ? <p role="status">Opening Front Office…</p> : null}
           {showExpiredBanner ? (
             <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
               Your offseason session expired. Start a new run.

@@ -1,3 +1,8 @@
+import {
+  DEFAULT_DELIVERY_TIME,
+  validDeliveryTime,
+  validTimezone,
+} from '../../../packages/three-and-out/schedule';
 import type { ThreeAndOutStory } from './types';
 import {
   classifyTeamStory,
@@ -134,10 +139,36 @@ export const localHourAndMinute = (date: Date, timeZone: string) => {
   };
 };
 
-export const isDailyBriefingDeliveryDue = (date: Date, timeZone: string) => {
+export const isDailyBriefingDeliveryDue = (
+  date: Date,
+  timeZone: string,
+  deliveryTime = DEFAULT_DELIVERY_TIME,
+) => {
+  if (!validTimezone(timeZone) || !validDeliveryTime(deliveryTime)) return false;
   const { hour, minute } = localHourAndMinute(date, timeZone);
-  return hour === THREE_AND_OUT_PUBLISH_HOUR && minute < 20;
+  const [targetHour, targetMinute] = deliveryTime.split(':').map(Number);
+  // Catch up after delays (and skipped spring-forward times). The local-day claim prevents
+  // repeats during fall-back and when a user changes their selected time after delivery.
+  return hour * 60 + minute >= targetHour * 60 + targetMinute;
 };
+
+/** Resolve the due local day, including a polling grace period across midnight. */
+export function dailyBriefingDeliveryDate(
+  date: Date,
+  timeZone: string,
+  deliveryTime = DEFAULT_DELIVERY_TIME,
+): string | null {
+  if (!validTimezone(timeZone) || !validDeliveryTime(deliveryTime)) return null;
+  if (isDailyBriefingDeliveryDue(date, timeZone, deliveryTime))
+    return dateInTimezone(date, timeZone);
+  const { hour, minute } = localHourAndMinute(date, timeZone);
+  const [h, m] = deliveryTime.split(':').map(Number);
+  if (hour === 0 && minute + 1440 - (h * 60 + m) <= 20) {
+    // Thirty minutes earlier is safely the previous local date within this grace period.
+    return dateInTimezone(new Date(date.getTime() - 30 * 60_000), timeZone);
+  }
+  return null;
+}
 
 export function buildDailyBriefingPush(input: {
   teamId: string;

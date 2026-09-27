@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import styles from './primary-navigation.module.css';
 import MobileSiteMenu from '@/components/mobile-site-menu';
 import { usePathname } from 'next/navigation';
 
@@ -13,7 +14,6 @@ import {
 
 export default function PrimaryNavigation({
   teamAbbr,
-  active,
   tone = 'light',
   showMobile = true,
 }: {
@@ -23,7 +23,7 @@ export default function PrimaryNavigation({
   showMobile?: boolean;
 }) {
   const pathname = usePathname();
-  const activeItem = active === undefined ? getPrimaryNavActive(pathname) : active;
+  const activeItem = getPrimaryNavActive(pathname);
   const activeClass = tone === 'light' ? 'text-[var(--team-on-dark)]' : 'text-white';
   const inactiveClass =
     tone === 'light'
@@ -41,7 +41,7 @@ export default function PrimaryNavigation({
             key={item.id}
             href={getPrimaryNavHref(item.href, teamAbbr)}
             aria-current={activeItem === item.id ? 'page' : undefined}
-            className={`${activeItem === item.id ? activeClass : inactiveClass} whitespace-nowrap transition`}
+            className={`${styles.link} ${activeItem === item.id ? activeClass : inactiveClass} whitespace-nowrap transition`}
           >
             {item.label}
           </Link>

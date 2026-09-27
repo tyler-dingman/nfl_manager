@@ -1,0 +1,29 @@
+.link {
+  position: relative;
+}
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--team-primary-on-dark, #ff3d38);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease,
+    background-color 180ms ease;
+}
+.link[aria-current='page']::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .link::after {
+    transition: none;
+  }
+}

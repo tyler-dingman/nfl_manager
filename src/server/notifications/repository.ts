@@ -91,11 +91,13 @@ export async function getNotificationPreferences(userId: string) {
       channel: string;
       enabled: boolean;
       minimumPriority: string;
+      deliveryTime: string | null;
+      deliveryTimezone: string | null;
       topicType: string | null;
       topicId: string | null;
     }>
   >`
-    SELECT id, topic_type AS "topicType", topic_id AS "topicId", category, channel, enabled, minimum_priority AS "minimumPriority"
+    SELECT id, topic_type AS "topicType", topic_id AS "topicId", category, channel, enabled, minimum_priority AS "minimumPriority", delivery_time AS "deliveryTime", delivery_timezone AS "deliveryTimezone"
     FROM user_notification_preferences WHERE user_id = ${userId} ORDER BY created_at DESC`;
 }
 

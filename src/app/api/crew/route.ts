@@ -10,9 +10,14 @@ const schema = z.object({
   teamAbbr: z.string().trim().min(2).max(3).toUpperCase(),
 });
 export async function GET(request: NextRequest) {
-  const user = await currentUser(request);
-  if (!user) return authError('Unauthorized.', 401);
-  return NextResponse.json({ crew: await getCrewForUser(user.id) });
+  try {
+    const user = await currentUser(request);
+    if (!user) return authError('Unauthorized.', 401);
+    return NextResponse.json({ crew: await getCrewForUser(user.id) });
+  } catch (error) {
+    console.error('Crew load failed', error);
+    return authError('The Crew is unavailable right now. Please try again.', 503);
+  }
 }
 export async function POST(request: NextRequest) {
   try {

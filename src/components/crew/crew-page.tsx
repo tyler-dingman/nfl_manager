@@ -3,6 +3,8 @@
 /* Authenticated Crew media must be loaded with the viewer's cookies, not Next image optimization. */
 /* eslint-disable @next/next/no-img-element */
 
+import { getEditorialHeroTheme } from '@/lib/team-theme-tokens';
+import type { CSSProperties } from 'react';
 import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
@@ -49,6 +51,24 @@ export default function CrewPage() {
     [error, setError] = useState('');
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null),
     [composeRequest, setComposeRequest] = useState(0);
+  const panelRef = useRef<HTMLElement>(null);
+  const [settingsRequest, setSettingsRequest] = useState(0);
+  const openSettings = () => {
+    setTab('settings');
+    setSettingsRequest((request) => request + 1);
+  };
+  useEffect(() => {
+    if (!settingsRequest) return;
+    const panel = panelRef.current;
+    if (!panel) return;
+    panel.focus({ preventScroll: true });
+    panel.scrollIntoView({
+      block: 'start',
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'instant'
+        : 'smooth',
+    });
+  }, [settingsRequest]);
   const load = useCallback(async () => {
     try {
       const data = await crewRequest('/api/crew');
@@ -106,7 +126,14 @@ export default function CrewPage() {
       <div className={styles.page}>
         <MainSiteHeader teamAbbr={team?.abbr} />
         <ProfileLayout>
-          <div className={`${styles.main} rounded-3xl bg-white p-6 shadow-sm sm:p-9`}>
+          <div
+            className={styles.main}
+            style={
+              {
+                '--crew-hero-accent': getEditorialHeroTheme(fanTeamAbbr).heroPrimaryAccent,
+              } as CSSProperties
+            }
+          >
             {!hydrated ? (
               <p role="status">Loading your Crew…</p>
             ) : !user ? (
@@ -157,7 +184,7 @@ export default function CrewPage() {
                       <UserPlus size={19} />
                       Invite Friends
                     </button>
-                    <button className={styles.secondary} onClick={() => setTab('settings')}>
+                    <button className={styles.secondary} onClick={openSettings}>
                       <Settings size={19} />
                       Settings
                     </button>
@@ -224,7 +251,14 @@ export default function CrewPage() {
                     {error}
                   </p>
                 )}
-                <section id="crew-panel" role="tabpanel" aria-labelledby={`crew-tab-${tab}`}>
+                <section
+                  ref={panelRef}
+                  id="crew-panel"
+                  className={styles.tabPanel}
+                  tabIndex={-1}
+                  role="tabpanel"
+                  aria-labelledby={`crew-tab-${tab}`}
+                >
                   {tab === 'feed' ? (
                     <div className={styles.feedGrid}>
                       <div className={styles.feed}>
@@ -288,7 +322,7 @@ export default function CrewPage() {
                               {
                                 label: 'Manage Settings',
                                 icon: Settings,
-                                action: () => setTab('settings'),
+                                action: openSettings,
                               },
                               {
                                 label: 'View Leaderboard',
@@ -380,7 +414,7 @@ function CreateCrew({
     [busy, setBusy] = useState(false);
   return (
     <form
-      className={`${styles.card} ${styles.settings}`}
+      className={styles.createForm}
       onSubmit={async (e) => {
         e.preventDefault();
         setBusy(true);
@@ -394,8 +428,15 @@ function CreateCrew({
         }
       }}
     >
-      <p className={styles.eyebrow}>BUILD YOUR CREW</p>
-      <h1 className="text-3xl font-black">Football is better with your people.</h1>
+      <header className={`${styles.hero} ${styles.createHero}`}>
+        <div className={styles.identity}>
+          <div>
+            <p className={styles.eyebrow}>BUILD YOUR CREW</p>
+            <h1>Football is better with your people.</h1>
+            <p className={styles.metadata}>Your people. Your team. Your football conversation.</p>
+          </div>
+        </div>
+      </header>
       <label className={styles.field}>
         Crew name
         <input

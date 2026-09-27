@@ -46,7 +46,7 @@ import { gameDayHeroAsset } from '@/config/game-day-hero';
 import type { HomepageGame } from '@/features/game-day/homepage-game';
 import NotificationCenter from '@/components/notifications/notification-center';
 import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';
-import ThreeOutDeliveryPreferences from '@/components/three-and-out/three-out-delivery-preferences';
+import { HomeThreeAndOut } from '@/components/three-and-out/home-three-and-out';
 
 const fallbackWireItems = [
   { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },
@@ -524,42 +524,14 @@ export default function DownDistanceHome() {
               stackAt={1023}
               className="space-y-6 lg:sticky lg:top-[calc(var(--site-header-height)+1.5rem)] lg:self-start"
             >
-              <div className="block overflow-hidden rounded-2xl border border-[#00172B]/10 bg-white text-[#00172B] shadow-sm">
-                <div className="relative overflow-hidden bg-[#00172B] px-6 py-6 text-white">
-                  <div
-                    aria-hidden="true"
-                    className="absolute -right-8 -top-12 h-40 w-40 rounded-full border-[16px] border-white/[.035]"
-                  />
-                  <h3 className="dd-three-out-display relative text-3xl">
-                    THREE <span className="dd-three-out-ampersand">&amp;</span> OUT
-                  </h3>
-                  <p className="relative mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-[var(--team-secondary-on-dark)]">
-                    The 3 things you need to know
-                  </p>
-                </div>
-                <div className="p-5">
-                  <ol className="space-y-2">
-                    {huddleCards.slice(0, 3).map((item, index) => (
-                      <li
-                        key={item.id}
-                        className="grid grid-cols-[2.5rem_1fr] items-center gap-3 rounded-xl py-1.5"
-                      >
-                        <span
-                          className={`grid h-9 w-9 place-items-center rounded-full text-xs font-black ${
-                            index === 0 ? 'team-primary-filled' : 'bg-slate-200 text-[#00172B]'
-                          }`}
-                        >
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-                        <span className="line-clamp-2 text-sm font-bold leading-5">
-                          {item.title}
-                        </span>
-                      </li>
-                    ))}
-                  </ol>
-                  <ThreeOutDeliveryPreferences />
-                </div>
-              </div>
+              <HomeThreeAndOut
+                teamAbbr={teamAbbr}
+                stories={huddleCards}
+                onOpen={(id) => {
+                  const story = huddleCards.find((item) => item.id === id);
+                  if (story) openBriefing(story.briefing);
+                }}
+              />
               <section
                 id="wire"
                 className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"

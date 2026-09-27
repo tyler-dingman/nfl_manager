@@ -32,6 +32,12 @@ async function main() {
           'utf8',
         ),
       );
+      await sql.unsafe(
+        await readFile(
+          path.join(process.cwd(), 'db/migrations/047_three_out_delivery_timing.sql'),
+          'utf8',
+        ),
+      );
       console.log('Applied 033_three_and_out_daily.sql (additive; legacy snapshots retained).');
     }
     await assertDailyThreeAndOutSchema(sql);

@@ -1,3 +1,5 @@
+import { activeDayStreak } from '../../../packages/rewards/presentation';
+import { loadCrewRank } from './crew-rank';
 import { randomBytes, randomUUID } from 'node:crypto';
 import type postgres from 'postgres';
 
@@ -106,11 +108,36 @@ export async function getRewardsDashboard(userId: string) {
       ur.unlocked_at AS "unlockedAt",ur.claimed_at AS "claimedAt",ur.redeemed_at AS "redeemedAt",ur.coupon_code AS "couponCode"
     FROM reward_definitions r LEFT JOIN user_rewards ur ON ur.reward_definition_id=r.id AND ur.user_id=${userId}
     WHERE r.active=true ORDER BY r.threshold_yards`;
+  const [trivia, days, ranks, crew] = await Promise.all([
+    sql<
+      Array<{ correctAnswers: number }>
+    >`SELECT correct_answers AS "correctAnswers" FROM trivia_stats WHERE user_id=${userId}`,
+    sql<
+      Array<{ day: string }>
+    >`SELECT DISTINCT to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD') AS day FROM move_the_chains_events WHERE user_id=${userId} AND yards > 0 ORDER BY day DESC`,
+    sql<
+      Array<{ rank: number; total: number }>
+    >`SELECT (1 + count(*) FILTER (WHERE lifetime_yards > ${accounts[0].lifetimeYards}))::int AS rank, count(*)::int AS total FROM move_the_chains_accounts`,
+    loadCrewRank(
+      () =>
+        sql<
+          Array<{ rank: number }>
+        >`SELECT (1 + count(*) FILTER (WHERE coalesce(a.lifetime_yards,0) > ${accounts[0].lifetimeYards}))::int AS rank FROM crew_members m LEFT JOIN move_the_chains_accounts a ON a.user_id=m.user_id WHERE m.status='ACTIVE' AND m.crew_id=(SELECT crew_id FROM crew_members WHERE user_id=${userId} AND status='ACTIVE') HAVING count(*) > 0`,
+    ),
+  ]);
   const progress = accounts[0];
   const nextReward =
     rewards.find((reward) => Number(reward.thresholdYards) > progress.lifetimeYards) ?? null;
   return {
     progress,
+    stats: {
+      correctAnswers: trivia[0]?.correctAnswers ?? 0,
+      dayStreak: activeDayStreak(days.map((d) => d.day)),
+      crewRank: crew.rank,
+      crewRankingAvailable: crew.available,
+      globalRank: ranks[0].rank,
+      totalUsers: ranks[0].total,
+    },
     nextReward,
     yardsToNextReward: nextReward ? Number(nextReward.thresholdYards) - progress.lifetimeYards : 0,
     rewards,
