@@ -1,5 +1,7 @@
 'use client';
 
+import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
+import { ResponsivePlayerButton } from '@/components/players/responsive-player-table';
 import * as React from 'react';
 import Image from 'next/image';
 import { DdSearchIcon as Search } from '@/components/ui/football-icons';
@@ -111,7 +113,7 @@ export function DraftSimulatorProspectTable({
             placeholder="Search players..."
           />
         </label>
-        <select
+        <ResponsivePlayerSelect
           aria-label="Position"
           value={position}
           onChange={(event) => setPosition(event.target.value)}
@@ -121,8 +123,8 @@ export function DraftSimulatorProspectTable({
               {value === 'All' ? (compact ? 'All Pos' : 'All Positions') : value}
             </option>
           ))}
-        </select>
-        <select
+        </ResponsivePlayerSelect>
+        <ResponsivePlayerSelect
           aria-label="School"
           value={school}
           onChange={(event) => setSchool(event.target.value)}
@@ -132,8 +134,8 @@ export function DraftSimulatorProspectTable({
               {value === 'All' ? 'All Schools' : value}
             </option>
           ))}
-        </select>
-        <select
+        </ResponsivePlayerSelect>
+        <ResponsivePlayerSelect
           aria-label="Prospect sort"
           value={sort}
           onChange={(event) => setSort(event.target.value as typeof sort)}
@@ -141,7 +143,7 @@ export function DraftSimulatorProspectTable({
           <option value="rank">Consensus Rank</option>
           <option value="grade">D&amp;D Grade</option>
           <option value="name">Player Name</option>
-        </select>
+        </ResponsivePlayerSelect>
       </div>
 
       <div className={onToggleWatchlist ? styles.liveTableHeader : undefined}>
@@ -171,7 +173,13 @@ export function DraftSimulatorProspectTable({
           const selected = player.id === selectedPlayerId;
           return (
             <div key={player.id} className={onToggleWatchlist ? styles.liveProspectRow : undefined}>
-              <button
+              <ResponsivePlayerButton
+                identityColumn={1}
+                labels={
+                  compact
+                    ? ['Rank', 'Prospect', 'Position', 'School', 'Grade']
+                    : ['Rank', 'Prospect', 'Position', 'School', 'Height / weight', 'Grade']
+                }
                 type="button"
                 className={selected ? styles.selectedProspectRow : styles.prospectRow}
                 onClick={() => onSelectPlayer(player.id)}
@@ -199,7 +207,7 @@ export function DraftSimulatorProspectTable({
                   </span>
                 )}
                 <strong className={styles.tableGrade}>{details.ratingDisplay}</strong>
-              </button>
+              </ResponsivePlayerButton>
               {onToggleWatchlist && (
                 <div className={styles.prospectRowActions}>
                   {onDraftPlayer && (

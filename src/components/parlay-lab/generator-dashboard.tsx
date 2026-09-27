@@ -1,4 +1,7 @@
 'use client';
+import { ResponsivePlayerButton } from '@/components/players/responsive-player-table';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
+import headingStyles from './panel-heading.module.css';
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import Link from 'next/link';
@@ -320,7 +323,9 @@ export function GeneratorDashboard({
                   <span>“{asked}”</span>
                 </blockquote>
                 {result.map((m, i) => (
-                  <button
+                  <ResponsivePlayerButton
+                    identityColumns={[1, 2]}
+                    labels={['Leg', 'Photo', 'Player', 'Prop / line', 'Odds', 'Lab Score']}
                     className={styles.leg}
                     key={`${m.id}:${m.sportsbook}`}
                     onClick={() => onOpen(m)}
@@ -345,7 +350,7 @@ export function GeneratorDashboard({
                     </span>
                     <span>{formatOdds(m.odds)}</span>
                     <Score market={m} />
-                  </button>
+                  </ResponsivePlayerButton>
                 ))}
               </section>
               <section className={`lab-panel ${styles.summary}`}>
@@ -489,10 +494,10 @@ export function GeneratorDashboard({
           Review every leg and the sportsbook&apos;s final price before wagering.
         </p>
       </main>
-      <aside className="lab-right-rail">
+      <ResponsiveRail stackAt={900} className="lab-right-rail">
         <section className={`lab-panel ${styles.parlay}`}>
           <header>
-            <h2>
+            <h2 className={headingStyles.heading}>
               <LabExperimentIcon />
               My Parlay <span>{slip.length}</span>
             </h2>
@@ -570,7 +575,7 @@ export function GeneratorDashboard({
             <b>YOUR RULES</b>Hard constraints first, Lab quality next, target odds after.
           </p>
         </section>
-      </aside>
+      </ResponsiveRail>
     </div>
   );
 }

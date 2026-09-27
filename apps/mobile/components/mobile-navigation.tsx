@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTeamBranding } from '../lib/team-branding';
 import { getUnreadNotificationCount } from '../lib/api';
 
-const destinations: { label: string; icon: keyof typeof Ionicons.glyphMap; href: Href }[] = [
+export const destinations: { label: string; icon: keyof typeof Ionicons.glyphMap; href: Href }[] = [
   { label: 'Home', icon: 'home-outline', href: '/' },
   { label: 'Three and Out', icon: 'podium-outline', href: '/three' },
   { label: 'The Beat', icon: 'newspaper-outline', href: '/wire' },

@@ -1,0 +1,327 @@
+.rail {
+  min-width: 0;
+}
+@media (max-width: 800px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack800 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack800 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 850px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack850 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack850 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 900px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack900 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack900 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 1000px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack1000 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack1000 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 1023px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack1023 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack1023 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 1100px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack1100 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack1100 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 1150px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack1150 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack1150 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 1199px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack1199 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack1199 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 1200px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack1200 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack1200 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 1250px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack1250 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack1250 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@container (max-width: 900px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stackprofile {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stackprofile > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}
+@media (max-width: 780px) {
+  /* Layout contract takes precedence over legacy rail sizing, never card internals. */
+  .stack780 {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    position: static !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--stacked-rail-gap, 16px) !important;
+  }
+  .stack780 > * {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+  }
+}

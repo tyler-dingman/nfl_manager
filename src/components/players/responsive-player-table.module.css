@@ -1,0 +1,177 @@
+.mobile,
+.mobileRow {
+  display: none;
+}
+@media (max-width: 767px) {
+  .desktop,
+  .desktopRow {
+    display: none !important;
+  }
+  .mobile,
+  .mobileRow {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    gap: 12px;
+  }
+  .card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid var(--fo-line, var(--lab-border, #dce3e8));
+    border-radius: 14px;
+    background: var(--fo-panel, var(--lab-panel, #fff));
+    color: var(--fo-text, var(--lab-text, #00172b));
+  }
+  .identity {
+    min-width: 0;
+    align-self: center;
+    font-size: 16px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+  }
+  .identity > * {
+    max-width: 100%;
+    min-width: 0;
+  }
+  .identity button,
+  .identity a {
+    min-height: 44px;
+    text-align: left;
+  }
+  .identity img {
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .actions {
+    align-self: start;
+    min-width: 0;
+  }
+  .actions button,
+  .actions a,
+  .more,
+  .direct {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .fields {
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 10px;
+    margin: 0;
+  }
+  .fields > div {
+    min-width: 0;
+    border-left: 1px solid var(--fo-line, var(--lab-border, #dce3e8));
+    padding-left: 8px;
+  }
+  .fields dt {
+    font-size: 10px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--fo-muted, var(--lab-muted, #637381));
+    margin-bottom: 4px;
+  }
+  .fields dd {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .fields dd > * {
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+  }
+  .fields button,
+  .fields a {
+    min-height: 44px;
+  }
+  .more {
+    display: grid;
+    place-items: center;
+  }
+  .direct {
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .card button:focus-visible,
+  .card a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+@media (max-width: 767px) {
+  .identity > :is(button, a, div) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .identity img {
+    width: 64px;
+    height: 72px;
+    flex-shrink: 0;
+  }
+  .identity :is(div, span):has(> img) {
+    width: 64px;
+    height: 72px;
+    flex-shrink: 0;
+  }
+}
+@media (max-width: 767px) {
+  .select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    min-height: 44px;
+    padding: 8px;
+    border: 1px solid var(--fo-line, var(--lab-border, #dce3e8));
+    border-radius: 8px;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .select span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+.actionSheet {
+  background: #091a20;
+  color: #f5f7f7;
+  border-color: #263e48;
+}
+.actionSheet button {
+  gap: 12px;
+  border-color: #263e48;
+}
+.actionSheet button span {
+  flex: 1;
+}
+.actionSheet button small {
+  font-size: 11px;
+  color: #a8bac4;
+}
+.actionSheet button:disabled {
+  opacity: 0.5;
+}
+@media (max-width: 767px) {
+  .identity p:first-child,
+  .identity strong,
+  .identity b {
+    font-size: 16px;
+  }
+  .identityButton {
+    width: 100%;
+    min-height: 44px;
+    text-align: left;
+  }
+}

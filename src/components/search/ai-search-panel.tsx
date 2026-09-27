@@ -17,6 +17,7 @@ import {
   DdProfileIcon as UserRound,
 } from '@/components/ui/football-icons';
 
+import { AI_QUICK_PROMPTS } from '../../../packages/search/suggestions';
 import { AnswerBlocks, AnswerSources } from './structured-answer';
 import type { SearchContext } from '@/features/search/answer-types';
 import type { SearchResponse } from '@/features/search/types';
@@ -49,7 +50,6 @@ export default function AiSearchPanel({
   onQueryChange,
   variant = 'hero',
   onClose,
-  quickLinks = [],
 }: Props) {
   const inputId = useId();
   const [searchTeam, setSearchTeam] = useState('');
@@ -74,13 +74,28 @@ export default function AiSearchPanel({
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const stopTimerRef = useRef<number | null>(null);
-  const suggestions = [
-    'Catch me up today',
-    'Injury updates',
-    'Latest roster moves',
-    'Rookie impact',
-    'Playoff outlook',
-  ];
+  const suggestions = AI_QUICK_PROMPTS;
+  const [contextual, setContextual] = useState<{ team: string; questions: string[] }>({
+    team: '',
+    questions: [],
+  });
+  useEffect(() => {
+    const controller = new AbortController();
+    if (!effectiveTeamId) return;
+    void fetch(`/api/search/suggestions?team=${encodeURIComponent(effectiveTeamId)}`, {
+      signal: controller.signal,
+    })
+      .then((r) => (r.ok ? r.json() : { suggestions: [] }))
+      .then((body) => {
+        if (!controller.signal.aborted)
+          setContextual({ team: effectiveTeamId, questions: body.suggestions ?? [] });
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setContextual({ team: effectiveTeamId, questions: [] });
+      });
+    return () => controller.abort();
+  }, [effectiveTeamId]);
+  const contextualQuestions = contextual.team === effectiveTeamId ? contextual.questions : [];
   const placeholders = [
     `When do the ${nickname} play next?`,
     'What is the over/under?',
@@ -240,7 +255,7 @@ export default function AiSearchPanel({
 
   if (variant === 'overlay')
     return (
-      <div className="flex max-h-full w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-white shadow-2xl">
+      <div className="flex min-h-0 max-h-full w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-white shadow-2xl">
         <form
           onSubmit={submit}
           role="search"
@@ -277,7 +292,7 @@ export default function AiSearchPanel({
           </button>
         </form>
         <div
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3"
+          className="min-h-0 flex-initial overflow-y-auto overscroll-contain p-3"
           onClick={(event) => {
             const link = (event.target as HTMLElement).closest('a');
             if (link && link.getAttribute('href')?.startsWith('/') && link.target !== '_blank')
@@ -383,32 +398,24 @@ export default function AiSearchPanel({
                   </button>
                 ))}
               </div>
-              <p className="px-3 pb-2 text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">
-                Suggested
-              </p>
-              {quickLinks.slice(0, 6).map((item) => (
-                <a
-                  key={`${item.category}-${item.title}`}
-                  href={item.href}
-                  className="group flex items-start gap-4 rounded-2xl px-3 py-3 hover:bg-slate-100"
-                >
-                  <span className="team-primary-filled mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl">
-                    <Search className="h-4 w-4" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-[10px] font-black uppercase tracking-wider text-[var(--team-primary-text)]">
-                      {item.category}
-                    </span>
-                    <span className="mt-1 block font-bold leading-5 text-slate-950">
-                      {item.title}
-                    </span>
-                    <span className="mt-1 block truncate text-xs text-slate-500">
-                      {item.description}
-                    </span>
-                  </span>
-                  <ArrowRight className="mt-3 h-4 w-4 shrink-0 text-slate-300" />
-                </a>
-              ))}
+              {contextualQuestions.length > 0 && (
+                <section aria-label="Suggested questions">
+                  <p className="px-3 pb-2 text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">
+                    Suggested
+                  </p>
+                  {contextualQuestions.map((question) => (
+                    <button
+                      type="button"
+                      key={question}
+                      onClick={() => void runSearch(question)}
+                      className="flex min-h-11 w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                    >
+                      <span>{question}</span>
+                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    </button>
+                  ))}
+                </section>
+              )}
             </>
           ) : null}
         </div>

@@ -1,5 +1,6 @@
+import { PageScrollView as ScrollView } from '../../components/page-scroll-view';
 import { useLocalSearchParams } from 'expo-router';
-import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { C, Eyebrow, Heading } from '../../components/screen';
 import type { Story } from '../../lib/types';

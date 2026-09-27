@@ -1,14 +1,6 @@
+import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
-import {
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  Share,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Pressable, RefreshControl, Share, StyleSheet, Text, TextInput, View } from 'react-native';
 import { C, Eyebrow, Heading } from '../components/screen';
 import { createCrew, createCrewInvite, getCrew, type MobileCrew } from '../lib/api';
 import { useAuth } from '../lib/auth-context';

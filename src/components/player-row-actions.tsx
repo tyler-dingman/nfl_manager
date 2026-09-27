@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { PlayerActions, usePlayerCard } from '@/components/players/responsive-player-table';
 import type { LucideIcon } from 'lucide-react';
 import { ClipboardCheck, Plus, UserX } from 'lucide-react';
 import {
@@ -71,6 +72,7 @@ export default function PlayerRowActions({
   onRenegotiatePlayer,
   onSelectTradePlayer,
 }: PlayerRowActionsProps) {
+  const mobileCard = usePlayerCard();
   const name = getPlayerName(player);
   const draftDisabledReason = getDraftDisabledReason(player, onTheClockForUserTeam);
   const isCut = player.status.toLowerCase() === 'cut';
@@ -137,6 +139,27 @@ export default function PlayerRowActions({
                 },
               ];
 
+  if (mobileCard)
+    return (
+      <PlayerActions
+        name={name}
+        actions={actions.filter((action) =>
+          action.label === 'Cut'
+            ? Boolean(onCutPlayer)
+            : action.label === 'Renegotiate'
+              ? Boolean(onRenegotiatePlayer)
+              : action.label === 'Trade'
+                ? Boolean(onTradePlayer)
+                : action.label === 'Offer'
+                  ? Boolean(onOfferPlayer)
+                  : action.label === 'Draft'
+                    ? Boolean(onDraftPlayer)
+                    : action.label === 'Re-sign'
+                      ? Boolean(onResignPlayer)
+                      : Boolean(onSelectTradePlayer),
+        )}
+      />
+    );
   const mobileRosterActions = (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

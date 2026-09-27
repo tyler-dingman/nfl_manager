@@ -1,5 +1,9 @@
 'use client';
 
+import { PlayerTableHeader } from '@/components/players/responsive-player-table';
+import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
+import { ResponsivePlayerRow } from '@/components/players/responsive-player-table';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import { ProspectDetailsModal } from './prospect-details-modal';
 import { useTeamStore } from '@/features/team/team-store';
 import type { PlayerRowDTO } from '@/types/player';
@@ -299,7 +303,7 @@ export function ProspectBoard({
                 placeholder="Search players, school, or position"
               />
             </label>
-            <select
+            <ResponsivePlayerSelect
               aria-label="Prospect position"
               value={position}
               onChange={(event) => setPosition(event.target.value)}
@@ -308,23 +312,29 @@ export function ProspectBoard({
               {positions.map((value) => (
                 <option key={value}>{value}</option>
               ))}
-            </select>
-            <select value={school} onChange={(event) => setSchool(event.target.value)}>
+            </ResponsivePlayerSelect>
+            <ResponsivePlayerSelect
+              value={school}
+              onChange={(event) => setSchool(event.target.value)}
+            >
               <option value="ALL">All schools</option>
               {schools.map((value) => (
                 <option key={value}>{value}</option>
               ))}
-            </select>
+            </ResponsivePlayerSelect>
             <span>Sort by</span>
-            <select value={sort} onChange={(event) => setSort(event.target.value as Sort)}>
+            <ResponsivePlayerSelect
+              value={sort}
+              onChange={(event) => setSort(event.target.value as Sort)}
+            >
               <option value="rank">Consensus Rank</option>
               <option value="grade">D&amp;D Grade</option>
               <option value="position">Position</option>
               <option value="school">School</option>
               <option value="my-rank">My Ranking</option>
-            </select>
+            </ResponsivePlayerSelect>
           </div>
-          <div className={styles.tableHeader}>
+          <PlayerTableHeader className={styles.tableHeader}>
             <span>Rank</span>
             <span>Player</span>
             <span>Pos</span>
@@ -332,7 +342,7 @@ export function ProspectBoard({
             <span>Height / Weight</span>
             <span>D&amp;D Grade</span>
             <span>Actions</span>
-          </div>
+          </PlayerTableHeader>
           <div className={styles.prospectList}>
             {visible.map((item) => {
               const added = board.includes(item.id);
@@ -340,7 +350,21 @@ export function ProspectBoard({
                 (item as DraftProspectRecord & { isDrafted?: boolean }).isDrafted,
               );
               return (
-                <div key={item.id} className={drafted ? styles.draftedRow : styles.prospectRow}>
+                <ResponsivePlayerRow
+                  identityColumn={1}
+                  actionColumn={6}
+                  labels={[
+                    'Rank',
+                    'Prospect',
+                    'Position',
+                    'School',
+                    'Height / weight',
+                    'Grade',
+                    'Actions',
+                  ]}
+                  key={item.id}
+                  className={drafted ? styles.draftedRow : styles.prospectRow}
+                >
                   <strong>{item.ranking ?? '—'}</strong>
                   <button
                     type="button"
@@ -384,7 +408,7 @@ export function ProspectBoard({
                       {added ? '✓ Added' : '+ Add'}
                     </button>
                   </div>
-                </div>
+                </ResponsivePlayerRow>
               );
             })}
             {!visible.length ? (
@@ -405,82 +429,84 @@ export function ProspectBoard({
             ) : null}
           </div>
         </section>
-        <aside className={styles.boardPanel}>
-          <header>
-            <h2>My Big Board ({board.length})</h2>
-            <button
-              type="button"
-              disabled={!board.length}
-              onClick={() =>
-                board.length &&
-                window.confirm(
-                  `Clear your Big Board? This will remove all ${board.length} players from your board.`,
-                ) &&
-                persistBoard([])
-              }
-            >
-              <Trash2 /> Clear all
-            </button>
-          </header>
-          {boardProspects.length ? (
-            <div className={styles.boardList}>
-              {boardProspects.map((item, index) => (
-                <div
-                  key={item.id}
-                  draggable
-                  onDragStart={() => setDraggedId(item.id)}
-                  onDragEnd={() => setDraggedId(null)}
-                  onDragOver={(event) => event.preventDefault()}
-                  onDrop={() => draggedId && reorder(draggedId, item.id)}
-                  className={draggedId === item.id ? styles.dragging : undefined}
-                >
-                  <GripVertical />
-                  <strong>{index + 1}</strong>
-                  <span className={styles.boardPlayer}>
-                    <i>
-                      <ProspectImage prospect={item} size={32} />
-                    </i>
-                    <b>{item.name}</b>
-                  </span>
-                  <small>{item.position}</small>
-                  <span className={styles.moveButtons}>
-                    <button
-                      type="button"
-                      disabled={index === 0}
-                      onClick={() => move(item.id, -1)}
-                      aria-label={`Move ${item.name} up`}
-                    >
-                      <ChevronUp />
-                    </button>
-                    <button
-                      type="button"
-                      disabled={index === boardProspects.length - 1}
-                      onClick={() => move(item.id, 1)}
-                      aria-label={`Move ${item.name} down`}
-                    >
-                      <ChevronDown />
-                    </button>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => toggleBoard(item.id)}
-                    aria-label={`Remove ${item.name}`}
+        <ResponsiveRail stackAt={780} style={{ display: 'contents' }}>
+          <aside className={styles.boardPanel}>
+            <header>
+              <h2>My Big Board ({board.length})</h2>
+              <button
+                type="button"
+                disabled={!board.length}
+                onClick={() =>
+                  board.length &&
+                  window.confirm(
+                    `Clear your Big Board? This will remove all ${board.length} players from your board.`,
+                  ) &&
+                  persistBoard([])
+                }
+              >
+                <Trash2 /> Clear all
+              </button>
+            </header>
+            {boardProspects.length ? (
+              <div className={styles.boardList}>
+                {boardProspects.map((item, index) => (
+                  <div
+                    key={item.id}
+                    draggable
+                    onDragStart={() => setDraggedId(item.id)}
+                    onDragEnd={() => setDraggedId(null)}
+                    onDragOver={(event) => event.preventDefault()}
+                    onDrop={() => draggedId && reorder(draggedId, item.id)}
+                    className={draggedId === item.id ? styles.dragging : undefined}
                   >
-                    <X />
-                  </button>
-                </div>
-              ))}
+                    <GripVertical />
+                    <strong>{index + 1}</strong>
+                    <span className={styles.boardPlayer}>
+                      <i>
+                        <ProspectImage prospect={item} size={32} />
+                      </i>
+                      <b>{item.name}</b>
+                    </span>
+                    <small>{item.position}</small>
+                    <span className={styles.moveButtons}>
+                      <button
+                        type="button"
+                        disabled={index === 0}
+                        onClick={() => move(item.id, -1)}
+                        aria-label={`Move ${item.name} up`}
+                      >
+                        <ChevronUp />
+                      </button>
+                      <button
+                        type="button"
+                        disabled={index === boardProspects.length - 1}
+                        onClick={() => move(item.id, 1)}
+                        aria-label={`Move ${item.name} down`}
+                      >
+                        <ChevronDown />
+                      </button>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => toggleBoard(item.id)}
+                      aria-label={`Remove ${item.name}`}
+                    >
+                      <X />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className={styles.boardEmpty}>
+                <strong>Build your board</strong>
+                <p>Add prospects from the list to create your personal draft rankings.</p>
+              </div>
+            )}
+            <div className={styles.reorderHelp}>
+              <GripVertical /> Drag and drop to change your rankings.
             </div>
-          ) : (
-            <div className={styles.boardEmpty}>
-              <strong>Build your board</strong>
-              <p>Add prospects from the list to create your personal draft rankings.</p>
-            </div>
-          )}
-          <div className={styles.reorderHelp}>
-            <GripVertical /> Drag and drop to change your rankings.
-          </div>
-        </aside>
+          </aside>
+        </ResponsiveRail>
       </div>
       <ProspectDetailsModal
         open={Boolean(active)}

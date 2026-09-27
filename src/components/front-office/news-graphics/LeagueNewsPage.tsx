@@ -1,5 +1,6 @@
 'use client';
 
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Flame, Globe2 } from 'lucide-react';
@@ -131,7 +132,7 @@ export function LeagueNewsPage({
             </div>
           )}
         </main>
-        <aside className={styles.sidebar}>
+        <ResponsiveRail stackAt={850} className={styles.sidebar}>
           <section className={`${styles.sideCard} ${styles.trending}`}>
             <header>
               <h2>
@@ -158,7 +159,7 @@ export function LeagueNewsPage({
               ))}
             </ol>
           </section>
-        </aside>
+        </ResponsiveRail>
       </div>
       <div className={styles.layout}>
         <main className={styles.main}>
@@ -203,7 +204,7 @@ export function LeagueNewsPage({
             </div>
           </section>
         </main>
-        <aside className={styles.sidebar}>
+        <ResponsiveRail stackAt={850} className={styles.sidebar}>
           <section className={`${styles.sideCard} ${styles.around}`}>
             <header>
               <h2>
@@ -230,7 +231,7 @@ export function LeagueNewsPage({
               View More League News <ArrowRight />
             </button>
           </section>
-        </aside>
+        </ResponsiveRail>
       </div>
     </div>
   );

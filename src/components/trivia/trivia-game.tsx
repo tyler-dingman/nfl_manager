@@ -1,5 +1,6 @@
 'use client';
 
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import { apiFetch } from '@/lib/api';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -540,7 +541,7 @@ export default function TriviaGame({
               )}
             />
           </div>
-          <aside className={styles.sidebar}>
+          <ResponsiveRail stackAt={1000} className={styles.sidebar}>
             <section className={`${styles.card} ${styles.leaderboard}`}>
               <Heading
                 icon={<BarChart3 />}
@@ -606,7 +607,7 @@ export default function TriviaGame({
                 </li>
               </ul>
             </section>
-          </aside>
+          </ResponsiveRail>
           <section className={`${styles.card} ${styles.activity}`}>
             <Heading icon={<Activity />} title="Recent Activity" />
             {live?.activity.length ? (

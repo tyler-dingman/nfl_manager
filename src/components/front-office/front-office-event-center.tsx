@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import Image from 'next/image';
 import { useTeamStyle } from '@/components/team-theme-provider';
 import Link from 'next/link';
@@ -263,8 +264,7 @@ export function FrontOfficeEventCenter({
 
   useEffect(() => {
     if (!open) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     const focusTimer = window.setTimeout(() => {
       if (focusedStoryId && storyRefs.current[focusedStoryId])
         storyRefs.current[focusedStoryId]?.focus();
@@ -292,7 +292,7 @@ export function FrontOfficeEventCenter({
     document.addEventListener('keydown', onKeyDown);
     return () => {
       window.clearTimeout(focusTimer);
-      document.body.style.overflow = previousOverflow;
+      releaseScroll();
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [closeDrawer, focusedStoryId, open]);

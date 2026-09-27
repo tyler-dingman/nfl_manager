@@ -1,4 +1,5 @@
 'use client';
+import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
 import type { ReactNode } from 'react';
 import Image from 'next/image';
 import type { AnswerBlock, SearchGame } from '@/features/search/answer-types';
@@ -164,6 +165,9 @@ function Block({ block, response }: { block: AnswerBlock; response: SearchRespon
         </p>
       </section>
     );
+  const DataTable = ['roster', 'injuryList', 'transactionList'].includes(block.type)
+    ? ResponsivePlayerTable
+    : 'table';
   return (
     <section className="min-w-0">
       <h3 className="mb-2 font-bold">{block.title}</h3>
@@ -172,7 +176,7 @@ function Block({ block, response }: { block: AnswerBlock; response: SearchRespon
         tabIndex={0}
         aria-label={block.title}
       >
-        <table className="w-full text-left text-sm">
+        <DataTable className="w-full text-left text-sm">
           <thead className="sticky top-0 bg-slate-100">
             <tr>
               {block.columns.map((c) => (
@@ -193,7 +197,7 @@ function Block({ block, response }: { block: AnswerBlock; response: SearchRespon
               </tr>
             ))}
           </tbody>
-        </table>
+        </DataTable>
       </div>
     </section>
   );

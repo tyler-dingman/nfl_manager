@@ -24,6 +24,7 @@ import {
 } from '@/features/team/fan-team-preference';
 import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
 import { useTeamStore } from '@/features/team/team-store';
+import BrowserPushSettings from '@/components/notifications/browser-push-settings';
 import ThreeOutDeliveryPreferences from '@/components/three-and-out/three-out-delivery-preferences';
 
 export type AccountSection =
@@ -260,6 +261,7 @@ function NotificationsSection() {
         description="Choose which updates deserve your attention."
       />
       <div className="mt-7 space-y-3">
+        <BrowserPushSettings />
         <div className="mb-6 rounded-2xl border border-[#00172B]/10 bg-[#f7f4ee] p-5">
           <h3 className="text-lg font-black tracking-[-0.015em]">Three &amp; Out</h3>
           <p className="mt-1 text-sm text-[#40556b]">

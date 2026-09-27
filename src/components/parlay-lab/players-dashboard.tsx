@@ -1,8 +1,13 @@
 'use client';
+import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
+import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
+import headingStyles from './panel-heading.module.css';
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';
 import { useMemo, useState, type CSSProperties } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { TrendingUp } from 'lucide-react';
 import { TEAM_LIST } from '@/data/teams';
 import type { Team } from '@/features/team/team-store';
 import { getEditorialHeroTheme } from '@/lib/team-theme-tokens';
@@ -176,7 +181,7 @@ export function PlayersDashboard({
               <small>{label}</small>
             </div>
           ))}
-          <select
+          <ResponsivePlayerSelect
             aria-label="Player research week"
             value={week}
             onChange={(e) => {
@@ -191,7 +196,7 @@ export function PlayersDashboard({
                 {w.split(':')[0] ? ` · ${w.split(':')[0]}` : ''}
               </option>
             ))}
-          </select>
+          </ResponsivePlayerSelect>
         </div>
         <section className={styles.hero} aria-label="Player discovery">
           <div className={styles.intro}>
@@ -218,7 +223,14 @@ export function PlayersDashboard({
                     {p.position} · {p.teamAbbr}
                   </small>
                   <h4 data-status={status.kind}>
-                    {status.kind === 'hot' ? '♨' : status.kind === 'up' ? '↗' : '☆'} {status.label}
+                    {status.kind === 'up' ? (
+                      <TrendingUp className={styles.trendIcon} aria-hidden="true" />
+                    ) : status.kind === 'hot' ? (
+                      '♨'
+                    ) : (
+                      '☆'
+                    )}{' '}
+                    {status.label}
                   </h4>
                   <p>{status.text}</p>
                   <button onClick={() => onOpen(p.market)}>View Player →</button>
@@ -237,7 +249,7 @@ export function PlayersDashboard({
               reset();
             }}
           />
-          <select
+          <ResponsivePlayerSelect
             aria-label="Team"
             value={teamFilter}
             onChange={(e) => {
@@ -251,8 +263,8 @@ export function PlayersDashboard({
                 {t.name}
               </option>
             ))}
-          </select>
-          <select
+          </ResponsivePlayerSelect>
+          <ResponsivePlayerSelect
             aria-label="Position"
             value={position}
             onChange={(e) => {
@@ -264,7 +276,7 @@ export function PlayersDashboard({
             {[...new Set(players.map((p) => p.position))].sort().map((p) => (
               <option key={p}>{p}</option>
             ))}
-          </select>
+          </ResponsivePlayerSelect>
           <label>
             <input
               type="checkbox"
@@ -286,7 +298,7 @@ export function PlayersDashboard({
             </h2>
             <label title="Overall Rating sorts by recent hit rate, then improvement, then strongest current Lab Score.">
               Sort by:{' '}
-              <select
+              <ResponsivePlayerSelect
                 aria-label="Sort players"
                 value={columnSort ? '' : sort}
                 onChange={(e) => {
@@ -298,10 +310,10 @@ export function PlayersDashboard({
                 {['Overall Rating', 'Hit Rate', 'Trending', 'Lab Score', 'Name'].map((s) => (
                   <option key={s}>{s}</option>
                 ))}
-              </select>
+              </ResponsivePlayerSelect>
             </label>
           </header>
-          <table>
+          <ResponsivePlayerTable identityColumn={1}>
             <thead>
               <tr>
                 <ParlaySortHeader
@@ -420,7 +432,7 @@ export function PlayersDashboard({
                 </tr>
               ))}
             </tbody>
-          </table>
+          </ResponsivePlayerTable>
           {!rows.length && (
             <p className="lab-empty">
               {loading
@@ -440,10 +452,10 @@ export function PlayersDashboard({
           </p>
         </section>
       </main>
-      <aside className="lab-right-rail">
+      <ResponsiveRail stackAt={900} className="lab-right-rail">
         <section className={`lab-panel ${styles.slip}`}>
           <header>
-            <h2>
+            <h2 className={headingStyles.heading}>
               <LabExperimentIcon />
               My Parlay <span>{slip.length}</span>
             </h2>
@@ -532,7 +544,7 @@ export function PlayersDashboard({
             View All Players →
           </a>
         </section>
-      </aside>
+      </ResponsiveRail>
     </div>
   );
 }

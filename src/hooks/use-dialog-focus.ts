@@ -1,4 +1,5 @@
 'use client';
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { useEffect, useRef, type RefObject } from 'react';
 
 /** Focus containment and scroll locking for our custom portal dialogs. */
@@ -8,8 +9,7 @@ export function useDialogFocus(open: boolean, ref: RefObject<HTMLElement>, onDis
   useEffect(() => {
     if (!open) return;
     const previousFocus = document.activeElement as HTMLElement | null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     const elements = () =>
       Array.from(
         ref.current?.querySelectorAll<HTMLElement>(
@@ -48,7 +48,7 @@ export function useDialogFocus(open: boolean, ref: RefObject<HTMLElement>, onDis
     document.addEventListener('keydown', keydown, true);
     return () => {
       document.removeEventListener('keydown', keydown, true);
-      document.body.style.overflow = previousOverflow;
+      releaseScroll();
       if (previousFocus?.isConnected) previousFocus.focus();
     };
   }, [open, ref]);

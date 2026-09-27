@@ -119,7 +119,6 @@ function AppShellContent({
   const isHydrated = hasHydrated && experienceHasHydrated;
   const currentStep = useExperienceStore((state) => state.currentStep);
   const completedSteps = useExperienceStore((state) => state.completedSteps);
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const wasNegativeRef = useRef(false);
   const lastSaveIdRef = useRef<string | null>(null);
   const pathname = usePathname()?.replace(/^\/offseasonmanager(?=\/)/, '') ?? '';
@@ -242,37 +241,6 @@ function AppShellContent({
     }
   }, [selectedTeamId, setSelectedTeamId, storedTeamAbbr, teams]);
 
-  useEffect(() => {
-    if (!isMobileSidebarOpen) {
-      document.body.style.overflow = '';
-      return;
-    }
-
-    document.body.style.overflow = 'hidden';
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsMobileSidebarOpen(false);
-      }
-    };
-
-    const desktop = window.matchMedia('(min-width: 1100px)');
-    const closeOnDesktop = () => {
-      if (desktop.matches) setIsMobileSidebarOpen(false);
-    };
-    desktop.addEventListener('change', closeOnDesktop);
-    window.addEventListener('keydown', handleEscape);
-
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleEscape);
-      desktop.removeEventListener('change', closeOnDesktop);
-    };
-  }, [isMobileSidebarOpen]);
-
-  useEffect(() => {
-    setIsMobileSidebarOpen(false);
-  }, [pathname]);
-
   if (!isHydrated) {
     return (
       <TeamThemeProvider team={teams[0]}>
@@ -305,18 +273,12 @@ function AppShellContent({
       <div
         className={`front-office-app min-h-screen ${pathname?.endsWith('/experience') ? 'fo-home-shell' : ''} ${pathname === '/front-office/draft' ? 'fo-draft-central-shell' : ''}`}
       >
-        <FrontOfficeMobileNav
-          preFranchise={preFranchise}
-          open={isMobileSidebarOpen}
-          onOpen={() => setIsMobileSidebarOpen(true)}
-        />
+        <FrontOfficeMobileNav preFranchise={preFranchise} />
         <div className="front-office-shell flex min-h-[calc(100vh-var(--site-header-height))] flex-col">
           <FrontOfficeSidebar
             preFranchise={preFranchise}
             team={selectedTeam}
             season={franchiseYear}
-            open={isMobileSidebarOpen}
-            onClose={() => setIsMobileSidebarOpen(false)}
           />
           <div className="front-office-content flex min-w-0 flex-1 flex-col">
             {!preFranchise && (showTeamSummary || pathname === '/experience') && (

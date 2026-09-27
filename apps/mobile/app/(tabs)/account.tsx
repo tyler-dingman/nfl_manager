@@ -1,3 +1,4 @@
+import { PageScrollView } from '../../components/page-scroll-view';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { API_BASE_URL } from '../../lib/api';
 import { C, Eyebrow, Heading } from '../../components/screen';
@@ -23,7 +24,7 @@ export default function Account() {
   const { teamId } = useTeam();
   const { theme } = useTeamBranding();
   return (
-    <View style={s.page}>
+    <PageScrollView contentContainerStyle={s.page}>
       <Eyebrow>YOUR DOWN & DISTANCE</Eyebrow>
       <Heading>Account</Heading>
       <View style={[s.card, { backgroundColor: theme.dark }]}>
@@ -55,11 +56,11 @@ export default function Account() {
           {busy ? 'Signing out…' : 'Log out'}
         </Text>
       </Pressable>
-    </View>
+    </PageScrollView>
   );
 }
 const s = StyleSheet.create({
-  page: { flex: 1, backgroundColor: C.cream, padding: 20 },
+  page: { flexGrow: 1, backgroundColor: C.cream, padding: 20 },
   card: { borderRadius: 18, padding: 20, marginTop: 22, marginBottom: 14 },
   name: { fontSize: 21, fontWeight: '900' },
   email: { color: '#AFC0CC', marginTop: 6 },

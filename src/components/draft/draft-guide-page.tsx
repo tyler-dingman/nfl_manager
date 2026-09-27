@@ -1,5 +1,9 @@
 'use client';
 
+import { PlayerTableHeader } from '@/components/players/responsive-player-table';
+import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
+import { ResponsivePlayerLink } from '@/components/players/responsive-player-table';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -145,7 +149,7 @@ export function DraftGuidePage({ prospects }: { prospects: DraftProspectRecord[]
           View full rankings <ArrowRight />
         </Link>
       </header>
-      <div className={styles.tableHeader}>
+      <PlayerTableHeader className={styles.tableHeader}>
         <span>Rank</span>
         <span>Player</span>
         <span>Pos</span>
@@ -154,10 +158,21 @@ export function DraftGuidePage({ prospects }: { prospects: DraftProspectRecord[]
         <span>D&amp;D Grade</span>
         <span>Scouting Summary</span>
         <span />
-      </div>
+      </PlayerTableHeader>
       <div>
         {filtered.slice(0, 10).map((item) => (
-          <Link
+          <ResponsivePlayerLink
+            identityColumn={1}
+            actionColumn={7}
+            labels={[
+              'Rank',
+              'Prospect',
+              'Position',
+              'School',
+              'Height / weight',
+              'Grade',
+              'Scouting summary',
+            ]}
             className={styles.prospectRow}
             href={`/front-office/draft/prospects/${item.id}`}
             key={item.id}
@@ -195,7 +210,7 @@ export function DraftGuidePage({ prospects }: { prospects: DraftProspectRecord[]
               {item.summary ?? 'Scouting summary not added yet.'}
             </span>
             <ArrowRight />
-          </Link>
+          </ResponsivePlayerLink>
         ))}
       </div>
       {!filtered.length ? (
@@ -286,36 +301,39 @@ export function DraftGuidePage({ prospects }: { prospects: DraftProspectRecord[]
           <h2>Filters</h2>
           <label>
             Class
-            <select disabled value={year}>
+            <ResponsivePlayerSelect disabled value={year}>
               <option value={year}>{year} NFL Draft</option>
-            </select>
+            </ResponsivePlayerSelect>
           </label>
           <label>
             Position
-            <select value={position} onChange={(e) => setPosition(e.target.value)}>
+            <ResponsivePlayerSelect value={position} onChange={(e) => setPosition(e.target.value)}>
               <option value="ALL">All positions</option>
               {positions.map((item) => (
                 <option key={item}>{item}</option>
               ))}
-            </select>
+            </ResponsivePlayerSelect>
           </label>
           <label>
             School
-            <select value={school} onChange={(e) => setSchool(e.target.value)}>
+            <ResponsivePlayerSelect value={school} onChange={(e) => setSchool(e.target.value)}>
               <option value="ALL">All schools</option>
               {schools.map((item) => (
                 <option key={item}>{item}</option>
               ))}
-            </select>
+            </ResponsivePlayerSelect>
           </label>
           <label>
             Sort by
-            <select value={sort} onChange={(e) => setSort(e.target.value as typeof sort)}>
+            <ResponsivePlayerSelect
+              value={sort}
+              onChange={(e) => setSort(e.target.value as typeof sort)}
+            >
               <option value="rank">Consensus rank</option>
               <option value="grade">D&amp;D Grade</option>
               <option value="position">Position</option>
               <option value="school">School</option>
-            </select>
+            </ResponsivePlayerSelect>
           </label>
           <label className={styles.search}>
             <Search />
@@ -331,7 +349,7 @@ export function DraftGuidePage({ prospects }: { prospects: DraftProspectRecord[]
         </section>
       </aside>
       <main>{center}</main>
-      <aside className={styles.right}>
+      <ResponsiveRail stackAt={1100} className={styles.right}>
         <section>
           <h2>Draft Insights</h2>
           <InsightButton
@@ -369,7 +387,7 @@ export function DraftGuidePage({ prospects }: { prospects: DraftProspectRecord[]
             </Link>
           </div>
         </section>
-      </aside>
+      </ResponsiveRail>
     </div>
   );
 }

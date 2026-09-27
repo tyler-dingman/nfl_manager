@@ -1,5 +1,6 @@
 'use client';
 
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -871,7 +872,7 @@ export function FrontOfficeHome({
       >
         <EventList events={movement} count={5} />
       </Panel>
-      <aside className={styles.rail} aria-label="Franchise updates">
+      <ResponsiveRail stackAt={1199} className={styles.rail} aria-label="Franchise updates">
         <section className={styles.advance} aria-label="Advance franchise">
           <FrontOfficePhaseControl
             season={simulation?.season ?? save.franchiseYear}
@@ -1036,7 +1037,7 @@ export function FrontOfficeHome({
             count={3}
           />
         </Panel>
-      </aside>
+      </ResponsiveRail>
       {(errors.length > 0 || rosterError) && (
         <div className={styles.loadNotice} role="status">
           {[...errors, ...(rosterError ? ['Roster refresh'] : [])].join(', ')} unavailable. Saved

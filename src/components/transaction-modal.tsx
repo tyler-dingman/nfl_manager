@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import Image from 'next/image';
 import { useEffect, useId, useRef, type CSSProperties, type ReactNode } from 'react';
 import { X } from 'lucide-react';
@@ -93,7 +94,7 @@ export default function TransactionModal({
   useEffect(() => {
     if (!open) return;
     const previous = document.activeElement as HTMLElement | null;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     requestAnimationFrame(() =>
       dialogRef.current?.querySelector<HTMLElement>(focusableSelector)?.focus(),
     );
@@ -114,7 +115,7 @@ export default function TransactionModal({
     };
     document.addEventListener('keydown', onKeyDown);
     return () => {
-      document.body.style.overflow = '';
+      releaseScroll();
       document.removeEventListener('keydown', onKeyDown);
       previous?.focus();
     };

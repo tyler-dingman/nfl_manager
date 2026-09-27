@@ -31,6 +31,7 @@ const ResultDistributionChart = dynamic(() => import('./charts/ResultDistributio
 type Trend = {
   last5: { games: number; hits: number; hitRate: number | null };
   last10: { games: number; hits: number; hitRate: number | null };
+  last20?: { games: number; hits: number; hitRate: number | null };
   season: { games: number; hits: number; hitRate: number | null };
   last2Years: { games: number; hits: number; hitRate: number | null };
   vsOpponent: { games: number; hits: number; hitRate: number | null; average: number | null };

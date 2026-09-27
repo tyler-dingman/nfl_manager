@@ -1,5 +1,7 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -138,8 +140,7 @@ export default function DownDistanceHome() {
   useEffect(() => {
     if (!isSearchOpen) return;
     const previousFocus = document.activeElement as HTMLElement | null;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     document
       .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')
       ?.focus();
@@ -163,7 +164,7 @@ export default function DownDistanceHome() {
     };
     window.addEventListener('keydown', handleKey);
     return () => {
-      document.body.style.overflow = overflow;
+      releaseScroll();
       previousFocus?.focus();
       window.removeEventListener('keydown', handleKey);
     };
@@ -519,7 +520,10 @@ export default function DownDistanceHome() {
                 ) : null}
               </div>
             </div>
-            <aside className="space-y-6 lg:sticky lg:top-[calc(var(--site-header-height)+1.5rem)] lg:self-start">
+            <ResponsiveRail
+              stackAt={1023}
+              className="space-y-6 lg:sticky lg:top-[calc(var(--site-header-height)+1.5rem)] lg:self-start"
+            >
               <div className="block overflow-hidden rounded-2xl border border-[#00172B]/10 bg-white text-[#00172B] shadow-sm">
                 <div className="relative overflow-hidden bg-[#00172B] px-6 py-6 text-white">
                   <div
@@ -579,7 +583,7 @@ export default function DownDistanceHome() {
                   ))}
                 </div>
               </section>
-            </aside>
+            </ResponsiveRail>
           </section>
 
           <section id="watch" className="mt-10 rounded-3xl bg-slate-950 p-6 text-white sm:p-8">

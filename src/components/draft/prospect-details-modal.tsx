@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { ProspectProfile } from './prospect-profile';
 import { useProspectBoard } from './use-prospect-board';
 
@@ -110,13 +111,12 @@ export function ProspectDetailsModal({
     };
 
     const previousFocus = document.activeElement as HTMLElement | null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     window.addEventListener('keydown', handleEscape);
     closeButtonRef.current?.focus();
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      releaseScroll();
       window.removeEventListener('keydown', handleEscape);
       previousFocus?.focus();
     };

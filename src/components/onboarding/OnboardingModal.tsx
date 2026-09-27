@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import * as React from 'react';
 
 import rosterIllustration from '@/assets/illustrations/illustration-roster-management.svg';
@@ -49,10 +50,9 @@ export default function OnboardingModal({
 
   React.useEffect(() => {
     if (!open) return;
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     return () => {
-      document.body.style.overflow = originalOverflow;
+      releaseScroll();
     };
   }, [open]);
 

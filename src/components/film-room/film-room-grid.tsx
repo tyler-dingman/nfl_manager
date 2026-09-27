@@ -1,6 +1,15 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ResponsiveFilterBar } from '@/components/filters/responsive-filter-bar';
+import { filterValue } from '../../../packages/filters';
+import {
+  FILM_ROOM_FILTERS,
+  filterFilmVideos,
+  filmPublishedLabel,
+} from '../../../packages/filters/film-room';
+import styles from './film-room-mobile.module.css';
 import { FilmRoomHero } from './film-room-hero';
 import { ExternalLink } from 'lucide-react';
 import { DdVideosIcon as Play } from '@/components/ui/football-icons';
@@ -56,92 +65,152 @@ export function FilmRoomCard({
   const published = relativeDate(video.publishedAt);
 
   return (
-    <article className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
-      <div className="relative aspect-video overflow-hidden bg-slate-950">
-        <button
-          type="button"
-          className="group absolute inset-0 block h-full w-full overflow-hidden text-left focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
-          onClick={(event) => onPlay(video, event.currentTarget)}
-          aria-label={`Play ${video.title}`}
-        >
-          {/* YouTube owns and serves this source thumbnail. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={video.thumbnail}
-            alt=""
-            loading={sequence > 3 ? 'lazy' : 'eager'}
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
-          />
-          <span className="absolute inset-0 bg-black/5 transition group-hover:bg-black/15" />
-          <span className="absolute left-0 top-0 bg-[var(--dark)] px-3 py-2 text-lg font-black text-[var(--team-on-dark)]">
-            {String(sequence).padStart(2, '0')}
-          </span>
-          <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-white bg-black/50 text-white shadow-lg transition group-hover:scale-105 group-hover:bg-black/65">
-            <Play className="ml-1 h-7 w-7 fill-current" />
-          </span>
-          {video.duration ? (
-            <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs font-black text-white">
-              {video.duration}
-            </span>
-          ) : null}
-        </button>
-      </div>
-
-      <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <h2 className="line-clamp-2 text-lg font-black leading-tight text-[#00172b]">
-          {video.title}
-        </h2>
-        <div className="mt-4 flex min-w-0 items-center gap-3">
-          {video.channel.avatar ? (
-            // eslint-disable-next-line @next/next/no-img-element
+    <>
+      <article className="hidden md:flex min-w-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
+        <div className="relative aspect-video overflow-hidden bg-slate-950">
+          <button
+            type="button"
+            className="group absolute inset-0 block h-full w-full overflow-hidden text-left focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
+            onClick={(event) => onPlay(video, event.currentTarget)}
+            aria-label={`Play ${video.title}`}
+          >
+            {/* YouTube owns and serves this source thumbnail. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={video.channel.avatar}
+              src={video.thumbnail}
               alt=""
-              loading="lazy"
-              className="h-9 w-9 shrink-0 rounded-full object-cover"
+              loading={sequence > 3 ? 'lazy' : 'eager'}
+              className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
             />
-          ) : (
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-100 text-sm font-black text-slate-500">
-              {video.channel.name.slice(0, 1)}
+            <span className="absolute inset-0 bg-black/5 transition group-hover:bg-black/15" />
+            <span className="absolute left-0 top-0 bg-[var(--dark)] px-3 py-2 text-lg font-black text-[var(--team-on-dark)]">
+              {String(sequence).padStart(2, '0')}
             </span>
-          )}
-          <div className="min-w-0 text-sm">
-            <p className="truncate font-bold text-[#00172b]">{video.channel.name}</p>
-            {subscribers || published ? (
-              <p className="truncate text-slate-500">
-                {subscribers ? `${subscribers} subscribers${published ? ' · ' : ''}` : ''}
-                {published}
-              </p>
+            <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-white bg-black/50 text-white shadow-lg transition group-hover:scale-105 group-hover:bg-black/65">
+              <Play className="ml-1 h-7 w-7 fill-current" />
+            </span>
+            {video.duration ? (
+              <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs font-black text-white">
+                {video.duration}
+              </span>
             ) : null}
+          </button>
+        </div>
+
+        <div className="flex flex-1 flex-col p-4 sm:p-5">
+          <h2 className="line-clamp-2 text-lg font-black leading-tight text-[#00172b]">
+            {video.title}
+          </h2>
+          <div className="mt-4 flex min-w-0 items-center gap-3">
+            {video.channel.avatar ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={video.channel.avatar}
+                alt=""
+                loading="lazy"
+                className="h-9 w-9 shrink-0 rounded-full object-cover"
+              />
+            ) : (
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-100 text-sm font-black text-slate-500">
+                {video.channel.name.slice(0, 1)}
+              </span>
+            )}
+            <div className="min-w-0 text-sm">
+              <p className="truncate font-bold text-[#00172b]">{video.channel.name}</p>
+              {subscribers || published ? (
+                <p className="truncate text-slate-500">
+                  {subscribers ? `${subscribers} subscribers${published ? ' · ' : ''}` : ''}
+                  {published}
+                </p>
+              ) : null}
+            </div>
+          </div>
+          <div className="mt-auto grid grid-cols-3 border-t border-slate-200 pt-4 text-xs font-black uppercase tracking-wide text-[var(--team-primary-text)]">
+            <a
+              href={video.youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-10 items-center gap-1.5 border-r border-slate-200 pr-3 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              Watch on YouTube <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+            </a>
+            <ShareToCrewButton
+              contentId={video.id}
+              contentType="FILM_ROOM"
+              href={`/watch?video=${encodeURIComponent(video.id)}`}
+              title={video.title}
+              className="flex min-h-10 items-center justify-center px-2 text-center text-[10px] font-black"
+            />
+            <a
+              href={video.channelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-10 items-center justify-end gap-1.5 pl-3 text-right hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              View Channel <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+            </a>
           </div>
         </div>
-        <div className="mt-auto grid grid-cols-3 border-t border-slate-200 pt-4 text-xs font-black uppercase tracking-wide text-[var(--team-primary-text)]">
-          <a
-            href={video.youtubeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex min-h-10 items-center gap-1.5 border-r border-slate-200 pr-3 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+      </article>
+      <article className={`${styles.card} ${sequence === 1 ? styles.featured : styles.compact}`}>
+        <div className={styles.mobileRow}>
+          <button
+            className={styles.thumbnail}
+            aria-label={`Play ${video.title}`}
+            onClick={(event) => onPlay(video, event.currentTarget)}
           >
-            Watch on YouTube <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={video.thumbnail} alt="" loading={sequence === 1 ? 'eager' : 'lazy'} />
+            {sequence === 1 && <span className={styles.badge}>#1 TRENDING</span>}
+            <span className={styles.play}>
+              <Play aria-hidden="true" />
+            </span>
+            {video.duration && <span className={styles.duration}>{video.duration}</span>}
+          </button>
+          <div className={styles.copy}>
+            <button
+              className={styles.titleButton}
+              onClick={(event) => onPlay(video, event.currentTarget)}
+            >
+              <h2>{video.title}</h2>
+            </button>
+            <div className={styles.channel}>
+              {video.channel.avatar ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className={styles.avatar} src={video.channel.avatar} alt="" loading="lazy" />
+              ) : (
+                <span className={styles.avatar}>{video.channel.name.slice(0, 1)}</span>
+              )}
+              <div>
+                <p className={styles.source}>{video.channel.name}</p>
+                {subscribers && <p className={styles.meta}>{subscribers} subscribers</p>}
+              </div>
+            </div>
+            <p className={styles.meta}>
+              {filmPublishedLabel(video.publishedAt)}
+              {video.publishedAt ? ' · ' : ''}
+              {FILM_ROOM_CATEGORIES.find((c) => c.id === video.category)?.label}
+            </p>
+          </div>
+        </div>
+        <div className={styles.actions} aria-label="Video actions">
+          <a href={video.youtubeUrl} target="_blank" rel="noopener noreferrer">
+            YouTube <ExternalLink size={14} aria-hidden="true" />
           </a>
           <ShareToCrewButton
             contentId={video.id}
             contentType="FILM_ROOM"
             href={`/watch?video=${encodeURIComponent(video.id)}`}
             title={video.title}
-            className="flex min-h-10 items-center justify-center px-2 text-center text-[10px] font-black"
+            className={styles.share}
+            label="Share"
           />
-          <a
-            href={video.channelUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex min-h-10 items-center justify-end gap-1.5 pl-3 text-right hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          >
-            View Channel <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+          <a href={video.channelUrl} target="_blank" rel="noopener noreferrer">
+            Channel <ExternalLink size={14} aria-hidden="true" />
           </a>
         </div>
-      </div>
-    </article>
+      </article>
+    </>
   );
 }
 
@@ -156,8 +225,22 @@ export default function FilmRoomGrid({
 }) {
   const [data, setData] = useState<FilmRoomResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<Filter>('all');
-  const [sort, setSort] = useState<Sort>('newest');
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const filter = filterValue(FILM_ROOM_FILTERS[0], {
+    category: searchParams?.get('category') ?? 'all',
+  }) as Filter;
+  const sort = filterValue(FILM_ROOM_FILTERS[1], {
+    order: searchParams?.get('order') ?? 'newest',
+  }) as Sort;
+  const updateFilters = (changes: Record<string, string>) => {
+    const query = new URLSearchParams(searchParams?.toString() ?? '');
+    Object.entries(changes).forEach(([key, value]) => query.set(key, value));
+    router.replace(`${pathname}?${query}`, { scroll: false });
+  };
+  const setFilter = (value: string) => updateFilters({ category: value });
+  const setSort = (value: string) => updateFilters({ order: value });
   const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);
   const [playTrigger, setPlayTrigger] = useState<HTMLButtonElement | null>(null);
   const routeVideoOpened = useRef(false);
@@ -210,18 +293,15 @@ export default function FilmRoomGrid({
     };
   }, [teamAbbr]);
 
-  const teamVideos = data?.teamId === teamAbbr ? data.videos : [];
+  const teamVideos = useMemo(
+    () => (data?.teamId === teamAbbr ? data.videos : []),
+    [data, teamAbbr],
+  );
 
-  const videos = useMemo(() => {
-    const filtered = teamVideos.filter((video) => filter === 'all' || video.category === filter);
-    return [...filtered].sort((left, right) => {
-      if (sort === 'most-viewed') return (right.viewCount ?? -1) - (left.viewCount ?? -1);
-      const difference =
-        new Date(right.publishedAt ?? right.addedAt).getTime() -
-        new Date(left.publishedAt ?? left.addedAt).getTime();
-      return sort === 'oldest' ? -difference : difference;
-    });
-  }, [teamVideos, filter, sort]);
+  const videos = useMemo(
+    () => filterFilmVideos(teamVideos, filter, sort),
+    [teamVideos, filter, sort],
+  );
 
   return (
     <>
@@ -234,45 +314,62 @@ export default function FilmRoomGrid({
         />
       )}
       <section
-        className={withHero ? 'mx-auto max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8' : undefined}
+        className={
+          withHero ? 'mx-auto max-w-[1440px] px-4 py-2 md:py-6 sm:px-6 lg:px-8' : undefined
+        }
         aria-label={`${teamName} Film Room videos`}
       >
-        <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex gap-2 overflow-x-auto pb-1" role="group" aria-label="Video category">
-            {FILM_ROOM_CATEGORIES.map((category) => {
-              const selected = filter === category.id;
-              return (
-                <button
-                  key={category.id}
-                  type="button"
-                  onClick={() => setFilter(category.id)}
-                  aria-pressed={selected}
-                  className={`shrink-0 rounded-full px-4 py-2 text-xs font-black uppercase tracking-wide transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                    selected
-                      ? 'bg-[var(--dark)] text-[var(--team-on-dark)]'
-                      : 'bg-white text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  {category.label}
-                </button>
-              );
-            })}
-          </div>
-          <label className="flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700">
-            <SlidersHorizontal className="h-4 w-4" />
-            <span className="sr-only">Sort videos</span>
-            <select
-              value={sort}
-              onChange={(event) => setSort(event.target.value as Sort)}
-              className="bg-transparent font-bold outline-none"
+        <ResponsiveFilterBar
+          primary={FILM_ROOM_FILTERS}
+          secondary={[]}
+          values={{ category: filter, order: sort }}
+          onChange={updateFilters}
+        >
+          <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-center lg:justify-between">
+            <div
+              className="flex gap-2 overflow-x-auto pb-1"
+              role="group"
+              aria-label="Video category"
             >
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
-              <option value="most-viewed">Most Viewed</option>
-            </select>
-          </label>
-        </div>
-
+              {FILM_ROOM_CATEGORIES.map((category) => {
+                const selected = filter === category.id;
+                return (
+                  <button
+                    key={category.id}
+                    type="button"
+                    onClick={() => setFilter(category.id)}
+                    aria-pressed={selected}
+                    className={`shrink-0 rounded-full px-4 py-2 text-xs font-black uppercase tracking-wide transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                      selected
+                        ? 'bg-[var(--dark)] text-[var(--team-on-dark)]'
+                        : 'bg-white text-slate-600 hover:bg-slate-100'
+                    }`}
+                  >
+                    {category.label}
+                  </button>
+                );
+              })}
+            </div>
+            <label className="flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700">
+              <SlidersHorizontal className="h-4 w-4" />
+              <span className="sr-only">Sort videos</span>
+              <select
+                value={sort}
+                onChange={(event) => setSort(event.target.value as Sort)}
+                className="bg-transparent font-bold outline-none"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="most-viewed">Most Viewed</option>
+              </select>
+            </label>
+          </div>
+        </ResponsiveFilterBar>
+        <p className={styles.count} role="status">
+          {loading
+            ? 'LOADING VIDEOS…'
+            : `${videos.length} ${videos.length === 1 ? 'VIDEO' : 'VIDEOS'} · TRENDING NOW`}
+        </p>
         {loading ? (
           <div
             className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3"
@@ -293,7 +390,7 @@ export default function FilmRoomGrid({
             ))}
           </div>
         ) : videos.length ? (
-          <div className="mt-5 grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-2 grid items-stretch gap-3 md:mt-5 md:gap-5 md:grid-cols-2 lg:grid-cols-3">
             {videos.map((video, index) => (
               <FilmRoomCard key={video.id} video={video} sequence={index + 1} onPlay={openVideo} />
             ))}

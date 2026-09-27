@@ -1,3 +1,4 @@
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -277,7 +278,10 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
                     </section>
                   ) : null}
                 </div>
-                <aside className="space-y-5" aria-label="Related content and advertisement">
+                <ResponsiveRail
+                  className="space-y-5"
+                  aria-label="Related content and advertisement"
+                >
                   <section
                     className="overflow-hidden rounded-2xl bg-white shadow-sm"
                     aria-label="Advertisement"
@@ -369,7 +373,7 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
                       </Link>
                     </section>
                   ) : null}
-                </aside>
+                </ResponsiveRail>
               </div>
             </div>
           </article>

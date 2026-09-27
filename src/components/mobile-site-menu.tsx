@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import Link from 'next/link';
 import { createPortal } from 'react-dom';
 import { LogIn, LogOut, Shield, X } from 'lucide-react';
@@ -44,8 +45,7 @@ export default function MobileSiteMenu({
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     if (!open) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     const focusable = () =>
       Array.from(
         drawerRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? [],
@@ -72,7 +72,7 @@ export default function MobileSiteMenu({
     };
     document.addEventListener('keydown', onKeyDown);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      releaseScroll();
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [open]);

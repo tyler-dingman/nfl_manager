@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CircleAlert, Flame, Gamepad2, ShieldCheck, Trophy, Users, X } from 'lucide-react';
@@ -117,9 +118,8 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
   }, [load, open, user]);
   useEffect(() => {
     if (!open) return;
-    const overflow = document.body.style.overflow;
     const previousFocus = document.activeElement as HTMLElement | null;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     const close = (event: KeyboardEvent | MouseEvent) => {
       if (event instanceof KeyboardEvent && event.key === 'Tab') {
         const nodes = Array.from(
@@ -144,7 +144,7 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
     document.addEventListener('keydown', close);
     document.addEventListener('mousedown', close);
     return () => {
-      document.body.style.overflow = overflow;
+      releaseScroll();
       previousFocus?.focus();
       document.removeEventListener('keydown', close);
       document.removeEventListener('mousedown', close);

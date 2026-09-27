@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
@@ -97,14 +98,11 @@ export default function CutPlayerModal({
   }, [isBigSavings, isSmallSavings, isWorsened, quoteSeed]);
 
   useEffect(() => {
-    if (!isOpen) {
-      document.body.style.overflow = '';
-      return;
-    }
+    if (!isOpen) return;
 
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     return () => {
-      document.body.style.overflow = '';
+      releaseScroll();
     };
   }, [isOpen]);
 

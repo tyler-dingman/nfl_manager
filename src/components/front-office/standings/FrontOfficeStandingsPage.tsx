@@ -1,5 +1,6 @@
 'use client';
 
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
@@ -311,10 +312,10 @@ export function FrontOfficeStandingsPage() {
               />
             ))}
         </div>
-        <aside>
+        <ResponsiveRail stackAt={1200}>
           <PlayoffPicture teams={teams} selectedTeam={selectedTeam} />
           <WeekResults state={state} week={week} selectedTeam={selectedTeam} />
-        </aside>
+        </ResponsiveRail>
       </div>
     </div>
   );

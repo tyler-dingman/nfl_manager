@@ -1,4 +1,5 @@
 'use client';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useMemo, useState, type ReactNode, type CSSProperties } from 'react';
@@ -797,13 +798,13 @@ export function OwnershipPage({ section }: { section: Section }) {
                   </Panel>
                 </div>
               </div>
-              <aside>
+              <ResponsiveRail stackAt={1250}>
                 <Link className={styles.primary} href={`${root}/stadium`}>
                   Make an Improvement <ArrowRight size={18} />
                 </Link>
                 <Panel title="Fan Snapshot">{snapshot}</Panel>
                 <Panel title="What Fans Are Saying">{feedback}</Panel>
-              </aside>
+              </ResponsiveRail>
             </div>
           )}
           {fanTab === 'Ticketing' && (

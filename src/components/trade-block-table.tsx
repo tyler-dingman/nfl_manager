@@ -1,5 +1,6 @@
 'use client';
 
+import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeftRight, ArrowUpDown } from 'lucide-react';
 
@@ -173,16 +174,10 @@ export function TradeBlockTable({
           />
         </div>
         <div className="py-4 sm:px-6">
-          <div className="px-4 md:hidden">
-            <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-              <ArrowLeftRight className="h-3.5 w-3.5" />
-              <span>Swipe to see more columns.</span>
-            </div>
-          </div>
           {loading && data.length === 0 ? (
             <>
               <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
-                <table className="min-w-full w-max border-collapse table-fixed md:min-w-[940px] md:w-full md:table-auto">
+                <ResponsivePlayerTable className="min-w-full w-max border-collapse table-fixed md:min-w-[940px] md:w-full md:table-auto">
                   <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
                     <tr>
                       <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
@@ -227,7 +222,7 @@ export function TradeBlockTable({
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </ResponsivePlayerTable>
               </div>
               <div className="px-4 py-2 text-xs text-muted-foreground sm:px-6">
                 Loading players...
@@ -236,7 +231,7 @@ export function TradeBlockTable({
           ) : (
             <>
               <div className="mt-3 w-full overflow-x-auto overscroll-x-contain">
-                <table className="min-w-full w-max border-collapse table-fixed md:min-w-[940px] md:w-full md:table-auto">
+                <ResponsivePlayerTable className="min-w-full w-max border-collapse table-fixed md:min-w-[940px] md:w-full md:table-auto">
                   <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
                     <tr>
                       <th className="w-[180px] min-w-[180px] px-4 py-2 text-left sm:px-6 md:w-auto md:min-w-0">
@@ -386,7 +381,7 @@ export function TradeBlockTable({
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </ResponsivePlayerTable>
               </div>
               {filteredPlayers.length === 0 ? (
                 <div className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">

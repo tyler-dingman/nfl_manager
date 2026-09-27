@@ -25,7 +25,8 @@ const REQUIRED_COLUMNS: Record<string, string[]> = {
   ],
   historical_games: [
     'id', 'season', 'week', 'season_type', 'provider_game_id', 'game_date',
-    'home_team_id', 'away_team_id',
+    'home_team_id', 'away_team_id', 'status', 'espn_event_id', 'overtime',
+    'venue', 'broadcast_network', 'kickoff_confirmed',
   ],
   historical_player_games: [
     'game_id', 'season', 'week', 'player_id', 'provider_player_id', 'team_id',

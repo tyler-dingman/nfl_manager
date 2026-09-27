@@ -1,4 +1,5 @@
 'use client';
+import headingStyles from './panel-heading.module.css';
 import {
   Target,
   FlaskConical,
@@ -322,7 +323,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
     return (
       <aside className={styles.panel}>
         <header>
-          <h2>
+          <h2 className={headingStyles.heading}>
             <LabExperimentIcon />
             My Parlay <span>0</span>
           </h2>
@@ -337,7 +338,7 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
   return (
     <aside className={styles.panel}>
       <header>
-        <h2>
+        <h2 className={headingStyles.heading}>
           <LabExperimentIcon />
           My Parlay <span>{props.legs.length}</span>
         </h2>
@@ -501,8 +502,12 @@ export default function MyParlayPanel<T extends ParlayPanelMarket>(props: Props<
       <button
         className={styles.save}
         onClick={() => {
-          props.onSave();
-          setMessage('Saved to My Plays.');
+          try {
+            props.onSave();
+            setMessage('Saved to My Parlays.');
+          } catch {
+            setMessage('Unable to save. Check browser storage and try again.');
+          }
         }}
       >
         <SaveIcon /> Save

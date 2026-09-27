@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -99,8 +100,7 @@ export function FrontOfficeWeeklyBrief({
   useEffect(() => {
     if (!ready) return;
     const previous = document.activeElement as HTMLElement | null;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     ref.current?.querySelector<HTMLButtonElement>('button')?.focus();
     const key = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -120,7 +120,7 @@ export function FrontOfficeWeeklyBrief({
     };
     document.addEventListener('keydown', key);
     return () => {
-      document.body.style.overflow = overflow;
+      releaseScroll();
       document.removeEventListener('keydown', key);
       previous?.focus();
     };

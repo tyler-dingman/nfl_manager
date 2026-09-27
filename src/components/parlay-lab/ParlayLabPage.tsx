@@ -1,4 +1,9 @@
 'use client';
+import { PlayerTableHeader } from '@/components/players/responsive-player-table';
+import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
+import { ResponsivePlayerRow } from '@/components/players/responsive-player-table';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
+import headingStyles from './panel-heading.module.css';
 import {
   FlaskConical,
   Beaker,
@@ -498,7 +503,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
             <section className={styles.matchupCard}>
               <label>
                 Matchup
-                <select
+                <ResponsivePlayerSelect
                   value={eventId}
                   onChange={(changeEvent) => {
                     if (changeEvent.target.value === 'ALL') {
@@ -516,7 +521,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                       {fullTeamName(item.awayTeamId)} @ {fullTeamName(item.homeTeamId)}
                     </option>
                   ))}
-                </select>
+                </ResponsivePlayerSelect>
               </label>
               {event && (
                 <div className={styles.matchup}>
@@ -602,7 +607,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                       {value === 'ALL' ? 'All Books' : sportsbookName(value)}
                     </button>
                   ))}
-                  <select
+                  <ResponsivePlayerSelect
                     className={styles.oddsFilter}
                     value={oddsFilter}
                     onChange={(event) => setOddsFilter(event.target.value as OddsFilter)}
@@ -616,7 +621,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                     <option value="-150">-150 or Better</option>
                     <option value="-120">-120 or Better</option>
                     <option value="PLUS">Plus Money</option>
-                  </select>
+                  </ResponsivePlayerSelect>
                 </div>
               </div>
             </div>
@@ -664,7 +669,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                       <div
                         className={`${styles.marketTable} ${book !== 'ALL' ? styles.singleBook : ''}`}
                       >
-                        <div
+                        <PlayerTableHeader
                           className={styles.tableHeader}
                           style={{
                             gridTemplateColumns: `minmax(250px, 1fr) repeat(${book === 'ALL' ? SPORTSBOOKS.length : 1}, 130px) 50px`,
@@ -689,7 +694,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                             />
                           ))}
                           <span>Add</span>
-                        </div>
+                        </PlayerTableHeader>
                         {sortTableRows(rows, columnSort, {
                           market: (row) => rowName(row.market),
                           ...Object.fromEntries(
@@ -715,7 +720,13 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                                   : row.prices[book],
                               picked = slip.find((item) => item.id === row.id);
                             return (
-                              <article
+                              <ResponsivePlayerRow
+                                actionColumn={visibleBooks.length + 1}
+                                labels={[
+                                  'Player / prop',
+                                  ...visibleBooks.map((book) => book.name),
+                                  'Add',
+                                ]}
                                 className={styles.marketRow}
                                 key={row.id}
                                 style={{
@@ -766,7 +777,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                                 >
                                   {selected(row.id) ? <Check /> : <Plus />}
                                 </button>
-                              </article>
+                              </ResponsivePlayerRow>
                             );
                           })}
                       </div>
@@ -776,22 +787,24 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
               })}
             </div>
           </section>
-          <MyParlayPanel
-            legs={slip}
-            markets={available}
-            matchup={event ? `${event.awayTeamId} @ ${event.homeTeamId}` : 'NFL'}
-            marketLabel={marketLabel}
-            pickLabel={sportsbookLineLabel}
-            onRemove={removeSelection}
-            onClear={clearSlip}
-            onSave={saveSlip}
-            onResearch={setLabCheck}
-            buildBookLink={buildSportsbookLink}
-            avatarColor={avatarColor}
-          />
+          <ResponsiveRail stackAt={850} style={{ display: 'contents' }}>
+            <MyParlayPanel
+              legs={slip}
+              markets={available}
+              matchup={event ? `${event.awayTeamId} @ ${event.homeTeamId}` : 'NFL'}
+              marketLabel={marketLabel}
+              pickLabel={sportsbookLineLabel}
+              onRemove={removeSelection}
+              onClear={clearSlip}
+              onSave={saveSlip}
+              onResearch={setLabCheck}
+              buildBookLink={buildSportsbookLink}
+              avatarColor={avatarColor}
+            />
+          </ResponsiveRail>
           <aside className={styles.slip} hidden>
             <div className={styles.slipHeading}>
-              <h2>
+              <h2 className={headingStyles.heading}>
                 My Parlay <span>{slip.length}</span>
               </h2>
               <button type="button" disabled={!slip.length} onClick={clearSlip}>

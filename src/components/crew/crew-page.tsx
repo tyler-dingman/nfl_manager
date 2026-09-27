@@ -3,6 +3,7 @@
 /* Authenticated Crew media must be loaded with the viewer's cookies, not Next image optimization. */
 /* eslint-disable @next/next/no-img-element */
 
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import {
@@ -252,7 +253,7 @@ export default function CrewPage() {
                           leaderboard={() => setTab('leaderboard')}
                         />
                       </div>
-                      <aside className={styles.sidebar}>
+                      <ResponsiveRail stackAt="profile" className={styles.sidebar}>
                         <section className={styles.card}>
                           <div className={styles.cardHeading}>
                             <h2>CREW MEMBERS ({crew.members.length})</h2>
@@ -332,7 +333,7 @@ export default function CrewPage() {
                             </p>
                           )}
                         </section>
-                      </aside>
+                      </ResponsiveRail>
                     </div>
                   ) : tab === 'members' ? (
                     <Members crew={crew} currentUserId={user.id} remove={remove} />

@@ -1,5 +1,7 @@
 'use client';
 
+import { ResponsivePlayerButton } from '@/components/players/responsive-player-table';
+import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
 import Image from 'next/image';
 import PlayerDetailsModal from '@/components/player-details-modal';
 import Link from 'next/link';
@@ -161,7 +163,7 @@ function AssetBrowser({
                 aria-label="Search trade players"
               />
             </label>
-            <select
+            <ResponsivePlayerSelect
               value={position}
               onChange={(event) => setPosition(event.target.value)}
               aria-label="Position filter"
@@ -170,8 +172,8 @@ function AssetBrowser({
               {positions.map((item) => (
                 <option key={item}>{item}</option>
               ))}
-            </select>
-            <select
+            </ResponsivePlayerSelect>
+            <ResponsivePlayerSelect
               value={contract}
               onChange={(event) => setContract(event.target.value)}
               aria-label="Contract filter"
@@ -179,7 +181,7 @@ function AssetBrowser({
               <option value="ALL">All contracts</option>
               <option value="EXPIRING">Expiring</option>
               <option value="MULTI">Multi-year</option>
-            </select>
+            </ResponsivePlayerSelect>
           </div>
           <div className={styles.tableHead}>
             <span>Player</span>
@@ -192,7 +194,9 @@ function AssetBrowser({
               const checked = selectedPlayers.has(player.id);
               return (
                 <div className={styles.assetRow} key={player.id}>
-                  <button
+                  <ResponsivePlayerButton
+                    identityColumn={1}
+                    labels={['Selected', 'Player', 'Position', 'Rating', 'Cap hit']}
                     disabled={disabled}
                     draggable={!disabled && !checked}
                     onDragStart={(event) => {
@@ -221,7 +225,7 @@ function AssetBrowser({
                     <span>{player.position}</span>
                     <span>{resolvePlayerRating(player) ?? '—'}</span>
                     <span>{player.capHit || '—'}</span>
-                  </button>
+                  </ResponsivePlayerButton>
                   <button
                     type="button"
                     className={styles.viewPlayer}
@@ -1039,7 +1043,7 @@ export function TradeHubPage() {
               </small>
             </span>
             <label className={styles.teamSelect}>
-              <select
+              <ResponsivePlayerSelect
                 disabled={busy || loading}
                 aria-label="Trade partner"
                 value={partner}
@@ -1052,7 +1056,7 @@ export function TradeHubPage() {
                       {team.name}
                     </option>
                   ))}
-              </select>
+              </ResponsivePlayerSelect>
               <ChevronDown />
             </label>
           </header>

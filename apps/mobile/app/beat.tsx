@@ -1,52 +1,96 @@
-import { type Href, router } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { PageScrollView as ScrollView } from '../components/page-scroll-view';
+import { type Href, router, useLocalSearchParams } from 'expo-router';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { C, Eyebrow, Heading } from '../components/screen';
-import { getBeat, type MobileBriefing } from '../lib/api';
+import { MobileFilterBar } from '../components/mobile-filter-bar';
+import { BEAT_PRIMARY, BEAT_SECONDARY, filterValue } from '../../../packages/filters';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getBeatPage, type MobileBriefing } from '../lib/api';
 import { useTeam } from '../lib/team-context';
 import { useTeamBranding } from '../lib/team-branding';
 
 export default function BeatScreen() {
   const { teamId } = useTeam();
+  const params = useLocalSearchParams<{ type?: string; sort?: string; range?: string }>();
+  const values = useMemo(
+    () => ({
+      type: filterValue(BEAT_PRIMARY[0], { type: params.type ?? 'ALL' }),
+      sort: filterValue(BEAT_PRIMARY[1], { sort: params.sort ?? 'UPDATED' }),
+      range: filterValue(BEAT_SECONDARY[0], { range: params.range ?? 'ALL' }),
+    }),
+    [params.type, params.sort, params.range],
+  );
+  const insets = useSafeAreaInsets();
+  const requestId = useRef(0);
+  const [pagination, setPagination] = useState({ totalItems: 0, totalPages: 0, page: 1 });
   const { theme } = useTeamBranding();
   const [items, setItems] = useState<MobileBriefing[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError('');
-    try {
-      setItems(await getBeat(teamId));
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'The Beat is unavailable.');
-    } finally {
-      setLoading(false);
-    }
-  }, [teamId]);
+  const load = useCallback(
+    async (page = 1) => {
+      const id = ++requestId.current;
+      setLoading(true);
+      setError('');
+      try {
+        const result = await getBeatPage(teamId, values, page);
+        if (id !== requestId.current) return;
+        setItems((current) => (page === 1 ? result.briefings : [...current, ...result.briefings]));
+        setPagination(result.pagination);
+      } catch (e) {
+        if (id !== requestId.current) return;
+        setError(e instanceof Error ? e.message : 'The Beat is unavailable.');
+      } finally {
+        if (id === requestId.current) setLoading(false);
+      }
+    },
+    [teamId, values],
+  );
+  const cancelRequests = useCallback(() => {
+    requestId.current++;
+  }, []);
   useEffect(() => {
+    setItems([]);
+    setPagination({ totalItems: 0, totalPages: 0, page: 1 });
     void load();
-  }, [load]);
+    return cancelRequests;
+  }, [load, cancelRequests]);
   return (
     <ScrollView
       style={s.page}
-      contentContainerStyle={s.body}
-      refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
+      contentContainerStyle={[
+        s.body,
+        {
+          paddingBottom: Math.max(40, insets.bottom),
+          paddingLeft: Math.max(12, insets.left),
+          paddingRight: Math.max(12, insets.right),
+        },
+      ]}
+      stickyHeaderIndices={[1]}
+      refreshControl={<RefreshControl refreshing={loading} onRefresh={() => void load()} />}
     >
-      <Eyebrow>{teamId} · THE BEAT</Eyebrow>
-      <Heading>What matters right now.</Heading>
-      <Text style={s.intro}>
-        One living story for each development, sourced and updated as the facts change.
+      <View>
+        <Eyebrow>{teamId} · THE BEAT</Eyebrow>
+        <Heading>What matters right now.</Heading>
+        <Text style={s.intro}>
+          One living story for each development, sourced and updated as the facts change.
+        </Text>
+      </View>
+      <MobileFilterBar
+        primary={BEAT_PRIMARY}
+        secondary={BEAT_SECONDARY}
+        values={values}
+        onChange={(changes) => router.setParams(changes)}
+      />
+      <Text accessibilityLiveRegion="polite" style={s.count}>
+        {pagination.totalItems} DEVELOPMENTS
       </Text>
       {loading && !items.length ? <ActivityIndicator color={theme.primary} /> : null}
       {error ? <Text style={s.error}>{error}</Text> : null}
+      {!loading && !error && !items.length && (
+        <Text style={s.intro}>No developments match those filters.</Text>
+      )}
       {items.map((item) => {
         const hot = Boolean(item.hotReadUntil && new Date(item.hotReadUntil) > new Date());
         return (
@@ -76,13 +120,25 @@ export default function BeatScreen() {
           </Pressable>
         );
       })}
+      {pagination.page < pagination.totalPages && (
+        <Pressable
+          accessibilityRole="button"
+          disabled={loading}
+          onPress={() => void load(pagination.page + 1)}
+          style={s.loadMore}
+        >
+          <Text>{loading ? 'Loading…' : 'Load more developments'}</Text>
+        </Pressable>
+      )}
     </ScrollView>
   );
 }
 const s = StyleSheet.create({
-  page: { flex: 1, backgroundColor: C.cream },
+  page: { flex: 1, backgroundColor: '#f4f6f8' },
   body: { padding: 18, paddingBottom: 40 },
   intro: { color: C.muted, lineHeight: 21, marginTop: 10, marginBottom: 22 },
+  count: { marginTop: 8, marginBottom: 8, fontSize: 12, fontWeight: '700', color: '#6d7f91' },
+  loadMore: { minHeight: 44, alignItems: 'center', justifyContent: 'center', padding: 12 },
   card: {
     backgroundColor: C.white,
     borderRadius: 18,

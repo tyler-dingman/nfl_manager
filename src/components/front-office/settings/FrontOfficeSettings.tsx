@@ -1,5 +1,6 @@
 'use client';
 
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -354,7 +355,7 @@ export function FrontOfficeSettings() {
             <Link href="/experience">View franchise options</Link>
           </section>
         </main>
-        <aside className={styles.help}>
+        <ResponsiveRail stackAt={1150} className={styles.help}>
           <section>
             <Volume2 />
             <h2>Settings follow you</h2>
@@ -371,7 +372,7 @@ export function FrontOfficeSettings() {
               completed.
             </p>
           </section>
-        </aside>
+        </ResponsiveRail>
       </div>
     </div>
   );

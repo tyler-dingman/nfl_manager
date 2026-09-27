@@ -76,10 +76,7 @@ export function BeatHero({ team }: { team?: Team }) {
   }, [abbr, key, user?.id]);
   const active = data?.key === key ? data : null;
   const stories = selectBeatHeroStories(active?.current ?? [], active?.catchUp);
-  const nickname =
-    TEAM_LIST.find((t) => t.abbr === abbr)
-      ?.name.split(' ')
-      .at(-1) ?? 'NFL';
+  const fanbase = TEAM_LIST.find((t) => t.abbr === abbr)?.fanbase ?? 'NFL NATION';
   const sourceCount = stories.reduce((sum, story) => sum + (story.sourceCount || 0), 0);
   const updates = stories.filter((story) => story.isNew).length;
   const latest = Math.max(
@@ -100,10 +97,10 @@ export function BeatHero({ team }: { team?: Team }) {
       firstWord="THE"
       accentWord="BEAT"
       variant="beat"
-      taglineLabel={`The pulse of ${nickname} Nation.`}
+      taglineLabel={`THE PULSE OF ${fanbase}. NEVER MISS A BEAT.`}
       tagline={
         <>
-          THE PULSE OF <tspan className={styles.nickname}>{nickname.toUpperCase()}</tspan> NATION.
+          THE PULSE OF <tspan className={styles.nickname}>{fanbase}</tspan>. NEVER MISS A BEAT.
         </>
       }
     >

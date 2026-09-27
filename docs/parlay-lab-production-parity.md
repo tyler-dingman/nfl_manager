@@ -74,3 +74,22 @@ The production commands require `PRODUCTION_DATABASE_URL`; they never log the UR
 7. Validate the protected production site with an authenticated preview session.
 
 `scripts/migrate-auth.ts` now includes migrations 038–040 so the standard migration path cannot silently stop before the current Parlay Lab schema. No Parlay Lab command truncates tables or touches authentication, profiles, saves, trivia, content, commerce, or other user state.
+
+## Local recovery on September 25, 2026
+
+The configured localhost `down_distance` database was missing all ten Parlay Lab tables.
+Applied the scoped schema and imported Week 3 markets through the quota-guarded importer.
+The historical importer also requires migration `042_canonical_schedule.sql`; both the
+scoped and shared migration runners now include it, and the audit checks its columns.
+
+For a newly initialized local database (with the base application migrations applied):
+
+```bash
+npm run parlay-lab:migrate -- --database=local
+npm run odds:import -- --season=2026 --week=3 --database=local
+npm run stats:import -- --seasons=2024,2025,2026 --database=local
+npm run parlay-lab:audit -- --database=local
+```
+
+Choose the upcoming season/week when repeating the odds import. Browsing Parlay Lab
+reads stored data and does not populate an empty database automatically.

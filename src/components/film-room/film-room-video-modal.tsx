@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { useEffect, useId, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { ExternalLink, X } from 'lucide-react';
@@ -60,13 +61,12 @@ export default function FilmRoomVideoModal({
     const scrollY = window.scrollY;
     const body = document.body;
     const previous = {
-      overflow: body.style.overflow,
       position: body.style.position,
       top: body.style.top,
       width: body.style.width,
     };
 
-    body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     body.style.position = 'fixed';
     body.style.top = `-${scrollY}px`;
     body.style.width = '100%';
@@ -100,7 +100,7 @@ export default function FilmRoomVideoModal({
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      body.style.overflow = previous.overflow;
+      releaseScroll();
       body.style.position = previous.position;
       body.style.top = previous.top;
       body.style.width = previous.width;

@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { ResponsiveFilterBar } from '@/components/filters/responsive-filter-bar';
+import { BEAT_PRIMARY, BEAT_SECONDARY, filterValue } from '../../packages/filters';
 import { BeatHero } from '@/components/beat/beat-hero';
 import { FrontOfficeStrategicHero } from '@/components/front-office/front-office-strategic-hero';
 import { useSaveStore } from '@/features/save/save-store';
@@ -209,16 +211,10 @@ export default function TeamContentHub({ kind }: { kind: HubKind }) {
   );
 }
 
-type BeatFilter = 'ALL' | 'HOT' | 'ROSTER' | 'INJURIES' | 'DRAFT' | 'GAMES';
-
-const beatFilters: Array<{ id: BeatFilter; label: string }> = [
-  { id: 'ALL', label: 'All' },
-  { id: 'HOT', label: 'Hot Reads' },
-  { id: 'ROSTER', label: 'Roster' },
-  { id: 'INJURIES', label: 'Injuries' },
-  { id: 'DRAFT', label: 'Draft' },
-  { id: 'GAMES', label: 'Games' },
-];
+const beatFilters = BEAT_PRIMARY[0].options.map((option) => ({
+  id: option.value,
+  label: option.label,
+}));
 
 function HuddleGrid({
   briefings,
@@ -236,9 +232,15 @@ function HuddleGrid({
   const pathname = usePathname();
   const { user, hydrated } = useAuthUser();
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
-  const filter = (searchParams?.get('type') ?? 'ALL').toUpperCase() as BeatFilter;
-  const timeRange = (searchParams?.get('range') ?? 'ALL').toUpperCase();
-  const sort = (searchParams?.get('sort') ?? 'UPDATED').toUpperCase() as 'UPDATED' | 'NEWEST';
+  const filter = filterValue(BEAT_PRIMARY[0], {
+    type: (searchParams?.get('type') ?? 'ALL').toUpperCase(),
+  });
+  const timeRange = filterValue(BEAT_SECONDARY[0], {
+    range: (searchParams?.get('range') ?? 'ALL').toUpperCase(),
+  });
+  const sort = filterValue(BEAT_PRIMARY[1], {
+    sort: (searchParams?.get('sort') ?? 'UPDATED').toUpperCase(),
+  });
 
   const updateUrl = (changes: Record<string, string | null>, resetPage = true) => {
     const params = new URLSearchParams(searchParams?.toString() ?? '');
@@ -298,64 +300,78 @@ function HuddleGrid({
 
   return (
     <section aria-labelledby="beat-stories-heading">
-      <div className="flex flex-col gap-4 border-b border-[#00172B]/10 pb-5 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <h2 id="beat-stories-heading" className="sr-only">
-            The Beat stories
-          </h2>
-          <div className="flex flex-wrap gap-2" aria-label="Filter Beat stories">
-            {beatFilters.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => updateUrl({ type: item.id })}
-                aria-pressed={filter === item.id}
-                className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30 ${
-                  filter === item.id
-                    ? 'border-[var(--dark)] bg-[var(--dark)] text-[var(--team-on-dark)]'
-                    : 'border-[#00172B]/15 bg-white text-[#40556b] hover:border-[var(--primary)]'
-                }`}
+      <h2 id="beat-stories-heading" className="sr-only">
+        The Beat stories
+      </h2>
+      <ResponsiveFilterBar
+        primary={BEAT_PRIMARY}
+        secondary={BEAT_SECONDARY}
+        values={{ type: filter, sort, range: timeRange }}
+        onChange={updateUrl}
+      >
+        <div className="flex flex-col gap-4 border-b border-[#00172B]/10 pb-5 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <div className="flex flex-wrap gap-2" aria-label="Filter Beat stories">
+              {beatFilters.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => updateUrl({ type: item.id })}
+                  aria-pressed={filter === item.id}
+                  className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--primary)]/30 ${
+                    filter === item.id
+                      ? 'border-[var(--dark)] bg-[var(--dark)] text-[var(--team-on-dark)]'
+                      : 'border-[#00172B]/15 bg-white text-[#40556b] hover:border-[var(--primary)]'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <label className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.1em] text-[#52677c]">
+              Sort
+              <select
+                value={sort}
+                onChange={(event) => updateUrl({ sort: event.target.value })}
+                className="h-10 rounded-full border border-[#00172B]/15 bg-white px-4 font-bold normal-case tracking-normal text-[#00172B] outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
               >
-                {item.label}
-              </button>
-            ))}
+                {BEAT_PRIMARY[1].options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.1em] text-[#52677c]">
+              Time
+              <select
+                value={timeRange}
+                onChange={(event) => updateUrl({ range: event.target.value })}
+                className="h-10 rounded-full border border-[#00172B]/15 bg-white px-4 font-bold normal-case tracking-normal text-[#00172B] outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
+              >
+                {BEAT_SECONDARY[0].options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <label className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.1em] text-[#52677c]">
-            Sort
-            <select
-              value={sort}
-              onChange={(event) => updateUrl({ sort: event.target.value })}
-              className="h-10 rounded-full border border-[#00172B]/15 bg-white px-4 font-bold normal-case tracking-normal text-[#00172B] outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
-            >
-              <option value="UPDATED">Recently updated</option>
-              <option value="NEWEST">Newest</option>
-            </select>
-          </label>
-          <label className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.1em] text-[#52677c]">
-            Time
-            <select
-              value={timeRange}
-              onChange={(event) => updateUrl({ range: event.target.value })}
-              className="h-10 rounded-full border border-[#00172B]/15 bg-white px-4 font-bold normal-case tracking-normal text-[#00172B] outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/20"
-            >
-              <option value="TODAY">Today</option>
-              <option value="WEEK">This week</option>
-              <option value="MONTH">This month</option>
-              <option value="ALL">All time</option>
-            </select>
-          </label>
-        </div>
-      </div>
-
-      <p className="mt-5 text-xs font-bold text-[#6d7f91]" role="status" aria-live="polite">
+      </ResponsiveFilterBar>
+      <p
+        className="mt-2 text-xs font-bold uppercase text-[#6d7f91] md:mt-5"
+        role="status"
+        aria-live="polite"
+      >
         {pagination.totalItems} {pagination.totalItems === 1 ? 'development' : 'developments'}
       </p>
 
       <div
         id="beat-feed-start"
-        className="mt-4 grid min-h-[30rem] items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        className="mt-2 grid min-h-[30rem] md:mt-4 items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         aria-busy={loading}
       >
         {loading ? (

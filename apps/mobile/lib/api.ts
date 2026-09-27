@@ -279,6 +279,13 @@ export type MobileBriefing = {
   sourceCount: number;
   sources: Array<{ id: string; publisher: string; url: string; kind?: string; title?: string }>;
 };
+export async function getBeatPage(teamId: string, filters: Record<string, string> = {}, page = 1) {
+  const query = new URLSearchParams({ ...filters, team: teamId, page: String(page) });
+  return request<{
+    briefings: MobileBriefing[];
+    pagination: { totalItems: number; totalPages: number; page: number };
+  }>(`/api/content/huddle?${query}`);
+}
 export async function getBeat(teamId: string) {
   return (await request<{ briefings: MobileBriefing[] }>(`/api/content/huddle?team=${teamId}`))
     .briefings;
@@ -289,6 +296,8 @@ export async function getBeatStory(storyId: string, teamId: string) {
   );
 }
 export type MobileFilmVideo = {
+  addedAt?: string;
+  viewCount?: number | null;
   id: string;
   category: string;
   title: string;
@@ -296,7 +305,7 @@ export type MobileFilmVideo = {
   thumbnail: string;
   duration: string;
   publishedAt: string | null;
-  channel: { id: string; name: string };
+  channel: { id: string; name: string; avatar?: string | null; subscriberCount?: number | null };
   youtubeUrl: string;
   channelUrl: string;
 };

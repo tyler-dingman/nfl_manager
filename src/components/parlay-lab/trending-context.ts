@@ -4,20 +4,20 @@ export const LAB_SCORE_TIERS = [
     min: 90,
     label: 'HIGH',
     range: '90–100',
-    description: 'High alignment among the available trend signals.',
+    description: 'Strong trend alignment.',
   },
   {
     min: 70,
     label: 'GOOD',
     range: '70–89',
-    description: 'Generally supportive historical trend signals.',
+    description: 'Supportive trend alignment.',
   },
-  { min: 50, label: 'MODERATE', range: '50–69', description: 'Mixed historical trend signals.' },
+  { min: 50, label: 'MODERATE', range: '50–69', description: 'Mixed trend signals.' },
   {
     min: 0,
     label: 'LOW',
     range: '0–49',
-    description: 'Lower alignment among the available signals.',
+    description: 'Limited trend alignment.',
   },
 ] as const;
 export const labScoreTier = (score: number) =>

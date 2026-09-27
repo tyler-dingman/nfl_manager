@@ -1,0 +1,87 @@
+.footer {
+  width: 100%;
+  min-width: 0;
+  border-top: 1px solid #ffffff1a;
+  background: #00121b;
+  color: white;
+}
+.inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px max(16px, env(safe-area-inset-right))
+    calc(20px + env(safe-area-inset-bottom) + var(--app-bottom-navigation-height, 0px))
+    max(16px, env(safe-area-inset-left));
+}
+.mobileLogo {
+  display: inline-flex;
+  min-height: 44px;
+}
+.desktopBrand {
+  display: none;
+}
+.primary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 12px;
+  gap: 0 8px;
+}
+.primary a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.information {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 16px;
+  color: #b4c2ca;
+  font-size: 12px;
+}
+.copyright {
+  display: block;
+  margin-top: 16px;
+  color: #b4c2ca;
+  font-size: 11px;
+}
+.footer a:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+@media (min-width: 768px) {
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 32px 24px;
+  }
+  .mobileLogo,
+  .primary,
+  .copyright {
+    display: none;
+  }
+  .desktopBrand {
+    display: block;
+    font-family: var(--font-front-office-barlow), sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .information {
+    margin: 0;
+    gap: 20px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+@media (min-width: 1024px) {
+  .inner {
+    padding-inline: 32px;
+  }
+}

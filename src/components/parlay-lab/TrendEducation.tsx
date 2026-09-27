@@ -196,18 +196,12 @@ export function LabScoreGuide() {
       {LAB_SCORE_TIERS.map((tier) => (
         <div key={tier.label}>
           <b>
-            {tier.range} <span>{tier.label}</span>
+            {tier.range} · <span>{tier.label}</span>
           </b>
           <p>{tier.description}</p>
         </div>
       ))}
-      <strong className={styles.warning}>
-        Research strength, not hit probability or betting value.
-      </strong>
-      <p>
-        Sample confidence is separate from score. Easier alt lines can score highly despite heavily
-        juiced odds.
-      </p>
+      <strong className={styles.warning}>Research strength, not win probability.</strong>
     </section>
   );
 }

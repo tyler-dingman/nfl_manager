@@ -90,6 +90,7 @@ export function calculatePlayerPropTrend(games: HistoricalPlayerGame[], input: P
   return {
     last5,
     last10,
+    last20: windowResult(values.slice(0, 20), input.line, input.side),
     season,
     last2Years: all,
     vsOpponent: { ...vsOpponent, average: mean(opponentRows.map((r) => r.value)) },

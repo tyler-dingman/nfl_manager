@@ -1,5 +1,6 @@
+import { PageScrollView as ScrollView } from '../../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { C, Eyebrow, Heading } from '../../components/screen';
 import { StoryCard } from '../../components/story-card';
 import { getThree } from '../../lib/api';
@@ -34,11 +35,20 @@ export default function Three() {
       <Eyebrow>WHAT MATTERS RIGHT NOW</Eyebrow>
       <Heading>Three and Out</Heading>
       <Text style={s.intro}>The three biggest team stories, ranked, sourced, and explained.</Text>
-      {error ? <View style={s.state}><Text style={s.error}>{error}</Text><Pressable onPress={() => void load()}><Text style={s.retry}>TRY AGAIN →</Text></Pressable></View> : null}
+      {error ? (
+        <View style={s.state}>
+          <Text style={s.error}>{error}</Text>
+          <Pressable onPress={() => void load()}>
+            <Text style={s.retry}>TRY AGAIN →</Text>
+          </Pressable>
+        </View>
+      ) : null}
       {stories.map((story, i) => (
         <StoryCard key={story.id} story={story} down={`${['1ST', '2ND', '3RD'][i]} DOWN`} />
       ))}
-      {!loading && !error && stories.length === 0 ? <Text style={s.empty}>No stories are ready yet. Pull down to check again.</Text> : null}
+      {!loading && !error && stories.length === 0 ? (
+        <Text style={s.empty}>No stories are ready yet. Pull down to check again.</Text>
+      ) : null}
     </ScrollView>
   );
 }

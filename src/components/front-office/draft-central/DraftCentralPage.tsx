@@ -1,4 +1,7 @@
 'use client';
+import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
+import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -266,7 +269,7 @@ export function DraftCentralPage() {
           <header>
             <h2>Top Prospects</h2>
             <div className={styles.filters}>
-              <select
+              <ResponsivePlayerSelect
                 aria-label="Prospect position"
                 value={position}
                 onChange={(e) => setPosition(e.target.value)}
@@ -277,8 +280,8 @@ export function DraftCentralPage() {
                   .map((p) => (
                     <option key={p!}>{p}</option>
                   ))}
-              </select>
-              <select
+              </ResponsivePlayerSelect>
+              <ResponsivePlayerSelect
                 aria-label="Prospect conference"
                 title={
                   !conferences.length ? 'Conference data is unavailable for this class' : undefined
@@ -291,8 +294,8 @@ export function DraftCentralPage() {
                 {conferences.map((c) => (
                   <option key={c}>{c}</option>
                 ))}
-              </select>
-              <select
+              </ResponsivePlayerSelect>
+              <ResponsivePlayerSelect
                 aria-label="Prospect ranking range"
                 value={limit}
                 onChange={(e) => setLimit(Number(e.target.value))}
@@ -301,14 +304,14 @@ export function DraftCentralPage() {
                 <option value={50}>Top 50</option>
                 <option value={32}>First Round</option>
                 <option value={9999}>All Prospects</option>
-              </select>
+              </ResponsivePlayerSelect>
             </div>
             <Link href="/front-office/draft/prospects">
               View All <ArrowRight size={12} />
             </Link>
           </header>
           <div className={styles.tableScroll}>
-            <table>
+            <ResponsivePlayerTable identityColumn={1} actionColumn={8}>
               <thead>
                 <tr>
                   {['Rank', 'Player', 'Pos', 'School', 'HT', 'WT', 'OVR', 'Grade', ''].map(
@@ -346,12 +349,12 @@ export function DraftCentralPage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </ResponsivePlayerTable>
           </div>
           {!prospects.length && <p>No prospects match these filters.</p>}
         </section>
       </div>
-      <aside className={styles.rail} aria-label="Draft tools">
+      <ResponsiveRail stackAt={900} className={styles.rail} aria-label="Draft tools">
         <section className={styles.advance}>
           <FrontOfficePhaseControl
             season={save.franchiseYear}
@@ -407,7 +410,7 @@ export function DraftCentralPage() {
         <section className={styles.panel}>
           <header>
             <h2>{team?.name.split(' ').slice(-1)[0] ?? save.teamAbbr} Draft Picks</h2>
-            <select
+            <ResponsivePlayerSelect
               aria-label="Draft picks year"
               value={selectedYear}
               onChange={(e) => setYear(Number(e.target.value))}
@@ -415,7 +418,7 @@ export function DraftCentralPage() {
               {years.map((y) => (
                 <option key={y}>{y}</option>
               ))}
-            </select>
+            </ResponsivePlayerSelect>
           </header>
           {picks.map((p) => (
             <Link className={styles.pick} href="/front-office/draft/room?mode=mock" key={p.id}>
@@ -456,7 +459,7 @@ export function DraftCentralPage() {
             </Link>
           ))}
         </section>
-      </aside>
+      </ResponsiveRail>
     </div>
   );
 }

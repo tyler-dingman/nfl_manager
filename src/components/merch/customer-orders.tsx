@@ -1,4 +1,5 @@
 'use client';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import MainSiteHeader from '@/components/main-site-header';
@@ -114,27 +115,29 @@ export function CustomerOrderDetail({ orderId }: { orderId: string }) {
             </div>
           ))}
         </section>
-        <section className="rounded-2xl bg-white p-6">
-          <h2 className="font-black">ORDER SUMMARY</h2>
-          {[
-            ['Subtotal', order.subtotal_cents],
-            ['Discount', -order.discount_total_cents],
-            ['Shipping', order.shipping_total_cents],
-            ['Estimated tax', order.tax_total_cents],
-            ['Total', order.total_cents],
-            ...(order.refunded_total_cents > 0
-              ? [
-                  ['Refunded', -order.refunded_total_cents],
-                  ['Net paid', order.total_cents - order.refunded_total_cents],
-                ]
-              : []),
-          ].map(([label, value]) => (
-            <div key={String(label)} className="mt-3 flex justify-between">
-              <span>{label}</span>
-              <b>{money(Number(value))}</b>
-            </div>
-          ))}
-        </section>
+        <ResponsiveRail>
+          <section className="rounded-2xl bg-white p-6">
+            <h2 className="font-black">ORDER SUMMARY</h2>
+            {[
+              ['Subtotal', order.subtotal_cents],
+              ['Discount', -order.discount_total_cents],
+              ['Shipping', order.shipping_total_cents],
+              ['Estimated tax', order.tax_total_cents],
+              ['Total', order.total_cents],
+              ...(order.refunded_total_cents > 0
+                ? [
+                    ['Refunded', -order.refunded_total_cents],
+                    ['Net paid', order.total_cents - order.refunded_total_cents],
+                  ]
+                : []),
+            ].map(([label, value]) => (
+              <div key={String(label)} className="mt-3 flex justify-between">
+                <span>{label}</span>
+                <b>{money(Number(value))}</b>
+              </div>
+            ))}
+          </section>
+        </ResponsiveRail>
       </div>
       <section className="mt-6 rounded-2xl bg-white p-6">
         <h2 className="font-black">ORDER STATUS</h2>

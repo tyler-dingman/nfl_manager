@@ -1,17 +1,6 @@
-import type { CuratedFilmRoomVideo, FilmRoomCategory } from '@/features/film-room/types';
+import type { CuratedFilmRoomVideo } from '@/features/film-room/types';
 
-export const FILM_ROOM_CATEGORIES: ReadonlyArray<{
-  id: 'all' | FilmRoomCategory;
-  label: string;
-}> = [
-  { id: 'all', label: 'All' },
-  { id: 'press-conferences', label: 'Press Conferences' },
-  { id: 'film-room', label: 'Film Room' },
-  { id: 'podcasts', label: 'Podcasts' },
-  { id: 'local-shows', label: 'Local Shows' },
-  { id: 'player-interviews', label: 'Player Interviews' },
-  { id: 'fan-creators', label: 'Fan Creators' },
-];
+export { FILM_ROOM_CATEGORIES } from '../../packages/filters/film-room';
 
 // Editorial inputs are intentionally separate from YouTube metadata. An automated
 // curation process can replace this list later without changing the Film Room UI.

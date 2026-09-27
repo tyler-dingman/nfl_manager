@@ -1,4 +1,8 @@
 'use client';
+import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
+import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
+import headingStyles from './panel-heading.module.css';
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -11,6 +15,7 @@ import { getEditorialHeroTheme } from '@/lib/team-theme-tokens';
 import { DdGameCenterIcon, DdTeamAnalyticsIcon } from '@/components/ui/football-icons';
 import { NextGameHeroCard } from '@/components/home/next-game-hero-card';
 import { LabTrendsIcon, LabStatsIcon, LabInsightsIcon, LabExperimentIcon } from './lab-icons';
+import { AltStackCard } from './alt-stack-card';
 import { ParlayLabHero } from './parlay-lab-hero';
 import PlayerAvatar from './PlayerAvatar';
 import type { HomeMarket } from './ParlayLabHome';
@@ -100,7 +105,7 @@ function Panel({
   return (
     <section className="lab-panel">
       <header>
-        <h2>
+        <h2 className={title === 'Next Game' ? headingStyles.heading : undefined}>
           {icon}
           {title}
         </h2>
@@ -182,7 +187,7 @@ function Movement({
       )}
       {tab !== 'Most Bet' && rows.length ? (
         <div className="lab-table-scroll">
-          <table>
+          <ResponsivePlayerTable>
             <thead>
               <tr>
                 <ParlaySortHeader
@@ -246,7 +251,7 @@ function Movement({
                 );
               })}
             </tbody>
-          </table>
+          </ResponsivePlayerTable>
         </div>
       ) : (
         <div className="lab-empty">
@@ -470,13 +475,13 @@ export function DashboardContent({
     set: (s: string) => void,
     options: [string, string][],
   ) => (
-    <select aria-label={title} value={value} onChange={(e) => set(e.target.value)}>
+    <ResponsivePlayerSelect aria-label={title} value={value} onChange={(e) => set(e.target.value)}>
       {options.map(([v, t]) => (
         <option key={v} value={v}>
           {t}
         </option>
       ))}
-    </select>
+    </ResponsivePlayerSelect>
   );
   const gameFeature = (
     <div className="lab-game-feature">
@@ -658,7 +663,7 @@ export function DashboardContent({
         </label>
       </div>
       <div className="lab-table-scroll">
-        <table>
+        <ResponsivePlayerTable identityColumn={1}>
           <thead>
             <tr>
               <ParlaySortHeader
@@ -782,7 +787,7 @@ export function DashboardContent({
               </tr>
             ))}
           </tbody>
-        </table>
+        </ResponsivePlayerTable>
       </div>
       {!visible.length && (
         <p className="lab-empty">
@@ -805,7 +810,7 @@ export function DashboardContent({
     </section>
   );
   const rail = (
-    <aside className="lab-right-rail">
+    <ResponsiveRail stackAt={900} className="lab-right-rail">
       {mode !== 'home' && (
         <Panel
           title={mode === 'games' ? 'Game Insights' : 'Quick Insights'}
@@ -877,7 +882,7 @@ export function DashboardContent({
         </Panel>
       )}
       {mode === 'trends' ? <Movement alerts markets={unique} onOpen={onOpen} /> : <LabScoreGuide />}
-    </aside>
+    </ResponsiveRail>
   );
   let simple: ReactNode = null;
   if (mode === 'players')
@@ -988,7 +993,7 @@ export function DashboardContent({
                 {mode === 'games' ? (
                   <div className="lab-research-team">
                     {team && <Logo abbr={team.abbr} />}
-                    <select
+                    <ResponsivePlayerSelect
                       aria-label="Research team"
                       value={team?.abbr ?? ''}
                       onChange={(e) => changeResearchTeam(e.target.value)}
@@ -998,7 +1003,7 @@ export function DashboardContent({
                           {t.name}
                         </option>
                       ))}
-                    </select>
+                    </ResponsivePlayerSelect>
                   </div>
                 ) : (
                   next && (
@@ -1032,6 +1037,7 @@ export function DashboardContent({
             ) : (
               spotlight
             )}
+            {mode === 'home' && <AltStackCard teamAbbr={team?.abbr} />}
             <div
               className={
                 mode === 'home' ? 'lab-home-bottom' : mode === 'games' ? 'lab-game-bottom' : ''

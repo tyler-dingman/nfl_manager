@@ -1,6 +1,7 @@
+import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { getCommerceOrders } from '../lib/api';
 import { C, Heading } from '../components/screen';
 const money = (c: number) => `$${(c / 100).toFixed(2)}`;

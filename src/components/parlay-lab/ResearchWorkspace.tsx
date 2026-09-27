@@ -1,4 +1,5 @@
 'use client';
+import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import {
   Lightbulb,
   UserRound,
@@ -374,7 +375,7 @@ export default function ResearchWorkspace({
                     </div>
                   </div>
                 </div>
-                <aside className={styles.right}>
+                <ResponsiveRail stackAt={850} className={styles.right}>
                   <section className={styles.card}>
                     <button className={styles.cardTitle} onClick={() => changeTab('Matchup')}>
                       Next Game
@@ -476,7 +477,7 @@ export default function ResearchWorkspace({
                       ))}
                     </div>
                   </section>
-                </aside>
+                </ResponsiveRail>
               </div>
               <footer className={styles.statStrip}>
                 {(

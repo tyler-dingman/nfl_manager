@@ -346,3 +346,11 @@
     font-size: 54px;
   }
 }
+
+.trendIcon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.12em;
+  stroke: currentColor;
+}

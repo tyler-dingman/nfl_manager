@@ -1,5 +1,6 @@
+import { PageScrollView as ScrollView } from './page-scroll-view';
 import type { PropsWithChildren } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTeamBranding } from '../lib/team-branding';
 export const C = {
@@ -35,7 +36,8 @@ export function Heading({ children }: { children: React.ReactNode }) {
 }
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: C.cream },
-  body: { paddingBottom: 36 },
+  // A stacked screen fills its safe-area container; child sections inherit its gutters.
+  body: { paddingBottom: 36, width: '100%', minWidth: 0, alignItems: 'stretch' },
   eyebrow: { fontSize: 13, fontWeight: '900', letterSpacing: 1.6, marginBottom: 7 },
   heading: { fontSize: 28, lineHeight: 31, color: C.ink, fontWeight: '900' },
 });

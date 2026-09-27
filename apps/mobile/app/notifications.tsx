@@ -1,6 +1,7 @@
+import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { type Href, router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { C, Eyebrow, Heading } from '../components/screen';
 import { getNotifications, updateNotifications, type MobileNotification } from '../lib/api';
 

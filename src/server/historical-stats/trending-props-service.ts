@@ -13,6 +13,8 @@ export const supportsFullGameResearch = (period: unknown) => period === 'game';
 type LocalMarket = {
   id: string;
   marketType: string;
+  lineType?: 'main' | 'alternate' | 'unknown';
+  mainLine?: number | null;
   statId: string;
   playerId: string | null;
   teamId: string | null;

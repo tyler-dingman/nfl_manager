@@ -53,12 +53,14 @@ export default function ShareToCrewButton({
   href,
   title,
   className = '',
+  label = 'Share with the Crew',
 }: {
   contentId: string;
   contentType: 'BEAT_STORY' | 'FILM_ROOM' | 'GAME_DAY' | 'TRIVIA' | 'FRONT_OFFICE';
   href: string;
   title: string;
   className?: string;
+  label?: string;
 }) {
   const [open, setOpen] = useState(false),
     [loading, setLoading] = useState(false),
@@ -130,7 +132,7 @@ export default function ShareToCrewButton({
         aria-label="Share with the Crew"
       >
         <Share2 className="h-4 w-4" />
-        Share with the Crew
+        {label}
       </button>
       {open ? (
         <div

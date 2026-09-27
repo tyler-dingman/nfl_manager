@@ -3556,6 +3556,11 @@ table td {
   .trivia-weekly header {
     flex-wrap: wrap;
   }
+  .trivia-weekly header > span {
+    flex-basis: 100%;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 @media (max-width: 767px) {

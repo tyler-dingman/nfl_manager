@@ -1,5 +1,6 @@
 'use client';
 
+import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
 import * as React from 'react';
 import {
   type ColumnDef,
@@ -21,6 +22,8 @@ import {
   X,
 } from 'lucide-react';
 
+import { ResponsiveFilterBar } from '@/components/filters/responsive-filter-bar';
+import type { FilterField } from '../../packages/filters';
 import toolbarStyles from './player-filter-toolbar.module.css';
 
 import PlayerRowActions, { type PlayerRowActionsVariant } from '@/components/player-row-actions';
@@ -80,6 +83,19 @@ type PlayerColumnDef = ColumnDef<PlayerRowDTO> & {
   };
 };
 
+const PLAYER_COLUMN_LABELS: Record<string, string> = {
+  name: 'Player',
+  position: 'Position',
+  age: 'Age',
+  contractYearsRemaining: 'Contract years',
+  capHitValue: 'Cap hit',
+  capSavings: 'Release savings',
+  rating: 'Rating',
+  contractAsk: 'Asking price',
+  demandTier: 'Demand',
+  actions: 'Actions',
+  rank: 'Rank',
+};
 export const PLAYER_TABLE_HEADING_CLASS =
   'inline-flex items-center gap-1 text-left text-xs font-semibold uppercase text-muted-foreground';
 
@@ -269,12 +285,18 @@ export function PlayerFilterToolbar({
   query,
   onQueryChange,
   onReset,
+  sortField,
+  sortValue,
+  onSort,
 }: {
   active: string;
   onSelect: (value: string) => void;
   query?: string;
   onQueryChange?: (value: string) => void;
   onReset?: () => void;
+  sortField?: FilterField;
+  sortValue?: string;
+  onSort?: (value: string) => void;
 }) {
   const [open, setOpen] = React.useState(false);
   const expanded = open || Boolean(query);
@@ -290,66 +312,103 @@ export function PlayerFilterToolbar({
     requestAnimationFrame(() => triggerRef.current?.focus());
   };
   return (
-    <div className={toolbarStyles.toolbar} data-search-open={expanded}>
-      <div className={toolbarStyles.positions}>
-        <PositionFilterBar active={active} onSelect={onSelect} />
-      </div>
+    <>
       {onQueryChange && (
-        <div
-          className={toolbarStyles.search}
-          onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget) && !query) setOpen(false);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === 'Escape') {
-              event.preventDefault();
-              event.stopPropagation();
-              closeSearch();
-            }
-          }}
-        >
-          {expanded && (
-            <input
-              ref={inputRef}
-              id={searchId}
-              type="search"
-              aria-label="Search players"
-              placeholder="Search players..."
-              value={query ?? ''}
-              onChange={(event) => onQueryChange(event.target.value)}
-            />
-          )}
-          <button
-            ref={triggerRef}
-            type="button"
-            aria-label={expanded ? 'Clear search and close' : 'Open player search'}
-            aria-expanded={expanded}
-            aria-controls={expanded ? searchId : undefined}
-            onClick={() => (expanded ? closeSearch() : setOpen(true))}
-          >
-            {expanded ? <X aria-hidden="true" /> : <Search aria-hidden="true" />}
-          </button>
+        <div className="mb-2 md:hidden">
+          <input
+            type="search"
+            aria-label="Search players"
+            placeholder="Search players…"
+            value={query ?? ''}
+            onChange={(e) => onQueryChange(e.target.value)}
+            className="min-h-11 w-full rounded-xl border border-border bg-transparent px-3 text-sm"
+          />
         </div>
       )}
-      {onReset && (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              aria-label="Player table options"
-              size="icon"
-              className="h-10 w-10 shrink-0"
+      <ResponsiveFilterBar
+        primary={[
+          {
+            key: 'position',
+            label: 'Position',
+            defaultValue: 'All',
+            options: POSITION_FILTERS.map((value) => ({
+              value,
+              label: POSITION_FILTER_LABELS[value],
+            })),
+          },
+          ...(sortField ? [sortField] : []),
+        ]}
+        secondary={[]}
+        values={{ position: active, sort: sortValue ?? '' }}
+        onChange={(changes) => {
+          if (changes.position) onSelect(changes.position);
+          if (changes.sort) onSort?.(changes.sort);
+        }}
+      >
+        <div className={toolbarStyles.toolbar} data-search-open={expanded}>
+          <div className={toolbarStyles.positions}>
+            <PositionFilterBar active={active} onSelect={onSelect} />
+          </div>
+          {onQueryChange && (
+            <div
+              className={toolbarStyles.search}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget) && !query) setOpen(false);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Escape') {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  closeSearch();
+                }
+              }}
             >
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={onReset}>Reset filters</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onQueryChange?.('')}>Clear search</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
-    </div>
+              {expanded && (
+                <input
+                  ref={inputRef}
+                  id={searchId}
+                  type="search"
+                  aria-label="Search players"
+                  placeholder="Search players..."
+                  value={query ?? ''}
+                  onChange={(event) => onQueryChange(event.target.value)}
+                />
+              )}
+              <button
+                ref={triggerRef}
+                type="button"
+                aria-label={expanded ? 'Clear search and close' : 'Open player search'}
+                aria-expanded={expanded}
+                aria-controls={expanded ? searchId : undefined}
+                onClick={() => (expanded ? closeSearch() : setOpen(true))}
+              >
+                {expanded ? <X aria-hidden="true" /> : <Search aria-hidden="true" />}
+              </button>
+            </div>
+          )}
+          {onReset && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  aria-label="Player table options"
+                  size="icon"
+                  className="h-10 w-10 shrink-0"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={onReset}>Reset filters</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onQueryChange?.('')}>
+                  Clear search
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
+      </ResponsiveFilterBar>
+    </>
   );
 }
 
@@ -998,6 +1057,23 @@ export function PlayerTable({
       {topSlot ? <div className="border-b border-border px-4 py-4 sm:px-6">{topSlot}</div> : null}
       <div className="border-b border-border px-4 py-3 sm:px-6">
         <PlayerFilterToolbar
+          sortField={{
+            key: 'sort',
+            label: 'Sort',
+            defaultValue: 'name:asc',
+            options: activeTable
+              .getVisibleLeafColumns()
+              .filter((c) => c.getCanSort())
+              .flatMap((c) => [
+                { value: `${c.id}:asc`, label: `${PLAYER_COLUMN_LABELS[c.id] ?? c.id} ↑` },
+                { value: `${c.id}:desc`, label: `${PLAYER_COLUMN_LABELS[c.id] ?? c.id} ↓` },
+              ]),
+          }}
+          sortValue={`${sorting.find((s) => activeTable.getColumn(s.id)?.getIsVisible())?.id ?? 'name'}:${sorting.find((s) => activeTable.getColumn(s.id)?.getIsVisible())?.desc ? 'desc' : 'asc'}`}
+          onSort={(value) => {
+            const [id, direction] = value.split(':');
+            activeTable.setSorting([{ id, desc: direction === 'desc' }]);
+          }}
           active={positionFilter}
           onSelect={setPositionFilter}
           query={searchQuery}
@@ -1006,19 +1082,20 @@ export function PlayerTable({
         />
       </div>
       <div className="py-3 sm:px-6 sm:py-4">
-        <div className="px-4 md:hidden">
-          <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-            <ArrowLeftRight className="h-3.5 w-3.5" />
-            <span>Swipe to see more columns.</span>
-          </div>
-        </div>
         <div
           className="mt-3 w-full overflow-x-auto overscroll-x-contain"
           role="region"
-          aria-label="Player table, scroll for more columns"
+          aria-label="Players"
           tabIndex={0}
         >
-          <table className={tableClassName}>
+          <ResponsivePlayerTable
+            mobileSort={false}
+            identityColumn={activeTable.getVisibleLeafColumns().findIndex((c) => c.id === 'name')}
+            mobileLabels={activeTable
+              .getVisibleLeafColumns()
+              .map((c) => PLAYER_COLUMN_LABELS[c.id] ?? c.id)}
+            className={tableClassName}
+          >
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-muted-foreground">
               {(variant === 'freeAgent' ? freeAgentTable : table)
                 .getHeaderGroups()
@@ -1107,7 +1184,7 @@ export function PlayerTable({
                       );
                     })}
             </tbody>
-          </table>
+          </ResponsivePlayerTable>
         </div>
         {loading ? (
           <div className="mt-3 flex items-center gap-2 px-4 text-xs text-muted-foreground sm:px-0">

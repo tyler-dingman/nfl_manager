@@ -303,3 +303,10 @@ export async function recordDelivery(
 ) {
   await authDb()`INSERT INTO notification_deliveries (id, notification_id, channel, device_id, provider, state, attempted_at, delivered_at, failed_at, failure_code) VALUES (${randomUUID()}, ${notificationId}, ${channel}, ${deviceId ?? null}, ${provider}, ${state}, now(), ${state === 'DELIVERED' ? new Date() : null}, ${state === 'FAILED' ? new Date() : null}, ${failureCode ?? null})`;
 }
+
+export async function finishPushDelivery(notificationId: string, delivered: number) {
+  await authDb()`UPDATE user_notifications
+    SET delivery_state=${delivered > 0 ? 'PUSH_SENT' : 'PUSH_FAILED'},
+      push_sent_at=${delivered > 0 ? new Date() : null},updated_at=now()
+    WHERE id=${notificationId}`;
+}

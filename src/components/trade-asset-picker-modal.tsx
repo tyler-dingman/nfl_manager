@@ -1,5 +1,6 @@
 'use client';
 
+import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
 import * as React from 'react';
 
 import PlayerHeadshot from '@/components/player-headshot';
@@ -179,7 +180,7 @@ export default function TradeAssetPickerModal({
               />
             </div>
             <div className="mt-4 max-h-[50vh] overflow-y-auto rounded-xl border border-border">
-              <table className="w-full text-left text-sm">
+              <ResponsivePlayerTable className="w-full text-left text-sm">
                 <thead className="bg-slate-50 text-xs uppercase text-muted-foreground">
                   <tr>
                     <th className="px-4 py-2">Name</th>
@@ -228,7 +229,7 @@ export default function TradeAssetPickerModal({
                     </tr>
                   ) : null}
                 </tbody>
-              </table>
+              </ResponsivePlayerTable>
             </div>
           </>
         ) : (

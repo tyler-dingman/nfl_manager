@@ -1,5 +1,6 @@
 'use client';
 
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import * as React from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, ChevronDown, Star, X } from 'lucide-react';
@@ -205,11 +206,10 @@ export default function PlayerDetailsModal({
   React.useEffect(() => {
     if (!isOpen) return;
     const focused = document.activeElement as HTMLElement | null;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     closeRef.current?.focus();
     return () => {
-      document.body.style.overflow = overflow;
+      releaseScroll();
       focused?.focus();
     };
   }, [isOpen]);

@@ -1,14 +1,7 @@
+import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { C, Eyebrow, Heading } from '../components/screen';
 import { getFrontOffice, type FrontOfficeData } from '../lib/api';

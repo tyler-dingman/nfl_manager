@@ -1,13 +1,6 @@
+import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { C, Eyebrow, Heading } from '../components/screen';
 import { claimReward, getRewards, type RewardsDashboard } from '../lib/api';
 import { router } from 'expo-router';
@@ -136,7 +129,13 @@ const s = StyleSheet.create({
   code: { color: C.ink, fontWeight: '900', marginTop: 8 },
   claim: { backgroundColor: C.red, borderRadius: 10, padding: 11 },
   claimText: { color: C.white, fontSize: 13, fontWeight: '900' },
-  shop: { backgroundColor: C.red, borderRadius: 14, padding: 16, alignItems: 'center', marginTop: 14 },
+  shop: {
+    backgroundColor: C.red,
+    borderRadius: 14,
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 14,
+  },
   shopText: { color: C.white, fontWeight: '900' },
   empty: { backgroundColor: C.white, borderRadius: 16, padding: 20 },
   message: { color: C.red, textAlign: 'center', marginTop: 16 },

@@ -2,7 +2,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { MobileSecondaryNavigation } from '@/components/navigation/mobile-secondary-navigation';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import type { Team } from '@/features/team/team-store';
@@ -23,47 +23,36 @@ const links = [
   ['Players', '/parlay-lab/players', DdPlayerComparisonIcon],
   ['Teams', '/parlay-lab/teams', DdMyTeamIcon],
   ['Parlay Generator ✦', '/parlay-lab/generator', LabExperimentIcon],
+  ['Alt Stack', '/parlay-lab/alt-stack', LabExperimentIcon],
   ['My Parlays', '/parlay-lab/my-plays', LabParlayIcon],
   ['Settings', '/parlay-lab/settings', DdSettingsIcon],
 ] as const;
 export function DashboardShell({ team, children }: { team?: Team; children: ReactNode }) {
   const path = usePathname();
   const { favorite } = useParlayTeamContext();
-  const [open, setOpen] = useState(false);
+  const navigation = links.map(([label, href, icon]) => ({
+    label,
+    icon,
+    href:
+      label === 'Teams'
+        ? `/parlay-lab/games?team=${favorite?.abbr ?? team?.abbr ?? 'ARI'}`
+        : `${href}${team ? `?team=${team.abbr}` : ''}`,
+    active: path === href || (href.endsWith('/games') && Boolean(path?.includes('/game/'))),
+  }));
   return (
     <TeamThemeProvider team={team}>
       <div data-parlay-dashboard>
         <MainSiteHeader active="parlay-lab" teamAbbr={team?.abbr} />
-        <button
-          className="lab-nav-toggle"
-          aria-expanded={open}
-          aria-controls="lab-navigation"
-          onClick={() => setOpen(!open)}
-        >
-          Parlay Lab menu {open ? '−' : '+'}
-        </button>
+        <MobileSecondaryNavigation
+          label="Explore Parlay Lab"
+          items={navigation}
+          currentRoute={path ?? ''}
+          breakpoint={768}
+        />
         <div className="lab-app-layout">
-          <nav
-            id="lab-navigation"
-            className="lab-navigation"
-            data-open={open}
-            aria-label="Parlay Lab"
-          >
-            {links.map(([label, href, Icon]) => (
-              <Link
-                key={href}
-                href={
-                  label === 'Teams'
-                    ? `/parlay-lab/games?team=${favorite?.abbr ?? team?.abbr ?? 'ARI'}`
-                    : `${href}${team ? `?team=${team.abbr}` : ''}`
-                }
-                aria-current={
-                  path === href || (href.endsWith('/games') && path?.includes('/game/'))
-                    ? 'page'
-                    : undefined
-                }
-                onClick={() => setOpen(false)}
-              >
+          <nav id="lab-navigation" className="lab-navigation" aria-label="Parlay Lab">
+            {navigation.map(({ label, href, icon: Icon, active }) => (
+              <Link key={href} href={href} aria-current={active ? 'page' : undefined}>
                 <Icon />
                 <span>{label}</span>
               </Link>

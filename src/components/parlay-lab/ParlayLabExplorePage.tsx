@@ -1,5 +1,8 @@
 'use client';
 
+import { PlayerTableHeader } from '@/components/players/responsive-player-table';
+import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
+import { ResponsivePlayerLink } from '@/components/players/responsive-player-table';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, FlaskConical } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
@@ -248,28 +251,34 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                 <div className={styles.filterFields}>
                   <label>
                     <span>Game</span>
-                    <select value={gameId} onChange={(event) => setGameId(event.target.value)}>
+                    <ResponsivePlayerSelect
+                      value={gameId}
+                      onChange={(event) => setGameId(event.target.value)}
+                    >
                       <option value="ALL">All Games</option>
                       {events.map((event) => (
                         <option key={event.id} value={event.id}>
                           {event.awayTeamId} @ {event.homeTeamId}
                         </option>
                       ))}
-                    </select>
+                    </ResponsivePlayerSelect>
                   </label>
                   <label>
                     <span>Sportsbook</span>
-                    <select value={book} onChange={(event) => setBook(event.target.value)}>
+                    <ResponsivePlayerSelect
+                      value={book}
+                      onChange={(event) => setBook(event.target.value)}
+                    >
                       <option value="ALL">All Books</option>
                       <option value="FANDUEL">FanDuel</option>
                       <option value="DRAFTKINGS">DraftKings</option>
                       <option value="BETMGM">BetMGM</option>
                       <option value="CAESARS">Caesars</option>
-                    </select>
+                    </ResponsivePlayerSelect>
                   </label>
                   <label title="Filters by sportsbook price only. It does not measure the likelihood of the bet winning.">
                     <span>Odds</span>
-                    <select
+                    <ResponsivePlayerSelect
                       value={oddsFilter}
                       onChange={(event) => setOddsFilter(event.target.value as OddsFilter)}
                     >
@@ -281,7 +290,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                       <option value="-120">-120 or Better</option>
                       <option value="PLUS">Plus Money</option>
                       <option value="CUSTOM">Custom</option>
-                    </select>
+                    </ResponsivePlayerSelect>
                   </label>
                   {oddsFilter === 'CUSTOM' ? (
                     <div className={styles.range}>
@@ -307,7 +316,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                   <div className={styles.mobileSort}>
                     <label>
                       <span>Sort by</span>
-                      <select
+                      <ResponsivePlayerSelect
                         value={sort?.key ?? (mode === 'trends' ? 'hitRate' : 'score')}
                         onChange={(event) =>
                           setSort({
@@ -322,11 +331,11 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                         <option value="odds">Odds</option>
                         <option value="average">Average</option>
                         <option value="opponent">Vs. Opponent</option>
-                      </select>
+                      </ResponsivePlayerSelect>
                     </label>
                     <label>
                       <span>Direction</span>
-                      <select
+                      <ResponsivePlayerSelect
                         value={sort?.direction ?? 'desc'}
                         onChange={(event) =>
                           setSort({
@@ -337,7 +346,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                       >
                         <option value="desc">Highest to Lowest</option>
                         <option value="asc">Lowest to Highest</option>
-                      </select>
+                      </ResponsivePlayerSelect>
                     </label>
                   </div>
                 </div>
@@ -376,7 +385,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                 </div>
               ) : null}
               <div className={styles.table}>
-                <div className={styles.tableHead}>
+                <PlayerTableHeader className={styles.tableHead}>
                   <ParlaySortHeader
                     label="Player"
                     sortKey="player"
@@ -439,11 +448,23 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                     onSort={(key) => setSort((value) => nextSort(value, key))}
                     title="Parlay Lab research score. This is not a predicted win probability."
                   />
-                </div>
+                </PlayerTableHeader>
                 {visible.map((market) => {
                   const event = eventById.get(market.eventId ?? gameId);
                   return (
-                    <Link
+                    <ResponsivePlayerLink
+                      labels={[
+                        'Player',
+                        'Game',
+                        'Prop / line',
+                        'Last 10',
+                        'Hit rate',
+                        'Average',
+                        'Vs opponent',
+                        'Sportsbook',
+                        'Odds',
+                        'Lab Score',
+                      ]}
                       className={styles.tableRow}
                       key={`${market.eventId}-${market.id}-${market.sportsbook}`}
                       href={`/parlay-lab/game/${market.eventId ?? gameId}/markets`}
@@ -476,7 +497,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                       <span>{sportsbookName(market.sportsbook)}</span>
                       <b>{odds(market.odds)}</b>
                       <LabScore score={market.trend?.trendScore} />
-                    </Link>
+                    </ResponsivePlayerLink>
                   );
                 })}
               </div>

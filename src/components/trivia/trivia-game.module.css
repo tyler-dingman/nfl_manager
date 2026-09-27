@@ -516,7 +516,7 @@
   }
   .layout {
     grid-template-columns: 1fr;
-    grid-template-areas: 'question' 'stats' 'leaderboard' 'activity' 'info';
+    grid-template-areas: 'question' 'stats' 'activity';
   }
   .standings .extraPlayer {
     display: none;

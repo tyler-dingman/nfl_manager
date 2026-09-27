@@ -1,0 +1,177 @@
+.header {
+  margin: 0;
+}
+.config,
+.leg {
+  padding: 20px;
+}
+.controls {
+  border: 0;
+  padding: 0;
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.controls p {
+  margin: 0 0 8px;
+}
+.controls label,
+.controls p {
+  font-size: 13px;
+  font-weight: 700;
+}
+.controls select,
+.actions select {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+.controls small,
+.note {
+  color: var(--lab-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.options,
+.checks,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.options button,
+.actions button {
+  border: 1px solid var(--lab-border);
+  border-radius: 5px;
+  padding: 9px 14px;
+  color: var(--lab-text);
+  background: var(--lab-input);
+  font-size: 12px;
+}
+.options button[aria-pressed='true'] {
+  border-color: var(--lab-red);
+  background: #ff244e20;
+}
+.options button:focus-visible,
+.actions button:focus-visible {
+  outline: 2px solid var(--lab-text);
+  outline-offset: 2px;
+}
+.full {
+  grid-column: 1 / -1;
+}
+.checks {
+  gap: 14px;
+}
+.checks label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.config button:disabled,
+.actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.results {
+  display: grid;
+  gap: 16px;
+}
+.resultHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.resultHeader h2 {
+  margin: 0;
+}
+.leg h3 {
+  margin: 0;
+  font-weight: 800;
+}
+.leg p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.leg h3 + p {
+  margin: 3px 0 0;
+  color: var(--lab-muted);
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 12px 0;
+  margin-bottom: 8px;
+  border-top: 1px solid var(--lab-border);
+  font-size: 12px;
+}
+.stats span {
+  color: var(--lab-muted);
+}
+.stats b {
+  color: var(--lab-text);
+}
+.actions {
+  align-items: end;
+}
+.actions label {
+  font-size: 12px;
+}
+.processing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-size: 13px;
+}
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--lab-border);
+  border-top-color: var(--lab-red);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}
+@media (max-width: 600px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}
+.gamePicker {
+  border: 1px solid var(--lab-border);
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 13px;
+  background: var(--lab-input);
+}
+.gamePicker summary {
+  cursor: pointer;
+}
+.gamePicker > div {
+  margin-top: 12px;
+  max-height: 230px;
+  overflow: auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}

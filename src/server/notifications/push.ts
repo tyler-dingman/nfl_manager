@@ -1,7 +1,10 @@
+import { deliverWebPush, expiredWebPush } from './web-push';
+import { deleteWebPushToken } from './web-push-repository';
 import { randomUUID } from 'node:crypto';
 import { getPreferences } from '@/server/user/repository';
 import {
   createNotification,
+  finishPushDelivery,
   invalidatePushToken,
   listDeliverablePushTokens,
   recordDelivery,
@@ -14,12 +17,36 @@ export type PushMessage = {
   destination: string;
   eventId?: string;
   data?: Record<string, unknown>;
+  webTokenId?: string;
 };
 type ExpoTicket =
   | { status: 'ok'; id: string }
   | { status: 'error'; message: string; details?: { error?: string } };
 
-export async function sendPush(input: PushMessage) {
+const defaultDependencies = {
+  getPreferences,
+  listDeliverablePushTokens,
+  createNotification,
+  finishPushDelivery,
+  recordDelivery,
+  invalidatePushToken,
+  deleteWebPushToken,
+  deliverWebPush,
+  fetch: (...args: Parameters<typeof fetch>) => fetch(...args),
+};
+
+export async function sendPush(input: PushMessage, dependencies = defaultDependencies) {
+  const {
+    getPreferences,
+    listDeliverablePushTokens,
+    createNotification,
+    finishPushDelivery,
+    recordDelivery,
+    invalidatePushToken,
+    deleteWebPushToken,
+    deliverWebPush,
+    fetch,
+  } = dependencies;
   const preferences = await getPreferences(input.userId);
   if (preferences?.pushEnabled === false)
     return {
@@ -28,21 +55,45 @@ export async function sendPush(input: PushMessage) {
       reason: 'Push notifications are disabled.',
       delivered: 0,
     };
-  const tokens = (await listDeliverablePushTokens(input.userId)).filter(
-    (token) => token.provider === 'EXPO',
+  const tokens = (await listDeliverablePushTokens(input.userId)).filter((token) =>
+    input.webTokenId
+      ? token.provider === 'WEB_PUSH' && token.id === input.webTokenId
+      : token.provider === 'EXPO' || token.provider === 'WEB_PUSH',
   );
   if (!tokens.length)
-    return { ok: false, reason: 'No enabled device with a valid Expo push token.', delivered: 0 };
+    return { ok: false, reason: 'No enabled device with a valid push subscription.', delivered: 0 };
   const notification = await createNotification(input.userId, {
     eventId: input.eventId ?? `push:${randomUUID()}`,
     title: input.title,
     body: input.body,
     deepLink: input.destination,
+    pushEligible: true,
   });
   if (!notification) throw new Error('Unable to create notification record.');
   let delivered = 0;
   const failures: string[] = [];
   for (const registered of tokens) {
+    if (registered.provider === 'WEB_PUSH') {
+      try {
+        await deliverWebPush(registered.token, input);
+        await recordDelivery(notification.id, 'PUSH', 'WEB_PUSH', 'SENT', registered.deviceId);
+        delivered += 1;
+      } catch (error) {
+        if (expiredWebPush(error)) await deleteWebPushToken(input.userId, registered.id);
+        const status = (error as { statusCode?: number })?.statusCode;
+        const code = status ? `WEB_PUSH_HTTP_${status}` : 'WEB_PUSH_PROVIDER_ERROR';
+        await recordDelivery(
+          notification.id,
+          'PUSH',
+          'WEB_PUSH',
+          'FAILED',
+          registered.deviceId,
+          code,
+        );
+        failures.push(code);
+      }
+      continue;
+    }
     try {
       const response = await fetch('https://exp.host/--/api/v2/push/send', {
         method: 'POST',
@@ -88,5 +139,6 @@ export async function sendPush(input: PushMessage) {
       failures.push(code);
     }
   }
+  await finishPushDelivery(notification.id, delivered);
   return { ok: delivered > 0, delivered, failed: failures.length, failures };
 }

@@ -7,7 +7,7 @@ import { upsertPushToken } from '@/server/notifications/repository';
 
 const schema = z.object({
   deviceId: z.string().uuid(),
-  provider: z.enum(['APNS', 'FCM', 'WEB_PUSH', 'EXPO']),
+  provider: z.enum(['APNS', 'FCM', 'EXPO']),
   token: z.string().min(20).max(4096),
 });
 

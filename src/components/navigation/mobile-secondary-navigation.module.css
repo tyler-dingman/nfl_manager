@@ -1,0 +1,79 @@
+.bar {
+  display: none;
+  border-bottom: 1px solid #00172b20;
+  background: #f4f6f8;
+  color: #00172b;
+}
+.bar[data-tone='merch'] {
+  background: #f4d9b7;
+}
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 8px max(16px, env(safe-area-inset-right)) 8px max(16px, env(safe-area-inset-left));
+  font-size: 14px;
+  font-weight: 800;
+  text-align: left;
+}
+.trigger span {
+  flex: 1;
+  min-width: 0;
+}
+.trigger svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.open {
+  transform: rotate(180deg);
+}
+.destinations {
+  display: grid;
+  gap: 2px;
+  padding: 8px 0;
+}
+.destinations a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.destinations a span {
+  flex: 1;
+}
+.destinations svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.destinations a[aria-current='page'] {
+  background: #f4f6f8;
+  color: #c91530;
+}
+.trigger:focus-visible,
+.destinations a:focus-visible {
+  outline: 2px solid #00172b;
+  outline-offset: -2px;
+}
+@media (max-width: 767px) {
+  .below768 {
+    display: block;
+  }
+}
+@media (max-width: 1023px) {
+  .below1024 {
+    display: block;
+  }
+}
+@media (max-width: 1099px) {
+  .below1100 {
+    display: block;
+  }
+}

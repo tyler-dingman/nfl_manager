@@ -1,9 +1,9 @@
+import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
 import {
   ImageBackground,
   Pressable,
   RefreshControl,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,

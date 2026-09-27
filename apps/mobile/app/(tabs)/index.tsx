@@ -1,5 +1,6 @@
+import { PageScrollView as ScrollView } from '../../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { C, Eyebrow, Heading } from '../../components/screen';
 import { StoryCard } from '../../components/story-card';

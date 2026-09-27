@@ -1,4 +1,5 @@
 'use client';
+import headingStyles from './panel-heading.module.css';
 import { Trophy, FlaskConical, CircleX, ExternalLink, Plus, RefreshCw } from 'lucide-react';
 
 import { DdShareIcon as Share2 } from '@/components/ui/football-icons';
@@ -209,7 +210,7 @@ export default function MyPlaysPage() {
               <span>
                 <Bookmark /> Saved research
               </span>
-              <h1 className="lab-display">MY PARLAYS</h1>
+              <h1 className={`lab-display ${headingStyles.heading}`}>MY PARLAYS</h1>
               <p>What you researched, what the Lab saw, and what happened.</p>
             </div>
             <button onClick={() => void refreshResults(plays)} disabled={refreshing}>

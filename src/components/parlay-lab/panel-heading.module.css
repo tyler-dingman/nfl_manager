@@ -1,0 +1,11 @@
+/* Shared with the Next Game panel; specificity keeps legacy heading rules consistent. */
+.heading.heading {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.1;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #fff;
+}

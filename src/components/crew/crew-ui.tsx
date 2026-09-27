@@ -1,4 +1,5 @@
 'use client';
+import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
@@ -50,8 +51,7 @@ export function CrewDialog({
   closeRef.current = close;
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const releaseScroll = lockDocumentScroll();
     ref.current?.querySelector<HTMLElement>('button,input,textarea')?.focus();
     const key = (event: KeyboardEvent) => {
       if (event.key === 'Escape') closeRef.current();
@@ -73,7 +73,7 @@ export function CrewDialog({
     };
     document.addEventListener('keydown', key);
     return () => {
-      document.body.style.overflow = overflow;
+      releaseScroll();
       document.removeEventListener('keydown', key);
       previous?.focus();
     };

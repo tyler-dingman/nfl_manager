@@ -55,7 +55,7 @@
   border: 1px solid var(--lab-border, #183b4c);
   border-radius: 7px;
   background: var(--lab-panel, #031923);
-  padding: 18px;
+  padding: 12px;
   color: var(--lab-text, #f4f8fc);
 }
 .guide header {
@@ -70,17 +70,17 @@
 }
 .guide > div {
   border-bottom: 1px solid var(--lab-border, #183b4c);
-  padding: 12px 0;
+  padding: 8px 0;
   font-size: 0.8rem;
 }
 .guide p {
   color: var(--lab-muted, #9db4c6);
   font-size: 0.75rem;
   line-height: 1.5;
-  margin: 5px 0;
+  margin: 2px 0 0;
 }
 .guide b span {
-  margin-left: 10px;
+  margin-left: 0;
 }
 .warning {
   display: block;
@@ -182,8 +182,31 @@
   font-size: 0.6rem;
 }
 
-.guide h2 { display:flex; align-items:center; gap:10px; font:700 21px var(--font-front-office-barlow),sans-serif; }
-.guide h2 svg { width:25px; height:25px; }
-.guide > div b { color:var(--lab-green, #00e99a); }
-.guide > div:nth-of-type(3) b { color:#f4d000; }
-.guide > div:nth-of-type(4) b { color:#ff244e; }
+.guide h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font:
+    700 21px var(--font-front-office-barlow),
+    sans-serif;
+}
+.guide h2 svg {
+  width: 25px;
+  height: 25px;
+}
+.guide > div b {
+  color: var(--lab-green, #00e99a);
+}
+.guide > div:nth-of-type(3) b {
+  color: #f4d000;
+}
+.guide > div:nth-of-type(4) b {
+  color: #ff244e;
+}
+
+.guide > .warning {
+  margin-top: 8px;
+  padding: 7px 8px;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}

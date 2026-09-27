@@ -1,5 +1,6 @@
 'use client';
 
+import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import PlayerTypeIcon from '@/components/player-type-icon';
@@ -137,7 +138,7 @@ export default function PlayerDevelopmentPage() {
           role="region"
           aria-label="Player development table, scroll for more columns"
         >
-          <table className="fo-development-table">
+          <ResponsivePlayerTable className="fo-development-table">
             <thead>
               <tr>
                 {DEVELOPMENT_COLUMNS.map((label) => (
@@ -211,7 +212,7 @@ export default function PlayerDevelopmentPage() {
                 );
               })}
             </tbody>
-          </table>
+          </ResponsivePlayerTable>
         </div>
         {!players.length && (
           <p className="fo-development-empty" role="status">
