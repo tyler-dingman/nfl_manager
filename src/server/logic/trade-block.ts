@@ -358,7 +358,7 @@ const buildPotentialFits = (
     }
 
     const fitRng = createRng(
-      `${state.header.id}:${state.header.phase}:${player.id}:${team.abbr}:${playerPosition}`,
+      `${process.env.NODE_ENV !== 'production' && process.env.FRONT_OFFICE_QA_SEED ? process.env.FRONT_OFFICE_QA_SEED : state.header.id}:${state.header.phase}:${player.id}:${team.abbr}:${playerPosition}`,
     );
     score += fitRng() * 3;
 
@@ -425,7 +425,7 @@ export const buildTradeBlock = (
         }
 
         const rng = createRng(
-          `${state.header.id}:${state.header.phase}:${team.abbr}:${player.id}:${position}`,
+          `${process.env.NODE_ENV !== 'production' && process.env.FRONT_OFFICE_QA_SEED ? process.env.FRONT_OFFICE_QA_SEED : state.header.id}:${state.header.phase}:${team.abbr}:${player.id}:${position}`,
         );
         const interestingness = positiveScore + player.resolvedRating * 0.18 + rng() * 4;
         if (interestingness < 24) {

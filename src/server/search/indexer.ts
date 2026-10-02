@@ -108,7 +108,10 @@ export async function indexSearchDocuments({
       rowId: `${document.sourceType}:${document.sourceId}:${chunkIndex}`,
     }));
   });
-  const existing = await sql`SELECT id,content_hash FROM search_documents`;
+  const existing =
+    full || rows.length === 0
+      ? []
+      : await sql`SELECT id,content_hash FROM search_documents WHERE id=ANY(${rows.map((row) => row.rowId)})`;
   const hashes = new Map(existing.map((row) => [row.id as string, row.content_hash as string]));
   const changed = full ? rows : rows.filter((row) => hashes.get(row.rowId) !== row.hash);
   let embeddingsCreated = 0;

@@ -1,9 +1,10 @@
+import { cachePublicRead } from '@/server/cache/public-read-cache';
 import { authDb } from '@/server/auth/database';
 import type { HistoricalPlayerGame, TeamSeasonStrength } from './types';
 
 const DEFAULT_HISTORICAL_SEASONS = [2024, 2025, 2026];
 
-export async function getPlayerGameLogs(playerIds: string[], seasons = DEFAULT_HISTORICAL_SEASONS) {
+async function queryPlayerGameLogs(playerIds: string[], seasons = DEFAULT_HISTORICAL_SEASONS) {
   if (!playerIds.length) return [];
   return authDb()<HistoricalPlayerGame[]>`
     WITH team_schedule AS (
@@ -38,7 +39,7 @@ export async function getPlayerGameLogs(playerIds: string[], seasons = DEFAULT_H
     ORDER BY g.game_date DESC, pg.week DESC`;
 }
 
-export async function getTeamSeasonStrength(teamId: string, season: number) {
+async function queryTeamSeasonStrength(teamId: string, season: number) {
   const rows = await authDb()<TeamSeasonStrength[]>`
     SELECT season,team_id AS "teamId",pass_defense_rank AS "passDefenseRank",
       passing_yards_allowed_per_game::float8 AS "passingYardsAllowedPerGame",
@@ -49,7 +50,7 @@ export async function getTeamSeasonStrength(teamId: string, season: number) {
   return rows[0] ?? null;
 }
 
-export async function getOpponentPositionGameLogs(
+async function queryOpponentPositionGameLogs(
   opponentTeamId: string,
   position: 'QB' | 'RB' | 'WR' | 'TE',
   seasons = DEFAULT_HISTORICAL_SEASONS,
@@ -66,3 +67,9 @@ export async function getOpponentPositionGameLogs(
     WHERE pg.opponent_team_id=${opponentTeamId} AND pg.position=${position} AND pg.season=ANY(${seasons})
     ORDER BY g.game_date DESC, pg.week DESC`;
 }
+
+// Historical reference data changes during imports, not on every market request.
+// One-minute TTL bounds freshness; warm requests share concurrent database reads.
+export const getPlayerGameLogs = cachePublicRead(queryPlayerGameLogs);
+export const getTeamSeasonStrength = cachePublicRead(queryTeamSeasonStrength);
+export const getOpponentPositionGameLogs = cachePublicRead(queryOpponentPositionGameLogs);

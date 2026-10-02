@@ -22,9 +22,21 @@ export type StoryMatch = {
   ambiguous: boolean;
 };
 
+export type ClusteringStory = Pick<
+  StoryRecord,
+  | 'id'
+  | 'teamId'
+  | 'storyType'
+  | 'headline'
+  | 'entities'
+  | 'summary'
+  | 'whatHappened'
+  | 'lastMeaningfulUpdateAt'
+>;
+
 export function findCandidateStory(
   candidate: ContentCandidate,
-  stories: StoryRecord[],
+  stories: ClusteringStory[],
 ): StoryMatch {
   const windowHours = storyClusterWindowHours(candidate.storyType);
   const eligible = stories.filter(

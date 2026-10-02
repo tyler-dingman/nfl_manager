@@ -38,7 +38,7 @@ export async function hybridSearch({
   const lexicalStarted = Date.now();
   const lexical = await sql`SELECT * FROM (
     SELECT DISTINCT ON (source_type,source_id)
-      source_type || ':' || source_id AS parent_id,*,ts_rank_cd(search_vector,websearch_to_tsquery('english',${query})) AS rank
+      source_type || ':' || source_id AS parent_id,team_id,result_type,title,summary,url,source_name,source_url,published_at,source_updated_at,image_url,canonical_story_id,metadata,ts_rank_cd(search_vector,websearch_to_tsquery('english',${query})) AS rank
     FROM search_documents WHERE active=true AND (team_id=${teamId} OR team_id IS NULL)
       AND search_vector @@ websearch_to_tsquery('english',${query})
     ORDER BY source_type,source_id,rank DESC
@@ -53,7 +53,7 @@ export async function hybridSearch({
       const serialized = JSON.stringify(embedding);
       vector = await sql`SELECT * FROM (
         SELECT DISTINCT ON (source_type,source_id)
-          source_type || ':' || source_id AS parent_id,*,embedding <=> ${serialized}::vector AS distance
+          source_type || ':' || source_id AS parent_id,team_id,result_type,title,summary,url,source_name,source_url,published_at,source_updated_at,image_url,canonical_story_id,metadata,embedding <=> ${serialized}::vector AS distance
         FROM search_documents WHERE active=true AND embedding IS NOT NULL AND (team_id=${teamId} OR team_id IS NULL)
         ORDER BY source_type,source_id,distance
       ) ranked ORDER BY distance LIMIT 50`;

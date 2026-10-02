@@ -1,3 +1,6 @@
+import { BlurView } from 'expo-blur';
+import { Ionicons } from '@expo/vector-icons';
+import { TEAM_LIST } from '../../../src/data/teams';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -13,7 +16,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { C, Eyebrow, Heading } from '../components/screen';
+import { C } from '../components/screen';
 import { searchDD, type SearchData } from '../lib/api';
 import { useTeam } from '../lib/team-context';
 import { authenticatedFetch } from '../lib/auth';
@@ -21,8 +24,11 @@ import { AI_QUICK_PROMPTS } from '../../../packages/search/suggestions';
 import type { SearchResponse } from '../../../src/features/search/types';
 import { API_BASE_URL } from '../lib/network';
 export default function Search() {
-  const params = useLocalSearchParams<{ q?: string }>(),
+  const params = useLocalSearchParams<{ q?: string; ask?: string }>(),
     { teamId } = useTeam();
+  const team = TEAM_LIST.find(t => t.abbr === teamId);
+  const nickname = team ? team.name.replace(`${team.city} `, '') : 'your team';
+  const close = () => router.canGoBack() ? router.back() : router.replace('/');
   const [query, setQuery] = useState(params.q ?? ''),
     [data, setData] = useState<SearchData>({ stories: [], players: [] }),
     [loading, setLoading] = useState(false),
@@ -34,6 +40,7 @@ export default function Search() {
   const [answer, setAnswer] = useState<SearchResponse | null>(null);
   const [aiBusy, setAiBusy] = useState(false);
   const [aiError, setAiError] = useState('');
+  const [searchError, setSearchError] = useState('');
   const aiRequest = useRef<AbortController | null>(null);
   useEffect(() => {
     const controller = new AbortController();
@@ -88,6 +95,11 @@ export default function Search() {
       if (!controller.signal.aborted) setAiBusy(false);
     }
   };
+  useEffect(() => {
+    if (params.ask === '1' && params.q?.trim()) void runAI(params.q);
+    // A submitted homepage question starts one request on entry (or team change).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.ask, params.q, teamId]);
   const questions = suggestions.team === teamId ? suggestions.questions : [];
   useEffect(() => {
     const normalized = query.trim();
@@ -100,12 +112,16 @@ export default function Search() {
     let cancelled = false;
     const timer = setTimeout(() => {
       setLoading(true);
+      setSearchError('');
       void searchDD(normalized, teamId)
         .then((result) => {
           if (!cancelled) setData(result);
         })
         .catch(() => {
-          if (!cancelled) setData({ stories: [], players: [] });
+          if (!cancelled) {
+            setData({ stories: [], players: [] });
+            setSearchError('Search is unavailable. Please try again.');
+          }
         })
         .finally(() => {
           if (!cancelled) {
@@ -121,11 +137,14 @@ export default function Search() {
   }, [query, teamId]);
   return (
     <KeyboardAvoidingView style={s.page} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <View style={s.body}>
-        <Eyebrow>{teamId} SEARCH</Eyebrow>
-        <Heading>Find what matters.</Heading>
+      <BlurView pointerEvents="none" intensity={25} tint="dark" experimentalBlurMethod="dimezisBlurView" style={StyleSheet.absoluteFill} />
+      <Pressable accessibilityRole="button" accessibilityLabel="Dismiss search" onPress={close} style={StyleSheet.absoluteFill} />
+      <View style={s.body} accessibilityViewIsModal>
         <View style={s.field}>
+          <Ionicons name="search-outline" size={20} color="#94a3b8" />
           <TextInput
+            accessibilityLabel="Search Down & Distance"
+            maxLength={300}
             autoFocus
             value={query}
             onChangeText={(text) => {
@@ -136,27 +155,17 @@ export default function Search() {
               setQuery(text);
             }}
             onSubmitEditing={() => void runAI(query)}
-            placeholder="Stories, players, sources…"
-            placeholderTextColor="#8A969F"
+            placeholder={`Search or ask about ${nickname} football…`}
+            placeholderTextColor="#94a3b8"
             style={s.input}
             returnKeyType="search"
           />
-          {query ? (
-            <Pressable
-              accessibilityLabel="Clear search"
-              hitSlop={8}
-              style={{ minHeight: 44, justifyContent: 'center' }}
-              onPress={() => {
-                aiRequest.current?.abort();
-                setAiBusy(false);
-                setAnswer(null);
-                setAiError('');
-                setQuery('');
-              }}
-            >
-              <Text style={s.clear}>CLEAR</Text>
-            </Pressable>
-          ) : null}
+          <Pressable accessibilityRole="button" accessibilityLabel="Submit search" disabled={query.trim().length < 2 || aiBusy} onPress={() => void runAI(query)} style={[s.iconButton, { opacity: query.trim().length < 2 || aiBusy ? 0.4 : 1 }]}>
+            <Ionicons name="arrow-forward" size={20} color="#334155" />
+          </Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel="Close search" onPress={close} style={[s.iconButton, { backgroundColor: '#f1f5f9' }]}>
+            <Ionicons name="close" size={16} color="#64748b" />
+          </Pressable>
         </View>
         {loading ? (
           <ActivityIndicator color={C.red} style={s.loader} />
@@ -164,6 +173,7 @@ export default function Search() {
           <ScrollView
             keyboardShouldPersistTaps="handled"
             keyboardDismissMode="on-drag"
+            style={{ flexShrink: 1 }}
             contentContainerStyle={s.results}
           >
             {!query.trim() && (
@@ -178,7 +188,7 @@ export default function Search() {
                 </View>
                 {questions.length > 0 && (
                   <>
-                    <Text style={s.section}>SUGGESTED</Text>
+                    <Text style={[s.section, { marginTop: 16 }]}>SUGGESTED</Text>
                     {questions.map((question) => (
                       <Pressable
                         key={question}
@@ -186,7 +196,7 @@ export default function Search() {
                         onPress={() => void runAI(question)}
                       >
                         <Text style={s.question}>{question}</Text>
-                        <Text>→</Text>
+                        <Ionicons name="arrow-forward" size={16} color="#334155" />
                       </Pressable>
                     ))}
                   </>
@@ -194,6 +204,11 @@ export default function Search() {
               </>
             )}
             {aiBusy && <ActivityIndicator color={C.red} />}
+            {searchError ? (
+              <Text accessibilityRole="alert" style={s.source}>
+                {searchError}
+              </Text>
+            ) : null}
             {aiError ? <Text accessibilityRole="alert">{aiError}</Text> : null}
             {answer && (
               <View style={s.card}>
@@ -290,7 +305,12 @@ export default function Search() {
                 ))}
               </>
             ) : null}
-            {searched && !aiBusy && !answer && !data.stories.length && !data.players.length ? (
+            {searched &&
+            !searchError &&
+            !aiBusy &&
+            !answer &&
+            !data.stories.length &&
+            !data.players.length ? (
               <View style={s.empty}>
                 <Text style={s.title}>No results for “{query}”</Text>
                 <Text style={s.emptyCopy}>Try a player surname or a broader football topic.</Text>
@@ -307,11 +327,11 @@ const s = StyleSheet.create({
     minHeight: 44,
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#D9D2C7',
+    borderColor: '#e2e8f0',
     borderRadius: 24,
     paddingHorizontal: 12,
   },
-  promptText: { fontSize: 12, fontWeight: '700', color: C.ink },
+  promptText: { fontSize: 12, fontWeight: '600', color: '#334155' },
   suggestion: {
     minHeight: 44,
     flexDirection: 'row',
@@ -320,39 +340,47 @@ const s = StyleSheet.create({
     gap: 12,
     paddingVertical: 10,
   },
-  question: { flex: 1, fontSize: 14, fontWeight: '600', color: C.ink },
-  page: { flex: 1, backgroundColor: C.cream },
-  body: { flex: 1, padding: 20 },
+  question: { flex: 1, fontSize: 14, lineHeight: 20, fontWeight: '600', color: '#334155' },
+  page: { flex: 1, backgroundColor: 'transparent', padding: 16 },
+  searchTitle: { fontSize: 18, fontWeight: '800', color: '#00172B' },
+  body: { maxHeight: '90%', width: '100%', maxWidth: 672, alignSelf: 'center', backgroundColor: 'white', borderRadius: 24, overflow: 'hidden' },
   field: {
-    height: 54,
-    borderRadius: 15,
-    backgroundColor: C.white,
-    borderWidth: 1,
-    borderColor: '#D9D2C7',
+    minHeight: 64,
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderColor: '#e2e8f0',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 15,
-    marginTop: 20,
+    gap: 12,
+    paddingHorizontal: 20,
   },
-  input: { flex: 1, color: C.ink, fontSize: 16 },
+  iconButton: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  input: { outlineWidth: 0, flex: 1, minWidth: 0, color: '#020617', fontSize: 16, fontWeight: '600', height: 64 },
   clear: { color: C.red, fontSize: 13, fontWeight: '900' },
   loader: { marginTop: 40 },
-  results: { paddingBottom: 40 },
+  results: { padding: 24, paddingTop: 16 },
   section: {
-    color: C.ink,
-    fontSize: 13,
+    color: '#94a3b8',
+    fontSize: 10,
     fontWeight: '900',
-    letterSpacing: 1.6,
-    marginTop: 24,
+    letterSpacing: 2.2,
+    marginTop: 4,
     marginBottom: 9,
   },
-  card: { backgroundColor: C.white, borderRadius: 15, padding: 16, marginBottom: 9 },
+  card: {
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
+  },
   meta: { color: C.red, fontSize: 13, fontWeight: '900' },
   title: { color: C.ink, fontSize: 17, fontWeight: '900', lineHeight: 21, marginTop: 6 },
   source: { color: C.muted, fontSize: 13, fontWeight: '800', marginTop: 8 },
   player: {
     backgroundColor: C.white,
-    borderRadius: 15,
+    borderRadius: 16,
     padding: 12,
     marginBottom: 8,
     flexDirection: 'row',

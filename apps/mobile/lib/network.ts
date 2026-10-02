@@ -1,8 +1,10 @@
+import { demoSession } from './demo-session';
 export const API_BASE_URL = (
   process.env.EXPO_PUBLIC_API_BASE_URL ?? 'https://www.downdistance.com'
 ).replace(/\/$/, '');
 
 export async function apiFetch(path: string, init: RequestInit = {}) {
+  if (demoSession.isActive()) return demoSession.respond(path, init);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15_000);
   try {

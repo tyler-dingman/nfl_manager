@@ -134,7 +134,7 @@ export function TradeTargetDetail({ playerId }: { playerId: string }) {
                 </p>
               </div>
               <Link
-                href={`/front-office/trade-hub/new?playerId=${encodeURIComponent(target.id)}&partnerTeamAbbr=${target.teamAbbr ?? ''}`}
+                href={`/front-office/trade-hub?context=roster&playerId=${encodeURIComponent(target.id)}&partnerTeamAbbr=${target.teamAbbr ?? ''}`}
               >
                 Start trade <ArrowRight />
               </Link>

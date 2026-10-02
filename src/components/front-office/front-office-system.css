@@ -624,11 +624,6 @@
 .front-office-app .fo-franchise-summary dd {
   white-space: nowrap;
 }
-.fo-global-header nav a[aria-current='page'] {
-  text-decoration: underline;
-  text-underline-offset: 12px;
-  text-decoration-thickness: 2px;
-}
 /* Portals and short franchise pages must not expose the site's white canvas. */
 html:has(.front-office-app),
 body:has(.front-office-app) {

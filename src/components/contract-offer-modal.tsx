@@ -2,15 +2,14 @@
 
 import * as React from 'react';
 
-import { FreeAgencyOfferHero } from './free-agency-offer-hero';
-import heroStyles from './free-agency-offer-hero.module.css';
-import PlayerTypeIcon from '@/components/player-type-icon';
+import { PlayerTransactionHero, TransactionMetrics } from './player-transaction-hero';
+import styles from './player-transaction.module.css';
+import { ArrowRight, ChartNoAxesColumnIncreasing } from 'lucide-react';
+import { useSaveStore } from '@/features/save/save-store';
 import TransactionModal from '@/components/transaction-modal';
-import { Button } from '@/components/ui/button';
 import type { PlayerRowDTO } from '@/types/player';
 import { estimateResignInterest } from '@/lib/resign-scoring';
 import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
-import { cn } from '@/lib/utils';
 import { formatMoneyMillions, getYearOneCapHit } from '@/server/logic/cap';
 import { CURRENT_MODELED_LEAGUE_YEAR } from '@/server/logic/contract-expiration';
 
@@ -73,11 +72,15 @@ export default function ContractOfferModal({
   onClose,
   onSubmit,
 }: ContractOfferModalProps) {
+  const savedTeam = useSaveStore((s) => s.teamAbbr);
+  const season = useSaveStore((s) => s.franchiseYear);
+  const franchiseTeam = teamAbbr || savedTeam;
   const allowedYears = React.useMemo(() => [1, 2, 3, 4, 5, 6], []);
   const [years, setYears] = React.useState(allowedYears[0] ?? 2);
   const [apyInput, setApyInput] = React.useState('6');
   const [guaranteedInput, setGuaranteedInput] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const submitting = React.useRef(false);
   const [error, setError] = React.useState('');
   const [response, setResponse] = React.useState<OfferResponse | null>(null);
 
@@ -127,6 +130,8 @@ export default function ContractOfferModal({
   const currentLeagueYearCapHit = getYearOneCapHit(apyValue, years);
 
   const handleSubmit = async () => {
+    if (submitting.current) return;
+    submitting.current = true;
     setError('');
     setIsSubmitting(true);
 
@@ -144,203 +149,201 @@ export default function ContractOfferModal({
         submitError instanceof Error ? submitError.message : 'Unable to submit offer right now.',
       );
     } finally {
+      submitting.current = false;
       setIsSubmitting(false);
     }
   };
 
+  const name = `${player.firstName} ${player.lastName}`;
+  const signing = scoreVariant === 'freeAgency';
   return (
     <TransactionModal
-      compactHeader={scoreVariant === 'freeAgency'}
       open={isOpen}
-      variant={scoreVariant === 'freeAgency' ? 'sign-free-agent' : 're-sign'}
-      title={title}
-      description={subtitle}
+      variant={signing ? 'sign-free-agent' : 're-sign'}
+      title={signing ? `Sign ${name}` : `Re-Negotiate With ${name}`}
       onClose={onClose}
+      franchiseTeam={franchiseTeam}
+      workspaceHero={
+        <PlayerTransactionHero
+          key={player.id}
+          player={player}
+          team={franchiseTeam}
+          mode={signing ? 'sign' : 'renegotiate'}
+          description={
+            signing
+              ? 'Set contract terms and gauge interest.'
+              : 'Set new contract terms and see if you can reach an agreement.'
+          }
+        />
+      }
     >
-      <div className="overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
-        {scoreVariant === 'freeAgency' ? (
-          <>
-            <FreeAgencyOfferHero
-              key={player.id}
-              player={player}
-              teamAbbr={teamAbbr}
-              previousTeamAbbr={previousTeamAbbr}
-            />
-            <dl className={heroStyles.marketSummary} aria-label="Free agent market summary">
-              <div>
-                <dt>Expected APY</dt>
-                <dd className="front-office-stat-value">${estimate.expectedApy.toFixed(1)}M</dd>
-              </div>
-              <div>
-                <dt>Preferred Deal</dt>
-                <dd className="front-office-stat-value">
-                  {estimate.expectedYearsRange[0]}–{estimate.expectedYearsRange[1]} Years
-                </dd>
-              </div>
-              <div>
-                <dt>Market Status</dt>
-                <dd className={heroStyles.marketStatus}>Available Free Agent</dd>
-              </div>
-              <div>
-                <dt>Interest</dt>
-                <dd className="front-office-stat-value">
-                  {interestLabel} · {score.toFixed(0)}%
-                </dd>
-              </div>
-            </dl>
-          </>
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-[88px_1fr] sm:items-center">
-            <div className="w-fit">
-              <div
-                className="front-office-player-tile flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl text-2xl font-black sm:h-24 sm:w-24"
-                aria-hidden="true"
-              >
-                <span>{player.position}</span>
-              </div>
-            </div>
-            <div className="space-y-1 text-sm">
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Player Details
-              </p>
-              <p className="font-semibold text-foreground">
-                <span className="inline-flex items-center gap-1.5">
-                  <span>
-                    {player.firstName} {player.lastName}
-                  </span>
-                  <PlayerTypeIcon player={player} />
-                </span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {player.position}
-                {player.college ? ` · ${player.college}` : ''}
-                {' · '}Age {age}
-              </p>
-              {!response ? (
-                <p className="text-xs leading-relaxed text-muted-foreground">
-                  Preferred Years: {estimate.expectedYearsRange[0]}-{estimate.expectedYearsRange[1]}
-                  {' · '}Expected APY: ${estimate.expectedApy.toFixed(1)}M
-                </p>
-              ) : null}
-            </div>
-          </div>
-        )}
-
-        {!response ? (
-          <div className="mt-5 rounded-xl border border-border bg-slate-50 px-4 py-3">
-            <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
-              <span>Interest: {interestLabel}</span>
-              <span>{score.toFixed(0)}%</span>
-            </div>
-            <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
-              <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
-            </div>
-          </div>
-        ) : null}
-
-        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+      <TransactionMetrics
+        items={[
+          signing
+            ? { label: 'Expected APY', value: `$${estimate.expectedApy.toFixed(1)}M` }
+            : { label: 'Current Cap Hit', value: player.capHit },
+          signing
+            ? {
+                label: 'Preferred Deal',
+                value: `${estimate.expectedYearsRange[0]}–${estimate.expectedYearsRange[1]} Years`,
+              }
+            : { label: 'Expected APY', value: `$${estimate.expectedApy.toFixed(1)}M` },
+          signing
+            ? { label: 'Market Status', value: 'Available Free Agent' }
+            : { label: 'Years Remaining', value: player.contractYearsRemaining ?? '—' },
+          { label: 'Interest', value: `${interestLabel} · ${score.toFixed(0)}%` },
+        ]}
+      />
+      {!response && (
+        <div className={styles.interest}>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Years
-            </label>
-            <select
-              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={years}
-              onChange={(event) => {
-                setYears(Number(event.target.value));
-                setResponse(null);
-              }}
-            >
-              {allowedYears.map((value) => (
-                <option key={value} value={value}>
-                  {value} years
-                </option>
-              ))}
-            </select>
+            <span>Interest: {interestLabel}</span>
+            <span>{score.toFixed(0)}%</span>
           </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              APY (M)
-            </label>
-            <input
-              type="number"
-              inputMode="decimal"
-              step={0.5}
-              min={0}
-              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={apyInput}
-              onChange={(event) => {
-                if (!allowNumericInput(event.target.value)) return;
-                setApyInput(event.target.value);
-                setResponse(null);
-              }}
-              onBlur={() => {
-                if (apyInput.trim() === '') return;
-                const clamped = clampNumber(parseNumericInput(apyInput), 0, 99);
-                setApyInput(clamped.toFixed(1));
-              }}
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Guaranteed (M)
-            </label>
-            <input
-              type="number"
-              inputMode="decimal"
-              step={0.1}
-              min={0}
-              max={60}
-              className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
-              value={guaranteedInput}
-              onChange={(event) => {
-                if (!allowNumericInput(event.target.value)) return;
-                setGuaranteedInput(event.target.value);
-                setResponse(null);
-              }}
-              onBlur={() => {
-                if (guaranteedInput.trim() === '') return;
-                const clamped = clampNumber(parseNumericInput(guaranteedInput), 0, 60);
-                setGuaranteedInput(clamped.toFixed(1));
-              }}
-            />
-          </div>
-        </div>
-
-        <p className="mt-5 text-sm text-muted-foreground">
-          <span className="font-semibold text-foreground">
-            {CURRENT_MODELED_LEAGUE_YEAR} Cap Number:
-          </span>{' '}
-          {formatMoneyMillions(currentLeagueYearCapHit)}
-        </p>
-
-        {response ? (
           <div
-            className={cn(
-              'mt-4 rounded-lg border px-4 py-3 text-sm',
-              response.tone === 'positive' && 'border-emerald-200 bg-emerald-50 text-emerald-700',
-              response.tone === 'neutral' && 'border-amber-200 bg-amber-50 text-amber-700',
-              response.tone === 'negative' && 'border-red-200 bg-red-50 text-red-700',
-            )}
+            className={styles.track}
+            role="progressbar"
+            aria-label="Player interest"
+            aria-valuenow={score}
+            aria-valuemin={0}
+            aria-valuemax={100}
           >
-            <p className="font-semibold italic">“{response.message}”</p>
-            <p className="mt-1 text-xs text-muted-foreground">{response.notice}</p>
+            <div style={{ width: `${score}%` }} />
           </div>
-        ) : null}
-
-        {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
-      </div>
-
-      <div className="border-t border-border px-4 py-4 sm:px-6">
-        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-          <Button type="button" variant="outline" className="h-10" onClick={onClose}>
-            {response ? 'Continue' : 'Cancel'}
-          </Button>
-          <Button type="button" className="h-10" disabled={isSubmitting} onClick={handleSubmit}>
-            {isSubmitting ? 'Sending...' : submitLabel}
-          </Button>
         </div>
+      )}
+      <div className={styles.bottom}>
+        <section className={styles.panel}>
+          <div className={styles.editorHeader}>
+            <div>
+              <h3>CONTRACT TERMS</h3>
+              <p>
+                {signing
+                  ? 'Adjust your offer to improve his interest.'
+                  : `Adjust your offer to keep ${name} on your team.`}
+              </p>
+            </div>
+            <button
+              type="button"
+              disabled
+              title="Market comparables are not available yet"
+              className={styles.comparables}
+            >
+              <ChartNoAxesColumnIncreasing
+                size={16}
+                style={{ display: 'inline', marginRight: 8 }}
+              />
+              View Market Comparables
+            </button>
+          </div>
+          <div className={styles.fields}>
+            <div>
+              <label htmlFor="transaction-years">Years</label>
+              <select
+                id="transaction-years"
+                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+                value={years}
+                onChange={(event) => {
+                  setYears(Number(event.target.value));
+                  setResponse(null);
+                }}
+              >
+                {allowedYears.map((value) => (
+                  <option key={value} value={value}>
+                    {value} years
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="transaction-apy">APY (M)</label>
+              <input
+                id="transaction-apy"
+                type="number"
+                inputMode="decimal"
+                step={0.5}
+                min={0}
+                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+                value={apyInput}
+                onChange={(event) => {
+                  if (!allowNumericInput(event.target.value)) return;
+                  setApyInput(event.target.value);
+                  setResponse(null);
+                }}
+                onBlur={() => {
+                  if (apyInput.trim() === '') return;
+                  const clamped = clampNumber(parseNumericInput(apyInput), 0, 99);
+                  setApyInput(clamped.toFixed(1));
+                }}
+              />
+            </div>
+            <div>
+              <label htmlFor="transaction-guaranteed">Guaranteed (M)</label>
+              <input
+                id="transaction-guaranteed"
+                type="number"
+                inputMode="decimal"
+                step={0.1}
+                min={0}
+                max={60}
+                className="mt-2 w-full rounded-md border border-border bg-white px-3 py-2 text-sm"
+                value={guaranteedInput}
+                onChange={(event) => {
+                  if (!allowNumericInput(event.target.value)) return;
+                  setGuaranteedInput(event.target.value);
+                  setResponse(null);
+                }}
+                onBlur={() => {
+                  if (guaranteedInput.trim() === '') return;
+                  const clamped = clampNumber(parseNumericInput(guaranteedInput), 0, 60);
+                  setGuaranteedInput(clamped.toFixed(1));
+                }}
+              />
+            </div>
+          </div>
+
+          <p style={{ marginTop: 16 }}>
+            {season || CURRENT_MODELED_LEAGUE_YEAR} Cap Number:{' '}
+            {formatMoneyMillions(currentLeagueYearCapHit)}
+          </p>
+        </section>
+        <section className={styles.panel}>
+          <span className={styles.valueLabel}>PROJECTED TOTAL VALUE</span>
+          <strong className={styles.total}>{formatMoneyMillions(years * apyValue)}</strong>
+          <p>
+            {years} {years === 1 ? 'year' : 'years'} · {formatMoneyMillions(guaranteedValue)}{' '}
+            guaranteed
+          </p>
+          <button
+            type="button"
+            className={styles.primary}
+            disabled={isSubmitting}
+            onClick={handleSubmit}
+          >
+            {isSubmitting ? 'Sending Offer…' : 'Send Offer'}
+            <ArrowRight size={22} />
+          </button>
+          <button
+            type="button"
+            className={styles.secondary}
+            disabled={isSubmitting}
+            onClick={onClose}
+          >
+            {response ? 'Continue' : signing ? 'Cancel' : 'Walk Away'}
+          </button>
+        </section>
       </div>
+      {response && (
+        <div className={styles.response} role="status">
+          <p>“{response.message}”</p>
+          <small>{response.notice}</small>
+        </div>
+      )}
+      {error && (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      )}
     </TransactionModal>
   );
 }

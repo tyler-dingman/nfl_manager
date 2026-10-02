@@ -1,3 +1,4 @@
+import { ensureWeeklyHero } from '@/server/front-office/hero-story';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -5,6 +6,7 @@ import { authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import {
   getFrontOfficeSaveMetadata,
+  saveFranchiseSimulation,
   upsertFrontOfficeSaveMetadata,
 } from '@/server/front-office/repository';
 
@@ -25,10 +27,25 @@ export async function GET(request: NextRequest) {
   if (!user) return authError('Unauthorized.', 401);
   const saveId = request.nextUrl.searchParams.get('saveId');
   if (!saveId) return NextResponse.json({ error: 'saveId is required.' }, { status: 400 });
-  return NextResponse.json({
-    ok: true,
-    state: await getFrontOfficeSaveMetadata(user.id, saveId),
-  });
+  let state = await getFrontOfficeSaveMetadata(user.id, saveId);
+  if (state?.simulation) {
+    const simulation = await ensureWeeklyHero(
+      saveId,
+      state.teamAbbr,
+      structuredClone(state.simulation),
+      user.id,
+    );
+    if (JSON.stringify(simulation.heroStories) !== JSON.stringify(state.simulation.heroStories)) {
+      state =
+        (await saveFranchiseSimulation({
+          userId: user.id,
+          saveId,
+          expectedVersion: state.version ?? 1,
+          simulation,
+        })) ?? (await getFrontOfficeSaveMetadata(user.id, saveId));
+    }
+  }
+  return NextResponse.json({ ok: true, state });
 }
 
 export async function PUT(request: NextRequest) {

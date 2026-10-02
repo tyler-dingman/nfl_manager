@@ -315,7 +315,7 @@ export default function ExperiencePage() {
   }
 
   return (
-    <AppShell showLeagueWire={false} showTeamSummary={false}>
+    <AppShell showTeamSummary={false}>
       <FrontOfficeHome saveId={saveId} teamAbbr={teamAbbr} roster={roster} />
     </AppShell>
   );

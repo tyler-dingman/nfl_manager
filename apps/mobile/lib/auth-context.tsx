@@ -1,3 +1,5 @@
+import { completeIntro } from './intro-state';
+import { demoSession } from './demo-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
 import {
@@ -46,6 +48,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const googleIosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
   const googleAvailable =
     Platform.OS === 'android' || (Platform.OS === 'ios' && Boolean(googleClientId));
+  useEffect(() => { if (user) void completeIntro(); }, [user]);
   useEffect(() => {
     void currentUser()
       .then(setUser)
@@ -126,8 +129,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
         }),
       logout: () =>
         perform(async () => {
+          const wasDemo = demoSession.isActive();
           await logoutSession();
-          if (googleAvailable && Platform.OS === 'ios')
+          if (!wasDemo && googleAvailable && Platform.OS === 'ios')
             await googleSignIn()
               .GoogleSignin.signOut()
               .catch(() => undefined);

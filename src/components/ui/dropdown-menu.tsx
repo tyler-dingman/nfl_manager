@@ -73,13 +73,33 @@ function DropdownMenuTrigger({
 
 const DropdownMenuContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { align?: 'start' | 'end' }
->(({ className, align = 'start', ...props }, ref) => {
+  React.HTMLAttributes<HTMLDivElement> & {
+    align?: 'start' | 'end';
+    anchorRef?: React.RefObject<HTMLElement>;
+    matchAnchorWidth?: boolean;
+  }
+>(({ className, align = 'start', anchorRef, matchAnchorWidth = false, ...props }, ref) => {
   const { open, setOpen, triggerRef } = useDropdownContext();
   const teamStyle = useTeamStyle();
   const contentRef = React.useRef<HTMLDivElement>(null);
 
   React.useImperativeHandle(ref, () => contentRef.current as HTMLDivElement);
+  const [anchorRect, setAnchorRect] = React.useState<DOMRect | null>(null);
+  React.useLayoutEffect(() => {
+    if (!open || !anchorRef?.current) return;
+    const anchor = anchorRef.current;
+    const update = () => setAnchorRect(anchor.getBoundingClientRect());
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(anchor);
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update, true);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update, true);
+    };
+  }, [open, anchorRef]);
 
   React.useEffect(() => {
     if (!open) {
@@ -102,7 +122,7 @@ const DropdownMenuContent = React.forwardRef<
     return null;
   }
 
-  const triggerRect = triggerRef.current?.getBoundingClientRect();
+  const triggerRect = anchorRef ? anchorRect : triggerRef.current?.getBoundingClientRect();
   if (!triggerRect) {
     return null;
   }
@@ -131,7 +151,19 @@ const DropdownMenuContent = React.forwardRef<
         triggerRef.current?.closest('.front-office-app') ? 'fo-portal-menu' : undefined,
         className,
       )}
-      style={{ ...teamStyle, ...alignStyles }}
+      style={{
+        ...teamStyle,
+        ...alignStyles,
+        ...(matchAnchorWidth
+          ? {
+              width: triggerRect.width,
+              minWidth: 0,
+              maxWidth: 'none',
+              boxSizing: 'border-box',
+              marginTop: 8,
+            }
+          : {}),
+      }}
       {...props}
     />
   );

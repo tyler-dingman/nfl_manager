@@ -197,6 +197,7 @@ export default function NotificationPreferences() {
       <View style={s.card}>
         <Text style={s.title}>Three &amp; Out Delivery</Text>
         <Text style={s.copy}>Choose how you want to receive your daily Three &amp; Out.</Text>
+        <Text style={s.copy}>Daily email and SMS delivery are not available yet. Saved preferences do not activate those channels.</Text>
         <View style={s.channels}>
           {(['email', 'sms', 'push'] as const).map((key, i) => (
             <Pressable

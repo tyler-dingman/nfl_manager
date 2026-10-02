@@ -1,5 +1,5 @@
 import { normalizeTeamName } from './normalize';
-import type { UnifiedTeam } from '@/server/data/nfl-data';
+import type { UnifiedTeam } from '../data/nfl-data';
 
 export type CanonicalTeamSeed = {
   name: string;

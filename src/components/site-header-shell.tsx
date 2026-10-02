@@ -36,9 +36,11 @@ export function SiteHeaderShell({
 export function SiteHeaderLogo({
   teamAbbr,
   generic = false,
+  letteringColor,
 }: {
   teamAbbr?: string | null;
   generic?: boolean;
+  letteringColor?: string;
 }) {
   return (
     <Link
@@ -50,6 +52,7 @@ export function SiteHeaderLogo({
         size={62}
         teamAbbr={teamAbbr}
         generic={generic}
+        letteringColor={letteringColor}
         imageClassName="max-h-14 sm:max-h-[var(--site-logo-height)]"
         containerClassName="h-14 w-28 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:h-[var(--site-logo-height)] sm:w-[var(--site-logo-width)]"
         priority

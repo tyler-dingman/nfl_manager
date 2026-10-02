@@ -450,7 +450,7 @@ export default function DownDistanceHome() {
         </SiteHeaderShell>
 
         {activeTeam ? (
-          <GameDayHomepageHero team={activeTeam} game={homepageGame} />
+          <><GameDayHomepageHero team={activeTeam} game={homepageGame} /><Link href={`/huddle?team=${activeTeam.abbr}${homepageGame?`&game=${homepageGame.id}`:''}`} style={{display:'block',padding:16}}>Join your team in The Huddle →</Link></>
         ) : (
           <PlaybookHero />
         )}

@@ -1,3 +1,5 @@
+import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
+import { tradeDeadlineResponse } from '@/server/front-office/trade-window';
 import { NextRequest, NextResponse } from 'next/server';
 
 import {
@@ -87,6 +89,9 @@ export const POST = async (request: NextRequest) => {
       { status: 400 },
     );
   }
+
+  const deadline = await tradeDeadlineResponse(request, body.saveId);
+  if (deadline) return deadline;
 
   if (body.persistedOfferId) {
     const user = await currentUser(request);
@@ -330,7 +335,9 @@ export const POST = async (request: NextRequest) => {
     await updateFrontOfficeTradeOfferStatus(persistedUserId, body.persistedOfferId, 'accepted');
   }
 
+  const events = await refreshFranchiseHeroAfterAction(request, body.saveId);
   return NextResponse.json({
+    events,
     ok: true,
     accepted: true,
     aiInterest: {

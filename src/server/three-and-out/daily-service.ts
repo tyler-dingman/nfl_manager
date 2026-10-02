@@ -155,8 +155,10 @@ export async function getDailyThreeAndOut(teamId: string, briefingDate?: string)
   if (!rows[0] || !Array.isArray(rows[0].items) || rows[0].items.length !== 3) return null;
   const archiveRows = await authDb()<SnapshotRow[]>`
     SELECT id, team_id AS "teamId", briefing_date AS "briefingDate", generated_at AS "generatedAt",
-      published_at AS "publishedAt", source_window_start AS "sourceWindowStart",
-      source_window_end AS "sourceWindowEnd", summary_version AS "summaryVersion", items
+      CASE WHEN jsonb_typeof(items)='array' THEN
+        (SELECT coalesce(jsonb_agg(jsonb_build_object('id',item->'id','title',item->'title') ORDER BY ordinal),'[]'::jsonb)
+         FROM jsonb_array_elements(items) WITH ORDINALITY AS entry(item,ordinal))
+      ELSE '[]'::jsonb END AS items
     FROM three_and_out_snapshots WHERE team_id=${teamId} AND status='PUBLISHED' AND items IS NOT NULL
       AND id<>${rows[0].id} ORDER BY briefing_date DESC LIMIT 14`;
   const previous = archiveRows
@@ -275,7 +277,9 @@ export async function deliverDueDailyThreeAndOut(now = new Date()) {
     const key = `${subscriber.teamId}:${briefingDate}`;
     if (generated.has(key)) continue;
     generated.add(key);
-    await generateDailyThreeAndOut(subscriber.teamId, { now, briefingDate });
+    const exists =
+      await authDb()`SELECT 1 FROM three_and_out_snapshots WHERE team_id=${subscriber.teamId} AND briefing_date=${briefingDate} AND status='PUBLISHED' AND CASE WHEN jsonb_typeof(items)='array' THEN jsonb_array_length(items)=3 ELSE false END LIMIT 1`;
+    if (!exists.length) await generateDailyThreeAndOut(subscriber.teamId, { now, briefingDate });
   }
   const candidates = await authDb()<PushCandidate[]>`
     SELECT s.id,s.team_id AS "teamId",s.briefing_date AS "briefingDate",
@@ -289,6 +293,10 @@ export async function deliverDueDailyThreeAndOut(now = new Date()) {
     JOIN user_profiles p ON p.user_id=u.id
     JOIN user_notification_preferences timing ON timing.user_id=u.id AND timing.category='THREE_AND_OUT_DAILY' AND timing.channel='IN_APP' AND timing.topic_id='THREE_AND_OUT'
     WHERE s.status='PUBLISHED' AND s.items IS NOT NULL AND s.briefing_date >= current_date - 1
+      AND NOT EXISTS (SELECT 1 FROM three_and_out_push_deliveries delivered
+        WHERE delivered.user_id=u.id AND delivered.channel='PUSH'
+          AND (delivered.briefing_id=s.id OR delivered.delivery_date=s.briefing_date)
+          AND (delivered.status<>'FAILED' OR delivered.attempt_count>=3 OR delivered.delivery_date IS NULL))
       AND EXISTS (
         SELECT 1 FROM user_notification_preferences np
         WHERE np.user_id=u.id AND np.category='THREE_AND_OUT_DAILY'

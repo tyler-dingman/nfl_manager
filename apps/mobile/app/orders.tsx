@@ -1,3 +1,4 @@
+import { PageHeading, PageState } from '../components/page-heading';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -8,8 +9,13 @@ const money = (c: number) => `$${(c / 100).toFixed(2)}`;
 export default function Orders() {
   const [orders, setOrders] = useState<any[]>([]),
     [tab, setTab] = useState('ALL');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   useEffect(() => {
-    void getCommerceOrders().then(setOrders);
+    void getCommerceOrders()
+      .then(setOrders)
+      .catch(() => setError('Unable to load orders. Please try again.'))
+      .finally(() => setLoading(false));
   }, []);
   const visible = orders.filter(
     (o) =>
@@ -20,7 +26,7 @@ export default function Orders() {
   );
   return (
     <ScrollView style={s.page} contentContainerStyle={s.body}>
-      <Heading>MY ORDERS</Heading>
+      <PageHeading eyebrow="Your account" title="My Orders" />
       <ScrollView horizontal contentContainerStyle={s.tabs}>
         {['ALL', 'PROCESSING', 'SHIPPED', 'CANCELED'].map((x) => (
           <Pressable key={x} onPress={() => setTab(x)} style={[s.tab, tab === x && s.active]}>
@@ -28,6 +34,9 @@ export default function Orders() {
           </Pressable>
         ))}
       </ScrollView>
+      {loading && <Text>Loading orders…</Text>}
+      {error && <PageState title="Orders unavailable" message={error} />}
+      {!loading && !error && !visible.length && <PageState title="No orders in this view." />}
       {visible.map((o) => (
         <Pressable
           key={o.id}
@@ -61,10 +70,9 @@ const s = StyleSheet.create({
     borderRadius: 15,
     padding: 17,
     marginBottom: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 12,
   },
-  name: { fontWeight: '900', color: C.ink },
+  name: { fontSize: 20, fontWeight: '900', color: C.ink },
   muted: { color: C.muted, marginTop: 5 },
-  status: { color: C.red, fontWeight: '900', fontSize: 11, marginTop: 5, textAlign: 'right' },
+  status: { color: C.red, fontWeight: '900', fontSize: 11, marginTop: 5, alignSelf: 'flex-start' },
 });

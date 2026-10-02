@@ -1,7 +1,17 @@
+import { CrewFeed, CrewSettings, CrewPhoto } from '../components/crew-feed';
 import { getEditorialHeroTheme } from '../../../src/lib/team-theme-tokens';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, RefreshControl, Share, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  RefreshControl,
+  Share,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { C } from '../components/screen';
 import { createCrew, createCrewInvite, getCrew, type MobileCrew } from '../lib/api';
 import { useAuth } from '../lib/auth-context';
@@ -13,13 +23,18 @@ export default function CrewScreen() {
   const { theme } = useTeamBranding();
   const heroAccent = getEditorialHeroTheme(teamId).heroPrimaryAccent;
   const [crew, setCrew] = useState<MobileCrew | null | undefined>(),
-    [tab, setTab] = useState<'FEED' | 'LEADERBOARD' | 'MEMBERS'>('FEED'),
+    [tab, setTab] = useState<'FEED' | 'LEADERBOARD' | 'MEMBERS' | 'SETTINGS'>('FEED'),
     [name, setName] = useState(`${user?.displayName?.split(' ')[0] ?? 'My'}’s ${teamId} Crew`),
     [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
   const load = useCallback(async () => {
     setLoading(true);
+    setError('');
     try {
       setCrew(await getCrew());
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Unable to load your crew.');
     } finally {
       setLoading(false);
     }
@@ -27,7 +42,21 @@ export default function CrewScreen() {
   useEffect(() => {
     void load();
   }, [load]);
-  if (crew === undefined) return <View style={s.page} />;
+  if (crew === undefined)
+    return (
+      <View style={[s.page, s.body]}>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <>
+            <Text accessibilityRole="alert">{error}</Text>
+            <Pressable onPress={() => void load()} style={s.button}>
+              <Text>Try again</Text>
+            </Pressable>
+          </>
+        )}
+      </View>
+    );
   if (!crew)
     return (
       <ScrollView style={s.page} contentContainerStyle={s.body}>
@@ -35,6 +64,11 @@ export default function CrewScreen() {
           <Text style={[s.heroEyebrow, { color: heroAccent }]}>BUILD YOUR CREW</Text>
           <Text style={s.heroTitle}>Football is better with your people.</Text>
         </View>
+        {!!error && (
+          <Text accessibilityRole="alert" style={s.copy}>
+            {error}
+          </Text>
+        )}
         <TextInput
           accessibilityLabel="Crew name"
           value={name}
@@ -43,9 +77,18 @@ export default function CrewScreen() {
         />
         <Pressable
           style={[s.button, { backgroundColor: theme.primaryFill }]}
+          disabled={saving || !name.trim()}
           onPress={async () => {
-            await createCrew(name, teamId);
-            void load();
+            setSaving(true);
+            setError('');
+            try {
+              await createCrew(name, teamId);
+              await load();
+            } catch (e) {
+              setError(e instanceof Error ? e.message : 'Unable to create crew.');
+            } finally {
+              setSaving(false);
+            }
           }}
         >
           <Text style={[s.buttonText, { color: theme.onPrimary }]}>CREATE MY CREW</Text>
@@ -53,10 +96,14 @@ export default function CrewScreen() {
       </ScrollView>
     );
   const invite = async () => {
-    const result = await createCrewInvite('SHARE_LINK');
-    await Share.share({
-      message: `${user?.displayName ?? 'A friend'} invited you to join ${crew.name} on Down & Distance. ${result.invite.inviteUrl}`,
-    });
+    try {
+      const result = await createCrewInvite('SHARE_LINK');
+      await Share.share({
+        message: `${user?.displayName ?? 'A friend'} invited you to join ${crew.name} on Down & Distance. ${result.invite.inviteUrl}`,
+      });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Unable to create invite.');
+    }
   };
   return (
     <ScrollView
@@ -66,6 +113,7 @@ export default function CrewScreen() {
     >
       <View style={s.hero}>
         <Text style={[s.heroEyebrow, { color: heroAccent }]}>MY CREW</Text>
+        {crew.photoUrl && <CrewPhoto url={crew.photoUrl} />}
         <Text style={s.heroTitle}>{crew.name}</Text>
         <Text style={s.sub}>
           {crew.members.length} members · {crew.teamAbbr} fans
@@ -83,7 +131,7 @@ export default function CrewScreen() {
         <Stat label="MEMBERS" value={String(crew.members.length)} />
       </View>
       <View style={s.tabs}>
-        {(['FEED', 'LEADERBOARD', 'MEMBERS'] as const).map((value) => (
+        {(['FEED', 'LEADERBOARD', 'MEMBERS', 'SETTINGS'] as const).map((value) => (
           <Pressable
             key={value}
             onPress={() => setTab(value)}
@@ -93,19 +141,15 @@ export default function CrewScreen() {
           </Pressable>
         ))}
       </View>
-      {tab === 'FEED'
-        ? crew.activity.map((item) => (
-            <View key={item.id} style={s.card}>
-              <Text style={s.actor}>
-                {item.actorName ?? 'Crew member'} · {item.type.replaceAll('_', ' ').toLowerCase()}
-              </Text>
-              {item.metadata.title ? <Text style={s.title}>{item.metadata.title}</Text> : null}
-              {item.message ? <Text style={s.copy}>{item.message}</Text> : null}
-            </View>
-          ))
-        : null}
+      {!!error && (
+        <Text accessibilityRole="alert" style={s.copy}>
+          {error}
+        </Text>
+      )}
+      {tab === 'FEED' && <CrewFeed crew={crew} onRefresh={load} />}
+      {tab === 'SETTINGS' && <CrewSettings crew={crew} onRefresh={load} />}
       {tab === 'LEADERBOARD'
-        ? crew.members
+        ? [...crew.members]
             .sort((a, b) => b.weeklyYards - a.weeklyYards)
             .map((member, index) => (
               <View key={member.id} style={s.member}>
@@ -138,22 +182,21 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 const s = StyleSheet.create({
-  page: { flex: 1, backgroundColor: C.cream },
+  page: { flex: 1, backgroundColor: '#F7F8FA' },
   body: { padding: 18, paddingBottom: 40 },
   hero: {
     backgroundColor: '#001222',
-    padding: 22,
+    padding: 28,
     marginHorizontal: -18,
     marginTop: -18,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
   },
   heroEyebrow: { fontSize: 12, fontWeight: '800', letterSpacing: 2, marginBottom: 10 },
   heroTitle: {
     color: 'white',
     fontSize: 32,
-    fontWeight: '900',
-    fontStyle: 'italic',
+    fontFamily: 'BarlowCondensedItalic',
     textTransform: 'uppercase',
   },
   sub: { color: '#c4d4e3', marginTop: 8 },

@@ -32,18 +32,7 @@ import styles from './my-plays-page.module.css';
 
 type Filter = 'ALL' | 'UPCOMING' | 'LIVE' | 'HIT' | 'MISSED';
 type Sort = 'RECENT' | 'OLDEST' | 'ODDS';
-type GradeResult = {
-  id: string;
-  status: SavedPlayStatus;
-  gradedAt?: string;
-  event?: SavedPlay['event'];
-  legs: Array<{
-    id: string;
-    status: SavedLegStatus;
-    actualResult?: number | null;
-    gradedAt?: string;
-  }>;
-};
+import { applySavedPlayResults, type GradeResult } from '../../../packages/parlay/saved-results';
 const price = (value?: number | null) => (value == null ? '—' : `${value > 0 ? '+' : ''}${value}`);
 const statusLabel: Record<SavedPlayStatus, string> = {
   UPCOMING: 'Upcoming',
@@ -97,27 +86,7 @@ export default function MyPlaysPage() {
         });
         if (!response.ok) throw new Error('Results are temporarily unavailable.');
         const body = (await response.json()) as { results?: GradeResult[] };
-        const byPlay = new Map((body.results ?? []).map((result) => [result.id, result]));
-        const next = source.map((play) => {
-          const result = byPlay.get(play.id);
-          if (!result) return play;
-          const used = new Set<number>();
-          const selections = play.selections.map((leg) => {
-            const index = result.legs.findIndex(
-              (item, candidate) => item.id === leg.id && !used.has(candidate),
-            );
-            if (index < 0) return leg;
-            used.add(index);
-            return { ...leg, ...result.legs[index], gradingStatus: result.legs[index].status };
-          });
-          return {
-            ...play,
-            event: result.event ?? play.event,
-            selections,
-            status: deriveSavedPlayStatus(selections.map((leg) => leg.gradingStatus ?? 'UPCOMING')),
-            gradedAt: result.gradedAt ?? play.gradedAt,
-          };
-        });
+        const next = applySavedPlayResults(source, body.results ?? []);
         persist(next);
         setMessage('Results are up to date.');
       } catch (error) {

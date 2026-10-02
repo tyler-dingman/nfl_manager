@@ -5,29 +5,12 @@ import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
 import type { FrontOfficeEvent } from '@/types/front-office';
 
-const messageTypes = new Set([
-  'welcome_message',
-  're_sign_ready',
-  'trade_interest',
-  'deadline_alert',
-  'trade_offer',
-]);
+import { frontOfficeMessages } from '../../../packages/front-office/messages';
 
 export function FrontOfficeMessages() {
   const saveId = useSaveStore((state) => state.saveId);
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
-  const messages = useMemo(
-    () =>
-      events
-        .filter((event) => messageTypes.has(event.type))
-        .sort((a, b) => {
-          if (a.type === 'welcome_message' && b.type === 'welcome_message') {
-            return Number(a.metadata.messageOrder ?? 99) - Number(b.metadata.messageOrder ?? 99);
-          }
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        }),
-    [events],
-  );
+  const messages = useMemo(() => frontOfficeMessages(events), [events]);
   useEffect(() => {
     if (!saveId) return;
     let active = true;

@@ -1,4 +1,5 @@
 'use client';
+import { isTradeDeadlinePassed, TRADE_DEADLINE_MESSAGE } from '@/lib/front-office-trade-window';
 
 import { ResponsivePlayerButton } from '@/components/players/responsive-player-table';
 import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
@@ -285,7 +286,10 @@ function AssetBrowser({
   );
 }
 
-export function TradeHubPage() {
+export function TradeHubPage({
+  initialPlayerId,
+  initialPartner,
+}: { initialPlayerId?: string; initialPartner?: string } = {}) {
   const userBrowserRef = useRef<HTMLElement>(null);
   const partnerBrowserRef = useRef<HTMLElement>(null);
   const focusAssetBrowser = (side: Side) => {
@@ -297,12 +301,14 @@ export function TradeHubPage() {
     )?.focus({ preventScroll: true });
   };
   const save = useSaveStore();
+  const deadlinePassed = isTradeDeadlinePassed(save.phase);
   const setSaveHeader = useSaveStore((state) => state.setSaveHeader);
   const selectedTeam = useTeamStore((state) =>
     state.teams.find((team) => team.id === state.selectedTeamId),
   );
   const [teams, setTeams] = useState<TeamDTO[]>([]);
   const [partner, setPartner] = useState('');
+  const initialTargetApplied = useRef(false);
   const [trade, setTrade] = useState<Trade | null>(null);
   const [userSource, setUserSource] = useState<TeamTradeAssetSourceDTO | null>(null);
   const [partnerSource, setPartnerSource] = useState<TeamTradeAssetSourceDTO | null>(null);
@@ -378,11 +384,15 @@ export function TradeHubPage() {
   }, []);
   useEffect(() => {
     if (!teams.length || partner) return;
-    setPartner(teams.find((team) => team.abbr !== userAbbr)?.abbr ?? '');
-  }, [partner, teams, userAbbr]);
+    setPartner(
+      teams.find((team) => team.abbr === initialPartner && team.abbr !== userAbbr)?.abbr ??
+        teams.find((team) => team.abbr !== userAbbr)?.abbr ??
+        '',
+    );
+  }, [partner, teams, userAbbr, initialPartner]);
 
   const load = useCallback(async () => {
-    if (!partner || !userAbbr) return;
+    if (deadlinePassed || !partner || !userAbbr) return;
     setLoading(true);
     setAnalysis(null);
     setTrade(null);
@@ -413,12 +423,36 @@ export function TradeHubPage() {
       setPartnerSource(payload.partner);
       setCaps(payload.caps ?? { user: useSaveStore.getState().capSpace, partner: 0 });
       setLiveNeeds(payload.needs ?? { user: [], partner: [] });
+      if (initialPlayerId && partner === initialPartner && !initialTargetApplied.current) {
+        if (
+          !payload.partner.players.some((player: PlayerRowDTO) => player.id === initialPlayerId)
+        ) {
+          setStatus(
+            'This player is no longer available on the selected team. Choose another player below.',
+          );
+        } else {
+          const response = await apiFetch(`/api/trades/${created.trade.id}/add-asset`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              saveId,
+              side: 'receive',
+              type: 'player',
+              playerId: initialPlayerId,
+            }),
+          });
+          const next = await response.json();
+          if (!response.ok) throw new Error(next.error ?? 'Unable to add the selected player.');
+          initialTargetApplied.current = true;
+          setTrade(next);
+        }
+      }
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Unable to load Trade Machine.');
     } finally {
       setLoading(false);
     }
-  }, [partner, resolveSave, userAbbr]);
+  }, [partner, resolveSave, userAbbr, initialPartner, initialPlayerId, deadlinePassed]);
   useEffect(() => {
     void load();
   }, [load]);
@@ -673,6 +707,7 @@ export function TradeHubPage() {
     ? 'Add assets from both teams to evaluate the complete proposal.'
     : (analysis?.proposal.validationErrors[0]?.message ??
       `${valueShare >= 0.53 ? 'Receives more value than it sends' : valueShare >= 0.47 ? 'Exchanges comparable package value' : 'Sends more value than it receives'}, with ${money(Math.abs(capChange))} ${capChange >= 0 ? 'added to' : 'used from'} your available cap space.`);
+  if (deadlinePassed) return <div className={styles.status}>{TRADE_DEADLINE_MESSAGE}</div>;
   if (loading && !trade) return <div className={styles.status}>Loading the Trade Machine…</div>;
   if (status && !trade && !tradeResult)
     return (

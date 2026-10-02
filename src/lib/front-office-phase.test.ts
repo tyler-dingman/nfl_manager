@@ -45,7 +45,7 @@ test('trade deadline jump disappears after the deadline', () => {
 });
 
 test('offseason cannot skip its stages', () => {
-  assert.equal(getFrontOfficePhaseActions('resign_cut').primary.target, 'free_agency');
+  assert.equal(getFrontOfficePhaseActions('resign_cut').primary.target, 'scouting_combine');
   assert.deepEqual(getFrontOfficePhaseActions('scouting_combine').jumps, []);
   assert.equal(getFrontOfficePhaseActions('free_agency').primary.target, 'free_agency_open');
   assert.equal(getFrontOfficePhaseActions('free_agency_open').primary.target, 'draft');
@@ -78,6 +78,8 @@ test('Free Agency controls are exclusive to the two offseason Free Agency phases
     'divisional',
     'conference',
     'super-bowl',
+    'offseason',
+    'resign_cut',
     'scouting_combine',
     'draft',
   ]) {
@@ -91,7 +93,7 @@ test('Free Agency controls are exclusive to the two offseason Free Agency phases
 });
 
 test('legacy phase names and wave saves normalize without creating extra stages', () => {
-  assert.equal(normalizeFrontOfficePhase('resign_cut'), 'scouting_combine');
+  assert.equal(normalizeFrontOfficePhase('resign_cut'), 'resign_cut');
   assert.equal(normalizeFrontOfficePhase('free_agency', 1), 'free_agency');
   assert.equal(normalizeFrontOfficePhase('free_agency', 3), 'free_agency_open');
   assert.equal(normalizeFrontOfficePhase('preseason'), 'week-1');

@@ -1,3 +1,4 @@
+import { editorialDesign } from '../../../packages/design/mobile';
 import type { CSSProperties, ReactNode } from 'react';
 import { getTeamDisplayAccent, getEditorialHeroTheme } from '@/lib/team-theme-tokens';
 import headlineStyles from '@/components/home/home-team-headline.module.css';
@@ -31,6 +32,7 @@ export function EditorialSectionHero({
       style={
         {
           '--hero-beat-accent': getTeamDisplayAccent(teamAbbr),
+          '--hero-background': editorialDesign.background,
           '--hero-primary-accent': heroPrimaryAccent,
           '--hero-beat-detail': heroBrightAccent,
           '--team-secondary-on-dark': 'var(--hero-beat-detail)',

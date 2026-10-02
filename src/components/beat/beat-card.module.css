@@ -182,39 +182,6 @@
   width: 16px;
   height: 16px;
 }
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-top: 14px;
-}
-.control {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-width: 44px;
-  min-height: 44px;
-  padding: 0;
-  font-size: 11px;
-  line-height: 13.2px;
-  font-weight: 600;
-  color: #071c49;
-  white-space: nowrap;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-}
-.control svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-.arrow {
-  margin-left: auto;
-  margin-right: -12px;
-}
 .saved {
   fill: currentColor;
 }
@@ -309,9 +276,6 @@
     left: 14px;
     width: 4px;
     height: 18px;
-  }
-  .control {
-    white-space: normal;
   }
   .body {
     padding: 14px;

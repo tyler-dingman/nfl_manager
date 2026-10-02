@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { createPortal } from 'react-dom';
 import {
   ArrowRightLeft,
   Eye,
@@ -82,7 +83,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
 
   const push = React.useCallback(
     (toast: ToastPayload) => {
-      if (toast.kind === 'progress') {
+      if ((typeof window !== 'undefined' && window.location.pathname.startsWith('/front-office') && ['starReaction','leagueBuzz'].includes(toast.kind ?? '')) || toast.kind === 'progress') {
         return;
       }
       const id = toast.id ?? `toast_${Date.now()}_${Math.random().toString(16).slice(2)}`;
@@ -331,14 +332,23 @@ const ProgressToastCard = ({
 
 export const ToastViewport = () => {
   const context = React.useContext(ToastContext);
-  if (!context) {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+  if (!context || !mounted) {
     return null;
   }
 
-  return (
-    <div className="fixed inset-x-3 top-3 z-[60] flex max-h-[calc(100dvh-1.5rem)] flex-col gap-2 overflow-hidden sm:inset-x-auto sm:right-4 sm:top-4 sm:w-[22rem]">
+  return createPortal(
+    <div
+      className="pointer-events-none fixed inset-x-3 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-[10000] flex max-h-[calc(100dvh-7rem)] flex-col gap-2 overflow-y-auto sm:left-auto sm:right-4 sm:w-[22rem]"
+      aria-live="polite"
+      aria-relevant="additions text"
+    >
       {context.toasts.slice(-3).map((toast) => (
-        <div key={toast.id} className="animate-in slide-in-from-right-3 fade-in-0 duration-200">
+        <div
+          key={toast.id}
+          className="pointer-events-auto animate-in slide-in-from-right-3 fade-in-0 duration-200"
+        >
           {toast.kind === 'starReaction' && toast.starReaction ? (
             <StarReactionToastCard
               toast={toast as ToastPayload & { id: string; starReaction: StarReactionToastData }}
@@ -398,6 +408,7 @@ export const ToastViewport = () => {
           )}
         </div>
       ))}
-    </div>
+    </div>,
+    document.body,
   );
 };

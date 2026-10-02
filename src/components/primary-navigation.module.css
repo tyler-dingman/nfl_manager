@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   bottom: -6px;
-  height: 2px;
+  height: 3px;
   border-radius: 1px;
   background: var(--team-primary-on-dark, #ff3d38);
   opacity: 0;
@@ -21,6 +21,9 @@
 .link[aria-current='page']::after {
   opacity: 1;
   transform: scaleX(1);
+}
+.link[data-nav-item='merch'][aria-current='page']::after {
+  background: #ffffff;
 }
 @media (prefers-reduced-motion: reduce) {
   .link::after {

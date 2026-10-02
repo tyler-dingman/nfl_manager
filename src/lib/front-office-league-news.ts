@@ -1,9 +1,6 @@
-import { TEAM_LIST } from '@/data/teams';
-import { resolveNewsGraphicVariant } from '@/components/front-office/news-graphics/news-graphic-variant';
-import type {
-  NewsGraphicTeam,
-  NewsGraphicVariant,
-} from '@/components/front-office/news-graphics/NewsGraphic';
+import { TEAM_LIST } from '../data/teams';
+import { resolveNewsGraphicVariant } from '../components/front-office/news-graphics/news-graphic-variant';
+import type { NewsGraphicTeam, NewsGraphicVariant } from '../../packages/front-office/news-graphic';
 import type { FrontOfficeEvent } from '@/types/front-office';
 import type {
   FrontOfficeStoryGraphicModel,
@@ -43,6 +40,13 @@ const numericMetadata = (event: FrontOfficeEvent, key: string) => {
   const value = Number(event.metadata[key]);
   return Number.isFinite(value) ? value : 0;
 };
+
+export const isFrontOfficeBreakingNews = (event: FrontOfficeEvent) =>
+  event.metadata.isBreaking === true ||
+  (event.type === 'breaking_news' &&
+    event.metadata.origin !== 'REAL_WORLD_SEED' &&
+    event.metadata.newsCategory !== 'GAME_RECAP' &&
+    event.metadata.newsCategory !== 'ANALYSIS');
 
 export function frontOfficeEventIncludesTeam(event: FrontOfficeEvent, teamAbbr: string) {
   const teamIds = event.metadata.teamIds;
@@ -142,7 +146,7 @@ export function eventToLeagueNewsStory(
     categoryLabel: category.replace('_', ' '),
     graphicVariant: resolveNewsGraphicVariant(`${category} ${event.type}`, event.headline),
     storyTemplate: storyTemplateFor(event),
-    isBreaking: event.priority === 'urgent' || event.type === 'breaking_news',
+    isBreaking: isFrontOfficeBreakingNews(event),
     headline: event.headline,
     summary: event.summary,
     team: toNewsTeam(event.teamAbbr),

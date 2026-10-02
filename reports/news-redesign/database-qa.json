@@ -1,0 +1,127 @@
+{
+  "weekly": [
+    {
+      "week": 1,
+      "league": 3,
+      "team": 1,
+      "unread": 4
+    },
+    {
+      "week": 2,
+      "league": 2,
+      "team": 1,
+      "unread": 7
+    },
+    {
+      "week": 3,
+      "league": 3,
+      "team": 1,
+      "unread": 11
+    },
+    {
+      "week": 4,
+      "league": 2,
+      "team": 0,
+      "unread": 13
+    },
+    {
+      "week": 5,
+      "league": 3,
+      "team": 1,
+      "unread": 17
+    },
+    {
+      "week": 6,
+      "league": 2,
+      "team": 1,
+      "unread": 20
+    },
+    {
+      "week": 7,
+      "league": 3,
+      "team": 1,
+      "unread": 24
+    },
+    {
+      "week": 8,
+      "league": 2,
+      "team": 0,
+      "unread": 26
+    },
+    {
+      "week": 9,
+      "league": 7,
+      "team": 1,
+      "unread": 34
+    },
+    {
+      "week": 10,
+      "league": 3,
+      "team": 0,
+      "unread": 37
+    },
+    {
+      "week": 11,
+      "league": 2,
+      "team": 1,
+      "unread": 40
+    },
+    {
+      "week": 12,
+      "league": 3,
+      "team": 0,
+      "unread": 43
+    },
+    {
+      "week": 13,
+      "league": 2,
+      "team": 1,
+      "unread": 46
+    },
+    {
+      "week": 14,
+      "league": 3,
+      "team": 0,
+      "unread": 49
+    },
+    {
+      "week": 15,
+      "league": 2,
+      "team": 1,
+      "unread": 52
+    },
+    {
+      "week": 16,
+      "league": 3,
+      "team": 0,
+      "unread": 55
+    },
+    {
+      "week": 17,
+      "league": 2,
+      "team": 1,
+      "unread": 58
+    }
+  ],
+  "counts": {
+    "all": 58,
+    "team": 11,
+    "league": 47,
+    "breaking": 0,
+    "categories": [
+      {
+        "category": "COACHING",
+        "count": 7
+      },
+      {
+        "category": "PERFORMANCE",
+        "count": 45
+      },
+      {
+        "category": "PLAYOFF RACE",
+        "count": 6
+      }
+    ]
+  },
+  "checks": "persistence, retry dedupe, preview, pagination, team search, individual/all read, isolation and reset passed"
+}

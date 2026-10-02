@@ -1,4 +1,5 @@
 'use client';
+import { validateParlayBuild } from '../../../packages/parlay/validate-build';
 import { ResponsivePlayerButton } from '@/components/players/responsive-player-table';
 import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import headingStyles from './panel-heading.module.css';
@@ -174,20 +175,11 @@ export function GeneratorDashboard({
     setNotice('');
     try {
       const fresh = await refresh();
-      const validated = result.map((leg) =>
-        fresh.markets.find(
-          (m) =>
-            m.id === leg.id &&
-            m.sportsbook === leg.sportsbook &&
-            m.available &&
-            m.line === leg.line &&
-            m.odds === leg.odds &&
-            m.side === leg.side &&
-            (m.trend?.trendScore ?? -1) >= (rules?.minScore ?? 0) &&
-            fresh.events.some(
-              (e) => e.id === m.eventId && !e.marketsLocked && Date.parse(e.kickoffAt) > Date.now(),
-            ),
-        ),
+      const validated = validateParlayBuild(
+        result,
+        fresh.markets,
+        fresh.events,
+        rules?.minScore ?? 0,
       );
       if (validated.some((m) => !m)) {
         setNotice(

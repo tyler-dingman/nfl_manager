@@ -1,5 +1,7 @@
+import { normalizeDisplayHeadline } from '../../../../src/lib/display-headline';
+import { PageHeading } from '../../components/page-heading';
 import { PageScrollView as ScrollView } from '../../components/page-scroll-view';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Linking, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { C, Eyebrow, Heading } from '../../components/screen';
@@ -24,18 +26,19 @@ export default function BeatStoryScreen() {
     if (story || !id) return;
     void getBeatStory(id, teamId)
       .then(setStory)
+      .catch(() => setMessage('Unable to load this story. Please try again.'))
       .finally(() => setLoading(false));
   }, [id, story, teamId]);
   if (!story)
     return (
       <View style={s.page}>
         <Heading>{loading ? 'Loading story…' : 'Story unavailable'}</Heading>
+        <Text style={s.message}>{message}</Text>
       </View>
     );
   return (
     <ScrollView style={s.page} contentContainerStyle={s.body}>
-      <Eyebrow>{story.category}</Eyebrow>
-      <Heading>{story.headline}</Heading>
+      <PageHeading eyebrow={story.category} title={normalizeDisplayHeadline(story.headline)} />
       <Text style={s.updated}>
         Updated {new Date(story.updatedAt).toLocaleString()} · {story.sourceCount} sources
       </Text>
@@ -47,6 +50,15 @@ export default function BeatStoryScreen() {
         </View>
       ) : null}
       <View style={s.actions}>
+        <Pressable
+          accessibilityRole="button"
+          style={s.action}
+          onPress={() =>
+            router.push({ pathname: '/huddle', params: { team: teamId, discussion: id } } as never)
+          }
+        >
+          <Text style={s.actionText}>DISCUSS IN THE HUDDLE</Text>
+        </Pressable>
         <Pressable style={s.action} onPress={() => setShareOpen(true)}>
           <Text style={s.actionText}>SHARE WITH THE CREW</Text>
         </Pressable>
@@ -86,7 +98,7 @@ export default function BeatStoryScreen() {
   );
 }
 const s = StyleSheet.create({
-  page: { flex: 1, backgroundColor: C.cream },
+  page: { flex: 1, backgroundColor: '#F7F4EE' },
   body: { padding: 20, paddingBottom: 40 },
   updated: { color: C.muted, fontSize: 12, marginTop: 10 },
   summary: { fontSize: 18, lineHeight: 27, color: C.ink, marginTop: 24 },

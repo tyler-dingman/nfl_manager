@@ -1817,6 +1817,14 @@ export const resignPlayerInState = (
   removeExpiringContract(state, updatedPlayer.id);
   state.freeAgents = state.freeAgents.filter((playerRow) => playerRow.id !== updatedPlayer.id);
 
+  state.transactions.push({
+    id: `tx_resign_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    type: 're-sign',
+    playerId: updatedPlayer.id,
+    toTeamAbbr: state.header.teamAbbr,
+    capHit: year1CapHit,
+    createdAt: new Date().toISOString(),
+  });
   return {
     header: getSaveHeaderSnapshot(state),
     player: updatedPlayer,
@@ -1871,6 +1879,14 @@ export const resignExpiringContractInState = (
   state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
   state.teamCaps[state.header.teamAbbr.toUpperCase()] = state.header.capSpace;
 
+  state.transactions.push({
+    id: `tx_resign_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    type: 're-sign',
+    playerId: newPlayer.id,
+    toTeamAbbr: state.header.teamAbbr,
+    capHit: year1CapHit,
+    createdAt: new Date().toISOString(),
+  });
   return {
     header: getSaveHeaderSnapshot(state),
     player: newPlayer,

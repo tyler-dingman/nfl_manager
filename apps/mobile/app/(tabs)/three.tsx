@@ -1,3 +1,4 @@
+import { PageHeading } from '../../components/page-heading';
 import { PageScrollView as ScrollView } from '../../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
 import { Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
@@ -32,9 +33,11 @@ export default function Three() {
       contentContainerStyle={s.body}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
     >
-      <Eyebrow>WHAT MATTERS RIGHT NOW</Eyebrow>
-      <Heading>Three and Out</Heading>
-      <Text style={s.intro}>The three biggest team stories, ranked, sourced, and explained.</Text>
+      <PageHeading
+        eyebrow="WHAT MATTERS RIGHT NOW"
+        title="Three & Out"
+        description="The three biggest team stories, ranked, sourced, and explained."
+      />
       {error ? (
         <View style={s.state}>
           <Text style={s.error}>{error}</Text>

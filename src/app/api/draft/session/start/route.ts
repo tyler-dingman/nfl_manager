@@ -1,3 +1,4 @@
+import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
 
 import { createDraftSession, getDraftSession } from '@/server/api/draft';
@@ -29,6 +30,7 @@ export const POST = async (request: Request) => {
   const sessionStart = createDraftSession(mode, body.saveId, body.maxRounds);
   const session = getDraftSession(sessionStart.draftSessionId, body.saveId);
 
+  await persistCompletedFranchiseDraft(request, body.saveId, session);
   return NextResponse.json({
     ok: true,
     draftSessionId: session.id,

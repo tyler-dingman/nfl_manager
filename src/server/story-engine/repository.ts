@@ -1,3 +1,4 @@
+import type { ClusteringStory } from '@/features/story-engine/clustering';
 import { randomUUID } from 'node:crypto';
 import { authDb } from '@/server/auth/database';
 import type {
@@ -87,11 +88,7 @@ export async function enqueueJob(
     await authDb()`INSERT INTO ingestion_jobs(id,job_type,idempotency_key,payload) VALUES(${randomUUID()},${type},${key},${authDb().json(payload as any)}) ON CONFLICT(idempotency_key) DO NOTHING RETURNING id`;
   return Boolean(rows.length);
 }
-export async function claimJob(
-  workerId: string,
-  teamId?: string,
-  group?: 'standard' | 'video',
-) {
+export async function claimJob(workerId: string, teamId?: string, group?: 'standard' | 'video') {
   return authDb().begin(async (sql) => {
     const [job] = await sql`SELECT job.* FROM ingestion_jobs job
         WHERE job.status IN ('PENDING','FAILED')
@@ -173,7 +170,8 @@ export async function saveCandidate(c: ContentCandidate) {
   return rows[0]?.id as string | undefined;
 }
 export async function candidateById(id: string): Promise<ContentCandidate | null> {
-  const [r] = await authDb()`SELECT * FROM content_candidates WHERE id=${id}`;
+  const [r] =
+    await authDb()`SELECT id,source_id,external_id,canonical_url,title,normalized_title,author,published_at,discovered_at,raw_text,excerpt,entities,candidate_teams,fingerprint,status,jsonb_build_object('storyType',metadata->'storyType') AS metadata FROM content_candidates WHERE id=${id}`;
   return r
     ? {
         id: r.id,
@@ -195,10 +193,20 @@ export async function candidateById(id: string): Promise<ContentCandidate | null
       }
     : null;
 }
-export async function recentStories(teams: string[], since: Date) {
+export async function recentStories(teams: string[], since: Date): Promise<ClusteringStory[]> {
   const rows =
-    await authDb()`SELECT * FROM canonical_stories WHERE last_meaningful_update_at>=${since} AND (team_id IS NULL OR team_id=ANY(${teams}))`;
-  return rows.map(rowStory);
+    await authDb()`SELECT id,team_id,story_type,headline,entities,summary,what_happened,last_meaningful_update_at
+    FROM canonical_stories WHERE last_meaningful_update_at>=${since} AND (team_id IS NULL OR team_id=ANY(${teams}))`;
+  return rows.map((r) => ({
+    id: r.id,
+    teamId: r.team_id,
+    storyType: r.story_type,
+    headline: r.headline,
+    entities: r.entities ?? [],
+    summary: r.summary,
+    whatHappened: r.what_happened,
+    lastMeaningfulUpdateAt: r.last_meaningful_update_at,
+  }));
 }
 export async function publishedStoryCountToday(teamId: string) {
   const [row] = await authDb()`SELECT count(*)::int AS count FROM canonical_stories
@@ -221,7 +229,7 @@ export async function storyIdsWithEvidenceSince(teamId: string, since: Date) {
 }
 export async function evidenceForStory(id: string) {
   const rows =
-    await authDb()`SELECT c.*,s.name,s.source_type,s.team_id,s.league_wide,s.url AS source_home,s.feed_url,s.fetch_strategy,s.polling_tier,s.priority,s.reliability_score,s.check_interval_seconds,s.enabled,s.etag,s.last_modified,s.last_checked_at,s.last_successful_at,s.next_check_at,s.failure_count,s.last_error,s.metadata AS source_metadata FROM story_evidence e JOIN content_candidates c ON c.id=e.content_candidate_id JOIN content_sources s ON s.id=e.source_id WHERE e.story_id=${id} ORDER BY e.first_seen_at`;
+    await authDb()`SELECT c.id,c.source_id,c.external_id,c.canonical_url,c.title,c.normalized_title,c.author,c.published_at,c.discovered_at,c.raw_text,c.excerpt,c.entities,c.candidate_teams,c.fingerprint,c.status,jsonb_build_object('storyType',c.metadata->'storyType') AS metadata,s.name,s.source_type,s.team_id,s.league_wide,s.url AS source_home,s.feed_url,s.fetch_strategy,s.polling_tier,s.priority,s.reliability_score,s.check_interval_seconds,s.enabled,s.etag,s.last_modified,s.last_checked_at,s.last_successful_at,s.next_check_at,s.failure_count,s.last_error,s.metadata AS source_metadata FROM story_evidence e JOIN content_candidates c ON c.id=e.content_candidate_id JOIN content_sources s ON s.id=e.source_id WHERE e.story_id=${id} ORDER BY e.first_seen_at`;
   return rows.map((r: any) => ({
     candidate: {
       id: r.id,

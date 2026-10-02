@@ -1,6 +1,6 @@
-import type { HomeMarket } from '@/components/parlay-lab/ParlayLabHome';
+import type { HomeMarket } from '../../../packages/parlay/research';
 import type { GeneratorGame } from './generator';
-import { normalizeHistoricalStatType } from '@/server/historical-stats/stat-resolver';
+import { normalizeHistoricalStatType } from '../../server/historical-stats/stat-resolver';
 
 export const ALT_STACK_MARKETS = [
   'RECEIVING_YARDS',

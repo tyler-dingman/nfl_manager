@@ -1,0 +1,41 @@
+{
+  "base_width": 1614,
+  "base_height": 304,
+  "left_endzone_polygon": [
+    [
+      218,
+      35
+    ],
+    [
+      315,
+      35
+    ],
+    [
+      153,
+      273
+    ],
+    [
+      15,
+      273
+    ]
+  ],
+  "right_endzone_polygon": [
+    [
+      1269,
+      35
+    ],
+    [
+      1369,
+      35
+    ],
+    [
+      1569,
+      273
+    ],
+    [
+      1428,
+      273
+    ]
+  ],
+  "rule": "Corrected overlay copies; base and original asset pack unchanged. Full-canvas stack, no renderer transforms."
+}

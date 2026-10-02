@@ -1,3 +1,4 @@
+import { PageHeading, PageState } from '../components/page-heading';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -7,8 +8,13 @@ import { C, Heading } from '../components/screen';
 export default function Cart() {
   const { items, update } = useCommerceCart();
   const [products, setProducts] = useState<MerchProduct[]>([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    void getMerch().then((x) => setProducts(x.products));
+    void getMerch()
+      .then((x) => setProducts(x.products))
+      .catch(() => setError('Unable to load cart prices. Please try again.'))
+      .finally(() => setLoading(false));
   }, []);
   const subtotal = items.reduce(
     (n, x) => n + (products.find((p) => p.id === x.productId)?.price ?? 0) * x.quantity,
@@ -16,14 +22,20 @@ export default function Cart() {
   );
   return (
     <ScrollView style={s.page} contentContainerStyle={s.body}>
-      <Heading>YOUR CART</Heading>
+      <PageHeading eyebrow="Down & Distance Originals" title="Your cart" />
+      {error && <PageState title="Cart unavailable" message={error} />}
       {items.map((item) => {
         const p = products.find((x) => x.id === item.productId);
         if (!p) return null;
         return (
           <View key={`${item.productId}:${item.size}`} style={s.item}>
             {p.imageUrl ? (
-              <Image source={{ uri: `${API_BASE_URL}${p.imageUrl}` }} style={s.image} />
+              <Image
+                source={{
+                  uri: p.imageUrl.startsWith('http') ? p.imageUrl : `${API_BASE_URL}${p.imageUrl}`,
+                }}
+                style={s.image}
+              />
             ) : null}
             <View style={s.copy}>
               <Text style={s.name}>{p.name}</Text>
@@ -47,11 +59,19 @@ export default function Cart() {
         <Text style={s.name}>${subtotal.toFixed(2)}</Text>
       </View>
       {items.length ? (
-        <Pressable style={s.button} onPress={() => router.push('/merch-checkout' as never)}>
+        <Pressable
+          disabled={loading || Boolean(error)}
+          style={s.button}
+          onPress={() => router.push('/merch-checkout' as never)}
+        >
           <Text style={s.buttonText}>CHECKOUT</Text>
         </Pressable>
       ) : (
-        <Text style={s.empty}>Your cart is empty.</Text>
+        <PageState title="Your cart is empty." message="Find your next game-day favorite.">
+          <Pressable style={s.button} onPress={() => router.push('/merch')}>
+            <Text style={s.buttonText}>CONTINUE SHOPPING →</Text>
+          </Pressable>
+        </PageState>
       )}
     </ScrollView>
   );
@@ -71,7 +91,14 @@ const s = StyleSheet.create({
   name: { fontWeight: '900', color: C.ink },
   price: { fontWeight: '900', marginTop: 8 },
   qty: { flexDirection: 'row', gap: 20, alignItems: 'center', marginTop: 8 },
-  q: { fontWeight: '900', fontSize: 18, padding: 4 },
+  q: {
+    fontWeight: '900',
+    fontSize: 18,
+    padding: 10,
+    minWidth: 44,
+    minHeight: 44,
+    textAlign: 'center',
+  },
   total: {
     flexDirection: 'row',
     justifyContent: 'space-between',

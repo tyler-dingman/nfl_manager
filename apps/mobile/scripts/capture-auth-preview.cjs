@@ -1,0 +1,41 @@
+const { chromium } = require('../../../node_modules/playwright');
+const fs = require('node:fs');
+const path = require('node:path');
+const output = path.resolve(__dirname, '../../../reports/mobile-screen-previews/auth');
+fs.mkdirSync(output, {recursive:true});
+(async()=>{
+ const browser=await chromium.launch({headless:true});
+ for(const [name,width,height] of [['small-android',360,800],['iphone',393,852],['large-android',430,932]]){
+  const context=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true});
+  await context.route('**/api/**',route=>route.fulfill({status:route.request().url().includes('/auth/me')?401:200,contentType:'application/json',body:JSON.stringify({ok:true,user:null,providers:{},message:'If an account exists, a reset link will be sent.'})}));
+  const page=await context.newPage(); await page.goto('http://localhost:8090/sign-in');
+  await page.getByTestId('field-launch-full').waitFor(); await page.screenshot({path:path.join(output,`${name}-launch.png`)});
+  await page.getByRole('button',{name:'Log In',exact:true}).waitFor(); await page.screenshot({path:path.join(output,`${name}-welcome.png`)});
+  await page.reload(); await page.getByRole('button',{name:'Log In',exact:true}).waitFor();
+  if(await page.getByTestId('field-launch-full').count()) throw Error('Repeated full intro');
+  await page.getByRole('button',{name:'Log In',exact:true}).click();
+  await page.getByLabel('Email',{exact:true}).fill('test@gmail.com'); await page.getByLabel('Password',{exact:true}).fill('test');
+  await page.screenshot({path:path.join(output,`${name}-login.png`)});
+  await page.getByRole('button',{name:'Forgot password?',exact:true}).click();
+  await page.getByRole('button',{name:'Send Reset Link',exact:true}).click();
+  await page.getByText('If an account exists, a reset link will be sent.',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Back to welcome',exact:true}).click();
+  await page.getByRole('button',{name:'Sign Up',exact:true}).click();
+  await page.getByLabel('Display name',{exact:true}).waitFor();
+  await page.screenshot({path:path.join(output,`${name}-signup.png`)});
+  await page.getByRole('button',{name:'Sign Up',exact:true}).click();
+  await page.getByText('Use a password between 10 and 256 characters.',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Back to welcome',exact:true}).click();
+  await page.getByRole('button',{name:'Log In',exact:true}).click();
+  await page.getByLabel('Email',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Log In',exact:true}).click();
+  await page.getByLabel('Search teams',{exact:true}).waitFor();
+  await context.close();
+ }
+ const context=await browser.newContext({viewport:{width:393,height:852},reducedMotion:'reduce'});
+ await context.route('**/api/**',r=>r.fulfill({status:401,contentType:'application/json',body:'{}'}));
+ const page=await context.newPage(); await page.goto('http://localhost:8090/sign-in');
+ await page.getByRole('button',{name:'Skip introduction'}).click();
+ await page.getByRole('button',{name:'Log In',exact:true}).waitFor();
+ await browser.close(); console.log('PASS: intro, persistence, welcome, login fields, signup validation, reset, reduced-motion skip across 3 viewports. Browser previews, not native builds.');
+})().catch(e=>{console.error(e);process.exit(1)});

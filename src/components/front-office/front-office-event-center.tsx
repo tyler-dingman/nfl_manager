@@ -1,5 +1,15 @@
 'use client';
 
+import { isFrontOfficeNewsNotification } from '@/lib/front-office-news-notifications';
+import { NewsSocialCard } from './news-social-card';
+import { NewsPreferencesPanel } from './news-preferences';
+import {
+  defaultNewsPreferences,
+  eligibleNewsToasts,
+  newsBatchSummary,
+  newsPersona,
+  type NewsPreferences,
+} from '@/lib/front-office-news-presentation';
 import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import Image from 'next/image';
 import { useTeamStyle } from '@/components/team-theme-provider';
@@ -12,7 +22,11 @@ import { createPortal } from 'react-dom';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TEAM_LIST } from '@/data/teams';
 import { apiFetch } from '@/lib/api';
-import { frontOfficeEventIncludesTeam, relativeNewsTime } from '@/lib/front-office-league-news';
+import {
+  frontOfficeEventIncludesTeam,
+  isFrontOfficeBreakingNews,
+  relativeNewsTime,
+} from '@/lib/front-office-league-news';
 import type { FrontOfficeEvent } from '@/types/front-office';
 
 import {
@@ -22,7 +36,7 @@ import {
 import { presentMockOffer } from '@/lib/mock-trade-presentation';
 import { FrontOfficeNotificationToast } from './front-office-notification-toast';
 
-type NewsFilter = 'all' | 'team' | 'breaking';
+type NewsFilter = 'all' | 'team' | 'league' | 'breaking';
 
 const categoryFromText = (event: FrontOfficeEvent) => {
   const text =
@@ -40,6 +54,7 @@ const categoryFromText = (event: FrontOfficeEvent) => {
 };
 
 const categoryFor = (event: FrontOfficeEvent) => {
+  if (isFrontOfficeBreakingNews(event)) return 'BREAKING';
   const explicit = String(event.metadata.newsCategory ?? '').toUpperCase();
   if (explicit === 'GAME_RECAP') return 'GAME';
   if (explicit === 'TRANSACTION') return 'ROSTER';
@@ -59,7 +74,7 @@ const categoryFor = (event: FrontOfficeEvent) => {
     ].includes(explicit)
   )
     return explicit;
-  if (event.type === 'breaking_news' || event.type === 'deadline_alert') return 'BREAKING';
+  if (isFrontOfficeBreakingNews(event)) return 'BREAKING';
   if (['trade_rumor', 'trade_interest', 'trade_offer'].includes(event.type))
     return event.type === 'trade_rumor' ? 'RUMOR' : 'TRADE';
   if (event.type === 'free_agent_signing') return 'SIGNING';
@@ -70,14 +85,9 @@ const categoryFor = (event: FrontOfficeEvent) => {
   return categoryFromText(event) ?? 'ROSTER';
 };
 
-const isBreaking = (event: FrontOfficeEvent) =>
-  event.type === 'breaking_news' ||
-  String(event.metadata.newsCategory ?? '').toUpperCase() === 'BREAKING' ||
-  (event.priority === 'urgent' && Number(event.metadata.importanceScore ?? 0) >= 90);
+const isBreaking = isFrontOfficeBreakingNews;
 
-const isNewsEvent = (event: FrontOfficeEvent) =>
-  event.type !== 'welcome_message' &&
-  String(event.metadata.channel ?? '').toUpperCase() !== 'MESSAGE';
+const isNewsEvent = isFrontOfficeNewsNotification;
 
 const teamFor = (event: FrontOfficeEvent) =>
   TEAM_LIST.find((team) => team.abbr === (event.teamAbbr ?? event.relatedTeamAbbr));
@@ -133,7 +143,35 @@ export function FrontOfficeEventCenter({
 }) {
   const teamStyle = useTeamStyle();
   const pathname = usePathname();
+  const [unread, setUnread] = useState(0);
+  const [nextOffset, setNextOffset] = useState<number | null>(null);
+  const activeSave = useRef(saveId);
+  activeSave.current = saveId;
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
+  const [batch, setBatch] = useState<FrontOfficeEvent[]>([]);
+  const [toastPaused, setToastPaused] = useState(false);
+  const [settings, setSettings] = useState(false);
+  const [preferences, setPreferences] = useState<NewsPreferences>(defaultNewsPreferences);
+  const [counts, setCounts] = useState({ all: 0, team: 0, league: 0, breaking: 0 });
+  useEffect(() => {
+    const refresh = () => {
+      try {
+        setPreferences({
+          ...defaultNewsPreferences,
+          ...JSON.parse(localStorage.getItem(`fo-news-preferences:${saveId}`) ?? '{}'),
+        });
+      } catch {
+        setPreferences(defaultNewsPreferences);
+      }
+    };
+    refresh();
+    window.addEventListener('front-office-news-preferences', refresh);
+    return () => window.removeEventListener('front-office-news-preferences', refresh);
+  }, [saveId]);
+  const changePreferences = (p: NewsPreferences) => {
+    setPreferences(p);
+    localStorage.setItem(`fo-news-preferences:${saveId}`, JSON.stringify(p));
+  };
   const [notification, setNotification] = useState<FrontOfficeEvent | null>(null);
   const [tradeFilter, setTradeFilter] = useState<'all' | 'new' | 'resolved'>('all');
   const [newsOpen, setNewsOpen] = useState(false);
@@ -183,65 +221,101 @@ export function FrontOfficeEventCenter({
   const storyRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const storageKey = `fo-news-notifications:${saveId}`;
 
-  const load = useCallback(async () => {
-    const response = await apiFetch(
-      `/api/front-office/events?saveId=${encodeURIComponent(saveId)}`,
-    );
-    if (!response.ok) return;
-    const payload = (await response.json()) as { events: FrontOfficeEvent[] };
-    setEvents(payload.events);
-  }, [saveId]);
-
-  const surface = useCallback(async () => {
-    const response = await apiFetch('/api/front-office/events/next', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ saveId, teamAbbr }),
-    });
-    if (!response.ok) return false;
-    const payload = (await response.json()) as { event: FrontOfficeEvent | null };
-    if (!payload.event) return false;
-    setNotification(payload.event);
-    await load();
-    return true;
-  }, [load, saveId, teamAbbr]);
+  const requestRevision = useRef(0);
+  const [loadError, setLoadError] = useState('');
+  const [loadingNews, setLoadingNews] = useState(false);
+  const load = useCallback(
+    async (offset = 0) => {
+      const revision = ++requestRevision.current;
+      setLoadingNews(true);
+      setLoadError('');
+      try {
+        const response = await apiFetch(
+          `/api/front-office/events?saveId=${encodeURIComponent(saveId)}&notifications=1&limit=10&filter=${filter}&offset=${offset}`,
+        );
+        if (!response.ok) throw new Error('News could not be loaded. Please try again.');
+        const payload = (await response.json()) as {
+          events: FrontOfficeEvent[];
+          unreadCount: number;
+          counts: { all: number; team: number; league: number; breaking: number };
+          nextOffset: number | null;
+        };
+        if (activeSave.current !== saveId || revision !== requestRevision.current) return;
+        setEvents((current) =>
+          offset
+            ? [
+                ...new Map(
+                  [...current, ...payload.events].map((event) => [event.id, event]),
+                ).values(),
+              ]
+            : payload.events,
+        );
+        setUnread(payload.unreadCount);
+        setCounts(payload.counts);
+        setNextOffset(payload.nextOffset);
+      } catch (error) {
+        if (activeSave.current === saveId && revision === requestRevision.current)
+          setLoadError(error instanceof Error ? error.message : 'Unable to load News.');
+      } finally {
+        if (revision === requestRevision.current) setLoadingNews(false);
+      }
+    },
+    [saveId, filter],
+  );
 
   useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setEvents([]);
+    setUnread(0);
+    setNextOffset(null);
+    setNotification(null);
+    setNewsOpen(false);
+    setBatch([]);
+  }, [saveId]);
   useEffect(() => {
     void load();
   }, [load]);
 
   useEffect(() => {
-    if (!mounted || paused || open || !pathname || draftActive) return;
-    const state = JSON.parse(sessionStorage.getItem(storageKey) ?? '{}') as {
-      count?: number;
-      lastPath?: string;
+    const changed = (raw: Event) => {
+      void load();
+      const detail = (raw as CustomEvent<{ events?: FrontOfficeEvent[] }>).detail;
+      const eligible = eligibleNewsToasts(
+        (detail?.events ?? []).filter((e) => e.saveId === saveId),
+        teamAbbr,
+        preferences,
+      );
+      if (open || draftActive || !eligible.length) return;
+      if (eligible.length === 1 && !['high', 'urgent'].includes(eligible[0].priority)) return;
+      setBatch((current) => [...new Map([...current, ...eligible].map((e) => [e.id, e])).values()]);
+      setNotification(eligible[0]);
     };
-    if (state.lastPath === pathname) return;
-    const next = { count: (state.count ?? 0) + 1, lastPath: pathname };
-    sessionStorage.setItem(storageKey, JSON.stringify(next));
-    if (next.count < 5) return;
-    void surface().then((didSurface) => {
-      if (didSurface)
-        sessionStorage.setItem(storageKey, JSON.stringify({ count: 0, lastPath: pathname }));
-    });
-  }, [mounted, open, pathname, paused, storageKey, surface, draftActive]);
-
-  useEffect(() => {
-    const onAdvanced = () => void load();
-    window.addEventListener('front-office-simulation-advanced', onAdvanced);
-    window.addEventListener('front-office-events-read', onAdvanced);
+    const read = () => void load();
+    for (const name of [
+      'front-office-simulation-advanced',
+      'front-office-week-complete',
+      'front-office-news-updated',
+    ])
+      window.addEventListener(name, changed);
+    window.addEventListener('front-office-events-read', read);
     return () => {
-      window.removeEventListener('front-office-simulation-advanced', onAdvanced);
-      window.removeEventListener('front-office-events-read', onAdvanced);
+      for (const name of [
+        'front-office-simulation-advanced',
+        'front-office-week-complete',
+        'front-office-news-updated',
+      ])
+        window.removeEventListener(name, changed);
+      window.removeEventListener('front-office-events-read', read);
     };
-  }, [load]);
-
+  }, [load, teamAbbr, preferences, paused, open, draftActive]);
   useEffect(() => {
-    if (!notification || open) return;
-    const timer = window.setTimeout(() => setNotification(null), 6500);
-    return () => window.clearTimeout(timer);
-  }, [notification, open]);
+    if (!notification || toastPaused || open || paused) return;
+    const timer = setTimeout(() => {
+      setNotification(null);
+      setBatch([]);
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, [notification, toastPaused, open, batch, paused]);
 
   const closeDrawer = useCallback(() => {
     setOpen(false);
@@ -256,6 +330,7 @@ export function FrontOfficeEventCenter({
   const openDrawer = useCallback(
     (storyId?: string) => {
       setNotification(null);
+      setBatch([]);
       setFocusedStoryId(storyId ?? null);
       setOpen(true);
     },
@@ -275,7 +350,7 @@ export function FrontOfficeEventCenter({
       if (event.key !== 'Tab' || !panelRef.current) return;
       const focusable = Array.from(
         panelRef.current.querySelectorAll<HTMLElement>(
-          'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"]):not([disabled])',
+          'input, select, button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"]):not([disabled])',
         ),
       );
       if (!focusable.length) return;
@@ -310,14 +385,12 @@ export function FrontOfficeEventCenter({
   );
 
   const newsEvents = useMemo(() => events.filter(isNewsEvent), [events]);
-  const unread = newsEvents.filter((event) => !event.readAt).length;
   const myTeamEvents = useMemo(
     () => newsEvents.filter((event) => frontOfficeEventIncludesTeam(event, teamAbbr)),
     [newsEvents, teamAbbr],
   );
   const breakingEvents = useMemo(() => newsEvents.filter(isBreaking), [newsEvents]);
-  const visibleEvents =
-    filter === 'team' ? myTeamEvents : filter === 'breaking' ? breakingEvents : newsEvents;
+  const visibleEvents = newsEvents;
 
   useEffect(() => setVisibleLimit(60), [filter]);
 
@@ -434,9 +507,10 @@ export function FrontOfficeEventCenter({
             <div className="fo-news-filters" role="tablist" aria-label="News filters">
               {(
                 [
-                  ['all', 'All', newsEvents.length],
-                  ['team', 'My Team', myTeamEvents.length],
-                  ['breaking', 'Breaking', breakingEvents.length],
+                  ['all', 'All', counts.all],
+                  ['team', 'My Team', counts.team],
+                  ['league', 'League', counts.league],
+                  ['breaking', 'Breaking', counts.breaking],
                 ] as const
               ).map(([value, label, count]) => (
                 <button
@@ -467,34 +541,33 @@ export function FrontOfficeEventCenter({
                         closeDrawer();
                       }}
                     >
-                      <EventTeamLogo event={event} />
-                      <span className="fo-news-row-copy">
-                        <span className="fo-news-meta">
-                          <b data-category={category}>{category}</b>
-                          <time>
-                            {relativeNewsTime(
-                              String(event.metadata.sourcePublishedAt ?? event.createdAt),
-                            )}
-                          </time>
-                        </span>
-                        <strong>{event.headline}</strong>
-                      </span>
-                      <ChevronRight aria-hidden="true" />
+                      <NewsSocialCard event={event} />
                     </Link>
                   );
                 })
               ) : (
-                <p className="fo-wire-empty">No news matches this filter.</p>
+                <div className="fo-wire-empty" role="status">
+                  {loadingNews ? 'Loading News…' : loadError || 'No news matches this filter.'}
+                  {loadError && (
+                    <button type="button" onClick={() => void load()}>
+                      Try again
+                    </button>
+                  )}
+                </div>
               )}
-              {visibleEvents.length > visibleLimit ? (
-                <button
-                  className="fo-news-load-more"
-                  type="button"
-                  onClick={() => setVisibleLimit((limit) => limit + 60)}
-                >
-                  Load more news
-                </button>
-              ) : null}
+              <Link
+                className="fo-news-view-all"
+                href="/front-office/league/news"
+                onClick={closeDrawer}
+              >
+                View All News →
+              </Link>
+              <button className="fo-news-view-all" onClick={() => setSettings((v) => !v)}>
+                Notification settings
+              </button>
+              {settings && (
+                <NewsPreferencesPanel value={preferences} onChange={changePreferences} />
+              )}
             </div>
           </>
         )}
@@ -529,26 +602,44 @@ export function FrontOfficeEventCenter({
           {unread ? <strong>{unread > 99 ? '99+' : unread}</strong> : null}
         </button>
       ) : null}
-      {notification && !open && !draftActive ? (
-        <FrontOfficeNotificationToast
-          logo={<EventTeamLogo event={notification} />}
-          meta={
-            <>
-              <b data-category={categoryFor(notification)}>{categoryFor(notification)}</b>
-              <time>
-                {relativeNewsTime(
-                  String(notification.metadata.sourcePublishedAt ?? notification.createdAt),
-                )}
-              </time>
-            </>
-          }
-          priority={notification.priority}
-          onView={() => openDrawer(notification.id)}
-          onDismiss={() => setNotification(null)}
-        >
-          {notification.headline}
-        </FrontOfficeNotificationToast>
-      ) : null}
+      {mounted && notification && !open && !draftActive && !paused
+        ? createPortal(
+            <div
+              className="front-office-app fo-smart-toast"
+              style={teamStyle}
+              onMouseEnter={() => setToastPaused(true)}
+              onMouseLeave={() => setToastPaused(false)}
+              onFocusCapture={() => setToastPaused(true)}
+              onBlurCapture={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget)) setToastPaused(false);
+              }}
+            >
+              <FrontOfficeNotificationToast
+                logo={
+                  <span className="fo-social-avatar">{batch.length > 1 ? <Bell /> : 'D&D'}</span>
+                }
+                meta={
+                  <>
+                    <b>
+                      {batch.length > 1 ? `${batch.length} NEW UPDATES` : newsPersona(notification)}
+                    </b>
+                    <span>Simulated league</span>
+                  </>
+                }
+                priority={notification.priority}
+                actionLabel={batch.length > 1 ? newsBatchSummary(batch) : 'View News →'}
+                onView={() => openDrawer(batch.length === 1 ? notification.id : undefined)}
+                onDismiss={() => {
+                  setNotification(null);
+                  setBatch([]);
+                }}
+              >
+                {batch.length > 1 ? 'Your league has new stories' : notification.headline}
+              </FrontOfficeNotificationToast>
+            </div>,
+            document.body,
+          )
+        : null}
       {toastOffer && !open ? (
         <FrontOfficeNotificationToast
           variant="draft-trade"

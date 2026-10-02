@@ -1,3 +1,7 @@
+import { phaseNews } from './phase-news';
+import { rosterChangeNews } from './roster-news';
+import { weeklyNews } from './weekly-news';
+import type { PlayerRowDTO } from '@/types/player';
 import type { FranchiseSimulationState } from '@/types/front-office';
 import type { NewFrontOfficeEvent } from './events-repository';
 import { selectReSignReadyCandidate, type ReSignReadyCandidate } from './re-sign-ready';
@@ -29,7 +33,9 @@ function makeEvent(
 ): NewFrontOfficeEvent {
   return {
     ...input,
-    id: `foe_${hash(`${state.seed}:${week}:${input.dedupeKey}`).toString(36)}`,
+    id: input.dedupeKey.startsWith('transaction:')
+      ? `foe:${saveId}:${input.dedupeKey}`
+      : `foe:${saveId}:${state.season}:${week}:${input.dedupeKey}`,
     saveId,
     simulationSeason: state.season,
     simulationWeek: Math.max(1, week),
@@ -44,6 +50,7 @@ export function generateFrontOfficeEvents(input: {
   previous: FranchiseSimulationState;
   current: FranchiseSimulationState;
   reSignCandidates?: ReSignReadyCandidate[];
+  roster?: PlayerRowDTO[];
 }) {
   const { current, previous, reSignCandidates = [], saveId, teamAbbr } = input;
   const generated: NewFrontOfficeEvent[] = [];
@@ -67,7 +74,7 @@ export function generateFrontOfficeEvents(input: {
           prospectId: null,
           tradeOfferId: null,
           actionUrl: '/front-office/trade-hub',
-          metadata: { deadlineWeek: week },
+          metadata: { channel: 'MESSAGE', deadlineWeek: week },
         }),
       );
     }
@@ -95,7 +102,7 @@ export function generateFrontOfficeEvents(input: {
           prospectId: null,
           tradeOfferId: null,
           actionUrl: '/front-office/trade-hub',
-          metadata: { partnerTeamAbbr: partner },
+          metadata: { channel: 'MESSAGE', partnerTeamAbbr: partner },
         }),
       );
     }
@@ -132,6 +139,7 @@ export function generateFrontOfficeEvents(input: {
           tradeOfferId: null,
           actionUrl: `/roster?view=resign&playerId=${encodeURIComponent(readyPlayer.playerId)}&openNegotiation=1`,
           metadata: {
+            channel: 'MESSAGE',
             contractId: readyPlayer.contractId,
             position: readyPlayer.position,
             rating: readyPlayer.rating,
@@ -160,7 +168,7 @@ export function generateFrontOfficeEvents(input: {
     generated.push(
       makeEvent(current, saveId, game.week, {
         dedupeKey: `game-result:${game.id}`,
-        type: 'breaking_news',
+        type: 'league_transaction',
         priority: [game.homeTeam, game.awayTeam].includes(teamAbbr) ? 'high' : 'normal',
         headline,
         summary:
@@ -180,7 +188,15 @@ export function generateFrontOfficeEvents(input: {
           homeScore: game.homeScore,
           awayScore: game.awayScore,
           status: 'FINAL',
-          importanceScore: [game.homeTeam, game.awayTeam].includes(teamAbbr) ? 88 : 62,
+          importanceScore: [game.homeTeam, game.awayTeam].includes(teamAbbr)
+            ? 88
+            : 60 +
+              (Math.abs((game.homeScore ?? 0) - (game.awayScore ?? 0)) <= 3 ? 12 : 0) +
+              (winner &&
+              current.teams[winner]?.overall <
+                current.teams[winner === game.homeTeam ? game.awayTeam : game.homeTeam]?.overall
+                ? 8
+                : 0),
           likes: hash(`${current.seed}:${game.id}:likes`) % 950,
           replies: hash(`${current.seed}:${game.id}:replies`) % 180,
           reposts: hash(`${current.seed}:${game.id}:reposts`) % 320,
@@ -189,9 +205,9 @@ export function generateFrontOfficeEvents(input: {
     );
   }
 
-  for (const transaction of current.transactions
-    .filter((entry) => !priorTransactions.has(entry.id))
-    .slice(-8)) {
+  for (const transaction of current.transactions.filter(
+    (entry) => !priorTransactions.has(entry.id),
+  )) {
     const type =
       transaction.type === 'signing'
         ? 'free_agent_signing'
@@ -204,23 +220,32 @@ export function generateFrontOfficeEvents(input: {
       makeEvent(current, saveId, current.currentWeek, {
         dedupeKey: `transaction:${transaction.id}`,
         type,
-        priority: transaction.teamAbbr === teamAbbr ? 'high' : 'normal',
-        headline: transaction.playerName
-          ? `${transaction.teamAbbr} makes a move with ${transaction.playerName}`
-          : `${transaction.teamAbbr} updates its roster`,
+        priority: (transaction.playerRating ?? 0) >= 85 ? 'high' : 'normal',
+        headline: transaction.summary,
         summary: transaction.summary,
         teamAbbr: transaction.teamAbbr,
-        relatedTeamAbbr: null,
+        relatedTeamAbbr: transaction.relatedTeamAbbr ?? null,
         playerId: transaction.playerId ?? null,
         prospectId: null,
         tradeOfferId: null,
         actionUrl: transaction.teamAbbr === teamAbbr ? '/roster' : '/experience',
-        metadata: { transactionId: transaction.id, transactionType: transaction.type },
+        metadata: {
+          transactionId: transaction.id,
+          transactionType: transaction.type,
+          newsCategory:
+            transaction.type === 'trade'
+              ? 'TRADE'
+              : transaction.type === 're-sign'
+                ? 'CONTRACT'
+                : 'TRANSACTION',
+          isBreaking: transaction.type === 'trade' && (transaction.playerRating ?? 0) >= 90,
+          importanceScore: transaction.type === 'trade' ? 90 : 75,
+        },
       }),
     );
   }
 
-  if (current.phase.includes('draft')) {
+  if (current.phase.includes('draft') && current.phase !== previous.phase) {
     generated.push(
       makeEvent(current, saveId, current.currentWeek, {
         dedupeKey: `draft-buzz:${current.phase}`,
@@ -235,12 +260,12 @@ export function generateFrontOfficeEvents(input: {
         prospectId: null,
         tradeOfferId: null,
         actionUrl: '/front-office/draft/big-board',
-        metadata: { draftOrder: current.draftOrder.slice(0, 10) },
+        metadata: { channel: 'MESSAGE', draftOrder: current.draftOrder.slice(0, 10) },
       }),
     );
   }
 
-  if (current.playoffs?.champion) {
+  if (current.playoffs?.champion && current.playoffs.champion !== previous.playoffs?.champion) {
     generated.push(
       makeEvent(current, saveId, current.currentWeek, {
         dedupeKey: `champion:${current.playoffs.champion}`,
@@ -254,9 +279,12 @@ export function generateFrontOfficeEvents(input: {
         prospectId: null,
         tradeOfferId: null,
         actionUrl: '/experience',
-        metadata: {},
+        metadata: { newsCategory: 'PLAYOFF RACE', isBreaking: true },
       }),
     );
   }
+  // Editorial volume applies to weekly analysis only. Never drop committed transactions.
+  generated.push(...weeklyNews(input), ...phaseNews(input));
+  if (input.roster) generated.push(...rosterChangeNews(saveId, previous, current, input.roster));
   return generated;
 }

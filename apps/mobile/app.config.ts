@@ -45,7 +45,16 @@ const config: ExpoConfig = {
   web: { output: 'static', favicon: './assets/images/favicon.png' },
   plugins: [
     'expo-router',
+    '@react-native-community/datetimepicker',
     'expo-apple-authentication',
+    [
+      'expo-image-picker',
+      {
+        photosPermission: 'Choose a photo to share with your Crew.',
+        cameraPermission: false,
+        microphonePermission: false,
+      },
+    ],
     ['expo-notifications', { defaultChannel: 'down_distance_updates' }],
     [
       'expo-splash-screen',
@@ -68,6 +77,12 @@ const config: ExpoConfig = {
       : []),
   ],
   experiments: { typedRoutes: true, reactCompiler: true },
-  extra: { eas: { projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID || '774e4905-d2c9-4459-a8ea-cadf970030c7' } },
+  extra: {
+    // Firebase is an internal tester build; default/store builds keep this disabled.
+    demoLoginEnabled: ['demo', 'firebase'].includes(process.env.APP_VARIANT ?? ''),
+    eas: {
+      projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID || '774e4905-d2c9-4459-a8ea-cadf970030c7',
+    },
+  },
 };
 export default config;

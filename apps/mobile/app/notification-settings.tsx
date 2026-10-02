@@ -59,7 +59,7 @@ export default function NotificationSettings() {
       setPushState(on ? await enablePush() : await disablePush());
       setMessage(
         on
-          ? 'This iPhone is registered for D&D push notifications.'
+          ? 'This device is registered for D&D push notifications.'
           : 'Push delivery is disabled for this device.',
       );
     } catch (e) {
@@ -230,8 +230,7 @@ const s = StyleSheet.create({
   art: { position: 'absolute', right: -20, top: 0, opacity: 0.12 },
   eyebrow: { fontSize: 12, fontWeight: '800', letterSpacing: 2, marginBottom: 8 },
   heroTitle: {
-    fontWeight: '900',
-    fontStyle: 'italic',
+    fontFamily: 'BarlowCondensedItalic',
     fontSize: 34,
     lineHeight: 36,
     color: 'white',

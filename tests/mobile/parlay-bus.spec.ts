@@ -69,13 +69,12 @@ for (const width of [375, 390, 430, 768, 1024, 1280, 1440])
     const requests: string[] = [];
     page.on('request', (r) => requests.push(r.url()));
     await trigger.click();
-    const drawer = page.getByRole('dialog', { name: 'Create a Parlay' });
+    const drawer = page.getByRole('dialog', { name: 'CREATE A PARLAY' });
     await expect(drawer).toBeVisible();
     expect(await page.evaluate(() => document.body.style.overflow)).toBe('hidden');
-    await drawer.getByLabel('Describe your parlay').fill('x'.repeat(510));
-    await expect(drawer.getByLabel('Describe your parlay')).toHaveValue('x'.repeat(500));
+    await drawer.getByLabel('WHAT ARE WE BUILDING?').fill('x'.repeat(510));
+    await expect(drawer.getByLabel('WHAT ARE WE BUILDING?')).toHaveValue('x'.repeat(500));
     await expect(drawer.getByText('500/500', { exact: true })).toBeVisible();
-    await drawer.getByRole('button', { name: 'Optional Settings' }).click();
     await expect(drawer.getByLabel('Max Legs')).toBeHidden();
     await drawer.getByRole('button', { name: 'Optional Settings' }).click();
     await expect(drawer.getByLabel('Max Legs')).toBeVisible();
@@ -83,7 +82,7 @@ for (const width of [375, 390, 430, 768, 1024, 1280, 1440])
     expect(bounds!.height).toBeLessThan(900);
     expect(bounds!.y).toBeGreaterThan(0);
     expect(Math.abs(bounds!.x + bounds!.width / 2 - width / 2)).toBeLessThan(2);
-    await expect(drawer.getByRole('heading', { name: 'Quick Starts' })).toBeVisible();
+    await expect(drawer.getByRole('heading', { name: 'OR START WITH A FORMULA' })).toBeVisible();
     await page.keyboard.press('Shift+Tab');
     expect(await drawer.evaluate((e) => e.contains(document.activeElement))).toBe(true);
     await drawer.getByRole('button', { name: '3-Legger', exact: true }).click();
@@ -91,7 +90,7 @@ for (const width of [375, 390, 430, 768, 1024, 1280, 1440])
       'aria-pressed',
       'true',
     );
-    await drawer.getByRole('button', { name: 'Create My Parlay', exact: true }).click();
+    await drawer.getByRole('button', { name: 'BUILD MY PARLAY', exact: true }).click();
     await expect(drawer.getByRole('heading', { name: 'Your Ride' })).toBeVisible();
     await expect(drawer.getByText('ALT LINE', { exact: true })).toHaveCount(3);
     await expect(drawer.getByText(/Works Against Over/)).toHaveCount(3);
@@ -153,10 +152,10 @@ test('presets and optional settings use existing research filters', async ({ pag
   );
   await page.goto('/parlay-lab');
   await page.getByRole('button', { name: 'Create a Parlay', exact: true }).click();
-  const dialog = page.getByRole('dialog', { name: 'Create a Parlay' });
+  const dialog = page.getByRole('dialog', { name: 'CREATE A PARLAY' });
   for (const label of ['3-Legger', 'Plus Money', 'TD Picks', 'High Hit Rate', 'Unders']) {
     await dialog.getByRole('button', { name: label, exact: true }).click();
-    await dialog.getByRole('button', { name: 'Create My Parlay', exact: true }).click();
+    await dialog.getByRole('button', { name: 'BUILD MY PARLAY', exact: true }).click();
     await expect(dialog.getByRole('checkbox')).toHaveCount(3);
     const legs = dialog.locator('article');
     if (label === 'Plus Money')
@@ -166,10 +165,11 @@ test('presets and optional settings use existing research filters', async ({ pag
     if (label === 'High Hit Rate')
       await expect(legs.filter({ hasText: 'Low Sample' })).toHaveCount(0);
   }
-  await dialog.getByLabel('Describe your parlay').fill('Build a 3-leg parlay');
+  await dialog.getByLabel('WHAT ARE WE BUILDING?').fill('Build a 3-leg parlay');
   await dialog.getByLabel('Risk Level').selectOption('high');
+  await dialog.getByRole('button', { name: 'Optional Settings' }).click();
   await dialog.getByLabel('Max Legs').selectOption('2');
-  await dialog.getByRole('button', { name: 'Create My Parlay', exact: true }).click();
+  await dialog.getByRole('button', { name: 'BUILD MY PARLAY', exact: true }).click();
   await expect(dialog.getByRole('checkbox')).toHaveCount(2);
   await expect(dialog.locator('article').filter({ hasText: 'Low Sample' })).toHaveCount(0);
 });
@@ -194,9 +194,9 @@ test('market loading, empty state and retry keep the request editable', async ({
   await page.goto('/parlay-lab');
   const trigger = page.getByRole('button', { name: 'Create a Parlay', exact: true });
   await trigger.click();
-  const dialog = page.getByRole('dialog', { name: 'Create a Parlay' });
+  const dialog = page.getByRole('dialog', { name: 'CREATE A PARLAY' });
   await expect(dialog.getByRole('button', { name: 'Loading available markets…' })).toBeDisabled();
-  await dialog.getByLabel('Describe your parlay').fill('Build a 3-leg parlay');
+  await dialog.getByLabel('WHAT ARE WE BUILDING?').fill('Build a 3-leg parlay');
   mode = 'empty';
   release();
   await expect(dialog.getByText(/There aren’t enough eligible markets/)).toBeVisible();
@@ -207,5 +207,5 @@ test('market loading, empty state and retry keep the request editable', async ({
   mode = 'ready';
   await dialog.getByRole('button', { name: 'Retry', exact: true }).click();
   await dialog.getByRole('button', { name: '3-Legger', exact: true }).click();
-  await expect(dialog.getByRole('button', { name: 'Create My Parlay', exact: true })).toBeEnabled();
+  await expect(dialog.getByRole('button', { name: 'BUILD MY PARLAY', exact: true })).toBeEnabled();
 });

@@ -24,5 +24,10 @@ export const apiFetch = async (
         : 'The server returned a web page instead of API data. Please refresh and try again.';
     throw new Error(`${reason} (${endpoint}, HTTP ${response.status})`);
   }
+  if (typeof window !== 'undefined' && response.ok && init?.method?.toUpperCase() === 'POST') {
+    const payload = await response.clone().json().catch(() => null);
+    if (Array.isArray(payload?.events) && payload.events.length && !url.includes('/front-office/simulate'))
+      window.dispatchEvent(new CustomEvent('front-office-news-updated', {detail:{events:payload.events}}));
+  }
   return response;
 };

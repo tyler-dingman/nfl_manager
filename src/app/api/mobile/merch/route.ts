@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { MERCH_CATEGORIES } from '@/features/merch/catalog';
+import { MERCH_CATEGORIES, MERCH_PRODUCTS } from '@/features/merch/catalog';
 import { commerceCatalog } from '@/server/commerce/catalog';
 export const dynamic = 'force-dynamic';
 export async function GET() {
@@ -7,9 +7,9 @@ export async function GET() {
     id: product.id,
     name: product.name,
     category: product.category,
-    type: product.variants[0]?.cityName ? 'Koozie' : product.category,
+    type: MERCH_PRODUCTS.find((item) => item.id === product.id)?.type ?? product.category,
     price: product.basePriceCents / 100,
-    colors: ['#00172B'],
+    colors: MERCH_PRODUCTS.find((item) => item.id === product.id)?.colors ?? ['#00172B'],
     sizes: [...new Set(product.variants.map((variant: any) => variant.size).filter(Boolean))],
     imageUrl: product.variants[0]?.imageUrl,
     badge: product.featured ? 'New' : undefined,

@@ -1,19 +1,25 @@
+import { FranchiseExperience } from '../components/franchise-experience';
+import { EditorialHero } from '../components/editorial-hero';
+import { SectionMenu } from '../components/section-menu';
+import { useTeamBranding } from '../lib/team-branding';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
-import { C, Eyebrow, Heading } from '../components/screen';
+import { C } from '../components/screen';
 import { getFrontOffice, type FrontOfficeData } from '../lib/api';
 import { useTeam } from '../lib/team-context';
 const money = (value: number | null | undefined) =>
   value == null ? '—' : `$${(value / 1_000_000).toFixed(1)}M`;
 export default function FrontOffice() {
+  const [franchiseActive, setFranchiseActive] = useState(false);
+  const { theme } = useTeamBranding();
   const { teamId } = useTeam(),
     [data, setData] = useState<FrontOfficeData | null>(null),
     [loading, setLoading] = useState(true),
     [error, setError] = useState<string | null>(null),
-    [section, setSection] = useState<'ROSTER' | 'TRANSACTIONS'>('ROSTER');
+    [section, setSection] = useState<'EXPERIENCE' | 'ROSTER' | 'TRANSACTIONS'>('EXPERIENCE');
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -43,104 +49,135 @@ export default function FrontOffice() {
       contentContainerStyle={s.body}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
     >
-      {data ? (
-        <View style={s.team}>
-          <Image source={{ uri: data.team.logoUrl }} style={s.logo} />
-          <View>
-            <Eyebrow>{data.team.abbr} FRONT OFFICE</Eyebrow>
-            <Heading>{data.team.name}</Heading>
-          </View>
-        </View>
+      {!franchiseActive && (
+        <SectionMenu
+          navigation={{ inset: 16, top: true }}
+        title="Front Office sections"
+          items={(['EXPERIENCE', 'ROSTER', 'TRANSACTIONS'] as const).map((item) => ({
+            label:
+              item === 'EXPERIENCE'
+                ? 'Front Office'
+                : item === 'ROSTER'
+                  ? 'Roster & contracts'
+                  : 'Transactions',
+            selected: section === item,
+            onPress: () => setSection(item),
+          }))}
+        />
+      )}
+      {section === 'EXPERIENCE' ? (
+        <FranchiseExperience
+          key={teamId}
+          onActiveChange={setFranchiseActive}
+          onRealRoster={() => setSection('ROSTER')}
+          onRealTransactions={() => setSection('TRANSACTIONS')}
+        />
       ) : (
         <>
-          <Eyebrow>{teamId} FRONT OFFICE</Eyebrow>
-          <Heading>How the team is built.</Heading>
-        </>
-      )}
-      {data?.cap ? (
-        <View style={s.cap}>
-          <Stat label="CAP SPACE" value={money(data.cap.availableCap)} />
-          <Stat label="USED" value={money(data.cap.usedCap)} />
-          <Stat label="LIMIT" value={money(data.cap.totalCap)} />
-        </View>
-      ) : null}
-      <View style={s.tabs}>
-        {(['ROSTER', 'TRANSACTIONS'] as const).map((item) => (
-          <Pressable
-            key={item}
-            style={[s.tab, section === item && s.tabActive]}
-            onPress={() => setSection(item)}
-          >
-            <Text style={[s.tabText, section === item && s.tabTextActive]}>{item}</Text>
-          </Pressable>
-        ))}
-      </View>
-      {loading && !data ? <ActivityIndicator color={C.red} style={s.loader} /> : null}
-      {error ? <Text style={s.error}>{error}</Text> : null}
-      {section === 'ROSTER' ? (
-        groups.map(([position, players]) => (
-          <View key={position}>
-            <Text style={s.section}>{position}</Text>
-            {players.map((player) => (
+          <EditorialHero
+            first="FRONT"
+            accent="OFFICE"
+            tagline={`${data?.team.name ?? teamId} · BUILD THE ROSTER. KNOW THE NUMBERS.`}
+          />
+          {data?.cap ? (
+            <View style={s.cap}>
+              <Stat label="CAP SPACE" value={money(data.cap.availableCap)} />
+              <Stat label="USED" value={money(data.cap.usedCap)} />
+              <Stat label="LIMIT" value={money(data.cap.totalCap)} />
+            </View>
+          ) : null}
+          <View style={s.tabs}>
+            {(['ROSTER', 'TRANSACTIONS'] as const).map((item) => (
               <Pressable
-                key={player.id}
-                style={s.player}
-                onPress={() =>
-                  router.push({ pathname: '/player/[playerId]', params: { playerId: player.id } })
-                }
+                key={item}
+                style={[s.tab, section === item && { backgroundColor: theme.primaryFill }]}
+                onPress={() => setSection(item)}
               >
-                {player.headshotUrl ? (
-                  <Image source={{ uri: player.headshotUrl }} style={s.avatar} />
-                ) : (
-                  <View style={s.avatar} />
-                )}
-                <View style={s.playerCopy}>
-                  <Text style={s.name}>{player.name}</Text>
-                  <Text style={s.meta}>
-                    {player.status}
-                    {player.age ? ` · Age ${player.age}` : ''}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={s.capHit}>{money(player.capHit)}</Text>
-                  <Text style={s.meta}>{player.years ? `${player.years} yrs` : 'Contract'}</Text>
-                </View>
+                <Text style={[s.tabText, section === item && { color: theme.onPrimary }]}>
+                  {item}
+                </Text>
               </Pressable>
             ))}
           </View>
-        ))
-      ) : data?.transactions.length ? (
-        data.transactions.map((item) => (
-          <Pressable
-            key={item.id}
-            style={s.transaction}
-            onPress={() =>
-              router.push({
-                pathname: '/story/[id]',
-                params: { id: item.id, payload: JSON.stringify(item.story) },
-              })
-            }
-          >
-            <Text style={s.transactionMeta}>
-              {item.status} · {new Date(item.occurredAt).toLocaleDateString()}
-            </Text>
-            <Text style={s.transactionTitle}>{item.headline}</Text>
-            <Text style={s.transactionBody}>{item.summary}</Text>
-            {item.source ? <Text style={s.source}>{item.source} →</Text> : null}
-          </Pressable>
-        ))
-      ) : (
-        <View style={s.empty}>
-          <Text style={s.name}>No published transactions yet.</Text>
-          <Text style={s.meta}>
-            Verified roster movement will appear here from the Story Engine.
+          {loading && !data ? <ActivityIndicator color={C.red} style={s.loader} /> : null}
+          {error ? <Text style={s.error}>{error}</Text> : null}
+          {!loading && !error && section === 'ROSTER' && !groups.length && (
+            <View style={s.empty}>
+              <Text style={s.name}>No roster data available.</Text>
+              <Text style={s.meta}>Pull down to check again.</Text>
+            </View>
+          )}
+          {section === 'ROSTER' ? (
+            groups.map(([position, players]) => (
+              <View key={position}>
+                <Text style={s.section}>{position}</Text>
+                {players.map((player) => (
+                  <Pressable
+                    key={player.id}
+                    style={s.player}
+                    onPress={() =>
+                      router.push({
+                        pathname: '/player/[playerId]',
+                        params: { playerId: player.id },
+                      })
+                    }
+                  >
+                    {player.headshotUrl ? (
+                      <Image source={{ uri: player.headshotUrl }} style={s.avatar} />
+                    ) : (
+                      <View style={s.avatar} />
+                    )}
+                    <View style={s.playerCopy}>
+                      <Text style={s.name}>{player.name}</Text>
+                      <Text style={s.meta}>
+                        {player.status}
+                        {player.age ? ` · Age ${player.age}` : ''}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={s.capHit}>{money(player.capHit)}</Text>
+                      <Text style={s.meta}>
+                        {player.years ? `${player.years} yrs` : 'Contract'}
+                      </Text>
+                    </View>
+                  </Pressable>
+                ))}
+              </View>
+            ))
+          ) : data?.transactions.length ? (
+            data.transactions.map((item) => (
+              <Pressable
+                key={item.id}
+                style={s.transaction}
+                onPress={() =>
+                  router.push({
+                    pathname: '/story/[id]',
+                    params: { id: item.id, payload: JSON.stringify(item.story) },
+                  })
+                }
+              >
+                <Text style={s.transactionMeta}>
+                  {item.status} · {new Date(item.occurredAt).toLocaleDateString()}
+                </Text>
+                <Text style={s.transactionTitle}>{item.headline}</Text>
+                <Text style={s.transactionBody}>{item.summary}</Text>
+                {item.source ? <Text style={s.source}>{item.source} →</Text> : null}
+              </Pressable>
+            ))
+          ) : (
+            <View style={s.empty}>
+              <Text style={s.name}>No published transactions yet.</Text>
+              <Text style={s.meta}>
+                Verified roster movement will appear here from the Story Engine.
+              </Text>
+            </View>
+          )}
+          <Text style={s.updated}>
+            Roster and contract data updated{' '}
+            {data ? new Date(data.updatedAt).toLocaleDateString() : '—'}
           </Text>
-        </View>
+        </>
       )}
-      <Text style={s.updated}>
-        Roster and contract data updated{' '}
-        {data ? new Date(data.updatedAt).toLocaleDateString() : '—'}
-      </Text>
     </ScrollView>
   );
 }
@@ -153,8 +190,8 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 const s = StyleSheet.create({
-  page: { flex: 1, backgroundColor: C.cream },
-  body: { padding: 20, paddingBottom: 40 },
+  page: { flex: 1, backgroundColor: '#001222' },
+  body: { padding: 16, paddingBottom: 40 },
   team: { flexDirection: 'row', alignItems: 'center' },
   logo: { width: 66, height: 66, marginRight: 14 },
   cap: {
@@ -175,7 +212,7 @@ const s = StyleSheet.create({
   loader: { marginTop: 35 },
   error: { color: C.red, marginTop: 20 },
   section: {
-    color: C.red,
+    color: '#A8BAC4',
     fontWeight: '900',
     fontSize: 13,
     letterSpacing: 1.5,

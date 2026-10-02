@@ -8,10 +8,22 @@ export function readFanTeamPreference() {
   }
 }
 
-export async function readCanonicalFanTeamPreference() {
+let pendingTeam: Promise<string | null> | null = null;
+export function readCanonicalFanTeamPreference() {
+  if (!pendingTeam)
+    pendingTeam = loadCanonicalFanTeamPreference().finally(() => {
+      pendingTeam = null;
+    });
+  return pendingTeam;
+}
+
+async function loadCanonicalFanTeamPreference() {
   const localTeam = readFanTeamPreference();
   try {
-    const response = await fetch('/api/user/home', { cache: 'no-store', credentials: 'include' });
+    const response = await fetch('/api/user/home?view=primary-team', {
+      cache: 'no-store',
+      credentials: 'include',
+    });
     if (!response.ok) return localTeam;
     const body = (await response.json()) as {
       personalization?: { primaryTeam?: { teamId?: string | null } | null };

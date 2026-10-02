@@ -21,9 +21,10 @@ export async function syncCommerceCatalog() {
       ON CONFLICT(id) DO NOTHING`;
     for (const size of product.sizes) {
       const variantId = `${product.id}:${size}`;
-      const sku = `${product.cityCode ? `KOOZIE-${product.cityCode}` : product.id}-${size}`
-        .toUpperCase()
-        .replace(/[^A-Z0-9]+/g, '-');
+      const sku =
+        `${product.type === 'Koozie' && product.cityCode ? `KOOZIE-${product.cityCode}` : product.id}-${size}`
+          .toUpperCase()
+          .replace(/[^A-Z0-9]+/g, '-');
       await sql`INSERT INTO commerce_product_variants(id,product_id,sku,city_code,city_name,size,color_label,image_url,inventory_on_hand,active)
         VALUES(${variantId},${product.id},${sku},${product.cityCode ?? null},${product.cityName ?? null},${size},${product.cityName ? `${product.cityName} Colorway` : null},${product.imageUrl ?? null},50,true)
         ON CONFLICT(id) DO NOTHING`;

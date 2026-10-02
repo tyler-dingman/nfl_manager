@@ -1,3 +1,6 @@
+import { franchiseRosterOverall } from '@/lib/team-overview';
+import { ensureWeeklyHero } from '@/server/front-office/hero-story';
+import { franchiseTransactionsForNews } from '@/server/front-office/transaction-news';
 import { normalizeFrontOfficePhase } from '@/lib/front-office-phase';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -39,10 +42,32 @@ import { buildWeekOneWelcomeEvents } from '@/server/front-office/welcome-message
 
 const bodySchema = z.object({
   saveId: z.string().min(1).max(160),
-  action: z.enum(['initialize', 'advance', 'acknowledge']),
+  action: z.enum(['initialize', 'advance', 'acknowledge', 'acknowledge-hero']),
   target: z.string().min(1).max(40).optional(),
+  heroActionId: z.string().max(500).optional(),
   recapKey: z.string().min(1).max(200).optional(),
   userTeamOverall: z.number().min(50).max(99).optional(),
+  ownership: z
+    .object({
+      facilities: z
+        .array(
+          z.object({
+            visual: z.enum(['locker-room', 'training-room', 'weight-room', 'cafeteria']),
+            name: z.string().max(80),
+            grade: z.string().max(8),
+            score: z.number().min(0).max(100),
+            projectId: z.enum(['amenities', 'medical', 'weights', 'nutrition']),
+            upgradeAvailable: z.boolean(),
+          }),
+        )
+        .max(4)
+        .optional(),
+      attendance: z.number().min(0).max(100),
+      facility: z.string().max(100),
+      grade: z.string().max(8),
+      sentiment: z.string().max(200),
+    })
+    .optional(),
 });
 
 const normalizeScheduleTeam = (abbr: string) =>
@@ -65,7 +90,10 @@ async function initializeSimulation(input: {
     );
   }
   let simulation = createFranchiseSimulation({
-    seed: `${input.userId}:${input.saveId}:${metadata.season}`,
+    seed:
+      process.env.NODE_ENV !== 'production' && process.env.FRONT_OFFICE_QA_SEED
+        ? process.env.FRONT_OFFICE_QA_SEED
+        : `${input.userId}:${input.saveId}:${metadata.season}`,
     season: metadata.season,
     teams: NFL_LEAGUE_DATA.teams.map((team) => ({
       abbr: team.abbr.toUpperCase(),
@@ -103,7 +131,25 @@ export async function GET(request: NextRequest) {
     if (!user) return authError('Unauthorized.', 401);
     const saveId = request.nextUrl.searchParams.get('saveId');
     if (!saveId) return NextResponse.json({ error: 'saveId is required.' }, { status: 400 });
-    const state = await getFrontOfficeSaveMetadata(user.id, saveId);
+    let state = await getFrontOfficeSaveMetadata(user.id, saveId);
+    if (state?.simulation) {
+      const before = JSON.stringify(state.simulation.heroStories);
+      const simulation = await ensureWeeklyHero(
+        saveId,
+        state.teamAbbr,
+        structuredClone(state.simulation),
+        user.id,
+      );
+      if (JSON.stringify(simulation.heroStories) !== before) {
+        state =
+          (await saveFranchiseSimulation({
+            userId: user.id,
+            saveId,
+            expectedVersion: state.version ?? 1,
+            simulation,
+          })) ?? (await getFrontOfficeSaveMetadata(user.id, saveId));
+      }
+    }
     const userTeam = state?.teamAbbr.toUpperCase();
     const nextGame = state?.simulation?.games.find(
       (game) =>
@@ -167,6 +213,28 @@ export async function POST(request: NextRequest) {
       );
       return NextResponse.json({ ok: true, state: metadata.simulation, version: metadata.version });
     }
+    if (input.action === 'acknowledge-hero') {
+      const current = metadata.simulation;
+      if (
+        !current ||
+        !input.heroActionId ||
+        !Object.values(current.heroStories ?? {}).some((s) => s.postActionId === input.heroActionId)
+      )
+        return NextResponse.json({ error: 'Hero action not found.' }, { status: 400 });
+      const saved = await saveFranchiseSimulation({
+        userId: user.id,
+        saveId: input.saveId,
+        expectedVersion: metadata.version ?? 1,
+        simulation: {
+          ...current,
+          heroAcknowledgements: [
+            ...new Set([...(current.heroAcknowledgements ?? []), input.heroActionId]),
+          ],
+        },
+      });
+      if (!saved) return NextResponse.json({ error: 'Refresh and try again.' }, { status: 409 });
+      return NextResponse.json({ ok: true, state: saved.simulation, version: saved.version });
+    }
     if (input.action === 'acknowledge') {
       if (!input.recapKey || !metadata.simulation) {
         return NextResponse.json({ error: 'recapKey is required.' }, { status: 400 });
@@ -189,6 +257,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'target is required.' }, { status: 400 });
     }
     const previousSimulation = metadata.simulation;
+    if (input.ownership) previousSimulation.heroOwnership = input.ownership;
     const saveState = getSaveStateResult(input.saveId);
     const userRoster = getActiveSimulationRoster(
       (saveState.ok
@@ -197,6 +266,12 @@ export async function POST(request: NextRequest) {
       ).roster,
       metadata.teamAbbr,
     );
+    // Use the same current active-roster rating displayed on Home, not initialization OVR.
+    // Previously completed games and their records are left intact.
+    const userTeam = previousSimulation.teams[metadata.teamAbbr.toUpperCase()];
+    if (userTeam && userRoster.length) {
+      userTeam.overall = franchiseRosterOverall(userRoster, NFL_LEAGUE_DATA.teams);
+    }
     const playerMap = new Map(
       NFL_LEAGUE_DATA.players
         .filter(
@@ -311,18 +386,25 @@ export async function POST(request: NextRequest) {
           simulation,
         })
       : [];
+    if (saveState.ok) {
+      const transactions = new Map(simulation.transactions.map((tx) => [tx.id, tx]));
+      franchiseTransactionsForNews(saveState.data).forEach((tx) => transactions.set(tx.id, tx));
+      simulation.transactions = [...transactions.values()];
+    }
     const generatedEvents = generateFrontOfficeEvents({
       saveId: input.saveId,
       teamAbbr: metadata.teamAbbr.toUpperCase(),
       previous: previousSimulation,
       current: simulation,
       reSignCandidates,
+      roster: saveState.ok ? Object.values(saveState.data.teamRosters).flat() : [],
     });
     const saved = await saveFranchiseSimulation({
       userId: user.id,
       saveId: input.saveId,
       expectedVersion: metadata.version ?? 1,
       simulation,
+      events: generatedEvents,
     });
     if (!saved) {
       return NextResponse.json(
@@ -356,7 +438,15 @@ export async function POST(request: NextRequest) {
         : simulation.phase.includes('free')
           ? 'freeAgency'
           : 'manage';
-      const result = generateTradeOffers(saveState.data, {
+      const qaSeed =
+        process.env.NODE_ENV !== 'production' ? process.env.FRONT_OFFICE_QA_SEED : undefined;
+      const offerState = qaSeed
+        ? {
+            ...saveState.data,
+            header: { ...saveState.data.header, id: `${qaSeed}:${simulation.season}` },
+          }
+        : saveState.data;
+      const result = generateTradeOffers(offerState, {
         saveId: input.saveId,
         userTeamAbbr: metadata.teamAbbr.toUpperCase(),
         phase,
@@ -367,6 +457,8 @@ export async function POST(request: NextRequest) {
           (candidate) => candidate.proposingTeamAbbr === tradeInterest.relatedTeamAbbr,
         ) ?? result.offers[0];
       if (offer) {
+        // QA randomness may be shared; offer identities must remain save-specific.
+        if (qaSeed) offer.id = `${input.saveId}:${offer.id}`;
         const expiresWeek = Math.min(8, simulation.currentWeek + 2);
         await persistFrontOfficeTradeOffer({
           userId: user.id,
@@ -385,11 +477,16 @@ export async function POST(request: NextRequest) {
           relatedTeamAbbr: offer.proposingTeamAbbr,
           tradeOfferId: offer.id,
           actionUrl: `/manage/trades?offer=${encodeURIComponent(offer.id)}`,
-          metadata: { expiresWeek, archetype: offer.archetype },
+          metadata: { channel: 'MESSAGE', expiresWeek, archetype: offer.archetype },
         });
       }
     }
-    const events = await persistFrontOfficeEvents(user.id, generatedEvents);
+    // League news was committed atomically with the simulation; only optional offers follow.
+    await persistFrontOfficeEvents(
+      user.id,
+      generatedEvents.filter((event) => event.type === 'trade_offer'),
+    );
+    const events = generatedEvents;
     return NextResponse.json({
       ok: true,
       state: saved.simulation,

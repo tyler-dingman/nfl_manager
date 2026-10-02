@@ -64,3 +64,38 @@ test('underpaying is rejected and stale pick ownership blocks execution', () => 
   transferDraftPicksToTeam(state, [outgoing.id], 'DEN');
   assert.throws(() => proposeTrade(trade.id, id), /no longer owned/);
 });
+
+test('deadline rejects new workspaces and saved proposals without transferring assets', () => {
+  const { id, state, user, partner, trade } = setup();
+  addTradeAsset(trade.id, { side: 'send', type: 'player', playerId: user.players[0].id }, id);
+  addTradeAsset(trade.id, { side: 'receive', type: 'player', playerId: partner.players[0].id }, id);
+  const before = JSON.stringify({
+    roster: state.roster,
+    caps: state.teamCaps,
+    transactions: state.transactions,
+  });
+  for (const phase of [
+    'week-10',
+    'week-18',
+    'wild-card',
+    'divisional',
+    'conference',
+    'super-bowl',
+  ]) {
+    state.header.phase = phase;
+    assert.equal(createTrade(id, 'SEA').ok, false);
+    const result = proposeTrade(trade.id, id);
+    assert.equal(result.ok, false);
+    if (!result.ok) assert.match(result.error, /past the trade deadline/);
+    assert.equal(
+      JSON.stringify({
+        roster: state.roster,
+        caps: state.teamCaps,
+        transactions: state.transactions,
+      }),
+      before,
+    );
+  }
+  state.header.phase = 'offseason';
+  assert.equal(createTrade(id, 'SEA').ok, true);
+});

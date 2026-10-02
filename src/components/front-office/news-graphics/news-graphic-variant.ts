@@ -1,4 +1,4 @@
-import type { NewsGraphicVariant } from './NewsGraphic';
+import type { NewsGraphicVariant } from '../../../../packages/front-office/news-graphic';
 
 export function resolveNewsGraphicVariant(category: string, headline = ''): NewsGraphicVariant {
   const value = `${category} ${headline}`.toLowerCase();

@@ -44,6 +44,8 @@ export type HomeData = {
   wire: WireEntry[];
 };
 export type CatchUpItem = {
+  occurredAt?: string;
+  importanceScore?: number;
   id: string;
   storyId: string;
   type: 'NEW' | 'CHANGED' | 'RESOLVED';
@@ -55,6 +57,7 @@ export type CatchUpItem = {
   sources: Source[];
 };
 export type CatchUpData = {
+  mode?: 'CHANGES' | 'CURRENT_STATE';
   eligible: boolean;
   teamName: string;
   baselineAt: string;

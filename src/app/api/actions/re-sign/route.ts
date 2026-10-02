@@ -1,3 +1,4 @@
+import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { NextResponse } from 'next/server';
 
 import { getReSignQuote } from '@/lib/quotes';
@@ -165,6 +166,7 @@ export const POST = async (request: Request) => {
     severity: accepted ? 'success' : 'warning',
   });
 
+  const events = await refreshFranchiseHeroAfterAction(request, body.saveId);
   const payload: ResignResultDTO = {
     ok: true,
     accepted,
@@ -184,5 +186,5 @@ export const POST = async (request: Request) => {
     player: accepted && updatedPlayer ? updatedPlayer : undefined,
   };
 
-  return NextResponse.json(payload);
+  return NextResponse.json({...payload, events});
 };

@@ -1,7 +1,8 @@
 'use client';
+import { normalizeDisplayHeadline } from '@/lib/display-headline';
 
 import Link from 'next/link';
-import { ArrowRight, Flame } from 'lucide-react';
+import { ArrowRight, Flame, MessageCircle } from 'lucide-react';
 import { useEffect, useState, type CSSProperties } from 'react';
 import { DdSaveIcon as Bookmark } from '@/components/ui/football-icons';
 import ShareToCrewButton from '@/components/crew/share-to-crew-button';
@@ -10,6 +11,7 @@ import { BeatGraphic } from './beat-graphic';
 import { beatPalette, validBeatGraphic, standardVariant } from './beat-model';
 import { adaptBeatStory } from './beat-story-adapter';
 import styles from './beat-card.module.css';
+import actions from '../ui/compact-card-actions.module.css';
 
 export function BeatStoryCard({
   id,
@@ -92,7 +94,7 @@ export function BeatStoryCard({
           className={styles.storyLink}
           aria-label={`Open story: ${headline}`}
         >
-          <h3 className={styles.headline}>{headline}</h3>
+          <h3 className={styles.headline}>{normalizeDisplayHeadline(headline)}</h3>
           <p className={styles.summary}>{summary}</p>
         </Link>
         {hot ? (
@@ -140,35 +142,34 @@ export function BeatStoryCard({
               </time>
             )}
           </div>
-          <div className={styles.actions}>
+          <div className={`${actions.actions} ${actions.beat}`}>
             {onSave ? (
               <button
                 type="button"
-                className={styles.control}
+                className={actions.action}
                 onClick={onSave}
                 aria-pressed={!!saved}
                 aria-label={saved ? `Remove ${headline} from saved stories` : `Save ${headline}`}
               >
                 <Bookmark aria-hidden="true" className={saved ? styles.saved : ''} />
-                {saved ? 'Saved' : 'Save'}
+                SAVE
               </button>
             ) : null}
+            <Link
+              className={actions.action}
+              href={`/huddle?team=${encodeURIComponent(teamId)}&discussion=${encodeURIComponent(id)}`}
+            >
+              <MessageCircle aria-hidden="true" />
+              DISCUSS
+            </Link>
             <ShareToCrewButton
               contentId={id}
               contentType="BEAT_STORY"
               href={href}
               title={headline}
-              className={styles.control}
+              label="SHARE"
+              className={actions.action}
             />
-            <Link
-              href={href}
-              onClick={onOpen}
-              className={`${styles.control} ${styles.arrow}`}
-              tabIndex={-1}
-              aria-hidden="true"
-            >
-              <ArrowRight />
-            </Link>
           </div>
         </footer>
       </div>

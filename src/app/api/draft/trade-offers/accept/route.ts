@@ -1,3 +1,5 @@
+import { tradeDeadlineResponse } from '@/server/front-office/trade-window';
+import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
 
 import {
@@ -59,6 +61,8 @@ export const POST = async (request: Request) => {
     );
   }
 
+  const deadline = await tradeDeadlineResponse(request, body.saveId);
+  if (deadline) return deadline;
   try {
     const { resolvedSaveId, state, session } = ensureDraftTradeContext({
       saveId: body.saveId,
@@ -253,6 +257,7 @@ export const POST = async (request: Request) => {
       },
     });
 
+    await persistCompletedFranchiseDraft(request, body.saveId!, appliedTrade.session);
     return NextResponse.json({
       ok: true,
       accepted: true,

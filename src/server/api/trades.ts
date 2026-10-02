@@ -1,3 +1,4 @@
+import { isTradeDeadlinePassed, TRADE_DEADLINE_MESSAGE } from '@/lib/front-office-trade-window';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
 
@@ -446,6 +447,9 @@ export const createTrade = (
     return stateResult;
   }
 
+  if (isTradeDeadlinePassed(stateResult.data.header.phase))
+    return { ok: false, error: TRADE_DEADLINE_MESSAGE };
+
   const tradeId = `trade_${Date.now()}_${Math.random().toString(16).slice(2)}`;
   const trade: TradeDTO = {
     id: tradeId,
@@ -704,6 +708,9 @@ export const proposeTrade = (
   if (!saveStateResult.ok) {
     return saveStateResult;
   }
+
+  if (isTradeDeadlinePassed(saveStateResult.data.header.phase))
+    return { ok: false, error: TRADE_DEADLINE_MESSAGE };
 
   const userTeamAbbr = saveStateResult.data.header.teamAbbr.toUpperCase();
   const partnerTeamAbbr = trade.partnerTeamAbbr.toUpperCase();

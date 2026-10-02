@@ -1,0 +1,56 @@
+[
+  {
+    "phase": "NEW",
+    "news": 0,
+    "breaking": 0,
+    "unread": 0
+  },
+  {
+    "phase": "Week 2",
+    "generated": 3,
+    "types": {
+      "GAME_RECAP": 3
+    },
+    "breaking": 0,
+    "myTeam": 1,
+    "unread": 3
+  },
+  {
+    "phase": "Week 3",
+    "generated": 3,
+    "types": {
+      "GAME_RECAP": 3
+    },
+    "breaking": 0,
+    "myTeam": 1,
+    "unread": 6
+  },
+  {
+    "phase": "Mark all read after Week 3",
+    "unread": 0
+  },
+  {
+    "phase": "Week 4",
+    "generated": 3,
+    "types": {
+      "GAME_RECAP": 3
+    },
+    "breaking": 0,
+    "myTeam": 1,
+    "unread": 3
+  },
+  {
+    "phase": "TRADE DEADLINE (after Week 9)",
+    "generated": 8,
+    "types": {
+      "TRADE": 2,
+      "GAME_RECAP": 6
+    },
+    "breaking": 1,
+    "myTeam": 3,
+    "unread": 27
+  },
+  {
+    "checks": "Cross-save read isolation, stale retry, duplicate insert, repeated reads, persisted state, and atomic rollback passed"
+  }
+]

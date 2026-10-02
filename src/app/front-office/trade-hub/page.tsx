@@ -4,7 +4,11 @@ import { FrontOfficeStrategicHero } from '@/components/front-office/front-office
 import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import { TradeHubPage } from '@/components/front-office/trade-hub/TradeHubPage';
 
-export default function TradeHubRoute({ searchParams }: { searchParams?: { context?: string } }) {
+export default function TradeHubRoute({
+  searchParams,
+}: {
+  searchParams?: { context?: string; playerId?: string; partnerTeamAbbr?: string };
+}) {
   const rosterContext = searchParams?.context === 'roster';
   return (
     <AppShell>
@@ -25,7 +29,10 @@ export default function TradeHubRoute({ searchParams }: { searchParams?: { conte
         />
       )}
       <div className="pt-4">
-        <TradeHubPage />
+        <TradeHubPage
+          initialPlayerId={searchParams?.playerId}
+          initialPartner={searchParams?.partnerTeamAbbr}
+        />
       </div>
     </AppShell>
   );

@@ -72,7 +72,23 @@ export const hashSeed = (value: string) => {
   return hash >>> 0;
 };
 
-const randomUnit = (seed: string) => hashSeed(seed) / 4_294_967_295;
+const randomUnit = (seed: string) => {
+  // Avalanche the hash so similar game IDs do not produce correlated outcomes.
+  let value = hashSeed(seed);
+  value = Math.imul(value ^ (value >>> 16), 0x85ebca6b);
+  value = Math.imul(value ^ (value >>> 13), 0xc2b2ae35);
+  return ((value ^ (value >>> 16)) >>> 0) / 4_294_967_296;
+};
+
+/** A five-point OVR advantage wins about 73% on a neutral field; upsets remain possible. */
+export function franchiseHomeWinChance(
+  homeOverall: number,
+  awayOverall: number,
+  neutralSite = false,
+) {
+  const edge = homeOverall - awayOverall + (neutralSite ? 0 : 1);
+  return clamp(1 / (1 + Math.exp(-edge / 5)), 0.04, 0.96);
+}
 
 const scoreFor = (seed: string, offense: number, defense: number, homeBonus: number) => {
   // A large rating gap should matter without making any matchup deterministic.
@@ -93,8 +109,7 @@ export function simulateGame(
   const homeBonus = game.neutralSite ? 0 : 1.7;
   let homeScore = scoreFor(`${seed}:${game.id}:home`, home.overall, away.overall, homeBonus);
   let awayScore = scoreFor(`${seed}:${game.id}:away`, away.overall, home.overall, 0);
-  const ratingEdge = home.overall - away.overall;
-  const homeWinChance = clamp(0.5 + ratingEdge * 0.025 + (game.neutralSite ? 0 : 0.05), 0.1, 0.9);
+  const homeWinChance = franchiseHomeWinChance(home.overall, away.overall, game.neutralSite);
   let homeWins = randomUnit(`${seed}:${game.id}:outcome`) < homeWinChance;
 
   // No team can finish 17-0. A club that reaches 16 wins takes a loss in its
@@ -328,6 +343,7 @@ export function advanceSimulation(
       'divisional',
       'conference',
       'super-bowl',
+      'offseason',
       'resign_cut',
       'scouting_combine',
       'free_agency',
@@ -363,7 +379,7 @@ export function advanceSimulation(
     return beginNextFranchiseSeason(next);
   }
   if (
-    target === 'scouting_combine' &&
+    target === 'offseason' &&
     frontOfficeLifecycle(next.phase).mainPhase === 'PLAYOFFS' &&
     next.phase !== 'super-bowl'
   ) {
@@ -380,9 +396,7 @@ export function advanceSimulation(
       const simulated = simulateGame(game, next.teams, next.seed);
       if (
         !simulated.result &&
-        options.players &&
-        (!options.recapTeamAbbr ||
-          [simulated.homeTeam, simulated.awayTeam].includes(options.recapTeamAbbr))
+        options.players
       ) {
         simulated.result = createGameSimulationResult({
           game: simulated,
@@ -411,7 +425,7 @@ export function advanceSimulation(
     if (!next.playoffs.games.some((game) => game.week === nextRound))
       next.playoffs.games.push(...createPlayoffRound(next, nextRound));
     next.phase = target;
-  } else if (target === 'scouting_combine' && next.phase === 'super-bowl') {
+  } else if (target === 'offseason' && next.phase === 'super-bowl') {
     if (!next.playoffs) throw new Error('Playoffs are unavailable.');
     next.playoffs.games = next.playoffs.games.map((game) =>
       game.week === 4 ? simulateGame(game, next.teams, next.seed) : game,
@@ -435,8 +449,10 @@ export function advanceSimulation(
     const runnerUp =
       superBowl.winner === superBowl.homeTeam ? superBowl.awayTeam : superBowl.homeTeam;
     next.draftOrder = [...nonPlayoff, ...eliminated, runnerUp, next.playoffs.champion!];
-    next.phase = 'scouting_combine';
-  } else if (['scouting_combine', 'free_agency', 'free_agency_open', 'draft'].includes(target)) {
+    next.phase = 'offseason';
+  } else if (
+    ['resign_cut', 'scouting_combine', 'free_agency', 'free_agency_open', 'draft'].includes(target)
+  ) {
     next.phase = target;
   }
   if (

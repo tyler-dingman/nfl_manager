@@ -1,3 +1,4 @@
+import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { NextResponse } from 'next/server';
 
 import { signFreeAgent } from '@/server/api/players';
@@ -20,7 +21,9 @@ export const POST = async (request: Request) => {
     }
 
     await hydrateOffseasonFreeAgencyState(stateResult.data);
-    return NextResponse.json(signFreeAgent(body.saveId, body.playerId));
+    const result = signFreeAgent(body.saveId, body.playerId);
+    const events = await refreshFranchiseHeroAfterAction(request, body.saveId);
+    return NextResponse.json({...result, events});
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to sign free agent.';
     return NextResponse.json({ ok: false, error: message }, { status: 400 });

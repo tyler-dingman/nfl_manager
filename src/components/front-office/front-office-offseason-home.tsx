@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, CalendarDays, ChevronRight, Trophy } from 'lucide-react';
+import { ArrowRight, ChevronRight, Trophy } from 'lucide-react';
 import { apiFetch } from '@/lib/api';
 import { frontOfficeHomePhase } from '@/lib/front-office-home-phase';
 import { phaseDisplayName } from '@/lib/front-office-phase';
@@ -11,7 +11,6 @@ import { formatMoneyMillions } from '@/server/logic/cap';
 import { useProspectBoard } from '@/components/draft/use-prospect-board';
 import type { PlayerRowDTO } from '@/types/player';
 import type { DraftCentralHomeData } from './draft-central/DraftCentralPage';
-import { FrontOfficeFeatureHeading } from './front-office-feature-heading';
 import styles from './front-office-home.module.css';
 
 export function useOffseasonHomeData(saveId: string, phase: string, season: number) {
@@ -65,78 +64,6 @@ const available = (players: PlayerRowDTO[]) =>
     .filter((p) => !p.isSignedByUser && !p.isSignedByCpu && !/\bsigned\b/i.test(p.status ?? ''))
     .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
 
-export function OffseasonHomeHero({ phase, data }: Props) {
-  const config = frontOfficeHomePhase(phase);
-  const prospect = [...(data.draft?.availableProspects ?? data.draft?.prospects ?? [])].sort(
-    (a, b) => a.currentRank - b.currentRank,
-  )[0];
-  const agent = available(data.agents)[0];
-  const person =
-    config.kind === 'free-agency'
-      ? agent && {
-          id: agent.id,
-          name: playerName(agent),
-          image: agent.headshotUrl,
-          detail: `${agent.position} · Free Agent`,
-          href: '/free-agents',
-        }
-      : prospect && {
-          id: prospect.id,
-          name: prospect.name,
-          image: prospect.headshotUrl,
-          detail: `${prospect.position ?? 'Prospect'} · ${prospect.school ?? 'Draft class'}`,
-          href: prospectHref(prospect.id),
-        };
-  const [failed, setFailed] = useState<string | null>(null);
-  return (
-    <section className={styles.hero} aria-label={config.eyebrow}>
-      <div className={styles.heroCopy}>
-        <p className={styles.eyebrow}>
-          <CalendarDays size={14} aria-hidden="true" />
-          {config.eyebrow}
-        </p>
-        <FrontOfficeFeatureHeading>{config.title}</FrontOfficeFeatureHeading>
-        <p className={styles.heroSummary}>{config.summary}</p>
-        <Link className={styles.cta} href={config.href}>
-          {config.cta}
-          <ArrowRight size={16} aria-hidden="true" />
-        </Link>
-      </div>
-      <div className={styles.heroVisual}>
-        {person?.image && failed !== person.id ? (
-          <Image
-            className={styles.heroPhoto}
-            src={person.image}
-            alt={person.name}
-            width={440}
-            height={360}
-            unoptimized
-            onError={() => setFailed(person.id)}
-          />
-        ) : (
-          <Trophy className={styles.offseasonHeroIcon} aria-hidden="true" />
-        )}
-        <div className={styles.heroPlayer}>
-          {person ? (
-            <>
-              <Link href={person.href}>{person.name}</Link>
-              <span>{person.detail}</span>
-              <i />
-              <small>
-                {config.kind === 'free-agency' ? 'Available talent' : 'Prospect spotlight'}
-              </small>
-            </>
-          ) : (
-            <span>
-              {config.kind === 'free-agency' ? 'Build your roster' : 'Shape your draft board'}
-            </span>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Card({ title, href, children }: { title: string; href?: string; children: ReactNode }) {
   return (
     <section className={styles.panel}>
@@ -175,7 +102,14 @@ export function OffseasonHomeMarket({ phase, data }: Props) {
         ? players.map((p) => (
             <Link className={styles.offseasonRow} href="/free-agents" key={p.id}>
               {p.headshotUrl ? (
-                <Image src={p.headshotUrl} alt="" width={44} height={44} unoptimized />
+                <Image
+                  className={styles.portrait}
+                  src={p.headshotUrl}
+                  alt=""
+                  width={44}
+                  height={44}
+                  unoptimized
+                />
               ) : (
                 <Trophy aria-hidden="true" />
               )}
@@ -191,7 +125,14 @@ export function OffseasonHomeMarket({ phase, data }: Props) {
         : prospects.map((p) => (
             <Link className={styles.offseasonRow} href={prospectHref(p.id)} key={p.id}>
               {p.headshotUrl ? (
-                <Image src={p.headshotUrl} alt="" width={44} height={44} unoptimized />
+                <Image
+                  className={styles.portrait}
+                  src={p.headshotUrl}
+                  alt=""
+                  width={44}
+                  height={44}
+                  unoptimized
+                />
               ) : (
                 <Trophy aria-hidden="true" />
               )}

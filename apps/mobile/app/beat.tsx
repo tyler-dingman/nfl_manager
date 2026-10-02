@@ -1,17 +1,38 @@
+import { normalizeDisplayHeadline } from '../../../src/lib/display-headline';
+import { TEAM_FANBASES } from '../../../packages/design/team-fanbases';
+import { selectBeatHeroStories } from '../../../packages/design/editorial-stories';
+import type { Briefing } from '../lib/types';
+import { EditorialHero, NumberedBriefing } from '../components/editorial-hero';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { type Href, router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
-import { C, Eyebrow, Heading } from '../components/screen';
+import { C } from '../components/screen';
 import { MobileFilterBar } from '../components/mobile-filter-bar';
 import { BEAT_PRIMARY, BEAT_SECONDARY, filterValue } from '../../../packages/filters';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getBeatPage, type MobileBriefing } from '../lib/api';
+import { getBeatPage, getHome, getCatchUp, type MobileBriefing } from '../lib/api';
 import { useTeam } from '../lib/team-context';
 import { useTeamBranding } from '../lib/team-branding';
 
 export default function BeatScreen() {
   const { teamId } = useTeam();
+  const [highlights, setHighlights] = useState<ReturnType<typeof selectBeatHeroStories<Briefing>>>(
+    [],
+  );
+  useEffect(() => {
+    let active = true;
+    setHighlights([]);
+    void Promise.all([
+      getHome(teamId).catch(() => null),
+      getCatchUp(teamId).catch(() => null),
+    ]).then(([home, catchUp]) => {
+      if (active) setHighlights(selectBeatHeroStories(home?.data.huddle ?? [], catchUp));
+    });
+    return () => {
+      active = false;
+    };
+  }, [teamId]);
   const params = useLocalSearchParams<{ type?: string; sort?: string; range?: string }>();
   const values = useMemo(
     () => ({
@@ -70,12 +91,24 @@ export default function BeatScreen() {
       stickyHeaderIndices={[1]}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={() => void load()} />}
     >
-      <View>
-        <Eyebrow>{teamId} · THE BEAT</Eyebrow>
-        <Heading>What matters right now.</Heading>
-        <Text style={s.intro}>
-          One living story for each development, sourced and updated as the facts change.
-        </Text>
+      <View style={{ marginHorizontal: -12 }}>
+        <EditorialHero
+          first="THE"
+          accent="BEAT"
+          tagline={`THE PULSE OF ${TEAM_FANBASES[teamId] ?? 'NFL NATION'}. NEVER MISS A BEAT.`}
+        >
+          <NumberedBriefing
+            title="THREE & OUT"
+            empty={
+              loading ? 'Loading the latest developments…' : 'New developments will appear here.'
+            }
+            items={highlights.map((item) => ({
+              id: item.id,
+              title: item.headline,
+              onPress: () => router.push(`/beat-story/${item.id}` as Href),
+            }))}
+          />
+        </EditorialHero>
       </View>
       <MobileFilterBar
         primary={BEAT_PRIMARY}
@@ -112,7 +145,7 @@ export default function BeatScreen() {
                 {item.sourceCount} SOURCE{item.sourceCount === 1 ? '' : 'S'}
               </Text>
             </View>
-            <Text style={s.title}>{item.headline}</Text>
+            <Text style={s.title}>{normalizeDisplayHeadline(item.headline)}</Text>
             <Text style={s.summary} numberOfLines={3}>
               {item.summary}
             </Text>
@@ -135,7 +168,7 @@ export default function BeatScreen() {
 }
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#f4f6f8' },
-  body: { padding: 18, paddingBottom: 40 },
+  body: { padding: 12, paddingTop: 0, paddingBottom: 40 },
   intro: { color: C.muted, lineHeight: 21, marginTop: 10, marginBottom: 22 },
   count: { marginTop: 8, marginBottom: 8, fontSize: 12, fontWeight: '700', color: '#6d7f91' },
   loadMore: { minHeight: 44, alignItems: 'center', justifyContent: 'center', padding: 12 },

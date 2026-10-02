@@ -1,0 +1,322 @@
+{
+  "B": {
+    "ok": true,
+    "report": [
+      {
+        "week": 1,
+        "template": "season-opening",
+        "subject": "stadium"
+      },
+      {
+        "week": 2,
+        "template": "early-star",
+        "subject": "Rashee Rice"
+      },
+      {
+        "week": 3,
+        "template": "breakout-watch",
+        "subject": "Tyquan Thornton"
+      },
+      {
+        "week": 4,
+        "template": "new-core",
+        "subject": "Kenneth Walker III"
+      },
+      {
+        "week": 5,
+        "template": "division-check",
+        "subject": "stadium"
+      },
+      {
+        "week": 6,
+        "template": "trade-target-0",
+        "subject": "Austin Hooper"
+      },
+      {
+        "week": 7,
+        "template": "trade-overview-1",
+        "subject": "trade-deadline"
+      },
+      {
+        "week": 8,
+        "template": "trade-overview-2",
+        "subject": "trade-deadline"
+      },
+      {
+        "week": 9,
+        "template": "trade-overview-3",
+        "subject": "trade-deadline"
+      },
+      {
+        "week": 10,
+        "template": "facility-locker-room",
+        "subject": "locker-room"
+      },
+      {
+        "week": 11,
+        "template": "draft-riser",
+        "subject": "PJ Williams"
+      },
+      {
+        "week": 12,
+        "template": "star-season",
+        "subject": "Rashee Rice"
+      },
+      {
+        "week": 13,
+        "template": "contract-decision",
+        "subject": "Jaylon Moore"
+      },
+      {
+        "week": 14,
+        "template": "home-field",
+        "subject": "stadium"
+      },
+      {
+        "week": 15,
+        "template": "draft-picture",
+        "subject": "Jacarrius Peak"
+      },
+      {
+        "week": 16,
+        "template": "draft-picture",
+        "subject": "Jacarrius Peak"
+      },
+      {
+        "week": 17,
+        "template": "draft-picture",
+        "subject": "Niki Prongos"
+      },
+      {
+        "week": 18,
+        "template": "draft-picture",
+        "subject": "Jacarrius Peak"
+      },
+      {
+        "week": 0,
+        "template": "offseason-facility",
+        "subject": "locker-room"
+      },
+      {
+        "week": 0,
+        "template": "cap-pressure",
+        "subject": "Chris Jones"
+      },
+      {
+        "week": 0,
+        "template": "success-re-sign",
+        "subject": "Noah Gray"
+      },
+      {
+        "week": 0,
+        "template": "success-re-sign",
+        "subject": "Noah Gray"
+      },
+      {
+        "week": 0,
+        "template": "cap-pressure",
+        "subject": "Chris Jones"
+      },
+      {
+        "week": 0,
+        "template": "combine-evaluation",
+        "subject": "combine"
+      },
+      {
+        "week": 0,
+        "template": "fa-patience",
+        "subject": "stadium"
+      },
+      {
+        "week": 0,
+        "template": "fa-market-leader",
+        "subject": "Keidron Smith"
+      },
+      {
+        "week": 0,
+        "template": "success-signing",
+        "subject": "Aaron Brewer"
+      },
+      {
+        "week": 0,
+        "template": "draft-target",
+        "subject": "Trevor Lauck"
+      },
+      {
+        "week": 0,
+        "template": "on-clock",
+        "subject": "draft"
+      },
+      {
+        "week": 0,
+        "template": "draft-welcome",
+        "subject": "Keon Sabb"
+      },
+      {
+        "week": 0,
+        "template": "season-opening",
+        "subject": "stadium"
+      }
+    ]
+  },
+  "C": {
+    "ok": true,
+    "report": [
+      {
+        "week": 1,
+        "template": "season-opening",
+        "subject": "stadium"
+      },
+      {
+        "week": 2,
+        "template": "early-star",
+        "subject": "Rashee Rice"
+      },
+      {
+        "week": 3,
+        "template": "breakout-watch",
+        "subject": "Tyquan Thornton"
+      },
+      {
+        "week": 4,
+        "template": "new-core",
+        "subject": "Tyquan Thornton"
+      },
+      {
+        "week": 5,
+        "template": "division-check",
+        "subject": "stadium"
+      },
+      {
+        "week": 6,
+        "template": "trade-target-0",
+        "subject": "LaCale London"
+      },
+      {
+        "week": 7,
+        "template": "trade-overview-1",
+        "subject": "trade-deadline"
+      },
+      {
+        "week": 8,
+        "template": "trade-overview-2",
+        "subject": "trade-deadline"
+      },
+      {
+        "week": 9,
+        "template": "trade-overview-3",
+        "subject": "trade-deadline"
+      },
+      {
+        "week": 10,
+        "template": "draft-riser",
+        "subject": "Niki Prongos"
+      },
+      {
+        "week": 11,
+        "template": "star-season",
+        "subject": "Rashee Rice"
+      },
+      {
+        "week": 12,
+        "template": "facility-locker-room",
+        "subject": "locker-room"
+      },
+      {
+        "week": 13,
+        "template": "contract-decision",
+        "subject": "Kristian Fulton"
+      },
+      {
+        "week": 14,
+        "template": "draft-riser",
+        "subject": "Cayden Green"
+      },
+      {
+        "week": 15,
+        "template": "endgame-15-contender",
+        "subject": "stadium"
+      },
+      {
+        "week": 16,
+        "template": "built-for-moment",
+        "subject": "Nick Bolton"
+      },
+      {
+        "week": 17,
+        "template": "endgame-17-contender",
+        "subject": "stadium"
+      },
+      {
+        "week": 18,
+        "template": "endgame-18-contender",
+        "subject": "stadium"
+      },
+      {
+        "week": 0,
+        "template": "season-star",
+        "subject": "Kenneth Walker III"
+      },
+      {
+        "week": 0,
+        "template": "cap-pressure",
+        "subject": "Chris Jones"
+      },
+      {
+        "week": 0,
+        "template": "success-re-sign",
+        "subject": "Noah Gray"
+      },
+      {
+        "week": 0,
+        "template": "success-re-sign",
+        "subject": "Noah Gray"
+      },
+      {
+        "week": 0,
+        "template": "cap-pressure",
+        "subject": "Chris Jones"
+      },
+      {
+        "week": 0,
+        "template": "combine-evaluation",
+        "subject": "combine"
+      },
+      {
+        "week": 0,
+        "template": "fa-market-leader",
+        "subject": "Keidron Smith"
+      },
+      {
+        "week": 0,
+        "template": "fa-patience",
+        "subject": "stadium"
+      },
+      {
+        "week": 0,
+        "template": "success-signing",
+        "subject": "Aaron Brewer"
+      },
+      {
+        "week": 0,
+        "template": "draft-target",
+        "subject": "Jordan Seaton"
+      },
+      {
+        "week": 0,
+        "template": "on-clock",
+        "subject": "draft"
+      },
+      {
+        "week": 0,
+        "template": "draft-welcome",
+        "subject": "Keon Sabb"
+      },
+      {
+        "week": 0,
+        "template": "season-opening",
+        "subject": "stadium"
+      }
+    ]
+  }
+}

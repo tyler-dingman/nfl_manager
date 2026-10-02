@@ -36,7 +36,7 @@ export function getTeamLogoColors(team?: string | null): TeamLogoColors {
       background: '#00172B',
       badge: DEFAULT_TEAM_BRAND_THEME.primary,
       ticks: DEFAULT_TEAM_BRAND_THEME.primary,
-      lettering: DEFAULT_TEAM_BRAND_THEME.light,
+      lettering: '#FFFFFF',
       ampersand: '#00172B',
     };
   }
@@ -53,7 +53,7 @@ export function getTeamLogoColors(team?: string | null): TeamLogoColors {
     background,
     badge,
     ticks: ['ATL', 'DEN'].includes(abbr) ? theme.primary : secondary,
-    lettering: overrides ? '#FAFAFA' : theme.light,
+    lettering: '#FFFFFF',
     ampersand: ['ARI', 'BAL'].includes(abbr)
       ? theme.light
       : abbr === 'ATL'

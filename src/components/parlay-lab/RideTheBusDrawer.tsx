@@ -2,6 +2,7 @@
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';
 import {
   Sparkles,
+  ArrowRight,
   X,
   Plus,
   BarChart3,
@@ -13,6 +14,7 @@ import {
   Layers,
   LoaderCircle,
 } from 'lucide-react';
+import { LabExperimentIcon } from './lab-icons';
 import { DdFootballIcon } from '@/components/ui/football-icons';
 import { toTeamStyle } from '@/components/team-theme-provider';
 import type { Team } from '@/features/team/team-store';
@@ -31,31 +33,31 @@ const rides = [
   {
     label: '3-Legger',
     text: 'Build me a 3-leg parlay.',
-    description: 'A balanced 3-pick parlay with strong value.',
+    description: 'Balanced parlay with strong value',
     icon: Star,
   },
   {
     label: 'Plus Money',
     text: 'Build me a plus money 3-leg parlay.',
-    description: 'Higher payout parlays with smart picks.',
+    description: 'Higher payout parlays',
     icon: Coins,
   },
   {
     label: 'TD Picks',
     text: 'Build me a 3-leg parlay using touchdown props.',
-    description: 'Build a parlay around touchdown scorers.',
+    description: 'Build around touchdown scorers',
     icon: BarChart3,
   },
   {
     label: 'High Hit Rate',
     text: 'Build me a 3-leg parlay using high historical hit-rate props.',
-    description: 'Lower risk picks with strong probabilities.',
+    description: 'Safer lines with strong probabilities',
     icon: TrendingUp,
   },
   {
     label: 'Unders',
     text: 'Build me a 3-leg parlay using strong Under trends.',
-    description: 'Find value with unders across key stats.',
+    description: 'Find value with unders across key stats',
     icon: ArrowDown,
   },
 ];
@@ -98,7 +100,7 @@ export default function RideTheBusDrawer({
   const [preset, setPreset] = useState<string | null>(null);
   const [risk, setRisk] = useState<'balanced' | 'high'>('balanced');
   const [maxLegs, setMaxLegs] = useState(3);
-  const [settingsOpen, setSettingsOpen] = useState(true);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [generating, setGenerating] = useState(false);
   const generation = useRef(0);
   useEffect(() => {
@@ -171,12 +173,14 @@ export default function RideTheBusDrawer({
         <header>
           <div>
             <h2 id="ride-title">
-              <BarChart3 aria-hidden="true" />
-              Create a Parlay
+              <LabExperimentIcon />
+              <span>
+                CREATE A <em>PARLAY</em>
+              </span>
             </h2>
             <p>
-              Tell us what kind of parlay you’re looking for. We’ll use real data and proven trends
-              to build the best slip for you.
+              Tell us what you’re looking for. We’ll use real data and proven trends to build the
+              best slip for you.
             </p>
           </div>
           <button aria-label="Close Create a Parlay" onClick={onClose}>
@@ -191,25 +195,49 @@ export default function RideTheBusDrawer({
             }}
           >
             <label className={styles.sectionTitle} htmlFor="ride-prompt">
-              Describe your parlay
+              WHAT ARE WE BUILDING?
             </label>
-            <textarea
-              ref={input}
-              id="ride-prompt"
-              value={prompt}
-              maxLength={500}
-              onChange={(e) => configure(e.target.value)}
-              placeholder="e.g. A 3-leg NFL parlay with passing yards, touchdown scorers, and strong under trends..."
-              rows={3}
-              aria-describedby="ride-counter"
-            />
-            <span id="ride-counter" className={styles.counter}>
-              {prompt.length}/500
-            </span>
+            <div className={styles.promptField}>
+              <Sparkles aria-hidden="true" />
+              <textarea
+                ref={input}
+                id="ride-prompt"
+                value={prompt}
+                maxLength={500}
+                onChange={(e) => configure(e.target.value)}
+                placeholder="Build me a 3-leg parlay with passing yards, a touchdown scorer, and safer lines..."
+                rows={3}
+                aria-describedby="ride-counter"
+              />
+              <span id="ride-counter" className={styles.counter}>
+                {prompt.length}/500
+              </span>
+            </div>
+            <button
+              className={styles.primary}
+              disabled={
+                !prompt.trim() || marketState !== 'ready' || !eligibleMarkets.length || generating
+              }
+            >
+              {generating || marketState === 'loading' ? (
+                <LoaderCircle className={styles.spinner} aria-hidden="true" />
+              ) : (
+                <ArrowRight aria-hidden="true" />
+              )}
+              {generating
+                ? 'Building your parlay…'
+                : marketState === 'loading'
+                  ? 'Loading available markets…'
+                  : 'BUILD MY PARLAY'}
+            </button>
+
+            <div className={styles.divider}>
+              <span>OR</span>
+            </div>
             <section aria-labelledby="quick-starts">
-              <h3 id="quick-starts">Quick Starts</h3>
+              <h3 id="quick-starts">OR START WITH A FORMULA</h3>
               <p className={styles.description}>
-                Try a popular parlay type or let us build one based on what you’re looking for.
+                Pick a proven starting point and we’ll build it for you.
               </p>
               <div className={styles.quick}>
                 {rides.map(({ label, text, description, icon: Icon }, index) => (
@@ -303,26 +331,6 @@ export default function RideTheBusDrawer({
                 again later.
               </p>
             ) : null}
-            <button
-              className={styles.primary}
-              disabled={
-                !prompt.trim() || marketState !== 'ready' || !eligibleMarkets.length || generating
-              }
-            >
-              {generating || marketState === 'loading' ? (
-                <LoaderCircle className={styles.spinner} aria-hidden="true" />
-              ) : (
-                <Sparkles aria-hidden="true" />
-              )}
-              {generating
-                ? 'Building your parlay…'
-                : marketState === 'loading'
-                  ? 'Loading available markets…'
-                  : 'Create My Parlay'}
-            </button>
-            <p className={styles.note}>
-              Uses available stored odds, stats and research. Each request starts a fresh ride.
-            </p>
             {generating ? (
               <p role="status" className={styles.note}>
                 Finding eligible markets and checking research…
@@ -415,13 +423,20 @@ export default function RideTheBusDrawer({
               </button>
             </section>
           ) : null}
-          <p role="status">{notice}</p>
+          {notice && <p role="status">{notice}</p>}
           {result !== null ? (
             <p className={styles.note}>
               Lab Score measures research alignment—not win probability or betting value. Alternate
               lines can have high historical hit rates without offering value.
             </p>
           ) : null}
+          <footer className={styles.footer}>
+            <span>
+              <BarChart3 /> Uses real data + proven trends.
+            </span>
+            <span>You’ll review every leg before adding it.</span>
+            <span>DOWN &amp; DISTANCE</span>
+          </footer>
         </div>
       </aside>
     </div>,

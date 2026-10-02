@@ -14,7 +14,7 @@ export const C = {
 };
 export function Screen({ children }: PropsWithChildren) {
   return (
-    <SafeAreaView style={s.safe} edges={['left', 'right', 'bottom']}>
+    <SafeAreaView style={s.safe} edges={['left', 'right']}>
       <KeyboardAvoidingView style={s.safe} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
@@ -39,5 +39,5 @@ const s = StyleSheet.create({
   // A stacked screen fills its safe-area container; child sections inherit its gutters.
   body: { paddingBottom: 36, width: '100%', minWidth: 0, alignItems: 'stretch' },
   eyebrow: { fontSize: 13, fontWeight: '900', letterSpacing: 1.6, marginBottom: 7 },
-  heading: { fontSize: 28, lineHeight: 31, color: C.ink, fontWeight: '900' },
+  heading: { fontSize: 28, lineHeight: 31, color: C.ink, fontFamily: 'BarlowCondensed' },
 });

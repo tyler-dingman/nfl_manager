@@ -5,6 +5,9 @@ import Image from 'next/image';
 import { useEffect, useId, useRef, type CSSProperties, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 
+import { getPlayerTransactionTheme } from '@/lib/team-theme-tokens';
+import { frontOfficeFont } from './front-office/front-office-font';
+import { useSaveStore } from '@/features/save/save-store';
 import { useTeamStore } from '@/features/team/team-store';
 
 export type TransactionVariant =
@@ -68,6 +71,8 @@ type Props = {
   children: ReactNode;
   footer?: ReactNode;
   compactHeader?: boolean;
+  workspaceHero?: ReactNode;
+  franchiseTeam?: string;
 };
 
 const focusableSelector =
@@ -82,7 +87,10 @@ export default function TransactionModal({
   children,
   footer,
   compactHeader = false,
+  workspaceHero,
+  franchiseTeam,
 }: Props) {
+  const savedTeam = useSaveStore((s) => s.teamAbbr);
   const titleId = useId();
   const descriptionId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -90,6 +98,7 @@ export default function TransactionModal({
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const team = teams.find((item) => item.id === selectedTeamId) ?? teams[0];
   const assets = TRANSACTION_ASSETS[variant];
+  const theme = getPlayerTransactionTheme(franchiseTeam || savedTeam || team?.abbr);
 
   useEffect(() => {
     if (!open) return;
@@ -123,6 +132,8 @@ export default function TransactionModal({
 
   if (!open) return null;
   const style = {
+    '--txn-accent': theme.interactive,
+    '--txn-on-accent': theme.interactiveForeground,
     '--txn-icon': `url('/assets/transaction-modal/icons/${assets.icon}')`,
     '--txn-phrase': `url('/assets/transaction-modal/phrases/${assets.phrase}')`,
   } as CSSProperties;
@@ -136,12 +147,13 @@ export default function TransactionModal({
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={titleId}
-        aria-describedby={description ? descriptionId : undefined}
-        className={`txn-modal txn-modal--${variant} ${compactHeader ? 'txn-modal--compact-player' : ''}`}
+        aria-labelledby={workspaceHero ? undefined : titleId}
+        aria-label={workspaceHero ? title : undefined}
+        aria-describedby={description && !workspaceHero ? descriptionId : undefined}
+        className={`txn-modal txn-modal--${variant} ${compactHeader ? 'txn-modal--compact-player' : ''} ${workspaceHero ? `txn-modal--workspace ${frontOfficeFont.variable}` : ''}`}
         style={style}
       >
-        {!compactHeader && (
+        {!compactHeader && !workspaceHero && (
           <>
             <i className="txn-layer txn-layer--field" aria-hidden="true" />
             <i className="txn-layer txn-layer--playbook" aria-hidden="true" />
@@ -150,7 +162,7 @@ export default function TransactionModal({
           </>
         )}
         <header className="txn-hero">
-          {!compactHeader && (
+          {!compactHeader && !workspaceHero && (
             <>
               {team?.logo_url ? (
                 <Image
@@ -176,8 +188,9 @@ export default function TransactionModal({
           </button>
         </header>
         <div className="txn-content">
-          <h2 id={titleId}>{title}</h2>
-          {description ? (
+          {!workspaceHero && <h2 id={titleId}>{title}</h2>}
+          {workspaceHero}
+          {description && !workspaceHero ? (
             <p id={descriptionId} className="txn-description">
               {description}
             </p>

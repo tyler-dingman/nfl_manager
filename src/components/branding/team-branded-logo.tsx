@@ -7,8 +7,9 @@ import { LOGO_VIEW_BOX } from '@/lib/branding/team-logo-paths';
 
 export function TeamBrandedLogo({
   team,
+  letteringColor,
   ...props
-}: SVGProps<SVGSVGElement> & { team?: string | null }) {
+}: SVGProps<SVGSVGElement> & { team?: string | null; letteringColor?: string }) {
   const id = useId().replaceAll(':', '');
   const colors = getTeamLogoColors(team);
   return (
@@ -33,7 +34,8 @@ export function TeamBrandedLogo({
             key={index}
             data-logo-region={color}
             d={LOGO_PATHS[path].d}
-            fill={colors[color]}
+            fill={color === 'lettering' && letteringColor ? letteringColor : colors[color]}
+            style={color === 'lettering' && letteringColor ? { fill: letteringColor } : undefined}
             clipPath={clip ? `url(#${id}-${clip})` : undefined}
           />
         ))}

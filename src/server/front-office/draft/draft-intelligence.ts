@@ -104,6 +104,7 @@ export function buildDraftCentralIntelligence(input: {
     displayOverall: pick.overallSlot ?? (pick.round - 1) * 32 + projectedSlot,
   }));
   const liveDraft =
+    input.simulation?.activeDraft ??
     input.simulation?.completedDraft ??
     Object.values(input.state.draftSessions).find(
       (session) => session.mode === 'real' && session.draftYear === draftYear,

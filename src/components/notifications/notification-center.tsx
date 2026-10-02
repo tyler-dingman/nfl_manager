@@ -103,8 +103,15 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
   useEffect(() => {
     if (!hydrated || !user) return;
     void refreshCount();
-    const timer = window.setInterval(refreshCount, 30_000);
-    return () => window.clearInterval(timer);
+    const refreshVisible = () => {
+      if (document.visibilityState === 'visible') void refreshCount();
+    };
+    const timer = window.setInterval(refreshVisible, 30_000);
+    document.addEventListener('visibilitychange', refreshVisible);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener('visibilitychange', refreshVisible);
+    };
   }, [hydrated, refreshCount, user]);
   useEffect(() => {
     if (!open || !user) return;

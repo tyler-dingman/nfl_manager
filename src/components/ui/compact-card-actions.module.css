@@ -1,0 +1,90 @@
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.desktop {
+  margin-top: auto;
+  padding-top: 16px;
+}
+.mobile {
+  margin: 4px 8px 0;
+}
+.actions > .action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 56px;
+  padding: 4px 6px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: #071c49;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 13.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+.actions > .action + .action {
+  border-left: 1px solid #e2e8f0;
+}
+.actions > .action svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+.actions > .action:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+  border-radius: 3px;
+}
+.actions > .action:active {
+  background: #fff1f2;
+}
+@media (hover: hover) {
+  .actions > .action:hover {
+    background: #fff1f2;
+  }
+}
+@media (max-width: 767px) {
+  .actions > .action {
+    font-size: 11px;
+    padding-inline: 3px;
+    min-height: 52px;
+  }
+  .actions > .action svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.beat {
+  margin-top: 14px;
+}
+.beat > .action {
+  min-height: 48px;
+  gap: 4px;
+}
+.beat > .action svg {
+  width: 20px;
+  height: 20px;
+}
+.beat > .action[aria-pressed='true'] svg {
+  fill: currentColor;
+}
+.beat > .action:active {
+  background: #f1f5f9;
+}
+@media (hover: hover) {
+  .beat > .action:hover {
+    background: #f1f5f9;
+  }
+}

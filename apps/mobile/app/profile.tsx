@@ -1,3 +1,5 @@
+import { PageHeading, PageState } from '../components/page-heading';
+import { Image } from 'react-native';
 import { Screen } from '../components/screen';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -11,12 +13,17 @@ export default function Profile() {
   const [email, setEmail] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
   const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    setLoading(true);
+    setMessage(null);
     void getUserProfile()
       .then((profile) => {
+        setLoaded(true);
         setDisplayName(profile.displayName);
         setEmail(profile.primaryEmail ?? '');
         setAvatarUrl(profile.avatarUrl ?? '');
@@ -25,9 +32,10 @@ export default function Profile() {
         setMessage(caught instanceof Error ? caught.message : 'Profile is unavailable.'),
       )
       .finally(() => setLoading(false));
-  }, []);
+  }, [attempt]);
 
   const save = async () => {
+    if (!loaded || saving) return;
     if (!displayName.trim()) return setMessage('Enter a display name.');
     setSaving(true);
     setMessage(null);
@@ -51,13 +59,38 @@ export default function Profile() {
         <ActivityIndicator color={C.red} />
       </View>
     );
+  if (!loaded)
+    return (
+      <Screen>
+        <PageState title="Profile unavailable" message={message ?? undefined} />
+        <Pressable style={s.button} onPress={() => setAttempt((x) => x + 1)}>
+          <Text style={s.buttonText}>TRY AGAIN</Text>
+        </Pressable>
+      </Screen>
+    );
   return (
     <Screen>
       <View style={s.page}>
-        <Eyebrow>CANONICAL D&D ACCOUNT</Eyebrow>
-        <Heading>Profile</Heading>
+        <PageHeading
+          dark
+          eyebrow="MY ACCOUNT"
+          title="Profile Information"
+          description="Manage your account, preferences, and how you appear across Down & Distance."
+        />
+        <View style={s.identity}>
+          {avatarUrl ? (
+            <Image source={{ uri: avatarUrl }} style={s.avatar} />
+          ) : (
+            <View style={s.avatar}>
+              <Text style={s.initials}>{displayName.slice(0, 2).toUpperCase()}</Text>
+            </View>
+          )}
+          <Text style={s.identityName}>{displayName}</Text>
+        </View>
         <Text style={s.label}>DISPLAY NAME</Text>
         <TextInput
+          accessibilityLabel="Display name"
+          maxLength={100}
           value={displayName}
           onChangeText={setDisplayName}
           autoCapitalize="words"
@@ -90,8 +123,19 @@ export default function Profile() {
 }
 
 const s = StyleSheet.create({
-  loading: { flex: 1, backgroundColor: C.cream, justifyContent: 'center' },
-  page: { flex: 1, backgroundColor: C.cream, padding: 20 },
+  identity: { alignItems: 'center', gap: 10, paddingVertical: 16 },
+  avatar: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: '#DCE7EF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  initials: { fontSize: 28, fontWeight: '800', color: C.ink },
+  identityName: { fontSize: 20, fontWeight: '800', color: C.ink },
+  loading: { flex: 1, backgroundColor: '#F7F8FA', justifyContent: 'center' },
+  page: { flex: 1, backgroundColor: '#F7F8FA', padding: 20 },
   label: {
     color: C.ink,
     fontSize: 13,
@@ -100,14 +144,14 @@ const s = StyleSheet.create({
     marginTop: 24,
     marginBottom: 8,
   },
-  input: { backgroundColor: C.white, color: C.ink, borderRadius: 14, padding: 16, fontSize: 16 },
-  readOnly: { backgroundColor: '#E9E5DC', borderRadius: 14, padding: 16 },
+  input: { backgroundColor: C.white, color: C.ink, borderRadius: 8, padding: 16, fontSize: 16 },
+  readOnly: { backgroundColor: '#E9E5DC', borderRadius: 8, padding: 16 },
   readOnlyText: { color: C.muted },
   help: { color: C.muted, fontSize: 12, lineHeight: 18, marginTop: 9 },
   message: { color: C.ink, marginTop: 18 },
   button: {
     backgroundColor: C.red,
-    borderRadius: 14,
+    borderRadius: 8,
     alignItems: 'center',
     padding: 16,
     marginTop: 22,

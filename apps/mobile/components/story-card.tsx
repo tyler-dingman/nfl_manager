@@ -1,3 +1,4 @@
+import { normalizeDisplayHeadline } from '../../../src/lib/display-headline';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { C } from './screen';
@@ -32,10 +33,12 @@ export function StoryCard({ story, down }: { story: Story; down?: string }) {
       <View style={s.content}>
         {down ? <Text style={[s.down, { color: theme.primary }]}>{down}</Text> : null}
         <View style={s.row}>
-          <Text style={[s.status, { color: theme.primary }]}>{story.status.replaceAll('_', ' ')}</Text>
-          <Text style={s.score}>{story.importanceScore}</Text>
+          <Text style={[s.status, { color: theme.primary }]}>
+            {story.status.replaceAll('_', ' ')}
+          </Text>
+          <Text style={s.score}>{story.sources.length} sources</Text>
         </View>
-        <Text style={s.title}>{story.title}</Text>
+        <Text style={s.title}>{normalizeDisplayHeadline(story.title)}</Text>
         <Text style={s.summary}>{story.summary}</Text>
         <Text style={s.source}>{story.sources[0]?.sourceName ?? 'Down & Distance'} →</Text>
       </View>
@@ -45,18 +48,18 @@ export function StoryCard({ story, down }: { story: Story; down?: string }) {
 const s = StyleSheet.create({
   card: {
     backgroundColor: C.white,
-    borderRadius: 18,
+    borderRadius: 24,
     overflow: 'hidden',
     marginBottom: 12,
     borderWidth: 1,
     borderColor: '#E5DED3',
   },
-  content: { padding: 18 },
+  content: { padding: 24 },
   down: { fontSize: 13, fontWeight: '900', letterSpacing: 1.6, marginBottom: 12 },
   row: { flexDirection: 'row', justifyContent: 'space-between' },
   status: { fontSize: 13, fontWeight: '900' },
   score: { fontSize: 13, fontWeight: '900', color: C.muted },
-  title: { fontSize: 20, lineHeight: 23, fontWeight: '900', color: C.ink, marginTop: 9 },
+  title: { fontSize: 24, lineHeight: 29, fontWeight: '900', color: C.ink, marginTop: 9 },
   summary: { fontSize: 16, lineHeight: 23, color: C.muted, marginTop: 8 },
   source: { fontSize: 13, fontWeight: '900', color: C.ink, marginTop: 14 },
 });

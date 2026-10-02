@@ -1,6 +1,6 @@
-import { TEAM_LIST } from '@/data/teams';
+import { TEAM_LIST } from '../../data/teams';
 import { parseResearchPrompt, type ResearchCandidate } from './research';
-import { americanToDecimal, estimateParlayOdds } from '@/components/parlay-lab/parlay-odds';
+import { americanToDecimal, estimateParlayOdds } from '../../components/parlay-lab/parlay-odds';
 export type GeneratorCandidate = ResearchCandidate & {
   playerId?: string | null;
   available: boolean;

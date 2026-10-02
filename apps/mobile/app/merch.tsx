@@ -1,3 +1,4 @@
+import { SectionMenu } from '../components/section-menu';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -17,7 +18,8 @@ export default function Merch() {
     [categories, setCategories] = useState<string[]>([]),
     [category, setCategory] = useState('New & Trending'),
     [rewards, setRewards] = useState<RewardsDashboard | null>(null),
-    [loading, setLoading] = useState(true);
+    [loading, setLoading] = useState(true),
+    [error, setError] = useState('');
   useEffect(() => {
     void Promise.all([getMerch(), getRewards().catch(() => null)])
       .then(([catalog, rewardData]) => {
@@ -25,6 +27,7 @@ export default function Merch() {
         setCategories(catalog.categories);
         setRewards(rewardData);
       })
+      .catch(() => setError('The store is temporarily unavailable. Please try again later.'))
       .finally(() => setLoading(false));
   }, []);
   const visible = useMemo(
@@ -39,8 +42,27 @@ export default function Merch() {
   );
   return (
     <ScrollView style={s.page} contentContainerStyle={s.body}>
-      <Eyebrow>D&amp;D MERCH</Eyebrow>
-      <Heading>Get your head in the game.</Heading>
+      <SectionMenu
+        navigation={{ inset: 20, top: true, tone: 'merch' }}
+        title="Shop departments"
+        items={['New & Trending', ...categories.filter((item) => item !== 'New & Trending')].map(
+          (item) => ({
+            label: item,
+            selected: item === category,
+            onPress: () => setCategory(item),
+          }),
+        )}
+      />
+      <Eyebrow>DOWN &amp; DISTANCE ORIGINALS</Eyebrow>
+      <Heading>GET YOUR HEAD IN THE GAME.</Heading>
+      <Text style={{ color: C.ink, marginTop: 12 }}>
+        D&amp;D originals in city-inspired colorways. No logos. Just football.
+      </Text>
+      {error ? (
+        <Text accessibilityRole="alert" style={{ color: C.red, marginTop: 12 }}>
+          {error}
+        </Text>
+      ) : null}
       <Pressable onPress={() => router.push('/merch-cart' as never)} style={s.cart}>
         <Text style={s.cartText}>CART · {count}</Text>
       </Pressable>
@@ -98,7 +120,11 @@ export default function Merch() {
             >
               {product.imageUrl ? (
                 <Image
-                  source={{ uri: `${API_BASE_URL}${product.imageUrl}` }}
+                  source={{
+                    uri: product.imageUrl.startsWith('http')
+                      ? product.imageUrl
+                      : `${API_BASE_URL}${product.imageUrl}`,
+                  }}
                   style={s.image}
                   resizeMode="contain"
                 />

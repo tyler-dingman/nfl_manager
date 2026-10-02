@@ -3,6 +3,16 @@ import { frontOfficeLifecycle, normalizeFrontOfficePhase } from './front-office-
 export function frontOfficeHomePhase(phase: string) {
   const current = normalizeFrontOfficePhase(phase);
   const lifecycle = frontOfficeLifecycle(current);
+  if (current === 'offseason' || current === 'resign_cut')
+    return {
+      kind: current === 'offseason' ? ('offseason' as const) : ('re-sign' as const),
+      eyebrow:
+        current === 'offseason' ? 'Offseason · Season Review' : 'Offseason · Re-sign Players',
+      title: current === 'offseason' ? 'What Comes Next?' : 'Who Stays? Who Goes?',
+      summary: 'Review your roster and plan your next decisions.',
+      cta: 'Review Your Roster',
+      href: '/roster?view=resign',
+    };
   if (current === 'scouting_combine')
     return {
       kind: 'combine' as const,

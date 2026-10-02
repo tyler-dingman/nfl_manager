@@ -1,11 +1,9 @@
 import { Suspense } from 'react';
-
-import TeamContentHub from '@/components/team-content-hub';
-
+import Huddle from '@/components/huddle-live/huddle';
 export default function HuddlePage() {
   return (
-    <Suspense>
-      <TeamContentHub kind="huddle" />
+    <Suspense fallback={<p>Opening The Huddle…</p>}>
+      <Huddle />
     </Suspense>
   );
 }

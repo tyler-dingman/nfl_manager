@@ -1,3 +1,5 @@
+import { ensureWeeklyHero } from './hero-story';
+import { persistFrontOfficeEvents, type NewFrontOfficeEvent } from './events-repository';
 import { syncSaveSimulation } from '@/server/api/store';
 import { authDb } from '@/server/auth/database';
 import { normalizeFranchiseSimulationState } from '@/lib/franchise-simulation';
@@ -90,10 +92,21 @@ export async function saveFranchiseSimulation(input: {
   userId: string;
   saveId: string;
   expectedVersion: number;
+  events?: NewFrontOfficeEvent[];
   simulation: FranchiseSimulationState;
 }) {
-  const db = authDb();
-  const rows = await db<FrontOfficeSaveRow[]>`
+  const metadata = await getFrontOfficeSaveMetadata(input.userId, input.saveId);
+  if (!metadata) return null;
+  input.simulation = await ensureWeeklyHero(
+    input.saveId,
+    metadata.teamAbbr,
+    input.simulation,
+    input.userId,
+  );
+  return authDb()
+    .begin(async (transaction) => {
+      const db = transaction as unknown as ReturnType<typeof authDb>;
+      const rows = await db<FrontOfficeSaveRow[]>`
     UPDATE user_front_office_saves
     SET simulation_state = ${db.json(input.simulation as any)},
       simulation_phase = ${input.simulation.phase},
@@ -105,5 +118,9 @@ export async function saveFranchiseSimulation(input: {
     RETURNING save_id AS "saveId", team_abbr AS "teamAbbr", season,
       selected_path AS "selectedPath", simulation_phase AS "simulationPhase",
       initialized_at AS "initializedAt", simulation_state AS simulation, version`;
-  return rows[0] ? mapRow(rows[0]) : null;
+      if (!rows[0]) return null;
+      await persistFrontOfficeEvents(input.userId, input.events ?? [], db);
+      return rows[0];
+    })
+    .then((row) => (row ? mapRow(row as unknown as FrontOfficeSaveRow) : null));
 }

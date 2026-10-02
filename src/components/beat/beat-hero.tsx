@@ -12,37 +12,8 @@ import { TEAM_LIST } from '@/data/teams';
 import styles from './beat-hero.module.css';
 import { EditorialSectionHero } from './editorial-section-hero';
 
-export function selectBeatHeroStories(current: TeamBriefing[], catchUp?: CatchUpResponse | null) {
-  const changes =
-    catchUp?.eligible && catchUp.mode === 'CHANGES'
-      ? [...catchUp.items].sort((a, b) => b.importanceScore - a.importanceScore)
-      : [];
-  const ranked = changes.map((item) => ({
-    id: item.storyId,
-    headline: item.headline,
-    sourceCount: item.sourceCount,
-    updatedAt: item.occurredAt,
-    briefing: current.find((story) => story.id === item.storyId),
-    isNew: true,
-  }));
-  const seen = new Set(ranked.map((story) => story.id));
-  const stories = [
-    ...ranked,
-    ...current
-      .filter((story) => !seen.has(story.id))
-      .map((story) => ({
-        id: story.id,
-        headline: story.headline,
-        sourceCount: story.sourceCount,
-        updatedAt: story.updatedAt,
-        briefing: story,
-        isNew: false,
-      })),
-  ];
-  return stories
-    .filter((story, index) => stories.findIndex((other) => other.id === story.id) === index)
-    .slice(0, 3);
-}
+import { selectBeatHeroStories } from '../../../packages/design/editorial-stories';
+export { selectBeatHeroStories } from '../../../packages/design/editorial-stories';
 
 export function BeatHero({ team }: { team?: Team }) {
   const { user } = useAuthUser();

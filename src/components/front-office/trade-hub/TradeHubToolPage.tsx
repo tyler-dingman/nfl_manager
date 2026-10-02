@@ -1,4 +1,5 @@
 'use client';
+import { TRADE_DEADLINE_MESSAGE } from '@/lib/front-office-trade-window';
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
@@ -115,6 +116,8 @@ export function TradeHubToolPage({ tool }: { tool: string }) {
           </div>
         ) : !data ? (
           <div className={styles.status}>Loading trade intelligence…</div>
+        ) : data.deadline.passed && tool !== 'activity' ? (
+          <div className={styles.status}>{TRADE_DEADLINE_MESSAGE}</div>
         ) : tool === 'activity' ? (
           <section className={styles.toolPanel}>
             {data.recentTrades.length ? (

@@ -145,6 +145,8 @@ export type GameSimulationResult = {
 };
 
 export type FranchiseTransaction = {
+  relatedTeamAbbr?: string;
+  playerRating?: number;
   id: string;
   type: 'cut' | 're-sign' | 'signing' | 'trade' | 'draft';
   teamAbbr: string;
@@ -162,6 +164,14 @@ export type FranchisePlayoffState = {
 };
 
 export type FranchiseSimulationState = {
+  newsRosterSnapshot?: Record<string, {name:string;team:string;position:string;status:string;rating:number}>;
+  activeDraft?: import('@/types/draft').DraftSessionDTO;
+  heroHistory?: import('../../packages/front-office/hero-story').HeroStory[];
+  heroPhaseEntries?: Record<string, string[]>;
+  heroAcknowledgements?: string[];
+  heroDevelopmentSeasons?: number[];
+  heroStories?: Record<string, import('../../packages/front-office/hero-story').HeroStory>;
+  heroOwnership?: import('../../packages/front-office/hero-story').HeroContext['ownership'];
   completedDraft?: import('@/types/draft').DraftSessionDTO;
   seasonHistory?: Omit<FranchiseSimulationState, 'seasonHistory'>[];
   seed: string;

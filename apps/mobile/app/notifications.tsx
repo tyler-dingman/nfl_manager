@@ -1,3 +1,6 @@
+import { PageHeading, PageState } from '../components/page-heading';
+import { Feather } from '@expo/vector-icons';
+import { useTeamBranding } from '../lib/team-branding';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { type Href, router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
@@ -5,33 +8,27 @@ import { Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native'
 import { C, Eyebrow, Heading } from '../components/screen';
 import { getNotifications, updateNotifications, type MobileNotification } from '../lib/api';
 
-const nativeDestination = (value: string | null): Href | null => {
-  if (!value) return null;
-  if (value.startsWith('/the-beat')) {
-    const id = new URL(value, 'https://downanddistance.local').searchParams.get('story');
-    return (id ? `/beat-story/${id}` : '/beat') as Href;
-  }
-  if (value.startsWith('/crew')) return '/crew' as Href;
-  if (value.startsWith('/watch')) return '/film-room' as Href;
-  if (value.startsWith('/game-day')) return '/game-day';
-  if (value.startsWith('/trivia')) return '/trivia';
-  if (value.startsWith('/front-office')) return '/front-office';
-  return null;
-};
+import { nativeDestination } from '../lib/native-destination';
 export default function NotificationsScreen() {
+  const { theme } = useTeamBranding();
+  const [filter, setFilter] = useState<'all' | 'unread'>('all');
+  const [error, setError] = useState('');
   const [items, setItems] = useState<MobileNotification[]>([]),
     [loading, setLoading] = useState(false);
   const load = useCallback(async () => {
     setLoading(true);
+    setError('');
     try {
       setItems((await getNotifications()).notifications);
+    } catch {
+      setError('Unable to load notifications. Pull down to try again.');
     } finally {
       setLoading(false);
     }
   }, []);
   useEffect(() => {
     void load();
-    void updateNotifications('seen');
+    void updateNotifications('seen').catch(() => undefined);
   }, [load]);
   return (
     <ScrollView
@@ -39,47 +36,90 @@ export default function NotificationsScreen() {
       contentContainerStyle={s.body}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
     >
-      {' '}
+      <PageHeading eyebrow="YOUR UPDATES" title="Notifications" />
       <View style={s.header}>
-        <View>
-          <Eyebrow>YOUR UPDATES</Eyebrow>
-          <Heading>Notifications</Heading>
+        <View style={{ flexDirection: 'row', gap: 8 }}>
+          {(['all', 'unread'] as const).map((value) => (
+            <Pressable
+              key={value}
+              accessibilityRole="button"
+              accessibilityState={{ selected: filter === value }}
+              onPress={() => setFilter(value)}
+              style={{
+                minHeight: 44,
+                padding: 12,
+                borderRadius: 20,
+                backgroundColor: filter === value ? theme.primaryFill : '#F1F5F9',
+              }}
+            >
+              <Text
+                style={{ color: filter === value ? theme.onPrimary : C.ink, fontWeight: '800' }}
+              >
+                {value === 'all' ? 'All' : 'Unread'}
+              </Text>
+            </Pressable>
+          ))}
         </View>
         <Pressable
-          onPress={async () => {
-            await updateNotifications('read-all');
-            void load();
-          }}
+          accessibilityRole="button"
+          onPress={() =>
+            void updateNotifications('read-all')
+              .then(load)
+              .catch(() => setError('Unable to mark notifications read.'))
+          }
         >
-          <Text style={s.readAll}>MARK ALL READ</Text>
+          <Text style={s.readAll}>Mark all read</Text>
         </Pressable>
       </View>
-      {items.map((item) => (
-        <Pressable
-          key={item.id}
-          style={[s.card, !item.readAt && s.unread]}
-          onPress={async () => {
-            if (!item.readAt) await updateNotifications('read', item.id);
-            const destination = nativeDestination(item.deepLink);
-            if (destination) router.push(destination);
-            else void load();
-          }}
-        >
-          <View style={s.row}>
-            <Text style={s.category}>{item.category.replaceAll('_', ' ')}</Text>
-            {!item.readAt ? <View style={s.dot} /> : null}
-          </View>
-          <Text style={s.title}>{item.title}</Text>
-          <Text style={s.copy}>{item.body}</Text>
-          <Text style={s.time}>{new Date(item.createdAt).toLocaleString()}</Text>
-        </Pressable>
-      ))}
-      {!loading && !items.length ? <Text style={s.empty}>You’re all caught up.</Text> : null}
+      {error && <PageState title="Notifications unavailable" message={error} />}
+      {items
+        .filter((item) => filter === 'all' || !item.readAt)
+        .map((item) => (
+          <Pressable
+            key={item.id}
+            style={[
+              s.card,
+              !item.readAt && {
+                backgroundColor: '#F1F5F9',
+                borderLeftWidth: 4,
+                borderLeftColor: theme.primaryFill,
+              },
+            ]}
+            onPress={async () => {
+              if (!item.readAt) {
+                try {
+                  await updateNotifications('read', item.id);
+                } catch {
+                  setError('Unable to mark notification read.');
+                  return;
+                }
+              }
+              const destination = nativeDestination(item.deepLink);
+              if (destination) router.push(destination);
+              else void load();
+            }}
+          >
+            <View style={s.row}>
+              <Text style={s.category}>{item.category.replaceAll('_', ' ')}</Text>
+              {!item.readAt ? <View style={s.dot} /> : null}
+            </View>
+            <Text style={s.title}>{item.title}</Text>
+            <Text style={s.copy}>{item.body}</Text>
+            <Text style={s.time}>{new Date(item.createdAt).toLocaleString()}</Text>
+          </Pressable>
+        ))}
+      {!loading && !error && !items.some((item) => filter === 'all' || !item.readAt) ? (
+        <View style={s.empty}>
+          <Feather name="bell" size={32} color={C.muted} />
+          <Text style={s.title}>You’re all caught up.</Text>
+          <Text style={s.copy}>New updates will appear here.</Text>
+        </View>
+      ) : null}
     </ScrollView>
   );
 }
 const s = StyleSheet.create({
-  page: { flex: 1, backgroundColor: C.cream },
+  page: { flex: 1, backgroundColor: '#FFFFFF' },
   body: { padding: 18, paddingBottom: 40 },
   header: {
     flexDirection: 'row',
@@ -103,5 +143,5 @@ const s = StyleSheet.create({
   title: { fontSize: 17, fontWeight: '900', color: C.ink, marginTop: 7 },
   copy: { color: C.muted, lineHeight: 20, marginTop: 5 },
   time: { fontSize: 11, color: C.muted, marginTop: 10 },
-  empty: { textAlign: 'center', color: C.muted, marginTop: 40 },
+  empty: { alignItems: 'center', padding: 32, marginTop: 20 },
 });

@@ -221,11 +221,13 @@ test('full season creates and advances a 14-team bracket, champion, and 32-pick 
   assert.equal(state.playoffs!.games.filter((game) => game.week === 3).length, 2);
   state = advanceSimulation(state, 'super-bowl');
   assert.equal(state.playoffs!.games.filter((game) => game.week === 4).length, 1);
-  state = advanceSimulation(state, 'scouting_combine');
+  state = advanceSimulation(state, 'offseason');
   assert.ok(state.playoffs!.champion);
   assert.equal(new Set(state.draftOrder).size, 32);
   assert.equal(state.draftOrder.at(-1), state.playoffs!.champion);
   const champion = state.playoffs!.champion;
+  state = advanceSimulation(state, 'resign_cut');
+  state = advanceSimulation(state, 'scouting_combine');
   state = advanceSimulation(state, 'free_agency');
   state = advanceSimulation(state, 'free_agency_open');
   state = advanceSimulation(state, 'draft');
@@ -324,19 +326,19 @@ test('eliminated franchises skip spectator playoff rounds while the league finis
   const qualified = Object.values(bracket.playoffs!.seeds).flat();
   const out = teams.find((t) => !qualified.includes(t.abbr))!.abbr;
   const offseason = advanceSimulation(week18, 'wild-card', { recapTeamAbbr: out });
-  assert.equal(offseason.phase, 'scouting_combine');
+  assert.equal(offseason.phase, 'offseason');
   assert.equal(offseason.playoffs?.games.length, 13);
   assert.ok(offseason.playoffs?.games.every((game) => game.played));
   assert.ok(offseason.playoffs?.champion);
   assert.equal(new Set(offseason.draftOrder).size, 32);
   let playoffRun = advanceSimulation(week18, 'wild-card', { recapTeamAbbr: qualified[0] });
   assert.equal(playoffRun.phase, 'wild-card');
-  for (const target of ['divisional', 'conference', 'super-bowl', 'scouting_combine']) {
-    if (playoffRun.phase === 'scouting_combine') break;
+  for (const target of ['divisional', 'conference', 'super-bowl', 'offseason']) {
+    if (playoffRun.phase === 'offseason') break;
     playoffRun = advanceSimulation(playoffRun, target, { recapTeamAbbr: qualified[0] });
   }
-  assert.equal(playoffRun.phase, 'scouting_combine');
+  assert.equal(playoffRun.phase, 'offseason');
   assert.ok(playoffRun.playoffs?.champion);
-  assert.equal(advanceSimulation(offseason, 'free_agency').phase, 'free_agency');
+  assert.equal(advanceSimulation(offseason, 'resign_cut').phase, 'resign_cut');
   assert.throws(() => advanceSimulation(offseason, 'week-1'), /Invalid franchise transition/);
 });

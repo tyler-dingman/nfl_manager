@@ -1,238 +1,170 @@
 'use client';
-
-import { ResponsiveRail } from '@/components/layout/responsive-rail';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Flame, Globe2 } from 'lucide-react';
-
 import { useSaveStore } from '@/features/save/save-store';
 import { apiFetch } from '@/lib/api';
-import {
-  eventToLeagueNewsStory,
-  frontOfficeEventIncludesTeam,
-  leagueStoryGraphicModel,
-  relativeNewsTime,
-  type LeagueNewsCategory,
-  type LeagueNewsStory,
-} from '@/lib/front-office-league-news';
+import type { LeagueNewsCategory } from '@/lib/front-office-league-news';
 import type { FrontOfficeEvent } from '@/types/front-office';
-import { FrontOfficeStoryGraphic } from '@/components/front-office/story-graphics/FrontOfficeStoryGraphic';
-import styles from './league-news-page.module.css';
-
-const tabs: Array<{ label: string; value: LeagueNewsCategory }> = [
-  { label: 'All News', value: 'ALL' },
-  { label: 'Rumors', value: 'RUMOR' },
-  { label: 'Injuries', value: 'INJURY' },
-  { label: 'Transactions', value: 'TRANSACTION' },
-  { label: 'Contracts', value: 'CONTRACT' },
-  { label: 'Game Recaps', value: 'GAME_RECAP' },
-  { label: 'Analysis', value: 'ANALYSIS' },
-  { label: 'My Team', value: 'MY_TEAM' },
-];
-
-const categoryClass: Record<LeagueNewsStory['category'], string> = {
-  RUMOR: styles.rumor,
-  INJURY: styles.injury,
-  TRANSACTION: styles.transaction,
-  CONTRACT: styles.contract,
-  GAME_RECAP: styles.recap,
-  ANALYSIS: styles.analysis,
-};
-
+import { NewsSocialCard } from '../news-social-card';
+import { NewsPreferencesPanel } from '../news-preferences';
+import { defaultNewsPreferences, type NewsPreferences } from '@/lib/front-office-news-presentation';
 export function LeagueNewsPage({
   initialCategory = 'ALL',
 }: {
   initialCategory?: LeagueNewsCategory;
 }) {
-  const saveId = useSaveStore((state) => state.saveId);
-  const teamAbbr = useSaveStore((state) => state.teamAbbr);
+  const saveId = useSaveStore((s) => s.saveId);
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
-  const [tab, setTab] = useState<LeagueNewsCategory>(initialCategory);
-  const [sort, setSort] = useState<'recent' | 'trending' | 'relevant'>('recent');
-
+  const [filter, setFilter] = useState('all');
+  const [category, setCategory] = useState(initialCategory === 'ALL' ? '' : initialCategory);
+  const [query, setQuery] = useState('');
+  const [next, setNext] = useState<number | null>(null);
+  const [counts, setCounts] = useState<{
+    all: number;
+    team: number;
+    league: number;
+    breaking: number;
+    categories: { category: string; count: number }[];
+  }>({ all: 0, team: 0, league: 0, breaking: 0, categories: [] });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [settings, setSettings] = useState(false);
+  const [preferences, setPreferences] = useState<NewsPreferences>(defaultNewsPreferences);
   useEffect(() => {
-    if (!saveId) return;
-    const load = () =>
-      void apiFetch(`/api/front-office/events?saveId=${encodeURIComponent(saveId)}`)
-        .then((response) => response.json())
-        .then((payload) => setEvents(payload.events ?? []))
-        .catch(() => setEvents([]));
-    load();
-    window.addEventListener('front-office-simulation-advanced', load);
-    return () => window.removeEventListener('front-office-simulation-advanced', load);
+    try {
+      setPreferences({
+        ...defaultNewsPreferences,
+        ...JSON.parse(localStorage.getItem(`fo-news-preferences:${saveId}`) ?? '{}'),
+      });
+    } catch {}
   }, [saveId]);
-
-  useEffect(() => setTab(initialCategory), [initialCategory]);
-
-  const stories = useMemo(
-    () =>
-      events
-        .filter((event) => !event.dismissedAt)
-        .map((event) => eventToLeagueNewsStory(event, teamAbbr)),
-    [events, teamAbbr],
-  );
-  const filtered = useMemo(() => {
-    const result = stories.filter((story) => {
-      if (tab === 'MY_TEAM' && !frontOfficeEventIncludesTeam(story.event, teamAbbr)) return false;
-      if (!['ALL', 'MY_TEAM'].includes(tab) && story.category !== tab) return false;
-      return true;
-    });
-    return result.sort((a, b) =>
-      sort === 'trending'
-        ? b.trendingScore - a.trendingScore
-        : sort === 'relevant'
-          ? b.importanceScore - a.importanceScore
-          : new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-    );
-  }, [sort, stories, tab, teamAbbr]);
-  const featured = [...filtered].sort(
-    (a, b) => b.importanceScore - a.importanceScore || b.trendingScore - a.trendingScore,
-  )[0];
-  const latest = filtered.filter((story) => story.id !== featured?.id).slice(0, 8);
-  const trending = [...stories].sort((a, b) => b.trendingScore - a.trendingScore).slice(0, 5);
-  const around = stories
-    .filter((story) => !frontOfficeEventIncludesTeam(story.event, teamAbbr))
-    .slice(0, 5);
-
+  async function load(offset = 0, signal?: AbortSignal) {
+    if (!saveId) return;
+    setLoading(true);
+    setError('');
+    try {
+      const r = await apiFetch(
+        `/api/front-office/events?saveId=${encodeURIComponent(saveId)}&notifications=1&limit=20&offset=${offset}&filter=${filter}&category=${encodeURIComponent(category)}&q=${encodeURIComponent(query)}`,
+        { signal },
+      );
+      if (!r.ok) throw new Error('Unable to load News.');
+      const p = await r.json();
+      setEvents((old) =>
+        offset ? [...new Map([...old, ...p.events].map((e) => [e.id, e])).values()] : p.events,
+      );
+      setNext(p.nextOffset);
+      setCounts(p.counts);
+    } catch (e) {
+      if (!signal?.aborted) setError(e instanceof Error ? e.message : 'Unable to load News.');
+    } finally {
+      if (!signal?.aborted) setLoading(false);
+    }
+  }
+  useEffect(() => {
+    const c = new AbortController();
+    const timer = setTimeout(() => void load(0, c.signal), 200);
+    return () => {
+      clearTimeout(timer);
+      c.abort();
+    };
+  }, [saveId, filter, category, query]);
   return (
-    <div className={styles.page}>
-      <div className={styles.tabs} role="tablist" aria-label="News categories">
-        {tabs.map((item) => (
+    <section className="fo-news-expanded">
+      <aside className="fo-news-navigation">
+        <h1>◉ News</h1>
+        {[
+          ['all', 'All News', counts.all],
+          ['team', 'My Team', counts.team],
+          ['league', 'League', counts.league],
+          ['breaking', 'Breaking', counts.breaking],
+        ].map(([key, label, count]) => (
           <button
-            key={item.value}
-            role="tab"
-            aria-selected={tab === item.value}
-            className={tab === item.value ? styles.activeTab : ''}
-            onClick={() => setTab(item.value)}
+            key={key}
+            aria-pressed={filter === key && !category}
+            onClick={() => {
+              setFilter(String(key));
+              setCategory('');
+            }}
           >
-            {item.label}
+            {label}
+            <span>{count}</span>
           </button>
         ))}
-      </div>
-      <div className={styles.topGrid}>
-        <main className={styles.main}>
-          {featured ? (
-            <Link
-              href={`/front-office/league/news/${encodeURIComponent(featured.id)}`}
-              className={styles.featured}
-            >
-              <FrontOfficeStoryGraphic
-                story={leagueStoryGraphicModel(featured)}
-                size="hero"
-                actionLabel="Read full story"
-              />
-              <div className={styles.featureMeta}>
-                <span>{featured.categoryLabel}</span>
-                <time>{relativeNewsTime(featured.publishedAt)}</time>
-              </div>
-            </Link>
-          ) : (
-            <div className={styles.empty}>
-              No stories match this view yet. Advance the season to generate the next news cycle.
-            </div>
-          )}
-        </main>
-        <ResponsiveRail stackAt={850} className={styles.sidebar}>
-          <section className={`${styles.sideCard} ${styles.trending}`}>
-            <header>
-              <h2>
-                <Flame /> Trending Now
-              </h2>
-              <button
-                onClick={() => {
-                  setTab('ALL');
-                  setSort('trending');
-                }}
-              >
-                View All <ArrowRight />
-              </button>
-            </header>
-            <ol>
-              {trending.map((story, index) => (
-                <li key={story.id}>
-                  <b>{index + 1}</b>
-                  <Link href={`/front-office/league/news/${encodeURIComponent(story.id)}`}>
-                    {story.headline}
-                  </Link>
-                  <time>{relativeNewsTime(story.publishedAt)}</time>
-                </li>
-              ))}
-            </ol>
-          </section>
-        </ResponsiveRail>
-      </div>
-      <div className={styles.layout}>
-        <main className={styles.main}>
-          <section className={styles.latest}>
-            <header>
-              <h2>Latest News</h2>
-              <label>
-                Sort By{' '}
-                <select
-                  value={sort}
-                  onChange={(event) => setSort(event.target.value as typeof sort)}
-                >
-                  <option value="recent">Most Recent</option>
-                  <option value="trending">Trending</option>
-                  <option value="relevant">Most Relevant</option>
-                </select>
-              </label>
-            </header>
-            <div className={styles.grid}>
-              {latest.map((story) => (
-                <Link
-                  key={story.id}
-                  href={`/front-office/league/news/${encodeURIComponent(story.id)}`}
-                  className={styles.storyCard}
-                >
-                  <FrontOfficeStoryGraphic
-                    story={{ ...leagueStoryGraphicModel(story), summary: undefined }}
-                    size="card"
-                  />
-                  <div className={styles.storyCopy}>
-                    <div>
-                      <span className={categoryClass[story.category]}>{story.categoryLabel}</span>
-                      <time>{relativeNewsTime(story.publishedAt)}</time>
-                    </div>
-                    <h3>{story.headline}</h3>
-                    <div className={styles.cardMeta}>
-                      {story.team?.displayName ?? 'League News'}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        </main>
-        <ResponsiveRail stackAt={850} className={styles.sidebar}>
-          <section className={`${styles.sideCard} ${styles.around}`}>
-            <header>
-              <h2>
-                <Globe2 /> Around the League
-              </h2>
-            </header>
-            <div>
-              {around.map((story) => (
-                <Link
-                  href={`/front-office/league/news/${encodeURIComponent(story.id)}`}
-                  key={story.id}
-                >
-                  <span>{story.team?.abbreviation ?? 'D&D'}</span>
-                  <strong>{story.headline}</strong>
-                  <time>{relativeNewsTime(story.publishedAt)}</time>
-                </Link>
-              ))}
-            </div>
+        {counts.categories
+          .filter((c) => c.category)
+          .map((c) => (
             <button
-              onClick={() => {
-                setTab('ALL');
-              }}
+              key={c.category}
+              aria-pressed={category === c.category}
+              onClick={() => setCategory(c.category as LeagueNewsCategory)}
             >
-              View More League News <ArrowRight />
+              {c.category.replaceAll('_', ' ')}
+              <span>{c.count}</span>
             </button>
-          </section>
-        </ResponsiveRail>
-      </div>
-    </div>
+          ))}
+        <button onClick={() => setSettings((v) => !v)}>Notification settings</button>
+      </aside>
+      <main className="fo-news-feed">
+        <label className="sr-only" htmlFor="news-search">
+          Search news
+        </label>
+        <input
+          id="news-search"
+          placeholder="Search player, team, headline or category…"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        {settings && (
+          <NewsPreferencesPanel
+            value={preferences}
+            onChange={(p) => {
+              setPreferences(p);
+              localStorage.setItem(`fo-news-preferences:${saveId}`, JSON.stringify(p));
+              window.dispatchEvent(new Event('front-office-news-preferences'));
+            }}
+          />
+        )}
+        {error && (
+          <p role="alert">
+            {error}
+            <button onClick={() => void load()}>Try again</button>
+          </p>
+        )}
+        {!loading && !error && !events.length && (
+          <p>No stories match. News will accumulate as your franchise advances.</p>
+        )}
+        {events.map((e) => (
+          <Link
+            className={`fo-news-row ${e.readAt ? 'read' : 'unread'}`}
+            key={e.id}
+            href={`/front-office/league/news/${encodeURIComponent(e.id)}`}
+            onClick={() =>
+              void apiFetch(`/api/front-office/events/${encodeURIComponent(e.id)}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'read' }),
+              })
+            }
+          >
+            <NewsSocialCard event={e} />
+          </Link>
+        ))}
+        {loading && <p role="status">Loading News…</p>}
+        {next !== null && (
+          <button className="fo-news-view-all" disabled={loading} onClick={() => void load(next)}>
+            Load more news
+          </button>
+        )}
+      </main>
+      <aside className="fo-news-related">
+        <h2>Your simulated league</h2>
+        <p>
+          News reflects this franchise’s players, transactions, and season. D&D personas are
+          fictional editorial voices.
+        </p>
+        <Link href="/front-office/league/standings">Explore standings →</Link>
+        <Link href="/front-office/trade-hub">Explore Trade Hub →</Link>
+      </aside>
+    </section>
   );
 }

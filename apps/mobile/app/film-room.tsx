@@ -1,10 +1,14 @@
+import { FilmRoomCardActions } from '../components/film-room-card-actions';
+import { normalizeDisplayHeadline } from '../../../src/lib/display-headline';
+import { selectFilmHeroVideos } from '../../../packages/design/editorial-stories';
+import { EditorialHero, NumberedBriefing } from '../components/editorial-hero';
+import { VideoPlayOverlay } from '../components/video-play-overlay';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Image, Linking, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Feather } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { C, Eyebrow, Heading } from '../components/screen';
+import { C } from '../components/screen';
 import { MobileFilterBar } from '../components/mobile-filter-bar';
 import { filterValue } from '../../../packages/filters';
 import {
@@ -72,10 +76,22 @@ export default function FilmRoomScreen() {
       stickyHeaderIndices={[1]}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
     >
-      <View>
-        <Eyebrow>{teamId} · FILM ROOM</Eyebrow>
-        <Heading>Get into the tape.</Heading>
-        <Text style={s.intro}>Verified team video, analysis, and creator coverage.</Text>
+      <View style={{ marginHorizontal: -12 }}>
+        <EditorialHero
+          first="FILM"
+          accent="ROOM"
+          tagline="GET INTO THE FILM ROOM AND PUT ON THE TAPE."
+        >
+          <NumberedBriefing
+            title="ROLL THE TAPE"
+            empty={loading ? 'Loading team videos…' : 'New team videos will appear here.'}
+            items={selectFilmHeroVideos(items).map((video) => ({
+              id: video.id,
+              title: video.title,
+              onPress: () => open(video.youtubeUrl),
+            }))}
+          />
+        </EditorialHero>
       </View>
       <MobileFilterBar
         primary={FILM_ROOM_FILTERS}
@@ -97,21 +113,19 @@ export default function FilmRoomScreen() {
           <View style={index === 0 ? undefined : s.row}>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={`Play ${video.title}`}
+              accessibilityLabel={`Play ${normalizeDisplayHeadline(video.title)}`}
               onPress={() => open(video.youtubeUrl)}
               style={[s.thumbnail, index > 0 && s.smallThumbnail]}
             >
               <Image source={{ uri: video.thumbnail }} style={s.image} />
               {index === 0 && <Text style={s.badge}>#1 TRENDING</Text>}
-              <View style={[s.play, index === 0 && s.largePlay]}>
-                <Feather name="play" size={index === 0 ? 22 : 14} color="white" />
-              </View>
+              <VideoPlayOverlay compact={index > 0} />
               {!!video.duration && <Text style={s.duration}>{video.duration}</Text>}
             </Pressable>
             <View style={[s.copy, index === 0 && s.featuredCopy]}>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={`Play ${video.title}`}
+                accessibilityLabel={`Play ${normalizeDisplayHeadline(video.title)}`}
                 style={s.titleButton}
                 onPress={() => open(video.youtubeUrl)}
               >
@@ -119,7 +133,7 @@ export default function FilmRoomScreen() {
                   numberOfLines={index === 0 ? 2 : 3}
                   style={[s.title, index === 0 && s.featuredTitle]}
                 >
-                  {video.title}
+                  {normalizeDisplayHeadline(video.title)}
                 </Text>
               </Pressable>
               <View style={s.channel}>
@@ -150,39 +164,18 @@ export default function FilmRoomScreen() {
               </Text>
             </View>
           </View>
-          <View style={s.actions}>
-            <Pressable
-              accessibilityRole="link"
-              style={s.action}
-              onPress={() => open(video.youtubeUrl)}
-            >
-              <Text style={s.actionText}>YouTube</Text>
-              <Feather name="external-link" size={14} color={C.red} />
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              style={s.action}
-              onPress={() =>
-                setShareContent({
-                  contentType: 'FILM_ROOM',
-                  contentId: video.id,
-                  href: `/watch?video=${video.id}`,
-                  title: video.title,
-                })
-              }
-            >
-              <Feather name="share-2" size={14} color={C.red} />
-              <Text style={s.actionText}>Share</Text>
-            </Pressable>
-            <Pressable
-              accessibilityRole="link"
-              style={s.action}
-              onPress={() => open(video.channelUrl)}
-            >
-              <Text style={s.actionText}>Channel</Text>
-              <Feather name="external-link" size={14} color={C.red} />
-            </Pressable>
-          </View>
+          <FilmRoomCardActions
+            onYoutube={() => open(video.youtubeUrl)}
+            onChannel={() => open(video.channelUrl)}
+            onShare={() =>
+              setShareContent({
+                contentType: 'FILM_ROOM',
+                contentId: video.id,
+                href: `/watch?video=${video.id}`,
+                title: video.title,
+              })
+            }
+          />
         </View>
       ))}
       {shareContent && (
@@ -198,7 +191,7 @@ export default function FilmRoomScreen() {
 }
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#f4f6f8' },
-  body: { paddingTop: 18 },
+  body: { paddingTop: 0 },
   intro: { color: C.muted, lineHeight: 21, marginTop: 10, marginBottom: 12 },
   count: { marginVertical: 8, fontSize: 12, fontWeight: '700', color: '#6d7f91' },
   message: { color: C.muted, marginBottom: 12 },
@@ -250,21 +243,6 @@ const s = StyleSheet.create({
     paddingHorizontal: 4,
     borderRadius: 3,
   },
-  play: {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: [{ translateX: -14 }, { translateY: -14 }],
-    width: 28,
-    height: 28,
-    borderRadius: 22,
-    borderWidth: 1,
-    borderColor: 'white',
-    backgroundColor: '#0008',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  largePlay: { width: 44, height: 44, transform: [{ translateX: -22 }, { translateY: -22 }] },
   copy: { flex: 1, minWidth: 0 },
   featuredCopy: { flex: 0, paddingTop: 12, paddingHorizontal: 12 },
   titleButton: { minHeight: 44, justifyContent: 'center' },
@@ -281,14 +259,4 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  actions: { flexDirection: 'row', marginHorizontal: 8, marginTop: 4 },
-  action: {
-    flex: 1,
-    minHeight: 44,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  actionText: { fontSize: 12, fontWeight: '700', color: C.red },
 });

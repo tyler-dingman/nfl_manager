@@ -1,16 +1,19 @@
 import { forwardRef } from 'react';
 import { ScrollView, type ScrollViewProps } from 'react-native';
-import { SiteFooter } from './site-footer';
 
-/** Normal pages own one scroll surface, with the footer after their last content item. */
+/** Native pages share one scroll surface; the app shell owns navigation. */
 export const PageScrollView = forwardRef<ScrollView, ScrollViewProps>(function PageScrollView(
   { children, ...props },
   ref,
 ) {
   return (
-    <ScrollView {...props} ref={ref}>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
+      {...props}
+      ref={ref}
+    >
       {children}
-      {!props.horizontal && <SiteFooter />}
     </ScrollView>
   );
 });

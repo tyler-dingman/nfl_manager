@@ -3,14 +3,12 @@ import { currentUser } from '@/server/auth/request';
 import { authError } from '@/server/auth/http';
 import {
   listFrontOfficeEvents,
+  frontOfficeNewsCounts,
   markAllFrontOfficeEventsRead,
-  persistFrontOfficeEvents,
+  countUnreadFrontOfficeNews,
 } from '@/server/front-office/events-repository';
 import { z } from 'zod';
 import { getFrontOfficeSaveMetadata } from '@/server/front-office/repository';
-import { realWorldSeedEvents } from '@/server/front-office/real-world-seed';
-import { getSaveStateResult } from '@/server/api/store';
-import { buildWeekOneWelcomeEvents } from '@/server/front-office/welcome-messages';
 
 export async function GET(request: NextRequest) {
   try {
@@ -21,17 +19,32 @@ export async function GET(request: NextRequest) {
     const unreadOnly = request.nextUrl.searchParams.get('unread') === '1';
     const save = await getFrontOfficeSaveMetadata(user.id, saveId);
     if (!save) return NextResponse.json({ error: 'Save not found.' }, { status: 404 });
-    await persistFrontOfficeEvents(user.id, realWorldSeedEvents(saveId, save.season));
-    const saveState = getSaveStateResult(saveId);
-    await persistFrontOfficeEvents(
-      user.id,
-      buildWeekOneWelcomeEvents(save, saveState.ok ? saveState.data.roster : []),
+    const offset = Math.max(0, Number(request.nextUrl.searchParams.get('offset')) || 0);
+    const limit = Math.min(
+      60,
+      Math.max(1, Number(request.nextUrl.searchParams.get('limit')) || 60),
     );
-    const events = await listFrontOfficeEvents(user.id, saveId, unreadOnly);
+    const events = await listFrontOfficeEvents(
+      user.id,
+      saveId,
+      unreadOnly,
+      offset,
+      request.nextUrl.searchParams.get('notifications') === '1',
+      {
+        limit,
+        team: save.teamAbbr,
+        filter: request.nextUrl.searchParams.get('filter') ?? 'all',
+        query: (request.nextUrl.searchParams.get('q') ?? '').slice(0, 200),
+        category: request.nextUrl.searchParams.get('category') ?? '',
+      },
+    );
+    const unreadCount = await countUnreadFrontOfficeNews(user.id, saveId);
     return NextResponse.json({
       ok: true,
       events,
-      unreadCount: events.filter((event) => !event.readAt).length,
+      unreadCount,
+      counts: await frontOfficeNewsCounts(user.id, saveId, save.teamAbbr),
+      nextOffset: events.length === limit ? offset + events.length : null,
     });
   } catch (error) {
     console.error('[front-office:events:GET]', error);

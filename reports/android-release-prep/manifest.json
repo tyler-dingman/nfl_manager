@@ -1,0 +1,8 @@
+{
+  "status": "apk-built-and-signature-verified",
+  "apk": "apps/mobile/android/app/build/outputs/apk/release/app-release.apk",
+  "sha256": "2756417f29ff032bdcda39fba7a68b7b6f2aed84368dc5a41800970e7aa7d19f",
+  "versionCode": 1790631228,
+  "sizeBytes": 132872548,
+  "signerSha256": "fac61745dc0903786fb9ede62a962b399f7348f0bb6f899b8332667591033b9c"
+}

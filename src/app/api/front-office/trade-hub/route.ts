@@ -1,3 +1,4 @@
+import { isTradeDeadlinePassed } from '@/lib/front-office-trade-window';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { ensureSaveState } from '@/server/api/store';
@@ -22,7 +23,13 @@ export async function GET(request: NextRequest) {
   const save = ensureSaveState(saveId, metadata.teamAbbr, metadata.season);
   const teamAbbr = metadata.teamAbbr.toUpperCase();
   const [events] = await Promise.all([listFrontOfficeEvents(user.id, saveId)]);
-  const targets = buildTradeTargets(save, metadata.simulation ?? null, teamAbbr);
+  const deadlinePassed = isTradeDeadlinePassed(
+    metadata.simulation?.phase ?? metadata.simulationPhase,
+    metadata.simulation?.currentWeek,
+  );
+  const targets = deadlinePassed
+    ? []
+    : buildTradeTargets(save, metadata.simulation ?? null, teamAbbr);
   const outlooks = buildTradeTeamOutlooks(save, metadata.simulation ?? null);
   const tradeEvents = events.filter((event) =>
     [
@@ -42,13 +49,13 @@ export async function GET(request: NextRequest) {
     ok: true,
     season: metadata.season,
     week: simulationWeek,
-    deadline: { week: 9, label: 'Tuesday after Week 9 · 4:00 p.m. ET', passed: simulationWeek > 9 },
+    deadline: { week: 9, label: 'Tuesday after Week 9 · 4:00 p.m. ET', passed: deadlinePassed },
     team: {
       abbr: teamAbbr,
       capSpace: save.header.capSpace,
       rosterSize: save.roster.length,
       rosterLimit: save.header.rosterLimit,
-      tradeChips: getUserTradeChips(save, teamAbbr),
+      tradeChips: deadlinePassed ? [] : getUserTradeChips(save, teamAbbr),
     },
     targets,
     outlooks,

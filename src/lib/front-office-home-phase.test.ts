@@ -13,6 +13,8 @@ test('Home changes its hero and destination at every lifecycle boundary', () => 
     ['week-17', 'season'],
     ['week-18', 'season'],
     ['wild-card', 'playoffs'],
+    ['offseason', 'offseason'],
+    ['resign_cut', 're-sign'],
     ['scouting_combine', 'combine'],
     ['free_agency', 'free-agency'],
     ['free_agency_open', 'free-agency'],

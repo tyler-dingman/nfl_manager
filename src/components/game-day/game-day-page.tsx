@@ -49,21 +49,7 @@ const fixtures: Record<string, { opponent: string; venue: string; city: string }
 const stadiumHeroAssets: Partial<Record<string, string>> = {
   KC: '/images/gameday/stadium/kc/kc_full.png',
 };
-const nextSundayNoon = () => {
-  const d = new Date();
-  d.setDate(d.getDate() + ((7 - d.getDay()) % 7));
-  d.setHours(12, 0, 0, 0);
-  if (d.getTime() <= Date.now()) d.setDate(d.getDate() + 7);
-  return d;
-};
-const clock = (ms: number) => {
-  const s = Math.max(0, Math.floor(ms / 1000));
-  return [
-    String(Math.floor(s / 3600)).padStart(2, '0'),
-    String(Math.floor(s / 60) % 60).padStart(2, '0'),
-    String(s % 60).padStart(2, '0'),
-  ];
-};
+import { nextSundayNoon, clock } from '../../../packages/game-day/preview-clock';
 
 function Stadium({ fill, teamId }: { fill: number; teamId: string }) {
   const heroAsset = stadiumHeroAssets[teamId];

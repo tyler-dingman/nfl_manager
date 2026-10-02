@@ -4,7 +4,7 @@ import { getTeamLogoColors } from '../../../src/lib/branding/team-logo-colors';
 import { LOGO_CLIPS, LOGO_PATHS, LOGO_REGIONS } from '../../../src/lib/branding/team-logo-regions';
 import { LOGO_VIEW_BOX } from '../../../src/lib/branding/team-logo-paths';
 
-export function TeamBrandedLogo({ team, ...props }: SvgProps & { team?: string | null }) {
+export function TeamBrandedLogo({ team, letteringColor, ...props }: SvgProps & { team?: string | null; letteringColor?: string }) {
   const id = useId().replaceAll(':', '');
   const colors = getTeamLogoColors(team);
   return (
@@ -27,7 +27,7 @@ export function TeamBrandedLogo({ team, ...props }: SvgProps & { team?: string |
           <Path
             key={index}
             d={LOGO_PATHS[path].d}
-            fill={colors[color]}
+            fill={color === 'lettering' && letteringColor ? letteringColor : colors[color]}
             clipPath={clip ? `url(#${id}-${clip})` : undefined}
           />
         ))}

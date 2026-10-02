@@ -1,3 +1,4 @@
+import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { NextResponse } from 'next/server';
 
 import { cutPlayer } from '@/server/api/players';
@@ -25,6 +26,8 @@ export const POST = async (request: Request) => {
       return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
     }
 
+    const events = await refreshFranchiseHeroAfterAction(request, body.saveId);
+
     // Get updated header
     const stateResult = getSaveStateResult(result.data.header.id);
     if (!stateResult.ok) {
@@ -35,6 +38,7 @@ export const POST = async (request: Request) => {
       ok: true,
       header: getSaveHeaderSnapshot(stateResult.data),
       player: result.data.player,
+      events,
     });
   } catch (error) {
     console.error(error);

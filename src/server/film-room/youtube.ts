@@ -1,3 +1,4 @@
+import { normalizeDisplayHeadline } from '@/lib/display-headline';
 import { unstable_cache } from 'next/cache';
 
 import type { CuratedFilmRoomVideo, FilmRoomVideo } from '@/features/film-room/types';
@@ -110,7 +111,7 @@ const fetchYouTubeMetadata = unstable_cache(
           category: input.category,
           score: input.score,
           addedAt: input.addedAt,
-          title: snippet.title,
+          title: normalizeDisplayHeadline(snippet.title),
           description: snippet.description?.trim() || null,
           thumbnail,
           duration: formatIsoDuration(video.contentDetails?.duration),
@@ -154,7 +155,7 @@ const fetchYouTubeOEmbedMetadata = unstable_cache(
             category: input.category,
             score: input.score,
             addedAt: input.addedAt,
-            title: metadata.title,
+            title: normalizeDisplayHeadline(metadata.title),
             description: null,
             thumbnail: metadata.thumbnail_url,
             duration: '',

@@ -2,6 +2,7 @@
 
 import { TeamBrandedLogo } from './team-branded-logo';
 import type { CSSProperties } from 'react';
+import { usePathname } from 'next/navigation';
 
 import { LogoContainer } from '@/components/branding/logo-container';
 import { useTeamStore } from '@/features/team/team-store';
@@ -15,6 +16,7 @@ type FiveWideLogoProps = {
   priority?: boolean;
   teamAbbr?: string | null;
   generic?: boolean;
+  letteringColor?: string;
 };
 
 export function FiveWideLogo({
@@ -24,7 +26,10 @@ export function FiveWideLogo({
   containerStyle,
   teamAbbr,
   generic = false,
+  letteringColor,
 }: FiveWideLogoProps) {
+  const pathname = usePathname();
+  const isMerch = pathname === '/merch' || pathname?.startsWith('/merch/');
   const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
   const teams = useTeamStore((state) => state.teams);
   const selectedTeam = teams.find((team) => team.id === selectedTeamId);
@@ -33,6 +38,7 @@ export function FiveWideLogo({
     <LogoContainer className={containerClassName} style={containerStyle}>
       <TeamBrandedLogo
         team={generic ? null : (teamAbbr ?? selectedTeam?.abbr)}
+        letteringColor={isMerch ? '#FFFFFF' : letteringColor}
         width={size * 1.98}
         height={size}
         className={cn('h-auto w-full object-contain', imageClassName)}

@@ -1,9 +1,15 @@
 'use client';
+import { isTradeDeadlinePassed, TRADE_DEADLINE_MESSAGE } from '@/lib/front-office-trade-window';
+import { heroStoryKey } from '../../../packages/front-office/hero-story';
+import { WeeklyHeroStory } from './weekly-hero-story';
 
+import { playerDevelopmentTrends } from '@/lib/player-development-trends';
 import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import PlayerDetailsModal from '@/components/player-details-modal';
 import {
   Activity,
   ArrowDown,
@@ -29,12 +35,11 @@ import {
   getActiveSimulationRoster,
   FRONT_OFFICE_ACTIVE_ROSTER_LIMIT,
 } from '@/lib/front-office-roster';
-import { analyzeTeamNeeds, computeTeamOverviewRaw, scaleOverviewScore } from '@/lib/team-overview';
+import { analyzeTeamNeeds, franchiseRosterOverall } from '@/lib/team-overview';
 import { phaseDisplayName, getFranchiseNextGame } from '@/lib/front-office-phase';
 import { frontOfficeHomePhase } from '@/lib/front-office-home-phase';
 import {
   useOffseasonHomeData,
-  OffseasonHomeHero,
   OffseasonHomeMarket,
   OffseasonHomeRail,
 } from './front-office-offseason-home';
@@ -84,7 +89,6 @@ type Schedule = { startsAt: string } | null;
 function MarketRow({
   player,
   teamAbbr,
-  status,
   intel,
   href,
   title,
@@ -96,11 +100,15 @@ function MarketRow({
   href: string;
   title?: string;
 }) {
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const router = useRouter();
+  const teams = useTeamStore((state) => state.teams);
+  const save = useSaveStore();
   const name = player
     ? playerName(player)
     : (teamsByAbbr.get(teamAbbr ?? '')?.name ?? title ?? 'Trade market');
-  return (
-    <Link className={styles.marketRow} href={href} data-subject={player ? 'player' : 'team'}>
+  const content = (
+    <>
       <div className={styles.marketPortrait}>
         {player ? <Portrait player={player} size={46} /> : <Logo abbr={teamAbbr} size={32} />}
       </div>
@@ -119,14 +127,54 @@ function MarketRow({
           <Logo abbr={teamAbbr} size={30} />
         </div>
       )}
-      <span className={`${styles.chip} ${styles.marketStatus}`} title={status}>
-        {status}
-      </span>
       <p className={styles.marketIntel}>{intel || title}</p>
       <span className={styles.marketChevron} aria-hidden="true">
         <ChevronRight size={16} />
       </span>
-    </Link>
+    </>
+  );
+  if (!player)
+    return (
+      <Link className={styles.marketRow} href={href} data-subject="team">
+        {content}
+      </Link>
+    );
+  const tradeHref = `/front-office/trade-hub?context=roster&playerId=${encodeURIComponent(player.id)}&partnerTeamAbbr=${encodeURIComponent(teamAbbr ?? player.teamAbbr ?? '')}`;
+  return (
+    <>
+      <button
+        type="button"
+        className={styles.marketRow}
+        data-subject="player"
+        onClick={() => setDetailsOpen(true)}
+        aria-label={`View ${name}`}
+      >
+        {content}
+      </button>
+      {detailsOpen && (
+        <PlayerDetailsModal
+          isOpen
+          source={{ kind: 'roster', player }}
+          roster={save.roster}
+          teams={teams}
+          userTeamAbbr={save.teamAbbr}
+          capSpace={save.capSpace}
+          capLimit={save.capLimit}
+          onClose={() => setDetailsOpen(false)}
+          primaryAction={
+            teamAbbr !== save.teamAbbr
+              ? {
+                  label: 'Propose Trade',
+                  onSelect: () => {
+                    setDetailsOpen(false);
+                    router.push(tradeHref);
+                  },
+                }
+              : undefined
+          }
+        />
+      )}
+    </>
   );
 }
 
@@ -256,6 +304,7 @@ export function FrontOfficeHome({
       ),
     [roster, teamAbbr, save.rosterLimit],
   );
+  const [developmentPlayer, setDevelopmentPlayer] = useState<PlayerRowDTO | null>(null);
   const [simulation, setSimulation] = useState<FranchiseSimulationState | null>(null);
   const [events, setEvents] = useState<FrontOfficeEvent[]>([]);
   const [market, setMarket] = useState<Market>({ targets: [], tradeEvents: [], recentTrades: [] });
@@ -329,16 +378,19 @@ export function FrontOfficeHome({
     };
     window.addEventListener('front-office-simulation-advanced', reload);
     window.addEventListener('front-office-week-complete', reload);
+    window.addEventListener('focus', reload);
     return () => {
       active = false;
       controller.abort();
       window.removeEventListener('front-office-simulation-advanced', reload);
       window.removeEventListener('front-office-week-complete', reload);
+      window.removeEventListener('focus', reload);
     };
   }, [saveId, revision]);
   const team = teams.find((t) => t.abbr === teamAbbr);
   const ownState = simulation?.teams[teamAbbr];
   const phase = simulation?.phase ?? save.phase;
+  const deadlinePassed = isTradeDeadlinePassed(phase, simulation?.currentWeek);
   const homePhase = frontOfficeHomePhase(phase);
   const offseason = ['combine', 'free-agency', 'draft'].includes(homePhase.kind);
   const offseasonData = useOffseasonHomeData(
@@ -361,30 +413,23 @@ export function FrontOfficeHome({
   const week = homePhase.kind === 'season' ? Number(phase.slice(5)) : undefined;
   const overall = useMemo(() => {
     if (!activeRoster.length) return ownState?.overall ?? team?.teamOverview ?? null;
-    const bounds = teams
-      .map((t) => t.teamOverviewRaw)
-      .filter((n): n is number => typeof n === 'number');
-    const raw = computeTeamOverviewRaw(activeRoster).overall;
-    return bounds.length > 1
-      ? scaleOverviewScore(raw, Math.min(...bounds), Math.max(...bounds), 69, 91)
-      : Math.round(raw);
+    return franchiseRosterOverall(activeRoster, teams);
   }, [activeRoster, ownState?.overall, team?.teamOverview, teams]);
   const needs = useMemo(() => analyzeTeamNeeds(activeRoster).slice(0, 5), [activeRoster]);
-  const development = useMemo(
-    () =>
-      [...activeRoster].sort(
-        (a, b) =>
-          (change(b) ?? -Infinity) - (change(a) ?? -Infinity) ||
-          (rating(b) ?? 0) - (rating(a) ?? 0),
-      ),
-    [activeRoster],
+  const trends = useMemo(
+    () => playerDevelopmentTrends(activeRoster, simulation, teamAbbr),
+    [activeRoster, simulation, teamAbbr],
   );
-  const up = development.filter((p) => (change(p) ?? 0) > 0),
-    down = development.filter((p) => (change(p) ?? 0) < 0);
+  const trend = (p: PlayerRowDTO) => trends.get(p.id)?.direction ?? 0;
+  const development = [...activeRoster].sort(
+    (a, b) => trend(b) - trend(a) || (rating(b) ?? 0) - (rating(a) ?? 0),
+  );
+  const up = development.filter((p) => trend(p) > 0),
+    down = development.filter((p) => trend(p) < 0);
   const activeDevelopmentTab = developmentTab ?? (up.length ? 'up' : 'all');
   const devRows =
     activeDevelopmentTab === 'up' ? up : activeDevelopmentTab === 'down' ? down : development;
-  const spotlight = up[0] ?? development.find((p) => change(p) !== null) ?? development[0];
+  const spotlight = up[0] ?? development[0];
   const playerEvents = events.filter(
     (e) => e.teamAbbr === teamAbbr || e.relatedTeamAbbr === teamAbbr,
   );
@@ -532,8 +577,12 @@ export function FrontOfficeHome({
           </Link>
         )}
       </section>
-      {offseason ? (
-        <OffseasonHomeHero {...offseasonProps} />
+      {simulation?.heroStories?.[heroStoryKey(simulation)] ? (
+        <WeeklyHeroStory
+          key={`${saveId}:${heroStoryKey(simulation)}`}
+          story={simulation.heroStories[heroStoryKey(simulation)]}
+          team={teamAbbr}
+        />
       ) : (
         <section
           className={styles.hero}
@@ -604,91 +653,98 @@ export function FrontOfficeHome({
           href="/front-office/trade-hub"
           className={styles.market}
         >
-          <div className={styles.tabs} role="group" aria-label="Trade market filters">
-            {[
-              ['rumors', `All Rumors (${rumors.length})`],
-              ['available', `Available Players (${market.targets.length})`],
-              ['own', `Your Players (${ownRumors.length})`],
-              ['activity', 'Recent Activity'],
-            ].map(([key, label]) => (
-              <button
-                key={key}
-                aria-pressed={activeMarketTab === key}
-                onClick={() => setMarketTab(key)}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-          <div className={styles.marketRows}>
-            {activeMarketTab === 'available'
-              ? market.targets
-                  .slice(0, 4)
-                  .map((p) => (
-                    <MarketRow
-                      key={p.id}
-                      player={p}
-                      teamAbbr={p.currentTeamAbbr ?? p.teamAbbr}
-                      status={p.availabilityLabel ?? 'Available'}
-                      intel={p.whyAvailable?.join('. ') || 'Review this player in Trade Hub.'}
-                      href={`/front-office/trade-hub/player/${encodeURIComponent(p.id)}`}
-                    />
-                  ))
-              : activeMarketTab === 'activity'
-                ? market.recentTrades
-                    .slice(0, 4)
-                    .map((t) => (
-                      <MarketRow
-                        key={t.id}
-                        player={
-                          roster.find((p) => p.id === t.playerId) ??
-                          market.targets.find((p) => p.id === t.playerId)
-                        }
-                        teamAbbr={t.toTeamAbbr}
-                        status="Traded"
-                        title="Completed trade"
-                        intel={`${t.fromTeamAbbr ?? 'Previous team'} → ${t.toTeamAbbr ?? 'New team'} · ${stamp(t.createdAt)}`}
-                        href="/front-office/trade-hub/activity"
-                      />
-                    ))
-                : currentRumors
-                    .slice(0, 4)
-                    .map((e) => (
-                      <MarketRow
-                        key={e.id}
-                        player={
-                          Array.isArray(e.metadata?.playerIds) && e.metadata.playerIds.length > 1
-                            ? undefined
-                            : (roster.find((p) => p.id === e.playerId) ??
-                              market.targets.find((p) => p.id === e.playerId))
-                        }
-                        teamAbbr={e.relatedTeamAbbr ?? e.teamAbbr}
-                        title={e.headline}
-                        status={
-                          e.type === 'trade_offer'
-                            ? 'Offer'
-                            : e.type === 'trade_interest'
-                              ? 'Interest'
-                              : 'Rumor'
-                        }
-                        intel={e.summary}
-                        href={localLink(e.actionUrl, '/front-office/trade-hub')}
-                      />
-                    ))}
-            {(activeMarketTab === 'available'
-              ? !market.targets.length
-              : activeMarketTab === 'activity'
-                ? !market.recentTrades.length
-                : !currentRumors.length) && (
-              <Empty>
-                {loading
-                  ? 'Loading trade market…'
-                  : errors.includes('Trade market')
-                    ? 'Trade market unavailable. Retry below.'
-                    : 'No current updates in this market view.'}
-              </Empty>
-            )}
-          </div>
+          {deadlinePassed ? (
+            <Empty>{TRADE_DEADLINE_MESSAGE}</Empty>
+          ) : (
+            <>
+              <div className={styles.tabs} role="group" aria-label="Trade market filters">
+                {[
+                  ['rumors', `All Rumors (${rumors.length})`],
+                  ['available', `Available Players (${market.targets.length})`],
+                  ['own', `Your Players (${ownRumors.length})`],
+                  ['activity', 'Recent Activity'],
+                ].map(([key, label]) => (
+                  <button
+                    key={key}
+                    aria-pressed={activeMarketTab === key}
+                    onClick={() => setMarketTab(key)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className={styles.marketRows}>
+                {activeMarketTab === 'available'
+                  ? market.targets
+                      .slice(0, 4)
+                      .map((p) => (
+                        <MarketRow
+                          key={p.id}
+                          player={p}
+                          teamAbbr={p.currentTeamAbbr ?? p.teamAbbr}
+                          status={p.availabilityLabel ?? 'Available'}
+                          intel={p.whyAvailable?.join('. ') || 'Review this player in Trade Hub.'}
+                          href={`/front-office/trade-hub?context=roster&playerId=${encodeURIComponent(p.id)}&partnerTeamAbbr=${encodeURIComponent(p.currentTeamAbbr ?? p.teamAbbr ?? '')}`}
+                        />
+                      ))
+                  : activeMarketTab === 'activity'
+                    ? market.recentTrades
+                        .slice(0, 4)
+                        .map((t) => (
+                          <MarketRow
+                            key={t.id}
+                            player={
+                              roster.find((p) => p.id === t.playerId) ??
+                              market.targets.find((p) => p.id === t.playerId)
+                            }
+                            teamAbbr={t.toTeamAbbr}
+                            status="Traded"
+                            title="Completed trade"
+                            intel={`${t.fromTeamAbbr ?? 'Previous team'} → ${t.toTeamAbbr ?? 'New team'} · ${stamp(t.createdAt)}`}
+                            href="/front-office/trade-hub/activity"
+                          />
+                        ))
+                    : currentRumors
+                        .slice(0, 4)
+                        .map((e) => (
+                          <MarketRow
+                            key={e.id}
+                            player={
+                              Array.isArray(e.metadata?.playerIds) &&
+                              e.metadata.playerIds.length > 1
+                                ? undefined
+                                : (roster.find((p) => p.id === e.playerId) ??
+                                  market.targets.find((p) => p.id === e.playerId))
+                            }
+                            teamAbbr={e.relatedTeamAbbr ?? e.teamAbbr}
+                            title={e.headline}
+                            status={
+                              e.type === 'trade_offer'
+                                ? 'Offer'
+                                : e.type === 'trade_interest'
+                                  ? 'Interest'
+                                  : 'Rumor'
+                            }
+                            intel={e.summary}
+                            href={localLink(e.actionUrl, '/front-office/trade-hub')}
+                          />
+                        ))}
+                {(activeMarketTab === 'available'
+                  ? !market.targets.length
+                  : activeMarketTab === 'activity'
+                    ? !market.recentTrades.length
+                    : !currentRumors.length) && (
+                  <Empty>
+                    {loading
+                      ? 'Loading trade market…'
+                      : errors.includes('Trade market')
+                        ? 'Trade market unavailable. Retry below.'
+                        : 'No current updates in this market view.'}
+                  </Empty>
+                )}
+              </div>
+            </>
+          )}
         </Panel>
       )}
       <Panel
@@ -716,41 +772,50 @@ export function FrontOfficeHome({
           <span>Player</span>
           <span>Pos</span>
           <span>OVR</span>
-          <span>Change</span>
+          <span>Outlook</span>
           <span>Trend</span>
         </div>
         {devRows.slice(0, 5).map((p) => (
-          <Link className={styles.devRow} href={playerLink(p)} key={p.id}>
+          <button
+            type="button"
+            className={styles.devRow}
+            onClick={() => setDevelopmentPlayer(p)}
+            key={p.id}
+            aria-label={`View ${playerName(p)}`}
+          >
             <span>
               <Portrait player={p} size={28} />
               <strong>{playerName(p)}</strong>
             </span>
             <span>{p.position}</span>
             <span>{rating(p) ?? '—'}</span>
-            <Delta value={change(p)} />
+            <span title={trends.get(p.id)?.reason}>
+              {trend(p) > 0 ? 'Up' : trend(p) < 0 ? 'Down' : 'Stable'}
+            </span>
             <span>
-              {(change(p) ?? 0) > 0 ? (
+              {trend(p) > 0 ? (
                 <ArrowUp className={styles.positive} />
-              ) : (change(p) ?? 0) < 0 ? (
+              ) : trend(p) < 0 ? (
                 <ArrowDown className={styles.negative} />
               ) : (
                 '—'
               )}
               <ChevronRight />
             </span>
-          </Link>
+          </button>
         ))}
         {!devRows.length && (
           <Empty>
             {activeDevelopmentTab === 'up'
-              ? 'No players above their baseline yet.'
+              ? 'No players trending up from the latest game.'
               : activeDevelopmentTab === 'down'
-                ? 'No players below their baseline.'
+                ? 'No older depth players trending down.'
                 : 'No roster data available.'}
           </Empty>
         )}
         <small className={styles.caption}>
-          Changes compare current ratings with the stored baseline.
+          Outlook uses Week 1 opportunities, then the latest game’s stats. Downward outlook is
+          limited to two older depth players.
         </small>
       </Panel>
       <Panel
@@ -806,7 +871,11 @@ export function FrontOfficeHome({
                   {spotlight.age ? ` · Age ${spotlight.age}` : ''}
                 </small>
                 <span className={styles.chip}>
-                  <Delta value={change(spotlight)} /> OVR
+                  {trend(spotlight) > 0
+                    ? 'Trending up'
+                    : trend(spotlight) < 0
+                      ? 'Trending down'
+                      : 'Stable'}
                 </span>
               </div>
               <div className={styles.ratingPair}>
@@ -818,39 +887,7 @@ export function FrontOfficeHome({
                 <small>Baseline</small>
               </div>
             </div>
-            {change(spotlight) !== null && (
-              <div className={styles.trendChart}>
-                <svg
-                  viewBox="0 0 240 48"
-                  role="img"
-                  aria-label={`Baseline ${spotlight.baselineRating}, current ${rating(spotlight)}. This is a two-point comparison, not historical progression.`}
-                >
-                  <path d="M8 40H232" className={styles.chartAxis} />
-                  <path
-                    d={`M8 ${change(spotlight)! > 0 ? 36 : change(spotlight)! < 0 ? 12 : 24} L232 ${change(spotlight)! > 0 ? 12 : change(spotlight)! < 0 ? 36 : 24}`}
-                  />
-                  <circle
-                    cx="8"
-                    cy={change(spotlight)! > 0 ? 36 : change(spotlight)! < 0 ? 12 : 24}
-                    r="3"
-                  />
-                  <circle
-                    cx="232"
-                    cy={change(spotlight)! > 0 ? 12 : change(spotlight)! < 0 ? 36 : 24}
-                    r="3"
-                  />
-                </svg>
-                <div>
-                  <span>Stored baseline</span>
-                  <span>Current</span>
-                </div>
-              </div>
-            )}
-            <p className={styles.spotlightCopy}>
-              {change(spotlight) === null
-                ? 'A baseline rating is not available for comparison.'
-                : `Current evaluation is ${Math.abs(change(spotlight)!)} ${Math.abs(change(spotlight)!) === 1 ? 'point' : 'points'} ${change(spotlight)! < 0 ? 'below' : 'above'} the stored baseline.`}
-            </p>
+            <p className={styles.spotlightCopy}>{trends.get(spotlight.id)?.reason}</p>
             <div className={styles.spotlightFoot}>
               <small>
                 {spotlight.contract?.yearsRemaining ?? spotlight.contractYearsRemaining} yrs left
@@ -1051,6 +1088,20 @@ export function FrontOfficeHome({
             Retry
           </button>
         </div>
+      )}
+      {developmentPlayer && (
+        <PlayerDetailsModal
+          isOpen
+          source={{ kind: 'roster', player: developmentPlayer }}
+          sources={devRows.map((player) => ({ kind: 'roster', player }))}
+          roster={roster}
+          teams={teams}
+          userTeamAbbr={teamAbbr}
+          capSpace={save.capSpace}
+          capLimit={save.capLimit}
+          onClose={() => setDevelopmentPlayer(null)}
+          onSelectSource={(source) => setDevelopmentPlayer(source.player as PlayerRowDTO)}
+        />
       )}
       {briefOpen && (
         <FrontOfficeWeeklyBrief

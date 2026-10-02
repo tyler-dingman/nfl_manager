@@ -10,24 +10,8 @@ import { getTeamDisplayAccent } from '@/lib/team-theme-tokens';
 import { beatFont } from '@/components/beat/beat-font';
 import styles from './next-game-hero-card.module.css';
 
-export function nextGameDate(game: CanonicalGame) {
-  if (!game.kickoffAt || !game.kickoffConfirmed) return 'DATE / TIME TO BE ANNOUNCED';
-  const date = new Date(game.kickoffAt);
-  const day = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/New_York',
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-  })
-    .format(date)
-    .toUpperCase();
-  const time = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/New_York',
-    hour: 'numeric',
-    minute: '2-digit',
-  }).format(date);
-  return `${day} · ${time} ET`;
-}
+export { nextGameDate } from '../../../packages/design/next-game';
+import { nextGameDate } from '../../../packages/design/next-game';
 
 export function NextGameHeroCard({ teamId }: { teamId: string }) {
   const [result, setResult] = useState<{

@@ -5,11 +5,7 @@ import {
   getReadableTextColor,
   mixHexColors,
 } from './color-utils';
-import {
-  TEAM_BRAND_THEMES,
-  TEAM_HERO_ACCENT_ROLES,
-  getTeamBrandTheme,
-} from './team-brand-themes';
+import { TEAM_BRAND_THEMES, TEAM_HERO_ACCENT_ROLES, getTeamBrandTheme } from './team-brand-themes';
 
 export type TeamThemeTokens = {
   primary: string;
@@ -102,4 +98,12 @@ export function getEditorialHeroTheme(teamAbbr?: string | null) {
     ? ensureAccessibleTextColor(brand[roles.bright], '#001222', 4.5)
     : heroPrimaryAccent;
   return { heroPrimaryAccent, heroBrightAccent };
+}
+
+/** Transaction workspaces use Seattle's canonical action green rather than navy. */
+export function getPlayerTransactionTheme(teamAbbr?: string | null): FrontOfficeTeamTheme {
+  const theme = getFrontOfficeTeamTheme(teamAbbr);
+  if (teamAbbr?.toUpperCase() !== 'SEA') return theme;
+  const interactive = getTeamBrandTheme(teamAbbr).secondary;
+  return { ...theme, interactive, interactiveForeground: getReadableTextColor(interactive) };
 }

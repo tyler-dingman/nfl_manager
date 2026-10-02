@@ -124,7 +124,7 @@
   font-family: var(--font-headline), sans-serif;
   font-size: clamp(2rem, 5vw, 4.7rem);
   font-weight: 950;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.015em;
   line-height: 0.95;
   text-transform: uppercase;
 }

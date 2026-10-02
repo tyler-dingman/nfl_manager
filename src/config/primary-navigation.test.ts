@@ -12,6 +12,7 @@ test('primary navigation has the approved labels and destinations in order', () 
       { label: 'Front Office', href: '/offseasonmanager' },
       { label: 'Trivia', href: '/trivia' },
       { label: 'Parlay Lab', href: '/parlay-lab' },
+      { label: 'The Huddle', href: '/huddle' },
       { label: 'Merch', href: '/merch' },
     ],
   );
@@ -20,6 +21,7 @@ test('primary navigation has the approved labels and destinations in order', () 
 test('nested product routes and Front Office routes retain their active item', () => {
   assert.equal(getPrimaryNavActive('/huddle/story/example'), 'huddle');
   assert.equal(getPrimaryNavActive('/the-beat'), 'huddle');
+  assert.equal(getPrimaryNavActive('/huddle'), 'community');
   assert.equal(getPrimaryNavActive('/three-and-out/example'), null);
   assert.equal(getPrimaryNavActive('/offseasonmanager/draft'), 'front-office');
   assert.equal(getPrimaryNavActive('/draft/room'), 'front-office');

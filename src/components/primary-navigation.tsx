@@ -41,6 +41,7 @@ export default function PrimaryNavigation({
             key={item.id}
             href={getPrimaryNavHref(item.href, teamAbbr)}
             aria-current={activeItem === item.id ? 'page' : undefined}
+            data-nav-item={item.id}
             className={`${styles.link} ${activeItem === item.id ? activeClass : inactiveClass} whitespace-nowrap transition`}
           >
             {item.label}

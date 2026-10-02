@@ -6,6 +6,13 @@ import { getPreferences, listTeamFollows } from '@/server/user/repository';
 export async function GET(r: NextRequest) {
   const u = await currentUser(r);
   if (!u) return authError('Unauthorized.', 401);
+  if (r.nextUrl.searchParams.get('view') === 'primary-team') {
+    const teams = await listTeamFollows(u.id);
+    return NextResponse.json({
+      ok: true,
+      personalization: { primaryTeam: teams.find((t) => t.isPrimary) ?? null },
+    });
+  }
   const [preferences, teams, saved] = await Promise.all([
     getPreferences(u.id),
     listTeamFollows(u.id),

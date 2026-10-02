@@ -43,9 +43,23 @@ test('trade offers use trade artwork', () => {
 
 test('breaking is layered over the underlying story type', () => {
   const story = eventToLeagueNewsStory(
-    event({ priority: 'urgent', metadata: { newsCategory: 'INJURY' } }),
+    event({ priority: 'urgent', metadata: { newsCategory: 'INJURY', isBreaking: true } }),
     'CHI',
   );
   assert.equal(story.storyTemplate, 'injury');
   assert.equal(story.isBreaking, true);
+});
+
+test('urgent routine stories are not automatically breaking', () => {
+  assert.equal(
+    eventToLeagueNewsStory(
+      event({
+        priority: 'urgent',
+        type: 'contract_extension',
+        metadata: { newsCategory: 'CONTRACT' },
+      }),
+      'CHI',
+    ).isBreaking,
+    false,
+  );
 });

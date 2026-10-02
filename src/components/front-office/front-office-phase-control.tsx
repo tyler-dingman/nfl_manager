@@ -1,8 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useOwnershipStore } from '@/features/ownership/store';
+import { heroOwnershipSnapshot } from '@/lib/hero-ownership';
+import { restartFranchiseAtWeekOne } from '@/lib/front-office-restart';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowRight, ChevronDown, Loader2, X } from 'lucide-react';
+import { ArrowRight, ChevronDown, Loader2, RotateCcw, X } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -48,6 +51,7 @@ export function FrontOfficePhaseControl({
   const [error, setError] = useState('');
   const [loadAttempt, setLoadAttempt] = useState(0);
   const busyRef = useRef(false);
+  const phaseButtonRef = useRef<HTMLDivElement>(null);
   const simulationRevision = useRef(0);
   const cancelRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
@@ -169,6 +173,10 @@ export function FrontOfficePhaseControl({
         body: JSON.stringify({
           saveId,
           action: 'advance',
+          ownership: heroOwnershipSnapshot(
+            useOwnershipStore.getState().saves[`${saveId}:${teamAbbr}`],
+            simulation.season,
+          ),
           target: action.target,
           userTeamOverall: Math.max(50, Math.min(99, Math.round(rawOverall))),
         }),
@@ -204,6 +212,33 @@ export function FrontOfficePhaseControl({
     }
   };
 
+  const resetToWeekOne = async () => {
+    if (busyRef.current || !saveId) return;
+    busyRef.current = true;
+    simulationRevision.current += 1;
+    setBusy(true);
+    setError('');
+    setProgress('Starting a fresh Week 1…');
+    try {
+      const { header, state } = await restartFranchiseAtWeekOne(
+        apiFetch,
+        teamAbbr,
+        simulation?.season ?? season,
+      );
+      const store = useSaveStore.getState();
+      store.clearSave();
+      store.setSaveHeader(header);
+      store.applyAuthoritativeFranchiseState(state);
+      // Reload the franchise shell so every roster, trade and news panel uses the new save.
+      window.location.assign('/front-office');
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Unable to reset to Week 1.');
+      busyRef.current = false;
+      setBusy(false);
+      setProgress('');
+    }
+  };
+
   return (
     <>
       <div className="front-office-command-status" aria-label="Franchise phase">
@@ -222,7 +257,7 @@ export function FrontOfficePhaseControl({
           <strong>{phaseDisplayName(currentPhase, freeAgencyWave)}</strong>
         </div>
         {actionOverride ?? (
-          <div className="fo-phase-split">
+          <div className="fo-phase-split" ref={phaseButtonRef}>
             {actions.primary.href ? (
               <Link className="front-office-advance-button" href={actions.primary.href}>
                 {actions.primary.label} <ArrowRight className="h-4 w-4" />
@@ -246,7 +281,7 @@ export function FrontOfficePhaseControl({
                     <ChevronDown className="h-4 w-4" />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align="end" anchorRef={phaseButtonRef} matchAnchorWidth>
                   {actions.jumps.map((action) => (
                     <DropdownMenuItem key={action.label} onClick={() => void advance(action)}>
                       {action.label}
@@ -257,6 +292,15 @@ export function FrontOfficePhaseControl({
             ) : null}
           </div>
         )}
+        <button
+          type="button"
+          className="front-office-reset-button"
+          disabled={busy || !saveId}
+          onClick={() => void resetToWeekOne()}
+          title="Start a fresh Week 1 for this team. Your previous save is preserved."
+        >
+          <RotateCcw className="h-4 w-4" aria-hidden="true" /> Reset to Week 1
+        </button>
         {error ? (
           <p role="alert" className="fo-phase-error">
             {error}

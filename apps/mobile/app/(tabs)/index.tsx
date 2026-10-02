@@ -1,11 +1,16 @@
+import { Image } from 'expo-image';
+import { Linking } from 'react-native';
+import { HomeBeatCard, openHomeBriefing } from '../../components/home-beat-card';
+import { HomeAiSearch } from '../../components/home-ai-search';
+import { TEAM_LIST } from '../../../../src/data/teams';
+import { HomeFilmRoom } from '../../components/home-film-room';
+import { HomepageHero } from '../../components/homepage-hero';
 import { PageScrollView as ScrollView } from '../../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
 import { Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
-import { router } from 'expo-router';
-import { C, Eyebrow, Heading } from '../../components/screen';
-import { StoryCard } from '../../components/story-card';
-import { EditorialVisual } from '../../components/editorial-visual';
-import { getCatchUp, getHome, getHomepageGame, getRewards, type HomepageGame } from '../../lib/api';
+import { type Href, router } from 'expo-router';
+import { C } from '../../components/screen';
+import { getHome, getHomepageGame, type HomepageGame } from '../../lib/api';
 import type { HomeData } from '../../lib/types';
 import { useTeam } from '../../lib/team-context';
 import { useTeamBranding } from '../../lib/team-branding';
@@ -15,9 +20,7 @@ export default function Home() {
   const [data, setData] = useState<HomeData | null>(null),
     [loading, setLoading] = useState(false),
     [error, setError] = useState<string | null>(null);
-  const [catchUpCount, setCatchUpCount] = useState<number | null>(null),
-    [yards, setYards] = useState<number | null>(null),
-    [game, setGame] = useState<HomepageGame | null>(null);
+  const [game, setGame] = useState<HomepageGame | null>(null);
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -27,12 +30,6 @@ export default function Home() {
       void getHomepageGame(teamId)
         .then(setGame)
         .catch(() => setGame(null));
-      void getCatchUp(teamId)
-        .then((v) => setCatchUpCount(v.totalMeaningfulChanges))
-        .catch(() => setCatchUpCount(null));
-      void getRewards()
-        .then((v) => setYards(v.progress.currentDriveYards))
-        .catch(() => setYards(null));
     } catch (caught) {
       setData(null);
       setError(caught instanceof Error ? caught.message : 'Home is unavailable.');
@@ -43,15 +40,15 @@ export default function Home() {
   useEffect(() => {
     void load();
   }, [load]);
-  const stories = data?.threeAndOut?.current.stories ?? [];
   return (
     <View style={s.safe}>
       <ScrollView
         refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
         contentContainerStyle={s.body}
       >
-        <Eyebrow>{data?.threeAndOut?.current.teamName ?? 'KANSAS CITY CHIEFS'}</Eyebrow>
-        <Heading>Your team. Right now.</Heading>
+        <View style={{ marginHorizontal: -18, marginTop: -18, marginBottom: 20 }}>
+          <HomepageHero teamId={teamId} game={game?.teamAbbr === teamId ? game : null} />
+        </View>
         {error ? (
           <View style={s.stateCard}>
             <Text style={s.stateTitle}>We couldn’t load your team.</Text>
@@ -61,95 +58,99 @@ export default function Home() {
             </Pressable>
           </View>
         ) : null}
-        {game ? (
-          <Pressable
-            style={[s.gameDay, { backgroundColor: theme.dark }]}
-            onPress={() => router.push('/game-day')}
-          >
-            <View>
-              <Text style={[s.gameEyebrow, { color: theme.secondary }]}>
-                WEEK {game.weekNumber} · {game.state}
-              </Text>
-              <Text style={[s.gameTitle, { color: theme.light }]}>IT’S GAME DAY</Text>
-              <Text style={[s.gameBody, { color: theme.light }]}>
-                {game.teamName} vs {game.opponentName}
-              </Text>
-              <Text style={[s.gameMeta, { color: theme.light }]}>
-                {new Date(game.startsAt).toLocaleTimeString([], {
-                  hour: 'numeric',
-                  minute: '2-digit',
-                })}
-                {game.venue ? ` · ${game.venue}` : ''}
-              </Text>
-            </View>
-            <Text style={[s.gameArrow, { color: theme.secondary }]}>›</Text>
-          </Pressable>
-        ) : null}
-        <Pressable
-          style={[s.catchup, { backgroundColor: theme.primary }]}
-          onPress={() => router.push('/catch-up')}
+        <HomeAiSearch key={teamId} />
+        <Pressable accessibilityRole="button" onPress={() => router.push(`/huddle?team=${teamId}` as never)} style={{ padding: 18, marginVertical: 16, backgroundColor: '#061a22', borderRadius: 12 }}><Text style={{ color: 'white', fontWeight: '700' }}>THE HUDDLE · Join your team’s conversation →</Text></Pressable>
+        <Text
+          style={{
+            color: theme.primary,
+            fontSize: 12,
+            letterSpacing: 2.8,
+            fontWeight: '900',
+            marginBottom: 8,
+          }}
         >
-          <Text style={[s.catchEyebrow, { color: theme.secondary }]}>GET CAUGHT UP</Text>
-          <Text style={[s.catchTitle, { color: theme.light }]}>While you were away</Text>
-          <Text style={[s.catchBody, { color: theme.light }]}>
-            {catchUpCount
-              ? `${catchUpCount} meaningful update${catchUpCount === 1 ? '' : 's'} since your last visit.`
-              : 'Open the latest meaningful changes without reading every article.'}
-          </Text>
-        </Pressable>
-        <Pressable style={s.ask} onPress={() => router.push('/search')}>
-          <Text style={[s.askLabel, { color: theme.primary }]}>ASK D&D</Text>
-          <Text style={s.askTitle}>
-            Ask anything about {data?.threeAndOut?.current.teamName ?? teamId} football
-          </Text>
-          <Text style={s.askPrompt}>Injuries · roster · latest stories · film</Text>
-        </Pressable>
+          ✧ THE BEAT
+        </Text>
+        <Text style={s.contentTitle}>
+          What {TEAM_LIST.find((t) => t.abbr === teamId)?.name ?? teamId} fans need to know
+        </Text>
+        {data?.huddle.slice(0, 3).map((item) => (
+          <HomeBeatCard key={item.id} item={item} teamId={teamId} />
+        ))}
         <Pressable
-          style={[s.rewards, { backgroundColor: theme.dark }]}
-          onPress={() => router.push('/rewards')}
+          accessibilityLabel="DraftKings advertisement"
+          onPress={() => void Linking.openURL('https://sportsbook.draftkings.com/')}
+          style={{ marginBottom: 24 }}
         >
-          <View>
-            <Text style={[s.rewardLabel, { color: theme.secondary }]}>MOVE THE CHAINS</Text>
-            <Text style={[s.rewardTitle, { color: theme.light }]}>Engagement Rewards</Text>
-          </View>
-          <Text style={[s.yards, { color: theme.light }]}>{yards ?? '—'} YDS ›</Text>
+          <Image
+            source={require('../../../../public/images/ads/draftkings_the_beat_banner.png')}
+            contentFit="contain"
+            style={{ width: '100%', aspectRatio: 1002 / 256, borderRadius: 16 }}
+          />
         </Pressable>
-        <View style={s.sectionRow}>
-          <Text style={s.section}>THREE AND OUT</Text>
-          <Pressable onPress={() => router.push('/three')}>
-            <Text style={[s.link, { color: theme.primary }]}>SEE ALL →</Text>
-          </Pressable>
-        </View>
-        {stories.map((story, i) => (
-          <StoryCard key={story.id} story={story} down={`${['1ST', '2ND', '3RD'][i]} DOWN`} />
-        ))}
-        {!loading && !error && stories.length === 0 ? (
-          <Text style={s.empty}>No Three and Out stories are ready for this team yet.</Text>
-        ) : null}
-        <View style={s.sectionRow}>
-          <Text style={s.section}>THE HUDDLE</Text>
-          <Text style={[s.link, { color: theme.primary }]}>SEE THE WHOLE FIELD →</Text>
-        </View>
-        {data?.huddle.slice(0, 4).map((item) => (
-          <View key={item.id} style={s.huddle}>
-            <EditorialVisual
-              story={{
-                teamId,
-                category: item.category,
-                headline: item.headline,
-                summary: item.summary,
-              }}
-              variant="compact"
-            />
-            <Text style={[s.label, { color: theme.primary }]}>{item.category}</Text>
-            <Text style={s.hTitle}>{item.headline}</Text>
-            <Text style={s.hBody}>{item.summary}</Text>
-            <Text style={s.hSource}>{item.sources[0]?.publisher ?? 'Down & Distance'} →</Text>
-          </View>
-        ))}
         {!loading && !error && data?.huddle.length === 0 ? (
-          <Text style={s.empty}>No Huddle updates are available yet.</Text>
+          <Text style={s.empty}>No verified Beat stories are ready for this team yet.</Text>
         ) : null}
+        <View
+          testID="home-three-and-out"
+          style={{
+            backgroundColor: '#00121D',
+            borderRadius: 16,
+            padding: 20,
+            borderWidth: 1,
+            borderColor: '#65819855',
+          }}
+        >
+          <Text style={{ fontFamily: 'BarlowCondensed', fontSize: 26, color: 'white' }}>
+            THREE &amp; OUT
+          </Text>
+          <Text style={{ fontFamily: 'BarlowCondensed', fontSize: 14, color: theme.secondary }}>
+            THE 3 THINGS YOU NEED TO KNOW
+          </Text>
+          {(data?.huddle ?? []).slice(0, 3).map((item, i) => (
+            <Pressable
+              key={item.id}
+              onPress={() => openHomeBriefing(item)}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 10,
+                paddingVertical: 14,
+                borderBottomWidth: 1,
+                borderBottomColor: '#FFFFFF20',
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: 'BarlowCondensed',
+                  fontSize: 22,
+                  color: 'white',
+                  borderWidth: 2,
+                  borderColor: theme.secondary,
+                  borderRadius: 22,
+                  width: 40,
+                  height: 40,
+                  textAlign: 'center',
+                  lineHeight: 35,
+                }}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </Text>
+              <Text style={{ flex: 1, color: 'white', fontSize: 14, lineHeight: 20 }}>
+                {item.headline}
+              </Text>
+              <Text style={{ color: 'white' }}>›</Text>
+            </Pressable>
+          ))}
+          {!data?.huddle.length && (
+            <Text style={{ color: '#CBD5E1', marginTop: 12 }}>
+              Current developments will appear here as reporting becomes available.
+            </Text>
+          )}
+          <Pressable onPress={() => router.push('/three')} style={{ paddingTop: 16 }}>
+            <Text style={{ color: 'white', fontSize: 12 }}>Delivery preferences →</Text>
+          </Pressable>
+        </View>
         <Text style={s.section}>THE WIRE</Text>
         {data?.wire.slice(0, 3).map((item) => (
           <View key={item.id} style={[s.wire, { borderLeftColor: theme.primary }]}>
@@ -162,11 +163,60 @@ export default function Home() {
             <Text style={s.wireTitle}>{item.headline}</Text>
           </View>
         ))}
+        <HomeFilmRoom />
+        <View style={[s.ask, { marginTop: 40, padding: 24 }]}>
+          <Text style={[s.label, { color: '#EA580C' }]}>FAN DISCUSSION</Text>
+          <Text style={s.contentTitle}>Fans are talking about...</Text>
+          <Text style={s.hBody}>
+            Join your crew to share stories and talk football with other fans.
+          </Text>
+          <Pressable onPress={() => router.push('/crew')}>
+            <Text style={[s.retry, { color: theme.primary }]}>Open fan discussion →</Text>
+          </Pressable>
+        </View>
+        <View style={[s.ask, { marginTop: 24, padding: 24 }]}>
+          <Text style={[s.label, { color: theme.primary }]}>FRONT OFFICE</Text>
+          <Text style={s.contentTitle}>Build the complete picture</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 24 }}>
+            {['Depth chart', 'Cap outlook', 'Transactions', 'Draft capital'].map((label) => (
+              <Pressable
+                key={label}
+                onPress={() => router.push('/front-office')}
+                style={{
+                  width: '47%',
+                  borderWidth: 1,
+                  borderColor: '#E2E8F0',
+                  borderRadius: 16,
+                  padding: 16,
+                }}
+              >
+                <Text style={s.hTitle}>{label}</Text>
+                <Text style={s.hBody}>Explore →</Text>
+              </Pressable>
+            ))}
+          </View>
+          <Pressable
+            onPress={() => router.push('/front-office')}
+            style={{ marginTop: 20, padding: 16, borderRadius: 16, backgroundColor: theme.dark }}
+          >
+            <Text style={{ color: 'white', fontWeight: '900' }}>
+              Take control in Front Office →
+            </Text>
+          </Pressable>
+        </View>
       </ScrollView>
     </View>
   );
 }
 const s = StyleSheet.create({
+  contentTitle: {
+    fontSize: 24,
+    lineHeight: 30,
+    fontWeight: '900',
+    color: C.ink,
+    marginBottom: 16,
+    marginTop: 8,
+  },
   safe: { flex: 1, backgroundColor: C.cream },
   body: { padding: 18, paddingBottom: 40 },
   catchup: { borderRadius: 20, padding: 20, marginTop: 22 },

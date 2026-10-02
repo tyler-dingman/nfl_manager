@@ -122,4 +122,4 @@ export function researchScore(market: ResearchCandidate) {
   if (market.trend) score += 20;
   return Math.min(90, score);
 }
-import type { Sportsbook } from '@/server/odds/sportsbooks';
+import type { Sportsbook } from '../../server/odds/sportsbooks';

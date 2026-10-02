@@ -1,3 +1,5 @@
+import { DEMO_LOGIN_ENABLED } from './demo-config';
+import { demoSession } from './demo-session';
 import * as Crypto from 'expo-crypto';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
@@ -75,6 +77,7 @@ async function refreshAccessToken() {
   return refreshInFlight;
 }
 export async function authenticatedFetch(path: string, init: RequestInit = {}) {
+  if (demoSession.isActive()) return apiFetch(path, init);
   accessToken ??= await getItem(ACCESS);
   const send = (token: string | null) =>
     apiFetch(path, {
@@ -90,6 +93,7 @@ export async function authenticatedFetch(path: string, init: RequestInit = {}) {
   return response;
 }
 export async function currentUser(): Promise<PublicUser | null> {
+  if (demoSession.isActive()) return demoSession.user;
   try {
     if (!(await getItem(ACCESS)) && !(await getItem(REFRESH))) return null;
     const response = await authenticatedFetch('/api/auth/me');
@@ -121,6 +125,8 @@ export async function exchangeNativeIdentity(input: NativeIdentityExchange) {
   return body.user;
 }
 export async function loginWithEmail(email: string, password: string) {
+  const demoUser = demoSession.login(DEMO_LOGIN_ENABLED, email, password);
+  if (demoUser) return demoUser;
   const response = await apiFetch('/api/auth/login', {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
@@ -141,6 +147,10 @@ export async function loginWithEmail(email: string, password: string) {
   return body.user;
 }
 export async function logoutSession() {
+  if (demoSession.isActive()) {
+    demoSession.logout();
+    return;
+  }
   const refreshToken = await getItem(REFRESH);
   try {
     if (refreshToken)

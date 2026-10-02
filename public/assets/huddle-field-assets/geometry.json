@@ -1,0 +1,41 @@
+{
+  "base_width": 1614,
+  "base_height": 304,
+  "left_endzone_polygon": [
+    [
+      196,
+      31
+    ],
+    [
+      316,
+      31
+    ],
+    [
+      258,
+      272
+    ],
+    [
+      3,
+      272
+    ]
+  ],
+  "right_endzone_polygon": [
+    [
+      1297,
+      31
+    ],
+    [
+      1417,
+      31
+    ],
+    [
+      1572,
+      272
+    ],
+    [
+      1355,
+      272
+    ]
+  ],
+  "rule": "All team PNGs are full-canvas transparent overlays matching base_field.png. Do not skew/rotate them in CSS."
+}

@@ -52,6 +52,24 @@ export default function FreeAgentsPage() {
   const [players, setPlayers] = useState<PlayerRowDTO[]>(() => data.players);
   const [activeOfferPlayer, setActiveOfferPlayer] = useState<PlayerRowDTO | null>(null);
   const [activePlayerDetails, setActivePlayerDetails] = useState<PlayerDetailsSource | null>(null);
+  const openedHeroPlayer = useRef<string | null>(null);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('playerId');
+    if (!id || openedHeroPlayer.current === id) return;
+    const player = players.find(
+      (p) =>
+        p.id === id &&
+        !p.isSignedByUser &&
+        !p.isSignedByCpu &&
+        !['signed', 'removed'].includes(p.marketStatus ?? ''),
+    );
+    if (!player) return;
+    openedHeroPlayer.current = id;
+    if (params.get('openOffer') === '1' && isOffseasonFreeAgency(phase))
+      setActiveOfferPlayer(player);
+    else setActivePlayerDetails({ kind: 'freeAgent', player });
+  }, [players, phase]);
   const pushAlert = useFalcoAlertStore((state) => state.pushAlert);
   const { push: pushToast } = useToast();
   const recordProgressEvent = useOffseasonProgressStore((state) => state.recordEvent);

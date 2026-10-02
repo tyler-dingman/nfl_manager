@@ -1,4 +1,4 @@
-import type { HomeMarket } from './ParlayLabHome';
+import type { HomeMarket } from '../../../packages/parlay/research';
 export type DirectoryPlayer = {
   id: string;
   name: string;

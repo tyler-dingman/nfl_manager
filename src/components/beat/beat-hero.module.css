@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   color: #fff;
-  background: #001222;
+  background: var(--hero-background, #001222);
   isolation: isolate;
 }
 .hero::before {
@@ -252,7 +252,7 @@
   height: 35px;
   border: 2px solid color-mix(in srgb, var(--hero-beat-detail) 65%, #001222);
   border-radius: 50%;
-  background: #001222;
+  background: var(--hero-background, #001222);
   color: var(--hero-beat-detail);
 }
 .videoStories li + li::before {

@@ -1,4 +1,5 @@
 'use client';
+import { normalizeDisplayHeadline } from '../../lib/display-headline';
 
 import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { useEffect, useId, useRef, type CSSProperties } from 'react';
@@ -159,7 +160,7 @@ export default function FilmRoomVideoModal({
             <iframe
               className="h-full w-full"
               src={video.embedUrl}
-              title={video.title}
+              title={normalizeDisplayHeadline(video.title)}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
@@ -168,7 +169,7 @@ export default function FilmRoomVideoModal({
 
         <div className="px-5 pb-6 pt-5 sm:px-7 lg:px-10 lg:pb-8">
           <h2 id={titleId} className="max-w-5xl text-2xl font-black leading-tight sm:text-3xl">
-            {video.title}
+            {normalizeDisplayHeadline(video.title)}
           </h2>
 
           <div className="mt-5 flex flex-col gap-5 border-b border-white/10 pb-5 lg:flex-row lg:items-center lg:justify-between">

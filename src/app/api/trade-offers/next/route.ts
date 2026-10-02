@@ -1,3 +1,4 @@
+import { tradeDeadlineResponse } from '@/server/front-office/trade-window';
 import { NextResponse } from 'next/server';
 
 import { getSaveStateResult } from '@/server/api/store';
@@ -14,6 +15,8 @@ export const POST = async (request: Request) => {
     );
   }
 
+  const deadline = await tradeDeadlineResponse(request, body.saveId);
+  if (deadline) return deadline;
   const saveResult = getSaveStateResult(body.saveId);
   if (!saveResult.ok) {
     return NextResponse.json({ ok: false, error: saveResult.error }, { status: 404 });

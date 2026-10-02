@@ -1,6 +1,8 @@
+import { nextSundayNoon, clock } from '../../../packages/game-day/preview-clock';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   ImageBackground,
   Pressable,
   RefreshControl,
@@ -27,6 +29,7 @@ export default function GameDay() {
   const load = useCallback(
     async (id?: string) => {
       setLoading(true);
+      setError('');
       try {
         setRoom(await getGameDayRoom(teamId, id));
       } catch (e) {
@@ -47,12 +50,14 @@ export default function GameDay() {
     return () => clearInterval(timer);
   }, [roomId, load]);
   const act = async (body: object) => {
-    if (!room) return;
+    if (!room) return false;
     try {
       await gameDayAction(room.id, body);
       await load(room.id);
+      return true;
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Try again.');
+      return false;
     }
   };
   if (!room)
@@ -71,13 +76,23 @@ export default function GameDay() {
           </Text>
           <Pressable
             style={[s.primary, { backgroundColor: theme.primary }]}
+            disabled={loading}
             onPress={async () => {
-              const id = await createGameDayRoom(teamId);
-              await load(id);
+              setLoading(true);
+              setError('');
+              try {
+                const id = await createGameDayRoom(teamId);
+                await load(id);
+              } catch (e) {
+                setError(e instanceof Error ? e.message : 'Unable to create tailgate.');
+              } finally {
+                setLoading(false);
+              }
             }}
           >
             <Text style={s.primaryText}>CREATE A TAILGATE</Text>
           </Pressable>
+          {loading && <ActivityIndicator />}
           {error ? <Text style={s.error}>{error}</Text> : null}
         </View>
       </ScrollView>
@@ -184,7 +199,9 @@ export default function GameDay() {
           style={s.send}
           onPress={() => {
             if (message.trim())
-              void act({ action: 'MESSAGE', body: message.trim() }).then(() => setMessage(''));
+              void act({ action: 'MESSAGE', body: message.trim() }).then((sent) => {
+                if (sent) setMessage('');
+              });
           }}
         >
           <Text style={s.sendText}>SEND</Text>
@@ -205,6 +222,13 @@ function MobileGameDayHero({
   secondary: string;
   room?: GameDayRoom;
 }) {
+  const [previewKickoff] = useState(() => nextSundayNoon().getTime());
+  const [now, setNow] = useState(Date.now);
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+  const kickoff = room?.kickoffAt ? new Date(room.kickoffAt).getTime() : previewKickoff;
   const game = room?.gameState,
     live = room?.status === 'LIVE' || room?.status === 'HALFTIME',
     final = room?.status === 'POSTGAME';
@@ -224,7 +248,7 @@ function MobileGameDayHero({
         <Text style={s.countValue}>
           {live || final
             ? `${game?.awayTeamId} ${game?.awayScore} · ${game?.homeTeamId} ${game?.homeScore}`
-            : '08 : 35 : 42'}
+            : clock((Number.isFinite(kickoff) ? kickoff : previewKickoff) - now).join(' : ')}
         </Text>
         <Text style={s.countDetail}>
           {live ? `Q${game?.quarter} · ${game?.clock}` : `${teamId} GAME DAY · PREVIEW`}

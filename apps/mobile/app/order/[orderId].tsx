@@ -1,3 +1,4 @@
+import { PageHeading, PageState } from '../../components/page-heading';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -7,9 +8,22 @@ const money = (c: number) => `$${(c / 100).toFixed(2)}`;
 export default function Order() {
   const { orderId, confirmed } = useLocalSearchParams<{ orderId: string; confirmed?: string }>();
   const [order, setOrder] = useState<any>();
+  const [error, setError] = useState(false);
   useEffect(() => {
-    if (orderId) void getCommerceOrder(orderId).then(setOrder);
+    if (orderId)
+      void getCommerceOrder(orderId)
+        .then(setOrder)
+        .catch(() => setError(true));
   }, [orderId]);
+  if (error)
+    return (
+      <View style={s.page}>
+        <PageState
+          title="Order unavailable"
+          message="Unable to load this order. Please try again."
+        />
+      </View>
+    );
   if (!order)
     return (
       <View style={s.page}>
@@ -26,8 +40,47 @@ export default function Order() {
           <Text style={s.muted}>We’ve received your order.</Text>
         </>
       ) : null}
-      <Heading>#{order.order_number}</Heading>
+      <PageHeading
+        eyebrow="Order"
+        title={`#${order.order_number}`}
+        description={`Placed ${new Date(order.created_at).toLocaleDateString()}`}
+      />
       <Text style={s.status}>{order.fulfillment_status}</Text>
+      <View style={s.card}>
+        <Text style={s.label}>ITEMS</Text>
+        {order.items.map((x: any) => (
+          <View key={x.id} style={s.item}>
+            <View>
+              <Text style={s.name}>{x.productName}</Text>
+              <Text style={s.muted}>
+                {x.variantLabel} · Qty {x.quantity}
+              </Text>
+            </View>
+            <Text style={s.name}>{money(x.lineTotalCents)}</Text>
+          </View>
+        ))}
+      </View>
+      <View style={s.card}>
+        <Text style={s.label}>ORDER SUMMARY</Text>
+        {[
+          ['Subtotal', order.subtotal_cents],
+          ['Discount', -order.discount_total_cents],
+          ['Shipping', order.shipping_total_cents],
+          ['Estimated tax', order.tax_total_cents],
+          ['Total', order.total_cents],
+          ...(order.refunded_total_cents > 0
+            ? [
+                ['Refunded', -order.refunded_total_cents],
+                ['Net paid', order.total_cents - order.refunded_total_cents],
+              ]
+            : []),
+        ].map(([label, value]) => (
+          <View key={String(label)} style={s.item}>
+            <Text>{label}</Text>
+            <Text style={s.name}>{money(Number(value))}</Text>
+          </View>
+        ))}
+      </View>
       <View style={s.card}>
         <Text style={s.label}>ORDER STATUS</Text>
         <View style={s.steps}>
@@ -43,24 +96,6 @@ export default function Order() {
             {order.carrier} · {order.tracking_number}
           </Text>
         ) : null}
-      </View>
-      <View style={s.card}>
-        <Text style={s.label}>ITEMS</Text>
-        {order.items.map((x: any) => (
-          <View key={x.id} style={s.item}>
-            <View>
-              <Text style={s.name}>{x.productName}</Text>
-              <Text style={s.muted}>
-                {x.variantLabel} · Qty {x.quantity}
-              </Text>
-            </View>
-            <Text style={s.name}>{money(x.lineTotalCents)}</Text>
-          </View>
-        ))}
-        <View style={s.total}>
-          <Text style={s.name}>TOTAL</Text>
-          <Text style={s.name}>{money(order.total_cents)}</Text>
-        </View>
       </View>
       <View style={s.card}>
         <Text style={s.label}>SHIPPING ADDRESS</Text>

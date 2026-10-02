@@ -1,3 +1,5 @@
+import { PageHeading } from '../components/page-heading';
+import { useTeamBranding } from '../lib/team-branding';
 import { PageScrollView as ScrollView } from '../components/page-scroll-view';
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -16,6 +18,7 @@ import { useTeam } from '../lib/team-context';
 
 export default function CatchUp() {
   const { teamId } = useTeam();
+  const { theme } = useTeamBranding();
   const [data, setData] = useState<CatchUpData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -48,8 +51,7 @@ export default function CatchUp() {
       contentContainerStyle={s.body}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
     >
-      <Eyebrow>GET CAUGHT UP</Eyebrow>
-      <Heading>While you were away</Heading>
+      <PageHeading eyebrow="Get caught up" title="While you were away" />
       {data ? (
         <Text style={s.meta}>
           Since {new Date(data.baselineAt).toLocaleString()} · {data.estimatedReadMinutes} min
@@ -78,7 +80,7 @@ export default function CatchUp() {
         </View>
       ) : null}
       {data?.items.map((item) => (
-        <View key={item.id} style={s.card}>
+        <View key={item.id} style={[s.card, { borderLeftColor: theme.primaryFill }]}>
           <Text style={s.type}>{item.type}</Text>
           <Text style={s.title}>{item.headline}</Text>
           <Text style={s.summary}>{item.summary}</Text>
@@ -110,20 +112,20 @@ const s = StyleSheet.create({
   body: { padding: 20, paddingBottom: 42 },
   meta: { color: C.muted, marginTop: 12, marginBottom: 20 },
   loader: { marginTop: 40 },
-  empty: { backgroundColor: C.white, borderRadius: 18, padding: 24, marginTop: 24 },
+  empty: { backgroundColor: C.white, borderRadius: 24, padding: 24, marginTop: 24 },
   emptyTitle: { color: C.ink, fontSize: 22, fontWeight: '900' },
   emptyBody: { color: C.muted, lineHeight: 21, marginTop: 8 },
   retry: { color: C.red, fontWeight: '900', marginTop: 18 },
   card: {
     backgroundColor: C.white,
-    borderRadius: 18,
-    padding: 20,
-    marginTop: 14,
+    borderRadius: 24,
+    padding: 24,
+    marginTop: 20,
     borderLeftColor: C.red,
     borderLeftWidth: 4,
   },
   type: { color: C.red, fontSize: 13, fontWeight: '900', letterSpacing: 1.2 },
-  title: { color: C.ink, fontSize: 22, lineHeight: 26, fontWeight: '900', marginTop: 9 },
+  title: { color: C.ink, fontSize: 24, lineHeight: 29, fontWeight: '900', marginTop: 9 },
   summary: { color: C.muted, fontSize: 16, lineHeight: 23, marginTop: 10 },
   label: { color: C.red, fontSize: 13, letterSpacing: 1.2, fontWeight: '900', marginTop: 18 },
   detail: { color: C.ink, lineHeight: 20, marginTop: 6 },

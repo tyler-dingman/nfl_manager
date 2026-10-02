@@ -1,3 +1,4 @@
+import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { NextResponse } from 'next/server';
 
 import { offerContract } from '@/server/api/players';
@@ -81,6 +82,7 @@ export const POST = async (request: Request) => {
     if (!result.ok) {
       return NextResponse.json({ ok: false, error: result.error }, { status: 404 });
     }
+    const events = await refreshFranchiseHeroAfterAction(request, body.saveId);
     const teamAbbr = stateResult.data.header.teamAbbr;
     const catchphrase = getTeamCatchphrase(teamAbbr);
     const hypeLine = getTeamHypeLine(teamAbbr);
@@ -88,6 +90,7 @@ export const POST = async (request: Request) => {
     return NextResponse.json({
       ok: true,
       accepted: true,
+      events,
       interestScore,
       tone: 'positive',
       message: `${catchphrase}! ${hypeLine}`,

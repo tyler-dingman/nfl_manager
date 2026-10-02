@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { placeCommerceOrder, quoteCommerceOrder } from '../lib/api';
 import { useCommerceCart } from '../lib/commerce-cart';
+import { PageHeading, PageState } from '../components/page-heading';
 import { C, Heading } from '../components/screen';
 const initial = {
   email: '',
@@ -28,12 +29,27 @@ export default function Checkout() {
     [placing, setPlacing] = useState(false);
   const { items, clear } = useCommerceCart();
   useEffect(() => {
+    if (!items.length) {
+      setQuote(null);
+      return;
+    }
+    let active = true;
+    setError('');
     void quoteCommerceOrder({ items })
-      .then(setQuote)
-      .catch(() => undefined);
+      .then((value) => {
+        if (active) setQuote(value);
+      })
+      .catch(() => {
+        if (active) setError('Unable to calculate your order. Please try again.');
+      });
+    return () => {
+      active = false;
+    };
   }, [items]);
   const field = (key: keyof typeof initial, label: string) => (
     <TextInput
+      accessibilityLabel={label}
+      keyboardType={key === 'email' ? 'email-address' : key === 'phone' ? 'phone-pad' : 'default'}
       value={form[key]}
       onChangeText={(value) => setForm((x) => ({ ...x, [key]: value }))}
       placeholder={label}
@@ -42,6 +58,7 @@ export default function Checkout() {
     />
   );
   const submit = async () => {
+    if (placing || !items.length) return;
     setPlacing(true);
     setError('');
     try {
@@ -95,10 +112,23 @@ export default function Checkout() {
       setWalletLoading('');
     }
   };
+  if (!items.length)
+    return (
+      <ScrollView style={s.page} contentContainerStyle={s.body}>
+        <PageHeading eyebrow="YOUR BAG" title="Checkout" />
+        <PageState
+          title="Your cart is empty."
+          message="Add a game-day favorite before checking out."
+        />
+        <Pressable style={s.apply} onPress={() => router.replace('/merch')}>
+          <Text style={s.applyText}>CONTINUE SHOPPING →</Text>
+        </Pressable>
+      </ScrollView>
+    );
   if (stage === 'entry')
     return (
       <ScrollView style={s.page} contentContainerStyle={s.body}>
-        <Heading>CHECKOUT</Heading>
+        <PageHeading eyebrow="YOUR BAG" title="Checkout" />
         <Text style={s.subtle}>DEMO CHECKOUT · No real payment will be processed.</Text>
         <Label text="HAVE A PROMO CODE?" />
         <View style={s.row}>
@@ -149,7 +179,7 @@ export default function Checkout() {
   if (stage === 'review')
     return (
       <ScrollView style={s.page} contentContainerStyle={s.body}>
-        <Heading>REVIEW YOUR ORDER</Heading>
+        <PageHeading eyebrow="CHECKOUT" title="Review your order" />
         <Text style={s.subtle}>{paymentMethod.replace('_', ' ')} · DEMO</Text>
         <View style={s.summary}>
           <Label text="SHIP TO" />
@@ -175,7 +205,7 @@ export default function Checkout() {
     );
   return (
     <ScrollView style={s.page} contentContainerStyle={s.body}>
-      <Heading>DEMO CHECKOUT</Heading>
+      <PageHeading eyebrow="YOUR BAG" title="Demo checkout" />
       <Text style={s.demo}>NO REAL PAYMENT WILL BE PROCESSED</Text>
       <Label text="CONTACT" />
       {field('email', 'Email')}
@@ -302,7 +332,7 @@ function Options({
   );
 }
 const s = StyleSheet.create({
-  page: { flex: 1, backgroundColor: C.cream },
+  page: { flex: 1, backgroundColor: '#F7F4EE' },
   body: { padding: 20, paddingBottom: 50 },
   demo: {
     backgroundColor: '#FFF0DF',
@@ -313,7 +343,7 @@ const s = StyleSheet.create({
     marginTop: 16,
   },
   subtle: { color: C.muted, marginTop: 8 },
-  summary: { backgroundColor: C.white, borderRadius: 16, padding: 16, marginTop: 18 },
+  summary: { backgroundColor: C.white, borderRadius: 16, padding: 20, marginTop: 28 },
   line: { flexDirection: 'row', justifyContent: 'space-between', gap: 12, marginTop: 10 },
   strongLine: { borderTopWidth: 1, borderTopColor: '#DDD6CD', paddingTop: 14, marginTop: 14 },
   strong: { fontWeight: '900', color: C.ink },

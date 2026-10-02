@@ -1,4 +1,5 @@
 'use client';
+import { normalizeDisplayHeadline } from '../../lib/display-headline';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -11,14 +12,13 @@ import {
 } from '../../../packages/filters/film-room';
 import styles from './film-room-mobile.module.css';
 import { FilmRoomHero } from './film-room-hero';
-import { ExternalLink } from 'lucide-react';
-import { DdVideosIcon as Play } from '@/components/ui/football-icons';
+import { Play } from 'lucide-react';
 import { DdFiltersIcon as SlidersHorizontal } from '@/components/ui/football-icons';
 
 import { FILM_ROOM_CATEGORIES } from '@/config/film-room';
 import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';
 import type { FilmRoomCategory, FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';
-import ShareToCrewButton from '@/components/crew/share-to-crew-button';
+import { FilmRoomCardActions } from './film-room-card-actions';
 
 type Filter = 'all' | FilmRoomCategory;
 type Sort = 'newest' | 'oldest' | 'most-viewed';
@@ -72,7 +72,7 @@ export function FilmRoomCard({
             type="button"
             className="group absolute inset-0 block h-full w-full overflow-hidden text-left focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
             onClick={(event) => onPlay(video, event.currentTarget)}
-            aria-label={`Play ${video.title}`}
+            aria-label={`Play ${normalizeDisplayHeadline(video.title)}`}
           >
             {/* YouTube owns and serves this source thumbnail. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -99,7 +99,7 @@ export function FilmRoomCard({
 
         <div className="flex flex-1 flex-col p-4 sm:p-5">
           <h2 className="line-clamp-2 text-lg font-black leading-tight text-[#00172b]">
-            {video.title}
+            {normalizeDisplayHeadline(video.title)}
           </h2>
           <div className="mt-4 flex min-w-0 items-center gap-3">
             {video.channel.avatar ? (
@@ -125,45 +125,21 @@ export function FilmRoomCard({
               ) : null}
             </div>
           </div>
-          <div className="mt-auto grid grid-cols-3 border-t border-slate-200 pt-4 text-xs font-black uppercase tracking-wide text-[var(--team-primary-text)]">
-            <a
-              href={video.youtubeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-h-10 items-center gap-1.5 border-r border-slate-200 pr-3 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-              Watch on YouTube <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-            </a>
-            <ShareToCrewButton
-              contentId={video.id}
-              contentType="FILM_ROOM"
-              href={`/watch?video=${encodeURIComponent(video.id)}`}
-              title={video.title}
-              className="flex min-h-10 items-center justify-center px-2 text-center text-[10px] font-black"
-            />
-            <a
-              href={video.channelUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-h-10 items-center justify-end gap-1.5 pl-3 text-right hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-              View Channel <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-            </a>
-          </div>
+          <FilmRoomCardActions video={video} />
         </div>
       </article>
       <article className={`${styles.card} ${sequence === 1 ? styles.featured : styles.compact}`}>
         <div className={styles.mobileRow}>
           <button
             className={styles.thumbnail}
-            aria-label={`Play ${video.title}`}
+            aria-label={`Play ${normalizeDisplayHeadline(video.title)}`}
             onClick={(event) => onPlay(video, event.currentTarget)}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={video.thumbnail} alt="" loading={sequence === 1 ? 'eager' : 'lazy'} />
             {sequence === 1 && <span className={styles.badge}>#1 TRENDING</span>}
             <span className={styles.play}>
-              <Play aria-hidden="true" />
+              <Play aria-hidden="true" fill="currentColor" />
             </span>
             {video.duration && <span className={styles.duration}>{video.duration}</span>}
           </button>
@@ -172,7 +148,7 @@ export function FilmRoomCard({
               className={styles.titleButton}
               onClick={(event) => onPlay(video, event.currentTarget)}
             >
-              <h2>{video.title}</h2>
+              <h2>{normalizeDisplayHeadline(video.title)}</h2>
             </button>
             <div className={styles.channel}>
               {video.channel.avatar ? (
@@ -193,22 +169,7 @@ export function FilmRoomCard({
             </p>
           </div>
         </div>
-        <div className={styles.actions} aria-label="Video actions">
-          <a href={video.youtubeUrl} target="_blank" rel="noopener noreferrer">
-            YouTube <ExternalLink size={14} aria-hidden="true" />
-          </a>
-          <ShareToCrewButton
-            contentId={video.id}
-            contentType="FILM_ROOM"
-            href={`/watch?video=${encodeURIComponent(video.id)}`}
-            title={video.title}
-            className={styles.share}
-            label="Share"
-          />
-          <a href={video.channelUrl} target="_blank" rel="noopener noreferrer">
-            Channel <ExternalLink size={14} aria-hidden="true" />
-          </a>
-        </div>
+        <FilmRoomCardActions video={video} mobile />
       </article>
     </>
   );

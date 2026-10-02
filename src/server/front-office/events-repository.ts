@@ -1,3 +1,5 @@
+import { TEAM_LIST } from '@/data/teams';
+import { GAME_RESULT_HEADLINE_PATTERN } from '@/lib/front-office-news-notifications';
 import { authDb } from '@/server/auth/database';
 import type { FrontOfficeEvent, FrontOfficeTradeOfferStatus } from '@/types/front-office';
 import type { TradeOfferDTO } from '@/types/trade-offers';
@@ -27,9 +29,21 @@ const surfacedSelectColumns = `
   e.created_at AS "createdAt", e.expires_at AS "expiresAt", e.read_at AS "readAt",
   e.dismissed_at AS "dismissedAt", e.surfaced_at AS "surfacedAt"`;
 
+// Older writes double-encoded JSON; normalize these when querying without changing other saves.
+const normalizedMetadataSql =
+  "(CASE WHEN jsonb_typeof(metadata) = 'string' THEN (metadata #>> '{}')::jsonb ELSE metadata END)";
+// Apply before pagination, counts, and toast selection, including historical untagged recaps.
+const newsNotificationSql = `type <> 'welcome_message'
+  AND UPPER(COALESCE(${normalizedMetadataSql}->>'channel','')) <> 'MESSAGE'
+  AND UPPER(COALESCE(${normalizedMetadataSql}->>'newsCategory','')) NOT IN ('GAME_RECAP','GAME_RESULT','GAME')
+  AND id NOT LIKE '%:game-result:%'
+  AND NOT (${normalizedMetadataSql}->>'homeScore' IS NOT NULL AND ${normalizedMetadataSql}->>'awayScore' IS NOT NULL)
+  AND headline !~* '${GAME_RESULT_HEADLINE_PATTERN.replaceAll("'", "''")}'`;
+
 const iso = (value: unknown) => (value ? new Date(value as string).toISOString() : null);
 const mapEvent = (row: EventRow): FrontOfficeEvent => ({
   ...row,
+  metadata: typeof row.metadata === 'string' ? JSON.parse(row.metadata) : row.metadata,
   simulationWeek: Math.max(1, row.simulationWeek),
   createdAt: new Date(row.createdAt).toISOString(),
   expiresAt: iso(row.expiresAt),
@@ -38,8 +52,11 @@ const mapEvent = (row: EventRow): FrontOfficeEvent => ({
   surfacedAt: iso(row.surfacedAt),
 });
 
-export async function persistFrontOfficeEvents(userId: string, events: NewFrontOfficeEvent[]) {
-  const db = authDb();
+export async function persistFrontOfficeEvents(
+  userId: string,
+  events: NewFrontOfficeEvent[],
+  db = authDb(),
+) {
   const persisted: FrontOfficeEvent[] = [];
   for (const event of events) {
     const rows = await db.unsafe<EventRow[]>(
@@ -48,7 +65,7 @@ export async function persistFrontOfficeEvents(userId: string, events: NewFrontO
          related_team_abbr, player_id, prospect_id, trade_offer_id, simulation_season,
          simulation_week, simulation_phase, action_url, metadata, expires_at)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18::jsonb,$19)
-       ON CONFLICT (user_id, save_id, dedupe_key, simulation_season, simulation_week) DO NOTHING
+       ON CONFLICT DO NOTHING
        RETURNING ${selectColumns}`,
       [
         userId,
@@ -68,7 +85,7 @@ export async function persistFrontOfficeEvents(userId: string, events: NewFrontO
         event.simulationWeek,
         event.simulationPhase,
         event.actionUrl,
-        JSON.stringify(event.metadata),
+        db.json(event.metadata as any),
         event.expiresAt,
       ],
     );
@@ -77,14 +94,75 @@ export async function persistFrontOfficeEvents(userId: string, events: NewFrontO
   return persisted;
 }
 
-export async function listFrontOfficeEvents(userId: string, saveId: string, unreadOnly = false) {
+export async function listFrontOfficeEvents(
+  userId: string,
+  saveId: string,
+  unreadOnly = false,
+  offset = 0,
+  notificationsOnly = false,
+  options: {
+    limit?: number;
+    team?: string;
+    filter?: string;
+    query?: string;
+    category?: string;
+  } = {},
+) {
   const rows = await authDb().unsafe<EventRow[]>(
     `SELECT ${selectColumns} FROM front_office_events
      WHERE user_id = $1 AND save_id = $2 ${unreadOnly ? 'AND read_at IS NULL' : ''}
-     ORDER BY COALESCE(metadata->>'sourcePublishedAt', created_at::text) DESC LIMIT 500`,
-    [userId, saveId],
+     ${notificationsOnly ? `AND ${newsNotificationSql}` : ''}
+     AND ($4 = '' OR concat_ws(' ', headline, summary, team_abbr, related_team_abbr, ${normalizedMetadataSql}->>'newsCategory') ILIKE '%' || $4 || '%')
+     AND ($5 = 'all' OR ($5 = 'team' AND (team_abbr=$6 OR related_team_abbr=$6 OR ${normalizedMetadataSql}->'teamIds' ? $6))
+       OR ($5 = 'league' AND NOT (COALESCE(team_abbr,'')=$6 OR COALESCE(related_team_abbr,'')=$6 OR COALESCE(${normalizedMetadataSql}->'teamIds','[]'::jsonb) ? $6))
+       OR ($5 = 'breaking' AND ${normalizedMetadataSql}->>'isBreaking' = 'true'))
+     AND ($7 = '' OR UPPER(COALESCE(${normalizedMetadataSql}->>'newsCategory','')) = $7)
+     ORDER BY created_at DESC, id DESC LIMIT $8 OFFSET $3`,
+    [
+      userId,
+      saveId,
+      offset,
+      TEAM_LIST.find(
+        (t) =>
+          t.name.toLowerCase().includes((options.query ?? '').toLowerCase()) &&
+          (options.query ?? '').length > 2,
+      )?.abbr ??
+        options.query ??
+        '',
+      options.filter ?? 'all',
+      options.team ?? '',
+      options.category ?? '',
+      Math.min(60, Math.max(1, options.limit ?? 60)),
+    ],
   );
   return rows.map(mapEvent);
+}
+
+export async function frontOfficeNewsCounts(userId: string, saveId: string, team: string) {
+  const [row] = await authDb().unsafe<
+    Array<{ all: number; team: number; league: number; breaking: number }>
+  >(
+    `SELECT count(*)::int AS all,
+ count(*) FILTER (WHERE team_abbr=$3 OR related_team_abbr=$3 OR ${normalizedMetadataSql}->'teamIds' ? $3)::int AS team,
+ count(*) FILTER (WHERE NOT (COALESCE(team_abbr,'')=$3 OR COALESCE(related_team_abbr,'')=$3 OR COALESCE(${normalizedMetadataSql}->'teamIds','[]'::jsonb) ? $3))::int AS league,
+ count(*) FILTER (WHERE ${normalizedMetadataSql}->>'isBreaking' = 'true')::int AS breaking
+ FROM front_office_events WHERE user_id=$1 AND save_id=$2 AND ${newsNotificationSql}`,
+    [userId, saveId, team],
+  );
+  const categories = await authDb().unsafe<Array<{ category: string; count: number }>>(
+    `SELECT ${normalizedMetadataSql}->>'newsCategory' AS category,count(*)::int AS count FROM front_office_events WHERE user_id=$1 AND save_id=$2 AND ${newsNotificationSql} GROUP BY ${normalizedMetadataSql}->>'newsCategory'`,
+    [userId, saveId],
+  );
+  return { ...row, categories };
+}
+
+export async function countUnreadFrontOfficeNews(userId: string, saveId: string) {
+  const rows = await authDb().unsafe<Array<{ count: number }>>(
+    `SELECT count(*)::int AS count FROM front_office_events
+     WHERE user_id=$1 AND save_id=$2 AND read_at IS NULL AND ${newsNotificationSql}`,
+    [userId, saveId],
+  );
+  return rows[0]?.count ?? 0;
 }
 
 export async function getFrontOfficeEvent(userId: string, id: string) {
@@ -105,16 +183,16 @@ export async function surfaceNextFrontOfficeEvent(
        SELECT id FROM front_office_events
        WHERE user_id = $1 AND save_id = $2 AND surfaced_at IS NULL
          AND read_at IS NULL
-         AND metadata->>'resolution' IS NULL
-         AND COALESCE(metadata->>'channel', '') <> 'MESSAGE'
+         AND ${normalizedMetadataSql}->>'resolution' IS NULL
+         AND ${newsNotificationSql}
          AND priority IN ('urgent', 'high')
          AND (expires_at IS NULL OR expires_at > now())
        ORDER BY CASE
          WHEN priority = 'urgent' AND ($3::text IS NOT NULL) AND
-           (team_abbr = $3 OR related_team_abbr = $3 OR metadata->'teamIds' ? $3) THEN 4
+           (team_abbr = $3 OR related_team_abbr = $3 OR ${normalizedMetadataSql}->'teamIds' ? $3) THEN 4
          WHEN priority = 'urgent' THEN 3
          WHEN ($3::text IS NOT NULL) AND
-           (team_abbr = $3 OR related_team_abbr = $3 OR metadata->'teamIds' ? $3) THEN 2
+           (team_abbr = $3 OR related_team_abbr = $3 OR ${normalizedMetadataSql}->'teamIds' ? $3) THEN 2
          ELSE 1 END DESC,
          created_at ASC LIMIT 1 FOR UPDATE SKIP LOCKED
      )
@@ -129,7 +207,8 @@ export async function surfaceNextFrontOfficeEvent(
 export async function markAllFrontOfficeEventsRead(userId: string, saveId: string) {
   await authDb().unsafe(
     `UPDATE front_office_events SET read_at = COALESCE(read_at, now())
-     WHERE user_id = $1 AND save_id = $2`,
+     WHERE user_id = $1 AND save_id = $2
+       AND ${newsNotificationSql}`,
     [userId, saveId],
   );
 }
@@ -156,11 +235,11 @@ export async function resolveFrontOfficeEventsForPlayer(
 ) {
   const rows = await authDb().unsafe<EventRow[]>(
     `UPDATE front_office_events
-     SET metadata = metadata || jsonb_build_object('resolution', $4::text, 'resolvedAt', now()::text),
+     SET metadata = ${normalizedMetadataSql} || jsonb_build_object('resolution', $4::text, 'resolvedAt', now()::text),
        action_url = NULL,
        read_at = COALESCE(read_at, now())
      WHERE user_id = $1 AND save_id = $2 AND player_id = $3
-       AND type = 're_sign_ready' AND metadata->>'resolution' IS NULL
+       AND type = 're_sign_ready' AND ${normalizedMetadataSql}->>'resolution' IS NULL
      RETURNING ${selectColumns}`,
     [userId, saveId, playerId, resolution],
   );

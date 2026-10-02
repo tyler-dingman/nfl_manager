@@ -1,3 +1,5 @@
+import { normalizeDisplayHeadline } from '../../lib/display-headline';
+import { selectFilmHeroVideos } from '../../../packages/design/editorial-stories';
 import { Play, ChevronRight } from 'lucide-react';
 import { EditorialSectionHero } from '@/components/beat/editorial-section-hero';
 import styles from '@/components/beat/beat-hero.module.css';
@@ -14,13 +16,7 @@ export function FilmRoomHero({
   loading: boolean;
   onPlay: (video: FilmRoomVideo, trigger: HTMLButtonElement) => void;
 }) {
-  const featured = [...videos]
-    .sort(
-      (a, b) =>
-        b.score - a.score ||
-        Date.parse(b.publishedAt ?? b.addedAt) - Date.parse(a.publishedAt ?? a.addedAt),
-    )
-    .slice(0, 3);
+  const featured = selectFilmHeroVideos(videos);
   return (
     <EditorialSectionHero
       teamAbbr={teamAbbr}
@@ -40,7 +36,7 @@ export function FilmRoomHero({
             <button
               type="button"
               onClick={(event) => onPlay(video, event.currentTarget)}
-              aria-label={`Play ${video.title}`}
+              aria-label={`Play ${normalizeDisplayHeadline(video.title)}`}
             >
               <span className={styles.videoControls}>
                 <span className={styles.number}>{String(index + 1).padStart(2, '0')}</span>
@@ -48,7 +44,7 @@ export function FilmRoomHero({
                   <Play size={14} fill="currentColor" aria-hidden="true" />
                 </span>
               </span>
-              <span className={styles.storyTitle}>{video.title}</span>
+              <span className={styles.storyTitle}>{normalizeDisplayHeadline(video.title)}</span>
               <ChevronRight className={styles.rowChevron} aria-hidden="true" />
             </button>
           </li>

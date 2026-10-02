@@ -1,8 +1,19 @@
+import { HeaderIcon } from './header-icon';
 import { TeamBrandedLogo } from './team-branded-logo';
+import { MobileMenuContent } from './mobile-menu-content';
 import { Ionicons } from '@expo/vector-icons';
-import { type Href, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { type Href, useRouter, usePathname } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import {
+  Animated,
+  Easing,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTeamBranding } from '../lib/team-branding';
 import { getUnreadNotificationCount } from '../lib/api';
@@ -11,12 +22,14 @@ export const destinations: { label: string; icon: keyof typeof Ionicons.glyphMap
   { label: 'Home', icon: 'home-outline', href: '/' },
   { label: 'Three and Out', icon: 'podium-outline', href: '/three' },
   { label: 'The Beat', icon: 'newspaper-outline', href: '/wire' },
-  { label: 'Film Room', icon: 'videocam-outline', href: '/film-room' as Href },
+  { label: 'The Huddle', icon: 'chatbubbles-outline', href: '/huddle' as Href },
+  { label: 'Film Room', icon: 'play-circle-outline', href: '/film-room' as Href },
   { label: 'The Crew', icon: 'people-outline', href: '/crew' as Href },
   { label: 'Trivia', icon: 'help-circle-outline', href: '/trivia' },
   { label: 'Game Day', icon: 'football-outline', href: '/game-day' },
   { label: 'Get Caught Up', icon: 'time-outline', href: '/catch-up' },
   { label: 'Front Office', icon: 'briefcase-outline', href: '/front-office' },
+  { label: 'Parlay Lab', icon: 'git-network-outline', href: '/parlay-lab' as Href },
   { label: 'Merch', icon: 'shirt-outline', href: '/merch' },
   { label: 'Rewards', icon: 'trophy-outline', href: '/rewards' },
   { label: 'Saved', icon: 'bookmark-outline', href: '/saved' },
@@ -24,9 +37,8 @@ export const destinations: { label: string; icon: keyof typeof Ionicons.glyphMap
   { label: 'Choose Team', icon: 'shield-outline', href: '/team-select' },
 ];
 
-export function MobileHeaderActions() {
+export function MobileHeaderActions({ round = false }: { round?: boolean } = {}) {
   const router = useRouter();
-  const { theme } = useTeamBranding();
   const [count, setCount] = useState(0);
   useEffect(() => {
     void getUnreadNotificationCount()
@@ -39,17 +51,35 @@ export function MobileHeaderActions() {
         accessibilityLabel="Search"
         hitSlop={8}
         onPress={() => router.push('/search')}
-        style={s.headerAction}
+        style={[
+          s.headerAction,
+          round && {
+            borderWidth: 1,
+            borderColor: '#FFFFFFB3',
+            borderRadius: 24,
+            width: 40,
+            height: 40,
+          },
+        ]}
       >
-        <Ionicons name="search" color={theme.light} size={22} />
+        <HeaderIcon name="search" />
       </Pressable>
       <Pressable
         accessibilityLabel={`${count} unread notifications`}
         hitSlop={8}
         onPress={() => router.push('/notifications' as Href)}
-        style={s.headerAction}
+        style={[
+          s.headerAction,
+          round && {
+            borderWidth: 1,
+            borderColor: '#FFFFFFB3',
+            borderRadius: 24,
+            width: 40,
+            height: 40,
+          },
+        ]}
       >
-        <Ionicons name="notifications-outline" color={theme.light} size={22} />
+        <HeaderIcon name="bell" />
         {count ? (
           <View style={[s.badge, { backgroundColor: '#FF3D38' }]}>
             <Text style={s.badgeText}>{count > 9 ? '9+' : count}</Text>
@@ -60,16 +90,37 @@ export function MobileHeaderActions() {
   );
 }
 
-export function MobileMenuButton() {
+export function MobileMenuButton({ round = false }: { round?: boolean } = {}) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const { teamId, theme } = useTeamBranding();
+  const { theme } = useTeamBranding();
 
-  const navigate = (href: Href) => {
-    setOpen(false);
-    requestAnimationFrame(() => router.push(href));
+  const progress = useRef(new Animated.Value(0)).current;
+  const closing = useRef(false);
+  const { width } = useWindowDimensions();
+  const drawerWidth = Math.min(width * 0.88, 380);
+  const openMenu = () => {
+    closing.current = false;
+    progress.setValue(0);
+    setOpen(true);
   };
+  const closeMenu = (afterClose?: () => void) => {
+    if (closing.current) return;
+    closing.current = true;
+    Animated.timing(progress, {
+      toValue: 0,
+      duration: 220,
+      easing: Easing.in(Easing.cubic),
+      useNativeDriver: true,
+    }).start(({ finished }) => {
+      if (finished) {
+        setOpen(false);
+        afterClose?.();
+      }
+    });
+  };
+  const navigate = (href: Href) => closeMenu(() => router.push(href));
 
   return (
     <>
@@ -77,64 +128,67 @@ export function MobileMenuButton() {
         accessibilityLabel="Open navigation menu"
         accessibilityRole="button"
         hitSlop={10}
-        onPress={() => setOpen(true)}
-        style={s.menuButton}
+        onPress={openMenu}
+        style={[
+          s.menuButton,
+          round && {
+            borderWidth: 1,
+            borderColor: '#FFFFFF66',
+            borderRadius: 24,
+            width: 40,
+            height: 40,
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        ]}
       >
-        <Ionicons color={theme.light} name="menu" size={28} />
+        <HeaderIcon name="menu" />
       </Pressable>
-      <Modal animationType="slide" onRequestClose={() => setOpen(false)} transparent visible={open}>
+      <Modal
+        animationType="none"
+        onRequestClose={() => closeMenu()}
+        transparent
+        visible={open}
+        onShow={() =>
+          Animated.timing(progress, {
+            toValue: 1,
+            duration: 280,
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: true,
+          }).start()
+        }
+      >
         <View style={s.overlay}>
-          <Pressable
-            accessibilityLabel="Close navigation menu"
-            onPress={() => setOpen(false)}
-            style={s.scrim}
-          />
-          <View
+          <Animated.View style={[StyleSheet.absoluteFill, { opacity: progress }]}>
+            <Pressable
+              accessibilityLabel="Close navigation menu"
+              onPress={() => closeMenu()}
+              style={s.scrim}
+            />
+          </Animated.View>
+          <Animated.View
             style={[
               s.drawer,
               {
+                transform: [
+                  {
+                    translateX: progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [drawerWidth, 0],
+                    }),
+                  },
+                ],
+              },
+              {
                 backgroundColor: theme.dark,
-                paddingTop: insets.top,
-                paddingBottom: insets.bottom,
-                paddingLeft: insets.left,
+                paddingTop: Math.max(20, insets.top),
+                paddingBottom: Math.max(20, insets.bottom),
+                paddingRight: insets.right,
               },
             ]}
           >
-            <View style={[s.drawerHeader, { borderBottomColor: theme.secondary }]}>
-              <TeamBrandedLogo
-                accessibilityLabel={`${teamId} Down & Distance`}
-                team={teamId}
-                style={s.drawerLogo}
-              />
-              <Pressable
-                accessibilityLabel="Close navigation menu"
-                style={{
-                  minWidth: 44,
-                  minHeight: 44,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                hitSlop={10}
-                onPress={() => setOpen(false)}
-              >
-                <Ionicons color={theme.light} name="close" size={28} />
-              </Pressable>
-            </View>
-            <ScrollView contentContainerStyle={s.links}>
-              {destinations.map((destination) => (
-                <Pressable
-                  accessibilityRole="link"
-                  key={destination.label}
-                  onPress={() => navigate(destination.href)}
-                  style={({ pressed }) => [s.link, pressed && s.linkPressed]}
-                >
-                  <Ionicons color={theme.secondary} name={destination.icon} size={22} />
-                  <Text style={[s.linkText, { color: theme.light }]}>{destination.label}</Text>
-                  <Ionicons color="#71808C" name="chevron-forward" size={19} />
-                </Pressable>
-              ))}
-            </ScrollView>
-          </View>
+            <MobileMenuContent close={() => closeMenu()} navigate={navigate} />
+          </Animated.View>
         </View>
       </Modal>
     </>
@@ -142,11 +196,13 @@ export function MobileMenuButton() {
 }
 
 export function MobileHeaderLogo() {
+  const pathname = usePathname();
   const { teamId } = useTeamBranding();
   return (
     <TeamBrandedLogo
       accessibilityLabel={`${teamId} Down & Distance`}
       team={teamId}
+      letteringColor={pathname.startsWith('/merch') ? '#FFFFFF' : undefined}
       style={s.headerLogo}
     />
   );
@@ -154,10 +210,10 @@ export function MobileHeaderLogo() {
 
 const s = StyleSheet.create({
   menuButton: { paddingHorizontal: 16, paddingVertical: 8 },
-  headerLogo: { width: 104, height: 46, marginVertical: 3 },
-  overlay: { flex: 1, flexDirection: 'row' },
+  headerLogo: { width: 112, height: 56, marginVertical: 3 },
+  overlay: { flex: 1, flexDirection: 'row', justifyContent: 'flex-end' },
   scrim: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0, 0, 0, 0.48)' },
-  drawer: { width: '84%', maxWidth: 360, height: '100%', backgroundColor: '#081824' },
+  drawer: { width: '88%', maxWidth: 380, height: '100%', backgroundColor: '#081824' },
   drawerHeader: {
     minHeight: 112,
     paddingTop: 12,
@@ -181,7 +237,7 @@ const s = StyleSheet.create({
   },
   linkPressed: { backgroundColor: '#152936' },
   linkText: { flex: 1, color: '#FFFFFF', fontSize: 17, fontWeight: '800' },
-  headerActions: { flexDirection: 'row', paddingRight: 8 },
+  headerActions: { flexDirection: 'row', gap: 8 },
   headerAction: { width: 42, height: 42, alignItems: 'center', justifyContent: 'center' },
   badge: {
     position: 'absolute',

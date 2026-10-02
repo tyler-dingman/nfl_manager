@@ -1,4 +1,5 @@
-import * as SecureStore from 'expo-secure-store';
+import { demoSession } from './demo-session';
+import { deviceStorage } from './device-storage';
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 export type MobileCartItem = { productId: string; size: string; quantity: number };
 type Value = {
@@ -14,14 +15,21 @@ export function CommerceCartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<MobileCartItem[]>([]),
     [ready, setReady] = useState(false);
   useEffect(() => {
-    void SecureStore.getItemAsync(KEY)
+    if (demoSession.isActive()) {
+      setReady(true);
+      return;
+    }
+    void deviceStorage
+      .get(KEY)
       .then((value) => {
         if (value) setItems(JSON.parse(value));
       })
+      .catch(() => setItems([]))
       .finally(() => setReady(true));
   }, []);
   useEffect(() => {
-    if (ready) void SecureStore.setItemAsync(KEY, JSON.stringify(items));
+    if (ready && !demoSession.isActive())
+      void deviceStorage.set(KEY, JSON.stringify(items)).catch(() => undefined);
   }, [items, ready]);
   const value = useMemo<Value>(
     () => ({

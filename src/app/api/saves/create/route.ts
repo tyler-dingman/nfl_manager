@@ -9,7 +9,12 @@ import {
 } from '@/server/front-office/repository';
 
 export const POST = async (request: NextRequest) => {
-  const body = (await request.json()) as { teamId?: string; teamAbbr?: string; year?: number };
+  const body = (await request.json()) as {
+    teamId?: string;
+    teamAbbr?: string;
+    year?: number;
+    fresh?: boolean;
+  };
   const resolvedTeam = body.teamAbbr?.toUpperCase() ?? body.teamId?.toUpperCase();
 
   if (!resolvedTeam) {
@@ -20,7 +25,8 @@ export const POST = async (request: NextRequest) => {
   }
 
   const user = await currentUser(request);
-  const durable = user ? await getLatestFrontOfficeSaveForTeam(user.id, resolvedTeam) : null;
+  const durable =
+    user && !body.fresh ? await getLatestFrontOfficeSaveForTeam(user.id, resolvedTeam) : null;
   let header;
   if (durable) {
     const state = ensureSaveState(durable.saveId, durable.teamAbbr, durable.season);
@@ -32,7 +38,10 @@ export const POST = async (request: NextRequest) => {
     header = getSaveHeaderSnapshot(state);
   } else {
     const existingSaves = getSavesByTeam(body.teamId, body.teamAbbr);
-    header = existingSaves[0] ?? createSave(resolvedTeam, body.year);
+    header =
+      body.fresh === true
+        ? createSave(resolvedTeam, body.year)
+        : (existingSaves[0] ?? createSave(resolvedTeam, body.year));
     if (user) {
       await upsertFrontOfficeSaveMetadata({
         userId: user.id,

@@ -321,7 +321,7 @@ const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#f5f7f9' },
   hero: { backgroundColor: '#001222', padding: 20 },
   eyebrow: { fontSize: 11, fontWeight: '800', letterSpacing: 2, marginBottom: 10 },
-  title: { color: 'white', fontSize: 32, fontWeight: '900', fontStyle: 'italic', lineHeight: 34 },
+  title: { color: 'white', fontSize: 32, fontFamily: 'BarlowCondensedItalic', lineHeight: 34 },
   intro: { color: '#d2dfeb', fontSize: 14, lineHeight: 21, marginTop: 12 },
   progress: { backgroundColor: '#0b2030', borderRadius: 12, padding: 16, marginTop: 18 },
   progressHeading: { color: 'white', fontSize: 16, fontWeight: '800' },
@@ -334,8 +334,7 @@ const s = StyleSheet.create({
   tierName: {
     color: 'white',
     fontSize: 23,
-    fontWeight: '900',
-    fontStyle: 'italic',
+    fontFamily: 'BarlowCondensedItalic',
     textTransform: 'uppercase',
   },
   track: {

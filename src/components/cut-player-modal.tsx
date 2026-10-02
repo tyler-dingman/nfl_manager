@@ -1,19 +1,23 @@
 'use client';
 
 import { lockDocumentScroll } from '@/lib/document-scroll-lock';
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
-import Image from 'next/image';
-import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { ArrowRight } from 'lucide-react';
+import { PlayerTransactionHero, TransactionMetrics } from './player-transaction-hero';
+import styles from './player-transaction.module.css';
+import { useSaveStore } from '@/features/save/save-store';
+import { getActiveSimulationRoster } from '@/lib/front-office-roster';
+import { useEffect, useMemo, useState, useRef, type FormEvent } from 'react';
 
-import { Button } from '@/components/ui/button';
 import TransactionModal from '@/components/transaction-modal';
-import { createRng } from '@/lib/deterministic-rng';
 import type { PlayerRowDTO } from '@/types/player';
 
 type CutPlayerModalProps = {
   player: PlayerRowDTO;
   isOpen: boolean;
   currentCapSpace: number;
+  teamAbbr?: string;
+  season?: number;
+  teamRoster?: PlayerRowDTO[];
   onClose: () => void;
   onSubmit: () => Promise<void> | void;
 };
@@ -29,41 +33,18 @@ const formatMoneyMillions = (value: number) => {
   return value < 0 ? `-${formatted}` : formatted;
 };
 
-const BIG_SAVINGS_QUOTES = [
-  'Tough call, but cap space is oxygen. This helps the whole room.',
-  'Sometimes you move on so the team can breathe. This is one of those.',
-  'Not personal. Just business. That space opens real options.',
-  'Hard decision-right one. Flexibility wins in February.',
-];
-
-const SMALL_SAVINGS_QUOTES = [
-  'It helps... a little. Do not stop here.',
-  "Small win. You'll need a few more moves like this.",
-  "It's something. Just do not expect it to fix the cap by itself.",
-  'Cleaner sheet, slightly. Keep working.',
-];
-
-const BAD_MOVE_QUOTES = [
-  'Ouch. That makes the cap worse. You sure about this?',
-  'This one hurts the books. Only do it if you are done with the player.',
-  "Cap-wise, that's a step back. Better have a reason.",
-  "That's pain now for maybe relief later. Think twice.",
-];
-
-const pickQuote = (pool: string[], seed: string) => {
-  const rng = createRng(seed);
-  const index = Math.floor(rng() * pool.length);
-  return pool[index] ?? pool[0] ?? '';
-};
-
 export default function CutPlayerModal({
   player,
   isOpen,
   currentCapSpace,
+  teamAbbr,
+  season,
+  teamRoster,
   onClose,
   onSubmit,
 }: CutPlayerModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submitting = useRef(false);
   const [error, setError] = useState('');
 
   const playerName = useMemo(
@@ -78,24 +59,15 @@ export default function CutPlayerModal({
     return Math.max(0, capHit - (player.deadCap ?? 0));
   }, [player.capHit, player.deadCap, player.releaseSavings]);
   const futureCapSpace = useMemo(() => currentCapSpace + savings, [currentCapSpace, savings]);
-  const delta = futureCapSpace - currentCapSpace;
-  const isImproved = delta > 0;
-  const isWorsened = delta < 0;
-  const isBigSavings = savings >= 10;
-  const isSmallSavings = savings > 0 && savings < 10;
-  const quoteSeed = `${player.id}:${savings}:${currentCapSpace}`;
-  const falcoQuote = useMemo(() => {
-    if (isWorsened) {
-      return pickQuote(BAD_MOVE_QUOTES, `bad:${quoteSeed}`);
-    }
-    if (isBigSavings) {
-      return pickQuote(BIG_SAVINGS_QUOTES, `big:${quoteSeed}`);
-    }
-    if (isSmallSavings) {
-      return pickQuote(SMALL_SAVINGS_QUOTES, `small:${quoteSeed}`);
-    }
-    return pickQuote(SMALL_SAVINGS_QUOTES, `neutral:${quoteSeed}`);
-  }, [isBigSavings, isSmallSavings, isWorsened, quoteSeed]);
+  const savedTeam = useSaveStore((s) => s.teamAbbr);
+  const savedYear = useSaveStore((s) => s.franchiseYear);
+  const savedRoster = useSaveStore((s) => s.roster);
+  const team = teamAbbr ?? savedTeam;
+  const year = season ?? savedYear;
+  const roster = teamRoster ?? savedRoster;
+  const depth = getActiveSimulationRoster(roster, team).filter(
+    (p) => p.id !== player.id && p.position === player.position,
+  ).length;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -108,6 +80,8 @@ export default function CutPlayerModal({
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (submitting.current) return;
+    submitting.current = true;
     setError('');
 
     setIsSubmitting(true);
@@ -119,6 +93,7 @@ export default function CutPlayerModal({
         submitError instanceof Error ? submitError.message : 'Unable to cut player right now.',
       );
     } finally {
+      submitting.current = false;
       setIsSubmitting(false);
     }
   };
@@ -127,113 +102,103 @@ export default function CutPlayerModal({
     return null;
   }
 
+  const capCopy =
+    savings >= 0
+      ? `create ${formatMoneyMillions(savings)} in cap space`
+      : `reduce cap space by ${formatMoneyMillions(-savings)}`;
   return (
     <TransactionModal
       open={isOpen}
       variant="cut"
-      title={`Cut ${playerName}?`}
-      description={`${player.position} · Age ${player.age ?? '—'}`}
+      title={`Release ${playerName}?`}
       onClose={onClose}
+      franchiseTeam={team}
+      workspaceHero={
+        <PlayerTransactionHero
+          key={player.id}
+          player={player}
+          team={team}
+          mode="release"
+          description={`Moving on from ${playerName} would ${capCopy}. Review the financial impact and depth chart options before making a decision.`}
+        />
+      }
     >
-      <div className="mt-4 space-y-4">
-        <div className="flex items-center gap-3 rounded-lg border border-white/15 bg-white/5 p-3">
-          <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-200 text-sm font-black text-slate-700">
-            {player.headshotUrl ? (
-              <Image
-                src={player.headshotUrl}
-                alt=""
-                width={56}
-                height={56}
-                className="h-full w-full object-cover"
-                unoptimized
-              />
-            ) : (
-              `${player.firstName.charAt(0)}${player.lastName.charAt(0)}`
-            )}
-          </div>
-          <div>
-            <strong className="block text-base">{playerName}</strong>
-            <span className="text-sm text-slate-500">
-              {player.position} · {player.rating ?? player.maddenRating ?? '—'} OVR · Age{' '}
-              {player.age ?? '—'}
-            </span>
-          </div>
-        </div>
-        <p className="text-sm italic text-slate-600">&ldquo;{falcoQuote}&rdquo;</p>
-
-        <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-              Cap Savings
-            </span>
-            <span
-              className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                savings > 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'
-              }`}
-            >
-              {formatMoneyMillions(savings)}
-            </span>
-          </div>
-          <div className="mt-3 space-y-2">
-            <div className="flex items-center justify-between text-sm text-slate-600">
-              <span>Dead Cap</span>
-              <span className="text-lg font-semibold text-rose-600">
-                {formatMoneyMillions(player.deadCap ?? 0)}
-              </span>
+      <TransactionMetrics
+        items={[
+          { label: 'Cap Space Created', value: formatMoneyMillions(savings) },
+          {
+            label: `Dead Cap (${year})`,
+            value: formatMoneyMillions(player.deadCap ?? 0),
+            detail: 'Accelerated money',
+          },
+          { label: `${year} Cap Hit`, value: player.capHit },
+          {
+            label: 'Position Depth',
+            value: `${depth} ${depth === 1 ? 'Player' : 'Players'}`,
+            detail: `Remaining at ${player.position} after release.`,
+          },
+        ]}
+      />
+      <div className={`${styles.bottom} ${styles.releaseBottom}`}>
+        <section className={styles.panel}>
+          <h3>ROSTER IMPACT</h3>
+          <p>See how this move affects your roster.</p>
+          <dl className={styles.impact}>
+            <div>
+              <dt>Cap Space</dt>
+              <dd>
+                {savings >= 0 ? '+' : ''}
+                {formatMoneyMillions(savings)}
+              </dd>
             </div>
-            <div className="flex items-center justify-between text-sm text-slate-600">
-              <span>Current Cap Space</span>
-              <span className="text-lg font-semibold text-slate-900">
-                {formatMoneyMillions(currentCapSpace)}
-              </span>
+            <div>
+              <dt>Roster Size</dt>
+              <dd>−1 Player</dd>
             </div>
-            <div className="flex items-center justify-between text-sm text-slate-600">
-              <span>Future Cap Space</span>
-              <span
-                className={`flex items-center gap-1 text-lg font-semibold ${
-                  isImproved ? 'text-emerald-600' : isWorsened ? 'text-red-600' : 'text-slate-600'
-                }`}
-              >
-                {isImproved ? (
-                  <ArrowUpRight className="h-4 w-4" />
-                ) : isWorsened ? (
-                  <ArrowDownRight className="h-4 w-4" />
-                ) : null}
-                {formatMoneyMillions(futureCapSpace)}
-                <span className="sr-only">
-                  {isImproved
-                    ? 'Improves cap space'
-                    : isWorsened
-                      ? 'Worsens cap space'
-                      : 'No change'}
-                </span>
-              </span>
+            <div>
+              <dt>Position Depth</dt>
+              <dd>
+                {depth
+                  ? `${depth} remaining at ${player.position}`
+                  : 'No remaining depth at this position'}
+              </dd>
             </div>
-          </div>
-        </div>
-        <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-900">
-          This permanently removes {playerName} from the active roster and depth chart and adds the
-          player to free agency. This decision cannot be undone.
-        </p>
-      </div>
-
-      <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-        {error ? <p className="text-sm text-red-500">{error}</p> : null}
-        <div className="flex items-center justify-end gap-2">
-          <Button
+            <div>
+              <dt>Projected Cap Space</dt>
+              <dd>{formatMoneyMillions(futureCapSpace)}</dd>
+            </div>
+          </dl>
+        </section>
+        <form className={styles.panel} onSubmit={handleSubmit}>
+          <h3>CONFIRM ROSTER MOVE</h3>
+          <p>
+            Releasing {playerName} is permanent and will {capCopy}. This removes him from the active
+            roster and depth chart and adds him to free agency. This action cannot be undone.
+          </p>
+          <button
+            type="submit"
+            className={styles.primary}
+            disabled={isSubmitting}
+            aria-label={`Confirm permanent release of ${playerName}`}
+          >
+            {isSubmitting ? 'Releasing…' : 'Release Player'}
+            <ArrowRight size={22} />
+          </button>
+          <button
             type="button"
-            variant="outline"
-            className="border-slate-400 bg-white text-slate-950 hover:bg-slate-100"
+            className={styles.secondary}
             onClick={onClose}
             disabled={isSubmitting}
           >
             Cancel
-          </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Cutting...' : 'Cut Player'}
-          </Button>
-        </div>
-      </form>
+          </button>
+          {error && (
+            <p role="alert" className={styles.error}>
+              {error}
+            </p>
+          )}
+        </form>
+      </div>
     </TransactionModal>
   );
 }

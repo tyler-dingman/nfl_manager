@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { POST as advanceSimulation } from '@/app/api/front-office/simulate/route';
 import { getSaveStateResult, getSaveHeaderSnapshot } from '@/server/api/store';
 
-/** The season recap enters the Combine through the same guarded simulation transition. */
+/** The season recap enters the offseason through the same guarded simulation transition. */
 export async function POST(request: NextRequest) {
   const { saveId } = await request.json();
   const response = await advanceSimulation(
     new NextRequest(request.url, {
       method: 'POST',
       headers: request.headers,
-      body: JSON.stringify({ saveId, action: 'advance', target: 'scouting_combine' }),
+      body: JSON.stringify({ saveId, action: 'advance', target: 'offseason' }),
     }),
   );
   if (!response.ok) return response;

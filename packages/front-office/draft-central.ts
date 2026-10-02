@@ -1,0 +1,51 @@
+export type Prospect = {
+  id: string;
+  name: string;
+  position: string | null;
+  school: string | null;
+  height: string | null;
+  weight: number | null;
+  conference?: string | null;
+  overall?: number | null;
+  summary?: string | null;
+  headshotUrl?: string | null;
+  schoolLogo?: string | null;
+  currentRank: number;
+  priorRank: number;
+  rankingTrend: number;
+  scoutGrade: number;
+  projectedPickLow: number;
+  projectedPickHigh: number;
+  needFitScore?: number;
+  availabilityScore?: number;
+};
+export type Pick = {
+  id: string;
+  year: number;
+  round: number;
+  displayOverall: number;
+  compensatory?: boolean;
+};
+export type Need = { position: string; score: number; level: 'High' | 'Moderate' | 'Low' };
+export type DraftCentralHomeData = {
+  draftInfo?: { startsAt: string; endsAt?: string; location?: string };
+  week: number;
+  draftYear: number;
+  projectedSlot: number;
+  needs: string[];
+  needAnalysis: Need[];
+  recommendations: Array<{ position: string; title: string; detail: string }>;
+  picks: Pick[];
+  remainingPicks?: Pick[];
+  availableProspects?: Prospect[];
+  prospects: Prospect[];
+  fits: Prospect[];
+  news: Array<{
+    id: string;
+    prospectId: string;
+    createdAt?: string;
+    category: string;
+    headline: string;
+    summary: string;
+  }>;
+};

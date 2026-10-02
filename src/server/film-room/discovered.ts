@@ -1,3 +1,5 @@
+import { normalizeDisplayHeadline } from '@/lib/display-headline';
+import { unstable_cache } from 'next/cache';
 import { authDb } from '@/server/auth/database';
 import type { FilmRoomCategory, FilmRoomVideo } from '@/features/film-room/types';
 
@@ -47,7 +49,7 @@ export function discoveredRowToFilmRoomVideo(row: DiscoveredFilmRoomRow): FilmRo
     category: filmRoomCategoryForSource(row.source_type, row.source_metadata),
     score: Number.isFinite(reliability) ? Math.round(reliability * 100) : 75,
     addedAt: addedAt.toISOString(),
-    title: row.title,
+    title: normalizeDisplayHeadline(row.title),
     description: row.excerpt?.trim() || row.raw_text?.trim() || null,
     thumbnail: `https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg`,
     duration: '',
@@ -65,7 +67,7 @@ export function discoveredRowToFilmRoomVideo(row: DiscoveredFilmRoomRow): FilmRo
   };
 }
 
-export async function loadDiscoveredFilmRoomVideos(teamId: string): Promise<FilmRoomVideo[]> {
+async function queryDiscoveredFilmRoomVideos(teamId: string): Promise<FilmRoomVideo[]> {
   const sql = authDb();
   const normalizedTeamId = teamId.toUpperCase();
   const rows = await sql<DiscoveredFilmRoomRow[]>`
@@ -81,7 +83,7 @@ export async function loadDiscoveredFilmRoomVideos(teamId: string): Promise<Film
       source.url AS source_url,
       source.source_type,
       source.reliability_score,
-      source.metadata AS source_metadata
+      jsonb_build_object('category',source.metadata->'category','youtubeChannelId',source.metadata->'youtubeChannelId') AS source_metadata
     FROM content_candidates candidate
     JOIN content_sources source ON source.id = candidate.source_id
     WHERE source.metadata->>'platform' = 'YOUTUBE'
@@ -102,4 +104,14 @@ export async function loadDiscoveredFilmRoomVideos(teamId: string): Promise<Film
     seen.add(video.id);
     return [video];
   });
+}
+
+// Public team content only; account/session state never enters this cache.
+const cachedDiscoveredVideos = unstable_cache(
+  queryDiscoveredFilmRoomVideos,
+  ['film-room-discovered-v1'],
+  { revalidate: 60, tags: ['film-room-discovered'] },
+);
+export function loadDiscoveredFilmRoomVideos(teamId: string) {
+  return cachedDiscoveredVideos(teamId.toUpperCase());
 }

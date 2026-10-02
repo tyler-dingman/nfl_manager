@@ -378,3 +378,17 @@ export const computeTeamNeeds = (players: OverviewPlayer[], count = 3): TeamNeed
   analyzeTeamNeeds(players)
     .slice(0, count)
     .map((entry) => entry.position);
+
+/** Shared display/simulation scale so roster improvements use the same OVR everywhere. */
+export function franchiseRosterOverall(
+  players: OverviewPlayer[],
+  teams: { teamOverviewRaw?: number | null }[],
+) {
+  const bounds = teams
+    .map((t) => t.teamOverviewRaw)
+    .filter((n): n is number => typeof n === 'number' && Number.isFinite(n));
+  const raw = computeTeamOverviewRaw(players).overall;
+  return bounds.length > 1
+    ? scaleOverviewScore(raw, Math.min(...bounds), Math.max(...bounds), 69, 91)
+    : Math.round(raw);
+}

@@ -1,0 +1,222 @@
+.picker {
+  width: min(1050px, calc(100vw - 40px));
+  max-height: 78dvh;
+  margin: auto auto 7vh;
+  padding: 0;
+  background: #03151d;
+  color: #edf4f8;
+  border: 1px solid #42606b;
+  border-radius: 16px;
+  font-family: var(--font-huddle), sans-serif;
+  box-shadow: 0 18px 60px #0009;
+}
+.picker::backdrop {
+  background: #00101688;
+  backdrop-filter: blur(3px);
+}
+.content {
+  padding: 22px;
+  overflow: auto;
+}
+.content header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.content header b {
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+.content header span {
+  color: #9db2bd;
+}
+.content header a {
+  margin-left: auto;
+  font-size: 14px;
+  color: #afc4cd;
+}
+.content button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.content header button,
+.search button {
+  border: 0;
+  background: transparent;
+  padding: 8px;
+  display: flex;
+}
+.search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  border: 1px solid #42606b;
+  border-radius: 28px;
+  background: #09202a;
+}
+.search input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  color: white;
+  font: inherit;
+  font-size: 20px;
+  padding: 8px;
+  outline-offset: 3px;
+}
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow: auto;
+  margin: 12px 0 20px;
+}
+.chips button,
+.more,
+.state button {
+  border: 1px solid #294c58;
+  border-radius: 24px;
+  padding: 9px 18px;
+  background: #0a202a;
+  white-space: nowrap;
+}
+.chips button[aria-pressed='true'] {
+  background: var(--fill, #ed0034);
+  color: var(--on-fill, #fff);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.grid > button {
+  border: 1px solid #203b47;
+  padding: 0;
+  background: #071c24;
+  border-radius: 9px;
+  overflow: hidden;
+  text-align: left;
+}
+.grid small {
+  display: block;
+  padding: 3px 6px;
+  font-size: 11px;
+  color: #afc4cd;
+}
+.media {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #0a222c;
+  display: grid;
+  place-items: center;
+}
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.media button {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: #001016dd;
+  border: 1px solid #78929f;
+  border-radius: 8px;
+  color: white;
+  padding: 6px 10px;
+}
+.posted {
+  width: 400px;
+  max-width: 100%;
+  margin-top: 8px;
+}
+.posted > a {
+  display: block;
+  font-size: 12px;
+  color: #9db2bd;
+  margin-top: 4px;
+}
+.more {
+  display: block;
+  margin: 18px auto 0;
+}
+.state {
+  padding: 20px 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@media (max-width: 760px) {
+  .picker {
+    position: fixed;
+    inset: auto 0 0;
+    width: 100%;
+    max-width: none;
+    max-height: 85dvh;
+    margin: 0;
+    border-radius: 18px 18px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .content {
+    padding: 16px;
+  }
+  .content header {
+    gap: 10px;
+  }
+  .content header span {
+    display: none;
+  }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .content header a {
+    font-size: 12px;
+  }
+}
+.picker .content button {
+  width: auto;
+  height: auto;
+  min-width: 0;
+  flex-shrink: 0;
+  margin: 0;
+  font-size: 16px;
+}
+.picker .grid > button {
+  width: 100%;
+}
+.picker .content {
+  font-size: 18px;
+}
+.picker .content .more {
+  margin: 18px auto 0;
+}
+.picker .content header button,
+.picker .search button {
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: #edf4f8;
+}
+.picker .chips button,
+.picker .state button,
+.picker .more {
+  background: #0a202a;
+  border-radius: 24px;
+  color: #edf4f8;
+}
+.picker .chips button[aria-pressed='true'] {
+  background: var(--fill, #ed0034);
+  color: var(--on-fill, #fff);
+}
+.picker .grid > button {
+  background: #071c24;
+  border-radius: 9px;
+  color: #edf4f8;
+}

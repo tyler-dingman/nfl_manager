@@ -10,23 +10,8 @@ import { buildTradeBlock } from '@/server/logic/trade-block';
 import type { FranchiseSimulationState } from '@/types/front-office';
 import type { PlayerRowDTO } from '@/types/player';
 
-export type TradeTarget = PlayerRowDTO & {
-  tradeAvailabilityScore: number;
-  tradeValueScore: number;
-  estimatedCost: string;
-  availabilityLabel: string;
-  whyAvailable: string[];
-  depthPosition: number | null;
-  contractSummary: string;
-};
-
-export type TradeTeamOutlook = {
-  teamAbbr: string;
-  record: string;
-  capSpace: number;
-  score: number;
-  label: 'Likely Seller' | 'Possible Seller' | 'Neutral' | 'Possible Buyer' | 'Likely Buyer';
-};
+import type { TradeTarget, TradeTeamOutlook } from '../../../../packages/front-office/trade-market';
+export type { TradeTarget, TradeTeamOutlook } from '../../../../packages/front-office/trade-market';
 
 const POSITION_MULTIPLIER: Record<string, number> = {
   QB: 1.5,

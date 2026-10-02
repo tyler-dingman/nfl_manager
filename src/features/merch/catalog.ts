@@ -72,7 +72,72 @@ export const KOOZIE_PRODUCTS: MerchProduct[] = KOOZIE_TEAMS.map(([slug, market, 
   cityName: market,
 }));
 
+const CITY_SHIRTS = [
+  ['arizona', 'Arizona', 'ARI', '#6B1421', 'arizona'],
+  ['atlanta', 'Atlanta', 'ATL', '#111111', 'atlanta'],
+  ['baltimore', 'Baltimore', 'BAL', '#301452', 'baltimore'],
+  ['buffalo', 'Buffalo', 'BUF', '#0047AB', 'buffalo'],
+  ['carolina', 'Carolina', 'CAR', '#111111', 'carolina'],
+  ['chicago', 'Chicago', 'CHI', '#0B1F3A', 'chicago'],
+  ['cincinnati', 'Cincinnati', 'CIN', '#111111', 'cincinatti'],
+  ['cleveland', 'Cleveland', 'CLE', '#3C2A1B', 'cleveland'],
+  ['dallas', 'Dallas', 'DAL', '#0B1F3A', 'dallas'],
+  ['detroit', 'Detroit', 'DET', '#0076B6', 'detroit'],
+  ['green-bay', 'Green Bay', 'GB', '#123D2B', 'greenbay'],
+  ['indianapolis', 'Indianapolis', 'IND', '#FFFFFF', 'indy'],
+] as const;
+
+export const CITY_SHIRT_PRODUCTS: MerchProduct[] = CITY_SHIRTS.map(
+  ([slug, cityName, cityCode, color, imageName]) => ({
+    id: `${slug}-shirt`,
+    name: `D&D Shirt — ${cityName} Colorway`,
+    category: 'Men',
+    type: "Men's Shirts",
+    price: 29.99,
+    colors: [color],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    imageUrl: `/images/store/mens_shirts/${imageName}_shirt.png`,
+    badge: 'New',
+    cityCode,
+    cityName,
+  }),
+);
+
 export const MERCH_PRODUCTS: MerchProduct[] = [
+  ...CITY_SHIRT_PRODUCTS,
+  {
+    id: 'ampersand-shirt',
+    name: 'D&D Ampersand Shirt',
+    category: 'Men',
+    type: "Men's Shirts",
+    price: 29.99,
+    colors: ['#111111'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    imageUrl: '/images/store/mens_shirts/ampersand_shirt.png',
+    badge: 'New',
+  },
+  {
+    id: 'chest-logo-black-tee',
+    name: 'D&D Chest Logo Black Tee',
+    category: 'Men',
+    type: "Men's Shirts",
+    price: 29.99,
+    colors: ['#111111'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    imageUrl: '/images/store/mens_shirts/down_distance_logo_chest.png',
+    badge: 'New',
+  },
+  {
+    id: 'parlay-chemist-shirt',
+    name: 'Parlay Chemist Shirt',
+    category: 'Men',
+    type: "Men's Shirts",
+    price: 29.99,
+    colors: ['#111111'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    imageUrl: '/images/store/mens_shirts/parlay_chemist.png',
+    badge: 'New',
+  },
   {
     id: 'parlay-science-shirt',
     name: 'Parlay Science Shirt',

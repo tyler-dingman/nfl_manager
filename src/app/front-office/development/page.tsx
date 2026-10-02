@@ -1,7 +1,7 @@
 'use client';
 
 import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import PlayerTypeIcon from '@/components/player-type-icon';
 import { Badge } from '@/components/ui/badge';
@@ -23,6 +23,9 @@ import {
   ratingChange,
   type DevelopmentSortColumn,
 } from '@/lib/player-development-sort';
+import { playerDevelopmentTrends } from '@/lib/player-development-trends';
+import { apiFetch } from '@/lib/api';
+import type { FranchiseSimulationState } from '@/types/front-office';
 import type { PlayerRowDTO } from '@/types/player';
 
 function DevelopmentPortrait({ player }: { player: PlayerRowDTO }) {
@@ -50,6 +53,25 @@ export default function PlayerDevelopmentPage() {
   const teams = useTeamStore((state) => state.teams);
   const { data, isLoading } = useRosterQuery(save.saveId, save.teamAbbr);
   const roster = data.length ? data : save.roster;
+  const [simulation, setSimulation] = useState<FranchiseSimulationState | null>(null);
+  useEffect(() => {
+    const controller = new AbortController();
+    setSimulation(null);
+    if (save.saveId)
+      void apiFetch(`/api/front-office/simulate?saveId=${encodeURIComponent(save.saveId)}`, {
+        signal: controller.signal,
+      })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (!controller.signal.aborted) setSimulation(data?.state ?? null);
+        })
+        .catch(() => {});
+    return () => controller.abort();
+  }, [save.saveId, save.phase]);
+  const trends = useMemo(
+    () => playerDevelopmentTrends(roster, simulation, save.teamAbbr),
+    [roster, simulation, save.teamAbbr],
+  );
   const [query, setQuery] = useState('');
   const [position, setPosition] = useState('All');
   const [filter, setFilter] = useState('all');
@@ -72,7 +94,7 @@ export default function PlayerDevelopmentPage() {
     () =>
       roster
         .filter((player) => {
-          const change = ratingChange(player);
+          const change = trends.get(player.id)?.direction ?? 0;
           return (
             player.status?.toLowerCase() !== 'cut' &&
             matchesPositionFilter(player.position, position) &&
@@ -86,7 +108,7 @@ export default function PlayerDevelopmentPage() {
           );
         })
         .sort((a, b) => compareDevelopmentPlayers(a, b, sorting.column, sorting.direction)),
-    [roster, query, filter, position, sorting],
+    [roster, query, filter, position, sorting, trends],
   );
   return (
     <AppShell>
@@ -129,8 +151,8 @@ export default function PlayerDevelopmentPage() {
           />
         </div>
         <p className="fo-development-note">
-          Changes compare current ratings with each player’s stored baseline. A dash means no
-          baseline is available.
+          Trend filters use Week 1 opportunities and latest game performance, with at most two older
+          depth players trending down. Change shows the separate OVR baseline comparison.
         </p>
         <div
           className="overflow-x-auto"
@@ -181,7 +203,10 @@ export default function PlayerDevelopmentPage() {
                           player={player}
                         />
                         <span className="fo-development-identity">
-                          <span className="fo-development-name">
+                          <span
+                            className="fo-development-name"
+                            title={trends.get(player.id)?.reason}
+                          >
                             {player.firstName} {player.lastName}
                             <PlayerTypeIcon player={player} />
                           </span>

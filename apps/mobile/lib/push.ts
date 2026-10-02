@@ -161,6 +161,7 @@ export function notificationDestination(response: Notifications.NotificationResp
   }
   if (value.startsWith('/watch')) return '/film-room';
   if (value.startsWith('/crew')) return '/crew';
+  if (value.split('?')[0] === '/huddle') return value;
   if (value.startsWith('/game-day')) return '/game-day';
   if (value.startsWith('/trivia')) return '/trivia';
   if (value.startsWith('/front-office')) return '/front-office';

@@ -133,7 +133,7 @@ export default function MerchShop({ categoryPage }: { categoryPage?: MerchCatego
     <TeamThemeProvider>
       <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
         <SiteHeaderShell tone="merch" className="max-[359px]:[&>div]:px-0">
-          <SiteHeaderLogo generic />
+          <SiteHeaderLogo generic letteringColor="#FFFFFF" />
           <PrimaryNavigation active="merch" tone="light" showMobile={false} />
           <div className="ml-auto flex items-center gap-2 max-[359px]:gap-1">
             <span className="hidden xl:block">

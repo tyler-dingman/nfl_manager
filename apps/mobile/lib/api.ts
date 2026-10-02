@@ -284,6 +284,7 @@ export async function getBeatStory(storyId: string, teamId: string) {
   );
 }
 export type MobileFilmVideo = {
+  score?: number;
   addedAt?: string;
   viewCount?: number | null;
   id: string;
@@ -300,31 +301,7 @@ export type MobileFilmVideo = {
 export async function getFilmRoom(teamId: string) {
   return request<{ videos: MobileFilmVideo[]; message?: string }>(`/api/film-room?team=${teamId}`);
 }
-export type MobileCrew = {
-  id: string;
-  name: string;
-  teamAbbr: string;
-  role: 'OWNER' | 'MEMBER';
-  weeklyYards: number;
-  rank: number;
-  members: Array<{
-    id: string;
-    displayName: string;
-    avatarUrl: string | null;
-    role: string;
-    weeklyYards: number;
-    lifetimeYards: number;
-  }>;
-  activity: Array<{
-    id: string;
-    type: string;
-    href: string | null;
-    message: string | null;
-    metadata: { title?: string };
-    createdAt: string;
-    actorName: string | null;
-  }>;
-};
+export type MobileCrew = import('../../../src/features/crew/types').Crew;
 export async function getCrew() {
   return (await authJson<{ crew: MobileCrew | null }>('/api/crew')).crew;
 }
@@ -381,7 +358,9 @@ export type UserProfile = {
 export async function getUserProfile() {
   return (await authJson<{ profile: UserProfile }>('/api/user/profile')).profile;
 }
-export async function updateUserProfile(input: Pick<UserProfile, 'displayName'> & { avatarUrl?: string | null }) {
+export async function updateUserProfile(
+  input: Pick<UserProfile, 'displayName'> & { avatarUrl?: string | null },
+) {
   return (
     await authJson<{ profile: UserProfile }>('/api/user/profile', {
       method: 'PATCH',
@@ -412,6 +391,8 @@ export type MerchProduct = {
   type: string;
   price: number;
   compareAtPrice?: number;
+  cityName?: string;
+  cityCode?: string;
   colors: string[];
   sizes: string[];
   imageUrl?: string;

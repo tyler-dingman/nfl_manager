@@ -2,6 +2,7 @@
 
 import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import * as React from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, ChevronDown, Star, X } from 'lucide-react';
 import PlayerTypeIcon from '@/components/player-type-icon';
@@ -29,6 +30,7 @@ type PlayerDetailsModalProps = {
   onClose: () => void;
   onSelectSource?: (source: PlayerDetailsSource) => void;
   actions?: Action[];
+  primaryAction?: Action;
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
 };
@@ -97,6 +99,7 @@ export default function PlayerDetailsModal({
   onClose,
   onSelectSource,
   actions = [],
+  primaryAction,
   isFavorite,
   onToggleFavorite,
 }: PlayerDetailsModalProps) {
@@ -276,7 +279,7 @@ export default function PlayerDetailsModal({
       cancelled = true;
     };
   }, [isOpen, tab, saveId]);
-  if (!isOpen || !source || !model) return null;
+  if (!isOpen || !source || !model || typeof document === 'undefined') return null;
   const accent = getFrontOfficeTeamTheme(model.teamAbbr).interactive;
   const parts = model.name.trim().split(/\s+/);
   const surname = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
@@ -353,7 +356,9 @@ export default function PlayerDetailsModal({
       )}
     </>
   );
-  return (
+  // Escape table/widget stacking contexts while retaining Front Office theme inheritance.
+  const modalRoot = document.querySelector('.front-office-app') ?? document.body;
+  return createPortal(
     <div
       className={`app-modal-layer ${styles.backdrop}`}
       onClick={onClose}
@@ -494,6 +499,15 @@ export default function PlayerDetailsModal({
                     aria-label={`${model.contractValueTag}: view contract assessment`}
                   >
                     {model.contractValueTag}
+                  </button>
+                )}
+                {primaryAction && (
+                  <button
+                    type="button"
+                    className="front-office-advance-button"
+                    onClick={primaryAction.onSelect}
+                  >
+                    {primaryAction.label}
                   </button>
                 )}
                 {actions.length > 0 && (
@@ -668,6 +682,7 @@ export default function PlayerDetailsModal({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    modalRoot,
   );
 }

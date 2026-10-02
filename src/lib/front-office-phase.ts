@@ -1,5 +1,6 @@
 import type { FranchiseSimulationState } from '@/types/front-office';
 export type FrontOfficePhase =
+  | 'offseason'
   | 'scouting_combine'
   | 'free_agency_open'
   | 'preseason'
@@ -49,7 +50,7 @@ export function advanceDemoWeek(
 /** Legacy values are normalized at save boundaries; phase remains the sole persisted clock. */
 export function normalizeFrontOfficePhase(phase: string, legacyWave?: number): FrontOfficePhase {
   if (/^week-\d+$/.test(phase)) return `week-${Math.max(1, Math.min(18, Number(phase.slice(5))))}`;
-  if (['resign_cut', 'combine', 'offseason'].includes(phase)) return 'scouting_combine';
+  if (phase === 'combine') return 'scouting_combine';
   if (['trade-deadline', 'trade_deadline'].includes(phase)) return 'week-9';
   if (phase === 'playoffs') return 'wild-card';
   if (['tampering', 'free_agency_phase_1'].includes(phase)) return 'free_agency';
@@ -63,6 +64,8 @@ export function normalizeFrontOfficePhase(phase: string, legacyWave?: number): F
       'divisional',
       'conference',
       'super-bowl',
+      'offseason',
+      'resign_cut',
       'scouting_combine',
       'free_agency',
       'free_agency_open',
@@ -82,11 +85,15 @@ export function frontOfficeLifecycle(phase: string) {
   return {
     mainPhase: 'OFFSEASON' as const,
     offseasonStage:
-      normalized === 'scouting_combine'
-        ? ('SCOUTING_COMBINE' as const)
-        : normalized === 'draft'
-          ? ('NFL_DRAFT' as const)
-          : ('FREE_AGENCY' as const),
+      normalized === 'offseason'
+        ? ('SEASON_REVIEW' as const)
+        : normalized === 'resign_cut'
+          ? ('RE_SIGN' as const)
+          : normalized === 'scouting_combine'
+            ? ('SCOUTING_COMBINE' as const)
+            : normalized === 'draft'
+              ? ('NFL_DRAFT' as const)
+              : ('FREE_AGENCY' as const),
     freeAgencyPhase:
       normalized === 'free_agency'
         ? ('TAMPERING' as const)
@@ -109,6 +116,8 @@ export function phaseDisplayName(phase: string, _legacyWave?: number) {
       divisional: 'Playoffs · Divisional Round',
       conference: 'Playoffs · Conference Championships',
       'super-bowl': 'Playoffs · Super Bowl',
+      offseason: 'Offseason · Season Review',
+      resign_cut: 'Offseason · Re-sign Players',
       scouting_combine: 'Offseason · Scouting Combine',
       free_agency: 'Offseason · Free Agency · Phase 1 · Tampering Window',
       free_agency_open: 'Offseason · Free Agency · Phase 2 · Free Agency',
@@ -170,6 +179,16 @@ export function getFrontOfficePhaseActions(
       requiresConfirmation: false,
     },
     'super-bowl': {
+      label: 'Continue to Offseason',
+      target: 'offseason',
+      requiresConfirmation: false,
+    },
+    offseason: {
+      label: 'Continue to Re-sign Players',
+      target: 'resign_cut',
+      requiresConfirmation: false,
+    },
+    resign_cut: {
       label: 'Continue to Scouting Combine',
       target: 'scouting_combine',
       requiresConfirmation: false,
@@ -202,7 +221,7 @@ export function getFrontOfficePhaseActions(
     context.playoffEliminated && frontOfficeLifecycle(phase).mainPhase === 'PLAYOFFS'
       ? {
           label: 'Continue to Offseason',
-          target: 'scouting_combine' as const,
+          target: 'offseason' as const,
           requiresConfirmation: false,
         }
       : progression[phase];
