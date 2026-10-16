@@ -1,0 +1,333 @@
+{
+  "scope": "Synthetic local Miniflare D1 only; CPU is Node host CPU, not Cloudflare Worker CPU or production metering.",
+  "versions": {
+    "node": "v22.14.0"
+  },
+  "counts": {
+    "content_sources": 163,
+    "content_candidates": 660,
+    "content_candidate_revisions": 692,
+    "canonical_stories": 660,
+    "story_evidence": 660,
+    "story_versions": 1320,
+    "editorial_cards": 660,
+    "film_room_videos": 960,
+    "film_room_video_teams": 1920,
+    "three_and_out_snapshots": 32,
+    "ingestion_jobs": 693,
+    "content_outbox": 692
+  },
+  "emptySqliteBytes": 401408,
+  "sqliteBytes": 16240640,
+  "averages": {
+    "source.lookup": {
+      "calls": 163,
+      "statementsPerCall": 1,
+      "rowsReadPerCall": 0,
+      "rowsWrittenPerCall": 0
+    },
+    "source.upsert": {
+      "calls": 163,
+      "statementsPerCall": 2.9938650306748467,
+      "rowsReadPerCall": 0,
+      "rowsWrittenPerCall": 5.9815950920245395
+    },
+    "candidate.identity": {
+      "calls": 1332,
+      "statementsPerCall": 1,
+      "rowsReadPerCall": 1.009009009009009,
+      "rowsWrittenPerCall": 0
+    },
+    "candidate.commit": {
+      "calls": 692,
+      "statementsPerCall": 6.971098265895954,
+      "rowsReadPerCall": 2.138728323699422,
+      "rowsWrittenPerCall": 21.820809248554912
+    },
+    "story.create": {
+      "calls": 660,
+      "statementsPerCall": 3,
+      "rowsReadPerCall": 0,
+      "rowsWrittenPerCall": 10
+    },
+    "evidence.associate": {
+      "calls": 660,
+      "statementsPerCall": 1,
+      "rowsReadPerCall": 0,
+      "rowsWrittenPerCall": 5
+    },
+    "story.publish": {
+      "calls": 660,
+      "statementsPerCall": 10,
+      "rowsReadPerCall": 334.5,
+      "rowsWrittenPerCall": 26
+    },
+    "source.check": {
+      "calls": 32,
+      "statementsPerCall": 3,
+      "rowsReadPerCall": 4,
+      "rowsWrittenPerCall": 7
+    },
+    "edition.save": {
+      "calls": 32,
+      "statementsPerCall": 4,
+      "rowsReadPerCall": 7,
+      "rowsWrittenPerCall": 12
+    },
+    "video.upsert": {
+      "calls": 960,
+      "statementsPerCall": 4,
+      "rowsReadPerCall": 959.0010416666667,
+      "rowsWrittenPerCall": 8
+    },
+    "story.feed": {
+      "calls": 192,
+      "statementsPerCall": 1,
+      "rowsReadPerCall": 53.984375,
+      "rowsWrittenPerCall": 0
+    },
+    "video.feed": {
+      "calls": 96,
+      "statementsPerCall": 1,
+      "rowsReadPerCall": 355.8125,
+      "rowsWrittenPerCall": 0
+    },
+    "edition.feed": {
+      "calls": 96,
+      "statementsPerCall": 1,
+      "rowsReadPerCall": 1.96875,
+      "rowsWrittenPerCall": 0
+    },
+    "story.attribution": {
+      "calls": 96,
+      "statementsPerCall": 1,
+      "rowsReadPerCall": 4,
+      "rowsWrittenPerCall": 0
+    },
+    "job.claim": {
+      "calls": 32,
+      "statementsPerCall": 2,
+      "rowsReadPerCall": 2037.5,
+      "rowsWrittenPerCall": 5
+    },
+    "job.complete": {
+      "calls": 32,
+      "statementsPerCall": 3,
+      "rowsReadPerCall": 4,
+      "rowsWrittenPerCall": 8
+    },
+    "job.enqueue": {
+      "calls": 1,
+      "statementsPerCall": 3,
+      "rowsReadPerCall": 4,
+      "rowsWrittenPerCall": 10
+    },
+    "run.record": {
+      "calls": 1,
+      "statementsPerCall": 1,
+      "rowsReadPerCall": 0,
+      "rowsWrittenPerCall": 3
+    }
+  },
+  "timings": {
+    "candidate.new": {
+      "samples": 640,
+      "p50WallMs": 7.214874999997846,
+      "p99WallMs": 28.78349999999955,
+      "p99HostCpuMs": 16.779
+    },
+    "candidate.duplicate": {
+      "samples": 640,
+      "p50WallMs": 1.6341670000001614,
+      "p99WallMs": 5.76241600000003,
+      "p99HostCpuMs": 5.309
+    },
+    "story.new": {
+      "samples": 640,
+      "p50WallMs": 2.745292000000518,
+      "p99WallMs": 22.520416999999725,
+      "p99HostCpuMs": 11.337
+    },
+    "evidence.new": {
+      "samples": 640,
+      "p50WallMs": 1.3193339999997988,
+      "p99WallMs": 4.238416000000143,
+      "p99HostCpuMs": 4.9
+    },
+    "story.publication": {
+      "samples": 640,
+      "p50WallMs": 7.545040999997582,
+      "p99WallMs": 31.0068330000031,
+      "p99HostCpuMs": 18.51
+    },
+    "candidate.revision": {
+      "samples": 32,
+      "p50WallMs": 7.478750000000218,
+      "p99WallMs": 23.970792000000074,
+      "p99HostCpuMs": 21.189
+    },
+    "source.check": {
+      "samples": 32,
+      "p50WallMs": 2.6260419999998703,
+      "p99WallMs": 27.388500000000022,
+      "p99HostCpuMs": 3.48
+    },
+    "edition.publish": {
+      "samples": 32,
+      "p50WallMs": 3.5946659999990516,
+      "p99WallMs": 6.7662080000009155,
+      "p99HostCpuMs": 5.641
+    },
+    "video.upsert": {
+      "samples": 960,
+      "p50WallMs": 3.337499999999636,
+      "p99WallMs": 22.952792000000045,
+      "p99HostCpuMs": 11.806
+    },
+    "read.story.page": {
+      "samples": 96,
+      "p50WallMs": 1.6698340000002645,
+      "p99WallMs": 53.21837499999674,
+      "p99HostCpuMs": 5.306
+    },
+    "read.story.cursor": {
+      "samples": 96,
+      "p50WallMs": 1.6520410000011907,
+      "p99WallMs": 6.164832999998907,
+      "p99HostCpuMs": 18.283
+    },
+    "read.video.page": {
+      "samples": 96,
+      "p50WallMs": 1.703417000000627,
+      "p99WallMs": 114.37587500000154,
+      "p99HostCpuMs": 4.866
+    },
+    "read.edition": {
+      "samples": 96,
+      "p50WallMs": 1.508125000000291,
+      "p99WallMs": 29.121250000000146,
+      "p99HostCpuMs": 6.009
+    },
+    "read.attribution": {
+      "samples": 96,
+      "p50WallMs": 1.4895419999993464,
+      "p99WallMs": 16.088833000001614,
+      "p99HostCpuMs": 5.348
+    },
+    "job.claim": {
+      "samples": 32,
+      "p50WallMs": 2.381083000000217,
+      "p99WallMs": 6.870582999999897,
+      "p99HostCpuMs": 5.575
+    },
+    "job.complete": {
+      "samples": 32,
+      "p50WallMs": 2.6742919999996957,
+      "p99WallMs": 10.403749999997672,
+      "p99HostCpuMs": 4.473
+    },
+    "job.enqueue": {
+      "samples": 1,
+      "p50WallMs": 2.588665999999648,
+      "p99WallMs": 2.588665999999648,
+      "p99HostCpuMs": 0.907
+    },
+    "run.record": {
+      "samples": 1,
+      "p50WallMs": 1.2075000000004366,
+      "p99WallMs": 1.2075000000004366,
+      "p99HostCpuMs": 0.449
+    }
+  },
+  "responseBytes": {
+    "story": 9226,
+    "video": 6925,
+    "edition": 270
+  },
+  "plans": {
+    "story": {
+      "success": true,
+      "meta": {
+        "served_by": "miniflare.db",
+        "served_by_primary": true,
+        "total_attempts": 1,
+        "timings": {
+          "sql_duration_ms": 0
+        },
+        "duration": 0,
+        "changes": 0,
+        "last_row_id": 1,
+        "changed_db": false,
+        "size_after": 16240640,
+        "rows_read": 0,
+        "rows_written": 0
+      },
+      "results": [
+        {
+          "id": 4,
+          "parent": 0,
+          "notused": 54,
+          "detail": "SEARCH canonical_stories USING COVERING INDEX stories_feed (team_id=? AND publication_state=?)"
+        }
+      ]
+    },
+    "video": {
+      "success": true,
+      "meta": {
+        "served_by": "miniflare.db",
+        "served_by_primary": true,
+        "total_attempts": 1,
+        "timings": {
+          "sql_duration_ms": 0
+        },
+        "duration": 0,
+        "changes": 0,
+        "last_row_id": 1,
+        "changed_db": false,
+        "size_after": 16240640,
+        "rows_read": 0,
+        "rows_written": 0
+      },
+      "results": [
+        {
+          "id": 5,
+          "parent": 0,
+          "notused": 55,
+          "detail": "SEARCH v USING COVERING INDEX videos_available_time (availability=?)"
+        },
+        {
+          "id": 9,
+          "parent": 0,
+          "notused": 45,
+          "detail": "SEARCH vt USING COVERING INDEX sqlite_autoindex_film_room_video_teams_1 (team_id=? AND video_id=?)"
+        }
+      ]
+    },
+    "edition": {
+      "success": true,
+      "meta": {
+        "served_by": "miniflare.db",
+        "served_by_primary": true,
+        "total_attempts": 1,
+        "timings": {
+          "sql_duration_ms": 0
+        },
+        "duration": 0,
+        "changes": 0,
+        "last_row_id": 1,
+        "changed_db": false,
+        "size_after": 16240640,
+        "rows_read": 0,
+        "rows_written": 0
+      },
+      "results": [
+        {
+          "id": 4,
+          "parent": 0,
+          "notused": 54,
+          "detail": "SEARCH three_and_out_snapshots USING COVERING INDEX editions_published (team_id=? AND status=?)"
+        }
+      ]
+    }
+  }
+}

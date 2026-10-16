@@ -1,0 +1,52 @@
+{
+  "scope": "Projection only; local row meters and synthetic density do not certify production quotas or CPU.",
+  "input": {
+    "sourceChecks": 1040,
+    "newOrRevisedCandidates": 200,
+    "changedStories": 80,
+    "videoUpdates": 40,
+    "editions": 32,
+    "jobs": 1400,
+    "bridgeOperations": 128,
+    "runSummaries": 32,
+    "publicRequests": 20000,
+    "cacheHitRatio": 0.9,
+    "originRowsAssumed": 150,
+    "clusteringRowsPerCandidateAssumed": 500,
+    "retryReserve": 1.25
+  },
+  "accountLimits": {
+    "readsPerDay": 5000000,
+    "writesPerDay": 100000,
+    "perDatabaseBytes": 500000000,
+    "workerCpuMs": 10,
+    "queriesPerInvocation": 50
+  },
+  "operatingTargets": {
+    "readsPerDay": 3500000,
+    "writesPerDay": 70000,
+    "storageBytes": 350000000
+  },
+  "dailyReadsWithReserve": 536920,
+  "dailyWritesWithReserve": 61840,
+  "writeModelConservatism": "Candidate commits already insert their processing job; modeling standalone enqueue for all 1400 jobs intentionally double-counts some writes. Bridge costs, clustering, cache hits, and future provider processing are assumptions, not implemented pipeline measurements.",
+  "workerInvocationsAssumed": 24000,
+  "storage": {
+    "sampleBytes": 16367616,
+    "sampleJsonBytes": 13492868,
+    "syntheticAmplification": 1.2130568534428707,
+    "projectedDailyBytes": 6026665.041077218,
+    "projected30DayBytes": 197167567.23231655,
+    "projected90DayBytes": 558767469.6969496,
+    "daysTo350MB": 55.35937068444837,
+    "daysTo500MB": 80.24875792890501,
+    "with12KBVersionDailyBytes": 7145015.972820903,
+    "with12KBVersion90DayBytes": 659419053.5538813
+  },
+  "decision": {
+    "dailyRows": "Conditionally within operating targets for these assumptions only",
+    "storage": "90-day operating target fails without a separately approved lossless lifecycle plan",
+    "workerCpu": "UNQUALIFIED: no deployed Free CPU measurement; Node host CPU is not Worker CPU",
+    "productionMigration": "NOT AUTHORIZED; no production access or deployment performed"
+  }
+}
