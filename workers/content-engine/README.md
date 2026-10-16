@@ -36,3 +36,17 @@ const page = await repository.storiesForTeam('kc', 20);
 ```
 
 Input teams use existing lowercase IDs (`kc`, `sea`, etc.); invalid, missing and uppercase IDs fail explicitly. IDs are opaque text and are never replaced with SQLite row IDs. Indexed timestamps are epoch milliseconds. Unknown editorial record fields, nested JSON and nulls round-trip in `record_json`; this is not a completed importer for PostgreSQL domain DTOs. JSON records larger than 512 KB fail explicitly rather than being truncated. Association/evidence/entity inventories are bounded to 32, pages to 100, each statement to 100 bound parameters and each repository batch to 50 statements. Combining operations in one future invocation still requires its own overall query/CPU budget.
+
+Storage optimization review (local only):
+
+```sh
+npm run test:pages
+npm run benchmark:storage
+npm run qualify:storage
+```
+
+Read `D1_STORAGE_OPTIMIZATION_RESULTS.md` before interpreting these measurements. The original benchmark/report are preserved; the new storage benchmark compares identical inline/compact workloads and separately models high-entropy text and larger revisions. It audits closed local SQLite B-tree, overflow and index pages with Python's standard library. No `VACUUM`, remote calls or production data are involved. `qualify:storage` extrapolates one modeled day; it is not a year-long test.
+
+`PayloadStore` keeps small JSON inline and stores larger values as checksummed immutable references. Trusted readers must use `EditorialDatabase` with `EditorialRepository`, `EditorialJobs` or `ColdRecords` initialized; direct SQL sees physical reference envelopes. `repackRow` explicitly repacks one existing record using compare-and-swap and verifies the roundtrip. It does not run automatically. Additive migrations retain legacy inline JSON and blob rows.
+
+`ColdRecords.compact(kind, cutoff, limit)` explicitly relocates complete terminal jobs, source checks or acknowledged outbox records into compressed packs. It verifies the copy before an atomic guarded move and retains an ID directory and job dedupe receipts. `ColdRecords.get` retrieves hot or cold records. Source-check daily totals supplement, rather than replace, exact history. Active jobs, expired recoverable leases and unacknowledged outbox events remain hot. No compactor, archive uploader or garbage collector is scheduled. Failed editorial writes can leave immutable blobs without references; this POC deliberately does not delete them.

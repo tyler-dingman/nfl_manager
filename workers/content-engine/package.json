@@ -11,7 +11,10 @@
     "test": "node --import tsx --test test/*.test.ts",
     "benchmark": "node --import tsx scripts/benchmark.ts",
     "format:check": "prettier --check src test scripts measurements *.json *.md",
-    "qualify": "node --import tsx scripts/project.ts"
+    "qualify": "node --import tsx scripts/project.ts",
+    "benchmark:storage": "node --import tsx scripts/storage-benchmark.ts",
+    "test:pages": "python3 test/sqlite-pages-test.py",
+    "qualify:storage": "node --import tsx scripts/storage-project.ts"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "5.20261016.1",

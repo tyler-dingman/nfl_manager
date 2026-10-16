@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { EditorialDatabase } from '../src/database';
 import { EditorialRepository } from '../src/repository';
 import { EditorialJobs } from '../src/jobs';
-export async function harness(persistent = false) {
+export async function harness(persistent = false, compact = true, maxMigration = 999) {
   const directory = await mkdtemp(join(tmpdir(), 'dd-editorial-synthetic-'));
   const options = {
     name: 'editorial-local-test',
@@ -21,10 +21,10 @@ export async function harness(persistent = false) {
   let mf = new Miniflare(convertV4MiniflareOptions(options));
   const binding = await mf.getD1Database('EDITORIAL_DB');
   const db = new EditorialDatabase(binding as unknown as D1Database);
-  const repo = new EditorialRepository(db),
-    jobs = new EditorialJobs(db);
+  const repo = new EditorialRepository(db, compact),
+    jobs = new EditorialJobs(db, compact);
   for (const file of (await readdir(new URL('../migrations/', import.meta.url)))
-    .filter((f) => f.endsWith('.sql'))
+    .filter((f) => f.endsWith('.sql') && Number(f.slice(0, 4)) <= maxMigration)
     .sort()) {
     const migration = await readFile(new URL(`../migrations/${file}`, import.meta.url), 'utf8');
     // This schema deliberately contains no triggers or semicolons inside literals.

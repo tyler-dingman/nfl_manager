@@ -1,0 +1,3464 @@
+{
+  "scope": "One full modeled synthetic day; unique 8KB candidates, 10% corrections, ordinary fixture stories, ~10KB editions; large-versions separately stresses ~12KB versions. Host CPU is not Worker CPU. Physical closed SQLite B-tree+overflow audit; no VACUUM.",
+  "results": {
+    "inline": {
+      "physical": {
+        "pageSize": 4096,
+        "sqliteBytes": 6369280,
+        "ownedBytes": 6369280,
+        "freelistBytes": 0,
+        "otherBytes": 0,
+        "objects": [
+          {
+            "name": "content_candidate_revisions",
+            "type": "table",
+            "pages": 469,
+            "bytes": 1921024
+          },
+          {
+            "name": "content_candidates",
+            "type": "table",
+            "pages": 426,
+            "bytes": 1744896
+          },
+          {
+            "name": "ingestion_jobs",
+            "type": "table",
+            "pages": 130,
+            "bytes": 532480
+          },
+          {
+            "name": "content_outbox",
+            "type": "table",
+            "pages": 109,
+            "bytes": 446464
+          },
+          {
+            "name": "three_and_out_snapshots",
+            "type": "table",
+            "pages": 90,
+            "bytes": 368640
+          },
+          {
+            "name": "source_checks",
+            "type": "table",
+            "pages": 51,
+            "bytes": 208896
+          },
+          {
+            "name": "story_versions",
+            "type": "table",
+            "pages": 22,
+            "bytes": 90112
+          },
+          {
+            "name": "film_room_videos",
+            "type": "table",
+            "pages": 21,
+            "bytes": 86016
+          },
+          {
+            "name": "canonical_stories",
+            "type": "table",
+            "pages": 15,
+            "bytes": 61440
+          },
+          {
+            "name": "jobs_due",
+            "type": "index",
+            "pages": 15,
+            "bytes": 61440
+          },
+          {
+            "name": "jobs_claim",
+            "type": "index",
+            "pages": 15,
+            "bytes": 61440
+          },
+          {
+            "name": "jobs_archive_ready",
+            "type": "index",
+            "pages": 15,
+            "bytes": 61440
+          },
+          {
+            "name": "jobs_reclaim",
+            "type": "index",
+            "pages": 12,
+            "bytes": 49152
+          },
+          {
+            "name": "checks_source_time",
+            "type": "index",
+            "pages": 10,
+            "bytes": 40960
+          },
+          {
+            "name": "sqlite_autoindex_ingestion_jobs_1",
+            "type": "index",
+            "pages": 9,
+            "bytes": 36864
+          },
+          {
+            "name": "sqlite_autoindex_ingestion_jobs_2",
+            "type": "index",
+            "pages": 8,
+            "bytes": 32768
+          },
+          {
+            "name": "checks_archive_ready",
+            "type": "index",
+            "pages": 8,
+            "bytes": 32768
+          },
+          {
+            "name": "sqlite_schema",
+            "type": "table",
+            "pages": 7,
+            "bytes": 28672
+          },
+          {
+            "name": "jobs_leases",
+            "type": "index",
+            "pages": 6,
+            "bytes": 24576
+          },
+          {
+            "name": "sqlite_autoindex_source_checks_1",
+            "type": "index",
+            "pages": 6,
+            "bytes": 24576
+          },
+          {
+            "name": "content_sources",
+            "type": "table",
+            "pages": 5,
+            "bytes": 20480
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_4",
+            "type": "index",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "story_evidence",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "content_run_log",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_2",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_3",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "candidates_fingerprint",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "candidates_source_time",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "story_domain_events",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "editorial_cards",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "_cf_METADATA",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "nfl_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_nfl_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_nfl_teams_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_sources_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sources_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_teams_team",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "candidate_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_candidate_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "candidate_teams_team",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_canonical_stories_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_feed",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_first_report",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_importance",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_entities",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_entities_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_evidence_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_evidence_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "evidence_story",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "evidence_candidate",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_versions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_versions_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_publication_decisions",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_publication_decisions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_publication_decisions_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_editorial_overrides",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_editorial_overrides_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "overrides_active",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_domain_events_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_domain_events_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_editorial_cards_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_editorial_cards_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "video_source_registry",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_video_source_registry_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_video_source_registry_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_film_room_videos_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "film_room_video_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_film_room_video_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "videos_published",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_three_and_out_snapshots_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "edition_team_date",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editions_archive",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "public_schedule",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_public_schedule_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_outbox_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_outbox_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "outbox_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "content_control",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_control_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_run_log_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "run_log_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "observer_run_items",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_observer_run_items_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "observer_run_events",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_observer_run_events_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "transaction_assertions",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_transaction_assertions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_checkpoints",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_checkpoints_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "videos_available_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editions_published",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_candidate_revisions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_entities_story",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "video_teams_video",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_team_page",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sources_national",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_exhausted",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editorial_blobs",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "archive_chunks",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "archive_records",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_archive_records_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_check_daily",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editorial_blob_fragments",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          }
+        ]
+      },
+      "counts": {
+        "nfl_teams": {
+          "n": 32
+        },
+        "content_sources": {
+          "n": 33
+        },
+        "source_teams": {
+          "n": 32
+        },
+        "content_candidates": {
+          "n": 200
+        },
+        "candidate_teams": {
+          "n": 200
+        },
+        "canonical_stories": {
+          "n": 83
+        },
+        "story_entities": {
+          "n": 83
+        },
+        "story_evidence": {
+          "n": 83
+        },
+        "story_versions": {
+          "n": 166
+        },
+        "story_publication_decisions": {
+          "n": 83
+        },
+        "story_editorial_overrides": {
+          "n": 0
+        },
+        "story_domain_events": {
+          "n": 83
+        },
+        "editorial_cards": {
+          "n": 83
+        },
+        "video_source_registry": {
+          "n": 0
+        },
+        "film_room_videos": {
+          "n": 40
+        },
+        "film_room_video_teams": {
+          "n": 80
+        },
+        "three_and_out_snapshots": {
+          "n": 32
+        },
+        "public_schedule": {
+          "n": 0
+        },
+        "ingestion_jobs": {
+          "n": 1400
+        },
+        "content_outbox": {
+          "n": 115
+        },
+        "content_control": {
+          "n": 1
+        },
+        "content_run_log": {
+          "n": 32
+        },
+        "observer_run_items": {
+          "n": 0
+        },
+        "observer_run_events": {
+          "n": 0
+        },
+        "transaction_assertions": {
+          "n": 0
+        },
+        "source_checks": {
+          "n": 1040
+        },
+        "source_checkpoints": {
+          "n": 32
+        },
+        "content_candidate_revisions": {
+          "n": 220
+        },
+        "editorial_blobs": {
+          "n": 0
+        },
+        "archive_chunks": {
+          "n": 0
+        },
+        "archive_records": {
+          "n": 0
+        },
+        "source_check_daily": {
+          "n": 0
+        },
+        "editorial_blob_fragments": {
+          "n": 0
+        }
+      },
+      "duplicates": {
+        "records": 220,
+        "distinctPayloads": 220,
+        "encodedBytes": 1882900
+      },
+      "blobStats": {
+        "chunks": 0,
+        "uncompressedBytes": null,
+        "storedBytes": null
+      },
+      "averages": {
+        "candidate": {
+          "statements": 8,
+          "read": 2,
+          "written": 23,
+          "wallMs": 9.368918535,
+          "hostCpuMs": 4.620820000000006
+        },
+        "revision": {
+          "statements": 8,
+          "read": 7.9,
+          "written": 21,
+          "wallMs": 9.227070850000052,
+          "hostCpuMs": 5.23395
+        },
+        "story": {
+          "statements": 3,
+          "read": 0,
+          "written": 12,
+          "wallMs": 3.7051124999999727,
+          "hostCpuMs": 2.1858999999999993
+        },
+        "evidence": {
+          "statements": 4,
+          "read": 3,
+          "written": 8,
+          "wallMs": 5.282714537499982,
+          "hostCpuMs": 3.5398124999999987
+        },
+        "publish": {
+          "statements": 10,
+          "read": 5.875,
+          "written": 28,
+          "wallMs": 9.52109121250001,
+          "hostCpuMs": 6.391250000000004
+        },
+        "video": {
+          "statements": 4,
+          "read": 0,
+          "written": 10,
+          "wallMs": 3.883025000000066,
+          "hostCpuMs": 2.26905
+        },
+        "edition": {
+          "statements": 4,
+          "read": 7,
+          "written": 12,
+          "wallMs": 4.45761993749997,
+          "hostCpuMs": 2.01990625
+        },
+        "check": {
+          "statements": 5,
+          "read": 5.969230769230769,
+          "written": 10.03076923076923,
+          "wallMs": 5.029023201923069,
+          "hostCpuMs": 2.2189692307692317
+        },
+        "enqueue": {
+          "statements": 4,
+          "read": 4,
+          "written": 11,
+          "wallMs": 5.327032264406795,
+          "hostCpuMs": 2.181901694915252
+        },
+        "complete": {
+          "statements": 3,
+          "read": 4,
+          "written": 9,
+          "wallMs": 3.384203894999963,
+          "hostCpuMs": 1.1725492857142845
+        },
+        "read.feed": {
+          "statements": 1,
+          "read": 7.46875,
+          "written": 0,
+          "wallMs": 2.176437437499544,
+          "hostCpuMs": 0.6348750000000001
+        },
+        "read.history": {
+          "statements": 1,
+          "read": 1,
+          "written": 0,
+          "wallMs": 3.127339550000033,
+          "hostCpuMs": 1.7613500000000002
+        }
+      },
+      "totals": {
+        "read": 30906,
+        "written": 54524,
+        "statements": 20594
+      }
+    },
+    "compact": {
+      "physical": {
+        "pageSize": 4096,
+        "sqliteBytes": 2961408,
+        "ownedBytes": 2314240,
+        "freelistBytes": 647168,
+        "otherBytes": 0,
+        "objects": [
+          {
+            "name": "editorial_blob_fragments",
+            "type": "table",
+            "pages": 208,
+            "bytes": 851968
+          },
+          {
+            "name": "editorial_blobs",
+            "type": "table",
+            "pages": 105,
+            "bytes": 430080
+          },
+          {
+            "name": "archive_records",
+            "type": "table",
+            "pages": 28,
+            "bytes": 114688
+          },
+          {
+            "name": "story_versions",
+            "type": "table",
+            "pages": 22,
+            "bytes": 90112
+          },
+          {
+            "name": "sqlite_autoindex_archive_records_2",
+            "type": "index",
+            "pages": 22,
+            "bytes": 90112
+          },
+          {
+            "name": "canonical_stories",
+            "type": "table",
+            "pages": 15,
+            "bytes": 61440
+          },
+          {
+            "name": "content_candidates",
+            "type": "table",
+            "pages": 13,
+            "bytes": 53248
+          },
+          {
+            "name": "content_candidate_revisions",
+            "type": "table",
+            "pages": 10,
+            "bytes": 40960
+          },
+          {
+            "name": "archive_chunks",
+            "type": "table",
+            "pages": 9,
+            "bytes": 36864
+          },
+          {
+            "name": "sqlite_schema",
+            "type": "table",
+            "pages": 7,
+            "bytes": 28672
+          },
+          {
+            "name": "content_sources",
+            "type": "table",
+            "pages": 5,
+            "bytes": 20480
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_4",
+            "type": "index",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "story_evidence",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "film_room_videos",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "content_run_log",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_2",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_3",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "candidates_fingerprint",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "candidates_source_time",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "story_domain_events",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "editorial_cards",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "three_and_out_snapshots",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "_cf_METADATA",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "nfl_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_nfl_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_nfl_teams_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_sources_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sources_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_teams_team",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "candidate_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_candidate_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "candidate_teams_team",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_canonical_stories_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_feed",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_first_report",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_importance",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_entities",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_entities_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_evidence_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_evidence_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "evidence_story",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "evidence_candidate",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_versions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_versions_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_publication_decisions",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_publication_decisions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_publication_decisions_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_editorial_overrides",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_editorial_overrides_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "overrides_active",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_domain_events_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_domain_events_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_editorial_cards_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_editorial_cards_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "video_source_registry",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_video_source_registry_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_video_source_registry_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_film_room_videos_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "film_room_video_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_film_room_video_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "videos_published",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_three_and_out_snapshots_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "edition_team_date",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editions_archive",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "public_schedule",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_public_schedule_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "ingestion_jobs",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_ingestion_jobs_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_ingestion_jobs_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_leases",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "content_outbox",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_outbox_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_outbox_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "outbox_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "content_control",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_control_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_run_log_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "run_log_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "observer_run_items",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_observer_run_items_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "observer_run_events",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_observer_run_events_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "transaction_assertions",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_transaction_assertions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_checks",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_checks_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "checks_source_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_checkpoints",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_checkpoints_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "videos_available_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editions_published",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_claim",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_reclaim",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_candidate_revisions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_entities_story",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "video_teams_video",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_team_page",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sources_national",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_exhausted",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_check_daily",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_archive_ready",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "checks_archive_ready",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          }
+        ]
+      },
+      "counts": {
+        "nfl_teams": {
+          "n": 32
+        },
+        "content_sources": {
+          "n": 33
+        },
+        "source_teams": {
+          "n": 32
+        },
+        "content_candidates": {
+          "n": 200
+        },
+        "candidate_teams": {
+          "n": 200
+        },
+        "canonical_stories": {
+          "n": 83
+        },
+        "story_entities": {
+          "n": 83
+        },
+        "story_evidence": {
+          "n": 83
+        },
+        "story_versions": {
+          "n": 166
+        },
+        "story_publication_decisions": {
+          "n": 83
+        },
+        "story_editorial_overrides": {
+          "n": 0
+        },
+        "story_domain_events": {
+          "n": 83
+        },
+        "editorial_cards": {
+          "n": 83
+        },
+        "video_source_registry": {
+          "n": 0
+        },
+        "film_room_videos": {
+          "n": 40
+        },
+        "film_room_video_teams": {
+          "n": 80
+        },
+        "three_and_out_snapshots": {
+          "n": 32
+        },
+        "public_schedule": {
+          "n": 0
+        },
+        "ingestion_jobs": {
+          "n": 0
+        },
+        "content_outbox": {
+          "n": 0
+        },
+        "content_control": {
+          "n": 1
+        },
+        "content_run_log": {
+          "n": 32
+        },
+        "observer_run_items": {
+          "n": 0
+        },
+        "observer_run_events": {
+          "n": 0
+        },
+        "transaction_assertions": {
+          "n": 0
+        },
+        "source_checks": {
+          "n": 0
+        },
+        "source_checkpoints": {
+          "n": 32
+        },
+        "content_candidate_revisions": {
+          "n": 220
+        },
+        "editorial_blobs": {
+          "n": 1142
+        },
+        "archive_chunks": {
+          "n": 214
+        },
+        "archive_records": {
+          "n": 2555
+        },
+        "source_check_daily": {
+          "n": 32
+        },
+        "editorial_blob_fragments": {
+          "n": 1247
+        }
+      },
+      "duplicates": {
+        "records": 220,
+        "distinctPayloads": 220,
+        "encodedBytes": 24640
+      },
+      "blobStats": {
+        "chunks": 1142,
+        "uncompressedBytes": 4018873,
+        "storedBytes": 253007
+      },
+      "averages": {
+        "candidate": {
+          "statements": 21.255,
+          "read": 5,
+          "written": 30.255,
+          "wallMs": 28.54331233999994,
+          "hostCpuMs": 13.828759999999994
+        },
+        "revision": {
+          "statements": 22.05,
+          "read": 24.05,
+          "written": 22.05,
+          "wallMs": 34.88120005000055,
+          "hostCpuMs": 19.7716
+        },
+        "story": {
+          "statements": 3,
+          "read": 0,
+          "written": 12,
+          "wallMs": 3.142861487499931,
+          "hostCpuMs": 1.972862499999999
+        },
+        "evidence": {
+          "statements": 4,
+          "read": 3,
+          "written": 8,
+          "wallMs": 4.783230187500067,
+          "hostCpuMs": 2.835074999999999
+        },
+        "publish": {
+          "statements": 10,
+          "read": 5.875,
+          "written": 28,
+          "wallMs": 9.710963449999918,
+          "hostCpuMs": 5.9674125
+        },
+        "video": {
+          "statements": 8,
+          "read": 0,
+          "written": 12,
+          "wallMs": 10.983224875000086,
+          "hostCpuMs": 5.442899999999999
+        },
+        "edition": {
+          "statements": 22,
+          "read": 11,
+          "written": 22,
+          "wallMs": 30.688785062499164,
+          "hostCpuMs": 14.00515625
+        },
+        "check": {
+          "statements": 5,
+          "read": 5.969230769230769,
+          "written": 10.03076923076923,
+          "wallMs": 5.114253745192414,
+          "hostCpuMs": 2.027326923076923
+        },
+        "enqueue": {
+          "statements": 4,
+          "read": 4,
+          "written": 11,
+          "wallMs": 5.213445321186299,
+          "hostCpuMs": 2.048488983050848
+        },
+        "complete": {
+          "statements": 3,
+          "read": 4,
+          "written": 9,
+          "wallMs": 3.3722635099999234,
+          "hostCpuMs": 1.2567892857142864
+        },
+        "compact.job": {
+          "statements": 41.55084745762712,
+          "read": 67.27966101694915,
+          "written": 73.16949152542372,
+          "wallMs": 38.22728599152562,
+          "hostCpuMs": 16.42653389830508
+        },
+        "compact.check": {
+          "statements": 53.21590909090909,
+          "read": 50.25,
+          "written": 84.70454545454545,
+          "wallMs": 44.74634757954589,
+          "hostCpuMs": 19.63939772727274
+        },
+        "compact.outbox": {
+          "statements": 108.9090909090909,
+          "read": 216.63636363636363,
+          "written": 92.0909090909091,
+          "wallMs": 152.7231287272721,
+          "hostCpuMs": 67.68027272727271
+        },
+        "read.feed": {
+          "statements": 1,
+          "read": 7.46875,
+          "written": 0,
+          "wallMs": 1.8831549374992846,
+          "hostCpuMs": 0.8651250000000001
+        },
+        "read.history": {
+          "statements": 6,
+          "read": 10.35,
+          "written": 0,
+          "wallMs": 10.88661249999932,
+          "hostCpuMs": 4.45885
+        }
+      },
+      "totals": {
+        "read": 46888,
+        "written": 73497,
+        "statements": 35146
+      }
+    },
+    "entropy": {
+      "physical": {
+        "pageSize": 4096,
+        "sqliteBytes": 4255744,
+        "ownedBytes": 3764224,
+        "freelistBytes": 491520,
+        "otherBytes": 0,
+        "objects": [
+          {
+            "name": "editorial_blob_fragments",
+            "type": "table",
+            "pages": 562,
+            "bytes": 2301952
+          },
+          {
+            "name": "editorial_blobs",
+            "type": "table",
+            "pages": 104,
+            "bytes": 425984
+          },
+          {
+            "name": "archive_records",
+            "type": "table",
+            "pages": 28,
+            "bytes": 114688
+          },
+          {
+            "name": "story_versions",
+            "type": "table",
+            "pages": 22,
+            "bytes": 90112
+          },
+          {
+            "name": "sqlite_autoindex_archive_records_2",
+            "type": "index",
+            "pages": 22,
+            "bytes": 90112
+          },
+          {
+            "name": "canonical_stories",
+            "type": "table",
+            "pages": 15,
+            "bytes": 61440
+          },
+          {
+            "name": "content_candidates",
+            "type": "table",
+            "pages": 13,
+            "bytes": 53248
+          },
+          {
+            "name": "content_candidate_revisions",
+            "type": "table",
+            "pages": 10,
+            "bytes": 40960
+          },
+          {
+            "name": "archive_chunks",
+            "type": "table",
+            "pages": 10,
+            "bytes": 40960
+          },
+          {
+            "name": "sqlite_schema",
+            "type": "table",
+            "pages": 7,
+            "bytes": 28672
+          },
+          {
+            "name": "content_sources",
+            "type": "table",
+            "pages": 5,
+            "bytes": 20480
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_4",
+            "type": "index",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "story_evidence",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "film_room_videos",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "content_run_log",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_2",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_3",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "candidates_fingerprint",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "candidates_source_time",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "story_domain_events",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "editorial_cards",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "three_and_out_snapshots",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "_cf_METADATA",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "nfl_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_nfl_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_nfl_teams_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_sources_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sources_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_teams_team",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "candidate_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_candidate_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "candidate_teams_team",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_canonical_stories_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_feed",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_first_report",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_importance",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_entities",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_entities_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_evidence_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_evidence_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "evidence_story",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "evidence_candidate",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_versions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_versions_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_publication_decisions",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_publication_decisions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_publication_decisions_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_editorial_overrides",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_editorial_overrides_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "overrides_active",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_domain_events_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_domain_events_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_editorial_cards_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_editorial_cards_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "video_source_registry",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_video_source_registry_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_video_source_registry_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_film_room_videos_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "film_room_video_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_film_room_video_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "videos_published",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_three_and_out_snapshots_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "edition_team_date",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editions_archive",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "public_schedule",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_public_schedule_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "ingestion_jobs",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_ingestion_jobs_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_ingestion_jobs_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_leases",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "content_outbox",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_outbox_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_outbox_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "outbox_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "content_control",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_control_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_run_log_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "run_log_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "observer_run_items",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_observer_run_items_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "observer_run_events",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_observer_run_events_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "transaction_assertions",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_transaction_assertions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_checks",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_checks_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "checks_source_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_checkpoints",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_checkpoints_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "videos_available_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editions_published",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_claim",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_reclaim",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_candidate_revisions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_entities_story",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "video_teams_video",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_team_page",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sources_national",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_exhausted",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_check_daily",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_archive_ready",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "checks_archive_ready",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          }
+        ]
+      },
+      "counts": {
+        "nfl_teams": {
+          "n": 32
+        },
+        "content_sources": {
+          "n": 33
+        },
+        "source_teams": {
+          "n": 32
+        },
+        "content_candidates": {
+          "n": 200
+        },
+        "candidate_teams": {
+          "n": 200
+        },
+        "canonical_stories": {
+          "n": 83
+        },
+        "story_entities": {
+          "n": 83
+        },
+        "story_evidence": {
+          "n": 83
+        },
+        "story_versions": {
+          "n": 166
+        },
+        "story_publication_decisions": {
+          "n": 83
+        },
+        "story_editorial_overrides": {
+          "n": 0
+        },
+        "story_domain_events": {
+          "n": 83
+        },
+        "editorial_cards": {
+          "n": 83
+        },
+        "video_source_registry": {
+          "n": 0
+        },
+        "film_room_videos": {
+          "n": 40
+        },
+        "film_room_video_teams": {
+          "n": 80
+        },
+        "three_and_out_snapshots": {
+          "n": 32
+        },
+        "public_schedule": {
+          "n": 0
+        },
+        "ingestion_jobs": {
+          "n": 0
+        },
+        "content_outbox": {
+          "n": 0
+        },
+        "content_control": {
+          "n": 1
+        },
+        "content_run_log": {
+          "n": 32
+        },
+        "observer_run_items": {
+          "n": 0
+        },
+        "observer_run_events": {
+          "n": 0
+        },
+        "transaction_assertions": {
+          "n": 0
+        },
+        "source_checks": {
+          "n": 0
+        },
+        "source_checkpoints": {
+          "n": 32
+        },
+        "content_candidate_revisions": {
+          "n": 220
+        },
+        "editorial_blobs": {
+          "n": 1142
+        },
+        "archive_chunks": {
+          "n": 214
+        },
+        "archive_records": {
+          "n": 2555
+        },
+        "source_check_daily": {
+          "n": 32
+        },
+        "editorial_blob_fragments": {
+          "n": 3372
+        }
+      },
+      "duplicates": {
+        "records": 220,
+        "distinctPayloads": 220,
+        "encodedBytes": 24640
+      },
+      "blobStats": {
+        "chunks": 1142,
+        "uncompressedBytes": 4018873,
+        "storedBytes": 248011
+      },
+      "averages": {
+        "candidate": {
+          "statements": 29,
+          "read": 5,
+          "written": 38,
+          "wallMs": 33.9961217,
+          "hostCpuMs": 16.155195000000003
+        },
+        "revision": {
+          "statements": 22.05,
+          "read": 31.8,
+          "written": 22.05,
+          "wallMs": 37.3633999500009,
+          "hostCpuMs": 15.9044
+        },
+        "story": {
+          "statements": 3,
+          "read": 0,
+          "written": 12,
+          "wallMs": 3.037004737499956,
+          "hostCpuMs": 1.542875
+        },
+        "evidence": {
+          "statements": 4,
+          "read": 3,
+          "written": 8,
+          "wallMs": 4.58398958750131,
+          "hostCpuMs": 2.672850000000001
+        },
+        "publish": {
+          "statements": 10,
+          "read": 5.875,
+          "written": 28,
+          "wallMs": 9.24917503749948,
+          "hostCpuMs": 5.2496375
+        },
+        "video": {
+          "statements": 8,
+          "read": 0,
+          "written": 12,
+          "wallMs": 13.730444824998632,
+          "hostCpuMs": 6.007149999999998
+        },
+        "edition": {
+          "statements": 31,
+          "read": 11,
+          "written": 31,
+          "wallMs": 37.21248828124908,
+          "hostCpuMs": 17.264000000000003
+        },
+        "check": {
+          "statements": 5,
+          "read": 5.969230769230769,
+          "written": 10.03076923076923,
+          "wallMs": 5.013041384615448,
+          "hostCpuMs": 2.0867692307692334
+        },
+        "enqueue": {
+          "statements": 4,
+          "read": 4,
+          "written": 11,
+          "wallMs": 5.174696583898444,
+          "hostCpuMs": 1.9901245762711854
+        },
+        "complete": {
+          "statements": 3,
+          "read": 4,
+          "written": 9,
+          "wallMs": 3.303342911428595,
+          "hostCpuMs": 1.278563571428574
+        },
+        "compact.job": {
+          "statements": 41.55084745762712,
+          "read": 67.27966101694915,
+          "written": 73.16949152542372,
+          "wallMs": 38.241559661016204,
+          "hostCpuMs": 16.480457627118643
+        },
+        "compact.check": {
+          "statements": 53.21590909090909,
+          "read": 50.25,
+          "written": 84.70454545454545,
+          "wallMs": 45.20720881818207,
+          "hostCpuMs": 20.200420454545462
+        },
+        "compact.outbox": {
+          "statements": 138,
+          "read": 271.8181818181818,
+          "written": 118.27272727272727,
+          "wallMs": 190.5011439090899,
+          "hostCpuMs": 87.28081818181819
+        },
+        "read.feed": {
+          "statements": 1,
+          "read": 7.46875,
+          "written": 0,
+          "wallMs": 1.4583853437479775,
+          "hostCpuMs": 0.4633749999999999
+        },
+        "read.history": {
+          "statements": 6,
+          "read": 18,
+          "written": 0,
+          "wallMs": 13.964039400000184,
+          "hostCpuMs": 5.3039499999999995
+        }
+      },
+      "totals": {
+        "read": 47803,
+        "written": 75622,
+        "statements": 37303
+      }
+    },
+    "large-versions": {
+      "physical": {
+        "pageSize": 4096,
+        "sqliteBytes": 3788800,
+        "ownedBytes": 3633152,
+        "freelistBytes": 155648,
+        "otherBytes": 0,
+        "objects": [
+          {
+            "name": "editorial_blob_fragments",
+            "type": "table",
+            "pages": 396,
+            "bytes": 1622016
+          },
+          {
+            "name": "editorial_blobs",
+            "type": "table",
+            "pages": 176,
+            "bytes": 720896
+          },
+          {
+            "name": "canonical_stories",
+            "type": "table",
+            "pages": 92,
+            "bytes": 376832
+          },
+          {
+            "name": "archive_records",
+            "type": "table",
+            "pages": 28,
+            "bytes": 114688
+          },
+          {
+            "name": "sqlite_autoindex_archive_records_2",
+            "type": "index",
+            "pages": 22,
+            "bytes": 90112
+          },
+          {
+            "name": "content_candidates",
+            "type": "table",
+            "pages": 13,
+            "bytes": 53248
+          },
+          {
+            "name": "content_candidate_revisions",
+            "type": "table",
+            "pages": 10,
+            "bytes": 40960
+          },
+          {
+            "name": "archive_chunks",
+            "type": "table",
+            "pages": 9,
+            "bytes": 36864
+          },
+          {
+            "name": "story_versions",
+            "type": "table",
+            "pages": 8,
+            "bytes": 32768
+          },
+          {
+            "name": "sqlite_schema",
+            "type": "table",
+            "pages": 7,
+            "bytes": 28672
+          },
+          {
+            "name": "content_sources",
+            "type": "table",
+            "pages": 5,
+            "bytes": 20480
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_4",
+            "type": "index",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "story_evidence",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "film_room_videos",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "content_run_log",
+            "type": "table",
+            "pages": 4,
+            "bytes": 16384
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_2",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_3",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "candidates_fingerprint",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "candidates_source_time",
+            "type": "index",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "story_domain_events",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "editorial_cards",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "three_and_out_snapshots",
+            "type": "table",
+            "pages": 3,
+            "bytes": 12288
+          },
+          {
+            "name": "_cf_METADATA",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "nfl_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_nfl_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_nfl_teams_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_sources_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sources_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_teams_team",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_candidates_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "candidate_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_candidate_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "candidate_teams_team",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_canonical_stories_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_feed",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_first_report",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_importance",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_entities",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_entities_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_evidence_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_evidence_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "evidence_story",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "evidence_candidate",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_versions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_versions_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_publication_decisions",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_publication_decisions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_publication_decisions_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_editorial_overrides",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_editorial_overrides_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "overrides_active",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_domain_events_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_story_domain_events_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_editorial_cards_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_editorial_cards_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "video_source_registry",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_video_source_registry_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_video_source_registry_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_film_room_videos_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "film_room_video_teams",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_film_room_video_teams_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "videos_published",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_three_and_out_snapshots_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "edition_team_date",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editions_archive",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "public_schedule",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_public_schedule_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "ingestion_jobs",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_ingestion_jobs_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_ingestion_jobs_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_leases",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "content_outbox",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_outbox_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_outbox_2",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "outbox_due",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "content_control",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_control_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_run_log_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "run_log_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "observer_run_items",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_observer_run_items_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "observer_run_events",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_observer_run_events_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "transaction_assertions",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_transaction_assertions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_checks",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_checks_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "checks_source_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_checkpoints",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_source_checkpoints_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "videos_available_time",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "editions_published",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_claim",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_reclaim",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sqlite_autoindex_content_candidate_revisions_1",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "story_entities_story",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "video_teams_video",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "stories_team_page",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "sources_national",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_exhausted",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "source_check_daily",
+            "type": "table",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "jobs_archive_ready",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          },
+          {
+            "name": "checks_archive_ready",
+            "type": "index",
+            "pages": 1,
+            "bytes": 4096
+          }
+        ]
+      },
+      "counts": {
+        "nfl_teams": {
+          "n": 32
+        },
+        "content_sources": {
+          "n": 33
+        },
+        "source_teams": {
+          "n": 32
+        },
+        "content_candidates": {
+          "n": 200
+        },
+        "candidate_teams": {
+          "n": 200
+        },
+        "canonical_stories": {
+          "n": 83
+        },
+        "story_entities": {
+          "n": 83
+        },
+        "story_evidence": {
+          "n": 83
+        },
+        "story_versions": {
+          "n": 166
+        },
+        "story_publication_decisions": {
+          "n": 83
+        },
+        "story_editorial_overrides": {
+          "n": 0
+        },
+        "story_domain_events": {
+          "n": 83
+        },
+        "editorial_cards": {
+          "n": 83
+        },
+        "video_source_registry": {
+          "n": 0
+        },
+        "film_room_videos": {
+          "n": 40
+        },
+        "film_room_video_teams": {
+          "n": 80
+        },
+        "three_and_out_snapshots": {
+          "n": 32
+        },
+        "public_schedule": {
+          "n": 0
+        },
+        "ingestion_jobs": {
+          "n": 0
+        },
+        "content_outbox": {
+          "n": 0
+        },
+        "content_control": {
+          "n": 1
+        },
+        "content_run_log": {
+          "n": 32
+        },
+        "observer_run_items": {
+          "n": 0
+        },
+        "observer_run_events": {
+          "n": 0
+        },
+        "transaction_assertions": {
+          "n": 0
+        },
+        "source_checks": {
+          "n": 0
+        },
+        "source_checkpoints": {
+          "n": 32
+        },
+        "content_candidate_revisions": {
+          "n": 220
+        },
+        "editorial_blobs": {
+          "n": 2022
+        },
+        "archive_chunks": {
+          "n": 214
+        },
+        "archive_records": {
+          "n": 2555
+        },
+        "source_check_daily": {
+          "n": 32
+        },
+        "editorial_blob_fragments": {
+          "n": 2425
+        }
+      },
+      "duplicates": {
+        "records": 220,
+        "distinctPayloads": 220,
+        "encodedBytes": 24640
+      },
+      "blobStats": {
+        "chunks": 2022,
+        "uncompressedBytes": 6243109,
+        "storedBytes": 412206
+      },
+      "averages": {
+        "candidate": {
+          "statements": 21.255,
+          "read": 5,
+          "written": 30.255,
+          "wallMs": 27.691961210000226,
+          "hostCpuMs": 12.597680000000004
+        },
+        "revision": {
+          "statements": 22.05,
+          "read": 24.05,
+          "written": 22.05,
+          "wallMs": 32.2376668000019,
+          "hostCpuMs": 15.80675
+        },
+        "story": {
+          "statements": 21.275,
+          "read": 4,
+          "written": 22.275,
+          "wallMs": 32.066114062500674,
+          "hostCpuMs": 15.091687500000006
+        },
+        "evidence": {
+          "statements": 4,
+          "read": 3,
+          "written": 8,
+          "wallMs": 4.253009887500411,
+          "hostCpuMs": 2.1077375
+        },
+        "publish": {
+          "statements": 25,
+          "read": 14.875,
+          "written": 31,
+          "wallMs": 35.30333692499935,
+          "hostCpuMs": 16.8438
+        },
+        "video": {
+          "statements": 8,
+          "read": 0,
+          "written": 12,
+          "wallMs": 13.922732324997924,
+          "hostCpuMs": 5.6770249999999995
+        },
+        "edition": {
+          "statements": 22,
+          "read": 11,
+          "written": 22,
+          "wallMs": 29.507359343749158,
+          "hostCpuMs": 12.383843749999997
+        },
+        "check": {
+          "statements": 5,
+          "read": 5.969230769230769,
+          "written": 10.03076923076923,
+          "wallMs": 5.043753535576769,
+          "hostCpuMs": 2.03946826923077
+        },
+        "enqueue": {
+          "statements": 4,
+          "read": 4,
+          "written": 11,
+          "wallMs": 5.145697074576372,
+          "hostCpuMs": 1.9187838983050847
+        },
+        "complete": {
+          "statements": 3,
+          "read": 4,
+          "written": 9,
+          "wallMs": 3.202971947143316,
+          "hostCpuMs": 1.2451992857142848
+        },
+        "compact.job": {
+          "statements": 41.55084745762712,
+          "read": 67.27966101694915,
+          "written": 73.16949152542372,
+          "wallMs": 36.22211759322115,
+          "hostCpuMs": 15.75843220338983
+        },
+        "compact.check": {
+          "statements": 53.21590909090909,
+          "read": 50.25,
+          "written": 84.70454545454545,
+          "wallMs": 44.651217761362204,
+          "hostCpuMs": 20.117999999999995
+        },
+        "compact.outbox": {
+          "statements": 331,
+          "read": 426.09090909090907,
+          "written": 182.63636363636363,
+          "wallMs": 546.2870908181834,
+          "hostCpuMs": 228.8016363636363
+        },
+        "read.feed": {
+          "statements": 18.5,
+          "read": 40.65625,
+          "written": 0,
+          "wallMs": 44.286512999999104,
+          "hostCpuMs": 16.39246875
+        },
+        "read.history": {
+          "statements": 6,
+          "read": 10.35,
+          "written": 0,
+          "wallMs": 11.340227050002431,
+          "hostCpuMs": 4.472300000000001
+        }
+      },
+      "totals": {
+        "read": 51294,
+        "written": 75555,
+        "statements": 40811
+      }
+    }
+  }
+}

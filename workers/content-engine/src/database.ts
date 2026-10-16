@@ -1,6 +1,7 @@
 import type { Meter } from './types';
 export class EditorialDatabase {
   readonly measurements: Meter[] = [];
+  resolveJson?: (stored: string) => Promise<string>;
   constructor(readonly binding: D1Database) {}
   statement(sql: string, values: unknown[] = []): D1PreparedStatement {
     if (values.length > 100) throw Error('D1 parameter budget exceeded');
@@ -19,6 +20,16 @@ export class EditorialDatabase {
   async query<T>(label: string, sql: string, values: unknown[] = []): Promise<T[]> {
     const result = await this.statement(sql, values).all<T>();
     this.record(label, [result]);
+    for (const row of result.results as Record<string, unknown>[])
+      for (const [key, value] of Object.entries(row)) {
+        if (
+          typeof value === 'string' &&
+          value.startsWith('{"$storage":"dd-editorial-payload-v1"')
+        ) {
+          if (!this.resolveJson) throw Error('Compact editorial reader is required');
+          row[key] = await this.resolveJson(value);
+        }
+      }
     return result.results;
   }
   async batch(label: string, statements: D1PreparedStatement[]): Promise<D1Result[]> {

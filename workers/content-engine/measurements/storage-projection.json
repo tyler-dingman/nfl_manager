@@ -1,0 +1,157 @@
+{
+  "scope": "Extrapolation of one full synthetic day, not a 365-day load test or deployed billing measurement. Fixed root pages allocated once. Growing pages retain all records. 15% growth reserve plus original POC and 2MB scratch; hot/cold and multi-DB allocations are assumptions.",
+  "publishedQuotas": {
+    "d1PerDatabaseBytes": 500000000,
+    "d1AccountBytes": 5000000000,
+    "d1FreeDatabases": 10,
+    "d1ReadsPerDay": 5000000,
+    "d1WritesPerDay": 100000,
+    "workerFreeRequestsPerDay": 100000,
+    "workerCpuMs": 10
+  },
+  "projections": {
+    "inline": {
+      "measuredPhysicalBytes": 6369280,
+      "measuredOwnedBytes": 6369280,
+      "fixedBytes": 475136,
+      "dailyOwnedBytes": 5894144,
+      "dailyBytesWith15PercentReserve": 6778266,
+      "initialBytesIncludingOriginalPocAnd2MBScratch": 18842752,
+      "projections": {
+        "30": 222190732,
+        "90": 628886692,
+        "180": 1238930632,
+        "365": 2492909842
+      },
+      "daysTo500MB": 70.9853003703307
+    },
+    "compact": {
+      "measuredPhysicalBytes": 2961408,
+      "measuredOwnedBytes": 2314240,
+      "fixedBytes": 475136,
+      "dailyOwnedBytes": 1839104,
+      "dailyBytesWith15PercentReserve": 2114970,
+      "initialBytesIncludingOriginalPocAnd2MBScratch": 18842752,
+      "projections": {
+        "30": 82291852,
+        "90": 209190052,
+        "180": 399537352,
+        "365": 790806802
+      },
+      "daysTo500MB": 227.50074374577417
+    },
+    "entropy": {
+      "measuredPhysicalBytes": 4255744,
+      "measuredOwnedBytes": 3764224,
+      "fixedBytes": 475136,
+      "dailyOwnedBytes": 3289088,
+      "dailyBytesWith15PercentReserve": 3782452,
+      "initialBytesIncludingOriginalPocAnd2MBScratch": 18842752,
+      "projections": {
+        "30": 132316312,
+        "90": 359263432,
+        "180": 699684112,
+        "365": 1399437732
+      },
+      "daysTo500MB": 127.20776046860608
+    },
+    "large-versions": {
+      "measuredPhysicalBytes": 3788800,
+      "measuredOwnedBytes": 3633152,
+      "fixedBytes": 475136,
+      "dailyOwnedBytes": 3158016,
+      "dailyBytesWith15PercentReserve": 3631719,
+      "initialBytesIncludingOriginalPocAnd2MBScratch": 18842752,
+      "projections": {
+        "30": 127794322,
+        "90": 345697462,
+        "180": 672552172,
+        "365": 1344420187
+      },
+      "daysTo500MB": 132.48746612829902
+    }
+  },
+  "dailyRowsWith25PercentReserve": {
+    "read": 559250,
+    "written": 92512
+  },
+  "alternatives": {
+    "30": {
+      "singleD1": 82291852,
+      "multipleD1": {
+        "total": 95521038,
+        "editorial": 28656312,
+        "history": 38208415,
+        "operations": 28656312
+      },
+      "d1R2": {
+        "d1": 82291852,
+        "r2": 0
+      },
+      "postgres": {
+        "planningLower": 82291852,
+        "planningUpper": 333286098
+      }
+    },
+    "90": {
+      "singleD1": 209190052,
+      "multipleD1": {
+        "total": 235109058,
+        "editorial": 70532718,
+        "history": 94043623,
+        "operations": 70532718
+      },
+      "d1R2": {
+        "d1": 126706222,
+        "r2": 82483830
+      },
+      "postgres": {
+        "planningLower": 209190052,
+        "planningUpper": 943330038
+      }
+    },
+    "180": {
+      "singleD1": 399537352,
+      "multipleD1": {
+        "total": 444491088,
+        "editorial": 133347327,
+        "history": 177796435,
+        "operations": 133347327
+      },
+      "d1R2": {
+        "d1": 193327777,
+        "r2": 206209575
+      },
+      "postgres": {
+        "planningLower": 399537352,
+        "planningUpper": 1858395948
+      }
+    },
+    "365": {
+      "singleD1": 790806802,
+      "multipleD1": {
+        "total": 874887483,
+        "editorial": 262466245,
+        "history": 349954993,
+        "operations": 262466245
+      },
+      "d1R2": {
+        "d1": 330272085,
+        "r2": 460534718
+      },
+      "postgres": {
+        "planningLower": 790806802,
+        "planningUpper": 3739364763
+      }
+    }
+  },
+  "alternativeAssumptions": {
+    "multipleD1": "10% duplication/index overhead plus 5MB; 30/40/30 partition is an unimplemented allocation scenario, not measured per-domain placement. Account reads +20%, writes +10%.",
+    "d1R2": "35% permanently indexed hot bytes, 65% eligible for cold object storage after 30 days. Keep identity/attribution directory in hot share. No lifecycle deletion. D1 rows assumed equal to single baseline conservatively, R2 adds ~250 puts/day and <=1000 gets/day.",
+    "postgres": "Storage range is optimized SQLite lower planning bound to inline SQLite x1.5, not measured Postgres/TOAST. Caching saves reads, not retained bytes. Same logical workload, physical WAL/index writes unmeasured."
+  },
+  "decision": {
+    "singleDatabaseYear": "FAIL: optimized single database exceeds 500MB before 365 days; retain all history and do not certify $0 launch",
+    "production": "No account telemetry, remote database access, provisioning, deployment or migration authorized/performed"
+  }
+}

@@ -1,8 +1,15 @@
+import { PayloadStore } from './payloads';
 import { EditorialDatabase, integer, json, text } from './database';
 import { teamId } from './teams';
 import type { JobInput, JobRow } from './types';
 export class EditorialJobs {
-  constructor(readonly db: EditorialDatabase) {}
+  readonly payloads: PayloadStore;
+  constructor(
+    readonly db: EditorialDatabase,
+    compact = true,
+  ) {
+    this.payloads = new PayloadStore(db, compact);
+  }
   async enqueue(job: JobInput) {
     [job.id, job.jobType, job.idempotencyKey].forEach(text);
     integer(job.availableAt);
@@ -10,6 +17,16 @@ export class EditorialJobs {
     if (job.teamId !== undefined) teamId(job.teamId);
     const max = job.maxAttempts ?? 5;
     if (!Number.isInteger(max) || max < 1 || max > 10) throw Error('Invalid attempt budget');
+    const [archived] = await this.db.query<{ id: string; dedupe_key: string }>(
+      'job.cold-receipt',
+      "SELECT id,dedupe_key FROM archive_records WHERE kind='job' AND dedupe_key=? UNION ALL SELECT id,dedupe_key FROM archive_records WHERE kind='job' AND id=?",
+      [job.idempotencyKey, job.id],
+    );
+    if (archived) {
+      if (archived.id === job.id && archived.dedupe_key !== job.idempotencyKey)
+        throw Error('Job ID already archived');
+      return;
+    }
     const token = crypto.randomUUID();
     await this.db.batch('job.enqueue', [
       this.db.statement(
@@ -17,7 +34,7 @@ export class EditorialJobs {
         [token, job.ownerEpoch],
       ),
       this.db.statement(
-        `INSERT INTO ingestion_jobs(id,job_type,idempotency_key,status,source_id,candidate_id,team_id,available_at,max_attempts,owner_epoch,payload_json,created_at,updated_at) SELECT ?,?,?,'PENDING',?,?,?,?,?,?,?,?,? WHERE ?=(SELECT version FROM content_control WHERE key='writer_epoch') ON CONFLICT(idempotency_key) DO NOTHING`,
+        `INSERT INTO ingestion_jobs(id,job_type,idempotency_key,status,source_id,candidate_id,team_id,available_at,max_attempts,owner_epoch,payload_json,created_at,updated_at) SELECT ?,?,?,'PENDING',?,?,?,?,?,?,?,?,? WHERE ?=(SELECT version FROM content_control WHERE key='writer_epoch') AND NOT EXISTS(SELECT 1 FROM archive_records WHERE kind='job' AND dedupe_key=?) AND NOT EXISTS(SELECT 1 FROM archive_records WHERE kind='job' AND id=?) ON CONFLICT(idempotency_key) DO NOTHING`,
         [
           job.id,
           job.jobType,
@@ -28,10 +45,12 @@ export class EditorialJobs {
           job.availableAt,
           max,
           job.ownerEpoch,
-          json(job.payload),
+          await this.payloads.store(job.payload),
           job.availableAt,
           job.availableAt,
           job.ownerEpoch,
+          job.idempotencyKey,
+          job.id,
         ],
       ),
       this.db.unguard(token),
@@ -53,7 +72,10 @@ export class EditorialJobs {
         [token, now + leaseMs, now, ownerEpoch, now, ownerEpoch, now],
       ),
     ]);
-    return (results[1].results[0] as unknown as JobRow) ?? null;
+    const claimed = (results[1].results[0] as unknown as JobRow) ?? null;
+    if (claimed)
+      claimed.payload_json = JSON.stringify(await this.payloads.read(claimed.payload_json));
+    return claimed;
   }
   async complete(job: JobRow, now: number) {
     integer(now);

@@ -1,3 +1,4 @@
+import { PayloadStore } from './payloads';
 import { EditorialDatabase, canonicalUrl, hash, integer, json, text } from './database';
 import { teamId } from './teams';
 import type {
@@ -42,7 +43,13 @@ function page<T>(
   };
 }
 export class EditorialRepository {
-  constructor(readonly db: EditorialDatabase) {}
+  readonly payloads: PayloadStore;
+  constructor(
+    readonly db: EditorialDatabase,
+    compact = true,
+  ) {
+    this.payloads = new PayloadStore(db, compact);
+  }
   async upsertSource(source: Source) {
     text(source.id);
     text(source.name);
@@ -99,10 +106,21 @@ export class EditorialRepository {
     integer(check.attemptedAt);
     integer(check.nextCheckAt);
     if (typeof check.successful !== 'boolean') throw Error('Invalid check result');
+    const checkToken = crypto.randomUUID();
     await this.db.batch('source.check', [
       this.db.statement(
+        "INSERT INTO transaction_assertions(token,value) VALUES(?,CASE WHEN NOT EXISTS(SELECT 1 FROM archive_records WHERE kind='check' AND id=?) THEN 1 ELSE 0 END)",
+        [checkToken, check.id],
+      ),
+      this.db.statement(
         'INSERT INTO source_checks(id,source_id,attempted_at,successful,record_json) VALUES(?,?,?,?,?)',
-        [check.id, check.sourceId, check.attemptedAt, Number(check.successful), json(check)],
+        [
+          check.id,
+          check.sourceId,
+          check.attemptedAt,
+          Number(check.successful),
+          await this.payloads.store(check),
+        ],
       ),
       this.db.statement(
         `INSERT INTO source_checkpoints(source_id,last_attempt_at,last_successful_at,etag,last_modified,cursor_json) VALUES(?,?,?,?,?,?) ON CONFLICT(source_id) DO UPDATE SET last_attempt_at=excluded.last_attempt_at,last_successful_at=CASE WHEN excluded.last_successful_at IS NOT NULL THEN max(COALESCE(source_checkpoints.last_successful_at,0),excluded.last_successful_at) ELSE source_checkpoints.last_successful_at END,etag=CASE WHEN ? THEN excluded.etag ELSE source_checkpoints.etag END,last_modified=CASE WHEN ? THEN excluded.last_modified ELSE source_checkpoints.last_modified END,cursor_json=CASE WHEN ? THEN excluded.cursor_json ELSE source_checkpoints.cursor_json END WHERE excluded.last_attempt_at>=source_checkpoints.last_attempt_at`,
@@ -130,6 +148,7 @@ export class EditorialRepository {
           check.sourceId,
         ],
       ),
+      this.db.unguard(checkToken),
     ]);
   }
   async sourcesForTeam(team: unknown): Promise<Source[]> {
@@ -194,7 +213,7 @@ export class EditorialRepository {
             candidate.fingerprint,
             candidate.status,
             candidate.publishedAt,
-            json(record),
+            await this.payloads.store(record),
             id,
             existing.revision,
           ],
@@ -210,7 +229,7 @@ export class EditorialRepository {
             candidate.status,
             candidate.publishedAt,
             candidate.discoveredAt,
-            json(record),
+            await this.payloads.store(record),
           ],
         );
     try {
@@ -219,7 +238,13 @@ export class EditorialRepository {
         this.db.guard(token),
         this.db.statement(
           'INSERT INTO content_candidate_revisions(candidate_id,revision,content_hash,observed_at,record_json) VALUES(?,?,?,?,?)',
-          [id, revision, candidate.fingerprint, candidate.discoveredAt, json(record)],
+          [
+            id,
+            revision,
+            candidate.fingerprint,
+            candidate.discoveredAt,
+            await this.payloads.store(record),
+          ],
         ),
         this.db.statement('DELETE FROM candidate_teams WHERE candidate_id=?', [id]),
         ...candidate.teamIds.map((t) =>
@@ -260,11 +285,11 @@ export class EditorialRepository {
     await this.db.batch('story.create', [
       this.db.statement(
         `INSERT INTO canonical_stories(id,team_id,story_type,publication_state,status,headline,summary,importance_score,confidence_score,first_reported_at,meaningful_update_at,latest_evidence_at,hot_read_until,game_id,version,content_hash,record_json) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-        this.storyValues(story, contentHash),
+        await this.storyValues(story, contentHash),
       ),
       this.db.statement(
         'INSERT INTO story_versions(id,story_id,version,created_at,record_json) VALUES(?,?,1,?,?)',
-        [`${story.id}:v1`, story.id, story.meaningfulUpdateAt, json(story)],
+        [`${story.id}:v1`, story.id, story.meaningfulUpdateAt, await this.payloads.store(story)],
       ),
       ...story.entityKeys.map((key) =>
         this.db.statement('INSERT INTO story_entities(entity_key,story_id) VALUES(?,?)', [
@@ -287,7 +312,7 @@ export class EditorialRepository {
     if (story.entityKeys.length > 32 || new Set(story.entityKeys).size !== story.entityKeys.length)
       throw Error('Entity budget exceeded or duplicates');
   }
-  private storyValues(s: Story, h: string) {
+  private async storyValues(s: Story, h: string) {
     return [
       s.id,
       s.teamId,
@@ -305,15 +330,22 @@ export class EditorialRepository {
       s.gameId,
       s.version,
       h,
-      json(s),
+      await this.payloads.store(s),
     ];
   }
   async associateEvidence(evidence: Evidence) {
     [evidence.id, evidence.storyId, evidence.candidateId, evidence.sourceId].forEach(text);
     integer(evidence.firstSeenAt);
+    const [candidate] = await this.db.query<{ revision: number }>(
+      'evidence.pin',
+      'SELECT revision FROM content_candidates WHERE id=? AND source_id=?',
+      [evidence.candidateId, evidence.sourceId],
+    );
+    if (!candidate) throw Error('Evidence source/candidate is missing');
+    const token = crypto.randomUUID();
     await this.db.batch('evidence.associate', [
       this.db.statement(
-        'INSERT INTO story_evidence(id,story_id,content_candidate_id,source_id,first_seen_at,record_json) VALUES(?,?,?,?,?,?)',
+        'INSERT INTO story_evidence(id,story_id,content_candidate_id,source_id,first_seen_at,record_json,candidate_revision) SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM content_candidate_revisions WHERE candidate_id=? AND revision=?)',
         [
           evidence.id,
           evidence.storyId,
@@ -321,9 +353,40 @@ export class EditorialRepository {
           evidence.sourceId,
           evidence.firstSeenAt,
           json(evidence),
+          candidate.revision,
+          evidence.candidateId,
+          candidate.revision,
         ],
       ),
+      this.db.guard(token),
+      this.db.unguard(token),
     ]);
+  }
+  async historicalVersion(storyId: string, version: number) {
+    integer(version);
+    const [row] = await this.db.query<{ record_json: string }>(
+      'story.history',
+      'SELECT record_json FROM story_versions WHERE story_id=? AND version=?',
+      [text(storyId), version],
+    );
+    return row ? JSON.parse(row.record_json) : null;
+  }
+  async candidateRevision(candidateId: string, revision: number) {
+    integer(revision);
+    const [row] = await this.db.query<{ record_json: string }>(
+      'candidate.history',
+      'SELECT record_json FROM content_candidate_revisions WHERE candidate_id=? AND revision=?',
+      [text(candidateId), revision],
+    );
+    return row ? JSON.parse(row.record_json) : null;
+  }
+  async storyById(id: string) {
+    const [row] = await this.db.query<{ record_json: string }>(
+      'story.identity',
+      'SELECT record_json FROM canonical_stories WHERE id=?',
+      [text(id)],
+    );
+    return row ? JSON.parse(row.record_json) : null;
   }
   async publishStory(
     story: Story,
@@ -352,7 +415,7 @@ export class EditorialRepository {
       this.db.statement(
         `UPDATE canonical_stories SET team_id=?,story_type=?,publication_state=?,status=?,headline=?,summary=?,importance_score=?,confidence_score=?,first_reported_at=?,meaningful_update_at=?,latest_evidence_at=?,hot_read_until=?,game_id=?,version=?,content_hash=?,record_json=? WHERE id=? AND version=? AND ?=(SELECT count(*) FROM story_evidence WHERE story_id=? AND id IN (${placeholders}))`,
         [
-          ...this.storyValues(story, contentHash).slice(1),
+          ...(await this.storyValues(story, contentHash)).slice(1),
           story.id,
           expectedVersion,
           details.evidenceIds.length,
@@ -368,7 +431,7 @@ export class EditorialRepository {
           story.id,
           story.version,
           story.meaningfulUpdateAt,
-          json({ ...story, evidenceIds: details.evidenceIds }),
+          await this.payloads.store({ ...story, evidenceIds: details.evidenceIds }),
         ],
       ),
       this.db.statement(
@@ -377,7 +440,12 @@ export class EditorialRepository {
       ),
       this.db.statement(
         'INSERT INTO editorial_cards(id,story_id,story_version,schema_version,descriptor_json) VALUES(?,?,?,1,?)',
-        [`${story.id}:card:${story.version}`, story.id, story.version, json(details.card)],
+        [
+          `${story.id}:card:${story.version}`,
+          story.id,
+          story.version,
+          await this.payloads.store(details.card),
+        ],
       ),
       this.db.statement(
         "INSERT INTO story_domain_events(id,story_id,story_version,event_type,idempotency_key,occurred_at,record_json) VALUES(?,?,?,'PUBLICATION',?,?,?)",
@@ -396,7 +464,11 @@ export class EditorialRepository {
           details.eventId,
           story.id,
           story.version,
-          json({ story, decision: details.decision, evidenceIds: details.evidenceIds }),
+          await this.payloads.store({
+            story,
+            decision: details.decision,
+            evidenceIds: details.evidenceIds,
+          }),
           story.meaningfulUpdateAt,
         ],
       ),
@@ -423,7 +495,7 @@ export class EditorialRepository {
   async attribution(storyId: string) {
     const rows = await this.db.query<{ evidence: string; candidate: string; source: string }>(
       'story.attribution',
-      `SELECT e.record_json AS evidence,c.record_json AS candidate,s.record_json AS source FROM story_evidence e JOIN content_candidates c ON c.id=e.content_candidate_id JOIN content_sources s ON s.id=e.source_id WHERE e.story_id=? ORDER BY e.first_seen_at,e.id`,
+      `SELECT e.record_json AS evidence,COALESCE(r.record_json,c.record_json) AS candidate,s.record_json AS source FROM story_evidence e JOIN content_candidates c ON c.id=e.content_candidate_id JOIN content_sources s ON s.id=e.source_id LEFT JOIN content_candidate_revisions r ON r.candidate_id=e.content_candidate_id AND r.revision=e.candidate_revision WHERE e.story_id=? ORDER BY e.first_seen_at,e.id`,
       [text(storyId)],
     );
     return rows.map((r) => ({
@@ -450,7 +522,7 @@ export class EditorialRepository {
           video.metadataCheckedAt,
           video.availability,
           h,
-          json(video),
+          await this.payloads.store(video),
         ],
       ),
       this.db.statement('DELETE FROM film_room_video_teams WHERE video_id=?', [video.videoId]),
@@ -505,7 +577,7 @@ export class EditorialRepository {
           edition.status,
           edition.generatedAt,
           edition.sourceFingerprint,
-          json(edition),
+          await this.payloads.store(edition),
         ],
       ),
     );
@@ -513,7 +585,12 @@ export class EditorialRepository {
       statements.push(
         this.db.statement(
           "INSERT INTO content_outbox(event_id,aggregate_id,aggregate_version,event_type,payload_json,available_at) VALUES(?,?,1,'EDITION_PUBLISHED',?,?)",
-          [`edition:${edition.id}`, edition.id, json(edition), edition.generatedAt],
+          [
+            `edition:${edition.id}`,
+            edition.id,
+            await this.payloads.store(edition),
+            edition.generatedAt,
+          ],
         ),
       );
     await this.db.batch('edition.save', statements);
