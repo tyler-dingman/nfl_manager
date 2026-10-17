@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DELIVERY_PRESETS,
   timezoneLabel,
@@ -18,6 +18,11 @@ export default function DeliveryTiming({
   onChange: (time: string) => void;
 }) {
   const [custom, setCustom] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  // Intl labels vary across server and browser locales/ICU versions.
+  // Keep the initial render deterministic, then localize in the browser.
+  const displayTimezone = mounted ? timezoneLabel(timezone) : timezone;
   const isCustom = custom || !DELIVERY_PRESETS.some((p) => p.time === time);
   return (
     <fieldset className={styles.timing} disabled={disabled}>
@@ -50,7 +55,7 @@ export default function DeliveryTiming({
           />
         </label>
       ) : null}
-      <p className={styles.timezone}>Times shown in {timezoneLabel(timezone)}</p>
+      <p className={styles.timezone}>Times shown in {displayTimezone}</p>
     </fieldset>
   );
 }

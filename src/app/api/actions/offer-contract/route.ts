@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { NextResponse } from 'next/server';
 
@@ -8,7 +9,7 @@ import { scoreFreeAgencyOffer } from '@/lib/free-agency-scoring';
 import { getYearOneCapHit } from '@/server/logic/cap';
 import { getTeamCatchphrase, getTeamHypeLine } from '@/lib/team-chants';
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   try {
     const body = (await request.json()) as {
       saveId?: string;
@@ -105,3 +106,5 @@ export const POST = async (request: Request) => {
     );
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

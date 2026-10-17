@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { isTradeDeadlinePassed } from '@/lib/front-office-trade-window';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -12,7 +13,7 @@ import {
   getUserTradeChips,
 } from '@/server/front-office/trades/trade-target-engine';
 
-export async function GET(request: NextRequest) {
+async function handleGET(request: NextRequest) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   const saveId = request.nextUrl.searchParams.get('saveId');
@@ -65,3 +66,5 @@ export async function GET(request: NextRequest) {
     recentTrades,
   });
 }
+
+export const GET = withFranchiseRoute(handleGET, {});

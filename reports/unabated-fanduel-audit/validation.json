@@ -1,0 +1,282 @@
+[
+  {
+    "selectionId": "7bb5b92d-9563-4bc6-b315-d1b60fea6fcf",
+    "player": "Tyjae Spears",
+    "reportedMatchCount": 1,
+    "offerId": "21267433054",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "580",
+    "returnedThreshold": "29.5"
+  },
+  {
+    "selectionId": "8b0eee01-66b6-4eb6-85d1-f0f07a95dfdb",
+    "player": "DeMario Douglas",
+    "reportedMatchCount": 1,
+    "offerId": "21330927803",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "-120",
+    "returnedThreshold": "14.50"
+  },
+  {
+    "selectionId": "dbc52e9c-096b-4687-89e2-d1c32dbfc18c",
+    "player": "Omarion Hampton",
+    "reportedMatchCount": 1,
+    "offerId": "21212775506",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "-700",
+    "returnedThreshold": "14.5"
+  },
+  {
+    "selectionId": "a8d9b020-5bd1-4f53-a794-5bbc9ee46b21",
+    "player": "Dalton Kincaid",
+    "reportedMatchCount": 1,
+    "offerId": "21148998735",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "-470",
+    "returnedThreshold": "2.5"
+  },
+  {
+    "selectionId": "3bccf32d-6a2f-4452-bcb3-33664ce63433",
+    "player": "Deshaun Watson",
+    "reportedMatchCount": 1,
+    "offerId": "21154853458",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "-235",
+    "returnedThreshold": "174.5"
+  },
+  {
+    "selectionId": "ff076589-393b-4a5a-a6bb-3145332a5cb3",
+    "player": "Kyler Murray",
+    "reportedMatchCount": 1,
+    "offerId": "21247724111",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "-114",
+    "returnedThreshold": "233.50"
+  },
+  {
+    "selectionId": "514a319f-2c85-487b-9ce0-cdc7d560ee7b",
+    "player": "Bhayshul Tuten",
+    "reportedMatchCount": 1,
+    "offerId": "21094268138",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "-130",
+    "returnedThreshold": "14.50"
+  },
+  {
+    "selectionId": "db0952ba-9b40-4ce4-8b1c-7b054f58c2b6",
+    "player": "Zay Flowers",
+    "reportedMatchCount": 1,
+    "offerId": "21167242534",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "-114",
+    "returnedThreshold": "68.50"
+  },
+  {
+    "selectionId": "ee2819b3-7e2a-4cb5-9712-59cd38880310",
+    "player": "Tucker Kraft",
+    "reportedMatchCount": 1,
+    "offerId": "21224692959",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "-114",
+    "returnedThreshold": "49.50"
+  },
+  {
+    "selectionId": "7dc5f9b3-f248-41b4-9d8a-e84f3bcb4514",
+    "player": "Pat Freiermuth",
+    "reportedMatchCount": 1,
+    "offerId": "21242244617",
+    "checks": {
+      "singleLegCounts": true,
+      "playerName": true,
+      "eventTeamLabels": true,
+      "kickoff": true,
+      "marketLabel": true,
+      "threshold": true,
+      "period": true,
+      "sportsbook": true,
+      "linkShape": true
+    },
+    "missingEvidence": [
+      "independently resolved player/event identity",
+      "Over/Under direction",
+      "current sportsbook availability",
+      "supported region",
+      "actual sportsbook slip contents"
+    ],
+    "outcome": "Unverified candidate",
+    "verified": false,
+    "returnedOdds": "114",
+    "returnedThreshold": "3.50"
+  }
+]

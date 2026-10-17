@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: every NFL team has researched primary links and an honest minimum-20 gap
+ok 1 - every NFL team has researched primary links and an honest minimum-20 gap
+  ---
+  duration_ms: 3.05025
+  ...
+# Subtest: source IDs, publication identities and team associations are unique
+ok 2 - source IDs, publication identities and team associations are unique
+  ---
+  duration_ms: 2.774208
+  ...
+# Subtest: existing general source IDs and configuration remain byte-for-byte equivalent
+ok 3 - existing general source IDs and configuration remain byte-for-byte equivalent
+  ---
+  duration_ms: 1.222958
+  ...
+# Subtest: new shared publications are stored once and appear only on their associated teams
+ok 4 - new shared publications are stored once and appear only on their associated teams
+  ---
+  duration_ms: 0.524333
+  ...
+# Subtest: normalization handles protocol, www, tracking, aliases and exact social identities
+ok 5 - normalization handles protocol, www, tracking, aliases and exact social identities
+  ---
+  duration_ms: 0.3635
+  ...
+# Subtest: scores have bounded components and do not become publishing trust scores
+ok 6 - scores have bounded components and do not become publishing trust scores
+  ---
+  duration_ms: 0.409834
+  ...
+# Subtest: verified RSS alone never authorizes ingestion; X stays discovery-only
+ok 7 - verified RSS alone never authorizes ingestion; X stays discovery-only
+  ---
+  duration_ms: 0.287083
+  ...
+# Subtest: shared feed plan deduplicates approved fetches while preserving association records
+ok 8 - shared feed plan deduplicates approved fetches while preserving association records
+  ---
+  duration_ms: 0.105625
+  ...
+# Subtest: adaptive planning requires measured volume and backs off failures
+ok 9 - adaptive planning requires measured volume and backs off failures
+  ---
+  duration_ms: 0.299875
+  ...
+# Subtest: storage and account-wide write/request gates fail when modeled expansion exceeds capacity
+ok 10 - storage and account-wide write/request gates fail when modeled expansion exceeds capacity
+  ---
+  duration_ms: 0.609167
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 202.297375

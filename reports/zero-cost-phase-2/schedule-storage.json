@@ -1,0 +1,43 @@
+{
+  "scope": "MEASURED local SQLite allocation for one synthetic year of durable scheduling slots. Fixtures directly inserted; provider not called. Claim+completion costs two row writes per attempted slot.",
+  "results": [
+    {
+      "summaryBytes": 200,
+      "slots": 156,
+      "table": {
+        "name": "odds_refresh_slots",
+        "type": "table",
+        "pages": 12,
+        "bytes": 49152,
+        "rows": 156,
+        "columnBytes": {
+          "slot": 1560,
+          "token": 5616,
+          "state": 1248,
+          "started_at": 2028,
+          "finished_at": 2028,
+          "summary_json": 31200
+        }
+      }
+    },
+    {
+      "summaryBytes": 32000,
+      "slots": 156,
+      "table": {
+        "name": "odds_refresh_slots",
+        "type": "table",
+        "pages": 1272,
+        "bytes": 5210112,
+        "rows": 156,
+        "columnBytes": {
+          "slot": 1560,
+          "token": 5616,
+          "state": 1248,
+          "started_at": 2028,
+          "finished_at": 2028,
+          "summary_json": 4992000
+        }
+      }
+    }
+  ]
+}

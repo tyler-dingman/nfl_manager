@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import type { ExpiringContractRow } from '@/lib/expiring-contracts';
@@ -29,7 +30,7 @@ const shapeInterestScore = (playerId: string, rawInterest: number) => {
   return clamp(72 + Math.round((normalizedRaw / 100) * 20) + variance, 70, 96);
 };
 
-export const GET = async (request: Request) => {
+const handleGET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const saveId = searchParams.get('saveId');
   const teamAbbr = searchParams.get('teamAbbr');
@@ -102,3 +103,5 @@ export const GET = async (request: Request) => {
 
   return NextResponse.json({ ok: true, players });
 };
+
+export const GET = withFranchiseRoute(handleGET, { reference: true });

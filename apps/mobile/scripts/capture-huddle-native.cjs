@@ -21,7 +21,7 @@ const out = path.resolve('reports/huddle/previews');
         .click();
       await page.getByRole('button', { name: 'Continue', exact: true }).click();
       await page.getByRole('button', { name: 'Maybe later', exact: true }).click();
-      await page.getByText('THE HUDDLE · Join your team’s conversation →', { exact: true }).click();
+      await page.goto(`http://localhost:8090/huddle?team=${width === 360 ? 'PHI' : 'MIN'}`);
       console.log('Native preview route', page.url());
       await page.waitForTimeout(1500);
       await page.screenshot({ path: path.join(out, `native-${width}-loaded.png`), fullPage: true });

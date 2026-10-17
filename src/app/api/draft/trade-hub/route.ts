@@ -1,9 +1,10 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 import { ensureDraftTradeContext } from '@/server/api/draft-trade';
 import { updateMockDraftTrades } from '@/server/logic/mock-draft-trades';
 import { executeMockTrade, expireMockOffers, proposeMockTrade } from '@/lib/mock-draft-trades';
 
-export async function POST(request: Request) {
+async function handlePOST(request: Request) {
   try {
     const body = await request.json();
     if (typeof body.saveId !== 'string' || typeof body.draftSessionId !== 'string')
@@ -39,3 +40,5 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export const POST = withFranchiseRoute(handlePOST, {});

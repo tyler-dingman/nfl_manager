@@ -1,8 +1,9 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { analyzeTrade } from '@/server/api/trades';
 
-export const POST = async (request: Request, { params }: { params: { id: string } }) => {
+const handlePOST = async (request: Request, { params }: { params: { id: string } }) => {
   try {
     const body = (await request.json()) as { saveId?: string };
     if (!body.saveId) {
@@ -20,3 +21,5 @@ export const POST = async (request: Request, { params }: { params: { id: string 
     );
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

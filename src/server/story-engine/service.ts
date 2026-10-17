@@ -59,6 +59,14 @@ export async function processCandidate(candidateId: string, synthesizer?: StoryS
     await repo.setCandidateStatus(candidateId, 'REJECTED', 'No usable title or team match.');
     return { action: 'rejected' };
   }
+  if (!candidate.text.trim() && !candidate.excerpt.trim()) {
+    await repo.setCandidateStatus(
+      candidateId,
+      'REVIEW_REQUIRED',
+      'Headline-only source item; no supported source text.',
+    );
+    return { action: 'review', reason: 'headline-only' };
+  }
   const stories = await repo.recentStories(
     candidate.candidateTeams,
     new Date(Date.now() - 72 * 3_600_000),

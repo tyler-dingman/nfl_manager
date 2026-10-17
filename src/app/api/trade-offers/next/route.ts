@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { tradeDeadlineResponse } from '@/server/front-office/trade-window';
 import { NextResponse } from 'next/server';
 
@@ -5,7 +6,7 @@ import { getSaveStateResult } from '@/server/api/store';
 import { generateTradeOffers } from '@/server/logic/trade-offer-generator';
 import type { TradeOfferGenerationContext } from '@/types/trade-offers';
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   const body = (await request.json()) as Partial<TradeOfferGenerationContext>;
 
   if (!body.saveId || !body.userTeamAbbr || !body.phase || !body.trigger) {
@@ -39,3 +40,5 @@ export const POST = async (request: Request) => {
     debug: process.env.NODE_ENV === 'production' ? undefined : result.debug,
   });
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

@@ -1,0 +1,164 @@
+[
+  {
+    "team": "KC",
+    "name": "Chiefs Digest",
+    "url": "https://chiefsdigest.com/",
+    "discoveryUrl": "https://chiefsdigest.com/"
+  },
+  {
+    "team": "NYJ",
+    "name": "JetNation",
+    "url": "https://www.jetnation.com/",
+    "discoveryUrl": "https://www.jetnation.com/"
+  },
+  {
+    "team": "SF",
+    "name": "49ers Webzone",
+    "url": "https://www.49erswebzone.com/",
+    "discoveryUrl": "https://www.49erswebzone.com/"
+  },
+  {
+    "team": "NO",
+    "name": "NewOrleans.Football",
+    "url": "https://www.neworleans.football/",
+    "discoveryUrl": "https://www.neworleans.football/"
+  },
+  {
+    "team": "TB",
+    "name": "Pewter Report",
+    "url": "https://www.pewterreport.com/",
+    "discoveryUrl": "https://www.pewterreport.com/"
+  },
+  {
+    "team": "PHI",
+    "name": "PhillyVoice Eagles",
+    "url": "https://www.phillyvoice.com/staff-contributors/jimmy-kempski/",
+    "discoveryUrl": "https://www.phillyvoice.com/staff-contributors/jimmy-kempski/"
+  },
+  {
+    "team": "PIT",
+    "name": "Steelers Now",
+    "url": "https://steelersnow.com/about/",
+    "discoveryUrl": "https://steelersnow.com/about/"
+  },
+  {
+    "team": "BAL",
+    "name": "Russell Street Report",
+    "url": "https://russellstreetreport.com/",
+    "discoveryUrl": "https://russellstreetreport.com/"
+  },
+  {
+    "team": "BUF",
+    "name": "Cover 1",
+    "url": "https://www.cover1.net/",
+    "discoveryUrl": "https://www.cover1.net/"
+  },
+  {
+    "team": "NYJ",
+    "name": "Jets X-Factor",
+    "url": "https://jetsxfactor.com/",
+    "discoveryUrl": "https://jetsxfactor.com/"
+  },
+  {
+    "team": "SEA",
+    "name": "Hawk Blogger",
+    "url": "https://www.hawkblogger.com/",
+    "discoveryUrl": "https://www.hawkblogger.com/"
+  },
+  {
+    "team": "GB",
+    "name": "Packers Talk",
+    "url": "https://packerstalk.com/",
+    "discoveryUrl": "https://packerstalk.com/"
+  },
+  {
+    "team": "DAL",
+    "name": "Inside The Star",
+    "url": "https://insidethestar.com/",
+    "discoveryUrl": "https://insidethestar.com/"
+  },
+  {
+    "team": "MIA",
+    "name": "DolphinsTalk",
+    "url": "https://dolphinstalk.com/",
+    "discoveryUrl": "https://dolphinstalk.com/"
+  },
+  {
+    "team": "PIT",
+    "name": "Steelers Depot",
+    "url": "https://steelersdepot.com/",
+    "discoveryUrl": "https://steelersdepot.com/"
+  },
+  {
+    "team": "HOU",
+    "name": "Texans Wire",
+    "url": "https://texanswire.usatoday.com/",
+    "discoveryUrl": "https://texanswire.usatoday.com/"
+  },
+  {
+    "team": "IND",
+    "name": "Colts Wire",
+    "url": "https://coltswire.usatoday.com/",
+    "discoveryUrl": "https://coltswire.usatoday.com/"
+  },
+  {
+    "team": "JAX",
+    "name": "Jaguars Wire",
+    "url": "https://jaguarswire.usatoday.com/",
+    "discoveryUrl": "https://jaguarswire.usatoday.com/"
+  },
+  {
+    "team": "LV",
+    "name": "Raiders Wire",
+    "url": "https://raiderswire.usatoday.com/",
+    "discoveryUrl": "https://raiderswire.usatoday.com/"
+  },
+  {
+    "team": "LAC",
+    "name": "Chargers Wire",
+    "url": "https://chargerswire.usatoday.com/",
+    "discoveryUrl": "https://chargerswire.usatoday.com/"
+  },
+  {
+    "team": "LAR",
+    "name": "Rams Wire",
+    "url": "https://theramswire.usatoday.com/",
+    "discoveryUrl": "https://theramswire.usatoday.com/"
+  },
+  {
+    "team": "NYG",
+    "name": "Giants Wire",
+    "url": "https://giantswire.usatoday.com/",
+    "discoveryUrl": "https://giantswire.usatoday.com/"
+  },
+  {
+    "team": "CHI",
+    "name": "Chicago Tribune Bears",
+    "url": "https://www.chicagotribune.com/sports/chicago-bears/",
+    "discoveryUrl": "https://www.chicagotribune.com/sports/chicago-bears/"
+  },
+  {
+    "team": "DAL",
+    "name": "Dallas Morning News Cowboys",
+    "url": "https://www.dallasnews.com/sports/cowboys/",
+    "discoveryUrl": "https://www.dallasnews.com/sports/cowboys/"
+  },
+  {
+    "team": "DEN",
+    "name": "Denver Post Broncos",
+    "url": "https://www.denverpost.com/sports/denver-broncos/",
+    "discoveryUrl": "https://www.denverpost.com/sports/denver-broncos/"
+  },
+  {
+    "team": "DET",
+    "name": "Detroit Free Press Lions",
+    "url": "https://www.freep.com/sports/lions/",
+    "discoveryUrl": "https://www.freep.com/sports/lions/"
+  },
+  {
+    "team": "MIA",
+    "name": "Miami Herald Dolphins",
+    "url": "https://www.miamiherald.com/sports/nfl/miami-dolphins/",
+    "discoveryUrl": "https://www.miamiherald.com/sports/nfl/miami-dolphins/"
+  }
+]

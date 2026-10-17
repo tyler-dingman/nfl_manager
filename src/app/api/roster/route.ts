@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { getRoster } from '@/server/api/players';
@@ -5,7 +6,7 @@ import { getRoster } from '@/server/api/players';
 const getParam = (request: Request, key: string) =>
   new URL(request.url).searchParams.get(key) ?? undefined;
 
-export const GET = async (request: Request) => {
+const handleGET = async (request: Request) => {
   const saveId = getParam(request, 'saveId');
   const teamAbbr = getParam(request, 'teamAbbr');
   if (!saveId) {
@@ -25,3 +26,5 @@ export const GET = async (request: Request) => {
 
   return NextResponse.json(result.data);
 };
+
+export const GET = withFranchiseRoute(handleGET, {});

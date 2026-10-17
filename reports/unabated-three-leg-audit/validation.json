@@ -1,0 +1,63 @@
+{
+  "classification": "Complete candidate",
+  "checks": [
+    {
+      "player": "Ty Johnson",
+      "requestedSide": "UNDER",
+      "checks": {
+        "player": true,
+        "game": true,
+        "kickoff": true,
+        "market": true,
+        "threshold": true,
+        "period": true,
+        "sportsbook": true
+      },
+      "direction": "Missing\u2014pending manual verification",
+      "returnedOfferId": "21369303659",
+      "returnedOdds": "-114",
+      "returnedThreshold": "11.50"
+    },
+    {
+      "player": "Justice Hill",
+      "requestedSide": "OVER",
+      "checks": {
+        "player": true,
+        "game": true,
+        "kickoff": true,
+        "market": true,
+        "threshold": true,
+        "period": true,
+        "sportsbook": true
+      },
+      "direction": "Missing\u2014pending manual verification",
+      "returnedOfferId": "21385603443",
+      "returnedOdds": "-470",
+      "returnedThreshold": "0.5"
+    },
+    {
+      "player": "Tory Horton",
+      "requestedSide": "UNDER",
+      "checks": {
+        "player": true,
+        "game": true,
+        "kickoff": true,
+        "market": true,
+        "threshold": true,
+        "period": true,
+        "sportsbook": true
+      },
+      "direction": "Missing\u2014pending manual verification",
+      "returnedOfferId": "21307101918",
+      "returnedOdds": "-114",
+      "returnedThreshold": "11.50"
+    }
+  ],
+  "originalUrl": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-4099f1830f0a0f3088cdbfb580aac683",
+  "attributedUrl": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-4099f1830f0a0f3088cdbfb580aac683?utm_campaign=downanddistance",
+  "manualVerification": "Pending manual verification",
+  "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+  "elapsedMs": 15213,
+  "apiCalls": 8,
+  "polls": 7
+}

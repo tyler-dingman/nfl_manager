@@ -1,0 +1,57 @@
+{
+  "scope": "MEASURED Node process CPU and wall time on this development machine. Includes native threads. Not Cloudflare Worker CPU, isolate memory, API latency or a production percentile.",
+  "runtime": "v22.14.0",
+  "architecture": "arm64",
+  "results": [
+    {
+      "name": "Argon2id existing password parameters",
+      "samples": 10,
+      "medianWallMs": 16.95875000000001,
+      "maxWallMs": 20.11045800000005,
+      "medianNodeProcessCpuMs": 16.887,
+      "maxNodeProcessCpuMs": 20.846,
+      "rssBefore": 128876544,
+      "rssAfter": 190103552
+    },
+    {
+      "name": "Argon2id password verification",
+      "samples": 10,
+      "medianWallMs": 17.62304199999994,
+      "maxWallMs": 21.647207999999978,
+      "medianNodeProcessCpuMs": 18.541,
+      "maxNodeProcessCpuMs": 20.941,
+      "rssBefore": 190103552,
+      "rssAfter": 190988288
+    },
+    {
+      "name": "JSON parse and stringify ~8000 bytes",
+      "samples": 10,
+      "medianWallMs": 0.0487910000000511,
+      "maxWallMs": 0.11129099999993741,
+      "medianNodeProcessCpuMs": 0.049,
+      "maxNodeProcessCpuMs": 0.109,
+      "rssBefore": 190988288,
+      "rssAfter": 190988288
+    },
+    {
+      "name": "JSON parse and stringify ~512000 bytes",
+      "samples": 10,
+      "medianWallMs": 3.2078749999999445,
+      "maxWallMs": 3.8573750000000473,
+      "medianNodeProcessCpuMs": 3.1,
+      "maxNodeProcessCpuMs": 4.15,
+      "rssBefore": 192872448,
+      "rssAfter": 198426624
+    },
+    {
+      "name": "JSON parse and stringify ~17510000 bytes",
+      "samples": 10,
+      "medianWallMs": 101.49150000000009,
+      "maxWallMs": 115.01862499999993,
+      "medianNodeProcessCpuMs": 101.773,
+      "maxNodeProcessCpuMs": 107.829,
+      "rssBefore": 281067520,
+      "rssAfter": 521142272
+    }
+  ]
+}

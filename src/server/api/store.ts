@@ -1,3 +1,4 @@
+import { franchiseWorkspace, isolatedMap } from '@/server/front-office/runtime-context';
 import { normalizeFrontOfficePhase } from '@/lib/front-office-phase';
 import {
   assignSimulationRoster,
@@ -41,6 +42,7 @@ export type PlayerFilters = {
 
 type StoredPlayer = PlayerRowDTO & {
   year1CapHit: number;
+  contractStartYear?: number;
   capHitSchedule?: number[];
 };
 
@@ -99,7 +101,10 @@ const getTradePickYearsForLeagueYear = (year: number) =>
 const serverState = globalThis as typeof globalThis & {
   __frontOfficeSaveStore?: Map<string, SaveState>;
 };
-const saveStore = (serverState.__frontOfficeSaveStore ??= new Map<string, SaveState>());
+const saveStore = isolatedMap(
+  'saves',
+  (serverState.__frontOfficeSaveStore ??= new Map<string, SaveState>()),
+);
 let otcRowsCache: OtcFreeAgencyRow[] | null = null;
 let otcRowsPromise: Promise<OtcFreeAgencyRow[]> | null = null;
 
@@ -488,6 +493,7 @@ const sortDraftPickAssets = (assets: TradePickAssetDTO[]) =>
   });
 
 const ensureDraftPickAssets = (state: SaveState): TradePickAssetDTO[] => {
+  if (franchiseWorkspace.getStore()) return state.draftPickAssets;
   if (!state.draftPickAssets || state.draftPickAssets.length === 0) {
     state.draftPickAssets = buildInitialDraftPickAssets(getLeagueYearForSave(state));
   }
@@ -635,6 +641,9 @@ export const createSaveState = (
   teamAbbr: string,
   year: number = CURRENT_MODELED_LEAGUE_YEAR,
 ): SaveState => {
+  const workspace = franchiseWorkspace.getStore();
+  if (workspace && (workspace.saveId !== saveId || !workspace.writable))
+    throw new Error('Owned franchise initialization is not permitted.');
   const normalizedTeamAbbr = teamAbbr.toUpperCase();
   const roster = buildRosterForTeam(normalizedTeamAbbr);
   const freeAgents = buildFreeAgencyPool({
@@ -688,10 +697,16 @@ export const createSaveState = (
   return state;
 };
 
-/** Mirror the committed simulation into the roster/market cache; never advances its clock. */
+/** Apply committed season changes to the owned mutable workspace, then mirror its clock. */
 export function syncSaveSimulation(saveId: string, simulation: { phase: string; season: number }) {
   const state = getSaveState(saveId);
   if (!state) return;
+  if (franchiseWorkspace.getStore()?.writable) {
+    while (state.header.year < simulation.season) {
+      const advanced = advanceSaveStateToNextOffseason(saveId);
+      if (!advanced.ok) throw new Error('Unable to apply committed season rollover.');
+    }
+  }
   state.header.phase = normalizeFrontOfficePhase(simulation.phase);
   state.header.year = simulation.season;
   state.header.unlocked = { freeAgency: true, draft: true };
@@ -722,6 +737,8 @@ export const ensureSaveState = (saveId: string, teamAbbr: string, year?: number)
 };
 
 export const restoreSaveState = (saveId: string, payload: SaveRestorePayload): SaveState => {
+  if (franchiseWorkspace.getStore())
+    throw new Error('Client snapshots require explicit legacy reconciliation.');
   const normalizedTeamAbbr = payload.teamAbbr.toUpperCase();
   const state = ensureSaveState(saveId, normalizedTeamAbbr);
   const restoredRoster = assignSimulationRoster(payload.roster.map(toStoredPlayer));
@@ -1025,11 +1042,15 @@ export const advanceSaveStateToNextOffseason = (
         return;
       }
 
+      const contractElapsed = (player.contractStartYear ?? state.header.year) < nextYear;
       const nextYearsRemaining = Math.max(
         0,
-        (player.contractYearsRemaining ?? player.contract?.yearsRemaining ?? 0) - 1,
+        (player.contractYearsRemaining ?? player.contract?.yearsRemaining ?? 0) -
+          (contractElapsed ? 1 : 0),
       );
-      const nextCapHitSchedule = player.capHitSchedule?.slice(1);
+      const nextCapHitSchedule = contractElapsed
+        ? player.capHitSchedule?.slice(1)
+        : player.capHitSchedule;
       const nextCapHit =
         nextCapHitSchedule?.[0] ??
         player.contract?.capHit ??
@@ -1131,8 +1152,18 @@ export const advanceSaveStateToNextOffseason = (
   state.offseason.freeAgencyWave = 1;
   state.offseason.initialFreeAgentCount = state.freeAgents.length;
   state.header.freeAgencyWave = 1;
-  state.draftSessions = {};
-  state.draftPickAssets = buildInitialDraftPickAssets(nextYear);
+  if (!franchiseWorkspace.getStore()) state.draftSessions = {};
+  // Preserve traded future ownership; issue only picks absent from the new horizon.
+  const retainedPicks = state.draftPickAssets.filter((pick) => pick.year >= nextYear);
+  const pickIdentity = (pick: TradePickAssetDTO) =>
+    `${pick.year}:${pick.round}:${pick.originalTeamAbbr}`;
+  const retainedKeys = new Set(retainedPicks.map(pickIdentity));
+  state.draftPickAssets = sortDraftPickAssets([
+    ...retainedPicks,
+    ...buildInitialDraftPickAssets(nextYear).filter(
+      (pick) => !retainedKeys.has(pickIdentity(pick)),
+    ),
+  ]);
 
   return {
     ok: true,
@@ -1986,11 +2017,15 @@ export const pushNewsItem = (
 export const addDraftedPlayersInState = (
   state: SaveState,
   draftedPlayers: PlayerRowDTO[],
+  teamAbbr = state.header.teamAbbr,
+  draftYear = state.header.year + 1,
 ): { header: SaveHeaderDTO; players: PlayerRowDTO[] } => {
   const addedPlayers: StoredPlayer[] = [];
+  const roster = state.teamRosters[teamAbbr];
+  if (!roster) throw new Error('Draft destination roster is missing.');
 
   draftedPlayers.forEach((player) => {
-    if (state.roster.some((rosterPlayer) => rosterPlayer.id === player.id)) {
+    if (roster.some((rosterPlayer) => rosterPlayer.id === player.id)) {
       return;
     }
 
@@ -2003,13 +2038,27 @@ export const addDraftedPlayersInState = (
       salary: year1CapHit,
       guaranteed: 0,
       status: 'ROOKIE',
+      teamAbbr,
+      currentTeamAbbr: teamAbbr,
+      contractStartYear: draftYear,
       year1CapHit,
     };
 
-    state.roster.push(rookiePlayer);
+    roster.push(rookiePlayer);
     addedPlayers.push(rookiePlayer);
-    state.header.rosterCount = state.roster.length;
-    state.header.capSpace = Number((state.header.capSpace - year1CapHit).toFixed(1));
+    state.teamCaps[teamAbbr] = Number((state.teamCaps[teamAbbr] - year1CapHit).toFixed(1));
+    if (teamAbbr === state.header.teamAbbr) {
+      state.header.rosterCount = roster.length;
+      state.header.capSpace = state.teamCaps[teamAbbr];
+    }
+    state.transactions.push({
+      id: `draft:${draftYear}:${teamAbbr}:${player.id}`,
+      type: 'draft',
+      playerId: player.id,
+      toTeamAbbr: teamAbbr,
+      capHit: year1CapHit,
+      createdAt: new Date().toISOString(),
+    });
   });
 
   return {

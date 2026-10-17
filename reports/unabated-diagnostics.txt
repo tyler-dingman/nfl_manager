@@ -1,0 +1,163 @@
+Unabated NFL Props diagnostic report
+Run: 2026-10-10 UTC / 2026-10-09 America/Chicago
+
+Conclusion
+NFL straight odds and the independent deep-link/bet-generation workflows work for
+this Free content-partner account. NFL AND MLB props boards fail, and both tested
+sources endpoints fail. The most likely explanation is a provider-side problem in
+these scoped market routes or the account's configuration for those routes. It is
+not an entire-API outage, a missing API key, or simply absent NFL prop inventory:
+the independent generator found a Bears FanDuel player prop.
+An account-specific scope/configuration problem cannot be excluded with one key.
+
+Implementation verification
+Base: https://data.unabated.com. Header: X-Api-Key. Method: GET for odds/discovery.
+Both NFL odds paths were called without query parameters. Existing client uses the
+same documented host/header/paths and no filters on props. No undocumented event,
+book, period or league query filters are present. The only implemented optional
+odds filter in the diagnostic script is documented betTypeId, conditionally skipped.
+No installed odds scheduler was found in source; Cloudflare worker is content-only.
+Local process checks showed zero other named ingestion/audit processes. External
+hosts cannot be ruled out from a local process check. No 429 or Retry-After appeared.
+Diagnostic odds calls waited 5.5 seconds after the preceding odds response completed;
+no failing endpoint was retried. A five-second startup delay followed the UI test.
+The shared client was also tightened to wait five seconds after a run completes,
+rather than only spacing request start times. This did not explain these failures:
+they persisted in independently spaced raw requests and contained no rate-limit signal.
+
+Endpoint                            HTTP  API success   Result
+NFL straight odds                   200   true          Working; metrics below
+NFL props odds (no filters)          200   false         Error A
+NFL props sources                   200   false         Error B
+Filtered passing props              —     —             Skipped: unfiltered props failed
+Filtered receiving props            —     —             Skipped: unfiltered props failed
+Filtered rushing props              —     —             Skipped: unfiltered props failed
+Other sport props: MLB              200   false         Error A
+NFL straight sources (extra check)  200   false         Error B
+League discovery                    200   true          NFL and MLB route names confirmed
+FanDuel single /deeplink             200   true          status 0, full_support; exact ID returned
+FanDuel two-game /deeplink           200   true          status 0, full_support; both IDs returned
+Legacy-prop text generation          200   pending       Accepted; direct status object
+Generated legacy-prop status         200   Complete      FanDuel result returned, see caveats
+API Keys NFL example-link tester     UI    success       Fresh DK and FanDuel example links
+
+Complete safe error bodies
+Error A (NFL props and MLB props):
+{"success":false,"messages":["Unexpected error while retrieving odds for the provided filter."]}
+Error B (NFL props sources and NFL straight sources):
+{"success":false,"messages":["Unexpected error while retrieving market sources for the provided filter."]}
+No HTTP errors or other messages were returned for these calls. Missing data was
+reported as unknown; it was not counted as zero coverage.
+
+Straight board metrics
+55 distinct events; 18,117 available normalized market/side/threshold combinations;
+51,118 available sportsbook selections (main + alternate, across returned periods
+and phases). These cover the returned board, not only this week's games.
+Available source IDs: 1,2,4,20,36,60,66,86,89,105,107,111,121.
+The actual account tester identifies 1 as DraftKings and 2 as FanDuel. Remaining
+source names are unresolved because scoped source discovery itself failed; no
+numeric-to-name mappings were guessed. No player personId selections were present
+in the straight board, so it is not a substitute player-prop feed.
+
+Official contract verification
+/market/{league}/{marketType}/sources exists in the current official OpenAPI and
+lists Free, Concierge and Enterprise tiers. Props and straight are documented
+marketType values. /league returned NFL and MLB; MLB is a currently active sport
+chosen for the independent prop test. No usable MLB prop board was returned, so
+its actual account coverage cannot be confirmed. Filtered tests were deliberately
+not run, as requested when the unfiltered NFL props call fails.
+
+Independent FanDuel tests
+The account UI identifies Free content partner access and partner code downanddistance.
+With NFL selected, clicking Get example links returned:
+  FanDuel: Eagles Philadelphia PHI moneyline +315 at Jacksonville.
+  Unabated source 2 / marketLineId 16930136022 / no points.
+The attributed Gambly link redirected to sportsbook.fanduel.com/addToBetslip with
+marketId[0]=42.578347294 and selectionId[0]=50186, then the browser reached a region
+selection/login-expired screen. No wager, login, deposit or region change was made.
+Lifetime partner clicks increased from 2 to 3 after opening the example link.
+This verifies the redirect and tester attribution, not a populated sportsbook slip,
+nor attribution from a published Down & Distance link.
+
+Using current Unabated IDs from the working board:
+- /deeplink?ids=16930136022&points=_ returned success:true/status:0/full_support.
+- /deeplink with IDs 16930136022 and 16930136281, points _,_, returned full_support
+  and acknowledged both IDs. The events were distinct (125791 and 125792).
+This tests API-level two-game generation, not sportsbook acceptance or an SGP.
+No SGP-only Enterprise endpoint was called.
+
+Can we use existing SportsGameOdds props independently?
+A read-only local DB query selected an existing FanDuel Bears offer:
+Tyson Bagent OVER 224.5 passing yards, full game, CHI at GB,
+2026-10-11T17:00:00Z, +108.
+Only its human-readable exact context was sent to POST /api/v1/bet/generate;
+NO SportsGameOdds IDs were submitted as Unabated IDs. Five bounded status polls
+completed. FanDuel returned legsRequested=1, legsMatched=1, Bagent, Passing Yards,
+Full Game, correct matchup/kickoff, points=224.50 and price=108 with a generated link.
+This demonstrates an independent candidate-matching path while props boards fail.
+It is NOT safe to enable the CTA yet:
+- The generated selection did not explicitly return OVER/UNDER.
+- DraftKings and several other books reported 1/1 matched but returned 219.5 or
+  217.5, not the requested 224.5 threshold.
+- A count alone cannot establish exact identity or complete-slip correctness.
+- Generated offer IDs are not assumed to equal Unabated marketLineIds or sportsbook
+  selection IDs. They need independent current resolution.
+- The real FanDuel slip was not inspected beyond its region/login boundary.
+
+Cause assessment
+1. Incorrect request implementation: unlikely; raw requests match the official
+   examples, bypass app schemas, and straight odds plus links work.
+2. Unsupported query parameters: ruled out for these failures; none were supplied.
+3. Account permissions: key and some Free scope work; route-specific account
+   configuration remains possible. No 401 or 403 was observed.
+4. Rate limiting: no evidence; spacing enforced, no 429, no Retry-After.
+5. Provider failure: leading explanation for repeated application errors spanning
+   multiple prop leagues and both source-discovery routes.
+6. Missing market coverage: insufficient explanation for these explicit errors;
+   generator returned a real NFL player-prop candidate. Actual full coverage is
+   still unknown and cannot be inferred from one candidate.
+
+Development continued without production changes
+- scripts/diagnose-unabated.ts records the matrix, sanitized raw errors, timings and
+  counts. It never retries an identical application-level error.
+- scripts/diagnose-unabated-links.ts runs independent real-ID/text-only link tests;
+  it reads only local DB data and keeps transfer settings unchanged.
+- normalize.ts now produces compact DB-ready rows against injected, reviewed
+  canonical mappings. It preserves exact lines, side, internal event/player IDs,
+  book-specific main/alternate status, provider and sportsbook IDs separately,
+  original provider deep link and freshness. Unknowns and conflicting duplicates
+  are quarantined. No guessed numeric market map is shipped.
+- generated-slip.ts rejects missing independent identity/direction resolution,
+  wrong thresholds, wrong regions, unavailable/expired offers, duplicates, partial
+  slips and invalid generated URLs. This is not registered with the My Parlay UI.
+- Fixture tests cover canonical mapping, -1000 alternate odds, Over/Under, duplicate
+  prevention, unknown mappings and unsafe generated-slip matches. Production data,
+  legacy integration, existing UI and ENABLE_FANDUEL_BETSLIP were not changed.
+No database migration or writer was applied in this diagnostic step.
+
+Verification
+55 automated tests passed across Unabated fixtures, existing odds normalization,
+classification, ingestion-week matching, Lab Score V2 and My Parlay gating.
+TypeScript and targeted lint passed. Browser API Keys/tester and FanDuel redirect
+were inspected in Chrome; no native UI changes or device validation occurred.
+
+Next actions
+Send Unabated the endpoint/error matrix, emphasizing that straight odds and bet
+text generation work but props and sources fail across sports. Ask them to check
+those routes and the account's route-specific scope/configuration. Do not send the
+API key. Separately, continue the local bulk-writer/mapping and DB-backed match
+resolver work using fixtures; then replace fixtures with actual account data.
+Keep production transfer disabled until exact direction, every selected leg,
+current availability, region and real FanDuel slip contents can all be verified.
+
+Evidence
+reports/unabated-diagnostics.json — exact sanitized API matrix and timing
+reports/unabated-link-diagnostics.json — requests, matched selections and link results
+/tmp/unabated-diagnostic-boards.json — successful odds response retained locally
+
+Official sources read during this run
+https://docs.unabated.com/guides/odds
+https://docs.unabated.com/guides/errors-and-limits
+https://docs.unabated.com/guides/deep-links
+https://docs.unabated.com/guides/bet-slips
+https://data.unabated.com/swagger/v1/swagger.json

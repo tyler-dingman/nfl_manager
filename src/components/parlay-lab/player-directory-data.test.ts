@@ -46,3 +46,17 @@ test('missing history produces no rate, trend or featured claim', () => {
   assert.equal(p.change, null);
   assert.equal(playerStatus(p), null);
 });
+
+test('team directory includes roster players without inventing props or statistics', () => {
+  const roster = [
+    { id: 'roster-only', name: 'Roster Player', position: 'LB', teamAbbr: 'KC', headshotUrl: null },
+  ];
+  assert.equal(summarizePlayers([], roster).length, 0);
+  const players = summarizePlayers([], roster, true);
+  assert.equal(players.length, 1);
+  assert.equal(players[0].market, null);
+  assert.equal(players[0].score, null);
+  assert.equal(players[0].hitRate, null);
+  assert.equal(players[0].teamAbbr, 'KC');
+  assert.equal(playerStatus(players[0]), null);
+});

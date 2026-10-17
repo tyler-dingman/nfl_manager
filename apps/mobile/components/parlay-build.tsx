@@ -1,3 +1,4 @@
+import { accountParlays, mergeSavedParlays } from '../../../packages/parlay/account-saves';
 import { ParlayGenerator } from './parlay-generator';
 import { applySavedPlayResults, type GradeResult } from '../../../packages/parlay/saved-results';
 import { authenticatedFetch } from '../lib/auth';
@@ -8,8 +9,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { ParlayEvent, ParlayMarket } from '../lib/parlay';
 import { largeDeviceStorage as deviceStorage } from '../lib/large-device-storage';
 import { demoSession } from '../lib/demo-session';
-import { snapshotSavedPlay, type SavedPlay } from '../../../src/components/parlay-lab/saved-plays';
-import { estimateParlayOdds } from '../../../src/components/parlay-lab/parlay-odds';
+import { type SavedPlay } from '../../../src/components/parlay-lab/saved-plays';
 
 export function ParlayBuild({
   section,
@@ -44,11 +44,11 @@ export function ParlayBuild({
     }
     void deviceStorage
       .get(KEY)
-      .then((raw) => {
+      .then(async (raw) => {
         const value = JSON.parse(raw ?? '[]');
         if (!Array.isArray(value)) throw new Error();
         if (active) {
-          setSaved(value);
+          setSaved(mergeSavedParlays(value, await accountParlays(authenticatedFetch)));
           setReady(true);
         }
       })
@@ -80,26 +80,6 @@ export function ParlayBuild({
       setBusy(false);
     }
   }
-  async function save() {
-    if (!slip.length || !ready || busy) return;
-    setBusy(true);
-    const next = [
-      snapshotSavedPlay({
-        selections: slip,
-        event: events.find((event) => slip.every((leg) => leg.eventId === event.id)),
-      }),
-      ...saved,
-    ].slice(0, 20);
-    try {
-      if (!demoSession.isActive()) await deviceStorage.set(KEY, JSON.stringify(next));
-      setSaved(next);
-      setNotice('Parlay saved on this device.');
-    } catch {
-      setNotice('Unable to save this parlay.');
-    } finally {
-      setBusy(false);
-    }
-  }
   return (
     <View>
       {section === 'generator' && (
@@ -108,7 +88,7 @@ export function ParlayBuild({
       {section === 'my-plays' ? (
         <>
           <Text style={s.heading}>MY PARLAYS</Text>
-          <Text style={s.copy}>Track the plays you save on this device.</Text>
+          <Text style={s.copy}>Track your saved parlays.</Text>
           {!saved.length && (
             <Text style={s.copy}>
               {ready
@@ -150,52 +130,7 @@ export function ParlayBuild({
               </View>
             ))}
         </>
-      ) : (
-        <View style={s.card}>
-          <Text style={[s.heading, section === 'home' && { fontSize: 20 }]}>
-            My Parlay · {slip.length}
-          </Text>
-          {!slip.length && (
-            <View style={{ minHeight: 150, alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ color: '#A8BAC4', fontSize: 24 }}>+</Text>
-              <Text style={s.title}>Build your parlay</Text>
-              <Text style={s.copy}>Add the legs you like while you research.</Text>
-            </View>
-          )}
-          {slip.map((m) => (
-            <View key={`${m.id}-${m.sportsbook}`} style={s.leg}>
-              <Pressable onPress={() => onOpen(m)} style={{ flex: 1 }}>
-                <Text style={s.title}>{m.playerName ?? m.teamId}</Text>
-                <Text style={s.copy}>
-                  {m.marketType.replaceAll('_', ' ')} · {m.side} {m.line}
-                </Text>
-              </Pressable>
-              <Pressable
-                accessibilityLabel={`Remove ${m.playerName ?? 'market'}`}
-                onPress={() =>
-                  setSlip(
-                    slip.filter((item) => !(item.id === m.id && item.sportsbook === m.sportsbook)),
-                  )
-                }
-                style={s.touch}
-              >
-                <Text style={s.copy}>✕</Text>
-              </Pressable>
-            </View>
-          ))}
-          {slip.length > 0 && (
-            <>
-              <Text style={s.title}>
-                Combined odds: {estimateParlayOdds(slip.map((m) => m.odds)) ?? '—'}
-              </Text>
-              <Text style={s.copy}>Estimated combined odds. Same-game pricing may differ.</Text>
-              <Pressable disabled={busy || !ready} style={s.button} onPress={() => void save()}>
-                <Text style={s.buttonText}>SAVE PARLAY</Text>
-              </Pressable>
-            </>
-          )}
-        </View>
-      )}
+      ) : null}
       {!!notice && (
         <Text accessibilityRole="alert" style={s.copy}>
           {notice}

@@ -1,14 +1,18 @@
 import { didHit, resolveHistoricalStat } from './stat-resolver';
 import { calculatePlayerUsageTrend } from './player-usage-trend-service';
 import type { HistoricalPlayerGame, HistoricalStatType, TeamSeasonStrength } from './types';
+import type { ProjectionContext } from './lab-score-v2';
 
 export type Alignment = 'supports' | 'neutral' | 'conflicts' | 'unknown';
 export type ScoreContext = {
   strength?: TeamSeasonStrength | null;
   position?: string | null;
+  opponentLogs?: HistoricalPlayerGame[];
   lineType?: 'main' | 'alternate' | 'unknown';
   mainLine?: number | null;
   spread?: number | null;
+  projectionContext?: ProjectionContext;
+  scoreVersion?: 'legacy' | 'v2';
 };
 const clamp = (n: number, min = -1, max = 1) => Math.max(min, Math.min(max, n));
 const alignment = (n: number | null): Alignment =>

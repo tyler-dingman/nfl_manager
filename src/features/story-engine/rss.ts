@@ -16,6 +16,24 @@ export function parseRssOrAtom(
   source: RegisteredSource,
   fetchedAt = new Date().toISOString(),
 ): RawSourceItem[] {
+  if (!/<(?:rss|feed|rdf:RDF)(?:\s|\/?>)/i.test(xml) || /<!DOCTYPE|<!ENTITY/i.test(xml))
+    throw new Error('Invalid or unsupported RSS/Atom document.');
+  if (
+    !(
+      /<rss\b[\s\S]*<\/rss\s*>/i.test(xml) ||
+      /<feed\b[\s\S]*<\/feed\s*>/i.test(xml) ||
+      /<feed\b[^>]*\/>\s*$/i.test(xml) ||
+      /<rdf:RDF\b[\s\S]*<\/rdf:RDF\s*>/i.test(xml)
+    )
+  )
+    throw new Error('Incomplete RSS/Atom document.');
+  const structure = xml.replace(/<!\[CDATA\[[\s\S]*?\]\]>|<!--[\s\S]*?-->/g, '');
+  for (const tag of ['item', 'entry', 'channel'])
+    if (
+      (structure.match(new RegExp(`<${tag}(?:\\s[^>]*)?>`, 'gi')) ?? []).length !==
+      (structure.match(new RegExp(`</${tag}\\s*>`, 'gi')) ?? []).length
+    )
+      throw new Error('Incomplete RSS/Atom content.');
   const blocks = [...xml.matchAll(/<(item|entry)(?:\s[^>]*)?>([\s\S]*?)<\/\1>/gi)].map(
     (match) => match[2],
   );
@@ -23,7 +41,13 @@ export function parseRssOrAtom(
     const title = first(block, ['title']);
     const url = first(block, ['link']) || attr(block, 'link', 'href');
     if (!title || !url) return [];
+    try {
+      if (!['http:', 'https:'].includes(new URL(url).protocol)) return [];
+    } catch {
+      return [];
+    }
     const publishedAt = first(block, ['pubDate', 'published', 'updated']) || fetchedAt;
+    if (!Number.isFinite(new Date(publishedAt).getTime())) return [];
     const excerpt = first(block, ['description', 'summary', 'content:encoded', 'content']);
     const externalId = first(block, ['guid', 'id']) || url;
     return [

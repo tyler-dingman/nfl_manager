@@ -1795,3 +1795,56 @@
 :global([data-parlay-research]) .venueGrid em {
   color: var(--lab-muted);
 }
+
+/* Match Overview's card rhythm in the research modal's secondary tabs. */
+:global([data-parlay-research]) :is(.researchSection, .chartAccordion) {
+  min-width: 0;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid var(--lab-border, #183b4c);
+  border-radius: 10px;
+}
+:global([data-parlay-research]) .researchSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+:global([data-parlay-research]) .researchSection > header {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+:global([data-parlay-research]) .researchSection > header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  flex: 1 1 240px;
+}
+:global([data-parlay-research]) .researchSection > header nav {
+  align-items: center;
+  align-self: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+:global([data-parlay-research]) .researchSection > details {
+  padding: 16px;
+  border: 1px solid var(--lab-border, #183b4c);
+  border-radius: 8px;
+}
+:global([data-parlay-research]) .researchSection details[open] > summary {
+  margin-bottom: 16px;
+}
+:global([data-parlay-research]) .chartAccordion > div {
+  padding-top: 20px;
+}
+:global([data-parlay-research])
+  .researchSection
+  > :is(.metrics, .environmentGrid, .venueGrid, .ladderContext, .labNote, .environmentDetails) {
+  margin-top: 0;
+}
+@media (max-width: 600px) {
+  :global([data-parlay-research]) :is(.researchSection, .chartAccordion) {
+    padding: 14px;
+  }
+}

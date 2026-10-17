@@ -1,9 +1,10 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { getSaveState } from '@/server/api/store';
 import { summarizeFreeAgencyPool } from '@/server/logic/free-agency-pool';
 
-export const GET = async (request: Request) => {
+const handleGET = async (request: Request) => {
   if (process.env.NODE_ENV === 'production') {
     return NextResponse.json({ ok: false, error: 'Not available in production' }, { status: 404 });
   }
@@ -21,3 +22,5 @@ export const GET = async (request: Request) => {
 
   return NextResponse.json({ ok: true, summary: summarizeFreeAgencyPool(state.freeAgents) });
 };
+
+export const GET = withFranchiseRoute(handleGET, {});

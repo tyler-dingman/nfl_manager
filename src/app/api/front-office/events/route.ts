@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextRequest, NextResponse } from 'next/server';
 import { currentUser } from '@/server/auth/request';
 import { authError } from '@/server/auth/http';
@@ -10,7 +11,7 @@ import {
 import { z } from 'zod';
 import { getFrontOfficeSaveMetadata } from '@/server/front-office/repository';
 
-export async function GET(request: NextRequest) {
+async function handleGET(request: NextRequest) {
   try {
     const user = await currentUser(request);
     if (!user) return authError('Unauthorized.', 401);
@@ -60,7 +61,7 @@ const patchSchema = z.object({
   action: z.literal('read-all'),
 });
 
-export async function PATCH(request: NextRequest) {
+async function handlePATCH(request: NextRequest) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   const { saveId } = patchSchema.parse(await request.json());
@@ -69,3 +70,6 @@ export async function PATCH(request: NextRequest) {
   await markAllFrontOfficeEventsRead(user.id, saveId);
   return NextResponse.json({ ok: true });
 }
+
+export const GET = withFranchiseRoute(handleGET, {});
+export const PATCH = withFranchiseRoute(handlePATCH, {});

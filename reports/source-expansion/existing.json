@@ -1,0 +1,5738 @@
+{
+  "general": [
+    {
+      "id": "YAHOO_SPORTS",
+      "name": "Yahoo Sports",
+      "displayName": "Yahoo Sports",
+      "team": null,
+      "category": "AGGREGATOR",
+      "trustScore": 80,
+      "breakingNewsScore": 68,
+      "analysisScore": 72,
+      "teamRelevanceScore": 0,
+      "platform": "WEB",
+      "url": "https://sports.yahoo.com/nfl/",
+      "enabled": true,
+      "priority": 70,
+      "isAggregator": true
+    },
+    {
+      "id": "BAL_RAVENS_OFFICIAL",
+      "name": "Baltimore Ravens",
+      "displayName": "Baltimore Ravens",
+      "team": "BAL",
+      "category": "OFFICIAL",
+      "trustScore": 100,
+      "breakingNewsScore": 100,
+      "analysisScore": 75,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://www.baltimoreravens.com/",
+      "enabled": true,
+      "priority": 100,
+      "notes": "Included as the counterparty official source for the current KC trade test."
+    },
+    {
+      "id": "ADAM_SCHEFTER",
+      "name": "Adam Schefter",
+      "displayName": "Adam Schefter",
+      "team": null,
+      "category": "NATIONAL_INSIDER",
+      "trustScore": 98,
+      "breakingNewsScore": 100,
+      "analysisScore": 75,
+      "teamRelevanceScore": 0,
+      "platform": "X",
+      "handle": "AdamSchefter",
+      "url": "https://x.com/AdamSchefter",
+      "enabled": true,
+      "priority": 100
+    },
+    {
+      "id": "IAN_RAPOPORT",
+      "name": "Ian Rapoport",
+      "displayName": "Ian Rapoport",
+      "team": null,
+      "category": "NATIONAL_INSIDER",
+      "trustScore": 98,
+      "breakingNewsScore": 100,
+      "analysisScore": 75,
+      "teamRelevanceScore": 0,
+      "platform": "X",
+      "handle": "RapSheet",
+      "url": "https://x.com/RapSheet",
+      "enabled": true,
+      "priority": 100
+    },
+    {
+      "id": "TOM_PELISSERO",
+      "name": "Tom Pelissero",
+      "displayName": "Tom Pelissero",
+      "team": null,
+      "category": "NATIONAL_INSIDER",
+      "trustScore": 98,
+      "breakingNewsScore": 100,
+      "analysisScore": 75,
+      "teamRelevanceScore": 0,
+      "platform": "X",
+      "handle": "TomPelissero",
+      "url": "https://x.com/TomPelissero",
+      "enabled": true,
+      "priority": 100
+    },
+    {
+      "id": "MIKE_GARAFOLO",
+      "name": "Mike Garafolo",
+      "displayName": "Mike Garafolo",
+      "team": null,
+      "category": "NATIONAL_INSIDER",
+      "trustScore": 96,
+      "breakingNewsScore": 97,
+      "analysisScore": 75,
+      "teamRelevanceScore": 0,
+      "platform": "X",
+      "handle": "MikeGarafolo",
+      "url": "https://x.com/MikeGarafolo",
+      "enabled": true,
+      "priority": 97
+    },
+    {
+      "id": "JEREMY_FOWLER",
+      "name": "Jeremy Fowler",
+      "displayName": "Jeremy Fowler",
+      "team": null,
+      "category": "NATIONAL_INSIDER",
+      "trustScore": 94,
+      "breakingNewsScore": 92,
+      "analysisScore": 75,
+      "teamRelevanceScore": 0,
+      "platform": "X",
+      "handle": "JFowlerESPN",
+      "url": "https://x.com/JFowlerESPN",
+      "enabled": true,
+      "priority": 92
+    },
+    {
+      "id": "DIANNA_RUSSINI",
+      "name": "Dianna Russini",
+      "displayName": "Dianna Russini",
+      "team": null,
+      "category": "NATIONAL_INSIDER",
+      "trustScore": 94,
+      "breakingNewsScore": 94,
+      "analysisScore": 75,
+      "teamRelevanceScore": 0,
+      "platform": "X",
+      "handle": "DMRussini",
+      "url": "https://x.com/DMRussini",
+      "enabled": true,
+      "priority": 94
+    },
+    {
+      "id": "JORDAN_SCHULTZ",
+      "name": "Jordan Schultz",
+      "displayName": "Jordan Schultz",
+      "team": null,
+      "category": "NATIONAL_INSIDER",
+      "trustScore": 90,
+      "breakingNewsScore": 94,
+      "analysisScore": 75,
+      "teamRelevanceScore": 0,
+      "platform": "X",
+      "handle": "Schultz_Report",
+      "url": "https://x.com/Schultz_Report",
+      "enabled": true,
+      "priority": 94
+    },
+    {
+      "id": "ALBERT_BREER",
+      "name": "Albert Breer",
+      "displayName": "Albert Breer",
+      "team": null,
+      "category": "NATIONAL_INSIDER",
+      "trustScore": 92,
+      "breakingNewsScore": 87,
+      "analysisScore": 75,
+      "teamRelevanceScore": 0,
+      "platform": "X",
+      "handle": "AlbertBreer",
+      "url": "https://x.com/AlbertBreer",
+      "enabled": true,
+      "priority": 87
+    },
+    {
+      "id": "JONATHAN_JONES",
+      "name": "Jonathan Jones",
+      "displayName": "Jonathan Jones",
+      "team": null,
+      "category": "NATIONAL_INSIDER",
+      "trustScore": 92,
+      "breakingNewsScore": 88,
+      "analysisScore": 75,
+      "teamRelevanceScore": 0,
+      "platform": "X",
+      "handle": "jjones9",
+      "url": "https://x.com/jjones9",
+      "enabled": true,
+      "priority": 88
+    },
+    {
+      "id": "KC_CHIEFS",
+      "name": "Kansas City Chiefs",
+      "displayName": "Kansas City Chiefs",
+      "team": "KC",
+      "category": "OFFICIAL",
+      "trustScore": 100,
+      "breakingNewsScore": 100,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://www.chiefs.com/",
+      "enabled": true,
+      "priority": 100
+    },
+    {
+      "id": "KC_CHIEFS_PR",
+      "name": "Chiefs PR",
+      "displayName": "Chiefs PR",
+      "team": "KC",
+      "category": "OFFICIAL",
+      "trustScore": 100,
+      "breakingNewsScore": 100,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "X",
+      "handle": "ChiefsPR",
+      "url": "https://x.com/ChiefsPR",
+      "enabled": true,
+      "priority": 100
+    },
+    {
+      "id": "KC_CHIEFS_SOCIAL",
+      "name": "Kansas City Chiefs",
+      "displayName": "Kansas City Chiefs",
+      "team": "KC",
+      "category": "OFFICIAL",
+      "trustScore": 100,
+      "breakingNewsScore": 95,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "X",
+      "handle": "Chiefs",
+      "url": "https://x.com/Chiefs",
+      "enabled": true,
+      "priority": 95
+    },
+    {
+      "id": "KC_MATT_MCMULLEN",
+      "name": "Matt McMullen",
+      "displayName": "Matt McMullen",
+      "team": "KC",
+      "category": "OFFICIAL",
+      "trustScore": 98,
+      "breakingNewsScore": 90,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "X",
+      "handle": "KCChiefsMatt",
+      "url": "https://x.com/KCChiefsMatt",
+      "enabled": true,
+      "priority": 90,
+      "notes": "Chiefs Senior Team Reporter"
+    },
+    {
+      "id": "MATT_DERRICK",
+      "name": "Matt Derrick",
+      "displayName": "Matt Derrick",
+      "team": "KC",
+      "category": "LOCAL_BEAT",
+      "trustScore": 94,
+      "breakingNewsScore": 92,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "X",
+      "handle": "mattderrick",
+      "url": "https://x.com/mattderrick",
+      "enabled": true,
+      "priority": 92,
+      "notes": "Chiefs Digest"
+    },
+    {
+      "id": "PETE_SWEENEY",
+      "name": "Pete Sweeney",
+      "displayName": "Pete Sweeney",
+      "team": "KC",
+      "category": "LOCAL_BEAT",
+      "trustScore": 92,
+      "breakingNewsScore": 90,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "enabled": true,
+      "priority": 90,
+      "notes": "Kansas City Star Chiefs beat reporter"
+    },
+    {
+      "id": "JESSE_NEWELL",
+      "name": "Jesse Newell",
+      "displayName": "Jesse Newell",
+      "team": "KC",
+      "category": "LOCAL_BEAT",
+      "trustScore": 92,
+      "breakingNewsScore": 88,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "enabled": true,
+      "priority": 88,
+      "notes": "Kansas City Star"
+    },
+    {
+      "id": "NICK_JACOBS",
+      "name": "Nick Jacobs",
+      "displayName": "Nick Jacobs",
+      "team": "KC",
+      "category": "LOCAL_BEAT",
+      "trustScore": 91,
+      "breakingNewsScore": 90,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "enabled": true,
+      "priority": 90,
+      "notes": "KSHB 41"
+    },
+    {
+      "id": "ADAM_TEICHER",
+      "name": "Adam Teicher",
+      "displayName": "Adam Teicher",
+      "team": "KC",
+      "category": "LOCAL_BEAT",
+      "trustScore": 92,
+      "breakingNewsScore": 85,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "enabled": true,
+      "priority": 85,
+      "notes": "ESPN"
+    },
+    {
+      "id": "NATE_TAYLOR",
+      "name": "Nate Taylor",
+      "displayName": "Nate Taylor",
+      "team": "KC",
+      "category": "LOCAL_BEAT",
+      "trustScore": 92,
+      "breakingNewsScore": 85,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "enabled": true,
+      "priority": 85
+    },
+    {
+      "id": "JOHN_DIXON",
+      "name": "John Dixon",
+      "displayName": "John Dixon",
+      "team": "KC",
+      "category": "LOCAL_MEDIA",
+      "trustScore": 86,
+      "breakingNewsScore": 78,
+      "analysisScore": 88,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "enabled": true,
+      "priority": 88,
+      "notes": "Arrowhead Pride"
+    },
+    {
+      "id": "KSHB_41",
+      "name": "KSHB 41",
+      "displayName": "KSHB 41",
+      "team": "KC",
+      "category": "LOCAL_MEDIA",
+      "trustScore": 88,
+      "breakingNewsScore": 88,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://www.kshb.com/sports/football/chiefs",
+      "enabled": true,
+      "priority": 88
+    },
+    {
+      "id": "KC_STAR_CHIEFS",
+      "name": "Kansas City Star Chiefs",
+      "displayName": "Kansas City Star Chiefs",
+      "team": "KC",
+      "category": "LOCAL_MEDIA",
+      "trustScore": 90,
+      "breakingNewsScore": 88,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://www.kansascity.com/sports/nfl/kansas-city-chiefs/",
+      "enabled": true,
+      "priority": 88
+    },
+    {
+      "id": "CHIEFS_DIGEST",
+      "name": "Chiefs Digest",
+      "displayName": "Chiefs Digest",
+      "team": "KC",
+      "category": "LOCAL_MEDIA",
+      "trustScore": 90,
+      "breakingNewsScore": 90,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://chiefsdigest.com/",
+      "enabled": true,
+      "priority": 90
+    },
+    {
+      "id": "ARROWHEAD_PRIDE",
+      "name": "Arrowhead Pride",
+      "displayName": "Arrowhead Pride",
+      "team": "KC",
+      "category": "LOCAL_MEDIA",
+      "trustScore": 84,
+      "breakingNewsScore": 75,
+      "analysisScore": 88,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://www.arrowheadpride.com/",
+      "enabled": true,
+      "priority": 88
+    },
+    {
+      "id": "SPORTS_RADIO_810",
+      "name": "Sports Radio 810",
+      "displayName": "Sports Radio 810",
+      "team": "KC",
+      "category": "LOCAL_MEDIA",
+      "trustScore": 82,
+      "breakingNewsScore": 76,
+      "analysisScore": 70,
+      "teamRelevanceScore": 95,
+      "platform": "WEB",
+      "url": "https://www.810whb.com/",
+      "enabled": true,
+      "priority": 76
+    },
+    {
+      "id": "96_5_THE_FAN",
+      "name": "96.5 The Fan",
+      "displayName": "96.5 The Fan",
+      "team": "KC",
+      "category": "LOCAL_MEDIA",
+      "trustScore": 84,
+      "breakingNewsScore": 78,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://www.audacy.com/965thefan",
+      "enabled": true,
+      "priority": 78
+    },
+    {
+      "id": "KC_SPORTS_NETWORK",
+      "name": "KC Sports Network",
+      "displayName": "KC Sports Network",
+      "team": "KC",
+      "category": "CREATOR",
+      "trustScore": 82,
+      "breakingNewsScore": 65,
+      "analysisScore": 95,
+      "teamRelevanceScore": 100,
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/@KCSportsNetwork",
+      "enabled": true,
+      "priority": 95
+    },
+    {
+      "id": "HOW_BOUT_THOSE_CHIEFS",
+      "name": "How Bout Those Chiefs",
+      "displayName": "How Bout Those Chiefs",
+      "team": "KC",
+      "category": "CREATOR",
+      "trustScore": 75,
+      "breakingNewsScore": 65,
+      "analysisScore": 88,
+      "teamRelevanceScore": 100,
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/@howboutthosechiefs",
+      "enabled": true,
+      "priority": 88
+    },
+    {
+      "id": "RGR_FOOTBALL",
+      "name": "RGR Football",
+      "displayName": "RGR Football",
+      "team": "KC",
+      "category": "CREATOR",
+      "trustScore": 78,
+      "breakingNewsScore": 65,
+      "analysisScore": 92,
+      "teamRelevanceScore": 100,
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/@RGRFootball",
+      "enabled": true,
+      "priority": 92
+    },
+    {
+      "id": "CHIEFS_OFFICIAL_YOUTUBE",
+      "name": "Kansas City Chiefs YouTube",
+      "displayName": "Kansas City Chiefs YouTube",
+      "team": "KC",
+      "category": "OFFICIAL",
+      "trustScore": 100,
+      "breakingNewsScore": 65,
+      "analysisScore": 85,
+      "teamRelevanceScore": 100,
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/@KansasCityChiefs",
+      "enabled": true,
+      "priority": 85
+    },
+    {
+      "id": "CHIEFS_REDDIT",
+      "name": "r/KansasCityChiefs",
+      "displayName": "r/KansasCityChiefs",
+      "team": "KC",
+      "category": "COMMUNITY",
+      "trustScore": 45,
+      "breakingNewsScore": 45,
+      "analysisScore": 70,
+      "teamRelevanceScore": 100,
+      "fanInterestScore": 100,
+      "platform": "REDDIT",
+      "url": "https://www.reddit.com/r/KansasCityChiefs/",
+      "enabled": true,
+      "priority": 70
+    },
+    {
+      "id": "SPOTRAC",
+      "name": "Spotrac",
+      "displayName": "Spotrac",
+      "team": null,
+      "category": "DATA",
+      "trustScore": 90,
+      "breakingNewsScore": 65,
+      "analysisScore": 85,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://www.spotrac.com/nfl/",
+      "enabled": true,
+      "priority": 90,
+      "notes": "Contracts and transactions"
+    },
+    {
+      "id": "OVER_THE_CAP",
+      "name": "Over the Cap",
+      "displayName": "Over the Cap",
+      "team": null,
+      "category": "DATA",
+      "trustScore": 94,
+      "breakingNewsScore": 65,
+      "analysisScore": 85,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://overthecap.com/",
+      "enabled": true,
+      "priority": 94,
+      "notes": "Salary cap, contracts, and dead money"
+    },
+    {
+      "id": "PRO_FOOTBALL_REFERENCE",
+      "name": "Pro Football Reference",
+      "displayName": "Pro Football Reference",
+      "team": null,
+      "category": "DATA",
+      "trustScore": 95,
+      "breakingNewsScore": 65,
+      "analysisScore": 85,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://www.pro-football-reference.com/",
+      "enabled": true,
+      "priority": 95,
+      "notes": "Historical statistics"
+    },
+    {
+      "id": "NFL_DATA",
+      "name": "NFL",
+      "displayName": "NFL",
+      "team": null,
+      "category": "DATA",
+      "trustScore": 100,
+      "breakingNewsScore": 65,
+      "analysisScore": 85,
+      "teamRelevanceScore": 100,
+      "platform": "WEB",
+      "url": "https://www.nfl.com/",
+      "enabled": true,
+      "priority": 100,
+      "notes": "Official league information"
+    }
+  ],
+  "monitoring": [
+    {
+      "id": "ARI_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "ARI",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.azcardinals.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.azcardinals.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "ARI_SB_NATION",
+      "name": "Revenge of the Birds",
+      "teamId": "ARI",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.revengeofthebirds.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.revengeofthebirds.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "ARI_FANSIDED",
+      "name": "Raising Zona",
+      "teamId": "ARI",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.raisingzona.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.raisingzona.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "ATL_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "ATL",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.atlantafalcons.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.atlantafalcons.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "ATL_SB_NATION",
+      "name": "The Falcoholic",
+      "teamId": "ATL",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.thefalcoholic.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.thefalcoholic.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "ATL_FANSIDED",
+      "name": "Blogging Dirty",
+      "teamId": "ATL",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.bloggingdirty.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.bloggingdirty.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "BAL_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "BAL",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.baltimoreravens.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.baltimoreravens.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "BAL_SB_NATION",
+      "name": "Baltimore Beatdown",
+      "teamId": "BAL",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.baltimorebeatdown.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.baltimorebeatdown.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "BAL_FANSIDED",
+      "name": "Ebony Bird",
+      "teamId": "BAL",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.ebonybird.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.ebonybird.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "BUF_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "BUF",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.buffalobills.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.buffalobills.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "BUF_SB_NATION",
+      "name": "Buffalo Rumblings",
+      "teamId": "BUF",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.buffalorumblings.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.buffalorumblings.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "BUF_FANSIDED",
+      "name": "BuffaLowDown",
+      "teamId": "BUF",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.buffalowdown.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.buffalowdown.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "CAR_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "CAR",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.panthers.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.panthers.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "CAR_SB_NATION",
+      "name": "Cat Scratch Reader",
+      "teamId": "CAR",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.catscratchreader.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.catscratchreader.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "CAR_FANSIDED",
+      "name": "Cat Crave",
+      "teamId": "CAR",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.catcrave.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.catcrave.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "CHI_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "CHI",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.chicagobears.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.chicagobears.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "CHI_SB_NATION",
+      "name": "Windy City Gridiron",
+      "teamId": "CHI",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.windycitygridiron.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.windycitygridiron.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "CHI_FANSIDED",
+      "name": "Bear Goggles On",
+      "teamId": "CHI",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.beargoggleson.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.beargoggleson.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "CIN_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "CIN",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.bengals.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.bengals.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "CIN_SB_NATION",
+      "name": "Cincy Jungle",
+      "teamId": "CIN",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.cincyjungle.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.cincyjungle.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "CIN_FANSIDED",
+      "name": "Stripe Hype",
+      "teamId": "CIN",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.stripehype.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.stripehype.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "CLE_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "CLE",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.clevelandbrowns.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.clevelandbrowns.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "CLE_SB_NATION",
+      "name": "Dawgs By Nature",
+      "teamId": "CLE",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.dawgsbynature.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.dawgsbynature.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "CLE_FANSIDED",
+      "name": "Dawg Pound Daily",
+      "teamId": "CLE",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.dawgpounddaily.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.dawgpounddaily.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "DAL_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "DAL",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.dallascowboys.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.dallascowboys.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "DAL_SB_NATION",
+      "name": "Blogging The Boys",
+      "teamId": "DAL",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.bloggingtheboys.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.bloggingtheboys.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "DAL_FANSIDED",
+      "name": "The Landry Hat",
+      "teamId": "DAL",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.thelandryhat.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.thelandryhat.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "DEN_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "DEN",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.denverbroncos.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.denverbroncos.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "DEN_SB_NATION",
+      "name": "Mile High Report",
+      "teamId": "DEN",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.milehighreport.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.milehighreport.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "DEN_FANSIDED",
+      "name": "Predominantly Orange",
+      "teamId": "DEN",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.predominantlyorange.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.predominantlyorange.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "DET_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "DET",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.detroitlions.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.detroitlions.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "DET_SB_NATION",
+      "name": "Pride of Detroit",
+      "teamId": "DET",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.prideofdetroit.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.prideofdetroit.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "DET_FANSIDED",
+      "name": "SideLion Report",
+      "teamId": "DET",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.sidelionreport.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.sidelionreport.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "GB_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "GB",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.packers.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.packers.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "GB_SB_NATION",
+      "name": "Acme Packing Company",
+      "teamId": "GB",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.acmepackingcompany.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.acmepackingcompany.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "GB_FANSIDED",
+      "name": "Lombardi Ave",
+      "teamId": "GB",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.lombardiave.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.lombardiave.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "HOU_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "HOU",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.houstontexans.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.houstontexans.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "HOU_SB_NATION",
+      "name": "Battle Red Blog",
+      "teamId": "HOU",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.battleredblog.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.battleredblog.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "HOU_FANSIDED",
+      "name": "Toro Times",
+      "teamId": "HOU",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.torotimes.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.torotimes.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "IND_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "IND",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.colts.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.colts.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "IND_SB_NATION",
+      "name": "Stampede Blue",
+      "teamId": "IND",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.stampedeblue.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.stampedeblue.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "IND_FANSIDED",
+      "name": "Horseshoe Heroes",
+      "teamId": "IND",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.horseshoeheroes.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.horseshoeheroes.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "JAX_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "JAX",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.jaguars.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.jaguars.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "JAX_SB_NATION",
+      "name": "Big Cat Country",
+      "teamId": "JAX",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.bigcatcountry.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.bigcatcountry.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "JAX_FANSIDED",
+      "name": "Black and Teal",
+      "teamId": "JAX",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.blackandteal.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.blackandteal.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "CHIEFS_COM",
+      "name": "Chiefs.com",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.chiefs.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "metadata": {
+        "feedUrl": "https://www.chiefs.com/rss/news",
+        "requiresRobotsAndTermsReview": false,
+        "publishAll": false,
+        "multiTeam": false
+      },
+      "teamId": "KC",
+      "availability": "LIVE"
+    },
+    {
+      "id": "CHIEFS_OFFICIAL_X",
+      "name": "Kansas City Chiefs official X",
+      "tier": 1,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/Chiefs",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "metadata": {
+        "handle": "Chiefs"
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "YAHOO_SPORTS_WEB",
+      "name": "Yahoo Sports",
+      "tier": 1,
+      "platform": "WEB",
+      "canonicalUrl": "https://sports.yahoo.com/nfl/",
+      "ingestionMethod": "PUBLIC_PAGE",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 82,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "PUBLIC_PAGE_INGESTION_ENABLED"
+      ],
+      "metadata": {
+        "feedUrl": null,
+        "requiresRobotsAndTermsReview": true,
+        "publishAll": false,
+        "multiTeam": false
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "YAHOO_SPORTS_X",
+      "name": "Yahoo Sports X",
+      "tier": 1,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/YahooSports",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "metadata": {
+        "handle": "YahooSports"
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "KC_STAR",
+      "name": "Kansas City Star",
+      "tier": 1,
+      "platform": "WEB",
+      "canonicalUrl": "https://www.kansascity.com/sports/nfl/kansas-city-chiefs/",
+      "ingestionMethod": "PUBLIC_PAGE",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 90,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "PUBLIC_PAGE_INGESTION_ENABLED"
+      ],
+      "metadata": {
+        "feedUrl": null,
+        "requiresRobotsAndTermsReview": true,
+        "publishAll": false,
+        "multiTeam": false
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "CHIEFS_WIRE",
+      "name": "Chiefs Wire",
+      "tier": 1,
+      "platform": "WEB",
+      "canonicalUrl": "https://chiefswire.usatoday.com/",
+      "ingestionMethod": "PUBLIC_PAGE",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 88,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "PUBLIC_PAGE_INGESTION_ENABLED"
+      ],
+      "metadata": {
+        "feedUrl": null,
+        "requiresRobotsAndTermsReview": true,
+        "publishAll": false,
+        "multiTeam": false
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "LOCKED_ON_CHIEFS_X",
+      "name": "Locked On Chiefs X",
+      "tier": 2,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/LockedOnChiefs",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "metadata": {
+        "handle": "LockedOnChiefs"
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "LOCKED_ON_CHIEFS_YT",
+      "name": "Locked On Chiefs YouTube",
+      "tier": 2,
+      "platform": "YOUTUBE",
+      "canonicalUrl": "https://www.youtube.com/@LockedOnChiefs",
+      "ingestionMethod": "YOUTUBE_WEBSUB",
+      "deliveryStrategy": "WEBHOOK",
+      "cadenceSeconds": null,
+      "authorityWeight": 78,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "YOUTUBE_API_KEY",
+        "YOUTUBE_WEBSUB_CALLBACK_URL",
+        "YOUTUBE_WEBSUB_ENABLED"
+      ],
+      "metadata": {},
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "RGR_FOOTBALL_X",
+      "name": "RGR Football X",
+      "tier": 2,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/RGRFootball",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 70,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "metadata": {
+        "handle": "RGRFootball"
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "RGR_FOOTBALL_YT",
+      "name": "RGR Football YouTube",
+      "tier": 2,
+      "platform": "YOUTUBE",
+      "canonicalUrl": "https://www.youtube.com/@RGRFootball",
+      "ingestionMethod": "YOUTUBE_WEBSUB",
+      "deliveryStrategy": "WEBHOOK",
+      "cadenceSeconds": null,
+      "authorityWeight": 78,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "YOUTUBE_API_KEY",
+        "YOUTUBE_WEBSUB_CALLBACK_URL",
+        "YOUTUBE_WEBSUB_ENABLED"
+      ],
+      "metadata": {},
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "HOW_BOUT_CHIEFS_X",
+      "name": "How Bout Those Chiefs X",
+      "tier": 2,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/HBTCHIEFS",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 68,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "metadata": {
+        "handle": "HBTCHIEFS"
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "HOW_BOUT_CHIEFS_YT",
+      "name": "How Bout Those Chiefs YouTube",
+      "tier": 2,
+      "platform": "YOUTUBE",
+      "canonicalUrl": "https://www.youtube.com/@howboutthosechiefs",
+      "ingestionMethod": "YOUTUBE_WEBSUB",
+      "deliveryStrategy": "WEBHOOK",
+      "cadenceSeconds": null,
+      "authorityWeight": 75,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "YOUTUBE_API_KEY",
+        "YOUTUBE_WEBSUB_CALLBACK_URL",
+        "YOUTUBE_WEBSUB_ENABLED"
+      ],
+      "metadata": {},
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "ALL_CHIEFS_UP_X",
+      "name": "All Chief'd Up X",
+      "tier": 2,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/AllChiefsUp",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 65,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "metadata": {
+        "handle": "AllChiefsUp"
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "ALL_CHIEFS_UP_YT",
+      "name": "All Chief'd Up YouTube",
+      "tier": 2,
+      "platform": "YOUTUBE",
+      "canonicalUrl": "https://www.youtube.com/@AllChiefsUp",
+      "ingestionMethod": "YOUTUBE_WEBSUB",
+      "deliveryStrategy": "WEBHOOK",
+      "cadenceSeconds": null,
+      "authorityWeight": 70,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "YOUTUBE_API_KEY",
+        "YOUTUBE_WEBSUB_CALLBACK_URL",
+        "YOUTUBE_WEBSUB_ENABLED"
+      ],
+      "metadata": {},
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "ARROWHEAD_PRIDE_X",
+      "name": "Arrowhead Pride X",
+      "tier": 2,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/ArrowheadPride",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 76,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "metadata": {
+        "handle": "ArrowheadPride"
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "ARROWHEAD_PRIDE_WEB",
+      "name": "Arrowhead Pride",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.arrowheadpride.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "metadata": {
+        "feedUrl": "https://www.arrowheadpride.com/rss/index.xml",
+        "requiresRobotsAndTermsReview": false,
+        "publishAll": true,
+        "multiTeam": false
+      },
+      "teamId": "KC",
+      "availability": "LIVE"
+    },
+    {
+      "id": "ARROWHEAD_ADDICT_X",
+      "name": "Arrowhead Addict X",
+      "tier": 2,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/ArrowheadAddict",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 68,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "metadata": {
+        "handle": "ArrowheadAddict"
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "ARROWHEAD_ADDICT_WEB",
+      "name": "Arrowhead Addict",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://arrowheadaddict.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "metadata": {
+        "feedUrl": "https://arrowheadaddict.com/feed/",
+        "requiresRobotsAndTermsReview": false,
+        "publishAll": false,
+        "multiTeam": false
+      },
+      "teamId": "KC",
+      "availability": "LIVE"
+    },
+    {
+      "id": "HEAVY_CHIEFS",
+      "name": "Heavy.com Chiefs",
+      "tier": 2,
+      "platform": "WEB",
+      "canonicalUrl": "https://heavy.com/sports/nfl/kansas-city-chiefs/",
+      "ingestionMethod": "PUBLIC_PAGE",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 64,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "PUBLIC_PAGE_INGESTION_ENABLED"
+      ],
+      "metadata": {
+        "feedUrl": null,
+        "requiresRobotsAndTermsReview": true,
+        "publishAll": false,
+        "multiTeam": false
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "PRO_FOOTBALL_RUMORS",
+      "name": "Pro Football Rumors",
+      "tier": 3,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.profootballrumors.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 1200,
+      "authorityWeight": 60,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "metadata": {
+        "feedUrl": "https://www.profootballrumors.com/feed",
+        "requiresRobotsAndTermsReview": false,
+        "publishAll": false,
+        "multiTeam": true
+      },
+      "teamId": "KC",
+      "availability": "LIVE"
+    },
+    {
+      "id": "CHIEFS_REDDIT_API",
+      "name": "r/KansasCityChiefs",
+      "tier": 3,
+      "platform": "REDDIT",
+      "canonicalUrl": "https://www.reddit.com/r/KansasCityChiefs/",
+      "ingestionMethod": "REDDIT_API",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 1200,
+      "authorityWeight": 35,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "REDDIT_CLIENT_ID",
+        "REDDIT_CLIENT_SECRET",
+        "REDDIT_INGESTOR_ENABLED"
+      ],
+      "metadata": {
+        "subreddit": "KansasCityChiefs"
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "YARDBARKER_CHIEFS",
+      "name": "Yardbarker Chiefs",
+      "tier": 3,
+      "platform": "WEB",
+      "canonicalUrl": "https://www.yardbarker.com/nfl/teams/kansas_city_chiefs/40",
+      "ingestionMethod": "PUBLIC_PAGE",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 1200,
+      "authorityWeight": 45,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [
+        "PUBLIC_PAGE_INGESTION_ENABLED"
+      ],
+      "metadata": {
+        "feedUrl": null,
+        "requiresRobotsAndTermsReview": true,
+        "publishAll": false,
+        "multiTeam": false
+      },
+      "teamId": "KC",
+      "availability": "CONFIGURED_BUT_UNAVAILABLE"
+    },
+    {
+      "id": "LV_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "LV",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.raiders.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.raiders.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "LV_SB_NATION",
+      "name": "Silver and Black Pride",
+      "teamId": "LV",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.silverandblackpride.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.silverandblackpride.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "LV_FANSIDED",
+      "name": "Just Blog Baby",
+      "teamId": "LV",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.justblogbaby.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.justblogbaby.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "LAC_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "LAC",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.chargers.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.chargers.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "LAC_SB_NATION",
+      "name": "Bolts From The Blue",
+      "teamId": "LAC",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.boltsfromtheblue.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.boltsfromtheblue.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "LAC_FANSIDED",
+      "name": "Bolt Beat",
+      "teamId": "LAC",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.boltbeat.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.boltbeat.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "LAR_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "LAR",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.therams.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.therams.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "LAR_SB_NATION",
+      "name": "Turf Show Times",
+      "teamId": "LAR",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.turfshowtimes.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.turfshowtimes.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "LAR_FANSIDED",
+      "name": "Ramblin' Fan",
+      "teamId": "LAR",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.ramblinfan.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.ramblinfan.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "MIA_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "MIA",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.miamidolphins.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.miamidolphins.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "MIA_SB_NATION",
+      "name": "The Phinsider",
+      "teamId": "MIA",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.thephinsider.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.thephinsider.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "MIA_FANSIDED",
+      "name": "Phin Phanatic",
+      "teamId": "MIA",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.phinphanatic.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.phinphanatic.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "MIN_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "MIN",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.vikings.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.vikings.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "MIN_SB_NATION",
+      "name": "Daily Norseman",
+      "teamId": "MIN",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.dailynorseman.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.dailynorseman.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "MIN_FANSIDED",
+      "name": "The Viking Age",
+      "teamId": "MIN",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.thevikingage.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.thevikingage.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "NE_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "NE",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.patriots.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.patriots.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "NE_SB_NATION",
+      "name": "Pats Pulpit",
+      "teamId": "NE",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.patspulpit.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.patspulpit.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "NE_FANSIDED",
+      "name": "Musket Fire",
+      "teamId": "NE",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.musketfire.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.musketfire.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "NO_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "NO",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.neworleanssaints.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.neworleanssaints.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "NO_SB_NATION",
+      "name": "Canal Street Chronicles",
+      "teamId": "NO",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.canalstreetchronicles.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.canalstreetchronicles.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "NO_FANSIDED",
+      "name": "Who Dat Dish",
+      "teamId": "NO",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.whodatdish.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.whodatdish.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "NYG_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "NYG",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.giants.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.giants.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "NYG_SB_NATION",
+      "name": "Big Blue View",
+      "teamId": "NYG",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.bigblueview.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.bigblueview.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "NYG_FANSIDED",
+      "name": "GMEN HQ",
+      "teamId": "NYG",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.gmenhq.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.gmenhq.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "NYJ_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "NYJ",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.newyorkjets.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.newyorkjets.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "NYJ_SB_NATION",
+      "name": "Gang Green Nation",
+      "teamId": "NYJ",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.ganggreennation.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.ganggreennation.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "NYJ_FANSIDED",
+      "name": "The Jet Press",
+      "teamId": "NYJ",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.thejetpress.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.thejetpress.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "PHI_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "PHI",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.philadelphiaeagles.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.philadelphiaeagles.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "PHI_SB_NATION",
+      "name": "Bleeding Green Nation",
+      "teamId": "PHI",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.bleedinggreennation.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.bleedinggreennation.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "PHI_FANSIDED",
+      "name": "Inside the Iggles",
+      "teamId": "PHI",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.insidetheiggles.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.insidetheiggles.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "PIT_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "PIT",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.steelers.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.steelers.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "PIT_SB_NATION",
+      "name": "Behind the Steel Curtain",
+      "teamId": "PIT",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.behindthesteelcurtain.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.behindthesteelcurtain.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "PIT_FANSIDED",
+      "name": "Still Curtain",
+      "teamId": "PIT",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.stillcurtain.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.stillcurtain.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "SF_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "SF",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.49ers.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.49ers.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "SF_SB_NATION",
+      "name": "Niners Nation",
+      "teamId": "SF",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.ninersnation.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.ninersnation.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "SF_FANSIDED",
+      "name": "Niner Noise",
+      "teamId": "SF",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.ninernoise.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.ninernoise.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "SEA_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "SEA",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.seahawks.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.seahawks.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "SEA_SB_NATION",
+      "name": "Field Gulls",
+      "teamId": "SEA",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.fieldgulls.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.fieldgulls.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "SEA_FANSIDED",
+      "name": "12th Man Rising",
+      "teamId": "SEA",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.12thmanrising.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.12thmanrising.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "TB_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "TB",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.buccaneers.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.buccaneers.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "TB_SB_NATION",
+      "name": "Bucs Nation",
+      "teamId": "TB",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.bucsnation.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.bucsnation.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "TB_FANSIDED",
+      "name": "The Pewter Plank",
+      "teamId": "TB",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.thepewterplank.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.thepewterplank.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "TEN_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "TEN",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.tennesseetitans.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.tennesseetitans.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "TEN_SB_NATION",
+      "name": "Music City Miracles",
+      "teamId": "TEN",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.musiccitymiracles.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.musiccitymiracles.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "TEN_FANSIDED",
+      "name": "Titan Sized",
+      "teamId": "TEN",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.titansized.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.titansized.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "WAS_OFFICIAL_NEWS",
+      "name": "Official team news",
+      "teamId": "WAS",
+      "tier": 1,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.commanders.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 300,
+      "authorityWeight": 100,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.commanders.com/rss/news",
+        "publishAll": false
+      }
+    },
+    {
+      "id": "WAS_SB_NATION",
+      "name": "Hogs Haven",
+      "teamId": "WAS",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.hogshaven.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 80,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.hogshaven.com/rss/index.xml",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "WAS_FANSIDED",
+      "name": "Riggo's Rag",
+      "teamId": "WAS",
+      "tier": 2,
+      "platform": "RSS",
+      "canonicalUrl": "https://www.riggosrag.com/",
+      "ingestionMethod": "RSS_ATOM",
+      "deliveryStrategy": "POLL",
+      "cadenceSeconds": 600,
+      "authorityWeight": 72,
+      "active": true,
+      "notificationEligible": false,
+      "requiredEnvironment": [],
+      "availability": "LIVE",
+      "metadata": {
+        "feedUrl": "https://www.riggosrag.com/feed/",
+        "publishAll": true
+      }
+    },
+    {
+      "id": "IAN_RAPOPORT_X",
+      "name": "Ian Rapoport",
+      "teamId": "NFL",
+      "tier": 1,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/RapSheet",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 98,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "availability": "CONFIGURED_BUT_UNAVAILABLE",
+      "metadata": {
+        "handle": "RapSheet"
+      }
+    },
+    {
+      "id": "MIKE_GARAFOLO_X",
+      "name": "Mike Garafolo",
+      "teamId": "NFL",
+      "tier": 1,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/MikeGarafolo",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 96,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "availability": "CONFIGURED_BUT_UNAVAILABLE",
+      "metadata": {
+        "handle": "MikeGarafolo"
+      }
+    },
+    {
+      "id": "ADAM_SCHEFTER_X",
+      "name": "Adam Schefter",
+      "teamId": "NFL",
+      "tier": 1,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/AdamSchefter",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 98,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "availability": "CONFIGURED_BUT_UNAVAILABLE",
+      "metadata": {
+        "handle": "AdamSchefter"
+      }
+    },
+    {
+      "id": "TOM_PELISSERO_X",
+      "name": "Tom Pelissero",
+      "teamId": "NFL",
+      "tier": 1,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/TomPelissero",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 98,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "availability": "CONFIGURED_BUT_UNAVAILABLE",
+      "metadata": {
+        "handle": "TomPelissero"
+      }
+    },
+    {
+      "id": "JEREMY_FOWLER_X",
+      "name": "Jeremy Fowler",
+      "teamId": "NFL",
+      "tier": 1,
+      "platform": "X",
+      "canonicalUrl": "https://x.com/JFowlerESPN",
+      "ingestionMethod": "X_API",
+      "deliveryStrategy": "STREAM",
+      "cadenceSeconds": null,
+      "authorityWeight": 94,
+      "active": true,
+      "notificationEligible": true,
+      "requiredEnvironment": [
+        "X_BEARER_TOKEN",
+        "X_INGESTOR_ENABLED"
+      ],
+      "availability": "CONFIGURED_BUT_UNAVAILABLE",
+      "metadata": {
+        "handle": "JFowlerESPN"
+      }
+    }
+  ],
+  "video": [
+    {
+      "id": "YT_ARI_ARIZONA_CARDINALS",
+      "name": "Arizona Cardinals",
+      "teamId": "ARI",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_ARI_LOCKED_ON_CARDINALS",
+      "name": "Locked On Cardinals",
+      "teamId": "ARI",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_ARI_PHNX_CARDINALS",
+      "name": "PHNX Cardinals",
+      "teamId": "ARI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_ARI_ARIZONA_SPORTS_CARDINALS",
+      "name": "Arizona Sports Cardinals",
+      "teamId": "ARI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_ATL_ATLANTA_FALCONS",
+      "name": "Atlanta Falcons",
+      "teamId": "ATL",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_ATL_LOCKED_ON_FALCONS",
+      "name": "Locked On Falcons",
+      "teamId": "ATL",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_ATL_DIRTY_BIRDS_BREWS",
+      "name": "Dirty Birds & Brews",
+      "teamId": "ATL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_ATL_POUND_4_POUND_ATL",
+      "name": "Pound 4 Pound ATL",
+      "teamId": "ATL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_ATL_MAD_MIKE_SPORTS",
+      "name": "Mad Mike Sports",
+      "teamId": "ATL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BAL_BALTIMORE_RAVENS",
+      "name": "Baltimore Ravens",
+      "teamId": "BAL",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BAL_LOCKED_ON_RAVENS",
+      "name": "Locked On Ravens",
+      "teamId": "BAL",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BAL_INGRAVENVIDS",
+      "name": "IngravenVids",
+      "teamId": "BAL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BAL_410_SPORTS_TALK",
+      "name": "410 Sports Talk",
+      "teamId": "BAL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BAL_THE_RAVENS_VAULT",
+      "name": "The Ravens Vault",
+      "teamId": "BAL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BUF_BUFFALO_BILLS",
+      "name": "Buffalo Bills",
+      "teamId": "BUF",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BUF_LOCKED_ON_BILLS",
+      "name": "Locked On Bills",
+      "teamId": "BUF",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BUF_COVER_1",
+      "name": "Cover 1",
+      "teamId": "BUF",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BUF_BUFFALO_PLUS",
+      "name": "Buffalo Plus",
+      "teamId": "BUF",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_BUF_SHOUT_BUFFALO_FOOTBALL_PODCAST",
+      "name": "SHOUT! Buffalo Football Podcast",
+      "teamId": "BUF",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CAR_CAROLINA_PANTHERS",
+      "name": "Carolina Panthers",
+      "teamId": "CAR",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CAR_LOCKED_ON_PANTHERS",
+      "name": "Locked On Panthers",
+      "teamId": "CAR",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CAR_C3_PANTHERS_PODCAST",
+      "name": "C3 Panthers Podcast",
+      "teamId": "CAR",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CAR_PANTHER_NATION_PODCAST",
+      "name": "Panther Nation Podcast",
+      "teamId": "CAR",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CAR_PANTHERS_ON_TAP",
+      "name": "Panthers On Tap",
+      "teamId": "CAR",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CHI_CHICAGO_BEARS",
+      "name": "Chicago Bears",
+      "teamId": "CHI",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CHI_LOCKED_ON_BEARS",
+      "name": "Locked On Bears",
+      "teamId": "CHI",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CHI_CHGO_BEARS",
+      "name": "CHGO Bears",
+      "teamId": "CHI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CHI_THE_CHICAGO_AUDIBLE",
+      "name": "The Chicago Audible",
+      "teamId": "CHI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CHI_2ND_CITY_GRIDIRON",
+      "name": "2nd City Gridiron",
+      "teamId": "CHI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CHI_CHICAGO_BEARS_NOW",
+      "name": "Chicago Bears Now",
+      "teamId": "CHI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CIN_CINCINNATI_BENGALS",
+      "name": "Cincinnati Bengals",
+      "teamId": "CIN",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CIN_LOCKED_ON_BENGALS",
+      "name": "Locked On Bengals",
+      "teamId": "CIN",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CIN_BENGALS_ON_THE_BRAIN",
+      "name": "Bengals on the Brain",
+      "teamId": "CIN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CIN_THE_GROWLER",
+      "name": "The Growler",
+      "teamId": "CIN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CIN_WINCINNATI",
+      "name": "Wincinnati",
+      "teamId": "CIN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CIN_THE_JUNGLE_ROAR",
+      "name": "The Jungle Roar",
+      "teamId": "CIN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CLE_CLEVELAND_BROWNS",
+      "name": "Cleveland Browns",
+      "teamId": "CLE",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CLE_LOCKED_ON_BROWNS",
+      "name": "Locked On Browns",
+      "teamId": "CLE",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CLE_QUINCY_CARRIER",
+      "name": "Quincy Carrier",
+      "teamId": "CLE",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CLE_THE_OBR",
+      "name": "The OBR",
+      "teamId": "CLE",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CLE_ORANGE_AND_BROWN_TALK",
+      "name": "Orange and Brown Talk",
+      "teamId": "CLE",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_CLE_BROWNS_FILM_BREAKDOWN",
+      "name": "Browns Film Breakdown",
+      "teamId": "CLE",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DAL_DALLAS_COWBOYS",
+      "name": "Dallas Cowboys",
+      "teamId": "DAL",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DAL_LOCKED_ON_COWBOYS",
+      "name": "Locked On Cowboys",
+      "teamId": "DAL",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DAL_VOCH_LOMBARDI",
+      "name": "Voch Lombardi",
+      "teamId": "DAL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DAL_LAW_NATION_SPORTS",
+      "name": "Law Nation Sports",
+      "teamId": "DAL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DAL_BLOGGING_THE_BOYS",
+      "name": "Blogging the Boys",
+      "teamId": "DAL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DAL_COWBOYS_REPORT",
+      "name": "Cowboys Report",
+      "teamId": "DAL",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DEN_DENVER_BRONCOS",
+      "name": "Denver Broncos",
+      "teamId": "DEN",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DEN_LOCKED_ON_BRONCOS",
+      "name": "Locked On Broncos",
+      "teamId": "DEN",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DEN_DNVR_BRONCOS",
+      "name": "DNVR Broncos",
+      "teamId": "DEN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DEN_THAT_S_GOOD_SPORTS",
+      "name": "That's Good Sports",
+      "teamId": "DEN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DEN_MILE_HIGH_HUDDLE",
+      "name": "Mile High Huddle",
+      "teamId": "DEN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DEN_CODY_ROARK_NFL",
+      "name": "Cody Roark NFL",
+      "teamId": "DEN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DET_DETROIT_LIONS",
+      "name": "Detroit Lions",
+      "teamId": "DET",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DET_LOCKED_ON_LIONS",
+      "name": "Locked On Lions",
+      "teamId": "DET",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DET_DETROIT_LIONS_PODCAST",
+      "name": "Detroit Lions Podcast",
+      "teamId": "DET",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DET_DETROIT_LIONS_TALK_WITH_MICROMIKE",
+      "name": "Detroit Lions Talk with MicroMike",
+      "teamId": "DET",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DET_LET_S_TALK_LIONS",
+      "name": "Let's Talk Lions",
+      "teamId": "DET",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_DET_LIONS_TALK_LIVE",
+      "name": "Lions Talk Live",
+      "teamId": "DET",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_GB_GREEN_BAY_PACKERS",
+      "name": "Green Bay Packers",
+      "teamId": "GB",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_GB_LOCKED_ON_PACKERS",
+      "name": "Locked On Packers",
+      "teamId": "GB",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_GB_PACK_A_DAY_PODCAST",
+      "name": "Pack-A-Day Podcast",
+      "teamId": "GB",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_GB_MATT_RAMAGE",
+      "name": "Matt Ramage",
+      "teamId": "GB",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_GB_PACKERS_TOTAL_ACCESS",
+      "name": "Packers Total Access",
+      "teamId": "GB",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_GB_TOM_GROSSI",
+      "name": "Tom Grossi",
+      "teamId": "GB",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_HOU_HOUSTON_TEXANS",
+      "name": "Houston Texans",
+      "teamId": "HOU",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_HOU_LOCKED_ON_TEXANS",
+      "name": "Locked On Texans",
+      "teamId": "HOU",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_HOU_BATTLE_RED_BLOG_VIDEO_PROGRAMMING",
+      "name": "Battle Red Blog video programming",
+      "teamId": "HOU",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_HOU_HOUSTON_TEXANS_LOCAL_MEDIA_VIDEO_SOURCE",
+      "name": "Houston Texans local-media video source",
+      "teamId": "HOU",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_IND_INDIANAPOLIS_COLTS",
+      "name": "Indianapolis Colts",
+      "teamId": "IND",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_IND_LOCKED_ON_COLTS",
+      "name": "Locked On Colts",
+      "teamId": "IND",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_IND_KEVIN_BOWEN_107_5_THE_FAN",
+      "name": "Kevin Bowen / 107.5 The Fan",
+      "teamId": "IND",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_IND_COLTS_COVER_2_INDYSTAR",
+      "name": "Colts Cover 2 / IndyStar",
+      "teamId": "IND",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_IND_COLTS_ONLY_CREATOR",
+      "name": "Colts-only creator",
+      "teamId": "IND",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_JAX_JACKSONVILLE_JAGUARS",
+      "name": "Jacksonville Jaguars",
+      "teamId": "JAX",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_JAX_LOCKED_ON_JAGUARS",
+      "name": "Locked On Jaguars",
+      "teamId": "JAX",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_JAX_GENJAG",
+      "name": "GenJag",
+      "teamId": "JAX",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_JAX_1010XL_JAGUARS",
+      "name": "1010XL Jaguars",
+      "teamId": "JAX",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_KC_KANSAS_CITY_CHIEFS",
+      "name": "Kansas City Chiefs",
+      "teamId": "KC",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified.",
+      "candidateUrl": "https://www.youtube.com/@KansasCityChiefs"
+    },
+    {
+      "id": "YT_KC_LOCKED_ON_CHIEFS",
+      "name": "Locked On Chiefs",
+      "teamId": "KC",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified.",
+      "candidateUrl": "https://www.youtube.com/@LockedOnChiefs"
+    },
+    {
+      "id": "YT_KC_HOW_BOUT_THOSE_CHIEFS",
+      "name": "How Bout Those Chiefs",
+      "teamId": "KC",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified.",
+      "candidateUrl": "https://www.youtube.com/@hbtCHIEFS"
+    },
+    {
+      "id": "YT_KC_ALL_CHIEF_D_UP",
+      "name": "All Chief'd Up",
+      "teamId": "KC",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified.",
+      "candidateUrl": "https://www.youtube.com/@AllChiefdUp"
+    },
+    {
+      "id": "YT_KC_CHIEFSTV",
+      "name": "ChiefsTV",
+      "teamId": "KC",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified.",
+      "candidateUrl": "https://www.youtube.com/@ChiefsTV"
+    },
+    {
+      "id": "YT_KC_ARROWHEAD_ADDICT_PODCAST",
+      "name": "Arrowhead Addict Podcast",
+      "teamId": "KC",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified.",
+      "candidateUrl": "https://www.youtube.com/@ArrowheadAddictPodcast"
+    },
+    {
+      "id": "YT_KC_RGR_FOOTBALL",
+      "name": "RGR Football",
+      "teamId": "KC",
+      "category": "film",
+      "tags": [
+        "film"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.95,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified.",
+      "candidateUrl": "https://www.youtube.com/@RGR"
+    },
+    {
+      "id": "YT_LV_LAS_VEGAS_RAIDERS",
+      "name": "Las Vegas Raiders",
+      "teamId": "LV",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LV_LOCKED_ON_RAIDERS",
+      "name": "Locked On Raiders",
+      "teamId": "LV",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LV_RAIDERS_REPORT",
+      "name": "Raiders Report",
+      "teamId": "LV",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LV_TAPE_DON_T_LIE",
+      "name": "Tape Don't Lie",
+      "teamId": "LV",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LV_SANJIT_T",
+      "name": "Sanjit T.",
+      "teamId": "LV",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LV_THE_AUTUMN_WINDBAGS",
+      "name": "The Autumn Windbags",
+      "teamId": "LV",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAC_LOS_ANGELES_CHARGERS",
+      "name": "Los Angeles Chargers",
+      "teamId": "LAC",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAC_LOCKED_ON_CHARGERS",
+      "name": "Locked On Chargers",
+      "teamId": "LAC",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAC_GUILTY_AS_CHARGED",
+      "name": "Guilty As Charged",
+      "teamId": "LAC",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAC_CHARGERS_UNLEASHED",
+      "name": "Chargers Unleashed",
+      "teamId": "LAC",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAC_CHARGER_CHAT_PODCAST",
+      "name": "Charger Chat Podcast",
+      "teamId": "LAC",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAC_THE_DIRECTOR",
+      "name": "The Director",
+      "teamId": "LAC",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAR_LOS_ANGELES_RAMS",
+      "name": "Los Angeles Rams",
+      "teamId": "LAR",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAR_LOCKED_ON_RAMS",
+      "name": "Locked On Rams",
+      "teamId": "LAR",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAR_RAMS_BROTHERS",
+      "name": "Rams Brothers",
+      "teamId": "LAR",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAR_DOWNTOWN_RAMS",
+      "name": "Downtown Rams",
+      "teamId": "LAR",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_LAR_LA_FOOTBALL_NETWORK_RAMS",
+      "name": "LA Football Network Rams",
+      "teamId": "LAR",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIA_MIAMI_DOLPHINS",
+      "name": "Miami Dolphins",
+      "teamId": "MIA",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIA_LOCKED_ON_DOLPHINS",
+      "name": "Locked On Dolphins",
+      "teamId": "MIA",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIA_DOUGLIEDOWRONG",
+      "name": "DouglieDoWrong",
+      "teamId": "MIA",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIA_PHINSIDE_THE_NFL",
+      "name": "Phinside The NFL",
+      "teamId": "MIA",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIA_TD_PHINS_TALK",
+      "name": "TD Phins Talk",
+      "teamId": "MIA",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIN_MINNESOTA_VIKINGS",
+      "name": "Minnesota Vikings",
+      "teamId": "MIN",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIN_LOCKED_ON_VIKINGS",
+      "name": "Locked On Vikings",
+      "teamId": "MIN",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIN_PURPLE_DAILY",
+      "name": "Purple Daily",
+      "teamId": "MIN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIN_PURPLE_FTW",
+      "name": "Purple FTW!",
+      "teamId": "MIN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_MIN_VIKINGS_TERRITORY",
+      "name": "Vikings Territory",
+      "teamId": "MIN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NE_NEW_ENGLAND_PATRIOTS",
+      "name": "New England Patriots",
+      "teamId": "NE",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NE_LOCKED_ON_PATRIOTS",
+      "name": "Locked On Patriots",
+      "teamId": "NE",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NE_CLNS_PATRIOTS",
+      "name": "CLNS Patriots",
+      "teamId": "NE",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NE_NBC_SPORTS_BOSTON_PATRIOTS",
+      "name": "NBC Sports Boston Patriots",
+      "teamId": "NE",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NE_PATS_PULPIT",
+      "name": "Pats Pulpit",
+      "teamId": "NE",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NO_NEW_ORLEANS_SAINTS",
+      "name": "New Orleans Saints",
+      "teamId": "NO",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NO_LOCKED_ON_SAINTS",
+      "name": "Locked On Saints",
+      "teamId": "NO",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NO_NEWORLEANS_FOOTBALL_NOF_NETWORK",
+      "name": "NewOrleans.Football / NOF Network",
+      "teamId": "NO",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NO_STATE_OF_THE_SAINTS_PODCAST",
+      "name": "State of the Saints Podcast",
+      "teamId": "NO",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NO_SAINTS_HAPPY_HOUR",
+      "name": "Saints Happy Hour",
+      "teamId": "NO",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYG_NEW_YORK_GIANTS",
+      "name": "New York Giants",
+      "teamId": "NYG",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYG_LOCKED_ON_GIANTS",
+      "name": "Locked On Giants",
+      "teamId": "NYG",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYG_TALKIN_GIANTS",
+      "name": "Talkin' Giants",
+      "teamId": "NYG",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYG_BIG_BLUE_BANTER",
+      "name": "Big Blue Banter",
+      "teamId": "NYG",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYG_FIRESIDE_GIANTS",
+      "name": "Fireside Giants",
+      "teamId": "NYG",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYG_THE_ENTERTAINAH_TALKIN_SPORTS",
+      "name": "The Entertainah Talkin Sports",
+      "teamId": "NYG",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYJ_NEW_YORK_JETS",
+      "name": "New York Jets",
+      "teamId": "NYJ",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYJ_LOCKED_ON_JETS",
+      "name": "Locked On Jets",
+      "teamId": "NYJ",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYJ_JETS_X_FACTOR",
+      "name": "Jets X-Factor",
+      "teamId": "NYJ",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYJ_BOY_GREEN_DAILY",
+      "name": "Boy Green Daily",
+      "teamId": "NYJ",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYJ_PLAY_LIKE_A_JET",
+      "name": "Play Like A Jet",
+      "teamId": "NYJ",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NYJ_JETS_TALK_24_7",
+      "name": "Jets Talk 24/7",
+      "teamId": "NYJ",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PHI_PHILADELPHIA_EAGLES",
+      "name": "Philadelphia Eagles",
+      "teamId": "PHI",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PHI_LOCKED_ON_EAGLES",
+      "name": "Locked On Eagles",
+      "teamId": "PHI",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PHI_PHLY_SPORTS",
+      "name": "PHLY Sports",
+      "teamId": "PHI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PHI_INSIDE_THE_BIRDS",
+      "name": "Inside the Birds",
+      "teamId": "PHI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PHI_JAKIB_SPORTS",
+      "name": "JAKIB Sports",
+      "teamId": "PHI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PHI_BLEEDING_GREEN_NATION",
+      "name": "Bleeding Green Nation",
+      "teamId": "PHI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PHI_A_TO_Z_SPORTS_PHILADELPHIA",
+      "name": "A to Z Sports Philadelphia",
+      "teamId": "PHI",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PIT_PITTSBURGH_STEELERS",
+      "name": "Pittsburgh Steelers",
+      "teamId": "PIT",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PIT_LOCKED_ON_STEELERS",
+      "name": "Locked On Steelers",
+      "teamId": "PIT",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PIT_STEELERS_DEPOT",
+      "name": "Steelers Depot",
+      "teamId": "PIT",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PIT_ARTHUR_MOATS_EXPERIENCE",
+      "name": "Arthur Moats Experience",
+      "teamId": "PIT",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PIT_DK_PITTSBURGH_SPORTS",
+      "name": "DK Pittsburgh Sports",
+      "teamId": "PIT",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_PIT_STEELERS_NOW",
+      "name": "Steelers Now",
+      "teamId": "PIT",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SEA_SEATTLE_SEAHAWKS",
+      "name": "Seattle Seahawks",
+      "teamId": "SEA",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SEA_LOCKED_ON_SEAHAWKS",
+      "name": "Locked On Seahawks",
+      "teamId": "SEA",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SEA_SEATTLE_OVERLOAD",
+      "name": "Seattle Overload",
+      "teamId": "SEA",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SEA_SEAHAWKS_MAN_2_MAN",
+      "name": "Seahawks Man 2 Man",
+      "teamId": "SEA",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SEA_HAWK_BLOGGER",
+      "name": "Hawk Blogger",
+      "teamId": "SEA",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SEA_SEAHAWKS_TODAY",
+      "name": "Seahawks Today",
+      "teamId": "SEA",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SF_SAN_FRANCISCO_49ERS",
+      "name": "San Francisco 49ers",
+      "teamId": "SF",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SF_LOCKED_ON_49ERS",
+      "name": "Locked On 49ers",
+      "teamId": "SF",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SF_49ERS_RUSH_PODCAST",
+      "name": "49ers Rush Podcast",
+      "teamId": "SF",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SF_GRANT_COHN",
+      "name": "Grant Cohn",
+      "teamId": "SF",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SF_THE_KRUEG_SHOW",
+      "name": "The Krueg Show",
+      "teamId": "SF",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_SF_NBC_SPORTS_BAY_AREA",
+      "name": "NBC Sports Bay Area",
+      "teamId": "SF",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TB_TAMPA_BAY_BUCCANEERS",
+      "name": "Tampa Bay Buccaneers",
+      "teamId": "TB",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TB_LOCKED_ON_BUCS",
+      "name": "Locked On Bucs",
+      "teamId": "TB",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TB_PEWTER_REPORT",
+      "name": "Pewter Report",
+      "teamId": "TB",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TB_REAL_BUCS_TALK",
+      "name": "Real Bucs Talk",
+      "teamId": "TB",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TB_MRBUCSNATION",
+      "name": "MrBucsNation",
+      "teamId": "TB",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TEN_TENNESSEE_TITANS",
+      "name": "Tennessee Titans",
+      "teamId": "TEN",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TEN_LOCKED_ON_TITANS",
+      "name": "Locked On Titans",
+      "teamId": "TEN",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TEN_A_TO_Z_SPORTS_NASHVILLE",
+      "name": "A to Z Sports Nashville",
+      "teamId": "TEN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TEN_440_SPORTS_TITANS",
+      "name": "440 Sports Titans",
+      "teamId": "TEN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_TEN_MUSIC_CITY_AUDIBLE",
+      "name": "Music City Audible",
+      "teamId": "TEN",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_WAS_WASHINGTON_COMMANDERS",
+      "name": "Washington Commanders",
+      "teamId": "WAS",
+      "category": "official",
+      "tags": [
+        "official"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_WAS_LOCKED_ON_COMMANDERS",
+      "name": "Locked On Commanders",
+      "teamId": "WAS",
+      "category": "podcast",
+      "tags": [
+        "podcast"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_WAS_STREET_SCORES",
+      "name": "Street Scores",
+      "teamId": "WAS",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_WAS_LOUIE_TEE_NETWORK",
+      "name": "Louie Tee Network",
+      "teamId": "WAS",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_WAS_TRAP_OR_DIVE",
+      "name": "Trap or Dive",
+      "teamId": "WAS",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_WAS_COMMANDERS_REPORT",
+      "name": "Commanders Report",
+      "teamId": "WAS",
+      "category": "independent_media",
+      "tags": [
+        "independent_media"
+      ],
+      "scope": "team",
+      "multiTeam": false,
+      "priority": 2,
+      "sourceWeight": 0.85,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NFL_MATTYDUBS",
+      "name": "Mattydubs",
+      "teamId": null,
+      "category": "film",
+      "tags": [
+        "film"
+      ],
+      "scope": "league",
+      "multiTeam": true,
+      "priority": 1,
+      "sourceWeight": 0.95,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified.",
+      "candidateUrl": "https://www.youtube.com/@Mattydubs"
+    },
+    {
+      "id": "YT_NFL_FOOTBALL_ANALYSIS",
+      "name": "Football Analysis",
+      "teamId": null,
+      "category": "film",
+      "tags": [
+        "film"
+      ],
+      "scope": "league",
+      "multiTeam": true,
+      "priority": 2,
+      "sourceWeight": 0.95,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    },
+    {
+      "id": "YT_NFL_NFL_NFL_FILMS",
+      "name": "NFL / NFL Films",
+      "teamId": null,
+      "category": "league_media",
+      "tags": [
+        "league_media"
+      ],
+      "scope": "league",
+      "multiTeam": true,
+      "priority": 1,
+      "sourceWeight": 1,
+      "status": "REVIEW_REQUIRED",
+      "reviewReason": "Immutable YouTube channel ID and recent team coverage have not been verified."
+    }
+  ]
+}

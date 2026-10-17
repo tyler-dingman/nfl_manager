@@ -596,14 +596,19 @@
   color: var(--lab-muted, #9db4c6);
 }
 .details {
-  max-width: 1160px;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
 }
 .details section {
-  margin-top: 16px;
+  margin-top: 0;
 }
 .details header {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
   gap: 14px;
 }

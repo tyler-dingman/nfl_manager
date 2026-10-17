@@ -10,7 +10,7 @@ test('primary navigation has the approved labels and destinations in order', () 
       { label: 'The Beat', href: '/the-beat' },
       { label: 'Film Room', href: '/watch' },
       { label: 'Front Office', href: '/offseasonmanager' },
-      { label: 'Trivia', href: '/trivia' },
+      { label: 'Play', href: '/play' },
       { label: 'Parlay Lab', href: '/parlay-lab' },
       { label: 'The Huddle', href: '/huddle' },
       { label: 'Merch', href: '/merch' },
@@ -43,7 +43,9 @@ test('primary section aliases and descendants resolve without matching unrelated
     ['/film-room/video', 'watch'],
     ['/front-office/roster', 'front-office'],
     ['/front-office/draft/prospect', 'front-office'],
-    ['/trivia/game', 'trivia'],
+    ['/trivia/game', 'play'],
+    ['/trivia-game', 'play'],
+    ['/play', 'play'],
     ['/parlay-lab/players', 'parlay-lab'],
     ['/parlay-lab/alt-stack', 'parlay-lab'],
     ['/merch/product', 'merch'],
@@ -51,4 +53,14 @@ test('primary section aliases and descendants resolve without matching unrelated
     assert.equal(getPrimaryNavActive(path), id);
   for (const path of ['/beatbox', '/film-roommates', '/merchandise', '/account', '/'])
     assert.equal(getPrimaryNavActive(path), null);
+});
+
+test('Play contains only the existing Trivia experience', () => {
+  const play = PRIMARY_NAV_ITEMS.find((item) => item.id === 'play')!;
+  assert.deepEqual(
+    play.children.map((item) => ({ label: item.label, href: item.href })),
+    [{ label: 'Trivia', href: '/trivia' }],
+  );
+  assert.equal(getPrimaryNavHref(play.children[0].href, 'SEA'), '/trivia?team=SEA');
+  assert.equal(getPrimaryNavActive('/trivial'), null);
 });

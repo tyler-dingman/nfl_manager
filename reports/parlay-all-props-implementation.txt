@@ -1,0 +1,54 @@
+Parlay Lab All Props and Trending separation
+
+Implemented
+- New /parlay-lab/all-props route and /api/parlay-lab/props endpoint.
+- All Props appears after Home in desktop/mobile-web navigation and native Parlay Lab's section menu.
+- Shared web table, native prop cards, player research, and current My Parlay state remain in use.
+- Actual-data hero totals: available distinct selections, players, events and highest rated score.
+- Server-side filters, sorting and 12-selection pagination. No full-universe response to the browser.
+- Shared category mapping, decimal-odds sorting, missing-score ordering and exact market identity.
+- Alternate preferences persist; checked means standard plus alternate. Anytime TD remains visible in either mode. Price boundaries include -1000 and -400.
+- Home includes Explore All Props and View Trending Props entry points.
+- Mobile category buttons wrap instead of compressing/truncating.
+
+Data distinction
+All Props starts with raw local markets and enriches them with existing research when supported. Research eligibility is never required to appear. Suspended/unavailable offers, started/locked events, non-player markets, unmapped OTHER markets and unsupported periods remain excluded. Full-game numeric lines use existing primary/alternate classification; binary Anytime TD does not require a numeric line. No invented thresholds, scores or players.
+Trending retains existing recommendation, role, evidence reliability, value and score checks. Removed the category-specific Anytime TD eligibility bypass. Scores and model weights were not changed.
+
+Anytime TD
+Fixed research enrichment overwriting the original YES/null market with OVER/0.5. The internal research threshold is still 0.5, while returned market/slip identity stays YES/null. Projection shows modeled selection probability or —. L10 counts games clearing 0.5, not total touchdowns.
+Read-only local API audit returned 337 Anytime TD selections. Example: Amon-Ra St. Brown YES/null, last 10: 5 hits in 10 games. Overall snapshot: 11,911 selections, 375 players, 14 games, highest rated score 91. Counts reflect the local snapshot at verification time and supported classified full-game markets.
+
+Performance/freshness
+Reuses event-indexed local repository reads and existing scoring. Concurrent event work is bounded to three. A coalesced, process-local snapshot uses the existing 60-second public-read cache policy. Filters/page changes reuse it, with 200ms input debounce and no added polling/provider calls. Future-event/lock checks run again on each request. Database availability remains ingestion-authoritative, as in existing screens.
+Cold local requests: roughly 24–36 seconds including existing score enrichment/development compilation. Immediate cached page: 2.7 seconds. Cold scoring remains a performance limitation; no new materialized table or migration was introduced.
+
+Primary implementation files
+src/app/parlay-lab/all-props/page.tsx
+src/app/api/parlay-lab/props/route.ts
+src/server/odds/prop-catalog.ts
+packages/parlay/prop-catalog.ts
+packages/parlay/discovery-selection.ts
+packages/parlay/projection-display.ts
+packages/parlay/research.ts
+src/server/historical-stats/trending-props-service.ts
+src/components/parlay-lab/ParlayLabHome.tsx
+src/components/parlay-lab/dashboard-content.tsx
+src/components/parlay-lab/dashboard-shell.tsx
+src/components/parlay-lab/dashboard.css
+apps/mobile/app/parlay-lab.tsx
+apps/mobile/lib/parlay.ts
+Tests: packages/parlay/prop-catalog.test.ts, anytime-td.test.ts, discovery.test.ts;
+tests/mobile/all-props.spec.ts, parlay-trending-mix.spec.ts and fixtures/trending-mix.tsx.
+
+Validation
+- 33 unit tests: catalog pagination/filtering/score order, availability, alternate preferences, Anytime identity, slip behavior, Trending eligibility and sportsbook compatibility.
+- 4 Chromium/WebKit All Props fixture tests covering desktop/mobile dimensions, KC/SEA themes, pagination, Anytime selection, DraftKings identity, search, clear filters and no viewport overflow.
+- 2 Chromium Home/Trending regression tests covering combined-line mode, preference persistence, score guide, search and responsive layout.
+- 2 React Native Web browser-preview checks for native discovery controls/preferences. These are not device tests.
+- Web and native TypeScript checks passed; targeted ESLint has no errors (existing native ref cleanup and Image alt warnings remain).
+- Read-only live endpoint requests confirmed available Anytime TD records and DraftKings page 2 with both main/alternate rows and every price >= -400.
+- No production changes, provider requests, migrations or transfer flag changes.
+
+Limitations
+Actual iOS/Android device builds and full native-screen visual validation were not performed. All Props web layout was checked through isolated real-component browser fixtures, plus live API responses, rather than a complete authenticated live-site end-to-end flow. Existing automated transfers reject binary Anytime TD; no live link was generated or claimed verified. Those markets remain browse/add/save capable but cannot be silently substituted or transferred as a different touchdown market. Unmapped and unsupported partial-game markets remain out of scope. Existing Games/Players/Teams/Generator/Alt Stack/My Parlays were covered by shared types/business regressions, not exhaustive visual navigation through every screen.

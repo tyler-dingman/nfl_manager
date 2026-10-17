@@ -1,0 +1,81 @@
+My Parlay sportsbook compatibility fix
+2026-10-10
+
+1. Root cause
+The proposal builder permitted an unpriced exact-match fallback when the destination sportsbook did not have a stored offer. Transfer eligibility then bypassed price/availability checks for those unknown-priced selections. The shared hook also automatically prewarmed FanDuel after adding a leg. Locally, FanDuel was the only enabled integration. Together these behaviors offered/generated FanDuel for a DraftKings-priced selection without a FanDuel offer.
+
+This was not loss of the original bookmaker in parlay state: ResearchWorkspace uses the market's sportsbook and exact-threshold currentPrices; ParlayLabHome passes the full selection to addSlipLeg, which preserves its metadata. Research currentPrices and transfer queries both use normalized sportsbook_prices. Transfer matching now requires a destination-book price for every leg, independently of the original bookmaker.
+
+2. Actual PostgreSQL evidence
+Read-only audit: reports/sportsbook-compatibility-audit.json, captured 2026-10-10T10:44:25.706Z.
+Tyler Shough, MIN @ NO, kickoff 2026-10-11T17:00:00Z.
+Passing + Rushing Yards, full game, OVER 247.5.
+Canonical selection: df4cc72c-3f84-4dd5-b993-8fb47a2c65d1.
+DraftKings: available, -114, exact 247.5.
+Caesars: available, -115, exact 247.5.
+FanDuel: no exact 247.5; available OVER 248.5 at -114.
+BetMGM: no exact 247.5; available OVER 258.5 at -115.
+Stored prices last updated 2026-10-09T20:44:52Z. These are stored snapshots, not live sportsbook verification. Provider player mapping matches the canonical player.
+
+3. Combined-yard transfer support
+One read-only Unabated /bettype discovery request returned active player bet type 64, Passing and Rushing Yards, hasPoints=true, sides=ou. Evidence: reports/unabated-combined-market-discovery.json.
+This establishes the provider's taxonomy, not DraftKings-specific text-generation coverage. Official documentation does not establish that this market can generate a DraftKings slip for this account. No live generation was performed or inferred successful.
+Combined passing/rushing yards is therefore excluded from transfer capability pending book-specific verification. Its taxonomy, stored odds and Lab Score remain intact.
+Local DraftKings, Caesars and BetMGM transfer flags are disabled; FanDuel is enabled for the local allowlisted test account. Flags were not changed. Shough's selection therefore correctly has NO eligible transfer button currently. Making him transferable requires verified provider/book coverage and a separately authorized integration rollout, not relabeling the FanDuel button.
+Sources:
+https://docs.unabated.com/guides/bet-slips
+https://docs.unabated.com/guides/discovery
+https://docs.unabated.com/guides/deep-links
+https://docs.unabated.com/start/access-tiers
+
+4. Shared resolver and server safeguards
+resolveSportsbookCompatibility in packages/parlay/sportsbook-transfer.ts evaluates each sportsbook independently. Its result distinguishes enabled, supported, eligible, exact/adjusted/unavailable, matched leg counts and storedExactLegs. Eligible proposals contain the sportsbook-specific selections and estimated combined odds.
+Matching requires canonical event/player/market/side/period, available sportsbook-specific price, valid odds/threshold, unlocked event and future kickoff. Provider mapping must belong to the canonical player. Missing selected IDs or unsupported markets prevent a complete proposal. Existing duplicate-selection and same-game restrictions remain.
+No stored deep link is required when a supported, priced selection can be generated through Unabated.
+The preview API invokes only the PostgreSQL proposal service. Start verifies enabled flags, refreshes and validates the signed complete proposal, requires explicit adjustment approval, and rechecks stored availability before generation/quota reservation. An enabled feature flag alone never creates a proposal.
+
+5. Button and multi-leg behavior
+Web and native consume the same shared resolver-backed hook. Buttons are shown alphabetically only for enabled integrations with complete eligible proposals. Adding/removing a leg invalidates stale buttons and URLs immediately, then checks the new complete slip. DraftKings-only plus both-book legs yields DraftKings only; disjoint coverage yields neither unless an eligible complete adjusted proposal exists. Removing a restrictive leg reveals newly eligible books without manual refresh.
+Each button uses its own book's prices, including adjusted-line prices, marked Est. Existing branded buttons/logos, action disclosure, save/share/export and error handling remain.
+The old legacy stored-deep-link fallback was removed from both renderers so it cannot bypass flags or complete-slip checks.
+
+6. Substitutions
+The existing closest eligible alternate-line matching and bounded substitution policy are retained. Event, player, market, direction and period never change. The button indicates adjustments; confirmation shows original/proposed thresholds. Generation occurs only after explicit approval. Cancel leaves the user's original parlay unchanged. Signed proposals are checked again server-side; approval never silently changes My Parlay selections.
+
+7. Refresh and request behavior
+Recheck Stored Availability is a styled secondary button with a loading state. It fetches local integration capabilities and re-queries PostgreSQL; it does not refresh odds from SportsGameOdds or generate through Unabated. Empty compatibility explains that stored odds cannot support a complete eligible slip. Save/share remain available.
+Automatic FanDuel prewarming was removed. Adding/removing legs, waiting, and rechecking do not generate links. Only explicit selection/adjustment approval generates. Existing deduplication, durable quotas, pending-job handling, validated URL navigation, expiration, cancellation, partner attribution and production restrictions are preserved.
+
+8. Files changed for this fix
+packages/parlay/sportsbook-transfer.ts
+packages/parlay/fanduel-transfer.ts
+packages/parlay/use-sportsbook-transfers.ts
+src/server/providers/unabated/transfer-proposals.ts
+src/server/providers/unabated/transfer-service.ts
+src/app/api/parlay-lab/sportsbook-transfer/route.ts
+src/components/parlay-lab/SportsbookTransfers.tsx
+src/components/parlay-lab/MyParlayPanel.tsx
+src/components/parlay-lab/my-parlay-panel.module.css
+apps/mobile/components/sportsbook-transfers.tsx
+apps/mobile/components/parlay-slip.tsx
+packages/parlay/sportsbook-transfer.test.ts
+src/server/providers/unabated/transfer.test.ts
+src/server/providers/unabated/transfer-db.test.ts
+ tests/mobile/fanduel-transfer.spec.ts
+ tests/mobile/native-slip.spec.ts
+reports/sportsbook-compatibility-audit.json
+reports/unabated-combined-market-discovery.json
+reports/sportsbook-compatibility-fix.txt
+Other existing working-tree changes were preserved.
+
+9. Validation
+54 unit/database tests passed with RUN_FANDUEL_DB_TESTS=true (zero skipped). Database tests use isolated temporary schemas, not production or live prop mutations. Provider calls are mocked.
+32 browser scenarios passed across Chromium and WebKit: 30 passed in the full run; the remaining two mobile scenarios passed on targeted rerun after fixing a test selector that matched hidden desktop and visible mobile panels. Coverage includes the complete-slip intersection, removal, own-book estimated prices, no background generation, DB refresh, explicit generation, cancellation, stale links, blocked navigation, adjustment approval/decline, errors, empty results, save/export and persistence.
+Desktop and mobile web fixtures plus React Native components rendered through React Native Web were checked in KC and SEA themes. Fixture screenshots were inspected. Native fixture font/icon loading differs from the real app; this is not Android/iOS device visual validation. No device build or real sportsbook navigation was performed.
+Web and native TypeScript checks passed. Targeted web/shared/server ESLint and git diff --check passed.
+
+10. Remaining limitations and safety
+Stored weekly odds may no longer match the sportsbook. Database compatibility prevents unsupported attempts based on known data but is not a guarantee of live generation success.
+DraftKings combined-yard transfer coverage remains unverified despite discovery bet type 64. Same-game transfers remain excluded by existing integration restrictions; hypothetical same-game examples do not override that restriction.
+The provider can omit Over/Under direction in generated results; existing response validation and user review requirements were not weakened or represented as independent direction verification.
+No production transfers enabled. No feature flags, quotas, partner attribution, SportsGameOdds ingestion, stored prop data or Lab Score changed. No live Unabated generation requests were made during this task or automated tests.

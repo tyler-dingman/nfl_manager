@@ -1,5 +1,8 @@
 'use client';
 
+import { useSaveStore, resetPrivateSaveMemory } from '@/features/save/save-store';
+import { webFranchiseTransport } from '../../../packages/front-office/command-transport';
+
 import { useCallback, useEffect, useState } from 'react';
 
 export type AuthUser = {
@@ -16,6 +19,33 @@ export type AuthUser = {
   name: string;
   email: string;
 };
+
+let franchiseCacheQuarantined = false;
+function clearPrivateFranchiseView(owner: string | null) {
+  if (typeof window === 'undefined') return true;
+  try {
+    const original = localStorage.getItem('nfl-manager-save');
+    if (original) {
+      const saveId = useSaveStore.getState().saveId || 'unknown';
+      localStorage.setItem(
+        `nfl-manager-save-recovery:${owner ?? 'unverified'}:${saveId}`,
+        original,
+      );
+    }
+    useSaveStore.getState().clearSave();
+    franchiseCacheQuarantined = false;
+    return true;
+  } catch {
+    // Storage may be full or unavailable. Leave the recovery bytes intact, but hide private UI.
+    useSaveStore.persist.setOptions({
+      storage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+    });
+    franchiseCacheQuarantined = true;
+    resetPrivateSaveMemory();
+    // Keep persistence suspended: subsequent UI changes must not overwrite the unbacked original.
+    return false;
+  }
+}
 
 const EVENT_NAME = 'dd-auth-session-change';
 let cachedUser: AuthUser | null = null;
@@ -45,13 +75,16 @@ export async function fetchAuthUser() {
 }
 
 export function notifyAuthChanged() {
+  webFranchiseTransport.reset();
   loaded = false;
   pendingUser = null;
   window.dispatchEvent(new Event(EVENT_NAME));
 }
 
 export async function clearPreviewSession() {
+  webFranchiseTransport.reset();
   await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+  clearPrivateFranchiseView(cachedUser?.id ?? null);
   cachedUser = null;
   loaded = true;
   window.dispatchEvent(new Event(EVENT_NAME));
@@ -62,6 +95,20 @@ export function useAuthUser() {
   const [hydrated, setHydrated] = useState(loaded);
   const sync = useCallback(async () => {
     const next = await fetchAuthUser().catch(() => null);
+    let previousOwner = cachedUser?.id ?? null;
+    try {
+      previousOwner ||= localStorage.getItem('dd-franchise-cache-owner');
+    } catch {}
+    let safeOwnerTag = true;
+    if (previousOwner !== (next?.id ?? null)) {
+      webFranchiseTransport.reset();
+      safeOwnerTag = clearPrivateFranchiseView(previousOwner);
+    }
+    try {
+      if (next && safeOwnerTag && !franchiseCacheQuarantined)
+        localStorage.setItem('dd-franchise-cache-owner', next.id);
+      else localStorage.removeItem('dd-franchise-cache-owner');
+    } catch {}
     cachedUser = next;
     loaded = true;
     setUser(next);

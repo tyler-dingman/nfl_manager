@@ -1,0 +1,2447 @@
+{
+  "generatedAt": "2026-10-09T21:04:21.887Z",
+  "model": "weighted-evidence-v2",
+  "baselineGeneratedAt": "2026-10-09T20:50:16.226Z",
+  "current": {
+    "evaluatedRows": 4472,
+    "eventCount": 14,
+    "maximumBefore": 49,
+    "maximumAfter": 83,
+    "confirmedRoleCoverage": 0.18269230769230768,
+    "mediumOrHighRoleCoverage": 0.11046511627906977,
+    "eligibleRepresentatives": 27,
+    "top10": [
+      {
+        "player": "Tyler Shough",
+        "market": "PASSING_RUSHING_YARDS",
+        "side": "OVER",
+        "line": 247.5,
+        "score": 83,
+        "odds": -115
+      },
+      {
+        "player": "Justin Jefferson",
+        "market": "RECEPTIONS",
+        "side": "UNDER",
+        "line": 6.5,
+        "score": 61,
+        "odds": -135
+      },
+      {
+        "player": "Chris Olave",
+        "market": "RECEPTIONS",
+        "side": "OVER",
+        "line": 6.5,
+        "score": 77,
+        "odds": -108
+      },
+      {
+        "player": "Rashod Bateman",
+        "market": "RECEIVING_YARDS",
+        "side": "OVER",
+        "line": 17.5,
+        "score": 73,
+        "odds": -113
+      },
+      {
+        "player": "Tyler Shough",
+        "market": "PASSING_YARDS",
+        "side": "OVER",
+        "line": 237.5,
+        "score": 75,
+        "odds": -114
+      },
+      {
+        "player": "Justin Jefferson",
+        "market": "RECEIVING_YARDS",
+        "side": "UNDER",
+        "line": 77.5,
+        "score": 61,
+        "odds": -113
+      },
+      {
+        "player": "Noah Fant",
+        "market": "RECEIVING_YARDS",
+        "side": "OVER",
+        "line": 13.5,
+        "score": 73,
+        "odds": -110
+      },
+      {
+        "player": "Mason Taylor",
+        "market": "RECEPTIONS",
+        "side": "OVER",
+        "line": 1.5,
+        "score": 77,
+        "odds": -154
+      },
+      {
+        "player": "Tony Pollard",
+        "market": "RUSHING_ATTEMPTS",
+        "side": "UNDER",
+        "line": 14.5,
+        "score": 60,
+        "odds": -113
+      },
+      {
+        "player": "Tyler Shough",
+        "market": "PASSING_COMPLETIONS",
+        "side": "OVER",
+        "line": 23.5,
+        "score": 67,
+        "odds": -105
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "player": "Tyler Shough",
+      "playerId": "4360689",
+      "eventId": "ee21b3ed-d496-4a02-a6e8-6062e6e8ad48",
+      "market": "PASSING_RUSHING_YARDS",
+      "side": "OVER",
+      "line": 247.5,
+      "odds": -115,
+      "sportsbook": "CAESARS",
+      "before": 46,
+      "after": 83,
+      "projection": 357.3,
+      "estimatedProbability": 0.9235953430204873,
+      "expectedReturn": 0.7267217282556935,
+      "roleConfidence": "HIGH",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.7630669809039065,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": true,
+        "effectiveSample": 6.4
+      },
+      "components": {
+        "edge": 92.35953430204873,
+        "recent": 92.20961021957224,
+        "matchup": 95,
+        "opportunity": 71.37504606596134,
+        "history": 86.13401767477966,
+        "environment": 55.952380952380956
+      }
+    },
+    {
+      "player": "Tyler Shough",
+      "playerId": "4360689",
+      "eventId": "ee21b3ed-d496-4a02-a6e8-6062e6e8ad48",
+      "market": "PASSING_RUSHING_YARDS",
+      "side": "OVER",
+      "line": 248.5,
+      "odds": -114,
+      "sportsbook": "FANDUEL",
+      "before": 46,
+      "after": 82,
+      "projection": 357.3,
+      "estimatedProbability": 0.9217087252393326,
+      "expectedReturn": 0.7302251508878699,
+      "roleConfidence": "HIGH",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.7630669809039065,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": true,
+        "effectiveSample": 6.4
+      },
+      "components": {
+        "edge": 92.17087252393326,
+        "recent": 92.20961021957224,
+        "matchup": 95,
+        "opportunity": 71.16666686988496,
+        "history": 86.13401767477966,
+        "environment": 55.952380952380956
+      }
+    },
+    {
+      "player": "Tyler Shough",
+      "playerId": "4360689",
+      "eventId": "ee21b3ed-d496-4a02-a6e8-6062e6e8ad48",
+      "market": "PASSING_RUSHING_YARDS",
+      "side": "OVER",
+      "line": 258.5,
+      "odds": -115,
+      "sportsbook": "BETMGM",
+      "before": 45,
+      "after": 80,
+      "projection": 357.3,
+      "estimatedProbability": 0.9008600875394325,
+      "expectedReturn": 0.6842166853998084,
+      "roleConfidence": "HIGH",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.7630669809039065,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": true,
+        "effectiveSample": 6.4
+      },
+      "components": {
+        "edge": 90.08600875394325,
+        "recent": 88.15120600921061,
+        "matchup": 95,
+        "opportunity": 69.02799763990576,
+        "history": 81.30812499363914,
+        "environment": 55.952380952380956
+      }
+    },
+    {
+      "player": "Chris Olave",
+      "playerId": "4361370",
+      "eventId": "ee21b3ed-d496-4a02-a6e8-6062e6e8ad48",
+      "market": "RECEPTIONS",
+      "side": "OVER",
+      "line": 6.5,
+      "odds": -108,
+      "sportsbook": "DRAFTKINGS",
+      "before": 44,
+      "after": 77,
+      "projection": 8.9,
+      "estimatedProbability": 0.773355555207051,
+      "expectedReturn": 0.4894255137320984,
+      "roleConfidence": "HIGH",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.8516628866805408,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": true,
+        "effectiveSample": 11.5
+      },
+      "components": {
+        "edge": 77.3355555207051,
+        "recent": 86.17586975474471,
+        "matchup": 91.02054149938449,
+        "opportunity": 67.35484914028025,
+        "history": 73.59583872191756,
+        "environment": 50
+      }
+    },
+    {
+      "player": "Jaylen Warren",
+      "playerId": "4569987",
+      "eventId": "71652cfe-78f6-4af7-acbc-47f8f6af2bb9",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 18.5,
+      "odds": -114,
+      "sportsbook": "FANDUEL",
+      "before": 49,
+      "after": 78,
+      "projection": 40.2,
+      "estimatedProbability": 0.9155280570779248,
+      "expectedReturn": 0.7186228439883853,
+      "roleConfidence": "LOW",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.6922312736728344,
+        "freshness": 1,
+        "latestUsageAt": "2026-10-01",
+        "currentRoleKnown": false,
+        "effectiveSample": 8.8
+      },
+      "components": {
+        "edge": 91.55280570779249,
+        "recent": 87.48697063868127,
+        "matchup": 93.83870967741935,
+        "opportunity": 80.85540774789163,
+        "history": 81.95884717940574,
+        "environment": 50
+      }
+    },
+    {
+      "player": "Rashod Bateman",
+      "playerId": "4360939",
+      "eventId": "36d43a98-a10d-4b71-82c7-0d196a0bfbff",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 17.5,
+      "odds": -113,
+      "sportsbook": "CAESARS",
+      "before": 43,
+      "after": 73,
+      "projection": 45.9,
+      "estimatedProbability": 0.8281695971721785,
+      "expectedReturn": 0.5610630459971153,
+      "roleConfidence": "MEDIUM",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.9050588460010427,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": true,
+        "effectiveSample": 19.1
+      },
+      "components": {
+        "edge": 82.81695971721786,
+        "recent": 65.23204565683484,
+        "matchup": 67.98621582021677,
+        "opportunity": 90.59685250264391,
+        "history": 71.97747648410217,
+        "environment": 50
+      }
+    },
+    {
+      "player": "Tyler Shough",
+      "playerId": "4360689",
+      "eventId": "ee21b3ed-d496-4a02-a6e8-6062e6e8ad48",
+      "market": "PASSING_YARDS",
+      "side": "OVER",
+      "line": 237.5,
+      "odds": -114,
+      "sportsbook": "FANDUEL",
+      "before": 41,
+      "after": 75,
+      "projection": 314,
+      "estimatedProbability": 0.8631605472865541,
+      "expectedReturn": 0.6203189220993208,
+      "roleConfidence": "HIGH",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.7630669809039065,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": true,
+        "effectiveSample": 6.4
+      },
+      "components": {
+        "edge": 86.31605472865542,
+        "recent": 92.20961021957224,
+        "matchup": 60.16129032258064,
+        "opportunity": 69.78654588520162,
+        "history": 85.58517381272176,
+        "environment": 55.952380952380956
+      }
+    },
+    {
+      "player": "Noah Fant",
+      "playerId": "4036131",
+      "eventId": "ee21b3ed-d496-4a02-a6e8-6062e6e8ad48",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 13.5,
+      "odds": -110,
+      "sportsbook": "CAESARS",
+      "before": 44,
+      "after": 73,
+      "projection": 29.5,
+      "estimatedProbability": 0.8550710174840161,
+      "expectedReturn": 0.632408306105849,
+      "roleConfidence": "MEDIUM",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.8751828862392967,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": true,
+        "effectiveSample": 14
+      },
+      "components": {
+        "edge": 85.50710174840161,
+        "recent": 80.07134313490188,
+        "matchup": 45.44688972609103,
+        "opportunity": 86.51928830133932,
+        "history": 84.6028724591718,
+        "environment": 50
+      }
+    },
+    {
+      "player": "Jared Goff",
+      "playerId": "3046779",
+      "eventId": "3da52a09-744c-4798-9aab-ca9e567905ec",
+      "market": "RUSHING_YARDS",
+      "side": "OVER",
+      "line": 0.5,
+      "odds": -117,
+      "sportsbook": "CAESARS",
+      "before": 42,
+      "after": 75,
+      "projection": 5.5,
+      "estimatedProbability": 0.8304878759294763,
+      "expectedReturn": 0.5403065733050971,
+      "roleConfidence": "LOW",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.7469747172403539,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": false,
+        "effectiveSample": 14.5
+      },
+      "components": {
+        "edge": 83.04878759294763,
+        "recent": 84.05759408846666,
+        "matchup": 86.83319659796112,
+        "opportunity": 84.14689850618366,
+        "history": 63.78004745964472,
+        "environment": 63.095238095238095
+      }
+    },
+    {
+      "player": "Mason Taylor",
+      "playerId": "4808766",
+      "eventId": "da487fd4-0f49-4352-a90c-ed427f08a711",
+      "market": "RECEPTIONS",
+      "side": "OVER",
+      "line": 1.5,
+      "odds": -154,
+      "sportsbook": "FANDUEL",
+      "before": 43,
+      "after": 77,
+      "projection": 4.2,
+      "estimatedProbability": 0.9039244836669588,
+      "expectedReturn": 0.4908884341000488,
+      "roleConfidence": "LOW",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.723323060681498,
+        "freshness": 0.8666924394774143,
+        "latestUsageAt": "2026-09-13",
+        "currentRoleKnown": true,
+        "effectiveSample": 10.1
+      },
+      "components": {
+        "edge": 90.39244836669587,
+        "recent": 91.17714161554076,
+        "matchup": 80.68253428984902,
+        "opportunity": 81.12750601534421,
+        "history": 83.09500446009285,
+        "environment": 50
+      }
+    },
+    {
+      "player": "Xavier Hutchinson",
+      "playerId": "4686422",
+      "eventId": "f00f72dd-31ab-409c-b6eb-5d71700eb804",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 16.5,
+      "odds": 105,
+      "sportsbook": "BETMGM",
+      "before": 49,
+      "after": 74,
+      "projection": 46.3,
+      "estimatedProbability": 0.9276251487031595,
+      "expectedReturn": 0.9016315548414768,
+      "roleConfidence": "LOW",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.7029807981817917,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": false,
+        "effectiveSample": 9.6
+      },
+      "components": {
+        "edge": 92.76251487031595,
+        "recent": 90.16022403760392,
+        "matchup": 58.190116452345706,
+        "opportunity": 87.45267562070286,
+        "history": 78.85966093893741,
+        "environment": 50
+      }
+    },
+    {
+      "player": "Xavier Hutchinson",
+      "playerId": "4686422",
+      "eventId": "f00f72dd-31ab-409c-b6eb-5d71700eb804",
+      "market": "RECEPTIONS",
+      "side": "OVER",
+      "line": 1.5,
+      "odds": 130,
+      "sportsbook": "CAESARS",
+      "before": 49,
+      "after": 74,
+      "projection": 3.8,
+      "estimatedProbability": 0.8667623569200988,
+      "expectedReturn": 0.9935534209162271,
+      "roleConfidence": "LOW",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.7029807981817917,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": false,
+        "effectiveSample": 9.6
+      },
+      "components": {
+        "edge": 86.67623569200988,
+        "recent": 90.16022403760392,
+        "matchup": 65.23798418580714,
+        "opportunity": 85.92948319680333,
+        "history": 82.8596989601087,
+        "environment": 50
+      }
+    },
+    {
+      "player": "Braelon Allen",
+      "playerId": "4685247",
+      "eventId": "da487fd4-0f49-4352-a90c-ed427f08a711",
+      "market": "RUSH_RECEIVE_YARDS",
+      "side": "UNDER",
+      "line": 91.5,
+      "odds": -111,
+      "sportsbook": "DRAFTKINGS",
+      "before": 36,
+      "after": 75,
+      "projection": 51.4,
+      "estimatedProbability": 0.9663961189210631,
+      "expectedReturn": 0.8370232530841832,
+      "roleConfidence": "LOW",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.6383034934705857,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": false,
+        "effectiveSample": 6
+      },
+      "components": {
+        "edge": 96.63961189210632,
+        "recent": 86.63611649743721,
+        "matchup": 82.58204780853889,
+        "opportunity": 70.38358075175475,
+        "history": 87.87698979431643,
+        "environment": 44.047619047619044
+      }
+    },
+    {
+      "player": "Braelon Allen",
+      "playerId": "4685247",
+      "eventId": "da487fd4-0f49-4352-a90c-ed427f08a711",
+      "market": "RUSH_RECEIVE_YARDS",
+      "side": "UNDER",
+      "line": 89.5,
+      "odds": -114,
+      "sportsbook": "FANDUEL",
+      "before": 36,
+      "after": 75,
+      "projection": 51.4,
+      "estimatedProbability": 0.958980583196892,
+      "expectedReturn": 0.8001916210889024,
+      "roleConfidence": "LOW",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.6383034934705857,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": false,
+        "effectiveSample": 6
+      },
+      "components": {
+        "edge": 95.8980583196892,
+        "recent": 86.63611649743721,
+        "matchup": 82.58204780853889,
+        "opportunity": 69.35031293835809,
+        "history": 87.87698979431643,
+        "environment": 44.047619047619044
+      }
+    },
+    {
+      "player": "Omarion Hampton",
+      "playerId": "4685382",
+      "eventId": "1264ce8c-bf73-46b5-99d4-7858aa8cc661",
+      "market": "RUSHING_ATTEMPTS",
+      "side": "OVER",
+      "line": 10.5,
+      "odds": -105,
+      "sportsbook": "BETMGM",
+      "before": 40,
+      "after": 73,
+      "projection": 16.6,
+      "estimatedProbability": 0.8982240906394103,
+      "expectedReturn": 0.7536756055340867,
+      "roleConfidence": "LOW",
+      "dataQuality": {
+        "completeness": 100,
+        "reliability": 0.6620562974806878,
+        "freshness": 1,
+        "latestUsageAt": "2026-09-27",
+        "currentRoleKnown": false,
+        "effectiveSample": 7
+      },
+      "components": {
+        "edge": 89.82240906394104,
+        "recent": 92.23144980034625,
+        "matchup": 60.16129032258064,
+        "opportunity": 85.73263282371464,
+        "history": 88.10284862049699,
+        "environment": 41.666666666666664
+      }
+    }
+  ],
+  "historical": {
+    "eventsScanned": 31,
+    "rawOffers": 4301,
+    "limitations": [
+      "Weights and predictive distributions are not fitted or externally calibrated; this is a diagnostic backtest, not validation of profitability.",
+      "One main offer per player/stat/book; reporting recommendations deduplicates books. Correlated props are not independent trials.",
+      "Final historical stats are assumed available after each prior game; original stats publication times were not archived.",
+      "Role evidence imported later is excluded using received_at; missing pregame snapshots remain missing."
+    ],
+    "legacy": {
+      "offers": {
+        "count": 4301,
+        "averageScore": 44.94815159265287,
+        "score80Plus": 21,
+        "score90Plus": 0,
+        "settled": 4301,
+        "pushes": 0,
+        "accuracy": 0.41873982794698905
+      },
+      "recommendations": {
+        "count": 862,
+        "averageScore": 47.15197215777262,
+        "score80Plus": 7,
+        "score90Plus": 0,
+        "settled": 862,
+        "pushes": 0,
+        "accuracy": 0.3654292343387471
+      },
+      "actionable": {
+        "count": 76,
+        "averageScore": 73.53947368421052,
+        "score80Plus": 7,
+        "score90Plus": 0,
+        "settled": 76,
+        "pushes": 0,
+        "accuracy": 0.47368421052631576
+      },
+      "direction": {
+        "OVER": {
+          "count": 575,
+          "averageScore": 40.25565217391304,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 575,
+          "pushes": 0,
+          "accuracy": 0.288695652173913,
+          "percentage": 66.70533642691416
+        },
+        "UNDER": {
+          "count": 287,
+          "averageScore": 60.96864111498258,
+          "score80Plus": 7,
+          "score90Plus": 0,
+          "settled": 287,
+          "pushes": 0,
+          "accuracy": 0.519163763066202,
+          "percentage": 33.29466357308585
+        }
+      },
+      "bySlate": {
+        "25d33ccb-87f7-4899-88b6-efa93ecabe72": {
+          "count": 61,
+          "averageScore": 48.967213114754095,
+          "score80Plus": 3,
+          "score90Plus": 0,
+          "settled": 61,
+          "pushes": 0,
+          "accuracy": 0.3770491803278688,
+          "direction": {
+            "OVER": {
+              "count": 33,
+              "averageScore": 37.333333333333336,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 33,
+              "pushes": 0,
+              "accuracy": 0.18181818181818182
+            },
+            "UNDER": {
+              "count": 28,
+              "averageScore": 62.67857142857143,
+              "score80Plus": 3,
+              "score90Plus": 0,
+              "settled": 28,
+              "pushes": 0,
+              "accuracy": 0.6071428571428571
+            }
+          }
+        },
+        "543a227b-5f92-429f-bf46-49f6871c3e6d": {
+          "count": 54,
+          "averageScore": 46.888888888888886,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 54,
+          "pushes": 0,
+          "accuracy": 0.25925925925925924,
+          "direction": {
+            "OVER": {
+              "count": 31,
+              "averageScore": 35.225806451612904,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 31,
+              "pushes": 0,
+              "accuracy": 0.25806451612903225
+            },
+            "UNDER": {
+              "count": 23,
+              "averageScore": 62.608695652173914,
+              "score80Plus": 1,
+              "score90Plus": 0,
+              "settled": 23,
+              "pushes": 0,
+              "accuracy": 0.2608695652173913
+            }
+          }
+        },
+        "59b44a7a-10bd-463b-ba42-c7687c083c62": {
+          "count": 63,
+          "averageScore": 49.87301587301587,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 63,
+          "pushes": 0,
+          "accuracy": 0.4126984126984127,
+          "direction": {
+            "OVER": {
+              "count": 36,
+              "averageScore": 40.22222222222222,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 36,
+              "pushes": 0,
+              "accuracy": 0.2222222222222222
+            },
+            "UNDER": {
+              "count": 27,
+              "averageScore": 62.74074074074074,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 27,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            }
+          }
+        },
+        "1870855e-24fd-499c-b33c-33cc3a282b0e": {
+          "count": 67,
+          "averageScore": 49.059701492537314,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 67,
+          "pushes": 0,
+          "accuracy": 0.3582089552238806,
+          "direction": {
+            "OVER": {
+              "count": 44,
+              "averageScore": 42.13636363636363,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 44,
+              "pushes": 0,
+              "accuracy": 0.22727272727272727
+            },
+            "UNDER": {
+              "count": 23,
+              "averageScore": 62.30434782608695,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 23,
+              "pushes": 0,
+              "accuracy": 0.6086956521739131
+            }
+          }
+        },
+        "c3c3acd0-6984-43aa-8836-24a19fd709b1": {
+          "count": 48,
+          "averageScore": 47.083333333333336,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 48,
+          "pushes": 0,
+          "accuracy": 0.20833333333333334,
+          "direction": {
+            "OVER": {
+              "count": 31,
+              "averageScore": 39.74193548387097,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 31,
+              "pushes": 0,
+              "accuracy": 0.1935483870967742
+            },
+            "UNDER": {
+              "count": 17,
+              "averageScore": 60.470588235294116,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 17,
+              "pushes": 0,
+              "accuracy": 0.23529411764705882
+            }
+          }
+        },
+        "423ba1a1-59cd-4529-ba99-d91c21f857ad": {
+          "count": 63,
+          "averageScore": 47.698412698412696,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 63,
+          "pushes": 0,
+          "accuracy": 0.36507936507936506,
+          "direction": {
+            "OVER": {
+              "count": 48,
+              "averageScore": 44.4375,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 48,
+              "pushes": 0,
+              "accuracy": 0.2916666666666667
+            },
+            "UNDER": {
+              "count": 15,
+              "averageScore": 58.13333333333333,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 15,
+              "pushes": 0,
+              "accuracy": 0.6
+            }
+          }
+        },
+        "a13c3640-eca9-4bbb-9c1f-45828b6a26f0": {
+          "count": 60,
+          "averageScore": 46.983333333333334,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 60,
+          "pushes": 0,
+          "accuracy": 0.31666666666666665,
+          "direction": {
+            "OVER": {
+              "count": 44,
+              "averageScore": 42.70454545454545,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 44,
+              "pushes": 0,
+              "accuracy": 0.29545454545454547
+            },
+            "UNDER": {
+              "count": 16,
+              "averageScore": 58.75,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.375
+            }
+          }
+        },
+        "e9faf09e-1cc4-456f-b87a-5806dc02e2cc": {
+          "count": 52,
+          "averageScore": 43.23076923076923,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 52,
+          "pushes": 0,
+          "accuracy": 0.36538461538461536,
+          "direction": {
+            "OVER": {
+              "count": 39,
+              "averageScore": 37.8974358974359,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 39,
+              "pushes": 0,
+              "accuracy": 0.38461538461538464
+            },
+            "UNDER": {
+              "count": 13,
+              "averageScore": 59.23076923076923,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 13,
+              "pushes": 0,
+              "accuracy": 0.3076923076923077
+            }
+          }
+        },
+        "bb1df4c7-bb90-4a23-9155-2c54c0a89595": {
+          "count": 53,
+          "averageScore": 45.18867924528302,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 53,
+          "pushes": 0,
+          "accuracy": 0.24528301886792453,
+          "direction": {
+            "OVER": {
+              "count": 37,
+              "averageScore": 39.351351351351354,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 37,
+              "pushes": 0,
+              "accuracy": 0.24324324324324326
+            },
+            "UNDER": {
+              "count": 16,
+              "averageScore": 58.6875,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.25
+            }
+          }
+        },
+        "8b0ca3e1-7036-4b35-a460-a5c02c0d5462": {
+          "count": 67,
+          "averageScore": 48.55223880597015,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 67,
+          "pushes": 0,
+          "accuracy": 0.2835820895522388,
+          "direction": {
+            "OVER": {
+              "count": 45,
+              "averageScore": 42.17777777777778,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 45,
+              "pushes": 0,
+              "accuracy": 0.15555555555555556
+            },
+            "UNDER": {
+              "count": 22,
+              "averageScore": 61.59090909090909,
+              "score80Plus": 1,
+              "score90Plus": 0,
+              "settled": 22,
+              "pushes": 0,
+              "accuracy": 0.5454545454545454
+            }
+          }
+        },
+        "97f06ea1-a558-4c42-b458-a1421b7b2582": {
+          "count": 54,
+          "averageScore": 43.425925925925924,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 54,
+          "pushes": 0,
+          "accuracy": 0.5,
+          "direction": {
+            "OVER": {
+              "count": 44,
+              "averageScore": 40.31818181818182,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 44,
+              "pushes": 0,
+              "accuracy": 0.45454545454545453
+            },
+            "UNDER": {
+              "count": 10,
+              "averageScore": 57.1,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 10,
+              "pushes": 0,
+              "accuracy": 0.7
+            }
+          }
+        },
+        "e278f624-4979-47fa-9d1d-a913246f2cb8": {
+          "count": 54,
+          "averageScore": 46.68518518518518,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 54,
+          "pushes": 0,
+          "accuracy": 0.5370370370370371,
+          "direction": {
+            "OVER": {
+              "count": 37,
+              "averageScore": 41.45945945945946,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 37,
+              "pushes": 0,
+              "accuracy": 0.5405405405405406
+            },
+            "UNDER": {
+              "count": 17,
+              "averageScore": 58.05882352941177,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 17,
+              "pushes": 0,
+              "accuracy": 0.5294117647058824
+            }
+          }
+        },
+        "c14b550f-30f5-4ba6-ad12-53420d63c7f6": {
+          "count": 63,
+          "averageScore": 49.53968253968254,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 63,
+          "pushes": 0,
+          "accuracy": 0.4126984126984127,
+          "direction": {
+            "OVER": {
+              "count": 29,
+              "averageScore": 33.89655172413793,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 29,
+              "pushes": 0,
+              "accuracy": 0.13793103448275862
+            },
+            "UNDER": {
+              "count": 34,
+              "averageScore": 62.88235294117647,
+              "score80Plus": 2,
+              "score90Plus": 0,
+              "settled": 34,
+              "pushes": 0,
+              "accuracy": 0.6470588235294118
+            }
+          }
+        },
+        "5f085798-fcdd-4a19-bcab-037440bfcf7c": {
+          "count": 56,
+          "averageScore": 47.410714285714285,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 56,
+          "pushes": 0,
+          "accuracy": 0.4107142857142857,
+          "direction": {
+            "OVER": {
+              "count": 45,
+              "averageScore": 43.44444444444444,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 45,
+              "pushes": 0,
+              "accuracy": 0.35555555555555557
+            },
+            "UNDER": {
+              "count": 11,
+              "averageScore": 63.63636363636363,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 11,
+              "pushes": 0,
+              "accuracy": 0.6363636363636364
+            }
+          }
+        },
+        "5caafbad-b434-4bdb-9c6b-317262a520cf": {
+          "count": 47,
+          "averageScore": 44.148936170212764,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 47,
+          "pushes": 0,
+          "accuracy": 0.425531914893617,
+          "direction": {
+            "OVER": {
+              "count": 32,
+              "averageScore": 37.46875,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 32,
+              "pushes": 0,
+              "accuracy": 0.3125
+            },
+            "UNDER": {
+              "count": 15,
+              "averageScore": 58.4,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 15,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            }
+          }
+        }
+      },
+      "byPosition": {
+        "QB": {
+          "count": 237,
+          "averageScore": 54.23628691983122,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 237,
+          "pushes": 0,
+          "accuracy": 0.41350210970464135
+        },
+        "RB": {
+          "count": 243,
+          "averageScore": 49.44444444444444,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 243,
+          "pushes": 0,
+          "accuracy": 0.34156378600823045
+        },
+        "TE": {
+          "count": 125,
+          "averageScore": 38.432,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 125,
+          "pushes": 0,
+          "accuracy": 0.392
+        },
+        "WR": {
+          "count": 257,
+          "averageScore": 42.69260700389105,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 257,
+          "pushes": 0,
+          "accuracy": 0.33073929961089493
+        }
+      },
+      "byProp": {
+        "ANYTIME_TD": {
+          "count": 273,
+          "averageScore": 19.721611721611723,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 273,
+          "pushes": 0,
+          "accuracy": 0.029304029304029304
+        },
+        "INTERCEPTIONS": {
+          "count": 29,
+          "averageScore": 58.275862068965516,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.5517241379310345
+        },
+        "PASSING_ATTEMPTS": {
+          "count": 29,
+          "averageScore": 60.241379310344826,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.3793103448275862
+        },
+        "PASSING_COMPLETIONS": {
+          "count": 29,
+          "averageScore": 60.275862068965516,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.4482758620689655
+        },
+        "PASSING_RUSHING_YARDS": {
+          "count": 25,
+          "averageScore": 58.28,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 25,
+          "pushes": 0,
+          "accuracy": 0.36
+        },
+        "PASSING_TDS": {
+          "count": 29,
+          "averageScore": 60.206896551724135,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.5862068965517241
+        },
+        "PASSING_YARDS": {
+          "count": 29,
+          "averageScore": 60.172413793103445,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.4827586206896552
+        },
+        "RECEIVING_YARDS": {
+          "count": 135,
+          "averageScore": 60.02962962962963,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 135,
+          "pushes": 0,
+          "accuracy": 0.5851851851851851
+        },
+        "RECEPTIONS": {
+          "count": 136,
+          "averageScore": 60.455882352941174,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 136,
+          "pushes": 0,
+          "accuracy": 0.6323529411764706
+        },
+        "RUSHING_ATTEMPTS": {
+          "count": 43,
+          "averageScore": 58.51162790697674,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 43,
+          "pushes": 0,
+          "accuracy": 0.46511627906976744
+        },
+        "RUSHING_YARDS": {
+          "count": 73,
+          "averageScore": 59.38356164383562,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 73,
+          "pushes": 0,
+          "accuracy": 0.410958904109589
+        },
+        "RUSH_RECEIVE_YARDS": {
+          "count": 32,
+          "averageScore": 60.96875,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 32,
+          "pushes": 0,
+          "accuracy": 0.375
+        }
+      },
+      "byRoleChange": {
+        "MAJOR": {
+          "count": 138,
+          "averageScore": 40.86231884057971,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 138,
+          "pushes": 0,
+          "accuracy": 0.2536231884057971
+        },
+        "MINOR": {
+          "count": 246,
+          "averageScore": 47.577235772357724,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 246,
+          "pushes": 0,
+          "accuracy": 0.3699186991869919
+        },
+        "MODERATE": {
+          "count": 286,
+          "averageScore": 46.51048951048951,
+          "score80Plus": 3,
+          "score90Plus": 0,
+          "settled": 286,
+          "pushes": 0,
+          "accuracy": 0.34965034965034963
+        },
+        "NONE": {
+          "count": 192,
+          "averageScore": 52.083333333333336,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 192,
+          "pushes": 0,
+          "accuracy": 0.4635416666666667
+        }
+      },
+      "byScoreBucket": {
+        "95–99": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "90–94": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "80–89": {
+          "count": 7,
+          "averageScore": 81.85714285714286,
+          "score80Plus": 7,
+          "score90Plus": 0,
+          "settled": 7,
+          "pushes": 0,
+          "accuracy": 0.5714285714285714
+        },
+        "70–79": {
+          "count": 69,
+          "averageScore": 72.69565217391305,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 69,
+          "pushes": 0,
+          "accuracy": 0.463768115942029
+        },
+        "60–69": {
+          "count": 178,
+          "averageScore": 63.662921348314605,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 178,
+          "pushes": 0,
+          "accuracy": 0.5617977528089888
+        },
+        "50–59": {
+          "count": 330,
+          "averageScore": 54.88787878787879,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 330,
+          "pushes": 0,
+          "accuracy": 0.509090909090909
+        },
+        "0–49": {
+          "count": 278,
+          "averageScore": 20.18345323741007,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 278,
+          "pushes": 0,
+          "accuracy": 0.039568345323741004
+        }
+      },
+      "byOfferDirection": {
+        "OVER": {
+          "count": 2560,
+          "averageScore": 40.812890625,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 2560,
+          "pushes": 0,
+          "accuracy": 0.362109375
+        },
+        "UNDER": {
+          "count": 1741,
+          "averageScore": 51.02871912693854,
+          "score80Plus": 21,
+          "score90Plus": 0,
+          "settled": 1741,
+          "pushes": 0,
+          "accuracy": 0.5020103388856979
+        }
+      }
+    },
+    "v2": {
+      "offers": {
+        "count": 4301,
+        "averageScore": 44.841199720995114,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 4301,
+        "pushes": 0,
+        "accuracy": 0.41873982794698905
+      },
+      "recommendations": {
+        "count": 585,
+        "averageScore": 54.10427350427351,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 585,
+        "pushes": 0,
+        "accuracy": 0.4752136752136752
+      },
+      "actionable": {
+        "count": 2,
+        "averageScore": 70,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 2,
+        "pushes": 0,
+        "accuracy": 0.5
+      },
+      "direction": {
+        "OVER": {
+          "count": 318,
+          "averageScore": 53.62893081761006,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 318,
+          "pushes": 0,
+          "accuracy": 0.4811320754716981,
+          "percentage": 54.35897435897436
+        },
+        "UNDER": {
+          "count": 267,
+          "averageScore": 54.670411985018724,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 267,
+          "pushes": 0,
+          "accuracy": 0.4681647940074906,
+          "percentage": 45.64102564102564
+        }
+      },
+      "bySlate": {
+        "25d33ccb-87f7-4899-88b6-efa93ecabe72": {
+          "count": 43,
+          "averageScore": 55.627906976744185,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 43,
+          "pushes": 0,
+          "accuracy": 0.4186046511627907,
+          "direction": {
+            "OVER": {
+              "count": 26,
+              "averageScore": 54.53846153846154,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 26,
+              "pushes": 0,
+              "accuracy": 0.34615384615384615
+            },
+            "UNDER": {
+              "count": 17,
+              "averageScore": 57.294117647058826,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 17,
+              "pushes": 0,
+              "accuracy": 0.5294117647058824
+            }
+          }
+        },
+        "543a227b-5f92-429f-bf46-49f6871c3e6d": {
+          "count": 37,
+          "averageScore": 56.62162162162162,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 37,
+          "pushes": 0,
+          "accuracy": 0.43243243243243246,
+          "direction": {
+            "OVER": {
+              "count": 17,
+              "averageScore": 54,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 17,
+              "pushes": 0,
+              "accuracy": 0.5882352941176471
+            },
+            "UNDER": {
+              "count": 20,
+              "averageScore": 58.85,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 20,
+              "pushes": 0,
+              "accuracy": 0.3
+            }
+          }
+        },
+        "59b44a7a-10bd-463b-ba42-c7687c083c62": {
+          "count": 47,
+          "averageScore": 51.340425531914896,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 47,
+          "pushes": 0,
+          "accuracy": 0.40425531914893614,
+          "direction": {
+            "OVER": {
+              "count": 27,
+              "averageScore": 49.629629629629626,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 27,
+              "pushes": 0,
+              "accuracy": 0.2962962962962963
+            },
+            "UNDER": {
+              "count": 20,
+              "averageScore": 53.65,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 20,
+              "pushes": 0,
+              "accuracy": 0.55
+            }
+          }
+        },
+        "1870855e-24fd-499c-b33c-33cc3a282b0e": {
+          "count": 47,
+          "averageScore": 54.340425531914896,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 47,
+          "pushes": 0,
+          "accuracy": 0.5531914893617021,
+          "direction": {
+            "OVER": {
+              "count": 20,
+              "averageScore": 55.95,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 20,
+              "pushes": 0,
+              "accuracy": 0.45
+            },
+            "UNDER": {
+              "count": 27,
+              "averageScore": 53.148148148148145,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 27,
+              "pushes": 0,
+              "accuracy": 0.6296296296296297
+            }
+          }
+        },
+        "c3c3acd0-6984-43aa-8836-24a19fd709b1": {
+          "count": 33,
+          "averageScore": 54.121212121212125,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 33,
+          "pushes": 0,
+          "accuracy": 0.48484848484848486,
+          "direction": {
+            "OVER": {
+              "count": 20,
+              "averageScore": 53.3,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 20,
+              "pushes": 0,
+              "accuracy": 0.55
+            },
+            "UNDER": {
+              "count": 13,
+              "averageScore": 55.38461538461539,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 13,
+              "pushes": 0,
+              "accuracy": 0.38461538461538464
+            }
+          }
+        },
+        "423ba1a1-59cd-4529-ba99-d91c21f857ad": {
+          "count": 43,
+          "averageScore": 53.883720930232556,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 43,
+          "pushes": 0,
+          "accuracy": 0.4883720930232558,
+          "direction": {
+            "OVER": {
+              "count": 18,
+              "averageScore": 56.388888888888886,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 18,
+              "pushes": 0,
+              "accuracy": 0.4444444444444444
+            },
+            "UNDER": {
+              "count": 25,
+              "averageScore": 52.08,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 25,
+              "pushes": 0,
+              "accuracy": 0.52
+            }
+          }
+        },
+        "a13c3640-eca9-4bbb-9c1f-45828b6a26f0": {
+          "count": 42,
+          "averageScore": 55.714285714285715,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 42,
+          "pushes": 0,
+          "accuracy": 0.2857142857142857,
+          "direction": {
+            "OVER": {
+              "count": 29,
+              "averageScore": 55.58620689655172,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 29,
+              "pushes": 0,
+              "accuracy": 0.3793103448275862
+            },
+            "UNDER": {
+              "count": 13,
+              "averageScore": 56,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 13,
+              "pushes": 0,
+              "accuracy": 0.07692307692307693
+            }
+          }
+        },
+        "e9faf09e-1cc4-456f-b87a-5806dc02e2cc": {
+          "count": 31,
+          "averageScore": 55.29032258064516,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 31,
+          "pushes": 0,
+          "accuracy": 0.41935483870967744,
+          "direction": {
+            "OVER": {
+              "count": 15,
+              "averageScore": 51.93333333333333,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 15,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            },
+            "UNDER": {
+              "count": 16,
+              "averageScore": 58.4375,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.1875
+            }
+          }
+        },
+        "bb1df4c7-bb90-4a23-9155-2c54c0a89595": {
+          "count": 36,
+          "averageScore": 52.19444444444444,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 36,
+          "pushes": 0,
+          "accuracy": 0.5,
+          "direction": {
+            "OVER": {
+              "count": 30,
+              "averageScore": 53.333333333333336,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 30,
+              "pushes": 0,
+              "accuracy": 0.5333333333333333
+            },
+            "UNDER": {
+              "count": 6,
+              "averageScore": 46.5,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 6,
+              "pushes": 0,
+              "accuracy": 0.3333333333333333
+            }
+          }
+        },
+        "8b0ca3e1-7036-4b35-a460-a5c02c0d5462": {
+          "count": 46,
+          "averageScore": 54,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.43478260869565216,
+          "direction": {
+            "OVER": {
+              "count": 25,
+              "averageScore": 53.2,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 25,
+              "pushes": 0,
+              "accuracy": 0.32
+            },
+            "UNDER": {
+              "count": 21,
+              "averageScore": 54.95238095238095,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 21,
+              "pushes": 0,
+              "accuracy": 0.5714285714285714
+            }
+          }
+        },
+        "97f06ea1-a558-4c42-b458-a1421b7b2582": {
+          "count": 34,
+          "averageScore": 54.73529411764706,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 34,
+          "pushes": 0,
+          "accuracy": 0.4411764705882353,
+          "direction": {
+            "OVER": {
+              "count": 15,
+              "averageScore": 53.666666666666664,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 15,
+              "pushes": 0,
+              "accuracy": 0.6
+            },
+            "UNDER": {
+              "count": 19,
+              "averageScore": 55.578947368421055,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 19,
+              "pushes": 0,
+              "accuracy": 0.3157894736842105
+            }
+          }
+        },
+        "e278f624-4979-47fa-9d1d-a913246f2cb8": {
+          "count": 36,
+          "averageScore": 52.333333333333336,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 36,
+          "pushes": 0,
+          "accuracy": 0.6944444444444444,
+          "direction": {
+            "OVER": {
+              "count": 31,
+              "averageScore": 52.03225806451613,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 31,
+              "pushes": 0,
+              "accuracy": 0.7096774193548387
+            },
+            "UNDER": {
+              "count": 5,
+              "averageScore": 54.2,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 5,
+              "pushes": 0,
+              "accuracy": 0.6
+            }
+          }
+        },
+        "c14b550f-30f5-4ba6-ad12-53420d63c7f6": {
+          "count": 43,
+          "averageScore": 51.83720930232558,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 43,
+          "pushes": 0,
+          "accuracy": 0.4883720930232558,
+          "direction": {
+            "OVER": {
+              "count": 11,
+              "averageScore": 51.81818181818182,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 11,
+              "pushes": 0,
+              "accuracy": 0.18181818181818182
+            },
+            "UNDER": {
+              "count": 32,
+              "averageScore": 51.84375,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 32,
+              "pushes": 0,
+              "accuracy": 0.59375
+            }
+          }
+        },
+        "5f085798-fcdd-4a19-bcab-037440bfcf7c": {
+          "count": 37,
+          "averageScore": 57.189189189189186,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 37,
+          "pushes": 0,
+          "accuracy": 0.5135135135135135,
+          "direction": {
+            "OVER": {
+              "count": 16,
+              "averageScore": 57.6875,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.5625
+            },
+            "UNDER": {
+              "count": 21,
+              "averageScore": 56.80952380952381,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 21,
+              "pushes": 0,
+              "accuracy": 0.47619047619047616
+            }
+          }
+        },
+        "5caafbad-b434-4bdb-9c6b-317262a520cf": {
+          "count": 30,
+          "averageScore": 52.9,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 30,
+          "pushes": 0,
+          "accuracy": 0.6333333333333333,
+          "direction": {
+            "OVER": {
+              "count": 18,
+              "averageScore": 52.55555555555556,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 18,
+              "pushes": 0,
+              "accuracy": 0.6111111111111112
+            },
+            "UNDER": {
+              "count": 12,
+              "averageScore": 53.416666666666664,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 12,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            }
+          }
+        }
+      },
+      "byPosition": {
+        "QB": {
+          "count": 207,
+          "averageScore": 55.71980676328502,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 207,
+          "pushes": 0,
+          "accuracy": 0.5265700483091788
+        },
+        "RB": {
+          "count": 175,
+          "averageScore": 54.30285714285714,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 175,
+          "pushes": 0,
+          "accuracy": 0.36
+        },
+        "TE": {
+          "count": 60,
+          "averageScore": 54.333333333333336,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 60,
+          "pushes": 0,
+          "accuracy": 0.5166666666666667
+        },
+        "WR": {
+          "count": 143,
+          "averageScore": 51.42657342657343,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 143,
+          "pushes": 0,
+          "accuracy": 0.5244755244755245
+        }
+      },
+      "byProp": {
+        "INTERCEPTIONS": {
+          "count": 29,
+          "averageScore": 54.06896551724138,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.5517241379310345
+        },
+        "PASSING_ATTEMPTS": {
+          "count": 29,
+          "averageScore": 57.89655172413793,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.3793103448275862
+        },
+        "PASSING_COMPLETIONS": {
+          "count": 29,
+          "averageScore": 55.793103448275865,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.6206896551724138
+        },
+        "PASSING_RUSHING_YARDS": {
+          "count": 25,
+          "averageScore": 54.56,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 25,
+          "pushes": 0,
+          "accuracy": 0.6
+        },
+        "PASSING_TDS": {
+          "count": 29,
+          "averageScore": 56.41379310344828,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.5172413793103449
+        },
+        "PASSING_YARDS": {
+          "count": 29,
+          "averageScore": 54.44827586206897,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.5862068965517241
+        },
+        "RECEIVING_YARDS": {
+          "count": 133,
+          "averageScore": 52.78947368421053,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 133,
+          "pushes": 0,
+          "accuracy": 0.5112781954887218
+        },
+        "RECEPTIONS": {
+          "count": 136,
+          "averageScore": 52.85294117647059,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 136,
+          "pushes": 0,
+          "accuracy": 0.5
+        },
+        "RUSHING_ATTEMPTS": {
+          "count": 42,
+          "averageScore": 55.857142857142854,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 42,
+          "pushes": 0,
+          "accuracy": 0.40476190476190477
+        },
+        "RUSHING_YARDS": {
+          "count": 72,
+          "averageScore": 54.083333333333336,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 72,
+          "pushes": 0,
+          "accuracy": 0.3472222222222222
+        },
+        "RUSH_RECEIVE_YARDS": {
+          "count": 32,
+          "averageScore": 54.9375,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 32,
+          "pushes": 0,
+          "accuracy": 0.25
+        }
+      },
+      "byRoleChange": {
+        "MAJOR": {
+          "count": 72,
+          "averageScore": 50.40277777777778,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 72,
+          "pushes": 0,
+          "accuracy": 0.5
+        },
+        "MINOR": {
+          "count": 171,
+          "averageScore": 54.36257309941521,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 171,
+          "pushes": 0,
+          "accuracy": 0.5029239766081871
+        },
+        "MODERATE": {
+          "count": 193,
+          "averageScore": 55.50259067357513,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 193,
+          "pushes": 0,
+          "accuracy": 0.38341968911917096
+        },
+        "NONE": {
+          "count": 149,
+          "averageScore": 53.785234899328856,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 149,
+          "pushes": 0,
+          "accuracy": 0.5503355704697986
+        }
+      },
+      "byScoreBucket": {
+        "95–99": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "90–94": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "80–89": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "70–79": {
+          "count": 2,
+          "averageScore": 70,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 2,
+          "pushes": 0,
+          "accuracy": 0.5
+        },
+        "60–69": {
+          "count": 130,
+          "averageScore": 62.61538461538461,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 130,
+          "pushes": 0,
+          "accuracy": 0.3769230769230769
+        },
+        "50–59": {
+          "count": 379,
+          "averageScore": 54.70976253298153,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 379,
+          "pushes": 0,
+          "accuracy": 0.48812664907651715
+        },
+        "0–49": {
+          "count": 74,
+          "averageScore": 35.62162162162162,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 74,
+          "pushes": 0,
+          "accuracy": 0.581081081081081
+        }
+      },
+      "byOfferDirection": {
+        "OVER": {
+          "count": 2560,
+          "averageScore": 42.17578125,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 2560,
+          "pushes": 0,
+          "accuracy": 0.362109375
+        },
+        "UNDER": {
+          "count": 1741,
+          "averageScore": 48.760482481332566,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 1741,
+          "pushes": 0,
+          "accuracy": 0.5020103388856979
+        }
+      }
+    },
+    "validation": {
+      "status": "Diagnostic only; independent multi-week holdout calibration still required",
+      "independentEvents": 15,
+      "slates": 2,
+      "settledOffers": 1953,
+      "count": 1875,
+      "hitRate": 0.4384,
+      "pushes": 0,
+      "meanEstimatedProbability": 0.44248639880938173,
+      "brier": 0.25948845280037397,
+      "priced": 1875,
+      "realizedReturn": -0.0726723150936284,
+      "estimatedReturn": -0.003895808692651309,
+      "byProbability": {
+        "0–10": {
+          "count": 211,
+          "hitRate": 0.02843601895734597,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.030306182485074332,
+          "brier": 0.027335632397938757,
+          "priced": 211,
+          "realizedReturn": -0.21377606966957402,
+          "estimatedReturn": 0.19530746012843567
+        },
+        "10–20": {
+          "count": 88,
+          "hitRate": 0.45454545454545453,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.15213366747482096,
+          "brier": 0.33177681512812734,
+          "priced": 88,
+          "realizedReturn": 0.028324833482140734,
+          "estimatedReturn": -0.1563184446215221
+        },
+        "20–30": {
+          "count": 132,
+          "hitRate": 0.5454545454545454,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.2579826592072002,
+          "brier": 0.33110764063570397,
+          "priced": 132,
+          "realizedReturn": 0.09331800810247759,
+          "estimatedReturn": -0.48011194740640567
+        },
+        "30–40": {
+          "count": 290,
+          "hitRate": 0.5,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.35668848641681844,
+          "brier": 0.2705522191183742,
+          "priced": 290,
+          "realizedReturn": -0.016050545428657643,
+          "estimatedReturn": -0.2929822228673419
+        },
+        "40–50": {
+          "count": 342,
+          "hitRate": 0.5730994152046783,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.44831418547545626,
+          "brier": 0.2622868689449924,
+          "priced": 342,
+          "realizedReturn": 0.09842219621556979,
+          "estimatedReturn": -0.1346062808296766
+        },
+        "50–60": {
+          "count": 336,
+          "hitRate": 0.4255952380952381,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.5523665494272723,
+          "brier": 0.2620711690987718,
+          "priced": 336,
+          "realizedReturn": -0.19633556303731015,
+          "estimatedReturn": 0.045354886725579295
+        },
+        "60–70": {
+          "count": 271,
+          "hitRate": 0.5018450184501845,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.6439155000286335,
+          "brier": 0.2707402562255628,
+          "priced": 271,
+          "realizedReturn": -0.06576948140868243,
+          "estimatedReturn": 0.20251943553006416
+        },
+        "70–80": {
+          "count": 136,
+          "hitRate": 0.4411764705882353,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.7405780891750888,
+          "brier": 0.33690148628105626,
+          "priced": 136,
+          "realizedReturn": -0.1804029002037269,
+          "estimatedReturn": 0.38628276830912117
+        },
+        "80–90": {
+          "count": 64,
+          "hitRate": 0.34375,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.8383249435857286,
+          "brier": 0.466546106156173,
+          "priced": 64,
+          "realizedReturn": -0.3927863931102698,
+          "estimatedReturn": 0.5247384182466615
+        },
+        "90–100": {
+          "count": 5,
+          "hitRate": 0.4,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.9190258768000137,
+          "brier": 0.5208268726995493,
+          "priced": 5,
+          "realizedReturn": -0.30094664371772806,
+          "estimatedReturn": 0.6753506495056202
+        }
+      },
+      "byScore": {
+        "95–99": {
+          "count": 0,
+          "hitRate": null,
+          "pushes": 0,
+          "meanEstimatedProbability": null,
+          "brier": null,
+          "priced": 0,
+          "realizedReturn": null,
+          "estimatedReturn": null
+        },
+        "90–94": {
+          "count": 0,
+          "hitRate": null,
+          "pushes": 0,
+          "meanEstimatedProbability": null,
+          "brier": null,
+          "priced": 0,
+          "realizedReturn": null,
+          "estimatedReturn": null
+        },
+        "80–89": {
+          "count": 0,
+          "hitRate": null,
+          "pushes": 0,
+          "meanEstimatedProbability": null,
+          "brier": null,
+          "priced": 0,
+          "realizedReturn": null,
+          "estimatedReturn": null
+        },
+        "70–79": {
+          "count": 2,
+          "hitRate": 0.5,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.9054535017922152,
+          "brier": 0.4572948838359345,
+          "priced": 2,
+          "realizedReturn": -0.22067039106145248,
+          "estimatedReturn": 0.5771629342140802
+        },
+        "60–69": {
+          "count": 177,
+          "hitRate": 0.3559322033898305,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.7462597891928304,
+          "brier": 0.38318283584396906,
+          "priced": 177,
+          "realizedReturn": -0.3405260244197944,
+          "estimatedReturn": 0.37857189596449403
+        },
+        "50–59": {
+          "count": 659,
+          "hitRate": 0.4764795144157815,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.5835538740837091,
+          "brier": 0.2694942157867946,
+          "priced": 659,
+          "realizedReturn": -0.10713770137478938,
+          "estimatedReturn": 0.09729623478584769
+        },
+        "0–49": {
+          "count": 1037,
+          "hitRate": 0.42815814850530376,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.3000974976429229,
+          "brier": 0.23163568860670036,
+          "priced": 1037,
+          "realizedReturn": -0.004766054474580629,
+          "estimatedReturn": -0.1346040612118985
+        }
+      },
+      "trending": {
+        "count": 0,
+        "hitRate": null,
+        "pushes": 0,
+        "meanEstimatedProbability": null,
+        "brier": null,
+        "priced": 0,
+        "realizedReturn": null,
+        "estimatedReturn": null
+      },
+      "byMarket": {
+        "RECEIVING_YARDS": {
+          "count": 413,
+          "hitRate": 0.4915254237288136,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.4962470165116779,
+          "brier": 0.27338547657330653,
+          "priced": 413,
+          "realizedReturn": -0.06917536510408719,
+          "estimatedReturn": -0.059911314422870496
+        },
+        "RECEPTIONS": {
+          "count": 283,
+          "hitRate": 0.5053003533568905,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.5028190082592315,
+          "brier": 0.2738128502516363,
+          "priced": 283,
+          "realizedReturn": -0.03293252298051941,
+          "estimatedReturn": -0.04164446851342709
+        },
+        "ANYTIME_TD": {
+          "count": 239,
+          "hitRate": 0.03347280334728033,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.0486023679323658,
+          "brier": 0.027383190216539125,
+          "priced": 239,
+          "realizedReturn": -0.18891213389121336,
+          "estimatedReturn": 0.3256244300367359
+        },
+        "PASSING_ATTEMPTS": {
+          "count": 88,
+          "hitRate": 0.5,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.49999999999999994,
+          "brier": 0.3438214388077507,
+          "priced": 88,
+          "realizedReturn": -0.04840878167457907,
+          "estimatedReturn": -0.05009053698634709
+        },
+        "PASSING_COMPLETIONS": {
+          "count": 83,
+          "hitRate": 0.5060240963855421,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.5010755951653257,
+          "brier": 0.2799569077153866,
+          "priced": 83,
+          "realizedReturn": -0.03298077709901132,
+          "estimatedReturn": -0.04512660500958278
+        },
+        "INTERCEPTIONS": {
+          "count": 58,
+          "hitRate": 0.5,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.5,
+          "brier": 0.2971619878006198,
+          "priced": 58,
+          "realizedReturn": -0.017539171766859863,
+          "estimatedReturn": -0.04263962913721058
+        },
+        "PASSING_RUSHING_YARDS": {
+          "count": 95,
+          "hitRate": 0.49473684210526314,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.49865587347831697,
+          "brier": 0.22756067541364838,
+          "priced": 95,
+          "realizedReturn": -0.07181132859867169,
+          "estimatedReturn": -0.06312725792421393
+        },
+        "PASSING_TDS": {
+          "count": 60,
+          "hitRate": 0.48333333333333334,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.5025583671484317,
+          "brier": 0.26826671171920785,
+          "priced": 60,
+          "realizedReturn": -0.07863643647830326,
+          "estimatedReturn": -0.01657788299267209
+        },
+        "PASSING_YARDS": {
+          "count": 102,
+          "hitRate": 0.5,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.5024505255226337,
+          "brier": 0.2530522827582012,
+          "priced": 102,
+          "realizedReturn": -0.06451638032287847,
+          "estimatedReturn": -0.058265015097408314
+        },
+        "RUSHING_ATTEMPTS": {
+          "count": 103,
+          "hitRate": 0.49514563106796117,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.49891702485700673,
+          "brier": 0.3138778137319884,
+          "priced": 103,
+          "realizedReturn": -0.05542333546047625,
+          "estimatedReturn": -0.050395391832451994
+        },
+        "RUSHING_YARDS": {
+          "count": 233,
+          "hitRate": 0.5021459227467812,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.4992536472333061,
+          "brier": 0.3442140401335443,
+          "priced": 233,
+          "realizedReturn": -0.04932659833151599,
+          "estimatedReturn": -0.059082085595659424
+        },
+        "RUSH_RECEIVE_YARDS": {
+          "count": 118,
+          "hitRate": 0.4915254237288136,
+          "pushes": 0,
+          "meanEstimatedProbability": 0.506090197441195,
+          "brier": 0.3628308217861656,
+          "priced": 118,
+          "realizedReturn": -0.0837625220155997,
+          "estimatedReturn": -0.0515415537811533
+        }
+      },
+      "smallSamples": {
+        "count": 149,
+        "hitRate": 0.4161073825503356,
+        "pushes": 0,
+        "meanEstimatedProbability": 0.44384314971727085,
+        "brier": 0.2742423365979345,
+        "priced": 149,
+        "realizedReturn": -0.20966939687240507,
+        "estimatedReturn": 0.08940269885443064
+      },
+      "extremePrices": {
+        "count": 0,
+        "hitRate": null,
+        "pushes": 0,
+        "meanEstimatedProbability": null,
+        "brier": null,
+        "priced": 0,
+        "realizedReturn": null,
+        "estimatedReturn": null
+      }
+    },
+    "unconfirmedRoleCandidateDiagnosticBeforeGate": {
+      "count": 174,
+      "hitRate": 0.367816091954023,
+      "pushes": 0,
+      "meanEstimatedProbability": 0.7528422855517686,
+      "brier": 0.3852141941694046,
+      "priced": 174,
+      "realizedReturn": -0.3201979718645202,
+      "estimatedReturn": 0.39379870719968463
+    }
+  }
+}

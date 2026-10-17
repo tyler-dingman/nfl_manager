@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { ensureWeeklyHero } from '@/server/front-office/hero-story';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -22,7 +23,7 @@ const bodySchema = z.object({
   simulationPhase: z.string().min(1).max(80).optional(),
 });
 
-export async function GET(request: NextRequest) {
+async function handleGET(request: NextRequest) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   const saveId = request.nextUrl.searchParams.get('saveId');
@@ -48,7 +49,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ ok: true, state });
 }
 
-export async function PUT(request: NextRequest) {
+async function handlePUT(request: NextRequest) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   const input = bodySchema.parse(await request.json());
@@ -57,3 +58,6 @@ export async function PUT(request: NextRequest) {
     state: await upsertFrontOfficeSaveMetadata({ userId: user.id, ...input }),
   });
 }
+
+export const GET = withFranchiseRoute(handleGET, {});
+export const PUT = withFranchiseRoute(handlePUT, {});

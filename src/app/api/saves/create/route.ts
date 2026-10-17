@@ -1,70 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
+import { franchiseWorkspace } from '@/server/front-office/runtime-context';
+import { initializeNewRuntime } from '@/server/front-office/initial-runtime';
+import { getSaveHeaderSnapshot } from '@/server/api/store';
+import { upsertFrontOfficeSaveMetadata } from '@/server/front-office/repository';
 
-import { createSave, getSavesByTeam } from '@/server/api/save';
-import { ensureSaveState, getSaveHeaderSnapshot, syncSaveSimulation } from '@/server/api/store';
-import { currentUser } from '@/server/auth/request';
-import {
-  getLatestFrontOfficeSaveForTeam,
-  upsertFrontOfficeSaveMetadata,
-} from '@/server/front-office/repository';
-
-export const POST = async (request: NextRequest) => {
-  const body = (await request.json()) as {
-    teamId?: string;
-    teamAbbr?: string;
-    year?: number;
-    fresh?: boolean;
-  };
-  const resolvedTeam = body.teamAbbr?.toUpperCase() ?? body.teamId?.toUpperCase();
-
-  if (!resolvedTeam) {
-    return NextResponse.json(
-      { ok: false, error: 'teamId or teamAbbr is required' },
-      { status: 400 },
-    );
+async function create(request: NextRequest) {
+  const body = await request.json();
+  const workspace = franchiseWorkspace.getStore()!;
+  let runtime = workspace.saves.get(workspace.saveId);
+  if (!runtime) {
+    const team = String(body.teamAbbr ?? body.teamId).toUpperCase();
+    runtime = initializeNewRuntime(workspace.saveId, team, body.year);
+    await upsertFrontOfficeSaveMetadata({
+      userId: workspace.userId,
+      saveId: workspace.saveId,
+      teamAbbr: team,
+      season: runtime.header.year,
+      simulationPhase: runtime.header.phase,
+    });
   }
-
-  const user = await currentUser(request);
-  const durable =
-    user && !body.fresh ? await getLatestFrontOfficeSaveForTeam(user.id, resolvedTeam) : null;
-  let header;
-  if (durable) {
-    const state = ensureSaveState(durable.saveId, durable.teamAbbr, durable.season);
-    if (durable.simulationPhase)
-      syncSaveSimulation(durable.saveId, {
-        phase: durable.simulationPhase,
-        season: durable.season,
-      });
-    header = getSaveHeaderSnapshot(state);
-  } else {
-    const existingSaves = getSavesByTeam(body.teamId, body.teamAbbr);
-    header =
-      body.fresh === true
-        ? createSave(resolvedTeam, body.year)
-        : (existingSaves[0] ?? createSave(resolvedTeam, body.year));
-    if (user) {
-      await upsertFrontOfficeSaveMetadata({
-        userId: user.id,
-        saveId: header.id,
-        teamAbbr: header.teamAbbr,
-        season: header.year,
-        simulationPhase: header.phase,
-      });
-    }
-  }
-  const saveId = header.id;
-
-  return NextResponse.json({
-    ok: true,
-    saveId,
-    teamAbbr: header.teamAbbr,
-    year: header.year,
-    capSpace: header.capSpace,
-    capLimit: header.capLimit,
-    rosterCount: header.rosterCount,
-    rosterLimit: header.rosterLimit,
-    phase: header.phase,
-    unlocked: header.unlocked,
-    createdAt: header.createdAt,
-  });
-};
+  const { id, ...header } = getSaveHeaderSnapshot(runtime);
+  return NextResponse.json({ ok: true, saveId: id, ...header });
+}
+export const POST = withFranchiseRoute(create, { create: true });

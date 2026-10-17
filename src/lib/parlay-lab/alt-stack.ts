@@ -1,3 +1,4 @@
+import { bettingOpportunityRank } from '../../../packages/parlay/trending-selection';
 import type { HomeMarket } from '../../../packages/parlay/research';
 import type { GeneratorGame } from './generator';
 import { normalizeHistoricalStatType } from '../../server/historical-stats/stat-resolver';
@@ -78,27 +79,22 @@ export function rankAltStackCandidates(
       !Number.isFinite(odds) ||
       Math.abs(odds) < 100 ||
       !t ||
+      (t.scoreVersion === 'v2' &&
+        (t.projection?.estimatedProbability == null ||
+          !t.projection.dataQuality.currentRoleKnown ||
+          t.projection.dataQuality.reliability < 0.6 ||
+          t.trendScore < 60 ||
+          odds < -1000)) ||
       t.last10.games !== 10 ||
       t.last10.hits < config.minHits ||
       t.last5.games < 5
     )
       continue;
     const cushion = main - (Math.floor(line) + 1);
-    const historical = t.last10.hits / 10;
-    const recent = t.last5.hits / t.last5.games;
-    const longWindow = t.last20 ?? t.season;
-    const season = longWindow.games ? longWindow.hits / longWindow.games : historical;
     const priceDistance =
       Math.abs(Math.log(Math.abs(odds) / Math.abs(config.targetOdds))) + (odds > 0 ? 1 : 0);
     const expensivePenalty = odds < -600 ? (Math.abs(odds) - 600) / 100 : 0;
-    const altScore =
-      historical * 35 +
-      recent * 25 +
-      season * 10 +
-      Math.min(cushion / Math.max(main, 1), 0.5) * 10 +
-      Math.min(t.last2Years.games, 20) / 4 -
-      priceDistance * 24 -
-      expensivePenalty;
+    const altScore = bettingOpportunityRank(m) - priceDistance * 24 - expensivePenalty;
     if (seen.has(altKey(m))) continue;
     seen.add(altKey(m));
     ranked.push({

@@ -2,7 +2,11 @@
 import { PlayersNavIcon } from '@/components/ui/players-nav-icon';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import {
+  readMarketNavigation,
+  writeMarketNavigation,
+} from '../../../packages/parlay/market-navigation';
 import { MobileSecondaryNavigation } from '@/components/navigation/mobile-secondary-navigation';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -18,6 +22,7 @@ import './dashboard.css';
 import { useParlayTeamContext } from './use-parlay-team';
 const links = [
   ['Home', '/parlay-lab', DdHomeIcon],
+  ['All Props', '/parlay-lab/all-props', LabTrendsIcon],
   ['Trending Props', '/parlay-lab/trends', LabTrendsIcon],
   ['Games', '/parlay-lab/games', DdGameCenterIcon],
   ['Players', '/parlay-lab/players', PlayersNavIcon],
@@ -29,14 +34,26 @@ const links = [
 ] as const;
 export function DashboardShell({ team, children }: { team?: Team; children: ReactNode }) {
   const path = usePathname();
+  const params = useSearchParams();
+  const currentMarket = readMarketNavigation(new URLSearchParams(params?.toString()));
   const { favorite } = useParlayTeamContext();
   const navigation = links.map(([label, href, icon]) => ({
     label,
     icon,
     href:
       label === 'Teams'
-        ? `/parlay-lab/games?team=${favorite?.abbr ?? team?.abbr ?? 'ARI'}`
-        : `${href}${team ? `?team=${team.abbr}` : ''}`,
+        ? `/parlay-lab/teams?team=${team?.abbr ?? favorite?.abbr ?? 'ARI'}`
+        : ['/parlay-lab/all-props', '/parlay-lab/trends'].includes(href) &&
+            ['/parlay-lab/all-props', '/parlay-lab/trends'].includes(path ?? '')
+          ? (() => {
+              const query = writeMarketNavigation(
+                new URLSearchParams(team ? { team: team.abbr } : {}),
+                currentMarket.category,
+                currentMarket.market,
+              );
+              return `${href}${query.size ? `?${query}` : ''}`;
+            })()
+          : `${href}${team ? `?team=${team.abbr}` : ''}`,
     active: path === href || (href.endsWith('/games') && Boolean(path?.includes('/game/'))),
   }));
   return (

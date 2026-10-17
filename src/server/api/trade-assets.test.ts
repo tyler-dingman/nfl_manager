@@ -3,15 +3,18 @@ import assert from 'node:assert/strict';
 
 import { createSaveState, getTeamTradeAssets, transferDraftPicksToTeam } from '@/server/api/store';
 
-test('team trade assets include all current and next year picks', () => {
+test('team trade assets include all picks in the four-season trade horizon', () => {
   const state = createSaveState(`test-assets-${Date.now()}`, 'KC');
 
   const kcAssets = getTeamTradeAssets(state, 'KC');
   const seaAssets = getTeamTradeAssets(state, 'SEA');
 
-  assert.equal(kcAssets.draftPicks.length, 14);
-  assert.equal(seaAssets.draftPicks.length, 14);
-  assert.deepEqual([...new Set(kcAssets.draftPicks.map((pick) => pick.year))].sort(), [2026, 2027]);
+  assert.equal(kcAssets.draftPicks.length, 28);
+  assert.equal(seaAssets.draftPicks.length, 28);
+  assert.deepEqual(
+    [...new Set(kcAssets.draftPicks.map((pick) => pick.year))].sort(),
+    [2026, 2027, 2028, 2029],
+  );
   assert.deepEqual(
     [...new Set(kcAssets.draftPicks.map((pick) => pick.round))].sort((left, right) => left - right),
     [1, 2, 3, 4, 5, 6, 7],

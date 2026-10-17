@@ -33,14 +33,14 @@ test('scheduled workers keep standard and video queues isolated', () => {
   assert.match(globalRoute, /requestedGroup as 'standard' \| 'video' \| undefined/);
 });
 
-test('recurring ingestion workflow runs both isolated pipelines', () => {
+test('manual backup ingestion keeps both pipelines and avoids duplicate scheduled polling', () => {
   const workflow = readFileSync('.github/workflows/content-ingestion.yml', 'utf8');
-  assert.match(workflow, /cron: '\*\/15 \* \* \* \*'/);
+  assert.doesNotMatch(workflow, /cron:/);
+  assert.match(workflow, /workflow_dispatch:/);
   assert.match(workflow, /group: \[standard, video\]/);
-  assert.match(workflow, /\/api\/automation\/content\/global\?group=\$GROUP/);
-  assert.match(workflow, /https:\/\/downdistance\.com/);
-  assert.match(workflow, /https:\/\/www\.downdistance\.com/);
-  assert.match(workflow, /--location --max-redirs 3/);
-  assert.match(workflow, /CONTENT_AUTOMATION_BASE_URL is not configured/);
-  assert.match(workflow, /\(\.failedJobs \/\/ 0\) == 0/);
+  assert.match(workflow, /node scripts\/content-ingestion-request\.mjs/);
+  assert.match(workflow, /node --test scripts\/content-ingestion-request\.test\.mjs/);
+  const request = readFileSync('scripts/content-ingestion-request.mjs', 'utf8');
+  assert.match(request, /\/api\/automation\/content\/global/);
+  assert.match(request, /redirect: 'manual'/);
 });

@@ -8,8 +8,8 @@ import { DdSaveIcon as Bookmark } from '@/components/ui/football-icons';
 import ShareToCrewButton from '@/components/crew/share-to-crew-button';
 import type { HuddleStoryCardProps } from '@/components/huddle/huddle-story-card';
 import { BeatGraphic } from './beat-graphic';
-import { beatPalette, validBeatGraphic, standardVariant } from './beat-model';
-import { adaptBeatStory } from './beat-story-adapter';
+import { beatPalette } from './beat-model';
+import { resolveBeatArtwork } from '../../../packages/beat/article-hero';
 import styles from './beat-card.module.css';
 import actions from '../ui/compact-card-actions.module.css';
 
@@ -53,21 +53,18 @@ export function BeatStoryCard({
             : `${Math.floor(minutes / 1440)}d`;
   const hot = now !== null && !!hotReadUntil && new Date(hotReadUntil).getTime() > now;
   const palette = beatPalette(teamId);
-  const decision =
-    graphicDecision ??
-    adaptBeatStory({
-      id,
-      teamAbbr: teamId,
-      headline,
-      summary,
-      category,
-      graphic,
-      updatedAt,
-      sources,
-    });
-  const data = validBeatGraphic(decision.graphic)
-    ? decision.graphic
-    : { family: standardVariant(id) };
+  const decision = resolveBeatArtwork({
+    graphicDecision,
+    id,
+    teamAbbr: teamId,
+    headline,
+    summary,
+    category,
+    graphic,
+    updatedAt,
+    sources,
+  });
+  const data = decision.graphic;
   const href = `/content/${encodeURIComponent(id)}`;
   return (
     <article
@@ -142,7 +139,7 @@ export function BeatStoryCard({
               </time>
             )}
           </div>
-          <div className={`${actions.actions} ${actions.beat}`}>
+          <div className={`${actions.actions} ${actions.beat} ${styles.cardActions}`}>
             {onSave ? (
               <button
                 type="button"

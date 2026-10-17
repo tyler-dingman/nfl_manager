@@ -1,3 +1,4 @@
+import { requireLegacyOddsIngestion } from './provider-config';
 import { getNFLRegularSeasonSchedule } from '@/server/front-office/calendar';
 import type { NFLScheduleGame } from '@/lib/nfl-calendar';
 import { SportsGameOddsClient, type SportsGameOddsEvent } from '@/server/providers/sportsGameOdds';
@@ -88,6 +89,7 @@ export class SportsbookIngestionService {
   ) {}
 
   async importNflWeek(season: number, week: number) {
+    requireLegacyOddsIngestion();
     const schedule = (await getNFLRegularSeasonSchedule(season)).filter(
       (game) => game.seasonType === 'REG' && game.week === week,
     );
@@ -102,6 +104,7 @@ export class SportsbookIngestionService {
   }
 
   async importEvent(providerEventId: string) {
+    requireLegacyOddsIngestion();
     const existing = (
       (await listLocalOddsEvents()) as unknown as Array<{
         providerEventId: string;

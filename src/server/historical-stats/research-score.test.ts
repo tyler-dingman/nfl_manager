@@ -183,8 +183,13 @@ test('position-opponent hit rates use the selected side', () => {
     2,
   );
 });
-test('Lab Find uses the same score and does not count correlated history as independent groups', () => {
-  const context = { position: 'RB', lineType: 'main' as const, strength: strength(32) };
+test('legacy audit does not count correlated history as independent groups', () => {
+  const context = {
+    position: 'RB',
+    lineType: 'main' as const,
+    strength: strength(32),
+    scoreVersion: 'legacy' as const,
+  };
   const result = evaluatePropSides(
     { playerId: 'p', marketType: 'RUSHING_ATTEMPTS', line: 17.5, side: 'UNDER' },
     games(),

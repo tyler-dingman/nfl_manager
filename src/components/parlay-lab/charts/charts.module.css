@@ -1,3 +1,13 @@
+.defenseCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--lab-border, #183b4c);
+  border-radius: 8px;
+  min-width: 0;
+  margin-block: 16px;
+}
 .defenseStrip {
   display: grid;
   grid-template-columns: repeat(var(--point-count), minmax(28px, 1fr));
@@ -10,7 +20,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: stretch;
   gap: 8px;
-  margin: -8px 18px 14px 54px;
+  margin: 0;
 }
 .nextDefense {
   display: grid;
@@ -48,7 +58,7 @@
   text-align: center;
 }
 .defenseStripLabel {
-  margin: 0 18px 6px 54px;
+  margin: 0;
   color: #9db4c6;
   font-size: 0.68rem;
   font-weight: 900;
@@ -59,7 +69,6 @@
     min-width: 520px;
   }
   .defenseStripRow {
-    margin-left: 42px;
     overflow-x: auto;
   }
 }

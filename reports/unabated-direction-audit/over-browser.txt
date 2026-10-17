@@ -1,0 +1,93 @@
+Browser tab: 1124492019, Title: "FanDuel Sportsbook", URL: "https://sportsbook.fanduel.com/select-region".
+1 AXWebArea FanDuel Sportsbook, URL: sportsbook.fanduel.com/select-region
+	2 container
+		3 container
+			4 image FanDuel
+			5 heading Please select your location, Value: 2
+				6 text Please select your location
+			7 heading from the states below, Value: 2
+				8 text from the states below
+			9 button Select region Iowa
+				10 text Iowa
+				11 image
+			12 button Select region Arizona
+				13 text Arizona
+				14 image
+			15 button Select region Arkansas
+				16 text Arkansas
+				17 image
+			18 button Select region Colorado
+				19 text Colorado
+				20 image
+			21 button Select region Connecticut
+				22 text Connecticut
+				23 image
+			24 button Select region District of Columbia
+				25 text District of Columbia
+				26 image
+			27 button Select region Illinois
+				28 text Illinois
+				29 image
+			30 button Select region Indiana
+				31 text Indiana
+				32 image
+			33 button Select region Kansas
+				34 text Kansas
+				35 image
+			36 button Select region Kentucky
+				37 text Kentucky
+				38 image
+			39 button Select region Louisiana
+				40 text Louisiana
+				41 image
+			42 button Select region Maryland
+				43 text Maryland
+				44 image
+			45 button Select region Massachusetts
+				46 text Massachusetts
+				47 image
+			48 button Select region Michigan
+				49 text Michigan
+				50 image
+			51 button Select region Missouri
+				52 text Missouri
+				53 image
+			54 button Select region Mohegan Reservation
+				55 text Mohegan Reservation
+				56 image
+			57 button Select region New Jersey
+				58 text New Jersey
+				59 image
+			60 button Select region New York
+				61 text New York
+				62 image
+			63 button Select region North Carolina
+				64 text North Carolina
+				65 image
+			66 button Select region Ohio
+				67 text Ohio
+				68 image
+			69 button Select region Pennsylvania
+				70 text Pennsylvania
+				71 image
+			72 button Select region Puerto Rico
+				73 text Puerto Rico
+				74 image
+			75 button Select region Tennessee
+				76 text Tennessee
+				77 image
+			78 button Select region Vermont
+				79 text Vermont
+				80 image
+			81 button Select region Virginia
+				82 text Virginia
+				83 image
+			84 button Select region West Virginia
+				85 text West Virginia
+				86 image
+			87 button Select region Wyoming
+				88 text Wyoming
+				89 image
+			90 button I don't see my state button
+
+The focused UI element is 1 AXWebArea FanDuel Sportsbook, URL: sportsbook.fanduel.com/select-region

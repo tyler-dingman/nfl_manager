@@ -7,13 +7,34 @@ export type StoryEvidence = {
 };
 
 const publisherSuffix = /(?:[_-](?:RSS|WEB|X|YT|YOUTUBE|API|ATOM|FEED))$/i;
+// Explicit existing KC catalog ownership pairs. Keep web/social aliases together
+// while preferring host identity for unrelated legacy IDs from the same website.
+const legacyPublishers: Record<string, string> = {
+  ARROWHEAD_ADDICT: 'arrowheadaddict.com',
+  ARROWHEAD_PRIDE: 'arrowheadpride.com',
+  YAHOO_SPORTS: 'sports.yahoo.com',
+  CHIEFS_OFFICIAL: 'chiefs.com',
+  LOCKED_ON_CHIEFS: 'locked-on-chiefs',
+  RGR_FOOTBALL: 'rgr-football',
+  HOW_BOUT_CHIEFS: 'how-bout-those-chiefs',
+  ALL_CHIEFS_UP: 'all-chiefd-up',
+};
 
 export function publisherKey(source: RegisteredSource) {
   const configured = source.metadata.publisherId ?? source.metadata.publisherKey;
   if (typeof configured === 'string' && configured.trim()) return configured.trim().toLowerCase();
-  if (publisherSuffix.test(source.id)) return source.id.replace(publisherSuffix, '').toLowerCase();
+  const legacy = legacyPublishers[source.id.replace(publisherSuffix, '')];
+  if (legacy) return legacy;
   try {
-    return new URL(source.url).hostname.toLowerCase().replace(/^www\./, '');
+    const url = new URL(source.url);
+    const host = url.hostname.toLowerCase().replace(/^www\./, '');
+    if (['x.com', 'twitter.com'].includes(host))
+      return `x.com/${url.pathname.split('/')[1].toLowerCase()}`;
+    // Social hosts contain many unrelated publishers. Explicit publisherId remains
+    // the way to connect a publication's social and website identities.
+    if (['youtube.com', 'youtu.be', 'reddit.com'].includes(host))
+      return `${host}${url.pathname.toLowerCase().replace(/\/$/, '')}`;
+    return host;
   } catch {
     return source.id.replace(publisherSuffix, '').toLowerCase();
   }

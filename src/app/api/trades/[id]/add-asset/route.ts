@@ -1,8 +1,9 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { addTradeAsset } from '@/server/api/trades';
 
-export const POST = async (request: Request, { params }: { params: { id: string } }) => {
+const handlePOST = async (request: Request, { params }: { params: { id: string } }) => {
   try {
     const body = (await request.json()) as {
       side?: 'send' | 'receive';
@@ -40,3 +41,5 @@ export const POST = async (request: Request, { params }: { params: { id: string 
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

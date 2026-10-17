@@ -1,3 +1,4 @@
+import { cachePublicRead } from '@/server/cache/public-read-cache';
 import { classifyStoredLine } from './line-classification';
 import { authDb } from '@/server/auth/database';
 import type { NormalizedOddsMarket } from './normalization';
@@ -106,7 +107,7 @@ export async function listLocalOddsEvents() {
   return authDb()`SELECT id, provider_event_id AS "providerEventId", season, week, home_team_id AS "homeTeamId", away_team_id AS "awayTeamId", kickoff_at AS "kickoffAt", status, markets_locked AS "marketsLocked", final_snapshot_at AS "finalSnapshotAt", refreshed_24h_at AS "refreshed24hAt", last_imported_at AS "lastImportedAt" FROM sportsbook_events WHERE kickoff_at > now() ORDER BY kickoff_at`;
 }
 
-export async function getLocalEventMarkets(
+async function queryLocalEventMarkets(
   eventId: string,
   filters: {
     marketType?: string;
@@ -120,7 +121,9 @@ export async function getLocalEventMarkets(
   const rows = await db`
     SELECT m.id, m.market_type AS "marketType", m.stat_id AS "statId", m.entity_id AS "entityId",
       m.player_id AS "playerId", pm.provider_name AS "playerName", m.team_id AS "teamId", m.period, m.side, m.line,
-      m.normalized_key AS "normalizedKey", m.is_alt_line AS "isAltLine", m.raw_provider_metadata AS "rawProviderMetadata",
+      m.normalized_key AS "normalizedKey", m.is_alt_line AS "isAltLine",
+      jsonb_build_object('odd',jsonb_build_object('betTypeID',m.raw_provider_metadata->'odd'->'betTypeID',
+        'byBookmaker',jsonb_build_object(lower(p.sportsbook),m.raw_provider_metadata->'odd'->'byBookmaker'->lower(p.sportsbook)))) AS "rawProviderMetadata",
       p.sportsbook, p.odds, p.available, p.deeplink
     FROM bet_markets m
     JOIN sportsbook_prices p ON p.market_id=m.id
@@ -164,3 +167,5 @@ export async function findLocalOddsEvent(homeTeamId: string, awayTeamId: string,
     ORDER BY kickoff_at LIMIT 1`;
   return rows[0] ?? null;
 }
+
+export const getLocalEventMarkets = cachePublicRead(queryLocalEventMarkets, { maxEntries: 48 });

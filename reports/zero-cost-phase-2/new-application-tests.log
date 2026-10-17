@@ -1,0 +1,20 @@
+TAP version 13
+# Subtest: zero-cost inference refuses paid requests before network access without substituting output
+ok 1 - zero-cost inference refuses paid requests before network access without substituting output
+  ---
+  duration_ms: 1.420542
+  ...
+# Subtest: auth rejects short or whitespace-padded signing secrets
+ok 2 - auth rejects short or whitespace-padded signing secrets
+  ---
+  duration_ms: 0.845209
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 400.721875

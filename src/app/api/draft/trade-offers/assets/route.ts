@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { ensureDraftTradeContext, getDraftTradeAssetSource } from '@/server/api/draft-trade';
@@ -23,7 +24,7 @@ type DraftTradeOfferAssetsBody = {
   };
 };
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   const body = (await request.json()) as DraftTradeOfferAssetsBody;
   if (!body.saveId || !body.draftSessionId || !body.partnerTeamAbbr) {
     return NextResponse.json(
@@ -61,3 +62,5 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

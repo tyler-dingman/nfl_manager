@@ -1,3 +1,4 @@
+import { isAnytimeTD, propPick, researchThreshold } from '../../../packages/parlay/anytime-td';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -14,6 +15,8 @@ import type { ResearchDetail } from '../../../packages/parlay/research';
 import { authenticatedFetch } from '../lib/auth';
 import type { ParlayMarket } from '../lib/parlay';
 import { useTeamBranding } from '../lib/team-branding';
+import { OverviewTiles, OverviewRail } from './research-overview-context';
+import { ProjectionDetails } from './projection-details';
 const tabs = ['Overview', 'Game Log', 'Matchup', 'Splits', 'Line Ladder'] as const;
 const number = (value: number | null | undefined) =>
   value == null ? '—' : Number(value.toFixed(1)).toString();
@@ -73,6 +76,57 @@ export function ParlayResearch({
         ? games.filter((g) => g.season >= season - 1)
         : games.slice(-Number(window.slice(1)));
   const max = Math.max(1, market.line ?? 0, ...points.map((g) => g.value));
+  const chart = data ? (
+    <View style={s.card}>
+      <Text style={s.heading}>GAME-BY-GAME PERFORMANCE</Text>
+      <View style={s.row}>
+        {['L5', 'L10', 'SEASON', '2 YEARS'].map((value) => (
+          <Pressable
+            key={value}
+            accessibilityState={{ selected: value === window }}
+            onPress={() => setWindow(value)}
+            style={[s.chip, value === window && { borderColor: theme.secondary }]}
+          >
+            <Text style={s.copy}>{value}</Text>
+          </Pressable>
+        ))}
+      </View>
+      {points.length ? (
+        <ScrollView horizontal>
+          <Svg
+            width={Math.max(320, points.length * 30)}
+            height={215}
+            accessibilityLabel={`Game values: ${points.map((g) => `${g.opponent} ${g.value}`).join(', ')}. Current line ${market.line}`}
+          >
+            <Line
+              x1={0}
+              x2={Math.max(320, points.length * 30)}
+              y1={180 - ((researchThreshold(market) ?? 0) / max) * 150}
+              y2={180 - ((researchThreshold(market) ?? 0) / max) * 150}
+              stroke="#E7B645"
+              strokeDasharray="4,4"
+            />
+            {points.map((g, i) => (
+              <ViewBar
+                key={`${g.gameId}-${i}`}
+                x={i * 30 + 6}
+                value={g.value}
+                height={(g.value / max) * 150}
+                label={g.opponent}
+                hit={g.result === 'HIT'}
+              />
+            ))}
+          </Svg>
+        </ScrollView>
+      ) : (
+        <Text style={s.copy}>No games available for this window.</Text>
+      )}
+      <Text style={s.copy}>
+        Dashed line: {market.line} · Average {number(data.summary.average)} · Median{' '}
+        {number(data.summary.median)}
+      </Text>
+    </View>
+  ) : null;
   return (
     <View>
       <View style={s.hero}>
@@ -83,7 +137,10 @@ export function ParlayResearch({
             {market.teamId} · {market.position ?? ''}
           </Text>
           <Text style={s.prop}>
-            {market.marketType.replaceAll('_', ' ')} · {market.side} {market.line}
+            {market.lineType === 'alternate' ? 'ALT LINE · ' : ''}
+            {isAnytimeTD(market)
+              ? `Anytime TD — ${propPick(market)}`
+              : `${market.marketType.replaceAll('_', ' ')} · ${market.side} ${market.line}`}
           </Text>
         </View>
         {market.headshotUrl && <Image source={{ uri: market.headshotUrl }} style={s.portrait} />}
@@ -128,55 +185,6 @@ export function ParlayResearch({
               </View>
             ))}
           </View>
-          <View style={s.card}>
-            <Text style={s.heading}>GAME-BY-GAME PERFORMANCE</Text>
-            <View style={s.row}>
-              {['L5', 'L10', 'SEASON', '2 YEARS'].map((value) => (
-                <Pressable
-                  key={value}
-                  accessibilityState={{ selected: value === window }}
-                  onPress={() => setWindow(value)}
-                  style={[s.chip, value === window && { borderColor: theme.secondary }]}
-                >
-                  <Text style={s.copy}>{value}</Text>
-                </Pressable>
-              ))}
-            </View>
-            {points.length ? (
-              <ScrollView horizontal>
-                <Svg
-                  width={Math.max(320, points.length * 30)}
-                  height={215}
-                  accessibilityLabel={`Game values: ${points.map((g) => `${g.opponent} ${g.value}`).join(', ')}. Current line ${market.line}`}
-                >
-                  <Line
-                    x1={0}
-                    x2={Math.max(320, points.length * 30)}
-                    y1={180 - ((market.line ?? 0) / max) * 150}
-                    y2={180 - ((market.line ?? 0) / max) * 150}
-                    stroke="#E7B645"
-                    strokeDasharray="4,4"
-                  />
-                  {points.map((g, i) => (
-                    <ViewBar
-                      key={`${g.gameId}-${i}`}
-                      x={i * 30 + 6}
-                      value={g.value}
-                      height={(g.value / max) * 150}
-                      label={g.opponent}
-                      hit={g.result === 'HIT'}
-                    />
-                  ))}
-                </Svg>
-              </ScrollView>
-            ) : (
-              <Text style={s.copy}>No games available for this window.</Text>
-            )}
-            <Text style={s.copy}>
-              Dashed line: {market.line} · Average {number(data.summary.average)} · Median{' '}
-              {number(data.summary.median)}
-            </Text>
-          </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.tabs}>
             {tabs.map((value) => (
               <Pressable
@@ -191,23 +199,29 @@ export function ParlayResearch({
           </ScrollView>
           {tab === 'Overview' && (
             <>
+              <ProjectionDetails
+                projection={data.summary.projection}
+                active={data.summary.scoreVersion === 'v2'}
+                stat={market.marketType.replace(/_/g, ' ')}
+                position={market.position ?? data.player?.position}
+              >
+                <OverviewTiles
+                  data={data}
+                  market={market}
+                  onTab={(value) => setTab(value as typeof tab)}
+                />
+              </ProjectionDetails>
+              <OverviewRail
+                data={data}
+                market={market}
+                onTab={(value) => setTab(value as typeof tab)}
+              />
+              {chart}
+
               <Card
                 title="LAB INSIGHT"
                 text={data.generatedInsight ?? 'No generated insight available.'}
               />
-              <View style={s.grid}>
-                {[
-                  ['LAB MATCH SCORE', number(data.labMatchScore)],
-                  ['CONSISTENCY', data.consistency?.label ?? '—'],
-                  ['AVERAGE MARGIN', number(data.lineMargin?.averageMargin)],
-                  ['USAGE TREND', data.usage?.trendLabel ?? '—'],
-                ].map(([label, value]) => (
-                  <View key={label} style={s.metric}>
-                    <Text style={s.kicker}>{label}</Text>
-                    <Text style={s.value}>{value}</Text>
-                  </View>
-                ))}
-              </View>
               {data.seasonStats && (
                 <View style={s.card}>
                   <Text style={s.heading}>{data.seasonStats.season} SEASON STATS</Text>
@@ -235,6 +249,7 @@ export function ParlayResearch({
               )}
             </>
           )}
+          {tab !== 'Overview' && tab !== 'Line Ladder' && chart}
           {tab === 'Game Log' &&
             points.map((g) => (
               <View style={s.card} key={g.gameId}>
@@ -434,6 +449,7 @@ const s = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     marginVertical: 10,
+    gap: 12,
   },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginVertical: 12 },
   metric: {

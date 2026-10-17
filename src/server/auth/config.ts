@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { assertAuthSecret } from './secret-policy';
 
 const optionalString = z.preprocess(
   (value) => (value === '' ? undefined : value),
@@ -65,8 +66,7 @@ export function validateProductionAuthConfig() {
 
 export function requireAuthConfig() {
   if (!authConfig.DATABASE_URL) throw new Error('Authentication database is not configured.');
-  if (!authConfig.AUTH_JWT_SECRET)
-    throw new Error('AUTH_JWT_SECRET must contain at least 32 characters.');
+  assertAuthSecret(authConfig.AUTH_JWT_SECRET);
   return authConfig as typeof authConfig & { DATABASE_URL: string; AUTH_JWT_SECRET: string };
 }
 

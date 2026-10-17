@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1153,
+    "name": "Both Teams 1+ Rush TD & 1+ Pass TD Half",
+    "description": "",
+    "hasPoints": false,
+    "active": true,
+    "sides": "other"
+  },
+  {
+    "id": 475,
+    "name": "Game Total Passing and Rushing Yards",
+    "description": "",
+    "hasPoints": true,
+    "active": true,
+    "sides": "ou"
+  },
+  {
+    "id": 671,
+    "name": "Both Teams 1+ Rush/Pass TD in 1H/2H",
+    "description": "",
+    "hasPoints": true,
+    "active": true,
+    "sides": "other"
+  },
+  {
+    "id": 64,
+    "name": "Passing and Rushing Yards ",
+    "description": "In a game for a player's state passing + rushing yards will it go over or under",
+    "hasPoints": true,
+    "active": true,
+    "sides": "ou"
+  },
+  {
+    "id": 676,
+    "name": "Player Passing and Rushing Touchdowns",
+    "description": "",
+    "hasPoints": true,
+    "active": true,
+    "sides": "ou"
+  }
+]

@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { franchiseRosterOverall } from '@/lib/team-overview';
 import { ensureWeeklyHero } from '@/server/front-office/hero-story';
 import { franchiseTransactionsForNews } from '@/server/front-office/transaction-news';
@@ -125,7 +126,7 @@ async function initializeSimulation(input: {
   });
 }
 
-export async function GET(request: NextRequest) {
+async function handleGET(request: NextRequest) {
   try {
     const user = await currentUser(request);
     if (!user) return authError('Unauthorized.', 401);
@@ -189,7 +190,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+async function handlePOST(request: NextRequest) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   try {
@@ -508,3 +509,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export const GET = withFranchiseRoute(handleGET, {});
+export const POST = withFranchiseRoute(handlePOST, {});

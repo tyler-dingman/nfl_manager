@@ -21,6 +21,8 @@ type Trend = {
   streakLength: number;
   trendScore: number;
   researchScore?: ReturnType<typeof calculateResearchScore>;
+  projection?: import('../../src/server/historical-stats/lab-score-v2').LabScoreV2;
+  scoreVersion?: 'legacy' | 'v2';
   sampleConfidence: string;
   gameLog: Array<{
     date: string;
@@ -235,6 +237,7 @@ export type ResearchDetail = {
 };
 
 export type OddsEvent = {
+  marketsLocked?: boolean;
   id: string;
   season?: number;
   week: number;

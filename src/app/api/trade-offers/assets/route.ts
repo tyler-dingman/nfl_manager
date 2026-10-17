@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import {
@@ -14,7 +15,7 @@ type TradeOfferAssetsBody = {
   partnerTeamAbbr?: string;
 };
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   const body = (await request.json()) as TradeOfferAssetsBody;
   if (!body.saveId || !body.partnerTeamAbbr) {
     return NextResponse.json(
@@ -53,3 +54,5 @@ export const POST = async (request: Request) => {
     },
   });
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

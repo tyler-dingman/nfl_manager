@@ -1,0 +1,36 @@
+My Parlay right rail redesign — October 9, 2026
+
+Implemented locally for web and React Native.
+
+Interface
+The shared MyParlayPanel replaces the old research-heavy slip with a dedicated builder: Parlay/Saved tabs, compact player selections, actual selected odds, Lab Scores, opponent context, remove controls, estimated combined odds, and Save Image / Messages / Share / Save actions. Quick Insights and Top Trending by Category were removed from the dashboard rail. The Players directory now reuses this same panel instead of its abbreviated slip. Existing game-market and Alt Stack panels also use it.
+Desktop selections scroll internally while the header, summary and actions remain accessible. Mobile web uses the existing BottomSheet and a fixed compact bar positioned above the application's bottom-navigation inset. Native uses React Native views and a Modal sheet; the collapsed bar is outside the page ScrollView and above the app shell's bottom navigation. Empty slips hide actions. New selection cards briefly highlight. Overlapping selections for the same player/stat/period replace the previous selection; identical selections across books are not duplicated.
+
+Persistence and saving
+Web active selections continue using down-distance-parlay-lab-current across the home, game markets and Alt Stack experiences. Native active builds now use the existing chunked device-storage adapter under dd-native-parlay-current-{userId}, surviving navigation/restarts.
+Saved snapshots reuse snapshotSavedPlay and the existing My Parlays display/grading workflow. Account saving uses the existing authenticated /api/user/saved-content API with contentType OTHER and metadata.kind PARLAY; no database migration or parallel save backend was added. Both Saved tabs and My Parlays load these account snapshots and merge legacy local saves by ID. New account saves require authentication and failures are shown honestly. Snapshots retain player IDs, events, market, direction, threshold, odds, Lab Score/version, team/headshot and grading metadata. Account uploads omit full historical game logs and raw provider payloads.
+
+Sportsbook compatibility
+No sportsbook currently has a verified full-slip transfer integration. The old URL-combining function could fall back to the first individual link or a homepage and could not verify combination eligibility. That behavior was removed; no sportsbook CTA or unavailable placeholder appears now.
+packages/parlay/slip.ts defines a shared adapter registry and compatibility gate. An integration must verify market/sport support and combinability and return a valid HTTPS transfer with every exact selected market key accounted for. Matching odds availability alone is insufficient. Partial matches, changed thresholds, missing directions or incomplete transfer acknowledgements are rejected. A selector is supported when multiple verified adapters are registered. The registry is deliberately empty until a real integration is verified. Test adapters exist only in isolated tests; no fictional transfer URLs are shipped.
+
+Odds and sharing
+Combined American odds use the existing decimal conversion against selected odds snapshots and are labeled estimated. Missing prices remain unknown. No parlay win probability is inferred from Lab Scores; same-game correlation/pricing limitations are noted.
+Web image export reuses the Canvas approach, grows to include every selected leg, and adds branding, thresholds, odds, scores, estimated total, date and changing-odds notice. Native renders an SVG to PNG and opens the operating system's file-sharing/save workflow using Expo FileSystem and Sharing. These Expo-compatible dependencies were added to apps/mobile.
+Messages opens the user's SMS composer. Share uses Web Share/clipboard on web and the native system share sheet. No crew-parlay sharing backend exists, so no crew backend was invented and no messages were sent during implementation/testing.
+
+Principal files
+- packages/parlay/slip.ts and account-saves.ts: shared selection, transfer gating and account-save adapters.
+- src/components/parlay-lab/MyParlayPanel.tsx, my-parlay-panel.module.css, slip-image.ts: web builder and export.
+- ParlayLabHome.tsx, ParlayLabPage.tsx, alt-stack-generator-shell.tsx, dashboard-content.tsx, dashboard.css, players-dashboard.tsx, MyPlaysPage.tsx: integration, persistence, rail layout and account history.
+- apps/mobile/components/parlay-slip.tsx, parlay-build.tsx, parlay-generator.tsx, parlay-alt-stack.tsx; app/parlay-lab.tsx; package.json/package-lock.json: native builder, persistence, conflict rules and file sharing.
+- Shared unit tests and tests/mobile/{parlay-slip,native-slip}.spec.ts plus fixtures.
+
+Validation
+- Ten unit tests passed: duplicate/conflict rules, combined odds, full/partial/unsupported/multiple transfer cases, exact-threshold matching, saved snapshot preservation, account authentication errors and legacy saved-play regressions.
+- Six Chromium/WebKit interaction scenarios passed: KC/SEA web themes at desktop and mobile sizes, add/remove/count, account save/Saved tab, PNG download, navigation/refresh, sticky long-slip scrolling, native sheet controls, native account-save adapter and bottom-navigation clearance.
+- Web and native TypeScript checks passed. Targeted changed-component lint passed; the legacy game-market page retains two existing hook-dependency warnings.
+- iOS/Android JavaScript bundle exports passed at /tmp/parlay-slip-native-final.
+
+Validation limits
+Browser tests use isolated real-component fixtures with mocked account API responses. Native browser previews are not physical-device validation. Actual SMS composer behavior, native PNG file saving and native module availability need an iOS/Android development build/device check. New native dependencies require an updated native build. No live sportsbook transfer was tested because none is configured. No production deployment or production database mutation was performed.

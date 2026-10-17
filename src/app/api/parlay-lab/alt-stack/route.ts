@@ -16,6 +16,7 @@ export async function GET() {
             { [e.homeTeamId]: e.awayTeamId, [e.awayTeamId]: e.homeTeamId },
             e.season,
             { homeTeamId: e.homeTeamId, awayTeamId: e.awayTeamId },
+            'alternate',
           );
           return rows
             .filter((m) => m.lineType === 'alternate' && m.mainLine != null && m.side === 'OVER')

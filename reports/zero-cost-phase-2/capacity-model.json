@@ -1,0 +1,268 @@
+{
+  "scope": "PROJECTED editorial-only Cloudflare floor; private data, vectors, FO, odds state, email and AI excluded. Not a whole-product certification.",
+  "provenance": "ae40533f local measurements; copied inputs retained in workers/content-engine/measurements/",
+  "measurement": "No production provider usage or billed Worker CPU measured.",
+  "assumptions": {
+    "operationalHeadroom": 0.3,
+    "operationMultiplier": 1.2,
+    "publicCacheHit": 0.24,
+    "r2ObjectsPerMiss": 11,
+    "privateDbWritesPerDau": 4,
+    "refreshesPerWeek": 3,
+    "baselineNewCandidatesPerDay": 200,
+    "sessionValidationHttpRequestsPerDau": 6,
+    "totalWorkerRequestsPerDauBeforeReserve": 40
+  },
+  "traffic": {
+    "100": {
+      "workerRequestsPerDay": 12786,
+      "d1ReadsPerDay": 1982994,
+      "d1WritesPerDay": 67711,
+      "r2ClassAPer30Days": 256248,
+      "r2ClassBPer30Days": 1186800,
+      "d1Bytes365": 321214951,
+      "r2Bytes365": 6025708654,
+      "exceeds30PercentHeadroom": [],
+      "exceedsHardLimit": [],
+      "additionalPrivateDbRowReadsEstimatePerDay": 6000,
+      "additionalPrivateDbRowWritesEstimatePerDay": 400,
+      "searchPgRowsEstimatePerDay": 30000,
+      "neonPollingCuHoursPer30Days": 180,
+      "wholeProductCost": "UNVERIFIED"
+    },
+    "500": {
+      "workerRequestsPerDay": 31986,
+      "d1ReadsPerDay": 2114322,
+      "d1WritesPerDay": 67711,
+      "r2ClassAPer30Days": 256248,
+      "r2ClassBPer30Days": 2631390,
+      "d1Bytes365": 321214951,
+      "r2Bytes365": 6025708654,
+      "exceeds30PercentHeadroom": [],
+      "exceedsHardLimit": [],
+      "additionalPrivateDbRowReadsEstimatePerDay": 30000,
+      "additionalPrivateDbRowWritesEstimatePerDay": 2000,
+      "searchPgRowsEstimatePerDay": 150000,
+      "neonPollingCuHoursPer30Days": 180,
+      "wholeProductCost": "UNVERIFIED"
+    },
+    "1000": {
+      "workerRequestsPerDay": 55986,
+      "d1ReadsPerDay": 2278482,
+      "d1WritesPerDay": 67711,
+      "r2ClassAPer30Days": 256248,
+      "r2ClassBPer30Days": 4437150,
+      "d1Bytes365": 321214951,
+      "r2Bytes365": 6025708654,
+      "exceeds30PercentHeadroom": [],
+      "exceedsHardLimit": [],
+      "additionalPrivateDbRowReadsEstimatePerDay": 60000,
+      "additionalPrivateDbRowWritesEstimatePerDay": 4000,
+      "searchPgRowsEstimatePerDay": 300000,
+      "neonPollingCuHoursPer30Days": 180,
+      "wholeProductCost": "UNVERIFIED"
+    },
+    "1500": {
+      "workerRequestsPerDay": 79986,
+      "d1ReadsPerDay": 2442642,
+      "d1WritesPerDay": 67711,
+      "r2ClassAPer30Days": 256248,
+      "r2ClassBPer30Days": 6242910,
+      "d1Bytes365": 321214951,
+      "r2Bytes365": 6025708654,
+      "exceeds30PercentHeadroom": [
+        "workerRequestsPerDay"
+      ],
+      "exceedsHardLimit": [],
+      "additionalPrivateDbRowReadsEstimatePerDay": 90000,
+      "additionalPrivateDbRowWritesEstimatePerDay": 6000,
+      "searchPgRowsEstimatePerDay": 450000,
+      "neonPollingCuHoursPer30Days": 180,
+      "wholeProductCost": "UNVERIFIED"
+    },
+    "2000": {
+      "workerRequestsPerDay": 103986,
+      "d1ReadsPerDay": 2606802,
+      "d1WritesPerDay": 67711,
+      "r2ClassAPer30Days": 256248,
+      "r2ClassBPer30Days": 8048670,
+      "d1Bytes365": 321214951,
+      "r2Bytes365": 6025708654,
+      "exceeds30PercentHeadroom": [
+        "workerRequestsPerDay",
+        "r2ClassBPer30Days"
+      ],
+      "exceedsHardLimit": [
+        "workerRequestsPerDay"
+      ],
+      "additionalPrivateDbRowReadsEstimatePerDay": 120000,
+      "additionalPrivateDbRowWritesEstimatePerDay": 8000,
+      "searchPgRowsEstimatePerDay": 600000,
+      "neonPollingCuHoursPer30Days": 180,
+      "wholeProductCost": "UNVERIFIED"
+    },
+    "3000": {
+      "workerRequestsPerDay": 151986,
+      "d1ReadsPerDay": 2935122,
+      "d1WritesPerDay": 67711,
+      "r2ClassAPer30Days": 256248,
+      "r2ClassBPer30Days": 11660190,
+      "d1Bytes365": 321214951,
+      "r2Bytes365": 6025708654,
+      "exceeds30PercentHeadroom": [
+        "workerRequestsPerDay",
+        "r2ClassBPer30Days"
+      ],
+      "exceedsHardLimit": [
+        "workerRequestsPerDay",
+        "r2ClassBPer30Days"
+      ],
+      "additionalPrivateDbRowReadsEstimatePerDay": 180000,
+      "additionalPrivateDbRowWritesEstimatePerDay": 12000,
+      "searchPgRowsEstimatePerDay": 900000,
+      "neonPollingCuHoursPer30Days": 180,
+      "wholeProductCost": "UNVERIFIED"
+    },
+    "5000": {
+      "workerRequestsPerDay": 247986,
+      "d1ReadsPerDay": 3591762,
+      "d1WritesPerDay": 67711,
+      "r2ClassAPer30Days": 256248,
+      "r2ClassBPer30Days": 18883230,
+      "d1Bytes365": 321214951,
+      "r2Bytes365": 6025708654,
+      "exceeds30PercentHeadroom": [
+        "workerRequestsPerDay",
+        "d1ReadsPerDay",
+        "r2ClassBPer30Days"
+      ],
+      "exceedsHardLimit": [
+        "workerRequestsPerDay",
+        "r2ClassBPer30Days"
+      ],
+      "additionalPrivateDbRowReadsEstimatePerDay": 300000,
+      "additionalPrivateDbRowWritesEstimatePerDay": 20000,
+      "searchPgRowsEstimatePerDay": 1500000,
+      "neonPollingCuHoursPer30Days": 180,
+      "wholeProductCost": "UNVERIFIED"
+    }
+  },
+  "storage": {
+    "30": {
+      "d1Bytes": 54412912,
+      "payloadR2Bytes": 241811928,
+      "inventoryBackupR2Bytes": 522363956,
+      "r2Bytes": 764175884,
+      "dailyFullInventoryExportRows": 148023,
+      "dailyBackupObjectWrites": 108,
+      "dailyBackupCheckpointWrites": 56
+    },
+    "90": {
+      "d1Bytes": 102198352,
+      "payloadR2Bytes": 725435784,
+      "inventoryBackupR2Bytes": 981104180,
+      "r2Bytes": 1706539964,
+      "dailyFullInventoryExportRows": 404069,
+      "dailyBackupObjectWrites": 201,
+      "dailyBackupCheckpointWrites": 104
+    },
+    "180": {
+      "d1Bytes": 173876512,
+      "payloadR2Bytes": 1450871568,
+      "inventoryBackupR2Bytes": 1669214516,
+      "r2Bytes": 3120086084,
+      "dailyFullInventoryExportRows": 788137,
+      "dailyBackupObjectWrites": 341,
+      "dailyBackupCheckpointWrites": 172
+    },
+    "365": {
+      "d1Bytes": 321214951,
+      "payloadR2Bytes": 2942045124,
+      "inventoryBackupR2Bytes": 3083663530,
+      "r2Bytes": 6025708654,
+      "dailyFullInventoryExportRows": 1577611,
+      "dailyBackupObjectWrites": 629,
+      "dailyBackupCheckpointWrites": 316
+    },
+    "730": {
+      "d1Bytes": 611909709,
+      "payloadR2Bytes": 5884090248,
+      "inventoryBackupR2Bytes": 5874333207,
+      "r2Bytes": 11758423455,
+      "dailyFullInventoryExportRows": 3135222,
+      "dailyBackupObjectWrites": 1197,
+      "dailyBackupCheckpointWrites": 600
+    },
+    "1095": {
+      "d1Bytes": 902604468,
+      "payloadR2Bytes": 8826135372,
+      "inventoryBackupR2Bytes": 8665002893,
+      "r2Bytes": 17491138265,
+      "dailyFullInventoryExportRows": 4692833,
+      "dailyBackupObjectWrites": 1764,
+      "dailyBackupCheckpointWrites": 884
+    }
+  },
+  "scheduleSummaryStorageSensitivity": [
+    {
+      "summaryBytes": 200,
+      "d1Bytes365": 321214951,
+      "r2Bytes365": 6025708654
+    },
+    {
+      "summaryBytes": 32000,
+      "d1Bytes365": 327408103,
+      "r2Bytes365": 6085162913
+    }
+  ],
+  "maximumCloudflareComponentDau30PercentHeadroom": 1291,
+  "maximumCloudflareComponentDauAt20ObjectsPerMiss": 940,
+  "maximumVerifiedWholeProductDau": null,
+  "email": {
+    "100": {
+      "dailySubscriptionEmails": 100,
+      "accountRecoveryReservePerDay": 10,
+      "resendFreeDailyLimit": 100,
+      "resendFreeMonthlyLimit": 3000,
+      "brevoFreeDailyLimit": 300
+    },
+    "500": {
+      "dailySubscriptionEmails": 500,
+      "accountRecoveryReservePerDay": 10,
+      "resendFreeDailyLimit": 100,
+      "resendFreeMonthlyLimit": 3000,
+      "brevoFreeDailyLimit": 300
+    },
+    "1000": {
+      "dailySubscriptionEmails": 1000,
+      "accountRecoveryReservePerDay": 20.0,
+      "resendFreeDailyLimit": 100,
+      "resendFreeMonthlyLimit": 3000,
+      "brevoFreeDailyLimit": 300
+    },
+    "2000": {
+      "dailySubscriptionEmails": 2000,
+      "accountRecoveryReservePerDay": 40.0,
+      "resendFreeDailyLimit": 100,
+      "resendFreeMonthlyLimit": 3000,
+      "brevoFreeDailyLimit": 300
+    },
+    "5000": {
+      "dailySubscriptionEmails": 5000,
+      "accountRecoveryReservePerDay": 100.0,
+      "resendFreeDailyLimit": 100,
+      "resendFreeMonthlyLimit": 3000,
+      "brevoFreeDailyLimit": 300
+    }
+  },
+  "odds": {
+    "daysPerWeek": 3,
+    "maximumRefreshesIn31Days": 15,
+    "assumedNflEventsPerRefresh": 16,
+    "assumedEventObjectsPer31Days": 240,
+    "localSgoObjectCeiling": 1000,
+    "publishedSgoAmateurObjectsPerMonth": 2500,
+    "additionalManualImportsOrOtherConsumers": "UNVERIFIED",
+    "unabatedPartnerQualification": "UNVERIFIED"
+  }
+}

@@ -1,12 +1,13 @@
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from 'node:crypto';
 import { hash, verify } from '@node-rs/argon2';
+import { assertAuthSecret } from './secret-policy';
 
 export const secureToken = (bytes = 32) => randomBytes(bytes).toString('base64url');
 export const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
 
 function secretKey() {
   const secret = process.env.AUTH_JWT_SECRET;
-  if (!secret) throw new Error('AUTH_JWT_SECRET is required');
+  assertAuthSecret(secret);
   return createHash('sha256').update(secret).digest();
 }
 export function encryptSecret(value: string) {
@@ -20,7 +21,10 @@ export function decryptSecret(value: string) {
   if (!iv || !tag || !encrypted) throw new Error('Encrypted value is invalid.');
   const decipher = createDecipheriv('aes-256-gcm', secretKey(), Buffer.from(iv, 'base64url'));
   decipher.setAuthTag(Buffer.from(tag, 'base64url'));
-  return Buffer.concat([decipher.update(Buffer.from(encrypted, 'base64url')), decipher.final()]).toString('utf8');
+  return Buffer.concat([
+    decipher.update(Buffer.from(encrypted, 'base64url')),
+    decipher.final(),
+  ]).toString('utf8');
 }
 
 export const hashPassword = (password: string) =>

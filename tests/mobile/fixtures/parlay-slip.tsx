@@ -1,0 +1,7 @@
+import {useEffect,useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import MyParlayPanel from '../../../src/components/parlay-lab/MyParlayPanel';
+import {addSlipLeg} from '../../../packages/parlay/slip';
+const markets=Array.from({length:16},(_,i)=>({id:`m${i}`,eventId:`e${i}`,playerId:`p${i}`,playerName:`Player ${i}`,teamId:'KC',marketType:'RECEPTIONS',side:'OVER',line:4.5,odds:-200,sportsbook:'FANDUEL' as const,available:true,deeplink:'https://sportsbook.example/individual',trend:{trendScore:84,last10:{hits:8,games:10,hitRate:80}}}));
+function App(){const [legs,setLegs]=useState<typeof markets>(JSON.parse(localStorage.getItem('slip-fixture')??'[]'));useEffect(()=>localStorage.setItem('slip-fixture',JSON.stringify(legs)),[legs]);return <div style={{minHeight:2000,display:'grid',gridTemplateColumns:'minmax(0,1fr) 320px',gap:20,padding:20}}><main><button onClick={()=>setLegs(s=>addSlipLeg(s,markets[0]))}>Add first</button><button onClick={()=>setLegs(s=>addSlipLeg(s,markets[1]))}>Add second</button><button onClick={()=>setLegs(markets)}>Add long parlay</button><a href="?screen=other">Navigate</a></main><div><MyParlayPanel legs={legs} markets={markets} matchup="KC vs BUF" marketLabel={m=>m.marketType} pickLabel={m=>`${m.side} ${m.line}`} onRemove={id=>setLegs(s=>s.filter(m=>m.id!==id))} onClear={()=>setLegs([])}/></div></div>}
+createRoot(document.getElementById('root')!).render(<App/>);

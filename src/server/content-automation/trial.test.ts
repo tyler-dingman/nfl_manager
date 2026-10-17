@@ -104,7 +104,7 @@ test('hard generation and expenditure budgets stop work', () => {
   );
 });
 
-test('trial workflows remain manual backups and guard curl behind the window result', () => {
+test('manual trial workflows retain isolated groups and expiration guards', () => {
   const standard = readFileSync('.github/workflows/content-automation-standard-trial.yml', 'utf8');
   const video = readFileSync('.github/workflows/content-automation-video-trial.yml', 'utf8');
   assert.match(standard, /workflow_dispatch:/);

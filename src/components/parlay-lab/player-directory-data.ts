@@ -7,7 +7,7 @@ export type DirectoryPlayer = {
   headshotUrl: string | null;
 };
 export type PlayerSummary = DirectoryPlayer & {
-  market: HomeMarket;
+  market: HomeMarket | null;
   games: number;
   observations: number;
   hitRate: number | null;
@@ -26,6 +26,7 @@ const score = (m: HomeMarket) => {
 export function summarizePlayers(
   markets: HomeMarket[],
   roster: DirectoryPlayer[],
+  includeRoster = false,
 ): PlayerSummary[] {
   const groups = new Map<string, HomeMarket[]>();
   for (const m of markets) {
@@ -34,7 +35,7 @@ export function summarizePlayers(
     rows.push(m);
     groups.set(m.playerId, rows);
   }
-  return [...groups].map(([id, rows]) => {
+  const summaries: PlayerSummary[] = [...groups].map(([id, rows]) => {
     rows.sort((a, b) => (score(b) ?? -1) - (score(a) ?? -1));
     const market = rows[0];
     const profile = roster.find(
@@ -81,6 +82,26 @@ export function summarizePlayers(
       score: score(market),
     };
   });
+  if (includeRoster)
+    for (const player of roster) {
+      if (
+        summaries.some(
+          (p) => p.id === player.id || (p.name === player.name && p.teamAbbr === player.teamAbbr),
+        )
+      )
+        continue;
+      summaries.push({
+        ...player,
+        market: null,
+        games: 0,
+        observations: 0,
+        hitRate: null,
+        recentRate: null,
+        change: null,
+        score: null,
+      });
+    }
+  return summaries;
 }
 // Transparent ordering: recent aggregate rate, improvement, strongest current Lab Score, name.
 export function rankPlayers(a: PlayerSummary, b: PlayerSummary) {

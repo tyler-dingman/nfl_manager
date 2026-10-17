@@ -1,0 +1,22 @@
+{
+  "unitTestsPassed": 141,
+  "unitTestsFailed": 0,
+  "postgresCheckPassed": true,
+  "typecheckPassed": true,
+  "formatPassed": true,
+  "diffCheckPassed": true,
+  "productionAccess": false,
+  "deployment": false,
+  "paidInfrastructureActivated": false,
+  "productionWorkerCpuMeasured": false,
+  "currentAccountUsageMeasured": false,
+  "releaseGatesPassed": false,
+  "testCommands": [
+    "node --import tsx --test [97 source/research/monitoring/story/video/automation/request tests; see README]",
+    "env -u DATABASE_URL -u POSTGRES_URL node --import tsx --test src/features/content/*.test.ts src/features/three-and-out/*.test.ts src/server/content/*.test.ts",
+    "python3 scripts/validate-source-sync-local.py",
+    "tsc --noEmit --incremental false",
+    "prettier --check [modified TypeScript files]",
+    "git diff --check"
+  ]
+}

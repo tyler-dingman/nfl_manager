@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { gradeTradeOffer } from '@/lib/trade-offer-evaluator';
@@ -16,7 +17,7 @@ type EvaluateTradeOfferBody = {
   extraOutgoingPickIds?: string[];
 };
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   const body = (await request.json()) as EvaluateTradeOfferBody;
   if (!body.saveId || !body.offer) {
     return NextResponse.json(
@@ -136,3 +137,5 @@ export const POST = async (request: Request) => {
     aiExplanation: graded.ai.explanation,
   });
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

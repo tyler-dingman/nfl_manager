@@ -1,3 +1,4 @@
+import { webFranchiseTransport } from '../../packages/front-office/command-transport';
 export const apiUrl = (path: string) => {
   if (path.startsWith('/api/')) return path;
   if (path.startsWith('api/')) return `/${path}`;
@@ -11,7 +12,9 @@ export const apiFetch = async (
   options?: { skipSaveGuard?: boolean },
 ) => {
   const url = apiUrl(path);
-  const response = await fetch(url, init);
+  const prepared = webFranchiseTransport.prepare(url, init);
+  const response = await fetch(url, prepared.init);
+  await webFranchiseTransport.observe(url, response, prepared.key);
   const contentType = response.headers.get('content-type')?.toLowerCase() ?? '';
   if (contentType.includes('text/html') || contentType.includes('application/xhtml+xml')) {
     // Framework errors and login redirects can return HTML even for API requests.
@@ -25,9 +28,18 @@ export const apiFetch = async (
     throw new Error(`${reason} (${endpoint}, HTTP ${response.status})`);
   }
   if (typeof window !== 'undefined' && response.ok && init?.method?.toUpperCase() === 'POST') {
-    const payload = await response.clone().json().catch(() => null);
-    if (Array.isArray(payload?.events) && payload.events.length && !url.includes('/front-office/simulate'))
-      window.dispatchEvent(new CustomEvent('front-office-news-updated', {detail:{events:payload.events}}));
+    const payload = await response
+      .clone()
+      .json()
+      .catch(() => null);
+    if (
+      Array.isArray(payload?.events) &&
+      payload.events.length &&
+      !url.includes('/front-office/simulate')
+    )
+      window.dispatchEvent(
+        new CustomEvent('front-office-news-updated', { detail: { events: payload.events } }),
+      );
   }
   return response;
 };

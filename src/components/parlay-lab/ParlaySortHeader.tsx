@@ -1,3 +1,4 @@
+import { LabScoreHelp } from './LabScoreHelp';
 import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react';
 import type { SortState } from './parlay-table';
 import styles from './parlay-sort-header.module.css';
@@ -34,6 +35,7 @@ export default function ParlaySortHeader<Key extends string>({
           <ChevronsUpDown />
         )}
       </button>
+      {/^lab score$/i.test(label.trim()) && <LabScoreHelp />}
     </Tag>
   );
 }

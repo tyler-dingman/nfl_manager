@@ -1,0 +1,119 @@
+{
+  "sportsbook": "caesars",
+  "matches": [
+    {
+      "original": {
+        "id": "223b8436-0b17-4359-8fc4-6aca884339d8",
+        "eventId": "9da4177e-1b33-419e-97b5-714b2c591348",
+        "playerId": "3915411",
+        "playerName": "Ty Johnson",
+        "teamId": null,
+        "marketType": "RECEIVING_YARDS",
+        "period": "game",
+        "side": "UNDER",
+        "line": 11.5,
+        "kickoffAt": "2026-10-13T00:15:00.000Z",
+        "homeTeamId": "LAR",
+        "awayTeamId": "BUF"
+      },
+      "selection": {
+        "id": "223b8436-0b17-4359-8fc4-6aca884339d8",
+        "eventId": "9da4177e-1b33-419e-97b5-714b2c591348",
+        "playerId": "3915411",
+        "playerName": "Ty Johnson",
+        "teamId": null,
+        "marketType": "RECEIVING_YARDS",
+        "period": "game",
+        "side": "UNDER",
+        "line": 11.5,
+        "odds": -114,
+        "sportsbook": "CAESARS",
+        "available": true,
+        "oddsUpdatedAt": "2026-10-09T20:45:11.731Z",
+        "kickoffAt": "2026-10-13T00:15:00.000Z",
+        "homeTeamId": "LAR",
+        "awayTeamId": "BUF",
+        "lineType": "main",
+        "mainLine": 11.5
+      },
+      "adjusted": false
+    },
+    {
+      "original": {
+        "id": "e1231aa5-6aca-4cac-a1e4-94627049bee8",
+        "eventId": "36d43a98-a10d-4b71-82c7-0d196a0bfbff",
+        "playerId": "4035671",
+        "playerName": "Tyler Huntley",
+        "teamId": null,
+        "marketType": "RUSHING_YARDS",
+        "period": "game",
+        "side": "OVER",
+        "line": 19.5,
+        "kickoffAt": "2026-10-12T00:20:00.000Z",
+        "homeTeamId": "ATL",
+        "awayTeamId": "BAL"
+      },
+      "selection": {
+        "id": "e1231aa5-6aca-4cac-a1e4-94627049bee8",
+        "eventId": "36d43a98-a10d-4b71-82c7-0d196a0bfbff",
+        "playerId": "4035671",
+        "playerName": "Tyler Huntley",
+        "teamId": null,
+        "marketType": "RUSHING_YARDS",
+        "period": "game",
+        "side": "OVER",
+        "line": 19.5,
+        "odds": -260,
+        "sportsbook": "CAESARS",
+        "available": true,
+        "oddsUpdatedAt": "2026-10-09T20:45:09.349Z",
+        "kickoffAt": "2026-10-12T00:20:00.000Z",
+        "homeTeamId": "ATL",
+        "awayTeamId": "BAL",
+        "lineType": "alternate",
+        "mainLine": 27.5
+      },
+      "adjusted": false
+    },
+    {
+      "original": {
+        "id": "58fc8ef7-5962-41df-bc8c-1cbefe0ec3e5",
+        "eventId": "647675a9-3187-46f5-b9c0-375a2fae4e62",
+        "playerId": "4597703",
+        "playerName": "Tory Horton",
+        "teamId": null,
+        "marketType": "RECEIVING_YARDS",
+        "period": "game",
+        "side": "UNDER",
+        "line": 11.5,
+        "kickoffAt": "2026-10-11T20:25:00.000Z",
+        "homeTeamId": "SEA",
+        "awayTeamId": "SF"
+      },
+      "selection": {
+        "id": "58fc8ef7-5962-41df-bc8c-1cbefe0ec3e5",
+        "eventId": "647675a9-3187-46f5-b9c0-375a2fae4e62",
+        "playerId": "4597703",
+        "playerName": "Tory Horton",
+        "teamId": null,
+        "marketType": "RECEIVING_YARDS",
+        "period": "game",
+        "side": "UNDER",
+        "line": 11.5,
+        "odds": -114,
+        "sportsbook": "CAESARS",
+        "available": true,
+        "oddsUpdatedAt": "2026-10-09T20:45:07.298Z",
+        "kickoffAt": "2026-10-11T20:25:00.000Z",
+        "homeTeamId": "SEA",
+        "awayTeamId": "SF",
+        "lineType": "main",
+        "mainLine": 11.5
+      },
+      "adjusted": false
+    }
+  ],
+  "estimatedOdds": 388,
+  "adjustments": 0,
+  "expiresAt": "2026-10-10T04:38:31.932Z"
+}

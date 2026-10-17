@@ -1,3 +1,4 @@
+import { addSlipLeg } from '../../../packages/parlay/slip';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import {
@@ -74,7 +75,7 @@ export function ParlayAltStack({
         )
       )
         throw new Error('Lines changed. Generate a new stack before adding.');
-      setSlip([...slip, ...stack.filter((m) => !slip.some((n) => altKey(n) === altKey(m)))]);
+      setSlip(stack.reduce(addSlipLeg, slip));
       setNotice('Added to My Parlay below. Review and save when ready.');
     } catch (e) {
       setNotice(e instanceof Error ? e.message : 'Unable to refresh.');

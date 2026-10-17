@@ -1,0 +1,986 @@
+{
+  "scope": "Static references, not proof of configured or active services. No environment values/accounts read.",
+  "accountUsage": "UNVERIFIED: production/account access prohibited",
+  "environmentNames": {
+    "ADMIN_USER_IDS": [
+      "src/app/api/admin/commerce/inventory/[variantId]/route.ts",
+      "src/app/api/admin/commerce/orders/[orderId]/refunds/route.ts",
+      "src/app/api/admin/commerce/orders/[orderId]/route.ts",
+      "src/app/api/admin/commerce/products/[productId]/route.ts",
+      "src/app/api/admin/commerce/products/route.ts",
+      "src/app/api/admin/commerce/route.ts",
+      "src/app/api/admin/observer/route.ts",
+      "src/app/api/admin/source-health/route.ts",
+      "src/app/api/admin/sources/route.ts",
+      "src/app/api/admin/story-reviews/route.ts"
+    ],
+    "AUTH_BASE_URL": [
+      "src/server/crew/repository.ts"
+    ],
+    "AUTH_JWT_SECRET": [
+      "src/lib/mobile-preview-access.ts",
+      "src/server/auth/crypto.ts",
+      "src/server/providers/unabated/transfer-proposals.ts",
+      "src/server/providers/unabated/transfer-service.ts",
+      "src/server/trivia/guest.ts"
+    ],
+    "COMMERCE_DEMO_TAX_RATE": [
+      "src/server/commerce/providers.ts"
+    ],
+    "COMMERCE_EXPRESS_SHIPPING_CENTS": [
+      "src/server/commerce/providers.ts"
+    ],
+    "COMMERCE_STANDARD_SHIPPING_CENTS": [
+      "src/server/commerce/providers.ts"
+    ],
+    "CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET": [
+      "src/app/api/automation/content/route.ts"
+    ],
+    "CONTENT_AUTOMATION_EXPIRES_AT": [
+      "src/app/api/automation/content/route.ts"
+    ],
+    "CONTENT_AUTOMATION_STARTS_AT": [
+      "src/app/api/automation/content/route.ts"
+    ],
+    "CONTENT_AUTOMATION_TEAM_ID": [
+      "src/app/api/automation/content/route.ts"
+    ],
+    "CREW_AUDIT_URL": [
+      "scripts/audit-crew.ts"
+    ],
+    "CREW_EMAIL_PROVIDER": [
+      "src/server/crew/delivery.ts"
+    ],
+    "CREW_SMS_PROVIDER": [
+      "src/server/crew/delivery.ts"
+    ],
+    "DATABASE_URL": [
+      "scripts/audit-crew.ts",
+      "scripts/audit-trivia-redesign.ts",
+      "scripts/audit-unabated-coverage.ts",
+      "scripts/diagnose-unabated-links.ts",
+      "scripts/front-office-news-qa.ts",
+      "scripts/import-nflverse-stats.ts",
+      "scripts/import-sportsbook-odds.ts",
+      "scripts/migrate-auth.ts",
+      "scripts/migrate-commerce.ts",
+      "scripts/migrate-fanduel-transfer.ts",
+      "scripts/migrate-front-office.ts",
+      "scripts/migrate-huddle.ts",
+      "scripts/migrate-parlay-lab.ts",
+      "scripts/parlay-lab-audit.ts",
+      "scripts/prepare-draftkings-transfer-test.ts",
+      "scripts/prepare-unabated-direction-audit.ts",
+      "scripts/prepare-unabated-fanduel-audit.ts",
+      "scripts/prepare-unabated-three-leg-test.ts",
+      "scripts/resolve-youtube-sources.ts",
+      "scripts/seed-trivia.ts",
+      "scripts/seed-video-sources.ts",
+      "scripts/sync-parlay-lab-odds-to-production.ts",
+      "scripts/sync-production-content-to-local.ts",
+      "scripts/test-draftkings-transfer.ts",
+      "scripts/test-franchise-hero-lifecycle.ts",
+      "scripts/test-franchise-news-lifecycle.ts",
+      "scripts/test-huddle-local.ts",
+      "scripts/validate-phase-two-browser.mjs",
+      "scripts/video-source-health.ts",
+      "src/server/search/database.ts"
+    ],
+    "ENABLE_FANDUEL_BETSLIP": [
+      "scripts/generate-unabated-three-leg-test.mjs",
+      "scripts/pilot-unabated-direction-audit.mjs",
+      "scripts/pilot-unabated-fanduel-audit.mjs"
+    ],
+    "ENABLE_UNABATED_INGESTION": [
+      "scripts/generate-unabated-three-leg-test.mjs"
+    ],
+    "EXPO_ACCESS_TOKEN": [
+      "src/server/notifications/push.ts"
+    ],
+    "FANDUEL_TEST_USER_IDS": [
+      "src/app/api/parlay-lab/sportsbook-transfer/route.ts"
+    ],
+    "FRONT_OFFICE_QA_SEED": [
+      "src/app/api/front-office/simulate/route.ts",
+      "src/server/logic/trade-block.ts"
+    ],
+    "HERO_QA_OFFSEASON": [
+      "scripts/test-franchise-hero-lifecycle.ts"
+    ],
+    "HERO_QA_SEED": [
+      "scripts/test-franchise-hero-lifecycle.ts"
+    ],
+    "HOME": [
+      "workers/content-engine/scripts/local.mjs"
+    ],
+    "LOGO_AUDIT_DIR": [
+      "scripts/audit-team-logo.mjs"
+    ],
+    "MONITOR_BREAKING_NOTIFICATION_MIN": [
+      "src/features/monitoring/config.ts"
+    ],
+    "MONITOR_CANDIDATE_NOTIFICATION_MIN": [
+      "src/features/monitoring/config.ts"
+    ],
+    "MONITOR_FEED_ONLY_MAX": [
+      "src/features/monitoring/config.ts"
+    ],
+    "MONITOR_INDEX_ONLY_MAX": [
+      "src/features/monitoring/config.ts"
+    ],
+    "MONITOR_PUSH_NOTIFICATION_MIN": [
+      "src/features/monitoring/config.ts"
+    ],
+    "NAME": [
+      "scripts/report-phase-two.py"
+    ],
+    "NEXT_PHASE": [
+      "src/server/auth/config.ts"
+    ],
+    "NEXT_PUBLIC_ADS_ENABLED": [
+      "src/lib/ads/adConfig.ts"
+    ],
+    "NEXT_PUBLIC_KLIPY_APP_KEY": [
+      "src/components/huddle-live/gif.tsx"
+    ],
+    "NEXT_PUBLIC_SITE_URL": [
+      "src/app/content/[id]/page.tsx",
+      "src/app/sitemap.ts"
+    ],
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": [
+      "src/components/merch/stripe-card-payment.tsx"
+    ],
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": [
+      "src/lib/db.ts"
+    ],
+    "NEXT_PUBLIC_SUPABASE_URL": [
+      "src/lib/db.ts"
+    ],
+    "NFLVERSE_GAMES_URL": [
+      "src/server/historical-stats/importer.ts"
+    ],
+    "NFLVERSE_PLAYER_STATS_URL": [
+      "src/server/historical-stats/importer.ts"
+    ],
+    "NODE_ENV": [
+      "scripts/audit-team-logo-native.mjs",
+      "scripts/audit-team-logo.mjs",
+      "scripts/test-franchise-hero-lifecycle.ts",
+      "scripts/test-franchise-news-lifecycle.ts",
+      "src/app/admin/sources/page.tsx",
+      "src/app/api/admin/sources/route.ts",
+      "src/app/api/auth/social/[provider]/start/route.ts",
+      "src/app/api/catch-up/route.ts",
+      "src/app/api/dev/free-agency/validate/route.ts",
+      "src/app/api/front-office/simulate/route.ts",
+      "src/app/api/game-day/homepage/route.ts",
+      "src/app/api/parlay-lab/sportsbook-transfer/route.ts",
+      "src/app/api/preview/access/route.ts",
+      "src/app/api/push/subscription/route.ts",
+      "src/app/api/push/test/route.ts",
+      "src/app/api/trade-offers/next/route.ts",
+      "src/app/api/user/email-change/request/route.ts",
+      "src/app/api/user/notifications/dev-simulate/route.ts",
+      "src/app/dev-hero-visual/page.tsx",
+      "src/app/dev-news-visual/page.tsx",
+      "src/app/dev-transaction-visual/page.tsx",
+      "src/app/dev/beat-cards/page.tsx",
+      "src/app/dev/front-office-story-graphics/page.tsx",
+      "src/app/dev/huddle-cards/page.tsx",
+      "src/app/editorial-visuals/page.tsx",
+      "src/app/free-agents/page.tsx",
+      "src/app/preview/logout/route.ts",
+      "src/app/roster/page.tsx",
+      "src/components/down-distance-home.tsx",
+      "src/components/game-day/game-day-page.tsx",
+      "src/components/huddle-live/archive-list.tsx",
+      "src/components/notifications/notification-center.tsx",
+      "src/features/contracts/queries.ts",
+      "src/features/players/queries.ts",
+      "src/features/trades/use-trade-offer-orchestrator.ts",
+      "src/lib/ads/track.ts",
+      "src/lib/color-utils.ts",
+      "src/lib/contract-demand.ts",
+      "src/lib/contracts.ts",
+      "src/lib/team-theme-tokens.ts",
+      "src/middleware.ts",
+      "src/server/auth/config.ts",
+      "src/server/auth/http.ts",
+      "src/server/auth/service.ts",
+      "src/server/content/canonical-surfaces.ts",
+      "src/server/front-office/welcome-messages.ts",
+      "src/server/game-day/repository.ts",
+      "src/server/logic/trade-block.ts",
+      "src/server/logic/trade-offer-generator.ts",
+      "src/server/search/answer-engine.ts",
+      "src/server/trivia/event-repository.ts",
+      "src/server/trivia/game-repository.ts",
+      "src/server/trivia/guest.ts",
+      "src/server/trivia/repository.ts",
+      "src/server/trivia/social-repository.ts"
+    ],
+    "OBSERVER_MODE": [
+      "scripts/monitor-test.ts",
+      "src/features/monitoring/config.ts",
+      "src/server/story-engine/repository.ts"
+    ],
+    "ODDS_PROVIDER": [
+      "scripts/generate-unabated-three-leg-test.mjs",
+      "scripts/pilot-unabated-direction-audit.mjs",
+      "scripts/pilot-unabated-fanduel-audit.mjs"
+    ],
+    "OPENAI_API_KEY": [
+      "src/features/content/content-engine.ts"
+    ],
+    "OPENAI_CONTENT_MODEL": [
+      "src/features/content/content-engine.ts"
+    ],
+    "PARLAY_DEPTH_URL": [
+      "scripts/import-parlay-role-evidence.ts"
+    ],
+    "PATH": [
+      "workers/content-engine/scripts/local.mjs"
+    ],
+    "PHASE_TWO_SYNTHETIC_DATABASE": [
+      "scripts/validate-phase-two-browser.mjs"
+    ],
+    "PLAYWRIGHT_BASE_URL": [
+      "scripts/audit-team-logo-site.mjs"
+    ],
+    "PRELAUNCH_MODE": [
+      "src/app/layout.tsx",
+      "src/lib/prelaunch.ts"
+    ],
+    "PRELAUNCH_PASSWORD": [
+      "src/app/api/preview/access/route.ts",
+      "src/lib/prelaunch.ts"
+    ],
+    "PRELAUNCH_SESSION_SECRET": [
+      "src/lib/prelaunch.ts"
+    ],
+    "PRODUCTION_DATABASE_URL": [
+      "scripts/import-nflverse-stats.ts",
+      "scripts/import-sportsbook-odds.ts",
+      "scripts/migrate-parlay-lab.ts",
+      "scripts/parlay-lab-audit.ts",
+      "scripts/sync-parlay-lab-odds-to-production.ts",
+      "scripts/sync-production-content-to-local.ts"
+    ],
+    "SEARCH_ANSWER_PROVIDER": [
+      "src/server/search/synthesis.ts"
+    ],
+    "SEARCH_EMBEDDING_BASE_URL": [
+      "src/server/search/providers.ts"
+    ],
+    "SEARCH_EMBEDDING_ENABLED": [
+      "src/server/search/indexer.ts",
+      "src/server/search/retrieval.ts"
+    ],
+    "SEARCH_EMBEDDING_MODEL": [
+      "src/server/search/providers.ts"
+    ],
+    "SEARCH_LLM_BASE_URL": [
+      "src/server/search/providers.ts",
+      "src/server/search/synthesis.ts"
+    ],
+    "SEARCH_LLM_MODEL": [
+      "src/server/search/providers.ts",
+      "src/server/search/synthesis.ts"
+    ],
+    "SOURCE_ADMIN_ENABLED": [
+      "src/app/admin/sources/page.tsx",
+      "src/app/api/admin/sources/route.ts"
+    ],
+    "SOURCE_BATCH_SIZE": [
+      "src/features/story-engine/config.ts"
+    ],
+    "SOURCE_FETCH_TIMEOUT_MS": [
+      "src/features/story-engine/config.ts"
+    ],
+    "SOURCE_TEST_PG_SOCKET": [
+      "scripts/validate-source-sync.ts"
+    ],
+    "SOURCE_TIER_A_SECONDS": [
+      "src/features/story-engine/config.ts"
+    ],
+    "SOURCE_TIER_BREAKING_SECONDS": [
+      "src/features/story-engine/config.ts"
+    ],
+    "SOURCE_TIER_B_SECONDS": [
+      "src/features/story-engine/config.ts"
+    ],
+    "SOURCE_TIER_C_SECONDS": [
+      "src/features/story-engine/config.ts"
+    ],
+    "SOURCE_TIER_LONG_FORM_SECONDS": [
+      "src/features/story-engine/config.ts"
+    ],
+    "SOURCE_TIER_STANDARD_SECONDS": [
+      "src/features/story-engine/config.ts"
+    ],
+    "SPORTSGAMEODDS_API_KEY": [
+      "src/server/providers/sportsGameOdds.ts"
+    ],
+    "SPORTSGAMEODDS_BOOKMAKER_IDS": [
+      "src/server/providers/sportsGameOdds.ts"
+    ],
+    "SPORTSGAMEODDS_MAX_REQUESTS_PER_RUN": [
+      "src/server/providers/sportsGameOdds.ts"
+    ],
+    "SPORTSGAMEODDS_MONTHLY_OBJECT_CEILING": [
+      "src/server/providers/sportsGameOdds.ts"
+    ],
+    "STORY_BREAKING_IMPORTANCE": [
+      "src/features/story-engine/config.ts"
+    ],
+    "STRIPE_MODE": [
+      "src/server/commerce/stripe.ts"
+    ],
+    "STRIPE_SECRET_KEY": [
+      "src/server/commerce/stripe.ts"
+    ],
+    "STRIPE_WEBHOOK_SECRET": [
+      "src/server/commerce/stripe.ts"
+    ],
+    "TMPDIR": [
+      "workers/content-engine/scripts/local.mjs"
+    ],
+    "UNABATED_API_BASE_URL": [
+      "src/server/providers/unabated/client.ts"
+    ],
+    "UNABATED_API_KEY": [
+      "scripts/audit-unabated-coverage.ts",
+      "scripts/diagnose-unabated-links.ts",
+      "scripts/diagnose-unabated.ts",
+      "scripts/generate-unabated-three-leg-test.mjs",
+      "scripts/pilot-unabated-direction-audit.mjs",
+      "scripts/pilot-unabated-fanduel-audit.mjs",
+      "src/server/providers/unabated/client.ts"
+    ],
+    "UNABATED_PARTNER_CODE": [
+      "scripts/audit-unabated-coverage.ts",
+      "scripts/generate-unabated-three-leg-test.mjs",
+      "src/server/providers/unabated/transfer-service.ts"
+    ],
+    "WEB_PUSH_VAPID_PRIVATE_KEY": [
+      "src/server/notifications/web-push.ts"
+    ],
+    "WEB_PUSH_VAPID_PUBLIC_KEY": [
+      "src/server/notifications/web-push.ts"
+    ],
+    "WEB_PUSH_VAPID_SUBJECT": [
+      "src/server/notifications/web-push.ts"
+    ],
+    "WHISPER_BASE_URL": [
+      "src/server/search/providers.ts"
+    ],
+    "WHISPER_MODEL": [
+      "src/server/search/providers.ts"
+    ],
+    "YOUTUBE_API_KEY": [
+      "scripts/resolve-youtube-sources.ts",
+      "src/app/api/film-room/route.ts",
+      "src/server/film-room/youtube.ts",
+      "src/server/story-engine/fetcher.ts"
+    ],
+    "YOUTUBE_SOURCE_SEARCH_BUDGET": [
+      "scripts/resolve-youtube-sources.ts"
+    ]
+  },
+  "declaredHosts": {
+    "127.0.0.1": [
+      "src/features/content/ai-provider.ts",
+      "src/server/search/providers.ts",
+      "src/server/search/synthesis.ts"
+    ],
+    "a.espncdn.com": [
+      "src/components/parlay-lab/alt-stack-card.tsx",
+      "src/server/data-sources/espn.ts"
+    ],
+    "accounts.google.com": [
+      "src/server/auth/providers/google.ts"
+    ],
+    "api.openai.com": [
+      "src/features/content/openai-summarizer.ts"
+    ],
+    "api.sportsgameodds.com": [
+      "src/server/providers/sportsGameOdds.ts"
+    ],
+    "appleid.apple.com": [
+      "src/server/auth/providers/apple.ts"
+    ],
+    "arrowheadaddict.com": [
+      "src/data/sources/monitoring/kc.ts"
+    ],
+    "chiefsdigest.com": [
+      "src/data/sources/teams/kc.ts"
+    ],
+    "chiefswire.usatoday.com": [
+      "src/data/sources/monitoring/kc.ts"
+    ],
+    "data.unabated.com": [
+      "scripts/diagnose-unabated-links.ts",
+      "scripts/diagnose-unabated.ts",
+      "scripts/generate-unabated-three-leg-test.mjs",
+      "scripts/pilot-unabated-direction-audit.mjs",
+      "scripts/pilot-unabated-fanduel-audit.mjs",
+      "scripts/report-unabated-fanduel-audit.py",
+      "src/server/providers/unabated/client.ts",
+      "src/server/providers/unabated/types.ts"
+    ],
+    "data.unabated.com.": [
+      "src/server/providers/unabated/client.ts"
+    ],
+    "developers.cloudflare.com": [
+      "scripts/report-nfl-source-research.py"
+    ],
+    "developers.google.com": [
+      "scripts/report-nfl-source-research.py",
+      "src/components/merch/payment-brand-mark.tsx"
+    ],
+    "docs.unabated.com": [
+      "scripts/report-unabated-fanduel-audit.py",
+      "scripts/report-unabated-three-leg-test.py"
+    ],
+    "docs.x.com": [
+      "scripts/report-nfl-source-research.py"
+    ],
+    "downdistance.com": [
+      "src/app/robots.ts",
+      "src/components/parlay-lab/MyPlaysPage.tsx",
+      "src/components/parlay-lab/ParlayLabPage.tsx"
+    ],
+    "example.com": [
+      "scripts/audit-crew.ts",
+      "scripts/story-surfaces-demo.ts",
+      "src/components/beat/beat-fixtures.ts",
+      "src/components/beat/beat-gallery.tsx"
+    ],
+    "exp.host": [
+      "src/server/notifications/push.ts"
+    ],
+    "fixture.example": [
+      "scripts/benchmark-nfl-source-expansion.ts"
+    ],
+    "gambly.com": [
+      "scripts/report-unabated-fanduel-audit.py"
+    ],
+    "github.com": [
+      "scripts/import-parlay-role-evidence.ts",
+      "scripts/import-parlay-snaps.ts",
+      "src/server/historical-stats/importer.ts",
+      "src/server/search/answer-engine.ts"
+    ],
+    "graph.facebook.com": [
+      "src/server/auth/providers/facebook.ts"
+    ],
+    "heavy.com": [
+      "src/data/sources/monitoring/kc.ts"
+    ],
+    "i.ytimg.com": [
+      "src/server/film-room/discovered.ts"
+    ],
+    "images.invalid": [
+      "workers/content-engine/test/fixtures.ts"
+    ],
+    "klipy.com": [
+      "src/components/huddle-live/gif.tsx"
+    ],
+    "localhost": [
+      "scripts/audit-beat-cards.ts",
+      "scripts/audit-beat-editorial.mjs",
+      "scripts/audit-crew.ts",
+      "scripts/audit-team-logo-site.mjs",
+      "scripts/audit-trivia-redesign.ts",
+      "scripts/validate-phase-two-browser.mjs",
+      "src/server/crew/repository.ts"
+    ],
+    "nbcsports.com": [
+      "scripts/build-nfl-source-research.py"
+    ],
+    "neon.com": [
+      "scripts/report-nfl-source-research.py",
+      "workers/content-engine/scripts/zero-cost-project.ts"
+    ],
+    "oauth2.googleapis.com": [
+      "src/server/auth/providers/google.ts"
+    ],
+    "overthecap.com": [
+      "src/data/sources/data-providers.ts",
+      "src/server/data-sources/overthecap-contracts.ts",
+      "src/server/data-sources/overthecap-free-agency.ts",
+      "src/server/data-sources/overthecap.ts"
+    ],
+    "podfollow.com": [
+      "src/features/content/kansas-city-test-source-adapter.ts"
+    ],
+    "publisher.invalid": [
+      "workers/content-engine/test/fixtures.ts"
+    ],
+    "schema.org": [
+      "src/app/content/[id]/page.tsx"
+    ],
+    "sharpsources.com": [
+      "scripts/report-nfl-source-research.py",
+      "scripts/research-nfl-sources.py"
+    ],
+    "site.api.espn.com": [
+      "scripts/import-parlay-role-evidence.ts",
+      "src/server/data-sources/espn.ts",
+      "src/server/front-office/calendar.ts",
+      "src/server/game-day/homepage-game.ts",
+      "src/server/schedule/ingest.ts",
+      "src/server/search/answer-data.ts"
+    ],
+    "site.web.api.espn.com": [
+      "src/server/data-sources/espn-draft.ts",
+      "src/server/data-sources/espn.ts"
+    ],
+    "sports.betmgm.com": [
+      "src/server/odds/sportsbooks.ts"
+    ],
+    "sports.core.api.espn.com": [
+      "src/server/data-sources/espn-draft.ts",
+      "src/server/data-sources/espn.ts"
+    ],
+    "sports.yahoo.com": [
+      "src/data/sources/monitoring/kc.ts",
+      "src/data/sources/national.ts",
+      "src/features/content/kansas-city-test-source-adapter.ts",
+      "src/features/source-engine/seeds/kc.ts"
+    ],
+    "sportsbook.draftkings.com": [
+      "src/server/odds/sportsbooks.ts"
+    ],
+    "sportsbook.fanduel.com": [
+      "src/components/front-office/front-office-sidebar.tsx",
+      "src/server/odds/sportsbooks.ts"
+    ],
+    "static.www.nfl.com": [
+      "src/components/draft/draft-utils.ts",
+      "src/data/teams.ts",
+      "src/server/api/team.ts"
+    ],
+    "upload.wikimedia.org": [
+      "src/components/draft/draft-trade-offer-review-modal.tsx",
+      "src/components/trade-asset-picker-modal.tsx",
+      "src/components/trade-asset-slots.tsx",
+      "src/components/trade-offer-review-modal.tsx"
+    ],
+    "www.810whb.com": [
+      "src/data/sources/teams/kc.ts"
+    ],
+    "www.arrowheadpride.com": [
+      "src/data/sources/monitoring/kc.ts",
+      "src/data/sources/teams/kc.ts"
+    ],
+    "www.audacy.com": [
+      "src/data/sources/teams/kc.ts"
+    ],
+    "www.baltimoreravens.com": [
+      "src/data/sources/national.ts",
+      "src/features/content/kansas-city-test-source-adapter.ts",
+      "src/features/source-engine/seeds/kc.ts"
+    ],
+    "www.caesars.com": [
+      "src/server/odds/sportsbooks.ts"
+    ],
+    "www.chicagobears.com": [
+      "db/migrations/012_source_watcher_story_engine.sql"
+    ],
+    "www.chiefs.com": [
+      "db/migrations/012_source_watcher_story_engine.sql",
+      "src/data/sources/monitoring/kc.ts",
+      "src/data/sources/teams/kc.ts",
+      "src/features/content/kansas-city-test-source-adapter.ts",
+      "src/features/realtime/demo-data.ts"
+    ],
+    "www.downdistance.com": [
+      "src/app/content/[id]/page.tsx",
+      "src/app/sitemap.ts"
+    ],
+    "www.espn.com": [
+      "src/server/data-sources/espn-draft.ts",
+      "src/server/search/answer-data.ts"
+    ],
+    "www.facebook.com": [
+      "src/app/content/[id]/page.tsx",
+      "src/server/auth/providers/facebook.ts"
+    ],
+    "www.gambly.com": [
+      "src/server/providers/unabated/deeplinks.ts"
+    ],
+    "www.googleapis.com": [
+      "scripts/resolve-youtube-sources.ts",
+      "src/server/auth/providers/google.ts",
+      "src/server/film-room/youtube.ts",
+      "src/server/story-engine/fetcher.ts"
+    ],
+    "www.instagram.com": [
+      "src/features/content/kansas-city-test-source-adapter.ts"
+    ],
+    "www.kansascity.com": [
+      "src/data/sources/monitoring/kc.ts",
+      "src/data/sources/teams/kc.ts"
+    ],
+    "www.kshb.com": [
+      "src/data/sources/teams/kc.ts"
+    ],
+    "www.maddenratings.com": [
+      "src/server/data-sources/madden-ratings.ts"
+    ],
+    "www.nfl.com": [
+      "db/migrations/012_source_watcher_story_engine.sql",
+      "scripts/build-front-office-2026-seed.ts",
+      "src/data/sources/data-providers.ts",
+      "src/features/content/mock-source-adapter.ts",
+      "src/features/realtime/demo-data.ts",
+      "src/server/search/transactions.ts"
+    ],
+    "www.nflmockdraftdatabase.com": [
+      "src/server/data-sources/consensus-draft.ts",
+      "src/server/data-sources/team-needs.ts"
+    ],
+    "www.paypalobjects.com": [
+      "src/components/merch/payment-brand-mark.tsx"
+    ],
+    "www.pff.com": [
+      "src/server/data-sources/consensus-draft.ts"
+    ],
+    "www.pro-football-reference.com": [
+      "src/data/sources/data-providers.ts"
+    ],
+    "www.profootballrumors.com": [
+      "src/data/sources/monitoring/kc.ts"
+    ],
+    "www.profootballwriters.org": [
+      "scripts/report-nfl-source-research.py"
+    ],
+    "www.reddit.com": [
+      "src/data/sources/monitoring/kc.ts",
+      "src/data/sources/teams/kc.ts",
+      "src/features/content/kansas-city-test-source-adapter.ts"
+    ],
+    "www.spotrac.com": [
+      "src/data/sources/data-providers.ts"
+    ],
+    "www.tankathon.com": [
+      "src/server/data-sources/tankathon-draft.ts"
+    ],
+    "www.unabated.com": [
+      "scripts/build-nfl-source-research.py",
+      "scripts/report-nfl-source-research.py"
+    ],
+    "www.w3.org": [
+      "scripts/generate-football-icons.py",
+      "scripts/generate-ownership-icons.py",
+      "src/components/branding/team-branded-logo.tsx",
+      "src/components/team-favicon.tsx",
+      "src/components/ui/football-icons.tsx",
+      "src/components/ui/ownership-icon.tsx",
+      "src/components/ui/players-nav-icon.tsx"
+    ],
+    "www.yardbarker.com": [
+      "src/data/sources/monitoring/kc.ts"
+    ],
+    "www.youtube-nocookie.com": [
+      "src/app/content/[id]/page.tsx"
+    ],
+    "www.youtube.com": [
+      "scripts/resolve-youtube-sources.ts",
+      "src/data/sources/monitoring/kc.ts",
+      "src/data/sources/teams/kc.ts",
+      "src/data/sources/video/catalog.ts",
+      "src/features/content/mock-source-adapter.ts",
+      "src/features/realtime/demo-data.ts",
+      "src/server/film-room/discovered.ts",
+      "src/server/film-room/video-source-sync.ts",
+      "src/server/film-room/youtube.ts",
+      "src/server/story-engine/fetcher.ts"
+    ],
+    "x.com": [
+      "src/data/sources/monitoring/kc.ts",
+      "src/data/sources/monitoring/team-baselines.ts",
+      "src/data/sources/national.ts",
+      "src/data/sources/teams/kc.ts",
+      "src/features/content/kansas-city-test-source-adapter.ts",
+      "src/features/source-engine/seeds/kc.ts"
+    ]
+  },
+  "postgresTables": {
+    "auth_tokens": "db/migrations/001_auth_identity.sql",
+    "bet_markets": "db/migrations/035_parlay_lab_odds.sql",
+    "canonical_stories": "db/migrations/012_source_watcher_story_engine.sql",
+    "commerce_inventory_adjustments": "db/migrations/023_commerce.sql",
+    "commerce_order_items": "db/migrations/023_commerce.sql",
+    "commerce_orders": "db/migrations/023_commerce.sql",
+    "commerce_product_variants": "db/migrations/023_commerce.sql",
+    "commerce_products": "db/migrations/023_commerce.sql",
+    "commerce_promo_codes": "db/migrations/023_commerce.sql",
+    "commerce_refunds": "db/migrations/026_commerce_payment_hardening.sql",
+    "commerce_stripe_webhook_events": "db/migrations/024_stripe_webhooks.sql",
+    "content_automation_runs": "db/migrations/028_content_automation_global.sql",
+    "content_automation_trial_runs": "src/server/content-automation/repository.ts",
+    "content_candidates": "db/migrations/012_source_watcher_story_engine.sql",
+    "content_sources": "db/migrations/012_source_watcher_story_engine.sql",
+    "crew_activity": "db/migrations/021_crews.sql",
+    "crew_comments": "db/migrations/041_crew_feed_and_photos.sql",
+    "crew_invites": "db/migrations/021_crews.sql",
+    "crew_media": "db/migrations/041_crew_feed_and_photos.sql",
+    "crew_members": "db/migrations/021_crews.sql",
+    "crew_reactions": "db/migrations/021_crews.sql",
+    "crew_share_recipients": "db/migrations/022_crew_share_recipients.sql",
+    "crew_shares": "db/migrations/022_crew_share_recipients.sql",
+    "crews": "db/migrations/021_crews.sql",
+    "devices": "db/migrations/001_auth_identity.sql",
+    "email_change_requests": "db/migrations/002_user_profiles_and_preferences.sql",
+    "fan_pulse_reactions": "db/migrations/029_fan_pulse.sql",
+    "fanduel_transfer_jobs": "db/migrations/051_fanduel_transfer_jobs.sql",
+    "front_office_command_receipts": "db/migrations/053_front_office_durable_commands.sql",
+    "front_office_durable_state": "db/migrations/053_front_office_durable_commands.sql",
+    "front_office_events": "db/migrations/032_front_office_events.sql",
+    "front_office_recovery_evidence": "db/migrations/053_front_office_durable_commands.sql",
+    "front_office_reference_bundles": "db/migrations/053_front_office_durable_commands.sql",
+    "front_office_trade_offers": "db/migrations/032_front_office_events.sql",
+    "game_day_activity": "db/migrations/016_game_day.sql",
+    "game_day_events": "db/migrations/016_game_day.sql",
+    "game_day_predictions": "db/migrations/016_game_day.sql",
+    "game_day_reactions": "db/migrations/016_game_day.sql",
+    "game_day_room_members": "db/migrations/016_game_day.sql",
+    "game_day_rooms": "db/migrations/016_game_day.sql",
+    "historical_games": "db/migrations/036_nflverse_historical_stats.sql",
+    "historical_player_games": "db/migrations/036_nflverse_historical_stats.sql",
+    "historical_team_games": "db/migrations/036_nflverse_historical_stats.sql",
+    "historical_team_season_strength": "db/migrations/037_historical_team_season_strength.sql",
+    "huddle_enforcement": "db/migrations/048_huddle.sql",
+    "huddle_messages": "db/migrations/048_huddle.sql",
+    "huddle_poll_votes": "db/migrations/048_huddle.sql",
+    "huddle_polls": "db/migrations/048_huddle.sql",
+    "huddle_reactions": "db/migrations/048_huddle.sql",
+    "huddle_reports": "db/migrations/048_huddle.sql",
+    "huddle_user_filters": "db/migrations/048_huddle.sql",
+    "ingestion_jobs": "db/migrations/012_source_watcher_story_engine.sql",
+    "move_the_chains_accounts": "db/migrations/007_trivia.sql",
+    "move_the_chains_events": "db/migrations/007_trivia.sql",
+    "notification_deliveries": "db/migrations/003_notifications_and_devices.sql",
+    "notification_events": "db/migrations/003_notifications_and_devices.sql",
+    "observer_run_events": "db/migrations/018_monitor_observer.sql",
+    "observer_run_items": "db/migrations/018_monitor_observer.sql",
+    "observer_runs": "db/migrations/018_monitor_observer.sql",
+    "parlay_role_feed_runs": "db/migrations/050_parlay_role_evidence.sql",
+    "parlay_role_observations": "db/migrations/050_parlay_role_evidence.sql",
+    "provider_player_mappings": "db/migrations/035_parlay_lab_odds.sql",
+    "provider_team_mappings": "db/migrations/035_parlay_lab_odds.sql",
+    "reward_definitions": "db/migrations/011_move_the_chains_rewards.sql",
+    "search_documents": "db/migrations/017_search_documents.sql",
+    "security_audit_events": "db/migrations/005_security_audit.sql",
+    "sessions": "db/migrations/001_auth_identity.sql",
+    "sportsbook_events": "db/migrations/035_parlay_lab_odds.sql",
+    "sportsbook_price_snapshots": "db/migrations/035_parlay_lab_odds.sql",
+    "sportsbook_prices": "db/migrations/035_parlay_lab_odds.sql",
+    "story_domain_events": "db/migrations/012_source_watcher_story_engine.sql",
+    "story_editorial_overrides": "db/migrations/013_story_downstream_projections.sql",
+    "story_evidence": "db/migrations/012_source_watcher_story_engine.sql",
+    "story_publication_decisions": "db/migrations/014_story_automation_policy.sql",
+    "story_versions": "db/migrations/012_source_watcher_story_engine.sql",
+    "three_and_out_push_deliveries": "db/migrations/033_three_and_out_daily.sql",
+    "three_and_out_snapshots": "db/migrations/013_story_downstream_projections.sql",
+    "trivia_answers": "db/migrations/007_trivia.sql",
+    "trivia_challenges": "db/migrations/007_trivia.sql",
+    "trivia_daily_questions": "db/migrations/007_trivia.sql",
+    "trivia_daily_views": "db/migrations/008_trivia_gameplay_hardening.sql",
+    "trivia_event_registrations": "db/migrations/045_trivia_scheduled_events.sql",
+    "trivia_events": "db/migrations/045_trivia_scheduled_events.sql",
+    "trivia_friendships": "db/migrations/007_trivia.sql",
+    "trivia_game_participants": "db/migrations/007_trivia.sql",
+    "trivia_game_questions": "db/migrations/007_trivia.sql",
+    "trivia_games": "db/migrations/007_trivia.sql",
+    "trivia_groups": "db/migrations/007_trivia.sql",
+    "trivia_invitations": "db/migrations/009_trivia_buddies.sql",
+    "trivia_questions": "db/migrations/007_trivia.sql",
+    "trivia_rank_snapshots": "db/migrations/009_trivia_buddies.sql",
+    "trivia_stats": "db/migrations/007_trivia.sql",
+    "user_consents": "db/migrations/003_notifications_and_devices.sql",
+    "user_content_state": "db/migrations/004_user_content_state.sql",
+    "user_credentials": "db/migrations/001_auth_identity.sql",
+    "user_devices": "db/migrations/003_notifications_and_devices.sql",
+    "user_front_office_saves": "db/migrations/031_front_office_save_state.sql",
+    "user_identities": "db/migrations/001_auth_identity.sql",
+    "user_notification_preferences": "db/migrations/003_notifications_and_devices.sql",
+    "user_notifications": "db/migrations/003_notifications_and_devices.sql",
+    "user_phone_numbers": "db/migrations/003_notifications_and_devices.sql",
+    "user_player_follows": "db/migrations/008_trivia_gameplay_hardening.sql",
+    "user_poll_votes": "db/migrations/004_user_content_state.sql",
+    "user_predictions": "db/migrations/004_user_content_state.sql",
+    "user_preferences": "db/migrations/001_auth_identity.sql",
+    "user_profiles": "db/migrations/002_user_profiles_and_preferences.sql",
+    "user_push_tokens": "db/migrations/003_notifications_and_devices.sql",
+    "user_quiet_hours": "db/migrations/003_notifications_and_devices.sql",
+    "user_rewards": "db/migrations/011_move_the_chains_rewards.sql",
+    "user_saved_content": "db/migrations/004_user_content_state.sql",
+    "user_team_follows": "db/migrations/002_user_profiles_and_preferences.sql",
+    "user_team_visit_state": "db/migrations/004_user_content_state.sql",
+    "users": "db/migrations/001_auth_identity.sql",
+    "video_source_registry": "db/migrations/030_video_source_registry.sql",
+    "web_push_test_limits": "db/migrations/046_web_push.sql"
+  },
+  "postgresCompatibilityDependencies": {
+    "jsonb": [
+      "db/migrations/001_auth_identity.sql",
+      "db/migrations/002_user_profiles_and_preferences.sql",
+      "db/migrations/003_notifications_and_devices.sql",
+      "db/migrations/004_user_content_state.sql",
+      "db/migrations/005_security_audit.sql",
+      "db/migrations/010_get_caught_up.sql",
+      "db/migrations/011_move_the_chains_rewards.sql",
+      "db/migrations/012_source_watcher_story_engine.sql",
+      "db/migrations/013_story_downstream_projections.sql",
+      "db/migrations/016_game_day.sql",
+      "db/migrations/017_search_documents.sql",
+      "db/migrations/018_monitor_observer.sql",
+      "db/migrations/020_notification_center.sql",
+      "db/migrations/021_crews.sql",
+      "db/migrations/023_commerce.sql",
+      "db/migrations/027_content_automation_trial.sql",
+      "db/migrations/028_content_automation_global.sql",
+      "db/migrations/030_video_source_registry.sql",
+      "db/migrations/031_front_office_save_state.sql",
+      "db/migrations/032_front_office_events.sql",
+      "db/migrations/033_three_and_out_daily.sql",
+      "db/migrations/039_parlay_lab_research_first.sql",
+      "db/migrations/042_canonical_schedule.sql",
+      "db/migrations/043_beat_transaction_metadata.sql",
+      "db/migrations/044_beat_visual_classification.sql",
+      "db/migrations/048_huddle.sql",
+      "db/migrations/049_huddle_gif.sql",
+      "db/migrations/050_parlay_role_evidence.sql",
+      "db/migrations/051_fanduel_transfer_jobs.sql",
+      "db/migrations/053_front_office_durable_commands.sql",
+      "scripts/audit-phase-two.py",
+      "scripts/audit-unabated-coverage.ts",
+      "scripts/backfill-beat-semantics.ts",
+      "scripts/backfill-beat-transactions.ts",
+      "scripts/migrate-front-office.ts",
+      "scripts/prepare-draftkings-transfer-test.ts",
+      "scripts/prepare-unabated-fanduel-audit.ts",
+      "scripts/prepare-unabated-three-leg-test.ts",
+      "scripts/qualify-phase-two-postgres.py",
+      "scripts/seed-trivia.ts",
+      "scripts/sync-production-content-to-local.ts",
+      "src/server/commerce/catalog.ts",
+      "src/server/commerce/orders.ts",
+      "src/server/content-automation/repository.ts",
+      "src/server/content/content-health.ts",
+      "src/server/crew/repository.ts",
+      "src/server/film-room/discovered.ts",
+      "src/server/front-office/events-repository.ts",
+      "src/server/historical-stats/role-repository.ts",
+      "src/server/huddle/repository.ts",
+      "src/server/monitoring/observer.ts",
+      "src/server/odds/repository.ts",
+      "src/server/schedule/enrich.ts",
+      "src/server/story-engine/repository.ts",
+      "src/server/three-and-out/daily-service.ts",
+      "src/server/three-and-out/schema.ts",
+      "workers/content-engine/scripts/benchmark.ts",
+      "workers/content-engine/scripts/project.ts"
+    ],
+    "vector": [
+      "db/migrations/017_search_documents.sql",
+      "scripts/audit-phase-two.py",
+      "scripts/audit-team-logo-site.mjs",
+      "scripts/audit-team-logo.mjs",
+      "scripts/migrate-auth.ts",
+      "src/server/search/indexer.ts",
+      "src/server/search/retrieval.ts"
+    ],
+    "transaction": [
+      "scripts/audit-crew.ts",
+      "scripts/backfill-beat-semantics.ts",
+      "scripts/front-office-news-qa.ts",
+      "scripts/import-parlay-role-evidence.ts",
+      "scripts/migrate-huddle.ts",
+      "scripts/resolve-youtube-sources.ts",
+      "scripts/seed-trivia.ts",
+      "scripts/sync-production-content-to-local.ts",
+      "src/app/api/three-and-out/preferences/route.ts",
+      "src/server/auth/database.ts",
+      "src/server/auth/repository.ts",
+      "src/server/commerce/admin.ts",
+      "src/server/commerce/orders.ts",
+      "src/server/commerce/stripe.ts",
+      "src/server/crew/repository.ts",
+      "src/server/front-office/durable-route.ts",
+      "src/server/game-day/repository.ts",
+      "src/server/huddle/repository.ts",
+      "src/server/notifications/repository.ts",
+      "src/server/notifications/web-push-repository.ts",
+      "src/server/providers/unabated/transfer-service.ts",
+      "src/server/rewards/repository.ts",
+      "src/server/schedule/enrich.ts",
+      "src/server/schedule/ingest.ts",
+      "src/server/search/indexer.ts",
+      "src/server/story-engine/repository.ts",
+      "src/server/trivia/event-repository.ts",
+      "src/server/trivia/game-repository.ts",
+      "src/server/trivia/question-pool.ts",
+      "src/server/trivia/repository.ts",
+      "src/server/trivia/social-repository.ts",
+      "src/server/user/account-repository.ts",
+      "src/server/user/content-repository.ts",
+      "src/server/user/repository.ts"
+    ],
+    "array": [
+      "scripts/audit-crew.ts",
+      "scripts/backfill-team-content.ts",
+      "scripts/build-nfl-source-research.py",
+      "scripts/parlay-lab-audit.ts",
+      "scripts/report-phase-two.py",
+      "scripts/report-unabated-fanduel-audit.py",
+      "src/app/api/parlay-lab/my-plays/grade/route.ts",
+      "src/features/story-engine/material-change.ts",
+      "src/server/commerce/catalog.ts",
+      "src/server/commerce/orders.ts",
+      "src/server/crew/repository.ts",
+      "src/server/historical-stats/importer.ts",
+      "src/server/historical-stats/repository.ts",
+      "src/server/historical-stats/role-repository.ts",
+      "src/server/historical-stats/team-matchup-service.ts",
+      "src/server/schedule/enrich.ts",
+      "src/server/schedule/repository.ts",
+      "src/server/search/indexer.ts",
+      "src/server/story-engine/projections.ts",
+      "src/server/story-engine/repository.ts",
+      "src/server/user/content-repository.ts"
+    ],
+    "row-lock": [
+      "scripts/audit-phase-two.py",
+      "src/server/commerce/orders.ts",
+      "src/server/commerce/stripe.ts",
+      "src/server/crew/repository.ts",
+      "src/server/front-office/durable-route.ts",
+      "src/server/front-office/events-repository.ts",
+      "src/server/game-day/repository.ts",
+      "src/server/providers/unabated/transfer-service.ts",
+      "src/server/rewards/repository.ts",
+      "src/server/story-engine/repository.ts",
+      "src/server/trivia/event-repository.ts",
+      "src/server/trivia/game-repository.ts",
+      "src/server/trivia/social-repository.ts",
+      "src/server/user/content-repository.ts"
+    ],
+    "advisory-lock": [
+      "scripts/audit-unabated-coverage.ts",
+      "src/server/commerce/orders.ts",
+      "src/server/commerce/stripe.ts",
+      "src/server/huddle/repository.ts",
+      "src/server/providers/unabated/transfer-service.ts"
+    ]
+  },
+  "schedules": {
+    ".github/workflows/draft-prospect-sync.yml": "name: 2027 Draft Prospect Sync\n\non:\n  workflow_dispatch:\n  schedule:\n    - cron: '15 8 * * *'\n\njobs:\n  sync:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    permissions:\n      contents: write\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: npm\n      - run: npm ci\n      - run: npm run sync:draft-prospects\n      - name: Commit a validated reference-data version\n        run: |\n          if [[ -n \"$(git status --porcelain src/server/data/draft-prospects-2027.json src/server/data/draft-prospects-2027.meta.json)\" ]]; then\n            git config user.name \"github-actions[bot]\"\n            git config user.email \"41898282+github-actions[bot]@users.noreply.github.com\"\n            git add src/server/data/draft-prospects-2027.json src/server/data/draft-prospects-2027.meta.json\n            git commit -m \"chore: refresh 2027 draft prospects\"\n            git push\n          fi\n",
+    ".github/workflows/nfl-data-sync.yml": "name: NFL Data Sync\n\non:\n  workflow_dispatch:\n  schedule:\n    - cron: '0 3 * * *'\n\njobs:\n  sync:\n    permissions:\n      contents: write\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    steps:\n      - name: Checkout\n        uses: actions/checkout@v4\n\n      - name: Setup Node\n        uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: npm\n\n      - name: Install dependencies\n        run: npm ci\n\n      - name: Sync NFL data\n        run: npm run sync:nfl-data\n\n      - name: Commit updated data (if changed)\n        run: |\n          if [[ -n \"$(git status --porcelain src/server/data/nfl-data.json)\" ]]; then\n            git config user.name \"github-actions[bot]\"\n            git config user.email \"41898282+github-actions[bot]@users.noreply.github.com\"\n            git add src/server/data/nfl-data.json\n            git commit -m \"chore: daily nfl data refresh\"\n            git push\n          fi\n",
+    ".github/workflows/search-index.yml": "name: Search index reconciliation\n\non:\n  workflow_dispatch:\n    inputs:\n      full:\n        description: Run a full reindex\n        type: boolean\n        default: false\n  schedule:\n    - cron: '30 4 * * *'\n\njobs:\n  index:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: npm\n      - run: npm ci\n      - name: Reconcile search index\n        env:\n          DATABASE_URL: ${{ secrets.DATABASE_URL }}\n          SEARCH_EMBEDDING_BASE_URL: ${{ secrets.SEARCH_EMBEDDING_BASE_URL }}\n          SEARCH_EMBEDDING_ENABLED: 'false'\n          SEARCH_EMBEDDING_MODEL: BAAI/bge-small-en-v1.5\n        run: npm run search:index -- ${{ inputs.full && '--full' || '' }}\n",
+    ".github/workflows/three-and-out-daily.yml": "name: Three & Out daily briefing\n\non:\n  schedule:\n    # Evaluate IANA-local delivery times all day; generate missing daily briefings on demand.\n    - cron: '*/5 * * * *'\n  workflow_dispatch:\n    inputs:\n      action:\n        description: Generate, deliver, or check deployment readiness\n        required: true\n        default: generate\n        type: choice\n        options:\n          - generate\n          - deliver\n          - check\n\nconcurrency:\n  group: three-and-out-daily\n  cancel-in-progress: false\n\njobs:\n  run:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    steps:\n      - name: Generate or deliver daily briefings\n        env:\n          BASE_URL: ${{ secrets.CONTENT_AUTOMATION_BASE_URL }}\n          AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}\n          MANUAL_ACTION: ${{ inputs.action }}\n          EVENT_NAME: ${{ github.event_name }}\n          SCHEDULE: ${{ github.event.schedule }}\n        run: |\n          set -euo pipefail\n\n          if [ -z \"$BASE_URL\" ]; then\n            echo \"::error::CONTENT_AUTOMATION_BASE_URL is not configured in repository Actions secrets.\"\n            exit 1\n          fi\n          if [ -z \"$AUTOMATION_SECRET\" ]; then\n            echo \"::error::CONTENT_AUTOMATION_SECRET is not configured in repository Actions secrets.\"\n            exit 1\n          fi\n          case \"$BASE_URL\" in\n            http://*|https://*) ;;\n            *)\n              echo \"::error::CONTENT_AUTOMATION_BASE_URL must be a complete http:// or https:// URL.\"\n              exit 1\n              ;;\n          esac\n\n          if [ \"$EVENT_NAME\" = \"workflow_dispatch\" ]; then\n            action=\"$MANUAL_ACTION\"\n          else\n            action=\"deliver\"\n          fi\n          curl --fail-with-body --retry 2 --request POST \\\n            --header \"Authorization: Bearer $AUTOMATION_SECRET\" \\\n            \"${BASE_URL%/}/api/automation/three-and-out?action=$action\"\n"
+  }
+}

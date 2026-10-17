@@ -1,0 +1,33 @@
+# NFL source cost analysis
+
+Evidence captured 2026-10-17T03:36:07.278264+00:00. Isolated branch `poc/nfl-source-expansion`, base `5e1a6ec5`. Public publisher research and local tests only. No production/account/DB access, sends, deployment, paid services, or schedule changes. Production enablement, traffic, historical success, average volume and error rate are **UNKNOWN**.
+
+**Added live infrastructure cost is $0 because new ingestion remains disabled. A whole-product $0 launch is NOT certified.** Current account quotas, billing plan and usage cannot be determined from source code and were not accessed. Current traffic is UNKNOWN. Scenario DAU and content volume are explicit assumptions, not analytics.
+
+Published reference allowances are account-wide: Workers Free 100,000 requests/day and 10 ms CPU/invocation; D1 5 million rows read and 100,000 written/day including indexes, 500 MB/database and 5 GB/account. Additional databases do not add daily write allowance. [Worker limits](https://developers.cloudflare.com/workers/platform/limits/), [D1 limits](https://developers.cloudflare.com/d1/platform/limits/), [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/). R2 Standard includes 10 GB-month, 1 million Class A and 10 million Class B operations/month; these are allowances, not a hard spending cap. [R2 pricing](https://developers.cloudflare.com/r2/pricing/). No KV/Queues were added; their unused allowances do not subsidize D1 writes.
+
+The main branch has PostgreSQL ingestion, not the D1 POC. Local commit `074f0e60` measured 474.18 MB standard / 535.87 MB entropy after conditional archival cleanup, both above the 350 MB target. Subsequent isolated commit `ae40533f` modeled lean D1/R2 at 321.16 MB D1 and 6,025.14 MB R2 at 365 days with 67,709 writes/day. That separate experiment did not certify production CPU, current accounts, live source throughput or complete $0 hosting. Its baseline is a conditional sensitivity reference here, not a merged architecture or a new benchmark result.
+
+The model uses 200 baseline unique candidates/day, 1,040 checks/day, 1,400 terminal jobs/day and the prior local measurements of 30.26 writes/candidate, 10.03/check and 26/job. Additional checks/candidates each conservatively add a job. Incremental retained D1 estimates are 2,048 bytes/candidate, 256/check and 192/job, including a planning allowance for metadata/index/receipt storage; these are assumptions requiring measured page audits on the final architecture. R2 adds two immutable 8 KiB payload copies/candidate plus eight D1 backup copies. Raw copyrighted bodies are not assumed ingestible. Higher entropy/worst-case 512,000-byte original payloads must be budgeted separately; each extra 200/day at that ceiling would add 74.75 GB/year for two copies before backups, exceeding R2 Free.
+
+There are 164 unique feed-capable source identities. An **evaluation-only** eight-checks/feed/day ceiling would require 1,312 feed requests/day; existing global batch scheduling supports at most 80 new fetch jobs/day. This model does not change cron or assert that throughput is delivered. Unknown measured daily volume yields no adaptive interval recommendation. More source diversity should replace redundant fetches/content, not imply linear unbounded new candidates. A seven-day, explicitly authorized health observation is needed before setting per-source adaptive cadence. Conditional requests reduce transfer/parsing; they still consume HTTP requests, checks and scheduling/health writes.
+
+| Scenario | Assumed DAU | Unique candidates/day | Feed requests/day | Worker requests/day | D1 reads/day | D1 writes/day | D1 MB 365 | R2 MB 365 | R2 A/month | R2 B/month | Monthly cost |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| current-reference-only | 0 | 200 | 1312 | 8311 | 1955414 | 77510 | 365.64 | 6380.96 | 256212 | 1255800 | $0 conditional |
+| launch | 1000 | 400 | 1312 | 49351 | 2287734 | 88762 | 529.16 | 8885.15 | 268212 | 4449120 | Unknown / not Free-feasible |
+| 2x-launch | 2000 | 800 | 1312 | 90631 | 2624054 | 111266 | 856.2 | 13893.54 | 292212 | 7654440 | Unknown / not Free-feasible |
+| 5x-launch | 5000 | 2000 | 1312 | 214471 | 3633014 | 178778 | 1837.32 | 28918.69 | 364212 | 17270400 | Unknown / not Free-feasible |
+
+| Scenario | 30d D1 MB | 90d D1 MB | 180d D1 MB | 365d D1 MB | First blocker |
+| --- | --- | --- | --- | --- | --- |
+| current-reference-only | 30.05 | 90.16 | 180.31 | 365.64 | 350 MB engineering target before year end |
+| launch | 43.49 | 130.48 | 260.95 | 529.16 | 500 MB D1 storage before year end |
+| 2x-launch | 70.37 | 211.12 | 422.23 | 856.2 | D1 daily writes from day one |
+| 5x-launch | 151.01 | 453.04 | 906.07 | 1837.32 | Worker requests and D1 daily writes from day one |
+
+The zero-DAU reference is NOT current traffic/usage: its enlarged feed workload still exceeds the engineering storage target. Current-traffic first limit is UNKNOWN. At launch D1 storage fails; at 2× launch D1 writes fail immediately and R2 storage later; at 5× launch requests and writes fail immediately, and R2 storage/Class B also fail. No paid overage is activated or quoted as an acceptable fallback. Formulae and all scenario inputs are in `cost-model.ts` and `cost-scenarios.json`. Traffic assumptions affect API reads/requests; source volume is explicitly varied separately rather than assuming users themselves create news.
+
+Worker CPU is UNMEASURED. Local parse timing is Node wall time and cannot establish a Cloudflare 10 ms CPU pass. See `reports/source-expansion/local-benchmark.json` for typical, large and near-1-MiB feed parse/normalize/hash timings; no network, database or deployed Worker CPU was measured. Neither a 60-second Next route timeout nor cron wall time changes that CPU limit. Existing scheduler only performs the forwarding request; source parsing occurs on the Next/PostgreSQL host. Existing Next SSR/native Argon2, PostgreSQL hosting/wakeups, email delivery and AI hosting still require provider-specific budgets. Five-minute Three & Out database polling can prevent free PostgreSQL suspension; the prior Neon example (0.25 CU continuously = 180 CU-hours/month) exceeded its 100 CU-hour Free allowance. [Neon pricing](https://neon.com/pricing).
+
+New external API usage is zero. X API access is not assumed free, and X references are DISCOVERY_ONLY. [X API pricing](https://docs.x.com/x-api/getting-started/pricing). Existing YouTube playlist polling costs quota per request; account project quota/credentials are unverified, and unresolved channel handles remain held. [YouTube quota costs](https://developers.google.com/youtube/data/determine_quota_cost). Paid search/news/AI dependencies were not introduced.

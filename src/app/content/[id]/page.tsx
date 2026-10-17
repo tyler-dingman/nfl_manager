@@ -8,8 +8,7 @@ import { notFound } from 'next/navigation';
 
 import ContentPageAnalytics from '@/components/content/content-page-analytics';
 import ShareToCrewButton from '@/components/crew/share-to-crew-button';
-import { NewsGraphic } from '@/components/front-office/news-graphics/NewsGraphic';
-import { resolveNewsGraphicVariant } from '@/components/front-office/news-graphics/news-graphic-variant';
+import { ArticleHero } from '@/components/content/article-hero';
 import { FanPulse } from '@/components/fan-pulse/fan-pulse';
 import MainSiteHeader from '@/components/main-site-header';
 import TeamThemeProvider from '@/components/team-theme-provider';
@@ -134,41 +133,9 @@ export default async function ContentDetailPage({ params }: { params: { id: stri
         <MainSiteHeader teamAbbr={item.teamAbbr} active="huddle" />
         <main>
           <article>
-            <header className="bg-[var(--dark)] text-white">
-              <NewsGraphic
-                variant={resolveNewsGraphicVariant(item.category, item.headline)}
-                size="hero"
-                team={
-                  team
-                    ? {
-                        id: team.id,
-                        abbreviation: team.abbr,
-                        displayName: `${team.city} ${team.name}`,
-                        primaryColor: team.color_primary,
-                        secondaryColor: team.color_secondary,
-                      }
-                    : undefined
-                }
-                label={`${config.label} · ${item.teamAbbr}`}
-                headline={displayHeadline}
-                description={item.summary}
-              />
-              <div className="mx-auto flex max-w-[1240px] flex-wrap gap-x-3 gap-y-1 px-4 py-3 text-xs font-semibold text-white/80 sm:px-6 lg:px-8">
-                <time dateTime={publishedAt}>
-                  Published {new Date(publishedAt).toLocaleString()}
-                </time>
-                <span aria-hidden="true">·</span>
-                <time dateTime={item.updatedAt}>
-                  Updated {new Date(item.updatedAt).toLocaleString()}
-                </time>
-                <span aria-hidden="true">·</span>
-                <span>
-                  {item.sourceCount} {item.sourceCount === 1 ? 'source' : 'sources'}
-                </span>
-              </div>
-            </header>
+            <ArticleHero story={{ ...item, publishedAt }} />
 
-            <div className="mx-auto max-w-[1240px] px-4 py-6 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 pb-6 pt-4 sm:px-6 lg:px-8">
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <Link
                   href={`/the-beat?team=${item.teamAbbr}`}

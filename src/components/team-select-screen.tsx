@@ -154,6 +154,12 @@ function TeamSelectScreenInner() {
           router.push(getOffseasonManagerRoute('/experience', team.abbr));
           return;
         }
+        const recoveryBytes = localStorage.getItem('nfl-manager-save');
+        if (recoveryBytes)
+          localStorage.setItem(
+            `nfl-manager-save-recovery:${localStorage.getItem('dd-franchise-cache-owner') ?? 'unverified'}:${activeSaveId || 'unknown'}`,
+            recoveryBytes,
+          );
         clearSave();
         resetForNewRun();
         setSelectedTeamId(team.id);
@@ -165,7 +171,16 @@ function TeamSelectScreenInner() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ teamAbbr: team.abbr }),
         });
-        if (!response.ok) throw new Error('Unable to open Front Office. Please try again.');
+        if (!response.ok) {
+          const failure = await response.json().catch(() => ({}));
+          const recoveryId = response.headers.get('X-Franchise-Id');
+          if (failure.code === 'FRANCHISE_RECOVERY_REQUIRED' && recoveryId) {
+            useSaveStore.setState({ saveId: recoveryId, teamId: team.id, teamAbbr: team.abbr });
+            router.push(getOffseasonManagerRoute('/experience', team.abbr));
+            return;
+          }
+          throw new Error(failure.error ?? 'Unable to open Front Office. Please try again.');
+        }
         const data = (await response.json()) as
           | (SaveBootstrapDTO & { unlocked?: SaveBootstrapDTO['unlocked'] })
           | { ok: false; error: string };

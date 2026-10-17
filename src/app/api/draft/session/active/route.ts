@@ -1,9 +1,10 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { getDraftSession } from '@/server/api/draft';
 import { listSaveStates } from '@/server/api/store';
 
-export const GET = async (request: Request) => {
+const handleGET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const saveId = searchParams.get('saveId');
 
@@ -35,3 +36,5 @@ export const GET = async (request: Request) => {
   const session = getDraftSession(activeSession.id, saveId);
   return NextResponse.json({ ok: true, session });
 };
+
+export const GET = withFranchiseRoute(handleGET, {});

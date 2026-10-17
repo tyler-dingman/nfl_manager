@@ -40,7 +40,10 @@ async function request<T>(path: string, body?: object, method = 'POST'): Promise
   );
   const result = await response.json();
   if (!response.ok || result.ok === false)
-    throw new Error(result.error ?? 'Unable to load your franchise.');
+    throw Object.assign(new Error(result.error ?? 'Unable to load your franchise.'), {
+      code: result.code,
+      saveId: response.headers.get('X-Franchise-Id'),
+    });
   return result;
 }
 export function FranchiseExperience({
@@ -68,11 +71,14 @@ export function FranchiseExperience({
   const [unreadNews, setUnreadNews] = useState(0);
   const [newsRevision, setNewsRevision] = useState(0);
   useEffect(() => {
-    DeviceEventEmitter.emit('front-office-news-active', {saveId});
-    const listener = DeviceEventEmitter.addListener('front-office-news-updated', payload => {
-      if(payload.saveId === saveId) setNewsRevision(n=>n+1);
+    DeviceEventEmitter.emit('front-office-news-active', { saveId });
+    const listener = DeviceEventEmitter.addListener('front-office-news-updated', (payload) => {
+      if (payload.saveId === saveId) setNewsRevision((n) => n + 1);
     });
-    return () => { listener.remove(); DeviceEventEmitter.emit('front-office-news-active', {saveId:null}); };
+    return () => {
+      listener.remove();
+      DeviceEventEmitter.emit('front-office-news-active', { saveId: null });
+    };
   }, [saveId]);
   useEffect(() => {
     let active = true;
@@ -92,30 +98,32 @@ export function FranchiseExperience({
 
   const [heroPlayerId, setHeroPlayerId] = useState<string>();
   const [heroFacility, setHeroFacility] = useState<string>();
+  const [recoveryId, setRecoveryId] = useState<string | null>(null);
   const key = `dd-franchise-${user?.id ?? 'guest'}-${teamId}`;
   useEffect(() => {
     let active = true;
     setRestoring(true);
     setState(null);
     setSaveId(null);
+    setRecoveryId(null);
+    setError('');
     void deviceStorage
       .get(key)
       .then(async (id) => {
         if (!id) return;
-        const restored = await request<{ saveId: string }>('/api/saves/create', {
-          teamAbbr: teamId,
-        });
         const result = await request<{
           state: { simulation: FranchiseSimulationState | null } | null;
-        }>(`/api/front-office/state?saveId=${encodeURIComponent(restored.saveId)}`);
-        id = restored.saveId;
+        }>(`/api/front-office/state?saveId=${encodeURIComponent(id)}`);
         if (active) {
           setSaveId(id);
           setState(result.state?.simulation ?? null);
         }
       })
-      .catch(() => {
-        if (active) setError('Unable to restore your franchise. Try again.');
+      .catch((e) => {
+        if (active) {
+          setError(e instanceof Error ? e.message : 'Unable to restore your franchise. Try again.');
+          if (e.code === 'FRANCHISE_RECOVERY_REQUIRED') setRecoveryId(e.saveId);
+        }
       })
       .finally(() => {
         if (active) setRestoring(false);
@@ -129,9 +137,13 @@ export function FranchiseExperience({
     setBusy(true);
     setError('');
     try {
-      const save = await request<{ saveId: string; year: number }>('/api/saves/create', {
-        teamAbbr: teamId,
-      });
+      const save = saveId
+        ? await request<{ saveId: string; year: number }>(
+            `/api/saves/header?saveId=${encodeURIComponent(saveId)}`,
+          )
+        : await request<{ saveId: string; year: number }>('/api/saves/create', {
+            teamAbbr: teamId,
+          });
       const existing = await request<{
         state: { simulation: FranchiseSimulationState | null } | null;
       }>(`/api/front-office/state?saveId=${encodeURIComponent(save.saveId)}`);
@@ -164,6 +176,8 @@ export function FranchiseExperience({
       setSection(path === 'full' ? 'Overview' : path === 'draft' ? 'Draft' : 'Free Agency');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unable to start your franchise.');
+      if ((e as { code?: string }).code === 'FRANCHISE_RECOVERY_REQUIRED')
+        setRecoveryId((e as { saveId: string }).saveId);
     } finally {
       setBusy(false);
     }
@@ -183,12 +197,17 @@ export function FranchiseExperience({
     };
   }, [saveId, section]);
   async function resetToWeekOne() {
-    if (busy || !state) return;
+    if (busy) return;
     setBusy(true);
     setError('');
     try {
-      const fresh = await restartFranchiseAtWeekOne(authenticatedFetch, teamId, state.season);
+      const fresh = await restartFranchiseAtWeekOne(
+        authenticatedFetch,
+        teamId,
+        state?.season ?? 2026,
+      );
       await deviceStorage.set(key, fresh.header.saveId);
+      setRecoveryId(null);
       setSaveId(fresh.header.saveId);
       setState(fresh.state);
       setSection('Overview');
@@ -286,7 +305,38 @@ export function FranchiseExperience({
         </Text>
       )}
       {busy && <ActivityIndicator color="white" />}
-      {!state ? (
+      {recoveryId ? (
+        <View style={{ padding: 16, gap: 12 }}>
+          <Text style={s.title}>Franchise recovery required</Text>
+          <Text style={s.copy}>
+            Your original franchise is preserved. Gameplay is paused until its complete roster,
+            contracts, market, and draft data are recovered and confirmed.
+          </Text>
+          <Pressable
+            accessibilityRole="button"
+            onPress={async () => {
+              try {
+                const report = await request<{ report: unknown }>(
+                  `/api/front-office/recovery?saveId=${encodeURIComponent(recoveryId)}`,
+                );
+                Alert.alert('Recovery report', JSON.stringify(report.report));
+              } catch (e) {
+                setError(e instanceof Error ? e.message : 'Unable to load recovery report.');
+              }
+            }}
+          >
+            <Text style={s.copy}>View recovery report</Text>
+          </Pressable>
+          <Text style={s.copy}>A separate franchise will keep this original save.</Text>
+          <Pressable
+            accessibilityRole="button"
+            disabled={busy}
+            onPress={() => void resetToWeekOne()}
+          >
+            <Text style={s.copy}>Start a separate franchise</Text>
+          </Pressable>
+        </View>
+      ) : !state ? (
         <NativeFrontOfficeStart teamId={teamId} busy={busy} onStart={(path) => void start(path)} />
       ) : (
         <>

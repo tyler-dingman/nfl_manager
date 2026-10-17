@@ -10,6 +10,7 @@ import { beatFont } from './beat-font';
 import { beatTeam, type BeatGraphicData } from './beat-model';
 import { beatComposition } from './beat-composition';
 import styles from './beat-card.module.css';
+import { beatRecipeFamily } from '../../../packages/beat/article-hero';
 
 type Slot = {
   x: number;
@@ -86,38 +87,33 @@ export function BeatGraphic({
   selectedTeam,
   category,
   age,
+  presentation = 'card',
 }: {
   data: BeatGraphicData;
   selectedTeam: string;
   category: string;
   age: string | null;
+  presentation?: 'card' | 'article';
 }) {
-  if (category.trim().toUpperCase() === 'EDITORIAL') {
-    return <EditorialCardGraphic team={selectedTeam} age={age} family={data.family} />;
+  if (
+    category.trim().toUpperCase() === 'EDITORIAL' ||
+    (presentation === 'article' && data.family === 'analysis')
+  ) {
+    return (
+      <EditorialCardGraphic
+        team={selectedTeam}
+        age={age}
+        family={data.family}
+        presentation={presentation}
+      />
+    );
   }
   const composition = beatComposition(
     data,
     (abbr) => <Logo abbr={abbr} x={0} y={0} width={80} height={80} />,
     beatTeam(selectedTeam) ?? 'NFL',
   );
-  const recipeFamily =
-    data.family === 'off_field'
-      ? 'business-community'
-      : data.family === 'analysis'
-        ? 'league'
-        : data.family === 'depth-chart'
-          ? 'league'
-          : data.family === 'mailbag'
-            ? 'business-community'
-            : data.family === 'practice'
-              ? 'standard-c'
-              : data.family === 'roster-roundup'
-                ? 'transaction'
-                : data.family === 'recap'
-                  ? 'game-matchup'
-                  : data.family === 'interview' || data.family === 'team-update'
-                    ? 'league'
-                    : data.family;
+  const recipeFamily = beatRecipeFamily(data.family);
   const recipe = manifest.recipes[recipeFamily];
   const team = beatTeam(selectedTeam) ?? 'NFL';
   const text: Record<string, ReactNode> = {
@@ -236,7 +232,11 @@ export function BeatGraphic({
     return true;
   });
   return (
-    <div className={`${styles.graphic} ${beatFont.variable}`} data-beat-family={data.family}>
+    <div
+      className={`${styles.graphic} ${beatFont.variable}`}
+      data-beat-family={data.family}
+      data-presentation={presentation}
+    >
       <div className={styles.canvas}>
         {layerIds.map((id) => {
           const asset = manifest.assets.find((asset) => asset.id === id)!;
@@ -284,6 +284,9 @@ export function BeatGraphic({
           <span className="sr-only">Position: {data.position ?? ''}</span>
         ) : null}
         {composition ?? extra}
+        {presentation === 'article' && data.family === 'player' ? (
+          <span className={styles.articleTeam}>{team}</span>
+        ) : null}
         <span className={styles.marker} aria-hidden="true" />
         <span className={styles.category}>{category.replaceAll('_', ' ')}</span>
         {age ? <span className={styles.age}>{age}</span> : null}

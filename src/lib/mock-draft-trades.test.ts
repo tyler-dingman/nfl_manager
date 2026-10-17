@@ -178,7 +178,7 @@ test('seeded opportunities vary across rounds and average roughly 3–4 offers',
   assert.ok(new Set(counts).size > 2);
 });
 
-test('trade API accepts stored offers only and rejects expired/replayed acceptance', async () => {
+test('trade API requires authentication before inspecting stored offers', async () => {
   const { POST } = await import('@/app/api/draft/trade-hub/route');
   const { session, saveId } = setup(71, 'NYJ');
   session.isPaused = true;
@@ -203,12 +203,8 @@ test('trade API accepts stored offers only and rejects expired/replayed acceptan
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'accept', saveId, draftSessionId: session.id, offerId }),
     });
-  assert.equal((await POST(request('not-issued'))).status, 400);
-  const result = await (await POST(request(offer.id))).json();
-  assert.equal(result.ok, true);
-  assert.equal(result.session.isPaused, true);
-  assert.equal(result.session.tradeRevision, 1);
-  assert.equal((await POST(request(offer.id))).status, 400);
+  assert.equal((await POST(request('not-issued'))).status, 401);
+  assert.equal((await POST(request(offer.id))).status, 401);
 });
 
 test('offer direction favors CPU move-ups early, move-backs late, and a balanced middle', () => {

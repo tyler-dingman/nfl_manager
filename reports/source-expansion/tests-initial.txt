@@ -1,0 +1,412 @@
+TAP version 13
+# Subtest: normalizes harmless channel-title punctuation differences
+ok 1 - normalizes harmless channel-title punctuation differences
+  ---
+  duration_ms: 1.040125
+  ...
+# Subtest: accepts one exact approved channel title and refuses guesses
+ok 2 - accepts one exact approved channel title and refuses guesses
+  ---
+  duration_ms: 0.225
+  ...
+# Subtest: resolves official and podcast channels before lower-priority sources
+ok 3 - resolves official and podcast channels before lower-priority sources
+  ---
+  duration_ms: 0.176791
+  ...
+# Subtest: tier 3 cannot establish a push by itself
+ok 4 - tier 3 cannot establish a push by itself
+  ---
+  duration_ms: 1.27325
+  ...
+# Subtest: tier 2 becomes a candidate rather than an independent breaking push
+ok 5 - tier 2 becomes a candidate rather than an independent breaking push
+  ---
+  duration_ms: 0.177167
+  ...
+# Subtest: official high impact events can push
+ok 6 - official high impact events can push
+  ---
+  duration_ms: 0.109541
+  ...
+# Subtest: repeat event without a material update is suppressed
+ok 7 - repeat event without a material update is suppressed
+  ---
+  duration_ms: 0.177833
+  ...
+# Subtest: monitoring registry covers all 32 NFL teams with unique source ids
+ok 8 - monitoring registry covers all 32 NFL teams with unique source ids
+  ---
+  duration_ms: 2.508875
+  ...
+# Subtest: every new team baseline includes official, SB Nation, FanSided, and national tier-one sources
+ok 9 - every new team baseline includes official, SB Nation, FanSided, and national tier-one sources
+  ---
+  duration_ms: 0.767291
+  ...
+# Subtest: requested example team publications are present
+ok 10 - requested example team publications are present
+  ---
+  duration_ms: 0.211458
+  ...
+# Subtest: same-publisher Tier 2 items merge but count as one independent source
+ok 11 - same-publisher Tier 2 items merge but count as one independent source
+  ---
+  duration_ms: 2.552625
+  ...
+# Subtest: two independent Tier 2 publishers can publish one factual event
+ok 12 - two independent Tier 2 publishers can publish one factual event
+  ---
+  duration_ms: 2.101458
+  ...
+# Subtest: single Tier 1 factual trade and injury can publish immediately
+ok 13 - single Tier 1 factual trade and injury can publish immediately
+  ---
+  duration_ms: 0.811541
+  ...
+# Subtest: corroborated lower-scoring Tier 2 sources clear the tuned threshold
+ok 14 - corroborated lower-scoring Tier 2 sources clear the tuned threshold
+  ---
+  duration_ms: 0.6215
+  ...
+# Subtest: Tier 3 does not count as independent corroboration but can publish in all-tier mode
+ok 15 - Tier 3 does not count as independent corroboration but can publish in all-tier mode
+  ---
+  duration_ms: 0.490084
+  ...
+# Subtest: single Tier 3 concrete factual report publishes in all-tier mode
+ok 16 - single Tier 3 concrete factual report publishes in all-tier mode
+  ---
+  duration_ms: 0.38875
+  ...
+# Subtest: approved editorial source publishes analysis while preserving its source title
+ok 17 - approved editorial source publishes analysis while preserving its source title
+  ---
+  duration_ms: 0.238584
+  ...
+# Subtest: different headlines describing the Diego Pounds trade cluster
+ok 18 - different headlines describing the Diego Pounds trade cluster
+  ---
+  duration_ms: 0.727375
+  ...
+# Subtest: same player but different factual event does not merge
+ok 19 - same player but different factual event does not merge
+  ---
+  duration_ms: 0.5535
+  ...
+# Subtest: similar analysis topics do not auto-merge
+ok 20 - similar analysis topics do not auto-merge
+  ---
+  duration_ms: 0.728792
+  ...
+# Subtest: evolving Josh Simmons injury updates cluster
+ok 21 - evolving Josh Simmons injury updates cluster
+  ---
+  duration_ms: 0.1975
+  ...
+# Subtest: materially conflicting reports require review
+ok 22 - materially conflicting reports require review
+  ---
+  duration_ms: 0.441792
+  ...
+# Subtest: misclassified list and reaction coverage does not auto-publish as a factual event
+ok 23 - misclassified list and reaction coverage does not auto-publish as a factual event
+  ---
+  duration_ms: 0.577959
+  ...
+# Subtest: daily local-AI cap defaults to ten per team
+ok 24 - daily local-AI cap defaults to ten per team
+  ---
+  duration_ms: 1.540541
+  ...
+# Subtest: new local-AI stories stop at ten
+ok 25 - new local-AI stories stop at ten
+  ---
+  duration_ms: 0.311
+  ...
+# Subtest: existing canonical story updates remain allowed after the new-story cap
+ok 26 - existing canonical story updates remain allowed after the new-story cap
+  ---
+  duration_ms: 0.207833
+  ...
+# Subtest: invalid caps fail closed
+ok 27 - invalid caps fail closed
+  ---
+  duration_ms: 0.436875
+  ...
+# Subtest: official high-confidence factual story auto-publishes and can break
+ok 28 - official high-confidence factual story auto-publishes and can break
+  ---
+  duration_ms: 3.143667
+  ...
+# Subtest: rumors and conflicts require review
+ok 29 - rumors and conflicts require review
+  ---
+  duration_ms: 0.971541
+  ...
+# Subtest: unsupported content is not published and editor overrides win
+ok 30 - unsupported content is not published and editor overrides win
+  ---
+  duration_ms: 0.344417
+  ...
+# Subtest: named polling tiers and per-source overrides use expected intervals
+ok 31 - named polling tiers and per-source overrides use expected intervals
+  ---
+  duration_ms: 0.853083
+  ...
+# Subtest: scheduling uses interval and bounded exponential backoff
+ok 32 - scheduling uses interval and bounded exponential backoff
+  ---
+  duration_ms: 7.286833
+  ...
+# Subtest: RSS parser and normalizer produce stable candidates
+ok 33 - RSS parser and normalizer produce stable candidates
+  ---
+  duration_ms: 4.556708
+  ...
+# Subtest: language guard rejects Spanish stories before candidate creation
+ok 34 - language guard rejects Spanish stories before candidate creation
+  ---
+  duration_ms: 0.658584
+  ...
+# Subtest: aggregator headlines outrank unrelated team mentions in feed descriptions
+ok 35 - aggregator headlines outrank unrelated team mentions in feed descriptions
+  ---
+  duration_ms: 0.689917
+  ...
+# Subtest: Atom parser preserves CDATA titles and summaries
+ok 36 - Atom parser preserves CDATA titles and summaries
+  ---
+  duration_ms: 2.54775
+  ...
+# Subtest: clustering merges strong matches and flags the ambiguous band
+ok 37 - clustering merges strong matches and flags the ambiguous band
+  ---
+  duration_ms: 1.900625
+  ...
+# Subtest: official resolution is material while repeated wording is not
+ok 38 - official resolution is material while repeated wording is not
+  ---
+  duration_ms: 1.171333
+  ...
+# Subtest: publishability hides drafts and review stories
+ok 39 - publishability hides drafts and review stories
+  ---
+  duration_ms: 0.849333
+  ...
+# Subtest: Huddle excludes Three and Out and favors topic diversity
+ok 40 - Huddle excludes Three and Out and favors topic diversity
+  ---
+  duration_ms: 24.507083
+  ...
+# Subtest: Wire emits one entry per meaningful story version
+ok 41 - Wire emits one entry per meaningful story version
+  ---
+  duration_ms: 28.124958
+  ...
+# Subtest: all 32 teams have official and Locked On candidates
+ok 42 - all 32 teams have official and Locked On candidates
+  ---
+  duration_ms: 1.877166
+  ...
+# Subtest: active sources can never omit canonical channel identity
+ok 43 - active sources can never omit canonical channel identity
+  ---
+  duration_ms: 0.359083
+  ...
+# Subtest: multi-team video requires explicit team evidence
+ok 44 - multi-team video requires explicit team evidence
+  ---
+  duration_ms: 0.473375
+  ...
+# Subtest: team source is a prior, not unconditional assignment
+ok 45 - team source is a prior, not unconditional assignment
+  ---
+  duration_ms: 0.159416
+  ...
+# Subtest: YouTube polling uses the low-cost uploads playlist endpoint
+ok 46 - YouTube polling uses the low-cost uploads playlist endpoint
+  ---
+  duration_ms: 33.756167
+  ...
+# Subtest: maps discovered YouTube candidates into the Film Room response contract
+ok 47 - maps discovered YouTube candidates into the Film Room response contract
+  ---
+  duration_ms: 3.522
+  ...
+# Subtest: categorizes film, podcast, local, official, and creator sources
+ok 48 - categorizes film, podcast, local, official, and creator sources
+  ---
+  duration_ms: 0.15975
+  ...
+# Subtest: rejects malformed YouTube video IDs
+ok 49 - rejects malformed YouTube video IDs
+  ---
+  duration_ms: 0.118042
+  ...
+# Subtest: verified video manifest has unique source and channel IDs
+ok 50 - verified video manifest has unique source and channel IDs
+  ---
+  duration_ms: 1.245584
+  ...
+# Subtest: verified video manifest covers every team with at least one channel
+ok 51 - verified video manifest covers every team with at least one channel
+  ---
+  duration_ms: 0.198958
+  ...
+# Subtest: allows a registered feed to redirect between www and apex host
+ok 52 - allows a registered feed to redirect between www and apex host
+  ---
+  duration_ms: 5.894625
+  ...
+# Subtest: still rejects redirects to an unrelated host
+ok 53 - still rejects redirects to an unrelated host
+  ---
+  duration_ms: 3.386
+  ...
+# Subtest: YouTube candidates are stored for Film Room but never queued for Beat synthesis
+ok 54 - YouTube candidates are stored for Film Room but never queued for Beat synthesis
+  ---
+  duration_ms: 1.583416
+  ...
+# Subtest: public story projections require at least one non-video source
+ok 55 - public story projections require at least one non-video source
+  ---
+  duration_ms: 0.760666
+  ...
+# Subtest: Film Room continues reading YouTube candidates directly
+ok 56 - Film Room continues reading YouTube candidates directly
+  ---
+  duration_ms: 0.273541
+  ...
+# Subtest: scheduled workers keep standard and video queues isolated
+ok 57 - scheduled workers keep standard and video queues isolated
+  ---
+  duration_ms: 1.051333
+  ...
+# Subtest: recurring ingestion workflow runs both isolated pipelines
+not ok 58 - recurring ingestion workflow runs both isolated pipelines
+  ---
+  duration_ms: 2.937375
+  location: '/private/tmp/down-distance-source-expansion/src/server/story-engine/video-isolation.test.ts:2:2902'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /cron: '\*\/15 \* \* \* \*'/. Input:
+
+    'name: Content and video ingestion\n' +
+      '\n' +
+      'on:\n' +
+      '  # Manual backup only: Cloudflare owns scheduled ingestion to avoid duplicate wakeups.\n' +
+      '  workflow_dispatch:\n' +
+      '    inputs:\n' +
+      '      group:\n' +
+      '        description: Pipeline to run\n' +
+      '        type: choice\n' +
+      '        options: [both, standard, video]\n' +
+      '        default: both\n' +
+      '      check_only:\n' +
+      '        description: Verify deployment authentication without ingesting\n' +
+      '        type: boolean\n' +
+      '        default: false\n' +
+      '\n' +
+      'permissions:\n' +
+      '  contents: read\n' +
+      '\n' +
+      'concurrency:\n' +
+      '  group: content-ingestion\n' +
+      '  cancel-in-progress: false\n' +
+      '\n' +
+      'jobs:\n' +
+      '  ingest:\n' +
+      '    runs-on: ubuntu-latest\n' +
+      '    timeout-minutes: 10\n' +
+      '    strategy:\n' +
+      '      fail-fast: false\n' +
+      '      matrix:\n' +
+      '        group: [standard, video]\n' +
+      '    steps:\n' +
+      '      - uses: actions/checkout@v4\n' +
+      '      - uses: actions/setup-node@v4\n' +
+      '        with:\n' +
+      '          node-version: 22\n' +
+      '      - name: Test ingestion authentication safeguards\n' +
+      '        run: node --test scripts/content-ingestion-request.test.mjs\n' +
+      '      - name: Run ${{ matrix.group }} ingestion\n' +
+      "        if: inputs.group == 'both' || inputs.group == matrix.group\n" +
+      '        env:\n' +
+      '          BASE_URL: ${{ secrets.CONTENT_AUTOMATION_BASE_URL }}\n' +
+      '          AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}\n' +
+      '          GROUP: ${{ matrix.group }}\n' +
+      '          CHECK_ONLY: ${{ inputs.check_only }}\n' +
+      '        run: node scripts/content-ingestion-request.mjs\n'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    name: Content and video ingestion
+
+    on:
+      # Manual backup only: Cloudflare owns scheduled ingestion to avoid duplicate wakeups.
+      workflow_dispatch:
+        inputs:
+          group:
+            description: Pipeline to run
+            type: choice
+            options: [both, standard, video]
+            default: both
+          check_only:
+            description: Verify deployment authentication without ingesting
+            type: boolean
+            default: false
+
+    permissions:
+      contents: read
+
+    concurrency:
+      group: content-ingestion
+      cancel-in-progress: false
+
+    jobs:
+      ingest:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        strategy:
+          fail-fast: false
+          matrix:
+            group: [standard, video]
+        steps:
+          - uses: actions/checkout@v4
+          - uses: actions/setup-node@v4
+            with:
+              node-version: 22
+          - name: Test ingestion authentication safeguards
+            run: node --test scripts/content-ingestion-request.test.mjs
+          - name: Run ${{ matrix.group }} ingestion
+            if: inputs.group == 'both' || inputs.group == matrix.group
+            env:
+              BASE_URL: ${{ secrets.CONTENT_AUTOMATION_BASE_URL }}
+              AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}
+              GROUP: ${{ matrix.group }}
+              CHECK_ONLY: ${{ inputs.check_only }}
+            run: node scripts/content-ingestion-request.mjs
+
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/down-distance-source-expansion/src/server/story-engine/video-isolation.test.ts:38:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:979:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:677:18)
+    Test.postRun (node:internal/test_runner/test:1090:19)
+    Test.run (node:internal/test_runner/test:1018:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+1..58
+# tests 58
+# suites 0
+# pass 57
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1098.292333

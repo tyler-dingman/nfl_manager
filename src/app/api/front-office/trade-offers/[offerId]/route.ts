@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { currentUser } from '@/server/auth/request';
@@ -7,7 +8,7 @@ import {
   updateFrontOfficeTradeOfferStatus,
 } from '@/server/front-office/events-repository';
 
-export async function GET(request: NextRequest, context: { params: Promise<{ offerId: string }> }) {
+async function handleGET(request: NextRequest, context: { params: Promise<{ offerId: string }> }) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   const { offerId } = await context.params;
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ off
 }
 
 const schema = z.object({ action: z.literal('reject') });
-export async function PATCH(
+async function handlePATCH(
   request: NextRequest,
   context: { params: Promise<{ offerId: string }> },
 ) {
@@ -31,3 +32,6 @@ export async function PATCH(
     ? NextResponse.json({ ok: true, ...offer })
     : NextResponse.json({ error: 'Offer is no longer pending.' }, { status: 409 });
 }
+
+export const GET = withFranchiseRoute(handleGET, {});
+export const PATCH = withFranchiseRoute(handlePATCH, {});

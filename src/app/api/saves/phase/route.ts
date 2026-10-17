@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextRequest, NextResponse } from 'next/server';
 import { POST as advanceSimulation } from '@/app/api/front-office/simulate/route';
 import { currentUser } from '@/server/auth/request';
@@ -5,7 +6,7 @@ import { getFrontOfficeSaveMetadata } from '@/server/front-office/repository';
 import { ensureSaveState, getSaveHeaderSnapshot, syncSaveSimulation } from '@/server/api/store';
 
 /** Compatibility for the draft room: all actual transitions use the simulation command. */
-export async function POST(request: NextRequest) {
+async function handlePOST(request: NextRequest) {
   const body = await request.json();
   if (!body.saveId || !body.phase)
     return NextResponse.json(
@@ -33,3 +34,5 @@ export async function POST(request: NextRequest) {
   const header = getSaveHeaderSnapshot(state);
   return NextResponse.json({ ok: true, ...header, saveId: header.id });
 }
+
+export const POST = withFranchiseRoute(handlePOST, {});

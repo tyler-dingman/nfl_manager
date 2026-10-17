@@ -1,4 +1,5 @@
 .card {
+  position: relative;
   background: #fff;
   color: #071c49;
   border: 1px solid #dbe4ed;
@@ -120,6 +121,28 @@
 .storyLink {
   color: inherit;
   text-decoration: none;
+}
+/* Extend the real story link over artwork and whitespace without nesting controls. */
+.storyLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 10px;
+}
+.card .storyLink:focus-visible {
+  outline: none;
+}
+.storyLink:focus-visible::after {
+  outline: 3px solid #2469b0;
+  outline-offset: 3px;
+}
+.sources summary,
+.sources a,
+.cardActions > a,
+.cardActions > button {
+  position: relative;
+  z-index: 2;
 }
 .headline {
   font-size: 19px;
@@ -766,4 +789,38 @@
   font-weight: 700;
   line-height: 0.96;
   color: #fff;
+}
+
+/* The same card artwork, composed into the article's compact right-hand panel. */
+.graphic[data-presentation='article'] {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.graphic[data-presentation='article'] :is(.category, .marker, .age) {
+  display: none;
+}
+.graphic[data-presentation='article'] .playerIdentity {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.graphic[data-presentation='article'] .playerName {
+  font-size: 5cqw;
+  max-width: none;
+  white-space: normal;
+  opacity: 0.65;
+}
+.graphic[data-presentation='article'] .playerPosition strong {
+  font-size: 30cqw;
+}
+.graphic[data-presentation='article'] .playerStatus {
+  display: none;
+}
+.articleTeam {
+  position: absolute;
+  right: 8%;
+  bottom: 17%;
+  font-size: 11cqw;
+  font-weight: 800;
+  line-height: 1;
 }

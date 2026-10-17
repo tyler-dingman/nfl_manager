@@ -1,3 +1,9 @@
+import { addSlipLeg } from '../../../packages/parlay/slip';
+import { useDiscoveryPreferences } from '../lib/parlay-discovery-preferences';
+import {
+  discoveryLineMode,
+  selectDiscoveryMarkets,
+} from '../../../packages/parlay/discovery-selection';
 import { validateParlayBuild } from '../../../packages/parlay/validate-build';
 import { useState } from 'react';
 import { ParlayIcon } from './parlay-icon';
@@ -23,6 +29,7 @@ export function ParlayGenerator({
   setSlip: (v: ParlayMarket[]) => void;
   onOpen: (v: ParlayMarket) => void;
 }) {
+  const discovery = useDiscoveryPreferences();
   const [formula, setFormula] = useState('');
   const [more, setMore] = useState(false);
   const [prompt, setPrompt] = useState(''),
@@ -33,14 +40,17 @@ export function ParlayGenerator({
     [busy, setBusy] = useState(false),
     [notice, setNotice] = useState('');
   async function generate(text: string, refine = false, rerun = false) {
-    if (busy || !text.trim()) return;
+    if (busy || !discovery.ready || !text.trim()) return;
     setBusy(true);
     setNotice('');
     try {
-      const [data, games] = await Promise.all([getParlayMarkets(), getParlayEvents()]);
+      const [data, games] = await Promise.all([
+        getParlayMarkets('ALL', discoveryLineMode(discovery)),
+        getParlayEvents(),
+      ]);
       const next = parseGeneratorRequest(
         text,
-        data.markets,
+        selectDiscoveryMarkets(data.markets, discovery),
         teamId,
         refine && rules ? rules : undefined,
       );
@@ -49,7 +59,7 @@ export function ParlayGenerator({
         next.players = [];
       }
       const result = generateConstrainedParlay(
-        data.markets,
+        selectDiscoveryMarkets(data.markets, discovery),
         games.events,
         next,
         rerun ? legs.map((m) => m.id) : [],
@@ -69,19 +79,19 @@ export function ParlayGenerator({
     if (busy || !legs.length) return;
     setBusy(true);
     try {
-      const [data, games] = await Promise.all([getParlayMarkets(), getParlayEvents()]);
+      const [data, games] = await Promise.all([
+        getParlayMarkets('ALL', discoveryLineMode(discovery)),
+        getParlayEvents(),
+      ]);
       const valid = validateParlayBuild(
         legs,
-        data.markets,
+        selectDiscoveryMarkets(data.markets, discovery),
         games.events,
         rules?.minScore ?? 0,
       ).every(Boolean);
       if (!valid)
         throw new Error('Lines or availability changed. Regenerate before adding these legs.');
-      setSlip([
-        ...slip,
-        ...legs.filter((m) => !slip.some((s) => s.id === m.id && s.sportsbook === m.sportsbook)),
-      ]);
+      setSlip(legs.reduce(addSlipLeg, slip));
       setNotice('Added to My Parlay. Review and save your build below.');
     } catch (e) {
       setNotice(e instanceof Error ? e.message : 'Unable to refresh lines.');

@@ -1,0 +1,76 @@
+Parlay Lab breadcrumb navigation — implementation report
+
+Implemented on All Props and Trending Props, in desktop/mobile web and the
+shared React Native screen used by Android/iOS.
+
+Behavior
+- Root shows only primary categories. The secondary dropdown has been removed.
+- Selecting a category replaces primary categories with a two-level breadcrumb
+  and horizontal secondary market pills. All markets in that category are
+  selected immediately.
+- Selecting a market filters the existing grouped table without adding a third
+  breadcrumb level. Red active pills also use bold/underline selection cues.
+- All Props in the breadcrumb clears only category/market. Existing filters,
+  sorting, alternate-line preferences and slip state remain independent.
+- Available pills reuse database facets and the existing market taxonomy.
+- Web uses URL category/market as authoritative state, supports refresh and
+  browser history, and preserves category/market in the discovery screen links.
+- Native uses Expo route parameters on the current screen (setParams), avoiding
+  stacked copies of Parlay Lab. Both native discovery views share navigation.
+- Narrow layouts scroll pills horizontally with selected-pill visibility.
+  Native tap targets are at least 44px. Web supplies focus outlines, pressed
+  states and a logical focus target when the selected category button disappears.
+
+Application files changed for this task
+packages/parlay/market-navigation.ts
+src/components/parlay-lab/prop-discovery-table.tsx
+src/components/parlay-lab/use-prop-market-navigation.ts (new)
+src/components/parlay-lab/dashboard-content.tsx
+src/components/parlay-lab/dashboard-shell.tsx
+src/components/parlay-lab/dashboard.css
+apps/mobile/components/prop-discovery-table.tsx
+apps/mobile/lib/prop-market-navigation.ts (new)
+apps/mobile/app/parlay-lab.tsx
+
+Reusable components
+Each renderer exports PropMarketNavigation from prop-discovery-table.tsx and
+uses that component in both All Props and Trending Props. Taxonomy and URL
+normalization are shared in packages/parlay/market-navigation.ts. DOM/CSS and
+React Native rendering remain separate.
+
+Tests and fixtures changed
+packages/parlay/market-navigation.test.ts (new)
+tests/mobile/prop-breadcrumbs.spec.ts (new)
+tests/mobile/fixtures/next-navigation-preview.ts (new)
+tests/mobile/all-props.spec.ts
+tests/mobile/grouped-props.spec.ts
+tests/mobile/parlay-trending-mix.spec.ts
+tests/mobile/native-grouped-props.spec.ts
+tests/mobile/fixtures/native-grouped-props.jsx
+
+Validation
+- Web TypeScript: passed.
+- Native TypeScript: passed.
+- 13 unit tests passed: URL normalization, market taxonomy/facets, grouping,
+  eligibility, catalog filters/pagination and Anytime TD selection identity.
+- 12 web browser checks passed across Chromium and WebKit: All Props,
+  grouped-table regression, and breadcrumb drill-down on both discovery views.
+  Includes KC/SEA themes, desktop/narrow layouts, keyboard navigation, selected
+  pill visibility, refresh, Back/Forward, invalid direct links, filters, sorting,
+  alternate-line expansion and exact Add to Parlay selection.
+- 2 React Native Web preview checks passed across Chromium and WebKit:
+  native route hook, refresh, drill-down/back, view switching, alternate lines,
+  retained slip selection and Lab Score help.
+- Targeted ESLint: no errors. Two pre-existing warnings remain in the native
+  screen (effect-cleanup ref and Image alt lint).
+- git diff --check: passed.
+- Visually reviewed narrow web and React Native Web preview screenshots.
+
+Limitations
+Browser tests use isolated fixtures and mocked routing/API responses. They are
+not a production end-to-end or real sportsbook transfer validation. Android/iOS
+device builds and device accessibility checks were not performed. Native browser
+previews do not establish Android/iOS device parity.
+
+No production database updates, provider API calls, scoring/eligibility changes,
+or sportsbook transfer enablement were performed for this navigation task.

@@ -479,3 +479,8 @@ export const useSaveStore = create<SaveStoreState>()(
     },
   ),
 );
+
+/** Clear every private view field while the caller controls persistence (for storage failures). */
+export function resetPrivateSaveMemory() {
+  useSaveStore.setState({ ...DEFAULT_STATE, hasHydrated: true });
+}

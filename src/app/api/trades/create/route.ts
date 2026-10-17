@@ -1,10 +1,11 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { tradeDeadlineResponse } from '@/server/front-office/trade-window';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { ensureSaveState, getSaveState } from '@/server/api/store';
 import { createTrade } from '@/server/api/trades';
 
-export const POST = async (request: NextRequest) => {
+const handlePOST = async (request: NextRequest) => {
   const body = (await request.json()) as {
     saveId?: string;
     teamAbbr?: string;
@@ -34,3 +35,5 @@ export const POST = async (request: NextRequest) => {
 
   return NextResponse.json(result.data);
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

@@ -1,3 +1,5 @@
+import { enrichGameStories } from '@/server/schedule/enrich';
+import { enrichBeatTransaction } from '@/server/content/beat-transactions';
 import {
   findGeneratedBriefing,
   getGeneratedTeamBriefings,
@@ -13,6 +15,8 @@ const toBriefing = (
   category: story.storyType,
   headline: story.headline,
   summary: story.shortSummary,
+  whatHappened: story.whatHappened,
+  whatsNext: story.whatsNext,
   whyItMatters: story.whyItMatters,
   updatedAt: story.lastMeaningfulUpdateAt,
   sourceCount: story.sources.length,
@@ -29,12 +33,21 @@ const toBriefing = (
   })),
 });
 
+// Use the same player/game enrichment as The Beat feed, including direct links.
+async function withBeatArtwork(item: TeamBriefing): Promise<TeamBriefing> {
+  try {
+    return (await enrichGameStories([item], false))[0];
+  } catch {
+    return { ...item, graphicDecision: item.graphicDecision ?? enrichBeatTransaction(item) };
+  }
+}
+
 export const getContentDetail = async (id: string): Promise<TeamBriefing | null> => {
   const generated = findGeneratedBriefing(id);
-  if (generated) return generated;
+  if (generated) return withBeatArtwork(generated);
   try {
     const story = await getPublicStoryById(id);
-    if (story) return toBriefing(story);
+    if (story) return withBeatArtwork(toBriefing(story));
   } catch (error) {
     console.warn('[content-detail] canonical lookup unavailable', error);
   }

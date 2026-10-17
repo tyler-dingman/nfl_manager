@@ -1,3 +1,7 @@
+import { labScoreColor } from '../../../packages/parlay/lab-score-config';
+import { useDiscoveryPreferences } from '../lib/parlay-discovery-preferences';
+import { selectDiscoveryMarkets } from '../../../packages/parlay/discovery-selection';
+import { LAB_SCORE_CONFIG, labScoreBand } from '../../../packages/parlay/lab-score-config';
 import { Image as ExpoImage } from 'expo-image';
 import { teamLogoAssets } from '../lib/team-logo-assets';
 import { useEffect, useState } from 'react';
@@ -27,24 +31,48 @@ export function ParlayHomeHero({
   const upcoming = new Set(
     events.filter((e) => Date.parse(e.kickoffAt) > Date.now()).map((e) => e.id),
   );
-  const picks = markets
-    .filter(
-      (m) =>
-        m.teamId === teamId &&
-        m.available &&
-        m.playerId &&
-        m.trend &&
-        m.eventId &&
-        upcoming.has(m.eventId),
-    )
-    .sort((a, b) => (b.trend?.trendScore ?? 0) - (a.trend?.trendScore ?? 0))
-    .slice(0, 3);
+  const discovery = useDiscoveryPreferences();
+  const picks = discovery.ready
+    ? selectDiscoveryMarkets(
+        markets.filter((m) => m.teamId === teamId && m.eventId && upcoming.has(m.eventId)),
+        discovery,
+      ).slice(0, 3)
+    : [];
   return (
     <View style={s.panel}>
       <View style={{ padding: 20, backgroundColor: '#001222', overflow: 'hidden' }}>
-        {[0, 1, 2].map(i => <View key={i} pointerEvents="none" style={{ position: 'absolute', right: -45 + i * 42, bottom: -100, width: 24, height: 320, backgroundColor: red, opacity: 0.12, transform: [{ rotate: '35deg' }] }} />)}
-        <Text style={{ fontFamily: 'BarlowCondensedItalic', fontSize: 64, lineHeight: 68, color: 'white', letterSpacing: -1.3 }}>PARLAY <Text style={{ color: red }}>LAB</Text></Text>
-        <Text style={{ fontFamily: 'BarlowCondensed', fontSize: 12, letterSpacing: 1, color: 'white' }}>YOUR PLAYBOOK FOR <Text style={{ color: gold }}>BUILDING SMARTER PARLAYS.</Text></Text>
+        {[0, 1, 2].map((i) => (
+          <View
+            key={i}
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              right: -45 + i * 42,
+              bottom: -100,
+              width: 24,
+              height: 320,
+              backgroundColor: red,
+              opacity: 0.12,
+              transform: [{ rotate: '35deg' }],
+            }}
+          />
+        ))}
+        <Text
+          style={{
+            fontFamily: 'BarlowCondensedItalic',
+            fontSize: 64,
+            lineHeight: 68,
+            color: 'white',
+            letterSpacing: -1.3,
+          }}
+        >
+          PARLAY <Text style={{ color: red }}>LAB</Text>
+        </Text>
+        <Text
+          style={{ fontFamily: 'BarlowCondensed', fontSize: 12, letterSpacing: 1, color: 'white' }}
+        >
+          YOUR PLAYBOOK FOR <Text style={{ color: gold }}>BUILDING SMARTER PARLAYS.</Text>
+        </Text>
         <View style={s.values}>
           {(
             [
@@ -66,7 +94,11 @@ export function ParlayHomeHero({
             ] as const
           ).map((v) => (
             <View key={v.title} style={{ flex: 1 }}>
-              {v.icon === 'globe' ? <Feather name="globe" color={red} size={38} /> : <ParlayIcon name={v.icon} color={red} size={38} />}
+              {v.icon === 'globe' ? (
+                <Feather name="globe" color={red} size={38} />
+              ) : (
+                <ParlayIcon name={v.icon} color={red} size={38} />
+              )}
               <Text style={s.valueTitle}>{v.title}</Text>
               <Text style={s.small}>{v.copy}</Text>
             </View>
@@ -79,9 +111,15 @@ export function ParlayHomeHero({
         {picks.map((m, i) => (
           <Pressable key={m.id} onPress={() => onOpen(m)} style={s.pick}>
             <Text style={{ color: gold, fontWeight: '900' }}>{String(i + 1).padStart(2, '0')}</Text>
-            <Text style={[s.copy, { flex: 1 }]}>{m.playerName}</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={s.copy}>{m.playerName}</Text>
+              <Text style={[s.small, { color: labScoreColor(m.trend?.trendScore) }]}>
+                {m.trend?.trendScore} · {labScoreBand(m.trend?.trendScore ?? 0).label}
+              </Text>
+            </View>
             <Text style={s.copy}>
               {m.side === 'OVER' ? 'O' : 'U'} {m.line}
+              {m.lineType === 'alternate' ? ' · ALT' : ''}
             </Text>
           </Pressable>
         ))}
@@ -104,7 +142,16 @@ export function ParlayAltPromotion({ onGenerate }: { onGenerate: () => void }) {
   return (
     <View
       testID="parlay-alt-promotion"
-      style={[s.panel, { padding: 20, borderRadius: 12, borderTopColor: red, borderTopWidth: 3, marginVertical: 20 }]}
+      style={[
+        s.panel,
+        {
+          padding: 20,
+          borderRadius: 12,
+          borderTopColor: red,
+          borderTopWidth: 3,
+          marginVertical: 20,
+        },
+      ]}
     >
       <Text style={[s.eyebrow, { color: red }]}>PARLAY LAB</Text>
       <Text style={s.title}>ALT STACK</Text>
@@ -121,7 +168,17 @@ export function ParlayAltPromotion({ onGenerate }: { onGenerate: () => void }) {
               color={red}
               size={24}
             />
-            <Text style={{ color: "#f4f8fc", fontSize: 11, fontWeight: "800", letterSpacing: 0.44, marginTop: 8 }}>{v}</Text>
+            <Text
+              style={{
+                color: '#f4f8fc',
+                fontSize: 11,
+                fontWeight: '800',
+                letterSpacing: 0.44,
+                marginTop: 8,
+              }}
+            >
+              {v}
+            </Text>
             <Text style={s.small}>
               {
                 [
@@ -196,7 +253,9 @@ export function ParlayMovers() {
       .then((b) => {
         if (active) {
           setMovement(b.movements ?? []);
-          setStatus(b.movements?.length ? '' : 'No saved movement is available for the current props.');
+          setStatus(
+            b.movements?.length ? '' : 'No saved movement is available for the current props.',
+          );
         }
       })
       .catch(() => {
@@ -209,7 +268,10 @@ export function ParlayMovers() {
 
   return (
     <View style={[s.panel, { padding: 16, marginTop: 16 }]}>
-      <View style={s.panelHeading}><ParlayIcon name="stats" size={25} /><Text style={s.panelTitle}>Market Movers</Text></View>
+      <View style={s.panelHeading}>
+        <ParlayIcon name="stats" size={25} />
+        <Text style={s.panelTitle}>Market Movers</Text>
+      </View>
       <View style={s.pick}>
         {['Line Movement', 'Odds Movement', 'Most Bet'].map((t) => (
           <Pressable
@@ -241,6 +303,7 @@ export function ParlayHomeFooter({
   teamId,
   onGame,
 }: {
+  active?: boolean;
   events: ParlayEvent[];
   teamId: string;
   onGame: (id: string) => void;
@@ -255,7 +318,10 @@ export function ParlayHomeFooter({
   return (
     <>
       <View style={[s.panel, { padding: 16, marginTop: 20 }]}>
-        <View style={s.panelHeading}><ParlayIcon name="experiment" size={25} /><Text style={s.panelTitle}>Next Game</Text></View>
+        <View style={s.panelHeading}>
+          <ParlayIcon name="experiment" size={25} />
+          <Text style={s.panelTitle}>Next Game</Text>
+        </View>
         {next ? (
           <Pressable
             onPress={() => onGame(next.id)}
@@ -288,21 +354,21 @@ export function ParlayHomeFooter({
         )}
       </View>
       <View testID="lab-score-guide" style={[s.panel, { padding: 16, marginTop: 20 }]}>
-        <View style={s.panelHeading}><ParlayIcon name="test-tube" size={25} /><Text style={s.panelTitle}>Lab Score Guide</Text></View>
-        {[
-          ['90–100 · HIGH', 'Strong trend alignment.', '#00e99a'],
-          ['70–89 · GOOD', 'Supportive trend alignment.', '#3FC59D'],
-          ['50–69 · MODERATE', 'Mixed trend signals.', gold],
-          ['0–49 · LOW', 'Limited trend alignment.', red],
-        ].map(([title, copy, color]) => (
-          <View
-            key={title}
-            style={{ paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#183b4c' }}
-          >
-            <Text style={{ color, fontWeight: '800', fontSize: 12 }}>{title}</Text>
-            <Text style={s.small}>{copy}</Text>
-          </View>
-        ))}
+        <View style={s.panelHeading}>
+          <ParlayIcon name="test-tube" size={25} />
+          <Text style={s.panelTitle}>Lab Score Guide</Text>
+        </View>
+        {LAB_SCORE_CONFIG.bands
+          .map((t) => [`${t.range} · ${t.label}`, t.description, t.min >= 70 ? '#3FC59D' : gold])
+          .map(([title, copy, color]) => (
+            <View
+              key={title}
+              style={{ paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#183b4c' }}
+            >
+              <Text style={{ color, fontWeight: '800', fontSize: 12 }}>{title}</Text>
+              <Text style={s.small}>{copy}</Text>
+            </View>
+          ))}
         <Text
           style={{
             backgroundColor: '#FFF2D5',
@@ -327,13 +393,26 @@ const s = StyleSheet.create({
     overflow: 'hidden',
   },
   values: { flexDirection: 'row', gap: 14, marginVertical: 20 },
-  valueTitle: { fontFamily: 'BarlowCondensed', color: 'white', fontSize: 16, lineHeight: 18, marginTop: 8 },
+  valueTitle: {
+    fontFamily: 'BarlowCondensed',
+    color: 'white',
+    fontSize: 16,
+    lineHeight: 18,
+    marginTop: 8,
+  },
   small: { color: '#9db4c6', fontSize: 12, lineHeight: 18, marginTop: 4 },
   copy: { color: '#9db4c6', fontSize: 14, lineHeight: 23, marginTop: 12 },
   team: { fontFamily: 'BarlowCondensedItalic', fontSize: 25, color: 'white', marginTop: 12 },
   eyebrow: { color: '#D5E0E8', fontSize: 10, letterSpacing: 1.5, fontWeight: '700' },
   pick: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 },
-  title: { fontFamily: 'BarlowCondensed', fontSize: 36, lineHeight: 36, letterSpacing: -0.9, color: 'white', marginVertical: 8 },
+  title: {
+    fontFamily: 'BarlowCondensed',
+    fontSize: 36,
+    lineHeight: 36,
+    letterSpacing: -0.9,
+    color: 'white',
+    marginVertical: 8,
+  },
   white: { color: 'white', fontWeight: '800', fontSize: 15 },
   button: {
     backgroundColor: red,

@@ -1,10 +1,12 @@
 'use client';
+import { labScoreColor } from '../../../packages/parlay/lab-score-config';
+
 import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
 import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
 import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import headingStyles from './panel-heading.module.css';
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useMemo, useState, type ReactNode, type CSSProperties } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { TrendingUp } from 'lucide-react';
@@ -31,6 +33,7 @@ function Score({ value }: { value: number | null }) {
   return (
     <strong
       className="lab-score"
+      style={{ color: labScoreColor(value), borderColor: labScoreColor(value) }}
       data-tier={value == null ? 'none' : value >= 70 ? 'good' : value >= 50 ? 'mid' : 'low'}
     >
       {value == null ? '—' : Math.round(value)}
@@ -62,30 +65,32 @@ function TeamLogo({ abbr }: { abbr: string }) {
   return t ? <Image src={t.logoUrl} width={38} height={30} unoptimized alt={abbr} /> : null;
 }
 export function PlayersDashboard({
+  mode = 'players',
   team,
   markets,
   events,
   roster,
   loading,
   error,
-  slip,
+  parlay,
   onOpen,
   onRemove,
   onGenerate,
 }: {
+  mode?: 'players' | 'teams';
   team?: Team;
   markets: HomeMarket[];
   events: DashboardEvent[];
   roster: DirectoryPlayer[];
   loading: boolean;
   error?: string | null;
-  slip: HomeMarket[];
+  parlay: ReactNode;
   onOpen: (m: HomeMarket) => void;
   onRemove: (id: string) => void;
   onGenerate: () => void;
 }) {
   const [search, setSearch] = useState(''),
-    [teamFilter, setTeamFilter] = useState('ALL'),
+    [teamFilter, setTeamFilter] = useState(mode === 'teams' ? (team?.abbr ?? 'KC') : 'ALL'),
     [position, setPosition] = useState('ALL'),
     [myTeam, setMyTeam] = useState(false),
     [sort, setSort] = useState('Overall Rating'),
@@ -111,7 +116,12 @@ export function PlayersDashboard({
     [scoped, roster],
   );
   const featured: PlayerSummary[] = [];
-  const qualified = players.filter((p) => playerStatus(p));
+  const qualified = players.filter(
+    (p) =>
+      p.market &&
+      playerStatus(p) &&
+      (mode !== 'teams' || teamFilter === 'ALL' || p.teamAbbr === teamFilter),
+  );
   for (const p of qualified)
     if (featured.length < 3 && !featured.some((x) => x.teamAbbr === p.teamAbbr)) featured.push(p);
   for (const p of qualified) if (featured.length < 3 && !featured.includes(p)) featured.push(p);
@@ -160,7 +170,7 @@ export function PlayersDashboard({
   return (
     <div
       className={`lab-dashboard ${styles.dashboard}`}
-      data-mode="players"
+      data-mode={mode}
       style={
         {
           '--lab-accent': colors.heroPrimaryAccent,
@@ -198,15 +208,19 @@ export function PlayersDashboard({
             ))}
           </ResponsivePlayerSelect>
         </div>
-        <section className={styles.hero} aria-label="Player discovery">
+        <section
+          className={styles.hero}
+          aria-label={mode === 'teams' ? 'Team discovery' : 'Player discovery'}
+        >
           <div className={styles.intro}>
-            <h1 className="lab-display">PLAYERS</h1>
+            <h1 className="lab-display">{mode === 'teams' ? 'TEAMS' : 'PLAYERS'}</h1>
             <h2>
               REAL DATA. REAL TRENDS. <em>BET SMARTER.</em>
             </h2>
             <p>
-              Search for any player to explore trends, matchup data, splits, and all available prop
-              markets.
+              {mode === 'teams'
+                ? 'Select a team to browse its players, compare available props, and explore player research.'
+                : 'Search for any player to explore trends, matchup data, splits, and all available prop markets.'}
             </p>
           </div>
           <div className={styles.features}>
@@ -233,7 +247,7 @@ export function PlayersDashboard({
                     {status.label}
                   </h4>
                   <p>{status.text}</p>
-                  <button onClick={() => onOpen(p.market)}>View Player →</button>
+                  <button onClick={() => p.market && onOpen(p.market)}>View Player →</button>
                 </article>
               );
             })}
@@ -254,6 +268,11 @@ export function PlayersDashboard({
             value={teamFilter}
             onChange={(e) => {
               setTeamFilter(e.target.value);
+              if (mode === 'teams') {
+                setSearch('');
+                setPosition('ALL');
+                setMyTeam(false);
+              }
               reset();
             }}
           >
@@ -377,14 +396,15 @@ export function PlayersDashboard({
             </thead>
             <tbody>
               {rows.slice(0, limit).map((p, i) => (
-                <tr key={p.id} onClick={() => onOpen(p.market)}>
+                <tr key={p.id} onClick={() => p.market && onOpen(p.market)}>
                   <td>{players.indexOf(p) + 1}</td>
                   <td>
                     <button
                       className={styles.player}
+                      disabled={!p.market}
                       onClick={(e) => {
                         e.stopPropagation();
-                        onOpen(p.market);
+                        p.market && onOpen(p.market);
                       }}
                     >
                       <PlayerAvatar name={p.name} headshotUrl={p.headshotUrl} transparent />
@@ -420,13 +440,14 @@ export function PlayersDashboard({
                   <td>
                     <button
                       className={styles.view}
+                      disabled={!p.market}
                       aria-label={`View ${p.name}`}
                       onClick={(e) => {
                         e.stopPropagation();
-                        onOpen(p.market);
+                        p.market && onOpen(p.market);
                       }}
                     >
-                      View
+                      {p.market ? 'View' : 'No current props'}
                     </button>
                   </td>
                 </tr>
@@ -453,97 +474,7 @@ export function PlayersDashboard({
         </section>
       </main>
       <ResponsiveRail stackAt={900} className="lab-right-rail">
-        <section className={`lab-panel ${styles.slip}`}>
-          <header>
-            <h2 className={headingStyles.heading}>
-              <LabExperimentIcon />
-              My Parlay <span>{slip.length}</span>
-            </h2>
-          </header>
-          {slip.length ? (
-            <>
-              <div>
-                {slip.slice(0, 4).map((m) => (
-                  <div className={styles.leg} key={m.id}>
-                    <PlayerAvatar name={m.playerName} headshotUrl={m.headshotUrl} transparent />
-                    <button onClick={() => onOpen(m)}>
-                      {m.playerName}
-                      <small>
-                        {m.side} {m.line}{' '}
-                        {marketDisplayName(m.marketType === 'OTHER' ? m.statId : m.marketType)}
-                      </small>
-                    </button>
-                    <button aria-label={`Remove ${m.playerName}`} onClick={() => onRemove(m.id)}>
-                      ⊖
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <Link
-                className="lab-primary"
-                href={`/parlay-lab/my-plays${team ? `?team=${team.abbr}` : ''}`}
-              >
-                View My Parlay{slip.length > 4 ? ` (${slip.length})` : ''} →
-              </Link>
-            </>
-          ) : (
-            <div className={styles.empty}>
-              <span>＋</span>
-              <b>Build your parlay</b>
-              <button className="lab-primary" onClick={onGenerate}>
-                Create a Parlay →
-              </button>
-            </div>
-          )}
-        </section>
-        <section className="lab-panel">
-          <header>
-            <h2>
-              <LabInsightsIcon />
-              Lab Finds
-            </h2>
-          </header>
-          {findings.length ? (
-            findings.map((f) => (
-              <p key={f} className={styles.finding}>
-                <LabTrendsIcon />
-                {f}
-              </p>
-            ))
-          ) : (
-            <p className="lab-empty">More qualifying history is needed for player findings.</p>
-          )}
-        </section>
-        <section className="lab-panel">
-          <header>
-            <h2>
-              <LabTrendsIcon />
-              Top Players Right Now
-            </h2>
-          </header>
-          {players.slice(0, 5).map((p, i) => (
-            <button key={p.id} className={styles.top} onClick={() => onOpen(p.market)}>
-              <span>{i + 1}</span>
-              <PlayerAvatar name={p.name} headshotUrl={p.headshotUrl} transparent />
-              <b>{p.name}</b>
-              <span>{rate(p.hitRate)}</span>
-              <Score value={p.score} />
-            </button>
-          ))}
-          <a
-            className={styles.more}
-            href="#player-directory"
-            onClick={() => {
-              setSearch('');
-              setTeamFilter('ALL');
-              setPosition('ALL');
-              setMyTeam(false);
-              setSort('Overall Rating');
-            }}
-          >
-            View All Players →
-          </a>
-        </section>
+        <div className="lab-slip-anchor">{parlay}</div>
       </ResponsiveRail>
     </div>
   );

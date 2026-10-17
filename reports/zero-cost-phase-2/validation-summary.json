@@ -1,0 +1,90 @@
+{
+  "application": {
+    "tests": 1052,
+    "pass": 1033,
+    "fail": 17,
+    "skipped": 2,
+    "failures": [
+      "src/components/auth/user-avatar.test.tsx",
+      "News classification excludes messages and reserves Breaking for major stories",
+      "src/components/huddle/huddle-story-card.test.ts",
+      "src/components/player-type-icon.test.tsx",
+      "src/components/transaction-modal.test.ts",
+      "returning to the same team resumes its durable save without clearing progress",
+      "every merch department has a dedicated route with metadata",
+      "homepage is merchandising-led and city discovery links to a shareable catalog URL",
+      "team and account controls are desktop-only in the header",
+      "mobile prioritizes the question and summary before standings and activity",
+      "evaluateDraftPick rewards value and needs",
+      "valid preview cookie grants navigation and disabling prelaunch restores normal access",
+      "shared AppShell owns a local Suspense boundary for its search params",
+      "known selected states use the shared semantic filled-primary contract",
+      "fairness bands map to expected ranges",
+      "premium player plus a second keeps elite trade discussions plausible",
+      "tests/live-projections.test.ts"
+    ]
+  },
+  "baseline": {
+    "tests": 1050,
+    "pass": 1026,
+    "fail": 22,
+    "skipped": 2,
+    "failures": [
+      "src/components/auth/user-avatar.test.tsx",
+      "News classification excludes messages and reserves Breaking for major stories",
+      "src/components/huddle/huddle-story-card.test.ts",
+      "src/components/player-type-icon.test.tsx",
+      "src/components/transaction-modal.test.ts",
+      "returning to the same team resumes its durable save without clearing progress",
+      "homepage Three and Out uses daily delivery preferences instead of audio",
+      "homepage Three and Out stays in the desktop right rail",
+      "Three and Out ampersands use the accessible bright team accent on dark panels",
+      "search results use canonical content and watch routes and Enter opens the first match",
+      "mobile menu removes the logged-out spacer and shared footer reserves bottom-nav space",
+      "every merch department has a dedicated route with metadata",
+      "homepage is merchandising-led and city discovery links to a shareable catalog URL",
+      "team and account controls are desktop-only in the header",
+      "mobile prioritizes the question and summary before standings and activity",
+      "evaluateDraftPick rewards value and needs",
+      "valid preview cookie grants navigation and disabling prelaunch restores normal access",
+      "shared AppShell owns a local Suspense boundary for its search params",
+      "known selected states use the shared semantic filled-primary contract",
+      "fairness bands map to expected ranges",
+      "premium player plus a second keeps elite trade discussions plausible",
+      "tests/live-projections.test.ts"
+    ]
+  },
+  "d1r2": {
+    "tests": 78,
+    "pass": 78,
+    "fail": 0,
+    "skipped": 0,
+    "failures": []
+  },
+  "game": {
+    "tests": 21,
+    "pass": 21,
+    "fail": 0,
+    "skipped": 0,
+    "failures": []
+  },
+  "auth": {
+    "tests": 2,
+    "pass": 2,
+    "fail": 0,
+    "skipped": 0,
+    "failures": []
+  },
+  "introducedApplicationFailures": [],
+  "browser": {
+    "checks": [
+      "real HTTP signup and opaque session validation for two owners",
+      "saved content and preference mutations; second owner cannot read first owner saves",
+      "sessions, preferences and saved original IDs survive actual Next process restart",
+      "anonymous private saved-content API is rejected"
+    ],
+    "canonicalRouteViewportChecks": 20
+  },
+  "readiness": "BLOCKED",
+  "finalSuitePassedExcludingBaselineAndRepeatedSubsets": 1136
+}

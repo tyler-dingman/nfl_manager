@@ -1,0 +1,211 @@
+{
+  "scope": "MEASURED local Next production build, synthetic partial PostgreSQL schema. Chromium desktop/mobile viewport only; external network blocked. Not Android/iOS or provider validation.",
+  "checks": [
+    "real HTTP signup and opaque session validation for two owners",
+    "saved content and preference mutations; second owner cannot read first owner saves",
+    "sessions, preferences and saved original IDs survive actual Next process restart",
+    "anonymous private saved-content API is rejected"
+  ],
+  "routes": [
+    {
+      "path": "/?team=kc",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/",
+      "wallMs": 746.2710830000001,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\n\nTEAM BRIEFING\n\nSaturday, October 17 · NFL\n\nY"
+    },
+    {
+      "path": "/the-beat?team=kc",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/the-beat",
+      "wallMs": 612.9902500000007,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\nTHE BEAT\n\nTHE PULSE OF CHIEFS KINGDOM. NEVER "
+    },
+    {
+      "path": "/watch?team=kc",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/watch",
+      "wallMs": 549.066417,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\nFILM ROOM\n\nGET INTO THE FILM ROOM AND PUT ON "
+    },
+    {
+      "path": "/parlay-lab?team=kc",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/parlay-lab",
+      "wallMs": 544.9357499999996,
+      "title": "Parlay Lab | Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\nHome\nAll Props\nTrending Props\nGames\nPlayers\nT"
+    },
+    {
+      "path": "/account",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/account",
+      "wallMs": 543.219916,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\n\nSynthetic 0\n\nbrowser-0@example.invalid\n\nAcco"
+    },
+    {
+      "path": "/?team=sea",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/",
+      "wallMs": 541.5579579999994,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\n\nTEAM BRIEFING\n\nSaturday, October 17 · NFL\n\nY"
+    },
+    {
+      "path": "/the-beat?team=sea",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/the-beat",
+      "wallMs": 564.0960839999998,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\nTHE BEAT\n\nTHE PULSE OF THE 12S. NEVER MISS A "
+    },
+    {
+      "path": "/watch?team=sea",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/watch",
+      "wallMs": 543.1488330000011,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\nFILM ROOM\n\nGET INTO THE FILM ROOM AND PUT ON "
+    },
+    {
+      "path": "/parlay-lab?team=sea",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/parlay-lab",
+      "wallMs": 538.6548750000002,
+      "title": "Parlay Lab | Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\nHome\nAll Props\nTrending Props\nGames\nPlayers\nT"
+    },
+    {
+      "path": "/account",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/account",
+      "wallMs": 532.6972079999996,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\n\nSynthetic 0\n\nbrowser-0@example.invalid\n\nAcco"
+    },
+    {
+      "path": "/?team=kc",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/",
+      "wallMs": 548.5774580000016,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "TEAM BRIEFING\n\nSaturday, October 17 · NFL\n\nYOUR TEAM. EVERY DAY.\n\nYour home for everything football — the latest news, a"
+    },
+    {
+      "path": "/the-beat?team=kc",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/the-beat",
+      "wallMs": 553.4760000000006,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "THE BEAT\n\nTHE PULSE OF CHIEFS KINGDOM. NEVER MISS A BEAT.\n\nTHREE & OUT\n\nTHE 3 THINGS YOU NEED TO KNOW\n\n01\nChiefs Acquire"
+    },
+    {
+      "path": "/watch?team=kc",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/watch",
+      "wallMs": 542.2157499999994,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "FILM ROOM\n\nGET INTO THE FILM ROOM AND PUT ON THE TAPE.\n\nROLL THE TAPE\n\nTHE 3 THINGS YOU NEED TO KNOW\n\nCurrent team video"
+    },
+    {
+      "path": "/parlay-lab?team=kc",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/parlay-lab",
+      "wallMs": 543.5326659999992,
+      "title": "Parlay Lab | Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "Explore Parlay Lab\n0\nACTIVE PROPS\n0\nTRENDING NOW\n0\n90+ LAB SCORES\n0\nGAMES ON BOARD\nPARLAY LAB\n\nYOUR PLAYBOOK FOR BUILDIN"
+    },
+    {
+      "path": "/account",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/account",
+      "wallMs": 536.7769169999992,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "Profile & account\n\nMY ACCOUNT\n\nSYNTHETIC 0\n\nManage your account, preferences, and how you appear across Down & Distance."
+    },
+    {
+      "path": "/?team=sea",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/",
+      "wallMs": 539.128084,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "TEAM BRIEFING\n\nSaturday, October 17 · NFL\n\nYOUR TEAM. EVERY DAY.\n\nYour home for everything football — the latest news, a"
+    },
+    {
+      "path": "/the-beat?team=sea",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/the-beat",
+      "wallMs": 566.5636669999985,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "THE BEAT\n\nTHE PULSE OF THE 12S. NEVER MISS A BEAT.\n\nTHREE & OUT\n\nTHE 3 THINGS YOU NEED TO KNOW\n\n01\nSeahawks Sign CB Terr"
+    },
+    {
+      "path": "/watch?team=sea",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/watch",
+      "wallMs": 547.0692090000011,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "FILM ROOM\n\nGET INTO THE FILM ROOM AND PUT ON THE TAPE.\n\nROLL THE TAPE\n\nTHE 3 THINGS YOU NEED TO KNOW\n\nCurrent team video"
+    },
+    {
+      "path": "/parlay-lab?team=sea",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/parlay-lab",
+      "wallMs": 546.4226670000007,
+      "title": "Parlay Lab | Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "Explore Parlay Lab\n0\nACTIVE PROPS\n0\nTRENDING NOW\n0\n90+ LAB SCORES\n0\nGAMES ON BOARD\nPARLAY LAB\n\nYOUR PLAYBOOK FOR BUILDIN"
+    },
+    {
+      "path": "/account",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/account",
+      "wallMs": 535.6817920000012,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "Profile & account\n\nMY ACCOUNT\n\nSYNTHETIC 0\n\nManage your account, preferences, and how you appear across Down & Distance."
+    }
+  ]
+}

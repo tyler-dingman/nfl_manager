@@ -1,4 +1,6 @@
 'use client';
+import { labScoreColor } from '../../../packages/parlay/lab-score-config';
+
 import { validateParlayBuild } from '../../../packages/parlay/validate-build';
 import { ResponsivePlayerButton } from '@/components/players/responsive-player-table';
 import { ResponsiveRail } from '@/components/layout/responsive-rail';
@@ -44,6 +46,7 @@ function Score({ market }: { market: HomeMarket }) {
   return (
     <strong
       className="lab-score"
+      style={{ color: labScoreColor(n), borderColor: labScoreColor(n) }}
       data-tier={n == null ? 'none' : n >= 70 ? 'good' : n >= 50 ? 'mid' : 'low'}
     >
       {n == null ? '—' : Math.round(n)}

@@ -1,4 +1,5 @@
 'use client';
+import { LabScoreHelp } from '../parlay-lab/LabScoreHelp';
 import {
   Children,
   cloneElement,
@@ -61,7 +62,10 @@ export function PlayerCard({
         <dl className={styles.fields}>
           {fields.map((field, i) => (
             <div key={`${field.label}-${i}`}>
-              <dt>{field.label}</dt>
+              <dt>
+                {field.label}
+                {/^lab score$/i.test(field.label.trim()) && <LabScoreHelp />}
+              </dt>
               <dd>{field.value}</dd>
             </div>
           ))}

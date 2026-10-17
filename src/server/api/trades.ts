@@ -1,3 +1,4 @@
+import { isolatedMap } from '@/server/front-office/runtime-context';
 import { isTradeDeadlinePassed, TRADE_DEADLINE_MESSAGE } from '@/lib/front-office-trade-window';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveHeaderDTO } from '@/types/save';
@@ -105,7 +106,10 @@ type TradeBalanceResult = {
 const serverState = globalThis as typeof globalThis & {
   __frontOfficeTradeStore?: Map<string, TradeState>;
 };
-const tradeStore = (serverState.__frontOfficeTradeStore ??= new Map<string, TradeState>());
+const tradeStore = isolatedMap(
+  'trades',
+  (serverState.__frontOfficeTradeStore ??= new Map<string, TradeState>()),
+);
 
 const getPartnerRoster = (
   state: Parameters<typeof getOrBuildProjectedRosterForTeam>[0],

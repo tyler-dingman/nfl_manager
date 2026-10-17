@@ -32,7 +32,14 @@ function developmentAppOrigin(origin: string | null) {
 function withDevelopmentCors(response: NextResponse, origin: string) {
   response.headers.set('Access-Control-Allow-Origin', origin);
   response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-  response.headers.set('Access-Control-Allow-Headers', 'Authorization, Content-Type, Accept');
+  response.headers.set(
+    'Access-Control-Allow-Headers',
+    'Authorization, Content-Type, Accept, X-Franchise-Id, X-Franchise-Version, X-Franchise-Command-Id',
+  );
+  response.headers.set(
+    'Access-Control-Expose-Headers',
+    'X-Franchise-Id, X-Franchise-Version, Server-Timing',
+  );
   response.headers.set('Vary', 'Origin');
   return response;
 }

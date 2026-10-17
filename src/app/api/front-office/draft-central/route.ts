@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextRequest, NextResponse } from 'next/server';
 import { ensureSaveState } from '@/server/api/store';
 import { authError } from '@/server/auth/http';
@@ -6,7 +7,7 @@ import { getDraftProspectsForYear } from '@/server/data/draft-prospects';
 import { buildDraftCentralIntelligence } from '@/server/front-office/draft/draft-intelligence';
 import { getFrontOfficeSaveMetadata } from '@/server/front-office/repository';
 
-export async function GET(request: NextRequest) {
+async function handleGET(request: NextRequest) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   const saveId = request.nextUrl.searchParams.get('saveId');
@@ -27,3 +28,5 @@ export async function GET(request: NextRequest) {
     }),
   });
 }
+
+export const GET = withFranchiseRoute(handleGET, {});

@@ -2,6 +2,7 @@
 
 import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import Link from 'next/link';
+import { PrimaryNavGroup } from './primary-nav-group';
 import { createPortal } from 'react-dom';
 import { LogIn, LogOut, Shield, X } from 'lucide-react';
 import {
@@ -138,17 +139,30 @@ export default function MobileSiteMenu({
                     Main
                   </h2>
                   <nav aria-label="Mobile primary navigation" className="mt-2 grid">
-                    {PRIMARY_NAV_ITEMS.map((item) => (
-                      <Link
-                        key={item.id}
-                        href={getPrimaryNavHref(item.href, teamAbbr)}
-                        onClick={close}
-                        aria-current={activeItem === item.id ? 'page' : undefined}
-                        className={`border-b border-white/10 py-3.5 text-lg font-black ${activeItem === item.id ? 'text-[var(--team-secondary-on-dark)]' : 'text-[var(--team-on-dark)]'}`}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
+                    {PRIMARY_NAV_ITEMS.map((item) =>
+                      'children' in item ? (
+                        <PrimaryNavGroup
+                          key={item.id}
+                          label={item.label}
+                          items={item.children}
+                          mobile
+                          active={activeItem === item.id}
+                          teamAbbr={teamAbbr}
+                          onNavigate={close}
+                          className={`w-full border-b border-white/10 py-3.5 text-lg font-black ${activeItem === item.id ? 'text-[var(--team-secondary-on-dark)]' : 'text-[var(--team-on-dark)]'}`}
+                        />
+                      ) : (
+                        <Link
+                          key={item.id}
+                          href={getPrimaryNavHref(item.href, teamAbbr)}
+                          onClick={close}
+                          aria-current={activeItem === item.id ? 'page' : undefined}
+                          className={`border-b border-white/10 py-3.5 text-lg font-black ${activeItem === item.id ? 'text-[var(--team-secondary-on-dark)]' : 'text-[var(--team-on-dark)]'}`}
+                        >
+                          {item.label}
+                        </Link>
+                      ),
+                    )}
                   </nav>
                 </section>
                 <div className={user ? 'mt-auto' : ''}>

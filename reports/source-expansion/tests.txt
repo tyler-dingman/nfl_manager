@@ -1,0 +1,495 @@
+TAP version 13
+# Subtest: canonicalizes known host and rejects malformed settings
+ok 1 - canonicalizes known host and rejects malformed settings
+  ---
+  duration_ms: 1.577792
+  ...
+# Subtest: authenticates before ingestion and never follows redirects
+ok 2 - authenticates before ingestion and never follows redirects
+  ---
+  duration_ms: 37.605167
+  ...
+# Subtest: preflight failures never POST or retry and do not leak response data
+ok 3 - preflight failures never POST or retry and do not leak response data
+  ---
+  duration_ms: 17.2655
+  ...
+# Subtest: check-only does not ingest
+ok 4 - check-only does not ingest
+  ---
+  duration_ms: 7.976583
+  ...
+# Subtest: rejects wrong preflight contract and failed ingestion jobs
+ok 5 - rejects wrong preflight contract and failed ingestion jobs
+  ---
+  duration_ms: 5.623292
+  ...
+# Subtest: every NFL team has researched primary links and an honest minimum-20 gap
+ok 6 - every NFL team has researched primary links and an honest minimum-20 gap
+  ---
+  duration_ms: 45.956417
+  ...
+# Subtest: source IDs, publication identities and team associations are unique
+ok 7 - source IDs, publication identities and team associations are unique
+  ---
+  duration_ms: 4.421666
+  ...
+# Subtest: existing general source IDs and configuration remain byte-for-byte equivalent
+ok 8 - existing general source IDs and configuration remain byte-for-byte equivalent
+  ---
+  duration_ms: 1.854667
+  ...
+# Subtest: new shared publications are stored once and appear only on their associated teams
+ok 9 - new shared publications are stored once and appear only on their associated teams
+  ---
+  duration_ms: 0.748458
+  ...
+# Subtest: normalization handles protocol, www, tracking, aliases and exact social identities
+ok 10 - normalization handles protocol, www, tracking, aliases and exact social identities
+  ---
+  duration_ms: 0.830541
+  ...
+# Subtest: scores have bounded components and do not become publishing trust scores
+ok 11 - scores have bounded components and do not become publishing trust scores
+  ---
+  duration_ms: 2.786959
+  ...
+# Subtest: verified RSS alone never authorizes ingestion; X stays discovery-only
+ok 12 - verified RSS alone never authorizes ingestion; X stays discovery-only
+  ---
+  duration_ms: 0.503208
+  ...
+# Subtest: shared feed plan deduplicates approved fetches while preserving association records
+ok 13 - shared feed plan deduplicates approved fetches while preserving association records
+  ---
+  duration_ms: 0.194792
+  ...
+# Subtest: adaptive planning requires measured volume and backs off failures
+ok 14 - adaptive planning requires measured volume and backs off failures
+  ---
+  duration_ms: 1.327291
+  ...
+# Subtest: storage and account-wide write/request gates fail when modeled expansion exceeds capacity
+ok 15 - storage and account-wide write/request gates fail when modeled expansion exceeds capacity
+  ---
+  duration_ms: 14.141583
+  ...
+# Subtest: normalizes harmless channel-title punctuation differences
+ok 16 - normalizes harmless channel-title punctuation differences
+  ---
+  duration_ms: 0.993791
+  ...
+# Subtest: accepts one exact approved channel title and refuses guesses
+ok 17 - accepts one exact approved channel title and refuses guesses
+  ---
+  duration_ms: 0.523542
+  ...
+# Subtest: resolves official and podcast channels before lower-priority sources
+ok 18 - resolves official and podcast channels before lower-priority sources
+  ---
+  duration_ms: 0.203459
+  ...
+# Subtest: tier 3 cannot establish a push by itself
+ok 19 - tier 3 cannot establish a push by itself
+  ---
+  duration_ms: 0.829791
+  ...
+# Subtest: tier 2 becomes a candidate rather than an independent breaking push
+ok 20 - tier 2 becomes a candidate rather than an independent breaking push
+  ---
+  duration_ms: 0.212375
+  ...
+# Subtest: official high impact events can push
+ok 21 - official high impact events can push
+  ---
+  duration_ms: 0.120667
+  ...
+# Subtest: repeat event without a material update is suppressed
+ok 22 - repeat event without a material update is suppressed
+  ---
+  duration_ms: 0.0925
+  ...
+# Subtest: monitoring registry covers all 32 NFL teams with unique source ids
+ok 23 - monitoring registry covers all 32 NFL teams with unique source ids
+  ---
+  duration_ms: 2.112125
+  ...
+# Subtest: every new team baseline includes official, SB Nation, FanSided, and national tier-one sources
+ok 24 - every new team baseline includes official, SB Nation, FanSided, and national tier-one sources
+  ---
+  duration_ms: 0.951916
+  ...
+# Subtest: requested example team publications are present
+ok 25 - requested example team publications are present
+  ---
+  duration_ms: 8.506916
+  ...
+# Subtest: same-publisher Tier 2 items merge but count as one independent source
+ok 26 - same-publisher Tier 2 items merge but count as one independent source
+  ---
+  duration_ms: 2.289917
+  ...
+# Subtest: two independent Tier 2 publishers can publish one factual event
+ok 27 - two independent Tier 2 publishers can publish one factual event
+  ---
+  duration_ms: 2.400417
+  ...
+# Subtest: single Tier 1 factual trade and injury can publish immediately
+ok 28 - single Tier 1 factual trade and injury can publish immediately
+  ---
+  duration_ms: 4.688166
+  ...
+# Subtest: corroborated lower-scoring Tier 2 sources clear the tuned threshold
+ok 29 - corroborated lower-scoring Tier 2 sources clear the tuned threshold
+  ---
+  duration_ms: 0.3525
+  ...
+# Subtest: Tier 3 does not count as independent corroboration but can publish in all-tier mode
+ok 30 - Tier 3 does not count as independent corroboration but can publish in all-tier mode
+  ---
+  duration_ms: 0.3195
+  ...
+# Subtest: single Tier 3 concrete factual report publishes in all-tier mode
+ok 31 - single Tier 3 concrete factual report publishes in all-tier mode
+  ---
+  duration_ms: 0.205583
+  ...
+# Subtest: approved editorial source publishes analysis while preserving its source title
+ok 32 - approved editorial source publishes analysis while preserving its source title
+  ---
+  duration_ms: 0.3655
+  ...
+# Subtest: different headlines describing the Diego Pounds trade cluster
+ok 33 - different headlines describing the Diego Pounds trade cluster
+  ---
+  duration_ms: 0.7495
+  ...
+# Subtest: same player but different factual event does not merge
+ok 34 - same player but different factual event does not merge
+  ---
+  duration_ms: 0.5615
+  ...
+# Subtest: similar analysis topics do not auto-merge
+ok 35 - similar analysis topics do not auto-merge
+  ---
+  duration_ms: 134.023583
+  ...
+# Subtest: evolving Josh Simmons injury updates cluster
+ok 36 - evolving Josh Simmons injury updates cluster
+  ---
+  duration_ms: 9.927125
+  ...
+# Subtest: materially conflicting reports require review
+ok 37 - materially conflicting reports require review
+  ---
+  duration_ms: 0.436667
+  ...
+# Subtest: misclassified list and reaction coverage does not auto-publish as a factual event
+ok 38 - misclassified list and reaction coverage does not auto-publish as a factual event
+  ---
+  duration_ms: 5.062042
+  ...
+# Subtest: daily local-AI cap defaults to ten per team
+ok 39 - daily local-AI cap defaults to ten per team
+  ---
+  duration_ms: 0.905125
+  ...
+# Subtest: new local-AI stories stop at ten
+ok 40 - new local-AI stories stop at ten
+  ---
+  duration_ms: 1.100791
+  ...
+# Subtest: existing canonical story updates remain allowed after the new-story cap
+ok 41 - existing canonical story updates remain allowed after the new-story cap
+  ---
+  duration_ms: 0.136
+  ...
+# Subtest: invalid caps fail closed
+ok 42 - invalid caps fail closed
+  ---
+  duration_ms: 0.424584
+  ...
+# Subtest: official high-confidence factual story auto-publishes and can break
+ok 43 - official high-confidence factual story auto-publishes and can break
+  ---
+  duration_ms: 2.137583
+  ...
+# Subtest: rumors and conflicts require review
+ok 44 - rumors and conflicts require review
+  ---
+  duration_ms: 0.438584
+  ...
+# Subtest: unsupported content is not published and editor overrides win
+ok 45 - unsupported content is not published and editor overrides win
+  ---
+  duration_ms: 0.183792
+  ...
+# Subtest: named polling tiers and per-source overrides use expected intervals
+ok 46 - named polling tiers and per-source overrides use expected intervals
+  ---
+  duration_ms: 0.824583
+  ...
+# Subtest: scheduling uses interval and bounded exponential backoff
+ok 47 - scheduling uses interval and bounded exponential backoff
+  ---
+  duration_ms: 2.316041
+  ...
+# Subtest: RSS parser and normalizer produce stable candidates
+ok 48 - RSS parser and normalizer produce stable candidates
+  ---
+  duration_ms: 4.519209
+  ...
+# Subtest: language guard rejects Spanish stories before candidate creation
+ok 49 - language guard rejects Spanish stories before candidate creation
+  ---
+  duration_ms: 0.386
+  ...
+# Subtest: aggregator headlines outrank unrelated team mentions in feed descriptions
+ok 50 - aggregator headlines outrank unrelated team mentions in feed descriptions
+  ---
+  duration_ms: 0.741666
+  ...
+# Subtest: Atom parser preserves CDATA titles and summaries
+ok 51 - Atom parser preserves CDATA titles and summaries
+  ---
+  duration_ms: 4.867458
+  ...
+# Subtest: clustering merges strong matches and flags the ambiguous band
+ok 52 - clustering merges strong matches and flags the ambiguous band
+  ---
+  duration_ms: 0.916542
+  ...
+# Subtest: official resolution is material while repeated wording is not
+ok 53 - official resolution is material while repeated wording is not
+  ---
+  duration_ms: 0.6205
+  ...
+# Subtest: publishability hides drafts and review stories
+ok 54 - publishability hides drafts and review stories
+  ---
+  duration_ms: 2.989833
+  ...
+# Subtest: Huddle excludes Three and Out and favors topic diversity
+ok 55 - Huddle excludes Three and Out and favors topic diversity
+  ---
+  duration_ms: 3.815417
+  ...
+# Subtest: Wire emits one entry per meaningful story version
+ok 56 - Wire emits one entry per meaningful story version
+  ---
+  duration_ms: 30.391625
+  ...
+# Subtest: all 32 teams have official and Locked On candidates
+ok 57 - all 32 teams have official and Locked On candidates
+  ---
+  duration_ms: 2.128209
+  ...
+# Subtest: active sources can never omit canonical channel identity
+ok 58 - active sources can never omit canonical channel identity
+  ---
+  duration_ms: 0.229042
+  ...
+# Subtest: multi-team video requires explicit team evidence
+ok 59 - multi-team video requires explicit team evidence
+  ---
+  duration_ms: 0.471875
+  ...
+# Subtest: team source is a prior, not unconditional assignment
+ok 60 - team source is a prior, not unconditional assignment
+  ---
+  duration_ms: 0.188792
+  ...
+# Subtest: YouTube polling uses the low-cost uploads playlist endpoint
+ok 61 - YouTube polling uses the low-cost uploads playlist endpoint
+  ---
+  duration_ms: 62.185875
+  ...
+# Subtest: missing and malformed primary credentials fail closed
+ok 62 - missing and malformed primary credentials fail closed
+  ---
+  duration_ms: 2.450875
+  ...
+# Subtest: only exact current or explicitly configured previous tokens authenticate
+ok 63 - only exact current or explicitly configured previous tokens authenticate
+  ---
+  duration_ms: 4.343167
+  ...
+# Subtest: global automation is enabled by default and uses bounded defaults
+ok 64 - global automation is enabled by default and uses bounded defaults
+  ---
+  duration_ms: 2.762125
+  ...
+# Subtest: invalid limits cannot remove global generation bounds
+ok 65 - invalid limits cannot remove global generation bounds
+  ---
+  duration_ms: 0.187
+  ...
+# Subtest: daily limit stops global processing
+ok 66 - daily limit stops global processing
+  ---
+  duration_ms: 0.106833
+  ...
+# Subtest: global endpoint checks authorization and kill switch before database and sources
+ok 67 - global endpoint checks authorization and kill switch before database and sources
+  ---
+  duration_ms: 0.671959
+  ...
+# Subtest: Cloudflare Worker authenticates one global call on the fixed-CST daytime cron
+ok 68 - Cloudflare Worker authenticates one global call on the fixed-CST daytime cron
+  ---
+  duration_ms: 1.293208
+  ...
+# Subtest: migration runner includes the permanent automation ledger
+ok 69 - migration runner includes the permanent automation ledger
+  ---
+  duration_ms: 0.572667
+  ...
+# Subtest: accepts only an exact active 72-hour window
+ok 70 - accepts only an exact active 72-hour window
+  ---
+  duration_ms: 1.018833
+  ...
+# Subtest: missing, invalid, and expired windows fail closed with the required message
+ok 71 - missing, invalid, and expired windows fail closed with the required message
+  ---
+  duration_ms: 0.201
+  ...
+# Subtest: expiration guard occurs before database, source, AI, or generation work
+ok 72 - expiration guard occurs before database, source, AI, or generation work
+  ---
+  duration_ms: 0.556958
+  ...
+# Subtest: Vercel endpoint fails closed unless the trial is scoped to Kansas City
+ok 73 - Vercel endpoint fails closed unless the trial is scoped to Kansas City
+  ---
+  duration_ms: 0.952791
+  ...
+# Subtest: trial repository initializes its isolated run ledger before reading or recording usage
+ok 74 - trial repository initializes its isolated run ledger before reading or recording usage
+  ---
+  duration_ms: 0.345459
+  ...
+# Subtest: hard generation and expenditure budgets stop work
+ok 75 - hard generation and expenditure budgets stop work
+  ---
+  duration_ms: 0.170583
+  ...
+# Subtest: manual trial workflows retain isolated groups and expiration guards
+ok 76 - manual trial workflows retain isolated groups and expiration guards
+  ---
+  duration_ms: 0.437083
+  ...
+# Subtest: maps discovered YouTube candidates into the Film Room response contract
+ok 77 - maps discovered YouTube candidates into the Film Room response contract
+  ---
+  duration_ms: 4.553167
+  ...
+# Subtest: categorizes film, podcast, local, official, and creator sources
+ok 78 - categorizes film, podcast, local, official, and creator sources
+  ---
+  duration_ms: 0.216917
+  ...
+# Subtest: rejects malformed YouTube video IDs
+ok 79 - rejects malformed YouTube video IDs
+  ---
+  duration_ms: 0.249833
+  ...
+# Subtest: verified video manifest has unique source and channel IDs
+ok 80 - verified video manifest has unique source and channel IDs
+  ---
+  duration_ms: 0.966292
+  ...
+# Subtest: verified video manifest covers every team with at least one channel
+ok 81 - verified video manifest covers every team with at least one channel
+  ---
+  duration_ms: 0.222625
+  ...
+# Subtest: allows a registered feed to redirect between www and apex host
+ok 82 - allows a registered feed to redirect between www and apex host
+  ---
+  duration_ms: 5.460375
+  ...
+# Subtest: still rejects redirects to an unrelated host
+ok 83 - still rejects redirects to an unrelated host
+  ---
+  duration_ms: 3.124083
+  ...
+# Subtest: conditional 304 preserves validators and produces no candidates
+ok 84 - conditional 304 preserves validators and produces no candidates
+  ---
+  duration_ms: 19.444833
+  ...
+# Subtest: disallowed redirect is rejected before requesting its target
+ok 85 - disallowed redirect is rejected before requesting its target
+  ---
+  duration_ms: 3.076541
+  ...
+# Subtest: same-host redirect retains attribution and canonical article identity
+ok 86 - same-host redirect retains attribution and canonical article identity
+  ---
+  duration_ms: 6.115042
+  ...
+# Subtest: HTTP failure, invalid RSS, and oversized response fail instead of recording empty success
+ok 87 - HTTP failure, invalid RSS, and oversized response fail instead of recording empty success
+  ---
+  duration_ms: 1.502666
+  ...
+# Subtest: fetch timeout aborts an unavailable source
+ok 88 - fetch timeout aborts an unavailable source
+  ---
+  duration_ms: 10002.956375
+  ...
+# Subtest: invalid item date or unsafe article URL cannot poison the feed batch
+ok 89 - invalid item date or unsafe article URL cannot poison the feed batch
+  ---
+  duration_ms: 3.55975
+  ...
+# Subtest: same publication aliases do not manufacture independent corroboration
+ok 90 - same publication aliases do not manufacture independent corroboration
+  ---
+  duration_ms: 2.303084
+  ...
+# Subtest: identical syndicated title and excerpt consolidate while attribution remains intact
+ok 91 - identical syndicated title and excerpt consolidate while attribution remains intact
+  ---
+  duration_ms: 2.250709
+  ...
+# Subtest: headline-only evidence cannot generate factual editorial copy
+ok 92 - headline-only evidence cannot generate factual editorial copy
+  ---
+  duration_ms: 1.01
+  ...
+# Subtest: YouTube candidates are stored for Film Room but never queued for Beat synthesis
+ok 93 - YouTube candidates are stored for Film Room but never queued for Beat synthesis
+  ---
+  duration_ms: 0.807667
+  ...
+# Subtest: public story projections require at least one non-video source
+ok 94 - public story projections require at least one non-video source
+  ---
+  duration_ms: 0.21275
+  ...
+# Subtest: Film Room continues reading YouTube candidates directly
+ok 95 - Film Room continues reading YouTube candidates directly
+  ---
+  duration_ms: 0.625917
+  ...
+# Subtest: scheduled workers keep standard and video queues isolated
+ok 96 - scheduled workers keep standard and video queues isolated
+  ---
+  duration_ms: 0.316833
+  ...
+# Subtest: manual backup ingestion keeps both pipelines and avoids duplicate scheduled polling
+ok 97 - manual backup ingestion keeps both pipelines and avoids duplicate scheduled polling
+  ---
+  duration_ms: 0.272333
+  ...
+1..97
+# tests 97
+# suites 0
+# pass 97
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11287.430916

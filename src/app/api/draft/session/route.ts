@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
 
@@ -7,7 +8,7 @@ import type { DraftMode } from '@/types/draft';
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveUnlocksDTO } from '@/types/save';
 
-export const GET = async (request: Request) => {
+const handleGET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const draftSessionId = searchParams.get('draftSessionId');
   const saveId = searchParams.get('saveId');
@@ -33,7 +34,7 @@ export const GET = async (request: Request) => {
   }
 };
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   let body:
     | {
         mode?: DraftMode;
@@ -112,3 +113,6 @@ export const POST = async (request: Request) => {
   await persistCompletedFranchiseDraft(request, body.saveId, session);
   return NextResponse.json({ ok: true, draftSessionId: session.id, session });
 };
+
+export const GET = withFranchiseRoute(handleGET, {});
+export const POST = withFranchiseRoute(handlePOST, {});

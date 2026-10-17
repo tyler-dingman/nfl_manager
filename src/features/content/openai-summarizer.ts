@@ -1,4 +1,5 @@
 import type { ContentSource, SummarizedTopic, TopicSummarizer } from './types';
+import { assertPaidInferenceAllowed } from './cost-policy';
 
 const outputSchema = {
   type: 'object',
@@ -45,6 +46,7 @@ export class OpenAITopicSummarizer implements TopicSummarizer {
     topicKey,
     sources,
   }: Parameters<TopicSummarizer['summarize']>[0]) {
+    assertPaidInferenceAllowed();
     const response = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: {

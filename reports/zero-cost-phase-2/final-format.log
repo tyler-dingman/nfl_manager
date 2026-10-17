@@ -1,0 +1,7 @@
+src/server/auth/service.ts 73ms
+tests/infrastructure/phase-two.integration.ts 19ms
+scripts/validate-phase-two-browser.mjs 35ms
+PRODUCTION_INFRASTRUCTURE_AUDIT.md 73ms
+WORKER_CPU_VALIDATION.md 12ms
+ZERO_COST_PRODUCTION_READINESS_PHASE_2.md 44ms
+reports/zero-cost-phase-2/ARCHITECTURE_DECISION.md 4ms (unchanged)

@@ -39,7 +39,7 @@ const neutralHeadline = (candidate: ContentCandidate) => {
   }
 };
 const candidateFact = (candidate: ContentCandidate) =>
-  (candidate.excerpt || candidate.title)
+  (candidate.excerpt || candidate.text)
     .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
     .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)));
 
@@ -64,6 +64,9 @@ export class GroundedDeterministicStorySynthesizer implements StorySynthesizer {
     evidence,
   }: Parameters<StorySynthesizer['synthesize']>[0]): Promise<SynthesizedStory> {
     if (!evidence.length) throw new Error('Story synthesis requires evidence.');
+    evidence = evidence.filter(({ candidate }) => candidateFact(candidate).trim());
+    if (!evidence.length)
+      throw new Error('Story synthesis requires source text beyond a headline.');
     const strongest = [...evidence].sort(
       (a, b) => b.source.reliabilityScore - a.source.reliabilityScore,
     )[0];

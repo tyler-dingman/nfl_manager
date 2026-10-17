@@ -25,7 +25,7 @@ export const destinations: { label: string; icon: keyof typeof Ionicons.glyphMap
   { label: 'The Huddle', icon: 'chatbubbles-outline', href: '/huddle' as Href },
   { label: 'Film Room', icon: 'play-circle-outline', href: '/film-room' as Href },
   { label: 'The Crew', icon: 'people-outline', href: '/crew' as Href },
-  { label: 'Trivia', icon: 'help-circle-outline', href: '/trivia' },
+  { label: 'Play', icon: 'game-controller-outline', href: '/play' as Href },
   { label: 'Game Day', icon: 'football-outline', href: '/game-day' },
   { label: 'Get Caught Up', icon: 'time-outline', href: '/catch-up' },
   { label: 'Front Office', icon: 'briefcase-outline', href: '/front-office' },

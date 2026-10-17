@@ -1,0 +1,138 @@
+[
+  {
+    "label": "current-reference-only",
+    "dau": 0,
+    "feeds": 164,
+    "checksPerFeedPerDay": 8,
+    "uniqueCandidatesPerDay": 200,
+    "feedRequestsPerDay": 1312,
+    "workerRequestsPerDay": 8311,
+    "d1ReadsPerDay": 1955414,
+    "d1WritesPerDay": 77510,
+    "d1Mb": {
+      "30": 30.052392328767127,
+      "90": 90.15717698630137,
+      "180": 180.31435397260273,
+      "365": 365.63744
+    },
+    "r2Mb365": 6380.95952,
+    "r2ClassAMonth": 256212,
+    "r2ClassBMonth": 1255800,
+    "workerCpuMs": null,
+    "accountUsageVerified": false,
+    "externalPaidApiCalls": 0,
+    "limits": {
+      "workerRequests": true,
+      "d1Reads": true,
+      "d1Writes": true,
+      "d1Database365": true,
+      "engineeringStorageTarget": false,
+      "r2Storage": true,
+      "r2ClassA": true,
+      "r2ClassB": true
+    },
+    "projectedMonthlyCostUsd": 0
+  },
+  {
+    "label": "launch",
+    "dau": 1000,
+    "feeds": 164,
+    "checksPerFeedPerDay": 8,
+    "uniqueCandidatesPerDay": 400,
+    "feedRequestsPerDay": 1312,
+    "workerRequestsPerDay": 49351,
+    "d1ReadsPerDay": 2287734,
+    "d1WritesPerDay": 88762,
+    "d1Mb": {
+      "30": 43.492392328767124,
+      "90": 130.47717698630137,
+      "180": 260.95435397260275,
+      "365": 529.1574400000001
+    },
+    "r2Mb365": 8885.151520000001,
+    "r2ClassAMonth": 268212,
+    "r2ClassBMonth": 4449120,
+    "workerCpuMs": null,
+    "accountUsageVerified": false,
+    "externalPaidApiCalls": 0,
+    "limits": {
+      "workerRequests": true,
+      "d1Reads": true,
+      "d1Writes": true,
+      "d1Database365": false,
+      "engineeringStorageTarget": false,
+      "r2Storage": true,
+      "r2ClassA": true,
+      "r2ClassB": true
+    },
+    "projectedMonthlyCostUsd": null
+  },
+  {
+    "label": "2x-launch",
+    "dau": 2000,
+    "feeds": 164,
+    "checksPerFeedPerDay": 8,
+    "uniqueCandidatesPerDay": 800,
+    "feedRequestsPerDay": 1312,
+    "workerRequestsPerDay": 90631,
+    "d1ReadsPerDay": 2624054,
+    "d1WritesPerDay": 111266,
+    "d1Mb": {
+      "30": 70.37239232876713,
+      "90": 211.1171769863014,
+      "180": 422.2343539726028,
+      "365": 856.1974400000001
+    },
+    "r2Mb365": 13893.535520000001,
+    "r2ClassAMonth": 292212,
+    "r2ClassBMonth": 7654440,
+    "workerCpuMs": null,
+    "accountUsageVerified": false,
+    "externalPaidApiCalls": 0,
+    "limits": {
+      "workerRequests": true,
+      "d1Reads": true,
+      "d1Writes": false,
+      "d1Database365": false,
+      "engineeringStorageTarget": false,
+      "r2Storage": false,
+      "r2ClassA": true,
+      "r2ClassB": true
+    },
+    "projectedMonthlyCostUsd": null
+  },
+  {
+    "label": "5x-launch",
+    "dau": 5000,
+    "feeds": 164,
+    "checksPerFeedPerDay": 8,
+    "uniqueCandidatesPerDay": 2000,
+    "feedRequestsPerDay": 1312,
+    "workerRequestsPerDay": 214471,
+    "d1ReadsPerDay": 3633014,
+    "d1WritesPerDay": 178778,
+    "d1Mb": {
+      "30": 151.01239232876713,
+      "90": 453.03717698630135,
+      "180": 906.0743539726027,
+      "365": 1837.3174400000003
+    },
+    "r2Mb365": 28918.68752,
+    "r2ClassAMonth": 364212,
+    "r2ClassBMonth": 17270400,
+    "workerCpuMs": null,
+    "accountUsageVerified": false,
+    "externalPaidApiCalls": 0,
+    "limits": {
+      "workerRequests": false,
+      "d1Reads": true,
+      "d1Writes": false,
+      "d1Database365": false,
+      "engineeringStorageTarget": false,
+      "r2Storage": false,
+      "r2ClassA": true,
+      "r2ClassB": false
+    },
+    "projectedMonthlyCostUsd": null
+  }
+]

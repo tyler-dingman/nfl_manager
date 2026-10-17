@@ -1,0 +1,391 @@
+{
+  "source": "https://data.unabated.com/swagger/v1/swagger.json",
+  "reviewedAt": "2026-10-10",
+  "paths": {
+    "/deeplink": {
+      "get": {
+        "tags": [
+          "Deeplink"
+        ],
+        "summary": "Generate sportsbook deep links",
+        "description": "**Available for:** Free API, Enterprise API.\n\nCreate sportsbook links for one or more current market-line IDs, with optional points and device settings. The response includes a combined URL and individual URLs when available; Free API partners must append their `utm_campaign` before publishing generic Gambly links.\n\nFree API covers its supported sportsbooks and delayed REST data. Enterprise API follows the data scope selected for your integration.\n\nFor Free API partners, `data.url` and `data.individualUrls` contain generic Gambly links. Add your `utm_campaign` before publishing them. Use current market-line IDs from the odds response.",
+        "operationId": "deeplinkGetDeeplinks",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "Comma separated market line ids.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "points",
+            "in": "query",
+            "description": "Optional comma separated list of points.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "User state code.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "isMobileDevice",
+            "in": "query",
+            "description": "Whether to generate a link for a mobile device.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "os",
+            "in": "query",
+            "description": "Client operating system for platform-specific mobile deeplinks.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "generationOptions",
+            "in": "query",
+            "description": "Optional generation options.",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Dictionary with String keys and String values"
+            }
+          },
+          {
+            "name": "X-API-Version",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. Check success and messages as well as HTTP status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOfDeeplinkResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Deep-link generation failed."
+          },
+          "401": {
+            "description": "Authentication is missing, invalid, expired, or revoked."
+          },
+          "403": {
+            "description": "This request is outside the key's API tier or data scope."
+          },
+          "400": {
+            "description": "Invalid market-line IDs or selections. Free requests support at most twenty selections from one sportsbook."
+          },
+          "404": {
+            "description": "A selected market line was not found."
+          }
+        },
+        "x-unabated-tiers": [
+          "free",
+          "enterprise"
+        ],
+        "x-badges": [
+          {
+            "name": "Free API",
+            "position": "after",
+            "color": "#23c483"
+          },
+          {
+            "name": "Enterprise API",
+            "position": "after",
+            "color": "#b99aff"
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "Shell",
+            "label": "cURL",
+            "source": "# Use a current market-line ID from your odds response, not a hardcoded example ID.\ncurl --fail-with-body --silent --show-error --get \\\n  \"https://data.unabated.com/deeplink\" \\\n  -H \"X-Api-Key: $UNABATED_API_KEY\" --data-urlencode \"ids=$UNABATED_MARKET_LINE_ID\"\n# Free partners must add their utm_campaign to every Gambly link they publish."
+          },
+          {
+            "lang": "JavaScript",
+            "label": "JavaScript",
+            "source": "const base = 'https://data.unabated.com';\nconst lineId = process.env.UNABATED_MARKET_LINE_ID; // From a current odds response.\nif (!lineId) throw new Error('Set UNABATED_MARKET_LINE_ID to a current market-line ID');\nconst url = new URL('/deeplink', base);\nurl.searchParams.set('ids', lineId);\nconst response = await fetch(url, { headers: { 'X-Api-Key': process.env.UNABATED_API_KEY } });\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconst result = await response.json();\nif (!result.success) throw new Error(result.messages.join('; '));\nconsole.log(result.data);\n// Add your partner's utm_campaign to generic Gambly links before publishing them."
+          },
+          {
+            "lang": "Python",
+            "label": "Python",
+            "source": "import json, os\nfrom urllib.request import Request, urlopen\nfrom urllib.parse import urlencode\n\nbase = 'https://data.unabated.com'\n# UNABATED_MARKET_LINE_ID comes from a current odds response.\nquery = urlencode({'ids': os.environ['UNABATED_MARKET_LINE_ID']})\nrequest = Request(base + '/deeplink?' + query, headers={'X-Api-Key': os.environ['UNABATED_API_KEY']})\nwith urlopen(request, timeout=30) as response:\n    result = json.load(response)\nif not result['success']:\n    raise RuntimeError('; '.join(result['messages']))\nprint(result['data'])\n# Add your partner's utm_campaign to generic Gambly links before publishing them."
+          }
+        ]
+      }
+    },
+    "/api/v1/bet/generate": {
+      "post": {
+        "tags": [
+          "GamblyB2BBet"
+        ],
+        "summary": "Generate a bet slip from text or an image",
+        "description": "**Available for:** Free API, Enterprise API.\n\nSubmit a text prompt in `content.text`, an image URL in `content.imageUrl`, or an encoded image in `content.base64String` to start asynchronous bet slip generation. Use the returned `requestId` to poll the status endpoint for matched selections, sportsbook odds, and deep links.\n\nSubmit a natural-language prompt or an image of a bet slip and receive a requestId for asynchronous processing.\r\nText requests use content.text. Image requests use content.imageUrl or content.base64String.\r\nPoll GET /api/v1/bet/status/{guid} with the returned requestId until the status is Complete.\r\nComplete responses include sportsbook-specific bet slips, matched odds, deep links, sharedBetSlipId, and shareUrl values that can be used for one-tap bet placement or shareable bet-slip pages.\r\nUse X-Api-Key to authenticate the request.\n\nFree API covers its supported sportsbooks and delayed REST data. Enterprise API follows the data scope selected for your integration.",
+        "operationId": "gamblyB2BBetGenerate",
+        "parameters": [
+          {
+            "name": "X-API-Version",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The generation request containing the content type and content payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateBetRequest"
+              },
+              "examples": {
+                "Text Example": {
+                  "summary": "Generate a bet slip from a natural-language prompt.",
+                  "value": {
+                    "type": "text",
+                    "generateMobileLinks": true,
+                    "content": {
+                      "text": "MLB moneyline bet slip for Yankees to win"
+                    }
+                  }
+                },
+                "Image Url Example": {
+                  "summary": "Generate a bet slip from a publicly reachable image URL.",
+                  "value": {
+                    "type": "image",
+                    "generateMobileLinks": true,
+                    "content": {
+                      "imageUrl": "https://example.com/betslip-image.jpg"
+                    }
+                  }
+                },
+                "Base 64 Image Example": {
+                  "summary": "Generate a bet slip from a base64-encoded image payload.",
+                  "value": {
+                    "type": "image",
+                    "generateMobileLinks": true,
+                    "content": {
+                      "base64String": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=",
+                      "compression": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Request accepted and queued for processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateBetResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is missing, invalid, expired, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "This request is outside the key's API tier or data scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-unabated-tiers": [
+          "free",
+          "enterprise"
+        ],
+        "x-badges": [
+          {
+            "name": "Free API",
+            "position": "after",
+            "color": "#23c483"
+          },
+          {
+            "name": "Enterprise API",
+            "position": "after",
+            "color": "#b99aff"
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "Shell",
+            "label": "cURL",
+            "source": "curl --fail-with-body --silent --show-error \\\n  \"https://data.unabated.com/api/v1/bet/generate\" \\\n  -H \"X-Api-Key: $UNABATED_API_KEY\" -H 'Content-Type: application/json' \\\n  --data '{\"type\":\"text\",\"content\":{\"text\":\"NFL moneyline bet slip for Eagles to win\"}}'\n# Poll GET /api/v1/bet/status/{guid} using the returned request identifier."
+          },
+          {
+            "lang": "JavaScript",
+            "label": "JavaScript",
+            "source": "const base = 'https://data.unabated.com';\nconst response = await fetch(`${base}/api/v1/bet/generate`, {\n  method: 'POST',\n  headers: { 'X-Api-Key': process.env.UNABATED_API_KEY, 'Content-Type': 'application/json' },\n  body: JSON.stringify({ type: 'text', content: { text: 'NFL moneyline bet slip for Eagles to win' } })\n});\nif (!response.ok) throw new Error(`HTTP ${response.status}`);\nconst result = await response.json();\n// Use the returned request identifier to poll /api/v1/bet/status/{guid}.\nconsole.log(result);"
+          },
+          {
+            "lang": "Python",
+            "label": "Python",
+            "source": "import json, os\nfrom urllib.request import Request, urlopen\n\nbase = 'https://data.unabated.com'\nbody = json.dumps({'type': 'text', 'content': {'text': 'NFL moneyline bet slip for Eagles to win'}}).encode()\nrequest = Request(base + '/api/v1/bet/generate', data=body, headers={\n    'X-Api-Key': os.environ['UNABATED_API_KEY'], 'Content-Type': 'application/json'})\nwith urlopen(request, timeout=30) as response:\n    result = json.load(response)\n# Poll /api/v1/bet/status/{guid} using the returned request identifier.\nprint(result)"
+          }
+        ]
+      }
+    },
+    "/api/v1/bet/status/{guid}": {
+      "get": {
+        "tags": [
+          "GamblyB2BBet"
+        ],
+        "summary": "Get bet-slip generation results",
+        "description": "**Available for:** Free API, Enterprise API.\n\nGet the processing status for the `requestId` returned by bet slip generation. Completed results include sportsbook-specific bet slips, matched odds, leg details, deep links, and shareable slip identifiers and URLs; processing or error results explain the current state.\n\nPoll for the results of a previously submitted bet slip generation request.\r\nProcessing responses indicate that Gambly is still matching the submitted text or image.\r\nComplete responses include generated bet slips by sportsbook, overall odds, matched leg counts, leg-level odds, sportsbook deep links, sharedBetSlipId, and shareUrl.\r\nError responses preserve the requestId and include the upstream status details when a request cannot be completed.\r\nUse X-Api-Key to authenticate the request.\n\nFree API covers its supported sportsbooks and delayed REST data. Enterprise API follows the data scope selected for your integration.",
+        "operationId": "gamblyB2BBetStatus",
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "The request ID returned from the generate endpoint.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          {
+            "name": "X-API-Version",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BetStatusResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is missing, invalid, expired, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "This request is outside the key's API tier or data scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-unabated-tiers": [
+          "free",
+          "enterprise"
+        ],
+        "x-badges": [
+          {
+            "name": "Free API",
+            "position": "after",
+            "color": "#23c483"
+          },
+          {
+            "name": "Enterprise API",
+            "position": "after",
+            "color": "#b99aff"
+          }
+        ]
+      }
+    }
+  },
+  "GenerateBetRequest": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "enum": [
+          "text",
+          "image"
+        ],
+        "type": "string",
+        "description": "The type of content being submitted. Use \"text\" for natural-language prompts or \"image\" for a bet slip image.",
+        "example": "text"
+      },
+      "generateMobileLinks": {
+        "type": "boolean",
+        "description": "Whether to generate mobile-optimized deep links for sportsbook apps. Defaults to true.",
+        "example": true
+      },
+      "content": {
+        "$ref": "#/components/schemas/ContentBase"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Request to generate a bet slip from text or image content."
+  }
+}

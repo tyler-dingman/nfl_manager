@@ -1,6 +1,8 @@
 import { jwtVerify, SignJWT } from 'jose';
 import { secureToken, hashPassword, verifyPassword } from './crypto';
 import { requireAuthConfig } from './config';
+import { authTransaction } from './database';
+import { databaseContext } from './database-context';
 import {
   changePassword,
   consumeOneTimeToken,
@@ -106,10 +108,16 @@ export async function requestPasswordReset(email: string) {
 }
 
 export async function resetPassword(token: string, password: string) {
-  const consumed = await consumeOneTimeToken(token, 'PASSWORD_RESET');
-  if (!consumed) throw new Error('This password reset link is invalid or expired.');
-  await changePassword(consumed.user_id, await hashPassword(password));
-  await revokeAllSessions(consumed.user_id);
+  // Reject invalid tokens before expensive hashing. Consumption, password and
+  // revocation commit together, including a rollback if hashing or a write fails.
+  await authTransaction((db) =>
+    databaseContext.run(db, async () => {
+      const consumed = await consumeOneTimeToken(token, 'PASSWORD_RESET');
+      if (!consumed) throw new Error('This password reset link is invalid or expired.');
+      await changePassword(consumed.user_id, await hashPassword(password));
+      await revokeAllSessions(consumed.user_id);
+    }),
+  );
 }
 
 export async function confirmEmail(token: string) {

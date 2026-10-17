@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { gradeTradeOffer } from '@/lib/trade-offer-evaluator';
@@ -30,7 +31,7 @@ type EvaluateDraftTradeOfferBody = {
   };
 };
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   const body = (await request.json()) as EvaluateDraftTradeOfferBody;
   if (!body.saveId || !body.draftSessionId || !body.offer) {
     return NextResponse.json(
@@ -163,3 +164,5 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

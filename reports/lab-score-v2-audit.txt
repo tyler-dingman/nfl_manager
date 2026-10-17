@@ -1,0 +1,101 @@
+PARLAY LAB SCORE V2 — IMPLEMENTATION AND LOCAL AUDIT
+Generated: 2026-10-09T21:04:21.887Z
+
+Status: implemented locally; not deployed. Predictive probabilities remain explicitly uncalibrated. No profitability claim.
+
+ROOT CAUSE
+The previous opportunity-v2 model forced LOW role confidence to <=49, MEDIUM to <=79, missing context to <=79, and used further sample/agreement tier caps. All 4,472 baseline offers lacked confirmed role evidence. Projection and opportunity duplicated edge; missing optional context contributed fixed neutral values. Public scores are computed dynamically by calculatePlayerPropTrend, not stored as permanent scores. The default Trending feed previously curated a 70/30 mix ordered primarily by score.
+
+FORMULA AND INPUTS
+Six components, each 0–100: projection edge 25%; recent performance 25%; matchup advantage 20%; opportunity and usage 15%; historical consistency 10%; game environment 5%.
+Raw composite = sum(component * weight) / sum(available weights). Optional unavailable components remain null and are excluded from the denominator.
+Final = round(clamp(50 + (raw composite - 50) * sqrt(n_eff/(n_eff+2)) * role reliability * freshness, 0, 99)). No role, sample, or context tier ceilings remain. No rank/percentile inflation or target tier distribution.
+Projection edge uses probability distributions with role-weighted empirical variance, a variance floor, mean-estimation uncertainty, and role uncertainty. Yardage uses a normal CDF with integer continuity correction; discrete counts use Poisson or negative binomial for overdispersion. Rare-event means receive a small prior to avoid claiming zero event risk from an all-zero sample. A probability is unavailable with insufficient comparable games, severely stale usage, unquantified promotion, unestablished starter workload, or unavailable players.
+Recent performance allocates 45% to games 1–3, 35% to games 4–5, 20% to games 6–10. These are disjoint buckets, not three overlapping samples. Role similarity modifies weights. Small-sample smoothing prevents a few wins from becoming certainty.
+Matchup combines recent positional production allowed (grouped by game, recent 3 versus preceding up to 10) with the previous-season category-appropriate defense rank when supported. Old rank-only evidence is attenuated. Missing touchdown/positional data stays missing. No invented defensive injury, scheme, or weather signal.
+Opportunity estimates passing attempts, carries, or targets from current evidence and recent usage, with partial distribution of genuinely vacated work. Its score evaluates the selected market workload requirement and usage direction. The existing promotion and injury safeguards remain; a first observed starter depth with only backup workload is also withheld.
+Consistency uses up to 40 comparable prior games, smoothed selected-side hit rate, and production volatility. The effective sample discounts unequal weights. Environment uses actual stored spread and total only; no weather or pace is fabricated.
+The weights put half the composite on the selected line and observed recent performance, 35% on matchup and workload, and 15% on consistency and game context. They are explicit starting weights, not fitted coefficients.
+Missing availability does not mean healthy. Fresh depth alone improves evidence quality without confirming availability. An old unrelated teammate report no longer lowers everyone on that team.
+
+BETTING VALUE AND DEFAULT RANKING
+Lab Score is a composite statistical-strength rating, not a win percentage. Probability, sportsbook implied probability, expected return, and probability edge are separate fields. Expected return per unit = P(win) * decimal odds + P(push) - 1; pushes return stake.
+Trending rank = 0.6*Lab Score + 40*clamp(estimated return,-1,0.5) + 10*evidence reliability + 5*freshness, with an extreme-price penalty. Actual offered price is compared; no positive-value claim is made from hit rate alone.
+Default Trending requires score >=60, a credible probability, confirmed current role, reliability >=0.6, estimated return >-5%, and odds no more extreme than -1000. The prior 70/30 over/under preference only arranges eligible props. No low-quality props are added to meet the ratio. Explicit score sorting and research remain available.
+Alt Stack uses the centralized V2 score and betting-value rank, retains its configurable -350 proximity preference, historical hit constraints, and same-book construction, and adds current-role and extreme-price safeguards. -350 is not a hard requirement.
+
+CURRENT LOCAL DATA
+4472 main-book offers evaluated across 14 upcoming games. Maximum old score 49; maximum revised score 83. No actual current offer earned 90+.
+Imported 583 mapped depth observations and 793 injury observations from the configured public feeds. These are partial feeds, not complete availability attestations; 5 depth names and 7 injury names were unmapped.
+Confirmed own role coverage: 18.3% of evaluated offers. MEDIUM/HIGH role confidence: 11.0%. 27 qualifying main-line representatives remain after the recommendation gate. Runtime includes alternate lines too, so UI counts can differ from this main-line audit.
+Before/after includes both algorithm changes and the fresh role import. The baseline is the prior public opportunity model, not the older legacy research score.
+
+BEFORE / AFTER ACTUAL LOCAL PROPS (same event, player, stat, side and line)
+Player | Prop | Book / Odds | Old score -> New score
+Tyler Shough | OVER 247.5 PASSING_RUSHING_YARDS | CAESARS -115 | 46 -> 83
+Tyler Shough | OVER 248.5 PASSING_RUSHING_YARDS | FANDUEL -114 | 46 -> 82
+Tyler Shough | OVER 258.5 PASSING_RUSHING_YARDS | BETMGM -115 | 45 -> 80
+Chris Olave | OVER 6.5 RECEPTIONS | DRAFTKINGS -108 | 44 -> 77
+Jaylen Warren | OVER 18.5 RECEIVING_YARDS | FANDUEL -114 | 49 -> 78
+Rashod Bateman | OVER 17.5 RECEIVING_YARDS | CAESARS -113 | 43 -> 73
+Tyler Shough | OVER 237.5 PASSING_YARDS | FANDUEL -114 | 41 -> 75
+Noah Fant | OVER 13.5 RECEIVING_YARDS | CAESARS -110 | 44 -> 73
+Jared Goff | OVER 0.5 RUSHING_YARDS | CAESARS -117 | 42 -> 75
+Mason Taylor | OVER 1.5 RECEPTIONS | FANDUEL -154 | 43 -> 77
+Xavier Hutchinson | OVER 16.5 RECEIVING_YARDS | BETMGM +105 | 49 -> 74
+Xavier Hutchinson | OVER 1.5 RECEPTIONS | CAESARS +130 | 49 -> 74
+Braelon Allen | UNDER 91.5 RUSH_RECEIVE_YARDS | DRAFTKINGS -111 | 36 -> 75
+Braelon Allen | UNDER 89.5 RUSH_RECEIVE_YARDS | FANDUEL -114 | 36 -> 75
+Omarion Hampton | OVER 10.5 RUSHING_ATTEMPTS | BETMGM -105 | 40 -> 73
+
+HISTORICAL DIAGNOSTICS
+Scanned 31 past events; 15 had usable archived prices and outcomes. All are from the September 27–28, 2026 slate. 4301 book offers collapse to 1953 distinct event/player/stat/side/line offers at the best archived price; 1875 have model probabilities.
+Descriptive hit rate: 43.84%; mean estimated probability: 44.25%; Brier score: 0.2595; realized unit-stake return: -7.27%; model-estimated return: -0.39%.
+Before the confirmed-role recommendation gate, the otherwise qualifying unconfirmed-role pool contained 174 offers: observed hit rate 36.78% versus estimated 75.28%; realized return -32.02%. This failure is preserved here and in JSON. It motivated withholding unconfirmed-role recommendations, not raising scores.
+The archive has no qualifying confirmed pregame role evidence. With the final recommendation gate it has zero actionable recommendations; no claim of improved returns is possible. Only one slate is available, offers and opposing sides remain correlated, and current injury imports are excluded by received_at cutoffs. More independently archived weeks and role snapshots are required for fitting and holdout calibration. No validation of 80/90/95 tiers is possible from this archive.
+Historical game data is restricted to games before the cutoff. Original stat publication timestamps are not archived. Prior-season defensive ranks and pre-cutoff positional logs avoid full-season current-year lookahead. No odds were fabricated for missing historical offers.
+
+Hit-rate and calibration/return details by score band, probability bin, market, small samples, and extreme prices are in lab-score-v2-validation.json. Market-level errors must be interpreted as diagnostics, not independent statistical significance. Anytime TD offers averaged 4.9% modeled hit probability versus 3.3% observed (239 offers); passing TDs averaged 50.3% versus 48.3% (60 offers). Over/under pairs can cancel aggregate directional bias; the probability bins and the failed high-probability candidate subset are more revealing than the overall mean.
+
+PLATFORM AND CENTRALIZATION
+The public default remains V2 through calculatePlayerPropTrend. Trending hero, table, prop research, side signals, generators, and Alt Stack consume this score. Legacy scoring is retained only as an explicit audit/test comparator. Native uses the same API and shared ranking logic; no score formula was copied into a renderer.
+Web and native details show the six components, unavailable states, score classification, data coverage/reliability, estimated probability, and offered-price value. Existing dark/red design is retained.
+
+VALIDATION
+81 targeted unit/integration tests and 18 Chrome/Safari browser/React Native Web preview checks passed. Targeted lint has no errors and four pre-existing native warnings. Web/native TypeScript checks and iOS/Android JavaScript bundle exports passed. Browser checks cover KC/SEA, 320/768/1440 widths, details modal, missing data, sorting, and the native component in React Native Web. Actual Android/iOS device visuals are unverified. No deployment.
+
+KEY FILES
+packages/parlay/lab-score-config.ts
+packages/parlay/betting-value.ts
+packages/parlay/trending-selection.ts
+packages/parlay/projection-details.ts
+src/server/historical-stats/lab-score-v2.ts
+src/server/historical-stats/expected-opportunity.ts
+src/server/historical-stats/prop-probability.ts
+src/server/historical-stats/matchup-evidence.ts
+src/server/historical-stats/trend-service.ts
+src/server/historical-stats/trending-props-service.ts
+src/server/historical-stats/research-score.ts
+src/server/historical-stats/prop-side-research-service.ts
+src/server/historical-stats/score-audit.ts
+scripts/parlay-score-audit.ts
+src/app/api/parlay-lab/research/route.ts
+src/lib/parlay-lab/alt-stack.ts
+src/lib/parlay-lab/generator.ts
+src/lib/parlay-lab/research.ts
+src/components/parlay-lab/ProjectionDetails.tsx
+src/components/parlay-lab/projection-details.module.css
+src/components/parlay-lab/TrendEducation.tsx
+src/components/parlay-lab/trend-education.module.css
+src/components/parlay-lab/trending-context.ts
+src/components/parlay-lab/dashboard-content.tsx
+src/components/parlay-lab/dashboard.css
+src/components/parlay-lab/parlay-lab-hero.tsx
+apps/mobile/app/parlay-lab.tsx
+apps/mobile/components/parlay-home-panels.tsx
+apps/mobile/components/projection-details.tsx
+Tests: lab-score-v2.test.ts, prop-probability.test.ts, trending-selection.test.ts, lab-score-details.spec.ts, native-lab-score-details.spec.ts, parlay-trending-mix.spec.ts, and their scoring fixture.
+
+METHOD REFERENCE
+Negative binomial mean/variance parameterization: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.nbinom.html
+This describes the mathematical distribution, not empirical validation of this model.

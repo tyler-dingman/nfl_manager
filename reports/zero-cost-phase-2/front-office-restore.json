@@ -1,0 +1,72 @@
+{
+  "scope": "MEASURED synthetic complete FO test-schema dump/restore: owners, sessions, runtime state, shared references, recovery evidence and command receipts. Exclusive test run, not a cross-store production checkpoint.",
+  "tables": {
+    "auth_tokens": {
+      "rows": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "commit_failure_probe": {
+      "rows": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "devices": {
+      "rows": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "front_office_command_receipts": {
+      "rows": 124,
+      "checksum": "1707f312ac2aff04638f2d62e8750302"
+    },
+    "front_office_durable_state": {
+      "rows": 24,
+      "checksum": "733a41713421a3bb531bdcaff5574c15"
+    },
+    "front_office_events": {
+      "rows": 107,
+      "checksum": "f1771331b1626fc903b51685e165df85"
+    },
+    "front_office_recovery_evidence": {
+      "rows": 2,
+      "checksum": "b92fabe76d557aac59d78fd83e697883"
+    },
+    "front_office_reference_bundles": {
+      "rows": 2,
+      "checksum": "ef4894c3423653b5a0c4d0e683cdfbc1"
+    },
+    "front_office_trade_offers": {
+      "rows": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "historical_games": {
+      "rows": 816,
+      "checksum": "e0d7d461714b7a30b8e96989ca4c9771"
+    },
+    "sessions": {
+      "rows": 2,
+      "checksum": "467f1eeb24b414e2571fc12c7b2baf0b"
+    },
+    "user_credentials": {
+      "rows": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "user_front_office_saves": {
+      "rows": 24,
+      "checksum": "fd1e230764c5139189dff42739bc972f"
+    },
+    "user_identities": {
+      "rows": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "user_preferences": {
+      "rows": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "users": {
+      "rows": 2,
+      "checksum": "d2dec371f707bba4535a89522415bc77"
+    }
+  },
+  "dumpBytes": 27738060,
+  "backupMs": 360.4178749999992,
+  "restoreAndVerifyMs": 1235.5430829999968
+}

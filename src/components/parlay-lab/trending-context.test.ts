@@ -15,7 +15,7 @@ test('main lines get a small reference preference, but much stronger alternates 
     side: 'OVER',
   };
   const main = { ...base, lineType: 'main', trend: { trendScore: 80 } },
-    alt = { ...base, lineType: 'alternate', trend: { trendScore: 84 } };
+    alt = { ...base, lineType: 'alternate', trend: { trendScore: 82 } };
   assert.equal(representativeTrends([alt, main])[0], main);
   const strong = { ...alt, trend: { trendScore: 96 } };
   assert.equal(representativeTrends([main, strong])[0], strong);
@@ -45,10 +45,12 @@ test('under reasons use side-aware margins and do not describe value', () => {
   assert.equal(trendReason({ line: 20, side: 'OVER' }).title, 'Insufficient history');
 });
 test('display tiers share exact boundaries', () => {
-  assert.equal(labScoreTier(90).label, 'HIGH');
-  assert.equal(labScoreTier(89).label, 'GOOD');
-  assert.equal(labScoreTier(50).label, 'MODERATE');
-  assert.equal(labScoreTier(49).label, 'LOW');
+  assert.equal(labScoreTier(95).label, 'EXCEPTIONAL');
+  assert.equal(labScoreTier(70).label, 'FAVORABLE');
+  assert.equal(labScoreTier(90).label, 'VERY HIGH');
+  assert.equal(labScoreTier(89).label, 'HIGH');
+  assert.equal(labScoreTier(50).label, 'WEAK');
+  assert.equal(labScoreTier(49).label, 'POOR');
 });
 
 test('compact reasons keep the actual average direction clear for both sides', () => {

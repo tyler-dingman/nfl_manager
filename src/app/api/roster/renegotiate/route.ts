@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { getSaveStateResult } from '@/server/api/store';
@@ -5,7 +6,7 @@ import { renegotiatePlayerInState, markPlayerDisgruntled } from '@/server/api/st
 import { evaluateRenegotiateOffer } from '@/server/logic/renegotiate';
 import { clampOfferYears } from '@/lib/contract-negotiation';
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   let body: {
     saveId?: string;
     playerId?: string;
@@ -72,3 +73,5 @@ export const POST = async (request: Request) => {
     header: result.header,
   });
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

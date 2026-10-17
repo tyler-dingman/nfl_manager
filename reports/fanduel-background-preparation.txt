@@ -1,0 +1,46 @@
+FanDuel background preparation — 2026-10-10 UTC
+
+Requested change
+The latest request authorizes preparing a FanDuel slip after a leg is added, before the user
+clicks Open in FanDuel. This supersedes the earlier explicit-click-only generation behavior.
+
+Implemented
+- Shared hook waits 1.5 seconds after an eligible exact FanDuel proposal stabilizes before
+  submitting one complete-slip generation. The existing DB preview has its own 200ms debounce.
+- FanDuel only. Other sportsbooks remain on-demand. No automatic approval of line adjustments.
+- Open in FanDuel stays clickable during background work. Clicking attaches navigation intent
+  to that same request, shows inline remaining preparation, and does not send another POST.
+- A ready validated link opens directly on click. No new tab is opened merely by background
+  completion. No placeholder tab is created.
+- If clicked while pending, completion attempts to open the validated URL. Web popup policies
+  can block this asynchronous open: an explicit Continue link and explanation remain available.
+  A one-click new tab cannot be guaranteed in every browser without a placeholder.
+- Native uses the existing Linking external handler after validation and explicit user intent.
+- Changing the slip clears navigation intent, ready URLs and stale proposal state. Already
+  submitted jobs finish bounded polling to release the existing shared active-job slot, but
+  stale results cannot publish links or navigate. Latest requested slip queues behind that job.
+- Cancel clears navigation intent and stops polling. Existing server reservations remain intact.
+- One automatic attempt per unchanged slip identity per mounted session; errors, cancel and
+  expiry do not create automatic retry loops. Manual retry remains available.
+- Existing 5/user/day, 50/global/day, 3-concurrent quotas still apply, including background builds.
+  Edits after a request has started may consume additional generations; debounce cannot refund
+  submitted work. Server-side deduplication, validation, signed consent and attribution unchanged.
+- Feature flags unchanged. Production transfers remain blocked; no live provider requests made
+  during implementation/testing. No odds ingestion, PostgreSQL odds, or Lab Score changes.
+
+Files
+packages/parlay/use-sportsbook-transfers.ts
+src/components/parlay-lab/SportsbookTransfers.tsx
+apps/mobile/components/sportsbook-transfers.tsx
+tests/mobile/fanduel-transfer.spec.ts
+tests/mobile/native-slip.spec.ts
+
+Validation
+Root/native TypeScript, targeted lint and git diff --check pass.
+Fixture browser tests cover background start, ready single-click opening, pending click reuse,
+blocked-pop-up fallback, expiry without regeneration, rapid edits, stale-result rejection,
+queued latest slip, cancel, failure, adjustments, other sportsbooks and existing slip actions.
+Browser runs use Chromium/WebKit and KC/SEA themes. Native is React Native rendered in RN Web;
+actual Android/iOS devices and real FanDuel destination behavior remain unverified.
+Final result: 26 browser checks passed (22 regression + 4 new background-preparation cases),
+zero failures. No live sportsbook or generation API calls were used by these tests.

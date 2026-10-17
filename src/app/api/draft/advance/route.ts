@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
 
@@ -19,7 +20,7 @@ const resolveSaveId = (draftSessionId: string, saveId?: string) => {
   return listSaveStates().find((entry) => entry.state.draftSessions?.[draftSessionId])?.saveId;
 };
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   let body: AdvancePayload = {};
   try {
     body = (await request.json()) as AdvancePayload;
@@ -52,3 +53,5 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

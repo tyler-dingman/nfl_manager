@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { currentUser } from '@/server/auth/request';
 import { getFrontOfficeSaveMetadata } from '@/server/front-office/repository';
 import { syncSaveSimulation } from '@/server/api/store';
@@ -7,7 +8,7 @@ import { getSaveHeaderSnapshot, getSaveStateResult, restoreSaveState } from '@/s
 import type { PlayerRowDTO } from '@/types/player';
 import type { SaveUnlocksDTO } from '@/types/save';
 
-export const POST = async (request: NextRequest) => {
+const handlePOST = async (request: NextRequest) => {
   let body:
     | {
         saveId?: string;
@@ -73,3 +74,5 @@ export const POST = async (request: NextRequest) => {
     createdAt: header.createdAt,
   });
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

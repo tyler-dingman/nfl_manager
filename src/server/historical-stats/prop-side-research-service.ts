@@ -43,6 +43,7 @@ export function evaluatePropSides(
   games: HistoricalPlayerGame[],
   currentOpponentId?: string,
   context: ScoreContext = {},
+  prepared?: { side: 'OVER' | 'UNDER'; trend: ReturnType<typeof calculatePlayerPropTrend> },
 ) {
   const statType =
     normalizeHistoricalStatType(market.marketType) ??
@@ -51,15 +52,39 @@ export function evaluatePropSides(
     return { labFindSide: null as LabFindSide, over: null, under: null };
 
   const calculate = (side: 'OVER' | 'UNDER'): LabSideResult => {
-    const trend = calculatePlayerPropTrend(games, {
-      playerId: market.playerId!,
-      statType,
-      line: market.line!,
-      side,
-      currentOpponentId,
-      ...context,
-    });
+    const trend =
+      prepared?.side === side
+        ? prepared.trend
+        : calculatePlayerPropTrend(games, {
+            playerId: market.playerId!,
+            statType,
+            line: market.line!,
+            side,
+            currentOpponentId,
+            ...context,
+          });
     const research = trend.researchScore;
+    if (trend.scoreVersion === 'v2') {
+      const p = trend.projection;
+      const signals = Object.entries(p.components)
+        .filter((entry): entry is [string, number] => entry[1] != null)
+        .map(([label, value]) => ({
+          label,
+          value: `${Math.round(value)}/100`,
+          score: value,
+        }));
+      return {
+        sampleSize: p.roleAdjusted.games,
+        internalScore: p.score,
+        supportingGroups: p.supportingGroups,
+        positiveSignals: signals.filter((s) => s.score >= 65).slice(0, 5),
+        concerns: p.reasons.map((value) => ({
+          label: 'Projection context',
+          value,
+          score: p.score,
+        })),
+      };
+    }
     const groups = research.breakdown;
     const signals = [
       {

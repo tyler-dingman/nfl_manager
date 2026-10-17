@@ -1,0 +1,94 @@
+MULTI-SPORTSBOOK TRANSFERS — IMPLEMENTATION
+
+STATUS
+Implemented web, mobile web and React Native adapters for DraftKings and FanDuel using the existing generation client and durable jobs. DraftKings defaults off; FanDuel retains its existing test flag. Both remain inaccessible in production through the existing NODE_ENV gate. Local feature flags and the authenticated test-user allowlist were not edited.
+
+No SportsGameOdds requests, ingestion changes, Lab Score changes or odds-table writes. The local transfer-jobs table received only an additive sportsbook column. Existing jobs, actor hashes and quota history remain intact. No production operation was performed.
+
+COMPATIBILITY AND SUBSTITUTION
+A debounced, authenticated preview request reads PostgreSQL after slip changes. It never calls Unabated. Both configured books are evaluated independently and presented alphabetically. Unsupported books have no button. If neither is compatible, save/share/export remain available.
+
+The server resolves original market UUIDs to canonical player/game/market/side/period/threshold values. Candidate queries require the same event, player ID, market, side and period; only the numeric line can differ. The initial supported markets remain passing yards, rushing yards, receiving yards and receptions. Other markets remain unavailable pending supported matching/validation. All events must be future, unlocked SportsGameOdds events. One prop per game and 1–20 unique selections remain required.
+
+Exact thresholds take priority. Otherwise candidates rank by absolute threshold distance, then easier direction (lower Over/higher Under on equal distance), optional existing score, latest price timestamp, then stable ID. The service does not calculate or fabricate scores; the current database query has no persisted Lab Score to attach, so that optional tie-breaker is unused for current DB rows.
+
+Default maximum changes: passing yards 10; rushing yards 7.5; receiving yards 7.5; receptions 1. Configurable through TRANSFER_MAX_DIFF_<MARKET>. Invalid/unbounded differences become zero. Substitutions must have a known main/alternate classification from the existing classifyStoredLine helper and stored odds at least -800 by default. TRANSFER_MIN_SUBSTITUTE_ODDS uses the existing supported alternate-odds options. Exact existing selections are not silently replaced because of price preferences. No thresholds or prices are invented.
+
+CONSENT AND ESTIMATES
+An adjusted button states the adjustment count. Clicking it shows each original/proposed line, substitute price and estimated book-specific combined odds, with Continue with Adjustment and Cancel. No generation request occurs until approval. Original My Parlay selections are never changed.
+
+Server-signed, five-minute proposal tokens bind the user, sportsbook, original IDs, exact proposed values/prices and expiry. Start re-reads the database, recomputes the proposal, verifies its signature and checks every value. Changed lines, prices, availability or expired tokens require a fresh review. A client cannot submit arbitrary names, prices or substitute IDs. The server rejects unapproved adjustments.
+
+Each book's estimated combined odds use its own matched prices through the existing slipOdds helper. Prices are clearly estimates; weekly data does not guarantee current sportsbook availability. Final sportsbook prices take precedence.
+
+GENERATION AND VALIDATION
+POST /api/parlay-lab/sportsbook-transfer supports preview, start and poll. GET reports only the authenticated account's enabled books. The prior FanDuel endpoint remains compatible for old clients and uses the same jobs and counters.
+
+One explicit choice generates the entire approved slip in one documented Unabated text request. Book-specific prompt, eligibility and validation use the requested book, not the source of the original prop. Returned book, count, each player/game/kickoff/market/full-game period/exact numeric threshold, explicit direction/region contradictions and duplicate/missing legs are checked. DraftKings mismatched thresholds are rejected even if all legsMatched counts claim success.
+
+Each book has an explicit URL adapter. Both currently allow only the HTTPS Gambly cache URL format actually observed for that book in prior diagnostic responses. This is not an assumption about identical FanDuel/DraftKings private URL formats; no private sportsbook URLs are constructed. Partner attribution is preserved/validated using URL parsing. Missing direction remains directionVerified:false; production is still blocked.
+
+Generation stays inline. Loading and cancellation do not open tabs or native apps. On validation success each book shows its own ready state and Continue link. Continue alone opens the returned Gambly destination. The proposal area scrolls within the existing panel/sheet so multiple adjustments do not obscure the original slip or save/share controls.
+
+SHARED SAFEGUARDS
+The existing fanduel_transfer_jobs table name and HMAC actor namespace are retained to preserve history. Migration 052 adds sportsbook, defaulting old rows to fanduel. Fingerprints include the sportsbook and approved selection IDs. Both books share one advisory lock and the same daily/concurrency counters: 5/user/day, 50 globally/day, 3 concurrent (configurable downward). One recent active reservation/user, bounded polling, no automatic POST retries, failed attempts count, and deduplication remain. The new endpoint checks each book's flag for both start and poll. ENABLE_DRAFTKINGS_BETSLIP=false is documented in .env.example. Both use FANDUEL_TEST_USER_IDS, intentionally reusing the existing allowlist rather than introducing a separate authorization path.
+
+VALIDATION
+45 fixture/unit/adapter/local PostgreSQL checks passed: exact/one-book/no-book matches, nearest/favorable substitutions, market limits, wrong identities, unavailable/expired/duplicate/same-game cases, signed consent, stale price rejection, DraftKings threshold mismatch, both flags, full DraftKings completion, cross-book quota sharing, concurrent deduplication and bounded polling. The isolated DB fixture schema is removed afterward.
+
+22 Chromium/WebKit fixture checks passed across KC/SEA desktop/mobile web and native renderers: ordered book buttons, exact vs adjusted flows, cancel without generation, approval, unchanged original lines, separate odds, missing-book hiding, inline preparation, Continue-only navigation, and existing save/share/export workflows.
+
+Root and native TypeScript checks and targeted ESLint passed. Browser rendering of React Native is not Android/iOS device validation. Native screenshots use fixture font/icon stubs, not a device font validation.
+
+CONTROLLED DRAFTKINGS PILOT
+Prepared actual PostgreSQL selections and verified a complete exact DraftKings proposal with zero adjustments:
+- Ty Johnson UNDER 11.5 receiving yards, -117, standard; BUF at LAR.
+- Tyler Huntley OVER 19.5 rushing yards, -233, alternate; BAL at ATL.
+- Tory Horton UNDER 11.5 receiving yards, -115, standard; SF at SEA.
+Files: reports/draftkings-transfer-test/selections.json and proposal.json.
+
+No live generation has been performed. The brief requests separate live-test authorization; that approval question remains pending. Therefore no newly generated DraftKings test link or manual sportsbook verification is claimed.
+
+scripts/test-draftkings-transfer.ts defaults to a local, read-only proposal check. After explicit authorization, a controlled test can use NODE_ENV=development, ENABLE_DRAFTKINGS_BETSLIP=true and --user=<existing allowlisted authenticated UUID> --generate. It revalidates the exact three-leg proposal, uses the shared generation budget, records a one-attempt guard, and writes a safe result report. It does not change .env.local or place a wager. A successful result still requires manual sportsbook inspection of all three directions, thresholds, periods and combined-slip acceptance. Stop at login, location or access restrictions.
+
+For UI testing, enable the DraftKings flag locally for an existing allowlisted account and restart the development server. Production cannot be enabled by that flag. Migration command: node --import tsx scripts/migrate-fanduel-transfer.ts (local hosts only; already applied here).
+
+OFFICIAL CONTRACT
+https://docs.unabated.com/guides/bet-slips
+https://docs.unabated.com/guides/deep-links
+The documented asynchronous generate/status workflow is unchanged. Historical DraftKings cache URLs and threshold mismatch evidence are in reports/unabated-three-leg-audit/pilot-results.json.
+
+FILES IN THIS CHANGE
+.env.example
+ db/migrations/052_sportsbook_transfer_jobs.sql
+ scripts/migrate-fanduel-transfer.ts
+ scripts/prepare-draftkings-transfer-test.ts
+ scripts/test-draftkings-transfer.ts
+ packages/parlay/sportsbook-transfer.ts
+ packages/parlay/sportsbook-transfer.test.ts
+ packages/parlay/fanduel-transfer.ts (backward-compatible helpers generalized)
+ packages/parlay/use-sportsbook-transfers.ts
+ packages/parlay/use-fanduel-transfer.ts (replaced)
+ src/server/providers/unabated/transfer-service.ts
+ src/server/providers/unabated/test-transfer-validation.ts
+ src/server/providers/unabated/transfer-proposals.ts
+ src/server/providers/unabated/transfer-proposals.test.ts
+ src/server/providers/unabated/transfer.test.ts
+ src/server/providers/unabated/transfer-db.test.ts
+ src/app/api/parlay-lab/sportsbook-transfer/route.ts
+ src/components/parlay-lab/SportsbookTransfers.tsx
+ src/components/parlay-lab/FanDuelTransfer.tsx (replaced)
+ src/components/parlay-lab/MyParlayPanel.tsx
+ src/components/parlay-lab/my-parlay-panel.module.css
+ apps/mobile/components/sportsbook-transfers.tsx
+ apps/mobile/components/fanduel-transfer.tsx (replaced)
+ apps/mobile/components/parlay-slip.tsx
+ tests/mobile/fixtures/transfer-proposals.ts
+ tests/mobile/fanduel-transfer.spec.ts
+ tests/mobile/native-slip.spec.ts
+ reports/draftkings-transfer-test/selections.json
+ reports/draftkings-transfer-test/proposal.json
+ reports/sportsbook-transfers-implementation.txt
+
+PRODUCTION BLOCKERS
+DraftKings complete-slip manual verification is outstanding. Independent direction/identity/region resolution remains incomplete for generated offers. Account generation quota/volume permission is unconfirmed. Same-game transfers are intentionally unsupported. Stored weekly prices can be stale. Actual Android/iOS device external navigation remains unverified. Production stays disabled for both books.
