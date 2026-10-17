@@ -1,0 +1,230 @@
+TAP version 13
+# Subtest: all supported content families have shared page configuration
+ok 1 - all supported content families have shared page configuration
+  ---
+  duration_ms: 2.202667
+  ...
+# Subtest: a stable generated content ID resolves directly
+ok 2 - a stable generated content ID resolves directly
+  ---
+  duration_ms: 100.736167
+  ...
+# Subtest: content cards use canonical links and no modal controls
+ok 3 - content cards use canonical links and no modal controls
+  ---
+  duration_ms: 0.586
+  ...
+# Subtest: page includes canonical SEO, structured data, attribution, ads, and mobile-safe media
+ok 4 - page includes canonical SEO, structured data, attribution, ads, and mobile-safe media
+  ---
+  duration_ms: 0.741625
+  ...
+# Subtest: public canonical lookup excludes draft and holding content
+ok 5 - public canonical lookup excludes draft and holding content
+  ---
+  duration_ms: 0.140458
+  ...
+# Subtest: legacy story query redirects and content page emits one pageview component
+ok 6 - legacy story query redirects and content page emits one pageview component
+  ---
+  duration_ms: 0.320417
+  ...
+# Subtest: evaluation harness loads a fixed set of exactly 20 existing sources
+ok 7 - evaluation harness loads a fixed set of exactly 20 existing sources
+  ---
+  duration_ms: 4.743417
+  ...
+# Subtest: evaluation harness has no publishing, database, or paid provider path
+ok 8 - evaluation harness has no publishing, database, or paid provider path
+  ---
+  duration_ms: 1.527458
+  ...
+# Subtest: configured Ollama does not silently fall through to a paid provider
+ok 9 - configured Ollama does not silently fall through to a paid provider
+  ---
+  duration_ms: 1.340792
+  ...
+# Subtest: stress harness is fixed at 50, sequential, local-only, and read-only
+ok 10 - stress harness is fixed at 50, sequential, local-only, and read-only
+  ---
+  duration_ms: 4.262416
+  ...
+# Subtest: stress test does not change the ten-story per-team cap
+ok 11 - stress test does not change the ten-story per-team cap
+  ---
+  duration_ms: 0.442458
+  ...
+# Subtest: Ollama config uses explicit local defaults and current env names
+ok 12 - Ollama config uses explicit local defaults and current env names
+  ---
+  duration_ms: 1.839833
+  ...
+# Subtest: factual validation rejects certainty escalation and invented roles
+ok 13 - factual validation rejects certainty escalation and invented roles
+  ---
+  duration_ms: 1.427417
+  ...
+# Subtest: strict JSON parser accepts grounded output
+ok 14 - strict JSON parser accepts grounded output
+  ---
+  duration_ms: 6.048542
+  ...
+# Subtest: strict JSON parser rejects malformed JSON
+ok 15 - strict JSON parser rejects malformed JSON
+  ---
+  duration_ms: 0.129375
+  ...
+# Subtest: Ollama schema excludes internal source IDs and application attaches them deterministically
+ok 16 - Ollama schema excludes internal source IDs and application attaches them deterministically
+  ---
+  duration_ms: 2.861708
+  ...
+# Subtest: strict JSON parser rejects unsupported named content
+ok 17 - strict JSON parser rejects unsupported named content
+  ---
+  duration_ms: 0.414833
+  ...
+# Subtest: title and excerpt both support team, opponent, organization, and outcome facts
+ok 18 - title and excerpt both support team, opponent, organization, and outcome facts
+  ---
+  duration_ms: 0.444792
+  ...
+# Subtest: NFL city and nickname evidence supports the corresponding full team name
+ok 19 - NFL city and nickname evidence supports the corresponding full team name
+  ---
+  duration_ms: 0.328209
+  ...
+# Subtest: HTML-encoded apostrophes in evidence remain valid factual support
+ok 20 - HTML-encoded apostrophes in evidence remain valid factual support
+  ---
+  duration_ms: 0.624416
+  ...
+# Subtest: originality validation rejects copied headlines and full excerpt sentences
+ok 21 - originality validation rejects copied headlines and full excerpt sentences
+  ---
+  duration_ms: 0.650083
+  ...
+# Subtest: unavailable Ollama fails clearly without paid fallback
+ok 22 - unavailable Ollama fails clearly without paid fallback
+  ---
+  duration_ms: 1.443208
+  ...
+# Subtest: The Beat uses one 20-item page-size constant and parses invalid pages safely
+ok 23 - The Beat uses one 20-item page-size constant and parses invalid pages safely
+  ---
+  duration_ms: 0.822959
+  ...
+# Subtest: offset pages have 20 items, stable order, correct totals, and no overlap
+ok 24 - offset pages have 20 items, stable order, correct totals, and no overlap
+  ---
+  duration_ms: 18.86375
+  ...
+# Subtest: desktop page numbers use ellipses rather than dozens of controls
+ok 25 - desktop page numbers use ellipses rather than dozens of controls
+  ---
+  duration_ms: 0.368083
+  ...
+# Subtest: API and UI preserve URL state, reset changed filters, and expose accessible controls
+ok 26 - API and UI preserve URL state, reset changed filters, and expose accessible controls
+  ---
+  duration_ms: 1.9635
+  ...
+# Subtest: classifies game results, performances, milestones, injuries, and transactions
+ok 27 - classifies game results, performances, milestones, injuries, and transactions
+  ---
+  duration_ms: 3.804459
+  ...
+# Subtest: fresh postgame coverage outranks routine newer practice content
+ok 28 - fresh postgame coverage outranks routine newer practice content
+  ---
+  duration_ms: 1.060458
+  ...
+# Subtest: ranking is deterministic when scores and timestamps tie
+ok 29 - ranking is deterministic when scores and timestamps tie
+  ---
+  duration_ms: 16.098708
+  ...
+# Subtest: selects exactly three same-team stories with importance and category diversity
+ok 30 - selects exactly three same-team stories with importance and category diversity
+  ---
+  duration_ms: 5.502084
+  ...
+# Subtest: clusters duplicate and multilingual headlines around the same named event
+ok 31 - clusters duplicate and multilingual headlines around the same named event
+  ---
+  duration_ms: 14.820041
+  ...
+# Subtest: builds a stable archived deep link and respects the local morning default
+ok 32 - builds a stable archived deep link and respects the local morning default
+  ---
+  duration_ms: 12.659292
+  ...
+# Subtest: reserves first down for a completed game inside the postgame window
+ok 33 - reserves first down for a completed game inside the postgame window
+  ---
+  duration_ms: 0.615834
+  ...
+# Subtest: daily delivery follows local time across DST and fractional offsets
+ok 34 - daily delivery follows local time across DST and fractional offsets
+  ---
+  duration_ms: 2.986042
+  ...
+# Subtest: late custom times remain deliverable across a delayed midnight poll
+ok 35 - late custom times remain deliverable across a delayed midnight poll
+  ---
+  duration_ms: 1.283708
+  ...
+# Subtest: ranking weights follow the football-first 35/20/15/10/10/10 model
+ok 36 - ranking weights follow the football-first 35/20/15/10/10/10 model
+  ---
+  duration_ms: 0.99375
+  ...
+# Subtest: breaking news can immediately enter first down
+ok 37 - breaking news can immediately enter first down
+  ---
+  duration_ms: 20.714833
+  ...
+# Subtest: all 32 teams receive exactly three ranked stories and two historical snapshots
+ok 38 - all 32 teams receive exactly three ranked stories and two historical snapshots
+  ---
+  duration_ms: 13.0065
+  ...
+# Subtest: Chiefs fan information identifies the canonical game and retains pregame intent after final
+ok 39 - Chiefs fan information identifies the canonical game and retains pregame intent after final
+  ---
+  duration_ms: 46.808875
+  ...
+# Subtest: stadium tours are events; unrelated uses of tour are not events
+ok 40 - stadium tours are events; unrelated uses of tour are not events
+  ---
+  duration_ms: 15.925417
+  ...
+# Subtest: Benson profile resolves LT from the article and never invents a number
+ok 41 - Benson profile resolves LT from the article and never invents a number
+  ---
+  duration_ms: 158.317125
+  ...
+# Subtest: specific editorial formats override Analysis without game metadata overriding lists
+ok 42 - specific editorial formats override Analysis without game metadata overriding lists
+  ---
+  duration_ms: 5.517167
+  ...
+# Subtest: actual interpretation remains Analysis; ambiguous news is Editorial
+ok 43 - actual interpretation remains Analysis; ambiguous news is Editorial
+  ---
+  duration_ms: 4.13775
+  ...
+# Subtest: player features generalize across teams with unknown fields omitted
+ok 44 - player features generalize across teams with unknown fields omitted
+  ---
+  duration_ms: 12.28125
+  ...
+1..44
+# tests 44
+# suites 0
+# pass 44
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 726.15575

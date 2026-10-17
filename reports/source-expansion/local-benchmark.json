@@ -1,0 +1,45 @@
+{
+  "runtime": "v22.14.0",
+  "scope": "Synthetic RSS parsing, normalization and SHA-256; Node wall time only. No network, DB, model calls, or Worker CPU measurement.",
+  "results": [
+    {
+      "name": "typical",
+      "items": 25,
+      "excerptBytes": 1024,
+      "iterations": 100,
+      "wireBytes": 29900,
+      "parsed": 25,
+      "meanNodeWallMs": 2.0872641199999995,
+      "p95NodeWallMs": 2.2682499999999948,
+      "productionWorkerCpuMs": null,
+      "databaseReadsMeasured": false,
+      "databaseWritesMeasured": false
+    },
+    {
+      "name": "large",
+      "items": 25,
+      "excerptBytes": 8192,
+      "iterations": 50,
+      "wireBytes": 209100,
+      "parsed": 25,
+      "meanNodeWallMs": 9.514621679999987,
+      "p95NodeWallMs": 10.255790999999988,
+      "productionWorkerCpuMs": null,
+      "databaseReadsMeasured": false,
+      "databaseWritesMeasured": false
+    },
+    {
+      "name": "near-feed-cap",
+      "items": 100,
+      "excerptBytes": 9000,
+      "iterations": 20,
+      "wireBytes": 917200,
+      "parsed": 100,
+      "meanNodeWallMs": 42.20227719999999,
+      "p95NodeWallMs": 43.25137500000005,
+      "productionWorkerCpuMs": null,
+      "databaseReadsMeasured": false,
+      "databaseWritesMeasured": false
+    }
+  ]
+}

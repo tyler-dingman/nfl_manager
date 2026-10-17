@@ -4,7 +4,13 @@ const registry = new Map(getAllSources().map((source) => [source.id, source]));
 
 export const listRegisteredSources = (team?: string | null) =>
   [...registry.values()]
-    .filter((source) => !team || source.team === null || source.team === team.toUpperCase())
+    .filter(
+      (source) =>
+        !team ||
+        (source.teamIds
+          ? source.teamIds.includes(team.toUpperCase())
+          : source.team === null || source.team === team.toUpperCase()),
+    )
     .sort(
       (left, right) =>
         right.priority - left.priority || left.displayName.localeCompare(right.displayName),

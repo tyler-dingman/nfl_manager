@@ -26,6 +26,9 @@ export type SourceDefinition = {
   name: string;
   displayName: string;
   team: string | null;
+  /** Explicit associations for shared researched publications; stored once. */
+  teamIds?: string[];
+  researchQualityScore?: number;
   category: SourceCategory;
   trustScore: number;
   breakingNewsScore: number;

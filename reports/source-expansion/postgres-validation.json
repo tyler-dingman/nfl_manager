@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "scope": "Disposable Unix-socket-only PostgreSQL. Actual captured monitoring upserts; original migration table/index.",
+  "initialInserted": 8,
+  "identicalUpdates": 0,
+  "changedUpdates": 1,
+  "productionAccess": false,
+  "d1WritesMeasured": false
+}

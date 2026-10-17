@@ -52,7 +52,23 @@ export class RssSourceFetcher implements SourceFetcher {
       };
       if (source.etag) headers['If-None-Match'] = source.etag;
       if (source.lastModified) headers['If-Modified-Since'] = source.lastModified;
-      const response = await fetch(url, { headers, redirect: 'follow', signal: controller.signal });
+      // Validate each location before sending the next request, including redirects.
+      // The old follow mode checked only after the destination had already been fetched.
+      let currentUrl = url;
+      let response: Response;
+      for (let redirects = 0; ; redirects++) {
+        response = await fetch(currentUrl, {
+          headers,
+          redirect: 'manual',
+          signal: controller.signal,
+        });
+        if (![301, 302, 303, 307, 308].includes(response.status)) break;
+        await response.body?.cancel();
+        if (redirects >= 4) throw new Error('Too many source redirects.');
+        const location = response.headers.get('location');
+        if (!location) throw new Error('Source redirect has no location.');
+        currentUrl = assertSafeRegisteredUrl(new URL(location, currentUrl).href, source);
+      }
       if (response.status === 304)
         return {
           items: [],
@@ -60,10 +76,29 @@ export class RssSourceFetcher implements SourceFetcher {
           etag: source.etag,
           lastModified: source.lastModified,
         };
-      if (!response.ok) throw new Error(`Source fetch failed with HTTP ${response.status}.`);
-      const finalUrl = assertSafeRegisteredUrl(response.url, source);
+      if (!response.ok) {
+        await response.body?.cancel();
+        throw new Error(`Source fetch failed with HTTP ${response.status}.`);
+      }
+      const finalUrl = assertSafeRegisteredUrl(response.url || currentUrl.href, source);
       void finalUrl;
-      const xml = await response.text();
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error('Empty source response.');
+      const decoder = new TextDecoder();
+      let xml = '';
+      let bytes = 0;
+      try {
+        for (;;) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          bytes += value.byteLength;
+          if (bytes > 1_048_576) throw new Error('Source feed exceeds 1 MiB.');
+          xml += decoder.decode(value, { stream: true });
+        }
+        xml += decoder.decode();
+      } finally {
+        await reader.cancel();
+      }
       return {
         items: parseRssOrAtom(xml, source),
         notModified: false,

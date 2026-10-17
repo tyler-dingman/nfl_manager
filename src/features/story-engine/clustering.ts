@@ -64,13 +64,31 @@ export function findCandidateStory(
         tokens(`${story.summary} ${story.whatHappened}`),
       );
       const analysis = candidate.storyType === 'ANALYSIS' || story.storyType === 'ANALYSIS';
+      const normalizedCopy = (value: string) => value.toLowerCase().replace(/\s+/g, ' ').trim();
+      const copy = normalizedCopy(candidate.text || candidate.excerpt);
+      // Exact syndicated copy may have no extracted proper names. Keep its evidence
+      // attached to one story; never merge from headline equality alone.
+      const titleKey = (value: string) =>
+        value
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, ' ')
+          .trim();
+      const identicalCopy =
+        copy.length >= 80 &&
+        titleKey(candidate.normalizedTitle) === titleKey(story.headline) &&
+        type === 1 &&
+        [story.summary, story.whatHappened].some((value) => normalizedCopy(value) === copy);
       const concreteEntity = exactEntity || entities > 0;
       let similarity = title * 0.33 + (exactEntity ? 1 : entities) * 0.27 + type * 0.2 + body * 0.1;
       if (exactEntity && type === 1) similarity += 0.2;
       if (type === 0 && !analysis) similarity = Math.min(similarity, 0.49);
       return {
         story,
-        similarity: analysis && (!concreteEntity || type !== 1 || title < 0.8) ? 0 : similarity,
+        similarity: identicalCopy
+          ? 1
+          : analysis && (!concreteEntity || type !== 1 || title < 0.8)
+            ? 0
+            : similarity,
         details: { title, entities, type, body },
       };
     })

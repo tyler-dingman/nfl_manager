@@ -65,7 +65,7 @@ test('Vercel endpoint fails closed unless the trial is scoped to Kansas City', (
   assert.match(route, /scheduled\.queued === 0 && jobs\.length === 0/);
   assert.doesNotMatch(route, /scheduleDueSources\(new Date\(\), undefined, group\)/);
   assert.match(service, /!candidate\.candidateTeams\.includes\(options\.teamId\)/);
-  assert.match(service, /repo\.claimJob\(workerId, teamId\)/);
+  assert.match(service, /repo\.claimJob\(workerId, teamId, group\)/);
   assert.match(repository, /candidate\.id=\(job\.payload->>'candidateId'\)::uuid/);
   assert.match(repository, /candidate\.candidate_teams @>/);
 });
@@ -104,12 +104,14 @@ test('hard generation and expenditure budgets stop work', () => {
   );
 });
 
-test('workflows use isolated schedules and guard curl behind the window result', () => {
+test('manual trial workflows retain isolated groups and expiration guards', () => {
   const standard = readFileSync('.github/workflows/content-automation-standard-trial.yml', 'utf8');
   const video = readFileSync('.github/workflows/content-automation-video-trial.yml', 'utf8');
-  assert.match(standard, /cron: ['"]\*\/30 \* \* \* \*['"]/);
+  assert.match(standard, /workflow_dispatch:/);
+  assert.doesNotMatch(standard, /cron:/);
   assert.doesNotMatch(standard, /group=video/);
-  assert.match(video, /cron: ['"]0 \*\/2 \* \* \*['"]/);
+  assert.match(video, /workflow_dispatch:/);
+  assert.doesNotMatch(video, /cron:/);
   assert.doesNotMatch(video, /group=standard/);
   assert.match(standard, /CONTENT_AUTOMATION_TEAM_ID/);
   assert.match(video, /CONTENT_AUTOMATION_TEAM_ID/);
