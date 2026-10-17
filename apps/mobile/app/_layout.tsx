@@ -92,6 +92,7 @@ function AuthenticatedStack({ authenticated }: { authenticated: boolean }) {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="story/[id]" options={{ title: 'Story' }} />
           <Stack.Screen name="trivia-game" options={{ title: 'Trivia' }} />
+          <Stack.Screen name="play" options={{ title: 'Play' }} />
           <Stack.Screen name="catch-up" options={{ title: 'Get Caught Up' }} />
           <Stack.Screen name="team-select" options={{ title: 'My Team' }} />
           <Stack.Screen name="profile" options={{ title: 'Profile' }} />

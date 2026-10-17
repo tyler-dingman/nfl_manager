@@ -1,3 +1,5 @@
+import type { CatalogProgress } from '../../../packages/parlay/prop-catalog';
+import { createResearchRequestCache } from '../../../packages/parlay/research-request-cache';
 import { authenticatedFetch } from './auth';
 export type ParlayEvent = {
   id: string;
@@ -14,7 +16,15 @@ async function get<T>(path: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 export const getParlayEvents = () => get<{ events: ParlayEvent[] }>('/api/parlay-lab/events');
-export const getParlayMarkets = (eventId = 'ALL') =>
-  get<{ markets: ParlayMarket[] }>(
-    `/api/parlay-lab/research?eventId=${encodeURIComponent(eventId)}`,
+const getResearch = createResearchRequestCache(
+  (url: string) => get<{ markets: ParlayMarket[]; progress?: CatalogProgress }>(url),
+  Date.now,
+  (body) => (body.progress?.complete === false ? 0 : 60_000),
+);
+export const getParlayMarkets = (
+  eventId = 'ALL',
+  lineMode: 'standard' | 'alternate' | 'all' = 'standard',
+) =>
+  getResearch(
+    `/api/parlay-lab/research?eventId=${encodeURIComponent(eventId)}&lineMode=${lineMode}`,
   );

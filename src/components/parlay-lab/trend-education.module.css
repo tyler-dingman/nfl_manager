@@ -32,6 +32,18 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 3px;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+}
+button.score {
+  cursor: pointer;
+}
+button.score:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
 }
 .score b {
   font-size: 1.15rem;
@@ -46,6 +58,10 @@
   color: var(--lab-muted, #9db4c6);
 }
 .score small[data-tier='HIGH'],
+.score small[data-tier='EXCEPTIONAL'],
+.score small[data-tier='VERY HIGH'],
+.score small[data-tier='HIGH'],
+.score small[data-tier='STRONG'],
 .score small[data-tier='GOOD'] {
   background: #e4f5ed;
   color: #087447;
@@ -126,6 +142,7 @@
   color: var(--lab-muted, #9db4c6);
 }
 .close {
+  color: inherit;
   position: absolute;
   right: 14px;
   top: 14px;

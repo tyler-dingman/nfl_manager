@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
 
@@ -5,7 +6,7 @@ import { createDraftSession, getDraftSession } from '@/server/api/draft';
 import { getSaveStateResult } from '@/server/api/store';
 import type { DraftMode } from '@/types/draft';
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   let body: { mode?: DraftMode; saveId?: string; maxRounds?: number } = {};
   try {
     body = (await request.json()) as { mode?: DraftMode; saveId?: string; maxRounds?: number };
@@ -37,3 +38,5 @@ export const POST = async (request: Request) => {
     session,
   });
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

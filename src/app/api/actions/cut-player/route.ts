@@ -1,10 +1,11 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { NextResponse } from 'next/server';
 
 import { cutPlayer } from '@/server/api/players';
 import { getSaveHeaderSnapshot, getSaveStateResult } from '@/server/api/store';
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   try {
     const body = (await request.json()) as {
       saveId?: string;
@@ -48,3 +49,5 @@ export const POST = async (request: Request) => {
     );
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

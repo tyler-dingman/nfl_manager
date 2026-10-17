@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { tradeDeadlineResponse } from '@/server/front-office/trade-window';
 import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
@@ -51,7 +52,7 @@ const computeResultingCapSpace = (
   return Number((baseCapSpace + outgoingCap - incomingCap).toFixed(1));
 };
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   const body = (await request.json()) as AcceptDraftTradeOfferBody;
 
   if (!body.saveId || !body.draftSessionId || !body.offer) {
@@ -277,3 +278,5 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

@@ -1,0 +1,39 @@
+Parlay Lab Standard / Alternate discovery — October 9, 2026
+
+Implemented locally across web and native React Native screens.
+
+Behavior
+- Standard is the default; only explicitly identified main lines are eligible.
+- Alt Lines switches discovery to actual priced alternates. Unknown classifications are excluded.
+- Max Odds defaults to -1000, with all requested options. The negative boundary is inclusive; positive odds remain eligible. The limit persists while Alt Lines is disabled.
+- Each event/player/market/period/threshold/direction is distinct; duplicate sportsbook offers use the best available price after mode, book and odds-limit filtering.
+- Homepage, Trending, discovery lists, generator inputs and hero picks share selection logic. Details retain the selected threshold and alternate classification. Alt Stack retains its separate existing purpose.
+- Highest Lab Score is the default. Web preserves explicit sorting, including Best Value.
+- Current role and reliability safeguards remain. Alternate confidence discovery does not require positive expected value: confidence and payout are distinct.
+
+Scoring
+The existing V2 model already accepts the actual alternate threshold, estimates its probability from the player's distribution and current opportunity, and supports scores through 99. No formula change, alternate bonus, odds-driven score assignment, or forced 99 was needed. Descriptive score bands now match the requested 95/90/85/80/70 boundaries. A composite score is not a calibrated win percentage. Regression tests verify easier Over and Under thresholds increase confidence while retaining standard scoring tests.
+
+Provider verification
+SportsGameOdds ingestion already requests alternate lines and retains per-threshold sportsbook prices. A read-only local audit of one upcoming game found 619 main and 1,239 alternate player offers plus 9 unknown classifications, across FanDuel, DraftKings, BetMGM and Caesars. Available alternate market families include passing, rushing, receiving, receptions, touchdowns and some kicking/longest-play markets; only markets supported by the existing research model receive scored discovery results. No fabricated lines or prices are used.
+The scored audit returned 463 standard and 1,067 alternate offers. At the requested discovery settings this particular game had no qualifying Trending picks; raw maximum scores were 73 and 74. Evidence gates remain in place. This is one-game verification, not a full-slate calibration study. See parlay-alt-lines-provider.json for counts, examples and timings.
+
+Persistence and performance
+packages/parlay/discovery-preferences.ts provides the shared store and validation. Web uses localStorage (including storage events); native uses the existing deviceStorage/SecureStore adapter. Preferences are per browser/device, not account-synchronized between devices. Server snapshots are deterministic and data fetching waits for hydration.
+Client public-research cache shares in-flight requests and results for 60 seconds, bounded to six entries. Event scoring caches are keyed by model version, event context and mode; the research keys retain player, market, actual threshold, side, book and main-line context. Market reads are cached for 60 seconds. ALL-event requests process three events concurrently. Database rows now return only the relevant bookmaker metadata instead of repeating all bookmakers' metadata for each price. Max Odds changes are local filters and do not refetch or recalculate scores. No provider pull, ingestion schedule, production infrastructure or database mutation was performed for this change.
+
+Principal files
+Shared: packages/parlay/discovery-preferences.ts, discovery-selection.ts, research-request-cache.ts, lab-score-config.ts.
+Web: src/components/parlay-lab/{use-discovery-preferences,discovery-controls,research-request,ParlayLabHome,ParlayLabExplorePage,dashboard-content,parlay-lab-hero}; dashboard.css and score-band styles.
+Native: apps/mobile/lib/{parlay,parlay-discovery-preferences}; app/parlay-lab.tsx; components/{parlay-discovery-controls,parlay-home-panels,parlay-generator,parlay-research}.
+Server: src/server/odds/repository.ts; historical-stats/trending-props-service.ts; API research and alt-stack routes.
+Tests: packages/parlay/discovery.test.ts; threshold assertions in lab-score-v2.test.ts; updated tier assertions; parlay-trending-mix and native-discovery Playwright tests and fixtures.
+
+Validation
+- 62 unit/regression tests passed: preference hydration/persistence/races, odds boundaries, deduplication, direction/threshold identity, scoring, probability, role evidence, request reuse and tier boundaries.
+- Four Chromium/WebKit browser checks passed across KC/SEA, desktop and 390px mobile-web controls, homepage navigation, refresh persistence, independent checkboxes, mobile Max Odds sheet and no horizontal overflow.
+- Two native React Native Web preview checks passed: controls, independent checkbox state, native menu interaction, remount and refresh persistence.
+- Web and native TypeScript checks passed.
+- iOS and Android Expo JavaScript bundle exports passed: /tmp/parlay-alt-native-export.
+- Relevant ESLint checks and git diff whitespace validation passed.
+Limitations: native preview is not physical iOS/Android device validation; no production deployment was performed. Browser interaction tests use isolated real-component fixtures, and database verification is separately read-only. Full live-page loading/error states were not visually revalidated on devices.

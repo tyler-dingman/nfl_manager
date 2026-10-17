@@ -1,0 +1,1791 @@
+{
+  "seed": "three-leg-v1",
+  "startedAt": "2026-10-10T03:20:57.014Z",
+  "cap": 1,
+  "tests": [
+    {
+      "pick": {
+        "id": "three-leg-v1",
+        "legs": [
+          {
+            "id": "223b8436-0b17-4359-8fc4-6aca884339d8",
+            "eventId": "9da4177e-1b33-419e-97b5-714b2c591348",
+            "playerId": "3915411",
+            "playerName": "Ty Johnson",
+            "teamId": null,
+            "marketType": "RECEIVING_YARDS",
+            "statId": "receiving_yards",
+            "period": "game",
+            "side": "UNDER",
+            "line": 11.5,
+            "sportsbook": "FANDUEL",
+            "odds": -114,
+            "oddsUpdatedAt": "2026-10-09T20:45:11.731Z",
+            "kickoffAt": "2026-10-13T00:15:00.000Z",
+            "homeTeamId": "LAR",
+            "awayTeamId": "BUF",
+            "season": 2026,
+            "lineType": "main"
+          },
+          {
+            "id": "cc7f9126-d3e7-47a7-91cb-2d7482c60858",
+            "eventId": "36d43a98-a10d-4b71-82c7-0d196a0bfbff",
+            "playerId": "4038441",
+            "playerName": "Justice Hill",
+            "teamId": null,
+            "marketType": "RECEPTIONS",
+            "statId": "receiving_receptions",
+            "period": "game",
+            "side": "OVER",
+            "line": 0.5,
+            "sportsbook": "FANDUEL",
+            "odds": -470,
+            "oddsUpdatedAt": "2026-10-09T20:45:09.504Z",
+            "kickoffAt": "2026-10-12T00:20:00.000Z",
+            "homeTeamId": "ATL",
+            "awayTeamId": "BAL",
+            "season": 2026,
+            "lineType": "alternate"
+          },
+          {
+            "id": "58fc8ef7-5962-41df-bc8c-1cbefe0ec3e5",
+            "eventId": "647675a9-3187-46f5-b9c0-375a2fae4e62",
+            "playerId": "4597703",
+            "playerName": "Tory Horton",
+            "teamId": null,
+            "marketType": "RECEIVING_YARDS",
+            "statId": "receiving_yards",
+            "period": "game",
+            "side": "UNDER",
+            "line": 11.5,
+            "sportsbook": "FANDUEL",
+            "odds": -114,
+            "oddsUpdatedAt": "2026-10-09T20:45:07.298Z",
+            "kickoffAt": "2026-10-11T20:25:00.000Z",
+            "homeTeamId": "SEA",
+            "awayTeamId": "SF",
+            "season": 2026,
+            "lineType": "main"
+          }
+        ]
+      },
+      "prompt": "Create ONE FanDuel NFL parlay containing exactly these THREE selections. Sportsbook: FanDuel. Region: Iowa. All markets full game. Do not substitute players, games, markets, directions, periods or thresholds. If any exact leg is unavailable, do not substitute or silently omit it. Return one complete parlay URL.\n\nLeg 1: Ty Johnson; BUF at LAR; kickoff 2026-10-13T00:15:00.000Z; UNDER 11.5 RECEIVING YARDS; full game.\nLeg 2: Justice Hill; BAL at ATL; kickoff 2026-10-12T00:20:00.000Z; OVER 0.5 RECEPTIONS; full game.\nLeg 3: Tory Horton; SF at SEA; kickoff 2026-10-11T20:25:00.000Z; UNDER 11.5 RECEIVING YARDS; full game.",
+      "startedAt": "2026-10-10T03:20:57.014Z",
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/api/v1/bet/generate",
+          "startedAt": "2026-10-10T03:20:57.014Z",
+          "httpStatus": 200,
+          "response": {
+            "status": "pending",
+            "details": "text: Create ONE FanDuel NFL parlay containing exactly these THREE selections. Sportsbook: FanDuel. Region: Iowa. All markets full game. Do not substitute players, games, markets, directions, periods or thresholds. If any exact leg is unavailable, do not substitute or silently omit it. Return one complete parlay URL.\n\nLeg 1: Ty Johnson; BUF at LAR; kickoff 2026-10-13T00:15:00.000Z; UNDER 11.5 RECEIVING YARDS; full game.\nLeg 2: Justice Hill; BAL at ATL; kickoff 2026-10-12T00:20:00.000Z; OVER 0.5 RECEPTIONS; full game.\nLeg 3: Tory Horton; SF at SEA; kickoff 2026-10-11T20:25:00.000Z; UNDER 11.5 RECEIVING YARDS; full game.",
+            "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979"
+          },
+          "elapsedMs": 532
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/bet/status/09fc21b9-00a6-46f7-904a-4e3b7f193979",
+          "startedAt": "2026-10-10T03:20:59.549Z",
+          "httpStatus": 200,
+          "response": {
+            "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+            "status": "Processing",
+            "details": "We are working on your request"
+          },
+          "elapsedMs": 81
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/bet/status/09fc21b9-00a6-46f7-904a-4e3b7f193979",
+          "startedAt": "2026-10-10T03:21:01.634Z",
+          "httpStatus": 200,
+          "response": {
+            "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+            "status": "Processing",
+            "details": "We are working on your request"
+          },
+          "elapsedMs": 103
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/bet/status/09fc21b9-00a6-46f7-904a-4e3b7f193979",
+          "startedAt": "2026-10-10T03:21:03.740Z",
+          "httpStatus": 200,
+          "response": {
+            "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+            "status": "Processing",
+            "details": "We are working on your request"
+          },
+          "elapsedMs": 86
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/bet/status/09fc21b9-00a6-46f7-904a-4e3b7f193979",
+          "startedAt": "2026-10-10T03:21:05.831Z",
+          "httpStatus": 200,
+          "response": {
+            "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+            "status": "Processing",
+            "details": "We are working on your request"
+          },
+          "elapsedMs": 83
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/bet/status/09fc21b9-00a6-46f7-904a-4e3b7f193979",
+          "startedAt": "2026-10-10T03:21:07.918Z",
+          "httpStatus": 200,
+          "response": {
+            "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+            "status": "Processing",
+            "details": "We are working on your request"
+          },
+          "elapsedMs": 83
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/bet/status/09fc21b9-00a6-46f7-904a-4e3b7f193979",
+          "startedAt": "2026-10-10T03:21:10.003Z",
+          "httpStatus": 200,
+          "response": {
+            "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+            "status": "Processing",
+            "details": "We are working on your request"
+          },
+          "elapsedMs": 111
+        },
+        {
+          "method": "GET",
+          "path": "/api/v1/bet/status/09fc21b9-00a6-46f7-904a-4e3b7f193979",
+          "startedAt": "2026-10-10T03:21:12.116Z",
+          "httpStatus": 200,
+          "response": {
+            "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+            "status": "Complete",
+            "details": "Your request is complete",
+            "betSlips": [
+              {
+                "book": "FanDuel",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-4099f1830f0a0f3088cdbfb580aac683",
+                "overallOdds": 327,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21369303659",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-114",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "FanDuel",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-d12695859c070920af49070436f3e82f"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21385603443",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "-470",
+                      "points": "0.5"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "FanDuel",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-ac94474417143f3374fd35805ea93cf8"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21307101918",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-114",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "FanDuel",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-0be6c7fa768ab7e945aab9cb7caefacc"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "DraftKings",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-2450fc70c8d5bae20ceb95903f9764c3",
+                "overallOdds": 570,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21372755209",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-117",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "DraftKings",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-e10f29a5ea555ff571df35a7e92470ab"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21399071434",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "-110",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "DraftKings",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-cf0395b069360f6ceb857ec3919631bb"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21318502103",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-112",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "DraftKings",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-a01ca1a8548b29566670e15eec744157"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "ProphetX",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-efc5773afbcb3e20f8d0bf8ad1b5bae3",
+                "overallOdds": 580,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21372767639",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-121",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "ProphetX",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-0ad1817e282ab5201871c4a909ba6e21"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21386842921",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "106",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "ProphetX",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-37a07217ab303b3dba85300eb1b267bd"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21308088190",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-124",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "ProphetX",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-b4d39464d6324cbd0c80e249a369cf6d"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "Caesars",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-75a01ed61cf88abb7beabf7f05dfa27d",
+                "overallOdds": 571,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21372739988",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-114",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Caesars",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-b1cf4e5dbc95550f31ed2b707ea1293b"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21391909657",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "-107",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Caesars",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-bf5b1d05f88c514cbe30ae8c65d1c2a1"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21311529463",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-118",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Caesars",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-04bc46487d19e60481f11ec4f9397465"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "Fanatics",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-500fa82623163f5323eb677765c72521",
+                "overallOdds": 571,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21373520110",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-125",
+                      "points": "10.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Fanatics",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-062431bc1511961ab29883a892a8eaf0"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21392266008",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "-105",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Fanatics",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-62a7209bc96642e1339d0edd2f122195"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21310325879",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-110",
+                      "points": "10.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Fanatics",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-56dfa8ab15fe46011faface1bc8bd0c5"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "BetMGM",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-00d15ec08e6d2c0a3199f59c6005a068",
+                "overallOdds": 257,
+                "legsRequested": 3,
+                "legsMatched": 2,
+                "betslipBets": [
+                  {
+                    "id": "21373586959",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-110",
+                      "points": "12.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "BetMGM",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-8d27c666089f38f4975697a1807e8496"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21482091096",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "-115",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "BetMGM",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-a8e8bf5ee22971f7e3613953b960ef4f"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "PrizePicks",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-2b71ec0baca247b97721b7924f420289",
+                "overallOdds": 531,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21369527691",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-118",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "PrizePicks",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-8c4e3797f899d068626310b1180e98e2"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21359882982",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "-118",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "PrizePicks",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-082c17e27b5243059b71eba277955aeb"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21307325072",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-118",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "PrizePicks",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-c1d4d42e0077b581cde1c928fabdd06d"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "Novig",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-a0c4eb1e4fcf0e9ed75e25c6d0ee38f0",
+                "overallOdds": 657,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21372708462",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-113",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Novig",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-d2878f63f8e9202b46e9daf5a5dc8074"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21386063050",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "113",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Novig",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-1fdfa25df0e52d91e92b16f013dfc680"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21310215272",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-113",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Novig",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-b273a7180f9df8a2ea21edfc9744fde9"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "theScore Bet",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-005e0acb54bed659710a54da40630da4",
+                "overallOdds": 647,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21436389690",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-110",
+                      "points": "11.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "theScore Bet",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-d332b664c66cf2a5482983a4c67d0215"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21422971009",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "-110",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "theScore Bet",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3ae5c6e34bc6a84f33e5d0f73c297c31"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21339177874",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "105",
+                      "points": "9.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "theScore Bet",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-1231abb15edb05381e627f011ce31049"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "Kalshi",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3507d42a73a567e5e8282483a2de8a84",
+                "overallOdds": 407,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21374380365",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-168",
+                      "points": "14.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Kalshi",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3507d42a73a567e5e8282483a2de8a84"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21402026753",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "-104",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Kalshi",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3507d42a73a567e5e8282483a2de8a84"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21320668406",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-161",
+                      "points": "14.5"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Kalshi",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3507d42a73a567e5e8282483a2de8a84"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "Polymarket US",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3c1e5215f771ffcd31163e6341179f72",
+                "overallOdds": 0,
+                "legsRequested": 3,
+                "legsMatched": 1,
+                "betslipBets": [
+                  {
+                    "id": "21346683136",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-337",
+                      "points": "19.5"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Polymarket US",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3c1e5215f771ffcd31163e6341179f72"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              },
+              {
+                "book": "Underdog Prediction Market",
+                "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-c90a62c816a0ce9f63f577985bd7b1e1",
+                "overallOdds": 372,
+                "legsRequested": 3,
+                "legsMatched": 3,
+                "betslipBets": [
+                  {
+                    "id": "21379548323",
+                    "player": "Ty Johnson",
+                    "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-179",
+                      "points": "14.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Underdog Prediction Market",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-c90a62c816a0ce9f63f577985bd7b1e1"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-13T00:15:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21405529191",
+                    "player": "Justice Hill",
+                    "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                    "odds": {
+                      "type": "american",
+                      "value": "-112",
+                      "points": "1.50"
+                    },
+                    "betType": "Receptions",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Underdog Prediction Market",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-40a152a7e2838cec805340badd848e6b"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-12T00:20:00+00:00"
+                    }
+                  },
+                  {
+                    "id": "21323693840",
+                    "player": "Tory Horton",
+                    "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                    "odds": {
+                      "type": "american",
+                      "value": "-167",
+                      "points": "14.50"
+                    },
+                    "betType": "Receiving Yards",
+                    "periodType": "Full Game",
+                    "isLive": false,
+                    "deepLink": {
+                      "sportsbook": "Underdog Prediction Market",
+                      "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-40a152a7e2838cec805340badd848e6b"
+                    },
+                    "metadata": {
+                      "league": "NFL",
+                      "timestamp": "2026-10-11T20:25:00+00:00"
+                    }
+                  }
+                ]
+              }
+            ],
+            "message": "Here's a link to your bets straight to FanDuel, powered by Gambly.\n\nYou can choose from any of our supported books in the top row of your betslip. 3/3 bets found."
+          },
+          "elapsedMs": 111
+        }
+      ],
+      "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+      "outcome": "Complete",
+      "result": {
+        "requestId": "09fc21b9-00a6-46f7-904a-4e3b7f193979",
+        "status": "Complete",
+        "details": "Your request is complete",
+        "betSlips": [
+          {
+            "book": "FanDuel",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-4099f1830f0a0f3088cdbfb580aac683",
+            "overallOdds": 327,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21369303659",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-114",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "FanDuel",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-d12695859c070920af49070436f3e82f"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21385603443",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "-470",
+                  "points": "0.5"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "FanDuel",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-ac94474417143f3374fd35805ea93cf8"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21307101918",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-114",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "FanDuel",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-0be6c7fa768ab7e945aab9cb7caefacc"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "DraftKings",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-2450fc70c8d5bae20ceb95903f9764c3",
+            "overallOdds": 570,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21372755209",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-117",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "DraftKings",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-e10f29a5ea555ff571df35a7e92470ab"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21399071434",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "-110",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "DraftKings",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-cf0395b069360f6ceb857ec3919631bb"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21318502103",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-112",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "DraftKings",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-a01ca1a8548b29566670e15eec744157"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "ProphetX",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-efc5773afbcb3e20f8d0bf8ad1b5bae3",
+            "overallOdds": 580,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21372767639",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-121",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "ProphetX",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-0ad1817e282ab5201871c4a909ba6e21"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21386842921",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "106",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "ProphetX",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-37a07217ab303b3dba85300eb1b267bd"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21308088190",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-124",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "ProphetX",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-b4d39464d6324cbd0c80e249a369cf6d"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Caesars",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-75a01ed61cf88abb7beabf7f05dfa27d",
+            "overallOdds": 571,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21372739988",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-114",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Caesars",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-b1cf4e5dbc95550f31ed2b707ea1293b"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21391909657",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "-107",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Caesars",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-bf5b1d05f88c514cbe30ae8c65d1c2a1"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21311529463",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-118",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Caesars",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-04bc46487d19e60481f11ec4f9397465"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Fanatics",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-500fa82623163f5323eb677765c72521",
+            "overallOdds": 571,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21373520110",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-125",
+                  "points": "10.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Fanatics",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-062431bc1511961ab29883a892a8eaf0"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21392266008",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "-105",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Fanatics",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-62a7209bc96642e1339d0edd2f122195"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21310325879",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-110",
+                  "points": "10.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Fanatics",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-56dfa8ab15fe46011faface1bc8bd0c5"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "BetMGM",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-00d15ec08e6d2c0a3199f59c6005a068",
+            "overallOdds": 257,
+            "legsRequested": 3,
+            "legsMatched": 2,
+            "betslipBets": [
+              {
+                "id": "21373586959",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-110",
+                  "points": "12.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "BetMGM",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-8d27c666089f38f4975697a1807e8496"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21482091096",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "-115",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "BetMGM",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-a8e8bf5ee22971f7e3613953b960ef4f"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "PrizePicks",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-2b71ec0baca247b97721b7924f420289",
+            "overallOdds": 531,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21369527691",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-118",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "PrizePicks",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-8c4e3797f899d068626310b1180e98e2"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21359882982",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "-118",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "PrizePicks",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-082c17e27b5243059b71eba277955aeb"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21307325072",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-118",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "PrizePicks",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-c1d4d42e0077b581cde1c928fabdd06d"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Novig",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-a0c4eb1e4fcf0e9ed75e25c6d0ee38f0",
+            "overallOdds": 657,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21372708462",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-113",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Novig",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-d2878f63f8e9202b46e9daf5a5dc8074"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21386063050",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "113",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Novig",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-1fdfa25df0e52d91e92b16f013dfc680"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21310215272",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-113",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Novig",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-b273a7180f9df8a2ea21edfc9744fde9"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "theScore Bet",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-005e0acb54bed659710a54da40630da4",
+            "overallOdds": 647,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21436389690",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-110",
+                  "points": "11.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "theScore Bet",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-d332b664c66cf2a5482983a4c67d0215"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21422971009",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "-110",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "theScore Bet",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3ae5c6e34bc6a84f33e5d0f73c297c31"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21339177874",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "105",
+                  "points": "9.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "theScore Bet",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-1231abb15edb05381e627f011ce31049"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Kalshi",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3507d42a73a567e5e8282483a2de8a84",
+            "overallOdds": 407,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21374380365",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-168",
+                  "points": "14.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Kalshi",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3507d42a73a567e5e8282483a2de8a84"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21402026753",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "-104",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Kalshi",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3507d42a73a567e5e8282483a2de8a84"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21320668406",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-161",
+                  "points": "14.5"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Kalshi",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3507d42a73a567e5e8282483a2de8a84"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Polymarket US",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3c1e5215f771ffcd31163e6341179f72",
+            "overallOdds": 0,
+            "legsRequested": 3,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21346683136",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-337",
+                  "points": "19.5"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Polymarket US",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3c1e5215f771ffcd31163e6341179f72"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Underdog Prediction Market",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-c90a62c816a0ce9f63f577985bd7b1e1",
+            "overallOdds": 372,
+            "legsRequested": 3,
+            "legsMatched": 3,
+            "betslipBets": [
+              {
+                "id": "21379548323",
+                "player": "Ty Johnson",
+                "event": "Bills Buffalo BUF @ Rams Los Angeles LA",
+                "odds": {
+                  "type": "american",
+                  "value": "-179",
+                  "points": "14.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Underdog Prediction Market",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-c90a62c816a0ce9f63f577985bd7b1e1"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-13T00:15:00+00:00"
+                }
+              },
+              {
+                "id": "21405529191",
+                "player": "Justice Hill",
+                "event": "Ravens Baltimore BAL @ Falcons Atlanta ATL",
+                "odds": {
+                  "type": "american",
+                  "value": "-112",
+                  "points": "1.50"
+                },
+                "betType": "Receptions",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Underdog Prediction Market",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-40a152a7e2838cec805340badd848e6b"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-12T00:20:00+00:00"
+                }
+              },
+              {
+                "id": "21323693840",
+                "player": "Tory Horton",
+                "event": "49ers San Francisco SF @ Seahawks Seattle SEA",
+                "odds": {
+                  "type": "american",
+                  "value": "-167",
+                  "points": "14.50"
+                },
+                "betType": "Receiving Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Underdog Prediction Market",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-40a152a7e2838cec805340badd848e6b"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T20:25:00+00:00"
+                }
+              }
+            ]
+          }
+        ],
+        "message": "Here's a link to your bets straight to FanDuel, powered by Gambly.\n\nYou can choose from any of our supported books in the top row of your betslip. 3/3 bets found."
+      },
+      "elapsedMs": 15213
+    }
+  ],
+  "finishedAt": "2026-10-10T03:21:12.229Z"
+}

@@ -1,0 +1,61 @@
+MULTI-SPORTSBOOK UPDATE: See reports/sportsbook-transfers-implementation.txt for the current shared DraftKings/FanDuel implementation. This earlier report remains historical context.
+
+FANDUEL TRANSFER UX UPDATE — 2026-10-09
+
+UI AND NAVIGATION
+Removed the region dropdown from desktop web, mobile web, and native My Parlay. Eligible selections can start immediately. The button shows Preparing Your FanDuel Slip... and Matching your selections. This usually takes 10–20 seconds.
+
+Generation now stays inline on the existing Parlay Lab screen. No tab or native external link is opened by starting generation or receiving a validated result. The rest of Parlay Lab remains usable. On success, web and native display Your FanDuel Slip Is Ready. and a prominent Continue to FanDuel button. Web uses a user-clicked target=_blank link with noopener/noreferrer; native uses its existing Linking.openURL handler only when Continue is pressed.
+
+Removed the placeholder-tab helper and automatic-navigation callbacks from the shared hook. Loading, cancellation, errors, stale-link cleanup and expiry remain. Existing save/share/export actions remain unchanged. Backend, deduplication, quotas, validation and attribution were not changed for this navigation revision.
+
+REGION FINDING AND BACKEND
+Official GenerateBetRequest defines type, generateMobileLinks and content. There is no region/state field or required region query parameter. Our old IA request field and Iowa sentence were application constraints, not documented API requirements.
+Sources inspected:
+https://docs.unabated.com/guides/bet-slips
+https://data.unabated.com/swagger/v1/swagger.json (GenerateBetRequest and generation/status operations)
+https://docs.unabated.com/guides/deep-links
+
+The public start request now contains only action and authoritative market UUIDs. Generation text omits the previous Iowa assumption and still includes every DB-resolved player/game/kickoff/market/full-game period/direction/exact threshold. The internal bookkeeping region is UNSPECIFIED (not a sportsbook state or transmitted API parameter); this separates its deduplication key from prior Iowa jobs without changing database tables.
+
+No state is inferred from IP, timezone, or team preference. If returned selection metadata explicitly identifies a region, the region-neutral validation path refuses the URL with a clear region-specific-selection error rather than guessing. The older internal IA validation remains for already-created IA jobs. Exact-selection checks and strict independent-offer validation remain intact. Missing direction and region metadata are not claimed as independently verified.
+
+REDIRECT INVESTIGATION
+Inspected the previously generated three-leg Gambly link, without generating another link:
+https://gambly.com/deeplink/deeplink-cache-v2-20261010-4099f1830f0a0f3088cdbfb580aac683?utm_campaign=downanddistance
+
+A clean browser followed its normal redirect to:
+https://sportsbook.fanduel.com/addToBetslip?marketId[0]=42.614827531&selectionId[0]=26843015&marketId[1]=42.614848604&selectionId[1]=64685442&marketId[2]=42.614602232&selectionId[2]=49171249&shareBetId=partner_unabated
+
+This is observed evidence, not a URL template to construct. There was no state parameter. FanDuel displayed a Press & Hold human-verification screen; inspection stopped without bypassing it. Screenshot: /tmp/fanduel-public-redirect.png.
+
+No supported Unabated generation parameter for state-specific destinations or authenticated-session reuse was found in the official guides/schema. generateMobileLinks controls mobile-optimized links, not state. Continue to use the returned link; do not invent FanDuel URL parameters. Whether a prior session survives depends on browser/app and FanDuel. State selection, login and geolocation may still be required by FanDuel. This inspection does not prove that no state-specific FanDuel links exist outside this integration.
+
+PRESERVED
+SportsGameOdds weekly ingestion, PostgreSQL prop records, normalization, Lab Score, partner attribution, exact-match checks, application quotas and authentication are unchanged. One complete generation POST, bounded polling, no automatic POST retries. No live Unabated generation or odds calls were made during this change.
+
+Existing local ENABLE_FANDUEL_BETSLIP=true was preserved from the user's successful local test. No feature flag or allowlist was edited. Production remains blocked by the existing NODE_ENV guard. ODDS_PROVIDER=sportsgameodds and ENABLE_UNABATED_INGESTION=false remain set. No production operations performed.
+
+VALIDATION
+The preceding backend verification passed 36 unit/adapter/local PostgreSQL tests, including region-neutral prompt checks, exact thresholds, explicit unresolved region rejection, concurrent deduplication and quotas. The DB test uses and removes an isolated fixture schema.
+Root and native TypeScript checks passed; targeted ESLint passed without warnings or errors.
+All 14 distinct browser fixture checks passed for the inline-navigation revision, including web/native transfer and existing save/share regressions. A visible-panel selector ambiguity was corrected in the web tests; all four web cases passed on rerun. Browser fixture tests cover Chromium/WebKit, desktop and mobile web, KC/SEA themes, immediate inline loading, asynchronous start/poll completion, no generation-time tabs or external-link calls, Continue-only navigation, cancellation, errors, stale-link removal, native external-link calls after Continue and original save/share functionality. Native renderer testing uses React Native Web; it is not an Android/iOS device test.
+
+FILES
+packages/parlay/fanduel-transfer.ts
+packages/parlay/use-fanduel-transfer.ts
+src/app/api/parlay-lab/fanduel-transfer/route.ts
+src/server/providers/unabated/transfer-service.ts
+src/server/providers/unabated/test-transfer-validation.ts
+src/server/providers/unabated/transfer.test.ts
+src/server/providers/unabated/transfer-db.test.ts
+src/components/parlay-lab/FanDuelTransfer.tsx
+src/components/parlay-lab/fanduel-navigation.ts (removed)
+apps/mobile/components/fanduel-transfer.tsx
+tests/mobile/fanduel-transfer.spec.ts
+tests/mobile/native-slip.spec.ts
+reports/fanduel-transfer-implementation.txt
+reports/fanduel-transfer-ux.txt
+
+LIMITATIONS
+A fresh live region-neutral transfer and actual Android/iOS external navigation remain unverified. The prior successful local test used the previous regional prompt. Independent direction verification and account quota confirmation remain production blockers. The new flow removes duplicate input without asserting nationwide market coverage or guaranteed authenticated-session reuse.

@@ -1,4 +1,26 @@
 'use client';
+import type { CatalogProgress } from '../../../packages/parlay/prop-catalog';
+import { usePropMarketNavigation } from './use-prop-market-navigation';
+import { PropDiscoveryTable, PropMarketNavigation } from './prop-discovery-table';
+import { formatStatValue } from '../../../packages/parlay/stat-display';
+import {
+  PROP_SORTS,
+  matchesPropCategory,
+  type PropCatalogPage,
+} from '../../../packages/parlay/prop-catalog';
+import { isAnytimeTD, propPick, researchSide } from '../../../packages/parlay/anytime-td';
+import { labScoreColor } from '../../../packages/parlay/lab-score-config';
+
+import { matchesPropSearch } from '../../../packages/parlay/search';
+import { getReadableTextColor } from '@/lib/color-utils';
+import { useDiscoveryPreferences } from './use-discovery-preferences';
+import { DiscoveryControls } from './discovery-controls';
+import {
+  selectDiscoveryMarkets,
+  supportsDiscovery,
+} from '../../../packages/parlay/discovery-selection';
+import { bettingOpportunityRank } from '../../../packages/parlay/trending-selection';
+import { labScoreBand } from '../../../packages/parlay/lab-score-config';
 import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
 import { ResponsivePlayerTable } from '@/components/players/responsive-player-table';
 import { ResponsiveRail } from '@/components/layout/responsive-rail';
@@ -8,21 +30,18 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Plus, ArrowRight } from 'lucide-react';
+import { Plus, ArrowRight, Search, X } from 'lucide-react';
 import { TEAM_LIST } from '@/data/teams';
 import type { Team } from '@/features/team/team-store';
 import { getEditorialHeroTheme } from '@/lib/team-theme-tokens';
 import { DdGameCenterIcon, DdTeamAnalyticsIcon } from '@/components/ui/football-icons';
-import { NextGameHeroCard } from '@/components/home/next-game-hero-card';
-import { LabTrendsIcon, LabStatsIcon, LabInsightsIcon, LabExperimentIcon } from './lab-icons';
+import { LabTrendsIcon, LabStatsIcon, LabExperimentIcon } from './lab-icons';
 import { AltStackCard } from './alt-stack-card';
 import { ParlayLabHero } from './parlay-lab-hero';
 import PlayerAvatar from './PlayerAvatar';
 import type { HomeMarket } from './ParlayLabHome';
-import { representativeTrends, compactTrendReason } from './trending-context';
-import { matchesTrendingMarketFilter } from './trending-market-filter';
+import { formatProjection } from '../../../packages/parlay/projection-display';
 import { sportsbookName } from '@/server/odds/sportsbooks';
-import { LabScoreGuide } from './TrendEducation';
 import { PlayersDashboard } from './players-dashboard';
 import { GeneratorDashboard } from './generator-dashboard';
 import ParlaySortHeader from './ParlaySortHeader';
@@ -39,6 +58,7 @@ export type GeneratorSetup = { prompt: string; legs: number; eventId: string };
 export type DashboardMode =
   | 'home'
   | 'trends'
+  | 'all-props'
   | 'games'
   | 'players'
   | 'teams'
@@ -54,18 +74,12 @@ export type DashboardEvent = {
   venue?: string;
   marketsLocked?: boolean;
 };
-function matchesCategory(m: HomeMarket, category: string) {
-  const name = `${m.marketType} ${m.statId}`.toUpperCase();
-  if (category === 'YARDS') return name.includes('YARD');
-  if (category === 'RECEPTIONS') return name.includes('RECEPTION');
-  if (category === 'KICKERS') return /FIELD_GOAL|KICKING|EXTRA_POINT/.test(name);
-  if (category === 'DEFENSIVE') return /TACKLE|SACK|PASS_DEFEND/.test(name);
-  return matchesTrendingMarketFilter(m, category);
-}
+const matchesCategory = matchesPropCategory;
 const label = (m: HomeMarket) =>
-  marketDisplayName(m.marketType === 'OTHER' ? m.statId : m.marketType);
-const pick = (m: HomeMarket) =>
-  `${m.side === 'OVER' ? 'O' : m.side === 'UNDER' ? 'U' : m.side} ${m.line ?? ''}`;
+  isAnytimeTD(m)
+    ? 'Anytime TD'
+    : marketDisplayName(m.marketType === 'OTHER' ? m.statId : m.marketType);
+const pick = propPick;
 const odds = (n: number | null) => (n == null ? '—' : `${n > 0 ? '+' : ''}${n}`);
 const date = (e: DashboardEvent) =>
   new Date(e.kickoffAt).toLocaleString('en-US', {
@@ -83,13 +97,27 @@ function Logo({ abbr }: { abbr: string }) {
     <span>{abbr}</span>
   );
 }
-function Score({ value }: { value?: number }) {
+function Score({ value, trend }: { value?: number; trend?: HomeMarket['trend'] }) {
+  if (trend?.projection && trend.projection.estimatedProbability == null) value = undefined;
   return (
     <strong
       className="lab-score"
+      style={{ color: labScoreColor(value), borderColor: labScoreColor(value) }}
+      title={
+        trend?.projection
+          ? `Projection ${trend.projection.projection ?? 'unavailable'} · Edge ${trend.projection.edge ?? '—'} · ${trend.projection.recommendation ?? 'No recommendation'} · Role confidence ${trend.projection.roleConfidence}. Open player research for details.`
+          : undefined
+      }
       data-tier={value == null ? 'none' : value >= 70 ? 'good' : value >= 50 ? 'mid' : 'low'}
     >
-      {value == null ? '—' : Math.round(value)}
+      {value == null ? (
+        '—'
+      ) : (
+        <>
+          {Math.round(value)}
+          <small>{labScoreBand(value).label}</small>
+        </>
+      )}
     </strong>
   );
 }
@@ -279,6 +307,7 @@ export function DashboardContent({
   onGenerate,
   onRemove,
   initialEventId,
+  discoveryProgress,
 }: {
   mode: DashboardMode;
   team?: Team;
@@ -293,10 +322,17 @@ export function DashboardContent({
   parlay: ReactNode;
   onGenerate: (setup?: GeneratorSetup) => void;
   initialEventId?: string;
+  discoveryProgress?: CatalogProgress;
 }) {
+  const discovery = useDiscoveryPreferences();
+  const groupedDiscovery = mode === 'all-props' || mode === 'trends';
   const [directory, setDirectory] = useState<DirectoryPlayer[]>([]);
+  const [directoryLoading, setDirectoryLoading] = useState(false);
+  const [directoryError, setDirectoryError] = useState('');
   useEffect(() => {
-    if (mode !== 'players') return;
+    if (mode !== 'players' && mode !== 'teams') return;
+    setDirectoryLoading(true);
+    setDirectoryError('');
     const c = new AbortController();
     fetch('/api/parlay-lab/players', { signal: c.signal })
       .then((r) => {
@@ -306,21 +342,189 @@ export function DashboardContent({
       .then((b) => {
         if (!c.signal.aborted) setDirectory(b.players ?? []);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!c.signal.aborted)
+          setDirectoryError('Player roster could not be loaded. Available prop research is shown.');
+      })
+      .finally(() => {
+        if (!c.signal.aborted) setDirectoryLoading(false);
+      });
     return () => c.abort();
   }, [mode]);
   const [game, setGame] = useState(initialEventId ?? 'ALL');
   const [columnSort, setColumnSort] = useState<SortState>(null);
-  const [category, setCategory] = useState('ALL'),
+  const [localCategory, setLocalCategory] = useState('ALL'),
     [teamFilter, setTeamFilter] = useState('ALL'),
-    [player, setPlayer] = useState('ALL'),
+    [playerSearch, setPlayerSearch] = useState(''),
     [side, setSide] = useState('ALL'),
     [book, setBook] = useState('ALL'),
     [myTeam, setMyTeam] = useState(false),
     [sort, setSort] = useState('score'),
     [page, setPage] = useState(1);
-  const [week, setWeek] = useState('THIS'),
-    [railCategory, setRailCategory] = useState('PASSING');
+  const [catalog, setCatalog] = useState<PropCatalogPage | null>(null);
+  const navigation = usePropMarketNavigation(
+    groupedDiscovery,
+    catalog?.progress?.complete === false ? undefined : catalog?.facets,
+  );
+  const category = groupedDiscovery ? navigation.category : localCategory;
+  const specificMarket = groupedDiscovery ? navigation.market : 'ALL';
+  const setCategory = (value: string) =>
+    groupedDiscovery ? navigation.onCategory(value) : setLocalCategory(value);
+  const setSpecificMarket = (value: string) => {
+    if (groupedDiscovery) navigation.onMarket(value);
+  };
+  const [filtersReady, setFiltersReady] = useState(false);
+  useEffect(() => {
+    if (groupedDiscovery) {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem('parlay-prop-filters-v2') ?? '{}');
+        if (typeof saved.game === 'string') setGame(saved.game);
+        if (typeof saved.team === 'string') setTeamFilter(saved.team);
+        if (typeof saved.search === 'string') setPlayerSearch(saved.search);
+        if (typeof saved.book === 'string') setBook(saved.book);
+        if (typeof saved.side === 'string') setSide(saved.side);
+        if (typeof saved.sort === 'string') setSort(saved.sort);
+        if (
+          saved.columnSort &&
+          [
+            'rank',
+            'player',
+            'prop',
+            'game',
+            'line',
+            'odds',
+            'score',
+            'projection',
+            'last10',
+          ].includes(saved.columnSort.key) &&
+          ['asc', 'desc'].includes(saved.columnSort.direction)
+        )
+          setColumnSort(saved.columnSort);
+        if (typeof saved.myTeam === 'boolean') setMyTeam(saved.myTeam);
+      } catch {}
+    }
+    setFiltersReady(true);
+  }, [groupedDiscovery]);
+  useEffect(() => {
+    if (groupedDiscovery && filtersReady) {
+      try {
+        sessionStorage.setItem(
+          'parlay-prop-filters-v2',
+          JSON.stringify({
+            game,
+            team: teamFilter,
+            search: playerSearch,
+            book,
+            side,
+            sort,
+            columnSort,
+            myTeam,
+          }),
+        );
+      } catch {}
+    }
+  }, [
+    groupedDiscovery,
+    filtersReady,
+    category,
+    specificMarket,
+    game,
+    teamFilter,
+    playerSearch,
+    book,
+    side,
+    sort,
+    columnSort,
+    myTeam,
+  ]);
+  const [catalogLoading, setCatalogLoading] = useState(false);
+  const [catalogError, setCatalogError] = useState('');
+  const [catalogPoll, setCatalogPoll] = useState(0);
+  useEffect(() => {
+    if (!groupedDiscovery || catalogError || catalog?.progress?.complete !== false) return;
+    const timer = setTimeout(() => setCatalogPoll((v) => v + 1), 1000);
+    return () => clearTimeout(timer);
+  }, [groupedDiscovery, catalog, catalogError]);
+
+  useEffect(() => {
+    if (!groupedDiscovery || !filtersReady || !discovery.ready) return;
+    const controller = new AbortController();
+    setCatalogLoading(true);
+    setCatalogError('');
+    const timer = setTimeout(
+      () => {
+        const query = new URLSearchParams({
+          page: String(page),
+          grouped: 'true',
+          view: mode,
+          market: specificMarket,
+          game,
+          category,
+          team: myTeam ? (team?.abbr ?? '__none') : teamFilter,
+          search: playerSearch,
+          side,
+          book,
+          sort: columnSort?.key ?? sort,
+          altLines: String(discovery.altLines),
+          maxOdds: String(discovery.maxOdds),
+        });
+        if (columnSort) query.set('direction', columnSort.direction);
+        fetch(`/api/parlay-lab/props?${query}`, { signal: controller.signal })
+          .then(async (r) => {
+            if (!r.ok) throw new Error('Available props could not be loaded. Please try again.');
+            return r.json();
+          })
+          .then((body) => {
+            if (!controller.signal.aborted) setCatalog(body);
+          })
+          .catch((e) => {
+            if (!controller.signal.aborted) {
+              setCatalogError(e.message);
+            }
+          })
+          .finally(() => {
+            if (!controller.signal.aborted) setCatalogLoading(false);
+          });
+      },
+      playerSearch.trim() ? 200 : 0,
+    );
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [
+    catalogPoll,
+    mode,
+    groupedDiscovery,
+    filtersReady,
+    page,
+    game,
+    category,
+    specificMarket,
+    teamFilter,
+    myTeam,
+    team?.abbr,
+    playerSearch,
+    side,
+    book,
+    sort,
+    columnSort,
+    discovery.ready,
+    discovery.altLines,
+    discovery.maxOdds,
+  ]);
+  const clearFilters = () => {
+    setGame('ALL');
+    setCategory('ALL');
+    setTeamFilter('ALL');
+    setMyTeam(false);
+    setPlayerSearch('');
+    setSide('ALL');
+    setBook('ALL');
+    setPage(1);
+    discovery.update({ altLines: false });
+  };
+  const [week, setWeek] = useState('THIS');
   const [gameMarkets, setGameMarkets] = useState<HomeMarket[]>([]);
   const openEvents = useMemo(
     () =>
@@ -352,7 +556,6 @@ export function DashboardContent({
     query.set('team', abbr);
     query.delete('game');
     setTeamFilter('ALL');
-    setPlayer('ALL');
     setPage(1);
     router.push(`/parlay-lab/games?${query}`, { scroll: false });
   };
@@ -370,29 +573,31 @@ export function DashboardContent({
     return () => c.abort();
   }, [mode, selected]);
   const unique = useMemo(() => {
-    const map = new Map<string, HomeMarket>();
     const ids = new Set(openEvents.map((e) => e.id));
-    for (const m of markets) {
-      if (!m.available || !m.eventId || !ids.has(m.eventId)) continue;
-      const key = `${m.eventId}:${m.normalizedKey}`;
-      const old = map.get(key);
-      if (!old || (m.odds ?? -9999) > (old.odds ?? -9999)) map.set(key, m);
-    }
-    return representativeTrends([...map.values()]).sort(
-      (a, b) => (b.trend?.trendScore ?? -1) - (a.trend?.trendScore ?? -1),
+    return selectDiscoveryMarkets(
+      markets.filter((m) => m.eventId && ids.has(m.eventId)),
+      { altLines: discovery.altLines, maxOdds: discovery.maxOdds },
+      { sportsbook: book, includeUnqualified: true },
     );
-  }, [markets, openEvents]);
+  }, [markets, openEvents, discovery.altLines, discovery.maxOdds, book]);
   const categories = [
     ['ALL', 'All Props'],
     ['PASSING', 'Passing'],
     ['RUSHING', 'Rushing'],
     ['RECEIVING', 'Receiving'],
     ['TOUCHDOWN', 'TDs'],
+    ['ANYTIME_TD', 'Anytime TD'],
     ['YARDS', 'Yards'],
     ['RECEPTIONS', 'Receptions'],
     ['KICKERS', 'Kickers'],
     ['DEFENSIVE', 'Defensive'],
-  ].filter(([id]) => id === 'ALL' || unique.some((m) => matchesCategory(m, id)));
+  ].filter(
+    ([id]) =>
+      mode === 'all-props' ||
+      id === 'ALL' ||
+      id === 'ANYTIME_TD' ||
+      unique.some((m) => matchesCategory(m, id)),
+  );
   const rows = useMemo(
     () =>
       unique
@@ -402,22 +607,54 @@ export function DashboardContent({
             matchesCategory(m, category) &&
             (teamFilter === 'ALL' || m.teamId === teamFilter) &&
             (!myTeam || m.teamId === team?.abbr) &&
-            (player === 'ALL' || m.playerId === player) &&
-            (side === 'ALL' || m.side === side) &&
-            (book === 'ALL' || m.sportsbook === book),
+            matchesPropSearch(m.playerName, playerSearch) &&
+            (side === 'ALL' || researchSide(m.side) === side) &&
+            (book === 'ALL' || m.sportsbook === book) &&
+            (!['home', 'trends'].includes(mode) ||
+              supportsDiscovery(m, { altLines: discovery.altLines, maxOdds: discovery.maxOdds })),
         )
         .sort((a, b) =>
-          sort === 'name'
-            ? (a.playerName ?? '').localeCompare(b.playerName ?? '')
-            : sort === 'odds'
-              ? (b.odds ?? -9999) - (a.odds ?? -9999)
-              : sort === 'trend'
-                ? (b.trend?.last10.hitRate ?? -1) - (a.trend?.last10.hitRate ?? -1)
-                : (b.trend?.trendScore ?? -1) - (a.trend?.trendScore ?? -1),
+          sort === 'trending'
+            ? bettingOpportunityRank(b) - bettingOpportunityRank(a)
+            : sort === 'name'
+              ? (a.playerName ?? '').localeCompare(b.playerName ?? '')
+              : sort === 'odds'
+                ? (b.odds ?? -9999) - (a.odds ?? -9999)
+                : sort === 'trend'
+                  ? (b.trend?.last10.hitRate ?? -1) - (a.trend?.last10.hitRate ?? -1)
+                  : (b.trend?.trendScore ?? -1) - (a.trend?.trendScore ?? -1),
         ),
-    [unique, game, category, teamFilter, myTeam, team, player, side, book, sort],
+    [
+      unique,
+      game,
+      category,
+      teamFilter,
+      myTeam,
+      team,
+      playerSearch,
+      side,
+      book,
+      sort,
+      mode,
+      discovery.altLines,
+      discovery.maxOdds,
+    ],
   );
-  useEffect(() => setPage(1), [game, category, teamFilter, myTeam, player, side, book, sort]);
+  useEffect(() => {
+    setPage(1);
+  }, [
+    game,
+    category,
+    specificMarket,
+    teamFilter,
+    myTeam,
+    playerSearch,
+    side,
+    book,
+    sort,
+    discovery.altLines,
+    discovery.maxOdds,
+  ]);
   const rankedRows = sortTableRows(rows, columnSort, {
     rank: (m) => unique.indexOf(m),
     player: (m) => `${m.playerName ?? ''} ${m.teamId ?? ''}`,
@@ -429,25 +666,23 @@ export function DashboardContent({
     line: (m) => m.line,
     odds: (m) => (m.odds == null ? null : americanOddsToDecimal(m.odds)),
     score: (m) => m.trend?.trendScore,
-    trend: (m) => (m.trend ? compactTrendReason(m) : null),
+    projection: (m) => m.trend?.projection?.projection,
     last10: (m) => (m.trend?.last10.games ? m.trend.last10.hits / m.trend.last10.games : null),
   });
   const sortColumn = (key: string) => {
     setColumnSort((current) => nextSort(current, key));
     setPage(1);
   };
-  const visible = rankedRows.slice(
-    (page - 1) * (mode === 'home' ? 5 : 12),
-    page * (mode === 'home' ? 5 : 12),
-  );
-  const players = [
-    ...new Map(unique.filter((m) => m.playerId).map((m) => [m.playerId, m])).values(),
-  ];
+  const visible = groupedDiscovery
+    ? (catalog?.markets ?? [])
+    : rankedRows.slice((page - 1) * (mode === 'home' ? 5 : 12), page * (mode === 'home' ? 5 : 12));
+  const totalRows = groupedDiscovery ? (catalog?.totalGroups ?? 0) : rows.length;
+  const displayPage = groupedDiscovery ? (catalog?.page ?? page) : page;
   const teamSuffix = team ? `?team=${team.abbr}` : '';
   const colors = getEditorialHeroTheme(team?.abbr ?? '');
   const stats = [
     ['ACTIVE PROPS', unique.length],
-    ['TRENDING NOW', unique.filter((m) => (m.trend?.last10.hitRate ?? 0) >= 70).length],
+    ['TRENDING NOW', selectDiscoveryMarkets(unique, discovery).length],
     ['90+ LAB SCORES', unique.filter((m) => (m.trend?.trendScore ?? 0) >= 90).length],
     ['GAMES ON BOARD', openEvents.length],
   ];
@@ -464,11 +699,6 @@ export function DashboardContent({
                 ? String((currentWeek ?? 0) + 1)
                 : week),
         );
-  const leaders = (
-    mode === 'games'
-      ? unique.filter((m) => m.eventId === game)
-      : unique.filter((m) => matchesCategory(m, railCategory))
-  ).slice(0, 5);
   const filterSelect = (
     title: string,
     value: string,
@@ -541,23 +771,26 @@ export function DashboardContent({
     </div>
   );
   const heroPlayers = new Set<string>();
-  const topHeroProps = unique
-    .filter(
-      (m) =>
-        m.playerId &&
-        m.playerName &&
-        m.trend &&
-        Number.isFinite(m.trend.trendScore) &&
-        m.trend.trendScore >= 0 &&
-        m.trend.trendScore <= 100,
-    )
-    .filter((m) => {
-      const player = m.playerId!;
-      if (heroPlayers.has(player)) return false;
-      heroPlayers.add(player);
-      return true;
-    })
-    .slice(0, 3);
+  const topHeroProps =
+    mode === 'trends'
+      ? (catalog?.featured ?? [])
+      : selectDiscoveryMarkets(unique, discovery)
+          .filter(
+            (m) =>
+              m.playerId &&
+              m.playerName &&
+              m.trend &&
+              Number.isFinite(m.trend.trendScore) &&
+              m.trend.trendScore >= 0 &&
+              m.trend.trendScore <= 100,
+          )
+          .filter((m) => {
+            const player = m.playerId!;
+            if (heroPlayers.has(player)) return false;
+            heroPlayers.add(player);
+            return true;
+          })
+          .slice(0, 3);
   const spotlight = (
     <section className="lab-spotlight lab-panel">
       <div>
@@ -569,14 +802,14 @@ export function DashboardContent({
         </h3>
         <p>Explore NFL props using stored statistics, matchup context, and existing Lab Scores.</p>
       </div>
-      <div className="lab-spotlight-cards" aria-label="Top props by Lab Score">
+      <div className="lab-spotlight-cards" aria-label="Featured trending props">
         {topHeroProps.map((market, index) => (
           <button
             key={`${market.eventId}:${market.id}:${market.sportsbook}`}
             className="lab-spotlight-prop"
             onClick={() => onOpen(market)}
           >
-            <small>#{index + 1} LAB SCORE</small>
+            <small>#{index + 1} TRENDING</small>
             <PlayerAvatar
               name={market.playerName}
               headshotUrl={market.headshotUrl}
@@ -591,7 +824,7 @@ export function DashboardContent({
             <span>
               {pick(market)} {label(market)}
             </span>
-            <Score value={market.trend!.trendScore} />
+            <Score value={market.trend!.trendScore} trend={market.trend} />
             <span>View Prop →</span>
           </button>
         ))}
@@ -603,18 +836,61 @@ export function DashboardContent({
       <header>
         <h2>
           <LabTrendsIcon />
-          {mode === 'games' ? 'Game Props' : 'Trending Props'}
+          {mode === 'all-props' ? 'All Props' : mode === 'games' ? 'Game Props' : 'Trending Props'}
         </h2>
-        {mode === 'home' && <Link href={`/parlay-lab/trends${teamSuffix}`}>View All →</Link>}
+        {mode === 'home' && (
+          <Link href={`/parlay-lab/trends${teamSuffix}`}>View Trending Props →</Link>
+        )}
       </header>
-      <div className="lab-tabs">
-        {categories.map(([id, name]) => (
-          <button key={id} aria-pressed={category === id} onClick={() => setCategory(id)}>
-            {name}
-          </button>
-        ))}
-      </div>
+      {groupedDiscovery ? (
+        <PropMarketNavigation
+          facets={catalog?.facets ?? []}
+          category={category}
+          market={specificMarket}
+          onCategory={(value) => {
+            setCategory(value);
+            setPage(1);
+          }}
+          onMarket={(value) => {
+            setSpecificMarket(value);
+            setPage(1);
+          }}
+        />
+      ) : (
+        <div className="lab-tabs">
+          {categories.map(([id, name]) => (
+            <button
+              key={id}
+              aria-pressed={category === id}
+              onClick={() => {
+                setCategory(id);
+              }}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+      )}
       <div className="lab-filters">
+        <label className="lab-player-search">
+          <Search size={16} aria-hidden="true" />
+          <input
+            type="search"
+            aria-label="Search players"
+            placeholder="Search players…"
+            value={playerSearch}
+            onChange={(e) => setPlayerSearch(e.target.value)}
+          />
+          {playerSearch && (
+            <button
+              type="button"
+              aria-label="Clear player search"
+              onClick={() => setPlayerSearch('')}
+            >
+              <X size={16} />
+            </button>
+          )}
+        </label>
         {mode !== 'games' &&
           filterSelect('Game', game, setGame, [
             ['ALL', 'All Games'],
@@ -626,11 +902,6 @@ export function DashboardContent({
           ['ALL', 'All Teams'],
           ...TEAM_LIST.map((t) => [t.abbr, t.name] as [string, string]),
         ])}
-        {mode !== 'home' &&
-          filterSelect('Player', player, setPlayer, [
-            ['ALL', 'All Players'],
-            ...players.map((m) => [m.playerId!, m.playerName!] as [string, string]),
-          ])}
         {filterSelect('Over / Under', side, setSide, [
           ['ALL', 'Over / Under'],
           ['OVER', 'Over'],
@@ -638,9 +909,10 @@ export function DashboardContent({
         ])}
         {filterSelect('Sportsbook', book, setBook, [
           ['ALL', 'All Sportsbooks'],
-          ...[...new Set(unique.map((m) => m.sportsbook))].map(
-            (b) => [b, sportsbookName(b)] as [string, string],
-          ),
+          ...(groupedDiscovery
+            ? (catalog?.books ?? [])
+            : [...new Set(markets.map((m) => m.sportsbook))]
+          ).map((b) => [b, sportsbookName(b)] as [string, string]),
         ])}
         {filterSelect(
           'Sort props',
@@ -651,158 +923,215 @@ export function DashboardContent({
           },
           [
             ...(columnSort ? [['', 'Column sort'] as [string, string]] : []),
-            ['score', 'Lab Score'],
-            ['trend', 'L10 Hit Rate'],
-            ['name', 'Player'],
-            ['odds', 'Odds'],
+            ...(groupedDiscovery
+              ? (PROP_SORTS as [string, string][])
+              : ([
+                  ['score', 'Highest Lab Score'],
+                  ['trending', 'Best Value'],
+                  ['trend', 'L10 Hit Rate'],
+                  ['name', 'Player'],
+                  ['odds', 'Odds'],
+                ] as [string, string][])),
           ],
         )}
-        <label>
+        <label className="lab-my-team-toggle">
           <input type="checkbox" checked={myTeam} onChange={(e) => setMyTeam(e.target.checked)} />{' '}
           My Team Only
         </label>
+        <DiscoveryControls />
       </div>
-      <div className="lab-table-scroll">
-        <ResponsivePlayerTable identityColumn={1}>
-          <thead>
-            <tr>
-              <ParlaySortHeader
-                as="th"
-                label="#"
-                sortKey="rank"
-                sort={columnSort}
-                onSort={sortColumn}
-              />
-              <ParlaySortHeader
-                as="th"
-                label="Player / Team"
-                sortKey="player"
-                sort={columnSort}
-                onSort={sortColumn}
-              />
-              <ParlaySortHeader
-                as="th"
-                label="Prop"
-                sortKey="prop"
-                sort={columnSort}
-                onSort={sortColumn}
-              />
-              <ParlaySortHeader
-                as="th"
-                label="Game"
-                sortKey="game"
-                sort={columnSort}
-                onSort={sortColumn}
-              />
-              <ParlaySortHeader
-                as="th"
-                label="Line"
-                sortKey="line"
-                sort={columnSort}
-                onSort={sortColumn}
-              />
-              <ParlaySortHeader
-                as="th"
-                label="Odds"
-                sortKey="odds"
-                sort={columnSort}
-                onSort={sortColumn}
-              />
-              <ParlaySortHeader
-                as="th"
-                label="Lab Score"
-                sortKey="score"
-                sort={columnSort}
-                onSort={sortColumn}
-              />
-              {mode !== 'home' && (
+      {groupedDiscovery ? (
+        <>
+          <p className="lab-group-summary" aria-live="polite">
+            {catalogLoading
+              ? catalog
+                ? 'Updating selections… Showing previous results.'
+                : 'Loading selections…'
+              : `${formatStatValue(catalog?.totalGroups ?? 0)} player/market groups · ${formatStatValue(catalog?.total ?? 0)} selections`}
+          </p>
+          {catalogError && catalog && <p role="alert">{catalogError} Showing previous results.</p>}
+          {catalog?.progress?.complete === false && (
+            <p role="status">
+              Loading more games… {catalog.progress.loadedEvents} of {catalog.progress.totalEvents}{' '}
+              loaded. Results and rankings are still updating.
+            </p>
+          )}
+          <PropDiscoveryTable
+            groups={catalog?.groups ?? []}
+            events={catalog?.events ?? openEvents}
+            slip={slip}
+            onOpen={onOpen}
+            onAdd={onAdd}
+            page={displayPage}
+            sort={columnSort}
+            onSort={sortColumn}
+          />
+        </>
+      ) : (
+        <div className="lab-table-scroll">
+          <ResponsivePlayerTable identityColumn={1}>
+            <thead>
+              <tr>
                 <ParlaySortHeader
                   as="th"
-                  label="Trend"
-                  sortKey="trend"
+                  label="#"
+                  sortKey="rank"
                   sort={columnSort}
                   onSort={sortColumn}
                 />
-              )}
-              <ParlaySortHeader
-                as="th"
-                label="L10"
-                sortKey="last10"
-                sort={columnSort}
-                onSort={sortColumn}
-              />
-              <th>Add</th>
-            </tr>
-          </thead>
-          <tbody>
-            {visible.map((m, i) => (
-              <tr key={`${m.id}:${m.sportsbook}`}>
-                <td>{unique.indexOf(m) + 1}</td>
-                <td>
-                  <button className="lab-player" onClick={() => onOpen(m)}>
-                    <PlayerAvatar
-                      name={m.playerName}
-                      headshotUrl={m.headshotUrl}
-                      transparent
-                      size={32}
-                    />
-                    <span>
-                      <b>{m.playerName ?? m.teamId}</b>
-                      <small>
-                        {m.teamId} · {m.position}
-                      </small>
-                    </span>
-                  </button>
-                </td>
-                <td>
-                  <button onClick={() => onOpen(m)}>
-                    {mode === 'home' ? `${pick(m)} ${label(m)}` : label(m)}
-                  </button>
-                </td>
-                <td>
-                  {(() => {
-                    const e = openEvents.find((e) => e.id === m.eventId);
-                    return e ? `${e.awayTeamId} @ ${e.homeTeamId}` : '—';
-                  })()}
-                </td>
-                <td>{pick(m)}</td>
-                <td>{odds(m.odds)}</td>
-                <td>
-                  <Score value={m.trend?.trendScore} />
-                </td>
-                {mode !== 'home' && <td className="lab-trend">{compactTrendReason(m)}</td>}
-                <td>
-                  {m.trend?.last10.games ? `${m.trend.last10.hits}/${m.trend.last10.games}` : '—'}
-                </td>
-                <td>
-                  <button
-                    className="lab-add"
-                    aria-label={`Add ${m.playerName ?? 'market'} to parlay`}
-                    disabled={slip.some((s) => s.id === m.id && s.sportsbook === m.sportsbook)}
-                    onClick={() => onAdd(m)}
-                  >
-                    <Plus />
-                  </button>
-                </td>
+                <ParlaySortHeader
+                  as="th"
+                  label="Player / Team"
+                  sortKey="player"
+                  sort={columnSort}
+                  onSort={sortColumn}
+                />
+                <ParlaySortHeader
+                  as="th"
+                  label="Prop"
+                  sortKey="prop"
+                  sort={columnSort}
+                  onSort={sortColumn}
+                />
+                <ParlaySortHeader
+                  as="th"
+                  label="Game"
+                  sortKey="game"
+                  sort={columnSort}
+                  onSort={sortColumn}
+                />
+                <ParlaySortHeader
+                  as="th"
+                  label="Line"
+                  sortKey="line"
+                  sort={columnSort}
+                  onSort={sortColumn}
+                />
+                <ParlaySortHeader
+                  as="th"
+                  label="Odds"
+                  sortKey="odds"
+                  sort={columnSort}
+                  onSort={sortColumn}
+                />
+                <ParlaySortHeader
+                  as="th"
+                  label="Lab Score"
+                  sortKey="score"
+                  sort={columnSort}
+                  onSort={sortColumn}
+                />
+                {mode !== 'home' && (
+                  <ParlaySortHeader
+                    as="th"
+                    label="Projection"
+                    sortKey="projection"
+                    sort={columnSort}
+                    onSort={sortColumn}
+                  />
+                )}
+                <ParlaySortHeader
+                  as="th"
+                  label="L10"
+                  sortKey="last10"
+                  sort={columnSort}
+                  onSort={sortColumn}
+                />
+                <th>Add</th>
               </tr>
-            ))}
-          </tbody>
-        </ResponsivePlayerTable>
-      </div>
+            </thead>
+            <tbody>
+              {visible.map((m, i) => (
+                <tr key={`${m.id}:${m.sportsbook}`}>
+                  <td>{unique.indexOf(m) + 1}</td>
+                  <td>
+                    <button className="lab-player" onClick={() => onOpen(m)}>
+                      <PlayerAvatar
+                        name={m.playerName}
+                        headshotUrl={m.headshotUrl}
+                        transparent
+                        size={32}
+                      />
+                      <span>
+                        <b>{m.playerName ?? m.teamId}</b>
+                        <small>
+                          {m.teamId} · {m.position}
+                        </small>
+                      </span>
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => onOpen(m)}>
+                      {mode === 'home' ? `${pick(m)} ${label(m)}` : label(m)}
+                      {m.lineType === 'alternate' && (
+                        <small className="lab-alt-indicator">ALT LINE</small>
+                      )}
+                    </button>
+                  </td>
+                  <td>
+                    {(() => {
+                      const e = openEvents.find((e) => e.id === m.eventId);
+                      return e ? `${e.awayTeamId} @ ${e.homeTeamId}` : '—';
+                    })()}
+                  </td>
+                  <td>{pick(m)}</td>
+                  <td>{odds(m.odds)}</td>
+                  <td>
+                    <Score value={m.trend?.trendScore} trend={m.trend} />
+                  </td>
+                  {mode !== 'home' && <td className="lab-trend">{formatProjection(m)}</td>}
+                  <td>
+                    {m.trend?.last10.games ? `${m.trend.last10.hits}/${m.trend.last10.games}` : '—'}
+                  </td>
+                  <td>
+                    <button
+                      className="lab-add"
+                      aria-label={`Add ${m.playerName ?? 'market'} to parlay`}
+                      disabled={slip.some((s) => s.id === m.id && s.sportsbook === m.sportsbook)}
+                      onClick={() => onAdd(m)}
+                    >
+                      <Plus />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </ResponsivePlayerTable>
+        </div>
+      )}
       {!visible.length && (
         <p className="lab-empty">
-          {loading ? 'Loading saved props…' : error || 'No available props match these filters.'}
+          {(groupedDiscovery ? catalogLoading : loading)
+            ? 'Loading saved props…'
+            : (groupedDiscovery
+                ? catalogError ||
+                  (catalog?.stats.props === 0
+                    ? 'No upcoming player props are currently available.'
+                    : '')
+                : error) ||
+              (playerSearch.trim()
+                ? 'No players match your search with the current filters. Try another name or adjust the filters.'
+                : ['home', 'trends'].includes(mode)
+                  ? 'No props meet the current evidence and value requirements. Browse Games or Players for more research.'
+                  : 'No available props match these filters.')}
         </p>
       )}
-      {mode !== 'home' && rows.length > 12 && (
+      {!visible.length && !catalogLoading && <button onClick={clearFilters}>Clear filters</button>}
+      {mode !== 'home' && totalRows > 12 && (
         <div className="lab-pagination">
-          <button disabled={page <= 1} onClick={() => setPage(page - 1)}>
+          <button
+            disabled={catalogLoading || displayPage <= 1}
+            onClick={() => setPage(displayPage - 1)}
+          >
             Previous
           </button>
           <span>
-            Page {page} of {Math.ceil(rows.length / 12)}
+            Page {displayPage} of {Math.ceil(totalRows / 12)}
           </span>
-          <button disabled={page * 12 >= rows.length} onClick={() => setPage(page + 1)}>
+          <button
+            disabled={catalogLoading || displayPage * 12 >= totalRows}
+            onClick={() => setPage(displayPage + 1)}
+          >
             Next
           </button>
         </div>
@@ -811,114 +1140,32 @@ export function DashboardContent({
   );
   const rail = (
     <ResponsiveRail stackAt={900} className="lab-right-rail">
-      {mode !== 'home' && (
-        <Panel
-          title={mode === 'games' ? 'Game Insights' : 'Quick Insights'}
-          icon={<LabInsightsIcon />}
-        >
-          <ul className="lab-insights">
-            <li>
-              {(mode === 'games' ? unique.filter((m) => m.eventId === game) : unique).length}{' '}
-              available research props.
-            </li>
-            <li>
-              {
-                (mode === 'games' ? unique.filter((m) => m.eventId === game) : unique).filter(
-                  (m) => (m.trend?.trendScore ?? 0) >= 90,
-                ).length
-              }{' '}
-              props have a Lab Score of 90 or higher.
-            </li>
-          </ul>
-        </Panel>
-      )}
-      {mode !== 'home' && (
-        <Panel
-          title={mode === 'games' ? 'Top Props in This Game' : 'Top Trending by Category'}
-          icon={<LabTrendsIcon />}
-        >
-          {mode !== 'games' && (
-            <div className="lab-tabs lab-subtle-tabs">
-              {categories
-                .filter(([id]) => id !== 'ALL')
-                .map(([id, name]) => (
-                  <button
-                    key={id}
-                    aria-pressed={railCategory === id}
-                    onClick={() => setRailCategory(id)}
-                  >
-                    {name}
-                  </button>
-                ))}
-            </div>
-          )}
-          <div className="lab-leaders">
-            {leaders.map((m, i) => (
-              <button key={`${m.id}:${m.sportsbook}`} onClick={() => onOpen(m)}>
-                <span>{i + 1}</span>
-                <PlayerAvatar name={m.playerName} headshotUrl={m.headshotUrl} transparent />
-                <span>
-                  {m.playerName}
-                  <small>
-                    {label(m)} · {pick(m)}
-                  </small>
-                </span>
-                <Score value={m.trend?.trendScore} />
-              </button>
-            ))}
-            {!leaders.length && <p className="lab-empty">No scored props available.</p>}
-          </div>
-        </Panel>
-      )}
-      <div>
-        {parlay}
-        <button className="lab-primary lab-create" onClick={() => onGenerate()}>
-          <LabExperimentIcon /> Create a Parlay
-        </button>
-      </div>
-      {mode === 'home' && team && (
-        <Panel title="Next Game" icon={<DdGameCenterIcon />}>
-          <NextGameHeroCard teamId={team.abbr} />
-        </Panel>
-      )}
-      {mode === 'trends' ? <Movement alerts markets={unique} onOpen={onOpen} /> : <LabScoreGuide />}
+      <div className="lab-slip-anchor">{parlay}</div>
     </ResponsiveRail>
   );
   let simple: ReactNode = null;
-  if (mode === 'players')
+  if (mode === 'players' || mode === 'teams')
     return (
       <PlayersDashboard
+        key={mode}
+        mode={mode}
         team={team}
-        markets={markets}
+        markets={selectDiscoveryMarkets(markets, discovery, { includeUnqualified: true })}
         events={openEvents}
         roster={directory}
-        loading={loading}
-        error={error}
-        slip={slip}
+        loading={loading || directoryLoading}
+        error={error || directoryError}
+        parlay={parlay}
         onOpen={onOpen}
         onRemove={onRemove}
         onGenerate={() => onGenerate()}
       />
     );
-  if (mode === 'teams')
-    simple = (
-      <div className="lab-team-grid">
-        {TEAM_LIST.map((t) => (
-          <Link key={t.abbr} href={`/parlay-lab?team=${t.abbr}`}>
-            <Logo abbr={t.abbr} />
-            <b>{t.name}</b>
-            <small>
-              {unique.filter((m) => m.teamId === t.abbr).length} available research props
-            </small>
-          </Link>
-        ))}
-      </div>
-    );
   if (mode === 'generator')
     return (
       <GeneratorDashboard
         team={team}
-        markets={markets}
+        markets={selectDiscoveryMarkets(markets, discovery, { includeUnqualified: true })}
         events={events}
         loading={loading}
         error={error}
@@ -947,6 +1194,7 @@ export function DashboardContent({
       style={
         {
           '--lab-accent': colors.heroPrimaryAccent,
+          '--lab-accent-ink': getReadableTextColor(colors.heroPrimaryAccent),
           '--lab-bright': colors.heroBrightAccent,
         } as React.CSSProperties
       }
@@ -959,7 +1207,13 @@ export function DashboardContent({
       ) : (
         <>
           <div className="lab-center">
-            {mode !== 'trends' && (
+            {discoveryProgress?.complete === false && (
+              <p role="status">
+                Loading more games… {discoveryProgress.loadedEvents} of{' '}
+                {discoveryProgress.totalEvents} loaded. Results and rankings are still updating.
+              </p>
+            )}
+            {!['trends', 'all-props'].includes(mode) && (
               <div className="lab-kpis">
                 {(mode === 'games'
                   ? [
@@ -986,7 +1240,7 @@ export function DashboardContent({
                   : stats
                 ).map(([name, value]) => (
                   <div key={name}>
-                    <b>{loading ? '—' : value}</b>
+                    <b>{loading ? '—' : formatStatValue(value)}</b>
                     <small>{name}</small>
                   </div>
                 ))}
@@ -1022,11 +1276,39 @@ export function DashboardContent({
                 )}
               </div>
             )}
-            {mode === 'home' ? (
+            {mode === 'all-props' ? (
+              <section className="lab-panel lab-all-props-hero">
+                <h1 className="lab-display">
+                  ALL <em>PROPS</em>
+                </h1>
+                <h3>
+                  EVERY LINE. EVERY PLAYER. <mark>BET SMARTER.</mark>
+                </h3>
+                <p>
+                  Explore NFL player props, compare sportsbook odds, evaluate Lab Scores, and build
+                  your perfect parlay.
+                </p>
+                <div className="lab-kpis">
+                  {(
+                    [
+                      ['Available Props', catalog?.stats.props],
+                      ['Players', catalog?.stats.players],
+                      ['Games', catalog?.stats.games],
+                      ['Highest Lab Score', catalog?.stats.highestScore],
+                    ] as const
+                  ).map(([name, value]) => (
+                    <div key={name}>
+                      <b>{formatStatValue(value)}</b>
+                      <small>{name}</small>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ) : mode === 'home' ? (
               <div className="lab-feature">
                 <ParlayLabHero
                   teamAbbr={team?.abbr ?? ''}
-                  markets={markets}
+                  markets={selectDiscoveryMarkets(markets, discovery, { includeUnqualified: true })}
                   events={events}
                   onOpen={onOpen}
                   dashboard
@@ -1037,7 +1319,6 @@ export function DashboardContent({
             ) : (
               spotlight
             )}
-            {mode === 'home' && <AltStackCard teamAbbr={team?.abbr} />}
             <div
               className={
                 mode === 'home' ? 'lab-home-bottom' : mode === 'games' ? 'lab-game-bottom' : ''
@@ -1100,6 +1381,12 @@ export function DashboardContent({
               {propsTable}
               {mode === 'home' && <Movement markets={unique} onOpen={onOpen} />}
             </div>
+            {mode === 'home' && (
+              <Link className="lab-primary" href={`/parlay-lab/all-props${teamSuffix}`}>
+                Explore All Props →
+              </Link>
+            )}
+            {mode === 'home' && <AltStackCard teamAbbr={team?.abbr} />}
           </div>
           {rail}
         </>

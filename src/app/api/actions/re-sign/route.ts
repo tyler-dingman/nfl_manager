@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { NextResponse } from 'next/server';
 
@@ -34,7 +35,7 @@ const TEAM_NAME_BY_ABBR: Record<string, string> = {
 
 const formatApy = (apy: number) => `$${apy.toFixed(1)}M`;
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   let body: ResignPayload = {};
   try {
     body = (await request.json()) as ResignPayload;
@@ -186,5 +187,7 @@ export const POST = async (request: Request) => {
     player: accepted && updatedPlayer ? updatedPlayer : undefined,
   };
 
-  return NextResponse.json({...payload, events});
+  return NextResponse.json({ ...payload, events });
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

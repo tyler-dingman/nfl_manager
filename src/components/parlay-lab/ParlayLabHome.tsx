@@ -1,4 +1,9 @@
 'use client';
+import type { CatalogProgress } from '../../../packages/parlay/prop-catalog';
+import { addSlipLeg } from '../../../packages/parlay/slip';
+import { useDiscoveryPreferences } from './use-discovery-preferences';
+import { selectDiscoveryMarkets } from '../../../packages/parlay/discovery-selection';
+import { getDiscoveryResearch } from './research-request';
 import type { calculateResearchScore, Alignment } from '@/server/historical-stats/research-score';
 
 import { DashboardContent, type GeneratorSetup, type DashboardMode } from './dashboard-content';
@@ -12,15 +17,13 @@ import { TEAM_LIST } from '@/data/teams';
 import { sportsbookName } from '@/server/odds/sportsbooks';
 import RideTheBusDrawer from './RideTheBusDrawer';
 import { ladderDescriptionUnit, marketDisplayName } from '@/lib/parlay-lab/market-display';
-import { buildSportsbookLink, type Market } from './ParlayLabPage';
+import { type Market } from './ParlayLabPage';
 import PlayerAvatar from './PlayerAvatar';
 import MyParlayPanel from './MyParlayPanel';
-import { snapshotSavedPlay } from './saved-plays';
 import styles from './parlay-home.module.css';
 import ResearchWorkspace from './ResearchWorkspace';
 
 const GameByGameTrendChart = dynamic(() => import('./charts/GameByGameTrendChart'), { ssr: false });
-const LineLadderChart = dynamic(() => import('./charts/LineLadderChart'), { ssr: false });
 const OpponentVsPositionChart = dynamic(() => import('./charts/OpponentVsPositionChart'), {
   ssr: false,
 });
@@ -47,6 +50,7 @@ export function ParlayLabHome({
   mode?: DashboardMode;
   initialEventId?: string;
 }) {
+  const discovery = useDiscoveryPreferences();
   const searchParams = useSearchParams();
   const { team: creatorTeam, ready: teamReady } = useParlayTeamContext();
   const router = useRouter();
@@ -66,9 +70,15 @@ export function ParlayLabHome({
   const [marketState, setMarketState] = useState<'loading' | 'ready' | 'error'>('loading');
   const [marketError, setMarketError] = useState('');
   const [marketRetry, setMarketRetry] = useState(0);
+  const [progress, setProgress] = useState<CatalogProgress>();
+  const [researchPoll, setResearchPoll] = useState(0);
+  useEffect(() => {
+    if (progress?.complete !== false || marketState === 'error') return;
+    const timer = setTimeout(() => setResearchPoll((v) => v + 1), 1000);
+    return () => clearTimeout(timer);
+  }, [progress, marketState]);
+
   const [events, setEvents] = useState<OddsEvent[]>([]),
-    [eventId, setEventId] = useState(''),
-    [markets, setMarkets] = useState<HomeMarket[]>([]),
     [trendingMarkets, setTrendingMarkets] = useState<HomeMarket[]>([]),
     [heroMarkets, setHeroMarkets] = useState<HomeMarket[]>([]),
     [slip, setSlip] = useState<HomeMarket[]>([]),
@@ -101,7 +111,6 @@ export function ParlayLabHome({
         const rows = (b.events ?? []) as OddsEvent[];
         setEvents(rows);
         if (!rows.length) setMarketState('ready');
-        setEventId(rows[0]?.id ?? '');
       })
       .catch(() => {
         setMarketError('Markets could not be loaded. Please try again.');
@@ -109,43 +118,30 @@ export function ParlayLabHome({
       });
   }, [marketRetry]);
   useEffect(() => {
-    if (!eventId) return;
-    setMarkets([]);
-    fetch(`/api/parlay-lab/research?eventId=${encodeURIComponent(eventId)}`)
-      .then((r) => r.json())
-      .then((b) => setMarkets((b.markets ?? []).filter((m: HomeMarket) => m.available)))
-      .catch(() => {});
-  }, [eventId]);
-  useEffect(() => {
-    if (!events.length) return;
+    if (!events.length || !discovery.ready || ['all-props', 'trends'].includes(mode)) return;
     const controller = new AbortController();
-    setTrendingMarkets([]);
-    setMarketState('loading');
+    setMarketState((state) => (state === 'ready' ? state : 'loading'));
     setMarketError('');
-    fetch(`/api/parlay-lab/research?eventId=${encodeURIComponent('ALL')}`, {
-      signal: controller.signal,
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error('Markets unavailable');
-        return response.json();
-      })
+    getDiscoveryResearch(
+      `/api/parlay-lab/research?eventId=ALL&lineMode=${discovery.altLines ? 'all' : 'standard'}`,
+    )
       .then((body) => {
         if (!controller.signal.aborted) {
           setTrendingMarkets((body.markets ?? []).filter((market: HomeMarket) => market.available));
           setHeroMarkets(body.markets ?? []);
+          setProgress(body.progress);
           setMarketState('ready');
         }
       })
       .catch((error) => {
-        if (error.name !== 'AbortError') {
+        if (!controller.signal.aborted && error.name !== 'AbortError') {
           setMarketError('Markets could not be loaded. Please try again.');
           setMarketState('error');
         }
       });
     return () => controller.abort();
-  }, [events]);
-  const add = (m: HomeMarket) =>
-    setSlip((s) => (s.some((x) => x.id === m.id && x.sportsbook === m.sportsbook) ? s : [...s, m]));
+  }, [events, discovery.ready, discovery.altLines, mode, researchPoll]);
+  const add = (m: HomeMarket) => setSlip((s) => addSlipLeg(s, m));
   const researchRequest = useRef<AbortController | null>(null);
   const [researchError, setResearchError] = useState('');
   useEffect(() => () => researchRequest.current?.abort(), []);
@@ -158,7 +154,7 @@ export function ParlayLabHome({
     setDetailData(null);
     setChartWindow('L10');
     const query = new URLSearchParams({
-      eventId: market.eventId ?? eventId,
+      eventId: market.eventId ?? events[0]?.id ?? '',
       sportsbook: market.sportsbook,
       period: market.period,
       playerId: market.playerId ?? '',
@@ -191,23 +187,16 @@ export function ParlayLabHome({
         onClose={() => setRideOpen(false)}
         markets={
           generatorSetup?.eventId && generatorSetup.eventId !== 'ALL'
-            ? trendingMarkets.filter((m) => m.eventId === generatorSetup.eventId)
-            : trendingMarkets
+            ? selectDiscoveryMarkets(trendingMarkets, discovery).filter(
+                (m) => m.eventId === generatorSetup.eventId,
+              )
+            : selectDiscoveryMarkets(trendingMarkets, discovery)
         }
         initialPrompt={generatorSetup?.prompt}
         initialLegCount={generatorSetup?.legs}
         slip={slip}
         onAdd={(legs) =>
-          setSlip((previous) => {
-            const next = [...previous];
-            for (const leg of legs)
-              if (
-                leg.available &&
-                !next.some((m) => m.id === leg.id && m.sportsbook === leg.sportsbook)
-              )
-                next.push(leg);
-            return next;
-          })
+          setSlip((previous) => legs.filter((leg) => leg.available).reduce(addSlipLeg, previous))
         }
         onResearch={(leg) => {
           setRideOpen(false);
@@ -215,12 +204,13 @@ export function ParlayLabHome({
         }}
       />
       <DashboardContent
+        discoveryProgress={progress}
         onRemove={(id) => setSlip((rows) => rows.filter((market) => market.id !== id))}
         mode={mode}
         team={creatorTeam}
         markets={heroMarkets}
         events={events}
-        loading={marketState === 'loading'}
+        loading={!discovery.ready || marketState === 'loading'}
         error={marketError}
         onOpen={openResearch}
         onAdd={add}
@@ -232,32 +222,15 @@ export function ParlayLabHome({
         initialEventId={initialEventId ?? searchParams?.get('game') ?? undefined}
         parlay={
           <MyParlayPanel
+            events={events}
             legs={slip}
-            markets={[...markets, ...trendingMarkets]}
+            markets={trendingMarkets}
             matchup={slipEvent ? `${slipEvent.awayTeamId} @ ${slipEvent.homeTeamId}` : 'NFL'}
             marketLabel={marketLabel}
             pickLabel={pickLabel}
             onRemove={(id) => setSlip((rows) => rows.filter((market) => market.id !== id))}
             onClear={() => setSlip([])}
-            onSave={() => {
-              localStorage.setItem('down-distance-parlay-lab-current', JSON.stringify(slip));
-              const stored = JSON.parse(
-                localStorage.getItem('down-distance-parlay-lab-slips') ?? '[]',
-              );
-              const saved = Array.isArray(stored) ? stored : [];
-              saved.unshift(
-                snapshotSavedPlay({
-                  event: slipEvent ?? null,
-                  selections: slip,
-                }),
-              );
-              localStorage.setItem(
-                'down-distance-parlay-lab-slips',
-                JSON.stringify(saved.slice(0, 20)),
-              );
-            }}
             onResearch={openResearch}
-            buildBookLink={buildSportsbookLink}
             avatarColor={playerTeamColor}
           />
         }
@@ -292,10 +265,6 @@ export function ParlayLabHome({
                     (item) => item.id === candidate.id && item.sportsbook === candidate.sportsbook,
                   )
                 }
-                onAsk={() => {
-                  setDetail(null);
-                  setRideOpen(true);
-                }}
               />
             ) : null
           }
@@ -313,7 +282,6 @@ function ResearchDetails({
   setChartWindow,
   onAdd,
   isSelected,
-  onAsk,
 }: {
   tab: string;
   data: ResearchDetail;
@@ -322,7 +290,6 @@ function ResearchDetails({
   setChartWindow: (value: 'L5' | 'L10' | 'SEASON' | '2 YEARS') => void;
   onAdd: (market: HomeMarket) => void;
   isSelected: (market: HomeMarket) => boolean;
-  onAsk: () => void;
 }) {
   const all = data.gameByGame,
     latest = Math.max(...all.map((point) => point.season), 0),
@@ -404,7 +371,7 @@ function ResearchDetails({
           <section className={styles.researchSection}>
             <header>
               <div>
-                <small>Last 10</small>
+                <small>{chartWindowLabel}</small>
                 <h3>Game by game</h3>
               </div>
               <nav>
@@ -702,7 +669,6 @@ function ResearchDetails({
                 </p>
               )}
             </div>
-            <LineLadderChart rows={data.lineLadder.rows} window={chartWindow} />
             <div className={styles.ladder}>
               <div>
                 <b>Line ({activeStatName})</b>
@@ -974,9 +940,6 @@ function ResearchDetails({
           </details>
         </>
       )}
-      <button className={styles.askContext} onClick={onAsk}>
-        Ask the Lab about this
-      </button>
       <p>Trend score is a research ranking, not a probability or prediction.</p>
     </>
   );

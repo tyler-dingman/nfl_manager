@@ -1,0 +1,78 @@
+Expanded sportsbook generation — 2026-10-10 UTC
+
+Implemented behavior
+Missing SportsGameOdds destination-book pricing, availability, or a saved deeplink no longer
+prevents an exact-selection Unabated generation attempt. PostgreSQL remains authoritative for
+the selected player's identity, event, market, period, direction and threshold; it is not treated
+as authoritative for Unabated's current sportsbook coverage.
+
+The shared proposal builder uses a stored exact offer when present. Existing nearest-line
+substitution remains for the four previously configured market-specific adjustment policies.
+If neither an eligible stored exact line nor a safe substitute exists, it retains the exact
+original selection and marks destination pricing unknown. It never copies another book's odds
+into the target estimate. A mixed slip can include stored selections, consent-required stored
+alternates, and unpriced exact requests. The original My Parlay remains unchanged.
+
+Expanded market scope: 22 explicit statistical definitions (previously 4)
+Passing yards; passing + rushing yards; passing touchdowns; passing interceptions; passing
+attempts; passing completions; longest completion; rushing yards; rushing touchdowns; rushing
+attempts; longest rush; receiving yards; receptions; longest reception; rushing + receiving
+yards; touchdowns; combined tackles; solo tackles; assisted tackles; sacks; kicking points;
+extra points made. Only explicitly equivalent labels are accepted by response validation.
+These definitions permit attempts; they are NOT verified provider coverage guarantees.
+New markets require exact thresholds; automatic substitution distance limits were not guessed.
+
+Still excluded
+Unknown statistical meanings, missing canonical player identities/names, non-full-game periods,
+YES/NO selections without a numeric Over/Under threshold, started/locked events, duplicate or
+same-game combinations. Same-game pricing/generation remains outside the existing Free-tier
+workflow. No book flags, authenticated allowlist, generation quotas or production gates changed.
+Only FanDuel was enabled locally before this change; other books remain disabled pending tests.
+
+Backend
+- packages/parlay/transfer-markets.ts centralizes names and explicit equivalent response labels.
+- packages/parlay/slip.ts adds pricingStatus metadata without changing odds calculations.
+- packages/parlay/sportsbook-transfer.ts separates supported markets from substitution limits;
+  opt-in unpriced fallback is used by the shared Unabated proposal service.
+- packages/parlay/fanduel-transfer.ts permits identity-complete unpriced transfer requests.
+- src/server/providers/unabated/transfer-proposals.ts seals and revalidates pricing status as
+  well as exact selection/price data; any adjustment still requires explicit approval.
+- src/server/providers/unabated/transfer-service.ts resolves canonical selections with a LEFT
+  JOIN for destination pricing; missing prices no longer prevent submission or URL delivery.
+  Cached links still recheck identity/event expiry; stale SGO availability does not veto a
+  provider-validated candidate. Stored data changing a requested line still rejects the link.
+- src/server/providers/unabated/test-transfer-validation.ts uses explicit market definitions.
+  Full-slip count, book, player, game, timestamp, market, period, exact threshold, duplicates,
+  direction contradictions, region and URL/partner checks remain. Missing direction is still
+  directionVerified:false and requires sportsbook review. No automatic provider substitutions.
+
+UI and platform parity
+Web and React Native sportsbook rows display “Check odds” when a target estimate is unknown.
+Partial-price slips do not show a fabricated combined sportsbook estimate. Adjustment language
+now distinguishes stored alternatives from an assertion about current sportsbook availability.
+Existing FanDuel background preparation, cancellation, delayed-open fallback, no blank tabs,
+ready-click links and native Linking remain. Other books stay on-demand. No live provider calls
+were made to test this change. Ingestion, odds tables, Lab Score and production were unchanged.
+
+Local read-only count
+At check time, 11,574 distinct upcoming stored selections satisfy the broader canonical
+full-game numeric Over/Under criteria; 5,432 are in newly included market categories.
+6,033 of those 11,574 lack an exact available FanDuel price and can now be attempted or proposed
+with an eligible stored alternate. These are candidate counts, NOT successful generated links.
+
+Testing
+52 unit/adapter/isolated local PostgreSQL checks passed, zero skipped/failed. Covers no destination
+price rows, complete fixture generation without prices, mixed priced/unpriced/adjusted slips,
+all 22 market definitions, wrong markets/thresholds, signed consent, stale canonical identity,
+cache behavior, cross-book quotas, deduplication, attribution, flags and authentication ownership.
+Root/native TypeScript, targeted lint and git diff --check passed.
+Browser results added below after completion. RN Web fixture testing is not Android/iOS device
+validation. Actual sportsbook market coverage and native device opening remain unverified.
+
+References reviewed
+https://docs.unabated.com/guides/bet-slips
+Provider documentation distinguishes successful generation from complete matched results.
+Existing Free-tier restrictions documented at https://docs.unabated.com/guides/deep-links
+Final browser result: 26/26 checks passed in Chromium and WebKit, including unpriced FanDuel
+preparation, “Check odds” display on web/native components, substitutions, cancellation, expiry,
+stale slips, saved slip actions and popup fallback. No provider calls were used by these tests.

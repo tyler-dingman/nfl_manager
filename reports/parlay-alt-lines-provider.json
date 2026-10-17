@@ -1,0 +1,126 @@
+{
+  "eventId": "823e5ed0-ddcc-42e9-841c-8be80e46b90e",
+  "counts": {
+    "main": 619,
+    "alternate": 1239,
+    "unknown": 9
+  },
+  "markets": [
+    "EXTRA_POINTS_MADE",
+    "KICKING_POINTS",
+    "OTHER",
+    "PASSING_ATTEMPTS",
+    "PASSING_COMPLETIONS",
+    "PASSING_INTERCEPTIONS",
+    "PASSING_LONGEST_COMPLETION",
+    "PASSING_RUSHING_YARDS",
+    "PASSING_TD",
+    "PASSING_YARDS",
+    "RECEIVING_LONGEST_RECEPTION",
+    "RECEIVING_YARDS",
+    "RECEPTIONS",
+    "RUSHING_ATTEMPTS",
+    "RUSHING_LONGEST_RUSH",
+    "RUSHING_RECEIVING_YARDS",
+    "RUSHING_YARDS",
+    "TOUCHDOWNS"
+  ],
+  "books": [
+    "DRAFTKINGS",
+    "BETMGM",
+    "FANDUEL",
+    "CAESARS"
+  ],
+  "sample": [
+    {
+      "player": "Cam Little",
+      "market": "EXTRA_POINTS_MADE",
+      "side": "OVER",
+      "line": "0.5",
+      "odds": -1980,
+      "book": "DRAFTKINGS",
+      "mainLine": 2.5
+    },
+    {
+      "player": "Jake Elliott",
+      "market": "EXTRA_POINTS_MADE",
+      "side": "OVER",
+      "line": "0.5",
+      "odds": -433,
+      "book": "DRAFTKINGS",
+      "mainLine": 1.5
+    },
+    {
+      "player": "Cam Little",
+      "market": "EXTRA_POINTS_MADE",
+      "side": "OVER",
+      "line": "1.5",
+      "odds": -346,
+      "book": "DRAFTKINGS",
+      "mainLine": 2.5
+    },
+    {
+      "player": "Jake Elliott",
+      "market": "EXTRA_POINTS_MADE",
+      "side": "OVER",
+      "line": "2.5",
+      "odds": 284,
+      "book": "DRAFTKINGS",
+      "mainLine": 1.5
+    },
+    {
+      "player": "Cam Little",
+      "market": "EXTRA_POINTS_MADE",
+      "side": "OVER",
+      "line": "3.5",
+      "odds": 225,
+      "book": "DRAFTKINGS",
+      "mainLine": 2.5
+    },
+    {
+      "player": "Jake Elliott",
+      "market": "EXTRA_POINTS_MADE",
+      "side": "OVER",
+      "line": "3.5",
+      "odds": 740,
+      "book": "DRAFTKINGS",
+      "mainLine": 1.5
+    },
+    {
+      "player": "Cam Little",
+      "market": "EXTRA_POINTS_MADE",
+      "side": "OVER",
+      "line": "4.5",
+      "odds": 557,
+      "book": "DRAFTKINGS",
+      "mainLine": 2.5
+    },
+    {
+      "player": "Cam Little",
+      "market": "KICKING_POINTS",
+      "side": "OVER",
+      "line": "3.5",
+      "odds": -1140,
+      "book": "DRAFTKINGS",
+      "mainLine": 7.5
+    }
+  ],
+  "scored": {
+    "standard": {
+      "offers": 463,
+      "qualifiedAt400": 0,
+      "maxScore": 73,
+      "coldMs": 284,
+      "warmMs": 15,
+      "sample": []
+    },
+    "alternate": {
+      "offers": 1067,
+      "qualifiedAt400": 0,
+      "maxScore": 74,
+      "coldMs": 347,
+      "warmMs": 44,
+      "sample": []
+    }
+  }
+}

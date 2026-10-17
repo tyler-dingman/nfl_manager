@@ -1,3 +1,4 @@
+import { createFranchiseTransport } from '../../../packages/front-office/command-transport';
 import { DEMO_LOGIN_ENABLED } from './demo-config';
 import { demoSession } from './demo-session';
 import * as Crypto from 'expo-crypto';
@@ -5,6 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { API_BASE_URL, apiFetch } from './network';
+const franchiseTransport = createFranchiseTransport(() => Crypto.randomUUID());
 const ACCESS = 'dd.mobile.access',
   REFRESH = 'dd.mobile.refresh',
   DEVICE = 'dd.mobile.device';
@@ -51,6 +53,7 @@ export async function saveSession(tokens: MobileTokenPair) {
   await Promise.all([setItem(ACCESS, tokens.accessToken), setItem(REFRESH, tokens.refreshToken)]);
 }
 export async function clearSession() {
+  franchiseTransport.reset();
   accessToken = null;
   await Promise.all([setItem(ACCESS, null), setItem(REFRESH, null)]);
 }
@@ -79,17 +82,19 @@ async function refreshAccessToken() {
 export async function authenticatedFetch(path: string, init: RequestInit = {}) {
   if (demoSession.isActive()) return apiFetch(path, init);
   accessToken ??= await getItem(ACCESS);
+  const prepared = franchiseTransport.prepare(path, init);
   const send = (token: string | null) =>
     apiFetch(path, {
-      ...init,
+      ...prepared.init,
       headers: {
         Accept: 'application/json',
-        ...init.headers,
+        ...Object.fromEntries(new Headers(prepared.init.headers).entries()),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     });
   let response = await send(accessToken);
   if (response.status === 401) response = await send(await refreshAccessToken());
+  await franchiseTransport.observe(path, response, prepared.key);
   return response;
 }
 export async function currentUser(): Promise<PublicUser | null> {

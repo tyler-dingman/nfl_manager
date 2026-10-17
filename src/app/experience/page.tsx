@@ -16,6 +16,7 @@ import {
   inferFrontOfficePath,
   shouldShowFrontOfficeOnboarding,
 } from '@/lib/front-office-onboarding';
+import { restartFranchiseAtWeekOne } from '@/lib/front-office-restart';
 import { ensureRecoverableSaveId } from '@/lib/save-recovery';
 import type { FranchiseSimulationState, FrontOfficePath } from '@/types/front-office';
 
@@ -73,6 +74,7 @@ export default function ExperiencePage() {
   const [frontOfficeReady, setFrontOfficeReady] = useState(false);
   const [starting, setStarting] = useState(false);
   const [startError, setStartError] = useState('');
+  const [recoveryRequired, setRecoveryRequired] = useState(false);
   const startingRef = useRef(false);
 
   const isHydrated = hasHydrated && experienceHasHydrated;
@@ -101,6 +103,17 @@ export default function ExperiencePage() {
         const response = await apiFetch(
           `/api/front-office/state?saveId=${encodeURIComponent(saveId)}`,
         );
+        if (!response.ok) {
+          const failure = await response.json().catch(() => ({}));
+          if (failure.code === 'FRANCHISE_RECOVERY_REQUIRED') {
+            if (active) {
+              setRecoveryRequired(true);
+              setFrontOfficeReady(true);
+            }
+            return;
+          }
+          throw new Error(failure.error ?? 'Unable to load your franchise.');
+        }
         if (response.ok) {
           const payload = (await response.json()) as {
             state?: {
@@ -208,6 +221,54 @@ export default function ExperiencePage() {
     teamAbbr,
   ]);
 
+  if (recoveryRequired)
+    return (
+      <AppShell showTeamSummary={false} showLeagueWire={false} preFranchise>
+        <section className="mx-auto max-w-xl space-y-4 p-6" aria-label="Franchise recovery">
+          <h1 className="text-2xl font-bold">Franchise recovery required</h1>
+          <p>
+            This legacy franchise is missing verified roster, contract, market, or draft data. Your
+            original save is preserved. Gameplay is paused until a complete recovery is confirmed.
+          </p>
+          <a
+            className="underline"
+            href={`/api/front-office/recovery?saveId=${encodeURIComponent(saveId)}`}
+          >
+            View recovery report
+          </a>
+          <p>You can start a separate franchise without deleting this one.</p>
+          <button
+            className="rounded-lg bg-white px-4 py-3 font-semibold text-black disabled:opacity-50"
+            disabled={starting}
+            onClick={async () => {
+              setStarting(true);
+              setStartError('');
+              try {
+                const fresh = await restartFranchiseAtWeekOne(
+                  apiFetch,
+                  teamAbbr || teamId,
+                  franchiseYear,
+                );
+                setSaveHeader(fresh.header);
+                applyAuthoritativeFranchiseState(fresh.state);
+                setRecoveryRequired(false);
+                setSavedPath('full');
+                setFullExperience();
+              } catch (error) {
+                setStartError(
+                  error instanceof Error ? error.message : 'Unable to start a separate franchise.',
+                );
+              } finally {
+                setStarting(false);
+              }
+            }}
+          >
+            {starting ? 'Creating franchise…' : 'Start a separate franchise'}
+          </button>
+          {startError && <p role="alert">{startError}</p>}
+        </section>
+      </AppShell>
+    );
   if (!isHydrated || !saveId || !frontOfficeReady) {
     return (
       <AppShell showTeamSummary={false} showLeagueWire={false}>

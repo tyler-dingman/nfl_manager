@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { PrimaryNavGroup } from './primary-nav-group';
 import { usePathname } from 'next/navigation';
 import { PRIMARY_NAV_ITEMS } from '@/config/primary-navigation';
 import { FOOTER_INFORMATION, footerCopyright } from '../../packages/navigation/footer';
@@ -17,11 +18,21 @@ export default function SiteFooter() {
           Down &amp; Distance
         </Link>
         <nav aria-label="Explore Down & Distance" className={styles.primary}>
-          {PRIMARY_NAV_ITEMS.map((item) => (
-            <Link key={item.id} href={item.href}>
-              {item.label}
-            </Link>
-          ))}
+          {PRIMARY_NAV_ITEMS.map((item) =>
+            'children' in item ? (
+              <PrimaryNavGroup
+                key={item.id}
+                label={item.label}
+                items={item.children}
+                active={false}
+                mobile
+              />
+            ) : (
+              <Link key={item.id} href={item.href}>
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
         <div className={styles.information} aria-label="Site information">
           {FOOTER_INFORMATION.map((label) => (

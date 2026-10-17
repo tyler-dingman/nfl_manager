@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import type { Href } from 'expo-router';
+import { type Href, usePathname } from 'expo-router';
+import { isPlayPath } from '../../../packages/navigation/play';
+import { PlayNavigation } from './play-navigation';
 import { PRIMARY_NAV_ITEMS } from '../../../src/config/primary-navigation';
 import { TEAM_LIST } from '../../../src/data/teams';
 import { useAuth } from '../lib/auth-context';
@@ -12,7 +14,8 @@ const routes: Record<string, Href> = {
   huddle: '/wire',
   watch: '/film-room',
   'front-office': '/front-office',
-  trivia: '/trivia',
+  play: '/play' as Href,
+  community: '/huddle',
   'parlay-lab': '/parlay-lab',
   merch: '/merch',
 };
@@ -23,9 +26,11 @@ export function MobileMenuContent({
   close: () => void;
   navigate: (href: Href) => void;
 }) {
-  const { teamId } = useTeamBranding(),
+  const { teamId, theme } = useTeamBranding(),
     { user, logout } = useAuth();
   const team = TEAM_LIST.find((t) => t.abbr === teamId);
+  const playActive = isPlayPath(usePathname());
+  const [playOpen, setPlayOpen] = useState(playActive);
   const [busy, setBusy] = useState(false),
     [error, setError] = useState('');
   async function signOut() {
@@ -56,16 +61,44 @@ export function MobileMenuContent({
       <View style={s.main}>
         <Text style={s.label}>MAIN</Text>
         <View style={{ marginTop: 8 }}>
-          {PRIMARY_NAV_ITEMS.map((item) => (
-            <Pressable
-              key={item.id}
-              accessibilityRole="link"
-              onPress={() => navigate(routes[item.id])}
-              style={s.link}
-            >
-              <Text style={s.linkText}>{item.label}</Text>
-            </Pressable>
-          ))}
+          {PRIMARY_NAV_ITEMS.map((item) =>
+            'children' in item ? (
+              <View key={item.id}>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityState={{ expanded: playOpen, selected: playActive }}
+                  onPress={() => setPlayOpen(!playOpen)}
+                  style={[
+                    s.link,
+                    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+                  ]}
+                >
+                  <Text style={[s.linkText, playActive && { color: theme.secondary }]}>
+                    {item.label}
+                  </Text>
+                  <Ionicons
+                    name={playOpen ? 'chevron-up' : 'chevron-down'}
+                    size={18}
+                    color="white"
+                  />
+                </Pressable>
+                {playOpen && (
+                  <View style={{ paddingLeft: 20 }}>
+                    <PlayNavigation navigate={navigate} />
+                  </View>
+                )}
+              </View>
+            ) : (
+              <Pressable
+                key={item.id}
+                accessibilityRole="link"
+                onPress={() => navigate(routes[item.id])}
+                style={s.link}
+              >
+                <Text style={s.linkText}>{item.label}</Text>
+              </Pressable>
+            ),
+          )}
         </View>
       </View>
       <View style={s.section}>

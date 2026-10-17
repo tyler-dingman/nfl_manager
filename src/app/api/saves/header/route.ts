@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { currentUser } from '@/server/auth/request';
 import { getFrontOfficeSaveMetadata } from '@/server/front-office/repository';
 import { syncSaveSimulation } from '@/server/api/store';
@@ -8,7 +9,7 @@ import { getSaveHeader } from '@/server/api/save';
 const getParam = (request: NextRequest, key: string) =>
   new URL(request.url).searchParams.get(key) ?? undefined;
 
-export const GET = async (request: NextRequest) => {
+const handleGET = async (request: NextRequest) => {
   const saveId = getParam(request, 'saveId');
   const teamAbbr = getParam(request, 'teamAbbr');
   if (!saveId) {
@@ -37,3 +38,5 @@ export const GET = async (request: NextRequest) => {
     createdAt: header.createdAt,
   });
 };
+
+export const GET = withFranchiseRoute(handleGET, {});

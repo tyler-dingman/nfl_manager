@@ -1,8 +1,9 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { getTradeBlock } from '@/server/api/trade-block';
 
-export const GET = async (request: Request) => {
+const handleGET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const saveId = searchParams.get('saveId');
   const teamAbbr = searchParams.get('teamAbbr');
@@ -18,3 +19,5 @@ export const GET = async (request: Request) => {
 
   return NextResponse.json(result.data);
 };
+
+export const GET = withFranchiseRoute(handleGET, {});

@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 import { getDraftSession, findSaveIdForDraftSession } from '@/server/api/draft';
 import {
@@ -7,7 +8,7 @@ import {
   tradeYear,
 } from '@/lib/mock-draft-trades';
 
-export async function POST(request: Request) {
+async function handlePOST(request: Request) {
   try {
     const body = await request.json();
     const saveId = body.saveId ?? findSaveIdForDraftSession(body.draftSessionId);
@@ -41,3 +42,5 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export const POST = withFranchiseRoute(handlePOST, {});

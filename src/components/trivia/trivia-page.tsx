@@ -71,7 +71,7 @@ export default function TriviaPage() {
   return (
     <TeamThemeProvider team={team}>
       <div className="min-h-screen bg-[#E9EDF0] text-[#00172B]">
-        <MainSiteHeader teamAbbr={team?.abbr} active="trivia" />
+        <MainSiteHeader teamAbbr={team?.abbr} active="play" />
         {!launch ? (
           <TriviaEventHero
             teamId={teamId}

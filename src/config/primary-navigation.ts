@@ -1,8 +1,10 @@
+import { PLAY_EXPERIENCES, isPlayPath } from '../../packages/navigation/play';
+
 export const PRIMARY_NAV_ITEMS = [
   { id: 'huddle', label: 'The Beat', href: '/the-beat' },
   { id: 'watch', label: 'Film Room', href: '/watch' },
   { id: 'front-office', label: 'Front Office', href: '/offseasonmanager' },
-  { id: 'trivia', label: 'Trivia', href: '/trivia' },
+  { id: 'play', label: 'Play', href: '/play', children: PLAY_EXPERIENCES },
   { id: 'parlay-lab', label: 'Parlay Lab', href: '/parlay-lab' },
   { id: 'community', label: 'The Huddle', href: '/huddle' },
   { id: 'merch', label: 'Merch', href: '/merch' },
@@ -30,6 +32,7 @@ const matchesPath = (pathname: string, basePath: string) =>
 
 export function getPrimaryNavActive(pathname: string | null): PrimaryNavItemId | null {
   if (!pathname) return null;
+  if (isPlayPath(pathname)) return 'play';
   if (pathname === '/huddle') return 'community';
   if (
     matchesPath(pathname, '/the-beat') ||

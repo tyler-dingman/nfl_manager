@@ -1,0 +1,407 @@
+{
+  "generatedAt": "2026-10-10T02:49:59.100Z",
+  "results": [
+    {
+      "label": "NFL straight odds",
+      "path": "/market/nfl/straight/odds",
+      "method": "GET",
+      "startedAt": "2026-10-10T02:49:33.421Z",
+      "httpStatus": 200,
+      "success": true,
+      "messages": [],
+      "retryAfter": null,
+      "durationMs": 3834,
+      "counts": {
+        "events": 55,
+        "availableMarkets": 18117,
+        "availableSelections": 51118,
+        "sourceIds": [
+          1,
+          2,
+          4,
+          20,
+          36,
+          60,
+          66,
+          86,
+          89,
+          105,
+          107,
+          111,
+          121
+        ]
+      }
+    },
+    {
+      "label": "NFL props odds (unfiltered)",
+      "path": "/market/nfl/props/odds",
+      "method": "GET",
+      "startedAt": "2026-10-10T02:49:42.861Z",
+      "httpStatus": 200,
+      "success": false,
+      "messages": [
+        "Unexpected error while retrieving odds for the provided filter."
+      ],
+      "retryAfter": null,
+      "durationMs": 7435,
+      "safeErrorResponse": {
+        "success": false,
+        "messages": [
+          "Unexpected error while retrieving odds for the provided filter."
+        ]
+      }
+    },
+    {
+      "label": "NFL props sources",
+      "path": "/market/nfl/props/sources",
+      "method": "GET",
+      "startedAt": "2026-10-10T02:49:50.298Z",
+      "httpStatus": 200,
+      "success": false,
+      "messages": [
+        "Unexpected error while retrieving market sources for the provided filter."
+      ],
+      "retryAfter": null,
+      "durationMs": 3849,
+      "safeErrorResponse": {
+        "success": false,
+        "messages": [
+          "Unexpected error while retrieving market sources for the provided filter."
+        ]
+      }
+    },
+    {
+      "label": "Filtered passing props",
+      "skipped": "Unfiltered NFL props failed; conditional test not run."
+    },
+    {
+      "label": "Filtered receiving props",
+      "skipped": "Unfiltered NFL props failed; conditional test not run."
+    },
+    {
+      "label": "Filtered rushing props",
+      "skipped": "Unfiltered NFL props failed; conditional test not run."
+    },
+    {
+      "label": "League discovery",
+      "path": "/league",
+      "method": "GET",
+      "startedAt": "2026-10-10T02:49:54.148Z",
+      "httpStatus": 200,
+      "success": true,
+      "messages": [],
+      "retryAfter": null,
+      "durationMs": 64,
+      "data": [
+        {
+          "id": 1,
+          "name": "NFL",
+          "fullName": "National Football League",
+          "modifiedOn": "2026-09-08T20:05:14.112049Z"
+        },
+        {
+          "id": 2,
+          "name": "CFB",
+          "fullName": "College Football",
+          "modifiedOn": "2026-09-12T18:59:54.685902Z"
+        },
+        {
+          "id": 3,
+          "name": "NBA",
+          "fullName": "National Basketball Association",
+          "modifiedOn": "2026-08-31T22:38:22.926288Z"
+        },
+        {
+          "id": 4,
+          "name": "CBB",
+          "fullName": "College Basketball",
+          "modifiedOn": "2026-08-31T22:40:00.90572Z"
+        },
+        {
+          "id": 5,
+          "name": "MLB",
+          "fullName": "Major League Baseball",
+          "modifiedOn": "2026-09-08T20:05:56.931775Z"
+        },
+        {
+          "id": 6,
+          "name": "NHL",
+          "fullName": "National Hockey League",
+          "modifiedOn": "2026-08-31T22:41:07.161716Z"
+        },
+        {
+          "id": 7,
+          "name": "WNBA",
+          "fullName": "WNBA",
+          "modifiedOn": "2026-08-31T22:19:22.24282Z"
+        },
+        {
+          "id": 8,
+          "name": "PGA",
+          "fullName": "PGA",
+          "modifiedOn": "2024-01-11T16:49:56.73943Z"
+        },
+        {
+          "id": 9,
+          "name": "ATP",
+          "fullName": "Association of Tennis Professionals",
+          "modifiedOn": "2026-09-05T02:17:52.0408Z"
+        },
+        {
+          "id": 10,
+          "name": "WTA",
+          "fullName": "Women's Tennis Association",
+          "modifiedOn": "2026-09-05T02:18:02.145613Z"
+        },
+        {
+          "id": 11,
+          "name": "WinterOlympics",
+          "fullName": "Winter Olympics",
+          "modifiedOn": "2026-01-28T15:28:19.795508Z"
+        },
+        {
+          "id": 12,
+          "name": "WBC",
+          "fullName": "World Baseball Classic",
+          "modifiedOn": "2026-03-04T22:03:29.847579Z"
+        },
+        {
+          "id": 21,
+          "name": "WorldCup",
+          "fullName": "FIFA World Cup",
+          "modifiedOn": "2026-08-31T19:14:26.425002Z"
+        },
+        {
+          "id": 22,
+          "name": "UFC",
+          "fullName": "Ultimate Fighting Championship",
+          "modifiedOn": "2026-05-20T12:40:21.24395Z"
+        },
+        {
+          "id": 23,
+          "name": "DPWT",
+          "fullName": "DP World Tour",
+          "modifiedOn": "2026-05-26T15:15:49.065724Z"
+        },
+        {
+          "id": 24,
+          "name": "LIV Golf",
+          "fullName": "LIV Golf",
+          "modifiedOn": "2026-05-26T15:15:49.065724Z"
+        },
+        {
+          "id": 25,
+          "name": "MLS",
+          "fullName": "Major League Soccer",
+          "modifiedOn": "2026-07-06T15:11:33.201727Z"
+        },
+        {
+          "id": 26,
+          "name": "Spain La Liga",
+          "fullName": "Spain La Liga",
+          "modifiedOn": "2026-07-06T21:44:10.960161Z"
+        },
+        {
+          "id": 27,
+          "name": "Italian Serie A",
+          "fullName": "Italian Serie A",
+          "modifiedOn": "2026-07-06T21:55:39.805579Z"
+        },
+        {
+          "id": 28,
+          "name": "EPL",
+          "fullName": "English Premier League",
+          "modifiedOn": "2026-07-06T21:55:39.805579Z"
+        },
+        {
+          "id": 29,
+          "name": "Champions League",
+          "fullName": "Champions League",
+          "modifiedOn": "2026-07-06T21:55:39.805579Z"
+        },
+        {
+          "id": 30,
+          "name": "German Bundesliga",
+          "fullName": "German Bundesliga",
+          "modifiedOn": "2026-07-06T21:55:39.805579Z"
+        },
+        {
+          "id": 31,
+          "name": "French Ligue 1",
+          "fullName": "French Ligue 1",
+          "modifiedOn": "2026-07-06T21:55:39.805579Z"
+        },
+        {
+          "id": 32,
+          "name": "Mexican Liga MX",
+          "fullName": "Mexican Liga MX",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 33,
+          "name": "Leagues Cup",
+          "fullName": "Leagues Cup",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 34,
+          "name": "Liga Portugal",
+          "fullName": "Liga Portugal",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 35,
+          "name": "Pro League Belgium",
+          "fullName": "Pro League Belgium",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 36,
+          "name": "Eredivisie",
+          "fullName": "Eredivisie",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 37,
+          "name": "EFL Cup",
+          "fullName": "EFL Cup",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 38,
+          "name": "Coppa Italia",
+          "fullName": "Coppa Italia",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 39,
+          "name": "Scottish Premiership",
+          "fullName": "Scottish Premiership",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 40,
+          "name": "Brasileiro Serie A",
+          "fullName": "Brasileiro Serie A",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 41,
+          "name": "England Championship",
+          "fullName": "England Championship",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 42,
+          "name": "DFB Pokal",
+          "fullName": "DFB Pokal",
+          "modifiedOn": "2026-07-07T13:49:40.522641Z"
+        },
+        {
+          "id": 43,
+          "name": "Danish SuperLiga",
+          "fullName": "Danish SuperLiga",
+          "modifiedOn": "2026-07-06T15:11:33.201727Z"
+        },
+        {
+          "id": 44,
+          "name": "Swiss Super League",
+          "fullName": "Swiss Super League",
+          "modifiedOn": "2026-07-06T15:11:33.201727Z"
+        },
+        {
+          "id": 45,
+          "name": "Turkish Super Lig",
+          "fullName": "Turkish Super Lig",
+          "modifiedOn": "2026-07-06T15:11:33.201727Z"
+        },
+        {
+          "id": 46,
+          "name": "UEFA Europa League",
+          "fullName": "UEFA Europa League",
+          "modifiedOn": "2026-07-06T21:55:39.805579Z"
+        },
+        {
+          "id": 47,
+          "name": "Eliteserien",
+          "fullName": "Eliteserien",
+          "modifiedOn": "2026-07-06T15:11:33.201727Z"
+        },
+        {
+          "id": 48,
+          "name": "Saudi Pro League",
+          "fullName": "Saudi Pro League",
+          "modifiedOn": "2026-07-06T15:11:33.201727Z"
+        },
+        {
+          "id": 49,
+          "name": "UEFA Nations League",
+          "fullName": "UEFA Nations League",
+          "modifiedOn": "2026-07-06T21:55:39.805579Z"
+        },
+        {
+          "id": 50,
+          "name": "Concacaf Nations League",
+          "fullName": "Concacaf Nations League",
+          "modifiedOn": "2026-07-06T21:55:39.805579Z"
+        },
+        {
+          "id": 51,
+          "name": "Africa Cup of Nations Qualification",
+          "fullName": "Africa Cup of Nations Qualification",
+          "modifiedOn": "2026-07-06T21:55:39.805579Z"
+        },
+        {
+          "id": 9001,
+          "name": "Crypto",
+          "fullName": "Crypto",
+          "modifiedOn": "2026-05-13T04:50:41.620136Z"
+        },
+        {
+          "id": 9002,
+          "name": "Elections",
+          "fullName": "US Elections",
+          "modifiedOn": "2026-05-19T21:27:53.808699Z"
+        }
+      ]
+    },
+    {
+      "label": "Other sport props (MLB)",
+      "path": "/market/mlb/props/odds",
+      "method": "GET",
+      "startedAt": "2026-10-10T02:49:55.798Z",
+      "httpStatus": 200,
+      "success": false,
+      "messages": [
+        "Unexpected error while retrieving odds for the provided filter."
+      ],
+      "retryAfter": null,
+      "durationMs": 1726,
+      "safeErrorResponse": {
+        "success": false,
+        "messages": [
+          "Unexpected error while retrieving odds for the provided filter."
+        ]
+      }
+    },
+    {
+      "label": "NFL straight sources",
+      "path": "/market/nfl/straight/sources",
+      "method": "GET",
+      "startedAt": "2026-10-10T02:49:57.525Z",
+      "httpStatus": 200,
+      "success": false,
+      "messages": [
+        "Unexpected error while retrieving market sources for the provided filter."
+      ],
+      "retryAfter": null,
+      "durationMs": 1490,
+      "safeErrorResponse": {
+        "success": false,
+        "messages": [
+          "Unexpected error while retrieving market sources for the provided filter."
+        ]
+      }
+    }
+  ]
+}

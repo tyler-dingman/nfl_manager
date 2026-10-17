@@ -1,11 +1,17 @@
 'use client';
+import { labScoreColor } from '../../../packages/parlay/lab-score-config';
+
 import { LabTestTubeIcon } from './lab-icons';
 import { useRef, useState, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Info, X } from 'lucide-react';
 import { useDialogFocus } from '@/hooks/use-dialog-focus';
-import { LAB_SCORE_EXPLANATION, LAB_SCORE_TIERS, labScoreTier } from './trending-context';
+import { LAB_SCORE_EXPLANATION, labScoreTier } from './trending-context';
 import styles from './trend-education.module.css';
+import { LAB_SCORE_CONFIG } from '../../../packages/parlay/lab-score-config';
+import { LAB_SCORE_V2_EXPLANATION } from './trending-context';
+import { ProjectionDetails } from './ProjectionDetails';
+import type { HomeMarket } from '../../../packages/parlay/research';
 function Explanation({
   title,
   children,
@@ -94,15 +100,14 @@ export function TrendHelp({ compact = false }: { compact?: boolean }) {
             Lab Score is not the probability that the bet will hit.
           </strong>
           <p>
-            Higher scores mean stronger alignment of available research signals. Easier alternate
-            thresholds can have high historical hit rates at heavily juiced prices. Scores use the
-            known main line as an anchor; without it, historical evidence is attenuated. Neither hit
-            rate nor score establishes betting value.
+            Each selected threshold receives its own statistical score. A likely winner at an
+            expensive price can still have poor betting value. Trending requires confirmed current
+            role evidence and compares estimated hit probability with the actual offered odds.
           </p>
           <p>
-            The main line is preferred when its score is within 5 points of the strongest alternate.
-            The default view shows one threshold per player, game, market, period and side. Use
-            “Show all thresholds” or Line Ladder to explore more.
+            The default view selects one threshold per player, game, market, period and side using
+            score, price value and evidence quality, with a small main-line preference. Weak or
+            unconfirmed opportunities stay out of Trending. Use Line Ladder to explore other lines.
           </p>
         </Explanation>
       )}
@@ -171,29 +176,71 @@ export function LineBadge({
     </>
   );
 }
-export function LabScore({ score, inline = false }: { score?: number | null; inline?: boolean }) {
-  if (score == null) return <span>—</span>;
-  const tier = labScoreTier(score);
+export function LabScore({
+  score,
+  inline = false,
+  trend,
+}: {
+  score?: number | null;
+  inline?: boolean;
+  trend?: Pick<NonNullable<HomeMarket['trend']>, 'scoreVersion' | 'projection'> | null;
+}) {
+  const [open, setOpen] = useState(false);
+  if (score == null || (trend?.projection && trend.projection.estimatedProbability == null))
+    return <span title="Insufficient current evidence">—</span>;
+  const tier = labScoreTier(score, trend?.scoreVersion);
   return (
-    <span
-      className={`${styles.score} ${inline ? styles.inlineScore : ''}`}
-      title={LAB_SCORE_EXPLANATION}
-    >
-      <b>{score}</b>
-      <small data-tier={tier.label}>{tier.label}</small>
-    </span>
+    <>
+      {trend?.projection ? (
+        <button
+          type="button"
+          className={`${styles.score} ${inline ? styles.inlineScore : ''}`}
+          aria-label={`Lab Score ${score}: projection details`}
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpen(true);
+          }}
+        >
+          <b style={{ color: labScoreColor(score) }}>{score}</b>
+          <small style={{ color: labScoreColor(score) }} data-tier={tier.label}>
+            {tier.label}
+          </small>
+        </button>
+      ) : (
+        <span
+          className={`${styles.score} ${inline ? styles.inlineScore : ''}`}
+          title={LAB_SCORE_EXPLANATION}
+        >
+          <b style={{ color: labScoreColor(score) }}>{score}</b>
+          <small style={{ color: labScoreColor(score) }} data-tier={tier.label}>
+            {tier.label}
+          </small>
+        </span>
+      )}
+      {open && (
+        <Explanation title="Lab Score details" close={() => setOpen(false)}>
+          <ProjectionDetails
+            projection={trend?.projection}
+            active={trend?.scoreVersion === 'v2'}
+            stat="stat units"
+          />
+        </Explanation>
+      )}
+    </>
   );
 }
-export function LabScoreGuide() {
+export function LabScoreGuide(_props: { active?: boolean }) {
   return (
     <section className={styles.guide}>
       <header>
         <h2>
           <LabTestTubeIcon /> Lab Score Guide
         </h2>
-        <TrendHelp compact />
+        <span title={LAB_SCORE_V2_EXPLANATION}>
+          <Info size={14} />
+        </span>
       </header>
-      {LAB_SCORE_TIERS.map((tier) => (
+      {LAB_SCORE_CONFIG.bands.map((tier) => (
         <div key={tier.label}>
           <b>
             {tier.range} · <span>{tier.label}</span>

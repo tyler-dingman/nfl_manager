@@ -1,0 +1,220 @@
+LATEST DIAGNOSTIC UPDATE: See reports/unabated-diagnostics.txt. NFL straight odds,
+real-ID deep links and text-based prop generation work; NFL/MLB props boards and
+source routes fail. The earlier blanket integration blocker is narrowed accordingly.
+
+Down & Distance — Unabated staged migration
+2026-10-09
+
+STATUS
+Stage 1 audit and Stage 2 client/shadow tooling implemented. Stage 3 live comparison
+is BLOCKED by unsuccessful provider responses. Database ingestion, production
+cutover, and real FanDuel handoff are NOT implemented or validated.
+No odds rows or historical records were changed. No paid legacy API calls were made.
+
+Live account check
+User identified the account as Free content partner. UNABATED_API_KEY is configured;
+UNABATED_PARTNER_CODE is now configured (verified without printing its value). /league, /bettype and /period-type/nfl succeeded.
+GET /market/nfl/props/sources returned HTTP 200, success:false and:
+  Unexpected error while retrieving market sources for the provided filter.
+GET /market/nfl/props/odds returned HTTP 200, success:false and:
+  Unexpected error while retrieving odds for the provided filter.
+These are provider application failures, not a verified empty board or zero coverage.
+The audit used four discovery requests; two additional diagnostic requests tested
+sources and odds. There were no retries, bet-generation calls or production writes.
+
+Chicago Bears coverage baseline (local stored odds)
+Chicago Bears at Green Bay Packers, 2026-10-11 17:00 UTC.
+Metric                                  SportsGameOdds     Unabated
+Upcoming NFL games in 7-day window        14                Unknown
+All-book player offers                   33,189            Unknown
+Book-specific standard offers            8,419             Unknown
+Book-specific alternate offers           20,136            Unknown
+Bears game player offers                  2,569             Unknown
+Bears game standard offers                633               Unknown
+Bears game alternate offers               1,628             Unknown
+Bears FanDuel offers                      745               Unknown
+Bears FanDuel standard offers             220               Unknown
+Bears FanDuel alternate offers            359               Unknown
+Bears FanDuel offers with stored links    252               Unknown
+
+Counts include separate books, sides, thresholds, and periods; they are not UI row
+counts or distinct players. Standard/alternate classification uses each bookmaker's
+stored main/alt metadata. There are 166 Bears FanDuel offers whose classification
+cannot be confirmed from that metadata; do not silently call them alternate.
+Legacy provider_selection_id exists on all offers, but the legacy normalizer can
+synthesize it. It is NOT a count of verified FanDuel selection IDs.
+Per-game, per-book, per-market counts and stored update times are in
+reports/unabated-coverage.json. Stored update time is ingestion time, not guaranteed
+provider freshness. Missing players, markets, thresholds, duplicates and comparable
+freshness across providers cannot be determined without a usable Unabated board.
+
+Current architecture and audit findings
+SportsGameOddsClient (src/server/providers/sportsGameOdds.ts) uses server-side
+SPORTSGAMEODDS_API_KEY, the v2 events API, four supported books, alt/opposing odds,
+pagination and a monthly object-budget guard. It caps a run at two data requests.
+It does not implement the new client's bounded retry/timeout handling.
+
+scripts/import-sportsbook-odds.ts and import-sportsbook-event.ts call
+SportsbookIngestionService. It aligns events to the internal NFL schedule, resolves
+teams and roster players, normalizes markets, writes mappings/events/markets/prices
+and snapshots. It has 24-hour/final-window refresh and started-event locking methods.
+No caller of refreshUpcomingEvents or sportsbook cron trigger was found in the
+checked-in jobs/workers. workers/content-scheduler is content automation, not odds.
+Do not add an extra odds scheduler until the actual deployment schedule is confirmed.
+
+Tables from migrations 035, 038 and 039:
+  sportsbook_events: provider + provider_event_id identity, internal UUID, schedule,
+    refresh state and locked status.
+  provider_team_mappings / provider_player_mappings: provider-scoped identities.
+  bet_markets: internal event, player, stat, period, side, threshold, normalized_key,
+    raw provider metadata and market-level alternate flag.
+  sportsbook_prices: one current price per internal market/book; provider IDs, link.
+  sportsbook_price_snapshots: historical prices/availability/links.
+Existing uniqueness on (event_id, normalized_key) prevents normalized duplicates.
+
+Repository currently hardcodes SPORTSGAMEODDS for event/mapping writes and player
+joins. Line classification reads odd.byBookmaker from legacy JSON, which is not an
+Unabated contract. Main/alt is sportsbook-specific and cannot reliably be migrated
+using only the shared is_alt_line flag. Current price upserts and snapshots run
+per-row; copying this into a board-wide Unabated ingest would multiply DB calls.
+Raw legacy JSON can contain the entire odd/bookmaker family repeatedly; new rows
+should store only compact identifiers, per-book classification and timestamps.
+
+getLocalEventMarkets serves cached normalized DB rows. Historical-stats services
+load existing player logs/context, calculate Lab Score V2 and cache event/mode/model
+results. Public Parlay Lab research/event/trending APIs read PostgreSQL; no provider
+request should be added to page loads or individual cards. Standard/alt preferences
+are shared across web/native, default to -1000, and are already persisted.
+
+My Parlay shares selection identity, odds math, and exact-threshold deduplication in
+packages/parlay/slip.ts. Account saves retain snapshots. The existing single-leg
+FanDuel adapter validates an exact stored selection URL; there is no verified
+multi-leg integration. New Unabated transfers are not registered with either UI.
+Save Image, Messages, Share and Save remain unchanged.
+
+Replacement design (pending live verification)
+Unabated board -> discovered bet-type/source/period mappings -> canonical internal
+NFL event/player identities -> bulk upsert into existing tables -> unchanged
+historical-stat scoring -> existing public APIs -> web/native.
+Preserve existing event/market UUIDs for saved slips. Add provider-event mappings if
+needed rather than replacing UUIDs or duplicating all public upcoming games. Keep
+legacy provider identities for rollback and historical snapshots. A shadow board
+must not overwrite prices used by the public UI before approval.
+
+Migration decisions still needed from real data
+- Verified central map of discovered Unabated betTypeId -> existing market type.
+  No numeric IDs or player names were invented to populate this map.
+- Exact event matching by internal teams and kickoff; player matching by reviewed
+  provider mapping/roster identity, with unresolved players quarantined.
+- Compact per-price fields for provider, source ID, market-line ID, sportsbook
+  market/selection IDs, explicit line classification, modified/expiry timestamps
+  and region where returned. Provider marketLineId must stay separate from
+  partnerOddsData.fanduel.marketId/selectionId.
+- Idempotent SQL migration and bulk writer with changed-only snapshots, stale-offer
+  invalidation, started-event locks and a transaction. No migration was applied.
+- Provider-aware batched read joins and cache keys; no dual-provider rows leaked to
+  ranking. Preserve period, player ID, stat and exact line scoring inputs.
+
+Implemented source files
+src/server/providers/unabated/client.ts
+  Fixed official host; X-Api-Key auth, no redirects, timeout, bounded transient GET
+  retries, Retry-After, usage/run ceiling, process-wide five-second odds gate.
+  Errors exclude keys, raw upstream response bodies, and returned links.
+  Discovery, NFL props odds and standard deep-link methods use documented paths.
+src/server/providers/unabated/types.ts
+  Runtime schemas from official OpenAPI; reject malformed contract values and
+  unsafe integer identifiers; optional data remains optional.
+src/server/providers/unabated/coverage.ts
+  Shadow-only structured flattening, explicit main vs alternate, availability,
+  exact points and independent partner IDs. No parent link/ID reuse for alternates.
+src/server/providers/unabated/deeplinks.ts
+  Generic Gambly link attribution and conservative Free-tier full-support checker.
+  Requires all current exact selections, matching returned IDs and full_support;
+  rejects expired/missing freshness, missing IDs, mixed books, same-event legs and
+  unsupported links. This is a shadow helper, NOT a DB-backed production service.
+src/server/providers/unabated/client.test.ts
+  Contract, retries, auth, batching gate, alternate metadata and transfer tests.
+src/server/odds/provider-config.ts and sportsbookIngestionService.ts
+  ODDS_PROVIDER=unabated blocks accidental paid SportsGameOdds ingestion instead of
+  silently falling back. It does not enable unvalidated writes. Current DB reads
+  continue serving the stored data. Ingestion/transfer flags are parsed but cannot
+  activate incomplete implementations.
+scripts/audit-unabated-coverage.ts
+  Explicit local-only read-only audit, cross-process PostgreSQL advisory lock,
+  aggregate DB baseline, discovery and one board; no UI traffic, legacy requests or
+  writes to odds tables. Output: reports/unabated-coverage.json.
+.env.example
+  Documents server-only key, partner code, official host and conservative flags.
+
+Verified endpoints and limitations
+https://data.unabated.com
+GET /league
+GET /bettype
+GET /period-type/nfl
+GET /market/nfl/props/sources
+GET /market/nfl/props/people
+GET /market/nfl/props/teams
+GET /market/nfl/props/odds
+GET /deeplink?ids=...&points=... (implemented, not called live)
+POST /api/v1/bet/generate and GET /api/v1/bet/status/{guid} were inspected in the
+contract, but are not wired: natural-language matches need individual exact-leg
+verification, not merely equal legsRequested/legsMatched counts.
+/deeplink/sgp and /deeplink/sgp/price require Enterprise; they are not called.
+Supported market coverage: unverified. No existing markets or Lab Score inputs were
+removed, and no new markets are exposed in the UI.
+
+Costs / limits
+Free documentation: minimum 15-second delay; one odds call per five seconds across
+the key, not one call per endpoint. Discovery metadata should be cached by the
+future ingestion scheduler. The shadow audit uses at most seven normal requests
+(six discovery + one board), with a total per-run ceiling of 24 including retries.
+The audit lock plus one scheduler is required across processes; the client gate
+alone cannot coordinate unrelated hosts. No new polling schedule was deployed.
+No monthly cost estimate is asserted beyond the published Free tier; partner
+terms and actual account approval still need verification. Free generic Gambly
+odds links require UNABATED_PARTNER_CODE; generated slip links retain returned
+attribution. No credentials go to browser/native or published links.
+
+Validation
+51 automated tests passed across new Unabated helpers, existing normalization,
+line classification, ingestion week mapping, Lab Score V2, and My Parlay identity/
+transfer gating. TypeScript verification is recorded in the final task response.
+No new UI changes in this stage; no Android/iOS builds or sportsbook handoff tests.
+No real transfer is claimed, including single-leg or cross-game transfer.
+
+Exact next steps before cutover
+1. Resolve the unsuccessful NFL props source/odds responses with Unabated using
+   the endpoint paths and sanitized messages above; confirm Free scope for NFL.
+2. Partner code configuration is complete. Real click attribution still requires a working returned link.
+3. Re-run: node --import tsx scripts/audit-unabated-coverage.ts
+4. Review actual bet-type/period/source discovery and Bears data. Build/verify the
+   normalization map; compare identical events, players, thresholds and books.
+5. Implement idempotent compact metadata migration, bulk writer and provider-aware
+   joins; shadow test locally without overwriting public legacy prices/history.
+6. Run full scoring, availability and saved-slip regressions against real data.
+7. Implement authenticated/rate-limited DB-backed complete-slip endpoint, resolve
+   every exact leg server-side, and wire both renderers. Keep transfer flag false.
+8. Validate real allowed FanDuel slips from the site/native app, inspect every leg,
+   verify partner attribution and expiry handling. Do not place a wager. Free SGP
+   stays hidden unless explicitly supported and verified through an eligible tier.
+9. Obtain explicit production cutover approval required by the user's brief, then
+   switch the sole ingestion source. Keep legacy credentials/history for rollback;
+   disable legacy scheduled requests after validation. Never run both indefinitely.
+
+Official references read 2026-10-09
+https://docs.unabated.com/start/access-tiers
+https://docs.unabated.com/guides/odds
+https://docs.unabated.com/guides/deep-links
+https://docs.unabated.com/guides/bet-slips
+https://docs.unabated.com/guides/response-concepts
+https://docs.unabated.com/guides/discovery
+https://data.unabated.com/swagger/v1/swagger.json
+https://unabated.com/odds-api/free
+
+Follow-up after partner-code configuration
+Verified both server-side credentials are present without exposing either value.
+Retried discovery (4 requests) and the NFL props board independently (1 request).
+Both /market/nfl/props/sources and /market/nfl/props/odds still failed the required
+success:true envelope check. No retry, legacy-provider request, odds-table write,
+production change, or sportsbook transfer was performed. Partner configuration is
+resolved; usable NFL props responses remain the blocking dependency.

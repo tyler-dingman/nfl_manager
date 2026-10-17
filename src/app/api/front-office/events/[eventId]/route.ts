@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { currentUser } from '@/server/auth/request';
@@ -12,7 +13,7 @@ import {
   saveFranchiseSimulation,
 } from '@/server/front-office/repository';
 
-export async function GET(request: NextRequest, context: { params: Promise<{ eventId: string }> }) {
+async function handleGET(request: NextRequest, context: { params: Promise<{ eventId: string }> }) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   const { eventId } = await context.params;
@@ -26,7 +27,7 @@ const schema = z.object({
   action: z.enum(['read', 'dismiss', 'resolve']),
   resolution: z.enum(['signed', 'invalidated']).optional(),
 });
-export async function PATCH(
+async function handlePATCH(
   request: NextRequest,
   context: { params: Promise<{ eventId: string }> },
 ) {
@@ -60,3 +61,6 @@ export async function PATCH(
     ? NextResponse.json({ ok: true, event })
     : NextResponse.json({ error: 'Event not found.' }, { status: 404 });
 }
+
+export const GET = withFranchiseRoute(handleGET, {});
+export const PATCH = withFranchiseRoute(handlePATCH, {});

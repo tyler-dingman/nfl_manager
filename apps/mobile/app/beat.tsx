@@ -1,3 +1,5 @@
+import { BeatArtwork } from '../components/beat-artwork';
+import { resolveBeatArtwork } from '../../../packages/beat/article-hero';
 import { normalizeDisplayHeadline } from '../../../src/lib/display-headline';
 import { TEAM_FANBASES } from '../../../packages/design/team-fanbases';
 import { selectBeatHeroStories } from '../../../packages/design/editorial-stories';
@@ -137,6 +139,12 @@ export default function BeatScreen() {
             }
             style={s.card}
           >
+            <View style={s.artwork}>
+              <BeatArtwork
+                decision={resolveBeatArtwork({ ...item, teamAbbr: item.teamAbbr ?? teamId })}
+                teamId={item.teamAbbr ?? teamId}
+              />
+            </View>
             <View style={s.row}>
               <Text style={[s.category, { color: theme.primary }]}>
                 {hot ? 'HOT READ' : item.category}
@@ -179,6 +187,13 @@ const s = StyleSheet.create({
     marginBottom: 12,
     borderWidth: 1,
     borderColor: '#E5DED3',
+  },
+  artwork: {
+    margin: -18,
+    marginBottom: 16,
+    overflow: 'hidden',
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
   },
   row: { flexDirection: 'row', justifyContent: 'space-between' },
   category: { fontSize: 12, fontWeight: '900', letterSpacing: 1.2 },

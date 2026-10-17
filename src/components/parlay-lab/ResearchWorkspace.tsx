@@ -1,5 +1,9 @@
 'use client';
-import { ResponsiveRail } from '@/components/layout/responsive-rail';
+import { isAnytimeTD, propPick, researchThreshold } from '../../../packages/parlay/anytime-td';
+import { frontOfficeFont } from '@/components/front-office/front-office-font';
+import { OverviewRail } from './OverviewRail';
+import overviewStyles from './overview-dashboard.module.css';
+import { overviewContext } from '../../../packages/parlay/projection-details';
 import {
   Lightbulb,
   UserRound,
@@ -27,6 +31,7 @@ import type { HomeMarket, ResearchDetail } from './ParlayLabHome';
 import styles from './research-workspace.module.css';
 import { LineBadge } from './TrendEducation';
 import { labScoreTier } from './trending-context';
+import { ProjectionDetails } from './ProjectionDetails';
 
 const tabs = ['Overview', 'Game Log', 'Matchup', 'Splits', 'Line Ladder'] as const;
 type Window = 'L5' | 'L10' | 'SEASON' | '2 YEARS';
@@ -90,7 +95,6 @@ export default function ResearchWorkspace({
         : chartWindow === 'SEASON'
           ? `${years[0] ?? ''} Season`
           : 'Last 2 Years';
-  const opponent = TEAM_LIST.find((t) => t.abbr === data?.market.opponentId);
   const controls = (
     <div className={styles.windows} aria-label="Historical sample">
       {(['L5', 'L10', 'SEASON', '2 YEARS'] as const).map((w) => (
@@ -107,15 +111,9 @@ export default function ResearchWorkspace({
   };
   const hitCount = shown.filter((p) => p.result === 'HIT').length;
   const chartAverage = shown.length ? shown.reduce((s, p) => s + p.value, 0) / shown.length : null;
-  const environment = data?.environment;
-  const windowName =
-    environment?.currentGame.gameWindow
-      .replaceAll('_', ' ')
-      .toLowerCase()
-      .replace(/\b\w/g, (c) => c.toUpperCase()) ?? 'Window unavailable';
   return createPortal(
     <div
-      className={styles.backdrop}
+      className={`${styles.backdrop} ${frontOfficeFont.variable}`}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -181,7 +179,10 @@ export default function ResearchWorkspace({
             <p className={styles.prop}>
               {stat}{' '}
               <span>
-                · {market.side} {market.line ?? '—'}
+                ·{' '}
+                {isAnytimeTD(market)
+                  ? `Anytime TD — ${propPick(market)}`
+                  : `${market.side} ${market.line ?? '—'}`}
               </span>
             </p>
             <LineBadge passive lineType={market.lineType} mainLine={market.mainLine} />
@@ -196,7 +197,7 @@ export default function ResearchWorkspace({
                         : prices.find(
                             (p) =>
                               p.sportsbook === book &&
-                              Number(p.line) === market.line &&
+                              p.line === market.line &&
                               p.side === market.side,
                           )?.odds,
                     )}
@@ -229,7 +230,7 @@ export default function ResearchWorkspace({
                 value={data?.summary.last10.games ? number(data.summary.trendScore) : '—'}
                 detail={
                   data?.summary.last10.games
-                    ? labScoreTier(data.summary.trendScore).label
+                    ? labScoreTier(data.summary.trendScore, data.summary.scoreVersion).label
                     : 'No history'
                 }
                 positive
@@ -296,47 +297,43 @@ export default function ResearchWorkspace({
             </p>
           ) : tab === 'Overview' ? (
             <>
-              <div className={styles.overview}>
-                <div className={styles.left}>
-                  <div className={styles.summaries}>
-                    <Summary
-                      icon={<BarChart3 />}
-                      label="Trend"
-                      value={sample?.games ? `${sample.hits}/${sample.games}` : '—'}
-                      caption="Last 10 games"
-                      note={`${data.summary.streakLength} game ${data.summary.streakType?.toLowerCase() ?? ''} streak`}
-                    />
-                    <Summary
-                      icon={<Shield />}
-                      label="Matchup"
-                      value={`vs ${data.market.opponentId ?? '—'}`}
-                      caption={`${data.currentOpponentStrength?.defenseLabel ?? 'Defense'} #${data.currentOpponentStrength?.rank ?? '—'}`}
-                      note={
-                        data.summary.researchScore?.matchup.label ?? 'Matchup context unavailable'
-                      }
-                      concern={data.summary.researchScore?.matchup.alignment === 'conflicts'}
-                    />
-                    <Summary
-                      icon={<UserRound />}
-                      label="Usage"
-                      value={number(data.usage.last5)}
-                      caption={`${data.usage.primaryMetric} / game · L5`}
-                      note={data.usage.trendLabel ?? 'Limited history'}
-                    />
-                    <Summary
-                      icon={<ArrowUpRight />}
-                      label="Line cushion"
-                      value={number(data.lineMargin.averageMargin, true)}
-                      caption="Avg margin · L10"
-                      note={data.lineMargin.label ?? 'Limited history'}
-                    />
-                  </div>
+              <div className={overviewStyles.layout}>
+                <div className={overviewStyles.dashboard}>
+                  <ProjectionDetails
+                    projection={data.summary.projection}
+                    active={data.summary.scoreVersion === 'v2'}
+                    stat={stat}
+                    position={market.position ?? data.player?.position}
+                  >
+                    <div className={overviewStyles.tiles} data-overview-order="tiles">
+                      {overviewContext(data, market).tiles.map((tile, i) => {
+                        const Icon = [BarChart3, Shield, UserRound, ArrowUpRight][i]!;
+                        return (
+                          <button
+                            key={tile.label}
+                            onClick={() => changeTab(tile.target as typeof tab)}
+                          >
+                            <Icon />
+                            <div>
+                              <small>{tile.label}</small>
+                              <strong>{tile.value}</strong>
+                              <span>{tile.note}</span>
+                            </div>
+                            <ChevronRight />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </ProjectionDetails>
+                </div>
+                <OverviewRail data={data} market={market} onTab={changeTab} />
+                <div className={overviewStyles.lower} data-overview-order="chart">
                   <section className={styles.chartCard}>
                     <header>
                       <h3>{chartTitle}</h3>
                       {controls}
                     </header>
-                    <CompactChart points={shown} line={market.line} label={stat} />
+                    <CompactChart points={shown} line={researchThreshold(market)} label={stat} />
                   </section>
                   <div className={styles.insight}>
                     <Lightbulb />
@@ -357,127 +354,9 @@ export default function ResearchWorkspace({
                           </>
                         )}
                       </p>
-                      {data.summary.researchScore && (
-                        <details>
-                          <summary>Why this Lab Score?</summary>
-                          <p>
-                            History: {data.summary.researchScore.breakdown.trend.alignment}; line
-                            cushion: {data.summary.researchScore.breakdown.lineCushion.alignment};{' '}
-                            usage: {data.summary.researchScore.breakdown.usage.alignment}; matchup:{' '}
-                            {data.summary.researchScore.breakdown.matchup.alignment}; game context:{' '}
-                            {data.summary.researchScore.breakdown.gameContext.alignment}. Based on{' '}
-                            {data.summary.researchScore.breakdown.sampleQuality.games} recent
-                            qualifying games. {data.summary.researchScore.lineContext.scoreBasis}.
-                            Research alignment, not win probability or betting value.
-                          </p>
-                        </details>
-                      )}
                     </div>
                   </div>
                 </div>
-                <ResponsiveRail stackAt={850} className={styles.right}>
-                  <section className={styles.card}>
-                    <button className={styles.cardTitle} onClick={() => changeTab('Matchup')}>
-                      Next Game
-                      <ChevronRight />
-                    </button>
-                    <div className={styles.nextGame}>
-                      <div>
-                        {opponent && (
-                          <Image unoptimized width={40} height={40} src={opponent.logoUrl} alt="" />
-                        )}
-                        <div>
-                          <strong>
-                            {data.event?.homeTeamId === (market.teamId ?? data.player?.teamId)
-                              ? 'vs'
-                              : '@'}{' '}
-                            {data.market.opponentId ?? '—'}
-                          </strong>
-                          <p>{opponent?.name ?? 'Opponent unavailable'}</p>
-                        </div>
-                      </div>
-                      <p>
-                        {data.event?.kickoffAt
-                          ? new Intl.DateTimeFormat('en-US', {
-                              weekday: 'short',
-                              month: 'short',
-                              day: 'numeric',
-                              hour: 'numeric',
-                              minute: '2-digit',
-                              timeZoneName: 'short',
-                            }).format(new Date(data.event.kickoffAt))
-                          : 'Kickoff unavailable'}
-                        <br />
-                        {data.venue.current.stadium ?? 'Venue unavailable'}
-                      </p>
-                    </div>
-                  </section>
-                  <section className={styles.card}>
-                    <button className={styles.cardTitle} onClick={() => changeTab('Matchup')}>
-                      Matchup Snapshot
-                      <ChevronRight />
-                    </button>
-                    <dl>
-                      {[
-                        [
-                          `${data.currentOpponentStrength?.defenseLabel ?? 'Defense'} (${data.currentOpponentStrength?.season ?? '—'})`,
-                          data.currentOpponentStrength
-                            ? `#${data.currentOpponentStrength.rank}`
-                            : '—',
-                        ],
-                        [
-                          `${data.opponentVsPosition?.label ?? 'Opponents'} ${market.side.toLowerCase()} hits`,
-                          data.opponentVsPosition
-                            ? `${data.opponentVsPosition.last10.hits}/${data.opponentVsPosition.last10.games}`
-                            : '—',
-                        ],
-                        ['Opposing average', number(data.opponentVsPosition?.last10.average)],
-                        [
-                          'Lab Score',
-                          data.currentOpponentStrength ? `${number(data.labMatchScore)}/100` : '—',
-                        ],
-                        ['Confidence', data.opponentVsPosition?.sampleConfidence ?? 'Limited'],
-                      ].map(([label, value]) => (
-                        <div key={label}>
-                          <dt>{label}</dt>
-                          <dd>{value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </section>
-                  <section className={styles.card}>
-                    <button className={styles.cardTitle} onClick={() => changeTab('Splits')}>
-                      Game Environment
-                      <ChevronRight />
-                    </button>
-                    <strong>
-                      {data.environment.currentGame.dayNight === 'NIGHT' ? '☾' : '☀'} {windowName}
-                    </strong>
-                    <p className={styles.environmentNote}>
-                      {data.environment.currentGame.dayNight === 'NIGHT'
-                        ? 'Night game'
-                        : 'Day game'}{' '}
-                      · {data.venue.current.roofType.replaceAll('_', ' ')}
-                    </p>
-                    <div className={styles.miniSplits}>
-                      {[
-                        ...data.environment.relevantSplits
-                          .slice(0, 2)
-                          .map((s) => ({ label: s.label, ...s.value })),
-                        { label: 'Indoors', ...data.venue.splits.indoor },
-                        { label: 'Outdoors', ...data.venue.splits.outdoor },
-                      ].map((s) => (
-                        <div key={s.label}>
-                          <small>{s.label}</small>
-                          <b>
-                            {s.hits}/{s.games}
-                          </b>
-                          <em>{s.hitRate == null ? '—' : `${number(s.hitRate)}%`}</em>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                </ResponsiveRail>
               </div>
               <footer className={styles.statStrip}>
                 {(
@@ -541,33 +420,6 @@ function Kpi({
       <strong>{value}</strong>
       <span className={positive ? styles.positive : undefined}>{detail}</span>
     </div>
-  );
-}
-function Summary({
-  icon,
-  label,
-  value,
-  caption,
-  note,
-  concern = false,
-}: {
-  icon: ReactNode;
-  label: string;
-  value: string;
-  caption: string;
-  note: string;
-  concern?: boolean;
-}) {
-  return (
-    <article>
-      {icon}
-      <div>
-        <small>{label}</small>
-        <strong>{value}</strong>
-        <span>{caption}</span>
-        <em style={concern ? { color: 'var(--lab-yellow)' } : undefined}>{note}</em>
-      </div>
-    </article>
   );
 }
 function CompactChart({

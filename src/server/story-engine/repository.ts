@@ -353,7 +353,7 @@ async function emitBreakingCandidate(
     return;
   }
   const key = `BREAKING_STORY:${storyId}:${version}`;
-  await sql`INSERT INTO notification_events(id,event_type,team_id,story_id,priority,payload,dedupe_key) VALUES(${randomUUID()},'BREAKING_STORY',${teamId},${storyId},'CRITICAL',${sql.json({ storyId, teamId, importanceScore, reason, occurredAt: new Date().toISOString() })},${key}) ON CONFLICT(dedupe_key) DO NOTHING`;
+  await sql`INSERT INTO notification_events(id,event_type,team_id,story_id,priority,payload,dedupe_key) VALUES(${randomUUID()},'BREAKING_STORY',${teamId},${storyId},'CRITICAL',${sql.json({ storyId, teamId, importanceScore, reason, occurredAt: new Date().toISOString() })},${key}) ON CONFLICT(dedupe_key) WHERE dedupe_key IS NOT NULL DO NOTHING`;
 }
 async function createCanonicalNotification(
   sql: any,

@@ -15,6 +15,11 @@ export type HistoricalPlayerGame = {
   homeTeamId?: string;
   homeAway: HomeAway;
   position: string | null;
+  snapShare?: number | null;
+  snapCount?: number | null;
+  routes?: number | null;
+  depthRank?: number | null;
+  started?: boolean | null;
   passingAttempts: number | null;
   passingCompletions: number | null;
   passingYards: number | null;

@@ -257,6 +257,9 @@ export async function updateNotifications(
   });
 }
 export type MobileBriefing = {
+  teamAbbr?: string;
+  graphicDecision?: import('../../../src/components/beat/beat-story-adapter').BeatGraphicDecision;
+  game?: import('../../../src/lib/canonical-game').BeatGameMetadata;
   id: string;
   headline: string;
   summary: string;
@@ -265,7 +268,14 @@ export type MobileBriefing = {
   updatedAt: string;
   hotReadUntil?: string | null;
   sourceCount: number;
-  sources: Array<{ id: string; publisher: string; url: string; kind?: string; title?: string }>;
+  sources: Array<{
+    id: string;
+    publisher: string;
+    url: string;
+    kind?: string;
+    title?: string;
+    publishedAt?: string;
+  }>;
 };
 export async function getBeatPage(teamId: string, filters: Record<string, string> = {}, page = 1) {
   const query = new URLSearchParams({ ...filters, team: teamId, page: String(page) });

@@ -11,6 +11,7 @@ const MIGRATIONS = [
   '039_parlay_lab_research_first.sql',
   '040_fix_passing_rushing_yards.sql',
   '042_canonical_schedule.sql',
+  '050_parlay_role_evidence.sql',
 ] as const;
 
 async function main() {
@@ -27,13 +28,16 @@ async function main() {
     throw new Error(`${production ? 'PRODUCTION_DATABASE_URL' : 'DATABASE_URL'} is required`);
   }
   console.log(`Environment: ${production ? 'production' : 'local'}`);
-  console.log(`Applying ${MIGRATIONS.length} scoped, idempotent Parlay Lab migrations.`);
+  const only = process.argv.find((arg) => arg.startsWith('--only='))?.slice(7);
+  const migrations = only ? MIGRATIONS.filter((file) => file === only) : MIGRATIONS;
+  if (!migrations.length) throw new Error('Unknown migration');
+  console.log(`Applying ${migrations.length} scoped, idempotent Parlay Lab migrations.`);
   const sql = postgres(databaseUrl, {
     max: 1,
     ssl: databaseUrl.includes('localhost') || databaseUrl.includes('127.0.0.1') ? false : 'require',
   });
   try {
-    for (const file of MIGRATIONS) {
+    for (const file of migrations) {
       const migration = await readFile(path.join(process.cwd(), 'db/migrations', file), 'utf8');
       await sql.unsafe(migration);
       console.log(`Applied ${file}`);

@@ -1,0 +1,33 @@
+{
+  "seed": "direction-pair-v1",
+  "selectedAt": "2026-10-10T03:11:20.562Z",
+  "availability": "Stored available flags; sportsbook availability not yet independently verified",
+  "pilot": [
+    {
+      "id": "0d29c93a-5e7c-48e9-b49f-ce9b2519d9b5",
+      "eventId": "a84d53ff-cc9d-4550-ae4f-21db51d4d3bd",
+      "playerName": "Tyson Bagent",
+      "marketType": "PASSING_YARDS",
+      "side": "OVER",
+      "line": 216.5,
+      "odds": -114,
+      "oddsUpdatedAt": "2026-10-09T20:44:42.687Z",
+      "kickoffAt": "2026-10-11T17:00:00.000Z",
+      "awayTeamId": "CHI",
+      "homeTeamId": "GB"
+    },
+    {
+      "id": "04c42079-9e5a-4bcd-807d-faf3d55e8516",
+      "eventId": "a84d53ff-cc9d-4550-ae4f-21db51d4d3bd",
+      "playerName": "Tyson Bagent",
+      "marketType": "PASSING_YARDS",
+      "side": "UNDER",
+      "line": 216.5,
+      "odds": -114,
+      "oddsUpdatedAt": "2026-10-09T20:44:42.724Z",
+      "kickoffAt": "2026-10-11T17:00:00.000Z",
+      "awayTeamId": "CHI",
+      "homeTeamId": "GB"
+    }
+  ]
+}

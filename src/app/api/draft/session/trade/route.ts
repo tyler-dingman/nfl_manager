@@ -1,7 +1,8 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 import { POST as tradeHub } from '@/app/api/draft/trade-hub/route';
 
-export async function POST(request: Request) {
+async function handlePOST(request: Request) {
   try {
     const body = await request.json();
     return tradeHub(
@@ -21,3 +22,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'Invalid trade request.' }, { status: 400 });
   }
 }
+
+export const POST = withFranchiseRoute(handlePOST, {});

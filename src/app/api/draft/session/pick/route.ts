@@ -1,10 +1,11 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { persistCompletedFranchiseDraft } from '@/server/front-office/draft-lifecycle';
 import { NextResponse } from 'next/server';
 
 import { pickDraftPlayer } from '@/server/api/draft';
 import { getSaveHeaderSnapshot, getSaveStateResult } from '@/server/api/store';
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   const body = (await request.json()) as {
     draftSessionId?: string;
     playerId?: string;
@@ -33,3 +34,5 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

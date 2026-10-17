@@ -12,7 +12,7 @@ test('live player research stays dark across all tabs', async ({ page }) => {
       'aria-selected',
       'true',
     );
-    if (['Game Log', 'Matchup', 'Line Ladder'].includes(tab)) {
+    if (['Game Log', 'Matchup'].includes(tab)) {
       await dialog.locator('canvas').first().waitFor({ state: 'visible' });
       await page.waitForTimeout(450); // Let the existing chart transition finish for the visual audit.
     }

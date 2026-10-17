@@ -1,10 +1,9 @@
-import { normalizeDisplayHeadline } from '../../../../src/lib/display-headline';
-import { PageHeading } from '../../components/page-heading';
+import { ArticleHero } from '../../components/article-hero';
 import { PageScrollView as ScrollView } from '../../components/page-scroll-view';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Linking, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
-import { C, Eyebrow, Heading } from '../../components/screen';
+import { C, Heading } from '../../components/screen';
 import { getBeatStory, type MobileBriefing } from '../../lib/api';
 import { useTeam } from '../../lib/team-context';
 import CrewShareModal from '../../components/crew-share-modal';
@@ -38,10 +37,10 @@ export default function BeatStoryScreen() {
     );
   return (
     <ScrollView style={s.page} contentContainerStyle={s.body}>
-      <PageHeading eyebrow={story.category} title={normalizeDisplayHeadline(story.headline)} />
-      <Text style={s.updated}>
-        Updated {new Date(story.updatedAt).toLocaleString()} · {story.sourceCount} sources
-      </Text>
+      <View style={s.hero}>
+        <ArticleHero story={{ ...story, teamAbbr: story.teamAbbr ?? teamId }} />
+      </View>
+      <Text style={s.label}>THE SHORT VERSION</Text>
       <Text style={s.summary}>{story.summary}</Text>
       {story.whyItMatters ? (
         <View style={s.section}>
@@ -99,16 +98,18 @@ export default function BeatStoryScreen() {
 }
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#F7F4EE' },
-  body: { padding: 20, paddingBottom: 40 },
-  updated: { color: C.muted, fontSize: 12, marginTop: 10 },
-  summary: { fontSize: 18, lineHeight: 27, color: C.ink, marginTop: 24 },
+  body: { paddingHorizontal: 20, paddingBottom: 40 },
+  hero: { marginHorizontal: -20 },
+  summary: { fontSize: 18, lineHeight: 27, color: C.ink, marginTop: 10 },
   section: { backgroundColor: C.white, borderRadius: 16, padding: 18, marginVertical: 22 },
   label: { fontSize: 12, fontWeight: '900', letterSpacing: 1.4, color: C.red, marginTop: 22 },
   copy: { color: C.muted, lineHeight: 23, marginTop: 8 },
-  actions: { flexDirection: 'row', gap: 10, marginTop: 22 },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 16 },
   action: {
     minHeight: 48,
-    flex: 1,
+    flexGrow: 1,
+    flexBasis: 140,
+    padding: 10,
     borderRadius: 14,
     backgroundColor: C.navy,
     alignItems: 'center',

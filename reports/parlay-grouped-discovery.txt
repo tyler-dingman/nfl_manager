@@ -1,0 +1,34 @@
+Unified All Props / Trending Props discovery
+
+Both screens now use the same grouped query, web table/navigation component, and native table/navigation component. The view parameter changes per-selection eligibility only. Existing Home/other screens retain their layouts.
+
+Primary navigation: All Props, Passing, Rushing, Receiving, Touchdowns, Kicking, Defense, Game Specials. Only categories and secondary markets with actual supported available records are offered. Shared data-driven facets keep navigation consistent between views; an empty Trending subset does not invent qualifying records. Unsupported Game Specials/Receiving TD/etc. are not displayed merely because they appear in the configuration.
+
+Groups are keyed by event, player, period and specific market. Anytime TD is distinct from numeric total-touchdown markets. Eligibility, book/odds filters and selection deduplication run before ranking/grouping. Highest-score group ordering uses the highest eligible selection. Standard lines lead; when absent, the best eligible alternate leads with an explicit label. Other standard sides and alternate thresholds expand beneath the lead. Every row preserves exact market ID, sportsbook, line, side, price, score and history. Counts show groups and selections separately; server pagination uses 12 complete groups.
+
+Desktop/mobile web: reusable PropMarketNavigation and PropDiscoveryTable; responsive cards use the same row data/actions, with no wide-table horizontal scroll on small viewports. Primary categories scroll horizontally and the secondary selector stays compact. Native: corresponding React Native components, shared grouping/facets/formatting, existing SectionMenu for secondary navigation. Both expose score help and independent Add actions. Compatible web filters persist through sessionStorage; native screen switches retain current filters. Existing bet-slip persistence remains unchanged.
+
+Trending hero/top-three actions preserved on web; native featured actions use the same endpoint results. No Lab Score model changes, transfer changes, provider generation requests or production writes.
+
+Read-only local verification: Receiving -> Receptions, Trending, Alt Lines enabled, max odds -400 returned 22 eligible selections in 15 groups. First page contained 12 complete groups / 18 selections. Chris Olave's group kept the 6.5 standard line (score 81) as the primary row while ranking by its highest eligible score of 86. Two other sampled groups also retained standard primary lines.
+
+Validation:
+- 38 unit tests passed: grouping/ranking, individual eligibility, alternate-only groups, complete-group pagination, facets, filters, Anytime identity, existing discovery/slip/sportsbook compatibility.
+- 14 Chromium/WebKit browser checks passed: All Props/Trending in KC and SEA themes, desktop/mobile layouts, filter persistence across routes, hero actions, nested exact-line Add actions, counts, pagination, guide access, and existing Home behavior. Includes two native component browser previews.
+- Web and native TypeScript checks passed. Targeted ESLint has no errors; two preexisting warnings remain in the native screen.
+- Final native component screenshot inspected after closing score help; desktop/mobile web screenshots inspected and table text inheritance corrected.
+
+Native browser previews are not Android/iOS device validation. No native device build, live sportsbook transfer or production deployment was performed. Cold server score-snapshot latency is unchanged (local verification approximately 29 seconds). Existing supported full-game/freshness/availability scope remains unchanged.
+
+Key files:
+packages/parlay/market-navigation.ts
+packages/parlay/prop-groups.ts
+packages/parlay/prop-catalog.ts
+src/components/parlay-lab/prop-discovery-table.tsx
+src/components/parlay-lab/dashboard-content.tsx
+src/components/parlay-lab/dashboard.css
+src/components/parlay-lab/ParlayLabHome.tsx
+apps/mobile/components/prop-discovery-table.tsx
+apps/mobile/app/parlay-lab.tsx
+packages/parlay/prop-groups.test.ts
+Tests and fixtures under tests/mobile/{grouped-props,native-grouped-props,all-props,parlay-trending-mix}.

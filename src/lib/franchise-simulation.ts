@@ -24,7 +24,10 @@ export type SimulationGameInput = Pick<
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
-export function normalizeFranchiseSimulationState(value: unknown): FranchiseSimulationState | null {
+export function normalizeFranchiseSimulationState(
+  value: unknown,
+  options?: { allowLegacyRollover?: boolean },
+): FranchiseSimulationState | null {
   let simulation = value;
   for (let pass = 0; pass < 8 && typeof simulation === 'string'; pass += 1) {
     try {
@@ -54,6 +57,7 @@ export function normalizeFranchiseSimulationState(value: unknown): FranchiseSimu
   // Archive them once before exposing the next Week 1; the returned canonical phase
   // makes normalization idempotent even before the next database write.
   if (
+    options?.allowLegacyRollover !== false &&
     ['post-draft', 'preseason', 'season'].includes(candidate.phase ?? '') &&
     candidate.season &&
     (candidate.currentWeek > 0 || candidate.games.some((game) => game.played))
@@ -394,10 +398,7 @@ export function advanceSimulation(
     next.games = next.games.map((game) => {
       if (game.week !== week) return game;
       const simulated = simulateGame(game, next.teams, next.seed);
-      if (
-        !simulated.result &&
-        options.players
-      ) {
+      if (!simulated.result && options.players) {
         simulated.result = createGameSimulationResult({
           game: simulated,
           teams: next.teams,

@@ -1,0 +1,79 @@
+FANDUEL OVER/UNDER VERIFICATION — TARGETED FOLLOW-UP
+
+Result: direction remains unverified. Do not enable automated transfers.
+
+The two explicitly authorized generation requests completed successfully. They returned distinct Unabated offer IDs and distinct generated URLs. Browser navigation exposed different FanDuel selection IDs under the same market, but both destinations then required region selection. No actual selection was displayed. Different identifiers alone do not establish which outcome either identifier represents.
+
+OFFICIAL SCHEMA REVIEW
+
+Fetched the current official schema into unabated-direction-audit/openapi.json. BetslipBet has no direction field; BetMetadata.additionalInfo is optional. Neither actual response includes additionalInfo or an explicit outcome.
+
+No documented direct generated-offer-ID or FanDuel-selection-ID lookup was found. /deeplink consumes odds market-line IDs; it does not independently describe outcomes. No equivalence between these identifier namespaces is assumed.
+
+A useful lead: PopulatedBetOffer includes overUnder, betIndex, identity fields and sourceData. It belongs to the Enterprise-only article-widget response, not Free generation/status. That endpoint analyzes article content; it is not documented as an arbitrary offer-ID resolver. It was not called, and an upgrade is not claimed to guarantee resolution.
+
+The odds snapshot exposes structured sides and line IDs and could support validation with a documented identity mapping. The previously failing props odds endpoint was not retried; no generated-ID crosswalk is established.
+
+Sources:
+https://data.unabated.com/swagger/v1/swagger.json
+https://docs.unabated.com/guides/bet-slips
+
+SELECTED DATABASE PAIR
+
+Player: Tyson Bagent
+Game: Chicago Bears at Green Bay Packers
+Kickoff: 2026-10-11 17:00 UTC (12:00 America/Chicago)
+Market: Passing Yards, full game
+Threshold: 216.5
+Sportsbook: FanDuel
+Over: -114; Under: -114
+Database updates: 2026-10-09T20:44:42.687Z / 2026-10-09T20:44:42.724Z
+
+Selected by a fresh read of local PostgreSQL: upcoming/unlocked event and both prices marked available at exactly the same threshold. Those stored flags are not a live sportsbook availability guarantee. Prices were several hours old; no ingestion or production refresh was performed. Unabated returned the same player, game, line, market and period for both, also priced -114.
+
+IDENTIFIER COMPARISON
+
+Requested | Generated offer ID | FanDuel market ID | FanDuel selection ID
+Over      | 21131512287        | 42.614012672      | 61940970
+Under     | 21131512290        | 42.614012672      | 61940969
+
+Generated URLs differ; exact returned URLs are retained in local comparison.json and pilot-results.json, not published as verified transfer links. The sportsbook IDs above were observed in the normal browser redirect/visible Continue-to-sportsbook URL, not fetched from private endpoints. The request label in this table is not an independently proven mapping.
+
+BROWSER EVIDENCE
+
+Opened the Over and Under URLs separately in Chrome. Both landed at:
+https://sportsbook.fanduel.com/select-region
+
+Displayed: “Please select your location” / “from the states below”.
+No player, game, prop market, threshold or direction was displayed in a FanDuel slip. All five requested sportsbook checks remain unverified. This run encountered a region-selection barrier; it did not establish whether login or geolocation would also be required afterward. No region was guessed, location permission granted, login bypassed or wager placed.
+
+Evidence files, relative to reports/:
+unabated-direction-audit/over-browser.jpg
+unabated-direction-audit/under-browser.jpg
+unabated-direction-audit/over-browser.txt
+unabated-direction-audit/under-browser.txt
+unabated-direction-audit/comparison.json
+unabated-direction-audit/pilot-results.json
+unabated-direction-audit/sample.json
+
+AUTOMATION FEASIBILITY
+
+The reviewed Free API cannot currently provide the required independent direction verification. Browser inspection is a possible validation method only when the actual sportsbook slip is visible after the user legitimately completes the required region/login/location flow. It was not proven in this environment, and manual confirmation of this pair would not validate every future dynamically generated selection.
+
+A safe scalable implementation needs an authorized, documented structured response binding the actual linked selection to player, event, period, market, direction, threshold, sportsbook and region, plus current availability. Returning overUnder directly on generated selections, or an authenticated documented resolver with a proven ID crosswalk, would make this testable. An Enterprise article-widget response is a lead to discuss with Unabated, not an implemented or verified workaround.
+
+No private sportsbook endpoints, hidden application state, authentication bypasses or location workarounds were used. The browser was used only for ordinary link navigation and visible page inspection.
+
+RECOMMENDATION
+
+Continue only integration development that does not enable transfers. Ask Unabated whether Free generation can expose PopulatedBetOffer.overUnder (or equivalent) on each BetslipBet, and how its offer ID maps to the returned sportsbook selection. Request supported-region and availability metadata as well. Do not send SportsGameOdds IDs to undocumented resolver paths.
+
+To finish the manual test, the user must establish the legitimate FanDuel region/session, then reopen both original generated links while still available. Verify all displayed attributes independently and capture the slips without entering a stake or placing a wager. Complete-parlay verification remains a separate requirement; this task did not expand coverage or submit parlays.
+
+OPERATIONS AND VALIDATION
+
+Exactly two generation submissions, nine status polls, eleven authenticated API calls. Over completed in 10.829 seconds; Under in 8.583 seconds. Both returned HTTP 200 / Complete and 1 requested, 1 matched. No retries or additional generations. Current quota remains unknown; this pair was separately authorized by the latest request.
+
+SportsGameOdds remains active locally with ODDS_PROVIDER=sportsgameodds. ENABLE_FANDUEL_BETSLIP=false and ENABLE_UNABATED_INGESTION=false were preserved. Production data/configuration, existing odds, scoring and UI were untouched. Only diagnostic scripts and local evidence/report files were added. No credentials appear in reports.
+
+Scripts: prepare-unabated-direction-audit.ts (read-only local selection), pilot-unabated-direction-audit.mjs (two-submission cap, checkpoints, bounded polling, skips recorded submissions). Do not delete recorded results and rerun without a new intentional test authorization.

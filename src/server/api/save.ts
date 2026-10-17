@@ -1,3 +1,4 @@
+import { franchiseWorkspace, isolatedMap } from '@/server/front-office/runtime-context';
 import { randomUUID } from 'crypto';
 
 import type { SaveHeaderDTO } from '@/types/save';
@@ -10,7 +11,7 @@ import {
   type SaveResult,
 } from './store';
 
-const teamSaveIndex = new Map<string, string>();
+const teamSaveIndex = isolatedMap('teamIndex', new Map<string, string>());
 
 const normalizeTeamAbbr = (teamId?: string, teamAbbr?: string): string | null => {
   if (teamAbbr) {
@@ -31,7 +32,7 @@ export const ensureSave = (
 ): { saveId: string; header: SaveHeaderDTO } => {
   const normalizedTeam = normalizeTeamAbbr(teamId, teamAbbr);
   if (!normalizedTeam) {
-    const saveId = randomUUID();
+    const saveId = franchiseWorkspace.getStore()?.saveId ?? randomUUID();
     const state = createSaveState(saveId, 'GB', year);
     return { saveId, header: getSaveHeaderSnapshot(state) };
   }
@@ -44,7 +45,7 @@ export const ensureSave = (
     }
   }
 
-  const saveId = randomUUID();
+  const saveId = franchiseWorkspace.getStore()?.saveId ?? randomUUID();
   const state = createSaveState(saveId, normalizedTeam, year);
   teamSaveIndex.set(normalizedTeam, saveId);
   return { saveId, header: getSaveHeaderSnapshot(state) };
@@ -52,7 +53,7 @@ export const ensureSave = (
 
 export const createSave = (teamAbbr: string, year?: number): SaveHeaderDTO => {
   const normalizedTeam = normalizeTeamAbbr(undefined, teamAbbr) ?? teamAbbr;
-  const saveId = randomUUID();
+  const saveId = franchiseWorkspace.getStore()?.saveId ?? randomUUID();
   const state = createSaveState(saveId, normalizedTeam, year);
   teamSaveIndex.set(normalizedTeam, saveId);
   return getSaveHeaderSnapshot(state);

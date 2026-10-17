@@ -1,0 +1,93 @@
+Parlay Lab props loading optimization
+
+Implemented:
+- A private, coalesced catalog snapshot replaces cloning the complete enriched
+  catalog on every API request. Only requested page JSON is serialized.
+- Bounded cache of 32 serialized query responses per snapshot. Rebuilding the
+  snapshot invalidates the page cache. Crossing an event kickoff invalidates it
+  immediately, so a cached page cannot retain games after their kickoff.
+- Snapshot is fresh for 60 seconds. Between 60 and 120 seconds it serves the last
+  completed result and starts one background refresh. At 120 seconds it must wait
+  for refresh. Failures do not extend snapshot age; background retries back off.
+- Cold builds reuse player/log/price indexes and team/stat game-script context.
+  Scoring formulas, inputs, eligibility and selection identities are unchanged.
+- Web and native keep previous rows visible during requests instead of clearing
+  the table. Updating copy identifies previous results; errors preserve those rows.
+- No artificial delay for non-search filter changes. Search retains its debounce.
+- Native discovery uses events already returned by the props endpoint instead
+  of waiting for a redundant events request.
+
+Local API measurements (development server, stored database data):
+Before: first request 24.64s; immediate repeat 2.14s.
+After: cold rebuild observed 19.28s (another cold/HMR request 22.60s).
+After, same running snapshot:
+  First benchmark request: 0.226s
+  Exact repeat:           0.099s
+  New Passing filter:     0.232s
+  Page 2:                 0.147s
+These are endpoint timings, not complete page navigation or production guarantees.
+
+Validation:
+- 41 unit/regression tests passed: refresh coalescing, stale refresh, hard expiry,
+  failure backoff, catalog/grouping, score model safeguards and market identity.
+- 10 Chromium/WebKit browser checks passed, including slow and failed filter
+  requests keeping previous rows, breadcrumb/history, nested selections, KC/SEA
+  themes and native React Native Web component previews.
+- Web and native TypeScript checks passed.
+- Targeted lint: no errors; two existing native screen warnings.
+- git diff --check passed.
+
+Limitations:
+Cache is process-local. First load after startup/cache loss or hard expiry still
+waits for a full scored build. No production deployment or odds provider API calls
+were performed. Android/iOS device execution and native network-loading behavior
+were not device-tested; native checks were TypeScript and browser component previews.
+
+Changed application files:
+src/server/cache/refreshing-snapshot.ts (new)
+src/server/odds/prop-catalog.ts
+src/app/api/parlay-lab/props/route.ts
+src/server/historical-stats/trending-props-service.ts
+src/server/historical-stats/role-repository.ts (array input typing only)
+src/components/parlay-lab/dashboard-content.tsx
+apps/mobile/app/parlay-lab.tsx
+
+Tests:
+src/server/cache/refreshing-snapshot.test.ts (new)
+tests/mobile/prop-breadcrumbs.spec.ts
+
+Follow-up — cold-load correction (2026-10-11)
+The prior optimization did NOT remove the cold request bottleneck. The home
+screen also used a separate all-games research endpoint, bypassing the catalog.
+
+Both endpoints now share a progressive, coalesced build. The first game is loaded
+first, then remaining games in bounded batches. Initial callers receive scored
+props from completed games immediately. Web and native poll partial responses
+until complete, display game-loading progress, and retain previous rows.
+Completed snapshots remain intact during a background refresh. Direct-link
+market validation does not clear selections based on incomplete facets.
+Partial research responses bypass the 60-second client result cache, while
+concurrent reads still coalesce. Polling stops on completion/error/unmount.
+
+Cold API measurement after the correction:
+- Home research: 2.207s, 472 scored offers returned, 1 of 14 games loaded.
+- All Props immediately reused that build: 0.068s, 28 selections on page 1.
+These measure first usable API results, not time until every game is loaded.
+Rows and rankings can update as additional games arrive; the UI states this.
+
+Additional CPU optimization reuses the already-calculated selected-side trend
+and scores indexed player history after team-wide opportunity evidence has been
+prepared. Equivalence tests cover Over and Under against the original full-team
+calculation. No score formula or eligibility rules changed.
+
+Validation:
+43 unit tests passed across progressive cache lifecycle, partial request cache,
+score equivalence/model safeguards, catalog, grouping and market identity.
+10 browser/component checks passed across Chromium/WebKit (one timed-out check
+passed when rerun independently). Tests verify initial rows are usable during
+partial loading, automatic completion, slow/failed updates, filters and slip
+identity. Web/native TypeScript passed; lint has only existing native warnings.
+
+Authenticated live browser timing remains unverified: the isolated test browser
+redirected to sign-in. Native loading was implemented in React Native but has
+not been validated on an Android/iOS device. Production remains unchanged.

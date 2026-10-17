@@ -1,3 +1,4 @@
+import { franchiseWorkspace } from '@/server/front-office/runtime-context';
 import {
   executeMockTrade,
   mockTradeAssets,
@@ -90,6 +91,8 @@ export const restoreDraftSession = (
   session: DraftSessionDTO,
   saveSnapshot?: DraftSaveSnapshot,
 ): DraftSessionDTO => {
+  if (franchiseWorkspace.getStore())
+    throw new Error('Client draft snapshots require explicit legacy reconciliation.');
   const state = saveSnapshot
     ? restoreSaveState(saveId, {
         teamAbbr: saveSnapshot.teamAbbr,
@@ -383,12 +386,17 @@ const finalizeDraftSession = (
     return;
   }
 
-  const userSelections = session.picks
-    .filter((pick) => pick.selectedByTeamAbbr === session.userTeamAbbr && pick.selectedPlayerId)
-    .map((pick) => session.prospects.find((player) => player.id === pick.selectedPlayerId))
-    .filter((player): player is PlayerRowDTO => Boolean(player));
-
-  addDraftedPlayersInState(state, userSelections);
+  for (const team of new Set(
+    session.picks
+      .map((pick) => pick.selectedByTeamAbbr)
+      .filter((team): team is string => Boolean(team)),
+  )) {
+    const selections = session.picks
+      .filter((pick) => pick.selectedByTeamAbbr === team && pick.selectedPlayerId)
+      .map((pick) => session.prospects.find((player) => player.id === pick.selectedPlayerId))
+      .filter((player): player is PlayerRowDTO => Boolean(player));
+    addDraftedPlayersInState(state, selections, team, session.draftYear);
+  }
   session.status = 'completed';
   session.finalized = true;
 };

@@ -133,7 +133,7 @@ export default function GameByGameTrendChart({
         ariaLabel={`${marketLabel} game-by-game results against today's line`}
       />
       {ranked && (
-        <>
+        <div className={styles.defenseCard}>
           <p className={styles.defenseStripLabel}>Opponent defense rank</p>
           <div className={styles.defenseStripRow}>
             <div
@@ -161,7 +161,7 @@ export default function GameByGameTrendChart({
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </>
   );

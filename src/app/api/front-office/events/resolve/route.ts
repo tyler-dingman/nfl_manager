@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -15,7 +16,7 @@ const schema = z.object({
   resolution: z.enum(['signed', 'invalidated']),
 });
 
-export async function POST(request: NextRequest) {
+async function handlePOST(request: NextRequest) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   const input = schema.parse(await request.json());
@@ -40,3 +41,5 @@ export async function POST(request: NextRequest) {
   }
   return NextResponse.json({ ok: true, events });
 }
+
+export const POST = withFranchiseRoute(handlePOST, {});

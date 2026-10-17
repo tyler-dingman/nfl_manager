@@ -59,7 +59,6 @@ export default function Home() {
           </View>
         ) : null}
         <HomeAiSearch key={teamId} />
-        <Pressable accessibilityRole="button" onPress={() => router.push(`/huddle?team=${teamId}` as never)} style={{ padding: 18, marginVertical: 16, backgroundColor: '#061a22', borderRadius: 12 }}><Text style={{ color: 'white', fontWeight: '700' }}>THE HUDDLE · Join your team’s conversation →</Text></Pressable>
         <Text
           style={{
             color: theme.primary,

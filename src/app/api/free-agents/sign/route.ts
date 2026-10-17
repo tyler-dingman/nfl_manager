@@ -1,10 +1,11 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { NextResponse } from 'next/server';
 
 import { signFreeAgent } from '@/server/api/players';
 import { getSaveStateResult, hydrateOffseasonFreeAgencyState } from '@/server/api/store';
 
-export const POST = async (request: Request) => {
+const handlePOST = async (request: Request) => {
   try {
     const body = (await request.json()) as {
       saveId?: string;
@@ -23,9 +24,11 @@ export const POST = async (request: Request) => {
     await hydrateOffseasonFreeAgencyState(stateResult.data);
     const result = signFreeAgent(body.saveId, body.playerId);
     const events = await refreshFranchiseHeroAfterAction(request, body.saveId);
-    return NextResponse.json({...result, events});
+    return NextResponse.json({ ...result, events });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to sign free agent.';
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

@@ -1,3 +1,7 @@
+import {
+  bettingOpportunityRank,
+  isTrendingEligible,
+} from '../../../packages/parlay/trending-selection';
 export type ResearchIntent = {
   legCount: number;
   teams: string[];
@@ -75,6 +79,8 @@ export type ResearchCandidate = {
   deeplink: string | null;
   trend?: {
     trendScore: number;
+    projection?: import('../../../src/server/historical-stats/lab-score-v2').LabScoreV2;
+    scoreVersion?: 'legacy' | 'v2';
     sampleConfidence: string;
     last10: { games: number; hits: number };
   } | null;
@@ -97,13 +103,14 @@ export function generateResearchSlip(candidates: ResearchCandidate[], intent: Re
     )
       return false;
     if (intent.plusMoney && (market.odds === null || market.odds <= 0)) return false;
+    if (market.trend?.scoreVersion === 'v2' && !isTrendingEligible(market)) return false;
     if (historyAvailable && (!market.trend || market.trend.trendScore < 45)) return false;
     if (intent.confidence === 'high' && market.trend?.sampleConfidence === 'LOW') return false;
     return true;
   });
   const unique = new Map<string, ResearchCandidate>();
   for (const market of filtered.sort((a, b) => {
-    const trendDifference = (b.trend?.trendScore ?? 0) - (a.trend?.trendScore ?? 0);
+    const trendDifference = bettingOpportunityRank(b) - bettingOpportunityRank(a);
     if (trendDifference) return trendDifference;
     if (intent.confidence === 'high') return (a.line ?? 0) - (b.line ?? 0);
     return Math.abs((a.odds ?? 0) + 105) - Math.abs((b.odds ?? 0) + 105);

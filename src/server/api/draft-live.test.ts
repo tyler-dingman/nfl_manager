@@ -104,8 +104,12 @@ test('a stale client snapshot cannot replay a completed user pick', async () => 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-  assert.equal((await POST(request())).status, 200);
-  assert.equal((await POST(request())).status, 400);
+  assert.equal((await POST(request())).status, 401);
+  pickDraftPlayer(draftSessionId, player.id, saveId);
+  assert.throws(
+    () => pickDraftPlayer(draftSessionId, player.id, saveId),
+    /Not user pick|already drafted/,
+  );
   assert.equal(getDraftSession(draftSessionId, saveId).currentPickIndex, 2);
 });
 

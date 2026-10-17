@@ -1,8 +1,9 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextResponse } from 'next/server';
 
 import { getSaveStateResult } from '@/server/api/store';
 
-export const GET = async (request: Request) => {
+const handleGET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const saveId = searchParams.get('saveId');
   if (!saveId) {
@@ -16,3 +17,5 @@ export const GET = async (request: Request) => {
 
   return NextResponse.json({ ok: true, items: stateResult.data.newsFeed ?? [] });
 };
+
+export const GET = withFranchiseRoute(handleGET, { reference: true });

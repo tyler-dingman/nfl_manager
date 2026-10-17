@@ -1,4 +1,5 @@
 'use client';
+import { accountParlays, mergeSavedParlays } from '../../../packages/parlay/account-saves';
 import headingStyles from './panel-heading.module.css';
 import { Trophy, FlaskConical, CircleX, ExternalLink, Plus, RefreshCw } from 'lucide-react';
 
@@ -115,7 +116,13 @@ export default function MyPlaysPage() {
           ? []
           : currentSelections,
       );
-      void refreshResults(history);
+      void accountParlays(fetch)
+        .then((account) => {
+          const merged = mergeSavedParlays(history, account);
+          setPlays(merged);
+          void refreshResults(merged);
+        })
+        .catch(() => void refreshResults(history));
     } catch {
       setPlays([]);
     }

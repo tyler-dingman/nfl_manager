@@ -7,9 +7,8 @@ import { DashboardShell } from './dashboard-shell';
 import { useParlayTeam } from './use-parlay-team';
 import MyParlayPanel from './MyParlayPanel';
 import PlayerAvatar from './PlayerAvatar';
-import { buildSportsbookLink } from './ParlayLabPage';
 import type { HomeMarket } from './ParlayLabHome';
-import { snapshotSavedPlay, type SavedEvent } from './saved-plays';
+import { type SavedEvent } from './saved-plays';
 import { estimateParlayOdds } from './parlay-odds';
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';
 import { sportsbookName } from '@/server/odds/sportsbooks';
@@ -153,20 +152,6 @@ export function AltStackGeneratorShell() {
     used.current.push(altKey(replacement));
     updateStack(stack.map((m, i) => (i === index ? replacement : m)));
     setMessage('Leg swapped. Combined odds updated.');
-  }
-  function save() {
-    const stored = JSON.parse(localStorage.getItem('down-distance-parlay-lab-slips') ?? '[]');
-    const eventIds = new Set(slip.map((m) => m.eventId));
-    const saved = snapshotSavedPlay({
-      id: `alt-stack-${crypto.randomUUID()}`,
-      selections: slip,
-      event: eventIds.size === 1 ? events.find((e) => e.id === slip[0]?.eventId) : null,
-    });
-    localStorage.setItem(
-      'down-distance-parlay-lab-slips',
-      JSON.stringify([saved, ...(Array.isArray(stored) ? stored : [])].slice(0, 20)),
-    );
-    setMessage('Saved to My Parlays.');
   }
   return (
     <DashboardShell team={team}>
@@ -470,6 +455,7 @@ export function AltStackGeneratorShell() {
         </main>
         <ResponsiveRail stackAt={900} className="lab-right-rail">
           <MyParlayPanel
+            events={events}
             legs={slip}
             markets={pool}
             matchup="NFL"
@@ -480,16 +466,11 @@ export function AltStackGeneratorShell() {
               setSlip([]);
               setStack([]);
             }}
-            onSave={save}
             onResearch={(m) => {
               if (m.eventId)
                 router.push(`/parlay-lab/game/${encodeURIComponent(m.eventId)}/markets${suffix}`);
             }}
-            buildBookLink={buildSportsbookLink}
           />
-          <Link href={`/parlay-lab/my-plays${suffix}`} className={styles.back}>
-            View My Parlays →
-          </Link>
         </ResponsiveRail>
       </div>
     </DashboardShell>

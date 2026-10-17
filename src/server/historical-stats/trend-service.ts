@@ -1,6 +1,8 @@
+import { recentMatchupEvidence } from './matchup-evidence';
 import { calculateResearchScore, type ScoreContext } from './research-score';
 import { didHit, resolveHistoricalStat } from './stat-resolver';
 import type { HistoricalPlayerGame, HistoricalStatType } from './types';
+import { calculateLabScoreV2 } from './lab-score-v2';
 
 type WindowResult = { games: number; hits: number; hitRate: number | null };
 const rounded = (value: number) => Math.round(value * 10) / 10;
@@ -38,7 +40,12 @@ export type PlayerTrendInput = ScoreContext & {
 
 export function calculatePlayerPropTrend(games: HistoricalPlayerGame[], input: PlayerTrendInput) {
   const rows = games
-    .filter((g) => g.playerId === input.playerId)
+    .filter(
+      (g) =>
+        g.playerId === input.playerId &&
+        Date.parse(g.kickoffAt ?? g.date) <
+          Date.parse(input.projectionContext?.asOf ?? new Date().toISOString()),
+    )
     .map((game) => ({ game, value: resolveHistoricalStat(game, input.statType) }))
     .filter((row): row is { game: HistoricalPlayerGame; value: number } => row.value !== null)
     .sort((a, b) => new Date(b.game.date).getTime() - new Date(a.game.date).getTime());
@@ -86,7 +93,28 @@ export function calculatePlayerPropTrend(games: HistoricalPlayerGame[], input: P
     consistencyScore = consistency(last10Values, input.line),
     sampleConfidence = values.length >= 10 ? 'HIGH' : values.length >= 5 ? 'MEDIUM' : 'LOW';
   const researchScore = calculateResearchScore(games, input);
-  const trendScore = researchScore.score;
+  const asOf = input.projectionContext?.asOf ?? new Date().toISOString();
+  const recentMatchup = recentMatchupEvidence(input.opponentLogs ?? [], input.statType, asOf);
+  const rankSignal = researchScore.matchup.productionSignal;
+  const matchupSignal = recentMatchup
+    ? rankSignal == null
+      ? recentMatchup.signal
+      : 0.6 * recentMatchup.signal + 0.4 * rankSignal
+    : rankSignal;
+  const projection = calculateLabScoreV2(games, {
+    asOf,
+    ...input.projectionContext,
+    playerId: input.playerId,
+    statType: input.statType,
+    line: input.line,
+    side: input.side,
+    spread: input.spread ?? input.projectionContext?.spread,
+    matchupSignal: input.projectionContext?.matchupSignal ?? matchupSignal,
+    matchupReliability: input.projectionContext?.matchupReliability ?? (recentMatchup ? 0.9 : 0.5),
+  });
+  // Public scores use current opportunity. Legacy is only an explicit audit/test comparison.
+  const scoreVersion = input.scoreVersion ?? 'v2';
+  const trendScore = scoreVersion === 'v2' ? projection.score : researchScore.score;
   return {
     last5,
     last10,
@@ -108,6 +136,8 @@ export function calculatePlayerPropTrend(games: HistoricalPlayerGame[], input: P
     consistencyScore,
     trendScore,
     researchScore,
+    projection,
+    scoreVersion,
     sampleConfidence,
     vsOpponentConfidence:
       opponentRows.length >= 5 ? 'HIGH' : opponentRows.length >= 2 ? 'MEDIUM' : 'LOW',

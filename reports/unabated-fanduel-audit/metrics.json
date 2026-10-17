@@ -1,0 +1,13 @@
+{
+  "submissions": 10,
+  "statusPolls": 45,
+  "requests": 55,
+  "averageSeconds": 9.6081,
+  "medianSeconds": 8.753,
+  "p95SecondsNearestRank": 12.683,
+  "providerReportedMatches": 10,
+  "unverifiedCandidates": 10,
+  "verifiedMatches": 0,
+  "errors": 0,
+  "timeouts": 0
+}

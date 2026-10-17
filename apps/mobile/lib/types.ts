@@ -20,6 +20,9 @@ export type Story = {
 };
 export type ThreePackage = { current: { teamId: string; teamName: string; stories: Story[] } };
 export type Briefing = {
+  teamAbbr?: string;
+  graphicDecision?: import('../../../src/components/beat/beat-story-adapter').BeatGraphicDecision;
+  game?: import('../../../src/lib/canonical-game').BeatGameMetadata;
   id: string;
   headline: string;
   summary: string;

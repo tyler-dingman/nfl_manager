@@ -1,3 +1,7 @@
+import {
+  bettingOpportunityRank,
+  isTrendingEligible,
+} from '../../../packages/parlay/trending-selection';
 import { TEAM_LIST } from '../../data/teams';
 import { parseResearchPrompt, type ResearchCandidate } from './research';
 import { americanToDecimal, estimateParlayOdds } from '../../components/parlay-lab/parlay-odds';
@@ -185,6 +189,7 @@ export function generateConstrainedParlay<T extends GeneratorCandidate>(
     const score = m.trend?.trendScore;
     return (
       m.available &&
+      (m.trend?.scoreVersion !== 'v2' || isTrendingEligible(m)) &&
       game &&
       m.period === 'game' &&
       m.playerName &&
@@ -214,7 +219,7 @@ export function generateConstrainedParlay<T extends GeneratorCandidate>(
       (!rules.conservative || m.trend!.last10.games >= 5)
     );
   });
-  const rank = (m: T) => m.trend!.trendScore;
+  const rank = (m: T) => bettingOpportunityRank(m);
   const dedup = new Map<string, T>();
   for (const m of eligible.sort((a, b) => rank(b) - rank(a))) {
     const key = `${m.sportsbook}:${m.eventId}:${m.playerId}:${m.marketType}:${m.side}:${m.line}`;

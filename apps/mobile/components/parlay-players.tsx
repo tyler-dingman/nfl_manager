@@ -1,3 +1,5 @@
+import { labScoreColor } from '../../../packages/parlay/lab-score-config';
+import { LabScoreHelp } from './lab-score-help';
 import { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -19,9 +21,13 @@ import { SectionMenu } from './section-menu';
 import { authenticatedFetch } from '../lib/auth';
 import type { ParlayMarket } from '../lib/parlay';
 export function ParlayPlayers({
+  mode = 'players',
+  initialTeam = 'KC',
   markets,
   onOpen,
 }: {
+  mode?: 'players' | 'teams';
+  initialTeam?: string;
   markets: ParlayMarket[];
   onOpen: (market: ParlayMarket) => void;
 }) {
@@ -29,7 +35,7 @@ export function ParlayPlayers({
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
-  const [team, setTeam] = useState('ALL');
+  const [team, setTeam] = useState(mode === 'teams' ? initialTeam : 'ALL');
   const [position, setPosition] = useState('ALL');
   const [limit, setLimit] = useState(25);
   useEffect(() => {
@@ -61,7 +67,7 @@ export function ParlayPlayers({
   );
   return (
     <View>
-      <Text style={s.heading}>PLAYER RESEARCH</Text>
+      <Text style={s.heading}>{mode === 'teams' ? 'TEAMS' : 'PLAYER RESEARCH'}</Text>
       <Text style={s.copy}>Compare current props, recent performance, and Lab Scores.</Text>
       {loading && <ActivityIndicator color="white" />}
       {!!error && <Text style={s.copy}>{error}</Text>}
@@ -80,7 +86,12 @@ export function ParlayPlayers({
           ...TEAM_LIST.map((t) => ({
             label: t.name,
             selected: team === t.abbr,
-            onPress: () => setTeam(t.abbr),
+            onPress: () => {
+              setTeam(t.abbr);
+              setQuery('');
+              setPosition('ALL');
+              setLimit(25);
+            },
           })),
         ]}
       />
@@ -95,7 +106,12 @@ export function ParlayPlayers({
       {filtered.slice(0, limit).map((p) => {
         const status = playerStatus(p);
         return (
-          <Pressable key={p.id} style={s.card} onPress={() => onOpen(p.market)}>
+          <Pressable
+            key={p.id}
+            style={s.card}
+            disabled={!p.market}
+            onPress={() => p.market && onOpen(p.market)}
+          >
             <View style={s.row}>
               {p.headshotUrl && <Image source={{ uri: p.headshotUrl }} style={s.image} />}
               <View style={{ flex: 1 }}>
@@ -104,7 +120,15 @@ export function ParlayPlayers({
                   {p.teamAbbr} · {p.position}
                 </Text>
               </View>
-              <Text style={s.score}>{p.score == null ? '—' : Math.round(p.score)}</Text>
+              <View>
+                <View style={s.row}>
+                  <Text style={s.copy}>Lab Score</Text>
+                  <LabScoreHelp />
+                </View>
+                <Text style={[s.score, { color: labScoreColor(p.score) }]}>
+                  {p.score == null ? '—' : Math.round(p.score)}
+                </Text>
+              </View>
             </View>
             {status && <Text style={s.name}>{status.label}</Text>}
             <Text style={s.copy}>
@@ -114,7 +138,7 @@ export function ParlayPlayers({
               Hit rate {p.hitRate == null ? '—' : `${Math.round(p.hitRate)}%`} · Recent{' '}
               {p.recentRate == null ? '—' : `${Math.round(p.recentRate)}%`}
             </Text>
-            <Text style={s.name}>View research →</Text>
+            <Text style={s.name}>{p.market ? 'View research →' : 'No current props'}</Text>
           </Pressable>
         );
       })}

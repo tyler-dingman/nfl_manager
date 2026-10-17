@@ -1,4 +1,6 @@
-// Display tiers, not probabilities. The underlying weighted trend formula is unchanged.
+import { LAB_SCORE_CONFIG } from '../../../packages/parlay/lab-score-config';
+import type { LabScoreV2 } from '@/server/historical-stats/lab-score-v2';
+// Display tiers, not probabilities. Legacy tiers remain during the shadow rollout.
 export const LAB_SCORE_TIERS = [
   {
     min: 90,
@@ -20,11 +22,16 @@ export const LAB_SCORE_TIERS = [
     description: 'Limited trend alignment.',
   },
 ] as const;
-export const labScoreTier = (score: number) =>
-  LAB_SCORE_TIERS.find((tier) => score >= tier.min) ?? LAB_SCORE_TIERS[3];
-export const LAB_SCORE_EXPLANATION =
-  'Lab Score measures research-signal alignment, not win probability or betting value. Recent history and line cushion are moderated by consistency and sample size. Matchup, usage and stored game-script context are evaluated for the selected Over or Under. Unknown context has no adjustment. Known alternate lines use the same-book main threshold for scoring, while displayed hit rates still describe the selected line.';
+export const labScoreTier = (score: number, version?: string) =>
+  (version === 'legacy' ? LAB_SCORE_TIERS : LAB_SCORE_CONFIG.bands).find(
+    (tier) => score >= tier.min,
+  ) ?? LAB_SCORE_TIERS[3];
+export const LAB_SCORE_V2_EXPLANATION =
+  'Lab Score 2.0 combines projection edge (25%), recent performance (25%), matchup (20%), opportunity (15%), consistency (10%), and game environment (5%). Missing optional inputs are reweighted; evidence quality moderates confidence. Lab Score is not a win probability. Trending also evaluates offered odds and estimated betting value.';
+export const LAB_SCORE_EXPLANATION = LAB_SCORE_V2_EXPLANATION;
 type Trend = {
+  projection?: LabScoreV2;
+  scoreVersion?: 'legacy' | 'v2';
   streakType: string | null;
   streakLength: number;
   last10: { hits: number; games: number };
@@ -32,6 +39,17 @@ type Trend = {
 };
 export function trendReason(market: { trend?: Trend | null; line: number | null; side: string }) {
   const t = market.trend;
+  if (t?.scoreVersion === 'v2' && t.projection) {
+    const p = t.projection;
+    return {
+      title:
+        p.projection == null
+          ? 'Projection unavailable'
+          : `${p.projection} projected · ${p.recommendation ?? 'No edge'}`,
+      detail: `Role confidence ${p.roleConfidence.toLowerCase()} · ${p.reasons[0] ?? 'Limited evidence'}`,
+      streak: false,
+    };
+  }
   if (!t || t.last10.games < 5)
     return {
       title: 'Insufficient history',
@@ -57,36 +75,7 @@ export function trendReason(market: { trend?: Trend | null; line: number | null;
         : `${margin >= 0 ? '+' : ''}${Number(margin.toFixed(1))} avg ${under ? 'below' : 'over'} line · L10`,
   };
 }
-export function representativeTrends<
-  T extends {
-    eventId?: string;
-    playerId?: string | null;
-    marketType: string;
-    period?: string;
-    side: string;
-    lineType?: string;
-    trend?: { trendScore: number } | null;
-  },
->(markets: T[]) {
-  const groups = new Map<string, T>();
-  for (const market of markets) {
-    const key = [
-      market.eventId,
-      market.playerId,
-      market.marketType,
-      market.period,
-      market.side,
-    ].join('|');
-    const old = groups.get(key);
-    if (!old) {
-      groups.set(key, market);
-      continue;
-    }
-    const value = (m: T) => (m.trend?.trendScore ?? -1) + (m.lineType === 'main' ? 5 : 0);
-    if (value(market) > value(old)) groups.set(key, market);
-  }
-  return [...groups.values()];
-}
+export { representativeTrends } from '../../../packages/parlay/trending-selection';
 
 /** Compact wording for table rows; detailed reasons remain in research. */
 export function compactTrendReason(market: {
@@ -95,6 +84,7 @@ export function compactTrendReason(market: {
   side: string;
 }) {
   const reason = trendReason(market);
+  if (market.trend?.scoreVersion === 'v2') return reason.title;
   const trend = market.trend;
   if (!trend || trend.last10.games < 5) return 'Insufficient history';
   const title = reason.streak

@@ -1,10 +1,11 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { tradeDeadlineResponse } from '@/server/front-office/trade-window';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { proposeTrade } from '@/server/api/trades';
 
-export const POST = async (request: NextRequest, { params }: { params: { id: string } }) => {
+const handlePOST = async (request: NextRequest, { params }: { params: { id: string } }) => {
   try {
     const body = (await request.json()) as { saveId?: string };
     if (!body.saveId) {
@@ -19,9 +20,11 @@ export const POST = async (request: NextRequest, { params }: { params: { id: str
     }
 
     const events = await refreshFranchiseHeroAfterAction(request, body.saveId);
-    return NextResponse.json({...result.data, events});
+    return NextResponse.json({ ...result.data, events });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to propose trade';
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

@@ -1,4 +1,8 @@
 'use client';
+import { useDiscoveryPreferences } from './use-discovery-preferences';
+import { DiscoveryControls } from './discovery-controls';
+import { selectDiscoveryMarkets } from '../../../packages/parlay/discovery-selection';
+import { getDiscoveryResearch } from './research-request';
 
 import { PlayerTableHeader } from '@/components/players/responsive-player-table';
 import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
@@ -39,6 +43,8 @@ type Event = {
 type ResearchMarket = Market & {
   eventId?: string;
   trend?: {
+    projection?: import('@/server/historical-stats/lab-score-v2').LabScoreV2;
+    scoreVersion?: 'legacy' | 'v2';
     last10: { games: number; hits: number; hitRate: number | null };
     vsOpponent: { games: number; hits: number };
     average: number | null;
@@ -70,6 +76,7 @@ const selection = (market: ResearchMarket) =>
 const odds = (value: number | null) => (value === null ? '—' : `${value > 0 ? '+' : ''}${value}`);
 
 export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
+  const discovery = useDiscoveryPreferences();
   const brandingTeam = useParlayTeam();
   const [events, setEvents] = useState<Event[]>([]);
   const [markets, setMarkets] = useState<ResearchMarket[]>([]);
@@ -93,15 +100,18 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
       setLoading(false);
       return;
     }
+    if (!discovery.ready) return;
     const controller = new AbortController();
     setLoading(true);
-    void fetch(`/api/parlay-lab/research?eventId=${encodeURIComponent(gameId)}`, {
-      signal: controller.signal,
-    })
-      .then((response) => response.json())
-      .then((body) => setMarkets(body.markets ?? []))
+    void getDiscoveryResearch(
+      `/api/parlay-lab/research?eventId=${encodeURIComponent(gameId)}&lineMode=${discovery.altLines ? 'alternate' : 'standard'}`,
+    )
+      .then((body) => {
+        if (!controller.signal.aborted) setMarkets(body.markets);
+      })
       .catch((error: unknown) => {
-        if ((error as { name?: string } | null)?.name === 'AbortError') return;
+        if (controller.signal.aborted || (error as { name?: string } | null)?.name === 'AbortError')
+          return;
         console.error('[parlay-lab] failed to load research markets', error);
         setMarkets([]);
       })
@@ -109,8 +119,8 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
         if (!controller.signal.aborted) setLoading(false);
       });
     return () => controller.abort();
-  }, [gameId, mode]);
-  useEffect(() => setPage(1), [gameId, mode]);
+  }, [gameId, mode, discovery.ready, discovery.altLines]);
+  useEffect(() => setPage(1), [gameId, mode, discovery.altLines, discovery.maxOdds]);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setGameId(params.get('game') ?? 'ALL');
@@ -147,7 +157,11 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
   const eventById = useMemo(() => new Map(events.map((event) => [event.id, event])), [events]);
   const rows = useMemo(() => {
     const unique = new Map<string, ResearchMarket>();
-    markets
+    selectDiscoveryMarkets(
+      markets,
+      { altLines: discovery.altLines, maxOdds: discovery.maxOdds },
+      { sportsbook: book },
+    )
       .filter(
         (market) =>
           market.available &&
@@ -191,12 +205,22 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
         odds: (market) => (market.odds == null ? null : americanOddsToDecimal(market.odds)),
         score: (market) => market.trend?.trendScore,
       });
-    return filtered.sort((left, right) =>
-      mode === 'trends'
-        ? (right.trend?.last10.hitRate ?? -1) - (left.trend?.last10.hitRate ?? -1)
-        : (right.trend?.trendScore ?? -1) - (left.trend?.trendScore ?? -1),
+    return filtered.sort(
+      (left, right) => (right.trend?.trendScore ?? -1) - (left.trend?.trendScore ?? -1),
     );
-  }, [book, eventById, gameId, markets, mode, oddsFilter, oddsMaximum, oddsMinimum, sort]);
+  }, [
+    book,
+    eventById,
+    gameId,
+    markets,
+    mode,
+    oddsFilter,
+    oddsMaximum,
+    oddsMinimum,
+    sort,
+    discovery.altLines,
+    discovery.maxOdds,
+  ]);
   const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const visible = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
@@ -249,6 +273,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                   <p>{rows.length} available selections</p>
                 </div>
                 <div className={styles.filterFields}>
+                  <DiscoveryControls />
                   <label>
                     <span>Game</span>
                     <ResponsivePlayerSelect
@@ -317,7 +342,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                     <label>
                       <span>Sort by</span>
                       <ResponsivePlayerSelect
-                        value={sort?.key ?? (mode === 'trends' ? 'hitRate' : 'score')}
+                        value={sort?.key ?? 'score'}
                         onChange={(event) =>
                           setSort({
                             key: event.target.value as ResearchSortKey,
@@ -339,7 +364,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                         value={sort?.direction ?? 'desc'}
                         onChange={(event) =>
                           setSort({
-                            key: sort?.key ?? (mode === 'trends' ? 'hitRate' : 'score'),
+                            key: sort?.key ?? 'score',
                             direction: event.target.value as 'asc' | 'desc',
                           })
                         }
@@ -496,7 +521,7 @@ export default function ParlayLabExplorePage({ mode }: { mode: Mode }) {
                       </span>
                       <span>{sportsbookName(market.sportsbook)}</span>
                       <b>{odds(market.odds)}</b>
-                      <LabScore score={market.trend?.trendScore} />
+                      <LabScore score={market.trend?.trendScore} trend={market.trend} />
                     </ResponsivePlayerLink>
                   );
                 })}

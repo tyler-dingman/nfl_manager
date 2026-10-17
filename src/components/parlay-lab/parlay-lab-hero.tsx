@@ -1,4 +1,14 @@
 'use client';
+import { labScoreColor } from '../../../packages/parlay/lab-score-config';
+
+import { selectDiscoveryMarkets } from '../../../packages/parlay/discovery-selection';
+import {
+  DEFAULT_DISCOVERY,
+  type DiscoveryPreferences,
+} from '../../../packages/parlay/discovery-preferences';
+import { useDiscoveryPreferences } from './use-discovery-preferences';
+import { decimalOdds } from '../../../packages/parlay/betting-value';
+import { labScoreBand } from '../../../packages/parlay/lab-score-config';
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';
 import { EditorialSectionHero } from '@/components/beat/editorial-section-hero';
 import shared from '@/components/beat/beat-hero.module.css';
@@ -14,6 +24,7 @@ export function selectHeroProps(
   teamAbbr: string,
   events: { id: string; kickoffAt: string }[],
   now = Date.now(),
+  preferences: DiscoveryPreferences = DEFAULT_DISCOVERY,
 ) {
   const upcoming = new Set(events.filter((e) => Date.parse(e.kickoffAt) > now).map((e) => e.id));
   const unique = new Map<string, HomeMarket>();
@@ -36,9 +47,9 @@ export function selectHeroProps(
       continue;
     const key = `${m.eventId}:${m.normalizedKey}`;
     const old = unique.get(key);
-    if (!old || score > (old.trend?.trendScore ?? -1)) unique.set(key, m);
+    if (!old || (decimalOdds(m.odds) ?? 0) > (decimalOdds(old.odds) ?? 0)) unique.set(key, m);
   }
-  const ranked = [...unique.values()].sort((a, b) => b.trend!.trendScore - a.trend!.trendScore);
+  const ranked = selectDiscoveryMarkets([...unique.values()], preferences);
   const selected: HomeMarket[] = [];
   const players = new Set<string>();
   for (const m of ranked) {
@@ -51,7 +62,7 @@ export function selectHeroProps(
     if (selected.length === 3) break;
     if (!selected.includes(m)) selected.push(m);
   }
-  return selected.sort((a, b) => b.trend!.trendScore - a.trend!.trendScore);
+  return selected;
 }
 
 export function ParlayLabHero({
@@ -68,7 +79,10 @@ export function ParlayLabHero({
   onOpen: (market: HomeMarket) => void;
 }) {
   const team = TEAM_LIST.find((t) => t.abbr === teamAbbr);
-  const props = selectHeroProps(markets, teamAbbr, events);
+  const preferences = useDiscoveryPreferences();
+  const props = preferences.ready
+    ? selectHeroProps(markets, teamAbbr, events, Date.now(), preferences)
+    : [];
   return (
     <EditorialSectionHero
       teamAbbr={teamAbbr}
@@ -131,11 +145,13 @@ export function ParlayLabHero({
                 </b>
                 <small>
                   {marketDisplayName(m.marketType === 'OTHER' ? m.statId : m.marketType)}
+                  {m.lineType === 'alternate' ? ' · ALT LINE' : ''}
                 </small>
               </span>
               <span className={styles.score}>
                 <small>LAB SCORE</small>
-                <b>{m.trend!.trendScore}</b>
+                <b style={{ color: labScoreColor(m.trend!.trendScore) }}>{m.trend!.trendScore}</b>
+                <small>{labScoreBand(m.trend!.trendScore).label}</small>
               </span>
             </button>
           </li>

@@ -34,7 +34,7 @@ export default function TriviaJoinPage({ token }: { token: string }) {
 
   return (
     <div className="min-h-screen bg-[#E9EDF0] text-[#00172B]">
-      <MainSiteHeader active="trivia" />
+      <MainSiteHeader active="play" />
       <main className="mx-auto flex max-w-xl flex-col items-center px-5 py-20 text-center">
         <UsersRound className="h-14 w-14 text-[#FF3D38]" />
         <h1 className="mt-6 text-4xl font-black uppercase">Joining the crew</h1>

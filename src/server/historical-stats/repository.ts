@@ -21,7 +21,7 @@ async function queryPlayerGameLogs(playerIds: string[], seasons = DEFAULT_HISTOR
       pg.season_type AS "seasonType", pg.player_id AS "playerId", pg.provider_player_name AS "playerName",
       pg.team_id AS "teamId", pg.opponent_team_id AS "opponentTeamId", pg.home_away AS "homeAway",
       g.home_team_id AS "homeTeamId",
-      pg.position, pg.passing_attempts AS "passingAttempts", pg.passing_completions AS "passingCompletions",
+      pg.position, pg.snap_count AS "snapCount", pg.snap_share::float8 AS "snapShare", pg.passing_attempts AS "passingAttempts", pg.passing_completions AS "passingCompletions",
       pg.passing_yards::float8 AS "passingYards", pg.passing_tds AS "passingTds", pg.interceptions,
       pg.carries, pg.rushing_yards::float8 AS "rushingYards", pg.rushing_tds AS "rushingTds", pg.targets,
       pg.receptions, pg.receiving_yards::float8 AS "receivingYards", pg.receiving_tds AS "receivingTds"

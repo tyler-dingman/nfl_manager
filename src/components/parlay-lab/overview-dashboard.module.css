@@ -1,0 +1,192 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(265px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.dashboard {
+  grid-column: 1;
+  min-width: 0;
+}
+.lower {
+  grid-column: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.rail {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.rail section {
+  padding: 20px;
+  border: 1px solid #183b4c;
+  border-radius: 9px;
+  background: #031923;
+}
+.rail button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #f4f8fc;
+  width: 100%;
+  border: 0;
+  background: none;
+  padding: 0;
+  text-align: left;
+}
+.rail button > svg:last-child {
+  margin-left: auto;
+  width: 16px;
+}
+.rail h3 {
+  font:
+    800 20px var(--font-front-office-barlow),
+    'Arial Narrow',
+    sans-serif;
+  margin: 0;
+}
+.rail p {
+  color: #a8bac4;
+  font-size: 12px;
+  line-height: 1.65;
+  margin: 8px 0 0;
+}
+.rail dl {
+  margin: 16px 0 0;
+}
+.rail dl > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid #183b4c;
+  font-size: 12px;
+}
+.rail dl > div:last-child {
+  border: 0;
+}
+.rail dt {
+  color: #a8bac4;
+}
+.rail dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+.game {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-top: 20px;
+}
+.game > div:last-child {
+  flex: 1 1 110px;
+}
+.game strong {
+  font-size: 19px;
+}
+.game img {
+  object-fit: contain;
+}
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+.tiles button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  color: #f4f8fc;
+  border: 1px solid #183b4c;
+  border-radius: 8px;
+  background: #071f2990;
+  text-align: left;
+}
+.tiles svg {
+  flex-shrink: 0;
+  width: 23px;
+}
+.tiles button > svg:last-child {
+  width: 13px;
+  margin-left: auto;
+}
+.tiles small {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #a8bac4;
+}
+.tiles strong {
+  display: block;
+  font-size: 24px;
+  margin: 5px 0;
+  font-weight: 800;
+}
+.tiles span {
+  display: block;
+  color: #a8bac4;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.tiles button:hover,
+.rail button:hover {
+  border-color: #476577;
+  color: white;
+}
+.tiles button:focus-visible,
+.rail button:focus-visible {
+  outline: 2px solid #a8bac4;
+  outline-offset: 4px;
+}
+@media (max-width: 1250px) {
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 850px) {
+  .layout {
+    display: flex;
+    flex-direction: column;
+  }
+  .dashboard,
+  .rail,
+  .lower {
+    width: 100%;
+  }
+  .dashboard {
+    order: 1;
+  }
+  .rail {
+    order: 2;
+  }
+  .lower {
+    order: 3;
+  }
+}
+@media (max-width: 420px) {
+  .tiles {
+    gap: 8px;
+  }
+  .tiles button {
+    padding: 12px 8px;
+    gap: 7px;
+  }
+  .tiles button > svg:first-child {
+    display: none;
+  }
+  .tiles strong {
+    font-size: 22px;
+  }
+}

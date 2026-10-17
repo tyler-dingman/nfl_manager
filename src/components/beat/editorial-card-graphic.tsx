@@ -10,10 +10,12 @@ export function EditorialCardGraphic({
   team,
   age,
   family,
+  presentation = 'card',
 }: {
   team: string;
   age: string | null;
   family: BeatGraphicData['family'];
+  presentation?: 'card' | 'article';
 }) {
   const palette = beatPalette(team);
   const layers = [...manifest.sharedLayers, 'diagonal-accent-stripes'];
@@ -21,6 +23,7 @@ export function EditorialCardGraphic({
     <div
       className={`${styles.graphic} ${beatFont.variable}`}
       data-beat-family={family}
+      data-presentation={presentation}
       data-beat-composition="editorial"
       style={{ '--beat-accent': palette.accent } as CSSProperties}
     >
@@ -51,7 +54,7 @@ export function EditorialCardGraphic({
           );
         })}
         <span className={styles.editorialGhost} data-editorial-part="word" aria-hidden="true">
-          EDITORIAL
+          {presentation === 'article' ? 'EDITORIAL.' : 'EDITORIAL'}
         </span>
         <svg
           className={styles.editorialRule}

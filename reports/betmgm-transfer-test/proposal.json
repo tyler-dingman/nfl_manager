@@ -1,0 +1,119 @@
+{
+  "sportsbook": "betmgm",
+  "matches": [
+    {
+      "original": {
+        "id": "12d65cda-2d72-4c35-82e3-14e6e1f9567a",
+        "eventId": "9da4177e-1b33-419e-97b5-714b2c591348",
+        "playerId": "3915411",
+        "playerName": "Ty Johnson",
+        "teamId": null,
+        "marketType": "RECEIVING_YARDS",
+        "period": "game",
+        "side": "UNDER",
+        "line": 12.5,
+        "kickoffAt": "2026-10-13T00:15:00.000Z",
+        "homeTeamId": "LAR",
+        "awayTeamId": "BUF"
+      },
+      "selection": {
+        "id": "12d65cda-2d72-4c35-82e3-14e6e1f9567a",
+        "eventId": "9da4177e-1b33-419e-97b5-714b2c591348",
+        "playerId": "3915411",
+        "playerName": "Ty Johnson",
+        "teamId": null,
+        "marketType": "RECEIVING_YARDS",
+        "period": "game",
+        "side": "UNDER",
+        "line": 12.5,
+        "odds": -110,
+        "sportsbook": "BETMGM",
+        "available": true,
+        "oddsUpdatedAt": "2026-10-09T20:45:11.732Z",
+        "kickoffAt": "2026-10-13T00:15:00.000Z",
+        "homeTeamId": "LAR",
+        "awayTeamId": "BUF",
+        "lineType": "main",
+        "mainLine": 12.5
+      },
+      "adjusted": false
+    },
+    {
+      "original": {
+        "id": "caab92c0-b191-40c2-9f5b-6a8e9afc7f96",
+        "eventId": "36d43a98-a10d-4b71-82c7-0d196a0bfbff",
+        "playerId": "4035671",
+        "playerName": "Tyler Huntley",
+        "teamId": null,
+        "marketType": "PASSING_YARDS",
+        "period": "game",
+        "side": "OVER",
+        "line": 149.5,
+        "kickoffAt": "2026-10-12T00:20:00.000Z",
+        "homeTeamId": "ATL",
+        "awayTeamId": "BAL"
+      },
+      "selection": {
+        "id": "caab92c0-b191-40c2-9f5b-6a8e9afc7f96",
+        "eventId": "36d43a98-a10d-4b71-82c7-0d196a0bfbff",
+        "playerId": "4035671",
+        "playerName": "Tyler Huntley",
+        "teamId": null,
+        "marketType": "PASSING_YARDS",
+        "period": "game",
+        "side": "OVER",
+        "line": 149.5,
+        "odds": -275,
+        "sportsbook": "BETMGM",
+        "available": true,
+        "oddsUpdatedAt": "2026-10-09T20:45:09.093Z",
+        "kickoffAt": "2026-10-12T00:20:00.000Z",
+        "homeTeamId": "ATL",
+        "awayTeamId": "BAL",
+        "lineType": "alternate",
+        "mainLine": 199.5
+      },
+      "adjusted": false
+    },
+    {
+      "original": {
+        "id": "10181097-4a06-4b03-a212-05252d78499a",
+        "eventId": "647675a9-3187-46f5-b9c0-375a2fae4e62",
+        "playerId": "4429835",
+        "playerName": "George Holani",
+        "teamId": null,
+        "marketType": "RECEPTIONS",
+        "period": "game",
+        "side": "UNDER",
+        "line": 1.5,
+        "kickoffAt": "2026-10-11T20:25:00.000Z",
+        "homeTeamId": "SEA",
+        "awayTeamId": "SF"
+      },
+      "selection": {
+        "id": "10181097-4a06-4b03-a212-05252d78499a",
+        "eventId": "647675a9-3187-46f5-b9c0-375a2fae4e62",
+        "playerId": "4429835",
+        "playerName": "George Holani",
+        "teamId": null,
+        "marketType": "RECEPTIONS",
+        "period": "game",
+        "side": "UNDER",
+        "line": 1.5,
+        "odds": 115,
+        "sportsbook": "BETMGM",
+        "available": true,
+        "oddsUpdatedAt": "2026-10-09T20:45:07.240Z",
+        "kickoffAt": "2026-10-11T20:25:00.000Z",
+        "homeTeamId": "SEA",
+        "awayTeamId": "SF",
+        "lineType": "main",
+        "mainLine": 1.5
+      },
+      "adjusted": false
+    }
+  ],
+  "estimatedOdds": 460,
+  "adjustments": 0,
+  "expiresAt": "2026-10-10T04:38:31.181Z"
+}

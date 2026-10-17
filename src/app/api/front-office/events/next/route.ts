@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { currentUser } from '@/server/auth/request';
@@ -8,7 +9,7 @@ const schema = z.object({
   saveId: z.string().min(1).max(160),
   teamAbbr: z.string().min(2).max(4).optional(),
 });
-export async function POST(request: NextRequest) {
+async function handlePOST(request: NextRequest) {
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   const { saveId, teamAbbr } = schema.parse(await request.json());
@@ -17,3 +18,5 @@ export async function POST(request: NextRequest) {
     event: await surfaceNextFrontOfficeEvent(user.id, saveId, teamAbbr),
   });
 }
+
+export const POST = withFranchiseRoute(handlePOST, {});

@@ -1,0 +1,139 @@
+CAESARS AND BETMGM TRANSFERS — IMPLEMENTATION / CONTROLLED TEST PLAN
+Reviewed 2026-10-10 UTC (2026-10-09 America/Chicago)
+
+Status
+Implemented as extensions to the existing shared transfer system. ENABLE_BETMGM_BETSLIP=false
+and ENABLE_CAESARS_BETSLIP=false in .env.example and local .env.local. Existing FanDuel and
+DraftKings flags preserved. No production deployment, production writes, provider generation,
+provider polling, SportsGameOdds requests, ingestion changes, or Lab Score changes performed.
+Only public documentation/schema downloads and local PostgreSQL reads for pilot preparation.
+Neither new sportsbook has a manually verified exact complete-slip transfer yet.
+
+Files modified in this change
+- packages/parlay/sportsbook-transfer.ts: four-book registry, alphabetical order, explicit stored
+  and SGO provider mappings, observed Unabated names, flags, capabilities and validation scope.
+- packages/parlay/use-sportsbook-transfers.ts: accept all registry books through the existing hook.
+- src/app/api/parlay-lab/sportsbook-transfer/route.ts: registry-based request enum.
+- src/server/providers/unabated/transfer-service.ts: registry-based feature flag and returned book.
+- src/server/providers/unabated/test-transfer-validation.ts: explicit Unabated name mapping.
+- src/components/parlay-lab/SportsbookTransfers.tsx and my-parlay-panel.module.css: compact rows.
+- apps/mobile/components/sportsbook-transfers.tsx: corresponding React Native rows.
+- scripts/prepare-draftkings-transfer-test.ts and scripts/test-draftkings-transfer.ts: extend the
+  existing pilot tools with --book=betmgm|caesars|draftkings|fanduel, rather than duplicate runners.
+- packages/parlay/sportsbook-transfer.test.ts; src/server/providers/unabated/transfer.test.ts;
+  transfer-db.test.ts; tests/mobile/fanduel-transfer.spec.ts; tests/mobile/native-slip.spec.ts.
+- .env.example, local .env.local: two new disabled flags.
+- reports/betmgm-transfer-test/{selections,proposal}.json and
+  reports/caesars-transfer-test/{selections,proposal}.json: actual local selections, no live links.
+- reports/four-sportsbook-schema.json: relevant public schema snapshot.
+
+Registry and compatibility
+BetMGM: internal betmgm, stored BETMGM, SGO betmgm, observed Unabated book BetMGM.
+Caesars: internal caesars, stored CAESARS, SGO caesars, observed Unabated book Caesars.
+DraftKings: internal draftkings, stored DRAFTKINGS, SGO draftkings, Unabated DraftKings.
+FanDuel: internal fanduel, stored FANDUEL, SGO fanduel, Unabated FanDuel.
+No numeric provider IDs were invented. Text generation does not consume numeric source IDs.
+All use existing passing/rushing/receiving yards and receptions scope, full-game only, one leg
+per game. This is application scope, not a guarantee of market coverage at any book.
+
+Existing PostgreSQL resolver is unchanged: same event/player/market/direction/period, actual
+available book prices, future unlocked events. It now receives four registered books. No odds
+schema migration needed; existing transfer_jobs sportsbook column already stores book identity.
+Nearest-line matching retains market-specific maximum distances and favorable-direction tie
+breaks. Unknown line classification cannot qualify as a substitute. Original slip is unchanged.
+Signed user/book-specific proposals require explicit confirmation for adjustments, then fresh
+DB identity/price checks. Preview calls only PostgreSQL, never Unabated.
+
+Shared service and safety
+One complete-slip POST for the selected book, bounded polling, no POST retry, short link TTL,
+deduplication, authenticated allowlisted local users, same-origin checks, attribution and exact
+validation retained. All four books share the existing durable 5/user/day, 50/global/day and
+3 concurrent ceilings and one active job per user. The historical actor prefix and job records
+remain intact so adding a book cannot reset quotas. Production is blocked independently of flags.
+Unexpected player/game/period/market/threshold/book/partial/duplicate results are rejected.
+Missing provider direction remains directionVerified:false. Region-specific responses without
+reliable region context are rejected; no location selector or default Iowa added.
+
+UI
+OPEN IN SPORTSBOOK contains alphabetical full-row controls with book-specific estimated odds
+and a small adjustment label when needed. Only complete stored proposals for enabled books are
+shown. No matches means the transfer section disappears, leaving existing save/share controls.
+Inline preparation/cancellation, explicit adjustment consent, ready state and user-clicked
+Continue links retained. Web opens only the validated link on Continue; native uses Linking.
+No blank tabs or automatic navigation. Scrollable compact sections preserve room for slip actions.
+
+Provider findings
+Official sources:
+https://docs.unabated.com/start/access-tiers
+https://docs.unabated.com/guides/bet-slips
+https://docs.unabated.com/guides/deep-links
+https://data.unabated.com/swagger/v1/swagger.json
+
+The Free tier lists MGM and Caesars among included providers. Generation/status is included
+for Free, but results depend on sportsbook coverage and actual selections. Book inclusion alone
+is not proof of a usable complete-slip transfer. Standard deep-link results distinguish full,
+partial, event-only and one-bet-only support. Same-game support is Enterprise-specific; our
+existing same-game restriction remains. No book-by-book standard/alternate/NFL transfer matrix
+or guaranteed state-specific destination is documented. GenerateBetRequest has only type,
+generateMobileLinks and content; no state/region parameter. No undocumented region appended.
+
+Existing evidence (no new API requests):
+reports/unabated-three-leg-audit/pilot-results.json contains actual returned BetMGM and Caesars
+book names and Gambly cache URLs, including individual selection links.
+- Caesars: returned three bets across three games, but Justice Hill was 1.5 receptions instead
+  of requested 0.5. This is a rejected exact-slip result, not verification of a usable transfer.
+- BetMGM: returned two of three legs and changed thresholds. Reject as partial/mismatched.
+- These records establish generated response formats and some individual market coverage.
+  They do not establish actual destination slip contents, alt-line completeness or O/U identity.
+- For both books: individual prop candidate links observed; exact complete-slip transfer,
+  alternate-line destination handling and state-specific behavior remain unverified.
+
+Prepared controlled tests (not executed)
+Each has three real local PostgreSQL props across three games, both directions, one alternate.
+BetMGM:
+  Ty Johnson UNDER 12.5 receiving yards, -110 (main)
+  Tyler Huntley OVER 149.5 passing yards, -275 (alternate)
+  George Holani UNDER 1.5 receptions, +115 (main)
+Caesars:
+  Ty Johnson UNDER 11.5 receiving yards, -114 (main)
+  Tyler Huntley OVER 19.5 rushing yards, -260 (alternate)
+  Tory Horton UNDER 11.5 receiving yards, -114 (main)
+Both DB proposals were re-resolved with zero substitutions. Stored availability is preliminary;
+these selections expire as games start. No attempt.json or result.json has been created.
+
+Read-only checks, safe to repeat without generation:
+  node --import tsx scripts/test-draftkings-transfer.ts --book=betmgm
+  node --import tsx scripts/test-draftkings-transfer.ts --book=caesars
+Preparation for a new slate uses prepare-draftkings-transfer-test.ts --book=<book>; it refuses
+an existing selections.json rather than silently replacing an approved test.
+
+AFTER explicit user approval only, one controlled call per sportsbook:
+  NODE_ENV=development ENABLE_BETMGM_BETSLIP=true node --import tsx scripts/test-draftkings-transfer.ts --book=betmgm --generate --user=<existing-allowlisted-user-UUID>
+  NODE_ENV=development ENABLE_CAESARS_BETSLIP=true node --import tsx scripts/test-draftkings-transfer.ts --book=caesars --generate --user=<existing-allowlisted-user-UUID>
+Command-scoped flags do not persist or expose public buttons. Existing global budgets still
+apply. Each runner writes an exclusive attempt marker before submitting and never automatically
+retries a POST. It records elapsed time, API call attempts, validation state, and the original
+Gambly link only on successful validation, plus the attributed navigation link. Polling is bounded.
+Manual sportsbook inspection must verify all three exact legs, directions, no unwanted prior
+slip legs, and destination/region behavior. Login/geolocation must not be bypassed; no wagers.
+Do not rerun a consumed attempt or enable public transfers merely because generation says Complete.
+
+Validation
+48 unit/adapter/isolated local PostgreSQL tests passed, zero skipped or failed. Includes four-book
+pricing, missing prices, adjustments, strict candidate checks, missing direction, region rejection,
+flag/allowlist/production exclusion, signed consent, deduplication and global quota race across
+all four books. Existing cancellation, expiry, same-game, ownership and attribution checks retained.
+Root and native TypeScript checks passed. Targeted ESLint and git diff --check passed.
+Browser UI results recorded below after completion. These use fixtures, not provider requests.
+Actual Android/iOS device behavior and real sportsbook destination slips are NOT verified.
+
+Production blockers
+Manual exact complete-slip tests for both new books; independent direction confirmation at the
+sportsbook; current offering/alternate coverage; region behavior; unconfirmed Free generation
+quota; Android/iOS device checks. Keep new flags false and all production transfers blocked.
+
+Final UI results: 22/22 Playwright checks passed in Chromium and WebKit (1.6 minutes),
+covering desktop/mobile web and React Native components rendered via React Native Web, with
+KC and SEA themes. Four-book controls, BetMGM exact generation, Caesars adjustment approval/
+cancellation, no automatic tabs, continued save/share, stale-slip clearing and empty availability
+were exercised. This is not Android/iOS device validation.

@@ -2,10 +2,10 @@ import { PageScrollView as ScrollView } from '../../components/page-scroll-view'
 import { useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
-import { C, Eyebrow, Heading } from '../../components/screen';
+import { C, Heading } from '../../components/screen';
 import type { Story } from '../../lib/types';
 import { getSavedContent, removeSavedContent, saveStory } from '../../lib/api';
-import { EditorialVisual } from '../../components/editorial-visual';
+import { ArticleHero } from '../../components/article-hero';
 import { authenticatedFetch } from '../../lib/auth';
 import { useTeam } from '../../lib/team-context';
 export default function Detail() {
@@ -74,22 +74,20 @@ export default function Detail() {
     );
   return (
     <ScrollView style={s.page} contentContainerStyle={s.body}>
-      <EditorialVisual
-        story={{
-          teamId: story.teamId || teamId,
-          storyType: story.storyType,
-          headline: story.title,
-          summary: story.summary,
-          status: story.status,
-          visualType: story.visualType,
-        }}
-        variant="hero"
-      />
-      <Eyebrow>{story.status}</Eyebrow>
-      <Heading>{story.title}</Heading>
-      <Text style={s.timestamp}>
-        Updated {new Date(story.lastMaterialUpdateAt).toLocaleString()}
-      </Text>
+      <View style={s.hero}>
+        <ArticleHero
+          story={{
+            id: story.id,
+            teamAbbr: story.teamId || teamId,
+            headline: story.title,
+            summary: story.summary,
+            category: story.storyType ?? story.visualType ?? 'Editorial',
+            updatedAt: story.lastMaterialUpdateAt,
+            sourceCount: story.sources.length,
+            sources: story.sources.map((source) => ({ url: source.sourceUrl })),
+          }}
+        />
+      </View>
       <Pressable
         style={s.save}
         disabled={saving}
@@ -146,9 +144,9 @@ function Section({ title, body }: { title: string; body: string }) {
 }
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#FFFFFF' },
-  body: { padding: 20, paddingBottom: 40, gap: 12 },
+  body: { paddingHorizontal: 20, paddingBottom: 40, gap: 12 },
+  hero: { marginHorizontal: -20 },
   summary: { fontSize: 18, lineHeight: 26, color: C.muted, marginTop: 16 },
-  timestamp: { color: C.muted, fontSize: 13, marginTop: 10 },
   save: {
     alignSelf: 'flex-start',
     borderWidth: 1,

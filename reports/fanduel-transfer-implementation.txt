@@ -1,0 +1,102 @@
+MULTI-SPORTSBOOK UPDATE: See reports/sportsbook-transfers-implementation.txt for the current shared DraftKings/FanDuel implementation. This earlier report remains historical context.
+
+CURRENT UX UPDATE: See reports/fanduel-transfer-ux.txt for the region-free, inline preparation and Continue-only navigation change. The following is the original implementation record; its region-selector and Continue-only instructions are superseded.
+
+FANDUEL CONTROLLED TEST INTEGRATION
+
+Implemented behind the existing server flag and an authenticated user-ID allowlist. The actual local flag remains false. Production is hard-disabled by this implementation even if the environment flag is accidentally enabled. No deployment or production configuration/data changes were performed.
+
+ARCHITECTURE
+
+SportsGameOdds -> existing weekly ingestion -> existing PostgreSQL -> existing Lab Score / Parlay Lab is untouched by this change. No odds requests or refreshes occur during selection changes or transfer. The existing UnabatedClient now exposes the documented generate/status operations; generation is not implemented as a second provider client.
+
+My Parlay explicitly starts one server job for the complete selected slip. The API accepts only selected market UUIDs and an explicit region, or a job UUID for polling. It uses the existing cookie/Bearer authentication, same-origin checks, strict input schemas and server allowlist. It reloads authoritative player mappings, event identity/kickoff, market, period, side, threshold and available FanDuel price from PostgreSQL. Client names/odds/market text are not accepted.
+
+A local-only migration added fanduel_transfer_jobs. It stores pseudonymous HMAC actor keys, authoritative public sports selections, request IDs, status, counters and short-lived candidate links. No API keys, account emails, IP addresses or raw upstream bodies are stored. The application's AUTH_JWT_SECRET keys the HMAC; keep that secret stable for per-user daily accounting.
+
+GENERATION AND VALIDATION
+
+One POST includes every selected leg. No automatic POST retries, no single-link stitching and no truncation. Client polling calls the authenticated server, which allows at most 25 provider status calls, throttles them, serializes calls per job and uses a 90-second application job/link window. HTTP calls time out at 20 seconds. Requests to the provider use the existing X-Api-Key server-only client.
+
+Conservative eligibility: 1–20 full-game, available FanDuel-priced passing yards, rushing yards, receiving yards or receptions props, one selection per event, resolved player identity, finite odds/threshold and future kickoff. Main and alternate thresholds are equally exact. Same-game combinations are blocked before generation. Only Iowa is enabled as an initial test destination; the user must explicitly select it. Other regions are not silently mapped to Iowa.
+
+The development candidate validator rejects partial or duplicate legs, ambiguous/wrong player names, wrong game-team labels or scheduled kickoff, market/period/threshold differences, wrong book, explicit direction/region contradictions, and unsafe generated URLs. It verifies every selection rather than trusting legsMatched. Availability, event expiry and selection identity are checked again before returning a completed/cached link. Changed identities cannot reuse an old link.
+
+The preexisting strict validator requiring independently resolved offers remains unchanged. The new validator is deliberately a development-candidate path: exact returned labels match canonical DB selections, but provider identity and direction are not independently resolved. It always reports directionVerified:false. Missing direction/region metadata is never described as verified. Live FanDuel availability cannot be guaranteed by weekly stored prices.
+
+The user reports successful manual verification of the Bagent single and Ty Johnson / Justice Hill / Tory Horton three-leg test, including the alternate reception threshold. This does not validate future generated slips. The reported fourth retained sportsbook selection is addressed by the visible existing-slip notice.
+
+ATTRIBUTION AND NAVIGATION
+
+Server URL parsing restricts generated links to HTTPS Gambly cache-link paths with no credentials or custom port. utm_campaign is set to the configured partner, existing unrelated parameters are preserved, duplicate identical attribution is normalized and conflicting attribution is rejected. Client-side URL checks provide another layer before rendering/opening a link. No API credentials reach the client.
+
+Web displays a real Continue to FanDuel link after validation (new tab, noopener/noreferrer), so asynchronous completion does not rely on a popup opening without a user gesture. Native uses its existing Linking.openURL adapter from an explicit Continue action. No sportsbook login, geolocation or existing slip is manipulated.
+
+UI
+
+Both the web right rail/mobile sheet and React Native sheet have the region control and Open in FanDuel button above Save Image, Messages, Share and Save. Loading includes a spinner and matching explanation. Cancel wait aborts client requests/polling where practical; it does not cancel already-submitted provider work or submit a replacement. Re-clicking the same active slip resumes its persisted job. Slip/region changes and expiry remove the old link. Errors preserve all selections. The original save/share/image workflows remain intact.
+
+The test disclaimer states that direction and regional availability require sportsbook review. The existing-slip notice states: Selections may be added to your existing FanDuel bet slip. Review all legs and odds before continuing.
+
+USAGE LIMITS
+
+A PostgreSQL transaction and shared advisory lock atomically reserve budget before the sole generation POST. Limits survive restarts and apply across server processes. Defaults/hard development ceilings are 5 submissions per user per UTC day, 50 globally per UTC day and 3 active reservations globally. Configuration can lower these values; zero or malformed limits stop submissions. These are application limits, not claims about Unabated quotas.
+
+One active reservation per user; identical concurrent requests reuse the same persisted job. Failed/ambiguous submissions count toward budget and retain their short reservation until expiry, preventing immediate overlapping retries. Cancellation leaves the reservation intact. No automatic paid upgrade exists. Matching complete cached requests revalidate DB state and reuse the short-lived link without another POST.
+
+ENABLE A CONTROLLED LOCAL TEST
+
+1. The new local table has already been applied. On another LOCAL environment run:
+   node --import tsx scripts/migrate-fanduel-transfer.ts
+   The migration script rejects nonlocal database hosts.
+2. While signed in, obtain the intended account's user.id from /api/auth/me.
+3. In .env.local, preserve the existing key/partner and set:
+   ODDS_PROVIDER=sportsgameodds
+   ENABLE_UNABATED_INGESTION=false
+   ENABLE_FANDUEL_BETSLIP=true
+   FANDUEL_TEST_USER_IDS=<that authenticated user UUID>
+   UNABATED_MAX_GENERATIONS_PER_USER_DAY=5
+   UNABATED_MAX_GENERATIONS_GLOBAL_DAY=50
+   UNABATED_MAX_CONCURRENT_GENERATIONS=3
+4. Run/restart the normal Next development server (npm run dev). Use the same server as the native app API origin when testing native. NODE_ENV=production is intentionally rejected; no production bypass or approval-policy flag was added.
+5. Add eligible FanDuel props from different games. Select Iowa only for the intended legitimate Iowa test. Click Open in FanDuel, then Continue after validation. Review all selections and any preexisting sportsbook legs. No wager is required.
+6. Restore ENABLE_FANDUEL_BETSLIP=false when finished. No user was automatically allowlisted and the flag was not enabled during this implementation.
+
+MODIFIED / ADDED FILES IN THIS CHANGE
+
+.env.example
+ db/migrations/051_fanduel_transfer_jobs.sql
+ scripts/migrate-fanduel-transfer.ts
+ packages/parlay/fanduel-transfer.ts
+ packages/parlay/use-fanduel-transfer.ts
+ src/server/providers/unabated/client.ts
+ src/server/providers/unabated/types.ts
+ src/server/providers/unabated/test-transfer-validation.ts
+ src/server/providers/unabated/transfer-service.ts
+ src/server/providers/unabated/transfer.test.ts
+ src/server/providers/unabated/transfer-db.test.ts
+ src/server/providers/unabated/fixtures/transfer.json
+ src/app/api/parlay-lab/fanduel-transfer/route.ts
+ src/components/parlay-lab/FanDuelTransfer.tsx
+ src/components/parlay-lab/MyParlayPanel.tsx
+ src/components/parlay-lab/my-parlay-panel.module.css
+ apps/mobile/components/fanduel-transfer.tsx
+ apps/mobile/components/parlay-slip.tsx
+ tests/mobile/fanduel-transfer.spec.ts
+ tests/mobile/native-slip.spec.ts
+ tests/mobile/fixtures/native-slip.jsx
+ reports/fanduel-transfer-implementation.txt
+
+VALIDATION
+
+Final results: 35 unit/adapter/database tests passed with zero failures or skips. Fourteen browser fixture checks passed across Chromium and WebKit (eight web and six native renderer checks).
+
+Fixture-only unit/adapter and isolated local PostgreSQL integration tests cover single/three-leg/alternate candidates, missing direction, mismatch rejection, attribution, expiry, same-game restrictions, feature authorization, one active job, concurrent deduplication, per-user/global/concurrency caps, poll throttling, cross-user job denial and timeouts/no retry. The temporary DB fixture schema is removed afterward; tests never call live Unabated.
+
+Web desktop/mobile checks cover KC and SEA, explicit click-only generation, required region, loading/cancel, preserved slip after failure, safe new-tab navigation to an intercepted fixture destination, stale-link removal and original save/share/export workflows. Native React Native Web fixture checks cover its sheet, generation/continue, loading/cancel, same-game rejection and KC/SEA theme accents in Chromium and WebKit. These are renderer checks, not Android/iOS device validation.
+
+Root and native TypeScript checks pass. Targeted ESLint has no errors; one preexisting React Native Image alt-text warning remains in parlay-slip.tsx. No live provider generation was performed in this implementation. No native device build or fresh real sportsbook transfer was performed.
+
+PRODUCTION BLOCKERS
+
+Independent direction/identity/region verification remains incomplete. Account generation quota and allowed traffic volume remain unconfirmed. Same-game combinations and other regions remain unverified. Weekly stored availability is not live bookmaker confirmation. Actual Android/iOS device external-link handling still needs testing. Production needs these gaps resolved or an explicitly approved risk policy and separate rollout change; setting the feature flag alone cannot enable it in production.

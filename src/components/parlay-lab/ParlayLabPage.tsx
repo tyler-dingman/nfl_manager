@@ -1,4 +1,6 @@
 'use client';
+import { saveAccountParlay } from '../../../packages/parlay/account-saves';
+import { addSlipLeg } from '../../../packages/parlay/slip';
 import { PlayerTableHeader } from '@/components/players/responsive-player-table';
 import { ResponsivePlayerSelect } from '@/components/players/responsive-player-select';
 import { ResponsivePlayerRow } from '@/components/players/responsive-player-table';
@@ -117,41 +119,9 @@ const fullTeamName = (abbr: string) => {
   return team ? `${team.city} ${team.name}` : abbr;
 };
 
-export function buildSportsbookLink(markets: Market[], sportsbook: Sportsbook) {
-  const links = markets
-    .map((market) => market.deeplink)
-    .filter((link): link is string => Boolean(link));
-  if (!links.length) return null;
-  try {
-    if (sportsbook === 'FANDUEL') {
-      const pairs = links
-        .map((link) => new URL(link))
-        .map((url) => ({
-          marketId: url.searchParams.get('marketId') ?? url.searchParams.get('marketId[0]'),
-          selectionId:
-            url.searchParams.get('selectionId') ?? url.searchParams.get('selectionId[0]'),
-        }))
-        .filter((pair) => pair.marketId && pair.selectionId);
-      if (!pairs.length) return links[0];
-      const url = new URL(links[0]);
-      url.search = '';
-      pairs.forEach((pair, index) => {
-        url.searchParams.set(`marketId[${index}]`, pair.marketId!);
-        url.searchParams.set(`selectionId[${index}]`, pair.selectionId!);
-      });
-      return url.toString();
-    }
-    const urls = links.map((link) => new URL(link));
-    const outcomes = urls
-      .flatMap((url) => (url.searchParams.get('outcomes') ?? '').split(','))
-      .filter(Boolean);
-    if (!outcomes.length) return links[0];
-    const url = urls[0];
-    url.searchParams.set('outcomes', [...new Set(outcomes)].join(','));
-    return url.toString();
-  } catch {
-    return links[0];
-  }
+// No verified full-slip sportsbook integrations are configured.
+export function buildSportsbookLink(_markets: Market[], _sportsbook: Sportsbook): string | null {
+  return null;
 }
 
 function TeamBadge({ abbr }: { abbr: string }) {
@@ -185,6 +155,14 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
     [notice, setNotice] = useState(''),
     [saveMessage, setSaveMessage] = useState(''),
     [labCheck, setLabCheck] = useState<Market | null>(null);
+  const [slipLoaded, setSlipLoaded] = useState(false);
+  useEffect(() => {
+    if (slipLoaded) {
+      try {
+        localStorage.setItem('down-distance-parlay-lab-current', JSON.stringify(slip));
+      } catch {}
+    }
+  }, [slip, slipLoaded]);
   const tabNavRef = useRef<HTMLElement>(null);
   const [tabScroll, setTabScroll] = useState({ left: false, right: false });
 
@@ -206,14 +184,15 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
       .finally(() => setLoading(false));
   }, []);
   useEffect(() => {
-    if (searchParams?.get('reopen') !== '1') return;
     try {
       const saved = JSON.parse(localStorage.getItem('down-distance-parlay-lab-current') ?? '[]');
       if (Array.isArray(saved)) setSlip(saved as Market[]);
     } catch {
       setSaveMessage('The saved play could not be reopened in this browser.');
+    } finally {
+      setSlipLoaded(true);
     }
-  }, [searchParams]);
+  }, []);
   useEffect(() => {
     if (!eventId) return;
     setLoading(true);
@@ -376,7 +355,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
   const selected = (id: string) => slip.some((item) => item.id === id);
   const addSelection = (market: Market) => {
     setSaveMessage('');
-    setSlip((rows) => [...rows.filter((item) => item.id !== market.id), market]);
+    setSlip((rows) => addSlipLeg(rows, market));
   };
   const removeSelection = (id: string) => {
     setSaveMessage('');
@@ -386,13 +365,15 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
     setSaveMessage('');
     setSlip([]);
   };
-  const saveSlip = () => {
+  const saveSlip = async () => {
     if (!slip.length) return;
     try {
       const key = 'down-distance-parlay-lab-slips',
         existing = JSON.parse(localStorage.getItem(key) ?? '[]'),
         saved = Array.isArray(existing) ? existing : [];
-      saved.unshift(snapshotSavedPlay({ event, selections: slip }));
+      const play = snapshotSavedPlay({ id: crypto.randomUUID(), event, selections: slip });
+      await saveAccountParlay(fetch, play);
+      saved.unshift(play);
       localStorage.setItem(key, JSON.stringify(saved.slice(0, 20)));
       setSaveMessage('Saved to My Plays.');
     } catch {
@@ -758,6 +739,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
           </section>
           <ResponsiveRail stackAt={850} style={{ display: 'contents' }}>
             <MyParlayPanel
+              events={event ? [event] : []}
               legs={slip}
               markets={available}
               matchup={event ? `${event.awayTeamId} @ ${event.homeTeamId}` : 'NFL'}
@@ -765,9 +747,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
               pickLabel={sportsbookLineLabel}
               onRemove={removeSelection}
               onClear={clearSlip}
-              onSave={saveSlip}
               onResearch={setLabCheck}
-              buildBookLink={buildSportsbookLink}
               avatarColor={avatarColor}
             />
           </ResponsiveRail>
@@ -875,6 +855,7 @@ export function ParlayLabPage({ initialEventId = '' }: { initialEventId?: string
                     .filter((market): market is Market => Boolean(market?.deeplink));
                   if (!selections.length) return null;
                   const link = buildSportsbookLink(selections, sportsbook.id);
+                  if (!link) return null;
                   return (
                     <div className={styles.bookAction} key={sportsbook.id}>
                       <button

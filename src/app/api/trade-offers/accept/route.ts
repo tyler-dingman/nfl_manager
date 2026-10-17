@@ -1,3 +1,4 @@
+import { withFranchiseRoute } from '@/server/front-office/durable-route';
 import { refreshFranchiseHeroAfterAction } from '@/server/front-office/refresh-hero';
 import { tradeDeadlineResponse } from '@/server/front-office/trade-window';
 import { NextRequest, NextResponse } from 'next/server';
@@ -80,7 +81,7 @@ const buildCapFailureMessage = ({
   return 'One team would exceed the cap after this trade.';
 };
 
-export const POST = async (request: NextRequest) => {
+const handlePOST = async (request: NextRequest) => {
   const body = (await request.json()) as AcceptTradeOfferBody;
   let persistedUserId: string | null = null;
   if (!body.saveId || (!body.offer && !body.persistedOfferId)) {
@@ -352,3 +353,5 @@ export const POST = async (request: NextRequest) => {
     partnerTeamAbbr: aiTeam.team.abbr,
   });
 };
+
+export const POST = withFranchiseRoute(handlePOST, {});

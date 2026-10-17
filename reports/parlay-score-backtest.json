@@ -1,0 +1,2980 @@
+{
+  "mode": "backtest",
+  "generatedAt": "2026-10-03T21:08:15.814Z",
+  "eventCount": 15,
+  "evaluatedRows": 4301,
+  "rollout": "SHADOW: production replacement requires review of calibration and point-in-time role coverage.",
+  "currentRoleCoverage": 0,
+  "limitations": [
+    "Initial weights are not fitted or calibrated probabilities.",
+    "One main offer per player/stat/book; reporting recommendations deduplicates books. Correlated props are not independent trials.",
+    "Final historical stats are assumed available after each prior game; original stats publication times were not archived.",
+    "Role evidence imported later is excluded using received_at; missing pregame snapshots remain missing."
+  ],
+  "legacy": {
+    "offers": {
+      "count": 4301,
+      "averageScore": 44.94815159265287,
+      "score80Plus": 21,
+      "score90Plus": 0,
+      "settled": 4301,
+      "pushes": 0,
+      "accuracy": 0.41873982794698905
+    },
+    "recommendations": {
+      "count": 862,
+      "averageScore": 47.15197215777262,
+      "score80Plus": 7,
+      "score90Plus": 0,
+      "settled": 862,
+      "pushes": 0,
+      "accuracy": 0.3654292343387471
+    },
+    "actionable": {
+      "count": 76,
+      "averageScore": 73.53947368421052,
+      "score80Plus": 7,
+      "score90Plus": 0,
+      "settled": 76,
+      "pushes": 0,
+      "accuracy": 0.47368421052631576
+    },
+    "direction": {
+      "OVER": {
+        "count": 575,
+        "averageScore": 40.25565217391304,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 575,
+        "pushes": 0,
+        "accuracy": 0.288695652173913,
+        "percentage": 66.70533642691416
+      },
+      "UNDER": {
+        "count": 287,
+        "averageScore": 60.96864111498258,
+        "score80Plus": 7,
+        "score90Plus": 0,
+        "settled": 287,
+        "pushes": 0,
+        "accuracy": 0.519163763066202,
+        "percentage": 33.29466357308585
+      }
+    },
+    "bySlate": {
+      "c3c3acd0-6984-43aa-8836-24a19fd709b1": {
+        "count": 48,
+        "averageScore": 47.083333333333336,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 48,
+        "pushes": 0,
+        "accuracy": 0.20833333333333334,
+        "direction": {
+          "OVER": {
+            "count": 31,
+            "averageScore": 39.74193548387097,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 31,
+            "pushes": 0,
+            "accuracy": 0.1935483870967742
+          },
+          "UNDER": {
+            "count": 17,
+            "averageScore": 60.470588235294116,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 17,
+            "pushes": 0,
+            "accuracy": 0.23529411764705882
+          }
+        }
+      },
+      "bb1df4c7-bb90-4a23-9155-2c54c0a89595": {
+        "count": 53,
+        "averageScore": 45.18867924528302,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 53,
+        "pushes": 0,
+        "accuracy": 0.24528301886792453,
+        "direction": {
+          "OVER": {
+            "count": 37,
+            "averageScore": 39.351351351351354,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 37,
+            "pushes": 0,
+            "accuracy": 0.24324324324324326
+          },
+          "UNDER": {
+            "count": 16,
+            "averageScore": 58.6875,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 16,
+            "pushes": 0,
+            "accuracy": 0.25
+          }
+        }
+      },
+      "543a227b-5f92-429f-bf46-49f6871c3e6d": {
+        "count": 54,
+        "averageScore": 46.888888888888886,
+        "score80Plus": 1,
+        "score90Plus": 0,
+        "settled": 54,
+        "pushes": 0,
+        "accuracy": 0.25925925925925924,
+        "direction": {
+          "OVER": {
+            "count": 31,
+            "averageScore": 35.225806451612904,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 31,
+            "pushes": 0,
+            "accuracy": 0.25806451612903225
+          },
+          "UNDER": {
+            "count": 23,
+            "averageScore": 62.608695652173914,
+            "score80Plus": 1,
+            "score90Plus": 0,
+            "settled": 23,
+            "pushes": 0,
+            "accuracy": 0.2608695652173913
+          }
+        }
+      },
+      "a13c3640-eca9-4bbb-9c1f-45828b6a26f0": {
+        "count": 60,
+        "averageScore": 46.983333333333334,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 60,
+        "pushes": 0,
+        "accuracy": 0.31666666666666665,
+        "direction": {
+          "OVER": {
+            "count": 44,
+            "averageScore": 42.70454545454545,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 44,
+            "pushes": 0,
+            "accuracy": 0.29545454545454547
+          },
+          "UNDER": {
+            "count": 16,
+            "averageScore": 58.75,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 16,
+            "pushes": 0,
+            "accuracy": 0.375
+          }
+        }
+      },
+      "25d33ccb-87f7-4899-88b6-efa93ecabe72": {
+        "count": 61,
+        "averageScore": 48.967213114754095,
+        "score80Plus": 3,
+        "score90Plus": 0,
+        "settled": 61,
+        "pushes": 0,
+        "accuracy": 0.3770491803278688,
+        "direction": {
+          "OVER": {
+            "count": 33,
+            "averageScore": 37.333333333333336,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 33,
+            "pushes": 0,
+            "accuracy": 0.18181818181818182
+          },
+          "UNDER": {
+            "count": 28,
+            "averageScore": 62.67857142857143,
+            "score80Plus": 3,
+            "score90Plus": 0,
+            "settled": 28,
+            "pushes": 0,
+            "accuracy": 0.6071428571428571
+          }
+        }
+      },
+      "e9faf09e-1cc4-456f-b87a-5806dc02e2cc": {
+        "count": 52,
+        "averageScore": 43.23076923076923,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 52,
+        "pushes": 0,
+        "accuracy": 0.36538461538461536,
+        "direction": {
+          "OVER": {
+            "count": 39,
+            "averageScore": 37.8974358974359,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 39,
+            "pushes": 0,
+            "accuracy": 0.38461538461538464
+          },
+          "UNDER": {
+            "count": 13,
+            "averageScore": 59.23076923076923,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 13,
+            "pushes": 0,
+            "accuracy": 0.3076923076923077
+          }
+        }
+      },
+      "59b44a7a-10bd-463b-ba42-c7687c083c62": {
+        "count": 63,
+        "averageScore": 49.87301587301587,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 63,
+        "pushes": 0,
+        "accuracy": 0.4126984126984127,
+        "direction": {
+          "OVER": {
+            "count": 36,
+            "averageScore": 40.22222222222222,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 36,
+            "pushes": 0,
+            "accuracy": 0.2222222222222222
+          },
+          "UNDER": {
+            "count": 27,
+            "averageScore": 62.74074074074074,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 27,
+            "pushes": 0,
+            "accuracy": 0.6666666666666666
+          }
+        }
+      },
+      "423ba1a1-59cd-4529-ba99-d91c21f857ad": {
+        "count": 63,
+        "averageScore": 47.698412698412696,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 63,
+        "pushes": 0,
+        "accuracy": 0.36507936507936506,
+        "direction": {
+          "OVER": {
+            "count": 48,
+            "averageScore": 44.4375,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 48,
+            "pushes": 0,
+            "accuracy": 0.2916666666666667
+          },
+          "UNDER": {
+            "count": 15,
+            "averageScore": 58.13333333333333,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 15,
+            "pushes": 0,
+            "accuracy": 0.6
+          }
+        }
+      },
+      "1870855e-24fd-499c-b33c-33cc3a282b0e": {
+        "count": 67,
+        "averageScore": 49.059701492537314,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 67,
+        "pushes": 0,
+        "accuracy": 0.3582089552238806,
+        "direction": {
+          "OVER": {
+            "count": 44,
+            "averageScore": 42.13636363636363,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 44,
+            "pushes": 0,
+            "accuracy": 0.22727272727272727
+          },
+          "UNDER": {
+            "count": 23,
+            "averageScore": 62.30434782608695,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 23,
+            "pushes": 0,
+            "accuracy": 0.6086956521739131
+          }
+        }
+      },
+      "8b0ca3e1-7036-4b35-a460-a5c02c0d5462": {
+        "count": 67,
+        "averageScore": 48.55223880597015,
+        "score80Plus": 1,
+        "score90Plus": 0,
+        "settled": 67,
+        "pushes": 0,
+        "accuracy": 0.2835820895522388,
+        "direction": {
+          "OVER": {
+            "count": 45,
+            "averageScore": 42.17777777777778,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 45,
+            "pushes": 0,
+            "accuracy": 0.15555555555555556
+          },
+          "UNDER": {
+            "count": 22,
+            "averageScore": 61.59090909090909,
+            "score80Plus": 1,
+            "score90Plus": 0,
+            "settled": 22,
+            "pushes": 0,
+            "accuracy": 0.5454545454545454
+          }
+        }
+      },
+      "97f06ea1-a558-4c42-b458-a1421b7b2582": {
+        "count": 54,
+        "averageScore": 43.425925925925924,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 54,
+        "pushes": 0,
+        "accuracy": 0.5,
+        "direction": {
+          "OVER": {
+            "count": 44,
+            "averageScore": 40.31818181818182,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 44,
+            "pushes": 0,
+            "accuracy": 0.45454545454545453
+          },
+          "UNDER": {
+            "count": 10,
+            "averageScore": 57.1,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 10,
+            "pushes": 0,
+            "accuracy": 0.7
+          }
+        }
+      },
+      "c14b550f-30f5-4ba6-ad12-53420d63c7f6": {
+        "count": 63,
+        "averageScore": 49.53968253968254,
+        "score80Plus": 2,
+        "score90Plus": 0,
+        "settled": 63,
+        "pushes": 0,
+        "accuracy": 0.4126984126984127,
+        "direction": {
+          "OVER": {
+            "count": 29,
+            "averageScore": 33.89655172413793,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 29,
+            "pushes": 0,
+            "accuracy": 0.13793103448275862
+          },
+          "UNDER": {
+            "count": 34,
+            "averageScore": 62.88235294117647,
+            "score80Plus": 2,
+            "score90Plus": 0,
+            "settled": 34,
+            "pushes": 0,
+            "accuracy": 0.6470588235294118
+          }
+        }
+      },
+      "e278f624-4979-47fa-9d1d-a913246f2cb8": {
+        "count": 54,
+        "averageScore": 46.68518518518518,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 54,
+        "pushes": 0,
+        "accuracy": 0.5370370370370371,
+        "direction": {
+          "OVER": {
+            "count": 37,
+            "averageScore": 41.45945945945946,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 37,
+            "pushes": 0,
+            "accuracy": 0.5405405405405406
+          },
+          "UNDER": {
+            "count": 17,
+            "averageScore": 58.05882352941177,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 17,
+            "pushes": 0,
+            "accuracy": 0.5294117647058824
+          }
+        }
+      },
+      "5f085798-fcdd-4a19-bcab-037440bfcf7c": {
+        "count": 56,
+        "averageScore": 47.410714285714285,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 56,
+        "pushes": 0,
+        "accuracy": 0.4107142857142857,
+        "direction": {
+          "OVER": {
+            "count": 45,
+            "averageScore": 43.44444444444444,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 45,
+            "pushes": 0,
+            "accuracy": 0.35555555555555557
+          },
+          "UNDER": {
+            "count": 11,
+            "averageScore": 63.63636363636363,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 11,
+            "pushes": 0,
+            "accuracy": 0.6363636363636364
+          }
+        }
+      },
+      "5caafbad-b434-4bdb-9c6b-317262a520cf": {
+        "count": 47,
+        "averageScore": 44.148936170212764,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 47,
+        "pushes": 0,
+        "accuracy": 0.425531914893617,
+        "direction": {
+          "OVER": {
+            "count": 32,
+            "averageScore": 37.46875,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 32,
+            "pushes": 0,
+            "accuracy": 0.3125
+          },
+          "UNDER": {
+            "count": 15,
+            "averageScore": 58.4,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 15,
+            "pushes": 0,
+            "accuracy": 0.6666666666666666
+          }
+        }
+      }
+    },
+    "byPosition": {
+      "QB": {
+        "count": 237,
+        "averageScore": 54.23628691983122,
+        "score80Plus": 2,
+        "score90Plus": 0,
+        "settled": 237,
+        "pushes": 0,
+        "accuracy": 0.41350210970464135
+      },
+      "RB": {
+        "count": 243,
+        "averageScore": 49.44444444444444,
+        "score80Plus": 1,
+        "score90Plus": 0,
+        "settled": 243,
+        "pushes": 0,
+        "accuracy": 0.34156378600823045
+      },
+      "TE": {
+        "count": 125,
+        "averageScore": 38.432,
+        "score80Plus": 2,
+        "score90Plus": 0,
+        "settled": 125,
+        "pushes": 0,
+        "accuracy": 0.392
+      },
+      "WR": {
+        "count": 257,
+        "averageScore": 42.69260700389105,
+        "score80Plus": 2,
+        "score90Plus": 0,
+        "settled": 257,
+        "pushes": 0,
+        "accuracy": 0.33073929961089493
+      }
+    },
+    "byProp": {
+      "ANYTIME_TD": {
+        "count": 273,
+        "averageScore": 19.721611721611723,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 273,
+        "pushes": 0,
+        "accuracy": 0.029304029304029304
+      },
+      "INTERCEPTIONS": {
+        "count": 29,
+        "averageScore": 58.275862068965516,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.5517241379310345
+      },
+      "PASSING_ATTEMPTS": {
+        "count": 29,
+        "averageScore": 60.241379310344826,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.3793103448275862
+      },
+      "PASSING_COMPLETIONS": {
+        "count": 29,
+        "averageScore": 60.275862068965516,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.4482758620689655
+      },
+      "PASSING_RUSHING_YARDS": {
+        "count": 25,
+        "averageScore": 58.28,
+        "score80Plus": 1,
+        "score90Plus": 0,
+        "settled": 25,
+        "pushes": 0,
+        "accuracy": 0.36
+      },
+      "PASSING_TDS": {
+        "count": 29,
+        "averageScore": 60.206896551724135,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.5862068965517241
+      },
+      "PASSING_YARDS": {
+        "count": 29,
+        "averageScore": 60.172413793103445,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.4827586206896552
+      },
+      "RECEIVING_YARDS": {
+        "count": 135,
+        "averageScore": 60.02962962962963,
+        "score80Plus": 2,
+        "score90Plus": 0,
+        "settled": 135,
+        "pushes": 0,
+        "accuracy": 0.5851851851851851
+      },
+      "RECEPTIONS": {
+        "count": 136,
+        "averageScore": 60.455882352941174,
+        "score80Plus": 2,
+        "score90Plus": 0,
+        "settled": 136,
+        "pushes": 0,
+        "accuracy": 0.6323529411764706
+      },
+      "RUSHING_ATTEMPTS": {
+        "count": 43,
+        "averageScore": 58.51162790697674,
+        "score80Plus": 1,
+        "score90Plus": 0,
+        "settled": 43,
+        "pushes": 0,
+        "accuracy": 0.46511627906976744
+      },
+      "RUSHING_YARDS": {
+        "count": 73,
+        "averageScore": 59.38356164383562,
+        "score80Plus": 1,
+        "score90Plus": 0,
+        "settled": 73,
+        "pushes": 0,
+        "accuracy": 0.410958904109589
+      },
+      "RUSH_RECEIVE_YARDS": {
+        "count": 32,
+        "averageScore": 60.96875,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 32,
+        "pushes": 0,
+        "accuracy": 0.375
+      }
+    },
+    "byRoleChange": {
+      "MAJOR": {
+        "count": 138,
+        "averageScore": 40.86231884057971,
+        "score80Plus": 1,
+        "score90Plus": 0,
+        "settled": 138,
+        "pushes": 0,
+        "accuracy": 0.2536231884057971
+      },
+      "MINOR": {
+        "count": 246,
+        "averageScore": 47.577235772357724,
+        "score80Plus": 1,
+        "score90Plus": 0,
+        "settled": 246,
+        "pushes": 0,
+        "accuracy": 0.3699186991869919
+      },
+      "MODERATE": {
+        "count": 286,
+        "averageScore": 46.51048951048951,
+        "score80Plus": 3,
+        "score90Plus": 0,
+        "settled": 286,
+        "pushes": 0,
+        "accuracy": 0.34965034965034963
+      },
+      "NONE": {
+        "count": 192,
+        "averageScore": 52.083333333333336,
+        "score80Plus": 2,
+        "score90Plus": 0,
+        "settled": 192,
+        "pushes": 0,
+        "accuracy": 0.4635416666666667
+      }
+    },
+    "byScoreBucket": {
+      "90–100": {
+        "count": 0,
+        "averageScore": null,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 0,
+        "pushes": 0,
+        "accuracy": null
+      },
+      "80–89": {
+        "count": 7,
+        "averageScore": 81.85714285714286,
+        "score80Plus": 7,
+        "score90Plus": 0,
+        "settled": 7,
+        "pushes": 0,
+        "accuracy": 0.5714285714285714
+      },
+      "70–79": {
+        "count": 69,
+        "averageScore": 72.69565217391305,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 69,
+        "pushes": 0,
+        "accuracy": 0.463768115942029
+      },
+      "60–69": {
+        "count": 178,
+        "averageScore": 63.662921348314605,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 178,
+        "pushes": 0,
+        "accuracy": 0.5617977528089888
+      },
+      "0–59": {
+        "count": 608,
+        "averageScore": 39.01973684210526,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 608,
+        "pushes": 0,
+        "accuracy": 0.2944078947368421
+      }
+    },
+    "byOfferDirection": {
+      "OVER": {
+        "count": 2560,
+        "averageScore": 40.812890625,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 2560,
+        "pushes": 0,
+        "accuracy": 0.362109375
+      },
+      "UNDER": {
+        "count": 1741,
+        "averageScore": 51.02871912693854,
+        "score80Plus": 21,
+        "score90Plus": 0,
+        "settled": 1741,
+        "pushes": 0,
+        "accuracy": 0.5020103388856979
+      }
+    }
+  },
+  "v2": {
+    "offers": {
+      "count": 4301,
+      "averageScore": 22.80120902115787,
+      "score80Plus": 0,
+      "score90Plus": 0,
+      "settled": 4301,
+      "pushes": 0,
+      "accuracy": 0.41873982794698905
+    },
+    "recommendations": {
+      "count": 587,
+      "averageScore": 37.97444633730835,
+      "score80Plus": 0,
+      "score90Plus": 0,
+      "settled": 587,
+      "pushes": 0,
+      "accuracy": 0.5008517887563884
+    },
+    "actionable": {
+      "count": 0,
+      "averageScore": null,
+      "score80Plus": 0,
+      "score90Plus": 0,
+      "settled": 0,
+      "pushes": 0,
+      "accuracy": null
+    },
+    "direction": {
+      "OVER": {
+        "count": 318,
+        "averageScore": 37.19496855345912,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 318,
+        "pushes": 0,
+        "accuracy": 0.5031446540880503,
+        "percentage": 54.173764906303234
+      },
+      "UNDER": {
+        "count": 269,
+        "averageScore": 38.89591078066915,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 269,
+        "pushes": 0,
+        "accuracy": 0.49814126394052044,
+        "percentage": 45.826235093696766
+      }
+    },
+    "bySlate": {
+      "c3c3acd0-6984-43aa-8836-24a19fd709b1": {
+        "count": 33,
+        "averageScore": 35.15151515151515,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 33,
+        "pushes": 0,
+        "accuracy": 0.5454545454545454,
+        "direction": {
+          "OVER": {
+            "count": 20,
+            "averageScore": 36.2,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 20,
+            "pushes": 0,
+            "accuracy": 0.6
+          },
+          "UNDER": {
+            "count": 13,
+            "averageScore": 33.53846153846154,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 13,
+            "pushes": 0,
+            "accuracy": 0.46153846153846156
+          }
+        }
+      },
+      "bb1df4c7-bb90-4a23-9155-2c54c0a89595": {
+        "count": 37,
+        "averageScore": 37.891891891891895,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 37,
+        "pushes": 0,
+        "accuracy": 0.5135135135135135,
+        "direction": {
+          "OVER": {
+            "count": 29,
+            "averageScore": 38.37931034482759,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 29,
+            "pushes": 0,
+            "accuracy": 0.5517241379310345
+          },
+          "UNDER": {
+            "count": 8,
+            "averageScore": 36.125,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 8,
+            "pushes": 0,
+            "accuracy": 0.375
+          }
+        }
+      },
+      "543a227b-5f92-429f-bf46-49f6871c3e6d": {
+        "count": 37,
+        "averageScore": 40.972972972972975,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 37,
+        "pushes": 0,
+        "accuracy": 0.40540540540540543,
+        "direction": {
+          "OVER": {
+            "count": 16,
+            "averageScore": 37.5,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 16,
+            "pushes": 0,
+            "accuracy": 0.5625
+          },
+          "UNDER": {
+            "count": 21,
+            "averageScore": 43.61904761904762,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 21,
+            "pushes": 0,
+            "accuracy": 0.2857142857142857
+          }
+        }
+      },
+      "a13c3640-eca9-4bbb-9c1f-45828b6a26f0": {
+        "count": 42,
+        "averageScore": 37.76190476190476,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 42,
+        "pushes": 0,
+        "accuracy": 0.38095238095238093,
+        "direction": {
+          "OVER": {
+            "count": 33,
+            "averageScore": 39.303030303030305,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 33,
+            "pushes": 0,
+            "accuracy": 0.45454545454545453
+          },
+          "UNDER": {
+            "count": 9,
+            "averageScore": 32.111111111111114,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 9,
+            "pushes": 0,
+            "accuracy": 0.1111111111111111
+          }
+        }
+      },
+      "25d33ccb-87f7-4899-88b6-efa93ecabe72": {
+        "count": 43,
+        "averageScore": 38.325581395348834,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 43,
+        "pushes": 0,
+        "accuracy": 0.46511627906976744,
+        "direction": {
+          "OVER": {
+            "count": 22,
+            "averageScore": 35.72727272727273,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 22,
+            "pushes": 0,
+            "accuracy": 0.36363636363636365
+          },
+          "UNDER": {
+            "count": 21,
+            "averageScore": 41.04761904761905,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 21,
+            "pushes": 0,
+            "accuracy": 0.5714285714285714
+          }
+        }
+      },
+      "e9faf09e-1cc4-456f-b87a-5806dc02e2cc": {
+        "count": 31,
+        "averageScore": 39.03225806451613,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 31,
+        "pushes": 0,
+        "accuracy": 0.45161290322580644,
+        "direction": {
+          "OVER": {
+            "count": 15,
+            "averageScore": 37.666666666666664,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 15,
+            "pushes": 0,
+            "accuracy": 0.6666666666666666
+          },
+          "UNDER": {
+            "count": 16,
+            "averageScore": 40.3125,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 16,
+            "pushes": 0,
+            "accuracy": 0.25
+          }
+        }
+      },
+      "59b44a7a-10bd-463b-ba42-c7687c083c62": {
+        "count": 47,
+        "averageScore": 38.276595744680854,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 47,
+        "pushes": 0,
+        "accuracy": 0.3617021276595745,
+        "direction": {
+          "OVER": {
+            "count": 29,
+            "averageScore": 37.86206896551724,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 29,
+            "pushes": 0,
+            "accuracy": 0.27586206896551724
+          },
+          "UNDER": {
+            "count": 18,
+            "averageScore": 38.94444444444444,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 18,
+            "pushes": 0,
+            "accuracy": 0.5
+          }
+        }
+      },
+      "423ba1a1-59cd-4529-ba99-d91c21f857ad": {
+        "count": 43,
+        "averageScore": 40.55813953488372,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 43,
+        "pushes": 0,
+        "accuracy": 0.5348837209302325,
+        "direction": {
+          "OVER": {
+            "count": 18,
+            "averageScore": 39,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 18,
+            "pushes": 0,
+            "accuracy": 0.5
+          },
+          "UNDER": {
+            "count": 25,
+            "averageScore": 41.68,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 25,
+            "pushes": 0,
+            "accuracy": 0.56
+          }
+        }
+      },
+      "1870855e-24fd-499c-b33c-33cc3a282b0e": {
+        "count": 47,
+        "averageScore": 38.59574468085106,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 47,
+        "pushes": 0,
+        "accuracy": 0.5957446808510638,
+        "direction": {
+          "OVER": {
+            "count": 20,
+            "averageScore": 36,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 20,
+            "pushes": 0,
+            "accuracy": 0.5
+          },
+          "UNDER": {
+            "count": 27,
+            "averageScore": 40.51851851851852,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 27,
+            "pushes": 0,
+            "accuracy": 0.6666666666666666
+          }
+        }
+      },
+      "8b0ca3e1-7036-4b35-a460-a5c02c0d5462": {
+        "count": 46,
+        "averageScore": 39,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 46,
+        "pushes": 0,
+        "accuracy": 0.45652173913043476,
+        "direction": {
+          "OVER": {
+            "count": 22,
+            "averageScore": 40,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 22,
+            "pushes": 0,
+            "accuracy": 0.3181818181818182
+          },
+          "UNDER": {
+            "count": 24,
+            "averageScore": 38.083333333333336,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 24,
+            "pushes": 0,
+            "accuracy": 0.5833333333333334
+          }
+        }
+      },
+      "97f06ea1-a558-4c42-b458-a1421b7b2582": {
+        "count": 34,
+        "averageScore": 35.88235294117647,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 34,
+        "pushes": 0,
+        "accuracy": 0.5294117647058824,
+        "direction": {
+          "OVER": {
+            "count": 18,
+            "averageScore": 33.44444444444444,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 18,
+            "pushes": 0,
+            "accuracy": 0.6666666666666666
+          },
+          "UNDER": {
+            "count": 16,
+            "averageScore": 38.625,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 16,
+            "pushes": 0,
+            "accuracy": 0.375
+          }
+        }
+      },
+      "c14b550f-30f5-4ba6-ad12-53420d63c7f6": {
+        "count": 44,
+        "averageScore": 37.95454545454545,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 44,
+        "pushes": 0,
+        "accuracy": 0.5227272727272727,
+        "direction": {
+          "OVER": {
+            "count": 12,
+            "averageScore": 36.416666666666664,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 12,
+            "pushes": 0,
+            "accuracy": 0.25
+          },
+          "UNDER": {
+            "count": 32,
+            "averageScore": 38.53125,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 32,
+            "pushes": 0,
+            "accuracy": 0.625
+          }
+        }
+      },
+      "e278f624-4979-47fa-9d1d-a913246f2cb8": {
+        "count": 36,
+        "averageScore": 37.52777777777778,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 36,
+        "pushes": 0,
+        "accuracy": 0.6388888888888888,
+        "direction": {
+          "OVER": {
+            "count": 29,
+            "averageScore": 38.689655172413794,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 29,
+            "pushes": 0,
+            "accuracy": 0.6896551724137931
+          },
+          "UNDER": {
+            "count": 7,
+            "averageScore": 32.714285714285715,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 7,
+            "pushes": 0,
+            "accuracy": 0.42857142857142855
+          }
+        }
+      },
+      "5f085798-fcdd-4a19-bcab-037440bfcf7c": {
+        "count": 37,
+        "averageScore": 35.75675675675676,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 37,
+        "pushes": 0,
+        "accuracy": 0.5675675675675675,
+        "direction": {
+          "OVER": {
+            "count": 18,
+            "averageScore": 32.388888888888886,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 18,
+            "pushes": 0,
+            "accuracy": 0.6111111111111112
+          },
+          "UNDER": {
+            "count": 19,
+            "averageScore": 38.94736842105263,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 19,
+            "pushes": 0,
+            "accuracy": 0.5263157894736842
+          }
+        }
+      },
+      "5caafbad-b434-4bdb-9c6b-317262a520cf": {
+        "count": 30,
+        "averageScore": 35.13333333333333,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 30,
+        "pushes": 0,
+        "accuracy": 0.6,
+        "direction": {
+          "OVER": {
+            "count": 17,
+            "averageScore": 35.23529411764706,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 17,
+            "pushes": 0,
+            "accuracy": 0.5882352941176471
+          },
+          "UNDER": {
+            "count": 13,
+            "averageScore": 35,
+            "score80Plus": 0,
+            "score90Plus": 0,
+            "settled": 13,
+            "pushes": 0,
+            "accuracy": 0.6153846153846154
+          }
+        }
+      }
+    },
+    "byPosition": {
+      "QB": {
+        "count": 207,
+        "averageScore": 38.091787439613526,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 207,
+        "pushes": 0,
+        "accuracy": 0.5555555555555556
+      },
+      "RB": {
+        "count": 176,
+        "averageScore": 36.49431818181818,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 176,
+        "pushes": 0,
+        "accuracy": 0.4034090909090909
+      },
+      "TE": {
+        "count": 61,
+        "averageScore": 38.21311475409836,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 61,
+        "pushes": 0,
+        "accuracy": 0.5573770491803278
+      },
+      "WR": {
+        "count": 143,
+        "averageScore": 39.52447552447553,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 143,
+        "pushes": 0,
+        "accuracy": 0.5174825174825175
+      }
+    },
+    "byProp": {
+      "ANYTIME_TD": {
+        "count": 1,
+        "averageScore": 33,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 1,
+        "pushes": 0,
+        "accuracy": 1
+      },
+      "INTERCEPTIONS": {
+        "count": 29,
+        "averageScore": 31.620689655172413,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.5172413793103449
+      },
+      "PASSING_ATTEMPTS": {
+        "count": 29,
+        "averageScore": 43.51724137931034,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.4482758620689655
+      },
+      "PASSING_COMPLETIONS": {
+        "count": 29,
+        "averageScore": 41.51724137931034,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.6551724137931034
+      },
+      "PASSING_RUSHING_YARDS": {
+        "count": 25,
+        "averageScore": 38.72,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 25,
+        "pushes": 0,
+        "accuracy": 0.72
+      },
+      "PASSING_TDS": {
+        "count": 29,
+        "averageScore": 35.689655172413794,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.5517241379310345
+      },
+      "PASSING_YARDS": {
+        "count": 29,
+        "averageScore": 39,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 29,
+        "pushes": 0,
+        "accuracy": 0.6206896551724138
+      },
+      "RECEIVING_YARDS": {
+        "count": 134,
+        "averageScore": 37.723880597014926,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 134,
+        "pushes": 0,
+        "accuracy": 0.5223880597014925
+      },
+      "RECEPTIONS": {
+        "count": 136,
+        "averageScore": 39.38970588235294,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 136,
+        "pushes": 0,
+        "accuracy": 0.5220588235294118
+      },
+      "RUSHING_ATTEMPTS": {
+        "count": 42,
+        "averageScore": 38.30952380952381,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 42,
+        "pushes": 0,
+        "accuracy": 0.4523809523809524
+      },
+      "RUSHING_YARDS": {
+        "count": 72,
+        "averageScore": 35.375,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 72,
+        "pushes": 0,
+        "accuracy": 0.3472222222222222
+      },
+      "RUSH_RECEIVE_YARDS": {
+        "count": 32,
+        "averageScore": 36.65625,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 32,
+        "pushes": 0,
+        "accuracy": 0.28125
+      }
+    },
+    "byRoleChange": {
+      "MAJOR": {
+        "count": 72,
+        "averageScore": 40.40277777777778,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 72,
+        "pushes": 0,
+        "accuracy": 0.5138888888888888
+      },
+      "MINOR": {
+        "count": 172,
+        "averageScore": 37.348837209302324,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 172,
+        "pushes": 0,
+        "accuracy": 0.5348837209302325
+      },
+      "MODERATE": {
+        "count": 194,
+        "averageScore": 38.97938144329897,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 194,
+        "pushes": 0,
+        "accuracy": 0.4072164948453608
+      },
+      "NONE": {
+        "count": 149,
+        "averageScore": 36.214765100671144,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 149,
+        "pushes": 0,
+        "accuracy": 0.5771812080536913
+      }
+    },
+    "byScoreBucket": {
+      "90–100": {
+        "count": 0,
+        "averageScore": null,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 0,
+        "pushes": 0,
+        "accuracy": null
+      },
+      "80–89": {
+        "count": 0,
+        "averageScore": null,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 0,
+        "pushes": 0,
+        "accuracy": null
+      },
+      "70–79": {
+        "count": 0,
+        "averageScore": null,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 0,
+        "pushes": 0,
+        "accuracy": null
+      },
+      "60–69": {
+        "count": 0,
+        "averageScore": null,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 0,
+        "pushes": 0,
+        "accuracy": null
+      },
+      "0–59": {
+        "count": 587,
+        "averageScore": 37.97444633730835,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 587,
+        "pushes": 0,
+        "accuracy": 0.5008517887563884
+      }
+    },
+    "byOfferDirection": {
+      "OVER": {
+        "count": 2560,
+        "averageScore": 20.38984375,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 2560,
+        "pushes": 0,
+        "accuracy": 0.362109375
+      },
+      "UNDER": {
+        "count": 1741,
+        "averageScore": 26.346927053417577,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 1741,
+        "pushes": 0,
+        "accuracy": 0.5020103388856979
+      }
+    }
+  },
+  "commonCandidateComparison": {
+    "legacy": {
+      "offers": {
+        "count": 3572,
+        "averageScore": 49.972844344904814,
+        "score80Plus": 21,
+        "score90Plus": 0,
+        "settled": 3572,
+        "pushes": 0,
+        "accuracy": 0.4963605823068309
+      },
+      "recommendations": {
+        "count": 587,
+        "averageScore": 59.90971039182283,
+        "score80Plus": 7,
+        "score90Plus": 0,
+        "settled": 587,
+        "pushes": 0,
+        "accuracy": 0.5212947189097104
+      },
+      "actionable": {
+        "count": 76,
+        "averageScore": 73.53947368421052,
+        "score80Plus": 7,
+        "score90Plus": 0,
+        "settled": 76,
+        "pushes": 0,
+        "accuracy": 0.47368421052631576
+      },
+      "direction": {
+        "OVER": {
+          "count": 300,
+          "averageScore": 58.89666666666667,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 300,
+          "pushes": 0,
+          "accuracy": 0.5233333333333333,
+          "percentage": 51.10732538330494
+        },
+        "UNDER": {
+          "count": 287,
+          "averageScore": 60.96864111498258,
+          "score80Plus": 7,
+          "score90Plus": 0,
+          "settled": 287,
+          "pushes": 0,
+          "accuracy": 0.519163763066202,
+          "percentage": 48.89267461669506
+        }
+      },
+      "bySlate": {
+        "c3c3acd0-6984-43aa-8836-24a19fd709b1": {
+          "count": 33,
+          "averageScore": 59.57575757575758,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 33,
+          "pushes": 0,
+          "accuracy": 0.30303030303030304,
+          "direction": {
+            "OVER": {
+              "count": 16,
+              "averageScore": 58.625,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.375
+            },
+            "UNDER": {
+              "count": 17,
+              "averageScore": 60.470588235294116,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 17,
+              "pushes": 0,
+              "accuracy": 0.23529411764705882
+            }
+          }
+        },
+        "bb1df4c7-bb90-4a23-9155-2c54c0a89595": {
+          "count": 37,
+          "averageScore": 57.189189189189186,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 37,
+          "pushes": 0,
+          "accuracy": 0.35135135135135137,
+          "direction": {
+            "OVER": {
+              "count": 21,
+              "averageScore": 56.04761904761905,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 21,
+              "pushes": 0,
+              "accuracy": 0.42857142857142855
+            },
+            "UNDER": {
+              "count": 16,
+              "averageScore": 58.6875,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.25
+            }
+          }
+        },
+        "543a227b-5f92-429f-bf46-49f6871c3e6d": {
+          "count": 37,
+          "averageScore": 59.08108108108108,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 37,
+          "pushes": 0,
+          "accuracy": 0.35135135135135137,
+          "direction": {
+            "OVER": {
+              "count": 14,
+              "averageScore": 53.285714285714285,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 14,
+              "pushes": 0,
+              "accuracy": 0.5
+            },
+            "UNDER": {
+              "count": 23,
+              "averageScore": 62.608695652173914,
+              "score80Plus": 1,
+              "score90Plus": 0,
+              "settled": 23,
+              "pushes": 0,
+              "accuracy": 0.2608695652173913
+            }
+          }
+        },
+        "a13c3640-eca9-4bbb-9c1f-45828b6a26f0": {
+          "count": 42,
+          "averageScore": 59,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 42,
+          "pushes": 0,
+          "accuracy": 0.4523809523809524,
+          "direction": {
+            "OVER": {
+              "count": 26,
+              "averageScore": 59.15384615384615,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 26,
+              "pushes": 0,
+              "accuracy": 0.5
+            },
+            "UNDER": {
+              "count": 16,
+              "averageScore": 58.75,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.375
+            }
+          }
+        },
+        "25d33ccb-87f7-4899-88b6-efa93ecabe72": {
+          "count": 43,
+          "averageScore": 60.651162790697676,
+          "score80Plus": 3,
+          "score90Plus": 0,
+          "settled": 43,
+          "pushes": 0,
+          "accuracy": 0.5116279069767442,
+          "direction": {
+            "OVER": {
+              "count": 15,
+              "averageScore": 56.86666666666667,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 15,
+              "pushes": 0,
+              "accuracy": 0.3333333333333333
+            },
+            "UNDER": {
+              "count": 28,
+              "averageScore": 62.67857142857143,
+              "score80Plus": 3,
+              "score90Plus": 0,
+              "settled": 28,
+              "pushes": 0,
+              "accuracy": 0.6071428571428571
+            }
+          }
+        },
+        "e9faf09e-1cc4-456f-b87a-5806dc02e2cc": {
+          "count": 31,
+          "averageScore": 59.96774193548387,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 31,
+          "pushes": 0,
+          "accuracy": 0.5806451612903226,
+          "direction": {
+            "OVER": {
+              "count": 18,
+              "averageScore": 60.5,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 18,
+              "pushes": 0,
+              "accuracy": 0.7777777777777778
+            },
+            "UNDER": {
+              "count": 13,
+              "averageScore": 59.23076923076923,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 13,
+              "pushes": 0,
+              "accuracy": 0.3076923076923077
+            }
+          }
+        },
+        "59b44a7a-10bd-463b-ba42-c7687c083c62": {
+          "count": 47,
+          "averageScore": 60.1063829787234,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 47,
+          "pushes": 0,
+          "accuracy": 0.5531914893617021,
+          "direction": {
+            "OVER": {
+              "count": 20,
+              "averageScore": 56.55,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 20,
+              "pushes": 0,
+              "accuracy": 0.4
+            },
+            "UNDER": {
+              "count": 27,
+              "averageScore": 62.74074074074074,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 27,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            }
+          }
+        },
+        "423ba1a1-59cd-4529-ba99-d91c21f857ad": {
+          "count": 43,
+          "averageScore": 60.16279069767442,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 43,
+          "pushes": 0,
+          "accuracy": 0.5348837209302325,
+          "direction": {
+            "OVER": {
+              "count": 28,
+              "averageScore": 61.25,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 28,
+              "pushes": 0,
+              "accuracy": 0.5
+            },
+            "UNDER": {
+              "count": 15,
+              "averageScore": 58.13333333333333,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 15,
+              "pushes": 0,
+              "accuracy": 0.6
+            }
+          }
+        },
+        "1870855e-24fd-499c-b33c-33cc3a282b0e": {
+          "count": 47,
+          "averageScore": 61.276595744680854,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 47,
+          "pushes": 0,
+          "accuracy": 0.5106382978723404,
+          "direction": {
+            "OVER": {
+              "count": 24,
+              "averageScore": 60.291666666666664,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 24,
+              "pushes": 0,
+              "accuracy": 0.4166666666666667
+            },
+            "UNDER": {
+              "count": 23,
+              "averageScore": 62.30434782608695,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 23,
+              "pushes": 0,
+              "accuracy": 0.6086956521739131
+            }
+          }
+        },
+        "8b0ca3e1-7036-4b35-a460-a5c02c0d5462": {
+          "count": 46,
+          "averageScore": 61.69565217391305,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.41304347826086957,
+          "direction": {
+            "OVER": {
+              "count": 24,
+              "averageScore": 61.791666666666664,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 24,
+              "pushes": 0,
+              "accuracy": 0.2916666666666667
+            },
+            "UNDER": {
+              "count": 22,
+              "averageScore": 61.59090909090909,
+              "score80Plus": 1,
+              "score90Plus": 0,
+              "settled": 22,
+              "pushes": 0,
+              "accuracy": 0.5454545454545454
+            }
+          }
+        },
+        "97f06ea1-a558-4c42-b458-a1421b7b2582": {
+          "count": 34,
+          "averageScore": 58.029411764705884,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 34,
+          "pushes": 0,
+          "accuracy": 0.7647058823529411,
+          "direction": {
+            "OVER": {
+              "count": 24,
+              "averageScore": 58.416666666666664,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 24,
+              "pushes": 0,
+              "accuracy": 0.7916666666666666
+            },
+            "UNDER": {
+              "count": 10,
+              "averageScore": 57.1,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 10,
+              "pushes": 0,
+              "accuracy": 0.7
+            }
+          }
+        },
+        "c14b550f-30f5-4ba6-ad12-53420d63c7f6": {
+          "count": 44,
+          "averageScore": 62.09090909090909,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 44,
+          "pushes": 0,
+          "accuracy": 0.5681818181818182,
+          "direction": {
+            "OVER": {
+              "count": 10,
+              "averageScore": 59.4,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 10,
+              "pushes": 0,
+              "accuracy": 0.3
+            },
+            "UNDER": {
+              "count": 34,
+              "averageScore": 62.88235294117647,
+              "score80Plus": 2,
+              "score90Plus": 0,
+              "settled": 34,
+              "pushes": 0,
+              "accuracy": 0.6470588235294118
+            }
+          }
+        },
+        "e278f624-4979-47fa-9d1d-a913246f2cb8": {
+          "count": 36,
+          "averageScore": 58.94444444444444,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 36,
+          "pushes": 0,
+          "accuracy": 0.6944444444444444,
+          "direction": {
+            "OVER": {
+              "count": 19,
+              "averageScore": 59.73684210526316,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 19,
+              "pushes": 0,
+              "accuracy": 0.8421052631578947
+            },
+            "UNDER": {
+              "count": 17,
+              "averageScore": 58.05882352941177,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 17,
+              "pushes": 0,
+              "accuracy": 0.5294117647058824
+            }
+          }
+        },
+        "5f085798-fcdd-4a19-bcab-037440bfcf7c": {
+          "count": 37,
+          "averageScore": 61.32432432432432,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 37,
+          "pushes": 0,
+          "accuracy": 0.6216216216216216,
+          "direction": {
+            "OVER": {
+              "count": 26,
+              "averageScore": 60.34615384615385,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 26,
+              "pushes": 0,
+              "accuracy": 0.6153846153846154
+            },
+            "UNDER": {
+              "count": 11,
+              "averageScore": 63.63636363636363,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 11,
+              "pushes": 0,
+              "accuracy": 0.6363636363636364
+            }
+          }
+        },
+        "5caafbad-b434-4bdb-9c6b-317262a520cf": {
+          "count": 30,
+          "averageScore": 57.6,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 30,
+          "pushes": 0,
+          "accuracy": 0.6666666666666666,
+          "direction": {
+            "OVER": {
+              "count": 15,
+              "averageScore": 56.8,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 15,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            },
+            "UNDER": {
+              "count": 15,
+              "averageScore": 58.4,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 15,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            }
+          }
+        }
+      },
+      "byPosition": {
+        "QB": {
+          "count": 207,
+          "averageScore": 59.227053140096615,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 207,
+          "pushes": 0,
+          "accuracy": 0.46859903381642515
+        },
+        "RB": {
+          "count": 176,
+          "averageScore": 59.75568181818182,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 176,
+          "pushes": 0,
+          "accuracy": 0.4602272727272727
+        },
+        "TE": {
+          "count": 61,
+          "averageScore": 59.08196721311475,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 61,
+          "pushes": 0,
+          "accuracy": 0.7213114754098361
+        },
+        "WR": {
+          "count": 143,
+          "averageScore": 61.44055944055944,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 143,
+          "pushes": 0,
+          "accuracy": 0.5874125874125874
+        }
+      },
+      "byProp": {
+        "ANYTIME_TD": {
+          "count": 1,
+          "averageScore": 39,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 1,
+          "pushes": 0,
+          "accuracy": 1
+        },
+        "INTERCEPTIONS": {
+          "count": 29,
+          "averageScore": 58.275862068965516,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.5517241379310345
+        },
+        "PASSING_ATTEMPTS": {
+          "count": 29,
+          "averageScore": 60.241379310344826,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.3793103448275862
+        },
+        "PASSING_COMPLETIONS": {
+          "count": 29,
+          "averageScore": 60.275862068965516,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.4482758620689655
+        },
+        "PASSING_RUSHING_YARDS": {
+          "count": 25,
+          "averageScore": 58.28,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 25,
+          "pushes": 0,
+          "accuracy": 0.36
+        },
+        "PASSING_TDS": {
+          "count": 29,
+          "averageScore": 60.206896551724135,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.5862068965517241
+        },
+        "PASSING_YARDS": {
+          "count": 29,
+          "averageScore": 60.172413793103445,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.4827586206896552
+        },
+        "RECEIVING_YARDS": {
+          "count": 134,
+          "averageScore": 60.201492537313435,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 134,
+          "pushes": 0,
+          "accuracy": 0.582089552238806
+        },
+        "RECEPTIONS": {
+          "count": 136,
+          "averageScore": 60.455882352941174,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 136,
+          "pushes": 0,
+          "accuracy": 0.6323529411764706
+        },
+        "RUSHING_ATTEMPTS": {
+          "count": 42,
+          "averageScore": 58.785714285714285,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 42,
+          "pushes": 0,
+          "accuracy": 0.47619047619047616
+        },
+        "RUSHING_YARDS": {
+          "count": 72,
+          "averageScore": 59.52777777777778,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 72,
+          "pushes": 0,
+          "accuracy": 0.4027777777777778
+        },
+        "RUSH_RECEIVE_YARDS": {
+          "count": 32,
+          "averageScore": 60.96875,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 32,
+          "pushes": 0,
+          "accuracy": 0.375
+        }
+      },
+      "byRoleChange": {
+        "MAJOR": {
+          "count": 72,
+          "averageScore": 62.02777777777778,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 72,
+          "pushes": 0,
+          "accuracy": 0.4861111111111111
+        },
+        "MINOR": {
+          "count": 172,
+          "averageScore": 59.354651162790695,
+          "score80Plus": 1,
+          "score90Plus": 0,
+          "settled": 172,
+          "pushes": 0,
+          "accuracy": 0.5058139534883721
+        },
+        "MODERATE": {
+          "count": 194,
+          "averageScore": 59.06185567010309,
+          "score80Plus": 3,
+          "score90Plus": 0,
+          "settled": 194,
+          "pushes": 0,
+          "accuracy": 0.5051546391752577
+        },
+        "NONE": {
+          "count": 149,
+          "averageScore": 60.630872483221474,
+          "score80Plus": 2,
+          "score90Plus": 0,
+          "settled": 149,
+          "pushes": 0,
+          "accuracy": 0.5771812080536913
+        }
+      },
+      "byScoreBucket": {
+        "90–100": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "80–89": {
+          "count": 7,
+          "averageScore": 81.85714285714286,
+          "score80Plus": 7,
+          "score90Plus": 0,
+          "settled": 7,
+          "pushes": 0,
+          "accuracy": 0.5714285714285714
+        },
+        "70–79": {
+          "count": 69,
+          "averageScore": 72.69565217391305,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 69,
+          "pushes": 0,
+          "accuracy": 0.463768115942029
+        },
+        "60–69": {
+          "count": 178,
+          "averageScore": 63.662921348314605,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 178,
+          "pushes": 0,
+          "accuracy": 0.5617977528089888
+        },
+        "0–59": {
+          "count": 333,
+          "averageScore": 54.792792792792795,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 333,
+          "pushes": 0,
+          "accuracy": 0.5105105105105106
+        }
+      },
+      "byOfferDirection": {
+        "OVER": {
+          "count": 1833,
+          "averageScore": 48.96235679214403,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 1833,
+          "pushes": 0,
+          "accuracy": 0.49045280960174575
+        },
+        "UNDER": {
+          "count": 1739,
+          "averageScore": 51.03795284646348,
+          "score80Plus": 21,
+          "score90Plus": 0,
+          "settled": 1739,
+          "pushes": 0,
+          "accuracy": 0.5025876940770557
+        }
+      }
+    },
+    "v2": {
+      "offers": {
+        "count": 3572,
+        "averageScore": 26.400895856662935,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 3572,
+        "pushes": 0,
+        "accuracy": 0.4963605823068309
+      },
+      "recommendations": {
+        "count": 587,
+        "averageScore": 37.97444633730835,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 587,
+        "pushes": 0,
+        "accuracy": 0.5008517887563884
+      },
+      "actionable": {
+        "count": 0,
+        "averageScore": null,
+        "score80Plus": 0,
+        "score90Plus": 0,
+        "settled": 0,
+        "pushes": 0,
+        "accuracy": null
+      },
+      "direction": {
+        "OVER": {
+          "count": 318,
+          "averageScore": 37.19496855345912,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 318,
+          "pushes": 0,
+          "accuracy": 0.5031446540880503,
+          "percentage": 54.173764906303234
+        },
+        "UNDER": {
+          "count": 269,
+          "averageScore": 38.89591078066915,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 269,
+          "pushes": 0,
+          "accuracy": 0.49814126394052044,
+          "percentage": 45.826235093696766
+        }
+      },
+      "bySlate": {
+        "c3c3acd0-6984-43aa-8836-24a19fd709b1": {
+          "count": 33,
+          "averageScore": 35.15151515151515,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 33,
+          "pushes": 0,
+          "accuracy": 0.5454545454545454,
+          "direction": {
+            "OVER": {
+              "count": 20,
+              "averageScore": 36.2,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 20,
+              "pushes": 0,
+              "accuracy": 0.6
+            },
+            "UNDER": {
+              "count": 13,
+              "averageScore": 33.53846153846154,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 13,
+              "pushes": 0,
+              "accuracy": 0.46153846153846156
+            }
+          }
+        },
+        "bb1df4c7-bb90-4a23-9155-2c54c0a89595": {
+          "count": 37,
+          "averageScore": 37.891891891891895,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 37,
+          "pushes": 0,
+          "accuracy": 0.5135135135135135,
+          "direction": {
+            "OVER": {
+              "count": 29,
+              "averageScore": 38.37931034482759,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 29,
+              "pushes": 0,
+              "accuracy": 0.5517241379310345
+            },
+            "UNDER": {
+              "count": 8,
+              "averageScore": 36.125,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 8,
+              "pushes": 0,
+              "accuracy": 0.375
+            }
+          }
+        },
+        "543a227b-5f92-429f-bf46-49f6871c3e6d": {
+          "count": 37,
+          "averageScore": 40.972972972972975,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 37,
+          "pushes": 0,
+          "accuracy": 0.40540540540540543,
+          "direction": {
+            "OVER": {
+              "count": 16,
+              "averageScore": 37.5,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.5625
+            },
+            "UNDER": {
+              "count": 21,
+              "averageScore": 43.61904761904762,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 21,
+              "pushes": 0,
+              "accuracy": 0.2857142857142857
+            }
+          }
+        },
+        "a13c3640-eca9-4bbb-9c1f-45828b6a26f0": {
+          "count": 42,
+          "averageScore": 37.76190476190476,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 42,
+          "pushes": 0,
+          "accuracy": 0.38095238095238093,
+          "direction": {
+            "OVER": {
+              "count": 33,
+              "averageScore": 39.303030303030305,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 33,
+              "pushes": 0,
+              "accuracy": 0.45454545454545453
+            },
+            "UNDER": {
+              "count": 9,
+              "averageScore": 32.111111111111114,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 9,
+              "pushes": 0,
+              "accuracy": 0.1111111111111111
+            }
+          }
+        },
+        "25d33ccb-87f7-4899-88b6-efa93ecabe72": {
+          "count": 43,
+          "averageScore": 38.325581395348834,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 43,
+          "pushes": 0,
+          "accuracy": 0.46511627906976744,
+          "direction": {
+            "OVER": {
+              "count": 22,
+              "averageScore": 35.72727272727273,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 22,
+              "pushes": 0,
+              "accuracy": 0.36363636363636365
+            },
+            "UNDER": {
+              "count": 21,
+              "averageScore": 41.04761904761905,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 21,
+              "pushes": 0,
+              "accuracy": 0.5714285714285714
+            }
+          }
+        },
+        "e9faf09e-1cc4-456f-b87a-5806dc02e2cc": {
+          "count": 31,
+          "averageScore": 39.03225806451613,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 31,
+          "pushes": 0,
+          "accuracy": 0.45161290322580644,
+          "direction": {
+            "OVER": {
+              "count": 15,
+              "averageScore": 37.666666666666664,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 15,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            },
+            "UNDER": {
+              "count": 16,
+              "averageScore": 40.3125,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.25
+            }
+          }
+        },
+        "59b44a7a-10bd-463b-ba42-c7687c083c62": {
+          "count": 47,
+          "averageScore": 38.276595744680854,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 47,
+          "pushes": 0,
+          "accuracy": 0.3617021276595745,
+          "direction": {
+            "OVER": {
+              "count": 29,
+              "averageScore": 37.86206896551724,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 29,
+              "pushes": 0,
+              "accuracy": 0.27586206896551724
+            },
+            "UNDER": {
+              "count": 18,
+              "averageScore": 38.94444444444444,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 18,
+              "pushes": 0,
+              "accuracy": 0.5
+            }
+          }
+        },
+        "423ba1a1-59cd-4529-ba99-d91c21f857ad": {
+          "count": 43,
+          "averageScore": 40.55813953488372,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 43,
+          "pushes": 0,
+          "accuracy": 0.5348837209302325,
+          "direction": {
+            "OVER": {
+              "count": 18,
+              "averageScore": 39,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 18,
+              "pushes": 0,
+              "accuracy": 0.5
+            },
+            "UNDER": {
+              "count": 25,
+              "averageScore": 41.68,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 25,
+              "pushes": 0,
+              "accuracy": 0.56
+            }
+          }
+        },
+        "1870855e-24fd-499c-b33c-33cc3a282b0e": {
+          "count": 47,
+          "averageScore": 38.59574468085106,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 47,
+          "pushes": 0,
+          "accuracy": 0.5957446808510638,
+          "direction": {
+            "OVER": {
+              "count": 20,
+              "averageScore": 36,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 20,
+              "pushes": 0,
+              "accuracy": 0.5
+            },
+            "UNDER": {
+              "count": 27,
+              "averageScore": 40.51851851851852,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 27,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            }
+          }
+        },
+        "8b0ca3e1-7036-4b35-a460-a5c02c0d5462": {
+          "count": 46,
+          "averageScore": 39,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.45652173913043476,
+          "direction": {
+            "OVER": {
+              "count": 22,
+              "averageScore": 40,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 22,
+              "pushes": 0,
+              "accuracy": 0.3181818181818182
+            },
+            "UNDER": {
+              "count": 24,
+              "averageScore": 38.083333333333336,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 24,
+              "pushes": 0,
+              "accuracy": 0.5833333333333334
+            }
+          }
+        },
+        "97f06ea1-a558-4c42-b458-a1421b7b2582": {
+          "count": 34,
+          "averageScore": 35.88235294117647,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 34,
+          "pushes": 0,
+          "accuracy": 0.5294117647058824,
+          "direction": {
+            "OVER": {
+              "count": 18,
+              "averageScore": 33.44444444444444,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 18,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666
+            },
+            "UNDER": {
+              "count": 16,
+              "averageScore": 38.625,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 16,
+              "pushes": 0,
+              "accuracy": 0.375
+            }
+          }
+        },
+        "c14b550f-30f5-4ba6-ad12-53420d63c7f6": {
+          "count": 44,
+          "averageScore": 37.95454545454545,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 44,
+          "pushes": 0,
+          "accuracy": 0.5227272727272727,
+          "direction": {
+            "OVER": {
+              "count": 12,
+              "averageScore": 36.416666666666664,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 12,
+              "pushes": 0,
+              "accuracy": 0.25
+            },
+            "UNDER": {
+              "count": 32,
+              "averageScore": 38.53125,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 32,
+              "pushes": 0,
+              "accuracy": 0.625
+            }
+          }
+        },
+        "e278f624-4979-47fa-9d1d-a913246f2cb8": {
+          "count": 36,
+          "averageScore": 37.52777777777778,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 36,
+          "pushes": 0,
+          "accuracy": 0.6388888888888888,
+          "direction": {
+            "OVER": {
+              "count": 29,
+              "averageScore": 38.689655172413794,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 29,
+              "pushes": 0,
+              "accuracy": 0.6896551724137931
+            },
+            "UNDER": {
+              "count": 7,
+              "averageScore": 32.714285714285715,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 7,
+              "pushes": 0,
+              "accuracy": 0.42857142857142855
+            }
+          }
+        },
+        "5f085798-fcdd-4a19-bcab-037440bfcf7c": {
+          "count": 37,
+          "averageScore": 35.75675675675676,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 37,
+          "pushes": 0,
+          "accuracy": 0.5675675675675675,
+          "direction": {
+            "OVER": {
+              "count": 18,
+              "averageScore": 32.388888888888886,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 18,
+              "pushes": 0,
+              "accuracy": 0.6111111111111112
+            },
+            "UNDER": {
+              "count": 19,
+              "averageScore": 38.94736842105263,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 19,
+              "pushes": 0,
+              "accuracy": 0.5263157894736842
+            }
+          }
+        },
+        "5caafbad-b434-4bdb-9c6b-317262a520cf": {
+          "count": 30,
+          "averageScore": 35.13333333333333,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 30,
+          "pushes": 0,
+          "accuracy": 0.6,
+          "direction": {
+            "OVER": {
+              "count": 17,
+              "averageScore": 35.23529411764706,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 17,
+              "pushes": 0,
+              "accuracy": 0.5882352941176471
+            },
+            "UNDER": {
+              "count": 13,
+              "averageScore": 35,
+              "score80Plus": 0,
+              "score90Plus": 0,
+              "settled": 13,
+              "pushes": 0,
+              "accuracy": 0.6153846153846154
+            }
+          }
+        }
+      },
+      "byPosition": {
+        "QB": {
+          "count": 207,
+          "averageScore": 38.091787439613526,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 207,
+          "pushes": 0,
+          "accuracy": 0.5555555555555556
+        },
+        "RB": {
+          "count": 176,
+          "averageScore": 36.49431818181818,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 176,
+          "pushes": 0,
+          "accuracy": 0.4034090909090909
+        },
+        "TE": {
+          "count": 61,
+          "averageScore": 38.21311475409836,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 61,
+          "pushes": 0,
+          "accuracy": 0.5573770491803278
+        },
+        "WR": {
+          "count": 143,
+          "averageScore": 39.52447552447553,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 143,
+          "pushes": 0,
+          "accuracy": 0.5174825174825175
+        }
+      },
+      "byProp": {
+        "ANYTIME_TD": {
+          "count": 1,
+          "averageScore": 33,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 1,
+          "pushes": 0,
+          "accuracy": 1
+        },
+        "INTERCEPTIONS": {
+          "count": 29,
+          "averageScore": 31.620689655172413,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.5172413793103449
+        },
+        "PASSING_ATTEMPTS": {
+          "count": 29,
+          "averageScore": 43.51724137931034,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.4482758620689655
+        },
+        "PASSING_COMPLETIONS": {
+          "count": 29,
+          "averageScore": 41.51724137931034,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.6551724137931034
+        },
+        "PASSING_RUSHING_YARDS": {
+          "count": 25,
+          "averageScore": 38.72,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 25,
+          "pushes": 0,
+          "accuracy": 0.72
+        },
+        "PASSING_TDS": {
+          "count": 29,
+          "averageScore": 35.689655172413794,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.5517241379310345
+        },
+        "PASSING_YARDS": {
+          "count": 29,
+          "averageScore": 39,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 29,
+          "pushes": 0,
+          "accuracy": 0.6206896551724138
+        },
+        "RECEIVING_YARDS": {
+          "count": 134,
+          "averageScore": 37.723880597014926,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 134,
+          "pushes": 0,
+          "accuracy": 0.5223880597014925
+        },
+        "RECEPTIONS": {
+          "count": 136,
+          "averageScore": 39.38970588235294,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 136,
+          "pushes": 0,
+          "accuracy": 0.5220588235294118
+        },
+        "RUSHING_ATTEMPTS": {
+          "count": 42,
+          "averageScore": 38.30952380952381,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 42,
+          "pushes": 0,
+          "accuracy": 0.4523809523809524
+        },
+        "RUSHING_YARDS": {
+          "count": 72,
+          "averageScore": 35.375,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 72,
+          "pushes": 0,
+          "accuracy": 0.3472222222222222
+        },
+        "RUSH_RECEIVE_YARDS": {
+          "count": 32,
+          "averageScore": 36.65625,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 32,
+          "pushes": 0,
+          "accuracy": 0.28125
+        }
+      },
+      "byRoleChange": {
+        "MAJOR": {
+          "count": 72,
+          "averageScore": 40.40277777777778,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 72,
+          "pushes": 0,
+          "accuracy": 0.5138888888888888
+        },
+        "MINOR": {
+          "count": 172,
+          "averageScore": 37.348837209302324,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 172,
+          "pushes": 0,
+          "accuracy": 0.5348837209302325
+        },
+        "MODERATE": {
+          "count": 194,
+          "averageScore": 38.97938144329897,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 194,
+          "pushes": 0,
+          "accuracy": 0.4072164948453608
+        },
+        "NONE": {
+          "count": 149,
+          "averageScore": 36.214765100671144,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 149,
+          "pushes": 0,
+          "accuracy": 0.5771812080536913
+        }
+      },
+      "byScoreBucket": {
+        "90–100": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "80–89": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "70–79": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "60–69": {
+          "count": 0,
+          "averageScore": null,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 0,
+          "pushes": 0,
+          "accuracy": null
+        },
+        "0–59": {
+          "count": 587,
+          "averageScore": 37.97444633730835,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 587,
+          "pushes": 0,
+          "accuracy": 0.5008517887563884
+        }
+      },
+      "byOfferDirection": {
+        "OVER": {
+          "count": 1833,
+          "averageScore": 26.44517184942717,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 1833,
+          "pushes": 0,
+          "accuracy": 0.49045280960174575
+        },
+        "UNDER": {
+          "count": 1739,
+          "averageScore": 26.354226566992523,
+          "score80Plus": 0,
+          "score90Plus": 0,
+          "settled": 1739,
+          "pushes": 0,
+          "accuracy": 0.5025876940770557
+        }
+      }
+    }
+  }
+}

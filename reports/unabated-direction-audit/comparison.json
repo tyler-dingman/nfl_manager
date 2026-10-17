@@ -1,0 +1,40 @@
+{
+  "observedAt": "2026-10-10T03:13:38.624307+00:00",
+  "observations": [
+    {
+      "requestedDirection": "OVER",
+      "generatedOfferId": "21131512287",
+      "generatedUrl": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-73fe019052088ab806a8fa399935d047",
+      "fanDuelMarketId": "42.614012672",
+      "fanDuelSelectionId": "61940970",
+      "apiPlayer": "Tyson Bagent",
+      "apiEvent": "Bears Chicago CHI @ Packers Green Bay GB",
+      "apiMarket": "Passing Yards",
+      "apiThreshold": "216.50",
+      "apiPeriod": "Full Game",
+      "explicitReturnedDirection": null,
+      "browserDestination": "https://sportsbook.fanduel.com/select-region",
+      "browserEvidence": "over-browser.txt",
+      "browserScreenshot": "over-browser.jpg",
+      "verified": false
+    },
+    {
+      "requestedDirection": "UNDER",
+      "generatedOfferId": "21131512290",
+      "generatedUrl": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-871dca690c46f8aedc4f111c411cd654",
+      "fanDuelMarketId": "42.614012672",
+      "fanDuelSelectionId": "61940969",
+      "apiPlayer": "Tyson Bagent",
+      "apiEvent": "Bears Chicago CHI @ Packers Green Bay GB",
+      "apiMarket": "Passing Yards",
+      "apiThreshold": "216.50",
+      "apiPeriod": "Full Game",
+      "explicitReturnedDirection": null,
+      "browserDestination": "https://sportsbook.fanduel.com/select-region",
+      "browserEvidence": "under-browser.txt",
+      "browserScreenshot": "under-browser.jpg",
+      "verified": false
+    }
+  ],
+  "conclusion": "Distinct identifiers are not proof of correct direction. Both browser destinations require region selection and display no slip."
+}

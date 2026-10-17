@@ -1,0 +1,451 @@
+{
+  "generatedAt": "2026-10-10T02:51:11.009Z",
+  "results": [
+    {
+      "label": "FanDuel single selection",
+      "path": "/deeplink?ids=16930136022&points=_",
+      "method": "GET",
+      "httpStatus": 200,
+      "response": {
+        "data": {
+          "ids": [
+            16930136022
+          ],
+          "url": "https://www.gambly.com/deeplink/odds/2/16930136022/_",
+          "status": 0,
+          "statusString": "full_support",
+          "individualUrls": [
+            "https://www.gambly.com/deeplink/odds/2/16930136022/_"
+          ]
+        },
+        "success": true,
+        "messages": []
+      }
+    },
+    {
+      "label": "FanDuel different-game complete link",
+      "path": "/deeplink?ids=16930136022%2C16930136281&points=_%2C_",
+      "method": "GET",
+      "httpStatus": 200,
+      "response": {
+        "data": {
+          "ids": [
+            16930136022,
+            16930136281
+          ],
+          "url": "https://www.gambly.com/deeplink/odds/2/16930136022,16930136281/_,_",
+          "status": 0,
+          "statusString": "full_support",
+          "individualUrls": [
+            "https://www.gambly.com/deeplink/odds/2/16930136022,16930136281/_,_"
+          ]
+        },
+        "success": true,
+        "messages": []
+      }
+    },
+    {
+      "label": "Requested exact deep-link selections",
+      "selections": [
+        {
+          "eventId": 125791,
+          "eventName": "Eagles Philadelphia PHI @ Jaguars Jacksonville JAC",
+          "betTypeId": 1,
+          "periodTypeId": 1,
+          "marketLineId": 16930136022,
+          "sideIndex": 0
+        },
+        {
+          "eventId": 125792,
+          "eventName": "Texans Houston HOU @ Jaguars Jacksonville JAC",
+          "betTypeId": 1,
+          "periodTypeId": 1,
+          "marketLineId": 16930136281,
+          "sideIndex": 1
+        }
+      ]
+    },
+    {
+      "label": "Legacy prop used as text only; no legacy identifiers submitted",
+      "pick": {
+        "player": "Tyson Bagent",
+        "away": "CHI",
+        "home": "GB",
+        "kickoff": "2026-10-11T17:00:00.000Z",
+        "market": "PASSING_YARDS",
+        "side": "OVER",
+        "line": "224.5",
+        "odds": 108
+      }
+    },
+    {
+      "label": "Generate exact legacy prop text",
+      "path": "/api/v1/bet/generate",
+      "method": "POST",
+      "httpStatus": 200,
+      "response": {
+        "status": "pending",
+        "details": "text: Find this exact single FanDuel NFL player prop: Tyson Bagent, OVER 224.5 passing yards, full game, CHI at GB, kickoff 2026-10-11T17:00:00.000Z. Do not substitute another player, market, direction or threshold.",
+        "requestId": "373059d7-23aa-4f94-a99d-441d2a6f8aaa"
+      }
+    },
+    {
+      "label": "Generated prop status",
+      "path": "/api/v1/bet/status/373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+      "method": "GET",
+      "httpStatus": 200,
+      "response": {
+        "requestId": "373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+        "status": "Processing",
+        "details": "We are working on your request"
+      }
+    },
+    {
+      "label": "Generated prop status",
+      "path": "/api/v1/bet/status/373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+      "method": "GET",
+      "httpStatus": 200,
+      "response": {
+        "requestId": "373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+        "status": "Processing",
+        "details": "We are working on your request"
+      }
+    },
+    {
+      "label": "Generated prop status",
+      "path": "/api/v1/bet/status/373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+      "method": "GET",
+      "httpStatus": 200,
+      "response": {
+        "requestId": "373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+        "status": "Processing",
+        "details": "We are working on your request"
+      }
+    },
+    {
+      "label": "Generated prop status",
+      "path": "/api/v1/bet/status/373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+      "method": "GET",
+      "httpStatus": 200,
+      "response": {
+        "requestId": "373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+        "status": "Processing",
+        "details": "We are working on your request"
+      }
+    },
+    {
+      "label": "Generated prop status",
+      "path": "/api/v1/bet/status/373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+      "method": "GET",
+      "httpStatus": 200,
+      "response": {
+        "requestId": "373059d7-23aa-4f94-a99d-441d2a6f8aaa",
+        "status": "Complete",
+        "details": "Your request is complete",
+        "betSlips": [
+          {
+            "book": "FanDuel",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-00689334bc2e4dc87e80315a2926bff7",
+            "overallOdds": 108,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21271796341",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "108",
+                  "points": "224.50"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "FanDuel",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-00689334bc2e4dc87e80315a2926bff7"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "DraftKings",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-af8f6e400b442dbe8ad36e3735123ffe",
+            "overallOdds": -115,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21141949869",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "-113",
+                  "points": "219.5"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "DraftKings",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-af8f6e400b442dbe8ad36e3735123ffe"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "ProphetX",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-c7bdcc59308e04314cdf4d81a7e613c7",
+            "overallOdds": 0,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21134438538",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "-109",
+                  "points": "219.50"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "ProphetX",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-c7bdcc59308e04314cdf4d81a7e613c7"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Caesars",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3a86fb94dfa9aa40fbaa59a5019f1d02",
+            "overallOdds": 0,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21143258504",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "-104",
+                  "points": "219.50"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Caesars",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-3a86fb94dfa9aa40fbaa59a5019f1d02"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Fanatics",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-80fc5fcd411adb49b2e0022bb547c718",
+            "overallOdds": 105,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21133520078",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "105",
+                  "points": "224.50"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Fanatics",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-80fc5fcd411adb49b2e0022bb547c718"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "PrizePicks",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-4df8c6f69a5b1471ea6dbee82612a925",
+            "overallOdds": 0,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21099929713",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "-118",
+                  "points": "217.50"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "PrizePicks",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-4df8c6f69a5b1471ea6dbee82612a925"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Novig",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-f82c10152412136e717450eee76d7b3c",
+            "overallOdds": 0,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21134550869",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "108",
+                  "points": "224.5"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Novig",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-f82c10152412136e717450eee76d7b3c"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "theScore Bet",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-419e2d0df267ef20d3b9c7e6e0e51eea",
+            "overallOdds": 0,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21182250422",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "-110",
+                  "points": "219.50"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "theScore Bet",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-419e2d0df267ef20d3b9c7e6e0e51eea"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Kalshi",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-88f77639c3c8e8b6231e0a6dfc26cb8e",
+            "overallOdds": 0,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21275468071",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "109",
+                  "points": "224.50"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Kalshi",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-88f77639c3c8e8b6231e0a6dfc26cb8e"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          },
+          {
+            "book": "Underdog Prediction Market",
+            "deepLink": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-d272dcae835576c39c283bac1d6f8651",
+            "overallOdds": 101,
+            "legsRequested": 1,
+            "legsMatched": 1,
+            "betslipBets": [
+              {
+                "id": "21275851570",
+                "player": "Tyson Bagent",
+                "event": "Bears Chicago CHI @ Packers Green Bay GB",
+                "odds": {
+                  "type": "american",
+                  "value": "101",
+                  "points": "224.50"
+                },
+                "betType": "Passing Yards",
+                "periodType": "Full Game",
+                "isLive": false,
+                "deepLink": {
+                  "sportsbook": "Underdog Prediction Market",
+                  "url": "https://gambly.com/deeplink/deeplink-cache-v2-20261010-d272dcae835576c39c283bac1d6f8651"
+                },
+                "metadata": {
+                  "league": "NFL",
+                  "timestamp": "2026-10-11T17:00:00+00:00"
+                }
+              }
+            ]
+          }
+        ],
+        "message": "Here's a link to your bets straight to FanDuel, powered by Gambly.\n\nYou can choose from any of our supported books in the top row of your betslip."
+      }
+    }
+  ]
+}

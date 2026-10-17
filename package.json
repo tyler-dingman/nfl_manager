@@ -67,7 +67,10 @@
     "logo:audit": "node scripts/audit-team-logo.mjs",
     "logo:audit-native": "node scripts/audit-team-logo-native.mjs",
     "prebuild": "npm run logo:check",
-    "schedule:sync": "tsx scripts/sync-nfl-schedule.ts"
+    "schedule:sync": "tsx scripts/sync-nfl-schedule.ts",
+    "parlay-lab:roles": "tsx scripts/import-parlay-role-evidence.ts",
+    "parlay-lab:snaps": "tsx scripts/import-parlay-snaps.ts",
+    "parlay-lab:score-audit": "tsx scripts/parlay-score-audit.ts"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.2.0",
